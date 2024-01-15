@@ -28,10 +28,6 @@
 
 //== Buttons
 
-//** Colors of engaged buttons
-$il-engaged-btn-color: s.$il-text-color;
-$il-engaged-btn-bg: white;
-
 $input-min-height-large: s-form.$il-input-min-height * 1.8;
 
 //** many variables can be found on settings layer
@@ -71,8 +67,8 @@ input.btn {
     $disabled_text-color: s.$il-disabled-btn-color,
     $disabled_border-color: s.$il-disabled-btn-border,
     
-    $engaged_bg-color: $il-engaged-btn-bg,
-    $engaged_text-color: $il-engaged-btn-color,
+    $engaged_bg-color: s.$il-engaged-btn-bg,
+    $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-standard-border,
     $engaged_border-width: 1px);
 }
@@ -94,8 +90,8 @@ input.btn {
     $disabled_text-color: s.$il-disabled-btn-color,
     $disabled_border-color: s.$il-disabled-btn-border,
     
-    $engaged_bg-color: $il-engaged-btn-bg,
-    $engaged_text-color: $il-engaged-btn-color,
+    $engaged_bg-color: s.$il-engaged-btn-bg,
+    $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-primary-border,
     $engaged_border-width: 1px);
 }
@@ -162,7 +158,7 @@ input.btn {
     }
   }
   &.engaged {
-    color: $il-engaged-btn-color;
+    color: s.$il-engaged-btn-color;
     background-color: s.$il-highlight-bg;
   }
 }

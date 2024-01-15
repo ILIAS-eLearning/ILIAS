@@ -3464,6 +3464,16 @@ button .minimize, button .close {
   white-space: nowrap;
   padding: 1px 3px;
   margin: 3px 6px 3px 0;
+  min-height: 28px;
+  min-width: 28px;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
+  background-color: #4c6586;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
   border-radius: 3px;
 }
 .btn-tag.btn-tag-inactive {
@@ -3472,22 +3482,64 @@ button .minimize, button .close {
 .btn-tag.btn-tag-relevance-verylow {
   color: #161616;
   background-color: #b0b0b0;
+  border-color: #b0b0b0;
 }
 .btn-tag.btn-tag-relevance-low {
   color: #161616;
   background-color: #a5b8ba;
+  border-color: #a5b8ba;
 }
 .btn-tag.btn-tag-relevance-middle {
   color: #161616;
   background-color: #95c5ca;
+  border-color: #95c5ca;
 }
 .btn-tag.btn-tag-relevance-high {
   color: #161616;
   background-color: #85d1da;
+  border-color: #85d1da;
 }
 .btn-tag.btn-tag-relevance-veryhigh {
   color: #161616;
   background-color: #75deea;
+  border-color: #85d1da;
+}
+.btn-tag:hover {
+  text-decoration: none;
+  background-color: #3a4c65;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #3a4c65;
+}
+.btn-tag:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+}
+.btn-tag:active {
+  transform: none;
+  background-color: #273445;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #273445;
+}
+.btn-tag[disabled],
+.btn-tag fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-tag.engaged {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
+  color: #161616;
 }
 
 .il-toggle-button {

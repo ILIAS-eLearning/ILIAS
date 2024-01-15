@@ -654,7 +654,7 @@ class ilOrgUnitType
         $this->setCreateDate($rec->create_date);
         $this->setLastUpdate($rec->last_update);
         $this->setOwner($rec->owner);
-        $this->icon = $rec->icon;
+        $this->icon = $rec->icon ?? '';
     }
 
     /**
