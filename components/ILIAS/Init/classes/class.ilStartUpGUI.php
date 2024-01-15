@@ -1906,23 +1906,32 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $this->ctrl->setTargetScript('saml.php');
         $items = [];
-        $table = new ilSamlIdpSelectionTableGUI($this, 'doSamlAuthentication');
         foreach ($idps as $idp) {
             $this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
             $this->ctrl->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
 
-            $items[] = [
-                'idp_link' => $this->ui_renderer->render(
-                    $this->ui_factory->link()->standard(
-                        $idp->getEntityId(),
-                        $this->ctrl->getLinkTarget($this, 'doSamlAuthentication')
-                    )
-                )
-            ];
+            $items[] = $this->ui_factory->link()->standard(
+                $idp->getEntityId(),
+                $this->ctrl->getLinkTarget($this, 'doSamlAuthentication')
+            );
         }
 
-        $table->setData($items);
-        $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
+        $components = [
+            $this->ui_factory->panel()->standard(
+                $this->lng->txt('auth_saml_idp_selection_table_title'),
+                [
+                    $this->ui_factory->messageBox()->info($this->lng->txt('auth_saml_idp_selection_table_desc')),
+                    $this->ui_factory->listing()->unordered(
+                        array_map(
+                            fn ($item) => $this->ui_renderer->render($item),
+                            $items
+                        )
+                    )
+                ]
+            )
+        ];
+
+        $this->mainTemplate->setVariable('CONTENT', $this->ui_renderer->render($components));
         $this->mainTemplate->printToStdout('DEFAULT', false);
     }
 

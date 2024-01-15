@@ -47,7 +47,9 @@ final class ilSamlAuthFactory
 
         $fs = $DIC->filesystem()->storage();
 
-        $fs->createDir(self::METADATA_PATH);
+        if (!$fs->hasDir(self::METADATA_PATH)) {
+            $fs->createDir(self::METADATA_PATH);
+        }
 
         return rtrim(ilFileUtils::getDataDir(), '/') . '/' . self::METADATA_PATH;
     }
