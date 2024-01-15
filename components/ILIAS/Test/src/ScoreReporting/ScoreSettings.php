@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-class ilObjTestScoreSettings
+namespace ILIAS\Test\ScoreSettings;
+
+class ScoreSettings
 {
     protected int $test_id;
     protected ilObjTestSettingsScoring $settings_scoring;

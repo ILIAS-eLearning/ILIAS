@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepository
+namespace ILIAS\Test\ScoreSettings;
+
+class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
     public const TABLE_NAME = 'tst_tests';
     public const STORAGE_DATE_FORMAT = 'YmdHis';

@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ScoreSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilObjTestSettingsScoring extends TestSettings
+class SettingsScoring extends TestSettings
 {
     public const COUNT_PARTIAL_SOLUTIONS = 0;
     public const COUNT_CORRECT_SOLUTIONS = 1;

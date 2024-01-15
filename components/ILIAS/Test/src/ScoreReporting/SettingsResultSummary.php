@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ScoreSettings;
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class ilObjTestSettingsResultSummary extends TestSettings
+class SettingsResultSummary extends TestSettings
 {
     public const SCORE_REPORTING_DISABLED = 0;
     public const SCORE_REPORTING_FINISHED = 1;

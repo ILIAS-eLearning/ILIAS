@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ScoreSettings;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -33,9 +35,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilObjTestSettingsScoringResultsGUI: ilPropertyFormGUI, ilConfirmationGUI
+ * @ilCtrl_Calls ilObjTestSettingsScoringGUI: ilPropertyFormGUI, ilConfirmationGUI
  */
-class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
+class ilObjTestSettingsScoringGUI extends ilTestSettingsGUI
 {
     /**
      * command constants
