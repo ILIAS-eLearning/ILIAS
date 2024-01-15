@@ -5847,14 +5847,10 @@ $ilDB->addPrimaryKey('wiki_user_html_export', ['wiki_id', 'with_comments']);
 ?>
 <#5750>
 <?php
-$ilDB->update(
-    "wiki_user_html_export",
-    [
-        "start_ts" => ["timestamp", "1980-01-01 12:00:00"]
-    ],
-    [
-        "1" => ["integer", 1]
-    ]
+$ilDB->manipulateF(
+    'UPDATE wiki_user_html_export SET start_ts = %s',
+    ['timestamp'],
+    ["1980-01-01 12:00:00"]
 );
 ?>
 <#5751>
