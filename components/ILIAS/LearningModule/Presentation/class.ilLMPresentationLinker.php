@@ -201,6 +201,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     if ($a_type != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_type", $a_type);
                     }
+                    if ($a_anchor !== "") {
+                        $a_anchor = "copganc_" . $a_anchor;
+                    }
                     $link = $this->ctrl->getLinkTargetByClass(
                         self::TARGET_GUI,
                         $a_cmd,

@@ -19,6 +19,10 @@ During editing footnotes are not replaced with the numbering scheme, since this 
 
 - Not all contexts support internal links. If the "More > Link" menu does not offer the menu item "Internal Link" while editing text paragraphs, the context does not support internal links. If the internal link format is used anyway in a paragraph, e.g. by copying it from other sources, the outcome (both in editing and presentation) is currently undefined.
 
+## Anchors
+
+- Up to ILIAS 7, anchor targets have been rendered as a-tag with a name attribute. Since this is deprecated in HTML ILIAS 8 uses a span with an id tag instead. Since we need to prevent conflicts with IDs of other DOM elements, the anchor/id gets a prefix "copganc_". See https://mantis.ilias.de/view.php?id=37382
+
 
 ## Slate Handling
 
