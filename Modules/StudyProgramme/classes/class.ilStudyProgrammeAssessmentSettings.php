@@ -89,10 +89,10 @@ class ilStudyProgrammeAssessmentSettings
     ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
-            ->withValue($this->getPoints())
             ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
             ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(2147483647))
-            ->withAdditionalTransformation($refinery->numeric()->isNumeric())
+            ->withRequired(true)
+            ->withValue($this->getPoints())
         ;
         $select = $input
             ->select(
