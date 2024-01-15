@@ -26,6 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -84,7 +85,15 @@ class Renderer extends AbstractComponentRenderer
 
         $label = $component->getLabel();
         if ($label !== null) {
-            $tpl->setVariable("LABEL", $component->getLabel());
+            if($label instanceof Glyph) {
+                if($label->getAction() !== null) {
+                    $label = $label->withAction('#');
+                    $component = $component->withLabel($label);
+                }
+                $default_renderer = $default_renderer->withAdditionalContext($component);
+                $label = $default_renderer->render($label);
+            }
+            $tpl->setVariable("LABEL", $label);
         }
         if ($component->isActive()) {
             // The actions might also be a list of signals, these will be appended by
@@ -94,9 +103,9 @@ class Renderer extends AbstractComponentRenderer
                     $action = str_replace("&amp;", "&", $action);
 
                     return "$('#$id').on('click', function(event) {
-							window.location = '$action';
-							return false;
-					});";
+                            window.location = '$action';
+                            return false;
+                    });";
                 });
             }
 
@@ -221,10 +230,13 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
-						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
-						return false; // stop event propagation
-				});");
+            $component = $component->withAdditionalOnLoadCode(
+                fn($id) =>
+                "$('#$id').on('click', function(event) {
+                    il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
+                    return false; // stop event propagation
+                });"
+            );
             $tpl->setCurrentBlock("with_on_off_label");
             $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
             $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
