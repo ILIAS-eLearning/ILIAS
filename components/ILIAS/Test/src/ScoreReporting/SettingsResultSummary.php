@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
+use ILIAS\Test\MainSettings\TestSettings;
+
 class SettingsResultSummary extends TestSettings
 {
     public const SCORE_REPORTING_DISABLED = 0;

@@ -34,6 +34,7 @@ use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\MainSettings\ilObjTestSettingsMainGUI;
+use ILIAS\Test\ScoreSettings\ilObjTestSettingsScoringGUI;
 
 /**
  * Class ilObjTestGUI
@@ -61,7 +62,7 @@ use ILIAS\Test\MainSettings\ilObjTestSettingsMainGUI;
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsMainGUI, ilObjTestSettingsScoringResultsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsMainGUI, ilObjTestSettingsScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
@@ -544,7 +545,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilObjTestSettingsScoringResultsGUI(
+                $gui = new ilObjTestSettingsScoringGUI(
                     $this->ctrl,
                     $this->access,
                     $this->lng,

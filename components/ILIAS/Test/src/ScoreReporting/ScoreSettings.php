@@ -20,20 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ScoreSettings;
 
+use ILIAS\Test\MainSettings\TestSettings;
+
 class ScoreSettings
 {
     protected int $test_id;
-    protected ilObjTestSettingsScoring $settings_scoring;
-    protected ilObjTestSettingsResultSummary $settings_result_summary;
-    protected ilObjTestSettingsResultDetails $settings_result_details;
-    protected ilObjTestSettingsGamification $settings_gamification;
+    protected SettingsScoring $settings_scoring;
+    protected SettingsResultSummary $settings_result_summary;
+    protected SettingsResultDetails $settings_result_details;
+    protected SettingsGamification $settings_gamification;
 
     public function __construct(
         int $test_id,
-        ilObjTestSettingsScoring $settings_scoring,
-        ilObjTestSettingsResultSummary $settings_result_summary,
-        ilObjTestSettingsResultDetails $settings_result_details,
-        ilObjTestSettingsGamification $settings_gamification
+        SettingsScoring $settings_scoring,
+        SettingsResultSummary $settings_result_summary,
+        SettingsResultDetails $settings_result_details,
+        SettingsGamification $settings_gamification
     ) {
         $this->test_id = $test_id;
 
@@ -55,7 +57,7 @@ class ScoreSettings
         $this->settings_gamification = $settings_gamification;
     }
 
-    protected function throwOnDifferentTestId(TestSettings $setting)
+    protected function throwOnDifferentTestId(TestSettings $setting): void
     {
         if ($setting->getTestId() !== $this->getTestId()) {
             throw new \LogicException('TestId mismatch in ' . get_class($setting));
@@ -78,11 +80,11 @@ class ScoreSettings
     }
 
 
-    public function getScoringSettings(): ilObjTestSettingsScoring
+    public function getScoringSettings(): SettingsScoring
     {
         return $this->settings_scoring;
     }
-    public function withScoringSettings(ilObjTestSettingsScoring $settings): self
+    public function withScoringSettings(SettingsScoring $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -90,11 +92,11 @@ class ScoreSettings
         return $clone;
     }
 
-    public function getResultSummarySettings(): ilObjTestSettingsResultSummary
+    public function getResultSummarySettings(): SettingsResultSummary
     {
         return $this->settings_result_summary;
     }
-    public function withResultSummarySettings(ilObjTestSettingsResultSummary $settings): self
+    public function withResultSummarySettings(SettingsResultSummary $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -102,11 +104,11 @@ class ScoreSettings
         return $clone;
     }
 
-    public function getResultDetailsSettings(): ilObjTestSettingsResultDetails
+    public function getResultDetailsSettings(): SettingsResultDetails
     {
         return $this->settings_result_details;
     }
-    public function withResultDetailsSettings(ilObjTestSettingsResultDetails $settings): self
+    public function withResultDetailsSettings(SettingsResultDetails $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
@@ -114,11 +116,11 @@ class ScoreSettings
         return $clone;
     }
 
-    public function getGamificationSettings(): ilObjTestSettingsGamification
+    public function getGamificationSettings(): SettingsGamification
     {
         return $this->settings_gamification;
     }
-    public function withGamificationSettings(ilObjTestSettingsGamification $settings): self
+    public function withGamificationSettings(SettingsGamification $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
