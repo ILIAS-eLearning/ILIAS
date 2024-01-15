@@ -117,7 +117,7 @@ class ilFileDataForumRCImplementation implements ilFileDataForumInterface
         foreach ($this->getCurrentCollection()->getResourceIdentifications() as $identification) {
             $revision = $this->irss->manage()->getCurrentRevision($identification);
             $info = $revision->getInformation();
-            $files[] = [
+            $files[$info->getTitle()] = [
                 'path' => $this->irss->consume()->stream($identification)->getStream()->getMetadata('uri'),
                 'md5' => $revision->getTitle(),
                 'name' => $info->getTitle(),
