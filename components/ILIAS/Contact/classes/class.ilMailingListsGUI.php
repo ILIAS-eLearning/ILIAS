@@ -40,6 +40,7 @@ class ilMailingListsGUI
     private ilPropertyFormGUI $form_gui;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
+    private ilTabsGUI $tabs;
 
     public function __construct()
     {
@@ -56,6 +57,7 @@ class ilMailingListsGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->tabs = $DIC->tabs();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
@@ -429,6 +431,12 @@ class ilMailingListsGUI
             return true;
         }
 
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'showMailingLists')
+        );
+
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -438,9 +446,6 @@ class ilMailingListsGUI
             'tpl.mail_mailing_lists_members.html',
             'components/ILIAS/Contact'
         );
-
-        $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
-        $result = [];
 
         $availale_usr_ids = array_diff(
             array_map(
@@ -464,37 +469,13 @@ class ilMailingListsGUI
             ));
         }
 
-        $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-        if ($assigned_entries !== []) {
-            $tbl->enable('select_all');
-            $tbl->setSelectAllCheckbox('a_id');
-
-            $usr_ids = [];
-            foreach ($assigned_entries as $entry) {
-                $usr_ids[] = $entry['usr_id'];
-            }
-
-            $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
-
-            $counter = 0;
-            foreach ($assigned_entries as $entry) {
-                $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'a_id[]', (string) $entry['a_id']);
-                $result[$counter]['user'] = $names[$entry['usr_id']];
-                ++$counter;
-            }
-
-            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('delete'));
-        } else {
-            $tbl->disable('header');
-            $tbl->disable('footer');
-
-            $tbl->setNoEntriesText($this->lng->txt('mail_search_no'));
-        }
-
-        $tbl->setData($result);
-
-        $this->tpl->setVariable('MEMBERS_LIST', $tbl->getHTML());
+        $tbl = new MailingListsMembersTable(
+            $this->mlists->getCurrentMailingList(), $this->ctrl, $this->lng, $this->ui_factory, $this->http
+        );
+        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
+        $this->tpl->setVariable('MEMBERS_LIST', $tbl_html);
         $this->tpl->printToStdout();
+
         return true;
     }
 
