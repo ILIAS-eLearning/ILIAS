@@ -60,6 +60,8 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     protected function initUI(): void
     {
+        global $DIC;
+        $this->ui = $DIC->ui();
         $gui = $this->internal()->gui();
         $this->ctrl = $gui->ctrl();
         $this->help_request = $gui->standardRequest();
