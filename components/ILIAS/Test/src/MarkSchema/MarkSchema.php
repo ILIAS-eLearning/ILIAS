@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MarkSchema;
+
 /**
  * A class defining mark schemas for assessment test objects
  *
@@ -28,7 +30,7 @@ declare(strict_types=1);
  *
  * @ingroup components\ILIASTest
  */
-class ASS_MarkSchema
+class MarkSchema
 {
     public array $mark_steps;
 
@@ -71,7 +73,7 @@ class ASS_MarkSchema
     }
 
     /**
-     * Adds a mark step to the mark schema. A new ASS_Mark object will be created and stored
+     * Adds a mark step to the mark schema. A new Mark object will be created and stored
      * in the $mark_steps array.
      *
      * @see $mark_steps
@@ -83,7 +85,7 @@ class ASS_MarkSchema
      */
     public function addMarkStep(string $txt_short = "", string $txt_official = "", float $percentage = 0, int $passed = 0): void
     {
-        $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
+        $mark = new Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
     }
 
@@ -178,7 +180,7 @@ class ASS_MarkSchema
      *
      * @param integer $index The index of the mark step to delete.
      */
-    public function deleteMarkStep($index = 0)
+    public function deleteMarkStep($index = 0): void
     {
         if ($index < 0) {
             return;
@@ -214,9 +216,9 @@ class ASS_MarkSchema
      *
      * @param double $percentage A percentage value between 0 and 100.
      *
-     * @return ASS_Mark|bool The mark object, if a matching mark was found, false otherwise.
+     * @return Mark|bool The mark object, if a matching mark was found, false otherwise.
      */
-    public function getMatchingMark($percentage)
+    public function getMatchingMark($percentage): Mark|bool
     {
         for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
             $curMinLevel = $this->mark_steps[$i]->getMinimumLevel();
@@ -236,7 +238,7 @@ class ASS_MarkSchema
      *
      * @return bool|string true if the check succeeds, als a text string containing a language string for an error message
      */
-    public function checkMarks()
+    public function checkMarks(): bool|string
     {
         $minimum_percentage = 100;
         $passed = 0;
@@ -260,7 +262,7 @@ class ASS_MarkSchema
     }
 
     /**
-     * @return ASS_Mark[]
+     * @return Mark[]
      */
     public function getMarkSteps(): array
     {
@@ -268,7 +270,7 @@ class ASS_MarkSchema
     }
 
     /**
-     * @param ASS_Mark[] $mark_steps
+     * @param Mark[] $mark_steps
      */
     public function setMarkSteps(array $mark_steps): void
     {

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MarkSchema;
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
