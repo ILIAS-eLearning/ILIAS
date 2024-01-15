@@ -201,6 +201,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     if ($a_type != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_type", $a_type);
                     }
+                    if ($a_anchor !== "") {
+                        $a_anchor = "copganc_" . $a_anchor;
+                    }
                     $link = $this->ctrl->getLinkTargetByClass(
                         self::TARGET_GUI,
                         $a_cmd,
@@ -455,7 +458,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     case "WikiPage":
                         $wiki_anc = "";
                         if ($int_link["Anchor"] != "") {
-                            $wiki_anc = "#".rawurlencode($int_link["Anchor"]);
+                            $wiki_anc = "#" . rawurlencode($int_link["Anchor"]);
                         }
                         $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         if ($this->embed_mode) {
