@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MarkSchema;
+
 /**
  * Class ilMarkSchemaGUI
  * @author Michael Jansen <mjansen@databay.de>

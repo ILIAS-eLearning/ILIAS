@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\MarkSchema;
+
 /**
  * A class defining marks for assessment test objects
  *
@@ -26,7 +28,7 @@ declare(strict_types=1);
  * @version	$Id$
  * @ingroup components\ILIASTest
  */
-class ASS_Mark
+class Mark
 {
     /**
     * The short name of the mark, e.g. F or 3 or 1,3
