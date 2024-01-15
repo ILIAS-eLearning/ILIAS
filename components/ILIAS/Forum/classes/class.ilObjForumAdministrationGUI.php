@@ -128,7 +128,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
         $set_int = fn($key) => $this->settings->set($key, (string) ((int) $data[$key]));
 
-        $data['forum_notification'] = $data['forum_notification'] || $$this->forumJobActive();
+        $data['forum_notification'] = $data['forum_notification'] || $this->forumJobActive();
 
         array_map($set_int, [
             'file_upload_allowed_fora',
@@ -225,6 +225,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             ];
             return [['editSettings', $fields]];
         }
+
         return [];
     }
 
@@ -237,7 +238,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $url = $this->ctrl->getLinkTargetByClass([ilAdministrationGUI::class, ilObjSystemFolderGUI::class], 'jumpToCronJobs');
 
         return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withButtons([
-            $this->ui->factory()->link()->standard($this->lng->txt("adm_external_setting_edit"), $url)
+            $this->ui->factory()->link()->standard($this->lng->txt('adm_external_setting_edit'), $url)
         ]);
     }
 

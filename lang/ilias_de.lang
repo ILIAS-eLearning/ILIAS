@@ -3772,7 +3772,7 @@ common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
 common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
-common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
+common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
 common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
 common#:#cron_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden wenn der Cron Job aktiv ist.
