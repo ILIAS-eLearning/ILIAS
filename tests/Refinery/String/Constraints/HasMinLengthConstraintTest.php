@@ -71,6 +71,12 @@ class HasMinLengthConstraintTest extends TestCase
         $this->c->check("");
     }
 
+    public function testCheckFailsForNull(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $this->c->check(null);
+    }
+
     public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith("1234567890"));

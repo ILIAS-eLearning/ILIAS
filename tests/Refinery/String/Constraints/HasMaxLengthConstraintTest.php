@@ -65,6 +65,12 @@ class HasMaxLengthConstraintTest extends TestCase
         $this->assertTrue(true); // does not throw
     }
 
+    public function testCheckSucceedsForNull(): void
+    {
+        $this->c->check(null);
+        $this->assertTrue(true); // does not throw
+    }
+
     public function testCheckFails(): void
     {
         $this->expectException(\UnexpectedValueException::class);
