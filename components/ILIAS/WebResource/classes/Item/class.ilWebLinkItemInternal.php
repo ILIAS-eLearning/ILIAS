@@ -42,24 +42,22 @@ class ilWebLinkItemInternal extends ilWebLinkItem
 
         switch ($type) {
             case 'wpage':
-                $uri = new URI(ilLink::_getStaticLink(
+                $link = ilLink::_getStaticLink(
                     0,
                     'wiki',
                     true
-                ));
-                $uri = $uri->withParameter('target', 'wiki_wpage_' . $ref_id);
-                $link = (string) $uri;
+                );
+                $link = $this->appendParameter($link, 'target', 'wiki_wpage_' . $ref_id);
                 break;
 
             case 'term':
                 // #16894
-                $uri = new URI(ilLink::_getStaticLink(
+                $link = ilLink::_getStaticLink(
                     0,
                     "git",
                     true
-                ));
-                $uri = $uri->withParameter('target', 'git_' . $ref_id);
-                $link = (string) $uri;
+                );
+                $link = $this->appendParameter($link, 'target', 'git_' . $ref_id);
                 break;
 
             case 'page':
@@ -80,5 +78,11 @@ class ilWebLinkItemInternal extends ilWebLinkItem
         }
 
         return $link;
+    }
+
+    protected function appendParameter(string $link, string $key, string $value): string
+    {
+        $uri = new URI($link);
+        return (string) $uri->withParameter($key, $value);
     }
 }
