@@ -87,6 +87,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
 
         if ($environment['participant_data_exists']) {
             $inputs['shuffle_questions'] = $inputs['shuffle_questions']->withDisabled(true);
+            $inputs['offer_hints'] = $inputs['offer_hints']->withDisabled(true);
         }
 
         $inputs['instant_feedback'] = $this->getInputInstantFeedback($lng, $f, $refinery, $environment);

@@ -42,6 +42,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->outputmode = $outputmode;
+        $this->setTitle($this->lng->txt($this->outputmode));
         $this->ctrl->setParameterByClass('ilObjQuestionPoolGUI', 'output', $outputmode);
 
         $this->setFormName('printviewform');
@@ -167,11 +168,11 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-        if ((strcmp($this->outputmode, "detailed") == 0) || (strcmp($this->outputmode, "detailed_printview") == 0)) {
+        if ((strcmp($this->outputmode, "detailed_output_solutions") == 0) || (strcmp($this->outputmode, "detailed_output_printview") == 0)) {
             $this->tpl->setCurrentBlock("overview_row_detail");
             $question_gui = assQuestion::instantiateQuestionGUI($a_set["question_id"]);
             $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
-            if (strcmp($this->outputmode, "detailed") == 0) {
+            if (strcmp($this->outputmode, "detailed_output_solutions") == 0) {
                 $solutionoutput = $question_gui->getSolutionOutput(0, null, false, false, false, false, true, false);
                 if (strlen($solutionoutput) == 0) {
                     $solutionoutput = $question_gui->getPreview();

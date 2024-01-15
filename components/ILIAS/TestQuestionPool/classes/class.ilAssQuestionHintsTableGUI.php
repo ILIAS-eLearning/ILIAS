@@ -288,7 +288,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
                     ilUtil::appendUrlParameterString(
                         $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM),
                         "hint_id={$a_set['hint_id']}",
-                        true)
+                        true
+                    )
                 );
 
                 $actions[] = $this->ui->factory()->button()->shy(
@@ -296,7 +297,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
                     ilUtil::appendUrlParameterString(
                         $ilCtrl->getLinkTargetByClass('ilasshintpagegui', 'edit'),
                         "hint_id={$a_set['hint_id']}",
-                        true)
+                        true
+                    )
                 );
             } else {
                 $actions[] = $this->ui->factory()->button()->shy(
@@ -304,16 +306,18 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
                     ilUtil::appendUrlParameterString(
                         $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM),
                         "hint_id={$a_set['hint_id']}",
-                        true)
+                        true
+                    )
                 );
             }
 
             $actions[] = $this->ui->factory()->button()->shy(
                 $lng->txt('tst_question_hints_table_link_delete_hint'),
                 ilUtil::appendUrlParameterString(
-                    $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintGUI::CMD_CONFIRM_FORM),
+                    $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE),
                     "hint_id={$a_set['hint_id']}",
-                    true)
+                    true
+                )
             );
 
             $list = $this->ui->factory()->dropdown()->standard($actions)->withLabel($lng->txt('actions'));

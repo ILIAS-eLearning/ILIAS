@@ -105,7 +105,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             && $this->answers !== []
             && $this->getMaximumPoints() > 0) {
             foreach ($this->answers as $answer) {
-                if ($answer->getAnswertext() !== '' && !$answer->hasImage()) {
+                if ($answer->getAnswertext() === '' && !$answer->hasImage()) {
                     return false;
                 }
             }

@@ -13583,6 +13583,8 @@ pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
+qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
+qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
 qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
 qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
 qpl#:#qpl_page_type_qht#:#Hinweis

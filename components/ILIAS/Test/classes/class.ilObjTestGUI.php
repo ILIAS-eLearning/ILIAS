@@ -1060,37 +1060,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->forwardToEvaluationGUI();
     }
 
-    private function testResultsGatewayObject()
+    private function testResultsGatewayObject(): void
     {
-        $this->tabs_gui->clearTargets();
-
-        $this->prepareOutput();
-        $this->addHeaderAction();
-
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        // $this->ctrl->setCmd('showParticipants');
-
-
-        $gui = new ilParticipantsTestResultsGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            $this->tabs_gui,
-            $this->toolbar,
-            $this->tpl,
-            $this->ui_factory,
-            $this->ui_renderer,
-            new ilTestParticipantAccessFilterFactory($this->access),
-            $this->testrequest
+        $this->ctrl->redirectByClass(
+            [
+                ilRepositoryGUI::class,
+                __CLASS__,
+                ilTestResultsGUI::class,
+                ilParticipantsTestResultsGUI::class
+            ],
+            'showParticipants'
         );
-        $gui->setTestObj($this->object);
-        $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
-        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
-        $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_gui->activateTab('results');
-        $this->ctrl->forwardCommand($gui);
     }
 
     private function showEditTestPageGUI(string $cmd): void
@@ -1989,7 +1969,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             foreach ($selected_array as $key => $value) {
                 $this->object->insertQuestion($this->test_question_set_config_factory->getQuestionSetConfig(), $value);
                 if (!$manscoring) {
-                    $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+                    $manscoring = $manscoring | assQuestion::_needsManualScoring((int) $value);
                 }
             }
             $this->object->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());

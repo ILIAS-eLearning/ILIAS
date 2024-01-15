@@ -35,7 +35,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_SHOW_FORM = 'showForm';
     public const CMD_SAVE_FORM = 'saveForm';
     public const CMD_CANCEL_FORM = 'cancelForm';
-    public const CMD_CONFIRM_FORM = 'confirmForm';
     private \ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
