@@ -521,7 +521,7 @@ class ilTestTabsManager
                 }
             }
 
-            $reflection = new ReflectionClass('ilObjTestSettingsScoringResultsGUI');
+            $reflection = new ReflectionClass('ilObjTestSettingsScoringGUI');
             foreach ($reflection->getConstants() as $name => $value) {
                 if (substr($name, 0, 4) === 'CMD_') {
                     $settingsCommands[] = $value;
@@ -802,9 +802,9 @@ class ilTestTabsManager
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_SCORING,
-            $this->ctrl->getLinkTargetByClass('ilObjTestSettingsScoringResultsGUI'),
+            $this->ctrl->getLinkTargetByClass('ilObjTestSettingsScoringGUI'),
             '',                                             // auto activation regardless from cmd
-            ['ilobjtestsettingsscoringresultsgui']     // auto activation for ilObjTestSettingsScoringResultsGUI
+            ['ilobjtestsettingsscoringgui']     // auto activation for ilObjTestSettingsScoringGUI
         );
 
         $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'introductionpage');

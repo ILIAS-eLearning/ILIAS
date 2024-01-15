@@ -17,13 +17,14 @@
  *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Test\ScoreSettings\ilObjTestSettingsScoringGUI;
 
 /**
- * Class ilObjTestSettingsScoringResultsGUITest
+ * Class ilObjTestSettingsScoringGUITest
  * @author Marvin Beym <mbeym@databay.de>
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
+class ilObjTestSettingsScoringGUITest extends ilTestBaseTestCase
 {
     protected function getUIComponents(): array
     {
@@ -51,7 +52,7 @@ class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
 
         [$ui_factory, $ui_renderer, $request, $refinery, $main_template, $tabs_gui] = $this->getUIComponents();
 
-        $testObj = new ilObjTestSettingsScoringResultsGUI(
+        $testObj = new ilObjTestSettingsScoringGUI(
             $this->createMock(ilCtrl::class),
             $this->createMock(ilAccessHandler::class),
             $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
@@ -70,6 +71,6 @@ class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
         );
 
-        $this->assertInstanceOf(ilObjTestSettingsScoringResultsGUI::class, $testObj);
+        $this->assertInstanceOf(ilObjTestSettingsScoringGUI::class, $testObj);
     }
 }

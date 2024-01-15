@@ -24,6 +24,8 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
+use ILIAS\Test\MainSettings\TestSettings;
+
 class SettingsResultDetails extends TestSettings
 {
     public const RESULTPRES_BIT_PASS_DETAILS = 1;

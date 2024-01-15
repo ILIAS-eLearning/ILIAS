@@ -32,19 +32,19 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         $this->db = $db;
     }
 
-    public function getForObjFi(int $obj_fi): ilObjTestScoreSettings
+    public function getForObjFi(int $obj_fi): ScoreSettings
     {
         $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
         return $this->doSelect($where_part);
     }
 
-    public function getFor(int $test_id): ilObjTestScoreSettings
+    public function getFor(int $test_id): ScoreSettings
     {
         $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
         return $this->doSelect($where_part);
     }
 
-    protected function doSelect(string $where_part): ilObjTestScoreSettings
+    protected function doSelect(string $where_part): ScoreSettings
     {
         $query = 'SELECT ' . PHP_EOL
             . 'test_id,' . PHP_EOL
@@ -80,24 +80,24 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
         $test_id = (int) $row['test_id'];
 
-        $settings = new ilObjTestScoreSettings(
+        $settings = new ScoreSettings(
             $test_id,
-            (new ilObjTestSettingsScoring($test_id))
+            (new SettingsScoring($test_id))
                 ->withCountSystem((int) $row['count_system'])
                 ->withScoreCutting((int) $row['score_cutting'])
                 ->withPassScoring((int) $row['pass_scoring']),
-            (new ilObjTestSettingsResultSummary($test_id))
+            (new SettingsResultSummary($test_id))
                 ->withScoreReporting((int) $row['score_reporting'])
                 ->withReportingDate($reporting_date)
                 ->withShowGradingStatusEnabled((bool) $row['show_grading_status'])
                 ->withShowGradingMarkEnabled((bool) $row['show_grading_mark'])
                 ->withPassDeletionAllowed((bool) $row['pass_deletion_allowed']),
             //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
-            (new ilObjTestSettingsResultDetails($test_id))
+            (new SettingsResultDetails($test_id))
                 ->withResultsPresentation((int)$row['results_presentation'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings']),
-            (new ilObjTestSettingsGamification($test_id))
+            (new SettingsGamification($test_id))
                 ->withHighscoreEnabled((bool) $row['highscore_enabled'])
                 ->withHighscoreAnon((bool) $row['highscore_anon'])
                 ->withHighscoreAchievedTS((bool) $row['highscore_achieved_ts'])
@@ -113,7 +113,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         return $settings;
     }
 
-    public function store(ilObjTestScoreSettings $settings): void
+    public function store(ScoreSettings $settings): void
     {
         $values = array_merge(
             $settings->getScoringSettings()->toStorage(),
