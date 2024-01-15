@@ -13580,6 +13580,8 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+qpl#:#qpl_filter_commented_exclude#:#Questions without comments
+qpl#:#qpl_filter_commented_only#:#Questions with comments
 qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint

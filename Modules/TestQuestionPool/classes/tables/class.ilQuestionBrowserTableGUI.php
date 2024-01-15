@@ -558,6 +558,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
         $update_code = "il.UI.counter.getCounterObject($(\".ilTableOuter\")).incrementStatusCount(1);";
-        return ilNoteGUI::getListCommentsJSCall($ajax_hash, $update_code);
+        return ilCommentGUI::getListCommentsJSCall($ajax_hash, $update_code);
     }
 }
