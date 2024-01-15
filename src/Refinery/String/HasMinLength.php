@@ -30,10 +30,10 @@ class HasMinLength extends Constraint
     {
         parent::__construct(
             static function ($value) use ($min_length): bool {
-                return strlen($value) >= $min_length;
+                return $value !== null && strlen($value) >= $min_length;
             },
             static function ($txt, $value) use ($min_length): string {
-                $len = strlen($value);
+                $len = $value === null ? 0 : strlen($value);
                 return $txt("not_min_length", $len, $min_length);
             },
             $data_factory,
