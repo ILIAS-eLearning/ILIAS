@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
 
 /**
 * TableGUI class object (course,group and role) search results
@@ -22,6 +36,8 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        $this->setId("group_table");
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->admin = $DIC->rbac()->admin();
@@ -35,7 +51,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.rep_search_obj_result_row.html", "Services/Search");
         $this->setTitle($this->lng->txt('search_results'));
         $this->setEnableTitle(true);
-        $this->setId("group_table");
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         $this->enable('select_all');
