@@ -261,11 +261,6 @@ class ilTree
         return $this->parent_cache;
     }
 
-    protected function getLangCode(): string
-    {
-        return $this->lang_code;
-    }
-
     /**
      * Do not use it
      * Store user language. This function is used by the "main"
@@ -1539,32 +1534,6 @@ class ilTree
     }
 
     /**
-     * get left value of given node
-     * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
-     */
-    public function getLeftValue(int $a_node_id): int
-    {
-        global $DIC;
-
-        if (!isset($a_node_id)) {
-            $message = "No node_id given!";
-            $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE child = %s ' .
-            'AND ' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-        $row = $this->db->fetchObject($res);
-        return (int) $row->lft;
-    }
-
-    /**
      * get sequence number of node in sibling sequence
      * @throws InvalidArgumentException
      * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
@@ -1637,11 +1606,6 @@ class ilTree
     public function getTreeId(): int
     {
         return $this->tree_id;
-    }
-
-    public function setTreeId(int $a_tree_id): void
-    {
-        $this->tree_id = $a_tree_id;
     }
 
     /**
