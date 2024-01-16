@@ -12,7 +12,7 @@ In order to use the page component in your component you first need to extend yo
 	</copage>
 ```
 
-The `{PARENT_TYPE}` should be unique through the ILIAS code base, e.g. this could be the module repository type of your component.
+The `{PARENT_TYPE}` should be unique through the ILIAS code base, e.g. this could be the module repository type of your component. But please note that page parent types and repository object types are not the same. Some repository components may implementy multiple page parent types, others may share the same parent page type, e.g. container pages.
 
 You will need implement new classes in your component that derive from these classes of the COPage component:
 
