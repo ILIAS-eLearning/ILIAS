@@ -682,6 +682,8 @@ div.ilHFormFooter .ilFormCmds {
 .btn-file {
 	position: relative;
 	overflow: hidden;
+
+	@include il-focus-within-outline-only();
 }
 
 .btn-file input[type=file] {
