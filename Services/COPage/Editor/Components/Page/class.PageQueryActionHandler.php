@@ -144,8 +144,10 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // plugins
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
-            $commands["plug_" . $plugin->getPluginName()] =
-                $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            if ($plugin->isValidParentType($this->page_gui->getPageObject()->getParentType())) {
+                $commands["plug_" . $plugin->getPluginName()] =
+                    $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            }
         }
         return $commands;
     }
