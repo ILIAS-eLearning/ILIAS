@@ -120,11 +120,22 @@ class ScoreSettings
     {
         return $this->settings_gamification;
     }
+
     public function withGamificationSettings(SettingsGamification $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_gamification = $settings;
         return $clone;
+    }
+
+    public function getArrayForLog(\ilLanguage $lng): array
+    {
+        return [
+            $this->settings_scoring->toLog($lng),
+            $this->settings_result_summary->toLog($lng),
+            $this->settings_result_details->toLog($lng),
+            $this->settings_gamification->toLog($lng)
+        ];
     }
 }

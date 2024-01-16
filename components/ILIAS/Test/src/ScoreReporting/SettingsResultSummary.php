@@ -181,6 +181,42 @@ class SettingsResultSummary extends TestSettings
         ];
     }
 
+    public function toLog(\ilLanguage $lng): array
+    {
+        switch ($this->getScoreReporting()) {
+            case self::SCORE_REPORTING_DISABLED:
+                $log_array['tst_results_access_setting'] = $this->lng('tst_results_access_setting');
+                break;
+            case self::SCORE_REPORTING_FINISHED:
+                $log_array['tst_results_access_setting'] = $this->lng('tst_results_access_finished');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($lng);
+                break;
+            case self::SCORE_REPORTING_IMMIDIATLY:
+                $log_array['tst_results_access_setting'] = $this->lng('tst_results_access_always');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($lng);
+                break;
+            case self::SCORE_REPORTING_DATE:
+                $log_array['tst_results_access_date'] = $this->lng('tst_results_access_setting');
+                $log_array['tst_reporting_date'] = $this->getReportingDate();
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($lng);
+                break;
+            case self::SCORE_REPORTING_AFTER_PASSED:
+                $log_array['tst_results_access_setting'] = $this->lng('tst_results_access_passed');
+                $log_array += $this->getLogEntriesForSoreReportingEnabled($lng);
+                break;
+        }
+        return $log_array;
+    }
+
+    private function getLogEntriesForSoreReportingEnabled(\ilLanguage $lng): array
+    {
+        return [
+            'tst_results_grading_opt_show_status' => $this->getShowGradingStatusEnabled() ? $lng->txt('enabled') : $lng->txt('disabled'),
+            'tst_results_grading_opt_show_mark' => $this->getShowGradingMarkEnabled() ? $lng->txt('enabled') : $lng->txt('disabled'),
+            'tst_results_grading_opt_show_details' => $this->getShowPassDetails() ? $lng->txt('enabled') : $lng->txt('disabled'),
+            'pass_deletion_allowed' => $this->getPassDeletionAllowed() ? $lng->txt('enabled') : $lng->txt('disabled')
+        ];
+    }
 
     public function getScoreReporting(): int
     {

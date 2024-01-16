@@ -26,6 +26,9 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
@@ -49,22 +52,23 @@ class ilObjTestSettingsScoringGUI extends ilTestSettingsGUI
     private const F_CONFIRM_SETTINGS = 'f_settings';
 
     public function __construct(
-        protected ilCtrlInterface $ctrl,
-        protected ilAccessHandler $access,
-        protected ilLanguage $lng,
-        protected ilTree $tree,
-        protected ilDBInterface $db,
-        protected ilComponentRepository $component_repository,
-        protected ilObjTestGUI $test_gui,
-        protected \ilGlobalTemplateInterface $tpl,
-        protected ilTabsGUI $tabs,
-        protected ScoreSettingsRepository $score_settings_repo,
-        protected int $test_id,
-        protected UIFactory $ui_factory,
-        protected UIRenderer $ui_renderer,
-        protected Refinery $refinery,
-        protected Request $request,
-        protected ilObjUser $active_user
+        protected readonly \ilCtrlInterface $ctrl,
+        protected readonly \ilAccessHandler $access,
+        protected readonly \ilLanguage $lng,
+        protected readonly \ilTree $tree,
+        protected readonly \ilDBInterface $db,
+        protected readonly \ilComponentRepository $component_repository,
+        protected readonly \ilObjTestGUI $test_gui,
+        protected readonly \ilGlobalTemplateInterface $tpl,
+        protected readonly \ilTabsGUI $tabs,
+        protected readonly TestLogger $logger,
+        protected readonly ScoreSettingsRepository $score_settings_repo,
+        protected readonly int $test_id,
+        protected readonly UIFactory $ui_factory,
+        protected readonly UIRenderer $ui_renderer,
+        protected readonly Refinery $refinery,
+        protected readonly Request $request,
+        protected readonly \ilObjUser $active_user
     ) {
         parent::__construct($test_gui->getObject());
 
@@ -163,6 +167,18 @@ class ilObjTestSettingsScoringGUI extends ilTestSettingsGUI
         }
 
         $this->storeScoreSettings($settings);
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test_gui->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::SCORING_SETTINGS_MODIFIED,
+                    time(),
+                    $settings->getArrayForLog($this->lng)
+                )
+            );
+        }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }

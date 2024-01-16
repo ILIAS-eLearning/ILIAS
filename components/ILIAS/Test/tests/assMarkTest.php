@@ -19,27 +19,26 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Test\Mark;
 
 /**
- * Unit tests for ASS_Mark
+ * Unit tests for Mark
  * @author  Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  * @ingroup components\ILIASTest
  */
 class assMarkTest extends TestCase
 {
-    /** @var $backupGlobals bool */
-    protected $backupGlobals = false;
+    protected bool $backupGlobals = false;
 
-    /** @var  $ass_mark ASS_Mark */
-    protected ASS_Mark $ass_mark;
+    protected Mark $ass_mark;
 
     protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../../');
 
-        $this->ass_mark = new ASS_Mark();
+        $this->ass_mark = new Mark();
     }
 
     /**

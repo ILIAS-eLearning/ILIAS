@@ -25,6 +25,8 @@ enum TestAdministrationInteractionTypes: string
     case NEW_TEST_CREATED = 'new_test_created';
     case MAIN_SETTINGS_MODIFIED = 'main_settings_modified';
     case SCORING_SETTINGS_MODIFIED = 'scoring_settings_modified';
+    case MARK_SCHEMA_MODIFIED = 'mark_schema_modified';
+    case MARK_SCHEMA_RESET = 'mark_schema_reset';
     case QUESTION_SELECTION_CRITERIA_MODIFIED = 'question_selection_criteria_modified';
     case QUESTION_ADDED = 'question_added';
     case QUESTION_MOVED = 'question_moved';

@@ -16,35 +16,22 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Test\MarkSchema;
+
 /**
  * Interface ilMarkSchemaAware
  * @author Michael Jansen <mjansen@databay.de>
  * @package components\ILIASTest
  */
-interface ilMarkSchemaAware
+interface MarkSchemaAware
 {
-    /**
-     * @return ASS_MarkSchema
-     */
-    public function getMarkSchema(): ASS_MarkSchema;
+    public function getMarkSchema(): MarkSchema;
 
     /**
      * @return boolean|string True or an error string which can be used for display purposes
      */
-    public function checkMarks();
-
-    /**
-     * @return boolean
-     */
+    public function checkMarks(): bool|string;
     public function canEditMarks(): bool;
-
-    /**
-     * @return int
-     */
     public function getMarkSchemaForeignId(): int;
-
-    /**
-     *
-     */
-    public function onMarkSchemaSaved();
+    public function onMarkSchemaSaved(): void;
 }

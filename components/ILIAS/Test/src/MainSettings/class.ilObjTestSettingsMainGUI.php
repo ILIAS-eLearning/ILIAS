@@ -47,7 +47,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilTestSettingsChangeConfirmationGUI
  *
  */
-class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
+class ilObjTestSettingsMainGUI extends \ilTestSettingsGUI
 {
     /**
      * command constants
@@ -70,30 +70,30 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-    protected ilObjectProperties $object_properties;
+    protected \ilObjectProperties $object_properties;
     protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
 
     private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
     public function __construct(
-        protected readonly ilGlobalTemplateInterface $tpl,
-        protected readonly ilTabsGUI $tabs,
-        protected readonly ilToolbarGUI $toolbar,
-        protected readonly ilCtrlInterface $ctrl,
-        protected readonly ilAccessHandler $access,
-        protected readonly ilLanguage $lng,
-        protected readonly ilTree $tree,
-        protected readonly ilDBInterface $db,
-        protected readonly ilObjectDataCache $object_data_cache,
-        protected readonly ilSetting $settings,
+        protected readonly \ilGlobalTemplateInterface $tpl,
+        protected readonly \ilTabsGUI $tabs,
+        protected readonly \ilToolbarGUI $toolbar,
+        protected readonly \ilCtrlInterface $ctrl,
+        protected readonly \ilAccessHandler $access,
+        protected readonly \ilLanguage $lng,
+        protected readonly \ilTree $tree,
+        protected readonly \ilDBInterface $db,
+        protected readonly \ilObjectDataCache $object_data_cache,
+        protected readonly \ilSetting $settings,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly Refinery $refinery,
         protected readonly ServerRequestInterface $request,
-        protected readonly ilComponentRepository $component_repository,
-        protected readonly ilObjUser $active_user,
-        protected readonly ilObjTestGUI $test_gui,
+        protected readonly \ilComponentRepository $component_repository,
+        protected readonly \ilObjUser $active_user,
+        protected readonly \ilObjTestGUI $test_gui,
         protected readonly TestLogger $logger,
         protected readonly QuestionInfoService $questioninfo
     ) {
@@ -104,7 +104,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $this->tree,
             $this->db,
             $this->lng,
-            TestDIC::dic()['test_logger'],
+            $this->logger,
             $this->component_repository,
             $this->test_gui->getTestObject(),
             $this->questioninfo
@@ -237,20 +237,52 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function finalizeSave(array $data): void
     {
         $this->performSaveForm($data);
-        $this->logger->logTestAdministrationInteraction(
-            new TestAdministrationInteraction(
-                $this->lng,
-                $this->test_object->getRefId(),
-                $this->active_user,
-                TestAdministrationInteractionTypes::MAIN_SETTINGS_MODIFIED,
-                time(),
-                $this->main_settings->getArrayForLog()
-            )
-        );
+        $additional_information = $this->getObjectDataArrayForLog() + $this->main_settings->getArrayForLog();
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test_object->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::MAIN_SETTINGS_MODIFIED,
+                    time(),
+                    $additional_information
+                )
+            );
+        }
         $this->removeAllParticipantsIfRequired();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->showForm();
+    }
+
+    private function getObjectDataArrayForLog(): array
+    {
+        $title_and_description = $this->object_properties->getPropertyTitleAndDescription();
+        $log_array = [
+            'title' => $title_and_description->getTitle(),
+            'description' => $title_and_description->getDescription(),
+            'online' => $this->object_properties->getPropertyIsOnline()->getIsOnline()
+        ];
+
+        if ($this->test_object->isActivationLimited()) {
+            $log_array['rep_visibility_until'] = $this->lng->txt('disabled');
+            return $log_array;
+        }
+
+        $from = $this->active_user->getDateFormat()->applyTo(\DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $this->test_object->getActivationStartingTime()
+        )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())));
+        $until = $this->active_user->getDateFormat()->applyTo(\DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $this->test_object->getActivationEndingTime()
+        )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())));
+
+        $log_array['rep_visibility_until'] = $from . ' - ' . $until;
+        $log_array['rep_activation_limited_visibility'] = $this->test_object->getActivationVisibility()
+            ? $this->lng->txt('enabled') : $this->lng->txt('disabled');
+        return $log_array;
     }
 
     private function buildForm(): StandardForm

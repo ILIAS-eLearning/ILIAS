@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\MarkSchema;
+namespace ILIAS\Test\Marks;
 
 /**
  * A class defining marks for assessment test objects
@@ -118,5 +118,16 @@ class Mark
         } else {
             throw new Exception('Markstep: minimum level must be between 0 and 100');
         }
+    }
+
+    public function toStorage(): array
+    {
+        return [
+            'short_name' => ['text', mb_substr($this->getShortName(), 0, 15)],
+            'official_name' => ['text', mb_substr($this->getOfficialName(), 0, 50)],
+            'minimum_level' => ['float', $this->getMinimumLevel()],
+            'passed' => ['text', $this->getPassed()],
+            'tstamp' => ['integer', time()]
+        ];
     }
 }

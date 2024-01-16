@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 
@@ -27,9 +28,10 @@ use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
+use ILIAS\Test\Marks\MarkSchema;
+use ILIAS\Test\Marks\MarkSchemaAware;
 use ILIAS\Test\MainSettings\MainSettings;
 
 /**
@@ -42,7 +44,7 @@ use ILIAS\Test\MainSettings\MainSettings;
  * @defgroup ModulesTest Modules/Test
  * @extends ilObject
  */
-class ilObjTest extends ilObject implements ilMarkSchemaAware
+class ilObjTest extends ilObject implements MarkSchemaAware
 {
     use TestQuestionsImportTrait;
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
@@ -62,7 +64,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private bool $online;
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     private InternalRequestService $testrequest;
-    private ASS_MarkSchema $mark_schema;
+    private MarkSchema $mark_schema;
     public int $test_id = -1;
     public int $invitation = self::INVITATION_OFF;
     public string $author;
@@ -149,22 +151,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->filesystem_web = $DIC->filesystem()->web();
 
         $local_dic = $this->getLocalDIC();
-        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
-        $this->test_man_scoring_done_helper = $local_dic['manScoringDoneHelper'];
+        $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
+        $this->test_man_scoring_done_helper = $local_dic['man_scoring_done_helper'];
         $this->logger = $local_dic['test_logger'];
         $this->log_viewer = $local_dic['test_log_viewer'];
-
-        $this->mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], $DIC['ilUser']->getId());
-        $this->mark_schema->createSimpleSchema(
-            $DIC->language()->txt("failed_short"),
-            $DIC->language()->txt("failed_official"),
-            0,
-            0,
-            $DIC->language()->txt("passed_short"),
-            $DIC->language()->txt("passed_official"),
-            50,
-            1
-        );
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -181,6 +171,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this,
             $this->questioninfo
         );
+
+        $this->mark_schema = $local_dic['mark_schema_repository']->getMarkSchemaFor($this->getTestId());
     }
 
     public function getLocalDIC(): ILIAS\DI\Container
@@ -4243,7 +4235,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
      * {@inheritdoc}
      */
-    public function getMarkSchema(): ASS_MarkSchema
+    public function getMarkSchema(): MarkSchema
     {
         return $this->mark_schema;
     }
@@ -6251,7 +6243,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $testsettings = unserialize($test_defaults['defaults']);
         $unserialized_marks = unserialize($test_defaults['marks']);
 
-        if ($unserialized_marks instanceof ASS_MarkSchema) {
+        if ($unserialized_marks instanceof MarkSchema) {
             $unserialized_marks = $unserialized_marks->getMarkSteps();
         }
 

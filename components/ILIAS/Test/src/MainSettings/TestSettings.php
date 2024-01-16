@@ -52,4 +52,6 @@ abstract class TestSettings
     ): FormInput | array;
 
     abstract public function toStorage(): array;
+
+    abstract public function toLog(\ilLanguage $lng): array;
 }

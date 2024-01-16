@@ -199,4 +199,18 @@ class MainSettings
         $clone->settings_additional = $settings;
         return $clone;
     }
+
+    public function getArrayForLog(\ilLanguage $lng): array
+    {
+        return [
+            $this->settings_general->toLog($lng),
+            $this->settings_introduction->toLog($lng),
+            $this->settings_access->toLog($lng),
+            $this->settings_test_behaviour->toLog($lng),
+            $this->settings_question_behaviour->toLog($lng),
+            $this->settings_participant_functionality->toLog($lng),
+            $this->settings_finishing->toLog($lng),
+            $this->settings_additional->toLog($lng)
+        ];
+    }
 }
