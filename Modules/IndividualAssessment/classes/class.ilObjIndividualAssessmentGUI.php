@@ -157,6 +157,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                         $cmd = 'members';
                     }
                 }
+                if($cmd === 'edit' && $this->object->accessHandler()->simulateMember()) {
+                    $cmd = 'view';
+                }
+
                 $cmd .= 'Object';
                 $this->$cmd();
         }
