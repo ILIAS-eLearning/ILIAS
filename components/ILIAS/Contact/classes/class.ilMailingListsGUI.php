@@ -307,7 +307,6 @@ class ilMailingListsGUI
             $this->ui_factory,
             $this->http
         );
-        $tbl->setMailingAllowed((bool) $mailing_allowed);
         $tbl_html = $this->ui_renderer->render($tbl->getComponent());
         $this->tpl->setVariable('MAILING_LISTS', $tbl_html);
 
