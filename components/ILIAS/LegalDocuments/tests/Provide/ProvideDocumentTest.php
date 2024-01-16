@@ -138,6 +138,24 @@ class ProvideDocumentTest extends TestCase
         $this->assertSame($document, $result->value());
     }
 
+    public function testDocumentMatches(): void
+    {
+        $criterion = $this->mockTree(Criterion::class, ['content' => ['type' => 'bar']]);
+        $document = $this->mockMethod(Document::class, 'criteria', [], [$criterion]);
+        $user = $this->mock(ilObjUser::class);
+
+        $instance = new ProvideDocument('doo', $this->mock(DocumentRepository::class), new SelectionMap([
+            'bar' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$criterion->content()], $this->mockMethod(
+                Condition::class,
+                'eval',
+                [$user],
+                true
+            )),
+        ]), [], $this->mock(Container::class));
+
+        $this->assertTrue($instance->documentMatches($document, $user));
+    }
+
     public function testRepository(): void
     {
         $repository = $this->mock(DocumentRepository::class);

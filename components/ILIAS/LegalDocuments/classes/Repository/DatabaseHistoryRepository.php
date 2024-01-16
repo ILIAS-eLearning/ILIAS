@@ -24,9 +24,6 @@ use DateTimeImmutable;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
 use ILIAS\Data\Result\Ok;
-use ILIAS\LegalDocuments\Change;
-use ILIAS\LegalDocuments\ChangeSet;
-use ILIAS\LegalDocuments\Change\AcceptedDocument;
 use ILIAS\LegalDocuments\UserAction;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
@@ -72,14 +69,15 @@ class DatabaseHistoryRepository implements HistoryRepository
         ));
     }
 
-    public function acceptedDocument(ilObjUser $user): Result
+    public function acceptedVersion(ilObjUser $user): Result
     {
         $versions = $this->versionTable();
         $tracking = $this->trackingTable();
         $user_id = $this->database->quote($user->getId(), ilDBConstants::T_INTEGER);
+        $provider = $this->database->quote($this->id, ilDBConstants::T_TEXT);
 
         $result = $this->database->fetchAssoc($this->database->query(
-            "SELECT $versions.* from $versions inner join $tracking on $versions.id = $tracking.tosv_id where usr_id = $user_id and " . $this->document_meta->exists('doc_id')
+            "SELECT $versions.* from $versions inner join $tracking on $versions.id = $tracking.tosv_id where usr_id = $user_id AND $versions.provider = $provider ORDER BY $tracking.ts DESC"
         ));
 
         if ($result === null) {
@@ -87,6 +85,20 @@ class DatabaseHistoryRepository implements HistoryRepository
         }
 
         return new Ok(new DocumentContent($result['type'], $result['title'] ?? '', $result['text'] ?? ''));
+    }
+
+    public function currentDocumentOfAcceptedVersion(ilObjUser $user): Result
+    {
+        $tracking = $this->trackingTable();
+        $version = $this->versionTable();
+
+        $result = $this->database->fetchAssoc($this->database->queryF(
+            "SELECT doc_id FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id WHERE provider = %s AND usr_id = %s ORDER BY $version.ts DESC LIMIT 0, 1",
+            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+            [$this->id, $user->getId()]
+        ));
+
+        return $result ? $this->document_meta->find((int) $result['doc_id']) : new Error('No document found.');
     }
 
     /**
@@ -98,20 +110,20 @@ class DatabaseHistoryRepository implements HistoryRepository
         $tracking = $this->trackingTable();
         $version = $this->versionTable();
         $documents = $this->document_meta->documentTable();
+        $provider = $this->database->quote($this->id, ilDBConstants::T_TEXT);
 
         [$filter, $join] = $this->filterAndJoin($filter, $order_by);
 
         $order_by = $this->mapKeys(fn($field) => match ($field) {
             'created' => "$tracking.ts",
-            'document' => "$documents.text",
+            'document' => "$version.text",
             'login' => "usr_data.login",
             'firstname' => "usr_data.firstname",
             'lastname' => "usr_data.lastname",
         }, $order_by);
 
         $rows = $this->database->fetchAll($this->database->query(
-            "SELECT $documents.*, $tracking.*, $version.text as old_text, $version.title as old_title, $version.type as old_type, $tracking.ts as ts FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id INNER JOIN $documents ON $version.doc_id = $documents.id $join WHERE $filter AND " .
-            $this->document_meta->exists('doc_id') .
+            "SELECT $documents.*, $tracking.*, $version.text as old_text, $version.title as old_title, $version.type as old_type, $tracking.ts as ts FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id LEFT JOIN $documents ON $documents.id = $version.doc_id $join WHERE $filter AND $version.provider = $provider " .
             $this->orderSqlFromArray($order_by) .
             (null === $limit ? '' : ' LIMIT ' . $offset . ', ' . $limit)
         ));
@@ -127,12 +139,13 @@ class DatabaseHistoryRepository implements HistoryRepository
         $tracking = $this->trackingTable();
         $version = $this->versionTable();
         $documents = $this->document_meta->documentTable();
+        $provider = $this->database->quote($this->id, ilDBConstants::T_TEXT);
 
         [$filter, $join] = $this->filterAndJoin($filter);
 
         return (int) $this->database->fetchAssoc($this->database->query(
-            "SELECT COUNT(1) as count FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id INNER JOIN $documents ON $version.doc_id = $documents.id AND " .
-            $this->document_meta->exists('doc_id') . "$join WHERE $filter"
+            "SELECT COUNT(1) as count FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id INNER JOIN $documents ON $version.doc_id = $documents.id AND $version.provider = $provider " .
+            "$join WHERE $filter"
         ))['count'];
     }
 
@@ -142,9 +155,9 @@ class DatabaseHistoryRepository implements HistoryRepository
     private function recordFromRow(array $row): History
     {
         return new History(
-            $this->document_meta->documentFromRow($row, []),
+            isset($row['id']) ? $this->document_meta->documentFromRow($row, []) : null,
             new Edit((int) $row['usr_id'], new DateTimeImmutable('@' . $row['ts'])),
-            array_map(fn(array $criterion) => new CriterionContent($criterion['id'], $criterion['value']), json_decode($row['criteria'], true)),
+            array_map(fn(array $criterion) => new CriterionContent($criterion['id'], $criterion['value']), json_decode($row['criteria'], true) ?: []),
             new DocumentContent($row['old_type'], $row['old_title'] ?? '', $row['old_text'] ?? '')
         );
     }
@@ -193,6 +206,7 @@ class DatabaseHistoryRepository implements HistoryRepository
             'ts' => $this->action->modifiedNow()->time(),
             'doc_id' => $document->id(),
             'title' => $document->content()->title(),
+            'provider' => $this->id,
         ]));
 
         return $id;
@@ -274,7 +288,7 @@ class DatabaseHistoryRepository implements HistoryRepository
 
     /**
      * @param array<string, mixed> $filter
-     * @return array{join: string, filter: string}
+     * @return array{0: string, 1: string}
      */
     private function filterAndJoin(array $filter, array $order_by = []): array
     {

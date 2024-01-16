@@ -61,9 +61,13 @@ final class Agreement implements AgreementInterface
 
     public function showAgreementForm(string $gui, string $cmd): PageFragment
     {
+        $form = $this->user->matchingDocument()->isOk() ?
+              $this->agreementForm($gui, $cmd) :
+              $this->ui->create()->divider()->horizontal();
+
         return (new PageContent($this->ui->txt('accept_usr_agreement'), [
             $this->showDocument(),
-            $this->agreementForm($gui, $cmd),
+            $form,
             $this->logoutLink(),
         ]))->withOnScreenMessage('info', $this->ui->txt('accept_usr_agreement_intro'));
     }
@@ -71,7 +75,7 @@ final class Agreement implements AgreementInterface
     public function needsToAgree(): bool
     {
         return !$this->user->cannotAgree()
-            && ($this->user->neverAgreed() || $this->user->didNotAcceptCurrentVersion());
+            && ($this->user->neverAgreed() || $this->user->needsToAcceptNewDocument());
     }
 
     private function showDocument(): Component
