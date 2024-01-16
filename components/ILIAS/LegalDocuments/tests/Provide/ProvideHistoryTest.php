@@ -101,15 +101,25 @@ class ProvideHistoryTest extends TestCase
         $this->assertTrue($instance->alreadyAccepted($user, $document));
     }
 
-    public function testAcceptedDocument(): void
+    public function testAcceptedVersion(): void
     {
         $user = $this->mock(ilObjUser::class);
 
         $result = $this->mock(Result::class);
 
-        $repository = $this->mockMethod(HistoryRepository::class, 'acceptedDocument', [$user], $result);
+        $repository = $this->mockMethod(HistoryRepository::class, 'acceptedVersion', [$user], $result);
 
         $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
-        $this->assertSame($result, $instance->acceptedDocument($user));
+        $this->assertSame($result, $instance->acceptedVersion($user));
+    }
+
+    public function testCurrentDocumentOfAcceptedVersion(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $result = $this->mock(Result::class);
+        $repository = $this->mockMethod(HistoryRepository::class, 'currentDocumentOfAcceptedVersion', [$user], $result);
+        $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
+
+        $this->assertSame($result, $instance->currentDocumentOfAcceptedVersion($user));
     }
 }

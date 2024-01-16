@@ -45,6 +45,11 @@ class UI
         return $this->main_template;
     }
 
+    public function loadLanguageModule(string $module): void
+    {
+        $this->language->loadLanguageModule($module);
+    }
+
     public function txt(string $name): string
     {
         return $this->language->txt($this->firstExisting([

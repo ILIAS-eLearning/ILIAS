@@ -52,7 +52,7 @@ final class ModifyFooter
 
     public function __invoke(Footer $footer): Footer
     {
-        return $this->user->acceptedDocument()->map(
+        return $this->user->acceptedVersion()->map(
             $this->renderModal($footer)
         )->except(
             fn() => new Ok($footer)

@@ -79,24 +79,19 @@ class EditableDocumentTableTest extends TestCase
         $document = $this->mock(Document::class);
         $table = $this->mock(DocumentTable::class);
 
-        $table->expects(self::once())->method('select')->with($select)->willReturn([$document]);
-        $table->expects(self::once())->method('row')->with($document)->willReturn([
-            'foo' => 'bar',
-            'a' => 'b'
-        ]);
+        $table->expects(self::once())->method('mapSelection')->willReturn([$document]);
 
         $instance = new EditableDocumentTable($table, $this->mock(EditLinks::class));
 
         $rows = $instance->rows($select);
-        $this->assertSame(1, count($rows));
-        $this->assertSame(['delete', 'order', 'a', 'criteria', 'actions'], array_keys(current($rows)));
+        $this->assertSame([$document], $rows);
     }
 
     public function testRow(): void
     {
         $instance = new EditableDocumentTable($this->mock(DocumentTable::class), $this->mock(EditLinks::class));
 
-        $row = $instance->row($this->mock(Document::class));
+        $row = $instance->row($this->mock(Document::class), 1);
         $this->assertSame(['delete', 'order', 'criteria', 'actions'], array_keys($row));
     }
 
