@@ -594,19 +594,20 @@ class ilObjectCopyGUI
             ilSession::set('source_query', $this->post_wrapper->retrieve("tit", $this->refinery->kindlyTo()->string()));
         }
 
-        $this->initFormSearch();
-        $this->form->setValuesByPost();
-
-        if (!$this->form->checkInput()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'), true);
-            $this->ctrl->returnToParent($this);
-            return;
-        }
-
-        $tit = $this->form->getInput('tit');
+        $tit = ilSession::get('source_query', '');
         if ($tit === "") {
-            $tit = ilSession::get('source_query', '');
+            $this->initFormSearch();
+            $this->form->setValuesByPost();
+
+            if (!$this->form->checkInput()) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'), true);
+                $this->ctrl->returnToParent($this);
+                return;
+            }
+
+            $tit = $this->form->getInput('tit');
         }
+
         $query_parser = new ilQueryParser($tit);
         $query_parser->setMinWordLength(1);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
