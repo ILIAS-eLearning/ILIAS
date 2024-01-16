@@ -31,9 +31,9 @@ abstract class ilPageComponentPlugin extends ilPlugin
     protected string $mode;
 
     /**
-     * Determines the resources that allow to include the
-     * new content component.
-     * @param string $a_type Parent type (e.g. "cat", "lm", "glo", "wiki", ...)
+     * Determines the parent types that allow to include the new content component.
+     * See https://docu.ilias.de/goto_docu_pg_56942_42.html
+     * @param string $a_type
      * @return bool true/false if the resource type allows
      */
     abstract public function isValidParentType(string $a_type): bool;
