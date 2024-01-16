@@ -46,6 +46,7 @@ class ilLegalDocumentsAdministrationGUI
     public function __construct(
         private readonly string $parent_class,
         private readonly Config $config,
+        private readonly Closure $after_document_deletion,
         ?Container $container = null
     ) {
         $this->container = $container ?? $GLOBALS['DIC'];
@@ -122,14 +123,13 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->requireEditable();
         $this->container->tabs()->clearTargets();
         $this->container->tabs()->setBackTarget($this->container->language()->txt('back'), $this->ctrlTo('getLinkTargetByClass', 'documents'));
-        // $this->container->tabs()->activateTab('documents');
 
         $document = $this->admin->currentDocument()->value();
 
         $this->container->language()->loadLanguageModule('meta');
 
         $url = $this->admin->targetWithDoc($this, $document, 'addCriterion', 'getFormAction');
-        $form = $this->admin->criterionForm($url);
+        $form = $this->admin->criterionForm($url, $document);
 
         $form = $this->admin->withFormData($form, function (array $x) use ($document) {
             $content = new CriterionContent(...$x['content']);
@@ -137,7 +137,7 @@ class ilLegalDocumentsAdministrationGUI
                 fn() => $this->config->legalDocuments()->document()->repository()->createCriterion($document, $content)
             )->except($this->criterionInvalid(...))->value();
 
-            $this->ctrlTo('redirectByClass', 'documents');
+            $this->returnWithMessage('saved_successfully', 'documents');
         });
 
         $this->admin->setContent($form);
@@ -149,7 +149,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->withDocumentAndCriterion(function (Document $document, Criterion $criterion) {
             $this->container->language()->loadLanguageModule('meta');
             $url = $this->admin->targetWithDocAndCriterion($this, $document, $criterion, 'editCriterion', 'getFormAction');
-            $form = $this->admin->criterionForm($url, $criterion->content());
+            $form = $this->admin->criterionForm($url, $document, $criterion->content());
             $form = $this->admin->withFormData($form, function (array $data) use ($document, $criterion) {
                 $content = new CriterionContent(...$data['content']);
                 $criteria = array_filter($document->criteria(), fn(Criterion $other) => $other->id() !== $criterion->id());
@@ -157,7 +157,7 @@ class ilLegalDocumentsAdministrationGUI
                     fn() => $this->config->legalDocuments()->document()->repository()->updateCriterionContent($criterion->id(), $content)
                 )->except($this->criterionInvalid(...))->value();
 
-                $this->ctrlTo('redirectByClass', 'documents');
+                $this->returnWithMessage('saved_successfully', 'documents');
             });
 
             $this->container->tabs()->clearTargets();
@@ -173,7 +173,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->requireEditable();
         $this->admin->withDocumentAndCriterion(function (Document $document, Criterion $criterion) {
             $this->config->legalDocuments()->document()->repository()->deleteCriterion($criterion->id());
-            $this->ctrlTo('redirectByClass', 'documents');
+            $this->returnWithMessage('deleted', 'documents');
         });
     }
 
@@ -219,27 +219,23 @@ class ilLegalDocumentsAdministrationGUI
     {
         $this->admin->requireEditable();
         $this->admin->deleteDocuments($this->admin->retrieveDocuments());
-        $this->ctrlTo('redirectByClass', 'documents');
+        ($this->after_document_deletion)();
+        $this->returnWithMessage('deleted', 'documents');
     }
 
     public function editDocument(): void
     {
         $this->admin->requireEditable();
         $this->container->tabs()->clearTargets();
-        $this->admin->idOrHash($this, function (Closure $link, string $title, DocumentId $id) {
-            $form = $this->admin->documentForm($link, $title);
+        $this->admin->idOrHash($this, function (Closure $link, string $title, DocumentId $id, bool $may_be_new) {
+            $form = $this->admin->documentForm($link, $title, $may_be_new);
             $form = $this->admin->withFormData($form, function ($data) use (/* $edit_link, */$id) {
                 $this->config->legalDocuments()->document()->repository()->updateDocumentTitle($id, $data['title']);
-                $this->ctrlTo('redirectByClass', 'documents');
+                $this->returnWithMessage('saved_successfully', 'documents');
             });
 
             $this->container->tabs()->setBackTarget($this->container->language()->txt('back'), $this->ctrlTo('getLinkTargetByClass', 'documents'));
             $this->container->tabs()->activateTab('documents');
-
-            if ($title) {
-                $this->container->ui()->mainTemplate()->setTitle($title);
-            }
-
             $this->admin->setContent($form);
         });
     }
@@ -248,7 +244,7 @@ class ilLegalDocumentsAdministrationGUI
     {
         $this->admin->requireEditable();
         $this->admin->withDocumentsAndOrder($this->admin->saveDocumentOrder(...));
-        $this->ctrlTo('redirectByClass', 'documents');
+        $this->returnWithMessage('saved_successfully', 'documents');
     }
 
     /**
@@ -316,5 +312,11 @@ class ilLegalDocumentsAdministrationGUI
         };
 
         return new Ok($this->ui->mainTemplate()->setOnScreenMessage('failure', $message, true));
+    }
+
+    private function returnWithMessage(string $message, string $command): void
+    {
+        $this->ui->mainTemplate()->setOnScreenMessage('success', $this->container->language()->txt($message), true);
+        $this->ctrlTo('redirectByClass', $command);
     }
 }
