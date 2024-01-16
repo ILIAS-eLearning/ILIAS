@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -112,7 +113,10 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         int $ref_id,
         array $user_ids
     ): array {
-        // $all_available_users = $this->ua->getUserIdsOfOrgUnit()
+        if (!$this->isPositionActiveForRefId($ref_id)) {
+            return [];
+        }
+
         $operation = $this->operationRepo->find($pos_perm, $this->getTypeForRefId($ref_id));
         if (!$operation) {
             return [];
