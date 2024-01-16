@@ -355,32 +355,6 @@ class ilObjMediaObject extends ilObject
     protected static function handleQuotaUpdate(
         ilObjMediaObject $a_mob
     ): void {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // if neither workspace nor portfolios are activated, we skip
-        // the quota update here. this due to performance reasons on installations
-        // that do not use workspace/portfolios, but heavily copy content.
-        // in extreme cases (media object in pool and personal blog, deactivate workspace, change media object,
-        // this may lead to incorrect data in the quota calculation)
-        if ($ilSetting->get("disable_personal_workspace") && !$ilSetting->get('user_portfolios')) {
-            return;
-        }
-
-        $parent_obj_ids = array();
-        foreach ($a_mob->getUsages() as $item) {
-            $parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
-            if ($parent_obj_id &&
-                !in_array($parent_obj_id, $parent_obj_ids)) {
-                $parent_obj_ids[] = $parent_obj_id;
-            }
-        }
-
-        // we could suppress this if object is present in a (repository) media pool
-        // but this would lead to "quota-breaches" when the pool item is deleted
-        // and "suddenly" all workspace owners get filesize added to their
-        // respective quotas, regardless of current status
     }
 
     /**
