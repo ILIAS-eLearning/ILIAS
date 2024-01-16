@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		elementFormDefault="qualified">
+
+	<xs:element name="Forum">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Id" type="xs:integer"/>
+				<xs:element name="ObjId" type="xs:integer"/>
+				<xs:element name="Title" type="xs:string"/>
+				<xs:element name="Description" type="xs:string"/>
+				<xs:element name="DefaultView" type="xs:integer"/>
+				<xs:element name="Pseudonyms" type="xs:integer"/>
+				<xs:element name="Statistics" type="xs:integer"/>
+				<xs:element name="ThreadRatings" type="xs:integer"/>
+				<xs:element name="Sorting" type="xs:integer"/>
+				<xs:element name="MarkModeratorPosts" type="xs:integer"/>
+				<xs:element name="PostingActivation" type="xs:integer"/>
+				<xs:element name="PresetSubject" type="xs:integer"/>
+				<xs:element name="PresetRe" type="xs:integer"/>
+				<xs:element name="NotificationType" type="xs:string"/>
+				<xs:element name="ForceNotification" type="xs:integer"/>
+				<xs:element name="ToggleNotification" type="xs:integer"/>
+				<xs:element name="LastPost" type="xs:string"/>
+				<xs:element name="Moderator" type="xs:integer"/>
+				<xs:element name="CreateDate" type="xs:string"/>
+				<xs:element name="UpdateDate" type="xs:string"/>
+				<xs:element name="FileUpload" type="xs:integer"/>
+				<xs:element name="UpdateUserId" type="xs:integer"/>
+				<xs:element name="UserId" type="xs:integer"/>
+				<xs:element ref="Thread" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Thread">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Id" type="xs:integer"/>
+				<xs:element name="Subject" type="xs:string"/>
+				<xs:element name="UserId" type="xs:integer"/>
+				<xs:element name="AuthorId" type="xs:integer"/>
+				<xs:element name="Alias" type="xs:string"/>
+				<xs:element name="LastPost" type="xs:string"/>
+				<xs:element name="CreateDate" type="xs:string"/>
+				<xs:element name="UpdateDate" type="xs:string"/>
+				<xs:element name="ImportName" type="xs:string"/>
+				<xs:element name="Sticky" type="xs:integer"/>
+				<xs:element name="Closed" type="xs:integer"/>
+				<xs:element ref="Post" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Post">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Id" type="xs:integer"/>
+				<xs:element name="UserId" type="xs:integer"/>
+				<xs:element name="AuthorId" type="xs:integer"/>
+				<xs:element name="Alias" type="xs:string"/>
+				<xs:element name="Subject" type="xs:string"/>
+				<xs:element name="CreateDate" type="xs:string"/>
+				<xs:element name="UpdateDate" type="xs:string"/>
+				<xs:element name="UpdateUserId" type="xs:integer"/>
+				<xs:element name="Censorship" type="xs:boolean"/>
+				<xs:element name="CensorshipMessage" type="xs:string"/>
+				<xs:element name="Notification" type="xs:boolean"/>
+				<xs:element name="ImportName" type="xs:string"/>
+				<xs:element name="Status" type="xs:integer"/>
+				<xs:element name="Message" type="xs:string"/>
+				<xs:element name="isAuthorModerator" type="xs:integer" />
+				<xs:element ref="MessageMediaObjects" minOccurs="0"/>
+				<xs:element name="Lft" type="xs:integer"/>
+				<xs:element name="Rgt" type="xs:integer"/>
+				<xs:element name="Depth" type="xs:integer"/>
+				<xs:element name="ParentId" type="xs:integer"/>
+				<xs:element ref="Attachment" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Attachment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Content" type="xs:string" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="MessageMediaObjects">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MediaObject" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="MediaObject">
+		<xs:complexType>
+			<xs:attribute name="label" use="required" type="xs:string" />
+			<xs:attribute name="uri" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

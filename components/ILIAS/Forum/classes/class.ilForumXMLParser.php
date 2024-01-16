@@ -183,10 +183,6 @@ class ilForumXMLParser extends ilSaxParser
                 $propertyValue['Id'] = $this->cdata;
                 break;
 
-            case 'StyleId':
-                $x['StyleId'] = $this->cdata;
-                break;
-
             case 'ObjId':
                 $propertyValue['ObjId'] = $this->cdata;
                 break;
