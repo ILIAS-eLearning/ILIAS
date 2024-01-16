@@ -4746,6 +4746,7 @@ common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings fro
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_reserved_prefix#:#The prefix ‘il_’ is reserved for automatically generated roles. Please choose another name
 common#:#msg_roleassignment_changed#:#Role assignment changed
+common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects and functions.
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
