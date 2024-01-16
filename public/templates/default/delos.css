@@ -15789,6 +15789,10 @@ div.ilHFormFooter .ilFormCmds {
   position: relative;
   overflow: hidden;
 }
+.btn-file:focus-within {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+}
 
 .btn-file input[type=file] {
   position: absolute;
