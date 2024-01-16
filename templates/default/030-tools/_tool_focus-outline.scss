@@ -35,7 +35,22 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 // some elements like buttons and input field cannot display the il-focus mixin because of the :after element
 // in this case use this mixin instead
 @mixin il-focus-outline-only($clearAfter: false) {
-	&:focus-visible {
+	&:focus-visible{
+		outline: $il-focus-outline-inner;
+		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 6px $il-focus-protection-color;
+		@if $clearAfter {
+			&::after {
+				content: none;
+			}
+		}
+	}
+}
+
+// KEYBOARD FOCUS FOR Elements, that contain Elements that get Focus
+// some elements like file buttons and input field cannot display the il-focus mixin because they do not get focus directly
+// in this case use this mixin instead
+@mixin il-focus-within-outline-only($clearAfter: false) {
+	&:focus-within{
 		outline: $il-focus-outline-inner;
 		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 6px $il-focus-protection-color;
 		@if $clearAfter {
