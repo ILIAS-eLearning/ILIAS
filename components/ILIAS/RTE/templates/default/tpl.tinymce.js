@@ -173,6 +173,7 @@ tinymce.init({
     editor_deselector: "noRTEditor",
     branding: false,
     language: "{LANG}",
+    browser_spellcheck: true,
     //blockformats has changed it's definition in 5.x. please fix the translations
     block_formats: ilTinyMCETranslateFormats(),
     plugins: "{ADDITIONAL_PLUGINS}",

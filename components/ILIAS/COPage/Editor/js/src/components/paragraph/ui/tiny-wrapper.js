@@ -208,6 +208,7 @@ export default class TinyWrapper {
         menubar: false,
         statusbar: false,
         language: 'en',
+        browser_spellcheck: true,
         height: '100%',
         plugins: 'save,paste,lists',
         smart_paste: false,

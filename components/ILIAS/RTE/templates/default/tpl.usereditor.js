@@ -10,6 +10,7 @@ tinymce.init({
     branding: false,
     editor_selector: "{SELECTOR}",
     language: "{LANG}",
+    browser_spellcheck: true,
     plugins: "save",
     fix_list_elements: true,
     block_formats: "{BLOCKFORMATS}",

@@ -149,6 +149,7 @@ tinymce.init({
     editor_deselector: "noRTEditor",
     branding: false,
     language: "{LANG}",
+    browser_spellcheck: true,
     block_formats: ilTinyMCETranslateFormats(),
     plugins: "{ADDITIONAL_PLUGINS}",
     menubar: false,
