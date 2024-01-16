@@ -1842,8 +1842,8 @@ if (
 <?php
 if (
         $ilDB->tableExists('webr_items') &&
-        !$ilDB->indexExistsByFields('webr_items', ['web_id', 'active'])
+        !$ilDB->indexExistsByFields('webr_items', ['webr_id', 'active'])
 ) {
-    $ilDB->addIndex('webr_items', ['web_id', 'active'], 'i4');
+    $ilDB->addIndex('webr_items', ['webr_id', 'active'], 'i4');
 }
 ?>
