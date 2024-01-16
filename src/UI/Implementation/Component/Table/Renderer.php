@@ -331,8 +331,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->hasSingleActions()) {
-            $tpl->touchBlock('header_action_cell');
+            $tpl->setVariable('COL_INDEX_ACTION', (string) count($columns));
+            $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
+
         }
+
         if ($component->hasMultiActions()) {
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
