@@ -3,10 +3,10 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ImportHandler\ilFactory as ilImportHandlerFactory;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use Schema\ilXmlSchemaFactory as ilXMLSchemaFactory;
+use ILIAS\Export\ImportHandler\ilFactory as ilImportHandlerFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\Export\Schema\ilXmlSchemaFactory as ilXMLSchemaFactory;
 
 /**
  * Description of ilDidacticTemplateImport

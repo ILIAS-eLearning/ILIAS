@@ -26,8 +26,8 @@ use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ImportStatus\ilCollection as ilImportStatusCollection;
-use ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusCollection;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 
 /**
  * Settings for a single didactic template
