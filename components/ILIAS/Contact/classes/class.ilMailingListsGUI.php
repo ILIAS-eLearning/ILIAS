@@ -40,6 +40,7 @@ class ilMailingListsGUI
     private ilPropertyFormGUI $form_gui;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
+    private ilTabsGUI $tabs;
 
     public function __construct()
     {
@@ -56,19 +57,30 @@ class ilMailingListsGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->tabs = $DIC->tabs();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
-        $this->mlists->setCurrentMailingList(
-            $this->http->wrapper()->query()->has('ml_id')
-                ? $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
-                : 0
-        );
+        $ml_id = $this->getQueryMailingListId();
+        $this->mlists->setCurrentMailingList($ml_id);
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
 
         $this->lng->loadLanguageModule('mail');
+    }
+
+    public function getQueryMailingListId(): int
+    {
+        return ($this->http->wrapper()->query()->has('ml_id')
+            ? $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
+            : ($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
+                ? (int) current($this->http->wrapper()->query()->retrieve(
+                    'contact_mailinglist_list_ml_ids',
+                    $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+                ))
+                : 0)
+        );
     }
 
     public function executeCommand(): bool
@@ -92,12 +104,57 @@ class ilMailingListsGUI
         return true;
     }
 
+    public function handleMailingListMemberActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has('contact_mailinglist_member_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('contact_mailinglist_member_action', $this->refinery->to()->string());
+        switch ($action) {
+            case 'confirmDeleteMembers':
+                $this->confirmDeleteMembers();
+                break;
+            default:
+                $this->ctrl->redirect($this, 'showMailingLists');
+                break;
+        }
+    }
+
+    public function handleMailingListActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has('contact_mailinglist_list_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('contact_mailinglist_list_action', $this->refinery->to()->string());
+
+        switch ($action) {
+            case 'mailToList':
+                $this->mailToList();
+                break;
+            case 'showMembersList':
+                $this->showMembersList();
+                break;
+            case 'showForm':
+                $this->showForm();
+                break;
+
+            default:
+                $this->ctrl->redirect($this, 'showMailingLists');
+                break;
+        }
+    }
+
     /**
      * @return int[]
      */
     private function getMailingListIdsFromRequest(): array
     {
-        $ml_ids = [];
         if ($this->http->wrapper()->query()->has('ml_id')) {
             $ml_ids = [
                 $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
@@ -109,7 +166,12 @@ class ilMailingListsGUI
                     $this->refinery->kindlyTo()->int()
                 )
             );
-        }
+        } elseif($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
+                    ? $ml_ids = (array) $this->http->wrapper()->query()->retrieve(
+                        'contact_mailinglist_list_ml_ids',
+                        $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
+                    ) : $ml_ids = []
+        );
 
         return array_filter($ml_ids);
     }
@@ -233,87 +295,22 @@ class ilMailingListsGUI
         $mail = new ilMail($this->user->getId());
         $mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
-        $tbl = new ilMailingListsTableGUI($this, 'showMailingLists');
-
         $this->toolbar->addComponent($this->ui_factory->button()->standard(
             $this->lng->txt('create'),
             $this->ctrl->getLinkTarget($this, 'showForm')
         ));
 
-        $result = [];
-        $entries = $this->mlists->getAll();
-        if ($entries !== []) {
-            $tbl->enable('select_all');
-            $counter = 0;
+        $tbl = new MailingListsTable(
+            $this->mlists,
+            $this->ctrl,
+            $this->lng,
+            $this->ui_factory,
+            $this->http
+        );
+        $tbl->setMailingAllowed((bool) $mailing_allowed);
+        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
+        $this->tpl->setVariable('MAILING_LISTS', $tbl_html);
 
-            foreach ($entries as $entry) {
-                if ($entry->getMode() === ilMailingList::MODE_TEMPORARY) {
-                    continue;
-                }
-
-                $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'ml_id[]', (string) $entry->getId());
-                $result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
-                $result[$counter]['description'] = $entry->getDescription() ?? '';
-                $result[$counter]['members'] = count($entry->getAssignedEntries());
-
-                $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
-                $buttons = [];
-
-                $buttons[] = $this->ui_factory
-                    ->button()
-                    ->shy(
-                        $this->lng->txt('edit'),
-                        $this->ctrl->getLinkTarget($this, 'showForm')
-                    );
-                $buttons[] = $this->ui_factory
-                    ->button()
-                    ->shy(
-                        $this->lng->txt('members'),
-                        $this->ctrl->getLinkTarget($this, 'showMembersList')
-                    );
-                if ($mailing_allowed) {
-                    $buttons[] = $this->ui_factory
-                        ->button()
-                        ->shy(
-                            $this->lng->txt('send_mail_to'),
-                            $this->ctrl->getLinkTarget($this, 'mailToList')
-                        );
-                }
-                $buttons[] = $this->ui_factory
-                    ->button()
-                    ->shy(
-                        $this->lng->txt('delete'),
-                        $this->ctrl->getLinkTarget($this, 'confirmDelete')
-                    );
-                $this->ctrl->setParameter($this, 'ml_id', null);
-
-                $drop_down = $this->ui_factory
-                    ->dropdown()
-                    ->standard($buttons)
-                    ->withLabel($this->lng->txt('actions'));
-
-                $result[$counter]['COMMAND_SELECTION_LIST'] = $this->ui_renderer->render($drop_down);
-                ++$counter;
-            }
-
-            if ($mailing_allowed) {
-                $tbl->addMultiCommand('mailToList', $this->lng->txt('send_mail_to'));
-            }
-            $tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-        } else {
-            $tbl->disable('header');
-            $tbl->disable('footer');
-        }
-
-        $tbl->setData($result);
-
-        if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) === 'mail') {
-            $tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
-        }
-
-        $this->tpl->setVariable('MAILING_LISTS', $tbl->getHTML());
         $this->tpl->printToStdout();
         return true;
     }
@@ -434,6 +431,12 @@ class ilMailingListsGUI
             return true;
         }
 
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'showMailingLists')
+        );
+
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -443,9 +446,6 @@ class ilMailingListsGUI
             'tpl.mail_mailing_lists_members.html',
             'components/ILIAS/Contact'
         );
-
-        $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
-        $result = [];
 
         $availale_usr_ids = array_diff(
             array_map(
@@ -469,37 +469,17 @@ class ilMailingListsGUI
             ));
         }
 
-        $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-        if ($assigned_entries !== []) {
-            $tbl->enable('select_all');
-            $tbl->setSelectAllCheckbox('a_id');
-
-            $usr_ids = [];
-            foreach ($assigned_entries as $entry) {
-                $usr_ids[] = $entry['usr_id'];
-            }
-
-            $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
-
-            $counter = 0;
-            foreach ($assigned_entries as $entry) {
-                $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'a_id[]', (string) $entry['a_id']);
-                $result[$counter]['user'] = $names[$entry['usr_id']];
-                ++$counter;
-            }
-
-            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('delete'));
-        } else {
-            $tbl->disable('header');
-            $tbl->disable('footer');
-
-            $tbl->setNoEntriesText($this->lng->txt('mail_search_no'));
-        }
-
-        $tbl->setData($result);
-
-        $this->tpl->setVariable('MEMBERS_LIST', $tbl->getHTML());
+        $tbl = new MailingListsMembersTable(
+            $this->mlists->getCurrentMailingList(),
+            $this->ctrl,
+            $this->lng,
+            $this->ui_factory,
+            $this->http
+        );
+        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
+        $this->tpl->setVariable('MEMBERS_LIST', $tbl_html);
         $this->tpl->printToStdout();
+
         return true;
     }
 
