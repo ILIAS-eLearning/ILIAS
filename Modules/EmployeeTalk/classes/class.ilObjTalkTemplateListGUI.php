@@ -62,7 +62,9 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
      */
     public function getCommandLink(string $cmd): string
     {
-        $this->ctrl->setParameterByClass(strtolower(ilObjTalkTemplateGUI::class), "ref_id", $this->ref_id);
-        return $this->ctrl->getLinkTargetByClass(strtolower(ilObjTalkTemplateGUI::class), $cmd);
+        $this->ctrl->setParameterByClass(strtolower(ilObjTalkTemplateGUI::class), 'ref_id', $this->ref_id);
+        $link = $this->ctrl->getLinkTargetByClass(strtolower(ilObjTalkTemplateGUI::class), $cmd);
+        $this->ctrl->clearParameterByClass(strtolower(ilObjTalkTemplateGUI::class), 'ref_id');
+        return $link;
     }
 }
