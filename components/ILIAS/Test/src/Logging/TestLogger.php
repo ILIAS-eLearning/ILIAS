@@ -34,6 +34,11 @@ class TestLogger implements LoggerInterface
     ) {
     }
 
+    public function getLoggingEnabled(): bool
+    {
+        return $this->logging_settings->getLoggingEnabled();
+    }
+
     public function logTestAdministrationInteraction(TestAdministrationInteraction $interaction): void
     {
         $this->logging_repository->storeTestAdministrationInteraction($interaction);

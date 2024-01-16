@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\MarkSchema;
+namespace ILIAS\Test\Marks;
 
 /**
  * A class defining mark schemas for assessment test objects
@@ -35,11 +35,14 @@ class MarkSchema
     public array $mark_steps;
 
     public function __construct(
-        protected ilDBInterface $db,
-        protected ilLanguage $lng,
-        protected int $current_user_id
+        private int $test_id
     ) {
         $this->mark_steps = [];
+    }
+
+    public function getTestId(): int
+    {
+        return $this->test_id;
     }
 
     /**
@@ -89,66 +92,9 @@ class MarkSchema
         array_push($this->mark_steps, $mark);
     }
 
-    public function saveToDb(int $test_id): void
-    {
-        if (!$test_id) {
-            return;
-        }
-        // Delete all entries
-        $this->db->manipulateF(
-            "DELETE FROM tst_mark WHERE test_fi = %s",
-            array('integer'),
-            array($test_id)
-        );
-        if (count($this->mark_steps) == 0) {
-            return;
-        }
-
-        // Write new datasets
-        foreach ($this->mark_steps as $key => $value) {
-            $next_id = $this->db->nextId('tst_mark');
-            $this->db->manipulateF(
-                "INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                array('integer','integer','text','text','float','text','integer'),
-                array(
-                    $next_id,
-                    $test_id,
-                    substr($value->getShortName(), 0, 15),
-                    substr($value->getOfficialName(), 0, 50),
-                    $value->getMinimumLevel(),
-                    $value->getPassed(),
-                    time()
-                )
-            );
-        }
-    }
-
-    public function loadFromDb(int $test_id): void
-    {
-        if (!$test_id) {
-            return;
-        }
-        $result = $this->db->queryF(
-            "SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
-            array('integer'),
-            array($test_id)
-        );
-        if ($result->numRows() > 0) {
-            /** @noinspection PhpAssignmentInConditionInspection */
-            while ($data = $this->db->fetchAssoc($result)) {
-                $this->addMarkStep(
-                    $data["short_name"] ?? '',
-                    $data["official_name"] ?? '',
-                    (float) $data["minimum_level"],
-                    (int) $data["passed"]
-                );
-            }
-        }
-    }
-
     public function flush(): void
     {
-        $this->mark_steps = array();
+        $this->mark_steps = [];
     }
 
     /**
@@ -275,5 +221,19 @@ class MarkSchema
     public function setMarkSteps(array $mark_steps): void
     {
         $this->mark_steps = $mark_steps;
+    }
+
+
+    public function toLog(\ilLanguage $lng): array
+    {
+        $log_array = [];
+        foreach ($this->getMarkSteps() as $mark) {
+            $log_array[$mark->getShortName()] = [
+                $lng->txt('tst_mark_official_form') => $mark->getOfficialName(),
+                $lng->txt('tst_mark_minimum_level') => $mark->getMinimumLevel(),
+                $lng->txt('tst_mark_passed') => $mark->getPassed()
+            ];
+        }
+        return $log_array;
     }
 }

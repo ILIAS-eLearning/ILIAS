@@ -271,6 +271,16 @@ class SettingsAccess extends TestSettings
         ];
     }
 
+    public function toLog(\ilLanguage $lng): array
+    {
+        return [
+            'tst_starting_time' => $this->getStartTime() ?? $lng->txt('none'),
+            'tst_ending_time' => $this->getEndTime() ?? $lng->txt('none'),
+            'tst_password' => $this->getPassword() ?? $lng->txt('none'),
+            'participants_invitation' => $this->getFixedParticipants() ? $lng->txt('enabled') : $lng->txt('disabled')
+        ];
+    }
+
     public function getStartTimeEnabled(): bool
     {
         return $this->start_time_enabled;

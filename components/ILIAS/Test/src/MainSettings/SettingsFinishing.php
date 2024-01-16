@@ -33,7 +33,7 @@ class SettingsFinishing extends TestSettings
         protected bool $concluding_remarks_enabled = false,
         protected ?string $concluding_remarks_text = '',
         protected ?int $concluding_remarks_page_id = null,
-        protected int $redirection_mode = ilObjTest::REDIRECT_NONE,
+        protected int $redirection_mode = \ilObjTest::REDIRECT_NONE,
         protected ?string $redirection_url = null,
         protected int $mail_notification_content_type = 0,
         protected bool $always_send_mail_notification = false
@@ -73,7 +73,7 @@ class SettingsFinishing extends TestSettings
             static function (?array $v): array {
                 if ($v === null) {
                     return [
-                        'redirect_mode' => ilObjTest::REDIRECT_NONE,
+                        'redirect_mode' => \ilObjTest::REDIRECT_NONE,
                         'redirect_url' => ''
                     ];
                 }
@@ -86,10 +86,10 @@ class SettingsFinishing extends TestSettings
             'redirect_mode' => $f->radio(
                 $lng->txt('redirect_after_finishing_rule')
             )->withOption(
-                (string) ilObjTest::REDIRECT_ALWAYS,
+                (string) \ilObjTest::REDIRECT_ALWAYS,
                 $lng->txt('redirect_always')
             )->withOption(
-                (string) ilObjTest::REDIRECT_KIOSK,
+                (string) \ilObjTest::REDIRECT_KIOSK,
                 $lng->txt('redirect_in_kiosk_mode')
             )->withRequired(true)
             ->withAdditionalTransformation($refinery->kindlyTo()->int()),
@@ -106,15 +106,15 @@ class SettingsFinishing extends TestSettings
         )->withValue(null)
             ->withAdditionalTransformation($redirection_trafo);
 
-        if ($this->getRedirectionMode() === ilObjTest::REDIRECT_NONE) {
+        if ($this->getRedirectionMode() === \ilObjTest::REDIRECT_NONE) {
             return $redirection_input;
         }
 
         return $redirection_input->withValue(
             [
-                    'redirect_mode' => $this->getRedirectionMode(),
-                    'redirect_url' => $this->getRedirectionUrl()
-                ]
+                'redirect_mode' => $this->getRedirectionMode(),
+                'redirect_url' => $this->getRedirectionUrl()
+            ]
         );
     }
 
@@ -185,6 +185,47 @@ class SettingsFinishing extends TestSettings
             'mailnotification' => ['integer', $this->getMailNotificationContentType()],
             'mailnottype' => ['integer', (int) $this->getAlwaysSendMailNotification()]
         ];
+    }
+
+    public function toLog(\ilLanguage $lng): array
+    {
+        $log_array = [
+            'enable_examview' => $this->getShowAnswerOverview(),
+            'final_statement' => $this->getConcludingRemarksEnabled(),
+            'redirect_after_finishing_tst' => $this->getRedirectionMode(),
+            'redirection_url' => $this->getRedirectionUrl(),
+
+        ];
+
+        switch ($this->getRedirectionMode()) {
+            case \ilObjTest::REDIRECT_NONE:
+                $log_array['redirect_after_finishing_tst'] = $lng->txt('no');
+                break;
+            case \ilObjTest::REDIRECT_ALWAYS:
+                $log_array['redirect_after_finishing_tst'] = $lng->txt('redirect_always');
+                $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
+                break;
+            case \ilObjTest::REDIRECT_KIOSK:
+                $log_array['redirect_after_finishing_tst'] = $lng->txt('redirect_in_kiosk_mode');
+                $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
+                break;
+        }
+
+        switch ($this->getMailNotificationContentType()) {
+            case 0:
+                $log_array['tst_finish_notification'] = $lng->txt('none');
+                break;
+            case 1:
+                $log_array['tst_finish_notification'] = $lng->txt('tst_finish_notification_simple');
+                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? $lng->txt('enabled') : $lng->txt('disabled');
+                break;
+            case 2:
+                $log_array['tst_finish_notification'] = $lng->txt('tst_finish_notification_advanced');
+                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? $lng->txt('enabled') : $lng->txt('disabled');
+                break;
+        }
+
+        return $log_array;
     }
 
     public function getShowAnswerOverview(): bool

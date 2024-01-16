@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Marks;
+
 /**
  * Class ilMarkSchemaTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -51,7 +53,7 @@ class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
 
         $this->parentObj_mock = $this->createMock(ilMarkSchemaGUI::class);
 
-        $assMarkSchema = $this->createMock(ASS_MarkSchema::class);
+        $assMarkSchema = $this->createMock(MarkSchema::class);
         $assMarkSchema->expects($this->any())
                       ->method("getMarkSteps")
                       ->willReturn([]);

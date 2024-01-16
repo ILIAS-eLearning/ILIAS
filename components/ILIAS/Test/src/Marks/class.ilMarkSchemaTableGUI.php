@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\MarkSchema;
+namespace ILIAS\Test\Marks;
 
 /**
  * Class ilMarkSchemaGUI

@@ -158,7 +158,7 @@ class ilTestServiceGUI
 
         $local_dic = $object->getLocalDIC();
         $this->testrequest = $local_dic['request.internal'];
-        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
+        $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
         $this->shuffler = $local_dic['shuffler'];
         $this->results_factory = $local_dic['factory.results'];
         $this->results_presentation_factory = $local_dic['factory.results_presentation'];

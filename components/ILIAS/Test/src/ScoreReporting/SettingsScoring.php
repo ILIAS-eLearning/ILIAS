@@ -87,6 +87,14 @@ class SettingsScoring extends TestSettings
         ];
     }
 
+    public function toLog(\ilLanguage $lng): array
+    {
+        return [
+            'tst_text_count_system' => $this->getCountSystem() === 0 ? $lng->txt('tst_count_partial_solutions') : $lng->txt('tst_count_correct_solutions'),
+            'tst_score_cutting' => $this->getScoreCutting() === 0 ? $lng->txt('tst_score_cut_question') : $lng->txt('tst_score_cut_test'),
+            'tst_pass_scoring' => $this->getPassScoring() === 0 ? $lng->txt('tst_pass_last_pass') : $lng->txt('tst_pass_best_pass')
+        ];
+    }
 
     public function getCountSystem(): int
     {

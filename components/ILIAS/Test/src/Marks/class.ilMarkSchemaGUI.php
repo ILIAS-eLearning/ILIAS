@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\MarkSchema;
 
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestAdministrationInteraction;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
@@ -35,35 +39,20 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
  */
 class ilMarkSchemaGUI
 {
-    private RequestWrapper $post_wrapper;
-    private Request $request;
-    private Refinery $refinery;
-
-    protected $object;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    protected ilGlobalPageTemplate $tpl;
-    protected ilToolbarGUI $toolbar;
-    protected ilTabsGUI $tabs;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-
-    public function __construct($object)
-    {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
-        $this->tpl = $DIC['tpl'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->tabs = $DIC['ilTabs'];
-        $this->object = $object;
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->request = $DIC->http()->request();
-        $this->refinery = $DIC->refinery();
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
+    public function __construct(
+        private MarkSchemaAware $object,
+        private \ilLanguage $lng,
+        private \ilCtrl $ctrl,
+        private \ilGlobalPageTemplate $tpl,
+        private \ilToolbarGUI $toolbar,
+        private \ilTabsGUI $tabs,
+        private TestLogger $logger,
+        private RequestWrapper $post_wrapper,
+        private Request $request,
+        private Refinery $refinery,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer
+    ) {
     }
 
     public function executeCommand(): void
@@ -137,6 +126,18 @@ class ilMarkSchemaGUI
             1
         );
         $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test_object->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::MARK_SCHEMA_RESET,
+                    time(),
+                    []
+                )
+            );
+        }
         $this->showMarkSchema();
     }
 
@@ -181,6 +182,19 @@ class ilMarkSchemaGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
         $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test_object->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
+                    time(),
+                    [$this->object->getMarkSchema()->toLog($this->lng)]
+                )
+            );
+        }
 
         $this->showMarkSchema();
     }

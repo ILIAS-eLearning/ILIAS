@@ -23,7 +23,8 @@ namespace ILIAS\Test;
 use Pimple\Container;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestManScoringDoneHelper;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\Marks\MarkSchemaRepository;
+use ILIAS\Test\Marks\MarkSchemaDatabaseRepository;
 use ILIAS\Test\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\Test\Administration\TestLoggingSettings;
@@ -72,11 +73,14 @@ class TestDIC extends Container
         $dic['main_settings_repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);
 
-        $dic['participantAccessFilterFactory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
+        $dic['participant_access_filter_factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
 
-        $dic['manScoringDoneHelper'] = static fn($c): TestManScoringDoneHelper =>
+        $dic['man_scoring_done_helper'] = static fn($c): TestManScoringDoneHelper =>
             new TestManScoringDoneHelper();
+
+        $dic['marks_repository'] = static fn($c): MarksRepository =>
+            new MarksDatabaseRepository($DIC['ilDB']);
 
         $dic['request.internal'] = static fn($c): InternalRequestService =>
             new InternalRequestService($DIC['http'], $DIC['refinery']);

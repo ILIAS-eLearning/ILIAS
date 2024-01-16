@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Test\Marks\Mark;
 
 /**
  * Unit tests for single choice questions
@@ -28,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 class assMarkSchemaTest extends ilTestBaseTestCase
 {
-    private ASS_MarkSchema $ass_mark_schema;
+    private MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;
 
     protected function setUp(): void
@@ -36,7 +37,7 @@ class assMarkSchemaTest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->ass_mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], 0);
+        $this->ass_mark_schema = new MarkSchema(0);
     }
 
     /**

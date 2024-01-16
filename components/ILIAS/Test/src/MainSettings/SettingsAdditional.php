@@ -86,6 +86,14 @@ class SettingsAdditional extends TestSettings
         ];
     }
 
+    public function toLog(\ilLanguage $lng): array
+    {
+        return [
+            'tst_activate_skill_service' => $this->getSkillsServiceEnabled() ? $lng->txt('yes') : $lng->txt('no'),
+            'tst_hide_info_tab' => $this->getHideInfoTab() ? $lng->txt('enabled') : $lng->txt('disabled'),
+        ];
+    }
+
     public function getSkillsServiceEnabled(): bool
     {
         return $this->skills_service_enabled;

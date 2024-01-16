@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Marks\ilMarkSchemaGUI;
+
 /**
  * Class ilMarkSchemaGUITest
  * @author Marvin Beym <mbeym@databay.de>
