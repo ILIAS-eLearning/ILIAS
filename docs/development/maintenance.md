@@ -360,6 +360,17 @@ file containes the following fields:
 
 [//]: # (END DataCollection)
 
+[//]: # (BEGIN DataProtection)
+
+* **Data Protection**
+	* Maintenance Model: Classic
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+[//]: # (END DataProtection)
+
 [//]: # (BEGIN Database)
 
 * **Database**
@@ -645,6 +656,17 @@ file containes the following fields:
 	* Tester: [mglaubitz](https://docu.ilias.de/goto_docu_usr_28309.html)
 
 [//]: # (END LearningSequence)
+
+[//]: # (BEGIN LegalDocuments)
+
+* **Legal Documents**
+	* Maintenance Model: Classic
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+[//]: # (END LegalDocuments)
 
 [//]: # (BEGIN Like)
 
@@ -1122,16 +1144,16 @@ file containes the following fields:
 
 [//]: # (END Taxonomy)
 
-[//]: # (BEGIN TermsOfServices)
+[//]: # (BEGIN TermsOfService)
 
-* **Terms of Services**
+* **Terms of Service**
 	* Maintenance Model: Classic
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: N.A.
+	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
 	* Testcases: Stefania Akgül (CaT)
 	* Tester: Heinz Winter (CaT)
 
-[//]: # (END TermsOfServices)
+[//]: # (END TermsOfService)
 
 [//]: # (BEGIN TestAndAssessment)
 

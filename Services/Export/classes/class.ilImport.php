@@ -23,12 +23,12 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
-use ImportHandler\File\XML\Manifest\ilExportObjectType;
-use ImportHandler\ilFactory as ilImportFactory;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ImportStatus\StatusType;
-use ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\ilExportObjectType;
+use ILIAS\Export\ImportHandler\ilFactory as ilImportFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 
 /**
  * Import class

@@ -216,4 +216,105 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex('style_usage', array('style_id'), 'i1');
         }
     }
+
+    public function step_13()
+    {
+        $this->db->update(
+            "style_parameter",
+            [
+            "tag" => ["text", "p"]
+        ],
+            [    // where
+                "type" => ["text", "text_block"],
+                "tag" => ["text", "div"]
+            ]
+        );
+    }
+
+    public function step_14()
+    {
+        $this->db->update(
+            "style_data",
+            [
+            "uptodate" => ["integer", 0]
+        ],
+            [    // where
+                "uptodate" => ["integer", 1]
+            ]
+        );
+    }
+
+    public function step_15()
+    {
+        $this->db->update(
+            "style_char",
+            [
+            "type" => ["text", "strong"]
+        ],
+            [    // where
+                "type" => ["text", "text_inline"],
+                "characteristic" => ["text", "Strong"]
+            ]
+        );
+    }
+
+    public function step_16()
+    {
+        $this->db->update(
+            "style_parameter",
+            [
+            "tag" => ["text", "strong"],
+            "type" => ["text", "strong"]
+        ],
+            [    // where
+                "type" => ["text", "text_inline"],
+                "tag" => ["text", "span"],
+                "class" => ["text", "Strong"]
+            ]
+        );
+    }
+
+    public function step_17()
+    {
+        $this->db->update(
+            "style_char",
+            [
+            "type" => ["text", "em"]
+        ],
+            [    // where
+                "type" => ["text", "text_inline"],
+                "characteristic" => ["text", "Emph"]
+            ]
+        );
+    }
+
+    public function step_18()
+    {
+        $this->db->update(
+            "style_parameter",
+            [
+            "tag" => ["text", "em"],
+            "type" => ["text", "em"]
+        ],
+            [    // where
+                "type" => ["text", "text_inline"],
+                "tag" => ["text", "span"],
+                "class" => ["text", "Emph"]
+            ]
+        );
+    }
+
+    public function step_19()
+    {
+        $this->db->update(
+            "style_data",
+            [
+            "uptodate" => ["integer", 0]
+        ],
+            [    // where
+                "uptodate" => ["integer", 1]
+            ]
+        );
+    }
+
 }

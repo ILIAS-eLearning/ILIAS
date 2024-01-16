@@ -158,7 +158,7 @@ class Factory
      */
     public function byTrying(array $transformations): ByTrying
     {
-        return new ByTrying($transformations, $this->dataFactory);
+        return new ByTrying($transformations, $this->dataFactory, $this->language);
     }
 
     public function random(): RandomGroup

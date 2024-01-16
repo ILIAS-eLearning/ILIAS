@@ -112,6 +112,23 @@ class ilTestResultsFactory
                 $show_inline_feedback
             );
 
+            if ($test_obj->getAutosave() &&
+                $type === 'assTextQuestion'
+            ) {
+                $usr_solution .= $question_gui->getAutoSavedSolutionOutput(
+                    $active_id,
+                    $pass_id,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    true
+                );
+            }
+
             $graphical_output = false;
             $show_correct_solution = true;
             $show_inline_feedback = false;

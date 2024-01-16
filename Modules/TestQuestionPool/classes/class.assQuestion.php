@@ -357,7 +357,7 @@ abstract class assQuestion
 
     public function setAuthor(string $author = ""): void
     {
-        if (!$author) {
+        if ($author === '') {
             $author = $this->current_user->getFullname();
         }
         $this->author = $author;
@@ -1604,20 +1604,34 @@ abstract class assQuestion
 
     public function syncWithOriginal(): void
     {
-        if (!$this->getOriginalId()) {
+        $original_id = $this->getOriginalId();
+        if ($original_id === null) {
             return; // No original -> no sync
         }
 
-        $originalObjId = self::lookupParentObjId($this->getOriginalId());
+        $original_obj_id = self::lookupParentObjId($this->getOriginalId());
 
-        if (!$originalObjId) {
+        if (!$original_obj_id) {
             return; // Original does not exist -> no sync
         }
 
-        $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
+        $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $original_obj_id, $this->getObjId());
+
+        $original = clone $this;
+        // Now we become the original
+        $original->setId($this->getOriginalId());
+        $original->setOriginalId(null);
+        $original->setObjId($original_obj_id);
+
+        $original->saveToDb();
+
+        $original->deletePageOfQuestion($this->getOriginalId());
+        $original->createPageObject();
+        $original->copyPageOfQuestion($this->getId());
+
         $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
         $this->syncXHTMLMediaObjectsOfQuestion();
-        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $originalObjId);
+        $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $original_obj_id);
         $this->syncHints();
     }
 
@@ -1724,7 +1738,7 @@ abstract class assQuestion
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false);
+    abstract public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float|array;
 
     public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $previewSession, $reachedPoints): ?float
     {
@@ -2847,7 +2861,7 @@ abstract class assQuestion
         $this->log($activeId, "log_user_solution_willingly_deleted");
 
         $test = new ilObjTest(
-            ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
+            $this->test_id,
             false
         );
         $test->updateTestPassResults(

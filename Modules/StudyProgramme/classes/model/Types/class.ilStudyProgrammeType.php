@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Filesystem;
+declare(strict_types=1);
 
 /**
  * Class ilStudyProgrammeType
@@ -28,11 +26,6 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilStudyProgrammeType
 {
-    /**
-     * Folder in ILIAS webdir to store the icons
-     */
-    private const WEB_DATA_FOLDER = 'prg_data';
-
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     public const DATE_FORMAT = 'Y-m-d';
 
@@ -40,31 +33,25 @@ class ilStudyProgrammeType
     protected int $owner;
     protected DateTime $create_date;
     protected DateTime $last_update;
-    protected string $icon;
+    protected ?string $icon;
     protected ilObjUser $user;
     protected array $active_plugins;
     protected ilLanguage $lng;
     protected array $translations;
     protected array $changed_translations = array();
-
     protected int $id = 0;
     protected ilStudyProgrammeTypeRepository $type_repo;
-    protected Filesystem $webdir;
-
     protected ilComponentFactory $component_factory;
-
 
     public function __construct(
         int $id,
         ilStudyProgrammeTypeRepository $type_repo,
-        ILIAS\Filesystem\Filesystem $webdir,
         ilLanguage $lng,
         ilObjUser $user,
         ilComponentFactory $component_factory
     ) {
         $this->id = $id;
         $this->type_repo = $type_repo;
-        $this->webdir = $webdir;
         $this->lng = $lng;
         $this->user = $user;
         $this->component_factory = $component_factory;
@@ -210,55 +197,6 @@ class ilStudyProgrammeType
             }
         }
     }
-
-    /**
-     * Resize and store an icon file for this object
-     *
-     * @param array $file_data The array containing file information from the icon from PHPs $_FILES array
-     */
-    public function processAndStoreIconFile(array $file_data): bool
-    {
-        if (!$this->updateable()) {
-            return false;
-        }
-        if (!count($file_data) || !$file_data['name']) {
-            return false;
-        }
-        if (!$this->webdir->hasDir($this->getIconPath())) {
-            $this->webdir->createDir($this->getIconPath());
-        }
-
-        if ($this->webdir->has($this->getIconPath(true))) {
-            $this->webdir->delete($this->getIconPath(true));
-        }
-
-        $stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], 'rb'));
-        $this->webdir->writeStream($this->getIconPath(true), $stream);
-
-        return true;
-    }
-
-    /**
-     * Remove the icon file on disk
-     */
-    public function removeIconFile(): void
-    {
-        if (!$this->updateable()) {
-            return;
-        }
-
-        if (
-            !is_null($this->getIcon()) &&
-            $this->getIcon() !== ""
-        ) {
-            $this->webdir->delete($this->getIconPath(true));
-            $this->setIcon('');
-        }
-    }
-
-    /**
-     * Protected
-     */
 
     /**
      * Helper method to return a translation for a given member and language
@@ -413,42 +351,16 @@ class ilStudyProgrammeType
         return $this->id;
     }
 
-    /**
-     * Set new Icon filename.
-     *
-     * Note that if you did also send a new icon image file with a form, make sure to call
-     * ilStudyProgrammeType::processAndStoreIconFile() to store the file additionally on disk.
-     *
-     * If you want to delete the icon, set call ilStudyProgrammeType::removeIconFile() first and set an empty string here.
-     *
-     * @throws ilStudyProgrammeTypeException
-     */
-    public function setIcon(string $icon): void
+    public function withIconIdentifier(?string $identifier): self
     {
-        if ($icon && !preg_match('/\.(svg)$/', $icon)) {
-            throw new ilStudyProgrammeTypeException('Icon must be set with file extension svg');
-        }
-        $this->icon = $icon;
+        $clone = clone $this;
+        $clone->icon = $identifier;
+        return $clone;
     }
 
-    public function getIcon(): string
+    public function getIconIdentifier(): ?string
     {
         return $this->icon;
-    }
-
-    /**
-     * Return the path to the icon
-     *
-     * @param bool $append_filename If true, append filename of icon
-     */
-    public function getIconPath(bool $append_filename = false): string
-    {
-        $path = self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
-        if ($append_filename) {
-            $path .= $this->getIcon();
-        }
-
-        return $path;
     }
 
     public function setDefaultLang(string $default_lang): void

@@ -193,7 +193,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $data = [];
         foreach ($this->getObject()->getAutomaticMembershipSources() as $ams) {
             $title = $this->getTitleRepresentation($ams);
-            $usr = $this->getUserRepresentation($ams->getLastEditorId());
+            $usr = $this->getUserRepresentation($ams->getLastEditorId()) ?? $this->ui_factory->legacy('-');
             $modal = $this->getModal($ams->getSourceType(), $ams->getSourceId());
             $collected_modals[] = $modal;
 
@@ -682,17 +682,21 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id): Link\Standard
+    protected function getUserRepresentation(int $usr_id): ?Link\Standard
     {
         $username = ilObjUser::_lookupName($usr_id);
+        if(array_filter($username) === []) {
+            return null;
+        }
+
         $editor = implode(' ', [
             $username['firstname'],
             $username['lastname'],
             '(' . $username['login'] . ')'
         ]);
+
         $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         $url = ilLink::_getStaticLink($usr_id, 'usr');
-
         if (!$usr->hasPublicProfile()) {
             $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }

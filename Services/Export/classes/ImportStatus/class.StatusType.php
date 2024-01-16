@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus;
+namespace ILIAS\Export\ImportStatus;
 
 enum StatusType
 {

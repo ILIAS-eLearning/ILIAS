@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML\Node\Info\Attribute;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute;
 
 use Iterator;
 use Countable;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
-use ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
 
 interface ilCollectionInterface extends Iterator, Countable
 {

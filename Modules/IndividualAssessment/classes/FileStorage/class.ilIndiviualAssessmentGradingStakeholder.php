@@ -16,16 +16,26 @@
  *
  *********************************************************************/
 
-interface ilQuestionEditingFormConsumer
-{
-    /**
-     * @return string
-     */
-    public function getQuestionEditingFormBackTargetLabel(): string;
+declare(strict_types=1);
 
-    /**
-     * @param $context
-     * @return string
-     */
-    public function getQuestionEditingFormBackTarget($context): string;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+
+class ilIndividualAssessmentGradingStakeholder extends AbstractResourceStakeholder
+{
+    private const ID = 'IASSGrading';
+
+    public function __construct(
+        protected int $owner = 6
+    ) {
+    }
+
+    public function getId(): string
+    {
+        return self::ID;
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return $this->owner;
+    }
 }

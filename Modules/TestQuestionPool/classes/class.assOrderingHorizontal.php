@@ -274,7 +274,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -339,6 +339,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
+        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+            return true;
+        }
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];

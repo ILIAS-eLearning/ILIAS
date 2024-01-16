@@ -46,11 +46,11 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
-            '5.4.0' => [
-                'namespace' => 'http://www.ilias.de/Modules/ContentPage/' . self::OBJ_TYPE . '/5_4',
-                'xsd_file' => 'ilias_' . self::OBJ_TYPE . '_5_4.xsd',
+            '9.0' => [
+                'namespace' => 'http://www.ilias.de/Modules/ContentPage/' . self::OBJ_TYPE . '/9',
+                'xsd_file' => 'ilias_' . self::OBJ_TYPE . '_9.xsd',
                 'uses_dataset' => true,
-                'min' => '5.4.0',
+                'min' => '9.0',
                 'max' => '',
             ],
         ];

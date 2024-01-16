@@ -49,18 +49,6 @@ class Form
 
     public function asFormGroup(): Group
     {
-        $download_with_uploaded_file_name = $this->field_factory
-            ->checkbox(
-                $this->language->txt('download_with_uploaded_filename'),
-                $this->language->txt('download_with_uploaded_filename_info')
-            )
-            ->withValue($this->settings->isDownloadWithUploadedFileName())
-            ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value): void {
-                    $this->settings->setDownloadWithUploadedFilename($value);
-                })
-            );
-
         $download_limit = $this->field_factory
             ->numeric(
                 $this->language->txt('bgtask_setting_limit'),
@@ -114,7 +102,6 @@ class Form
 
         return $this->field_factory->group(
             [
-                $download_with_uploaded_file_name,
                 $ascii_filename,
                 $download_limit,
                 $inline_file_extensions,

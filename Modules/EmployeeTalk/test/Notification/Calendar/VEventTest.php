@@ -29,8 +29,8 @@ class VEventTest extends TestCase
         $expected_start = "BEGIN:VEVENT\r\n";
         $expected_start .= "UID: unique-id-of-some-sort\r\n";
         $expected_start .= "DESCRIPTION:test description\r\n";
-        $expected_start .= "DTSTART;TZID=Europe/Paris:19700101T000010\r\n";
-        $expected_start .= "DTEND;TZID=Europe/Paris:19700101T000020\r\n";
+        $expected_start .= "DTSTART;TZID=Europe/Paris:19700101T010010\r\n";
+        $expected_start .= "DTEND;TZID=Europe/Paris:19700101T010020\r\n";
         // Timestamps in between which breaks the test because they are changing
         $expected_end = "ORGANIZER;CN=\"organiser-name\":MAILTO:org@anizer.local\r\n";
         $expected_end .= "ATTENDEE;CN=\"attendee-name\";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:at@tendee.local\r\n";

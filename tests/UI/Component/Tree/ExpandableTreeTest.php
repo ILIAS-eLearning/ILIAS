@@ -127,25 +127,25 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
 
     protected function getInnerTreePart(): string
     {
-        return '<li id="" class="c-tree__node c-tree__node--simple expandable" role="treeitem" aria-expanded="false">
+        return '<li class="c-tree__node c-tree__node--simple expandable" role="treeitem" aria-expanded="false">
 				<span class="c-tree__node__line"><span class="c-tree__node__label">1</span></span>
 
 				<ul role="group">
-					<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+					<li class="c-tree__node c-tree__node--simple" role="treeitem">
 						<span class="c-tree__node__line"><span class="c-tree__node__label">1.1</span></span>
 					</li>
-					<li id="" class="c-tree__node c-tree__node--simple expandable" role="treeitem" aria-expanded="false">
+					<li class="c-tree__node c-tree__node--simple expandable" role="treeitem" aria-expanded="false">
 						<span class="c-tree__node__line"><span class="c-tree__node__label">1.2</span></span>
 
 						<ul role="group">
-							<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+							<li class="c-tree__node c-tree__node--simple" role="treeitem">
 								<span class="c-tree__node__line"><span class="c-tree__node__label">1.2.1</span></span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
-			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+			<li class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line"><span class="c-tree__node__label">2</span></span>
 			</li>';
     }

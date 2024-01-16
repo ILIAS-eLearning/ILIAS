@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\Parser\DOM;
+namespace ILIAS\Export\ImportHandler\I\Parser\DOM;
 
-use ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
-use ImportHandler\I\Parser\ilHandlerInterface as ilParserHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilHandlerInterface as ilParserHandlerInterface;
 
 interface ilHandlerInterface extends ilParserHandlerInterface
 {

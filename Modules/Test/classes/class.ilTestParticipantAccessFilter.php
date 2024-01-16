@@ -73,7 +73,7 @@ class ilTestParticipantAccessFilterFactory
                 return $user_ids;
             }
 
-            return $this->accessResultsUserFilter($user_ids);
+            return $this->getAccessResultsUserFilter($ref_id)($user_ids);
         };
     }
 }

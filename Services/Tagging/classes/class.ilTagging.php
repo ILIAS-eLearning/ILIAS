@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilTagging
- *
- * @author Alexander Killing <killing@leifos.de>
- */
+declare(strict_types=1);
+
 class ilTagging
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
@@ -61,15 +53,20 @@ class ilTagging
             $inserted = array();
             foreach ($a_tags as $tag) {
                 if (!in_array(strtolower($tag), $inserted)) {
-                    $ilDB->manipulate("INSERT INTO il_tag (user_id, obj_id, obj_type," .
-                        "sub_obj_id, sub_obj_type, tag) VALUES (" .
-                        $ilDB->quote($a_user_id, "integer") . "," .
-                        $ilDB->quote($a_obj_id, "integer") . "," .
-                        $ilDB->quote($a_obj_type, "text") . "," .
-                        // PHP8 Review: Type cast is unnecessary
-                        $ilDB->quote((int) $a_sub_obj_id, "integer") . "," .
-                        $ilDB->quote($a_sub_obj_type, "text") . "," .
-                        $ilDB->quote($tag, "text") . ")");
+                    $ilDB->replace(
+                        "il_tag",
+                        [        // pk
+                        "user_id" => ["integer", $a_user_id],
+                        "obj_id" => ["integer", $a_obj_id],
+                        "obj_type" => ["text", $a_obj_type],
+                        "sub_obj_id" => ["integer", $a_sub_obj_id],
+                        "sub_obj_type" => ["text", $a_sub_obj_type],
+                        "tag" => ["text", $tag]
+                    ],
+                        [
+                            "is_offline" => ["integer", 0]
+                        ]
+                    );
                     $inserted[] = strtolower($tag);
                 }
             }

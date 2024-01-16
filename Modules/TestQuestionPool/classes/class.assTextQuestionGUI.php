@@ -269,7 +269,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $show_feedback = false,
         $show_correct_solution = false,
         $show_manual_scoring = false,
-        $show_question_text = true
+        $show_question_text = true,
+        $show_autosave_title = false
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
 
@@ -284,15 +285,24 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
-        $solution = $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
-        if ($this->renderPurposeSupportsFormHtml()) {
-            $template->setCurrentBlock('essay_div');
-            $template->setVariable("DIV_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true));
-        } else {
-            $template->setCurrentBlock('essay_textarea');
-            $template->setVariable("TA_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true, true));
+        $solution = '';
+        $autosaved_solution = $this->object->getLatestAutosaveContent($active_id, $pass);
+        if ($autosaved_solution !== null) {
+            if ($show_autosave_title) {
+                $template->setCurrentBlock('autosave_title');
+                $template->setVariable('AUTOSAVE_TITLE', $this->lng->txt('autosavecontent'));
+                $template->parseCurrentBlock();
+            }
+            $solution = $this->object->getHtmlUserSolutionPurifier()->purify($autosaved_solution);
+            if ($this->renderPurposeSupportsFormHtml()) {
+                $template->setCurrentBlock('essay_div');
+                $template->setVariable("DIV_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true));
+            } else {
+                $template->setCurrentBlock('essay_textarea');
+                $template->setVariable("TA_ESSAY", ilLegacyFormElementsUtil::prepareTextareaOutput($solution, true, true));
+            }
+            $template->parseCurrentBlock();
         }
-        $template->parseCurrentBlock();
 
         if (!$show_correct_solution) {
             $max_no_of_chars = $this->object->getMaxNumOfChars();

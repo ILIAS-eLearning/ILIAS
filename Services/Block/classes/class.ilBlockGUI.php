@@ -765,7 +765,7 @@ abstract class ilBlockGUI
             ->withTargetURL($href, $this->getNavParameter() . "page")
             ->withTotalEntries($this->max_count)
             ->withPageSize($this->getLimit())
-            ->withMaxPaginationButtons(5)
+            ->withMaxPaginationButtons(1)
             ->withCurrentPage($this->getOffset() / $this->getLimit());
     }
 
@@ -794,6 +794,12 @@ abstract class ilBlockGUI
                     "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=delete" .
                     "&item_ref_id=" . $this->getRefId(),
                     $lng->txt("delete")
+                );
+
+                $this->addBlockCommand(
+                    "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=link" .
+                    "&item_ref_id=" . $this->getRefId(),
+                    $lng->txt("link")
                 );
 
                 // see ilObjectListGUI::insertCutCommand();

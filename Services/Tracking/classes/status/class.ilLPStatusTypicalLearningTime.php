@@ -96,7 +96,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         $spent = (int) ($re[0]["spent_seconds"] ?? 0);
 
         if ($tlt > 0) {
-            $per = min(100, 100 / $tlt * $spent);
+            $per = (int) min(100, 100 / $tlt * $spent);
         } else {
             $per = 100;
         }

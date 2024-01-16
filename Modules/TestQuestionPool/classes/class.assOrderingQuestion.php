@@ -691,7 +691,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -704,7 +704,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
 
         if (!count($solutionValuePairs)) {
-            return 0;
+            return (float)0;
         }
 
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
@@ -892,6 +892,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
+        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+            return true;
+        }
+
         $entered_values = 0;
 
         if (is_null($pass)) {
@@ -1304,7 +1308,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $request = $DIC->http()->request();
                 $post_array = $request->getParsedBody();
             }
-
             $list = $this->fetchSolutionListFromFormSubmissionData($post_array);
             $this->postSolutionOrderingElementList = $list;
         }
@@ -1404,7 +1407,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $newKey = explode(":", $row["value2"]);
 
             foreach ($this->getOrderingElementList() as $answer) {
-                // Images nut supported
+                // Images not supported
                 if (!$this->isOrderingTypeNested()) {
                     if ($answer->getSolutionIdentifier() == $row["value1"]) {
                         $elements[$row["value2"]] = $answer->getSolutionIdentifier() + 1;

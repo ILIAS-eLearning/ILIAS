@@ -112,7 +112,7 @@ class ilLPStatusVisits extends ilLPStatus
         $rc = (int) ($re[0]["read_count"] ?? 0);
 
         if ($reqv > 0 && $rc) {
-            $per = min(100, 100 / $reqv * $rc);
+            $per = (int) min(100, 100 / $reqv * $rc);
         } else {
             $per = 100;
         }

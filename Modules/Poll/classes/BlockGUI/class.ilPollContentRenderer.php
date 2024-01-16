@@ -60,7 +60,8 @@ class ilPollContentRenderer
         ilTemplate $tpl,
         int $ref_id,
         int $user_id,
-        ilObjPoll $poll
+        ilObjPoll $poll,
+        bool $admin_view = false
     ): void {
         $this->renderAnchor($tpl, $poll->getId());
         $this->renderAvailability($tpl, $poll);
@@ -80,15 +81,17 @@ class ilPollContentRenderer
                 $poll->getQuestion(),
                 $poll->getImageFullPath()
             );
-            $this->renderAnswersAndResults($tpl, $poll, $user_id);
-        }
-
-        if ($this->state->isUserAnonymous($user_id)) {
-            $this->renderAlertForAnonymousUser($tpl);
+            if (!$admin_view) {
+                $this->renderAnswersAndResults($tpl, $poll, $user_id);
+            }
         }
 
         if ($poll->getShowComments()) {
             $this->renderComments($tpl, $ref_id);
+        }
+
+        if ($this->state->isUserAnonymous($user_id)) {
+            $this->renderAlertForAnonymousUser($tpl);
         }
     }
 

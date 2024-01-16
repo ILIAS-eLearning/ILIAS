@@ -406,7 +406,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         /** @var ilDBInterface $ilDB */
         $ilDB = $GLOBALS['DIC']['ilDB'];
 
-        if (is_null($pass)) {
+        if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
@@ -418,8 +418,10 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             $solutionSubmit = $this->getSolutionSubmit();
 
             foreach ($solutionSubmit as $answerIndex => $answerValue) {
-                $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
-                $entered_values++;
+                if ($answerValue !== null) {
+                    $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
+                    $entered_values++;
+                }
             }
         });
 
@@ -454,7 +456,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param boolean $returndetails (deprecated !!)
      * @return float/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -655,12 +657,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
                 }
+            } else {
+                $solutionSubmit[] = null;
             }
         }
         return $solutionSubmit;
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
+    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
     {
         $numCorrect = 0;
         if ($found_values == null) {
@@ -689,7 +693,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $points = 0;
             }
         }
-        return $points;
+        return (float)$points;
     }
 
     public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int

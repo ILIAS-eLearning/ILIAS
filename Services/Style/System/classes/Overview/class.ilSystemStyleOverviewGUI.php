@@ -816,7 +816,6 @@ class ilSystemStyleOverviewGUI
                 $style = new ilSkinStyle($sub_style_id, $sub_style_name);
                 $style->setSubstyleOf($parent_style_id);
                 $container->addStyle($style);
-
                 $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $parent_skin_id);
                 $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $sub_style_id);
                 $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sub_style_created')));

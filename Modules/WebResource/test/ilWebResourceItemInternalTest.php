@@ -26,6 +26,28 @@ use PHPUnit\Framework\TestCase;
  */
 class ilWebResourceItemInternalTest extends TestCase
 {
+    protected function getItem(string $target, ilWebLinkParameter ...$parameters): ilWebLinkItemInternal
+    {
+        $item = $this->getMockBuilder(ilWebLinkItemInternal::class)
+                     ->setConstructorArgs([
+                         0,
+                         1,
+                         'title',
+                         null,
+                         $target,
+                         true,
+                         new DateTimeImmutable(),
+                         new DateTimeImmutable(),
+                         $parameters
+                     ])
+                     ->onlyMethods(['appendParameter'])
+                     ->getMock();
+        $item->method('appendParameter')->willReturnCallback(
+            fn(string $link, string $key, string $value) => $link . '.' . $key . '.' . $value
+        );
+        return $item;
+    }
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -39,12 +61,12 @@ class ilWebResourceItemInternalTest extends TestCase
                    ->andReturn('tar.13');
         $array_util->shouldReceive('_getStaticLink')
                    ->once()
-                   ->with(0, 'wiki', true, '&target=wiki_wpage_14')
-                   ->andReturn('wiki_page.14');
+                   ->with(0, 'wiki', true)
+                   ->andReturn('wiki_page');
         $array_util->shouldReceive('_getStaticLink')
                    ->once()
-                   ->with(0, 'git', true, '&target=git_15')
-                   ->andReturn('gl_term.15');
+                   ->with(0, 'git', true)
+                   ->andReturn('gl_term');
         $array_util->shouldReceive('_getStaticLink')
                    ->once()
                    ->with(16, 'pg')
@@ -67,18 +89,7 @@ class ilWebResourceItemInternalTest extends TestCase
                ->with('tar.13?param1')
                ->willReturn('tar.13?param1&param2');
 
-        $item = new ilWebLinkItemInternal(
-            0,
-            1,
-            'title',
-            null,
-            'tar|13',
-            true,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
-            [$param1, $param2]
-        );
-
+        $item = $this->getItem('tar|13', $param1, $param2);
         $this->assertSame(
             'tar.13?param1&param2',
             $item->getResolvedLink(true)
@@ -88,52 +99,19 @@ class ilWebResourceItemInternalTest extends TestCase
             $item->getResolvedLink(false)
         );
 
-        $item = new ilWebLinkItemInternal(
-            0,
-            1,
-            'title',
-            null,
-            'wpage|14',
-            true,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
-            [$param1, $param2]
-        );
-
+        $item = $this->getItem('wpage|14', $param1, $param2);
         $this->assertSame(
-            'wiki_page.14',
+            'wiki_page.target.wiki_wpage_14',
             $item->getResolvedLink(false)
         );
 
-        $item = new ilWebLinkItemInternal(
-            0,
-            1,
-            'title',
-            null,
-            'term|15',
-            true,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
-            [$param1, $param2]
-        );
-
+        $item = $this->getItem('term|15', $param1, $param2);
         $this->assertSame(
-            'gl_term.15',
+            'gl_term.target.git_15',
             $item->getResolvedLink(false)
         );
 
-        $item = new ilWebLinkItemInternal(
-            0,
-            1,
-            'title',
-            null,
-            'page|16',
-            true,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
-            [$param1, $param2]
-        );
-
+        $item = $this->getItem('page|16', $param1, $param2);
         $this->assertSame(
             'lm_page.16',
             $item->getResolvedLink(false)

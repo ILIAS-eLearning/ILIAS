@@ -136,10 +136,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if (!in_array($placeholder_id, ['sahs_title', 'sahs_link'])) {
-            return '';
-        }
-
         $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $tracking = new ilObjUserTracking();
 

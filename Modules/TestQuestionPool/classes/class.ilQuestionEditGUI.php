@@ -134,6 +134,7 @@ class ilQuestionEditGUI
 
                 if (is_object($this->page_config)) {
                     $q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                    $q_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
                 }
                 $q_gui->object->setObjId((int) $this->getPoolObjId());
 

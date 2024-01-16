@@ -184,7 +184,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             }
 
             if (count($found) > 0 && count($items) > 0) {
-                $per = round(100 / count($items) * count($found));
+                $per = (int) round(100 / count($items) * count($found));
             }
         }
 

@@ -12,8 +12,28 @@ function simple()
 
     $icon = $f->symbol()->icon()->standard("crs", 'Example');
 
-    $node = $f->tree()->node()->simple('label');
+    $node1 = $f->tree()->node()->simple('label');
     $node2 = $f->tree()->node()->simple('label', $icon);
 
-    return $renderer->render([$node, $node2]);
+    $data = [['node' => $node1], ['node' => $node2]];
+
+    $recursion = new class () implements \ILIAS\UI\Component\Tree\TreeRecursion {
+        public function getChildren($record, $environment = null): array
+        {
+            return [];
+        }
+
+        public function build(
+            \ILIAS\UI\Component\Tree\Node\Factory $factory,
+            $record,
+            $environment = null
+        ): \ILIAS\UI\Component\Tree\Node\Node {
+            return $record['node'];
+        }
+    };
+
+    $tree = $f->tree()->expandable('Label', $recursion)
+              ->withData($data);
+
+    return $renderer->render($tree);
 }

@@ -341,7 +341,6 @@ input[type="checkbox"] {
 	font-size: $il-standard-form-byline-font-size;
 
 	margin: $il-margin-large-vertical 0 $il-margin-large-horizontal;
-	padding: 0;
 
 	clear: both;
 
@@ -461,8 +460,18 @@ input[type="checkbox"] {
 
 	.form-group {
 		margin: 0px;
-		padding: $il-padding-base-vertical 0;
+		padding-top: $il-padding-base-vertical;
+		bottom: $il-padding-base-vertical;
 		background-color: $il-main-bg;
+	}
+
+	// In navbar-form, allow folks to *not* use `.form-group`
+	.row > {
+		input, textarea, select {
+			&.form-control {
+				margin-left: $il-padding-xxlarge-horizontal;
+			}
+		}
 	}
 
 	// Consistent vertical alignment of radios and checkboxes
@@ -488,6 +497,7 @@ input[type="checkbox"] {
 	label {
 		color: $il-standard-form-label-color;
 		font-size: 100%;
+		padding-right: $il-padding-xlarge-horizontal*2;
 	}
 
 	.control-label {
@@ -672,6 +682,8 @@ div.ilHFormFooter .ilFormCmds {
 .btn-file {
 	position: relative;
 	overflow: hidden;
+
+	@include il-focus-within-outline-only();
 }
 
 .btn-file input[type=file] {
@@ -688,14 +700,6 @@ div.ilHFormFooter .ilFormCmds {
 	background: white;
 	cursor: inherit;
 	display: block;
-}
-
-.ilFormInnerCol {
-	padding: 0;
-}
-
-.ilFormInnerCol .form-group {
-	margin: 0;
 }
 
 input:invalid {

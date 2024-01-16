@@ -88,7 +88,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
-        $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $finalized_filter = (int)$table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_questionData = null;
@@ -123,8 +123,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                     }
 
                     $check_filter =
-                        ($finalized_filter != self::ONLY_FINALIZED || $finalized_evaluation) &&
-                        ($finalized_filter != self::EXCEPT_FINALIZED || !$finalized_evaluation);
+                        ($finalized_filter !== self::ONLY_FINALIZED || $finalized_evaluation) &&
+                        ($finalized_filter !== self::EXCEPT_FINALIZED || !$finalized_evaluation);
 
                     $check_answered = $answered_filter == false || $is_answered;
 
@@ -325,6 +325,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('yes');
             } else {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
+                $correction_feedback['finalized_by'] = '';
             }
 
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
@@ -379,7 +380,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 false,
                 $this->object->getShowSolutionFeedback(),
                 false,
-                true
+                true,
+                false
             );
             $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
             $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);

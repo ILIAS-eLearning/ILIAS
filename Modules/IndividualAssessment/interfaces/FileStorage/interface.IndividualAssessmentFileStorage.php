@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\FileUpload\DTO\UploadResult;
 
+/**
+ * @deprecated in favor of ResourceStorage. This class is only used for migration.
+ */
 interface IndividualAssessmentFileStorage
 {
     public function deleteAllFilesBut(string $file): void;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
  * For the purpose of streamlining the grading and learning-process status definition
@@ -38,6 +41,8 @@ class ilObjIndividualAssessment extends ilObject
     protected ?ilIndividualAssessmentInfoSettings $info_settings = null;
     protected ?ilIndividualAssessmentFileStorage $file_storage = null;
 
+
+
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         global $DIC;
@@ -47,14 +52,11 @@ class ilObjIndividualAssessment extends ilObject
         parent::__construct($id, $call_by_reference);
 
         $this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
-        $this->members_storage = new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
-        $this->access_handler = new ilIndividualAssessmentAccessHandler(
-            $this,
-            $DIC['ilAccess'],
-            $DIC['rbacadmin'],
-            $DIC['rbacreview'],
-            $DIC['ilUser']
-        );
+
+        $dic = $this->getDic();
+
+        $this->members_storage = $dic['iass.member.storage'];
+        $this->access_handler = $dic['iass.accesshandler'];
     }
 
     /**
@@ -243,24 +245,7 @@ class ilObjIndividualAssessment extends ilObject
         $new_obj->settings_storage->updateSettings($new_settings);
         $new_obj->settings_storage->updateInfoSettings($new_info_settings);
 
-        $fstorage = $this->getFileStorage();
-        if (count($fstorage->readDir()) > 0) {
-            $n_fstorage = $new_obj->getFileStorage();
-            $n_fstorage->create();
-            $fstorage->_copyDirectory($fstorage->getAbsolutePath(), $n_fstorage->getAbsolutePath());
-        }
         return $new_obj;
-    }
-
-    /**
-     * Get the file storage system
-     */
-    public function getFileStorage(): ilIndividualAssessmentFileStorage
-    {
-        if ($this->file_storage === null) {
-            $this->file_storage = ilIndividualAssessmentFileStorage::getInstance($this->getId());
-        }
-        return $this->file_storage;
     }
 
     /**

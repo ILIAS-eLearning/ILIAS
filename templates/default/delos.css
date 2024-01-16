@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -379,10 +376,6 @@
   display: inline-block;
 }
 
-.dropdown-toggle:focus {
-  outline: 0;
-}
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -390,7 +383,9 @@
   z-index: 1000;
   display: none;
   float: left;
+  overflow: auto;
   min-width: 160px;
+  max-height: 50vh;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 0.875rem;
@@ -684,9 +679,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -894,6 +888,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -912,171 +909,140 @@ th {
   margin-top: var(--bs-gutter-y);
 }
 
-.col {
-  flex: 1 0 0%;
-}
-
-.row-cols-auto > * {
-  flex: 0 0 auto;
-  width: auto;
-}
-
-.row-cols-1 > * {
-  flex: 0 0 auto;
-  width: 100%;
-}
-
-.row-cols-2 > * {
-  flex: 0 0 auto;
-  width: 50%;
-}
-
-.row-cols-3 > * {
-  flex: 0 0 auto;
-  width: 33.3333333333%;
-}
-
-.row-cols-4 > * {
-  flex: 0 0 auto;
-  width: 25%;
-}
-
-.row-cols-5 > * {
-  flex: 0 0 auto;
-  width: 20%;
-}
-
-.row-cols-6 > * {
-  flex: 0 0 auto;
-  width: 16.6666666667%;
-}
-
-.col-auto {
-  flex: 0 0 auto;
-  width: auto;
-}
-
-.col-1 {
-  flex: 0 0 auto;
-  width: 8.3333333333%;
-}
-
-.col-2 {
-  flex: 0 0 auto;
-  width: 16.6666666667%;
-}
-
-.col-3 {
-  flex: 0 0 auto;
-  width: 25%;
-}
-
-.col-4 {
-  flex: 0 0 auto;
-  width: 33.3333333333%;
-}
-
-.col-5 {
-  flex: 0 0 auto;
-  width: 41.6666666667%;
-}
-
-.col-6 {
-  flex: 0 0 auto;
-  width: 50%;
-}
-
-.col-7 {
-  flex: 0 0 auto;
-  width: 58.3333333333%;
-}
-
-.col-8 {
-  flex: 0 0 auto;
-  width: 66.6666666667%;
-}
-
-.col-9 {
-  flex: 0 0 auto;
-  width: 75%;
-}
-
-.col-10 {
-  flex: 0 0 auto;
-  width: 83.3333333333%;
-}
-
-.col-11 {
-  flex: 0 0 auto;
-  width: 91.6666666667%;
-}
-
-.col-12 {
-  flex: 0 0 auto;
-  width: 100%;
-}
-
-.g-0,
-.gx-0 {
-  --bs-gutter-x: 0;
-}
-
-.g-0,
-.gy-0 {
-  --bs-gutter-y: 0;
-}
-
-.g-1,
-.gx-1 {
-  --bs-gutter-x: 9px;
-}
-
-.g-1,
-.gy-1 {
-  --bs-gutter-y: 9px;
-}
-
-.g-2,
-.gx-2 {
-  --bs-gutter-x: 12px;
-}
-
-.g-2,
-.gy-2 {
-  --bs-gutter-y: 12px;
-}
-
-.g-3,
-.gx-3 {
-  --bs-gutter-x: 15px;
-}
-
-.g-3,
-.gy-3 {
-  --bs-gutter-y: 15px;
-}
-
-.g-4,
-.gx-4 {
-  --bs-gutter-x: 15px;
-}
-
-.g-4,
-.gy-4 {
-  --bs-gutter-y: 15px;
-}
-
-.g-5,
-.gx-5 {
-  --bs-gutter-x: 18px;
-}
-
-.g-5,
-.gy-5 {
-  --bs-gutter-y: 18px;
-}
-
 @media (min-width: 480px) {
+  .col-xs {
+    flex: 1 0 0%;
+  }
+  .row-cols-xs-auto > * {
+    flex: 0 0 auto;
+    width: auto;
+  }
+  .row-cols-xs-1 > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .row-cols-xs-2 > * {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+  .row-cols-xs-3 > * {
+    flex: 0 0 auto;
+    width: 33.3333333333%;
+  }
+  .row-cols-xs-4 > * {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+  .row-cols-xs-5 > * {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+  .row-cols-xs-6 > * {
+    flex: 0 0 auto;
+    width: 16.6666666667%;
+  }
+  .col-xs-auto {
+    flex: 0 0 auto;
+    width: auto;
+  }
+  .col-xs-1 {
+    flex: 0 0 auto;
+    width: 8.3333333333%;
+  }
+  .col-xs-2 {
+    flex: 0 0 auto;
+    width: 16.6666666667%;
+  }
+  .col-xs-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+  .col-xs-4 {
+    flex: 0 0 auto;
+    width: 33.3333333333%;
+  }
+  .col-xs-5 {
+    flex: 0 0 auto;
+    width: 41.6666666667%;
+  }
+  .col-xs-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+  .col-xs-7 {
+    flex: 0 0 auto;
+    width: 58.3333333333%;
+  }
+  .col-xs-8 {
+    flex: 0 0 auto;
+    width: 66.6666666667%;
+  }
+  .col-xs-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+  .col-xs-10 {
+    flex: 0 0 auto;
+    width: 83.3333333333%;
+  }
+  .col-xs-11 {
+    flex: 0 0 auto;
+    width: 91.6666666667%;
+  }
+  .col-xs-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .g-xs-0,
+  .gx-xs-0 {
+    --bs-gutter-x: 0;
+  }
+  .g-xs-0,
+  .gy-xs-0 {
+    --bs-gutter-y: 0;
+  }
+  .g-xs-1,
+  .gx-xs-1 {
+    --bs-gutter-x: 9px;
+  }
+  .g-xs-1,
+  .gy-xs-1 {
+    --bs-gutter-y: 9px;
+  }
+  .g-xs-2,
+  .gx-xs-2 {
+    --bs-gutter-x: 12px;
+  }
+  .g-xs-2,
+  .gy-xs-2 {
+    --bs-gutter-y: 12px;
+  }
+  .g-xs-3,
+  .gx-xs-3 {
+    --bs-gutter-x: 15px;
+  }
+  .g-xs-3,
+  .gy-xs-3 {
+    --bs-gutter-y: 15px;
+  }
+  .g-xs-4,
+  .gx-xs-4 {
+    --bs-gutter-x: 15px;
+  }
+  .g-xs-4,
+  .gy-xs-4 {
+    --bs-gutter-y: 15px;
+  }
+  .g-xs-5,
+  .gx-xs-5 {
+    --bs-gutter-x: 18px;
+  }
+  .g-xs-5,
+  .gy-xs-5 {
+    --bs-gutter-y: 18px;
+  }
+}
+@media (min-width: 768px) {
   .col-sm {
     flex: 1 0 0%;
   }
@@ -1209,7 +1175,7 @@ th {
     --bs-gutter-y: 18px;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .col-md {
     flex: 1 0 0%;
   }
@@ -1342,7 +1308,7 @@ th {
     --bs-gutter-y: 18px;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .col-lg {
     flex: 1 0 0%;
   }
@@ -1475,7 +1441,7 @@ th {
     --bs-gutter-y: 18px;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
   .col-xl {
     flex: 1 0 0%;
   }
@@ -2004,9 +1970,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2016,7 +1979,7 @@ html, body {
   overflow: hidden;
   margin: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   html, body {
     overflow: initial;
     height: auto;
@@ -2027,7 +1990,7 @@ html, body {
 html {
   font-size: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   html {
     -webkit-text-size-adjust: none;
   }
@@ -2050,13 +2013,13 @@ button {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   textarea {
     max-width: 100%;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   input, select {
     max-width: 100%;
   }
@@ -2091,7 +2054,7 @@ ul ul, ol ol {
 img {
   vertical-align: middle;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   img {
     /* height: auto; messes e.g. survey progress bar */
     max-width: 100%;
@@ -2382,9 +2345,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -2504,11 +2466,25 @@ code {
 .breadcrumb > li + li:before {
   font-family: "il-icons";
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .breadcrumb {
     margin: 0 0 0 0;
     padding: 0 5px;
   }
+}
+
+/* Legacy Breadcrumbs */
+ol.breadcrumb {
+  padding: 0;
+}
+ol.breadcrumb > li {
+  display: inline-block;
+}
+ol.breadcrumb > li + li:before {
+  padding: 0 3px;
+  color: #737373;
+  content: " \e606";
+  font-family: "il-icons";
 }
 
 .btn, .il-link.link-bulky,
@@ -2554,7 +2530,7 @@ input.btn, input.il-link.link-bulky,
 .il-drilldown input.menulevel {
   min-width: 60px;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   input.btn, input.il-link.link-bulky,
   .il-drilldown input.menulevel {
     min-width: 0;
@@ -2693,8 +2669,8 @@ input.btn, input.il-link.link-bulky,
   font-size: inherit;
   font-weight: 400;
   text-decoration: none;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   font-size: 0.75rem;
   padding: 3px 6px;
   gap: 6px;
@@ -3484,6 +3460,16 @@ button .minimize, button .close {
   white-space: nowrap;
   padding: 1px 3px;
   margin: 3px 6px 3px 0;
+  min-height: 28px;
+  min-width: 28px;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
+  background-color: #4c6586;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
   border-radius: 3px;
 }
 .btn-tag.btn-tag-inactive {
@@ -3492,22 +3478,64 @@ button .minimize, button .close {
 .btn-tag.btn-tag-relevance-verylow {
   color: #161616;
   background-color: #b0b0b0;
+  border-color: #b0b0b0;
 }
 .btn-tag.btn-tag-relevance-low {
   color: #161616;
   background-color: #a5b8ba;
+  border-color: #a5b8ba;
 }
 .btn-tag.btn-tag-relevance-middle {
   color: #161616;
   background-color: #95c5ca;
+  border-color: #95c5ca;
 }
 .btn-tag.btn-tag-relevance-high {
   color: #161616;
   background-color: #85d1da;
+  border-color: #85d1da;
 }
 .btn-tag.btn-tag-relevance-veryhigh {
   color: #161616;
   background-color: #75deea;
+  border-color: #85d1da;
+}
+.btn-tag:hover {
+  text-decoration: none;
+  background-color: #3a4c65;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #3a4c65;
+}
+.btn-tag:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+}
+.btn-tag:active {
+  transform: none;
+  background-color: #273445;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #273445;
+}
+.btn-tag[disabled],
+.btn-tag fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-tag.engaged {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
+  color: #161616;
 }
 
 .il-toggle-button {
@@ -4125,10 +4153,10 @@ hr.il-divider-with-label {
 .il-input-password .revelation-mask {
   display: none;
 }
-.revealed .il-input-password .revelation-reveal {
+.il-input-password.revealed .revelation-reveal {
   display: none;
 }
-.revealed .il-input-password .revelation-mask {
+.il-input-password.revealed .revelation-mask {
   display: block;
 }
 
@@ -4432,6 +4460,7 @@ hr.il-divider-with-label {
 .il-standard-form {
   background-color: white;
   margin-top: 6px;
+  padding: 12px 0 12px 15px;
 }
 .il-standard-form .il-standard-form-cmd {
   float: right;
@@ -4441,29 +4470,26 @@ hr.il-divider-with-label {
   min-width: 60px;
   vertical-align: top;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-standard-form .il-standard-form-cmd .btn {
     min-width: 0;
   }
 }
+.il-standard-form .il-standard-form-footer, .il-standard-form .il-standard-form-header, .il-standard-form .il-section-input-header {
+  background-color: white;
+  color: #161616;
+}
+.il-standard-form .il-standard-form-header, .il-standard-form .il-standard-form-footer {
+  padding-right: 15px;
+}
 .il-standard-form .il-standard-form-header {
-  padding-left: 12px;
-  padding-right: 12px;
-  background-color: white;
-  color: #161616;
-}
-.il-standard-form .il-standard-form-footer, .il-standard-form .il-section-input-header {
-  padding: 30px 0 12px 15px;
-  background-color: white;
-  color: #161616;
-}
-.il-standard-form .il-standard-form-footer {
-  padding-right: 12px;
+  margin-bottom: 6px;
 }
 .il-standard-form .il-standard-form-header + .il-section-input > .il-section-input-header {
   border-top: none;
 }
 .il-standard-form .il-section-input-header {
+  padding: 12px 0 12px 15px;
   margin: 15px 0 0 0;
   border-top: 1px solid #dddddd;
 }
@@ -4477,7 +4503,7 @@ hr.il-divider-with-label {
   font-size: 0.75rem;
 }
 .il-standard-form .il-standard-form-header + .il-section-input {
-  margin-top: calc(-1 * (1.0714285718rem + 3px + 1vw));
+  margin-top: -50px;
   padding: 0;
 }
 .il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h2 {
@@ -4583,7 +4609,7 @@ td.form-inline > div.form-group {
   margin-right: 0;
   margin-left: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-item .il-chart-progressmeter-viewbox {
     padding-top: 6px;
   }
@@ -4678,7 +4704,7 @@ td.form-inline > div.form-group {
   gap: 6px;
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 992px) {
   .panel-secondary .il-item {
     width: 100%;
   }
@@ -4713,7 +4739,7 @@ td.form-inline > div.form-group {
   overflow: visible;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-item .il-item-divider {
     padding: 10px 0 0 0;
     margin: 0;
@@ -4776,7 +4802,7 @@ td.form-inline > div.form-group {
 .c-launcher .btn-bulky:not([disabled]) .glyph {
   color: white;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .c-launcher .btn-bulky {
     min-width: 100%;
   }
@@ -4859,6 +4885,7 @@ header {
 .breadcrumbs {
   position: sticky;
   top: 0;
+  min-height: 33px;
   align-items: center;
   background-color: white;
   display: flex;
@@ -4985,7 +5012,7 @@ footer {
     width: 100% !important;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-layout-page {
     background: white;
     display: block;
@@ -5066,6 +5093,7 @@ footer {
   header {
     position: -webkit-sticky;
     position: sticky;
+    overflow-x: clip;
     width: 100%;
     top: 0;
   }
@@ -5214,8 +5242,7 @@ footer {
   html body .il-layout-page .ilFileDropTargetOverlay {
     display: none !important;
   }
-  html body .il-layout-page-content,
-  html body .il-layout-page-content div {
+  html body .il-layout-page-content {
     display: block;
   }
 }
@@ -5228,7 +5255,7 @@ footer {
 .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
   flex: 1 1 0px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .c-layout-alignment--horizontal-evenly .c-layout-alignment__block {
     flex-basis: 100%;
   }
@@ -5289,7 +5316,7 @@ footer {
   width: 50%;
   right: 50%;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-listing-characteristic-value-label {
     width: 75%;
     right: 75%;
@@ -5302,7 +5329,7 @@ footer {
   width: 50%;
   left: 50%;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .il-listing-characteristic-value-item {
     width: 25%;
     left: 25%;
@@ -5610,7 +5637,7 @@ footer {
   outline: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-maincontrols-slate span.glyph {
     width: 45px;
     text-align: left;
@@ -5663,39 +5690,33 @@ footer {
 .il-maincontrols-metabar .il-counter {
   font-size: 1.4375rem;
 }
-.il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
-  border: 1px solid transparent;
+.il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > .il-link.link-bulky {
+  border: none;
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
-@media only screen and (max-width: 768px) {
-  .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
+@media only screen and (max-width: 991px) {
+  .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > .il-link.link-bulky {
     height: 45px;
     min-width: 45px;
   }
 }
-.il-maincontrols-metabar > li > .btn-bulky:focus, .il-maincontrols-metabar > li > .btn-bulky:active, .il-maincontrols-metabar > li > .link-bulky:focus, .il-maincontrols-metabar > li > .link-bulky:active {
+.il-maincontrols-metabar > li > .btn.btn-bulky:focus, .il-maincontrols-metabar > li > .btn.btn-bulky:active, .il-maincontrols-metabar > li > .il-link.link-bulky:focus, .il-maincontrols-metabar > li > .il-link.link-bulky:active {
   box-shadow: none;
 }
-.il-maincontrols-metabar > li > .btn-bulky.engaged, .il-maincontrols-metabar > li > .link-bulky.engaged {
+.il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > .il-link.link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
-  border: 1px solid transparent;
+  border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-maincontrols-metabar > li > .btn-bulky .glyphicon, .il-maincontrols-metabar > li > .link-bulky .glyphicon {
+.il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > .il-link.link-bulky .glyphicon {
   color: #737373;
   font-size: 1.4375rem;
 }
-@media only screen and (max-width: 768px) {
-  .il-maincontrols-metabar .il-counter-novelty {
-    top: 6px;
-  }
-  .il-maincontrols-metabar .il-counter-status {
-    top: 22px;
-  }
+@media only screen and (max-width: 991px) {
   .il-maincontrols-metabar .il-metabar-more-button {
     padding-right: 18px;
   }
@@ -5734,7 +5755,7 @@ footer {
   margin-top: auto;
   margin-bottom: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-metabar-slates {
     width: 100%;
     top: 45px;
@@ -6213,7 +6234,7 @@ footer {
   border: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-mainbar-entries {
     display: flex;
     justify-content: space-evenly;
@@ -6254,7 +6275,7 @@ footer {
     height: 60px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 991px) {
   .il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5) .btn-bulky,
   .il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4) .btn-bulky,
   .il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3) .btn-bulky,
@@ -6353,7 +6374,7 @@ footer {
   min-width: 20%;
   max-width: 50%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .c-mode-info__content {
     border-radius: 0;
     width: 100%;
@@ -6420,7 +6441,7 @@ footer {
     display: none;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .c-mode-info__mobile-padding {
     height: 45px;
   }
@@ -6540,7 +6561,7 @@ footer {
 	Mobile Layout for System Info
 **************************************************************
 */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-system_info {
     border-top: none;
   }
@@ -6695,6 +6716,9 @@ div.alert ul > li:before {
 .modal.il-modal-lightbox-dark .modal-content .modal-header {
   border-bottom-color: white;
 }
+.modal.il-modal-lightbox-dark .modal-content .carousel-control {
+  color: white;
+}
 .modal.il-modal-lightbox-dark .close {
   color: white;
   background-color: #2c2c2c;
@@ -6798,7 +6822,7 @@ div.alert ul > li:before {
   overflow: scroll;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   .modal-dialog {
     width: 600px;
     margin: 30px auto;
@@ -6879,10 +6903,27 @@ div.alert ul > li:before {
   color: #161616;
   font-size: 0.875rem;
 }
-.panel .panel-viewcontrols:not(:empty) {
-  justify-content: center;
-  margin: 15px 15px;
-  margin-bottom: 6px;
+@media screen and (max-width: 768px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel .panel-viewcontrols {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel .panel-viewcontrols {
+    order: 2;
+    width: auto;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
 }
 .panel .panel-body {
   padding: 15px 15px;
@@ -6903,20 +6944,35 @@ div.alert ul > li:before {
 }
 
 .panel-flex .panel-heading {
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 .panel-flex .panel-title {
-  margin-right: auto;
+  flex-shrink: 0;
+  order: 1;
 }
 .panel-flex .panel-controls {
-  margin-left: auto;
-  float: right;
   display: flex;
   gap: 9px;
   justify-content: flex-end;
+  margin-left: auto;
 }
-.panel-flex .ilHeader {
-  display: flex;
+@media screen and (max-width: 768px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 769px) {
+  .panel-flex .panel-controls {
+    order: 2;
+  }
+}
+@media screen and (min-width: 993px) {
+  .panel-flex .panel-controls {
+    order: 3;
+  }
 }
 .panel-flex h2.ilHeader {
   flex-grow: 99;
@@ -8648,6 +8704,21 @@ div.alert ul > li:before {
   content: "\e605";
 }
 
+.glyphicon-apply:before {
+  font-family: il-icons;
+  content: "\e90c";
+}
+
+.glyphicon-launch:before {
+  font-family: il-icons;
+  content: "\e05c";
+}
+
+.glyphicon-reset:before {
+  font-family: il-icons;
+  content: "\e90a";
+}
+
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
@@ -8815,7 +8886,7 @@ div.alert ul > li:before {
   color: white;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .il-avatar {
     height: 22.5px;
     width: 22.5px;
@@ -8952,6 +9023,17 @@ th.c-table-data__cell {
   th.c-table-data__cell.c-table-data__header__rowselection {
     padding: 12px 12px;
     text-align: center;
+    position: sticky;
+    left: -2px;
+    z-index: 4;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgb(255, 255, 255) 85%, rgba(255, 255, 255, 0) 100%);
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    top: 32px;
   }
 }
 
@@ -9007,16 +9089,16 @@ th.c-table-data__cell {
   }
 }
 
-.c-table-data__multiaction-triggerer {
-  width: fit-content;
-}
-
 .c-table-data__rowselection,
 .c-table-data__multiaction-triggerer {
   position: -webkit-sticky;
   position: sticky;
-  left: 0;
+  left: -1px;
   z-index: 2;
+}
+
+.c-table-data__multiaction-triggerer {
+  width: fit-content;
 }
 
 .c-table-data__multiaction-triggerer {
@@ -9246,8 +9328,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
   width: fit-content;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
+  min-height: 2.2rem;
+  min-width: 2.2rem;
   border: 1px solid #e2e8ef;
   padding: 3px;
   background-color: #e2e8ef;
@@ -9431,8 +9513,8 @@ td.c-table-data__cell--highlighted {
 .il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link,
 .il-viewcontrol-mode > .btn-default,
 .il-viewcontrol-mode > .btn-link {
-  min-height: 1.9rem;
-  min-width: 1.9rem;
+  min-height: 1.7rem;
+  min-width: 1.7rem;
   border-radius: 10px;
 }
 
@@ -9518,7 +9600,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -9560,51 +9641,51 @@ div#agreement {
 }
 
 .alert-success {
-  color: #6ea03c;
-  background-color: #fafcf8;
-  border-color: #e1efd3;
+  color: #161616;
+  background-color: #ebf4e1;
+  border-color: #ebf4e1;
 }
 .alert-success hr {
-  border-top-color: #d4e8c0;
+  border-top-color: #deedcf;
 }
 .alert-success .alert-link {
-  color: #557b2e;
+  color: black;
 }
 
 .alert-info {
-  color: #31708f;
-  background-color: #e3eff5;
-  border-color: #bddae8;
+  color: #161616;
+  background-color: #deecf4;
+  border-color: #deecf4;
 }
 .alert-info hr {
-  border-top-color: #aad0e2;
+  border-top-color: #cbe2ed;
 }
 .alert-info .alert-link {
-  color: #245269;
+  color: black;
 }
 
 .alert-warning {
-  color: #B54F00;
-  background-color: #ffe4cf;
-  border-color: #ffc79c;
+  color: #161616;
+  background-color: #ffe5d1;
+  border-color: #ffe5d1;
 }
 .alert-warning hr {
-  border-top-color: #ffb982;
+  border-top-color: #ffd7b7;
 }
 .alert-warning .alert-link {
-  color: #823900;
+  color: black;
 }
 
 .alert-danger {
-  color: #d00;
-  background-color: #fff7f7;
-  border-color: #ffc4c4;
+  color: #161616;
+  background-color: #ffd7d7;
+  border-color: #ffd7d7;
 }
 .alert-danger hr {
-  border-top-color: #ffaaaa;
+  border-top-color: #ffbdbd;
 }
 .alert-danger .alert-link {
-  color: #aa0000;
+  color: black;
 }
 
 span.ilAlert {
@@ -9677,7 +9758,7 @@ h1.il-page-content-header {
   font-size: 1.75rem;
   font-weight: 600;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   h1.il-page-content-header {
     font-size: 1.5rem;
   }
@@ -9686,7 +9767,7 @@ h1.il-page-content-header {
 h1.ilHeader {
   padding: 10px 0 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   h1.ilHeader {
     padding-top: 5px;
   }
@@ -9714,7 +9795,7 @@ h2.ilHeader {
   margin-bottom: 6px;
   float: left;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #headerimage {
     width: 35px;
     height: 35px;
@@ -9753,7 +9834,7 @@ div.il_HeaderInner {
   margin-bottom: 5px;
   overflow: visible;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.il_HeaderInner {
     color: #161616;
   }
@@ -9795,7 +9876,7 @@ div.ilFrameFixedWidthHeader {
   overflow: hidden;
   padding: 0 15px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrameFixedWidthHeader div.ilHeaderBanner {
     max-width: 100%;
     height: 40px !important;
@@ -9873,13 +9954,13 @@ a.light:hover {
   color: black;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   img.olTileImage {
     max-width: none;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilGoogleMap {
     max-width: 100%;
   }
@@ -9962,14 +10043,14 @@ div.ilRightPanel {
   float: right;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilTableOuter {
     max-width: 100%;
     overflow: auto;
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .table-responsive .dropdown-menu {
     position: relative;
   }
@@ -10211,7 +10292,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10550,7 +10630,7 @@ tbody.collapse.in {
   filter: alpha(opacity=50);
   opacity: 0.5;
   font-size: 20px;
-  color: white;
+  color: #4c6586;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   background-color: rgba(0, 0, 0, 0);
@@ -10561,7 +10641,7 @@ tbody.collapse.in {
 }
 .carousel-control:hover, .carousel-control:focus {
   outline: 0;
-  color: white;
+  color: #4c6586;
   text-decoration: none;
   filter: alpha(opacity=90);
   opacity: 0.9;
@@ -10839,7 +10919,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -11133,7 +11212,7 @@ ul.il-book-obj-selection li {
   margin: 0 5px 0 0;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #message-controls .msg-control {
     display: block;
   }
@@ -11539,7 +11618,7 @@ div.ilForumQuoteHead {
   margin-top: 15px;
   font-size: 1rem;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrmPostTitle {
     margin-top: 6px;
     font-size: 0.875rem;
@@ -11555,7 +11634,7 @@ div.ilFrmPostHeader span.small {
   width: 80%;
   float: left;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilFrmPostContentContainer {
     padding-left: 6px;
     width: 100%;
@@ -11605,12 +11684,12 @@ li.ilFrmPostRow div.ilForm div.ilFormValue {
 li.ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   li.ilFrmPostRow div.ilForm, li.ilFrmPostRow div.ilForm input[type=text], li.ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   li.ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
@@ -12432,7 +12511,7 @@ div.ilc_Question {
 .ilc_qinput_TextInput {
   max-width: 65vw;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilc_qinput_TextInput {
     max-width: 100%;
   }
@@ -12922,7 +13001,7 @@ div.ilc_Page.readonly textarea[disabled] {
   display: none;
   visibility: hidden;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   #tst_output #tst_left {
     margin-right: 0;
     width: 100%;
@@ -12935,13 +13014,13 @@ div.ilc_Page.readonly textarea[disabled] {
   background-color: white;
   padding: 6px 12px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   #tst_output {
     flex-direction: column-reverse;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .il-layout-page.with-mainbar-slates-engaged #tst_output {
     flex-direction: column-reverse;
   }
@@ -14189,7 +14268,6 @@ div#ilContRepIntro img {
 }
 
 .ilContainerTileRows {
-  margin: 0px -15px 0 -15px;
   padding: 6px 15px;
   background-color: white;
 }
@@ -14499,7 +14577,7 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
   padding: 2px 5px;
   background-color: #efefef;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilTinyMenuSection, .il-copg-button-group {
     height: 28px;
     margin: 3px 3px 3px 0px;
@@ -14528,7 +14606,7 @@ div.il-copg-button-group-wide {
   padding-bottom: 15px;
   zoom: 1;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #ilTinyMenuButtons {
     height: 28px;
     margin: 3px 3px 3px 0;
@@ -14935,7 +15013,7 @@ div.ilCOPGMediaPrint {
   padding: 4px;
   width: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #copg-editor-slate-content p.ilTinyInfo {
     display: none;
   }
@@ -15288,7 +15366,7 @@ fieldset[disabled] .checkbox label {
   margin-top: 7px;
   min-width: 13px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .radio input[type=radio],
   .radio-inline input[type=radio],
   .checkbox input[type=checkbox],
@@ -15357,7 +15435,6 @@ fieldset[disabled] .checkbox label {
   color: #161616;
   font-size: 0.75rem;
   margin: 6px 0 12px;
-  padding: 0;
   clear: both;
 }
 .help-block:last-child {
@@ -15366,9 +15443,9 @@ fieldset[disabled] .checkbox label {
 .help-block.alert-danger {
   margin: 3px 0 0;
   padding: 0 3px 0 3px;
-  color: #d00;
-  background-color: #fff7f7;
-  border-color: #ffc4c4;
+  color: #161616;
+  background-color: #ffd7d7;
+  border-color: #ffd7d7;
 }
 
 @media (min-width: 768px) {
@@ -15438,8 +15515,12 @@ fieldset[disabled] .checkbox label {
 }
 .form-horizontal .form-group {
   margin: 0px;
-  padding: 3px 0;
+  padding-top: 3px;
+  bottom: 3px;
   background-color: white;
+}
+.form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control, .form-horizontal .row > select.form-control {
+  margin-left: 15px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox,
@@ -15457,13 +15538,14 @@ fieldset[disabled] .checkbox label {
 .form-horizontal label {
   color: #161616;
   font-size: 100%;
+  padding-right: 30px;
 }
 .form-horizontal .control-label {
   text-align: left;
   padding-bottom: 4px;
   min-height: 34px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .form-horizontal .control-label {
     min-height: auto;
     padding-bottom: 0;
@@ -15475,7 +15557,7 @@ fieldset[disabled] .checkbox label {
 }
 
 .ilFormHeader {
-  padding: 30px 0 12px 15px;
+  padding: 12px 0 12px 15px;
 }
 .ilFormHeader:not(:first-child) {
   margin: 15px 0 0 0;
@@ -15508,7 +15590,7 @@ fieldset[disabled] .checkbox label {
   background-color: #f0f0f0;
   margin: 0;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .ilSubForm .form-group {
     margin: 6px 0;
   }
@@ -15612,6 +15694,10 @@ div.ilHFormFooter .ilFormCmds {
   position: relative;
   overflow: hidden;
 }
+.btn-file:focus-within {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+}
 
 .btn-file input[type=file] {
   position: absolute;
@@ -15627,14 +15713,6 @@ div.ilHFormFooter .ilFormCmds {
   background: white;
   cursor: inherit;
   display: block;
-}
-
-.ilFormInnerCol {
-  padding: 0;
-}
-
-.ilFormInnerCol .form-group {
-  margin: 0;
 }
 
 input:invalid {
@@ -15704,7 +15782,7 @@ a#ilHelpClose {
   position: fixed;
   right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #il_screen_id {
     display: none;
   }
@@ -15725,7 +15803,7 @@ a#ilHelpClose {
 }
 
 /* Services/Init */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilStartupFrame {
     width: 100%;
   }
@@ -15743,7 +15821,7 @@ a#ilHelpClose {
 .ilStartupSection .control-label + div {
   width: 66.67%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilStartupSection {
     padding-top: 15px;
     width: auto;
@@ -15776,7 +15854,7 @@ div.ilStartupSection form.form-horizontal .ilFormHeader {
 div.ilStartupSection form.form-horizontal .form-group {
   margin: 9px 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilStartupSection form.form-horizontal {
     width: auto;
   }
@@ -16010,7 +16088,7 @@ td.il-news .il_BlockInfo {
   text-align: right;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   td.il-news {
     white-space: normal !important;
   }
@@ -16045,7 +16123,7 @@ span.ilNewsRssIcon:hover {
   left: 50%;
   margin-left: -1.5px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline:before {
     left: 90%;
   }
@@ -16059,7 +16137,7 @@ span.ilNewsRssIcon:hover {
   margin-left: 50%;
   margin-right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) {
     margin-left: 0;
   }
@@ -16070,13 +16148,13 @@ span.ilNewsRssIcon:hover {
   right: auto;
   margin-right: 0;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
     right: auto;
     left: 90%;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -16096,7 +16174,7 @@ span.ilNewsRssIcon:hover {
   background: #f9f9f9;
   border: 1px solid #dddddd;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li > .ilTimelinePanel {
     width: 80%;
   }
@@ -16131,7 +16209,7 @@ span.ilNewsRssIcon:hover {
   right: 0;
   margin-right: -25px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
     right: auto;
@@ -16151,7 +16229,7 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
   float: right;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
     float: left;
   }
@@ -16162,7 +16240,7 @@ span.ilNewsRssIcon:hover {
   left: -15px;
   right: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
     border-left-width: 15px;
     border-right-width: 0;
@@ -16176,7 +16254,7 @@ span.ilNewsRssIcon:hover {
   left: -14px;
   right: auto;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
     border-left-width: 14px;
     border-right-width: 0;
@@ -16213,7 +16291,7 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineUserImage {
     width: 50px;
   }
@@ -16223,7 +16301,7 @@ span.ilNewsRssIcon:hover {
   width: 75px;
   height: 75px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineUserImage img {
     width: 40px;
     height: 40px;
@@ -16233,7 +16311,7 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelineContentSection {
   padding-left: 100px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilNewsTimelineContentSection {
     padding-left: 50px;
   }
@@ -17348,13 +17426,13 @@ td > img[src$="icon_custom.svg"] {
   display: inline-block;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .table-responsive {
     overflow-x: auto;
     max-width: 94vw;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   .table-responsive {
     overflow: visible;
   }
@@ -17493,7 +17571,7 @@ div[id^=ilAdvSelListTable_] {
     min-width: 250px;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
   #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
@@ -17867,12 +17945,39 @@ a.ilMediaLightboxClose:hover {
   color: #f0f0f0;
 }
 
+.progress-bar-success {
+  background-color: #6ea03c;
+}
+
 /* Services/UIComponent/Tabs */
 #ilTab {
   padding: 0;
   margin: 3px 0;
   border: 0 none;
-  border-bottom: 2px solid #2c2c2c;
+  border-bottom: 2px solid #161616;
+}
+#ilTab > li {
+  float: left;
+  margin: 0 3px 0 0;
+}
+#ilTab > li > a {
+  margin: 0;
+  margin-right: 2px;
+  font-size: 0.875rem;
+  line-height: 1.428571429;
+  padding: 6px 15px 3px;
+  border: 0 none;
+  border-radius: 0px 0px 0 0;
+}
+#ilTab > li > a:hover {
+  border-color: white white white;
+}
+#ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus {
+  color: white;
+  cursor: default;
+  background-color: #161616;
+  border: 0 none;
+  border-bottom-color: transparent;
 }
 
 #ilTab a:focus-visible {
@@ -17885,11 +17990,14 @@ a.ilMediaLightboxClose:hover {
   margin: 0;
 }
 #ilSubTab > li:first-child > a {
-  margin-left: 3px;
+  padding-left: 12px;
+}
+#ilSubTab > li {
+  float: left;
 }
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 12px;
+  padding: 3px 6px;
   font-size: 0.75rem;
 }
 #ilSubTab > li > a:hover {
@@ -17953,47 +18061,6 @@ a.ilMediaLightboxClose:hover {
   max-width: none;
 }
 
-.nav-tabs {
-  border-bottom: 1px solid #dddddd;
-}
-.nav-tabs > li {
-  float: left;
-  margin: 0 3px 0 0;
-}
-.nav-tabs > li > a {
-  margin: 0;
-  margin-right: 2px;
-  font-size: 0.875rem;
-  line-height: 1.428571429;
-  padding: 6px 15px 3px;
-  border: 0 none;
-  border-radius: 0px 0px 0 0;
-}
-.nav-tabs > li > a:hover {
-  border-color: white white white;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  color: white;
-  cursor: default;
-  background-color: #161616;
-  border: 0 none;
-  border-bottom-color: transparent;
-}
-
-.nav-pills > li {
-  float: left;
-}
-.nav-pills > li > a {
-  border-radius: 0px;
-}
-.nav-pills > li + li {
-  margin-left: 2px;
-}
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
-  color: white;
-  background-color: #4c6586;
-}
-
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
   border-top-left-radius: 0;
@@ -18029,13 +18096,17 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .ilToolbarItems {
   padding: 0;
 }
-.ilToolbar > .form-control {
+.ilToolbar .navbar-form > .form-control {
   width: auto;
   display: inline-block;
   vertical-align: middle;
 }
-.ilToolbar .input-group {
+.ilToolbar .navbar-form > .input-group {
+  display: inline-table;
   vertical-align: middle;
+}
+.ilToolbar .navbar-form > .input-group > .input-group-btn {
+  width: auto;
 }
 .ilToolbar input[type=file] {
   display: inline-block;
@@ -18120,7 +18191,7 @@ a.ilMediaLightboxClose:hover {
   margin-top: -20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilToolbar .container-fluid {
     padding-left: 15px;
   }
@@ -18275,7 +18346,7 @@ a.ilMediaLightboxClose:hover {
   padding-bottom: 10px;
   line-height: 20px;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-nav .open .dropdown-menu {
     position: static;
     float: none;
@@ -18319,7 +18390,7 @@ a.ilMediaLightboxClose:hover {
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-form .form-group {
     margin-bottom: 5px;
   }
@@ -18412,7 +18483,7 @@ a.ilMediaLightboxClose:hover {
   background-color: #e8e8e8;
   color: #555;
 }
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #777;
   }
@@ -18445,7 +18516,7 @@ a.ilMediaLightboxClose:hover {
   color: #ccc;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .navbar-nav {
     margin: 7.5px 0px;
   }
@@ -18538,6 +18609,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
@@ -18633,7 +18711,7 @@ div#minheight {
   max-width: 1400px;
   padding: 0 30px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   .ilContainerWidth {
     padding: 0 15px;
   }
@@ -18644,7 +18722,7 @@ div.ilContentFixed {
   padding-bottom: 20px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilc_Mob img {
     height: auto !important;
   }
@@ -18773,7 +18851,7 @@ div.ilFrame {
   background-color: #f9f9f9;
   min-height: 100%;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 991px) {
   div.ilFrame {
     margin: 0;
     width: 100%;

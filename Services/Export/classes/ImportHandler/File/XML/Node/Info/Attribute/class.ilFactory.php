@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Node\Info\Attribute;
+namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute;
 
 use ilLogger;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributeCollectionInterface;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
-use ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
-use ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
-use ImportHandler\File\XML\Node\Info\Attribute\ilCollection as ilXMLFileNodeInfoAttribureCollection;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilCollection as ilXMLFileNodeInfoAttribureCollection;
 
 class ilFactory implements ilXMLFileNodeInfoAttributeFactoryInterface
 {

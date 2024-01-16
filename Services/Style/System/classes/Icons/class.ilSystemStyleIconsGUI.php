@@ -255,7 +255,7 @@ class ilSystemStyleIconsGUI
     {
         $style = $this->getStyleContainer()->getSkin()->getStyle($this->style_id);
         $this->getStyleContainer()->resetImages($style);
-        $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style->getId())));
+        $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesStylePath($style->getId())));
         $message_stack = new ilSystemStyleMessageStack($this->tpl);
         $message_stack->addMessage(new ilSystemStyleMessage(
             $this->lng->txt('color_reset'),

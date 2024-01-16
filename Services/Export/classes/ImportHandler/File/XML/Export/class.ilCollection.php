@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\XML\Export;
+namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
-use ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
-use ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
 
 class ilCollection implements ilXMLExportFileCollectionInterface
 {

@@ -1495,14 +1495,6 @@ class ilObjStudyProgramme extends ilContainer
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($obj_id);
         if ($type === "crsr") {
-            require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
-            $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($obj_id);
-            foreach ($crs_reference_obj_ids as $crs_reference_obj_id) {
-                foreach (ilObject::_getAllReferences($crs_reference_obj_id) as $ref_id) {
-                    self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $crs_reference_obj_id, $user_id);
-                }
-            }
-        } else {
             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
                 self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $obj_id, $user_id);
             }
@@ -1556,12 +1548,14 @@ class ilObjStudyProgramme extends ilContainer
         $customIcon = $this->custom_icon_factory->getByObjId($this->getId(), $this->getType());
         $subtype = $this->getSubType();
 
-        if ($subtype
-                && $this->webdir->has($subtype->getIconPath(true))
-                && $subtype->getIconPath(true) !== $subtype->getIconPath(false)
-        ) {
-            $icon = $subtype->getIconPath(true);
-            $customIcon->saveFromSourceFile($icon);
+        if ($subtype && $subtype->getIconIdentifier()) {
+            $src = $this->type_repository->getIconPathFS($subtype);
+
+            //This is a horrible hack to allow Flysystem/LocalFilesystem to read the file.
+            $tmp = 'ico_' . $this->getId();
+            copy($src, \ilFileUtils::getDataDir() . '/temp/' . $tmp);
+
+            $customIcon->saveFromTempFileName($tmp);
         } else {
             $customIcon->remove();
         }

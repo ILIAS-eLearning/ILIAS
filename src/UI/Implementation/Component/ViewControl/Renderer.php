@@ -143,9 +143,9 @@ class Renderer extends AbstractComponentRenderer
             $signal = $triggeredSignals[0]->getSignal();
 
             $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
-							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
-							return false;
-						})");
+                            il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
+                            return false;
+                        })");
         }
 
         $this->renderId($component, $tpl, "id", "ID");
@@ -167,7 +167,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $dd = $f->dropdown()->standard($items)
-            ->withLabel($init_label);
+            ->withAriaLabel($init_label);
 
         $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
         return $tpl->get();
@@ -177,26 +177,28 @@ class Renderer extends AbstractComponentRenderer
         Component\ViewControl\Pagination $component,
         RendererInterface $default_renderer
     ): string {
-        $tpl = $this->getTemplate("tpl.pagination.html", true, true);
+        $range = $this->getPaginationRange($component);
 
-        /**
-         * @var $component Component\ViewControl\Pagination
-         */
+        if($component->getNumberOfPages() < 2) {
+            return '';
+        }
+
+        $tpl = $this->getTemplate("tpl.pagination.html", true, true);
         $component = $component->withResetSignals();
         $triggeredSignals = $component->getTriggeredSignals();
         if ($triggeredSignals) {
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $component = $component->withOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
-							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
-							return false;
-						})");
-
+            $component = $component->withOnLoadCode(
+                fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
+                            il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
+                            return false;
+                        })"
+            );
             $id = $this->bindJavaScript($component);
             $tpl->setVariable('ID', $id);
         }
 
-        $range = $this->getPaginationRange($component);
         $chunk_options = array();
         foreach ($range as $entry) {
             $shy = $this->getPaginationShyButton($entry, $component);
@@ -346,7 +348,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Add quick-access to first/last pages in pagination.
      *
-     * @param int[]	$range
+     * @param int[] $range
      */
     protected function setPaginationFirstLast(
         Component\ViewControl\Pagination $component,

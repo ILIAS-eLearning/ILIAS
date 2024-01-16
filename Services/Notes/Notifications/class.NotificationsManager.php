@@ -63,7 +63,7 @@ class NotificationsManager
             return;
         }
 
-        $recipients = $settings->get("comments_noti_recip");
+        $recipients = $settings->get("comments_noti_recip", '');
         $recipients = explode(",", $recipients);
 
         // blog: blog_id, 0, "blog"

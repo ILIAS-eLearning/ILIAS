@@ -220,8 +220,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
-                if (!@file_exists($imagefilename)) {
-                    $data["imagefile"] = "";
+                if (!file_exists($imagefilename)) {
+                    $data["imagefile"] = null;
                 }
                 $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
 
@@ -232,7 +232,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $data["answer_id"]
                 );
                 $answer->setPointsUnchecked($data["points_unchecked"]);
-                $answer->setImage($data["imagefile"]);
+                $answer->setImage($data["imagefile"] ? $data["imagefile"] : null);
                 array_push($this->answers, $answer);
             }
         }
@@ -373,7 +373,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $points = 0.0,
         $points_unchecked = 0.0,
         $order = 0,
-        $answerimage = "",
+        $answerimage = null,
         $answer_id = -1
     ): void {
         $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
@@ -454,7 +454,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
+        if ($answer->hasImage()) {
             $this->deleteImage($answer->getImage());
         }
         unset($this->answers[$index]);
@@ -506,7 +506,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @throws ilTestException
      * @return integer|array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -789,7 +789,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function syncWithOriginal(): void
     {
-        if ($this->questioninfo->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId($this->getId())) {
             $this->syncImages();
             parent::syncWithOriginal();
         }
@@ -890,8 +890,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
 
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -935,8 +935,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -962,14 +962,14 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $imagepath = $this->getImagePath();
-        $question_id = $this->questioninfo->getOriginalId();
-        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId());
+        $question_id = $this->questioninfo->getOriginalId($this->getId());
+        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId($this->getId()));
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
 
         ilFileUtils::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
-            $filename = $answer->getImage();
-            if (strlen($filename)) {
+            if ($answer->hasImage()) {
+                $filename = $answer->getImage();
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
                         ilFileUtils::makeDirParents($imagepath);
@@ -1113,7 +1113,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $answer = $this->answers[$index];
         if (is_object($answer)) {
             $this->deleteImage($answer->getImage());
-            $answer->setImage('');
+            $answer->setImage(null);
         }
     }
 

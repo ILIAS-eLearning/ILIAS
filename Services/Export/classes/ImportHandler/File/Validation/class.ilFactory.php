@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Validation;
+namespace ILIAS\Export\ImportHandler\File\Validation;
 
 use ilLogger;
-use ImportHandler\File\Validation\ilHandler as ilFileValidationHandler;
-use ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
-use ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
-use ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
-use ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
-use ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ImportStatus\ilFactory as ilImportStatusFactory;
-use ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
+use ILIAS\Export\ImportHandler\File\Validation\ilHandler as ilFileValidationHandler;
+use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
 
 class ilFactory implements ilFileValidationFactoryInterface
 {

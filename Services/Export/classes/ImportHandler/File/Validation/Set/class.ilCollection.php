@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\File\Validation\Set;
+namespace ILIAS\Export\ImportHandler\File\Validation\Set;
 
-use ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationPairHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationPairHandlerInterface;
 
 class ilCollection implements ilFileValidationSetCollectionInterface
 {

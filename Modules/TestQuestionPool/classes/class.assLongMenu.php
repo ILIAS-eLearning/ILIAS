@@ -604,7 +604,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
      * @throws ilTestException
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -622,7 +622,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return $this->calculateReachedPointsForSolution($found_values, $active_id);
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
+    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
     {
         if ($found_values == null) {
             $found_values = [];

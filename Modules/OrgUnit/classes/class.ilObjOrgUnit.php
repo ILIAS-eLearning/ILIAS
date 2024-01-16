@@ -188,10 +188,12 @@ class ilObjOrgUnit extends ilContainer
                 WHERE ot.icon IS NOT NULL';
         $set = $ilDb->query($sql);
         $icons_cache = array();
+
+        $irss = $DIC['resource_storage'];
         while ($row = $ilDb->fetchObject($set)) {
             $type = ilOrgUnitType::getInstance($row->type_id);
-            if ($type && is_file($type->getIconPath(true))) {
-                $icons_cache[$row->orgu_id] = $type->getIconPath(true);
+            if ($type && $icon_id = $irss->manage()->find($type->getIconIdentifier())) {
+                $icons_cache[$row->orgu_id] = $irss->consume()->src($icon_id)->getSrc();
             }
         }
         self::$icons_cache = $icons_cache;

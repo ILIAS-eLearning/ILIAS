@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Path;
+namespace ILIAS\Export\ImportHandler\I\File\Path;
 
 use Countable;
-use ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\Node\ilNodeInterface as ilFilePathNodeInterface;
 use Iterator;
 
 interface ilHandlerInterface extends Iterator, Countable

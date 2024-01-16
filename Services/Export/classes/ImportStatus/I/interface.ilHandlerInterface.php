@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\I;
+namespace ILIAS\Export\ImportStatus\I;
 
-use ImportStatus\StatusType;
-use ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentInterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ILIAS\Export\ImportStatus\I\Content\ilHandlerInterface as ilImportStatusContentInterface;
 
 interface ilHandlerInterface
 {

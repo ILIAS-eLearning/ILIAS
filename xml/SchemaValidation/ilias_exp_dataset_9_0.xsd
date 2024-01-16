@@ -9,7 +9,7 @@
     <xs:element name="Export">
         <xs:complexType>
             <xs:sequence>
-                <xs:element minOccurs="1" maxOccurs="1" ref="exp:ExportItem"/>
+                <xs:element minOccurs="1" maxOccurs="unbounded" ref="exp:ExportItem"/>
             </xs:sequence>
             <xs:attribute name="InstallationId" type="xs:integer" use="required"/>
             <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
@@ -23,7 +23,7 @@
             <xs:sequence>
                 <xs:element minOccurs="1" maxOccurs="1" ref="ds:DataSet"/>
             </xs:sequence>
-            <xs:attribute name="Id" type="xs:integer" use="required"/>
+            <xs:attribute name="Id" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>

@@ -29,8 +29,6 @@ require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ilTestScoringGUI extends ilTestServiceGUI
 {
-    public const PART_FILTER_ACTIVE_ONLY = 1;
-    public const PART_FILTER_INACTIVE_ONLY = 2;
     public const PART_FILTER_ALL_USERS = 3; // default
     public const PART_FILTER_MANSCORING_DONE = 4;
     public const PART_FILTER_MANSCORING_NONE = 5;
@@ -93,11 +91,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
     private function fetchPassParameter(int $active_id): int
     {
         $max_pass = $this->object->_getMaxPass($active_id);
-        $pass_from_request = $this->testrequest->int('pass');
-        if ($pass_from_request !== null
-            && $pass_from_request >= 0
-            && $pass_from_request <= $max_pass) {
-            return $pass_from_request;
+
+
+        if ($this->testrequest->isset('pass')) {
+            $pass_from_request = $this->testrequest->int('pass');
+            if ($pass_from_request >= 0
+                && $pass_from_request <= $max_pass
+            ) {
+                return $pass_from_request;
+            }
         }
 
         if ($this->object->getPassScoring() == SCORE_LAST_PASS) {
@@ -388,6 +390,23 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $cust = new ilCustomInputGUI($this->lng->txt('tst_manscoring_input_question_and_user_solution'));
             $cust->setHtml($questionSolution);
             $form->addItem($cust);
+
+            if ($questionGUI instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+                $aresult_output = $questionGUI->getAutoSavedSolutionOutput(
+                    $active_id,
+                    $pass,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                );
+                $cust = new ilCustomInputGUI($this->lng->txt('autosavecontent'));
+                $cust->setHtml($aresult_output);
+                $form->addItem($cust);
+            }
 
             $text = new ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {

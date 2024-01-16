@@ -178,7 +178,7 @@ class ilSystemStyleScssGUI
                 new ilSystemStyleMessage($this->lng->txt('no_scss_path_set'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $pass = false;
-        } elseif (!shell_exec(PATH_TO_SCSS)) {
+        } elseif (!shell_exec(PATH_TO_SCSS . " -h")) {
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage($this->lng->txt('invalid_scss_path'), ilSystemStyleMessage::TYPE_ERROR)
             );

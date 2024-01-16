@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * Store member infos to DB
  */
@@ -25,11 +27,12 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 {
     public const MEMBERS_TABLE = "iass_members";
 
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $ilDB)
-    {
-        $this->db = $ilDB;
+    public function __construct(
+        protected ilDBInterface $db,
+        protected IRSS $irss,
+        protected ilIndividualAssessmentGradingStakeholder $stakeholder
+    ) {
     }
 
     /**
@@ -188,6 +191,13 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
      */
     public function deleteMembers(ilObjIndividualAssessment $obj): void
     {
+        foreach($this->loadMembers($obj) as $member) {
+            if($identifier = $member[ilIndividualAssessmentMembers::FIELD_FILE_NAME]) {
+                $resource_id = $this->irss->manage()->find($identifier);
+                $this->irss->manage()->remove($resource_id, $this->stakeholder);
+            }
+        }
+
         $sql = "DELETE FROM " . self::MEMBERS_TABLE . " WHERE obj_id = " . $this->db->quote($obj->getId(), 'integer');
         $this->db->manipulate($sql);
     }
@@ -342,6 +352,13 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
      */
     public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record): void
     {
+
+        if(array_key_exists(ilIndividualAssessmentMembers::FIELD_FILE_NAME, $record)
+            && $identifier = $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]) {
+            $resource_id = $this->irss->manage()->find($identifier);
+            $this->irss->manage()->remove($resource_id, $this->stakeholder);
+        }
+
         $sql =
              "DELETE FROM " . self::MEMBERS_TABLE . PHP_EOL
             . "WHERE obj_id = " . $this->db->quote($iass->getId(), 'integer') . PHP_EOL

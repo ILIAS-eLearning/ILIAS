@@ -391,7 +391,7 @@ class ilUserImportParser extends ilSaxParser
                 if (($internal_id = ilUtil::__extractId($current_role_id, (int) IL_INST_ID)) > 0) {
                     $current_role_id = $internal_id;
                 }
-                $this->current_role_id = $current_role_id;
+                $this->current_role_id = (int) $current_role_id;
                 $this->current_role_type = $a_attribs["Type"];
                 break;
         }
@@ -411,7 +411,7 @@ class ilUserImportParser extends ilSaxParser
                 if (($internal_id = ilUtil::__extractId($current_role_id, (int) IL_INST_ID)) > 0) {
                     $current_role_id = $internal_id;
                 }
-                $this->current_role_id = $current_role_id;
+                $this->current_role_id = (int) $current_role_id;
                 $this->current_role_type = $a_attribs["Type"];
                 $this->current_role_action = (!isset($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
                 break;
@@ -1023,8 +1023,8 @@ class ilUserImportParser extends ilSaxParser
 
                             // default time limit settings
                             if (!$this->time_limit_set) {
-                                $this->userObj->setTimeLimitUnlimited(1);
-                                $this->userObj->setTimeLimitMessage(0);
+                                $this->userObj->setTimeLimitUnlimited(true);
+                                $this->userObj->setTimeLimitMessage('');
 
                                 if (!$this->approve_date_set) {
                                     $this->userObj->setApproveDate(date("Y-m-d H:i:s"));
@@ -1098,7 +1098,7 @@ class ilUserImportParser extends ilSaxParser
                             //set role entries
                             foreach ($this->roles as $role_id => $role) {
                                 if (isset($this->role_assign[$role_id]) && $this->role_assign[$role_id]) {
-                                    $this->assignToRole($this->userObj, $this->role_assign[$role_id]);
+                                    $this->assignToRole($this->userObj, (int) $this->role_assign[$role_id]);
                                 }
                             }
 

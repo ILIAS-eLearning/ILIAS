@@ -640,6 +640,16 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
     {
+        list($component, $tpl) = $this->internalRenderDateTimeField($component, $default_renderer);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    /**
+     * @return array<DateTime,Template>
+     */
+    protected function internalRenderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): array
+    {
         $tpl = $this->getTemplate("tpl.datetime.html", true, true);
         $this->applyName($component, $tpl);
 
@@ -675,8 +685,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("MAX_DATE", date_format($max_date, $min_max_format));
         }
 
-        $tpl->setVariable("PLACEHOLDER", $format);
-
         $this->applyValue($component, $tpl, function (?string $value) use ($dt_type) {
             if ($value !== null) {
                 $value = new \DateTimeImmutable($value);
@@ -689,27 +697,28 @@ class Renderer extends AbstractComponentRenderer
             return null;
         });
         $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+
+        return [$component, $tpl];
     }
 
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.duration.html", true, true);
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-
-        $input_html = '';
         $inputs = $component->getInputs();
+
         $input = array_shift($inputs); //from
+        list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
+        $first_input_id = $this->bindJSandApplyId($input, $tpl);
+        $input_html = $this->wrapInFormContext($input, $tpl->get(), $first_input_id);
+
+        $input = array_shift($inputs) //until
+            ->withAdditionalPickerconfig(['useCurrent' => false]);
         $input_html .= $default_renderer->render($input);
-        $input = array_shift($inputs)->withAdditionalPickerconfig([ //until
-                                                                    'useCurrent' => false
-        ]);
-        $input_html .= $default_renderer->render($input);
+
+        $tpl = $this->getTemplate("tpl.duration.html", true, true);
+        $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $first_input_id);
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer): string

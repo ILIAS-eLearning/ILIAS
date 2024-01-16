@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+    <xs:element name="group">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" name="title" type="xs:string"/>
+                <xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="owner"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="information"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="registration"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="showMembers" />
+                <xs:element minOccurs="1" maxOccurs="1" name="admissionNotification" type="binaryChoiceInt"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="ViewMode" type="xs:integer"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="SessionLimit"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="GroupMap"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="period"/>
+                <!-- Soap compatibility start -->
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="Admin" type="roleInfo"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="Member" type="memberInfo"/>
+                <!-- Soap compatibility end -->
+                <xs:element minOccurs="1" maxOccurs="1" ref="Sort"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="ContainerSettings"/>
+            </xs:sequence>
+            <xs:attribute name="exportVersion" type="xs:string" use="required"/>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="type" type="groupStatus" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Soap compatibility start -->
+    <xs:complexType name="roleInfo">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="notification" type="binaryChoiceString" use="required"/>
+        <xs:attribute name="passed" type="binaryChoiceString" use="required"/>
+        <xs:attribute name="contact" type="binaryChoiceString" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="memberInfo">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="blocked" type="binaryChoiceString" use="required"/>
+        <xs:attribute name="passed" type="binaryChoiceString" use="required"/>
+    </xs:complexType>
+    <!-- Soap compatibility end -->
+
+    <xs:simpleType name="groupStatus">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="open"/>
+            <xs:enumeration value="closed"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="owner">
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="registration">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" name="password" type="xs:string"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="temporarilyAvailable"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="maxMembers"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="minMembers" type="xs:nonNegativeInteger"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="WaitingListAutoFill" type="binaryChoiceInt"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="CancellationEnd" type="nullOrInteger"/>
+                <xs:element minOccurs="1" maxOccurs="1" name="mailMembersType" type="xs:string"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="RegistrationAccessCode"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="registrationTypes" use="required"/>
+            <xs:attribute name="waitingList" type="binaryChoiceString"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="nullOrInteger">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d*|\s{0}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="timestamp">
+        <xs:union memberTypes="xs:nonNegativeInteger"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="registrationTypes">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="direct"/>
+            <xs:enumeration value="confirmation"/>
+            <xs:enumeration value="password"/>
+            <xs:enumeration value="disabled"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="temporarilyAvailable" type="timeFrame"/>
+
+    <xs:complexType name="timeFrame">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="start" type="nullOrInteger"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="end" type="nullOrInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="maxMembers">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:nonNegativeInteger">
+                    <xs:attribute name="enabled" type="binaryChoiceString" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="RegistrationAccessCode">
+        <xs:complexType>
+            <xs:attribute name="enabled" type="binaryChoiceInt" use="required"/>
+            <xs:attribute name="code" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="binaryChoiceString">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Yes"/>
+            <xs:enumeration value="No"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="binaryChoiceInt">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="SessionLimit">
+        <xs:complexType>
+            <xs:attribute name="active" type="binaryChoiceInt" use="required"/>
+            <xs:attribute name="previous" type="xs:integer" use="required"/>
+            <xs:attribute name="next" type="xs:integer" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GroupMap">
+        <xs:complexType>
+            <xs:attribute name="enabled" type="binaryChoiceInt" use="required"/>
+            <xs:attribute name="latitude" type="xs:string" use="required"/>
+            <xs:attribute name="longitude" type="xs:string" use="required"/>
+            <xs:attribute name="location_zoom" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="period">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="timeFrame">
+                    <xs:attribute name="withTime" type="xs:boolean" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Sort">
+        <xs:complexType>
+            <xs:attribute name="direction" type="sortDirection" use="optional"/>
+            <xs:attribute name="position" type="sortPosition" use="optional"/>
+            <xs:attribute name="order" type="sortOrder" use="optional"/>
+            <xs:attribute name="type" type="sortTypes" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="sortDirection">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="ASC"/>
+            <xs:enumeration value="DESC"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sortPosition">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Bottom"/>
+            <xs:enumeration value="Top"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sortOrder">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Activation"/>
+            <xs:enumeration value="Creation"/>
+            <xs:enumeration value="Title"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sortTypes">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Manual"/>
+            <xs:enumeration value="Creation"/>
+            <xs:enumeration value="Title"/>
+            <xs:enumeration value="Activation"/>
+            <xs:enumeration value="Inherit"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="ContainerSettings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="ContainerSetting"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ContainerSetting">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

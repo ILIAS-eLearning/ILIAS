@@ -215,10 +215,12 @@ class ilSkillProfileGUI
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_prof");
 
+        $ilCtrl->clearParameterByClass(self::class, "sprof_id");
         $ilTabs->setBackTarget(
             $lng->txt("skmg_skill_profiles"),
             $ilCtrl->getLinkTarget($this, "")
         );
+        $ilCtrl->setParameter($this, "sprof_id", $this->requested_sprof_id);
 
         // levels
         $ilTabs->addTab(
@@ -450,7 +452,7 @@ class ilSkillProfileGUI
                 0,
                 $result["section_basic"]["title"],
                 $result["section_basic"]["description"],
-                $result["section_basic"]["skill_tree"],
+                (int) $result["section_basic"]["skill_tree"],
                 $result["section_advanced"]["image"][0] ?? "",
                 $this->requested_ref_id
             );

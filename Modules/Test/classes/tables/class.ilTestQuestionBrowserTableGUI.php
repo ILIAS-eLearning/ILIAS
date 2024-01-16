@@ -87,7 +87,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             'tstamp',
             ''
         );  // name of col is proper "updated" but in data array the key is "tstamp"
-        $this->addColumn($this->getParentObjectLabel(), 'qpl', '');
+        $this->addColumn($this->getParentObjectLabel(), 'parent_title', '');
         $this->setSelectAllCheckbox('q_id');
         $this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
 
@@ -428,17 +428,41 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
         $this->tpl->setVariable(
-            "QUESTION_POOL",
-            $this->buildPossiblyLinkedQuestonPoolTitle(
-                $this->ctrl,
-                $this->access,
-                $this->lng,
-                $this->ui_factory,
-                $this->ui_renderer,
+            "QUESTION_POOL_OR_TEST_TITLE",
+            $this->buildPossiblyLinkedQuestonPoolOrTestTitle(
                 (int) $a_set["obj_fi"],
                 $a_set["parent_title"]
             )
         );
+    }
+
+    private function buildPossiblyLinkedQuestonPoolOrTestTitle(int $obj_id, string $parent_title): string
+    {
+        switch ($this->fetchModeParameter()) {
+            case self::MODE_BROWSE_POOLS:
+                return $this->buildPossiblyLinkedQuestonPoolTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $obj_id,
+                    $parent_title
+                );
+
+            case self::MODE_BROWSE_TESTS:
+                return $this->buildPossiblyLinkedTestTitle(
+                    $this->ctrl,
+                    $this->access,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $obj_id,
+                    $parent_title
+                );
+        }
+
+        return '';
     }
 
     private function buildTestQuestionSetConfig(): ilTestQuestionSetConfig

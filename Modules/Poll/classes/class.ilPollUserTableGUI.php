@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,11 +14,11 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * TableGUI class for poll users
@@ -30,8 +28,7 @@ use ILIAS\UI\Renderer;
 class ilPollUserTableGUI extends ilTable2GUI
 {
     protected array $answer_ids = [];
-    protected Factory $factory;
-    protected Renderer $renderer;
+    protected string $rendered_checked_icon;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
@@ -41,8 +38,18 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $lng->loadLanguageModule('poll');
+
+        $this->rendered_checked_icon = $ui_renderer->render(
+            $ui_factory->symbol()->icon()->custom(
+                ilUtil::getImagePath('standard/icon_ok.svg'),
+                $lng->txt('poll_answer_selected_alt_text'),
+                Icon::MEDIUM
+            )
+        );
 
         $this->setId("ilobjpollusr");
 
@@ -92,16 +99,10 @@ class ilPollUserTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $rendered_ok = $this->renderer->render(
-            $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('standard/icon_ok.svg'),
-                $this->lng->txt('poll_answer')
-            )
-        );
         $this->tpl->setCurrentBlock("answer_bl");
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
-                $this->tpl->setVariable("ANSWER", $rendered_ok);
+                $this->tpl->setVariable("ANSWER", $this->rendered_checked_icon);
             } else {
                 $this->tpl->setVariable("ANSWER", "&nbsp;");
             }

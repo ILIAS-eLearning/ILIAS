@@ -488,8 +488,8 @@ export default class ParagraphUI {
     );
     this.log(fc);
     if (fc) {
-      this.log(`SETTin DROP DOWN BUTTON: ${i}`);
       fc.firstChild.textContent = `${ddbtn.textContent} `;
+      fc.ariaLabel = `${il.Language.txt('copg_par_format_selection')}: ${ddbtn.textContent}`;
     }
     this.tinyWrapper.setParagraphClass(i);
   }
@@ -739,6 +739,11 @@ export default class ParagraphUI {
     }
   }
 
+  escape() {
+    const b = document.querySelector("[data-copg-ed-action='save.return']");
+    b.focus();
+  }
+
   initWrapperCallbacks() {
     const wrapper = this.tinyWrapper;
     const parUI = this;
@@ -757,6 +762,11 @@ export default class ParagraphUI {
     wrapper.addCallback(TINY_CB.SWITCH_RIGHT, () => {
       if (pageModel.getCurrentPCName() === 'Paragraph') {
         parUI.switchToNext();
+      }
+    });
+    wrapper.addCallback(TINY_CB.ESCAPE, () => {
+      if (pageModel.getCurrentPCName() === 'Paragraph') {
+        parUI.escape();
       }
     });
     wrapper.addCallback(TINY_CB.SWITCH_DOWN, () => {
@@ -877,6 +887,10 @@ export default class ParagraphUI {
     const ef = action.paragraph().editor();
     const tblact = action.table().editor();
     const paragraphUI = this;
+    const ifrm = document.getElementById('tinytarget_ifr');
+    if (ifrm) {
+      ifrm.title = il.Language.txt('copg_edit_iframe_title');
+    }
 
     // #0017152
     $('#tinytarget_ifr').contents().find('html').attr('lang', $('html').attr('lang'));

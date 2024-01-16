@@ -526,6 +526,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->getQuestionForSequence($currentSequenceElement)
         );
 
+        $currentQuestionOBJ->setTestId($this->getObject()->getId());
+
         $currentQuestionOBJ->resetUsersAnswer(
             $this->test_session->getActiveId(),
             $this->test_session->getPass()

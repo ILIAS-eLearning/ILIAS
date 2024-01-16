@@ -195,16 +195,20 @@ class Zip
         );
 
         foreach ($files as $file) {
+            $pathname = $file->getPathname();
+            $path_inside_zip = str_replace($directory_to_zip . '/', '', $pathname);
             /** @var $file \SplFileInfo */
             if ($file->isDir()) {
-                continue;
-            }
-            $pathname = $file->getPathname();
-            if ($this->isPathIgnored($pathname, $this->options)) {
+                // add directory to zip if it's empty
+                if (count(scandir($pathname)) === 2) {
+                    $this->zip->addEmptyDir($path_inside_zip);
+                }
                 continue;
             }
 
-            $path_inside_zip = str_replace($directory_to_zip . '/', '', $pathname);
+            if ($this->isPathIgnored($pathname, $this->options)) {
+                continue;
+            }
             $this->addPath(realpath($pathname), $path_inside_zip);
         }
     }

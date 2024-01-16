@@ -559,8 +559,8 @@ $variable223: globals.$variable223,
         $file = new ilSystemStyleScssSettings($this->container->getSkinDirectory() . 'scss-test/edge-cases');
 
         $this->assertCount(3, $file->getCategories());
-        $this->assertCount(8, $file->getVariables());
-        $this->assertCount(15, $file->getItems());
+        $this->assertCount(9, $file->getVariables());
+        $this->assertCount(16, $file->getItems());
     }
 
     public function testGetItemsEdgeCases(): void
@@ -614,7 +614,13 @@ $variable223: globals.$variable223,
             'Category 2',
             ['regular']
         );
-
+        $expected_variable33 = new ilSystemStyleScssVariable(
+            'variable22',
+            'color.scale($il-success-color, $lightness: 86%)',
+            'Hard references II, see #39792',
+            'Category 2',
+            ['il-success-color', 'lightness']
+        );
         $expected_comment4 = new ilSystemStyleScssComment('');
 
         $expected_category3 = new ilSystemStyleScssCategory('Category 3', 'No Section Between');
@@ -632,6 +638,7 @@ $variable223: globals.$variable223,
                            $expected_category2,
                            $expected_variable31,
                            $expected_variable32,
+                           $expected_variable33,
                            $expected_comment4,
                            $expected_category3,
                            $expected_variable41,

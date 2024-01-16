@@ -14,15 +14,35 @@ function base1()
     $ui_factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $tpl = $DIC['tpl'];
+    $target = $DIC->http()->request()->getRequestTarget();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
+
     $tpl->addCss('src/UI/examples/Table/Presentation/presentation_alignment_example.css');
 
-    $actions = array("Alle" => "#", "Mehr als 5 Antworten" => "#");
+    //example data
+    $data = included_data1();
+
+    //build viewcontrols
     $aria_label = "filter entries";
+    $active_view_control = 'Alle';
+    $actions = [
+        "Alle" => $target . '&all=1',
+        "Mehr als 5 Antworten" => $target . '&all=0'
+    ];
+    if ($request_wrapper->has('all') && $request_wrapper->retrieve('all', $refinery->kindlyTo()->int()) === 0) {
+        $data = [array_shift($data)];
+        $active_view_control = 'Mehr als 5 Antworten';
+    }
     $view_controls = array(
-        $ui_factory->viewControl()->mode($actions, $aria_label)->withActive("Alle")
+        $ui_factory->viewControl()->mode($actions, $aria_label)->withActive($active_view_control)
     );
 
-    $mapping_closure = function ($row, $record, $ui_factory, $environment) {
+    //build an example modal
+    $modal = $ui_factory->modal()->interruptive('zur Frage', 'This is just an example', '#')
+        ->withActionButtonLabel('Go');
+
+    $mapping_closure = function ($row, $record, $ui_factory, $environment) use ($modal) {
         return $row
         ->withHeadline($record['question_title'])
         ->withLeadingSymbol(
@@ -51,7 +71,10 @@ function base1()
                 ])
             )
         )
-        ->withAction($ui_factory->button()->standard('zur Frage', '#'));
+        ->withAction(
+            $ui_factory->button()->standard('zur Frage', '#')
+                ->withOnClick($modal->getShowSignal())
+        );
     };
 
     $ptable = $ui_factory->table()->presentation(
@@ -61,11 +84,12 @@ function base1()
     )
     ->withEnvironment(environment());
 
-    //example data
-    $data = included_data1();
 
     //apply data to table and render
-    return $renderer->render($ptable->withData($data));
+    return $renderer->render([
+        $modal,
+        $ptable->withData($data)
+    ]);
 }
 
 function environment()
@@ -79,8 +103,8 @@ function environment()
         foreach ($answers as $answer) {
             $ret .= '<tr>'
                 . '<td style="padding-right: 10px;">' . $answer['title'] . '</td>'
-                . '<td align="right">' . $answer['amount'] . '</td>'
-                . '<td align="right">' . $answer['proportion'] . '%</td>'
+                . '<td style="text-align:right">' . $answer['amount'] . '</td>'
+                . '<td style="text-align:right">' . $answer['proportion'] . '%</td>'
                 . '</tr>';
         }
 

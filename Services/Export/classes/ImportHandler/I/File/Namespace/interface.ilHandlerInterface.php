@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\Namespace;
+namespace ILIAS\Export\ImportHandler\I\File\Namespace;
 
 interface ilHandlerInterface
 {

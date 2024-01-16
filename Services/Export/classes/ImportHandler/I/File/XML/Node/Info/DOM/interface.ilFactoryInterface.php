@@ -1,9 +1,9 @@
 <?php
 
-namespace ImportHandler\I\File\XML\Node\Info\DOM;
+namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM;
 
 use DOMNode;
-use ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoDOMNodeHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoDOMNodeHandlerInterface;
 
 interface ilFactoryInterface
 {

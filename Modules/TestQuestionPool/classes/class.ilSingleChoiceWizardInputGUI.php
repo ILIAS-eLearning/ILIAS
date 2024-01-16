@@ -71,8 +71,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         (string) $value,
                         $points,
                         (int) $index,
-                        1,
-                        "",
+                        true,
+                        null,
                         (int) $a_value['answer_id'][$index]
                     );
                     if (isset($a_value['imagename'][$index])) {
@@ -378,10 +378,10 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
-                    if (strlen($value->getImage())) {
+                    if ($value->getImage()) {
                         $imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
-                            if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
+                            if (file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage())) {
                                 $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                             }
                         }

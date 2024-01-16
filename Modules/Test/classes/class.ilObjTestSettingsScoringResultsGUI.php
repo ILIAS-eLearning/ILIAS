@@ -227,9 +227,11 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             return false;
         }
 
+        $now = (new DateTimeImmutable("NOW"))->format('YmdHis');
+
         if (
             $this->test_object->getScoreReporting() == ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE
-            && $this->test_object->getReportingDate() > time()
+            && $this->test_object->getReportingDate() > $now
         ) {
             return false;
         }

@@ -1058,36 +1058,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->forwardToEvaluationGUI();
     }
 
-    private function testResultsGatewayObject()
+    private function testResultsGatewayObject(): void
     {
-        $this->tabs_gui->clearTargets();
-
-        $this->prepareOutput();
-        $this->addHeaderAction();
-
-        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        $this->ctrl->setCmd('showParticipants');
-
-
-        $gui = new ilParticipantsTestResultsGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->db,
-            $this->user,
-            $this->tabs_gui,
-            $this->toolbar,
-            $this->tpl,
-            $this->ui_factory,
-            $this->ui_renderer,
-            new ilTestParticipantAccessFilterFactory($this->access),
-            $this->testrequest
+        $this->ctrl->redirectByClass(
+            [
+                ilRepositoryGUI::class,
+                __CLASS__,
+                ilTestResultsGUI::class,
+                ilParticipantsTestResultsGUI::class
+            ],
+            'showParticipants'
         );
-        $gui->setTestObj($this->object);
-        $gui->setQuestionSetConfig($this->test_question_set_config_factory->getQuestionSetConfig());
-        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
-        $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_gui->activateTab('results');
-        $this->ctrl->forwardCommand($gui);
     }
 
     private function showEditTestPageGUI(string $cmd): void
@@ -1618,42 +1599,41 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $sel_question_types = $this->testrequest->raw("sel_question_types");
         }
 
-        if (($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0)) {
+        if (($qpl_mode === 2 && $this->testrequest->raw("txt_qpl") === '')
+            || $qpl_mode === 3 && $qpl_ref_id === '') {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
             $this->createQuestionObject();
             return;
-        } else {
-            ilSession::set("test_id", $this->object->getRefId());
-            if ($qpl_mode == 2 && strcmp($this->testrequest->raw("txt_qpl"), "") != 0) {
-                // create a new question pool and return the reference id
-                $qpl_ref_id = $this->createQuestionPool($this->testrequest->raw("txt_qpl"));
-            } elseif ($qpl_mode == 1) {
-                $qpl_ref_id = $this->testrequest->getRefId();
-            }
-            $baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=" . $this->testrequest->getRefId() . "&calling_test=" . $this->testrequest->getRefId() . "&sel_question_types=" . $sel_question_types;
-
-            if ($this->testrequest->isset('prev_qid')) {
-                $baselink .= '&prev_qid=' . $this->testrequest->raw('prev_qid');
-            } elseif ($this->testrequest->isset('position')) {
-                $baselink .= '&prev_qid=' . $this->testrequest->raw('position');
-            }
-
-            if ($this->testrequest->raw('test_express_mode')) {
-                $baselink .= '&test_express_mode=1';
-            }
-
-            if ($this->testrequest->isset('add_quest_cont_edit_mode')) {
-                $baselink = ilUtil::appendUrlParameterString(
-                    $baselink,
-                    "add_quest_cont_edit_mode={$this->testrequest->raw('add_quest_cont_edit_mode')}",
-                    false
-                );
-            }
-
-            ilUtil::redirect($baselink);
-
-            exit();
         }
+
+        ilSession::set("test_id", $this->object->getRefId());
+        if ($qpl_mode === 2) {
+            // create a new question pool and return the reference id
+            $qpl_ref_id = $this->createQuestionPool($this->testrequest->raw("txt_qpl"));
+        } elseif ($qpl_mode === 1) {
+            $qpl_ref_id = $this->testrequest->getRefId();
+        }
+        $baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=" . $this->testrequest->getRefId() . "&calling_test=" . $this->testrequest->getRefId() . "&sel_question_types=" . $sel_question_types;
+
+        if ($this->testrequest->isset('prev_qid')) {
+            $baselink .= '&prev_qid=' . $this->testrequest->raw('prev_qid');
+        } elseif ($this->testrequest->isset('position')) {
+            $baselink .= '&prev_qid=' . $this->testrequest->raw('position');
+        }
+
+        if ($this->testrequest->raw('test_express_mode')) {
+            $baselink .= '&test_express_mode=1';
+        }
+
+        if ($this->testrequest->isset('add_quest_cont_edit_mode')) {
+            $baselink = ilUtil::appendUrlParameterString(
+                $baselink,
+                "add_quest_cont_edit_mode={$this->testrequest->raw('add_quest_cont_edit_mode')}",
+                false
+            );
+        }
+
+        ilUtil::redirect($baselink);
     }
 
     /**
@@ -1987,7 +1967,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             foreach ($selected_array as $key => $value) {
                 $this->object->insertQuestion($this->test_question_set_config_factory->getQuestionSetConfig(), $value);
                 if (!$manscoring) {
-                    $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+                    $manscoring = $manscoring | assQuestion::_needsManualScoring((int) $value);
                 }
             }
             $this->object->saveCompleteStatus($this->test_question_set_config_factory->getQuestionSetConfig());

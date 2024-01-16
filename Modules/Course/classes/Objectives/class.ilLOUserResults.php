@@ -27,6 +27,8 @@ class ilLOUserResults
     protected int $course_obj_id;
     protected int $user_id;
 
+    public const TYPE_UNDEFINED = 0;
+
     public const TYPE_INITIAL = 1;
     public const TYPE_QUALIFIED = 2;
 
@@ -45,7 +47,7 @@ class ilLOUserResults
         $this->db = $DIC->database();
     }
 
-    public static function updateResultLimit(int $a_objective_id, int $a_test_type, int $a_limit) : void
+    public static function updateResultLimit(int $a_objective_id, int $a_test_type, int $a_limit): void
     {
         global $DIC;
 

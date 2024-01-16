@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HttpServices;
 
@@ -265,6 +265,10 @@ abstract class ilADTSearchBridge
 
     /**
      * Compare directly against ADT
+     *
+     * This is currently only used in ilAdvancedMDValues::queryForRecords,
+     * e.g. in the filter of mediapools. Other filter/search use cases
+     * use instead getSQLCondition.
      */
     public function isInCondition(ilADT $a_adt): bool
     {

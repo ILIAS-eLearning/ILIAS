@@ -317,4 +317,15 @@ EOT;
         $this->assertNull($pagination->getRange());
         $this->assertEquals($range, $pagination->getRange());
     }
+
+    public function testRenderWithOnePageOnly(): void
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(30)
+            ->withPageSize(30);
+        $expected_html = '';
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertEquals($expected_html, $html);
+    }
+
 }

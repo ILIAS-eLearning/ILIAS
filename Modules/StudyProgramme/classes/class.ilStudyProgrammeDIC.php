@@ -110,8 +110,17 @@ class ilStudyProgrammeDIC
                  $DIC['ilAccess'],
                  $DIC->http()->wrapper(),
                  $DIC->refinery(),
-                 $dic['permissionhelper']
+                 $dic['permissionhelper'],
+                 $prg->getId(),
+                 $dic['PRGMessages']
              );
+
+        $dic['PRGMessages'] = static fn($dic): ilPRGMessagePrinter =>
+            new ilPRGMessagePrinter(
+                new ilPRGMessageCollection(),
+                $DIC['lng'],
+                $DIC['tpl']
+            );
 
         $dic['DataFactory'] = static fn($dic) => new \ILIAS\Data\Factory();
 
@@ -169,10 +178,12 @@ class ilStudyProgrammeDIC
             new ilStudyProgrammeTypeDBRepository(
                 $DIC['ilDB'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
-                $DIC->filesystem()->web(),
                 $DIC['ilUser'],
                 $DIC['lng'],
-                $DIC['component.factory']
+                $DIC['component.factory'],
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['resource_storage'],
             );
         $dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = static fn($dic) =>
             new ilStudyProgrammeAutoCategoryDBRepository(
@@ -249,7 +260,7 @@ class ilStudyProgrammeDIC
                 $DIC->refinery(),
                 $DIC['ui.factory']
             );
-        $dic['ilStudyProgrammeTypeGUI'] = static fn($dic) =>
+        $dic['ilStudyProgrammeTypeGUI'] = static fn($dic): ilStudyProgrammeTypeGUI =>
             new ilStudyProgrammeTypeGUI(
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
@@ -262,11 +273,12 @@ class ilStudyProgrammeDIC
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
                 $DIC->ui()->factory(),
                 $DIC->ui()->renderer(),
+                $dic['DataFactory'],
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $DIC->filesystem()->web(),
                 $DIC->http()->wrapper()->query()
             );
+
         $dic['ilStudyProgrammeRepositorySearchGUI'] = static fn($dic) =>
             new ilStudyProgrammeRepositorySearchGUI();
         $dic['ilObjStudyProgrammeIndividualPlanGUI'] = static fn($dic) =>
@@ -299,16 +311,7 @@ class ilStudyProgrammeDIC
             new \ILIAS\Data\Factory();
         $dic['ilOrgUnitObjectTypePositionSetting'] = static fn($dic) =>
             new ilOrgUnitObjectTypePositionSetting('prg');
-        $dic['ilStudyProgrammeMailMemberSearchGUI'] = static fn($dic) =>
-            new ilStudyProgrammeMailMemberSearchGUI(
-                $DIC['ilCtrl'],
-                $DIC['tpl'],
-                $DIC['lng'],
-                $DIC['ilAccess'],
-                $DIC->http()->wrapper(),
-                $DIC->refinery(),
-                $dic['permissionhelper']
-            );
+
         $dic['ilStudyProgrammeChangeExpireDateGUI'] = static fn($dic) =>
             new ilStudyProgrammeChangeExpireDateGUI(
                 $DIC['ilCtrl'],

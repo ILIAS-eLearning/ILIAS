@@ -477,6 +477,18 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 	font-family: il-icons;
 	content: "\e605";
 }
+.glyphicon-apply:before {
+  font-family: il-icons;
+  content: "\e90c";
+}
+.glyphicon-launch:before {
+  font-family: il-icons;
+  content: "\e05c";
+}
+.glyphicon-reset:before {
+  font-family: il-icons;
+  content: "\e90a";
+}
 // change glyphs only for metabar entries
 .glyphicon-user:before {
 	font-family: il-icons;

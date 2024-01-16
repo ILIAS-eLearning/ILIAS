@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ImportStatus\Content\Builder;
+namespace ILIAS\Export\ImportStatus\Content\Builder;
 
-use ImportStatus\I\Content\Builder\ilStringInterface as ilImportStatusStringContentBuilderInterface;
-use ImportStatus\I\Content\ilHandlerInterface;
+use ILIAS\Export\ImportStatus\I\Content\Builder\ilStringInterface as ilImportStatusStringContentBuilderInterface;
+use ILIAS\Export\ImportStatus\I\Content\ilHandlerInterface;
 
 class ilString implements ilImportStatusStringContentBuilderInterface
 {

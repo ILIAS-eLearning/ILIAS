@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Data;
 use Pimple\Container;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 trait ilIndividualAssessmentDIC
 {
@@ -73,6 +74,12 @@ trait ilIndividualAssessmentDIC
             );
         };
 
+        $container['irss.stakeholder'] = static fn($c): ResourceStakeholder =>
+            new ilIndividualAssessmentGradingStakeholder(
+                $object->getId(),
+                $dic['ilUser']->getId()
+            );
+
         $container['ilIndividualAssessmentMemberGUI'] = function ($c) use ($object, $dic) {
             return new ilIndividualAssessmentMemberGUI(
                 $dic['ilCtrl'],
@@ -93,7 +100,9 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $dic->refinery(),
                 $dic->http()->wrapper()->query(),
-                $c['helper.dateformat']
+                $c['helper.dateformat'],
+                $dic['resource_storage'],
+                $stakeholder = $c['irss.stakeholder']
             );
         };
 
@@ -112,6 +121,21 @@ trait ilIndividualAssessmentDIC
                 $c['DataFactory']
             );
         };
+
+        $container['iass.member.storage'] = static fn($c): ilIndividualAssessmentMembersStorageDB =>
+            new ilIndividualAssessmentMembersStorageDB(
+                $dic['ilDB'],
+                $dic['resource_storage'],
+                $stakeholder = $c['irss.stakeholder']
+            );
+        $container['iass.accesshandler'] = static fn($c): ilIndividualAssessmentAccessHandler =>
+            new ilIndividualAssessmentAccessHandler(
+                $object,
+                $dic['ilAccess'],
+                $dic['rbacadmin'],
+                $dic['rbacreview'],
+                $dic['ilUser']
+            );
 
         return $container;
     }

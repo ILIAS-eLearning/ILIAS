@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ImportHandler\I\File\XML;
+namespace ILIAS\Export\ImportHandler\I\File\XML;
 
 use DOMDocument;
-use ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 use SplFileInfo;
 
 interface ilHandlerInterface extends ilFileHandlerInterface

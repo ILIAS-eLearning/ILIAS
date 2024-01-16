@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Data\URI;
+
 /**
  * Immutable class for internal Web Link items
  * @author Tim Schmitz <schmitz@leifos.de>
@@ -29,6 +31,9 @@ class ilWebLinkItemInternal extends ilWebLinkItem
         return true;
     }
 
+    /**
+     * TODO: should be refactored to use URI data object everywhere
+     */
     public function getResolvedLink(bool $with_parameters = true): string
     {
         $parts = explode("|", $this->getTarget());
@@ -40,9 +45,9 @@ class ilWebLinkItemInternal extends ilWebLinkItem
                 $link = ilLink::_getStaticLink(
                     0,
                     'wiki',
-                    true,
-                    '&target=wiki_wpage_' . $ref_id
+                    true
                 );
+                $link = $this->appendParameter($link, 'target', 'wiki_wpage_' . $ref_id);
                 break;
 
             case 'term':
@@ -50,9 +55,9 @@ class ilWebLinkItemInternal extends ilWebLinkItem
                 $link = ilLink::_getStaticLink(
                     0,
                     "git",
-                    true,
-                    "&target=git_" . $ref_id
+                    true
                 );
+                $link = $this->appendParameter($link, 'target', 'git_' . $ref_id);
                 break;
 
             case 'page':
@@ -73,5 +78,11 @@ class ilWebLinkItemInternal extends ilWebLinkItem
         }
 
         return $link;
+    }
+
+    protected function appendParameter(string $link, string $key, string $value): string
+    {
+        $uri = new URI($link);
+        return (string) $uri->withParameter($key, $value);
     }
 }

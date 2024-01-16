@@ -244,7 +244,10 @@ class ilFileDataForumDraftsRCImplementation implements ilFileDataForumInterface
 
     public function deliverZipFile(): bool
     {
-        $zip_filename = $this->getCurrentDraft()->getPostSubject() . '.zip';
+        // https://mantis.ilias.de/view.php?id=39910
+        $zip_filename = \ILIAS\FileDelivery\Delivery::returnASCIIFileName(
+            $this->getCurrentDraft()->getPostSubject() . '.zip'
+        );
         $rcid = $this->getCurrentCollection()->getIdentification();
 
         $this->irss->consume()->downloadCollection($rcid, $zip_filename)

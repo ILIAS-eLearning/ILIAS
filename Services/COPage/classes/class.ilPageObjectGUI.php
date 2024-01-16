@@ -844,7 +844,8 @@ class ilPageObjectGUI
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                $this->tabs_gui->activateTab("meta_data");
+                //$this->tabs_gui->activateTab("meta_data");
+                $this->setBackToEditTabs();
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
                     $md_gui->addMDObserver(
@@ -1837,50 +1838,77 @@ class ilPageObjectGUI
                     case "str":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Strong">' . $str . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Strong"]
+                                        "data" => ["format" => "Strong"],
+                                        "aria-label" => $lng->txt("cont_text_str")
                         ];
                         break;
                     case "emp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Emph">' . $emp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Emph"]
+                                        "data" => ["format" => "Emph"],
+                                        "aria-label" => $lng->txt("cont_text_emp")
                         ];
                         break;
                     case "imp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Important">' . $imp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Important"]
+                                        "data" => ["format" => "Important"],
+                                        "aria-label" => $lng->txt("cont_text_imp")
                         ];
                         break;
                     case "sup":
                         $c_formats[] = ["text" => 'x<sup>2</sup>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sup"]
+                                        "data" => ["format" => "Sup"],
+                                        "aria-label" => $lng->txt("cont_text_sup")
                         ];
                         break;
                     case "sub":
                         $c_formats[] = ["text" => 'x<sub>2</sub>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sub"]
+                                        "data" => ["format" => "Sub"],
+                                        "aria-label" => $lng->txt("cont_text_sub")
                         ];
                         break;
                 }
             }
         }
         $c_formats[] = ["text" => "<i>A</i>",
-                        "action" => $char_formats
+                        "action" => $char_formats,
+                        "aria-label" => $lng->txt("copg_more_character_formats")
         ];
         $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
                         "action" => "selection.removeFormat",
-                        "data" => []
+                        "data" => [],
+                        "aria-label" => $lng->txt("copg_remove_formats")
         ];
         $menu = [
             "cont_char_format" => $c_formats,
             "cont_lists" => [
-                ["text" => $bullet_list, "action" => "list.bullet", "data" => []],
-                ["text" => $numbered_list, "action" => "list.number", "data" => []],
-                ["text" => $outdent, "action" => "list.outdent", "data" => []],
-                ["text" => $indent, "action" => "list.indent", "data" => []]
+                [
+                    "text" => $bullet_list,
+                    "action" => "list.bullet",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_bullet_list")
+                ],
+                [
+                    "text" => $numbered_list,
+                    "action" => "list.number",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_numbered_list")
+                ],
+                [
+                    "text" => $outdent,
+                    "action" => "list.outdent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_outdent")
+                ],
+                [
+                    "text" => $indent,
+                    "action" => "list.indent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_indent")
+                ]
             ]
         ];
 
@@ -1969,13 +1997,30 @@ class ilPageObjectGUI
                 if (is_array($item["action"])) {
                     $buttons = [];
                     foreach ($item["action"] as $i) {
-                        $buttons[] = $ui_wrapper->getButton($i["text"], "par-action", $i["action"], $i["data"]);
+                        $buttons[] = $ui_wrapper->getButton(
+                            $i["text"],
+                            "par-action",
+                            $i["action"],
+                            $i["data"],
+                            "",
+                            false,
+                            $i["aria-label"] ?? ""
+                        );
                     }
-                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"]);
+                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"])
+                        ->withAriaLabel($item["aria-label"] ?? "");
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $ui->renderer()->renderAsync($dd));
                 } else {
-                    $b = $ui_wrapper->getRenderedButton($item["text"], "par-action", $item["action"], $item["data"]);
+                    $b = $ui_wrapper->getRenderedButton(
+                        $item["text"],
+                        "par-action",
+                        $item["action"],
+                        $item["data"],
+                        "",
+                        false,
+                        $item["aria-label"] ?? ""
+                    );
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $b);
                 }
@@ -2320,8 +2365,12 @@ class ilPageObjectGUI
 
     public function preview(): string
     {
+        if ($this->requested_history_mode) {
+            $this->setBackToHistoryTabs();
+        } else {
+            $this->tabs_gui->activateTab("cont_preview");
+        }
         $this->setOutputMode(self::PREVIEW);
-        $this->tabs_gui->activateTab("cont_preview");
         return $this->showPage();
     }
 
@@ -2376,6 +2425,8 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_item_up");
         $this->lng->toJS("cont_ed_item_down");
         $this->lng->toJS("cont_ed_delete_item");
+        $this->lng->toJS("copg_edit_iframe_title");
+        $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
@@ -2529,6 +2580,15 @@ class ilPageObjectGUI
         );
     }
 
+    protected function setBackToHistoryTabs(): void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "history")
+        );
+    }
+
     /**
     * Get history table as HTML.
     */
@@ -2613,6 +2673,28 @@ class ilPageObjectGUI
         $this->help->setScreenIdComponent("copg");
     }
 
+    public function getMetaDataLink(): string
+    {
+        $mdtab = "";
+        if ($this->use_meta_data) {
+            $mdgui = new ilObjectMetaDataGUI(
+                $this->meta_data_rep_obj,
+                $this->meta_data_type,
+                $this->meta_data_sub_obj_id
+            );
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTarget(
+                    "meta_data",
+                    $mdtab,
+                    "",
+                    "ilobjectmetadatagui"
+                );
+            }
+        }
+        return (string) $mdtab;
+    }
+
     public function getTabs(string $a_activate = ""): void
     {
         if (in_array($this->getOutputMode(), [self::OFFLINE])) {
@@ -2650,37 +2732,6 @@ class ilPageObjectGUI
 
         $lm_set = new ilSetting("lm");
 
-        /*
-        if ($this->getEnableEditing() && $lm_set->get("page_history", 1)) {
-            $this->tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
-            if ($this->requested_history_mode == 1 || $this->ctrl->getCmd() == "compareVersion") {
-                $this->tabs_gui->activateTab("history");
-            }
-        }*/
-
-        /*
-        if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID) {
-            $this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view"), "view", "ilEditClipboardGUI");
-        }*/
-
-        if ($this->getPageConfig()->getEnableScheduledActivation()) {
-            $this->tabs_gui->addTarget(
-                "cont_activation",
-                $this->ctrl->getLinkTarget($this, "editActivation"),
-                "editActivation",
-                get_class($this)
-            );
-        }
-
-        if ($this->getEnabledNews()) {
-            $this->tabs_gui->addTarget(
-                "news",
-                $this->ctrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
-                "",
-                "ilnewsitemgui"
-            );
-        }
-
         // external hook to add tabs
         if (is_array($this->tab_hook)) {
             $func = $this->tab_hook["func"];
@@ -2696,7 +2747,7 @@ class ilPageObjectGUI
         if (!$this->getEnableEditing()) {
             return "";
         }
-
+        $this->setBackToHistoryTabs();
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
 
         $pg = $this->obj;

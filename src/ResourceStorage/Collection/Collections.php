@@ -95,31 +95,39 @@ class Collections
         ResourceCollectionIdentification $identification,
         ?int $owner = null
     ): ResourceCollection {
-        $collection = $this->cache[$identification->serialize()] ?? $this->collection_builder->get(
+        $rcid = $identification->serialize();
+
+        $collection = $this->cache[$rcid] ?? $this->collection_builder->get(
             $identification,
             $owner
         );
 
-        $collection->clear();
         $preload = [];
 
-        $rids = $this->rid_cache[$identification->serialize()]
-            ?? $this->collection_builder->getResourceIds($identification);
-        $this->rid_cache[$identification->serialize()] = [];
+        $rids = isset($this->cache[$rcid])
+            ? $this->cache[$rcid]->getResourceIdentifications()
+            : $this->rid_cache[$rcid]
+            ?? iterator_to_array($this->collection_builder->getResourceIds($identification));
+
+        $this->rid_cache[$rcid] = []; // reset cache for identification, rebuild it now
+        $collection->clear();
+
         foreach ($rids as $resource_identification) {
             if ($this->resource_builder->has($resource_identification)) {
                 $collection->add($resource_identification);
                 $preload[] = $resource_identification;
             }
-            $this->rid_cache[$identification->serialize()][] = $resource_identification;
+            $this->rid_cache[$rcid][] = $resource_identification;
         }
         $this->preloader->preload($preload);
 
-        return $this->cache[$identification->serialize()] = $collection;
+        return $this->cache[$rcid] = $collection;
     }
 
     public function store(ResourceCollection $collection): bool
     {
+        $this->cache[$collection->getIdentification()->serialize()] = $collection;
+
         return $this->collection_builder->store($collection);
     }
 
@@ -151,6 +159,8 @@ class Collections
                 $this->resource_builder->remove($resource, $stakeholder);
             }
         }
+        unset($this->cache[$collection_id->serialize()]);
+
         return $this->collection_builder->delete($collection_id);
     }
 

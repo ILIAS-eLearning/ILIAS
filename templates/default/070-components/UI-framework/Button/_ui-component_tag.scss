@@ -2,6 +2,9 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_legacy-and-ui-tag" as *;
+@use "../../../050-layout/basics"as l;
+@use "../../../050-layout/standardpage" as l-spage;
+@use "../../../030-tools/_tool_buttons" as *;
 
 //== Tags
 
@@ -10,7 +13,6 @@
     white-space: nowrap;
     padding: $il-padding-xs-vertical $il-padding-xs-horizontal;
     margin: $il-padding-small-vertical $il-padding-small-horizontal $il-padding-small-vertical 0;
-    border-radius: $il-border-radius-secondary-small;
 
     &.btn-tag-inactive {
         cursor: default !important;
@@ -19,25 +21,43 @@
     &.btn-tag-relevance-verylow {
         color: map.get($tag-priority-text-colors, "verylow");
         background-color: map.get($tag-priority-bg-colors, "verylow");
+        border-color: map.get($tag-priority-bg-colors, "verylow");
     }
 
     &.btn-tag-relevance-low {
         color: map.get($tag-priority-text-colors, "low");
         background-color: map.get($tag-priority-bg-colors, "low");
+        border-color: map.get($tag-priority-bg-colors, "low");
     }
 
     &.btn-tag-relevance-middle {
         color: map.get($tag-priority-text-colors, "middle");
         background-color: map.get($tag-priority-bg-colors, "middle");
+        border-color: map.get($tag-priority-bg-colors, "middle");
     }
 
     &.btn-tag-relevance-high {
         color: map.get($tag-priority-text-colors, "high");
         background-color: map.get($tag-priority-bg-colors, "high");
+        border-color: map.get($tag-priority-bg-colors, "high");
     }
 
     &.btn-tag-relevance-veryhigh {
         color: map.get($tag-priority-text-colors, "veryhigh");
         background-color: map.get($tag-priority-bg-colors, "veryhigh");
+        border-color: map.get($tag-priority-bg-colors, "high");
     }
+
+    @include make-button($set-basics: false, $set-design: true,
+        $border-radius: $il-border-radius-secondary-small,
+
+        $disabled_bg-color: $il-disabled-btn-bg,
+        $disabled_text-color: $il-disabled-btn-color,
+        $disabled_border-color: $il-disabled-btn-border,
+
+        $engaged_bg-color: $il-engaged-btn-bg,
+        $engaged_text-color: $il-engaged-btn-color,
+        $engaged_border-color: $il-btn-standard-border,
+        $engaged_border-width: 1px
+    );
 }

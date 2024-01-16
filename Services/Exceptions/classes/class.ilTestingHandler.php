@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * A Whoops error handler for testing.
  * This yields the same output as the plain text handler, but prints a nice message to the tester on top of
@@ -26,20 +26,9 @@ declare(strict_types=1);
  */
 class ilTestingHandler extends ilPlainTextHandler
 {
-    /**
-     * Get the header for the page.
-     */
-    protected function pageHeader(): string
+    public function generateResponse(): string
     {
-        return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n";
-    }
-
-    /**
-     * Assemble the output for this handler.
-     */
-    protected function content(): string
-    {
-        return $this->pageHeader()
-            . $this->exceptionContent();
+        return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n"
+            . $this->getExceptionOutput();
     }
 }

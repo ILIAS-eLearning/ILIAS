@@ -165,8 +165,10 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // plugins
         foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
-            $commands["plug_" . $plugin->getPluginName()] =
-                $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            if ($plugin->isValidParentType($this->page_gui->getPageObject()->getParentType())) {
+                $commands["plug_" . $plugin->getPluginName()] =
+                    $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+            }
         }
         return $commands;
     }
@@ -347,6 +349,20 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $lng->txt("clipboard"),
                 $ctrl->getLinkTargetByClass([get_class($this->page_gui), "ilEditClipboardGUI"], "view")
             );
+
+            if ($this->page_gui->getEnabledNews()) {
+                $items[] = $ui->factory()->link()->standard(
+                    $lng->txt("news"),
+                    $ctrl->getLinkTargetByClass([get_class($this->page_gui), "ilnewsitemgui"], "editNews")
+                );
+            }
+
+            if (($md_link = $this->page_gui->getMetaDataLink()) !== "") {
+                $items[] = $ui->factory()->link()->standard(
+                    $lng->txt("meta_data"),
+                    $md_link
+                );
+            }
         }
 
 

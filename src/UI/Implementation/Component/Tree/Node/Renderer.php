@@ -92,7 +92,12 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
+        if($id) {
+            $tpl->setCurrentBlock("node_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+
+        }
 
         $subnodes = $component->getSubnodes();
 
