@@ -262,6 +262,9 @@ class ilObjExercise extends ilObject
         $new_obj->setCompletionBySubmission($this->isCompletionBySubmissionEnabled());
         $new_obj->setTutorFeedback($this->getTutorFeedback());
         $new_obj->setCertificateVisibility($this->getCertificateVisibility());
+
+        $this->cloneMetaData($new_obj);
+
         $new_obj->update();
 
         $new_obj->saveCertificateVisibility($this->getCertificateVisibility());
@@ -323,6 +326,8 @@ class ilObjExercise extends ilObject
             return false;
         }
         // put here course specific stuff
+        $this->deleteMetaData();
+
         $ilDB->manipulate("DELETE FROM exc_data " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
 
@@ -374,6 +379,13 @@ class ilObjExercise extends ilObject
         $this->members_obj = new ilExerciseMembers($this);
     }
 
+    public function create(): int
+    {
+        $id = parent::create();
+        $this->createMetaData();
+        return $id;
+    }
+
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
@@ -397,6 +409,7 @@ class ilObjExercise extends ilObject
             ));
 
         $this->updateAllUsersStatus();
+        $this->updateMetaData();
 
         return true;
     }
