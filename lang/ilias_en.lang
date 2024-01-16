@@ -11350,8 +11350,8 @@ mail#:#mail_second_email#:#Second E-Mail Address
 mail#:#mail_sel_label#:#Send mail to
 mail#:#mail_sel_users#:#Selected users
 mail#:#mail_select_attachment#:#Please select an attachment to download.
-mail#:#mail_select_course#:#Please select at least one course.
-mail#:#mail_select_group#:#Please select at least one group.
+mail#:#mail_select_crs#:#Please select at least one course.
+mail#:#mail_select_grp#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame

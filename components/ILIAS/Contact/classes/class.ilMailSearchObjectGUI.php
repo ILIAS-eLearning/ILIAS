@@ -160,7 +160,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->addPermission($obj_ids);
             } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -216,7 +216,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->mailObjects();
             } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -390,7 +390,7 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($obj_ids === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
             $this->showMyObjects();
             return;
         }
