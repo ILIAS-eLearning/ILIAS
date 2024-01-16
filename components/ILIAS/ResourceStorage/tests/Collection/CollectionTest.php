@@ -233,6 +233,57 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
     }
 
 
+    public function testRidCache(): void
+    {
+        $resource_collection_identification = new ResourceCollectionIdentification(self::DUMMY_RCID);
+        $rid_one = new ResourceIdentification('rid_one');
+        $rid_two = new ResourceIdentification('rid_two');
+        $rid_three = new ResourceIdentification('rid_three');
+
+        $collections_service = new Collections(
+            $this->resource_builder,
+            $this->collection_builder,
+            $this->preloader
+        );
+
+        $this->collection_repository
+            ->expects($this->once())
+            ->method('existing')
+            ->with($resource_collection_identification)
+            ->willReturn(
+                new ResourceCollection($resource_collection_identification, -1, 'title')
+            );
+
+        $collection = $collections_service->get(
+            $resource_collection_identification
+        );
+        $this->assertCount(0, $collection->getResourceIdentifications());
+
+        $collection->add($rid_one);
+        $collection->add($rid_two);
+        $collection->add($rid_three);
+
+        $this->assertCount(3, $collection->getResourceIdentifications());
+
+        $collections_service->store($collection);
+
+        $this->resource_repository->expects($this->exactly(3))
+                               ->method('has')
+                               ->withConsecutive(
+                                   [$rid_one],
+                                   [$rid_two],
+                                   [$rid_three]
+                               )
+                               ->willReturn(true);
+
+        $collection = $collections_service->get(
+            $resource_collection_identification
+        );
+
+        $this->assertCount(3, $collection->getResourceIdentifications());
+    }
+
+
     protected function arrayAsGenerator(array $array): \Generator
     {
         foreach ($array as $item) {
