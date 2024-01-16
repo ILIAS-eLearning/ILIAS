@@ -86,8 +86,16 @@ class ProvideHistory
     /**
      * @return Result<DocumentContent>
      */
-    public function acceptedDocument(ilObjUser $user): Result
+    public function acceptedVersion(ilObjUser $user): Result
     {
-        return $this->repository->acceptedDocument($user);
+        return $this->repository->acceptedVersion($user);
+    }
+
+    /**
+     * @return Result<Document>
+     */
+    public function currentDocumentOfAcceptedVersion(ilObjUser $user): Result
+    {
+        return $this->repository->currentDocumentOfAcceptedVersion($user);
     }
 }

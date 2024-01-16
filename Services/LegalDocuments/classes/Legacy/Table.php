@@ -31,6 +31,8 @@ use ilTable2GUI;
 use ILIAS\LegalDocuments\SmoothTableConfig;
 use ILIAS\LegalDocuments\TableFilter;
 use InvalidArgumentException;
+use ILIAS\UI\Component\Modal\Modal;
+use ilFormPropertyGUI;
 
 class Table extends ilTable2GUI implements TableSelection
 {
@@ -56,7 +58,7 @@ class Table extends ilTable2GUI implements TableSelection
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $command));
         $this->setRowTemplate('legacy-table-row.html', 'Services/LegalDocuments');
         array_map($apply($this->addColumn(...)), $this->visibleColumns());
-        $this->setShowRowsSelector(true);
+        $this->setShowRowsSelector(false);
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         iljQueryUtil::initjQuery($DIC->ui()->mainTemplate());
@@ -65,6 +67,12 @@ class Table extends ilTable2GUI implements TableSelection
         $DIC->ui()->mainTemplate()->addJavaScript('./Services/Form/js/Form.js');
         $this->determineOffsetAndOrder();
         $this->setData($table->rows($this));
+    }
+
+    public function setMaxCount(int $a_max_count): void
+    {
+        $this->setShowRowsSelector(true);
+        parent::setMaxCount($a_max_count);
     }
 
     public function setSelectableColumns(...$names): void
@@ -94,6 +102,11 @@ class Table extends ilTable2GUI implements TableSelection
             ],
             $this->filterInputs()
         ), 1, 0);
+    }
+
+    public function render(): string
+    {
+        return parent::render() . $this->renderModals();
     }
 
     protected function isColumnVisible(int $index): bool
@@ -147,7 +160,8 @@ class Table extends ilTable2GUI implements TableSelection
         $is_component = fn($x): bool => $x instanceof Component;
 
         if ($is_component($x) || (is_array($x) && array_filter($x, fn($x) => !$is_component($x)) === [])) {
-            return $GLOBALS['DIC']->ui()->renderer()->render($x);
+            global $DIC;
+            return $DIC->ui()->renderer()->render($this->removeModals($x));
         } elseif (is_callable($x)) {
             return $x();
         } elseif (is_string($x)) {
@@ -204,12 +218,45 @@ class Table extends ilTable2GUI implements TableSelection
         $this->initFilter();
         $this->setFilterCommand($this->getParentCmd());
         $this->setResetCommand($reset_command);
-        array_map(fn($item) => $item->readFromSession(), $this->getFilterItems(true));
         $this->determineSelectedFilters();
         if ($DIC->ctrl()->getCmd() === $reset_command) {
             $this->resetFilter();
-        } else {
+        } elseif (strtoupper($DIC->http()->request()->getMethod()) === 'POST') {
             $this->writeFilterToSession();
+        } else {
+            $read = static fn(ilFormPropertyGUI $x) => $x->readFromSession();
+            array_map($read, $this->getFilterItems());
+            array_map($read, array_filter($this->getFilterItems(true), fn($x) => $this->isFilterSelected($x->getPostVar())));
         }
+    }
+
+    private function renderModals(): string
+    {
+        global $DIC;
+
+        return $DIC->ui()->renderer()->render($this->flatMap(
+            fn($x) => $this->flatMap(fn($x) => array_filter($this->asArray($x), $this->isModal(...)), $x),
+            $this->getData()
+        ));
+    }
+
+    private function removeModals($x): array
+    {
+        return array_filter($this->asArray($x), fn($x) => !$this->isModal($x));
+    }
+
+    private function flatMap(callable $proc, array $a): array
+    {
+        return array_merge(...array_values(array_map($proc, $a)));
+    }
+
+    private function asArray($x): array
+    {
+        return is_array($x) ? $x : [$x];
+    }
+
+    private function isModal($x): bool
+    {
+        return $x instanceof Modal;
     }
 }

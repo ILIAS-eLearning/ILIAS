@@ -143,7 +143,7 @@ class Blocks
             $this->container->language()->loadLanguageModule('ldoc');
             $user = $build_user($user);
 
-            $value = $user->acceptedDocument()->map(function (DocumentContent $content) use ($lang_key, $user): ilNonEditableValueGUI {
+            $value = $user->acceptedVersion()->map(function (DocumentContent $content) use ($lang_key, $user): ilNonEditableValueGUI {
                 $input = new ilNonEditableValueGUI($this->ui()->txt($lang_key), $lang_key);
                 $input->setValue($this->formatDate($user->agreeDate()->value()));
                 $modal = $this->ui()->create()->modal()->lightbox([

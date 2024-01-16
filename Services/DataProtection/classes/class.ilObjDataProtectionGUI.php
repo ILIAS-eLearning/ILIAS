@@ -58,7 +58,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
             $config = $config->allowEditing();
         }
         $this->config = $config;
-        $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $config);
+        $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $config, $this->afterDocumentDeletion(...));
 
         $this->data_protection_settings = $this->createDataProtectionSettings();
         $this->ui = new UI($this->getType(), $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language());
@@ -160,6 +160,13 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
         $this->tabs_gui->addTab('permissions', $this->ui->txt('perm_settings'), $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'));
     }
 
+    public function afterDocumentDeletion(): void
+    {
+        if ($this->config->legalDocuments()->document()->repository()->countAll() === 0) {
+            $this->data_protection_settings->enabled()->update(false);
+        }
+    }
+
     private function requireReadable(): void
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
@@ -194,7 +201,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
             $no_documents = $this->config->legalDocuments()->document()->repository()->countAll() === 0;
             if ($no_documents && isset($data['enabled'])) {
                 $this->tpl->setOnScreenMessage('failure', $this->ui->txt('no_documents_exist_cant_save'), true);
-                return;
+                $this->ctrl->redirect($this, 'settings');
             }
             $type = $data['enabled']['type'] ?? false;
             $this->data_protection_settings->enabled()->update(isset($data['enabled']));
