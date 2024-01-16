@@ -376,10 +376,6 @@
   display: inline-block;
 }
 
-.dropdown-toggle:focus {
-  outline: 0;
-}
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
