@@ -1838,3 +1838,12 @@ if (
         $this->db->addIndex('loc_settings', ['qtest'], 'i2');
     }
 ?>
+<#109>
+<?php
+if (
+        $ilDB->tableExists('webr_items') &&
+        !$ilDB->indexExistsByFields('webr_items', ['web_id', 'active'])
+) {
+    $ilDB->addIndex('webr_items', ['web_id', 'active'], 'i4');
+}
+?>
