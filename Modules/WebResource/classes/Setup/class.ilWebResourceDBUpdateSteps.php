@@ -38,4 +38,16 @@ class ilWebResourceDBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('webr_items', ['webr_id'], 'i3');
         }
     }
+
+    public function step_2(): void
+    {
+        // Add combined index
+        // 32201
+        if (
+            $this->db->tableExists('webr_items') &&
+            !$this->db->indexExistsByFields('webr_items', ['webr_id', 'active'])
+        ) {
+            $this->db->addIndex('webr_items', ['webr_id', 'active'], 'i4');
+        }
+    }
 }
