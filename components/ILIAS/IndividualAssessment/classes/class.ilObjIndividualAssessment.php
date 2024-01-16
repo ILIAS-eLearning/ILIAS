@@ -268,7 +268,7 @@ class ilObjIndividualAssessment extends ilObject
      * @param int $id start at this id
      * @param string[] $types search for these strings
      *
-     * @return int the obj_id or 0 if root is reached
+     * @return int the ref_id or 0 if root is reached
      */
     public function getParentContainerIdByType(int $id, array $types): int
     {

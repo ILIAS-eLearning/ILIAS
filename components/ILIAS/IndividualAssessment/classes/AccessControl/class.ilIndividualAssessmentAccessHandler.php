@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Deal with ilias rbac-system
@@ -50,7 +50,12 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
      */
     public function checkRBACAccessToObj(string $operation): bool
     {
-        return $this->isSystemAdmin() || $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
+        if($this->simulateMember()) {
+            return $this->checkMemberRoleForPermission($operation);
+        } else {
+            return $this->isSystemAdmin() ||
+                $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
+        }
     }
 
     public function checkRBACOrPositionAccessToObj(string $operation)
@@ -76,6 +81,33 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         }
 
         throw new \LogicException("Unknown rbac/position-operation: $operation");
+    }
+
+    public function simulateMember(): bool
+    {
+        $settings = ilMemberViewSettings::getInstance();
+        return $settings->isActive() &&
+            $settings->getContainer() === $this->iass->getParentContainerIdByType($this->iass->getRefId(), ['crs']);
+    }
+
+    protected function checkMemberRoleForPermission(string $operation): bool
+    {
+        $ref_id = $this->iass->getRefId();
+        $roles = array_filter(
+            $this->review->getParentRoleIds($ref_id),
+            static fn(array $role): bool => str_starts_with($role['title'], 'il_crs_member_')
+        );
+        if($roles === []) {
+            return false;
+        }
+        $role = array_shift($roles);
+        $active_ops = $this->review->getActiveOperationsOfRole($ref_id, $role['rol_id']);
+        foreach($active_ops as $op) {
+            if($this->review->getOperation($op)['operation'] === $operation) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
