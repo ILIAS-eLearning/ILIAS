@@ -3,6 +3,11 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ImportHandler\ilFactory as ilImportHandlerFactory;
+use ImportStatus\ilFactory as ilImportStatusFactory;
+use ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use Schema\ilXmlSchemaFactory as ilXMLSchemaFactory;
+
 /**
  * Description of ilDidacticTemplateImport
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -11,18 +16,17 @@ declare(strict_types=1);
 class ilDidacticTemplateImport
 {
     public const IMPORT_FILE = 1;
+    protected const SCHEMA_TYPE = 'otpl';
 
-    private int $type = 0;
-    private string $xmlfile = '';
-
-    private ilLogger $logger;
+    protected int $type = 0;
+    protected string $xmlfile = '';
+    protected ilLogger $logger;
     protected ilObjectDefinition $objDefinition;
     protected ilSetting $settings;
 
     public function __construct(int $a_type)
     {
         global $DIC;
-
         $this->logger = $DIC->logger()->otpl();
         $this->type = $a_type;
         $this->objDefinition = $DIC['objDefinition'];
@@ -65,6 +69,24 @@ class ilDidacticTemplateImport
         $settings = $this->parseSettings($root);
         $this->parseActions($settings, $root->didacticTemplate->actions);
         return $settings;
+    }
+
+    public function validateImportFile(): ilImportStatusCollectionInterface
+    {
+        $status = new ilImportStatusFactory();
+        if ($this->getInputType() !== self::IMPORT_FILE) {
+            return $status->collection()->withAddedStatus($status->handler()
+                ->withType(ImportStatus\StatusType::FAILED)
+                ->withContent($status->content()->builder()->string()
+                    ->withString("Invalid import status, import status 'IMPORT_FILE' expected.")));
+        }
+        $schema = new ilXMLSchemaFactory();
+        $import = new ilImportHandlerFactory();
+        $xml_spl_info = new SplFileInfo($this->getInputFile());
+        $xsd_spl_info = $schema->getLatest(self::SCHEMA_TYPE);
+        $xml_file_handler = $import->file()->xml()->withFileInfo($xml_spl_info);
+        $xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_spl_info);
+        return $import->file()->validation()->handler()->validateXMLFile($xml_file_handler, $xsd_file_handler);
     }
 
     /**
