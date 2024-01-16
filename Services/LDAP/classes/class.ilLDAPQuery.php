@@ -202,11 +202,16 @@ class ilLDAPQuery
         $this->logger->info('Found ' . $tmp_result->numRows() . ' users.');
         $attribute = strtolower($this->settings->getUserAttribute());
         foreach ($tmp_result->getRows() as $data) {
-            if (isset($data[$attribute])) {
-                $this->readUserData($data[$attribute]);
-            } else {
-                $this->logger->warning('Unknown error. No user attribute found.');
+            if (isset($data[$attribute]) && is_scalar($data[$attribute]) && (string) $data[$attribute] !== '') {
+                $this->readUserData((string) $data[$attribute]);
+                continue;
             }
+
+            $this->logger->warning(sprintf(
+                'Unknown error. No or invalid value found for attribute %s: %s',
+                $this->settings->getUserAttribute(),
+                var_export($data[$attribute] ?? null, true)
+            ));
         }
         unset($tmp_result);
     }
@@ -425,18 +430,39 @@ class ilLDAPQuery
             return;
         }
 
-        $attribute_name = strtolower($this->settings->getGroupMember());
+        /**
+         * @param list<string> $members
+         */
+        $readUserData = function (array $members): void {
+            if ($members === []) {
+                $this->logger->warning(sprintf(
+                    'No valid member values found for group member attribute: %s',
+                    $this->settings->getGroupMember()
+                ));
+                return;
+            }
+
+            foreach ($members as $member) {
+                $this->readUserData($member, true, true);
+            }
+        };
 
         // All groups
+        $attribute_name = strtolower($this->settings->getGroupMember());
         foreach ($group_data as $data) {
-            if (is_array($data[$attribute_name])) {
-                $this->logger->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
-                foreach ($data[$attribute_name] as $name) {
-                    $this->readUserData($name, true, true);
+            $members = [];
+            if (isset($data[$attribute_name])) {
+                if (is_array($data[$attribute_name])) {
+                    $members = array_map('strval', array_filter($data[$attribute_name]));
+                    $this->logger->debug('Found ' . count($members) . ' group members for group ' . $data['dn']);
+                } elseif (is_scalar($data[$attribute_name]) && (string) $data[$attribute_name] !== '') {
+                    $members = [
+                        (string) $data[$attribute_name]
+                    ];
                 }
-            } else {
-                $this->readUserData($data[$attribute_name], true, true);
             }
+
+            $readUserData($members);
         }
         unset($tmp_result);
     }
@@ -491,11 +517,15 @@ class ilLDAPQuery
                 return false;
             }
 
-            $account = $user_data[strtolower($this->settings->getUserAttribute())];
+            $account = $user_data[strtolower($this->settings->getUserAttribute())] ?? '';
             if (is_array($account)) {
-                $user_ext = strtolower(array_shift($account));
-            } else {
-                $user_ext = strtolower($account);
+                $account = array_shift($account) ?? '';
+            }
+
+            $user_ext = strtolower((string) $account);
+            if ($user_ext === '') {
+                $this->logger->notice('LDAP: Could not find user attribute ' . $this->settings->getUserAttribute() . '.');
+                return false;
             }
 
             // auth mode depends on ldap server settings
