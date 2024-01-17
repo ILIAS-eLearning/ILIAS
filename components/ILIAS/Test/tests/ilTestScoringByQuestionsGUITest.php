@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilTestScoringByQuestionsGUITest
+ * Class TestScoringByQuestionGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestScoringByQuestionsGUITest extends ilTestBaseTestCase
+class TestScoringByQuestionGUITest extends ilTestBaseTestCase
 {
     public function testSuppressWarning(): void
     {

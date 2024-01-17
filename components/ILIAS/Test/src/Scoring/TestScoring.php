@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Scoring;
+
 /**
  * Class ilTestScoring
  *
@@ -37,15 +39,15 @@ declare(strict_types=1);
  *
  * @ingroup 	ModulesTest
  */
-class ilTestScoring
+class TestScoring
 {
     private bool $preserve_manual_scores = false;
     private array $recalculated_passes = [];
     private int $question_id = 0;
 
     public function __construct(
-        private ilObjTest $test,
-        private ilDBInterface $db
+        private \ilObjTest $test,
+        private \ilDBInterface $db
     ) {
     }
 
@@ -94,7 +96,7 @@ class ilTestScoring
         $this->test->updateTestResultCache($active_id);
     }
 
-    public function recalculatePasses(ilTestEvaluationUserData $userdata, int $active_id): void
+    public function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
     {
         $passes = $userdata->getPasses();
         foreach ($passes as $pass => $passdata) {
@@ -106,7 +108,7 @@ class ilTestScoring
     }
 
     public function recalculatePass(
-        ilTestEvaluationPassData $passdata,
+        \ilTestEvaluationPassData $passdata,
         int $active_id,
         int $pass
     ) {
@@ -124,7 +126,7 @@ class ilTestScoring
     }
 
     public function recalculateQuestionScore(
-        assQuestionGUI $question_gui,
+        \assQuestionGUI $question_gui,
         int $active_id,
         int $pass,
         array $questiondata
@@ -191,7 +193,7 @@ class ilTestScoring
     public function removeAllQuestionResults($question_id)
     {
         $query = "DELETE FROM tst_test_result WHERE question_fi = %s";
-        $this->db->manipulateF($query, array('integer'), array($question_id));
+        $this->db->manipulateF($query, ['integer'], [$question_id]);
     }
 
     /**
@@ -201,7 +203,7 @@ class ilTestScoring
     public function updatePassAndTestResults(array $active_ids): void
     {
         foreach ($active_ids as $active_id) {
-            $passSelector = new ilTestPassesSelector($this->db, $this->test);
+            $passSelector = new \ilTestPassesSelector($this->db, $this->test);
             $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
@@ -225,8 +227,8 @@ class ilTestScoring
 			WHERE tres.manual = 1
 		";
 
-        $types = array('integer');
-        $values = array($this->test->getTestId());
+        $types = ['integer'];
+        $values = [$this->test->getTestId()];
 
         if ($this->getQuestionId()) {
             $query .= "

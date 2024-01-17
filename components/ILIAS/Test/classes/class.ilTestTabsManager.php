@@ -591,7 +591,7 @@ class ilTestTabsManager
                 $this->tabs->addTarget(
                     self::TAB_ID_MANUAL_SCORING,
                     $this->ctrl->getLinkTargetByClass(
-                        'ilTestScoringByQuestionsGUI',
+                        'TestScoringByQuestionGUI',
                         'showManScoringByQuestionParticipantsTable'
                     ),
                     [

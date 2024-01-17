@@ -18,38 +18,42 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . "/../../UI/tests/Base.php");
+use ILIAS\Test\ScoreSettings\ScoreSettings;
+use ILIAS\Test\ScoreSettings\SettingsScoring;
+use ILIAS\Test\ScoreSettings\SettingsResultSummary;
+use ILIAS\Test\ScoreSettings\SettingsResultDetails;
+use ILIAS\Test\ScoreSettings\SettingsGamification;
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Symbol as S;
 use ILIAS\Data;
 
-class ObjTestScoreSettingsTest extends ilTestBaseTestCase
+class ScoreSettingsTest extends ilTestBaseTestCase
 {
     use BaseUITestTrait;
 
     public function testScoreSettingsBuild(): void
     {
         $id = -666;
-        $s = new ilObjTestScoreSettings(
+        $s = new ScoreSettings(
             $id,
-            new ilObjTestSettingsScoring($id),
-            new ilObjTestSettingsResultSummary($id),
-            new ilObjTestSettingsResultDetails($id),
-            new ilObjTestSettingsGamification($id)
+            new SettingsScoring($id),
+            new SettingsResultSummary($id),
+            new SettingsResultDetails($id),
+            new SettingsGamification($id)
         );
-        $this->assertInstanceOf(ilObjTestScoreSettings::class, $s);
+        $this->assertInstanceOf(ScoreSettings::class, $s);
         $this->assertEquals($id, $s->getTestId());
-        $this->assertInstanceOf(ilObjTestSettingsScoring::class, $s->getScoringSettings());
-        $this->assertInstanceOf(ilObjTestSettingsResultSummary::class, $s->getResultSummarySettings());
-        $this->assertInstanceOf(ilObjTestSettingsResultDetails::class, $s->getResultDetailsSettings());
-        $this->assertInstanceOf(ilObjTestSettingsGamification::class, $s->getGamificationSettings());
+        $this->assertInstanceOf(SettingsScoring::class, $s->getScoringSettings());
+        $this->assertInstanceOf(SettingsResultSummary::class, $s->getResultSummarySettings());
+        $this->assertInstanceOf(SettingsResultDetails::class, $s->getResultDetailsSettings());
+        $this->assertInstanceOf(SettingsGamification::class, $s->getGamificationSettings());
     }
 
     public function testScoreSettingsScoring(): void
     {
-        $s = new ilObjTestSettingsScoring(-666);
+        $s = new SettingsScoring(-666);
         $this->assertEquals(-667, $s->withTestId(-667)->getTestId());
         $this->assertEquals(2, $s->withCountSystem(2)->getCountSystem());
         $this->assertEquals(4, $s->withScoreCutting(4)->getScoreCutting());
@@ -59,7 +63,7 @@ class ObjTestScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSummary(): void
     {
         $dat = new \DateTimeImmutable();
-        $s = new ilObjTestSettingsResultSummary(-666);
+        $s = new SettingsResultSummary(-666);
         $this->assertEquals(5, $s->withScoreReporting(5)->getScoreReporting());
         $this->assertTrue($s->withScoreReporting(1)->getScoreReportingEnabled());
         $this->assertFalse($s->withScoreReporting(0)->getScoreReportingEnabled());
@@ -76,7 +80,7 @@ class ObjTestScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsDetails(): void
     {
-        $s = new ilObjTestSettingsResultDetails(-666);
+        $s = new SettingsResultDetails(-666);
         $this->assertEquals(192, $s->withResultsPresentation(192)->getResultsPresentation(192));
         $this->assertTrue($s->withShowExamIdInTestResults(true)->getShowExamIdInTestResults());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
@@ -98,7 +102,7 @@ class ObjTestScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsGamification(): void
     {
-        $s = new ilObjTestSettingsGamification(-666);
+        $s = new SettingsGamification(-666);
         $this->assertTrue($s->withHighscoreEnabled(true)->getHighscoreEnabled());
         $this->assertFalse($s->withHighscoreEnabled(false)->getHighscoreEnabled());
         $this->assertTrue($s->withHighscoreAnon(true)->getHighscoreAnon());
@@ -145,7 +149,7 @@ class ObjTestScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsSectionScoring(): void
     {
-        $s = new ilObjTestSettingsScoring(666);
+        $s = new SettingsScoring(666);
         $actual = $this->getDefaultRenderer()->render(
             $s->toForm(...$this->getUIPack())
         );
@@ -250,7 +254,7 @@ EOT;
         );
         $ui = [$language, $field_factory, $refinery];
 
-        $s = new ilObjTestSettingsResultSummary(666);
+        $s = new SettingsResultSummary(666);
         $actual = $this->getDefaultRenderer()->render(
             $s->toForm(...array_merge($ui, [[
                 'user_time_zone' => 'Europe/Berlin',
@@ -349,7 +353,7 @@ EOT;
 
     public function testScoreSettingsSectionDetails(): void
     {
-        $s = new ilObjTestSettingsResultDetails(666);
+        $s = new SettingsResultDetails(666);
         $tax_ids = [1,2];
         $actual = $this->getDefaultRenderer()->render(
             $s->toForm(
@@ -420,7 +424,7 @@ EOT;
 
     public function testScoreSettingsSectionGamification(): void
     {
-        $s = new ilObjTestSettingsGamification(666);
+        $s = new SettingsGamification(666);
         $actual = $this->getDefaultRenderer()->render(
             $s->toForm(...$this->getUIPack())
         );
@@ -527,12 +531,12 @@ EOT;
     public function testScoreSettingsDirectlyAccessedByTestObj(): void
     {
         $id = -666;
-        $s = new ilObjTestScoreSettings(
+        $s = new ScoreSettings(
             $id,
-            new ilObjTestSettingsScoring($id),
-            new ilObjTestSettingsResultSummary($id),
-            new ilObjTestSettingsResultDetails($id),
-            new ilObjTestSettingsGamification($id)
+            new SettingsScoring($id),
+            new SettingsResultSummary($id),
+            new SettingsResultDetails($id),
+            new SettingsGamification($id)
         );
 
         $t = new class ($s) extends ilObjTest {
@@ -569,12 +573,12 @@ EOT;
     public function testScoreSettingsRelayingTestId(): void
     {
         $id = -666;
-        $s = new ilObjTestScoreSettings(
+        $s = new ScoreSettings(
             $id,
-            new ilObjTestSettingsScoring($id),
-            new ilObjTestSettingsResultSummary($id),
-            new ilObjTestSettingsResultDetails($id),
-            new ilObjTestSettingsGamification($id)
+            new SettingsScoring($id),
+            new SettingsResultSummary($id),
+            new SettingsResultDetails($id),
+            new SettingsGamification($id)
         );
 
         $nu_id = 1234;

@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Test\MarkSchema;
+namespace ILIAS\Test\Marks;
 
 /**
  * Interface ilMarkSchemaAware

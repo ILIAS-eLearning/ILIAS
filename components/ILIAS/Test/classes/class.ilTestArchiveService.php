@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>

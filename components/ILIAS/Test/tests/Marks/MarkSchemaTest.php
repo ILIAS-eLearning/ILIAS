@@ -18,8 +18,7 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use ILIAS\Test\Marks\Mark;
+use ILIAS\Test\Marks\MarkSchema;
 
 /**
  * Unit tests for single choice questions
@@ -27,7 +26,7 @@ use ILIAS\Test\Marks\Mark;
  * @version $Id$
  * @ingroup ServicesTree
  */
-class assMarkSchemaTest extends ilTestBaseTestCase
+class MarkSchemaTest extends ilTestBaseTestCase
 {
     private MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;

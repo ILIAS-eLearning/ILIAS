@@ -37,6 +37,7 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_ilias();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilErr();
+        $this->addGlobal_ilLog();
         $this->addGlobal_ilSetting();
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();

@@ -67,11 +67,11 @@ class TestPlaceholderValuesTest extends TestCase
         $test_object->method('getTitle')
             ->willReturn(' Some Title');
 
-        $mark_schema = $this->getMockBuilder('ASS_MarkSchema')
+        $mark_schema = $this->getMockBuilder(ILIAS\Test\Marks\MarkSchema::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $matching_mark = $this->getMockBuilder('ASS_Mark')
+        $matching_mark = $this->getMockBuilder(ILIAS\Test\Marks\Mark::class)
             ->getMock();
 
         $matching_mark->method('getShortName')

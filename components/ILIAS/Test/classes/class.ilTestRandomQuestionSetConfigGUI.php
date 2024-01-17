@@ -82,7 +82,7 @@ class ilTestRandomQuestionSetConfigGUI
         private readonly ilComponentRepository $component_repository,
         private readonly ilObjectDefinition $obj_definition,
         private readonly ilObjectDataCache $obj_cache,
-        private readonly ilTestProcessLockerFactory $processLockerFactory,
+        private ilTestProcessLockerFactory $processLockerFactory,
         private readonly InternalRequestService $testrequest,
         private readonly QuestionInfoService $questioninfo
     ) {

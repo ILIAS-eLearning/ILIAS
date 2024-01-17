@@ -18,15 +18,15 @@
 
 namespace ScoreReporting;
 
-use ilObjTestSettingsGamification;
+use ILIAS\Test\ScoreSettings\SettingsGamification;
 use ilTestBaseTestCase;
 
-class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
+class GamificationTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $this->assertInstanceOf(ilObjTestSettingsGamification::class, $ilObjTestSettingsGamification);
+        $gamificationTest = new SettingsGamification(0);
+        $this->assertInstanceOf(SettingsGamification::class, $gamificationTest);
     }
 
     /**
@@ -34,9 +34,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreEnabled(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreEnabled($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreEnabled());
+        $gamificationTest = new SettingsGamification(0);
+        $gamificationTest = $gamificationTest->withHighscoreEnabled($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreEnabled());
     }
 
     public static function getAndWithHighscoreEnabledDataProvider(): array
@@ -52,9 +52,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreOwnTable(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreOwnTable($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreOwnTable());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreOwnTable($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreOwnTable());
     }
 
     public static function getAndWithHighscoreOwnTableDataProvider(): array
@@ -70,9 +70,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreTopTable(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreTopTable($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreTopTable());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreTopTable($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreTopTable());
     }
 
     public static function getAndWithHighscoreTopTableDataProvider(): array
@@ -88,9 +88,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreTopNum(int $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreTopNum($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreTopNum());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreTopNum($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreTopNum());
     }
 
     public static function getAndWithHighscoreTopNumDataProvider(): array
@@ -107,9 +107,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreAnon(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreAnon($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreAnon());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreAnon($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreAnon());
     }
 
     public static function getAndWithHighscoreAnonDataProvider(): array
@@ -125,9 +125,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreAchievedTS(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreAchievedTS($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreAchievedTS());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreAchievedTS($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreAchievedTS());
     }
 
     public static function getAndWithHighscoreAchievedTSDataProvider(): array
@@ -143,9 +143,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreScore(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreScore($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreScore());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreScore($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreScore());
     }
 
     public static function getAndWithHighscoreScoreDataProvider(): array
@@ -161,9 +161,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscorePercentage(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscorePercentage($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscorePercentage());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscorePercentage($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscorePercentage());
     }
 
     public static function getAndWithHighscorePercentageDataProvider(): array
@@ -179,9 +179,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreHints(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreHints($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreHints());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreHints($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreHints());
     }
 
     public static function getAndWithHighscoreHintsDataProvider(): array
@@ -197,9 +197,9 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
      */
     public function testGetAndWithHighscoreWTime(bool $IO): void
     {
-        $ilObjTestSettingsGamification = new ilObjTestSettingsGamification(0);
-        $ilObjTestSettingsGamification = $ilObjTestSettingsGamification->withHighscoreWTime($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreWTime());
+        $gamificationTest = new GamificationTest(0);
+        $gamificationTest = $gamificationTest->withHighscoreWTime($IO);
+        $this->assertEquals($IO, $gamificationTest->getHighscoreWTime());
     }
 
     public static function getAndWithHighscoreWTimeDataProvider(): array

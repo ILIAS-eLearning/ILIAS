@@ -42,7 +42,7 @@ class ilTestArchiveServiceTest extends ilTestBaseTestCase
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
             $this->createMock(ILIAS\HTTP\GlobalHttpState::class),
-            $this->createMock(ilAccessHandler::class),
+            $this->createMock(ilAccess::class),
             $this->createMock(ILIAS\ResourceStorage\Services::class),
             $this->createMock(ilObjectDataCache::class),
             $this->createMock(ilTestHTMLGenerator::class)

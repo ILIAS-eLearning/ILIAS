@@ -18,20 +18,29 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\TestScoringByParticipantTableGUI;
+use ILIAS\Test\Scoring\TestScoringByParticipantGUI;
+
 /**
- * Class ilTestPassManualScoringOverviewTableGUITest
+ * Class TestScoringByParticipantTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestPassManualScoringOverviewTableGUITest extends ilTestBaseTestCase
+class TestScoringByParticipantTableGUITest extends ilTestBaseTestCase
 {
-    private ilTestPassManualScoringOverviewTableGUI $tableGui;
-    private ilTestScoringGUI $parentObj_mock;
+    private TestScoringByParticipantTableGUI $tableGui;
+    private TestScoringByParticipantGUI $parentObj_mock;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock->expects($this->any())
+                 ->method("txt")
+                 ->willReturnCallback(function () {
+                     return "testTranslation";
+                 });
+
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
                   ->method("getFormAction")
@@ -48,13 +57,13 @@ class ilTestPassManualScoringOverviewTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
-        $this->parentObj_mock = $this->getMockBuilder(ilTestScoringGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock = $this->getMockBuilder(TestScoringByParticipantGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
-        $this->tableGui = new ilTestPassManualScoringOverviewTableGUI($this->parentObj_mock, "");
+        $this->tableGui = new TestScoringByParticipantTableGUI($this->parentObj_mock, "");
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestPassManualScoringOverviewTableGUI::class, $this->tableGui);
+        $this->assertInstanceOf(TestScoringByParticipantTableGUI::class, $this->tableGui);
     }
 }

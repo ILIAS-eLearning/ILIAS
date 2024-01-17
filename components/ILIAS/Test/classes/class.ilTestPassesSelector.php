@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ScoreSettings\SettingsResultSummary;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -194,20 +196,20 @@ class ilTestPassesSelector
     private function isReportablePass(int $last_pass, int $pass): bool
     {
         switch ($this->test_obj->getScoreReporting()) {
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
+            case SettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
                 return true;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
+            case SettingsResultSummary::SCORE_REPORTING_DATE:
                 return $this->isReportingDateReached();
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
+            case SettingsResultSummary::SCORE_REPORTING_FINISHED:
                 if ($pass < $last_pass) {
                     return true;
                 }
 
                 return $this->isClosedPass($pass);
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+            case SettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
                 if (!$this->hasTestPassedOnce($this->getActiveId())) {
                     return false;
                 }

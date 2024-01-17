@@ -21,20 +21,19 @@ declare(strict_types=1);
 namespace ILIAS\Test\Marks;
 
 /**
- * Class ilMarkSchemaGUI
  * @author Michael Jansen <mjansen@databay.de>
  * @package components\ILIASTest
  */
-class ilMarkSchemaTableGUI extends \ilTable2GUI
+class MarkSchemaTableGUI extends \ilTable2GUI
 {
-    private ?ilMarkSchemaAware $object;
+    private ?MarkSchemaAware $object;
 
     protected bool $is_editable = true;
 
     public function __construct(
-        ilMarkSchemaGUI $parent,
+        MarkSchemaGUI $parent,
         string $cmd,
-        ilMarkSchemaAware $object = null
+        MarkSchemaAware $object = null
     ) {
         $this->object = $object;
         $this->is_editable = $this->object->canEditMarks();
@@ -95,7 +94,7 @@ class ilMarkSchemaTableGUI extends \ilTable2GUI
         $this->setData($data);
     }
 
-    private function initJS(ilGlobalTemplateInterface $tpl)
+    private function initJS(\ilGlobalTemplateInterface $tpl)
     {
         $tpl->addOnloadCode("
             let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');

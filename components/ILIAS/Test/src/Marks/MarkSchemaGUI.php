@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\MarkSchema;
+namespace ILIAS\Test\Marks;
 
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteraction;
@@ -33,17 +33,16 @@ use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
- * Class ilMarkSchemaGUI
  * @author  Michael Jansen <mjansen@databay.de>
  * @package components\ILIASTest
  */
-class ilMarkSchemaGUI
+class MarkSchemaGUI
 {
     public function __construct(
         private MarkSchemaAware $object,
         private \ilLanguage $lng,
         private \ilCtrl $ctrl,
-        private \ilGlobalPageTemplate $tpl,
+        private \ilGlobalTemplateInterface $tpl,
         private \ilToolbarGUI $toolbar,
         private \ilTabsGUI $tabs,
         private TestLogger $logger,
@@ -244,7 +243,7 @@ class ilMarkSchemaGUI
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
 
-        $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
+        $mark_schema_table = new MarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
         $mark_schema_table->setShowRowsSelector(false);
 
         $rendered_modal = '';

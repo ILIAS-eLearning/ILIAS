@@ -28,7 +28,7 @@ class SettingsGeneral extends TestSettings
 {
     public function __construct(
         int $test_id,
-        protected string $question_set_type = ilObjTest::QUESTION_SET_TYPE_FIXED,
+        protected string $question_set_type = \ilObjTest::QUESTION_SET_TYPE_FIXED,
         protected bool $anonymous_test = false
     ) {
         parent::__construct($test_id);
