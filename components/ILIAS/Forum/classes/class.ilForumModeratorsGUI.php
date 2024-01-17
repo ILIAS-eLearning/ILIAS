@@ -42,7 +42,6 @@ class ilForumModeratorsGUI
     private \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
 
-
     public function __construct()
     {
         /** @var $DIC ILIAS\DI\Container */
@@ -60,7 +59,7 @@ class ilForumModeratorsGUI
         $this->tabs->activateTab('frm_moderators');
         $this->lng->loadLanguageModule('search');
         $this->http_wrapper = $DIC->http()->wrapper();
-        $this->http =$DIC->http();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
@@ -190,7 +189,9 @@ class ilForumModeratorsGUI
             );
         }
 
-        $tbl = new ForumModeratorsTable($this->oForumModerators, $this->ctrl, $this->lng,  $this->http, $this->ui_factory);
+        $tbl = new ForumModeratorsTable(
+            $this->oForumModerators, $this->ctrl, $this->lng, $this->http, $this->ui_factory
+        );
         $tbl_html = $this->ui_renderer->render($tbl->getComponent());
         $this->tpl->setContent($tbl_html);
     }
