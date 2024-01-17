@@ -9701,6 +9701,7 @@ file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occurred during upload.
 file#:#important_info#:#Important Information
+file#:#important_info_byline#:#The information is displayed in the "Info" tab.
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
