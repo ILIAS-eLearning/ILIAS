@@ -93,12 +93,12 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         // Columns
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->dic->language()->txt("version"), "", "auto");
+        $this->addColumn($this->dic->language()->txt("filename"));
         $this->addColumn($this->dic->language()->txt("date"));
         $this->addColumn($this->dic->language()->txt("file_uploaded_by"));
-        $this->addColumn($this->dic->language()->txt("filename"));
         $this->addColumn($this->dic->language()->txt("versionname"));
         $this->addColumn($this->dic->language()->txt("filesize"), "", "", false);
-        $this->addColumn($this->dic->language()->txt("type"));
+        $this->addColumn($this->dic->language()->txt("status"));
         $this->addColumn($this->dic->language()->txt("action"));
         $this->addColumn("", "", "1");
 

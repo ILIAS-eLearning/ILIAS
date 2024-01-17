@@ -138,6 +138,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function getVersions(?array $version_ids = null): array
     {
         $versions = [];
+        $current_revision = $this->resource->getCurrentRevisionIncludingDraft();
         foreach ($this->resource->getAllRevisionsIncludingDraft() as $revision) {
             if (is_array($version_ids) && !in_array($revision->getVersionNumber(), $version_ids)) {
                 continue;
@@ -150,7 +151,18 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             if ($revision->getStatus() === RevisionStatus::DRAFT) {
                 $v->setAction('draft');
             } else {
-                $v->setAction($revision->getVersionNumber() === 1 ? 'create' : 'new_version');
+                $version_number = $revision->getVersionNumber();
+                switch ($version_number) {
+                    case 1:
+                        $v->setAction('create');
+                        break;
+                    case $current_revision->getVersionNumber():
+                        $v->setAction('published_version');
+                        break;
+                    default:
+                        $v->setAction('intermediate_version');
+                        break;
+                }
             }
             $v->setTitle($revision->getTitle());
             $v->setDate($information->getCreationDate()->format(DATE_ATOM));

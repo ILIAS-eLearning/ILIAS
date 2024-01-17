@@ -4088,9 +4088,9 @@ common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wur
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 common#:#file_objects#:#Datei-Objekte
-common#:#file_rollback#:#Zur aktuellen Version machen
-common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
-common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur aktuellen Version zu machen.
+common#:#file_rollback#:#Diese Version veröffentlichen
+common#:#file_rollback_done#:#Dateiversion %s ist nun die veröffentlichte Version.
+common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur veröffentlichten Version zu machen.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_suffix_repl_info#:#Tragen Sie hier komma-separiert alle Dateitypen mit ihrer Dateiendung ein, die beim Upload als Dateiendung ".sec" erhalten sollen, wenn Sie in den Webspace hochgeladen werden. Dadurch wird ihre direkte Ausführung verhindert. Dies geschieht ohnehin automatisch für Dateien mit folgenden Endungen:
@@ -4101,7 +4101,9 @@ common#:#file_upload_pending#:#Hochgeladene Datei
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_version_create#:#Initiale Version
+common#:#file_version_intermediate_version#:#Zwischenversion
 common#:#file_version_new_version#:#Neue Version
+common#:#file_version_published_version#:#Veröffentlichte Version
 common#:#file_version_replace#:#Alle Versionen ersetzt
 common#:#file_version_rollback#:#Auf Version %s von %s zurückkehren
 common#:#file_versions_deleted#:#Die ausgewählten Dateiversionen wurden erfolgreich gelöscht.
@@ -9690,7 +9692,7 @@ file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_publish#:#Entwurf veröffentlichen
 file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
-file#:#file_rollback_same_version#:#Dies ist bereits die aktuelle Version
+file#:#file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von

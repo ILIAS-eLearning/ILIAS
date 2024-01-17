@@ -4088,9 +4088,9 @@ common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blo
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 common#:#file_objects#:#File Objects
-common#:#file_rollback#:#Make this the current version
-common#:#file_rollback_done#:#File version %s is now the current version.
-common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the current version.
+common#:#file_rollback#:#Publish this version
+common#:#file_rollback_done#:#File version %s is now the published version.
+common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the published version.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Enter file types with suffix (separated by comma) that shall be be renamed with a ‘.sec’ when uploaded into webspace to prevent execution of this file. This is done per default for these suffixes:
@@ -4101,7 +4101,9 @@ common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
 common#:#file_version_create#:#Initial version
+common#:#file_version_intermediate_version#:#Intermediate Version
 common#:#file_version_new_version#:#New version
+common#:#file_version_published_version#:#Published Version
 common#:#file_version_replace#:#All versions replaced
 common#:#file_version_rollback#:#Rollback to version %s from %s
 common#:#file_versions_deleted#:#The selected file versions were successfully deleted.
@@ -9691,7 +9693,7 @@ file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_publish#:#Publish Draft
 file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
-file#:#file_rollback_same_version#:#This is already the current version
+file#:#file_rollback_same_version#:#This is already the published version
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version Uploaded By
