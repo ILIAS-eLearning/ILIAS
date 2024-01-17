@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Scoring\TestScoring;
+use ILIAS\Test\Scoring\Manual\TestScoring;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;

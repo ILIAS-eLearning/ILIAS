@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Marks\MarkSchemaTableGUI;
-use ILIAS\Test\Marks\MarkSchemaGUI;
-use ILIAS\Test\Marks\MarkSchema;
-use ILIAS\Test\Marks\MarkSchemaAware;
+use ILIAS\Test\Scoring\Marks\MarkSchemaTableGUI;
+use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
+use ILIAS\Test\Scoring\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchemaAware;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Scoring;
+namespace ILIAS\Test\Scoring\Manual;
 
 <<<<<<< HEAD:components/ILIAS/Test/classes/class.ilTestScoringByQuestionsGUI.php
 class ilTestScoringByQuestionsGUI extends ilTestScoringGUI

@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Scoring\TestScoringByQuestionTableGUI;
-use ILIAS\Test\Scoring\TestScoringByQuestionGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByQuestionTableGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>

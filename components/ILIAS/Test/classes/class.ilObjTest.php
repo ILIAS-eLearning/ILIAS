@@ -31,10 +31,10 @@ use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Marks\MarkSchema;
-use ILIAS\Test\Marks\MarkSchemaAware;
+use ILIAS\Test\Scoring\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchemaAware;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
-use ILIAS\Test\Scoring\TestScoring;
+use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 

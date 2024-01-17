@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Marks;
+namespace ILIAS\Test\Scoring\Marks;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>

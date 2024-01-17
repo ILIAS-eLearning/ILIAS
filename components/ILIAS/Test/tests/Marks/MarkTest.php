@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Test\Marks\Mark;
+use ILIAS\Test\Scoring\Marks\Mark;
 
 /**
  * Unit tests for Mark
