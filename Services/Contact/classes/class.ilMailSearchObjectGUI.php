@@ -575,17 +575,20 @@ abstract class ilMailSearchObjectGUI
 
                     $this->ctrl->clearParameters($this);
 
-                    $drop_down = $this->ui_factory
-                        ->dropdown()
-                        ->standard($buttons)
-                        ->withLabel($this->lng->txt('actions'));
+                    $drop_down = null;
+                    if ($buttons !== []) {
+                        $drop_down = $this->ui_factory
+                            ->dropdown()
+                            ->standard($buttons)
+                            ->withLabel($this->lng->txt('actions'));
+                    }
 
                     $rowData = [
                         'OBJECT_ID' => $object->getId(),
                         'OBJECT_NAME' => $object->getTitle(),
                         'OBJECT_NO_MEMBERS' => count($usr_ids),
                         'OBJECT_PATH' => $path,
-                        'COMMAND_SELECTION_LIST' => $this->ui_renderer->render($drop_down),
+                        'COMMAND_SELECTION_LIST' => $drop_down ? $this->ui_renderer->render($drop_down) : '',
                         'hidden_members' => !$exposes_members,
                     ];
                     $counter++;
