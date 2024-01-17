@@ -52,6 +52,7 @@ class ilMailTest extends ilMailBaseTest
         $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
+        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
 
         $webDir = 'public/data';
         define("ILIAS_WEB_DIR", $webDir);
@@ -151,6 +152,7 @@ class ilMailTest extends ilMailBaseTest
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $settings->method('get')->willReturn('');
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mailFileData = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock();
