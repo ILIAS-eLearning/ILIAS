@@ -822,8 +822,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 }
             }
         }
-        $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
-        $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
+
+        if(count($top_group) > 0) {
+            $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
+        } else {
+            $top_threads = $this->factory->item()->group('', $top_group);
+        }
+
+        if(count($thread_group) > 0) {
+            $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
+        } else {
+            $normal_threads = $this->factory->item()->group('', $thread_group);
+        }
+
+
         $url = $this->http->request()->getRequestTarget();
         $current_page = 0;
         if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {

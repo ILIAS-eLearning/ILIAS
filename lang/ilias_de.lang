@@ -4147,8 +4147,8 @@ common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Foru
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_last_posting_asc#:#Neuestes Thema zuerst
-common#:#forums_last_posting_dsc#:#Ältestes Thema zuerst
+common#:#forums_last_posting_asc#:#Letztes Posting aufsteigend
+common#:#forums_last_posting_dsc#:#Letztes Posting absteigend
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_rating_asc#:#Bewertung aufsteigend
 common#:#forums_rating_dsc#:#Bewertung absteigend
