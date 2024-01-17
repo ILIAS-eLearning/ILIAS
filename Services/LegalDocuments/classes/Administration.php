@@ -237,10 +237,12 @@ class Administration
 
         $title = $this->ui->create()->input()->field()->text($this->ui->txt('form_document'))->withValue($document->content()->title())->withDisabled(true);
 
-        return $this->ui->create()->input()->container()->form()->standard($url, [
+        $section = $this->ui->create()->input()->field()->section([
             $title,
             'content' => $group,
-        ]);
+        ], $this->ui->txt($criterion ? 'form_edit_criterion_head' : 'form_attach_criterion_head'));
+
+        return $this->ui->create()->input()->container()->form()->standard($url, [$section]);
     }
 
     public function requireDocumentHash(): string
@@ -344,16 +346,19 @@ class Administration
     /**
      * @param Closure(string): string $link
      */
-    public function documentForm(Closure $link, string $title, bool $upload_required = false): Component
+    public function documentForm(Closure $link, string $title, bool $may_be_new = false): Component
     {
         $edit_link = $link('editDocument');
-        return $this->ui->create()->input()->container()->form()->standard($edit_link, [
+
+        $section = $this->ui->create()->input()->field()->section([
             'title' => $this->ui->create()->input()->field()->text($this->ui->txt('title'))->withRequired(true)->withValue($title),
             'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link), $this->ui->txt('form_document'))->withAcceptedMimeTypes([
                 'text/html',
                 'text/plain',
-            ])->withRequired($upload_required),
-        ]);
+            ])->withRequired($may_be_new),
+        ], $this->ui->txt($may_be_new ? 'form_new_doc_head' : 'form_edit_doc_head'));
+
+        return $this->ui->create()->input()->container()->form()->standard($edit_link, [$section]);
     }
 
     /**
