@@ -303,14 +303,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
                 $options = array(
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             } else {
                 $options = array(
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             }
 
@@ -318,7 +318,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 try {
                     $globalCertificatePrerequisites = new ilCertificateActiveValidator();
                     if ($globalCertificatePrerequisites->validate()) {
-                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'certificate'));
+                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . $this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'certificate'));
                     }
                 } catch (ilException $e) {
                 }
