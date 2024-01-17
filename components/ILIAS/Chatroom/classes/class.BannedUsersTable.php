@@ -106,17 +106,10 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
             $entries = $this->banned_users;
 
             foreach ($entries as $entry) {
-                $user_id = $entry['user_id'];
-                /** @var ilObjUser $user */
-                $user = ilObjectFactory::getInstanceByObjId($user_id, false);
-                if (!($user instanceof ilObjUser)) {
-                    continue;
-                }
-
-                $this->records[$i]['user_id'] = $user->getId();
-                $this->records[$i]['login'] = $user->getLogin();
-                $this->records[$i]['firstname'] = $user->getFirstname();
-                $this->records[$i]['lastname'] = $user->getLastname();
+                $this->records[$i]['user_id'] = $entry['user_id'];
+                $this->records[$i]['login'] = $entry['login'];
+                $this->records[$i]['firstname'] = $entry['firstname'];
+                $this->records[$i]['lastname'] = $entry['lastname'];
                 if (is_numeric($entry['timestamp']) && $entry['timestamp'] > 0) {
                     $this->records[$i]['timestamp'] = ilDatePresentation::formatDate(
                         new ilDateTime($entry['timestamp'], IL_CAL_UNIX)
