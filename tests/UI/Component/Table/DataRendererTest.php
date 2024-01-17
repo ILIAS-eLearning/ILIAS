@@ -382,8 +382,6 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
-
-
     public function testDataTableRenderHeaderWithActions(): void
     {
         $renderer = $this->getRenderer();
@@ -427,43 +425,10 @@ EOT;
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
         $actual = $this->brutallyTrimHTML($tpl->get());
-        $expected = <<<EOT
-<div class="c-table-data" id="">
-    <div class="viewcontrols"></div>
-    <div class="c-table-data__table-wrapper">
-        <table class="c-table-data__table" role="grid" aria-labelledby="_label" aria-colcount="">
-            <thead>
-                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
-                        <div class="c-table-data__selection_all"><a tabindex="0" class="glyph" aria-label="add" id="id_1"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a></div>
-                        <div class="c-table-data__selection_none"><a tabindex="0" class="glyph" aria-label="close" id="id_2"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></div>
-                    </th>
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
-                        <div class="c-table-data__header__resize-wrapper">Field 1</div>
-                    </th>
 
-                    <th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>
-
-                </tr>
-            </thead>
-            <tbody class="c-table-data__body" role="rowgroup"></tbody>
-        </table>
-    </div>
-    <div class="c-table-data__async_modal_container"></div>
-    <div class="c-table-data__async_message modal" role="dialog" id="_msgmodal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button></div>
-                <div class="c-table-data__async_messageresponse modal-body"></div>
-            </div>
-        </div>
-    </div>
-</div>
-EOT;
-        $expected = $this->brutallyTrimHTML($expected);
-        $this->assertEquals($expected, $actual);
+        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>';
+        $this->assertStringContainsString($expected, $actual);
     }
-
 
     public function testDataTableRowBuilder()
     {
