@@ -516,8 +516,8 @@ abstract class ilMailSearchObjectGUI
                     ilMailGlobalServices::getMailObjectRefId()
                 );
 
-                if ($has_untrashed_references && ($can_send_mails || $this->doesExposeMembers($object))) {
-                    $member_list_enabled = $object->getShowMembers();
+                $exposes_members = false;
+                if ($has_untrashed_references && ($can_send_mails || ($exposes_members = $this->doesExposeMembers($object)))) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
@@ -529,10 +529,8 @@ abstract class ilMailSearchObjectGUI
                     }
                     $usr_ids = array_values($usr_ids);
 
-                    $hiddenMembers = false;
-                    if (!$member_list_enabled) {
+                    if (!$exposes_members) {
                         ++$num_courses_hidden_members;
-                        $hiddenMembers = true;
                     }
 
                     $path_arr = $this->tree->getPathFull($object->getRefId(), $this->tree->getRootId());
@@ -565,12 +563,15 @@ abstract class ilMailSearchObjectGUI
                                 $this->ctrl->getLinkTarget($this, 'share')
                             );
                     }
-                    $buttons[] = $this->ui_factory
-                        ->button()
-                        ->shy(
-                            $this->lng->txt('mail_list_members'),
-                            $this->ctrl->getLinkTarget($this, 'showMembers')
-                        );
+
+                    if ($exposes_members) {
+                        $buttons[] = $this->ui_factory
+                            ->button()
+                            ->shy(
+                                $this->lng->txt('mail_list_members'),
+                                $this->ctrl->getLinkTarget($this, 'showMembers')
+                            );
+                    }
 
                     $this->ctrl->clearParameters($this);
 
@@ -585,7 +586,7 @@ abstract class ilMailSearchObjectGUI
                         'OBJECT_NO_MEMBERS' => count($usr_ids),
                         'OBJECT_PATH' => $path,
                         'COMMAND_SELECTION_LIST' => $this->ui_renderer->render($drop_down),
-                        'hidden_members' => $hiddenMembers,
+                        'hidden_members' => !$exposes_members,
                     ];
                     $counter++;
                     $tableData[] = $rowData;
