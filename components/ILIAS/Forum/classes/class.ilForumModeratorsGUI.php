@@ -190,10 +190,14 @@ class ilForumModeratorsGUI
         }
 
         $tbl = new ForumModeratorsTable(
-            $this->oForumModerators, $this->ctrl, $this->lng, $this->http, $this->ui_factory
+            $this->oForumModerators,
+            $this->ctrl,
+            $this->lng,
+            $this->http,
+            $this->ui_factory
         );
-        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
-        $this->tpl->setContent($tbl_html);
+
+        $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }
 
     public function handleModeratorActions(): void
