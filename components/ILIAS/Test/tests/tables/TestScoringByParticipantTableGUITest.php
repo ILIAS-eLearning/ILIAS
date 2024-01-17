@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Scoring\TestScoringByParticipantTableGUI;
-use ILIAS\Test\Scoring\TestScoringByParticipantGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByParticipantTableGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
 
 /**
  * Class TestScoringByParticipantTableGUITest

@@ -16,22 +16,14 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Test\Marks;
+namespace ILIAS\Test\Scoring\Marks;
 
 /**
- * Interface ilMarkSchemaAware
- * @author Michael Jansen <mjansen@databay.de>
- * @package components\ILIASTest
+ *
+ * @author skergomard
  */
-interface MarkSchemaAware
+interface MarksRepository
 {
-    public function getMarkSchema(): MarkSchema;
-
-    /**
-     * @return boolean|string True or an error string which can be used for display purposes
-     */
-    public function checkMarks(): bool|string;
-    public function canEditMarks(): bool;
-    public function getMarkSchemaForeignId(): int;
-    public function onMarkSchemaSaved(): void;
+    public function getMarkSchemaFor(int $ref_id): ?MarkSchema;
+    public function storeMarkSchema(MarkSchema $mark_schema): void;
 }

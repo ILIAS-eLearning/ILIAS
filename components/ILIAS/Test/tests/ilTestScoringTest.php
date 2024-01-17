@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Scoring\TestScoring;
+use ILIAS\Test\Scoring\Manual\TestScoring;
 
 /**
  * Class TestScoringTest

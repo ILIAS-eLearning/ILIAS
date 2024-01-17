@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Scoring\TestScoringByParticipantGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
 
 /**
  * Class TestScoringGUITest

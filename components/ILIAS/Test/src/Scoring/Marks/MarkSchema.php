@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Marks;
+namespace ILIAS\Test\Scoring\Marks;
 
 /**
  * A class defining mark schemas for assessment test objects

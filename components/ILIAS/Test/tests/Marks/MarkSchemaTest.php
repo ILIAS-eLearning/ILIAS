@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchema;
 
 /**
  * Unit tests for single choice questions
