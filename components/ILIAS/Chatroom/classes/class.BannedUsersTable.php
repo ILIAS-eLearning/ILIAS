@@ -25,7 +25,6 @@ use ILIAS\HTTP\Services;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
-    protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
     private ?array $records = null;
@@ -34,11 +33,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         private readonly array $banned_users,
         private readonly \ilCtrl $ctrl,
         private readonly \ilLanguage $lng,
-        private readonly Services $http
+        private readonly Services $http,
+        private readonly \ILIAS\UI\Factory $ui_factory
     ) {
-        global $DIC;
-
-        $this->ui_factory = $DIC->ui()->factory();
         $this->request = $this->http->request();
         $this->data_factory = new Data\Factory();
     }

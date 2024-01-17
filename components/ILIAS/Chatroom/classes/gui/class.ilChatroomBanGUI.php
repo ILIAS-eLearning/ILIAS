@@ -128,7 +128,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $tbl = new BannedUsersTable($data, $this->ilCtrl, $this->ilLng, $this->http);
+        $tbl = new BannedUsersTable($data, $this->ilCtrl, $this->ilLng, $this->http, $this->uiFactory);
         $tbl_html = $this->uiRenderer->render($tbl->getComponent());
         $this->mainTpl->setContent($tbl_html);
     }
