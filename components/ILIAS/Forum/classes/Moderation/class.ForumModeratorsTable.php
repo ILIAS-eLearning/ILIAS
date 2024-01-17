@@ -144,9 +144,6 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
-    /**
-     * @todo change this workaround, if there is a general decision about the sorting strategy
-     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
