@@ -82,4 +82,9 @@ class MailService
     {
         return new \ilMustacheFactory();
     }
+
+    public function signature(): MailSignatureService
+    {
+        return new MailSignatureService();
+    }
 }

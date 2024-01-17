@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Service\MailSignatureService;
+use ILIAS\Mail\Signature\MailUserSignature;
+use ILIAS\Mail\Signature\Signature;
+use ILIAS\Mail\Signature\MailInstallationSignature;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -519,24 +523,7 @@ class ilObjMailGUI extends ilObjectGUI
         $signature->setDisabled(!$this->isEditingAllowed());
         $form->addItem($signature);
 
-        $placeholders = new ilManualPlaceholderInputGUI(
-            $this->lng->txt('mail_form_placeholders_label'),
-            'mail_system_usr_general_signature'
-        );
-        $user_placeholder_list = [
-            ['placeholder' => 'USER_FULLNAME', 'label' => $this->lng->txt('mail_nacc_user_fullname')],
-            ['placeholder' => 'USER_NAME', 'label' => $this->lng->txt('mail_nacc_user_name')],
-        ];
-        $system_placeholder_list = [
-            ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
-            ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],
-            ['placeholder' => 'ILIAS_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
-        ];
-        foreach (array_merge($user_placeholder_list, $system_placeholder_list) as $value) {
-            $placeholders->addPlaceholder($value['placeholder'], $value['label']);
-        }
-        $placeholders->setDisabled(!$this->isEditingAllowed());
-        $form->addItem($placeholders);
+        $form->addItem($this->buildSignaturePlaceholderInput((new MailUserSignature(0))));
 
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
@@ -583,21 +570,28 @@ class ilObjMailGUI extends ilObjectGUI
         $signature->setDisabled(!$this->isEditingAllowed());
         $form->addItem($signature);
 
-        $placeholders = new ilManualPlaceholderInputGUI(
-            $this->lng->txt('mail_form_placeholders_label'),
-            'mail_system_sys_general_signature'
-        );
-        foreach ($system_placeholder_list as $value) {
-            $placeholders->addPlaceholder($value['placeholder'], $value['label']);
-        }
-        $placeholders->setDisabled(!$this->isEditingAllowed());
-        $form->addItem($placeholders);
+        $form->addItem($this->buildSignaturePlaceholderInput((new MailInstallationSignature())));
 
         if ($this->isEditingAllowed()) {
             $form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
         }
 
         return $form;
+    }
+
+    private function buildSignaturePlaceholderInput(Signature $signature): ilManualPlaceholderInputGUI
+    {
+        $placeholder_input = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            $signature->getSettingsKeyword()
+        );
+        $placeholder = $signature->getPlaceholder();
+        while ($placeholder->getNext()) {
+            $placeholder_input->addPlaceholder($placeholder->getId(), $placeholder->getLabel());
+            $placeholder = $placeholder->getNext();
+        }
+        $placeholder_input->setDisabled(!$this->isEditingAllowed());
+        return $placeholder_input;
     }
 
     protected function populateExternalSettingsForm(ilPropertyFormGUI $form): void

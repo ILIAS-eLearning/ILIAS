@@ -22,6 +22,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -31,6 +32,7 @@ class ilMail
 {
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
+    private MailSignatureService $signature_service;
 
     public int $user_id;
     private string $table_mail;
@@ -101,6 +103,7 @@ class ilMail
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
         $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
+        $this->signature_service = $DIC->mail()->signature();
     }
 
     public function autoresponder(): AutoresponderService
@@ -1216,7 +1219,7 @@ class ilMail
         );
 
         if (!$this->isSystemMail()) {
-            $message .= self::_getUserSignature($this->user_id);
+            $message .= $this->signature_service->user($this->user_id);
         }
         $mailer->Body($message);
 
@@ -1369,40 +1372,7 @@ class ilMail
     public static function _getInstallationSignature(): string
     {
         global $DIC;
-        $signature = $DIC->settings()->get('mail_system_sys_general_signature', '');
-        return self::processSignature($signature);
-    }
-
-    public static function _getUserSignature(int $user_id): string
-    {
-        global $DIC;
-        $signature = $DIC->settings()->get('mail_system_usr_general_signature', '');
-        return self::processSignature($signature, $user_id);
-    }
-
-    private static function processSignature($signature, int $user_id = 0): string
-    {
-        global $DIC;
-        $clientUrl = ilUtil::_getHttpPath();
-        $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
-        if (is_array($clientdirs) && count($clientdirs) > 1) {
-            $clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
-        }
-        if ($user_id > 0) {
-            $full_name = ilObjUser::_lookupName($user_id);
-            $name = $full_name['firstname'];
-            $full_name = $full_name['firstname'] . ' ' . $full_name['lastname'];
-        }
-
-        $placeholders = [
-            'USER_NAME' => $name ?? '',
-            'USER_FULLNAME' => $full_name ?? '',
-            'INSTALLATION_NAME' => $DIC['ilClientIniFile']->readVariable('client', 'name'),
-            'INSTALLATION_DESC' => $DIC['ilClientIniFile']->readVariable('client', 'description'),
-            'ILIAS_URL' => $clientUrl,
-        ];
-
-        return $DIC->mail()->mustacheFactory()->getBasicEngine()->render($signature, $placeholders);
+        return $DIC->mail()->signature()->installation();
     }
 
     public static function getSalutation(int $a_usr_id, ?ilLanguage $a_language = null): string
