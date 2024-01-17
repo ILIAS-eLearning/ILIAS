@@ -27,13 +27,11 @@ class MailUserSignature implements Signature
     public const MAIL_USER_SIGNATURE = 'mail_system_usr_general_signature';
     private ilSetting $settings;
     private MailSignatureIliasUrlPlaceholder $placeholder_chain;
-    private int $user_id;
 
     public function __construct(int $user_id)
     {
         global $DIC;
         $this->settings = $DIC->settings();
-        $this->user_id = $user_id;
     }
 
     public function getSignature(): string
@@ -46,17 +44,16 @@ class MailUserSignature implements Signature
         return self::MAIL_USER_SIGNATURE;
     }
 
-    public function getPlaceholder(): Placeholder
+    public function supports(Placeholder $placeholder): bool
     {
-        if (!isset($this->placeholder_chain)) {
-            $p1 = new MailSignatureIliasUrlPlaceholder();
-            $p2 = new MailSignatureInstallationNamePlaceholder();
-            $p3 = new MailSignatureInstallationDescriptionPlaceholder();
-            $p4 = new MailSignatureUserNamePlaceholder($this->user_id);
-            $p5 = new MailSignatureUserFullnamePlaceholder($this->user_id);
-            $p1->setNext($p2)->setNext($p3)->setNext($p4)->setNext($p5);
-            $this->placeholder_chain = $p1;
-        }
-        return $this->placeholder_chain;
+        return match (get_class($placeholder)) {
+            MailSignatureIliasUrlPlaceholder::class,
+            MailSignatureInstallationNamePlaceholder::class,
+            MailSignatureInstallationDescriptionPlaceholder::class,
+            MailSignatureUserNamePlaceholder::class,
+            MailSignatureUserFullnamePlaceholder::class,
+            => true,
+            default => false,
+        };
     }
 }

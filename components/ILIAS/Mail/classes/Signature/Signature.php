@@ -23,6 +23,6 @@ namespace ILIAS\Mail\Signature;
 interface Signature
 {
     public function getSignature(): string;
-    public function getPlaceholder(): Placeholder;
+    public function supports(Placeholder $placeholder): bool;
     public function getSettingsKeyword();
 }

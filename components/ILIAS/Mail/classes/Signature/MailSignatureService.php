@@ -51,18 +51,28 @@ class MailSignatureService
     public function installation(): string
     {
         $signature = new MailInstallationSignature();
-        return $this->processSignature($signature->getPlaceholder(), $signature);
+        return $this->processSignature($this->getPlaceholder(), $signature);
     }
 
     public function user(int $user_id): string
     {
-        $signature = new MailUserSignature($user_id);
-        return $this->processSignature($signature->getPlaceholder(), $signature);
+        return $this->processSignature($this->getPlaceholder($user_id), new MailUserSignature($user_id));
     }
 
     private function processSignature(Placeholder $placeholder, Signature $signature): string
     {
         $placeholders = $placeholder->handle($signature);
         return $this->mustacheFactory->getBasicEngine()->render($signature->getSignature(), $placeholders);
+    }
+
+    public function getPlaceholder(int $user_id = 0): Placeholder
+    {
+        $p1 = new MailSignatureIliasUrlPlaceholder();
+        $p2 = new MailSignatureInstallationNamePlaceholder();
+        $p3 = new MailSignatureInstallationDescriptionPlaceholder();
+        $p4 = new MailSignatureUserNamePlaceholder($user_id);
+        $p5 = new MailSignatureUserFullnamePlaceholder($user_id);
+        $p1->setNext($p2)->setNext($p3)->setNext($p4)->setNext($p5);
+        return $p1;
     }
 }

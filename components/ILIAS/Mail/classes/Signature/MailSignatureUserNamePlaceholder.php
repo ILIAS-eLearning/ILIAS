@@ -37,15 +37,11 @@ class MailSignatureUserNamePlaceholder extends AbstractPlaceholderHandler
         return 'USER_NAME';
     }
 
-    public function handle(Signature $signature): array
+    public function addPlaceholder(array $placeholder): array
     {
-        if ($signature instanceof MailUserSignature) {
-            $full_name = ilObjUser::_lookupName($this->user_id);
-            $name = $full_name['firstname'];
-            $placeholders = parent::handle($signature);
-            $placeholders[$this->getId()] = $name;
-            return $placeholders;
-        }
-        return parent::handle($signature);
+        $full_name = ilObjUser::_lookupName($this->user_id);
+        $name = $full_name['firstname'];
+        $placeholder[$this->getId()] = $name;
+        return $placeholder;
     }
 }

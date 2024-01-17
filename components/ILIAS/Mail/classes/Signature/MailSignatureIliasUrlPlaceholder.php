@@ -28,15 +28,15 @@ class MailSignatureIliasUrlPlaceholder extends AbstractPlaceholderHandler
     {
         return 'ILIAS_URL';
     }
-    public function handle(Signature $signature): array
+
+    public function addPlaceholder(array $placeholder): array
     {
         $clientUrl = ilUtil::_getHttpPath();
         $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
         if (is_array($clientdirs) && count($clientdirs) > 1) {
             $clientUrl .= '/login.php?client_id=' . CLIENT_ID;
         }
-        $placeholders = parent::handle($signature);
-        $placeholders[$this->getId()] = $clientUrl;
-        return $placeholders;
+        $placeholder[$this->getId()] = $clientUrl;
+        return $placeholder;
     }
 }

@@ -38,10 +38,9 @@ class MailSignatureInstallationDescriptionPlaceholder extends AbstractPlaceholde
         return 'ILIAS_DESC';
     }
 
-    public function handle(Signature $signature): array
+    public function addPlaceholder(array $placeholder): array
     {
-        $placeholders = parent::handle($signature);
-        $placeholders[$this->getId()] = $this->clientIniFile->readVariable('client', 'name');
-        return $placeholders;
+        $placeholder[$this->getId()] = $this->clientIniFile->readVariable('client', 'name');
+        return $placeholder;
     }
 }

@@ -53,9 +53,14 @@ abstract class AbstractPlaceholderHandler implements Placeholder
     public function handle(Signature $signature): ?array
     {
         $placeholders = [];
-        if($this->next) {
+        if ($this->next) {
             $placeholders = $this->next->handle($signature);
+        }
+        if ($signature->supports($this)) {
+            $placeholders = $this->addPlaceholder($placeholders);
         }
         return $placeholders;
     }
+
+    abstract public function addPlaceholder(array $placeholder): array;
 }

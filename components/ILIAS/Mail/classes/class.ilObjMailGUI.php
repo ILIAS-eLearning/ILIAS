@@ -19,10 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Mail\Autoresponder\AutoresponderService;
-use ILIAS\Mail\Service\MailSignatureService;
 use ILIAS\Mail\Signature\MailUserSignature;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -37,6 +37,7 @@ class ilObjMailGUI extends ilObjectGUI
 
     private readonly ilTabsGUI $tabs;
     private readonly ilMustacheFactory $mustache_factory;
+    private MailSignatureService $mail_signature_service;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -46,6 +47,7 @@ class ilObjMailGUI extends ilObjectGUI
 
         $this->tabs = $DIC->tabs();
         $this->mustache_factory = $DIC->mail()->mustacheFactory();
+        $this->mail_signature_service = $DIC->mail()->signature();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -585,9 +587,11 @@ class ilObjMailGUI extends ilObjectGUI
             $this->lng->txt('mail_form_placeholders_label'),
             $signature->getSettingsKeyword()
         );
-        $placeholder = $signature->getPlaceholder();
+        $placeholder = $this->mail_signature_service->getPlaceholder();
         while ($placeholder->getNext()) {
-            $placeholder_input->addPlaceholder($placeholder->getId(), $placeholder->getLabel());
+            if ($signature->supports($placeholder)) {
+                $placeholder_input->addPlaceholder($placeholder->getId(), $placeholder->getLabel());
+            }
             $placeholder = $placeholder->getNext();
         }
         $placeholder_input->setDisabled(!$this->isEditingAllowed());

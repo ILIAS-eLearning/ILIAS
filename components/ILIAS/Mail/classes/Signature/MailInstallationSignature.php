@@ -44,15 +44,14 @@ class MailInstallationSignature implements Signature
         return self::MAIL_INSTALLATION_SIGNATURE;
     }
 
-    public function getPlaceholder(): Placeholder
+    public function supports(Placeholder $placeholder): bool
     {
-        if (!isset($this->placeholder_chain)) {
-            $p1 = new MailSignatureIliasUrlPlaceholder();
-            $p2 = new MailSignatureInstallationNamePlaceholder();
-            $p3 = new MailSignatureInstallationDescriptionPlaceholder();
-            $p1->setNext($p2)->setNext($p3);
-            $this->placeholder_chain = $p1;
-        }
-        return $this->placeholder_chain;
+        return match (get_class($placeholder)) {
+            MailSignatureIliasUrlPlaceholder::class,
+            MailSignatureInstallationNamePlaceholder::class,
+            MailSignatureInstallationDescriptionPlaceholder::class,
+            => true,
+            default => false,
+        };
     }
 }
