@@ -2322,6 +2322,7 @@ bibl#:#filter_type_3#:#Multi-Selectinput
 bibl#:#filter_type_info#:#Please choose a filter type for the field.
 bibl#:#identifier#:#Identifier
 bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?
+bibl#:#msg_filter_info#:#Create a filter here that can be used in the "Contents" tab to limit the display of entries.
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
