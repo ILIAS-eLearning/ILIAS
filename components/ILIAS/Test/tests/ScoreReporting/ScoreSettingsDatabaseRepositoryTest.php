@@ -19,16 +19,17 @@
 namespace ScoreReporting;
 
 use ilDBInterface;
-use ilObjTestScoreSettingsDatabaseRepository;
+use ILIAS\Test\ScoreSettings\ScoreSettingsDatabaseRepository;
+use ILIAS\Test\ScoreSettings\ScoreSettingsRepository;
 use ilTestBaseTestCase;
 
-class ilObjTestScoreSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
+class ScoreSettingsDatabaseRepositoryTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilObjTestScoreSettingsDatabaseRepository = new ilObjTestScoreSettingsDatabaseRepository(
+        $ilObjTestScoreSettingsDatabaseRepository = new ScoreSettingsDatabaseRepository(
             $this->createMock(ilDBInterface::class)
         );
-        $this->assertInstanceOf(ilObjTestScoreSettingsDatabaseRepository::class, $ilObjTestScoreSettingsDatabaseRepository);
+        $this->assertInstanceOf(ScoreSettingsDatabaseRepository::class, $ilObjTestScoreSettingsDatabaseRepository);
     }
 }

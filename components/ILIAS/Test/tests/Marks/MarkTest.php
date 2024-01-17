@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\Test\Mark;
+use ILIAS\Test\Marks\Mark;
 
 /**
  * Unit tests for Mark
@@ -27,9 +27,9 @@ use ILIAS\Test\Mark;
  * @version $Id$
  * @ingroup components\ILIASTest
  */
-class assMarkTest extends TestCase
+class MarkTest extends TestCase
 {
-    protected bool $backupGlobals = false;
+    protected $backupGlobals = false;
 
     protected Mark $ass_mark;
 

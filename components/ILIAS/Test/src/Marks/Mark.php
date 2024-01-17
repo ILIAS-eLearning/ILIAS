@@ -116,7 +116,7 @@ class Mark
         if (($minimum_level >= 0) && ($minimum_level <= 100)) {
             $this->minimum_level = $minimum_level;
         } else {
-            throw new Exception('Markstep: minimum level must be between 0 and 100');
+            throw new \Exception('Markstep: minimum level must be between 0 and 100');
         }
     }
 

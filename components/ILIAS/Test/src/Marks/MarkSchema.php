@@ -69,7 +69,7 @@ class MarkSchema
         string $txt_passed_official = "passed",
         float $percentage_passed = 50,
         int $passed_passed = 1
-    ) {
+    ): void {
         $this->flush();
         $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
         $this->addMarkStep($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);

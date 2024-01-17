@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Scoring;
+
 /**
 *
 * @author	Björn Heyser <bheyser@databay.de>
@@ -25,9 +27,9 @@ declare(strict_types=1);
 *
 * @ingroup	ModulesTest
 */
-class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
+class TestScoringByParticipantPassesOverviewTableGUI extends \ilTable2GUI
 {
-    public function __construct(ilTestScoringGUI $parent_obj, string $parent_cmd)
+    public function __construct(TestScoringByParticipantGUI $parent_obj, string $parent_cmd)
     {
         $this->setPrefix('manScorePassesTable');
 
@@ -78,7 +80,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable("PASS_NR", $a_set['pass'] + 1);
-        $this->tpl->setVariable("PASS_DATE", ilDatePresentation::formatDate(new ilDate($a_set['finishdate'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("PASS_DATE", \ilDatePresentation::formatDate(new \ilDate($a_set['finishdate'], IL_CAL_UNIX)));
         $this->tpl->setVariable("PASS_ANSWERED_QUESTIONS", $a_set['answered_questions'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['total_questions']);
         $this->tpl->setVariable("PASS_REACHED_POINTS", $a_set['reached_points'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['max_points']);
         $this->tpl->setVariable("PASS_REACHED_PERCENTAGE", sprintf("%.2f%%", $a_set['percentage']));

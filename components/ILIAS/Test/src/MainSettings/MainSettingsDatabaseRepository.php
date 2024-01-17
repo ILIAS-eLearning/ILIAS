@@ -148,11 +148,11 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 $test_id,
                 (bool) $row['starting_time_enabled'],
                 $row['starting_time'] !== 0
-                    ? DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
+                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
                     : null,
                 (bool) $row['ending_time_enabled'],
                 $row['ending_time'] !== 0
-                    ? DateTimeImmutable::createFromFormat('U', (string) $row['ending_time'])
+                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['ending_time'])
                     : null,
                 (bool) $row['password_enabled'],
                 $row['password'],

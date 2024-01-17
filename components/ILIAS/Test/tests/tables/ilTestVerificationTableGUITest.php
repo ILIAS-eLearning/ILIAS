@@ -49,7 +49,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
 
         $test_gui = $this->getMockBuilder(ilObjTestVerificationGUI::class)->disableOriginalConstructor()->getMock();
-        $this->tableGui = new ilTestVerificationTableGUI($test_gui, '', $DIC['ilDB'], $DIC['ilUser'], new NullLogger());
+        $this->tableGui = new ilTestVerificationTableGUI($test_gui, '', $DIC['ilDB'], $DIC['ilUser'], $this->createMock(\ILIAS\Test\Logging\TestLogger::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

@@ -18,15 +18,15 @@
 
 namespace ScoreReporting;
 
-use ilObjTestSettingsResultDetails;
+use ILIAS\Test\ScoreSettings\SettingsResultDetails;
 use ilTestBaseTestCase;
 
-class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
+class SettingsResultDetailsTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $this->assertInstanceOf(ilObjTestSettingsResultDetails::class, $ilObjTestSettingsResultDetails);
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $this->assertInstanceOf(SettingsResultDetails::class, $settingsResultDetails);
     }
 
     /**
@@ -34,9 +34,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithResultsPresentation(int $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withResultsPresentation($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getResultsPresentation());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withResultsPresentation($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getResultsPresentation());
     }
 
     public static function getAndWithResultsPresentationDataProvider(): array
@@ -53,9 +53,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndShowExamIdInTestResults(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowExamIdInTestResults($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowExamIdInTestResults());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowExamIdInTestResults($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowExamIdInTestResults());
     }
 
     public static function getAndShowExamIdInTestResultsDataProvider(): array
@@ -71,9 +71,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowPassDetails(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowPassDetails($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowPassDetails());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowPassDetails($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowPassDetails());
     }
 
     public static function getAndWithShowPassDetailsDataProvider(): array
@@ -89,9 +89,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowSolutionPrintview(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionPrintview($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionPrintview());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionPrintview($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionPrintview());
     }
 
     public static function getAndWithShowSolutionPrintviewDataProvider(): array
@@ -107,9 +107,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetShowSolutionFeedback(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionFeedback($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionFeedback());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionFeedback($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionFeedback());
     }
 
     public static function getAndWithShowSolutionFeedbackDataProvider(): array
@@ -125,9 +125,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowSolutionAnswersOnly(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionAnswersOnly($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionAnswersOnly());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionAnswersOnly($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionAnswersOnly());
     }
 
     public static function getAndWithShowSolutionAnswersOnlyDataProvider(): array
@@ -143,9 +143,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowSolutionSignature(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionSignature($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionSignature());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionSignature($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionSignature());
     }
 
     public static function getAndWithShowSolutionSignatureDataProvider(): array
@@ -161,9 +161,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowSolutionSuggested(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionSuggested($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionSuggested());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionSuggested($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionSuggested());
     }
 
     public static function getAndWithShowSolutionSuggestedDataProvider(): array
@@ -179,9 +179,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowSolutionListComparison(bool $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withShowSolutionListComparison($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionListComparison());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withShowSolutionListComparison($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getShowSolutionListComparison());
     }
 
     public static function getAndWithShowSolutionListComparisonDataProvider(): array
@@ -197,9 +197,9 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
      */
     public function testGetAndWithExportSettings(int $IO): void
     {
-        $ilObjTestSettingsResultDetails = new ilObjTestSettingsResultDetails(0);
-        $ilObjTestSettingsResultDetails = $ilObjTestSettingsResultDetails->withExportSettings($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getExportSettings());
+        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = $settingsResultDetails->withExportSettings($IO);
+        $this->assertEquals($IO, $settingsResultDetails->getExportSettings());
     }
 
     public static function getAndWithExportSettingsDataProvider(): array

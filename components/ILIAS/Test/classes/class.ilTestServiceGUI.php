@@ -153,9 +153,6 @@ class ilTestServiceGUI
         $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
         $this->objective_oriented_container = null;
 
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-
         $local_dic = $object->getLocalDIC();
         $this->testrequest = $local_dic['request.internal'];
         $this->participant_access_filter = $local_dic['participant_access_filter_factory'];

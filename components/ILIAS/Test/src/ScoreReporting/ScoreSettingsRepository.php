@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\ScoreSettings;
+
 interface ScoreSettingsRepository
 {
-    public function getFor(int $test_id): ilObjTestScoreSettings;
-    public function store(ilObjTestScoreSettings $settings): void;
+    public function getFor(int $test_id): ScoreSettings;
+    public function store(ScoreSettings $settings): void;
 }

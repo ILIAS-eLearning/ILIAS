@@ -18,14 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\TestScoringByQuestionTableGUI;
+use ILIAS\Test\Scoring\TestScoringByQuestionGUI;
+
 /**
- * Class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUITest extends ilTestBaseTestCase
+class TestScoringByQuestionTableGUITest extends ilTestBaseTestCase
 {
-    private ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI $tableGui;
-    private ilTestScoringByQuestionsGUI $parentObj_mock;
+    private TestScoringByQuestionTableGUI $tableGui;
+    private TestScoringByQuestionGUI $parentObj_mock;
 
     protected function setUp(): void
     {
@@ -68,15 +70,15 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUITest extends 
                 return [];
             });
 
-        $this->parentObj_mock = $this->getMockBuilder(ilTestScoringByQuestionsGUI::class)
+        $this->parentObj_mock = $this->getMockBuilder(TestScoringByQuestionGUI::class)
             ->disableOriginalConstructor()->onlyMethods(['getObject'])->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($objTest_mock);
 
-        $this->tableGui = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this->parentObj_mock, $DIC['ilAccess']);
+        $this->tableGui = new TestScoringByQuestionTableGUI($this->parentObj_mock, $DIC['ilAccess']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI::class, $this->tableGui);
+        $this->assertInstanceOf(TestScoringByQuestionTableGUI::class, $this->tableGui);
     }
 }

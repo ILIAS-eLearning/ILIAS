@@ -34,6 +34,9 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Marks\MarkSchema;
 use ILIAS\Test\Marks\MarkSchemaAware;
 use ILIAS\Test\MainSettings\MainSettings;
+use ILIAS\Test\Scoring\TestScoring;
+use ILIAS\Test\ScoreSettings\SettingsResultSummary;
+use ILIAS\Test\ScoreSettings\ScoreSettings;
 
 /**
  * Class ilObjTest
@@ -117,7 +120,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
     protected ?MainSettings $main_settings = null;
     protected ?MainSettingsRepository $main_settings_repo = null;
-    protected ?ilObjTestScoreSettings $score_settings = null;
+    protected ?ScoreSettings $score_settings = null;
     protected ?ScoreSettingsRepository $score_settings_repo = null;
 
     protected TestLogger $logger;
@@ -173,7 +176,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $this->questioninfo
         );
 
-        $this->mark_schema = $local_dic['mark_schema_repository']->getMarkSchemaFor($this->getTestId());
+        $this->mark_schema = $local_dic['marks_repository']->getMarkSchemaFor($this->getTestId());
     }
 
     public function getLocalDIC(): ILIAS\DI\Container
@@ -712,14 +715,14 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public function isScoreReportingEnabled(): bool
     {
         switch ($this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()) {
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+            case SettingsResultSummary::SCORE_REPORTING_FINISHED:
+            case SettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
+            case SettingsResultSummary::SCORE_REPORTING_DATE:
+            case SettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
 
                 return true;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DISABLED:
+            case SettingsResultSummary::SCORE_REPORTING_DISABLED:
             default:
 
                 return false;
@@ -1044,15 +1047,30 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     }
 
     /**
-     * @param int[] $removeQuestionIds
+     * @param int[] $remove_question_ids
      */
-    public function removeQuestions(array $removeQuestionIds): void
+    public function removeQuestions(array $remove_question_ids): void
     {
-        foreach ($removeQuestionIds as $value) {
+        foreach ($remove_question_ids as $value) {
             $this->removeQuestion((int) $value);
         }
 
         $this->reindexFixedQuestionOrdering();
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->getRefId(),
+                    $this->user,
+                    TestAdministrationInteractionTypes::QUESTION_REMOVED,
+                    time(),
+                    [
+                        'questions' => $remove_question_ids
+                    ]
+                )
+            );
+        }
     }
 
     public function removeQuestion(int $question_id): void
@@ -1237,32 +1255,31 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     */
     public function questionMoveDown($question_id)
     {
-        // Move a question down in sequence
-        $result = $this->db->queryF(
+        $current_question_result = $this->db->queryF(
             "SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
             ['integer','integer'],
             [$this->getTestId(), $question_id]
         );
-        $data = $this->db->fetchObject($result);
-        $result = $this->db->queryF(
+        $current_question_data = $this->db->fetchObject($current_question_result);
+        $next_question_result = $this->db->queryF(
             "SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
             ['integer','integer'],
-            [$this->getTestId(), $data->sequence + 1]
+            [$this->getTestId(), $current_question_data->sequence + 1]
         );
-        if ($result->numRows() == 1) {
+        if ($this->db->numRows($next_question_result) === 1) {
             // OK, it's not the last question, so move it down
-            $data_next = $this->db->fetchObject($result);
+            $next_question_data = $this->db->fetchObject($next_question_result);
             // change next dataset
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 ['integer','integer'],
-                [$data->sequence, $data_next->test_question_id]
+                [$current_question_data->sequence, $next_question_data->test_question_id]
             );
             // move actual dataset down
             $this->db->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 ['integer','integer'],
-                [$data->sequence + 1, $data->test_question_id]
+                [$current_question_data->sequence + 1, $current_question_data->test_question_id]
             );
         }
         $this->loadQuestions();
@@ -4274,7 +4291,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     /**
      * {@inheritdoc}
      */
-    public function checkMarks()
+    public function checkMarks(): string|bool
     {
         return $this->mark_schema->checkMarks();
     }
@@ -4297,7 +4314,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
     /**
      */
-    public function onMarkSchemaSaved()
+    public function onMarkSchemaSaved(): void
     {
         $this->saveCompleteStatus($this->question_set_config_factory->getQuestionSetConfig());
 
@@ -7806,7 +7823,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
     public function recalculateScores($preserve_manscoring = false)
     {
-        $scoring = new ilTestScoring($this, $this->db);
+        $scoring = new TestScoring($this, $this->db);
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
         ilLPStatusWrapper::_updateStatus($this->getId(), $this->user->getId());
@@ -8028,7 +8045,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 
-    public function getScoreSettings(): ilObjTestScoreSettings
+    public function getScoreSettings(): ScoreSettings
     {
         if (!$this->score_settings) {
             $this->score_settings = $this->getScoreSettingsRepository()
@@ -8045,7 +8062,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $this->score_settings_repo;
     }
 
-    public function getMainSettings(): TestMainSettings
+    public function getMainSettings(): MainSettings
     {
         if (!$this->main_settings) {
             $this->main_settings = $this->getMainSettingsRepository()

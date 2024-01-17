@@ -33,9 +33,9 @@ class SettingsAccess extends TestSettings
     public function __construct(
         int $test_id,
         protected bool $start_time_enabled = false,
-        protected ?DateTimeImmutable $start_time = null,
+        protected ?\DateTimeImmutable $start_time = null,
         protected bool $end_time_enabled = false,
-        protected ?DateTimeImmutable $end_time = null,
+        protected ?\DateTimeImmutable $end_time = null,
         protected bool $password_enabled = false,
         protected ?string $password = null,
         protected ?string $ip_range_from = null,
@@ -302,11 +302,11 @@ class SettingsAccess extends TestSettings
         return $clone;
     }
 
-    public function getStartTime(): ?DateTimeImmutable
+    public function getStartTime(): ?\DateTimeImmutable
     {
         return $this->start_time;
     }
-    public function withStartTime(?DateTimeImmutable $start_time): self
+    public function withStartTime(?\DateTimeImmutable $start_time): self
     {
         $clone = clone $this;
         $clone->start_time = $start_time;
@@ -324,11 +324,11 @@ class SettingsAccess extends TestSettings
         return $clone;
     }
 
-    public function getEndTime(): ?DateTimeImmutable
+    public function getEndTime(): ?\DateTimeImmutable
     {
         return $this->end_time;
     }
-    public function withEndTime(?DateTimeImmutable $end_time): self
+    public function withEndTime(?\DateTimeImmutable $end_time): self
     {
         $clone = clone $this;
         $clone->end_time = $end_time;

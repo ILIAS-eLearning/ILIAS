@@ -19,15 +19,15 @@
 namespace ScoreReporting;
 
 use DateTimeImmutable;
-use ilObjTestSettingsResultSummary;
+use ILIAS\Test\ScoreSettings\SettingsResultSummary;
 use ilTestBaseTestCase;
 
-class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
+class SettingsResultSummaryTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $this->assertInstanceOf(ilObjTestSettingsResultSummary::class, $ilObjTestSettingsResultSummary);
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $this->assertInstanceOf(SettingsResultSummary::class, $settingsResultSummary);
     }
 
     /**
@@ -35,9 +35,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithScoreReporting(int $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withScoreReporting($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getScoreReporting());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withScoreReporting($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getScoreReporting());
     }
 
     public static function getAndWithScoreReportingDataProvider(): array
@@ -54,9 +54,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetScoreReportingEnabled(bool $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withScoreReporting($IO ? 1 : 0);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getScoreReportingEnabled());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withScoreReporting($IO ? 1 : 0);
+        $this->assertEquals($IO, $settingsResultSummary->getScoreReportingEnabled());
     }
 
     public static function getScoreReportingEnabledDataProvider(): array
@@ -72,9 +72,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithReportingDate(?\DateTimeImmutable $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withReportingDate($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getReportingDate());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withReportingDate($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getReportingDate());
     }
 
     public static function getAndWithReportingDateDataProvider(): array
@@ -90,9 +90,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowGradingStatusEnabled(bool $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withShowGradingStatusEnabled($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowGradingStatusEnabled());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withShowGradingStatusEnabled($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getShowGradingStatusEnabled());
     }
 
     public static function getAndWithShowGradingStatusEnabledDataProvider(): array
@@ -108,9 +108,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowGradingMarkEnabled(bool $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withShowGradingMarkEnabled($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowGradingMarkEnabled());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withShowGradingMarkEnabled($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getShowGradingMarkEnabled());
     }
 
     public static function getAndWithShowGradingMarkEnabledDataProvider(): array
@@ -126,9 +126,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithPassDeletionAllowed(bool $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withPassDeletionAllowed($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getPassDeletionAllowed());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withPassDeletionAllowed($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getPassDeletionAllowed());
     }
 
     public static function getAndWithPassDeletionAllowedDataProvider(): array
@@ -144,9 +144,9 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
      */
     public function testGetAndWithShowPassDetails(bool $IO): void
     {
-        $ilObjTestSettingsResultSummary = new ilObjTestSettingsResultSummary(0);
-        $ilObjTestSettingsResultSummary = $ilObjTestSettingsResultSummary->withShowPassDetails($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowPassDetails());
+        $settingsResultSummary = new SettingsResultSummary(0);
+        $settingsResultSummary = $settingsResultSummary->withShowPassDetails($IO);
+        $this->assertEquals($IO, $settingsResultSummary->getShowPassDetails());
     }
 
     public static function getAndWithShowPassDetailsDataProvider(): array

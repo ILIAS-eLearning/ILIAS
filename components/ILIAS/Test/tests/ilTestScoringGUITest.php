@@ -16,13 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\Scoring\TestScoringByParticipantGUI;
+
 /**
- * Class ilTestScoringGUITest
+ * Class TestScoringGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestScoringGUITest extends ilTestBaseTestCase
+class TestScoringByParticipantGUITest extends ilTestBaseTestCase
 {
-    private ilTestScoringGUI $testObj;
+    private TestScoringByParticipantGUI $testObj;
 
     protected function setUp(): void
     {
@@ -48,12 +52,12 @@ class ilTestScoringGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->testObj = new ilTestScoringGUI($this->getTestObjMock());
+        $this->testObj = new TestScoringByParticipantGUI($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestScoringGUI::class, $this->testObj);
+        $this->assertInstanceOf(TestScoringByParticipantGUI::class, $this->testObj);
     }
 
     public function testTestAccess(): void

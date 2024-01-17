@@ -36,7 +36,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         private ilObjUser $user,
         private TestLogger $logger
     ) {
-        $user_certificate_repository = new ilUserCertificateRepository($this->db, $this->logger);
+        $user_certificate_repository = new ilUserCertificateRepository($this->db, $this->logger->getComponentLogger());
         $this->userCertificateRepository = $user_certificate_repository;
 
         parent::__construct($parent_obj, $parent_cmd);

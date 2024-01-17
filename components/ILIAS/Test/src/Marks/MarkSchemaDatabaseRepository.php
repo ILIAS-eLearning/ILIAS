@@ -30,18 +30,17 @@ class MarksDatabaseRepository implements MarksRepository
     ) {
     }
 
-    public function getMarkSchemaFor(int $test_id): ?MarkSchema
+    public function getMarkSchemaFor(int $test_id): MarkSchema
     {
-        if (!$test_id) {
-            return null;
-        }
+        $schema = new MarkSchema($test_id);
+        $schema->createSimpleSchema();
         $result = $this->db->queryF(
             'SELECT * FROM ' . self::DB_TABLE . ' WHERE test_fi = %s ORDER BY minimum_level',
             ['integer'],
             [$test_id]
         );
         if ($this->db->numRows($result) > 0) {
-            $schema = new MarkSchema($test_id);
+            $schema->flush();
             while ($data = $this->db->fetchAssoc($result)) {
                 $schema->addMarkStep($data['short_name'], $data['official_name'], (float) $data['minimum_level'], (int) $data['passed']);
             }

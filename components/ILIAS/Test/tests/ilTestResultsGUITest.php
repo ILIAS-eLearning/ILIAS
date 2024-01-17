@@ -52,7 +52,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['refinery'],
             $DIC['ilUser'],
             $DIC['lng'],
-            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $DIC['component.repository'],
             $DIC['ilTabs'],
             $DIC['ilToolbar'],

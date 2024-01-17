@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Marks;
+use ILIAS\Test\Scoring\TestScoringByParticipantGUI;
+use ILIAS\Test\Scoring\TestScoringByParticipantPassesOverviewTableGUI;
 
 /**
- * Class ilMarkSchemaTableGUITest
+ * Class TestScoringByParticipantPassesOverviewTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
+class TestScoringByParticipantPassesOverviewTableGUITest extends ilTestBaseTestCase
 {
-    private ilMarkSchemaTableGUI $tableGui;
-    private ilMarkSchemaGUI $parentObj_mock;
+    private TestScoringByParticipantPassesOverviewTableGUI $tableGui;
+    private TestScoringByParticipantGUI $parentObj_mock;
 
     protected function setUp(): void
     {
@@ -49,29 +50,14 @@ class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable("ilToolbar", $this->createMock(ilToolbarGUI::class));
 
-        $this->parentObj_mock = $this->createMock(ilMarkSchemaGUI::class);
-
-        $assMarkSchema = $this->createMock(MarkSchema::class);
-        $assMarkSchema->expects($this->any())
-                      ->method("getMarkSteps")
-                      ->willReturn([]);
-
-        $markSchemaAware_mock = $this->createMock(ilMarkSchemaAware::class);
-        $markSchemaAware_mock
-            ->expects($this->any())
-            ->method("getMarkSchema")
-            ->willReturn($assMarkSchema);
-        $this->tableGui = new ilMarkSchemaTableGUI(
-            $this->parentObj_mock,
-            "",
-            $markSchemaAware_mock
-        );
+        $this->parentObj_mock = $this->getMockBuilder(TestScoringByParticipantGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
+        $this->tableGui = new TestScoringByParticipantPassesOverviewTableGUI($this->parentObj_mock, "");
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilMarkSchemaTableGUI::class, $this->tableGui);
+        $this->assertInstanceOf(TestScoringByParticipantPassesOverviewTableGUI::class, $this->tableGui);
     }
 }

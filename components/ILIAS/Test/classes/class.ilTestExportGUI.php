@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Scoring\TestScoring;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -171,7 +172,7 @@ class ilTestExportGUI extends ilExportGUI
                 $test_ref
             );
 
-            $scoring = new ilTestScoring($this->obj, $this->db);
+            $scoring = new TestScoring($this->obj, $this->db);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
             $tmpFileName = ilFileUtils::ilTempnam();

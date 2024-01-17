@@ -18,15 +18,15 @@
 
 namespace ScoreReporting;
 
-use ilObjTestSettingsScoring;
+use ILIAS\Test\ScoreSettings\SettingsScoring;
 use ilTestBaseTestCase;
 
-class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
+class SettingsScoringTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $ilObjTestSettingsScoring = new ilObjTestSettingsScoring(0);
-        $this->assertInstanceOf(ilObjTestSettingsScoring::class, $ilObjTestSettingsScoring);
+        $settingsScoring = new SettingsScoring(0);
+        $this->assertInstanceOf(SettingsScoring::class, $settingsScoring);
     }
 
     /**
@@ -34,9 +34,9 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
      */
     public function testGetAndWithCountSystem(bool $IO): void
     {
-        $ilObjTestSettingsScoring = new ilObjTestSettingsScoring(0);
-        $ilObjTestSettingsScoring = $ilObjTestSettingsScoring->withCountSystem($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsScoring->getCountSystem());
+        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = $settingsScoring->withCountSystem($IO);
+        $this->assertEquals($IO, $settingsScoring->getCountSystem());
     }
 
     public static function getAndWithCountSystemDataProvider(): array
@@ -52,9 +52,9 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
      */
     public function testGetAndWithScoreCutting(bool $IO): void
     {
-        $ilObjTestSettingsScoring = new ilObjTestSettingsScoring(0);
-        $ilObjTestSettingsScoring = $ilObjTestSettingsScoring->withScoreCutting($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsScoring->getScoreCutting());
+        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = $settingsScoring->withScoreCutting($IO);
+        $this->assertEquals($IO, $settingsScoring->getScoreCutting());
     }
 
     public static function getAndWithScoreCuttingDataProvider(): array
@@ -70,9 +70,9 @@ class ilObjTestSettingsScoringTest extends ilTestBaseTestCase
      */
     public function testGetAndWithPassScoring(bool $IO): void
     {
-        $ilObjTestSettingsScoring = new ilObjTestSettingsScoring(0);
-        $ilObjTestSettingsScoring = $ilObjTestSettingsScoring->withPassScoring($IO);
-        $this->assertEquals($IO, $ilObjTestSettingsScoring->getPassScoring());
+        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = $settingsScoring->withPassScoring($IO);
+        $this->assertEquals($IO, $settingsScoring->getPassScoring());
     }
 
     public static function getAndWithPassScoringDataProvider(): array

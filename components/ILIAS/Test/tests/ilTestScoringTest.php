@@ -18,20 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\TestScoring;
+
 /**
- * Class ilTestScoringTest
+ * Class TestScoringTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestScoringTest extends ilTestBaseTestCase
+class TestScoringTest extends ilTestBaseTestCase
 {
-    private ilTestScoring $testObj;
+    private TestScoring $testObj;
 
     protected function setUp(): void
     {
         global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestScoring(
+        $this->testObj = new TestScoring(
             $this->createMock(ilObjTest::class),
             $DIC['ilDB']
         );
@@ -39,7 +41,7 @@ class ilTestScoringTest extends ilTestBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestScoring::class, $this->testObj);
+        $this->assertInstanceOf(TestScoring::class, $this->testObj);
     }
 
     public function testPreserveManualScores(): void

@@ -18,6 +18,7 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Test\ScoreSettings\ilObjTestSettingsScoringGUI;
+use ILIAS\Test\ScoreSettings\ScoreSettingsRepository;
 
 /**
  * Class ilObjTestSettingsScoringGUITest
@@ -62,6 +63,7 @@ class ilObjTestSettingsScoringGUITest extends ilTestBaseTestCase
             $objTestGui_mock,
             $main_template,
             $tabs_gui,
+            $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ScoreSettingsRepository::class),
             -123,
             $ui_factory,

@@ -18,13 +18,14 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Test\Scoring;
+
 /**
- * ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI
  * @author     Michael Jansen <mjansen@datababay.de>
  * @version    $Id $
  * @ingroup components\ILIASTest
  */
-class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTable2GUI
+class TestScoringByQuestionTableGUI extends \ilTable2GUI
 {
     public const PARENT_DEFAULT_CMD = 'showManScoringByQuestionParticipantsTable';
     public const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
@@ -39,7 +40,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     protected bool $first_row = true;
     protected array $filter = [];
 
-    public function __construct(ilTestScoringByQuestionsGUI $parent_obj, private ilAccess $access)
+    public function __construct(TestScoringByQuestionGUI $parent_obj, private \ilAccess $access)
     {
         global $DIC;
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
@@ -87,14 +88,14 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     {
         $this->setDisableFilterHiding(true);
 
-        $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
-        $select_questions = array();
+        $available_questions = new \ilSelectInputGUI($this->lng->txt('question'), 'question');
+        $select_questions = [];
         if (!$this->getParentObject()->getObject()->isRandomTest()) {
             $questions = $this->getParentObject()->getObject()->getTestQuestions();
         } else {
             $questions = $this->getParentObject()->getObject()->getPotentialRandomTestQuestions();
         }
-        $scoring = ilObjTestFolder::_getManualScoring();
+        $scoring = \ilObjTestFolder::_getManualScoring();
         foreach ($questions as $data) {
             $info = $this->questioninfo->getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
@@ -112,13 +113,13 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         if (!$select_questions) {
             $select_questions[0] = $this->lng->txt('tst_no_scorable_qst_available');
         }
-        $available_questions->setOptions(array('' => $this->lng->txt('please_choose')) + $select_questions);
+        $available_questions->setOptions(['' => $this->lng->txt('please_choose')] + $select_questions);
         $this->addFilterItem($available_questions);
         $available_questions->readFromSession();
         $this->filter['question'] = $available_questions->getValue();
 
-        $pass = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
-        $passes = array();
+        $pass = new \ilSelectInputGUI($this->lng->txt('pass'), 'pass');
+        $passes = [];
         $max_pass = $this->getParentObject()->getObject()->getMaxPassOfTest();
         for ($i = 1; $i <= $max_pass; $i++) {
             $passes[$i] = $i;
@@ -128,21 +129,21 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $pass->readFromSession();
         $this->filter['pass'] = $pass->getValue();
 
-        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
+        $only_answered = new \ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
         $this->addFilterItem($only_answered);
         $only_answered->readFromSession();
         ;
         $this->filter['only_answered'] = $only_answered->getChecked();
 
-        $correction = new ilSelectInputGUI(
+        $correction = new \ilSelectInputGUI(
             $this->lng->txt('finalized_evaluation'),
             'finalize_evaluation'
         );
-        $evaluated = array(
+        $evaluated = [
             $this->lng->txt('all_users'),
             $this->lng->txt('evaluated_users'),
             $this->lng->txt('not_evaluated_users')
-        );
+        ];
         $correction->setOptions($evaluated);
         $this->addFilterItem($correction);
         $correction->readFromSession();

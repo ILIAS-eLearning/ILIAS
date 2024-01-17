@@ -26,6 +26,7 @@ use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\ScoreSettings\SettingsResultSummary;
 
 /**
  * Class ilTestResultsGUI
@@ -53,8 +54,8 @@ class ilTestResultsGUI
     protected ilTestObjectiveOrientedContainer $objectiveParent;
 
     public function __construct(
-        private readonly ilObjTest $testObj,
-        private readonly ilTestQuestionSetConfig $question_set_config,
+        private ilObjTest $testObj,
+        private ilTestQuestionSetConfig $question_set_config,
         private readonly ilCtrl $ctrl,
         private readonly ilAccess $access,
         private readonly ilDBInterface $db,
@@ -302,14 +303,14 @@ class ilTestResultsGUI
         $message = $this->lng->txt('tst_res_tab_msg_res_after_taking_test');
 
         switch ($this->testObj->getScoreReporting()) {
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
+            case SettingsResultSummary::SCORE_REPORTING_FINISHED:
                 if ($this->testObj->hasAnyTestResult($this->getTestSession())) {
                     $message = $this->lng->txt('tst_res_tab_msg_res_after_finish_test');
                 }
 
                 break;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
+            case SettingsResultSummary::SCORE_REPORTING_DATE:
                 $date = $this->getTestObj()->getScoreSettings()->getResultSummarySettings()->getReportingDate()
                     ->setTimezone(new \DateTimeZone($this->user->getTimeZone()));
                 $date_format = $this->user->getDateFormat();
@@ -333,7 +334,7 @@ class ilTestResultsGUI
                 );
                 break;
 
-            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+            case SettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
                 $message = $this->lng->txt('tst_res_tab_msg_res_after_test_passed');
                 break;
         }

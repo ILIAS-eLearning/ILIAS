@@ -298,7 +298,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             }
         }
         $this->getTestFolder()->setScoringAdjustableQuestions($scoring_types);
-        if (!$form->getInput('ass_process_lock'))) {
+        if (!$form->getInput('ass_process_lock')) {
             $this->getTestFolder()->setAssessmentProcessLockMode(ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
         } elseif (in_array(
             $form->getInput('ass_process_lock_mode'),
