@@ -7241,17 +7241,21 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###30 04 2021 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#V tomto kontextu nejsou otázky podporovány.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Pokud nastavíte odkaz na celou část, ujistěte se, že v této části nejsou obsaženy žádné další interaktivní prvky. Jinak může být jejich chování nevypočitatelné.
 copg#:#copg_snippet_cannot_be_edited#:#Jedná se o předem definovaný úryvek obsahu, který zde nelze upravovat.
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
@@ -8352,6 +8356,7 @@ dateplaner#:#cal_weekly#:#Týdně
 dateplaner#:#cal_where#:#Místo
 dateplaner#:#cal_year_s#:#Rok(y)
 dateplaner#:#cal_yearly#:#Ročně
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Vytvořeno
 dateplaner#:#crs_cal_activation_end#:#Konec kurzu
 dateplaner#:#crs_cal_activation_start#:#Začátek kurzu
@@ -10381,6 +10386,8 @@ lso#:#abstract_img#:#Obrázek pro abstrakt
 lso#:#avail_time_period#:#Doba
 lso#:#completed_steps#:#Provedené kroky
 lso#:#condition_always#:#Vždy
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Učební plán
 lso#:#delete_confirmation#:#Opravdu chcete odstranit tyto objekty?
 lso#:#entries_deleted#:#Záznamy úspěšně smazány
@@ -12520,6 +12527,7 @@ poll#:#poll_activation_online_info#:#Aktivujte toto nastavení ke zpřístupněn
 poll#:#poll_add#:#Přidat anketu
 poll#:#poll_anonymous_warning#:#Vaše jméno není ve výsledcích ankety viditelné.
 poll#:#poll_answer#:#Odpověď
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Možné odpovědi
 poll#:#poll_barchart#:#Sloupcový graf
 poll#:#poll_block_message_already_voted#:#V této anketě jste již hlasoval(a).

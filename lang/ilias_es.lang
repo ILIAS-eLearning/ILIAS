@@ -7243,17 +7243,21 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###30 04 2021 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#En este contexto no se admiten preguntas.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Si configura un enlace a toda la sección, asegúrese de que la sección no incluya otros elementos interactivos. De lo contrario, su comportamiento podría ser errático.
 copg#:#copg_snippet_cannot_be_edited#:#Este es un fragmento de contenido predefinido y no se puede editar aquí.
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
@@ -8354,6 +8358,7 @@ dateplaner#:#cal_weekly#:#Semanalmente
 dateplaner#:#cal_where#:#Localización
 dateplaner#:#cal_year_s#:#A&ntilde;o(s)
 dateplaner#:#cal_yearly#:#Anualmente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Creada
 dateplaner#:#crs_cal_activation_end#:#Fin de curso
 dateplaner#:#crs_cal_activation_start#:#Comienzo de curso
@@ -10383,6 +10388,8 @@ lso#:#abstract_img#:#Image for Abstract
 lso#:#avail_time_period#:#Period
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfuly delete entries
@@ -12522,6 +12529,7 @@ poll#:#poll_activation_online_info#:#Se se desactiva, solo los administradores p
 poll#:#poll_add#:#Añadir Votación
 poll#:#poll_anonymous_warning#:#Su nombre no es visible en los resultados de la votación
 poll#:#poll_answer#:#Respuesta
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Posibles respuestas
 poll#:#poll_barchart#:#Diagrama de barras
 poll#:#poll_block_message_already_voted#:#Usted ya ha votado en esta votación

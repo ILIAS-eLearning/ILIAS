@@ -7241,17 +7241,21 @@ copg#:#copg_cron_keep_entries#:#最少を継続
 copg#:#copg_cron_keep_entries_info#:#この数字は、削除期間よりも古かった場合に継続される最小エントリーです。
 copg#:#copg_days#:#日にち
 copg#:#copg_details#:#詳細
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#エントリー
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#ページ処理中にエラー発生。保存した状態前に戻るには"ページの再読み込み"を押す。
 copg#:#copg_est_reading_time#:#予測読込み時間
 copg#:#copg_history_cleanup_cron#:#ページエディター履歴のクリーンアップ
 copg#:#copg_history_cleanup_cron_info#:#ページ履歴から過去のエントリーを削除
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
 copg#:#copg_reload_page#:#ページの再読み込み
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
 copg#:#copg_snippet_cannot_be_edited#:#これは定義済みコンテンツスニペットなのでここでは編集できません。
 copg#:#copg_x_minutes#:#%s 分
@@ -8352,6 +8356,7 @@ dateplaner#:#cal_weekly#:#毎週
 dateplaner#:#cal_where#:#ロケーション
 dateplaner#:#cal_year_s#:#年
 dateplaner#:#cal_yearly#:#年間
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#作成済
 dateplaner#:#crs_cal_activation_end#:#コースの終了
 dateplaner#:#crs_cal_activation_start#:#コースの開始
@@ -10381,6 +10386,8 @@ lso#:#abstract_img#:#要約のイメージ
 lso#:#avail_time_period#:#期間
 lso#:#completed_steps#:#通過ステップ
 lso#:#condition_always#:#常時
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#完了
 lso#:#delete_confirmation#:#失敗
 lso#:#entries_deleted#:#カリキュラム
@@ -12520,6 +12527,7 @@ poll#:#poll_activation_online_info#:#オフラインの場合は管理者のみ�
 poll#:#poll_add#:#投票を追加
 poll#:#poll_anonymous_warning#:#投票結果の中にあなたの名前はありません。
 poll#:#poll_answer#:#回答
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#予想回答
 poll#:#poll_barchart#:#棒グラフ
 poll#:#poll_block_message_already_voted#:#この投票にすでに投票済です。

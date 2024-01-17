@@ -7256,17 +7256,21 @@ copg#:#copg_cron_keep_entries#:#Minsta antal bidrag
 copg#:#copg_cron_keep_entries_info#:#Detta antal poster sparas i historiken, även om de är äldre än den angivna perioden.
 copg#:#copg_days#:#dagar
 copg#:#copg_details#:#Detaljer
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Inträden
 copg#:#copg_error#:#Problem
 copg#:#copg_error_occured_modal#:#Tyvärr, ett fel har uppstått. Tryck på "Ladda om sidan" för att återgå till det senast sparade innehållet.
 copg#:#copg_est_reading_time#:#Uppskattad lästid
 copg#:#copg_history_cleanup_cron#:#Page Editor Historik rensning
 copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigerarens historik.
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
 copg#:#copg_reload_page#:#Reload sida
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
 copg#:#copg_snippet_cannot_be_edited#:#Detta är en fördefinierad innehållsmodul som inte kan redigeras just nu.
 copg#:#copg_x_minutes#:#%s minut(er)
@@ -8367,6 +8371,7 @@ dateplaner#:#cal_weekly#:#Veckovis
 dateplaner#:#cal_where#:#Plats
 dateplaner#:#cal_year_s#:#År
 dateplaner#:#cal_yearly#:#Årlig
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#skapad på
 dateplaner#:#crs_cal_activation_end#:#Kursens slut
 dateplaner#:#crs_cal_activation_start#:#Kursstart
@@ -10396,6 +10401,8 @@ lso#:#abstract_img#:#Bild för introduktionssidan
 lso#:#avail_time_period#:#Tidsperiod
 lso#:#completed_steps#:#Passerade steg
 lso#:#condition_always#:#Alltid
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Innehåll
 lso#:#delete_confirmation#:#Vill du verkligen ta bort följande objekt?
 lso#:#entries_deleted#:#Poster har raderats framgångsrikt.
@@ -12535,6 +12542,7 @@ poll#:#poll_activation_online_info#:#Välj denna inställning för att göra rö
 poll#:#poll_add#:#Skapa omröstning
 poll#:#poll_anonymous_warning#:#Ditt namn visas inte i röstningsresultaten.
 poll#:#poll_answer#:#Svar
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Möjliga svar
 poll#:#poll_barchart#:#Balkdiagram
 poll#:#poll_block_message_already_voted#:#Du har redan röstat.

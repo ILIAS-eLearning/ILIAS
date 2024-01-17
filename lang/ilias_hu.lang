@@ -7256,17 +7256,21 @@ copg#:#copg_cron_keep_entries#:#Minimálisan megtartandók
 copg#:#copg_cron_keep_entries_info#:#Legalább ennyi bejegyzést akkor is megtartunk, ha azok régebbiek a megadottnál.
 copg#:#copg_days#:#Napok
 copg#:#copg_details#:#Részletek
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Bejegyzések
 copg#:#copg_error#:#Hiba
 copg#:#copg_error_occured_modal#:#Hiba az oldal betöltése közben. Kattintson az oldal újratöltésére, így visszatér a korábban mentett állapothoz.
 copg#:#copg_est_reading_time#:#Becsült olvasási idő
 copg#:#copg_history_cleanup_cron#:#Oldalszerkesztőelőzmény-tisztítás
 copg#:#copg_history_cleanup_cron_info#:#Régi bejegyzések eltávolítása az oldalelőzményekből.
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Válassza ki a cél, amire a blokk mutat. Figyelem: A blokk nem tartalmazhat önmagára mutató linket!
 copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
 copg#:#copg_x_minutes#:#%s perc
@@ -8367,6 +8371,7 @@ dateplaner#:#cal_weekly#:#Hetente
 dateplaner#:#cal_where#:#Hely
 dateplaner#:#cal_year_s#:#Év
 dateplaner#:#cal_yearly#:#Évente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Létrehozva
 dateplaner#:#crs_cal_activation_end#:#Kurzus láthatóságának vége
 dateplaner#:#crs_cal_activation_start#:#Kurzus láthatóságának kezdete
@@ -10396,6 +10401,8 @@ lso#:#abstract_img#:#Absztrakt képe
 lso#:#avail_time_period#:#Időköz
 lso#:#completed_steps#:#Megtett lépések
 lso#:#condition_always#:#Mindig
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Tanterv
 lso#:#delete_confirmation#:#Biztos, hogy törli ezeket az objektumokat?
 lso#:#entries_deleted#:#Az objektumokat sikeresen törölte.
@@ -12535,6 +12542,7 @@ poll#:#poll_activation_online_info#:#Kapcsolja be ezt a beállítást, hogy a sz
 poll#:#poll_add#:#Szavazás létrehozása
 poll#:#poll_anonymous_warning#:#Ez a szavazás névtelen.
 poll#:#poll_answer#:#Válasz
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Lehetséges válaszok
 poll#:#poll_barchart#:#Oszlopdiagram
 poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
