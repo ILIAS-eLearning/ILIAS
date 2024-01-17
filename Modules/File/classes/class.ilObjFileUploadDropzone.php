@@ -97,7 +97,7 @@ class ilObjFileUploadDropzone
             $this->ui->factory()->legacy($this->content ?? ''),
             $this->ui->factory()->input()->field()->file(
                 $this->upload_handler,
-                $this->language->txt('files'),
+                $this->language->txt('upload_files'),
                 null,
                 $this->ui->factory()->input()->field()->group([
                     ilObjFileGUI::PARAM_TITLE => $this->ui->factory()->input()->field()->text(
@@ -111,6 +111,8 @@ class ilObjFileUploadDropzone
                         $this->getEmptyStringToNullTransformation()
                     ),
                 ])
+            )->withRequired(
+                true
             )->withMaxFiles(
                 ilObjFileGUI::UPLOAD_MAX_FILES
             ),
