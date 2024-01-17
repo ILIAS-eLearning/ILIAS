@@ -7205,6 +7205,7 @@ INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',7,'2023-03-31 13:1
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',8,'2023-03-31 13:10:08.734963','2023-03-31 13:10:08.740217');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',9,'2023-03-31 13:10:08.740681','2023-03-31 13:10:08.741718');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',10,'2023-04-26 17:22:12.967974','2023-04-26 17:22:12.972419');
+INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',11,'2024-01-17 12:41:24.942688','2024-01-17 12:41:24.943776');
 INSERT INTO `il_db_steps` VALUES ('ilObjCloudModuleProgressTableUpdateSteps',1,'2023-03-31 13:10:08.742463','2023-03-31 13:10:08.743170');
 INSERT INTO `il_db_steps` VALUES ('ilRadiusDBUpdateSteps',1,'2023-03-31 13:10:08.743824','2023-03-31 13:10:08.744233');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',1,'2023-03-31 13:10:07.798008','2023-03-31 13:10:07.824661');
@@ -7254,6 +7255,7 @@ INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',1,'2023-10-23 15:11:2
 INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',2,'2023-10-23 15:11:23.322403','2023-10-23 15:11:23.327533');
 INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',3,'2023-10-23 15:11:23.328168','2023-10-23 15:11:23.340048');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',1,'2023-05-17 16:34:13.602077','2023-05-17 16:34:13.608141');
+INSERT INTO `il_db_steps` VALUES ('ilWebResourceDBUpdateSteps',2,'2024-01-17 12:41:24.950424','2024-01-17 12:41:24.958351');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',1,'2023-03-31 13:10:08.936274','2023-03-31 13:10:08.941518');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-03-31 13:10:08.942181','2023-03-31 13:10:08.947666');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',3,'2023-03-31 13:10:08.948273','2023-03-31 13:10:08.953301');
@@ -13116,7 +13118,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-11-28 16:35:30','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-01-17 12:41:24','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20109,7 +20111,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.7.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.8.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -24497,7 +24499,8 @@ CREATE TABLE `webr_items` (
   `internal` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`link_id`),
   KEY `i1_idx` (`link_id`,`webr_id`),
-  KEY `i3_idx` (`webr_id`)
+  KEY `i3_idx` (`webr_id`),
+  KEY `i4_idx` (`webr_id`,`active`)
 ) ;
 
 --
@@ -25092,4 +25095,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-11-28 16:35:32
+-- Dump completed on 2024-01-17 12:41:26
