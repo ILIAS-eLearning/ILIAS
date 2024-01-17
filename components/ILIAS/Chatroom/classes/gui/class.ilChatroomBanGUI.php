@@ -69,6 +69,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             case 'delete':
                 $this->delete();
                 break;
+
             default:
                 $this->ilCtrl->redirect($this, 'show');
                 break;
@@ -128,9 +129,15 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $tbl = new BannedUsersTable($data, $this->ilCtrl, $this->ilLng, $this->http, $this->uiFactory);
-        $tbl_html = $this->uiRenderer->render($tbl->getComponent());
-        $this->mainTpl->setContent($tbl_html);
+        $tbl = new BannedUsersTable(
+            $data,
+            $this->ilCtrl,
+            $this->ilLng,
+            $this->http,
+            $this->uiFactory
+        );
+
+        $this->mainTpl->setContent($this->uiRenderer->render($tbl->getComponent());
     }
 
     public function active(): void

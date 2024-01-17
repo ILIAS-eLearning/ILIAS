@@ -143,6 +143,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         ?array $additional_parameters
     ): ?int {
         $this->initRecords();
+
         return count((array) $this->records);
     }
 
@@ -153,6 +154,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     {
         $records = $this->records;
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
     }
 
@@ -160,6 +162,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     {
         $this->initRecords();
         $records = $this->sortedRecords($order);
+
         return $this->limitRecords($records, $range);
     }
 
@@ -167,5 +170,4 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     {
         return array_slice($records, $range->getStart(), $range->getLength());
     }
-
 }
