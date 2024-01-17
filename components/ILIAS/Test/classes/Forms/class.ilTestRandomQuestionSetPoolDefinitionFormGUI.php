@@ -69,7 +69,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         return $this->saveAndNewCommand;
     }
 
-    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds): void
+    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $available_taxonomy_ids): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
 
@@ -110,26 +110,26 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         $this->addItem($nonEditablePoolLabel);
 
 
-        if (count($availableTaxonomyIds)) {
+        if ($available_taxonomy_ids !== []) {
             ilOverlayGUI::initJavaScript();
 
             $filter = $sourcePool->getOriginalTaxonomyFilter();
-            foreach ($availableTaxonomyIds as $taxId) {
-                $taxonomy = new ilObjTaxonomy($taxId);
+            foreach ($available_taxonomy_ids as $tax_id) {
+                $taxonomy = new ilObjTaxonomy($tax_id);
                 $taxLabel = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
 
-                $taxCheckbox = new ilCheckboxInputGUI($taxLabel, "filter_tax_id_$taxId");
+                $taxCheckbox = new ilCheckboxInputGUI($taxLabel, "filter_tax_id_$tax_id");
 
 
 
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'src_pool_def_id', $sourcePool->getId());
                 $this->ctrl->setParameterByClass('iltaxselectinputgui', 'quest_pool_id', $sourcePool->getPoolId());
-                $taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_nodes_$taxId", true);
+                $taxSelect = new ilTaxSelectInputGUI($tax_id, "filter_tax_nodes_$tax_id", true);
                 $taxSelect->setRequired(true);
 
-                if (isset($filter[$taxId])) {
+                if (isset($filter[$tax_id])) {
                     $taxCheckbox->setChecked(true);
-                    $taxSelect->setValue($filter[$taxId]);
+                    $taxSelect->setValue($filter[$tax_id]);
                 }
                 $taxCheckbox->addSubItem($taxSelect);
                 $this->addItem($taxCheckbox);
@@ -160,7 +160,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         $this->addItem($lifecycleCheckbox);
 
         // fau: taxFilter/typeFilter - show type filter selection
-        $typeFilterOptions = array();
+        $typeFilterOptions = [];
         foreach (ilObjQuestionPool::_getQuestionTypes(true) as $translation => $data) {
             $typeFilterOptions[$data['question_type_id']] = $translation;
         }
@@ -198,38 +198,48 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $availableTaxonomyIds): void
+    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinition $source_pool_definition, $available_taxonomy_ids): array
     {
+        $log_array = [];
         // fau: taxFilter/typeFilter - submit multiple taxonomy and node selections - submit type selections
-        $filter = array();
-        foreach ($availableTaxonomyIds as $taxId) {
-            if ($this->getItemByPostVar("filter_tax_id_$taxId")->getChecked()) {
-                $nodeIds = (array) $this->getItemByPostVar("filter_tax_nodes_$taxId")->getValue();
-                if (!empty($nodeIds)) {
-                    foreach ($nodeIds as $nodeId) {
-                        $filter[(int) $taxId][] = (int) $nodeId;
+        $taxonomy_filter = [];
+        foreach ($available_taxonomy_ids as $tax_id) {
+            if ($this->getItemByPostVar("filter_tax_id_{$tax_id}")->getChecked()) {
+                $node_ids = (array) $this->getItemByPostVar("filter_tax_nodes_{$tax_id}")->getValue();
+                if (!empty($node_ids)) {
+                    foreach ($node_ids as $node_id) {
+                        $taxonomy_filter[(int) $tax_id][] = (int) $node_id;
                     }
                 }
             }
         }
-        $sourcePoolDefinition->setOriginalTaxonomyFilter($filter);
+        $source_pool_definition->setOriginalTaxonomyFilter($taxonomy_filter);
 
-        $filter = array();
+        $type_filter = [];
         if ($this->getItemByPostVar("filter_type_enabled")->getChecked()) {
-            $filter = $this->getItemByPostVar("filter_type")->getMultiValues();
+            $type_filter = $this->getItemByPostVar("filter_type")->getMultiValues();
         }
-        $sourcePoolDefinition->setTypeFilter($filter);
+        $source_pool_definition->setTypeFilter($type_filter);
 
-        $filter = array();
+        $life_cycle_filter = [];
         if ($this->getItemByPostVar("filter_lifecycle_enabled")->getChecked()) {
-            $filter = $this->getItemByPostVar("filter_lifecycle")->getMultiValues();
+            $life_cycle_filter = $this->getItemByPostVar("filter_lifecycle")->getMultiValues();
         }
-        $sourcePoolDefinition->setLifecycleFilter($filter);
+        $source_pool_definition->setLifecycleFilter($life_cycle_filter);
 
         // fau.
 
         if ($this->questionSetConfig->isQuestionAmountConfigurationModePerPool()) {
-            $sourcePoolDefinition->setQuestionAmount(intval($this->getItemByPostVar('question_amount_per_pool')->getValue()));
+            $question_amount = $this->getItemByPostVar('question_amount_per_pool')->getValue();
+            $source_pool_definition->setQuestionAmount(intval($question_amount));
+            $log_array['tst_inp_quest_amount_per_source_pool'] = $question_amount;
         }
+
+        return [
+            'obj_qpl' => $source_pool_definition->getPoolId(),
+            'tst_inp_source_pool_filter_tax' => $taxonomy_filter,
+            'tst_filter_question_type' => $type_filter,
+            'qst_lifecycle' => $life_cycle_filter
+        ] + $log_array;
     }
 }

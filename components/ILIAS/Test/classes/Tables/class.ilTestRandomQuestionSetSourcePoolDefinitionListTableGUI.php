@@ -142,9 +142,9 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         // fau.
     }
 
-    private function getSelectionCheckboxHTML($sourcePoolDefinitionId): string
+    private function getSelectionCheckboxHTML($source_pool_definitionId): string
     {
-        return '<input type="checkbox" value="' . $sourcePoolDefinitionId . '" name="src_pool_def_ids[]" />';
+        return '<input type="checkbox" value="' . $source_pool_definitionId . '" name="src_pool_def_ids[]" />';
     }
 
     private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber): string
@@ -157,35 +157,35 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return '<input type="text" size="4" value="' . $questionAmount . '" name="quest_amount[' . $srcPoolDefId . ']" />';
     }
 
-    private function getActionsHTML($sourcePoolDefinitionId): string
+    private function getActionsHTML($source_pool_definitionId): string
     {
         $actions = [];
-        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->getEditHref($sourcePoolDefinitionId));
-        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->getDeleteHref($sourcePoolDefinitionId));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->getEditHref($source_pool_definitionId));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->getDeleteHref($source_pool_definitionId));
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         return $this->ui_renderer->render($dropdown);
     }
 
-    private function getEditHref($sourcePoolDefinitionId): string
+    private function getEditHref($source_pool_definitionId): string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
             ilTestRandomQuestionSetConfigGUI::CMD_SHOW_EDIT_SRC_POOL_DEF_FORM
         );
 
-        $href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=" . $sourcePoolDefinitionId, true);
+        $href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=" . $source_pool_definitionId, true);
 
         return $href;
     }
 
-    private function getDeleteHref($sourcePoolDefinitionId): string
+    private function getDeleteHref($source_pool_definitionId): string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
             ilTestRandomQuestionSetConfigGUI::CMD_DELETE_SINGLE_SRC_POOL_DEF
         );
 
-        $href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=" . $sourcePoolDefinitionId, true);
+        $href = ilUtil::appendUrlParameterString($href, "src_pool_def_id=" . $source_pool_definitionId, true);
 
         return $href;
     }
@@ -276,52 +276,47 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
+    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): void
     {
-        $rows = array();
+        $rows = [];
 
-        foreach ($sourcePoolDefinitionList as $sourcePoolDefinition) {
-            /** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
+        foreach ($source_pool_definition_list as $source_pool_definition) {
+            $set = [];
 
-            $set = array();
-
-            $set['def_id'] = $sourcePoolDefinition->getId();
-            $set['sequence_position'] = $sourcePoolDefinition->getSequencePosition();
-            $set['source_pool_label'] = $sourcePoolDefinition->getPoolTitle();
+            $set['def_id'] = $source_pool_definition->getId();
+            $set['sequence_position'] = $source_pool_definition->getSequencePosition();
+            $set['source_pool_label'] = $source_pool_definition->getPoolTitle();
             // fau: taxFilter/typeFilter - get the type and taxonomy filter for display
             if ($this->showMappedTaxonomyFilter) {
                 // mapped filter will be used after synchronisation
-                $set['taxonomy_filter'] = $sourcePoolDefinition->getMappedTaxonomyFilter();
+                $set['taxonomy_filter'] = $source_pool_definition->getMappedTaxonomyFilter();
             } else {
                 // original filter will be used before synchronisation
-                $set['taxonomy_filter'] = $sourcePoolDefinition->getOriginalTaxonomyFilter();
+                $set['taxonomy_filter'] = $source_pool_definition->getOriginalTaxonomyFilter();
             }
-            #$set['filter_taxonomy'] = $sourcePoolDefinition->getMappedFilterTaxId();
-            #$set['filter_tax_node'] = $sourcePoolDefinition->getMappedFilterTaxNodeId();
-            $set['lifecycle_filter'] = $sourcePoolDefinition->getLifecycleFilter();
-            $set['type_filter'] = $sourcePoolDefinition->getTypeFilter();
+            #$set['filter_taxonomy'] = $source_pool_definition->getMappedFilterTaxId();
+            #$set['filter_tax_node'] = $source_pool_definition->getMappedFilterTaxNodeId();
+            $set['lifecycle_filter'] = $source_pool_definition->getLifecycleFilter();
+            $set['type_filter'] = $source_pool_definition->getTypeFilter();
             // fau.
-            $set['question_amount'] = $sourcePoolDefinition->getQuestionAmount();
-            $set['ref_id'] = $sourcePoolDefinition->getPoolRefId();
+            $set['question_amount'] = $source_pool_definition->getQuestionAmount();
+            $set['ref_id'] = $source_pool_definition->getPoolRefId();
             $rows[] = $set;
         }
 
         $this->setData($rows);
     }
 
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
+    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): void
     {
-        foreach ($sourcePoolDefinitionList as $sourcePoolDefinition) {
-            /** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
+        foreach ($source_pool_definition_list as $source_pool_definition) {
+            $order_number = $this->fetchOrderNumberParameter($source_pool_definition);
+            $source_pool_definition->setSequencePosition($order_number);
 
-            $orderNumber = $this->fetchOrderNumberParameter($sourcePoolDefinition);
-            $sourcePoolDefinition->setSequencePosition($orderNumber);
-
+            $source_pool_definition->setQuestionAmount(null);
             if ($this->isQuestionAmountColumnEnabled()) {
-                $questionAmount = $this->fetchQuestionAmountParameter($sourcePoolDefinition);
-                $sourcePoolDefinition->setQuestionAmount($questionAmount);
-            } else {
-                $sourcePoolDefinition->setQuestionAmount(null);
+                $question_amount = $this->fetchQuestionAmountParameter($source_pool_definition);
+                $source_pool_definition->setQuestionAmount($question_amount);
             }
         }
     }

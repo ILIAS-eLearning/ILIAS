@@ -191,7 +191,7 @@ class ilMarkSchemaGUI
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     time(),
-                    [$this->object->getMarkSchema()->toLog($this->lng)]
+                    $this->object->getMarkSchema()->toLog()
                 )
             );
         }
@@ -203,20 +203,34 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
+        $result = 'mark_schema_invalid';
         if ($this->populateMarkSchemaFormData()) {
             $result = $this->object->checkMarks();
-        } else {
-            $result = 'mark_schema_invalid';
         }
 
         if (is_string($result)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($result), true);
-        } else {
-            $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
-            $this->object->onMarkSchemaSaved();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-            $this->object->getMarkSchema()->flush();
-            $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
+            $this->showMarkSchema();
+            return;
+        }
+
+        $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
+        $this->object->onMarkSchemaSaved();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $this->object->getMarkSchema()->flush();
+        $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test_object->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
+                    time(),
+                    $this->object->getMarkSchema()->toLog()
+                )
+            );
         }
 
         $this->showMarkSchema();

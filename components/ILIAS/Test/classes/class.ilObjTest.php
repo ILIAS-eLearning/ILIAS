@@ -30,6 +30,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Marks\MarkSchema;
 use ILIAS\Test\Marks\MarkSchemaAware;
 use ILIAS\Test\MainSettings\MainSettings;
@@ -217,6 +218,18 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     {
         $id = parent::create();
         $this->createMetaData();
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->getRefId(),
+                    $this->user,
+                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
+                    time(),
+                    []
+                )
+            );
+        }
         return $id;
     }
 
@@ -1061,81 +1074,115 @@ class ilObjTest extends ilObject implements MarkSchemaAware
      *
      * @param $userIds
      */
-    public function removeTestResultsFromSoapLpAdministration($userIds)
+    public function removeTestResultsFromSoapLpAdministration(array $user_ids)
     {
-        $this->removeTestResultsByUserIds($userIds);
+        $this->removeTestResultsByUserIds($user_ids);
 
         $participantData = new ilTestParticipantData($this->db, $this->lng);
-        $participantData->setUserIdsFilter($userIds);
+        $participantData->setUserIdsFilter($user_ids);
         $participantData->load($this->getTestId());
 
         $this->removeTestActives($participantData->getActiveIds());
     }
 
-    public function removeTestResults(ilTestParticipantData $participantData)
+    public function removeTestResults(ilTestParticipantData $participant_data)
     {
-        if (count($participantData->getAnonymousActiveIds())) {
-            $this->removeTestResultsByActiveIds($participantData->getAnonymousActiveIds());
+        if ($participant_data->getAnonymousActiveIds() !== []) {
+            $this->removeTestResultsByActiveIds($participant_data->getAnonymousActiveIds());
         }
 
-        if (count($participantData->getUserIds())) {
+        if ($participant_data->getUserIds() !== []) {
             /* @var ilTestLP $testLP */
             $testLP = ilObjectLP::getInstance($this->getId());
             $testLP->setTestObject($this);
-            $testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
+            $testLP->resetLPDataForUserIds($participant_data->getUserIds(), false);
         }
 
-        if (count($participantData->getActiveIds())) {
-            $this->removeTestActives($participantData->getActiveIds());
+        if ($participant_data->getActiveIds() !== []) {
+            $this->removeTestActives($participant_data->getActiveIds());
+        }
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->getRefId(),
+                    $this->user,
+                    TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
+                    time(),
+                    [
+                        'users' => $participant_data->getUserIds(),
+                        'anonymous' => $participant_data->getAnonymousActiveIds()
+                    ]
+                )
+            );
         }
     }
 
-    public function removeTestResultsByUserIds($userIds)
+    public function removeTestResultsByUserIds($user_ids)
     {
         $participantData = new ilTestParticipantData($this->db, $this->lng);
-        $participantData->setUserIdsFilter($userIds);
+        $participantData->setUserIdsFilter($user_ids);
         $participantData->load($this->getTestId());
 
-        $IN_userIds = $this->db->in('usr_id', $participantData->getUserIds(), false, 'integer');
+        $in_user_ids = $this->db->in('usr_id', $participantData->getUserIds(), false, 'integer');
         $this->db->manipulateF(
-            "DELETE FROM usr_pref WHERE $IN_userIds AND keyword = %s",
+            "DELETE FROM usr_pref WHERE {$in_user_ids} AND keyword = %s",
             ['text'],
-            ["tst_password_" . $this->getTestId()]
+            ['tst_password_' . $this->getTestId()]
         );
 
-        if (count($participantData->getActiveIds())) {
+        if ($participantData->getActiveIds() !== []) {
             $this->removeTestResultsByActiveIds($participantData->getActiveIds());
+        }
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->getRefId(),
+                    $this->user,
+                    TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
+                    time(),
+                    [
+                        'users' => $participantData->getUserIds()
+                    ]
+                )
+            );
         }
     }
 
-    public function removeTestResultsByActiveIds($activeIds)
+    private function removeTestResultsByActiveIds($active_ids)
     {
-        $IN_activeIds = $this->db->in('active_fi', $activeIds, false, 'integer');
+        $in_active_ids = $this->db->in('active_fi', $active_ids, false, 'integer');
 
-        $this->db->manipulate("DELETE FROM tst_solutions WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_qst_solved WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_test_result WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_pass_result WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
-        $this->db->manipulate("DELETE FROM tst_times WHERE $IN_activeIds");
-        $this->db->manipulate('DELETE FROM ' . PassPresentedVariablesRepo::TABLE_NAME . ' WHERE ' . $this->db->in('active_id', $activeIds, false, 'integer'));
+        $this->db->manipulate("DELETE FROM tst_solutions WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_qst_solved WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_test_result WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_pass_result WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_result_cache WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_sequence WHERE {$in_active_ids}");
+        $this->db->manipulate("DELETE FROM tst_times WHERE {$in_active_ids}");
+        $this->db->manipulate(
+            'DELETE FROM ' . PassPresentedVariablesRepo::TABLE_NAME
+            . ' WHERE ' . $this->db->in('active_id', $active_ids, false, 'integer')
+        );
 
         if ($this->isRandomTest()) {
-            $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");
+            $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE {$in_active_ids}");
         }
 
-        foreach ($activeIds as $active_id) {
+        foreach ($active_ids as $active_id) {
             // remove file uploads
-            if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id")) {
+            if (is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id")) {
                 ilFileUtils::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
             }
         }
 
-        ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
+        ilAssQuestionHintTracking::deleteRequestsByActiveIds($active_ids);
     }
 
-    public function removeTestActives($activeIds)
+    private function removeTestActives($activeIds)
     {
         $IN_activeIds = $this->db->in('active_id', $activeIds, false, 'integer');
         $this->db->manipulate("DELETE FROM tst_active WHERE $IN_activeIds");
@@ -7548,7 +7595,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return 0;
     }
 
-    public function addExtraTime($active_id, $minutes)
+    public function addExtraTime(int $active_id, int $minutes)
     {
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setParticipantAccessFilter(
@@ -7586,6 +7633,21 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
                 ['integer','integer','integer'],
                 [$active_fi, $minutes, time()]
+            );
+        }
+
+        if ($this->logger->getLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->getRefId(),
+                    $this->user,
+                    TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
+                    time(),
+                    [
+                        'users' => $participantData->getUserIds()
+                    ]
+                )
             );
         }
     }

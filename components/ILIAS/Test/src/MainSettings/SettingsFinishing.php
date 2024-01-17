@@ -187,7 +187,7 @@ class SettingsFinishing extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         $log_array = [
             'enable_examview' => $this->getShowAnswerOverview(),
@@ -199,29 +199,29 @@ class SettingsFinishing extends TestSettings
 
         switch ($this->getRedirectionMode()) {
             case \ilObjTest::REDIRECT_NONE:
-                $log_array['redirect_after_finishing_tst'] = $lng->txt('no');
+                $log_array['redirect_after_finishing_tst'] = '{{ none }}';
                 break;
             case \ilObjTest::REDIRECT_ALWAYS:
-                $log_array['redirect_after_finishing_tst'] = $lng->txt('redirect_always');
+                $log_array['redirect_after_finishing_tst'] = '{{ redirect_always }}';
                 $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
                 break;
             case \ilObjTest::REDIRECT_KIOSK:
-                $log_array['redirect_after_finishing_tst'] = $lng->txt('redirect_in_kiosk_mode');
+                $log_array['redirect_after_finishing_tst'] = '{{ redirect_in_kiosk_mode }}';
                 $log_array['redirect_after_finishing_tst'] = $this->getRedirectionMode();
                 break;
         }
 
         switch ($this->getMailNotificationContentType()) {
             case 0:
-                $log_array['tst_finish_notification'] = $lng->txt('none');
+                $log_array['tst_finish_notification'] = '{{ none }}';
                 break;
             case 1:
-                $log_array['tst_finish_notification'] = $lng->txt('tst_finish_notification_simple');
-                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? $lng->txt('enabled') : $lng->txt('disabled');
+                $log_array['tst_finish_notification'] = '{{ tst_finish_notification_simple }}';
+                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? '{ enabled }' : '{ disabled }';
                 break;
             case 2:
-                $log_array['tst_finish_notification'] = $lng->txt('tst_finish_notification_advanced');
-                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? $lng->txt('enabled') : $lng->txt('disabled');
+                $log_array['tst_finish_notification'] = '{{ tst_finish_notification_advanced }}';
+                $log_array['tst_finish_notification_content_type'] = $this->getAlwaysSendMailNotification() ? '{ enabled }' : '{ disabled }';
                 break;
         }
 

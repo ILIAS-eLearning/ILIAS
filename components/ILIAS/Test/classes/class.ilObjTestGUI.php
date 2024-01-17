@@ -24,6 +24,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
@@ -36,6 +37,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\MainSettings\ilObjTestSettingsMainGUI;
 use ILIAS\Test\ScoreSettings\ilObjTestSettingsScoringGUI;
 use ILIAS\Test\Marks\ilMarkSchemaGUI;
+
 
 /**
  * Class ilObjTestGUI
@@ -105,6 +107,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
     protected SkillService $skills_service;
+    protected IRSS $irss;
     private Archives $archives;
     protected InternalRequestService $testrequest;
     protected ?QuestionsTableQuery $table_query = null;
@@ -131,6 +134,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->help = $DIC['ilHelp'];
         $this->global_screen = $DIC['global_screen'];
         $this->obj_data_cache = $DIC['ilObjDataCache'];
+        $this->irss = $DIC['resource_storage'];
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
@@ -280,11 +284,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->db,
                     $this->getTestObject()->getTestlogger(),
                     $this->obj_data_cache,
+                    $this->user,
+                    $this->tabs_gui,
+                    $this->ui_factory,
+                    $this->ui_renderer,
                     $this->component_repository,
+                    $this->irss,
                     $this->component_factory->getActivePluginsInSlot('texp'),
                     new ilTestHTMLGenerator(),
                     $selected_files,
-                    $this->questioninfo
+                    $this->questioninfo,
+                    $this->testrequest
                 );
                 $this->ctrl->forwardCommand($export_gui);
                 break;

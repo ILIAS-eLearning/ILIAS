@@ -47,7 +47,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilTestSettingsChangeConfirmationGUI
  *
  */
-class ilObjTestSettingsMainGUI extends \ilTestSettingsGUI
+class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 {
     /**
      * command constants
@@ -266,22 +266,15 @@ class ilObjTestSettingsMainGUI extends \ilTestSettingsGUI
         ];
 
         if ($this->test_object->isActivationLimited()) {
-            $log_array['rep_visibility_until'] = $this->lng->txt('disabled');
+            $log_array['rep_visibility_until'] = '{{ disabled }}';
             return $log_array;
         }
 
-        $from = $this->active_user->getDateFormat()->applyTo(\DateTimeImmutable::createFromFormat(
-            'U',
-            (string) $this->test_object->getActivationStartingTime()
-        )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())));
-        $until = $this->active_user->getDateFormat()->applyTo(\DateTimeImmutable::createFromFormat(
-            'U',
-            (string) $this->test_object->getActivationEndingTime()
-        )->setTimezone(new DateTimeZone($this->active_user->getTimeZone())));
+        $from = $this->test_object->getActivationStartingTime() ?? '{{ none }}';
+        $until = $this->test_object->getActivationEndingTime() ?? '{{ none }}';
 
         $log_array['rep_visibility_until'] = $from . ' - ' . $until;
-        $log_array['rep_activation_limited_visibility'] = $this->test_object->getActivationVisibility()
-            ? $this->lng->txt('enabled') : $this->lng->txt('disabled');
+        $log_array['rep_activation_limited_visibility'] = $this->test_object->getActivationVisibility() ? '{{ enabled }}' : '{{ disabled }}';
         return $log_array;
     }
 

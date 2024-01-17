@@ -24,6 +24,6 @@ namespace ILIAS\Test\Marks;
  */
 interface MarksRepository
 {
-    public function getMarkSchemaFor(int $ref_id): MarkSchema;
+    public function getMarkSchemaFor(int $ref_id): ?MarkSchema;
     public function storeMarkSchema(MarkSchema $mark_schema): void;
 }

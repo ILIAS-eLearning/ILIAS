@@ -382,59 +382,59 @@ class SettingsQuestionBehaviour extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
 
         switch ($this->getQuestionTitleOutputMode()) {
             case 0:
-                $log_array['tst_title_output'] = $lng->txt('tst_title_output_full');
+                $log_array['tst_title_output'] = '{{ tst_title_output_full }}';
                 break;
             case 1:
-                $log_array['tst_title_output'] = $lng->txt('tst_title_output_hide_points');
+                $log_array['tst_title_output'] = '{{ tst_title_output_hide_points }}';
                 break;
             case 2:
-                $log_array['tst_title_output'] = $lng->txt('tst_title_output_no_title');
+                $log_array['tst_title_output'] = '{{ tst_title_output_no_title }}';
                 break;
             case 3:
-                $log_array['tst_title_output'] = $lng->txt('tst_title_output_only_points');
+                $log_array['tst_title_output'] = '{{ tst_title_output_only_points }}';
                 break;
         }
-        $log_array['autosave'] = $this->getAutosaveEnabled() ? $this->getAutosaveInterval() : $lng->txt('disabled');
-        $log_array['tst_shuffle_questions'] = $this->getShuffleQuestions() ? $lng->txt('enabled') : $lng->txt('disabled');
-        $log_array['tst_setting_offer_hints_label'] = $this->getQuestionHintsEnabled() ? $lng->txt('enabled') : $lng->txt('disabled');
+        $log_array['autosave'] = $this->getAutosaveEnabled() ? $this->getAutosaveInterval() : '{{ disabled }}';
+        $log_array['tst_shuffle_questions'] = $this->getShuffleQuestions() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array['tst_setting_offer_hints_label'] = $this->getQuestionHintsEnabled() ? '{{ enabled }}' : '{{ disabled }}';
 
-        $log_array['tst_instant_feedback'] = $lng->txt('disabled');
+        $log_array['tst_instant_feedback'] = '{{ disabled }}';
         if ($this->isAnyInstantFeedbackOptionEnabled()) {
-            $log_array['tst_instant_feedback'] = $lng->txt('enabled');
-            $log_array['tst_instant_feedback_results'] = $lng->txt('disabled');
-            $log_array['tst_instant_feedback_answer_generic'] = $lng->txt('disabled');
-            $log_array['tst_instant_feedback_answer_specific'] = $lng->txt('disabled');
-            $log_array['tst_instant_feedback_solution'] = $lng->txt('disabled');
+            $log_array['tst_instant_feedback'] = '{{ enabled }}';
+            $log_array['tst_instant_feedback_results'] = '{{ disabled }}';
+            $log_array['tst_instant_feedback_answer_generic'] = '{{ disabled }}';
+            $log_array['tst_instant_feedback_answer_specific'] = '{{ disabled }}';
+            $log_array['tst_instant_feedback_solution'] = '{{ disabled }}';
             if ($this->getInstantFeedbackPointsEnabled()) {
-                $log_array['tst_instant_feedback_results'] = $lng->txt('enabled');
+                $log_array['tst_instant_feedback_results'] = '{{ enabled }}';
             }
             if ($this->getInstantFeedbackGenericEnabled()) {
-                $log_array['tst_instant_feedback_answer_generic'] = $lng->txt('enabled');
+                $log_array['tst_instant_feedback_answer_generic'] = '{{ enabled }}';
             }
             if ($this->getInstantFeedbackSpecificEnabled()) {
-                $log_array['tst_instant_feedback_answer_specific'] = $lng->txt('enabled');
+                $log_array['tst_instant_feedback_answer_specific'] = '{{ enabled }}';
             }
             if ($this->getInstantFeedbackSolutionEnabled()) {
-                $log_array['tst_instant_feedback_solution'] = $lng->txt('enabled');
+                $log_array['tst_instant_feedback_solution'] = '{{ enabled }}';
             }
             $log_array['tst_instant_feedback_trigger'] = $this->getForceInstantFeedbackOnNextQuestion()
-                ? $lng->txt('tst_instant_feedback_trigger_forced')
-                : $lng->txt('tst_instant_feedback_trigger_manual');
+                ? '{{ tst_instant_feedback_trigger_forced }}'
+                : '{{ tst_instant_feedback_trigger_manual }}';
         }
 
-        $lock_answers = $lng->txt('tst_answer_fixation_none');
+        $lock_answers = '{{ tst_answer_fixation_none }}';
         if ($this->getLockAnswerOnInstantFeedbackEnabled()
             && $this->getLockAnswerOnNextQuestionEnabled()) {
-            $lock_answers = $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst');
+            $lock_answers = '{{ tst_answer_fixation_on_instantfb_or_followupqst }}';
         } elseif ($this->getLockAnswerOnInstantFeedbackEnabled()) {
-            $lock_answers = $lng->txt('tst_answer_fixation_on_instant_feedback_desc');
+            $lock_answers = '{{ tst_answer_fixation_on_instant_feedback }}';
         } elseif ($this->getLockAnswerOnNextQuestionEnabled()) {
-            $lock_answers = $lng->txt('tst_answer_fixation_on_followup_question');
+            $lock_answers = '{{ tst_answer_fixation_on_followup_question }}';
         }
         $log_array['tst_answer_fixation_handling'] = $lock_answers;
 

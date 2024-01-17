@@ -132,10 +132,10 @@ class ScoreSettings
     public function getArrayForLog(\ilLanguage $lng): array
     {
         return [
-            $this->settings_scoring->toLog($lng),
-            $this->settings_result_summary->toLog($lng),
-            $this->settings_result_details->toLog($lng),
-            $this->settings_gamification->toLog($lng)
+            $this->settings_scoring->toLog(),
+            $this->settings_result_summary->toLog(),
+            $this->settings_result_details->toLog(),
+            $this->settings_gamification->toLog()
         ];
     }
 }

@@ -148,33 +148,33 @@ class SettingsParticipantFunctionality extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         $log_array = [
-            'use_previous_answers' => $this->getUsePreviousAnswerAllowed() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_show_cancel' => $this->getSuspendTestAllowed() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_postpone' => $this->getPostponedQuestionsMoveToEnd() ? $lng->txt('tst_postpone_on') : $lng->txt('tst_postpone_off')
+            'use_previous_answers' => $this->getUsePreviousAnswerAllowed() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_show_cancel' => $this->getSuspendTestAllowed() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_postpone' => $this->getPostponedQuestionsMoveToEnd() ? '{{ enabled }}' : '{{ disabled }}'
         ];
 
-        $log_array['tst_show_summary'] = $lng->txt('disabled');
+        $log_array['tst_show_summary'] = '{{ disabled }}';
         if ($this->getUsrPassOverviewEnabled()) {
-            $log_array['tst_show_summary'] = $lng->txt('enabled');
-            $log_array['tst_list_of_questions_start'] = $lng->txt('disabled');
-            $log_array['tst_list_of_questions_end'] = $lng->txt('disabled');
-            $log_array['tst_list_of_questions_with_description'] = $lng->txt('enabled');
+            $log_array['tst_show_summary'] = '{{ enabled }}';
+            $log_array['tst_list_of_questions_start'] = '{{ disabled }}';
+            $log_array['tst_list_of_questions_end'] = '{{ disabled }}';
+            $log_array['tst_list_of_questions_with_description'] = '{{ enabled }}';
             if ($this->getShownQuestionListAtBeginning()) {
-                $log_array['tst_list_of_questions_start'] = $lng->txt('enabled');
+                $log_array['tst_list_of_questions_start'] = '{{ enabled }}';
             }
             if ($this->getShownQuestionListAtEnd()) {
-                $log_array['tst_list_of_questions_end'] = $lng->txt('enabled');
+                $log_array['tst_list_of_questions_end'] = '{{ enabled }}';
             }
             if ($this->getShownQuestionListAtBeginning()) {
-                $log_array['tst_list_of_questions_with_description'] = $lng->txt('enabled');
+                $log_array['tst_list_of_questions_with_description'] = '{{ enabled }}';
             }
         }
 
-        $log_array['question_marking'] = $this->getQuestionMarkingEnabled() ? $lng->txt('enabled') : $lng->txt('disabled');
-        $log_array['show_questionlist'] = $this->getQuestionListEnabled() ? $lng->txt('enabled') : $lng->txt('disabled');
+        $log_array['question_marking'] = $this->getQuestionMarkingEnabled() ? '{{ enabled }}' : '{{ disabled }}';
+        $log_array['show_questionlist'] = $this->getQuestionListEnabled() ? '{{ enabled }}' : '{{ disabled }}';
         return $log_array;
     }
 

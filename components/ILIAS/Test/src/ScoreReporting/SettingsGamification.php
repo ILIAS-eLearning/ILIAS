@@ -150,36 +150,36 @@ class SettingsGamification extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         if ($this->getHighscoreEnabled()) {
             return [
-                'tst_highscore_enabled' => $lng->txt('disabled')
+                'tst_highscore_enabled' => '{{ disabled }}'
             ];
         }
 
         switch ($this->getHighScoreMode()) {
             case self::HIGHSCORE_SHOW_OWN_TABLE:
-                $highscore_mode = $lng->txt('tst_highscore_own_table');
+                $highscore_mode = '{{ tst_highscore_own_table }}';
                 break;
             case self::HIGHSCORE_SHOW_TOP_TABLE:
-                $highscore_mode = $lng->txt('tst_highscore_top_table');
+                $highscore_mode = '{{ tst_highscore_top_table }}';
                 break;
             case self::HIGHSCORE_SHOW_ALL_TABLES:
-                $highscore_mode = $lng->txt('tst_highscore_all_tables');
+                $highscore_mode = '{{ tst_highscore_all_tables }}';
                 break;
         }
 
         return [
-            'tst_highscore_enabled' => $lng->txt('enabled'),
+            'tst_highscore_enabled' => '{{ enabled }}',
             'tst_highscore_mode' => $highscore_mode,
             'tst_highscore_top_num' => $this->getHighscoreTopNum(),
-            'tst_highscore_anon' => $this->getHighscoreAnon() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_highscore_achieved_ts' => $this->getHighscoreAchievedTS() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_highscore_score' => $this->getHighscoreScore() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_highscore_percentage' => $this->getHighscorePercentage() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_highscore_hints' => $this->getHighscoreHints() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_highscore_wtime' => $this->getHighscoreWTime() ? $lng->txt('enabled') : $lng->txt('disabled')
+            'tst_highscore_anon' => $this->getHighscoreAnon() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_highscore_achieved_ts' => $this->getHighscoreAchievedTS() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_highscore_score' => $this->getHighscoreScore() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_highscore_percentage' => $this->getHighscorePercentage() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_highscore_hints' => $this->getHighscoreHints() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_highscore_wtime' => $this->getHighscoreWTime() ? '{{ enabled }}' : '{{ disabled }}'
         ];
     }
 

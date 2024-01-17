@@ -65,11 +65,11 @@ class SettingsIntroduction extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         return [
-            'tst_introduction' => $this->getIntroductionEnabled() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled() ? $lng->txt('enabled') : $lng->txt('disabled'),
+            'tst_introduction' => $this->getIntroductionEnabled() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled() ? '{{ enabled }}' : '{{ disabled }}',
         ];
     }
 

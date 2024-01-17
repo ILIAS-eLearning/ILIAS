@@ -341,34 +341,34 @@ class SettingsTestBehaviour extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
-        $log_array['tst_limit_nr_of_tries'] = $this->getNumberOfTries() > 0 ? $this->getNumberOfTries() : $lng->txt('disabled');
+        $log_array['tst_limit_nr_of_tries'] = $this->getNumberOfTries() > 0 ? $this->getNumberOfTries() : '{{ disabled }}';
         if ($this->getNumberOfTries() > 0) {
-            $log_array['block_after_passed'] = $this->getBlockAfterPassedEnabled() ? $lng->txt('enabled') : $lng->txt('disabled');
+            $log_array['block_after_passed'] = $this->getBlockAfterPassedEnabled() ? '{{ enabled }}' : '{{ disabled }}';
         }
 
-        $log_array['tst_pass_waiting_enabled'] = $this->getPassWaitingEnabled() ? $this->getPassWaiting() : $lng->txt('disabled');
+        $log_array['tst_pass_waiting_enabled'] = $this->getPassWaitingEnabled() ? $this->getPassWaiting() : '{{ disabled }}';
 
-        $log_array['tst_processing_time_duration'] = $this->getProcessingTimeEnabled() ? $this->getProcessingTimeAsMinutes() : $lng->txt('disabled');
+        $log_array['tst_processing_time_duration'] = $this->getProcessingTimeEnabled() ? $this->getProcessingTimeAsMinutes() : '{{ disabled }}';
         if ($this->getProcessingTimeEnabled()) {
-            $log_array['reset_processing_time'] = $this->getResetProcessingTime() ? $lng->txt('enabled') : $lng->txt('disabled');
+            $log_array['reset_processing_time'] = $this->getResetProcessingTime() ? '{{ enabled }}' : '{{ disabled }}';
         }
 
-        $log_array['kiosk'] = $lng->txt('disabled');
+        $log_array['kiosk'] = '{{ disabled }}';
         if ($this->getKioskModeEnabled()) {
-            $log_array['kiosk'] = $lng->txt('enabled');
-            $log_array['kiosk_show_title'] = $lng->txt('disabled');
-            $log_array['kiosk_show_participant'] = $lng->txt('disabled');
+            $log_array['kiosk'] = '{{ enabled }}';
+            $log_array['kiosk_show_title'] = '{{ disabled }}';
+            $log_array['kiosk_show_participant'] = '{{ disabled }}';
             if ($this->getShowTitleInKioskMode()) {
-                $log_array['kiosk_show_title'] = $lng->txt('enabled');
+                $log_array['kiosk_show_title'] = '{{ enabled }}';
             }
             if ($this->getShowParticipantNameInKioskMode()) {
-                $log_array['kiosk_show_participant'] = $lng->txt('enabled');
+                $log_array['kiosk_show_participant'] = '{{ enabled }}';
             }
         }
 
-        $log_array['examid_in_test_pass'] = $this->getExamIdInTestPassEnabled() ? $lng->txt('enabled') : $lng->txt('disabled');
+        $log_array['examid_in_test_pass'] = $this->getExamIdInTestPassEnabled() ? '{{ enabled }}' : '{{ disabled }}';
         return $log_array;
     }
 

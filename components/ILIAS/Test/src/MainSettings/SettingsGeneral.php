@@ -93,18 +93,18 @@ class SettingsGeneral extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         switch ($this->getQuestionSetType()) {
             case  ilObjTest::QUESTION_SET_TYPE_FIXED:
-                $log_array['test_question_set_type'] = $lng->txt('test_question_set_type_fixed');
+                $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}';
                 break;
             case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-                $log_array['test_question_set_type'] = $lng->txt('test_question_set_type_random');
+                $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}' ;
                 break;
         }
 
-        $log_array['tst_anonymity'] = $this->getAnonymity() ? $lng->txt('tst_anonymity_anonymous_test') : $lng->txt('tst_anonymity_no_anonymization');
+        $log_array['tst_anonymity'] = $this->getAnonymity() ? '{{ enabled }}' : '{{ disabled }}';
         return $log_array;
     }
 
