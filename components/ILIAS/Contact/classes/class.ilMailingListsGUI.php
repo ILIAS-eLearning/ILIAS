@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilMailingListsGUI
@@ -75,10 +75,12 @@ class ilMailingListsGUI
         return ($this->http->wrapper()->query()->has('ml_id')
             ? $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
             : ($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
-                ? (int) current($this->http->wrapper()->query()->retrieve(
-                    'contact_mailinglist_list_ml_ids',
-                    $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-                ))
+                ? (int) current(
+                    $this->http->wrapper()->query()->retrieve(
+                        'contact_mailinglist_list_ml_ids',
+                        $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+                    )
+                )
                 : 0)
         );
     }
@@ -166,12 +168,14 @@ class ilMailingListsGUI
                     $this->refinery->kindlyTo()->int()
                 )
             );
-        } elseif($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
-                    ? $ml_ids = (array) $this->http->wrapper()->query()->retrieve(
-                        'contact_mailinglist_list_ml_ids',
-                        $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-                    ) : $ml_ids = []
-        );
+        } elseif ($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
+            ? $ml_ids = (array) $this->http->wrapper()->query()->retrieve(
+                'contact_mailinglist_list_ml_ids',
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
+            ) : $ml_ids = []
+        ) {
+            ;
+        }
 
         return array_filter($ml_ids);
     }
@@ -198,7 +202,9 @@ class ilMailingListsGUI
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact'
+        );
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
         $this->tpl->printToStdout();
@@ -289,16 +295,20 @@ class ilMailingListsGUI
     public function showMailingLists(): bool
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'components/ILIAS/Contact'
+        );
 
         // check if current user may send mails
         $mail = new ilMail($this->user->getId());
         $mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
-        $this->toolbar->addComponent($this->ui_factory->button()->standard(
-            $this->lng->txt('create'),
-            $this->ctrl->getLinkTarget($this, 'showForm')
-        ));
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('create'),
+                $this->ctrl->getLinkTarget($this, 'showForm')
+            )
+        );
 
         $tbl = new MailingListsTable(
             $this->mlists,
@@ -361,7 +371,9 @@ class ilMailingListsGUI
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact'
+        );
 
         $this->form_gui->setValuesByPost();
 
@@ -404,7 +416,9 @@ class ilMailingListsGUI
     public function showForm(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'components/ILIAS/Contact'
+        );
 
         if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
             if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
@@ -462,10 +476,12 @@ class ilMailingListsGUI
         );
 
         if ($availale_usr_ids !== []) {
-            $this->toolbar->addComponent($this->ui_factory->button()->standard(
-                $this->lng->txt('add'),
-                $this->ctrl->getLinkTarget($this, 'showAssignmentForm')
-            ));
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->lng->txt('add'),
+                    $this->ctrl->getLinkTarget($this, 'showAssignmentForm')
+                )
+            );
         }
 
         $tbl = new MailingListsMembersTable(
@@ -559,13 +575,16 @@ class ilMailingListsGUI
         return true;
     }
 
-
     protected function getAssignmentForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveAssignmentForm'));
-        $form->setTitle(sprintf($this->lng->txt('mail_assign_entry_to_mailing_list'), $this->mlists->getCurrentMailingList()->getTitle()));
+        $form->setTitle(
+            sprintf(
+                $this->lng->txt('mail_assign_entry_to_mailing_list'), $this->mlists->getCurrentMailingList()->getTitle()
+            )
+        );
 
         $options = [];
         $options[''] = $this->lng->txt('please_select');
@@ -600,7 +619,9 @@ class ilMailingListsGUI
 
             $form->addCommandButton('saveAssignmentForm', $this->lng->txt('mail_assign_to_mailing_list'));
         } elseif (count($options) === 1 && count($relations) > 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'), true);
+            $this->tpl->setOnScreenMessage(
+                'info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'), true
+            );
             $this->ctrl->redirect($this, 'showMembersList');
         } elseif (count($relations) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'), true);
@@ -610,7 +631,6 @@ class ilMailingListsGUI
 
         return $form;
     }
-
 
     public function saveAssignmentForm(): bool
     {
@@ -641,7 +661,6 @@ class ilMailingListsGUI
         $this->showAssignmentForm($form);
         return true;
     }
-
 
     public function showAssignmentForm(?ilPropertyFormGUI $form = null): bool
     {
