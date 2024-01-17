@@ -55,6 +55,7 @@ class Form
                 $this->language->txt('bgtask_setting_limit_info')
             )
             ->withValue($this->settings->getDownloadLimitinMB())
+            ->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(function ($value): void {
                     $this->settings->setDownloadLimitInMB($value);
