@@ -118,16 +118,16 @@ class SettingsResultDetails extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         return [
-            'tst_results_print_best_solution' => $this->getShowSolutionListComparison() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_show_solution_feedback' => $this->getShowSolutionFeedback() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_show_solution_suggested' => $this->getShowSolutionSuggested() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_show_solution_printview' => $this->getShowSolutionPrintview() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_hide_pagecontents' => $this->getShowSolutionAnswersOnly() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'tst_show_solution_signature' => $this->getShowSolutionSignature() ? $lng->txt('enabled') : $lng->txt('disabled'),
-            'examid_in_test_res' => $this->getShowExamIdInTestResults() ? $lng->txt('enabled') : $lng->txt('disabled')
+            'tst_results_print_best_solution' => $this->getShowSolutionListComparison() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_show_solution_feedback' => $this->getShowSolutionFeedback() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_show_solution_suggested' => $this->getShowSolutionSuggested() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_show_solution_printview' => $this->getShowSolutionPrintview() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_hide_pagecontents' => $this->getShowSolutionAnswersOnly() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_show_solution_signature' => $this->getShowSolutionSignature() ? '{{ enabled }}' : '{{ disabled }}',
+            'examid_in_test_res' => $this->getShowExamIdInTestResults() ? '{{ enabled }}' : '{{ disabled }}'
         ];
     }
 

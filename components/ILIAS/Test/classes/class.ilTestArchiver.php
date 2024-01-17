@@ -18,11 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
  * Class ilTestArchiver
@@ -96,23 +99,7 @@ class ilTestArchiver
 
     protected $external_directory_path;
     protected $client_id;
-    protected $test_obj_id;
-    protected $test_ref_id;
     protected $archive_data_index;
-
-    protected ilLanguage $lng;
-    protected ilDBInterface $db;
-    protected ilCtrl $ctrl;
-    protected ilObjUser $user;
-    protected ilTabsGUI $tabs;
-    protected ilToolbarGUI $toolbar;
-    protected ilGlobalTemplateInterface $tpl;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected ilAccess $access;
-    protected InternalRequestService $testrequest;
-    protected GlobalHttpState $http;
-    protected RefineryFactory $refinery;
 
     protected ilTestHTMLGenerator $html_generator;
 
@@ -121,37 +108,34 @@ class ilTestArchiver
      */
     protected $participantData;
 
-    private \ILIAS\ResourceStorage\Services $irss;
-
     #endregion
 
-    public function __construct(int $test_obj_id, ?int $test_ref_id = null)
-    {
+    public function __construct(
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly ilCtrl $ctrl,
+        private readonly ilObjUser $user,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly GlobalHttpState $http,
+        private readonly RefineryFactory $refinery,
+        private readonly ilAccess $access,
+        private readonly IRSS $irss,
+        private readonly InternalRequestService $testrequest,
+        private readonly int $test_obj_id,
+        private ?int $test_ref_id = null
+    ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->lng = $DIC['lng'];
-        $this->db = $DIC['ilDB'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->user = $DIC['ilUser'];
-        $this->tabs = $DIC['ilTabs'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->tpl = $DIC['tpl'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-        $this->access = $DIC['ilAccess'];
-        $this->testrequest = $DIC->test()->internal()->request();
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-        $this->irss = $DIC->resourceStorage();
-
         $ilias = $DIC['ilias'];
 
         $this->html_generator = new ilTestHTMLGenerator();
 
         $this->external_directory_path = $ilias->ini_ilias->readVariable('clients', 'datadir');
-        $this->client_id = $ilias->client_id;
-        $this->test_obj_id = $test_obj_id;
-        $this->test_ref_id = $test_ref_id;
+        $this->client_id = CLIENT_ID;
 
         $this->archive_data_index = $this->readArchiveDataIndex();
 

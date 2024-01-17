@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\ScoreSettings;
 
+use ILIAS\Test\MainSettings\ilTestSettingsGUI;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 
 /**
  * GUI class that manages the editing of general test settings/properties

@@ -31,7 +31,8 @@ enum TestAdministrationInteractionTypes: string
     case QUESTION_ADDED = 'question_added';
     case QUESTION_MOVED = 'question_moved';
     case QUESTION_REMOVED = 'question_removed';
-    case QUESTIONS_SYNCHRONIZED = 'questions_synchronized';
+    case QUESTIONS_SYNCHRONISATION_RESET = 'question_synchronisation_reset';
+    case QUESTIONS_SYNCHRONISED = 'questions_synchronised';
     case EXTRA_TIME_ADDED = 'extra_time_added';
     case TEST_RUN_OF_PARTICIPANT_CLOSED = 'test_run_of_participant_closed';
     case PARTICIPANT_DATA_REMOVED = 'participant_data_removed';

@@ -271,13 +271,23 @@ class SettingsAccess extends TestSettings
         ];
     }
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
+        $starting_time = '{{ none }}';
+        if (($st_immutable = $this->getStartTime()) instanceof \DateTimeImmutable) {
+            $starting_time = $st_immutable->getTimestamp();
+        }
+
+        $end_time = '{{ none }}';
+        if (($et_immutable = $this->getEndTime()) instanceof \DateTimeImmutable) {
+            $end_time = $et_immutable->getTimestamp();
+        }
+
         return [
-            'tst_starting_time' => $this->getStartTime() ?? $lng->txt('none'),
-            'tst_ending_time' => $this->getEndTime() ?? $lng->txt('none'),
-            'tst_password' => $this->getPassword() ?? $lng->txt('none'),
-            'participants_invitation' => $this->getFixedParticipants() ? $lng->txt('enabled') : $lng->txt('disabled')
+            'tst_starting_time' => $starting_time,
+            'tst_ending_time' => $end_time,
+            'tst_password' => $this->getPassword() ?? '{{ none }}',
+            'participants_invitation' => $this->getFixedParticipants() ? '{{ enabled }}' : '{{ disabled }}'
         ];
     }
 

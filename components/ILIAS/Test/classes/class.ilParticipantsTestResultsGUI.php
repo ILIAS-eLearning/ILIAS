@@ -310,21 +310,23 @@ class ilParticipantsTestResultsGUI
      */
     private function confirmDeleteSelectedUserDataCmd(): void
     {
-        $usr_ids = $this->getUserIdsFromPost();
-        if ($usr_ids !== []) {
-            $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-
-            $participant_data = new ilTestParticipantData($this->db, $this->lng);
-            $participant_data->setParticipantAccessFilter($access_filter);
-            $participant_data->setActiveIdsFilter($usr_ids);
-
-            $participant_data->load($this->getTestObj()->getTestId());
-
-            $this->getTestObj()->removeTestResults($participant_data);
-
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_selected_user_data_deleted"), true);
+        $to_be_deleted = $this->getUserIdsFromPost();
+        if ($to_be_deleted === []) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one_user'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
 
+        $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $participant_data->setParticipantAccessFilter($access_filter);
+        $participant_data->setActiveIdsFilter($to_be_deleted);
+
+        $participant_data->load($this->getTestObj()->getTestId());
+
+        $this->getTestObj()->removeTestResults($participant_data);
+
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_selected_user_data_deleted"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 

@@ -53,5 +53,5 @@ abstract class TestSettings
 
     abstract public function toStorage(): array;
 
-    abstract public function toLog(\ilLanguage $lng): array;
+    abstract public function toLog(): array;
 }

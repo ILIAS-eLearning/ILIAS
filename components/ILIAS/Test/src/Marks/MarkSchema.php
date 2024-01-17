@@ -224,7 +224,7 @@ class MarkSchema
     }
 
 
-    public function toLog(\ilLanguage $lng): array
+    public function toLog(): array
     {
         $log_array = [];
         foreach ($this->getMarkSteps() as $mark) {

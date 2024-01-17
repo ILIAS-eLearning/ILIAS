@@ -162,36 +162,34 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         return ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
 
-    public function save(): void
+    public function save(): array
     {
+        $log_array = [];
+        $question_equal_per_pool = $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked();
         $this->questionSetConfig->setPoolsWithHomogeneousScoredQuestionsRequired(
-            $this->getItemByPostVar('quest_points_equal_per_pool')->getChecked()
+            $question_equal_per_pool
         );
 
-        switch ($this->getItemByPostVar('quest_amount_cfg_mode')->getValue()) {
-            case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
+        $log_array['tst_inp_all_quest_points_equal_per_pool_desc'] = $question_equal_per_pool ? '{{ true }}' : '{{ false }}';
 
-                $this->questionSetConfig->setQuestionAmountConfigurationMode(
-                    $this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
-                );
+        $question_amount_configuration_mode = $this->getItemByPostVar('quest_amount_cfg_mode')->getValue();
+        $this->questionSetConfig->setQuestionAmountConfigurationMode(
+            $question_amount_configuration_mode
+        );
 
-                $this->questionSetConfig->setQuestionAmountPerTest(
-                    (int) $this->getItemByPostVar('quest_amount_per_test')->getValue()
-                );
+        $log_array['tst_inp_quest_amount_cfg_mode'] = $this->questionSetConfig->getQuestionAmountPerTest()
+            ? '{{ tst_inp_quest_amount_cfg_mode_test }}' : '{{ tst_inp_quest_amount_cfg_mode_pool }}';
 
-                break;
-
-            case ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
-
-                $this->questionSetConfig->setQuestionAmountConfigurationMode(
-                    $this->getItemByPostVar('quest_amount_cfg_mode')->getValue()
-                );
-
-                $this->questionSetConfig->setQuestionAmountPerTest(null);
-
-                break;
+        $this->questionSetConfig->setQuestionAmountPerTest(null);
+        if (!$this->questionSetConfig->getQuestionAmountPerTest()) {
+            $question_amount_per_test = (int) $this->getItemByPostVar('quest_amount_per_test')->getValue();
+            $this->questionSetConfig->setQuestionAmountPerTest(
+                $question_amount_per_test
+            );
+            $log_array['tst_inp_quest_amount_per_test'] = $question_amount_per_test;
         }
 
         $this->questionSetConfig->saveToDb();
+        return $log_array;
     }
 }

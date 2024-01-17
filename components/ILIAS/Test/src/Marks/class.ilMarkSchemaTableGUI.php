@@ -25,14 +25,17 @@ namespace ILIAS\Test\Marks;
  * @author Michael Jansen <mjansen@databay.de>
  * @package components\ILIASTest
  */
-class ilMarkSchemaTableGUI extends ilTable2GUI
+class ilMarkSchemaTableGUI extends \ilTable2GUI
 {
     private ?ilMarkSchemaAware $object;
 
     protected bool $is_editable = true;
 
-    public function __construct(ilMarkSchemaGUI $parent, string $cmd, ilMarkSchemaAware $object = null)
-    {
+    public function __construct(
+        ilMarkSchemaGUI $parent,
+        string $cmd,
+        ilMarkSchemaAware $object = null
+    ) {
         $this->object = $object;
         $this->is_editable = $this->object->canEditMarks();
 
