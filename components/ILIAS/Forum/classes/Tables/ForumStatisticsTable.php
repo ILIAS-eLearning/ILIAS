@@ -28,8 +28,6 @@ use ILIAS\Data\Range;
 
 class ForumStatisticsTable implements DataRetrieval
 {
-    private UIFactory $ui_factory;
-    private ilLanguage $lng;
     private bool $has_active_lp = false;
     /** @var int[] */
     private array $completed = [];
@@ -37,9 +35,8 @@ class ForumStatisticsTable implements DataRetrieval
     private array $failed = [];
     /** @var int[] */
     private array $in_progress = [];
-    private HttpRequest $request;
-    private UIRenderer $ui_renderer;
     private ?array $records = null;
+    private ilLPStatusIcons $icons;
 
     public function __construct(
         private readonly ilObjForum $forum,
@@ -47,12 +44,10 @@ class ForumStatisticsTable implements DataRetrieval
         private readonly bool $has_general_lp_access,
         private readonly bool $has_rbac_or_position_access,
         private readonly ilObjUser $actor,
+        private readonly UIFactory $ui_factory,
+        private readonly HttpRequest $request,
+        private readonly ilLanguage $lng,
     ) {
-        global $DIC;
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->request = $DIC->http()->request();
-        $this->lng = $DIC->language();
         $this->icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         $lp = ilObjectLP::getInstance($forum->getId());
@@ -100,6 +95,7 @@ class ForumStatisticsTable implements DataRetrieval
                 $this->lng->txt('learning_progress')
             )->withIsSortable(false);
         }
+
         return $columns;
     }
 
@@ -108,7 +104,6 @@ class ForumStatisticsTable implements DataRetrieval
         if ($this->records === null) {
             $this->records = [];
             $data = $this->forum->Forum->getUserStatistics($this->obj_properties->isPostActivationEnabled());
-            $result = [];
             $counter = 0;
             foreach ($data as $row) {
                 $this->records[$counter]['usr_id'] = $row['usr_id'];
@@ -132,12 +127,14 @@ class ForumStatisticsTable implements DataRetrieval
             if ($order_field === 'ranking') {
                 return $left[$order_field] <=> $right[$order_field];
             }
+
             return ilStr::strCmp($left[$order_field], $right[$order_field]);
         });
 
         if ($order_direction === 'DESC') {
             $records = array_reverse($records);
         }
+
         return $records;
     }
 
@@ -145,6 +142,7 @@ class ForumStatisticsTable implements DataRetrieval
     {
         $this->initRecords();
         $records = $this->sortedRecords($this->records, $order);
+
         return $this->limitRecords($records, $range);
     }
 
@@ -171,6 +169,7 @@ class ForumStatisticsTable implements DataRetrieval
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
         $this->initRecords();
+
         return count((array) $this->records);
     }
 
@@ -196,6 +195,7 @@ class ForumStatisticsTable implements DataRetrieval
                     break;
             }
         }
+
         return $icon;
     }
 }

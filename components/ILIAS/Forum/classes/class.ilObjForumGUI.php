@@ -1807,7 +1807,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 'read_learning_progress',
                 $this->object->getRefId()
             ),
-            $this->user
+            $this->user,
+            $this->ui_factory,
+            $this->request,
+            $this->lng
         );
         $this->tpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
