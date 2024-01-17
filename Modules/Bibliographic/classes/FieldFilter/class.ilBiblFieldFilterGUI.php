@@ -110,6 +110,10 @@ class ilBiblFieldFilterGUI
     public function index(): void
     {
         if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
+            // mantis 0038219: added infobox to describe the filter functionality
+            $infobox = $this->dic()->ui()->factory()->messageBox()->info($this->lng()->txt('msg_filter_info'));
+            $this->tpl()->setVariable("MESSAGE", $this->dic()->ui()->renderer()->render($infobox));
+
             $button = $this->dic()->ui()->factory()->button()->primary($this->lng()->txt("add_filter"), $this->ctrl()->getLinkTarget($this, self::CMD_ADD));
             $this->toolbar()->addText($this->dic()->ui()->renderer()->render([$button]));
         }

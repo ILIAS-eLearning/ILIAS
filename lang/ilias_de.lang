@@ -2324,6 +2324,7 @@ bibl#:#filter_type_3#:#Mehrfachauswahl
 bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
 bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
+bibl#:#msg_filter_info#:#Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen.
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
 bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Bitte kontaktieren Sie Ihre technische Betreuung.
