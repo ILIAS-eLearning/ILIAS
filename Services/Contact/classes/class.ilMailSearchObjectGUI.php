@@ -516,8 +516,8 @@ abstract class ilMailSearchObjectGUI
                     ilMailGlobalServices::getMailObjectRefId()
                 );
 
-                $exposes_members = false;
-                if ($has_untrashed_references && ($can_send_mails || ($exposes_members = $this->doesExposeMembers($object)))) {
+                $exposes_members = $this->doesExposeMembers($object);;
+                if ($has_untrashed_references && ($can_send_mails || $exposes_members)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
