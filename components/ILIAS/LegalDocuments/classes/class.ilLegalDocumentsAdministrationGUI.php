@@ -132,7 +132,7 @@ class ilLegalDocumentsAdministrationGUI
         $form = $this->admin->criterionForm($url, $document);
 
         $form = $this->admin->withFormData($form, function (array $x) use ($document) {
-            $content = new CriterionContent(...$x['content']);
+            $content = new CriterionContent(...$x[0]['content']);
             $this->config->legalDocuments()->document()->validateCriteriaContent($document->criteria(), $content)->map(
                 fn() => $this->config->legalDocuments()->document()->repository()->createCriterion($document, $content)
             )->except($this->criterionInvalid(...))->value();
@@ -151,7 +151,7 @@ class ilLegalDocumentsAdministrationGUI
             $url = $this->admin->targetWithDocAndCriterion($this, $document, $criterion, 'editCriterion', 'getFormAction');
             $form = $this->admin->criterionForm($url, $document, $criterion->content());
             $form = $this->admin->withFormData($form, function (array $data) use ($document, $criterion) {
-                $content = new CriterionContent(...$data['content']);
+                $content = new CriterionContent(...$data[0]['content']);
                 $criteria = array_filter($document->criteria(), fn(Criterion $other) => $other->id() !== $criterion->id());
                 $this->config->legalDocuments()->document()->validateCriteriaContent($criteria, $content)->map(
                     fn() => $this->config->legalDocuments()->document()->repository()->updateCriterionContent($criterion->id(), $content)
@@ -230,7 +230,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->idOrHash($this, function (Closure $link, string $title, DocumentId $id, bool $may_be_new) {
             $form = $this->admin->documentForm($link, $title, $may_be_new);
             $form = $this->admin->withFormData($form, function ($data) use (/* $edit_link, */$id) {
-                $this->config->legalDocuments()->document()->repository()->updateDocumentTitle($id, $data['title']);
+                $this->config->legalDocuments()->document()->repository()->updateDocumentTitle($id, $data[0]['title']);
                 $this->returnWithMessage('saved_successfully', 'documents');
             });
 
