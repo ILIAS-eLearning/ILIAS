@@ -27,7 +27,6 @@ use ilSetting;
 class General extends ilSetting implements Setting
 {
     public const MODULE_NAME = 'file_access';
-    public const F_DOWNLOAD_WITH_UPLOADED_FILENAME = 'download_with_uploaded_filename';
     public const F_BG_LIMIT = 'bg_limit';
     public const F_INLINE_FILE_EXTENSIONS = 'inline_file_extensions';
     public const F_SHOW_AMOUNT_OF_DOWNLOADS = 'show_amount_of_downloads';
@@ -85,16 +84,6 @@ class General extends ilSetting implements Setting
                 $this->arrayToStr($this->default_inline_extensions)
             )
         );
-    }
-
-    public function isDownloadWithUploadedFileName(): bool
-    {
-        return false;
-    }
-
-    public function setDownloadWithUploadedFileName(bool $value): void
-    {
-        $this->set(self::F_DOWNLOAD_WITH_UPLOADED_FILENAME, $this->boolToStr($value));
     }
 
     public function getDownloadLimitinMB(): int

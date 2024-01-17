@@ -3913,8 +3913,6 @@ common#:#download_all_returned_files#:#Download all Submissions
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
-common#:#download_with_uploaded_filename#:#Download With Uploaded Filename
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file will be the same as the original filename that was used when the file was uploaded to ILIAS. If this option is not selected, the filename of a downloaded file will be the same as the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV, the filename of a downloaded file is always the same as the title of the file object.
 common#:#downloading_settings#:#Download Settings
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?
 common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
