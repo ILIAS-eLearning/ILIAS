@@ -32,7 +32,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
-use ILIAS\Test\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\MainSettings;
 
 /**
  * Class ilTestScreenGUI

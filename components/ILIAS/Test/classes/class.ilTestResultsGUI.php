@@ -26,7 +26,7 @@ use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\ScoreSettings\SettingsResultSummary;
+use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 
 /**
  * Class ilTestResultsGUI

@@ -25,7 +25,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
-use ILIAS\Test\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -33,10 +33,10 @@ use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Marks\MarkSchema;
 use ILIAS\Test\Marks\MarkSchemaAware;
-use ILIAS\Test\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Scoring\TestScoring;
-use ILIAS\Test\ScoreSettings\SettingsResultSummary;
-use ILIAS\Test\ScoreSettings\ScoreSettings;
+use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 
 /**
  * Class ilObjTest
