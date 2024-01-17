@@ -23,11 +23,12 @@ use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Services;
 
-class BannedUsersTable
+class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
     protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
+    private ?array $records = null;
 
     public function __construct(
         private readonly array $banned_users,
@@ -46,10 +47,9 @@ class BannedUsersTable
     {
         $columns = $this->getColumns();
         $actions = $this->getActions();
-        $data_retrieval = $this->getDataRetrieval();
 
         return $this->ui_factory->table()
-                                ->data($this->lng->txt('ban_table_title'), $columns, $data_retrieval)
+                                ->data($this->lng->txt('ban_table_title'), $columns, $this)
                                 ->withActions($actions)
                                 ->withRequest($this->request);
     }
@@ -79,7 +79,7 @@ class BannedUsersTable
         $query_params_namespace = ['chat', 'ban', 'table'];
 
         $uri_detach = $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjChatroomgui::class, 'ban-handleTableActions')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjChatroomGUI::class, 'ban-handleTableActions')
         );
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
@@ -101,95 +101,81 @@ class BannedUsersTable
         ];
     }
 
-    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    private function initRecords(): void
     {
-        $data_retrieval = new class($this->banned_users) implements UI\Component\Table\DataRetrieval {
+        if ($this->records === null) {
+            $this->records = [];
+            $i = 0;
+            $entries = $this->banned_users;
 
-            private ?array $records = null;
-
-            public function __construct(protected array $banned_users)
-            {
-            }
-
-            private function initRecords(): void
-            {
-                if ($this->records === null) {
-                    $this->records = [];
-                    $i = 0;
-                    $entries = $this->banned_users;
-
-                    foreach ($entries as $entry) {
-                        $user_id = $entry['user_id'];
-                        /** @var ilObjUser $user */
-                        $user = ilObjectFactory::getInstanceByObjId($user_id, false);
-                        if (!($user instanceof ilObjUser)) {
-                            continue;
-                        }
-
-                        $this->records[$i]['user_id'] = $user->getId();
-                        $this->records[$i]['login'] = $user->getLogin();
-                        $this->records[$i]['firstname'] = $user->getFirstname();
-                        $this->records[$i]['lastname'] = $user->getLastname();
-                        if (is_numeric($entry['timestamp']) && $entry['timestamp'] > 0) {
-                            $this->records[$i]['timestamp'] = ilDatePresentation::formatDate(
-                                new ilDateTime($entry['timestamp'], IL_CAL_UNIX)
-                            );
-                        }
-
-                        $this->records[$i]['actor'] = $entry['actor'];
-                        ++$i;
-                    }
+            foreach ($entries as $entry) {
+                $user_id = $entry['user_id'];
+                /** @var ilObjUser $user */
+                $user = ilObjectFactory::getInstanceByObjId($user_id, false);
+                if (!($user instanceof ilObjUser)) {
+                    continue;
                 }
-            }
 
-            public function getRows(
-                UI\Component\Table\DataRowBuilder $row_builder,
-                array $visible_column_ids,
-                Data\Range $range,
-                Data\Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
-            ): \Generator {
-                $records = $this->getRecords($range, $order);
-
-                foreach ($records as $record) {
-                    $row_id = (string) $record['user_id'];
-                    yield $row_builder->buildDataRow($row_id, $record);
+                $this->records[$i]['user_id'] = $user->getId();
+                $this->records[$i]['login'] = $user->getLogin();
+                $this->records[$i]['firstname'] = $user->getFirstname();
+                $this->records[$i]['lastname'] = $user->getLastname();
+                if (is_numeric($entry['timestamp']) && $entry['timestamp'] > 0) {
+                    $this->records[$i]['timestamp'] = ilDatePresentation::formatDate(
+                        new ilDateTime($entry['timestamp'], IL_CAL_UNIX)
+                    );
                 }
-            }
 
-            public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
-            ): ?int {
-                $this->initRecords();
-                return count((array) $this->records);
+                $this->records[$i]['actor'] = $entry['actor'];
+                ++$i;
             }
+        }
+    }
 
-            /**
-             * @todo change this workaround, if there is a general decision about the sorting strategy
-             */
-            private function sortedRecords(Data\Order $order): array
-            {
-                $records = $this->records;
-                [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
-            }
+    public function getRows(
+        UI\Component\Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Data\Range $range,
+        Data\Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        $records = $this->getRecords($range, $order);
 
-            private function getRecords(Data\Range $range, Data\Order $order): array
-            {
-                $this->initRecords();
-                $records = $this->sortedRecords($order);
-                return $this->limitRecords($records, $range);
-            }
+        foreach ($records as $record) {
+            $row_id = (string) $record['user_id'];
+            yield $row_builder->buildDataRow($row_id, $record);
+        }
+    }
 
-            private function limitRecords(array $records, Data\Range $range): array
-            {
-                return array_slice($records, $range->getStart(), $range->getLength());
-            }
-        };
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        $this->initRecords();
+        return count((array) $this->records);
+    }
 
-        return $data_retrieval;
+    /**
+     * @todo change this workaround, if there is a general decision about the sorting strategy
+     */
+    private function sortedRecords(Data\Order $order): array
+    {
+        $records = $this->records;
+        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+        return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
+    }
+
+    private function getRecords(Data\Range $range, Data\Order $order): array
+    {
+        $this->initRecords();
+        $records = $this->sortedRecords($order);
+        return $this->limitRecords($records, $range);
+    }
+
+    private function limitRecords(array $records, Data\Range $range): array
+    {
+        return array_slice($records, $range->getStart(), $range->getLength());
     }
 
 }
