@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Test\Settings\MainSettings\SettingsGeneral;
+
+class SettingsGeneralTest extends ilTestBaseTestCase
+{
+    /**
+     * @dataProvider getAndWithQuestionSetTypeDataProvider
+     */
+    public function testGetAndWithQuestionSetType(string $io): void
+    {
+        $Settings_general = (new SettingsGeneral(0))->withQuestionSetType($io);
+
+        $this->assertInstanceOf(SettingsGeneral::class, $Settings_general);
+        $this->assertEquals($io, $Settings_general->getQuestionSetType());
+    }
+
+    public static function getAndWithQuestionSetTypeDataProvider(): array
+    {
+        return [
+            [ilObjTest::QUESTION_SET_TYPE_FIXED],
+            [ilObjTest::QUESTION_SET_TYPE_RANDOM]
+        ];
+    }
+
+    /**
+     * @dataProvider getAndWithAnonymityDataProvider
+     */
+    public function testGetAndWithAnonymity(bool $io): void
+    {
+        $Settings_general = (new SettingsGeneral(0))->withAnonymity($io);
+
+        $this->assertInstanceOf(SettingsGeneral::class, $Settings_general);
+        $this->assertEquals($io, $Settings_general->getAnonymity());
+    }
+
+    public static function getAndWithAnonymityDataProvider(): array
+    {
+        return [
+            [true],
+            [false]
+        ];
+    }
+}

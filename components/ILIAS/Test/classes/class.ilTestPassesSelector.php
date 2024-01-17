@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\ScoreSettings\SettingsResultSummary;
+use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>

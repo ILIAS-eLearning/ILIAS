@@ -33,7 +33,6 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
-use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\MainSettings\ilObjTestSettingsMainGUI;
 use ILIAS\Test\ScoreSettings\ilObjTestSettingsScoringGUI;
 use ILIAS\Test\ScoreSettings\SettingsResultSummary;

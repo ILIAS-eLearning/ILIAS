@@ -25,7 +25,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Marks\MarksRepository;
 use ILIAS\Test\Marks\MarksDatabaseRepository;
-use ILIAS\Test\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLoggingRepository;
