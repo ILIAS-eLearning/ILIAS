@@ -22,13 +22,14 @@ use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ForumModeratorsTable
+class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
     private ilForumModerators $forum_moderators;
 
     protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
+    private ?array $records = null;
 
     public function __construct(
         ilForumModerators $forum_moderators,
@@ -47,10 +48,9 @@ class ForumModeratorsTable
     {
         $columns = $this->getColumns();
         $actions = $this->getActions();
-        $data_retrieval = $this->getDataRetrieval();
 
         return $this->ui_factory->table()
-                                ->data($this->lng->txt('frm_moderators'), $columns, $data_retrieval)
+                                ->data($this->lng->txt('frm_moderators'), $columns, $this)
                                 ->withActions($actions)
                                 ->withRequest($this->request);
     }
@@ -99,87 +99,73 @@ class ForumModeratorsTable
         ];
     }
 
-    protected function getDataRetrieval(): UI\Component\Table\DataRetrieval
+    private function initRecords(): void
     {
-        $data_retrieval = new class($this->forum_moderators) implements UI\Component\Table\DataRetrieval {
-
-            private ?array $records = null;
-
-            public function __construct(protected readonly \ilForumModerators $forum_moderators)
-            {
-            }
-
-            private function initRecords(): void
-            {
-                if ($this->records === null) {
-                    $this->records = [];
-                    $i = 0;
-                    $entries = $this->forum_moderators->getCurrentModerators();
-                    foreach ($entries as $usr_id) {
-                        /** @var ilObjUser $user */
-                        $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
-                        if (!($user instanceof ilObjUser)) {
-                            $this->forum_moderators->detachModeratorRole($usr_id);
-                            continue;
-                        }
-
-                        $this->records[$i]['usr_id'] = $user->getId();
-                        $this->records[$i]['login'] = $user->getLogin();
-                        $this->records[$i]['firstname'] = $user->getFirstname();
-                        $this->records[$i]['lastname'] = $user->getLastname();
-                        ++$i;
-                    }
+        if ($this->records === null) {
+            $this->records = [];
+            $i = 0;
+            $entries = $this->forum_moderators->getCurrentModerators();
+            foreach ($entries as $usr_id) {
+                /** @var ilObjUser $user */
+                $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
+                if (!($user instanceof ilObjUser)) {
+                    $this->forum_moderators->detachModeratorRole($usr_id);
+                    continue;
                 }
+
+                $this->records[$i]['usr_id'] = $user->getId();
+                $this->records[$i]['login'] = $user->getLogin();
+                $this->records[$i]['firstname'] = $user->getFirstname();
+                $this->records[$i]['lastname'] = $user->getLastname();
+                ++$i;
             }
+        }
+    }
 
-            public function getRows(
-                UI\Component\Table\DataRowBuilder $row_builder,
-                array $visible_column_ids,
-                Data\Range $range,
-                Data\Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
-            ): \Generator {
-                $records = $this->getRecords($range, $order);
+    public function getRows(
+        UI\Component\Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Data\Range $range,
+        Data\Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        $records = $this->getRecords($range, $order);
 
-                foreach ($records as $record) {
-                    $row_id = (string) $record['usr_id'];
-                    yield $row_builder->buildDataRow($row_id, $record);
-                }
-            }
+        foreach ($records as $record) {
+            $row_id = (string) $record['usr_id'];
+            yield $row_builder->buildDataRow($row_id, $record);
+        }
+    }
 
-            public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
-            ): ?int {
-                $this->initRecords();
-                return count((array) $this->records);
-            }
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        $this->initRecords();
+        return count((array) $this->records);
+    }
 
-            /**
-             * @todo change this workaround, if there is a general decision about the sorting strategy
-             */
-            private function sortedRecords(Data\Order $order): array
-            {
-                $records = $this->records;
-                [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
-                return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
-            }
+    /**
+     * @todo change this workaround, if there is a general decision about the sorting strategy
+     */
+    private function sortedRecords(Data\Order $order): array
+    {
+        $records = $this->records;
+        [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+        return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
+    }
 
-            private function getRecords(Data\Range $range, Data\Order $order): array
-            {
-                $this->initRecords();
-                $records = $this->sortedRecords($order);
-                return $this->limitRecords($records, $range);
-            }
+    private function getRecords(Data\Range $range, Data\Order $order): array
+    {
+        $this->initRecords();
+        $records = $this->sortedRecords($order);
+        return $this->limitRecords($records, $range);
+    }
 
-            private function limitRecords(array $records, Data\Range $range): array
-            {
-                return array_slice($records, $range->getStart(), $range->getLength());
-            }
-        };
-
-        return $data_retrieval;
+    private function limitRecords(array $records, Data\Range $range): array
+    {
+        return array_slice($records, $range->getStart(), $range->getLength());
     }
 
 }
