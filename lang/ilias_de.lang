@@ -3914,8 +3914,6 @@ common#:#download_all_returned_files#:#Alle Abgaben herunterladen
 common#:#download_link#:#Download-Link
 common#:#download_multiple_objects#:#Mehrere Objekte herunterladen
 common#:#download_selected_items#:#Herunterladen
-common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
-common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
 common#:#dpro_accept_usr_agreement#:#Datenschutzerklärung akzeptieren?
 common#:#dpro_accept_usr_agreement_intro#:#Es liegt eine neue Datenschutzerklärung vor. Sie müssen diese akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
