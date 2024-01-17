@@ -573,7 +573,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->getObjectProperties()->storePropertyTitleAndDescription($updated_title_and_description);
 
         $this->object->setImportantInfo($inputs['file_info']['important_info']);
-        $this->object->setRating($inputs['file_info']['rating'] ?? false);
+        $this->object->setRating($inputs['obj_features']['rating'] ?? false);
         $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
 
@@ -630,21 +630,10 @@ class ilObjFileGUI extends ilObject2GUI
         $important_info = $this->inputs->field()->markdown(
             new ilUIMarkdownPreviewGUI(),
             $this->lng->txt('important_info'),
+            $this->lng->txt('important_info_byline')
         )->withValue(
             $this->object->getImportantInfo() ?? ""
         );
-
-        $enable_rating = null;
-        if ($this->id_type === self::REPOSITORY_NODE_ID) {
-            $this->lng->loadLanguageModule('rating');
-
-            $enable_rating = $this->inputs->field()->checkbox(
-                $this->lng->txt('rating_activate_rating'),
-                $this->lng->txt('rating_activate_rating_info')
-            )->withValue(
-                $this->object->hasRating()
-            );
-        }
 
         $on_click_action = $this->inputs->field()->radio(
             $this->lng->txt('on_click_action')
@@ -661,7 +650,6 @@ class ilObjFileGUI extends ilObject2GUI
         $input_groups = array_filter([
             "title_and_description" => $title_and_description,
             "important_info" => $important_info,
-            "rating" => $enable_rating,
             "on_click_action" => $on_click_action
         ], static fn($input) => null !== $input);
 
@@ -694,10 +682,27 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
+        $enable_rating = null;
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
+            $this->lng->loadLanguageModule('rating');
+
+            $enable_rating = $this->inputs->field()->checkbox(
+                $this->lng->txt('rating_activate_rating'),
+                $this->lng->txt('rating_activate_rating_info')
+            )->withValue(
+                $this->object->hasRating()
+            );
+        }
+        $additional_features_section = $this->inputs->field()->section(
+            ["rating" => $enable_rating],
+            $this->lng->txt('obj_features')
+        );
+
         $inputs = array_filter([
             "file_info" => $file_info_section,
             "availability" => $availability_section,
-            "presentation" => $presentation_section
+            "presentation" => $presentation_section,
+            "obj_features" => $additional_features_section
         ], static fn($input) => null !== $input);
 
         return $this->inputs->container()->form()->standard(
