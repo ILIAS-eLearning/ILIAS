@@ -8828,7 +8828,7 @@ didactic#:#sess_closed_info#:#Session is not visible for non-participants.
 dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 dpro#:#dpro_agree_date#:#Data Protection agreed on
 dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
-dpro#:#dpro_mode#:#Mode
+dpro#:#dpro_mode#:#Agreement Mode
 dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.
 dpro#:#dpro_no_acceptance#:#Never, only informative
 dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.
@@ -10673,7 +10673,7 @@ ldoc#:#ldoc_doc_crit_changed#:#The criterion for displaying your document has be
 ldoc#:#ldoc_doc_crit_detached#:#The criterion has been removed.
 ldoc#:#ldoc_doc_delete#:#Delete Document
 ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Remove Criterion
-ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?
+ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your document?
 ldoc#:#ldoc_document#:#Document
 ldoc#:#ldoc_enabled#:#Enabled
 ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document

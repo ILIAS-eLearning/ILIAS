@@ -56,8 +56,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 
         $this->lng->loadLanguageModule('tos');
         $this->lng->loadLanguageModule('meta');
-        $this->config = (new Config($this->dic['legalDocuments']->provide(Consumer::ID)))->allowEditing();
-        $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $this->config);
+        $config = new Config($this->dic['legalDocuments']->provide(Consumer::ID));
+        if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
+            $config = $config->allowEditing();
+        }
+        $this->config = $config;
+        $this->legal_documents = new ilLegalDocumentsAdministrationGUI(self::class, $this->config, $this->afterDocumentDeletion(...));
         $this->ui = new UI(Consumer::ID, $this->dic->ui()->factory(), $this->dic->ui()->mainTemplate(), $this->dic->language());
         $this->tos_settings = $this->createSettings();
     }
@@ -148,13 +152,20 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $no_documents = $this->config->legalDocuments()->document()->repository()->countAll() === 0;
             if ($no_documents && $data['enabled']) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tos_no_documents_exist_cant_save'), true);
-                return;
+                $this->ctrl->redirect($this, 'settings');
             }
             $this->tos_settings->enabled()->update(isset($data['enabled']));
             $this->tos_settings->validateOnLogin()->update($data['enabled']['reeval_on_login'] ?? false);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'settings');
         });
+    }
+
+    public function afterDocumentDeletion(): void
+    {
+        if ($this->config->legalDocuments()->document()->repository()->countAll() === 0) {
+            $this->tos_settings->enabled()->update(false);
+        }
     }
 
     protected function settings(): void

@@ -4144,8 +4144,8 @@ common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Foru
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_last_posting_asc#:#Neuestes Thema zuerst
-common#:#forums_last_posting_dsc#:#Ältestes Thema zuerst
+common#:#forums_last_posting_asc#:#Letztes Posting aufsteigend
+common#:#forums_last_posting_dsc#:#Letztes Posting absteigend
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_rating_asc#:#Bewertung aufsteigend
 common#:#forums_rating_dsc#:#Bewertung absteigend
@@ -8828,12 +8828,12 @@ didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 dpro#:#dpro_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Datenschutzerklärung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 dpro#:#dpro_agree_date#:#Datenschutzerklärung zugestimmt am
 dpro#:#dpro_last_reset_date#:#Die Datenschutzerklärung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Datenschutzerklärung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-dpro#:#dpro_mode#:#Modus
+dpro#:#dpro_mode#:#Zustimmungsmodus
 dpro#:#dpro_mode_desc#:#Stellen Sie hier ein wann und wie die Datenschutzerklärung akzeptiert werden muss.
-dpro#:#dpro_no_acceptance#:#Nie aktzeptieren, nur anzeigen
+dpro#:#dpro_no_acceptance#:#Bereitstellung der Dokumente ohne Zustimmung
 dpro#:#dpro_no_documents_exist#:#Aktuell liegen keine Dokumente der Datenschutzerklärung vor.
 dpro#:#dpro_no_documents_exist_cant_save#:#Aktuell liegen keine Dokumente der Datenschutzerklärung vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
-dpro#:#dpro_once#:#Einmalig akzeptieren
+dpro#:#dpro_once#:#Einmaliges Akzeptieren des Dokumentes
 dpro#:#dpro_reset_for_all_users#:#Datenschutzerklärung zurücksetzen
 dpro#:#dpro_status_enable#:#Datenschutzerklärung aktivieren
 dpro#:#dpro_status_enable_desc#:#Benutzer werden zum Unterzeichnen der Datenschutzerklärung aufgefordert, bevor sie ILIAS nutzen können.
@@ -10693,7 +10693,7 @@ ldoc#:#ldoc_ldoc_settings#:#Einstellungen
 ldoc#:#ldoc_period#:#Zeitraum
 ldoc#:#ldoc_period_from#:#Von
 ldoc#:#ldoc_period_until#:#Bis
-ldoc#:#ldoc_reevaluate_on_login#:#Erneut prüfen beim Login
+ldoc#:#ldoc_reevaluate_on_login#:#Erneutes Prüfen der Vorlagekriterien beim Login
 ldoc#:#ldoc_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren.
 ldoc#:#ldoc_saved_sorting#:#Die Sortierung wurde gespeichert.
 ldoc#:#ldoc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?

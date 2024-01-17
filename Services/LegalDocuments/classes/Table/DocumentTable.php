@@ -80,18 +80,23 @@ class DocumentTable implements Table
 
     public function rows(TableSelection $select): array
     {
-        return array_map($this->row(...), $this->select($select));
+        return $this->mapSelection($this->row(...), $select);
+    }
+
+    public function mapSelection(Closure $proc, TableSelection $select): array
+    {
+        $step = $this->step();
+        return array_map(fn($x) => $proc($x, $step()), $this->select($select));
     }
 
     public function select(TableSelection $select): array
     {
-        $select->setMaxCount($this->repository->countAll());
-        return $this->repository->all($select->getOffset(), $select->getLimit());
+        return $this->repository->all();
     }
 
-    public function row(Document $document): array
+    public function row(Document $document, int $sorting): array
     {
-        $render_order = $this->orderInputGui($document);
+        $render_order = $this->orderInputGui($document, $sorting);
 
         return [
             'order' => fn() => $render_order->render(),
@@ -132,15 +137,24 @@ class DocumentTable implements Table
         return ($this->criterion_as_component)($criterion->content());
     }
 
-    public function orderInputGui(Document $document): ilNumberInputGUI
+    public function orderInputGui(Document $document, int $sorting): ilNumberInputGUI
     {
         $input = ($this->create)(ilNumberInputGUI::class, '', 'order[' . $document->id() . ']');
-        $input->setValue((string) $document->meta()->sorting());
+        $input->setValue((string) $sorting);
         $input->setMaxLength(4);
         $input->setSize(2);
         $input->setDisabled(true);
 
         return $input;
+    }
+
+    public function step(): Closure
+    {
+        $step = 0;
+        return static function () use (&$step): int {
+            $step += 10;
+            return $step;
+        };
     }
 
     public function ui(): UI

@@ -56,7 +56,7 @@ class ModifyFooterTest extends TestCase
 
         $instance = new ModifyFooter(
             $this->mock(UI::class),
-            $this->mockTree(User::class, ['acceptedDocument' => new Ok($this->mock(DocumentContent::class))]),
+            $this->mockTree(User::class, ['acceptedVersion' => new Ok($this->mock(DocumentContent::class))]),
             $this->mock(Provide::class),
             fn() => 'rendered',
             fn() => $this->mock(ilTemplate::class)
