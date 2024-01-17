@@ -38,7 +38,10 @@ class ilForumModeratorsGUI
     private ilAccessHandler $access;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
+    private \ILIAS\HTTP\Services $http;
+    private \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $ui_renderer;
+
 
     public function __construct()
     {
@@ -57,8 +60,10 @@ class ilForumModeratorsGUI
         $this->tabs->activateTab('frm_moderators');
         $this->lng->loadLanguageModule('search');
         $this->http_wrapper = $DIC->http()->wrapper();
+        $this->http =$DIC->http();
         $this->refinery = $DIC->refinery();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
 
         if ($this->http_wrapper->query()->has('ref_id')) {
             $this->ref_id = $this->http_wrapper->query()->retrieve(
@@ -185,7 +190,7 @@ class ilForumModeratorsGUI
             );
         }
 
-        $tbl = new ForumModeratorsTable($this->oForumModerators, $this->ctrl, $this->lng);
+        $tbl = new ForumModeratorsTable($this->oForumModerators, $this->ctrl, $this->lng,  $this->http, $this->ui_factory);
         $tbl_html = $this->ui_renderer->render($tbl->getComponent());
         $this->tpl->setContent($tbl_html);
     }

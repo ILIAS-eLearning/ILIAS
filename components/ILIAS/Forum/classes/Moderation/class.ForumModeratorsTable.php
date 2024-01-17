@@ -26,7 +26,6 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
     private ilForumModerators $forum_moderators;
 
-    protected UI\Factory $ui_factory;
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
     private ?array $records = null;
@@ -34,12 +33,11 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     public function __construct(
         ilForumModerators $forum_moderators,
         private readonly ilCtrl $ctrl,
-        private readonly ilLanguage $lng
+        private readonly ilLanguage $lng,
+        private readonly \ILIAS\HTTP\Services $http,
+        private readonly \ILIAS\UI\Factory $ui_factory
     ) {
-        global $DIC;
-
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->request = $DIC->http()->request();
+        $this->request = $http->request();
         $this->data_factory = new Data\Factory();
         $this->forum_moderators = $forum_moderators;
     }
