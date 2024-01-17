@@ -137,7 +137,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             $this->uiFactory
         );
 
-        $this->mainTpl->setContent($this->uiRenderer->render($tbl->getComponent());
+        $this->mainTpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
 
     public function active(): void
