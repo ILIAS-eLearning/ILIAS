@@ -69,6 +69,8 @@ abstract class ilMailSearchObjectGUI
         $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         $this->umail = new ilFormatMail($this->user->getId());
+        
+        $this->lng->loadLanguageModule('mail');
     }
 
     private function isDefaultRequestContext(): bool
