@@ -79,6 +79,22 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         $this->setFilterCommand('applyFilter');
         $this->setResetCommand('resetFilter');
+
+        $this->initFilter();
+
+        $columns = $this->getColumnDefinition(false);
+        $this->optionalColumns = $this->getSelectableColumns();
+        $this->visibleOptionalColumns = $this->getSelectedColumns();
+        foreach ($columns as $index => $column) {
+            if ($this->isColumnVisible($index)) {
+                $this->addColumn(
+                    $column['txt'],
+                    isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
+                    $column['width'] ?? '',
+                    isset($column['is_checkbox']) && $column['is_checkbox']
+                );
+            }
+        }
     }
 
     public function getSelectableColumns(): array
@@ -131,9 +147,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $row;
     }
 
-    protected function getColumnDefinition(): array
+    protected function getColumnDefinition(bool $use_cached_result = true): array
     {
-        if ($this->column_definition !== null) {
+        if ($use_cached_result && $this->column_definition !== null) {
             return $this->column_definition;
         }
 
@@ -238,20 +254,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     final public function prepareHTML(): self
     {
-        $columns = $this->getColumnDefinition();
-        $this->optionalColumns = $this->getSelectableColumns();
-        $this->visibleOptionalColumns = $this->getSelectedColumns();
-        foreach ($columns as $index => $column) {
-            if ($this->isColumnVisible($index)) {
-                $this->addColumn(
-                    $column['txt'],
-                    isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
-                    $column['width'] ?? '',
-                    isset($column['is_checkbox']) && $column['is_checkbox']
-                );
-            }
-        }
-
         $mtree = new ilTree($this->user->getId());
         $mtree->setTableNames('mail_tree', 'mail_obj_data');
         $this->_folderNode = $mtree->getNodeData($this->_currentFolderId);
