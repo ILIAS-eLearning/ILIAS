@@ -121,12 +121,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LM_ALT', $this->lng->txt('obj_' . $data['type']));
 
             if ($data['online']) {
+                $this->tpl->setCurrentBlock('mat_online');
                 $this->tpl->setVariable('MAT_VAL_ONOFFLINE', $this->lng->txt('online'));
-                $this->tpl->setVariable('MAT_ONOFFLINE_CLASS', 'smallgreen');
             } else {
+                $this->tpl->setCurrentBlock('mat_offline');
                 $this->tpl->setVariable('MAT_VAL_ONOFFLINE', $this->lng->txt('offline'));
-                $this->tpl->setVariable('MAT_ONOFFLINE_CLASS', 'smallred');
             }
+            $this->tpl->parseCurrentBlock();
+            $this->tpl->setCurrentBlock('mat_row');
 
             if ($data['type'] == 'catr' || $data['type'] == 'crsr' || $data['type'] == 'grpr') {
                 $this->tpl->setVariable(
@@ -136,6 +138,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable('LM_TITLE', ilObject::_lookupTitle($data['obj_id']));
             }
+
             $this->tpl->parseCurrentBlock();
         }
 
