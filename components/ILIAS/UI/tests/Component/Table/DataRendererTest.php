@@ -270,7 +270,7 @@ class DataRendererTest extends TableTestBase
         <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
             <thead>
                 <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="order_option_generic_ascending">
                         <div class="c-table-data__header__resize-wrapper">
                             <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
                             <button class="btn btn-link" id="id_1">Field 1</button>
