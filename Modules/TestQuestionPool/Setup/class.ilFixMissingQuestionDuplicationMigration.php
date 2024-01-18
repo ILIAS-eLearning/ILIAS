@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ilDBInterface;
 use ILIAS\Setup\CLI\IOWrapper;
 
 class ilFixMissingQuestionDuplicationMigration implements Setup\Migration
