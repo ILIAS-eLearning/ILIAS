@@ -200,7 +200,7 @@ class ilForumModeratorsGUI
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }
 
-    public function handleModeratorActions(): void
+    private function handleModeratorActions(): void
     {
         $query = $this->http_wrapper->query();
         if (!$query->has('frm_moderators_table_action')) {
@@ -212,6 +212,7 @@ class ilForumModeratorsGUI
             case 'detachModeratorRole':
                 $this->detachModeratorRole();
                 break;
+
             default:
                 $this->ctrl->redirect($this, 'showModerators');
                 break;
