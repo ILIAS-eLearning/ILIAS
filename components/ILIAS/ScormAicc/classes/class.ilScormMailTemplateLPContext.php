@@ -158,6 +158,9 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if (!$status) {
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                 }
+
+                $this->getLanguage()->loadLanguageModule('trac');
+
                 return ilLearningProgressBaseGUI::_getStatusText($status, $this->getLanguage());
 
             case 'scorm_mark':
@@ -165,7 +168,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     return '';
                 }
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
-                return strlen(trim($mark)) ? $mark : '-';
+                return trim($mark) !== '' ? $mark : '-';
 
             case 'scorm_score':
                 if ($recipient === null) {
