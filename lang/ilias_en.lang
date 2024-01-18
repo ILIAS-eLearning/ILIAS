@@ -7923,6 +7923,7 @@ crs#:#events#:#Sessions
 crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
