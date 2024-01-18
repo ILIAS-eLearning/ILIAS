@@ -298,12 +298,12 @@ class Renderer extends AbstractComponentRenderer
             $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
                 if ($sort_direction === Order::ASC) {
-                    $sortation = 'ascending';
+                    $sortation = $this->txt('order_option_generic_ascending');
                     $sortation_glyph = $glyph_factory->sortAscending("#");
                     $param_sort_direction = Order::DESC;
                 }
                 if ($sort_direction === Order::DESC) {
-                    $sortation = 'decending';
+                    $sortation = $this->txt('order_option_generic_descending');
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
             }
