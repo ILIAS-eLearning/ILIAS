@@ -11200,6 +11200,7 @@ mail#:#mail_add_subject#:#Please enter a subject.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
 mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
+mail#:#mail_assign_to_mailing_list#:#Assign
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s

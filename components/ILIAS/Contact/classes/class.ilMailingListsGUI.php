@@ -67,6 +67,8 @@ class ilMailingListsGUI
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
+
+        $this->lng->loadLanguageModule('mail');
     }
 
     public function executeCommand(): bool
@@ -617,7 +619,7 @@ class ilMailingListsGUI
             $formItem->setOptions($options);
             $form->addItem($formItem);
 
-            $form->addCommandButton('saveAssignmentForm', $this->lng->txt('assign'));
+            $form->addCommandButton('saveAssignmentForm', $this->lng->txt('mail_assign_to_mailing_list'));
         } elseif (count($options) === 1 && count($relations) > 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'), true);
             $this->ctrl->redirect($this, 'showMembersList');
