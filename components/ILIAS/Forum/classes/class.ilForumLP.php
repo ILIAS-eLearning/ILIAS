@@ -112,7 +112,9 @@ class ilForumLP extends ilObjectLP
                     match ($number_of_postings) {
                         1 => $DIC->language()->txt('trac_frm_contribution_num_postings_info_s'),
                         default => $DIC->language()->txt('trac_frm_contribution_num_postings_info_p')
-                    }, $text, $number_of_postings
+                    },
+                    $text,
+                    $number_of_postings
                 );
             } catch (Throwable) {
             }

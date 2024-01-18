@@ -35,6 +35,9 @@ class ForumStatisticsTable implements DataRetrieval
     private array $failed = [];
     /** @var int[] */
     private array $in_progress = [];
+    /**
+     * @var list<array<string, mixed>>|null
+     */
     private ?array $records = null;
     private ilLPStatusIcons $icons;
 
@@ -65,13 +68,14 @@ class ForumStatisticsTable implements DataRetrieval
 
     public function getComponent(): DataTable
     {
-        return $this->ui_factory->table()
-                                ->data(
-                                    $this->lng->txt('frm_moderators'),
-                                    $this->getColumns(),
-                                    $this
-                                )
-                                ->withRequest($this->request);
+        return $this->ui_factory
+            ->table()
+            ->data(
+                $this->lng->txt('frm_moderators'),
+                $this->getColumns(),
+                $this
+            )
+            ->withRequest($this->request);
     }
 
     protected function getColumns(): array
@@ -146,6 +150,10 @@ class ForumStatisticsTable implements DataRetrieval
         return $this->limitRecords($records, $range);
     }
 
+    /**
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
+     */
     private function limitRecords(array $records, Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
@@ -154,8 +162,8 @@ class ForumStatisticsTable implements DataRetrieval
     public function getRows(
         \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
         array $visible_column_ids,
-        \ILIAS\Data\Range $range,
-        \ILIAS\Data\Order $order,
+        Range $range,
+        Order $order,
         ?array $filter_data,
         ?array $additional_parameters,
     ): Generator {
@@ -176,7 +184,9 @@ class ForumStatisticsTable implements DataRetrieval
     private function getProgressStatus(int $user_id): string
     {
         $icon = '';
-        if ($this->has_active_lp && $this->has_general_lp_access && ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id)) {
+        if ($this->has_active_lp &&
+            $this->has_general_lp_access &&
+            ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id)) {
             switch (true) {
                 case in_array($user_id, $this->completed, false):
                     $icon = $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM);

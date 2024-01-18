@@ -28,13 +28,16 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
+    /**
+     * @var list<array<string, mixed>>|null
+     */
     private ?array $records = null;
 
     public function __construct(
         ilForumModerators $forum_moderators,
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
-        private readonly \ILIAS\HTTP\Services $http,
+        \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory
     ) {
         $this->request = $http->request();
@@ -47,23 +50,32 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         $columns = $this->getColumns();
         $actions = $this->getActions();
 
-        return $this->ui_factory->table()
-                                ->data($this->lng->txt('frm_moderators'), $columns, $this)
-                                ->withActions($actions)
-                                ->withRequest($this->request);
+        return $this->ui_factory
+            ->table()
+            ->data($this->lng->txt('frm_moderators'), $columns, $this)
+            ->withActions($actions)
+            ->withRequest($this->request);
     }
 
     protected function getColumns(): array
     {
         return [
-            'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
-                                        ->withIsSortable(true),
+            'login' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('login'))
+                ->withIsSortable(true),
+            'firstname' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('firstname'))
+                ->withIsSortable(true),
 
-            'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt('firstname'))
-                                            ->withIsSortable(true),
-
-            'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt('lastname'))
-                                           ->withIsSortable(true),
+            'lastname' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('lastname'))
+                ->withIsSortable(true),
         ];
     }
 
@@ -79,14 +91,15 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
-        list(
-            $url_builder_detach, $action_parameter_token_copy, $row_id_token_detach
-            ) =
-            $url_builder_detach->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'usr_ids'
-            );
+        [
+            $url_builder_detach,
+            $action_parameter_token_copy,
+            $row_id_token_detach
+        ] = $url_builder_detach->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'usr_ids'
+        );
 
         return [
             'detachModeratorRole' => $this->ui_factory->table()->action()->multi(
@@ -161,6 +174,10 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         return $this->limitRecords($records, $range);
     }
 
+    /**
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
+     */
     private function limitRecords(array $records, Data\Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
