@@ -7994,6 +7994,7 @@ crs#:#events#:#Sitzungen
 crs#:#export_members#:#Export der Teilnehmendendaten
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
+crs#:#grp_not_all_users_assigned_msg#:#%s Teilnehmende wurde(n) in die Gruppe aufgenommen, %s Teilnehmende waren bereits in der Gruppe.
 crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die Mindestanzahl an Mitgliedern:
 crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl

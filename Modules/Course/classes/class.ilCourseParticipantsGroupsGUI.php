@@ -182,9 +182,11 @@ class ilCourseParticipantsGroupsGUI
             }
 
             $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
+            $rejected_count = 0;
             foreach ($usr_ids as $new_member) {
                 if (!$members_obj->add($new_member, ilParticipants::IL_GRP_MEMBER)) {
-                    $this->error->raiseError("An Error occured while assigning user to group !", $this->error->MESSAGE);
+                    $rejected_count++;
+                    continue;
                 }
 
                 $members_obj->sendNotification(
@@ -192,7 +194,18 @@ class ilCourseParticipantsGroupsGUI
                     $new_member
                 );
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"));
+
+            if ($rejected_count === 0) {
+                $message = $this->lng->txt('grp_msg_member_assigned');
+            } else {
+                $accepted_count = count($usr_ids) - $rejected_count;
+                $message = sprintf(
+                    $this->lng->txt('grp_not_all_users_assigned_msg'),
+                    $accepted_count,
+                    $rejected_count
+                );
+            }
+            $this->tpl->setOnScreenMessage('success', $message);
         }
         $this->show();
     }
