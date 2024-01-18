@@ -1810,40 +1810,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->object->Forum->setForumId($this->object->getId());
 
-        $tbl = new ilForumStatisticsTableGUI(
-            $this,
-            'showStatistics',
+        $tbl = new ForumStatisticsTable(
             $this->object,
-            $this->user,
+            $this->objProperties,
             ilLearningProgressAccess::checkAccess($this->object->getRefId()),
             $this->access->checkRbacOrPositionPermissionAccess(
                 'read_learning_progress',
                 'read_learning_progress',
                 $this->object->getRefId()
-            )
+            ),
+            $this->user,
+            $this->ui_factory,
+            $this->request,
+            $this->lng
         );
-        $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
-        $tbl->setTitle(
-            $this->lng->txt('statistic'),
-            'standard/icon_usr.svg',
-            $this->lng->txt('obj_' . $this->object->getType())
-        );
-
-        $data = $this->object->Forum->getUserStatistics($this->objProperties->isPostActivationEnabled());
-        $result = [];
-        $counter = 0;
-        foreach ($data as $row) {
-            $result[$counter]['usr_id'] = $row['usr_id'];
-            $result[$counter]['ranking'] = $row['num_postings'];
-            $result[$counter]['login'] = $row['login'];
-            $result[$counter]['lastname'] = $row['lastname'];
-            $result[$counter]['firstname'] = $row['firstname'];
-
-            ++$counter;
-        }
-        $tbl->setData($result);
-
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
 
     public static function _goto($a_target, $a_thread = 0, $a_posting = 0): void
