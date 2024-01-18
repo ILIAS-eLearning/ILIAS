@@ -120,6 +120,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LM_IMG', ilObject::_getIcon($data['obj_id'], "tiny", $data['type']));
             $this->tpl->setVariable('LM_ALT', $this->lng->txt('obj_' . $data['type']));
 
+            if ($data['online']) {
+                $this->tpl->setVariable('MAT_VAL_ONOFFLINE', $this->lng->txt('online'));
+                $this->tpl->setVariable('MAT_ONOFFLINE_CLASS', 'smallgreen');
+            } else {
+                $this->tpl->setVariable('MAT_VAL_ONOFFLINE', $this->lng->txt('offline'));
+                $this->tpl->setVariable('MAT_ONOFFLINE_CLASS', 'smallred');
+            }
+
             if ($data['type'] == 'catr' || $data['type'] == 'crsr' || $data['type'] == 'grpr') {
                 $this->tpl->setVariable(
                     'LM_TITLE',
@@ -292,6 +300,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     default:
 
                 }
+                $materials[$material['ref_id']]['online'] = !ilObject::lookupOfflineStatus($obj_id);
             }
             $objective_data['materials'] = $materials;
             $question_obj = new ilCourseObjectiveQuestion($objective_id);
