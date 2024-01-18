@@ -194,7 +194,11 @@ class ilSCORMPackageParser extends ilSaxParser
             case "organizations":
                 $organizations = new ilSCORMOrganizations();
                 $organizations->setSLMId($this->slm_object->getId());
-                $organizations->setDefaultOrganization($a_attribs["default"]);
+                if (isset($a_attribs["default"])) {
+                    $organizations->setDefaultOrganization($a_attribs["default"]);
+                } else {
+                    $organizations->setDefaultOrganization("");
+                }
                 $organizations->create();
                 $this->sc_tree->insertNode($organizations->getId(), $this->getCurrentParent());
                 $this->parent_stack[] = $organizations->getId();
