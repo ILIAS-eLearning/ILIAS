@@ -75,15 +75,15 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     {
         $query_params_namespace = ['chat', 'ban', 'table'];
 
-        $uri_detach = $this->data_factory->uri(
+        $uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjChatroomGUI::class, 'ban-handleTableActions')
         );
 
-        $url_builder_detach = new UI\URLBuilder($uri_detach);
+        $url_builder = new UI\URLBuilder($uri);
         list(
-            $url_builder_detach, $action_parameter_token_copy, $row_id_token_detach
+            $url_builder, $action_parameter_token_copy, $row_id_token
             ) =
-            $url_builder_detach->acquireParameters(
+            $url_builder->acquireParameters(
                 $query_params_namespace,
                 'action',
                 'user_ids'
@@ -92,8 +92,8 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         return [
             'delete' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('unban'),
-                $url_builder_detach->withParameter($action_parameter_token_copy, 'delete'),
-                $row_id_token_detach
+                $url_builder->withParameter($action_parameter_token_copy, 'delete'),
+                $row_id_token
             ),
         ];
     }
@@ -147,9 +147,6 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
-    /**
-     * @todo change this workaround, if there is a general decision about the sorting strategy
-     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
