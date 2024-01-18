@@ -1070,7 +1070,6 @@ class ilMailFolderGUI
             $this->currentFolderId === $this->mbox->getSentFolder(),
             $this->currentFolderId === $this->mbox->getDraftsFolder()
         );
-        $table->initFilter();
 
         return $table;
     }
