@@ -15,7 +15,7 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 	}
 	&:focus-visible {
 		position: relative;
-		outline: $il-focus-outline-outer;
+		outline: $il-focus-outline-inner;
 		outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1px;
 		
 		&::after {
