@@ -46,6 +46,9 @@ class DomainService
         int $user_id,
         int $appraisee_id = 0
     ): RunManager {
+        $appraisee_id = ($survey->getMode() === \ilObjSurvey::MODE_SELF_EVAL)
+            ? $user_id
+            : $appraisee_id;
         if (!isset(self::$managers[RunManager::class][$survey->getId()][$user_id][$appraisee_id])) {
             self::$managers[RunManager::class][$survey->getId()][$user_id][$appraisee_id] =
                 new RunManager(
