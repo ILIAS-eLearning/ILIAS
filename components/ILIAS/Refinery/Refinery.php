@@ -32,6 +32,10 @@ class Refinery implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $provide[\ILIAS\Refinery\Factory::class] = fn() =>
+            new \ILIAS\Refinery\Factory(
+                $pull[\ILIAS\Data\Factory::class],
+                $use[\ILIAS\Language\Language::class]
+            );
     }
 }

@@ -23,21 +23,21 @@ namespace ILIAS\Tests\Refinery\Integer\Constraints;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Integer\LessThan;
-use ilLanguage;
+use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 
 class LessThanConstraintTest extends TestCase
 {
     private Constraint $c;
-    private ilLanguage $lng;
+    private Language $lng;
     private DataFactory $df;
     private int $less_than;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->getMockBuilder(ilLanguage::class)
+        $this->lng = $this->getMockBuilder(Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

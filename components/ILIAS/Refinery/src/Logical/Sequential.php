@@ -23,7 +23,7 @@ namespace ILIAS\Refinery\Logical;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class Sequential extends CustomConstraint
 {
@@ -38,9 +38,9 @@ class Sequential extends CustomConstraint
     /**
      * @param Constraint[] $constraints
      * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
+     * @param \ILIAS\Language\Language $lng
      */
-    public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(array $constraints, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         parent::__construct(
             function ($value) use ($constraints): bool {

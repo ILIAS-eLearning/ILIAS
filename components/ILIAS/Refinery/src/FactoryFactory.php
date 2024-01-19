@@ -18,25 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Refinery\Integer;
+namespace ILIAS\Refinery;
 
-use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Language\Language;
 
-class LessThan extends Constraint
+/**
+ * This Javaism is required to solve the problem that we do not have proper
+ * \ILIAS\Language\Language during the setup. There might be setups where this would be
+ * superfluous.
+ */
+class FactoryFactory
 {
-    public function __construct(int $max, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
+    public function build(\ILIAS\Data\Factory $dataFactory, \ILIAS\Language\Language $language): \ILIAS\Refinery\Factory
     {
-        parent::__construct(
-            static function ($value) use ($max): bool {
-                return $value < $max;
-            },
-            static function ($txt, $value) use ($max): string {
-                return (string) $txt("not_less_than", $value, $max);
-            },
-            $data_factory,
-            $lng
-        );
+        return new \ILIAS\Refinery\Factory($dataFactory, $language);
     }
 }

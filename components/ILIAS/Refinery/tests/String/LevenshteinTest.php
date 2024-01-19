@@ -23,7 +23,7 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 use InvalidArgumentException;
 
 class LevenshteinTest extends TestCase
@@ -51,7 +51,7 @@ class LevenshteinTest extends TestCase
     public function setUp(): void
     {
         $this->factory = new Factory();
-        $language = $this->getMockBuilder(ilLanguage::class)
+        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->group = new Group($this->factory, $language);

@@ -35,7 +35,7 @@ class StripTagsTest extends TestCase
     {
         $this->f = new Refinery(
             $this->createMock(DataFactory::class),
-            $language = $this->createMock(ilLanguage::class)
+            $language = $this->createMock(ILIAS\Language\Language::class)
         );
         $this->strip_tags = $this->f->string()->stripTags();
     }
