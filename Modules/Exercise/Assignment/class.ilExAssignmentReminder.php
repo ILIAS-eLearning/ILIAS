@@ -48,6 +48,7 @@ class ilExAssignmentReminder
 
     protected ilLogger $log;
     protected ilAccessHandler $access;
+    private ilMailTemplatePlaceholderResolver $placeholder_resolver;
 
     //todo remove the params as soon as possible.
     public function __construct(
@@ -60,6 +61,7 @@ class ilExAssignmentReminder
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $this->log = ilLoggerFactory::getLogger("exc");
+        $this->placeholder_resolver = $DIC->mail()->placeholderResolver();
 
         if ($a_ass_id) {
             $this->ass_id = $a_ass_id;
@@ -591,8 +593,7 @@ class ilExAssignmentReminder
 
             $user = new ilObjUser($a_reminder_data["member_id"]);
 
-            $processor = new ilMailTemplatePlaceholderResolver($context, $a_message);
-            $a_message = $processor->resolve($user, $a_reminder_data);
+            $a_message = $this->placeholder_resolver->resolve($context, $a_message, $user, $a_reminder_data);
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
         }
