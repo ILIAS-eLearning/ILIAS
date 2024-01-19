@@ -386,7 +386,7 @@ EOT;
     {
         $renderer = $this->getRenderer();
         $data_factory = new \ILIAS\Data\Factory();
-        $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
+        $tpl = $this->getTemplateFactory()->getTemplate("components/ILIAS/UI/src/templates/default/Table/tpl.datatable.html", true, true);
         $f = $this->getColumnFactory();
 
         $url = $data_factory->uri('http://wwww.ilias.de?ref_id=1');
