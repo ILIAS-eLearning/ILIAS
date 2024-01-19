@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Base class for nested set path based trees
@@ -11,6 +26,8 @@ declare(strict_types=1);
  */
 class ilNestedSetTree implements ilTreeImplementation
 {
+    private const TABLE_OBJECT_DATA = 'object_data';
+
     protected ilTree $tree;
     protected ilDBInterface $db;
 
@@ -967,5 +984,157 @@ class ilNestedSetTree implements ilTreeImplementation
             $failures[] = $row[$this->getTree()->getTreePk()];
         }
         return $failures;
+    }
+
+    /**
+     * get sequence number of node in sibling sequence
+     * @throws InvalidArgumentException
+     */
+    public function getChildSequenceNumber(array $a_node, string $type = ""): int
+    {
+        if (!isset($a_node)) {
+            $message = "No node_id given!";
+            ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
+            throw new InvalidArgumentException($message);
+        }
+
+        if ($type) {
+            $query = 'SELECT count(*) cnt FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft <= %s ' .
+                'AND type = %s ' .
+                'AND parent = %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
+
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer', 'integer'), array(
+                $a_node['lft'],
+                $type,
+                $a_node['parent'],
+                $this->getTree()->getTreeId()
+            ));
+        } else {
+            $query = 'SELECT count(*) cnt FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft <= %s ' .
+                'AND parent = %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
+
+            $res = $this->db->queryF($query, array('integer', 'integer', 'integer'), array(
+                $a_node['lft'],
+                $a_node['parent'],
+                $this->getTree()->getTreeId()
+            ));
+        }
+        $row = $this->db->fetchAssoc($res);
+        return (int) $row["cnt"];
+    }
+
+    /**
+     * get node data of successor node
+     * @throws InvalidArgumentException
+     * @fixme fix return false
+     */
+    public function fetchSuccessorNode(int $a_node_id, string $a_type = ""): ?array
+    {
+        // get lft value for current node
+        $query = 'SELECT lft FROM ' . $this->getTree()->getTreeTable() . ' ' .
+            'WHERE ' . $this->getTree()->getTreeTable() . '.child = %s ' .
+            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
+            $a_node_id,
+            $this->getTree()->getTreeId()
+        ));
+        $curr_node = $this->db->fetchAssoc($res);
+
+        if ($a_type) {
+            $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft > %s ' .
+                'AND ' . self::TABLE_OBJECT_DATA . '.type = %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ' .
+                'ORDER BY lft ';
+            $this->db->setLimit(1, 0);
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
+                $curr_node['lft'],
+                $a_type,
+                $this->getTree()->getTreeId()
+            ));
+        } else {
+            $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft > %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ' .
+                'ORDER BY lft ';
+            $this->db->setLimit(1, 0);
+            $res = $this->db->queryF($query, array('integer', 'integer'), array(
+                $curr_node['lft'],
+                $this->getTree()->getTreeId()
+            ));
+        }
+
+        if ($res->numRows() < 1) {
+            return null;
+        } else {
+            $row = $this->db->fetchAssoc($res);
+            return $this->getTree()->fetchNodeData($row);
+        }
+    }
+
+    /**
+     * get node data of predecessor node
+     * @throws InvalidArgumentException
+     * @fixme fix return false
+     */
+    public function fetchPredecessorNode(int $a_node_id, string $a_type = ""): ?array
+    {
+        if (!isset($a_node_id)) {
+            $message = "No node_id given!";
+            ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
+            throw new InvalidArgumentException($message);
+        }
+
+        // get lft value for current node
+        $query = 'SELECT lft FROM ' . $this->getTree()->getTreeTable() . ' ' .
+            'WHERE ' . $this->getTree()->getTreeTable() . '.child = %s ' .
+            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
+            $a_node_id,
+            $this->getTree()->getTreeId()
+        ));
+
+        $curr_node = $this->db->fetchAssoc($res);
+
+        if ($a_type) {
+            $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft < %s ' .
+                'AND ' . self::TABLE_OBJECT_DATA . '.type = %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ' .
+                'ORDER BY lft DESC';
+            $this->db->setLimit(1, 0);
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
+                $curr_node['lft'],
+                $a_type,
+                $this->getTree()->getTreeId()
+            ));
+        } else {
+            $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
+                $this->getTree()->buildJoin() .
+                'WHERE lft < %s ' .
+                'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ' .
+                'ORDER BY lft DESC';
+            $this->db->setLimit(1, 0);
+            $res = $this->db->queryF($query, array('integer', 'integer'), array(
+                $curr_node['lft'],
+                $this->getTree()->getTreeId()
+            ));
+        }
+
+        if ($res->numRows() < 1) {
+            return null;
+        } else {
+            $row = $this->db->fetchAssoc($res);
+            return $this->getTree()->fetchNodeData($row);
+        }
     }
 }

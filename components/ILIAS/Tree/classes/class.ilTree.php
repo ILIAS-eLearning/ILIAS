@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Tree class
@@ -1566,46 +1566,18 @@ class ilTree
 
     /**
      * get sequence number of node in sibling sequence
-     * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
+     * @throws LogicException
      */
     public function getChildSequenceNumber(array $a_node, string $type = ""): int
     {
-        if (!isset($a_node)) {
-            $message = "No node_id given!";
-            $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        if ($type) {
-            $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft <= %s ' .
-                'AND type = %s ' .
-                'AND parent = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer', 'integer'), array(
-                $a_node['lft'],
-                $type,
-                $a_node['parent'],
-                $this->tree_id
-            ));
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->getChildSequenceNumber($a_node, $type);
         } else {
-            $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft <= %s ' .
-                'AND parent = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-
-            $res = $this->db->queryF($query, array('integer', 'integer', 'integer'), array(
-                $a_node['lft'],
-                $a_node['parent'],
-                $this->tree_id
-            ));
+            $message = "This tree is not part of ilNestedSetTree.";
+            $this->logger->error($message);
+            throw new LogicException($message);
         }
-        $row = $this->db->fetchAssoc($res);
-        return (int) $row["cnt"];
     }
 
     public function readRootId(): int
@@ -1646,112 +1618,33 @@ class ilTree
 
     /**
      * get node data of successor node
-     * @throws InvalidArgumentException
-     * @todo  move to tree implementation and throw NotImplementedException for materialized path implementation
-     * @fixme fix return false
+     * @throws LogicException
      */
     public function fetchSuccessorNode(int $a_node_id, string $a_type = ""): ?array
     {
-        // get lft value for current node
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE ' . $this->table_tree . '.child = %s ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-        $curr_node = $this->db->fetchAssoc($res);
-
-        if ($a_type) {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft > %s ' .
-                'AND ' . $this->table_obj_data . '.type = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft ';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
-                $curr_node['lft'],
-                $a_type,
-                $this->tree_id
-            ));
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->fetchSuccessorNode($a_node_id, $a_type);
         } else {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft > %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft ';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'integer'), array(
-                $curr_node['lft'],
-                $this->tree_id
-            ));
-        }
-
-        if ($res->numRows() < 1) {
-            return null;
-        } else {
-            $row = $this->db->fetchAssoc($res);
-            return $this->fetchNodeData($row);
+            $message = "This tree is not part of ilNestedSetTree.";
+            $this->logger->error($message);
+            throw new LogicException($message);
         }
     }
 
     /**
      * get node data of predecessor node
-     * @throws InvalidArgumentException
-     * @todo  move to tree implementation and throw NotImplementedException for materialized path implementation
-     * @fixme fix return false
+     * @throws LogicException
      */
     public function fetchPredecessorNode(int $a_node_id, string $a_type = ""): ?array
     {
-        if (!isset($a_node_id)) {
-            $message = "No node_id given!";
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->fetchPredecessorNode($a_node_id, $a_type);
+        } else {
+            $message = "This tree is not part of ilNestedSetTree.";
             $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        // get lft value for current node
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE ' . $this->table_tree . '.child = %s ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-
-        $curr_node = $this->db->fetchAssoc($res);
-
-        if ($a_type) {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft < %s ' .
-                'AND ' . $this->table_obj_data . '.type = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft DESC';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
-                $curr_node['lft'],
-                $a_type,
-                $this->tree_id
-            ));
-        } else {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft < %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft DESC';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'integer'), array(
-                $curr_node['lft'],
-                $this->tree_id
-            ));
-        }
-
-        if ($res->numRows() < 1) {
-            return null;
-        } else {
-            $row = $this->db->fetchAssoc($res);
-            return $this->fetchNodeData($row);
+            throw new LogicException($message);
         }
     }
 
