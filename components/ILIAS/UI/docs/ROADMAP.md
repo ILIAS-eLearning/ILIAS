@@ -397,6 +397,30 @@ abilities of Modals should be improved; it should be possible:
 - alter the target-URL of the RPC-call by a previous response
 - probably alter the Labels and functions of Buttons
 
+### Exchange webui-popover library (advanced)
+
+The current webui-popover library by Sandy Duan wasn't updated for quite a while now, 
+therefore it should get exchanged. 
+
+Following tasks have to be done:
+- researching which library should be used in the future
+- researching wich ILIAS elements will be affected from the changes (e.g. UI popover)
+- exchange the library
+- adjust/customize the code accordingly to make sure that the ILIAS elements are working
+
+Preconditions:
+- if possible a documentary should be available
+- regulary updates from the author(s) are available
+- adjustments from ILIAS developers should be possible
+- there should be no jQuery dependency
+
+Following advantages will be gained:
+- being able to get security fixes, bug fixes and adjustments from the author(s)
+- being able to use modern code
+- getting rid of some jQuery dependencies as it was decided to avoid those
+
+Note: the package can be found in the node_modules directory. With ILIAS 10 it will be found in the public/node_modules directory.
+
 
 ## Ideas and Food for Thought
 
