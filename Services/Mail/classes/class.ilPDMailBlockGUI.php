@@ -120,56 +120,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->max_count = count($this->mails);
     }
 
-    public function fillDataSection(): void
-    {
-        if ($this->mails !== []) {
-            $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
-            parent::fillDataSection();
-        } else {
-            $this->setEnableNumInfo(false);
-            $this->setDataSection($this->getOverview());
-        }
-    }
-
-    public function fillRow(array $a_set): void
-    {
-        $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
-
-        $this->tpl->touchBlock('usr_image_space');
-        if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
-            $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-        } elseif (!$user instanceof ilObjUser) {
-            $this->tpl->setVariable(
-                'PUBLIC_NAME_LONG',
-                trim(($a_set['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
-            );
-
-            $this->tpl->setCurrentBlock('image_container');
-            $this->tpl->touchBlock('image_container');
-            $this->tpl->parseCurrentBlock();
-        } else {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-            $this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('logo/HeaderIconAvatar.svg'));
-            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
-        }
-
-        $this->tpl->setVariable(
-            'NEW_MAIL_DATE',
-            ilDatePresentation::formatDate(new ilDate($a_set['send_time'], IL_CAL_DATE))
-        );
-
-        $this->tpl->setVariable(
-            'NEW_MAIL_SUBJ',
-            htmlentities($a_set['m_subject'], ENT_NOQUOTES, 'UTF-8')
-        );
-        $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-        $this->ctrl->setParameter($this, 'mail_id', $a_set['mail_id']);
-        $this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
-        $this->ctrl->clearParameters($this);
-    }
-
     protected function getOverview(): string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
@@ -259,12 +209,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         ilMailUserCache::preloadUserObjects($usr_ids);
     }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
 
     protected function getListItemForData(array $data): ?Item
     {

@@ -135,13 +135,6 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     {
         return false;
     }
-
-    public function fillDataSection(): void
-    {
-        assert($this->userHasReadableStudyProgrammes()); // We should not get here.
-        $this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
-    }
-
     protected function userHasVisibleStudyProgrammes(): bool
     {
         if (count($this->users_assignments) === 0) {

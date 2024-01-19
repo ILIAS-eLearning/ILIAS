@@ -37,11 +37,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     protected const CAL_GRP_PERSONAL = "personal";
     protected const CAL_GRP_OTHERS = "others";
 
-    /**
-     * @todo fix in base class
-     */
-    protected bool $new_rendering = true;
-
     protected ilTree $tree;
     protected RefineryFactory $refinery;
     protected HttpServices $http;

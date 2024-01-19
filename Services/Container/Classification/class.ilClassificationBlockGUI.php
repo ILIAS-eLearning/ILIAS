@@ -395,13 +395,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $this->ctrl->returnToParent($this);
     }
 
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
     /**
      * Get sub item ids depending on container type that match the preselected
      * object ids

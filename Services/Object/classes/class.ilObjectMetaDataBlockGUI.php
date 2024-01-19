@@ -100,21 +100,6 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     }
 
     /**
-     * Fill data section
-     */
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
-    }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
-
-    /**
      * @inheritdoc
      */
     protected function getLegacyContent(): string

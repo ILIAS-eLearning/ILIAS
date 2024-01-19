@@ -49,7 +49,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 
         $this->setTitle($a_title);
         $this->allow_moving = false;
-        $this->new_rendering = true;
     }
 
     /**
@@ -87,16 +86,6 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
             default:
                 $this->$cmd();
         }
-    }
-
-    public function getHTML(): string
-    {
-        return parent::getHTML();
-    }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
     }
 
     /**
