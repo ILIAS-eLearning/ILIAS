@@ -1128,7 +1128,7 @@ class ilObject
     final public static function _isInTrash(int $ref_id): bool
     {
         global $DIC;
-        return $DIC->repositoryTree()->isSaved($ref_id);
+        return $DIC->repositoryTree()->isDeleted($ref_id);
     }
 
     /**
