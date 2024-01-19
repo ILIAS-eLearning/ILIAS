@@ -154,6 +154,9 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if (!$status) {
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                 }
+
+                $this->getLanguage()->loadLanguageModule('trac');
+
                 return ilLearningProgressBaseGUI::_getStatusText($status, $this->getLanguage());
 
             case 'scorm_mark':
@@ -161,7 +164,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     return '';
                 }
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
-                return strlen(trim($mark)) ? $mark : '-';
+                return trim($mark) !== '' ? $mark : '-';
 
             case 'scorm_score':
                 if ($recipient === null) {
@@ -210,10 +213,18 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time_min'])) {
-                        return ilDatePresentation::formatDate(new ilDateTime(
+                        $current_language = ilDatePresentation::getLanguage();
+                        ilDatePresentation::setLanguage($this->getLanguage());
+                        $used_relative_dates = ilDatePresentation::useRelativeDates();
+                        ilDatePresentation::setUseRelativeDates(false);
+                        $datetime = ilDatePresentation::formatDate(new ilDateTime(
                             $progress['access_time_min'],
                             IL_CAL_UNIX
                         ));
+                        ilDatePresentation::setLanguage($current_language);
+                        ilDatePresentation::setUseRelativeDates($used_relative_dates);
+
+                        return $datetime;
                     }
                 }
                 break;
@@ -226,7 +237,15 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time'])) {
-                        return ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX));
+                        $current_language = ilDatePresentation::getLanguage();
+                        ilDatePresentation::setLanguage($this->getLanguage());
+                        $used_relative_dates = ilDatePresentation::useRelativeDates();
+                        ilDatePresentation::setUseRelativeDates(false);
+                        $datetime = ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX));
+                        ilDatePresentation::setLanguage($current_language);
+                        ilDatePresentation::setUseRelativeDates($used_relative_dates);
+
+                        return $datetime;
                     }
                 }
                 break;
