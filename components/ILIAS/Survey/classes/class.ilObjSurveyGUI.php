@@ -777,6 +777,14 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
+
+        // write permission -> info screen
+        if ($ilAccess->checkAccess("write", "", $a_target)) {
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+        }
+
+        // read permission and evaluation access -> evaluation
         if ($ilAccess->checkAccess("visible", "", $a_target) ||
             $ilAccess->checkAccess("read", "", $a_target)) {
             $am = $DIC->survey()->internal()->domain()->access($a_target, $DIC->user()->getId());
