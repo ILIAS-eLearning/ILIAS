@@ -57,7 +57,10 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
             ->withRequest($this->request);
     }
 
-    protected function getColumns(): array
+    /**
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
+     */
+    private function getColumns(): array
     {
         return [
             'login' => $this->ui_factory
@@ -79,6 +82,9 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         ];
     }
 
+    /**
+     * @return array<string, \ILIAS\UI\Component\Table\Action\Action>
+     */
     protected function getActions(): array
     {
         $query_params_namespace = ['frm', 'moderators', 'table'];
@@ -158,6 +164,9 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
@@ -166,6 +175,9 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();

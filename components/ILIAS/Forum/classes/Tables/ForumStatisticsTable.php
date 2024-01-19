@@ -78,7 +78,10 @@ class ForumStatisticsTable implements DataRetrieval
             ->withRequest($this->request);
     }
 
-    protected function getColumns(): array
+    /**
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
+     */
+    private function getColumns(): array
     {
         $columns = [
             'ranking' => $this->ui_factory->table()->column()->number(
@@ -123,6 +126,10 @@ class ForumStatisticsTable implements DataRetrieval
         }
     }
 
+    /**
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
+     */
     private function sortedRecords(array $records, Order $order): array
     {
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
@@ -142,6 +149,9 @@ class ForumStatisticsTable implements DataRetrieval
         return $records;
     }
 
+    /**
+     * @return list<array<string, mixed>>
+     */
     private function getRecords(Range $range, Order $order): array
     {
         $this->initRecords();

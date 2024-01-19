@@ -71,7 +71,7 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return list<\ILIAS\UI\Component\Table\Column\Column>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
      */
     private function getColumnDefinition(): array
     {
