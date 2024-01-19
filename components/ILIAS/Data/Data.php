@@ -32,6 +32,7 @@ class Data implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $provide[\ILIAS\Data\Factory::class] = fn() =>
+            new \ILIAS\Data\Factory();
     }
 }
