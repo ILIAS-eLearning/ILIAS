@@ -7105,7 +7105,7 @@ div.alert ul > li:before {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 997;
   display: none;
   min-width: 50px;
   min-height: 32px;
@@ -7371,7 +7371,7 @@ div.alert ul > li:before {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9998;
+  z-index: 996;
 }
 
 .webui-popover .dropdown-menu {
@@ -9033,6 +9033,9 @@ th.c-table-data__cell {
     z-index: 4;
     background: rgb(255, 255, 255);
     background: linear-gradient(90deg, rgb(255, 255, 255) 85%, rgba(255, 255, 255, 0) 100%);
+  }
+  th.c-table-data__cell.c-table-data__header__rowaction {
+    padding: 12px 12px;
   }
 }
 

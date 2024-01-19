@@ -46,7 +46,7 @@ $popover-font-size-small:         ceil(($popover-font-size-base * 0.85)); // ~12
 $popover-close-size:                16px;
 $popover-close-color:               #000;
 
-$popover-z-index: 9999;
+$popover-z-index: 997;
 $popover-backdrop-z-index: ($popover-z-index - 1);
 
 @mixin box-shadow($shadow){
