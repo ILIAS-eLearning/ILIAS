@@ -60,12 +60,12 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         return false;
     }
 
-    public function getHTML(): string
+    public function getContent(): string
     {
-        return parent::getHTML();
+        return $this->content;
     }
 
-    public function getContent(): string
+    protected function getLegacyContent(): string
     {
         return $this->content;
     }
@@ -73,34 +73,5 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     public function setContent(string $a_content): void
     {
         $this->content = $a_content;
-    }
-
-    public function fillDataSection(): void
-    {
-        $this->tpl->setVariable("BLOCK_ROW", $this->getContent());
-    }
-
-    public function fillFooter(): void
-    {
-        //$this->fillFooterLinks();
-        $lng = $this->lng;
-
-        if (is_array($this->data)) {
-            $this->max_count = count($this->data);
-        }
-
-        // table footer numinfo
-        if ($this->getEnableNumInfo()) {
-            $numinfo = "(" . $this->getCurrentItemNumber() . " " .
-                strtolower($lng->txt("of")) . " " . $this->max_count . ")";
-
-            if ($this->max_count > 0) {
-                $this->tpl->setVariable("NUMINFO", $numinfo);
-            }
-        }
-    }
-
-    public function fillPreviousNext(): void
-    {
     }
 }
