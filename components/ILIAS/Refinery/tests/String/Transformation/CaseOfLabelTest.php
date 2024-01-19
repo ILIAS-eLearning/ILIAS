@@ -41,7 +41,7 @@ class CaseOfLabelTest extends TestCase
     {
         $dataFactory = new DataFactory();
 
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);

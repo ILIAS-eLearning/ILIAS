@@ -25,14 +25,14 @@ use PHPUnit\Framework\TestCase;
 class IsNumericConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private ILIAS\Language\Language $lng;
     private Refinery $f;
     private \ILIAS\Refinery\Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($this->df, $this->lng);
 

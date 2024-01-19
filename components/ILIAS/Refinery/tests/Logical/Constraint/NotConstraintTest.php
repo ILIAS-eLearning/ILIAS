@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 class NotTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private ILIAS\Language\Language $lng;
     private Refinery $refinery;
     private Constraint $not_true;
     private Constraint $not_false;
@@ -34,7 +34,7 @@ class NotTest extends TestCase
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
         $this->refinery = new Refinery($this->df, $this->lng);
 
         $group = $this->refinery->custom();

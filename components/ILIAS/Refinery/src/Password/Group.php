@@ -22,14 +22,14 @@ namespace ILIAS\Refinery\Password;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class Group
 {
     protected Factory $data_factory;
-    protected ilLanguage $lng;
+    protected \ILIAS\Language\Language $lng;
 
-    public function __construct(Factory $data_factory, ilLanguage $lng)
+    public function __construct(Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         $this->data_factory = $data_factory;
         $this->lng = $lng;

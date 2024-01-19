@@ -25,18 +25,18 @@ use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 use ILIAS\Refinery\Integer\LessThanOrEqual;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class LessThanOrEqualConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private Language $lng;
     private Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->getMockBuilder(ilLanguage::class)
+        $this->lng = $this->getMockBuilder(Language::class)
                           ->disableOriginalConstructor()
                           ->getMock();
 

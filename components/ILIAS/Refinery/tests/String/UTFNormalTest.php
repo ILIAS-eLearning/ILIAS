@@ -23,7 +23,7 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 use InvalidArgumentException;
 use ILIAS\Refinery\String\Transformation\UTFNormalTransformation;
 use ILIAS\Refinery\Transformation;
@@ -37,7 +37,7 @@ class UTFNormalTest extends TestCase
 
     public function setUp(): void
     {
-        $language = $this->getMockBuilder(ilLanguage::class)
+        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
                          ->disableOriginalConstructor()
                          ->getMock();
         $group = new Group(new Factory(), $language);
