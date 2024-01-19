@@ -166,6 +166,9 @@ th.c-table-data__cell {
             background: rgb(255,255,255);
             background: linear-gradient(90deg, rgba(255,255,255,1) 85%, rgba(255,255,255,0) 100%);
         }
+        &.c-table-data__header__rowaction {
+            padding: $il-padding-xxlarge-vertical $il-padding-large-horizontal;
+        }
     }
 }
 

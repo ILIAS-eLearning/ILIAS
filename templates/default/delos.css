@@ -9034,6 +9034,9 @@ th.c-table-data__cell {
     background: rgb(255, 255, 255);
     background: linear-gradient(90deg, rgb(255, 255, 255) 85%, rgba(255, 255, 255, 0) 100%);
   }
+  th.c-table-data__cell.c-table-data__header__rowaction {
+    padding: 12px 12px;
+  }
 }
 
 @media screen and (min-width: 993px) {
