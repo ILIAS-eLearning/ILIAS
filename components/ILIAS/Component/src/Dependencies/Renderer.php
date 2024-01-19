@@ -70,6 +70,9 @@ require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
 function entry_point(string \$name)
 {
     \$null_dic = new ILIAS\Component\Dependencies\NullDIC();
+    \$implement = new Pimple\Container();
+    \$contribute = new Pimple\Container();
+    \$provide = new Pimple\Container();
 
 
 PHP;
@@ -85,15 +88,15 @@ PHP;
 
     \$component_$me = new {$component->getComponentName()}();
 
-    \$implement_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    \$implement[$me] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     \$use = new Pimple\Container();{$use}
-    \$contribute_$me = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    \$contribute[$me] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     \$seek = new Pimple\Container();{$seek}
-    \$provide_$me = new Pimple\Container();
+    \$provide[$me] = new Pimple\Container();
     \$pull = new Pimple\Container();{$pull}
     \$internal = new Pimple\Container();
 
-    \$component_{$me}->init(\$null_dic, \$implement_$me, \$use, \$contribute_$me, \$seek, \$provide_$me, \$pull, \$internal);
+    \$component_{$me}->init(\$null_dic, \$implement[$me], \$use, \$contribute[$me], \$seek, \$provide[$me], \$pull, \$internal);
 
 PHP;
     }
@@ -106,7 +109,7 @@ PHP;
             $p = $r->aux["position"];
             $o = $component_lookup[$r->getComponent()->getComponentName()];
             $use .= "\n" . <<<PHP
-    \$use[{$in->getName()}::class] = fn() => \$implement_{$o}[{$r->getName()}::class . "_{$p}"];
+    \$use[{$in->getName()}::class] = fn() => \$implement[{$o}][{$r->getName()}::class . "_{$p}"];
 PHP;
         }
         return $use;
@@ -124,15 +127,13 @@ PHP;
                 $o = $component_lookup[$r->getComponent()->getComponentName()];
                 $u[] = "\$contribute_{$o}";
                 $a .= "\n" . <<<PHP
-            \$contribute_{$o}[{$r->getName()}::class . "_{$p}"],
+        \$contribute[$o][{$r->getName()}::class . "_{$p}"],
 PHP;
             }
             $u = join(", ", array_unique($u));
             $seek .= "\n" . <<<PHP
-    \$seek[{$in->getName()}::class] = function () use ({$u}) {
-        return [{$a}
-        ];
-    };
+    \$seek[{$in->getName()}::class] = fn() => [{$a}
+    ];
 PHP;
         }
         return $seek;
@@ -145,7 +146,7 @@ PHP;
             $r = $in->getResolvedBy()[0];
             $o = $component_lookup[$r->getComponent()->getComponentName()];
             $pull .= "\n" . <<<PHP
-    \$pull[{$in->getName()}::class] = fn() => \$provide_{$o}[{$r->getName()}::class];
+    \$pull[{$in->getName()}::class] = fn() => \$provide[{$o}][{$r->getName()}::class];
 PHP;
         }
         return $pull;
@@ -184,7 +185,7 @@ PHP;
             $p = $out->aux["position"];
             $n = str_replace("\"", "\\\"", $out->aux["entry_point_name"]);
             $entry_points .= "\n" . <<<PHP
-        "$n" => fn() => \$contribute_{$me}[ILIAS\Component\EntryPoint::class . "_{$p}"],
+        "$n" => fn() => \$contribute[{$me}][ILIAS\Component\EntryPoint::class . "_{$p}"],
 PHP;
         }
 
