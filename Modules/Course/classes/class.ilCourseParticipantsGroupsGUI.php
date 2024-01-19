@@ -157,15 +157,33 @@ class ilCourseParticipantsGroupsGUI
         $this->ctrl->redirect($this, "show");
     }
 
-    protected function add(): void
+    protected function getMultiCommandGroupID(): int
     {
         $grp_id = 0;
-        if ($this->http->wrapper()->post()->has('grp_id')) {
+        $table_command = '';
+        if (
+            $this->http->wrapper()->post()->has('cmd') &&
+            $this->http->wrapper()->post()->has('grp_id')
+        ) {
             $grp_id = $this->http->wrapper()->post()->retrieve(
                 'grp_id',
                 $this->refinery->kindlyTo()->int()
             );
+        } elseif (
+            $this->http->wrapper()->post()->has('table_top_cmd') &&
+            $this->http->wrapper()->post()->has('grp_id_2')
+        ) {
+            $grp_id = $this->http->wrapper()->post()->retrieve(
+                'grp_id_2',
+                $this->refinery->kindlyTo()->int()
+            );
         }
+        return $grp_id;
+    }
+
+    protected function add(): void
+    {
+        $grp_id = $this->getMultiCommandGroupID();
         $usr_ids = [];
         if ($this->http->wrapper()->post()->has('usrs')) {
             $usr_ids = $this->http->wrapper()->post()->retrieve(
