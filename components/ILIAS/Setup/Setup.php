@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Component\EntryPoint;
+
 class Setup implements Component\Component
 {
     public function init(
@@ -32,6 +34,81 @@ class Setup implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[EntryPoint::class] = fn() =>
+            new \ILIAS\Setup\CLI\App(
+                $internal["command.install"],
+                $internal["command.update"],
+                $internal["command.build-artifacts"],
+                $internal["command.achieve"],
+                $internal["command.status"],
+                $internal["command.migrate"]
+            );
+
+        $internal["command.install"] = fn() =>
+            new \ILIAS\Setup\CLI\InstallCommand(
+                $internal["agent_finder"],
+                $internal["config_reader"],
+                $internal["common_preconditions"]
+            );
+        $internal["command.update"] = fn() =>
+            new \ILIAS\Setup\CLI\UpdateCommand(
+                $internal["agent_finder"],
+                $internal["config_reader"],
+                $internal["common_preconditions"]
+            );
+        $internal["command.build-artifacts"] = fn() =>
+            new \ILIAS\Setup\CLI\BuildArtifactsCommand(
+                $internal["agent_finder"]
+            );
+        $internal["command.achieve"] = fn() =>
+            new \ILIAS\Setup\CLI\AchieveCommand(
+                $internal["agent_finder"],
+                $internal["config_reader"],
+                $internal["common_preconditions"],
+                $pull[\ILIAS\Refinery\Factory::class],
+            );
+        $internal["command.status"] = fn() =>
+            new \ILIAS\Setup\CLI\StatusCommand(
+                $internal["agent_finder"]
+            );
+        $internal["command.migrate"] = fn() =>
+            new \ILIAS\Setup\CLI\MigrateCommand(
+                $internal["agent_finder"],
+                $internal["common_preconditions"]
+            );
+
+        $internal["common_preconditions"] = fn() =>
+            [
+                new \ilOwnRiskConfirmedObjective(),
+                new \ilUseRootConfirmed()
+            ];
+
+        $internal["common_agent"] = fn() =>
+            new \ilSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $pull[\ILIAS\Data\Factory::class]
+            );
+
+        $internal["agent_finder"] = fn() =>
+            new \ILIAS\Setup\ImplementationOfAgentFinder(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $pull[\ILIAS\Data\Factory::class],
+                $use[\ILIAS\Language\Language::class],
+                $internal["interface_finder"],
+                [
+                    "common" => $internal["common_agent"]
+                ]
+            );
+
+        $internal["config_reader"] = fn() =>
+            new \ILIAS\Setup\CLI\ConfigReader(
+                $internal["json.parser"]
+            );
+
+        $internal["interface_finder"] = fn() =>
+            new \ILIAS\Setup\ImplementationOfInterfaceFinder();
+
+        $internal["json.parser"] = fn() =>
+            new \Seld\JsonLint\JsonParser();
     }
 }

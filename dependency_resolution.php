@@ -12,5 +12,10 @@
 // that have no explicit disambiguation.
 
 return [
-    "*" => []
+    "*" => [
+        "\\ILIAS\Language\Language" => "ilSetupLanguage"
+    ],
+    "\\ILIAS\\Refinery" => [
+        "\\ILIAS\Language\Language" => "myLanguage"
+    ]
 ];

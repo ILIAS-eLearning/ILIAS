@@ -22,21 +22,34 @@ namespace ILIAS\Setup\CLI;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use ILIAS\Component\Component;
+use ILIAS\Component\EntryPoint;
 
 /**
  * The ILIAS-setup-console-application.
  *
  * TODO: Add some metainformation to the app, such as name.
  */
-class App extends Application
+class App extends Application implements EntryPoint
 {
     public const NAME = "The ILIAS Setup";
 
-    public function __construct(Command ...$commands)
-    {
+    public function __construct(
+        Command ...$commands
+    ) {
         parent::__construct(self::NAME);
         foreach ($commands as $c) {
             $this->add($c);
         }
+    }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    public function enter(): int
+    {
+        return $this->run();
     }
 }
