@@ -21,33 +21,36 @@ require_once(__DIR__ . "/../vendor/composer/vendor/autoload.php");
 function entry_point(string $name)
 {
     $null_dic = new ILIAS\Component\Dependencies\NullDIC();
+    $implement = new Pimple\Container();
+    $contribute = new Pimple\Container();
+    $provide = new Pimple\Container();
 
 
     $component_0 = new ILIAS\Component\Tests\Dependencies\Scenario3\ComponentA();
 
-    $implement_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $implement[0] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     $use = new Pimple\Container();
-    $contribute_0 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $contribute[0] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     $seek = new Pimple\Container();
-    $provide_0 = new Pimple\Container();
+    $provide[0] = new Pimple\Container();
     $pull = new Pimple\Container();
     $internal = new Pimple\Container();
 
-    $component_0->init($null_dic, $implement_0, $use, $contribute_0, $seek, $provide_0, $pull, $internal);
+    $component_0->init($null_dic, $implement[0], $use, $contribute[0], $seek, $provide[0], $pull, $internal);
 
 
     $component_1 = new ILIAS\Component\Tests\Dependencies\Scenario3\ComponentB();
 
-    $implement_1 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $implement[1] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     $use = new Pimple\Container();
-    $use[ILIAS\Component\Tests\Dependencies\Scenario3\Service::class] = fn() => $implement_0[ILIAS\Component\Tests\Dependencies\Scenario3\Service::class . "_0"];
-    $contribute_1 = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
+    $use[ILIAS\Component\Tests\Dependencies\Scenario3\Service::class] = fn() => $implement[0][ILIAS\Component\Tests\Dependencies\Scenario3\Service::class . "_0"];
+    $contribute[1] = new ILIAS\Component\Dependencies\RenamingDIC(new Pimple\Container());
     $seek = new Pimple\Container();
-    $provide_1 = new Pimple\Container();
+    $provide[1] = new Pimple\Container();
     $pull = new Pimple\Container();
     $internal = new Pimple\Container();
 
-    $component_1->init($null_dic, $implement_1, $use, $contribute_1, $seek, $provide_1, $pull, $internal);
+    $component_1->init($null_dic, $implement[1], $use, $contribute[1], $seek, $provide[1], $pull, $internal);
 
 
     $entry_points = [
