@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,8 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
-/**
- * Tracking query class. Put any complex queries into this class. Keep
- * tracking class small.
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
+declare(strict_types=0);
+
 class ilTrQuery
 {
     public static function getObjectsStatusForUser(
@@ -210,7 +204,7 @@ class ilTrQuery
                 "title" => $status_info["scos_title"][$sco_id],
                 "status" => (int) $status,
                 "type" => "sahs",
-                "score" => (int) $scores[$sco_id]
+                "score" => (int) ($scores[$sco_id] ?? 0)
             );
         }
         return $items;
@@ -984,9 +978,9 @@ class ilTrQuery
                 $members = $member_obj->getMembers();
                 break;
 
-            /* Mantis 19296: Individual Assessment can be subtype of crs.
-              * But for LP view only his own members should be displayed.
-              * We need to return the members without checking the parent path. */
+                /* Mantis 19296: Individual Assessment can be subtype of crs.
+                  * But for LP view only his own members should be displayed.
+                  * We need to return the members without checking the parent path. */
             case "iass":
                 $members_read = true;
                 $iass = new ilObjIndividualAssessment($obj_id, false);
@@ -1174,9 +1168,9 @@ class ilTrQuery
                                 " OR ut_lp_marks.status IS NULL)";
                             break;
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case "mark":
                         $where[] = "ut_lp_marks." . $id . " = " . $ilDB->quote(
                             $value,
@@ -1222,7 +1216,7 @@ class ilTrQuery
                         );
                         break;
 
-                    // timestamp
+                        // timestamp
                     case "last_access":
                         if (isset($value["from"])) {
                             $value["from"] = substr(
@@ -1250,9 +1244,9 @@ class ilTrQuery
                             );
                             $value["to"] = $value["to"]->get(IL_CAL_UNIX);
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case 'status_changed':
                         // fallthrough
 
@@ -1260,9 +1254,9 @@ class ilTrQuery
                         if ($id == "registration") {
                             $id = "create_date";
                         }
-                    // fallthrough
+                        // fallthrough
 
-                    // no break
+                        // no break
                     case "create_date":
                     case "first_access":
                     case "birthday":
@@ -1938,7 +1932,7 @@ class ilTrQuery
         // repository
         $tree = new ilTree(1);
         $sql = "SELECT " . $tree->getObjectDataTable(
-            ) . ".obj_id," . $tree->getObjectDataTable() . ".type," .
+        ) . ".obj_id," . $tree->getObjectDataTable() . ".type," .
             $tree->getTreeTable() . "." . $tree->getTreePk(
             ) . "," . $tree->getTableReference() . ".ref_id" .
             " FROM " . $tree->getTreeTable() .
