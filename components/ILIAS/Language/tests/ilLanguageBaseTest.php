@@ -28,19 +28,19 @@ use ILIAS\DI\Container;
  */
 abstract class ilLanguageBaseTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $GLOBALS['DIC'] = new Container();
-        
+
         parent::setUp();
     }
-    
-    protected function setGlobalVariable(string $name, $value) : void
+
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
-        
+
         $GLOBALS[$name] = $value;
-        
+
         unset($DIC[$name]);
         $DIC[$name] = static function (Container $c) use ($name) {
             return $GLOBALS[$name];
