@@ -30,7 +30,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTest
     private ilSetupLanguage $newLangSetupEs;
 
     /**
-     * @var ilSetupLanguage[]
+     * @var \ILIAS\Language\Setup\Language[]
      */
     private array $langInstalled;
 

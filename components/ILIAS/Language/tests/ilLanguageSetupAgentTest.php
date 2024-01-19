@@ -35,7 +35,7 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTest
     protected function setUp(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-        $setup_language = $this->createMock(\ilSetupLanguage::class);
+        $setup_language = $this->createMock(ilSetupLanguage::class);
 
         $this->obj = new \ilLanguageSetupAgent($refinery, null, $setup_language);
     }

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class Language_ implements Component\Component
+class Language implements Component\Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,6 +32,9 @@ class Language_ implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $define[] = \ILIAS\Language\Language::class;
+
+        $implement[\ILIAS\Language\Language::class] = fn() =>
+            new \ilSetupLanguage("en");
     }
 }

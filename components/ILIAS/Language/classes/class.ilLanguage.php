@@ -40,7 +40,7 @@ declare(strict_types=1);
  *  Die Formatfunktionen gehoeren nicht in class.Language. Die sind auch woanders einsetzbar!!!
  *  Daher->besser in class.Format
  */
-class ilLanguage
+class ilLanguage implements \ILIAS\Language\Language
 {
     public ILIAS $ilias;
     public array $text = [];
