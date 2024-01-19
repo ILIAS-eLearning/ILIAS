@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="lti">
     <Document type="default">
-        <!--
         <xi:include href="../../Services/Object/LuceneDataSource.xml" />
         <xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-        <xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
-        -->
-        <DataSource type="JDBC" action="append">
-            <Query>
-                SELECT title FROM object_data
-            </Query>
-            <Param format="list" type="int" value="objId" />
-            <Field store="YES" index="ANALYZED" column="title" type="text" name="propertyLow" />
-        </DataSource>
-        <DataSource type="JDBC" action="append">
-            <Query>
-                SELECT description FROM object_data
-            </Query>
-            <Param format="list" type="int" value="objId" />
-            <Field store="YES" index="ANALYZED" column="description" type="text" name="propertyLow" />
-        </DataSource>
     </Document>
 </ObjectDefinition>
