@@ -49,7 +49,7 @@ interface ilGlobalTemplateInterface
     public function hideFooter(): void;
 
     /**
-     * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
+     * Set a message to be displayed to the user. Please use instead of ilUtil::sendInfo(),
      * ilUtil::sendSuccess() and ilUtil::sendFailure().
      */
     public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false): void;
