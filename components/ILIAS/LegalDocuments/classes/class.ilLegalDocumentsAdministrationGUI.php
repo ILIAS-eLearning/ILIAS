@@ -137,7 +137,7 @@ class ilLegalDocumentsAdministrationGUI
                 fn() => $this->config->legalDocuments()->document()->repository()->createCriterion($document, $content)
             )->except($this->criterionInvalid(...))->value();
 
-            $this->returnWithMessage('saved_successfully', 'documents');
+            $this->returnWithMessage('doc_crit_attached', 'documents');
         });
 
         $this->admin->setContent($form);
@@ -157,7 +157,7 @@ class ilLegalDocumentsAdministrationGUI
                     fn() => $this->config->legalDocuments()->document()->repository()->updateCriterionContent($criterion->id(), $content)
                 )->except($this->criterionInvalid(...))->value();
 
-                $this->returnWithMessage('saved_successfully', 'documents');
+                $this->returnWithMessage('doc_crit_changed', 'documents');
             });
 
             $this->container->tabs()->clearTargets();
@@ -173,7 +173,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->requireEditable();
         $this->admin->withDocumentAndCriterion(function (Document $document, Criterion $criterion) {
             $this->config->legalDocuments()->document()->repository()->deleteCriterion($criterion->id());
-            $this->returnWithMessage('deleted', 'documents');
+            $this->returnWithMessage('doc_crit_detached', 'documents');
         });
     }
 
@@ -218,9 +218,10 @@ class ilLegalDocumentsAdministrationGUI
     public function deleteConfirmed(): void
     {
         $this->admin->requireEditable();
-        $this->admin->deleteDocuments($this->admin->retrieveDocuments());
+        $docs = $this->admin->retrieveDocuments();
+        $this->admin->deleteDocuments($docs);
         ($this->after_document_deletion)();
-        $this->returnWithMessage('deleted', 'documents');
+        $this->returnWithMessage(count($docs) === 1 ? 'deleted_documents_s' : 'deleted_documents_p', 'documents');
     }
 
     public function editDocument(): void
@@ -316,7 +317,7 @@ class ilLegalDocumentsAdministrationGUI
 
     private function returnWithMessage(string $message, string $command): void
     {
-        $this->ui->mainTemplate()->setOnScreenMessage('success', $this->container->language()->txt($message), true);
+        $this->ui->mainTemplate()->setOnScreenMessage('success', $this->ui->txt($message), true);
         $this->ctrlTo('redirectByClass', $command);
     }
 }
