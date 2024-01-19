@@ -1,21 +1,28 @@
-
 	<div class="ilFormRow">
-		<div class="ilFormOption">{TXT_FROM}</div>
 		<div class="ilFormValue">
 			<!-- BEGIN pers_image -->
-			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" />
+			<img src="{IMG_SENDER}" alt="{ALT_SENDER}" />
 			<!-- END pers_image -->
-			{PUBLIC_NAME}
 		</div>
 	</div>
 	<div class="ilFormRow">
-		<div class="ilFormOption">{TXT_TO}</div>
-		<div class="ilFormValue">{TO}</div>
+		<div style="display: inline-flex; align-items: center;">
+			<div class="ilFormOption">{TXT_FROM}</div>
+			<div class="ilFormValue" style="margin-left: 15%">{PUBLIC_NAME}</div>
+		</div>
+	</div>
+	<div class="ilFormRow">
+		<div style="display: inline-flex; align-items: center;">
+			<div class="ilFormOption">{TXT_TO}</div>
+			<div class="ilFormValue" style="margin-left: 15%">{TO}</div>
+		</div>
 	</div>
 	<!-- BEGIN cc -->
-	<div class="ilFormRow">
-		<div class="ilFormOption">{TXT_CC}</div>
-		<div class="ilFormValue">{CC}</div>
+	<div class="ilFormRow" >
+		<div style="display: inline-flex; align-items: center;">
+			<div class="ilFormOption">{TXT_CC}</div>
+			<div class="ilFormValue" style="margin-left: 15%">{CC}</div>
+		</div>
 	</div>
 	<!-- END cc -->
 	<div class="ilFormRow">
