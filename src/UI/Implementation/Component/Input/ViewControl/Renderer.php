@@ -91,8 +91,8 @@ class Renderer extends AbstractComponentRenderer
                 fn ($id) => "$(document).on('{$internal_signal}', 
                     function(event, signal_data) {
                         var container = event.target.closest('.il-viewcontrol-fieldselection'),
-                            checked = container.querySelectorAll('input[type=checkbox]:checked'),
-                            value = Object.values(checked).map(o => o.value),
+                            checkbox = container.querySelectorAll('input[type=checkbox]'),
+                            value = Object.values(checkbox).map(o => o.checked ? o.value : ''),
                             value_container = container.querySelector('.il-viewcontrol-value');
 
                         value_container.innerHTML = '';
@@ -198,7 +198,7 @@ class Renderer extends AbstractComponentRenderer
         if ($page_limit >= $total_count) {
             return [$data_factory->range(0, $page_limit)];
         }
-        foreach (range(0, $total_count, $page_limit + 1) as $idx => $start) {
+        foreach (range(0, $total_count - 1, $page_limit) as $idx => $start) {
             $ranges[] = $data_factory->range($start, $page_limit);
         }
         return $ranges;
@@ -214,7 +214,7 @@ class Renderer extends AbstractComponentRenderer
                 return $idx;
             }
         }
-        return 0;
+        throw new LogicException('offset is not in any range');
     }
 
     /**
@@ -252,7 +252,7 @@ class Renderer extends AbstractComponentRenderer
         $limit_options = $component->getLimitOptions();
         $total_count = $component->getTotalCount();
 
-        list($offset, $limit) = array_map('intval', $component->getValue());
+        list(Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $limit) = array_map('intval', $component->getValue());
         $limit = $limit > 0 ? $limit : reset($limit_options);
 
         if (! $total_count) {
@@ -300,6 +300,7 @@ class Renderer extends AbstractComponentRenderer
                 $icon_left = $icon_left ->withOnClick($signal);
             } else {
                 $icon_left = $icon_left->withUnavailableAction();
+                $tpl->touchBlock('left_disabled');
             }
             $tpl->setVariable("LEFT", $default_renderer->render($icon_left));
 
@@ -312,6 +313,7 @@ class Renderer extends AbstractComponentRenderer
                 $icon_right = $icon_right ->withOnClick($signal);
             } else {
                 $icon_right = $icon_right->withUnavailableAction();
+                $tpl->touchBlock('right_disabled');
             }
             $tpl->setVariable("RIGHT", $default_renderer->render($icon_right));
         }

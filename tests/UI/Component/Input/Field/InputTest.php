@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
@@ -108,6 +109,11 @@ class DefInputData implements InputData
         }
 
         return $this->values[$name];
+    }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->values);
     }
 }
 

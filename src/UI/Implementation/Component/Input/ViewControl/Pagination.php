@@ -37,6 +37,8 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     use GroupDecorator;
 
     public const DEFAULT_LIMITS = [5, 10, 25, 50, 100, 250, 500, \PHP_INT_MAX];
+    public const FNAME_OFFSET = 'offset';
+    public const FNAME_LIMIT = 'limit';
     protected const NUMBER_OF_VISIBLE_SECTIONS = 7;
 
     protected Signal $internal_selection_signal;
@@ -53,10 +55,14 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     ) {
         parent::__construct($data_factory, $refinery);
 
-        $this->setInputGroup($field_factory->group([
-            $field_factory->hidden(), //offset
-            $field_factory->hidden(), //limit
-        ])->withAdditionalTransformation($this->getRangeTransform()));
+        $this->setInputGroup(
+            $field_factory->group([
+                self::FNAME_OFFSET => $field_factory->hidden(),
+                self::FNAME_LIMIT => $field_factory->hidden(),
+            ])
+            ->withAdditionalTransformation($this->getRangeTransform())
+            ->withAdditionalTransformation($this->getCorrectOffsetForPageSize())
+        );
 
         $this->internal_selection_signal = $signal_generator->create();
         $this->number_of_entries = self::NUMBER_OF_VISIBLE_SECTIONS;
@@ -66,12 +72,27 @@ class Pagination extends ViewControlInput implements VCInterface\Pagination, Has
     {
         return $this->refinery->custom()->transformation(
             function ($v): Range {
-                list($offset, $limit) = array_map('intval', $v);
-                if ($limit === 0) {
-                    $options = $this->getLimitOptions();
-                    $limit = array_shift($options);
+                if (is_null($v)) {
+                    $limit = current($this->getLimitOptions());
+                } else {
+                    list(self::FNAME_OFFSET => $offset, self::FNAME_LIMIT => $limit) = array_map('intval', $v);
                 };
                 return $this->data_factory->range($offset, $limit);
+            }
+        );
+    }
+
+    protected function getCorrectOffsetForPageSize(): Transformation
+    {
+        return $this->refinery->custom()->transformation(
+            function ($v): Range {
+                list($offset, $limit) = $v->unpack();
+                if($limit === 0) {
+                    $limit = current($this->getLimitOptions());
+                }
+                $current_page = floor($offset / $limit);
+                $offset = $current_page * $limit;
+                return $this->data_factory->range((int)$offset, $limit);
             }
         );
     }

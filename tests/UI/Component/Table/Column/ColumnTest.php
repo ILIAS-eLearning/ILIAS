@@ -23,6 +23,8 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Table\Column;
+use ILIAS\UI\Implementation\Component\Link;
+use ILIAS\UI\Implementation\Component\Listing;
 
 /**
  * Basic Tests for Table-Columns.
@@ -43,8 +45,8 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertFalse($col->withIsOptional(false)->isOptional());
 
         $this->assertTrue($col->isInitiallyVisible());
-        $this->assertFalse($col->withIsInitiallyVisible(false)->isInitiallyVisible());
-        $this->assertTrue($col->withIsInitiallyVisible(true)->isInitiallyVisible());
+        $this->assertFalse($col->withIsOptional(true, false)->isInitiallyVisible());
+        $this->assertTrue($col->withIsOptional(true, true)->isInitiallyVisible());
 
         $this->assertFalse($col->isHighlighted());
         $this->assertTrue($col->withHighlight(true)->isHighlighted());
@@ -93,5 +95,45 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertEquals('$ 1,00', $col->format(1));
         $col = $col->withUnit('€', $col::UNIT_POSITION_AFT);
         $this->assertEquals('1,00 €', $col->format(1));
+    }
+
+    public function testDataTableColumnLinkFormat(): void
+    {
+        $col = new Column\Link('col');
+        $link = new Link\Standard('label', '#');
+        $this->assertEquals($link, $col->format($link));
+    }
+
+    public function testDataTableColumnLinkFormatAcceptsOnlyLinks(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\Link('col');
+        $link = 'some string';
+        $this->assertEquals($link, $col->format($link));
+    }
+
+    public function testDataTableColumnLinkListingFormat(): void
+    {
+        $col = new Column\LinkListing('col');
+        $link = new Link\Standard('label', '#');
+        $linklisting = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting, $col->format($linklisting));
+    }
+
+    public function testDataTableColumnLinkListingFormatAcceptsOnlyLinkListings(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $linklisting_invalid = new Link\Standard('label', '#');
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnLinkListingItemsFormatAcceptsOnlyLinks(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing('col');
+        $link = 'some string';
+        $linklisting_invalid = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
     }
 }

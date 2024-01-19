@@ -99,8 +99,8 @@ class ViewControlSortationTest extends ViewControlBaseTest
         <li><button class="btn btn-link" id="id_2">B</button></li>
     </ul>
     <div class="il-viewcontrol-value" role="none">
-        <input id="id_4" type="hidden" name="" value="" />
-        <input id="id_5" type="hidden" name="" value="" />
+        <input id="id_4" type="hidden" value="" />
+        <input id="id_5" type="hidden" value="" />
     </div>
 </div>
 ');

@@ -18,6 +18,9 @@ function repo_implementation()
      *
      * Here is an example, in which the DataRetrieval extends the repository in
      * which the UI-code becomes _very_ small for the actual representation.
+     *
+     * Please note that the pagination is missing due to an amount of records
+     * smaller than the lowest option "number of rows".
     */
 
     global $DIC;
@@ -64,6 +67,9 @@ class DataTableDemoRepo implements I\DataRetrieval
     ): \Generator {
         foreach ($this->doSelect($order, $range) as $idx => $record) {
             $row_id = (string)$record['usr_id'];
+            $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
+            $record['failure_txt'] = "not " . $record["achieve_txt"];
+            $record['repeat'] = $record['achieve'] < 80;
             yield $row_builder->buildDataRow($row_id, $record);
         }
     }
@@ -107,10 +113,9 @@ class DataTableDemoRepo implements I\DataRetrieval
             'fee' => $f->table()->column()->number("Fee")
                 ->withDecimals(2)
                 ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
-            'hidden' => $f->table()->column()->status("success")
+            'failure_txt' => $f->table()->column()->status("failure")
                 ->withIsSortable(false)
-                ->withIsOptional(true)
-                ->withIsInitiallyVisible(false),
+                ->withIsOptional(true, false),
             'sql_order' => $f->table()->column()->text("sql order part")
                 ->withIsSortable(false)
                 ->withIsOptional(true),

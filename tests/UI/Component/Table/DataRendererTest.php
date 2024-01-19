@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../Base.php");
+require_once(__DIR__ . "/TableTestBase.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
@@ -60,7 +60,7 @@ class DTRenderer extends I\Table\Renderer
         TestDefaultRenderer $default_renderer,
         I\Table\Data $component,
         $tpl,
-        I\Signal $sortation_signal
+        ?I\Signal $sortation_signal
     ) {
         return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
     }
@@ -70,7 +70,7 @@ class DTRenderer extends I\Table\Renderer
 /**
  * Tests for the Renderer of DataTables.
  */
-class DataRendererTest extends ILIAS_UI_TestBase
+class DataRendererTest extends TableTestBase
 {
     private function getRenderer()
     {
@@ -81,7 +81,9 @@ class DataRendererTest extends ILIAS_UI_TestBase
             $this->getJavaScriptBinding(),
             $this->getRefinery(),
             new ilImagePathResolver(),
-            new \ILIAS\Data\Factory()
+            new \ILIAS\Data\Factory(),
+            new \ILIAS\UI\Help\TextRetriever\Echoing(),
+            $this->getUploadLimitResolver()
         );
     }
 
@@ -95,6 +97,24 @@ class DataRendererTest extends ILIAS_UI_TestBase
         return new I\Table\Column\Factory();
     }
 
+    private function getDummyRequest()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+
+        $request
+            ->method("getQueryParams")
+            ->willReturn([]);
+        return $request;
+    }
+
     public function getDataFactory(): Data\Factory
     {
         return new Data\Factory();
@@ -102,16 +122,20 @@ class DataRendererTest extends ILIAS_UI_TestBase
 
     public function getUIFactory(): NoUIFactory
     {
-        $factory = new class () extends NoUIFactory {
-            public function button(): \ILIAS\UI\Component\Button\Factory
+        $factory = new class ($this->getTableFactory()) extends NoUIFactory {
+            public function __construct(
+                protected Component\Table\Factory $table_factory
+            ) {
+            }
+            public function button(): Component\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function dropdown(): ILIAS\UI\Component\Dropdown\Factory
+            public function dropdown(): Component\Dropdown\Factory
             {
                 return new I\Dropdown\Factory();
             }
-            public function symbol(): ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -119,17 +143,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function table(): ILIAS\UI\Component\Table\Factory
+            public function table(): Component\Table\Factory
             {
-                return new I\Table\Factory(
-                    new I\SignalGenerator(),
-                    new \ILIAS\Data\Factory(),
-                    new I\Table\Column\Factory(),
-                    new I\Table\Action\Factory(),
-                    new I\Table\DataRowBuilder()
-                );
+                return $this->table_factory;
             }
-            public function divider(): ILIAS\UI\Component\Divider\Factory
+            public function divider(): Component\Divider\Factory
             {
                 return new I\Divider\Factory();
             }
@@ -235,51 +253,115 @@ class DataRendererTest extends ILIAS_UI_TestBase
         };
         $columns = [
             'f1' => $f->text("Field 1")->withIndex(1),
-            'f2' => $f->text("Field 2")->withIndex(2),
+            'f2' => $f->text("Field 2")->withIndex(2)->withIsSortable(false),
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method("getUri")
-            ->willReturn(new class () {
-                public function __toString()
-                {
-                    return 'http://localhost:80';
-                }
-            });
-
         $sortation_signal = new I\Signal('sort_header_signal_id');
         $sortation_signal->addOption('value', 'f1:ASC');
         $table = $this->getUIFactory()->table()->data('', $columns, $data)
-            ->withRequest($request);
+            ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
 
         $actual = $this->brutallyTrimHTML($tpl->get());
         $expected = <<<EOT
 <div class="c-table-data" id="{ID}">
     <div class="viewcontrols">{VIEW_CONTROLS}</div>
-    <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
-        <thead>
-            <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                        <button class="btn btn-link" id="id_1">Field 1</button>
-                    </div>
-                </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_3">Field 2</button>
-                    </div>
-                </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
-                    <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_4">Field 3</button>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody class="c-table-data__body" role="rowgroup"></tbody>
-    </table>
+    <div class="c-table-data__table-wrapper">
+        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+            <thead>
+                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="order_option_generic_ascending">
+                        <div class="c-table-data__header__resize-wrapper">
+                            <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
+                            <button class="btn btn-link" id="id_1">Field 1</button>
+                        </div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" role="columnheader" tabindex="-1" aria-colindex="2">
+                        <div class="c-table-data__header__resize-wrapper">
+                            <button class="btn btn-link" id="id_3">Field 3</button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+        </table>
+    </div>
+    <div class="c-table-data__async_modal_container"></div>
+
+    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__async_messageresponse modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+EOT;
+        $expected = $this->brutallyTrimHTML($expected);
+        $this->assertEquals($expected, $actual);
+    }
+
+
+    public function testDataTableRenderHeaderWithoutSortableColums(): void
+    {
+        $renderer = $this->getRenderer();
+        $data_factory = new \ILIAS\Data\Factory();
+        $tpl = $this->getTemplateFactory()->getTemplate("src/UI/templates/default/Table/tpl.datatable.html", true, true);
+        $f = $this->getColumnFactory();
+        $data = new class () implements ILIAS\UI\Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                yield $row_builder->buldDataRow('', []);
+            }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
+        };
+        $columns = [
+            'f1' => $f->text("Field 1")->withIsSortable(false),
+            'f2' => $f->text("Field 2")->withIsSortable(false)
+        ];
+
+        $sortation_signal = null;
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+            ->withRequest($this->getDummyRequest());
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $actual = $this->brutallyTrimHTML($tpl->get());
+        $expected = <<<EOT
+<div class="c-table-data" id="{ID}">
+    <div class="viewcontrols">{VIEW_CONTROLS}</div>
+    <div class="c-table-data__table-wrapper">
+        <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+            <thead>
+                <tr class="c-table-data__header c-table-data__row" role="rowgroup">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0">
+                        <div class="c-table-data__header__resize-wrapper">Field 1</div>
+                    </th>
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="1">
+                        <div class="c-table-data__header__resize-wrapper">Field 2</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="c-table-data__body" role="rowgroup"></tbody>
+        </table>
+    </div>
 
     <div class="c-table-data__async_modal_container"></div>
 
@@ -367,20 +449,68 @@ EOT;
 <td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
     <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+</td>
+<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 3:</span>3
+</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_1">label1</button></li>
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_2">label2</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
         </ul>
     </div>
 </td>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testRenderEmptyDataCell(): void
+    {
+        $data = new class () implements Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): Generator {
+                yield from [];
+            }
+
+            public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+            {
+                return 0;
+            }
+        };
+
+        $columns = [
+            'f1' => $this->getUIFactory()->table()->column()->text('f1'),
+            'f2' => $this->getUIFactory()->table()->column()->text('f2'),
+            'f3' => $this->getUIFactory()->table()->column()->text('f3'),
+            'f4' => $this->getUIFactory()->table()->column()->text('f4'),
+            'f5' => $this->getUIFactory()->table()->column()->text('f5'),
+        ];
+
+        $table = $this->getTableFactory()->data('', $columns, $data)
+            ->withRequest($this->getDummyRequest());
+
+        $html = $this->getDefaultRenderer()->render($table);
+
+        $translation = $this->getLanguage()->txt('ui_table_no_records');
+        $column_count = count($columns);
+
+        // check that the empty cell is stretched over all columns.
+        $this->assertTrue(str_contains($html, "colspan=\"$column_count\""));
+        // check that the cell contains the default message.
+        $this->assertTrue(str_contains($html, $translation));
     }
 }

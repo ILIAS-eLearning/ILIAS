@@ -23,18 +23,11 @@ function base()
     ];
 
     $data_retrieval = new class ($f, $r, $dummy_records) implements I\DataRetrieval {
-        protected \ILIAS\UI\Factory $ui_factory;
-        protected \ILIAS\UI\Renderer $ui_renderer;
-        protected array $records;
-
         public function __construct(
-            \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer,
-            array $records
+            protected \ILIAS\UI\Factory $ui_factory,
+            protected \ILIAS\UI\Renderer $ui_renderer,
+            protected array $records
         ) {
-            $this->ui_factory = $ui_factory;
-            $this->ui_renderer = $ui_renderer;
-            $this->records = $records;
         }
 
         public function getRows(
@@ -61,7 +54,7 @@ function base()
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return count($this->records);
         }
     };
 

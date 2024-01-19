@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Table\Column\Text;
+namespace ILIAS\UI\examples\Table\Column\LinkListing;
 
-use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-function base()
+function base(): string
 {
     global $DIC;
-    $f = $DIC['ui.factory'];
-    $r = $DIC['ui.renderer'];
+    $f = $DIC->ui()->factory();
+    $r = $DIC->ui()->renderer();
 
     $columns = [
-        't1' => $f->table()->column()->text("some text")
+        'l1' => $f->table()->column()->linkListing("a link list column")
     ];
 
+    $some_link = $f->link()->standard('ILIAS Homepage', 'http://www.ilias.de');
+    $some_linklisting = $f->listing()->unordered([$some_link, $some_link, $some_link]);
+
     $dummy_records = [
-        ['t1' => 'this is some text'],
-        ['t1' => 'this is some other text']
+        ['l1' => $some_linklisting],
+        ['l1' => $some_linklisting]
     ];
 
     $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
@@ -54,7 +56,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('Text Columns', $columns, $data_retrieval)
-        ->withRequest($DIC->http()->request());
+    $table = $f->table()->data('Link List Columns', $columns, $data_retrieval)
+               ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

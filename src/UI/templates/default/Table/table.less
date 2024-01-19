@@ -153,6 +153,12 @@
 // Basic Table Design
 //
 
+.c-table-data {
+    .viewcontrols {
+        margin-bottom: @il-margin-large-vertical;
+    }
+}
+
 .c-table-data__table {
     background-color: @il-main-bg;
 }
@@ -245,6 +251,18 @@ th.c-table-data__cell:after {
 }
 
 //
+// Column rowselection
+//
+
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+    position: -webkit-sticky;
+    position: sticky;
+    left: -1px; // so text doesn't glitch through on left edge
+    z-index: 2;
+}
+
+//
 // Multiaction Dropdown below table
 //
 
@@ -270,6 +288,8 @@ th.c-table-data__cell:after {
 //
 
 // Text
+.c-table-data__cell--link,
+.c-table-data__cell--linklisting,
 .c-table-data__cell--text {
     .c-table-data__header__resize-wrapper {
         min-width: 140px;

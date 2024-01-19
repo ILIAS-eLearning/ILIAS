@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 require_once('ViewControlBaseTest.php');
 
@@ -71,15 +72,75 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $this->assertEquals($o, $vc->withLimitOptions($o)->getLimitOptions($o));
     }
 
-    public function testViewControlPaginationWithInput(): void
+    public static function providePaginationInput(): array
     {
-        $v = [5,25];
+        return [
+            [
+                'offset' => 24,
+                'limit' => 25,
+                'expected' => [0, 25]
+            ],
+            [
+                'offset' => 25,
+                'limit' => 25,
+                'expected' => [25, 25]
+            ],
+            [
+                'offset' => 52,
+                'limit' => 25,
+                'expected' => [50, 25]
+            ],
+            [
+                'offset' => 7,
+                'limit' => 5,
+                'expected' => [5, 5]
+            ],
+            [
+                'offset' => 99,
+                'limit' => 5,
+                'expected' => [95, 5]
+            ],
+            [
+                'offset' => 4,
+                'limit' => 3,
+                'expected' => [3, 3]
+            ],
+            [
+                'offset' => 4,
+                'limit' => PHP_INT_MAX,
+                'expected' => [0, PHP_INT_MAX]
+            ],
+            [
+                'offset' => 0,
+                'limit' => 2,
+                'expected' => [0, 2]
+            ],
+            [
+                'offset' => 10,
+                'limit' => 0,
+                'expected' => [10, 5] //default smallest limit
+            ],
 
+        ];
+    }
+
+    /**
+     * @dataProvider providePaginationInput
+     */
+    public function testViewControlPaginationWithInput(
+        int $offset,
+        int $page_size,
+        array $expected
+    ): void {
+        $v = [
+            Pagination::FNAME_OFFSET => $offset,
+            Pagination::FNAME_LIMIT => $page_size
+        ];
         $input = $this->createMock(InputData::class);
         $input->expects($this->exactly(2))
             ->method("getOr")
             ->will(
-                $this->onConsecutiveCalls($v[0], $v[1])
+                $this->onConsecutiveCalls($v[Pagination::FNAME_OFFSET], $v[Pagination::FNAME_LIMIT])
             );
 
         $vc = $this->buildVCFactory()->pagination()
@@ -88,10 +149,14 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         $df = $this->buildDataFactory();
         $this->assertEquals(
-            $df->ok($df->range(5, 25)),
+            $df->ok($df->range(...$expected)),
             $vc->getContent()
         );
-        $this->assertEquals($v, $vc->getValue());
+
+        $this->assertEquals(
+            [Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $page_size],
+            $vc->getValue()
+        );
     }
 
     public function testViewControlPaginationRendering(): void
@@ -100,7 +165,7 @@ class ViewControlPaginationTest extends ViewControlBaseTest
         $vc = $this->buildVCFactory()->pagination()
             ->withLimitOptions([2, 5, 10])
             ->withTotalCount(42)
-            ->withValue([12,2])
+            ->withValue([Pagination::FNAME_OFFSET => 12, Pagination::FNAME_LIMIT => 2])
             ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('
@@ -114,13 +179,13 @@ class ViewControlPaginationTest extends ViewControlBaseTest
 
         <button class="btn btn-link" id="id_1">1</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
-        <button class="btn btn-link" id="id_2">3</button>
-        <button class="btn btn-link" id="id_3">4</button>
-        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">5</button>
-        <button class="btn btn-link" id="id_5">6</button>
-        <button class="btn btn-link" id="id_6">7</button>
+        <button class="btn btn-link" id="id_2">5</button>
+        <button class="btn btn-link" id="id_3">6</button>
+        <button class="btn btn-link engaged" aria-pressed="true" id="id_4">7</button>
+        <button class="btn btn-link" id="id_5">8</button>
+        <button class="btn btn-link" id="id_6">9</button>
         <span class="il-viewcontrol-pagination__spacer">...</span>
-        <button class="btn btn-link" id="id_7">15</button>
+        <button class="btn btn-link" id="id_7">21</button>
 
         <div class="btn btn-ctrl browse next">
             <a tabindex="0" class="glyph" aria-label="next" id="id_9">
@@ -141,8 +206,8 @@ class ViewControlPaginationTest extends ViewControlBaseTest
     </div>
 
     <div class="il-viewcontrol-value hidden" role="none">
-        <input id="id_14" type="hidden" name="" value="12" />
-        <input id="id_15" type="hidden" name="" value="2" />
+        <input id="id_14" type="hidden" value="12" />
+        <input id="id_15" type="hidden" value="2" />
     </div>
 </div>
         ');
@@ -160,41 +225,45 @@ class ViewControlPaginationTest extends ViewControlBaseTest
             $this->getJavaScriptBinding(),
             $this->getRefinery(),
             $this->getImagePathResolver(),
-            $this->getDataFactory()
+            $this->getDataFactory(),
+            $this->getHelpTextRetriever(),
+            $this->getUploadLimitResolver()
         );
     }
 
     public function testViewControlPaginationRenderingRanges(): void
     {
         $r = $this->getStubRenderer();
-        $ranges = $r->mock_buildRanges(8, 3);
+        $ranges = $r->mock_buildRanges($total = 8, $pagelimit = 3); //0-2, 3-5, 6-7
         $this->assertEquals(3, count($ranges));
-        $ranges = $r->mock_buildRanges(10, 5);
+        $ranges = $r->mock_buildRanges(10, 5); //0-4, 5-9
         $this->assertEquals(2, count($ranges));
         $ranges = $r->mock_buildRanges(101, 5);
-        $this->assertEquals(17, count($ranges));
+        $this->assertEquals(21, count($ranges));
     }
 
     public function testViewControlPaginationRenderingFindCurrent(): void
     {
         $r = $this->getStubRenderer();
         $ranges = $r->mock_buildRanges(20, 5);
-        $this->assertEquals(0, $r->mock_findCurrentPage($ranges, 5));
+        $this->assertEquals(0, $r->mock_findCurrentPage($ranges, 3));
+        $this->assertEquals(1, $r->mock_findCurrentPage($ranges, 5));
         $this->assertEquals(1, $r->mock_findCurrentPage($ranges, 6));
+        $this->assertEquals(2, $r->mock_findCurrentPage($ranges, 10));
         $this->assertEquals(3, $r->mock_findCurrentPage($ranges, 19));
     }
 
     public function testViewControlPaginationRenderingEntries(): void
     {
         $r = $this->getStubRenderer();
-        $ranges = $r->mock_buildRanges(200, 5);
-        $slices = $r->mock_sliceRangesToVisibleEntries($ranges, 6, 5);
+        $ranges = $r->mock_buildRanges(203, 5);
+        $slices = $r->mock_sliceRangesToVisibleEntries($ranges, $current = 6, $visible_entries = 5);
         $this->assertEquals(5, count($slices));
         $this->assertEquals(0, $slices[0]->getStart());
-        $this->assertEquals(30, $slices[1]->getStart());
-        $this->assertEquals(36, $slices[2]->getStart());
-        $this->assertEquals(42, $slices[3]->getStart());
-        $this->assertEquals(198, $slices[4]->getStart());
+        $this->assertEquals(25, $slices[1]->getStart());
+        $this->assertEquals(30, $slices[2]->getStart());
+        $this->assertEquals(35, $slices[3]->getStart());
+        $this->assertEquals(200, $slices[4]->getStart());
     }
 
     public function testViewControlPaginationRenderingOutsideContainer(): void

@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Component;
 
 class DataRow implements T\DataRow
 {
@@ -32,22 +33,6 @@ class DataRow implements T\DataRow
      */
     protected array $disabled_actions = [];
 
-    protected bool $table_has_singleactions;
-    protected bool $table_has_multiactions;
-    /**
-     * @var array<string, T\Column\Column>
-     */
-    protected array $columns;
-    /**
-     * @var array<string, T\Action\Action>
-     */
-    protected array $actions;
-    protected string $id;
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $record;
-
     /**
      * The records's key is the column-id of the table.
      * Its value will be formatted by the respective colum type's format-method.
@@ -57,19 +42,13 @@ class DataRow implements T\DataRow
      * @param array<string, mixed> $record
      */
     public function __construct(
-        bool $table_has_singleactions,
-        bool $table_has_multiactions,
-        array $columns,
-        array $actions,
-        string $id,
-        array $record
+        protected bool $table_has_singleactions,
+        protected bool $table_has_multiactions,
+        protected array $columns,
+        protected array $actions,
+        protected string $id,
+        protected array $record
     ) {
-        $this->table_has_singleactions = $table_has_singleactions;
-        $this->table_has_multiactions = $table_has_multiactions;
-        $this->columns = $columns;
-        $this->actions = $actions;
-        $this->id = $id;
-        $this->record = $record;
     }
 
     public function getId(): string
@@ -112,7 +91,7 @@ class DataRow implements T\DataRow
         );
     }
 
-    public function getCellContent(string $col_id): string
+    public function getCellContent(string $col_id): string|Component
     {
         if (!array_key_exists($col_id, $this->record)) {
             return '';

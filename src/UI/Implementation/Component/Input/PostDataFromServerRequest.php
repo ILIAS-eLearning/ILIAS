@@ -60,4 +60,9 @@ class PostDataFromServerRequest implements InputData
 
         return $this->parsed_body[$name];
     }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->parsed_body);
+    }
 }

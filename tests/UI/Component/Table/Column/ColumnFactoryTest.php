@@ -33,7 +33,9 @@ class ColumnFactoryTest extends AbstractFactoryTest
         "eMail" => ["context" => false, "rules" => false],
         "status" => ["context" => false, "rules" => false],
         "statusIcon" => ["context" => false, "rules" => false],
-        "timeSpan" => ["context" => false, "rules" => false]
+        "timeSpan" => ["context" => false, "rules" => false],
+        "link" => ["context" => false, "rules" => false],
+        "linkListing" => ["context" => false, "rules" => false]
     ];
 
     public $factory_title = 'ILIAS\\UI\\Component\\Table\\Column\\Factory';
@@ -46,7 +48,7 @@ class ColumnFactoryTest extends AbstractFactoryTest
         ];
     }
 
-    public function columnTypeProvider(): array
+    public function getColumnTypeProvider(): array
     {
         list($f, $df) = $this->buildFactories();
         $date_format = $df->dateFormat()->germanShort();
@@ -59,12 +61,14 @@ class ColumnFactoryTest extends AbstractFactoryTest
             [Column\Boolean::class, $f->boolean("", '1', '0')],
             [Column\Status::class, $f->status("")],
             [Column\StatusIcon::class, $f->statusIcon("")],
-            [Column\EMail::class, $f->eMail("")]
+            [Column\EMail::class, $f->eMail("")],
+            [Column\Link::class, $f->link("")],
+            [Column\LinkListing::class, $f->linkListing("")]
         ];
     }
 
     /**
-     * @dataProvider columnTypeProvider
+     * @dataProvider getColumnTypeProvider
      */
     public function testDataTableColsImplementInterfaces($class, $instance)
     {

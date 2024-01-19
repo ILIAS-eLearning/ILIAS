@@ -109,4 +109,26 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Column\TimeSpan
      */
     public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): TimeSpan;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Link Column features a Standard Link.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Link
+     */
+    public function link(string $title): Link;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The LinkListing Column features an Ordered or Unordered Listing of Standard Links.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\LinkListing
+     */
+    public function linkListing(string $title): LinkListing;
 }

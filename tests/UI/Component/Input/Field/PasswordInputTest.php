@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -46,6 +46,14 @@ class _PWDInputData implements InputData
     public function getOr(string $name, $default): string
     {
         return 'some alternative value';
+    }
+
+    /**
+     * @inheritcoc
+     */
+    public function has($name): bool
+    {
+        return true;
     }
 }
 

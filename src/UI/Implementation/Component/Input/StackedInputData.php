@@ -27,44 +27,47 @@ use LogicException;
 /**
  * Implements interaction of input element with get data from psr-7 server request.
  */
-class QueryParamsFromServerRequest implements InputData
+class StackedInputData implements InputData
 {
-    protected array $query_params;
-
-    public function __construct(ServerRequestInterface $request)
-    {
-        $this->query_params = $request->getQueryParams();
-    }
+    protected array $stack;
 
     /**
-     * @inheritdocs
-     */
+     * Construct with any number of InputData.
+     * The stack will be searched in the order of the provided arguments,
+     * returning the value of the first found match.
+     **/
+    public function __construct(InputData ...$stack)
+    {
+        $this->stack = $stack;
+    }
+
     public function get(string $name)
     {
-        if (!isset($this->query_params[$name])) {
-            throw new LogicException("'$name' is not contained in query parameters.");
+        foreach($this->stack as $input) {
+            if($input->has($name)) {
+                return $input->get($name);
+            }
         }
-
-        return $this->query_params[$name];
+        throw new LogicException("'$name' is not contained in stack of input.");
     }
 
-    /**
-     * @inheritdocs
-     */
     public function getOr(string $name, $default)
     {
-        if (!isset($this->query_params[$name])) {
-            return $default;
+        foreach($this->stack as $input) {
+            if($input->has($name)) {
+                return $input->get($name);
+            }
         }
-
-        return $this->query_params[$name];
+        return $default;
     }
 
-    /**
-     * @inheritdocs
-     */
     public function has($name): bool
     {
-        return array_key_exists($name, $this->query_params);
+        foreach($this->stack as $input) {
+            if($input->has($name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

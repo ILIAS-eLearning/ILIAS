@@ -205,13 +205,7 @@ class Renderer extends AbstractComponentRenderer
         //TODO: Filter
         $filter_data = [];
         $additional_parameters = [];
-        $total_count = $component->getDataRetrieval()->getTotalRowCount($filter_data, $additional_parameters);
-        $view_controls = $this->getViewControls($component, $total_count);
-
-        [$component, $view_controls] = $this->applyViewControls(
-            $component,
-            $view_controls,
-            $total_count,
+        [$component, $view_controls] = $component->applyViewControls(
             $filter_data = [],
             $additional_parameters = []
         );
@@ -232,120 +226,45 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
 
-        $sortation_view_control = array_filter(
-            $view_controls->getInputs(),
-            static fn ($i): bool => $i instanceof Component\Input\ViewControl\Sortation
-        );
-        $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
-        $sortation_signal->addOption('parent_container', $id);
+        $sortation_signal = null;
+        // if the generator is empty, and thus invalid, we render an empty row.
+        if (!$rows->valid()) {
+            $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
+        } else {
+            $this->appendTableRows($tpl, $rows, $default_renderer);
+
+            if ($component->hasMultiActions()) {
+                $multi_actions = $component->getMultiActions();
+                $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
+                $multi_actions_dropdown = $this->buildMultiActionsDropdown(
+                    $multi_actions,
+                    $component->getMultiActionSignal(),
+                    $modal->getShowSignal()
+                );
+                $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+                $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
+            }
+
+            $sortation_signal = null;
+            $sortation_view_control = array_filter(
+                $view_controls->getInputs(),
+                static fn ($i): bool => $i instanceof Component\Input\ViewControl\Sortation
+            );
+            if($sortation_view_control) {
+                $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
+                $sortation_signal->addOption('parent_container', $id);
+            }
+        }
 
         $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
-        $this->appendTableRows($tpl, $rows, $default_renderer);
-
-        if ($component->hasMultiActions()) {
-            $multi_actions = $component->getMultiActions();
-            $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
-            $multi_actions_dropdown = $this->buildMultiActionsDropdown(
-                $multi_actions,
-                $component->getMultiActionSignal(),
-                $modal->getShowSignal()
-            );
-            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
-            $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
-        }
-
         return $tpl->get();
-    }
-
-
-    protected function getViewControls(
-        Component\Table\Data $component,
-        ?int $total_count = null
-    ): Component\Input\Container\ViewControl\ViewControl {
-        $f = $this->getUIFactory();
-        $df = $this->getDataFactory();
-
-
-        $smallest_option = Pagination::DEFAULT_LIMITS[0];
-        if ($total_count >= $smallest_option) {
-            $vcs['range'] = $f->input()->viewControl()->pagination()->withTotalCount($total_count);
-        }
-
-        $sortable_visible_cols = array_filter(
-            $component->getVisibleColumns(),
-            static fn ($c): bool => $c->isSortable()
-        );
-        $sort_options = [];
-        foreach ($sortable_visible_cols as $id => $col) {
-            $sort_options[$col->getTitle() . ', ' . $this->txt('ascending') ] = $df->order($id, 'ASC');
-            $sort_options[$col->getTitle() . ', ' . $this->txt('decending') ] = $df->order($id, 'DESC');
-        }
-
-        if ($sort_options !== []) {
-            $vcs['order'] = $f->input()->viewControl()->sortation($sort_options);
-        }
-
-        $optional_cols = array_filter(
-            $component->getColumns(),
-            static fn ($c): bool => $c->isOptional()
-        );
-        $aspect_options = [];
-        foreach ($optional_cols as $id => $col) {
-            $aspect_options[$id] = $col->getTitle();
-        }
-        if ($aspect_options !== []) {
-            $vcs['selected_optional'] = $f->input()->viewControl()->fieldSelection($aspect_options, 'shown columns', 'apply');
-        }
-
-        return $f->input()->container()->viewControl()->standard($vcs);
-    }
-
-    /**
-     * @return array<Component\Table\Data, Component\Input\Container\ViewControl\ViewControl>
-     */
-    protected function applyViewControls(
-        Component\Table\Data $component,
-        Component\Input\Container\ViewControl\ViewControl $view_controls,
-        ?int $total_count,
-        array $filter_data,
-        array $additional_parameters
-    ): array {
-        $df = $this->getDataFactory();
-
-        if ($request = $component->getRequest()) {
-            $view_controls = $this->getViewControls($component, $total_count)
-                ->withRequest($component->getRequest());
-
-            $data = $view_controls->getData();
-            if ($range = $data['range'] ?? null) {
-                if ($range->getLength() >= $total_count) {
-                    $range = $df->range(0, $range->getLength());
-                }
-                $component = $component->withRange($range);
-            }
-
-            if ($order = $data['order'] ?? null) {
-                $component = $component->withOrder($order);
-            }
-
-            if ($selected_optional = $data['selected_optional'] ?? []) {
-                $component = $component->withSelectedOptionalColumns($selected_optional);
-            }
-        }
-
-        return [
-            $component
-                ->withFilter($filter_data)
-                ->withAdditionalParameters($additional_parameters),
-            $view_controls
-        ];
     }
 
     protected function renderTableHeader(
         RendererInterface $default_renderer,
         Component\Table\Data $component,
         Template $tpl,
-        Component\Signal $sortation_signal
+        ?Component\Signal $sortation_signal
     ): void {
         $order = $component->getOrder();
         $glyph_factory = $this->getUIFactory()->symbol()->glyph();
@@ -358,12 +277,12 @@ class Renderer extends AbstractComponentRenderer
             $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
                 if ($sort_direction === Order::ASC) {
-                    $sortation = 'ascending';
+                    $sortation = $this->txt('order_option_generic_ascending');
                     $sortation_glyph = $glyph_factory->sortAscending("#");
                     $param_sort_direction = Order::DESC;
                 }
                 if ($sort_direction === Order::DESC) {
-                    $sortation = 'decending';
+                    $sortation = $this->txt('order_option_generic_descending');
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
             }
@@ -371,7 +290,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
 
-            if ($col->isSortable()) {
+            if ($col->isSortable() && ! is_null($sortation_signal)) {
                 $sort_signal = clone $sortation_signal;
                 $sort_signal->addOption('value', "$col_id:$param_sort_direction");
                 $col_title = $default_renderer->render(
@@ -405,6 +324,26 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
+    /**
+     * Renders a full-width cell with a single message within, indication there is no
+     * data to display. This is achieved using a <td> colspan attribute.
+     */
+    protected function renderFullWidthDataCell(Component\Table\Data $component, Template $tpl, string $content): void
+    {
+        $cell_tpl = $this->getTemplate('tpl.datacell.html', true, true);
+        $cell_tpl->setCurrentBlock('cell');
+        $cell_tpl->setVariable('CELL_CONTENT', $content);
+        $cell_tpl->setVariable('COL_SPAN', count($component->getVisibleColumns()));
+        $cell_tpl->setVariable('COL_TYPE', 'full-width');
+        $cell_tpl->setVariable('COL_INDEX', '1');
+        $cell_tpl->parseCurrentBlock();
+
+        $tpl->setCurrentBlock('row');
+        $tpl->setVariable('ALTERNATION', 'even');
+        $tpl->setVariable('CELLS', $cell_tpl->get());
+        $tpl->parseCurrentBlock();
+    }
+
     protected function appendTableRows(
         Template $tpl,
         \Generator $rows,
@@ -419,6 +358,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('CELLS', $row_contents);
             $tpl->parseCurrentBlock();
         }
+    }
+
+    protected function renderEmptyPresentationRow(Template $tpl, RendererInterface $default_renderer, string $content): void
+    {
+        $row_tpl = $this->getTemplate('tpl.presentationrow_empty.html', true, true);
+        $row_tpl->setVariable('CONTENT', $content);
+        $tpl->setVariable('ROW', $row_tpl->get());
     }
 
     /**
@@ -537,7 +483,12 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->setCurrentBlock('cell');
             $cell_tpl->setVariable('COL_TYPE', strtolower($column->getType()));
             $cell_tpl->setVariable('COL_INDEX', $column->getIndex());
-            $cell_tpl->setVariable('CELL_CONTENT', $component->getCellContent($col_id));
+            $cell_content = $component->getCellContent($col_id);
+            if ($cell_content instanceof Component\Component) {
+                $cell_content = $default_renderer->render($cell_content);
+            }
+            $cell_tpl->setVariable('CELL_CONTENT', $cell_content);
+            $cell_tpl->setVariable('CELL_COL_TITLE', $component->getColumns()[$col_id]->getTitle());
             $cell_tpl->parseCurrentBlock();
         }
 

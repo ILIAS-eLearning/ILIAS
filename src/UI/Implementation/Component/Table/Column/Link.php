@@ -18,19 +18,17 @@
 
 declare(strict_types=1);
 
-require_once 'tests/UI/AbstractFactoryTest.php';
+namespace ILIAS\UI\Implementation\Component\Table\Column;
 
-class TableFactoryTest extends AbstractFactoryTest
+use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\UI\Component\Link\Standard;
+use ILIAS\UI\Component\Component;
+
+class Link extends Column implements C\Link
 {
-    public array $kitchensink_info_settings = [
-        "presentation" => [
-            "context" => false,
-            "rules" => true
-        ],
-        "data" => [
-            "context" => false
-        ]
-    ];
-
-    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    public function format($value): string|Component
+    {
+        $this->checkArgInstanceOf('value', $value, Standard::class);
+        return $value;
+    }
 }

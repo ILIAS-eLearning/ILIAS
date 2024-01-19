@@ -42,10 +42,9 @@ function base()
         'fee' => $f->table()->column()->number("Fee")
             ->withDecimals(2)
             ->withUnit('£', I\Column\Number::UNIT_POSITION_FORE),
-        'hidden' => $f->table()->column()->status("success")
+        'failure_txt' => $f->table()->column()->status("failure")
             ->withIsSortable(false)
-            ->withIsOptional(true)
-            ->withIsInitiallyVisible(false),
+            ->withIsOptional(true, false),
     ];
 
     /**
@@ -130,15 +129,10 @@ function base()
      * Those parameters are being provided to DataRetrieval::getRows.
      */
     $data_retrieval = new class ($f, $r) implements I\DataRetrieval {
-        protected \ILIAS\UI\Factory $ui_factory;
-        protected \ILIAS\UI\Renderer $ui_renderer;
-
         public function __construct(
-            \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer
+            protected \ILIAS\UI\Factory $ui_factory,
+            protected \ILIAS\UI\Renderer $ui_renderer
         ) {
-            $this->ui_factory = $ui_factory;
-            $this->ui_renderer = $ui_renderer;
         }
 
         public function getRows(
@@ -153,6 +147,7 @@ function base()
             foreach ($records as $idx => $record) {
                 $row_id = (string)$record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
+                $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;
                 $record['achieve'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
@@ -204,12 +199,13 @@ function base()
                 }
             }
             if ($range) {
-                $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
+                $records = array_slice($records, $range->getStart(), $range->getLength());
             }
 
             return $records;
         }
     };
+
 
     /**
      * setup the Table and hand over the request
@@ -241,9 +237,8 @@ function base()
         /** take care of the async-call; 'delete'-action asks for it. */
         if ($action === 'delete') {
             $items = [];
-            $ids = explode(',', $ids);
             foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem($id, $id);
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
@@ -257,7 +252,7 @@ function base()
         }
         if ($action === 'info') {
             echo(
-                $r->render($f->messageBox()->info('an info message: <br>' . $ids))
+                $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
                 . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
             );
             exit();

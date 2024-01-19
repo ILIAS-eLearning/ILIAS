@@ -33,12 +33,12 @@ function base()
 
     //define standard (both single and multi) actions for the table
     $actions = [
-        'some_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do this',
             $url_builder->withParameter($action_token, "do_something"),
             $id_token
         ),
-        'some_other_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do something else',
             $url_builder->withParameter($action_token, "do_something_else"),
             $id_token
@@ -62,7 +62,7 @@ function base()
             $items = [];
             $ids = explode(',', $ids);
             foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem($id, $id);
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
@@ -109,7 +109,7 @@ function getExampleTable($f)
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return 6;
         }
     };
     return $f->table()->data('a data table with actions', $columns, $data_retrieval);

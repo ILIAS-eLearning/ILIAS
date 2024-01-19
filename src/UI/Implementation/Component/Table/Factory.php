@@ -22,6 +22,8 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Input\ViewControl\Factory as ViewControlFactory;
+use ILIAS\UI\Component\Input\Container\ViewControl\Factory as ViewControlContainerFactory;
 use ILIAS\Data\Factory as DataFactory;
 use Closure;
 
@@ -30,24 +32,15 @@ use Closure;
  */
 class Factory implements T\Factory
 {
-    protected SignalGeneratorInterface $signal_generator;
-    protected DataFactory $data_factory;
-    protected T\Column\Factory $column_factory;
-    protected T\Action\Factory $action_factory;
-    protected DataRowBuilder $data_row_builder;
-
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        DataFactory $data_factory,
-        T\Column\Factory $column_factory,
-        T\Action\Factory $action_factory,
-        DataRowBuilder $data_row_builder
+        protected SignalGeneratorInterface $signal_generator,
+        protected ViewControlFactory $view_control_factory,
+        protected ViewControlContainerFactory $view_control_container_factory,
+        protected DataFactory $data_factory,
+        protected T\Column\Factory $column_factory,
+        protected T\Action\Factory $action_factory,
+        protected DataRowBuilder $data_row_builder
     ) {
-        $this->signal_generator = $signal_generator;
-        $this->data_factory = $data_factory;
-        $this->column_factory = $column_factory;
-        $this->action_factory = $action_factory;
-        $this->data_row_builder = $data_row_builder;
     }
 
     /**
@@ -68,6 +61,8 @@ class Factory implements T\Factory
     ): T\Data {
         return new Data(
             $this->signal_generator,
+            $this->view_control_factory,
+            $this->view_control_container_factory,
             $this->data_factory,
             $this->data_row_builder,
             $title,

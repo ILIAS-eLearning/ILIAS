@@ -28,6 +28,8 @@ function base()
     ];
 
     $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
+        protected array $records;
+
         public function __construct(
             array $dummy_records
         ) {
@@ -55,7 +57,7 @@ function base()
             ?array $filter_data,
             ?array $additional_parameters
         ): ?int {
-            return null;
+            return count($this->records);
         }
     };
 

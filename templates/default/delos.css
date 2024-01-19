@@ -7942,6 +7942,144 @@ ul.dropdown-menu > li > .btn:focus {
 .panel-secondary .il-viewcontrol-section .glyphicon {
   font-size: 0.875rem;
 }
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode,
+.il-viewcontrol-pagination__sectioncontrol {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode {
+  width: fit-content;
+  min-height: 2.6rem;
+  min-width: 2.6rem;
+  border: 1px solid #e2e8ef;
+  padding: 3px;
+  background-color: #e2e8ef;
+  border-radius: 10px;
+}
+.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-mode > .btn-link {
+  @extend .btn-ctrl;
+}
+.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-section > .btn-ctrl,
+.il-viewcontrol-section .btn-group > .btn-ctrl,
+.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl,
+.il-viewcontrol-pagination__num-of-items > .btn-ctrl,
+.il-viewcontrol-pagination > .btn-ctrl,
+.il-viewcontrol-pagination .dropdown > .btn-ctrl,
+.il-viewcontrol-pagination .last > .btn-ctrl,
+.il-viewcontrol-mode > .btn-ctrl {
+  min-height: 1.9rem;
+  min-width: 1.9rem;
+  border-radius: 10px;
+}
+.il-viewcontrol-sortation .btn-default.btn {
+  @extend .btn-ctrl;
+  border-radius: 10px;
+}
+.il-viewcontrol-pagination__sectioncontrol .browse,
+.il-viewcontrol-pagination .browse,
+.il-viewcontrol-section .browse {
+  display: inline-block;
+}
+.il-viewcontrol-section .glyphicon {
+  vertical-align: middle;
+}
+.il-viewcontrol-section .glyphicon::before {
+  top: 0;
+  vertical-align: middle;
+}
+.il-viewcontrol-pagination .glyph .glyphicon {
+  vertical-align: middle;
+}
+.il-viewcontrol-pagination .glyph .glyphicon::before {
+  top: 0;
+  vertical-align: middle;
+}
+.il-viewcontrol-fieldselection .dropdown-menu {
+  padding: 15px 9px;
+}
+.il-viewcontrol-sortation .dropdown-toggle .caret,
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret,
+.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+  display: inline;
+  border: none;
+  vertical-align: initial;
+}
+.il-viewcontrol-sortation .dropdown-toggle .caret:before {
+  content: "\21f5";
+}
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret:before {
+  font-family: il-icons;
+  font-size: 0.8rem;
+  content: "\e900";
+}
+.il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+  font-family: "Glyphicons Halflings";
+  font-size: 0.8rem;
+  content: "\e105";
+}
+.il-viewcontrol-pagination .engaged,
+.il-viewcontrol-mode .engaged {
+  pointer-events: none;
+  cursor: default;
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row {
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  gap: 9px;
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row label {
+  width: fit-content;
+  margin-left: 9px;
+  margin-bottom: 0;
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row label:after {
+  content: ":";
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row [class*="col-"] {
+  width: auto;
+  flex-grow: 1;
+  padding: 0;
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row input[type="number"] {
+  width: 5rem;
+}
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
@@ -8905,6 +9043,132 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 }
 .il-table-data .header.cell {
   font-weight: 600;
+}
+.c-table-data .viewcontrols {
+  margin-bottom: 6px;
+}
+.c-table-data__table {
+  background-color: white;
+}
+.c-table-data__cell {
+  background-color: white;
+  padding: 6px 12px;
+  border: 1px solid #dddddd;
+}
+.c-table-data__row:hover td.c-table-data__cell {
+  background-color: #f0f0f0;
+}
+th.c-table-data__cell {
+  padding: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+th.c-table-data__cell.c-table-data__header__rowselection {
+  padding: 12px 12px;
+  text-align: center;
+}
+th.c-table-data__cell:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(180deg, #00000021, transparent);
+  z-index: 3;
+}
+.c-table-data__header__resize-wrapper {
+  padding: 12px 12px;
+  height: 100%;
+  margin: 0px;
+  display: block;
+  vertical-align: bottom;
+  max-height: 85px;
+  overflow: hidden;
+}
+.c-table-data__header__resize-wrapper:after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  display: block;
+  position: absolute;
+  height: 18px;
+  width: calc(100% - 10px);
+  background: linear-gradient(360deg, white, transparent);
+  pointer-events: none;
+}
+.c-table-data__rowselection {
+  min-width: 50px;
+  text-align: center;
+}
+.c-table-data__rowselection:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: -5px;
+  height: 100%;
+  width: 5px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.12941176), transparent);
+  z-index: 2;
+}
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+  position: -webkit-sticky;
+  position: sticky;
+  left: -1px;
+  z-index: 2;
+}
+.c-table-data__multiaction-triggerer {
+  width: fit-content;
+}
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+.c-table-data__multiaction-triggerer {
+  padding-top: 6px;
+  padding-left: 12px;
+}
+.c-table-data__cell--link .c-table-data__header__resize-wrapper,
+.c-table-data__cell--linklisting .c-table-data__header__resize-wrapper,
+.c-table-data__cell--text .c-table-data__header__resize-wrapper {
+  min-width: 140px;
+  resize: horizontal;
+}
+.c-table-data__cell--email .c-table-data__header__resize-wrapper {
+  min-width: 200px;
+  resize: horizontal;
+}
+td.c-table-data__cell--email {
+  text-align: right;
+}
+.c-table-data__cell--number .c-table-data__header__resize-wrapper,
+.c-table-data__cell--status .c-table-data__header__resize-wrapper {
+  width: 110px;
+  resize: horizontal;
+}
+td.c-table-data__cell--number {
+  text-align: right;
+}
+.c-table-data__cell--date .c-table-data__header__resize-wrapper {
+  min-width: 110px;
+  resize: horizontal;
+}
+.c-table-data__cell--statusicon .c-table-data__header__resize-wrapper,
+.c-table-data__cell--boolean .c-table-data__header__resize-wrapper {
+  min-width: 40px;
+  resize: horizontal;
+}
+td.c-table-data__cell--highlighted {
+  background-color: #f9f9f9;
+}
+.c-table-data__row:hover td.c-table-data__cell--highlighted {
+  background-color: #dedede;
 }
 .il-workflow {
   word-break: break-word;
@@ -11236,6 +11500,7 @@ with the il- variable set here.
 /** nagtive or positive contrast color for text and glyph **/
 /** contrast threshold for contrast color **/
 /** three color variants for neutral, important, breaking Head Infos **/
+@il-btn-ctrl-engaged-border : s-color.#4c6586;
 .webui-popover-content {
   display: none;
 }
@@ -19974,4 +20239,28 @@ table.mceToolbar td {
     height: auto !important;
     width: auto !important;
   }
+}
+.l-bar__container,
+.l-bar__group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.l-bar__container:not(:empty).l-bar__container--space-between {
+  justify-content: space-between;
+}
+.l-bar__container > .l-bar__group {
+  margin-right: 15px;
+}
+.l-bar__container > .l-bar__group:last-child {
+  margin-right: 0;
+}
+.l-bar__container > .l-bar__element,
+.l-bar__group > .l-bar__element {
+  margin-right: 3px;
+}
+.l-bar__container > .l-bar__element:last-child,
+.l-bar__group > .l-bar__element:last-child {
+  margin-right: 0;
 }
