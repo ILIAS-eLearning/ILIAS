@@ -121,11 +121,13 @@ class ilCmiXapiSettingsGUI
 
     protected function showCmd(ilPropertyFormGUI $form = null): void
     {
-        $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
-
-        $form = $this->buildForm();
-
-        $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
+        if ($this->dic->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
+            $form = $this->buildForm();
+            $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
+        } else {
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt('permission_denied'), false);
+        }
     }
 
     protected function buildForm(): \ilPropertyFormGUI

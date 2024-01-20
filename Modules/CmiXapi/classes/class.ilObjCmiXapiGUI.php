@@ -445,8 +445,15 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
             default:
 
-                $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
-                $this->{$command}();
+                if($DIC->ctrl()->getCmd() == "settings") {
+                    $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
+                    $DIC->ctrl()->setCmd('show');
+                    $gui = new ilCmiXapiSettingsGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                } else {
+                    $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
+                    $this->{$command}();
+                }
         }
     }
 
