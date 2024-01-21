@@ -27,7 +27,7 @@ interface TestLoggingRepository
     public function storeTestAdministrationInteraction(TestAdministrationInteraction $interaction): void;
     public function storeQuestionAdministrationInteraction(TestQuestionAdministrationInteraction $interaction): void;
     public function storeParticipantInteraction(TestParticipantInteraction $interaction): void;
-    public function storeMarkingInteraction(TestMarkingInteraction $interaction): void;
+    public function storeScoringInteraction(TestScoringInteraction $interaction): void;
     public function storeError(TestError $interaction): void;
 
     public function getLogsForRefId(int $ref_id = null): array;

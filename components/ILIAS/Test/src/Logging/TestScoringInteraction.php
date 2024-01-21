@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-class TestMarkingInteraction implements TestUserInteraction
+class TestScoringInteraction implements TestUserInteraction
 {
     /**
     * @param array<string label_lang_var => mixed value> $additional_data
@@ -31,7 +31,7 @@ class TestMarkingInteraction implements TestUserInteraction
         private readonly int $question_id,
         private readonly \ilObjUser $administrator,
         private readonly \ilObjUser $participant,
-        private readonly TestMarkingInteractionTypes $interaction_types,
+        private readonly TestScoringInteractionTypes $interaction_types,
         private readonly int $modification_timestamp,
         private readonly array $additional_data
     ) {
@@ -58,7 +58,7 @@ class TestMarkingInteraction implements TestUserInteraction
         return $this->participant->getId();
     }
 
-    public function getInteractionType(): TestMarkingInteractionTypes
+    public function getInteractionType(): TestScoringInteractionTypes
     {
         return $this->interaction_types;
     }

@@ -54,9 +54,9 @@ class TestLogger implements LoggerInterface
         $this->logging_repository->storeParticipantInteraction($interaction);
     }
 
-    public function logMarkingInteraction(TestMarkingInteraction $interaction): void
+    public function logScoringInteraction(TestScoringInteraction $interaction): void
     {
-        $this->logging_repository->storeMarkingInteraction($interaction);
+        $this->logging_repository->storeScoringInteraction($interaction);
     }
 
     public function emergency(string|\Stringable $message, array $context = []): void
