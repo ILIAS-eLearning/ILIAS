@@ -44,7 +44,8 @@
 		"ext-libxml": "*",
 		"ext-xml": "*",
 		"ext-zip": "*",
-		"ext-imagick": "*"
+		"ext-imagick": "*",
+		"firebase/php-jwt": "^6.10"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -121,6 +122,16 @@
 			"approved-by": "",
 			"approved-date": "",
 			"info": "will be core extension with PHP 8.0"
+		},
+		"firebase/php-jwt" : {
+			"source" : "https://github.com/firebase/php-jwt",
+			"used_version" : "v6.10",
+			"wrapped_by" : "",
+			"added_by" : "Stefan Schneider <eqsoft4@gmail.com>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
 		},
 		"patches": {
 			"phpmailer/phpmailer": {

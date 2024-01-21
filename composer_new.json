@@ -43,7 +43,7 @@
 		"ext-libxml": "*",
 		"ext-xml": "*",
 		"ext-zip": "*",
-		"ext-imagick": "*",
+		"ext-imagick": "*"
 	},
 	"require-dev": {
 	},
