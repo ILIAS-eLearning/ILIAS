@@ -277,7 +277,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $show_feedback = false,
         $show_correct_solution = false,
         $show_manual_scoring = false,
-        $show_question_text = true
+        $show_question_text = true,
+        $show_autosave_title = false
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
 
@@ -297,6 +298,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $solution = '';
         $autosaved_solution = $this->object->getLatestAutosaveContent($active_id, $pass);
         if(!is_null($autosaved_solution)) {
+            if ($show_autosave_title) {
+                $template->setCurrentBlock('autosave_title');
+                $template->setVariable('AUTOSAVE_TITLE', $this->lng->txt('autosavecontent'));
+                $template->parseCurrentBlock();
+            }
             $solution = $this->object->getHtmlUserSolutionPurifier()->purify($autosaved_solution);
             if ($this->renderPurposeSupportsFormHtml()) {
                 $template->setCurrentBlock('essay_div');

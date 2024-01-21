@@ -781,10 +781,6 @@ class ilTestServiceGUI
      */
     public function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectivesList = null): string
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $test_id = $this->object->getTestId();
         $question_gui = $this->object->createQuestionGUI("", $question_id);
 
         if ($this->isPdfDeliveryRequest()) {
@@ -794,6 +790,20 @@ class ilTestServiceGUI
         $template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", true, true, "Modules/Test");
         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
         $result_output = $question_gui->getSolutionOutput($active_id, $pass, true, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, false, true);
+        if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+            $result_output .= $question_gui->getAutoSavedSolutionOutput(
+                $active_id,
+                $pass,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                true
+            );
+        }
         $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true, false, false);
         if ($this->object->getShowSolutionFeedback() && $this->testrequest->raw('cmd') != 'outCorrectSolution') {
             $specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
