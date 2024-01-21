@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ec1717146da9fce8e72ffeba39f55cb",
+    "content-hash": "838d01a3cb3daf180675c7ee05c5fba4",
     "packages": [
+        {
+            "name": "celtic/lti",
+            "version": "v5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/celtic-project/LTI-PHP.git",
+                "reference": "1d77a66fb391ba3ce2d1072adb4d4f09ad3e55cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/celtic-project/LTI-PHP/zipball/1d77a66fb391ba3ce2d1072adb4d4f09ad3e55cd",
+                "reference": "1d77a66fb391ba3ce2d1072adb4d4f09ad3e55cd",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^6.8",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ceLTIc\\LTI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen P Vickers",
+                    "email": "stephen@spvsoftwareproducts.com"
+                }
+            ],
+            "description": "PHP class library for building LTI integrations",
+            "homepage": "https://github.com/celtic-project/LTI-PHP",
+            "keywords": [
+                "LTI"
+            ],
+            "support": {
+                "issues": "https://github.com/celtic-project/LTI-PHP/issues",
+                "source": "https://github.com/celtic-project/LTI-PHP/tree/v5.0.2"
+            },
+            "time": "2024-01-08T15:35:34+00:00"
+        },
         {
             "name": "firebase/php-jwt",
             "version": "v6.10.0",

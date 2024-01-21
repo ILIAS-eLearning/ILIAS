@@ -45,7 +45,8 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
-		"firebase/php-jwt": "^6.10"
+		"firebase/php-jwt": "^6.10",
+		"celtic/lti": "^5.0"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -126,6 +127,16 @@
 		"firebase/php-jwt" : {
 			"source" : "https://github.com/firebase/php-jwt",
 			"used_version" : "v6.10",
+			"wrapped_by" : "",
+			"added_by" : "Stefan Schneider <eqsoft4@gmail.com>",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2023-12-22"
+		},
+		"celtic/lti" : {
+			"source" : "https://github.com/celtic-project/LTI-PHP",
+			"used_version" : "v5.0",
 			"wrapped_by" : "",
 			"added_by" : "Stefan Schneider <eqsoft4@gmail.com>",
 			"last_update" : "",
