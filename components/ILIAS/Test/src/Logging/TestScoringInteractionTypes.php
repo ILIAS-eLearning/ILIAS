@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-enum TestMarkingInteractionTypes: string
+enum TestScoringInteractionTypes: string
 {
     case QUESTION_GRADED = 'question_graded';
 }

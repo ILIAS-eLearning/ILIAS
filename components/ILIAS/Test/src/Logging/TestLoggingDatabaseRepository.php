@@ -50,7 +50,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         $this->db->insert(self::PARTICIPANT_LOG_TABLE, $interaction->toStorage());
     }
 
-    public function storeMarkingInteraction(TestMarkingInteraction $interaction): void
+    public function storeScoringInteraction(TestScoringInteraction $interaction): void
     {
         $this->db->insert(self::MARKING_LOG_TABLE, $interaction->toStorage());
     }
