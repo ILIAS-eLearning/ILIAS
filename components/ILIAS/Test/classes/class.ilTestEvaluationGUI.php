@@ -18,10 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\GlobalScreen\Services as GSServices;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\DI\LoggingServices;
 
 /**
  * Output class for assessment test evaluation
@@ -1790,7 +1787,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $questionList->setParentObjId($this->object->getId());
         $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);
-        $questionList->setQuestionInstanceTypeFilter(null);
 
         foreach ($table_gui->getFilterItems() as $item) {
             if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {

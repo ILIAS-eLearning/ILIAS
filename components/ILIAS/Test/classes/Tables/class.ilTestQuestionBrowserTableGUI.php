@@ -22,7 +22,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Notes\Service as NotesService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
@@ -65,7 +64,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private Refinery $refinery,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private NotesService $notes_service,
         private InternalRequestService $testrequest,
         private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {

@@ -78,7 +78,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         private ilDBInterface $db,
         private ilLanguage $lng,
         private ilComponentRepository $component_repository,
-        private NotesService $notes_service
+        private ?NotesService $notes_service = null
     ) {
     }
 
@@ -592,7 +592,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     protected function getNumberOfCommentsForQuestion(int $question_id): int
     {
-        if ($this->getParentObjId() === null) {
+        if ($this->notes_service === null) {
             return 0;
         }
         $notes_context = $this->notes_service->data()->context(
