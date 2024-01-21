@@ -48,6 +48,16 @@
       "developer": "mjansen",
       "purpose": "Services/Link, autolinking of external links",
       "last-update-for-ilias": "10.0"
+    },
+    "jest": {
+      "introduction-date": null,
+      "approved-by": "Jour Fixe",
+      "developer": "thibsy",
+      "purpose": "for components/ILIAS/UI/tests/Client/*",
+      "last-update-for-ilias": "10.0"
     }
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
