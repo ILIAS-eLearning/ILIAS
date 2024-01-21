@@ -592,6 +592,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     protected function getNumberOfCommentsForQuestion(int $question_id): int
     {
+        if ($this->getParentObjId() === null) {
+            return 0;
+        }
         $notes_context = $this->notes_service->data()->context(
             $this->getParentObjId(),
             $question_id,
