@@ -28,6 +28,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     private readonly array $mode;
     private readonly Data\Factory $data_factory;
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
+    /** @var array<int, array<string, string>>|null */
     private ?array $records = null;
     private bool $buddysystem_enabled;
     private bool $mailing_allowed = false;

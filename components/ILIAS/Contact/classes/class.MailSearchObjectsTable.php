@@ -24,11 +24,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
 {
-    private array $mode;
+    /** @var array<string, string> */
+    private readonly array $mode;
     private int $num_hidden_members = 0;
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
+    /** @var array<int, array<string, string>>|null */
     private ?array $records = null;
 
     private function getCurrentObject(int $obj_id): ilObjCourse|ilObjGroup
