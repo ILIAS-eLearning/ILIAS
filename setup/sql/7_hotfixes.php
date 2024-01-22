@@ -1847,3 +1847,14 @@ if (
     $ilDB->addIndex('webr_items', ['webr_id', 'active'], 'i4');
 }
 ?>
+<#110>
+<?php
+    if ($ilDB->tableColumnExists('usr_data', 'street')) {
+        $ilDB->modifyTableColumn('usr_data', 'street', [
+            'type' => \ilDBConstants::T_TEXT,
+            'length' => 512,
+            'notnull' => false
+        ]);
+    }
+?>
+
