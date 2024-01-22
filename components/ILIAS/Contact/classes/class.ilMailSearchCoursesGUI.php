@@ -25,9 +25,26 @@ declare(strict_types=1);
 */
 class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
 {
-    protected function getObjectType(): string
+    public function getObjectType(): string
     {
         return 'crs';
+    }
+
+    public function getObjectTypeLabel(): string
+    {
+        return $this->lng->txt('course');
+    }
+
+    public function getSearchTableTitle(): string
+    {
+        return $this->lng->txt('mail_my_courses');
+    }
+
+    public function doesExposeMembers(ilObject $object): bool
+    {
+        $is_privileged_user = $this->rbacsystem->checkAccess('write', $object->getRefId());
+
+        return ($object->isActivated() && $object->getShowMembers()) || $is_privileged_user;
     }
 
     protected function getLocalDefaultRolePrefixes(): array
@@ -37,14 +54,5 @@ class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
             'il_crs_tutor_',
             'il_crs_admin_',
         ];
-    }
-
-    protected function doesExposeMembers(ilObject $object): bool
-    {
-        $isOffline = !$object->isActivated();
-        $showMemberListEnabled = (bool) $object->getShowMembers();
-        $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $object->getRefId());
-
-        return (!$isOffline && $showMemberListEnabled) || $isPrivilegedUser;
     }
 }
