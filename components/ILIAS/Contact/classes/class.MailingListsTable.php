@@ -190,7 +190,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         $records = $this->records;
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), false);
+        return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
     }
 
     /**
