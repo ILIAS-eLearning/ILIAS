@@ -149,9 +149,20 @@ function base()
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;
-                $record['achieve'] = $this->ui_renderer->render(
-                    $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
-                );
+
+                $icons = [
+                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_checked.svg', '', 'small'),
+                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small'),
+                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_x.svg', '', 'small'),
+                ];
+                $icon = $icons[2];
+                if($record['achieve'] > 80) {
+                    $icon = $icons[0];
+                }
+                if($record['achieve'] < 30) {
+                    $icon = $icons[1];
+                }
+                $record['achieve'] = $icon;
 
                 yield $row_builder->buildDataRow($row_id, $record)
                     /** Actions may be disabled for specific rows: */
