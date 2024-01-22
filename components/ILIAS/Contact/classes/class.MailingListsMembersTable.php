@@ -47,7 +47,8 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory->table()
                                 ->data(
                                     sprintf(
-                                        $this->lng->txt('mail_members_of_mailing_list'), $this->mailing_list->getTitle()
+                                        $this->lng->txt('mail_members_of_mailing_list'),
+                                        $this->mailing_list->getTitle()
                                     ),
                                     $columns,
                                     $this
@@ -56,6 +57,9 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
                                 ->withRequest($this->request);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getColumns(): array
     {
         return [
@@ -64,7 +68,10 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         ];
     }
 
-    protected function getActions(): array
+    /**
+     * @return array<string, mixed>
+     */
+    private function getActions(): array
     {
         $query_params_namespace = ['contact', 'mailinglist', 'members'];
 
@@ -140,9 +147,6 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
-    /**
-     * @todo change this workaround, if there is a general decision about the sorting strategy
-     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
@@ -157,8 +161,13 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return $this->limitRecords($records, $range);
     }
 
+    /**
+     * @param array<int, array<string, string>> $records
+     * @return array<int, array<string, string>>
+     */
     private function limitRecords(array $records, Data\Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
     }
+
 }
