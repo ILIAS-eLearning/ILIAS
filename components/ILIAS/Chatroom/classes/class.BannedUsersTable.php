@@ -165,7 +165,6 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
 
     /**
      * @param array<int, array<string, string>> $records
-     * @param Data\Range                        $range
      * @return array<int, array<string, string>>
      */
     private function limitRecords(array $records, Data\Range $range): array
