@@ -26,7 +26,18 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
     protected ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     protected readonly Data\Factory $data_factory;
+    protected bool $mailing_allowed = false;
     private ?array $records = null;
+
+    public function isMailingAllowed(): bool
+    {
+        return $this->mailing_allowed;
+    }
+
+    public function setMailingAllowed(bool $mailing_allowed): void
+    {
+        $this->mailing_allowed = $mailing_allowed;
+    }
 
     public function __construct(
         private readonly ilMailingLists $mailing_lists,
@@ -87,35 +98,33 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 'ml_ids'
             );
 
-        return [
+        $actions = [
             'confirmDelete' => $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('delete'),
                 $url_builder->withParameter($action_parameter_token_copy, 'confirmDelete'),
                 $row_id_token
             ),
-            'mailToList' => $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('send_mail_to'),
-                $url_builder->withParameter($action_parameter_token_copy, 'mailToList'),
-                $row_id_token
-            ),
-
-            "showForm" => $this->ui_factory->table()->action()->single(
+            'showForm' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
                 $url_builder->withParameter($action_parameter_token_copy, 'showForm'),
                 $row_id_token
             ),
-            "showMembersList" => $this->ui_factory->table()->action()->single(
+            'showMembersList' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('members'),
                 $url_builder->withParameter($action_parameter_token_copy, 'showMembersList'),
                 $row_id_token
-            ),
-            "mailToList" => $this->ui_factory->table()->action()->single(
+            )
+        ];
+
+        if ($this->isMailingAllowed()) {
+            $actions['mailToList'] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('send_mail_to'),
                 $url_builder->withParameter($action_parameter_token_copy, 'mailToList'),
                 $row_id_token
-            ),
+            );
+        }
 
-        ];
+        return $actions;
     }
 
     private function initRecords(): void
@@ -165,9 +174,6 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
-    /**
-     * @todo change this workaround, if there is a general decision about the sorting strategy
-     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
@@ -182,6 +188,10 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         return $this->limitRecords($records, $range);
     }
 
+    /**
+     * @param array<int, array<string, string>> $records
+     * @return array<int, array<string, string>>
+     */
     private function limitRecords(array $records, Data\Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
