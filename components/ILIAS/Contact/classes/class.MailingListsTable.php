@@ -147,7 +147,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 }
 
                 $this->records[$counter]['ml_id'] = $entry->getId();
-                $this->records[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
+                $this->records[$counter]['title'] = $entry->getTitle() . ' [#il_ml_' . $entry->getId() . ']';
                 $this->records[$counter]['description'] = $entry->getDescription() ?? '';
                 $this->records[$counter]['members'] = count($entry->getAssignedEntries());
                 $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
