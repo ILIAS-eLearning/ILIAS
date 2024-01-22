@@ -93,6 +93,7 @@ The following settings in individual feedback surveys configure privacy related 
 
 ## Data being deleted
 
+Work in progress.
 
 ## Data being exported
 
