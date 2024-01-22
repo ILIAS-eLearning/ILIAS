@@ -25,18 +25,18 @@ use ILIAS\HTTP\Services;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
-    protected ServerRequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface $request;
+    private Data\Factory $data_factory;
     private ?array $records = null;
 
     public function __construct(
         private readonly array $banned_users,
         private readonly \ilCtrl $ctrl,
         private readonly \ilLanguage $lng,
-        private readonly Services $http,
+        $http,
         private readonly \ILIAS\UI\Factory $ui_factory
     ) {
-        $this->request = $this->http->request();
+        $this->request = $http->request();
         $this->data_factory = new Data\Factory();
     }
 
@@ -163,6 +163,11 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         return $this->limitRecords($records, $range);
     }
 
+    /**
+     * @param array<int, array<string, string>> $records
+     * @param Data\Range                        $range
+     * @return array<int, array<string, string>>
+     */
     private function limitRecords(array $records, Data\Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());

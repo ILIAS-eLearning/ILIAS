@@ -57,7 +57,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    public function handleTableActions(): void
+    private function handleTableActions(): void
     {
         $query = $this->http->wrapper()->query();
         if (!$query->has('chat_ban_table_action')) {
