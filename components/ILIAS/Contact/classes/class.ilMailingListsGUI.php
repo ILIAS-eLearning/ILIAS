@@ -506,8 +506,7 @@ class ilMailingListsGUI
             $this->ui_factory,
             $this->http
         );
-        $tbl_html = $this->ui_renderer->render($tbl->getComponent());
-        $this->tpl->setVariable('MEMBERS_LIST', $tbl_html);
+        $this->tpl->setVariable('MEMBERS_LIST',  $this->ui_renderer->render($tbl->getComponent()));
         $this->tpl->printToStdout();
 
         return true;
