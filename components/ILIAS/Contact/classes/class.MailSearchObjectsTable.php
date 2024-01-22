@@ -54,6 +54,7 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
             }
             $path .= $data['title'];
         }
+
         return $path;
     }
 
@@ -133,6 +134,9 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getActions(): array
     {
         $query_params_namespace = ['contact', 'mailinglist', 'search'];
@@ -282,6 +286,9 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
