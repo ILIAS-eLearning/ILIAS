@@ -60,3 +60,22 @@ This part of the documentation deals with concepts and business rules, for techn
 - **Overview**: This view lists all questions, numbers of user who answered/skipped and median/arithmetic means per answer.
 - **Details**: This view will list detailed results per question including numbers of user who answered/skipped, most selected value, nr of selections, median/arithmetic means per answer. It will output the total number and percentage per answer option as table and bar chart.
 - **Per Participant**: This view includes a table listing all answers of all participants, their working time for the survey and finished timestamp.
+
+### 360° Survey Results Views
+
+- **Competence Results**: Lists the competence results calculated per appraisee. This presents a calculated level for each competence that has related answered questions.
+- **Overview**: Same as in standard survey, but aggregated per appraisee.
+- **Details**: Same as in standard survey, but aggregated per appraisee.
+- **Per Participant**: This view includes a table listing all answers of all raters, their working time for the survey and finished timestamp. The answers are listed without referencing the appraisees. All raters are listed as "Anonymous".
+
+### Self Evaluation Results Views
+
+- **Competence Results**: Lists the competence results calculated per participant. This presents a calculated level for each competence that has related answered questions.
+- **Overview**: Same as in standard survey - no separation of participants.
+- **Details**: Same as in standard survey - no separation of participants.
+- **Per Participant**: Same as in standard survey.
+
+### Individual Feebdack Results Views
+
+- **Competence Results**: Lists the competence results calculated per participant. This presents a calculated level for each competence that has related answered questions.
+- **Details**: Allows to select all appraisees. After selection the answers given by the raters for each question will be displayed (inkl. first/lastname of the raters).

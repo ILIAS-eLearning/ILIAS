@@ -11,8 +11,9 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
+    - [AccessControl](../AccessControl/PRIVACY.md)
+    - [Info Screen Service](../InfoScreen/PRIVACY.md)
+    - [Competence Service](../Skill/PRIVACY.md)
     - The **Conditions** service controls preconditions for repository objects. The survey implements a "Finished" condition.
 
 ## Configuration
@@ -31,6 +32,7 @@ The following settings in surveys configure privacy related actions.
 - **Authentication by Access Codes** : Users need to provide an access code when starting the survey, either as input or as part of a personalised link for the survey. This allows participation in 360° for external raters without ILIAS login or participation of other surveys in the ILIAS public section. Please note that access codes do not provide any additional level of anonymisation. If users are logged in and access a survey with code, the code will reference their user id internally.
 - **Seperate E-Mail for Each Finished Survey**: Sends mails each time a participants finishes to survey admins including the given answers and first/lastname/login, if activated.
 - **Remind Users to Participate**: Participation reminders for participants that did not finish the survey yet.
+- **Participants can View Own Answers**: A separate presentation view of given answers is activated after finishing a survey.
 - **Results** > **Privacy** > **Without Names/Anonymous Survey**: Will remove names from results screen. Please note that internally ILIAS will still assign user IDs to survey passes to keep track of their participant status and store their answers.
 - **Results** > **Privacy** > **Without Names/Anonymous Survey** > **List of Participants** : This setting is only available if **List of Participants** for anonymous surveys is activated in the global survey administration. If activated the participants will be listed, if the minimum number has been reached (see global configuration) and the end date of the survey is reached. Participants will be listed with **Firstname**, **Lastname**, **Login** and their finished status.
 
@@ -45,7 +47,7 @@ The following settings in standard surveys configure privacy related actions.
 
 **360° Survey**
 
-The following settings in standard surveys configure privacy related actions.
+The following settings in 360° surveys configure privacy related actions.
 
 - **Appraisees Select Own Raters**: This allows appraisees to add internal or external users (per e-mail) as raters for them.
 - **Open Feedback**: This allows users having **Read** permission to add themselves as appraisee to the survey.
@@ -53,8 +55,29 @@ The following settings in standard surveys configure privacy related actions.
 
 - **Access To Results For Appraisees**
     - **No access to Results**: Only users having the **Survey Results** permission will have access to the survey results views.
-    - **Access to Feedback of Own Raters**:
-    - **All Feedbacks**:
+    - **Access to Feedback of Own Raters**: The result views **Competences**, **Overview** and **Details** are accessible for appraisees, but will only show the data related to the answers given by their own raters. This option will not grant access to the **Per Participant** results view.
+    - **All Feedbacks**: The result views **Competences**, **Overview** and **Details** are accessible for appraisees. They will be able to select all other appraisees as well to see their data. This option will not grant access to the **Per Participant** results view.
+
+**Self Evaluation**
+
+The following settings in self evaluation surveys configure privacy related actions.
+
+- **Participants' Access to Results**
+  - **No access to Results**: Only users having the **Survey Results** permission will have access to the survey results views.
+  - **Access to Own Self-Evaluations**: The result views **Competences**, **Overview** and **Details** are accessible for participants, but will only show the data related to the answers given by themselves. This option will not grant access to the **Per Participant** results view.
+  - **Access to Self-Evaluations of All Participants**: The result views **Competences**, **Overview** and **Details** are accessible for participants. The **Overview** and **Details** will show the data of all users. This option will not grant access to the **Per Participant** results view.
+
+**Individual Feedback**
+
+The following settings in individual feedback surveys configure privacy related actions.
+
+- **Appraisees Select Own Raters**: This allows appraisees to add internal or external users (per e-mail) as raters for them.
+- **Open Feedback**: This allows users having **Read** permission to add themselves as appraisee to the survey.
+
+- **Access To Results For Appraisees**
+  - **No access to Results**: Only users having the **Survey Results** permission will have access to the survey results views.
+  - **Access to Feedback of Own Raters**: The result views **Competences** and **Details** are accessible for participants. Only data related to themselves will be presented. They will see the first/lastnames of the raters attached to their answers.
+
 
 ## Data being stored
 
