@@ -3275,8 +3275,11 @@ class ilObjectListGUI
         $def_cmd_link = ($def_command["link"] ?? "");
 
         // workaround for scorm
-        $modified_link =
-            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame)[0];
+        $scorm_modifications = $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
+        $modified_link = $scorm_modifications[0];
+        if ($modified_link === $def_cmd_link) {
+            $def_cmd_frame = $scorm_modifications[1];
+        }
 
         $image = $this->ui->factory()
                           ->image()
