@@ -24,9 +24,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
-    protected ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
-    protected readonly Data\Factory $data_factory;
-    protected bool $mailing_allowed = false;
+    private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
+    private readonly Data\Factory $data_factory;
+    private bool $mailing_allowed = false;
     private ?array $records = null;
 
     public function isMailingAllowed(): bool
@@ -44,9 +44,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
         private readonly \ILIAS\UI\Factory $ui_factory,
-        private readonly \ILIAS\HTTP\GlobalHttpState $http
+        \ILIAS\HTTP\GlobalHttpState $http
     ) {
-        $this->request = $this->http->request();
+        $this->request = $http->request();
         $this->data_factory = new Data\Factory();
     }
 
@@ -177,6 +177,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         ?array $additional_parameters
     ): ?int {
         $this->initRecords();
+
         return count((array) $this->records);
     }
 
@@ -184,6 +185,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     {
         $records = $this->records;
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), false);
     }
 
@@ -191,6 +193,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     {
         $this->initRecords();
         $records = $this->sortedRecords($order);
+
         return $this->limitRecords($records, $range);
     }
 

@@ -24,8 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 {
-    protected ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
-    protected Data\Factory $data_factory;
+    private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
+    private Data\Factory $data_factory;
     private ?array $records = null;
 
     public function __construct(
@@ -33,9 +33,9 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
         private readonly \ILIAS\UI\Factory $ui_factory,
-        private readonly \ILIAS\HTTP\GlobalHttpState $http
+        \ILIAS\HTTP\GlobalHttpState $http
     ) {
-        $this->request = $this->http->request();
+        $this->request = $http->request();
         $this->data_factory = new Data\Factory();
     }
 
@@ -112,6 +112,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
                 foreach ($entries as $entry) {
                     $usr_ids[] = $entry['usr_id'];
                 }
+
                 $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
                 foreach ($entries as $entry) {
@@ -144,6 +145,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         ?array $additional_parameters
     ): ?int {
         $this->initRecords();
+
         return count((array) $this->records);
     }
 
@@ -151,6 +153,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     {
         $records = $this->records;
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), false);
     }
 
@@ -158,6 +161,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     {
         $this->initRecords();
         $records = $this->sortedRecords($order);
+
         return $this->limitRecords($records, $range);
     }
 
