@@ -60,7 +60,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     /**
      * @return array<string, mixed>
      */
-    protected function getColumns(): array
+    private function getColumns(): array
     {
         return [
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
@@ -157,6 +157,9 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), false);
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();

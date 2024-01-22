@@ -29,7 +29,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     private bool $mailing_allowed = false;
     private ?array $records = null;
 
-    public function isMailingAllowed(): bool
+    private function isMailingAllowed(): bool
     {
         return $this->mailing_allowed;
     }
@@ -68,7 +68,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     /**
      * @return array<string, mixed>
      */
-    protected function getColumns(): array
+    private function getColumns(): array
     {
         return [
             'title' => $this->ui_factory->table()->column()->text($this->lng->txt('title'))
@@ -189,6 +189,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction), false);
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();
