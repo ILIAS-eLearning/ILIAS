@@ -27,13 +27,14 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
+    /** @var array<int, array<string, string>>|null */
     private ?array $records = null;
 
     public function __construct(
         private readonly array $banned_users,
         private readonly \ilCtrl $ctrl,
         private readonly \ilLanguage $lng,
-        $http,
+        Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory
     ) {
         $this->request = $http->request();
@@ -51,6 +52,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
                                 ->withRequest($this->request);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getColumns(): array
     {
         return [
@@ -71,6 +75,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getActions(): array
     {
         $query_params_namespace = ['chat', 'ban', 'table'];
@@ -147,6 +154,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
@@ -155,6 +165,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();
