@@ -25,9 +25,26 @@ declare(strict_types=1);
 */
 class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
 {
-    protected function getObjectType(): string
+    public function getObjectType(): string
     {
         return 'grp';
+    }
+
+    public function getObjectTypeLabel(): string
+    {
+        return $this->lng->txt('group');
+    }
+
+    public function getSearchTableTitle(): string
+    {
+        return $this->lng->txt('mail_my_groups');
+    }
+
+    public function doesExposeMembers(ilObject $object): bool
+    {
+        $is_privileged_user = $this->rbacsystem->checkAccess('write', $object->getRefId());
+
+        return $object->getShowMembers() || $is_privileged_user;
     }
 
     protected function getLocalDefaultRolePrefixes(): array
@@ -36,13 +53,5 @@ class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
             'il_grp_member_',
             'il_grp_admin_',
         ];
-    }
-
-    protected function doesExposeMembers(ilObject $object): bool
-    {
-        $showMemberListEnabled = (bool) $object->getShowMembers();
-        $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $object->getRefId());
-
-        return $showMemberListEnabled || $isPrivilegedUser;
     }
 }
