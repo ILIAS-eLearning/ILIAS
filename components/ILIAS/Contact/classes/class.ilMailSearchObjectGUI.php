@@ -327,7 +327,12 @@ abstract class ilMailSearchObjectGUI
         $this->lng->loadLanguageModule($this->getObjectType());
 
         $context = $this->getContext();
-        $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'components/ILIAS/Contact');
+        $searchTpl = new ilTemplate(
+            'tpl.mail_search_template.html',
+            true,
+            true,
+            'components/ILIAS/Contact'
+        );
 
         $table = new MailSearchObjectMembershipsTable(
             $obj_ids,
@@ -366,7 +371,12 @@ abstract class ilMailSearchObjectGUI
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
-        $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'components/ILIAS/Contact');
+        $searchTpl = new ilTemplate(
+            'tpl.mail_search_template.html',
+            true,
+            true,
+            'components/ILIAS/Contact'
+        );
 
         $this->lng->loadLanguageModule('crs');
 
