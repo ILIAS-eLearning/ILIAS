@@ -55,7 +55,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     /**
      * @return array<string, mixed>
      */
-    protected function getColumns(): array
+    private function getColumns(): array
     {
         return [
             'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
@@ -78,7 +78,7 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     /**
      * @return array<string, mixed>
      */
-    protected function getActions(): array
+    private function getActions(): array
     {
         $query_params_namespace = ['chat', 'ban', 'table'];
 
