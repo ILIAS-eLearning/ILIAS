@@ -65,6 +65,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                                 ->withRequest($this->request);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getColumns(): array
     {
         return [
@@ -77,7 +80,10 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         ];
     }
 
-    protected function getActions(): array
+    /**
+     * @return array<string, mixed>
+     */
+    private function getActions(): array
     {
         $query_params_namespace = ['contact', 'mailinglist', 'list'];
 
