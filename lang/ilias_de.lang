@@ -7783,6 +7783,7 @@ crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem 
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
+crs#:#crs_reg_selfreg#:#Selbständiger Beitritt
 crs#:#crs_registration#:#Dem Kurs beitreten
 crs#:#crs_registration_confirmation_info#:#Kursadministration oder Kursbetreuung müssen den Beitritt im Reiter „Mitglieder” bestätigen.
 crs#:#crs_registration_deactivated#:#Nur Kursadministration oder Kursbetreuung können Mitglieder in den Kurs aufnehmen.

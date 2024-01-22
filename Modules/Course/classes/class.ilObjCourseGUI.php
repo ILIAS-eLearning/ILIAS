@@ -787,10 +787,15 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->object->setSubscriptionEnd(0);
 
         $sub_type = (int) $form->getInput('subscription_type');
+        $sub_reg_type = (int) $form->getInput('subscription_limitation_type');
         $sub_period = $form->getItemByPostVar('subscription_period');
 
-        $this->object->setSubscriptionType($sub_type);
-        if ($sub_type != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        $this->object->setSubscriptionType(
+            $sub_reg_type !== ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+                ? $sub_type
+                : ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+        );
+        if ($sub_reg_type !== ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             if ($sub_period->getStart() && $sub_period->getEnd()) {
                 $this->object->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED);
                 $this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
@@ -1038,13 +1043,22 @@ class ilObjCourseGUI extends ilContainerGUI
         $section->setTitle($this->lng->txt('crs_reg'));
         $form->addItem($section);
 
-        $reg_proc = new ilRadioGroupInputGUI($this->lng->txt('crs_registration_type'), 'subscription_type');
+        // time limit
+        $sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
+        $sdur->setShowTime(true);
+        if ($this->object->getSubscriptionStart()) {
+            $sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(), IL_CAL_UNIX));
+        }
+        if ($this->object->getSubscriptionEnd()) {
+            $sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(), IL_CAL_UNIX));
+        }
+
+        $reg_proc = new ilRadioGroupInputGUI('', 'subscription_type');
         $reg_proc->setValue(
             ($this->object->getSubscriptionLimitationType() != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED)
                 ? (string) $this->object->getSubscriptionType()
                 : (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
         );
-        // $reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
 
         $opt = new ilRadioOption(
             $this->lng->txt('crs_subscription_options_direct'),
@@ -1075,14 +1089,29 @@ class ilObjCourseGUI extends ilContainerGUI
         $opt->setInfo($this->lng->txt('crs_registration_confirmation_info'));
         $reg_proc->addOption($opt);
 
-        $opt = new ilRadioOption(
+        $opt_self_enrollment_enabled = new ilRadioOption(
+            $this->lng->txt('crs_reg_selfreg'),
+            (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED
+        );
+        $opt_self_enrollment_enabled->addSubItem($reg_proc);
+        $opt_self_enrollment_enabled->addSubItem($sdur);
+        $opt_self_enrollment_disabled = new ilRadioOption(
             $this->lng->txt('crs_reg_no_selfreg'),
             (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
         );
-        $opt->setInfo($this->lng->txt('crs_registration_deactivated'));
-        $reg_proc->addOption($opt);
-
-        $form->addItem($reg_proc);
+        $opt_self_enrollment_disabled->setInfo($this->lng->txt('crs_registration_deactivated'));
+        $reg_proc_subscription_reg_type = new ilRadioGroupInputGUI(
+            $this->lng->txt('crs_registration_type'),
+            'subscription_limitation_type'
+        );
+        $reg_proc_subscription_reg_type->setValue(
+            $this->object->getSubscriptionLimitationType() !== ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+                ? (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED
+                : (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+        );
+        $reg_proc_subscription_reg_type->addOption($opt_self_enrollment_enabled);
+        $reg_proc_subscription_reg_type->addOption($opt_self_enrollment_disabled);
+        $form->addItem($reg_proc_subscription_reg_type);
 
         // Registration codes
         $reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'), 'reg_code_enabled');
@@ -1109,17 +1138,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $reg_code->addSubItem($link);
 
         $form->addItem($reg_code);
-
-        // time limit
-        $sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
-        $sdur->setShowTime(true);
-        if ($this->object->getSubscriptionStart()) {
-            $sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(), IL_CAL_UNIX));
-        }
-        if ($this->object->getSubscriptionEnd()) {
-            $sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(), IL_CAL_UNIX));
-        }
-        $form->addItem($sdur);
 
         // cancellation limit
         $cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');
