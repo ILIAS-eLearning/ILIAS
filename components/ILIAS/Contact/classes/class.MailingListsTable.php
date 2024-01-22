@@ -27,6 +27,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
+    /**  @var array<int, array<string, string>>|null */
     private ?array $records = null;
 
     private function isMailingAllowed(): bool
@@ -181,6 +182,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         return count((array) $this->records);
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
