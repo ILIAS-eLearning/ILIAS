@@ -7780,10 +7780,10 @@ crs#:#crs_reg_code_link#:#Link for Direct Admission
 crs#:#crs_reg_max_info#:#Set the maximum number of users that can join this course.
 crs#:#crs_reg_no_selfreg#:#No Self-Enrolment
 crs#:#crs_reg_password_info#:#Users need to type in this password in order to join the course.
+crs#:#crs_reg_selfreg#:#Self-Enrolment
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
-crs#:#crs_reg_selfreg#:#Self-Enrolment
 crs#:#crs_registration#:#Course Registration
 crs#:#crs_registration_confirmation_info#:#Users who wish to join the course can send a membership request/message to a course administrator.
 crs#:#crs_registration_deactivated#:#Only course administrators can add users to the course.
