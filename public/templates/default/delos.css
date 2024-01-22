@@ -18525,7 +18525,7 @@ a.ilMediaLightboxClose:hover {
 
 @media (min-width: 768px) {
   .navbar-text {
-    float: left;
+    text-align: left;
     margin-left: 9px;
     margin-right: 9px;
   }
