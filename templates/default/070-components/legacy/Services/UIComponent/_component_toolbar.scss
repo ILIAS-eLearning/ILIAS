@@ -608,7 +608,7 @@ $navbar-default-toggle-border-color:       #ddd !default;
 	// @include navbar-vertical-align($il-line-height-computed);
 
 	@media (min-width: $il-grid-float-breakpoint) {
-		float: left;
+		text-align: left;
 		margin-left: $navbar-padding-horizontal;
 		margin-right: $navbar-padding-horizontal;
 	}
