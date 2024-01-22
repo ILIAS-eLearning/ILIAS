@@ -119,6 +119,7 @@ class ilMailingListsGUI
             case 'confirmDeleteMembers':
                 $this->confirmDeleteMembers();
                 break;
+
             default:
                 $this->ctrl->redirect($this, 'showMailingLists');
                 break;
@@ -139,9 +140,11 @@ class ilMailingListsGUI
             case 'mailToList':
                 $this->mailToList();
                 break;
+
             case 'showMembersList':
                 $this->showMembersList();
                 break;
+
             case 'showForm':
                 $this->showForm();
                 break;
@@ -324,8 +327,8 @@ class ilMailingListsGUI
         );
         $tbl->setMailingAllowed($this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId()));
         $this->tpl->setVariable('MAILING_LISTS', $this->ui_renderer->render($tbl->getComponent()));
-
         $this->tpl->printToStdout();
+
         return true;
     }
 
@@ -452,6 +455,7 @@ class ilMailingListsGUI
     {
         if ($this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMailingLists();
+
             return true;
         }
 
@@ -514,6 +518,7 @@ class ilMailingListsGUI
         if (!$this->http->wrapper()->post()->has('a_id')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMembersList();
+
             return true;
         }
 
@@ -554,6 +559,7 @@ class ilMailingListsGUI
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
         $this->tpl->printToStdout();
+
         return true;
     }
 
@@ -656,6 +662,7 @@ class ilMailingListsGUI
         if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->showAssignmentForm($form);
+
             return true;
         }
 
@@ -669,10 +676,12 @@ class ilMailingListsGUI
             );
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             $this->showMembersList();
+
             return true;
         }
 
         $this->showAssignmentForm($form);
+
         return true;
     }
 
@@ -680,6 +689,7 @@ class ilMailingListsGUI
     {
         if ($this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMembersList();
+
             return true;
         }
 
