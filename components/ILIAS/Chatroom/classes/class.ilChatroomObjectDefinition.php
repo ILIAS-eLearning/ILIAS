@@ -81,40 +81,11 @@ class ilChatroomObjectDefinition
     }
 
     /**
-     * Returns true if file exists.
-     */
-    public function hasGUI(string $gui): bool
-    {
-        return is_file($this->getGUIPath($gui));
-    }
-
-    /**
-     * Builds gui path using given $gui and returns it.
-     */
-    public function getGUIPath(string $gui): string
-    {
-        return (
-            $this->moduleBasePath . '/' .
-            $this->relativeClassPath . '/' .
-            $this->guiScope . 'gui/class.' . $this->getGUIClassName($gui) . '.php'
-        );
-    }
-
-    /**
      * Builds gui classname using given $gui and returns it.
      */
     public function getGUIClassName(string $gui): string
     {
         return 'il' . $this->moduleName . ucfirst($this->guiScope) . ucfirst($gui) . 'GUI';
-    }
-
-    /**
-     * Requires file, whereby given $gui is used as parameter in getGUIPath
-     * method to build the filename of the file to required.
-     */
-    public function loadGUI(string $gui): void
-    {
-        require_once $this->getGUIPath($gui);
     }
 
     /**

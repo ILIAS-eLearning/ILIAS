@@ -18,22 +18,30 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Chatroom\Bans;
+
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Services;
+use ilArrayUtil;
+use ilDateTime;
+use ilDatePresentation;
+use ilObjChatroomGUI;
+use ilLanguage;
+use ilCtrl;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
-    /** @var array<int, array<string, string>>|null */
+    /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
     public function __construct(
         private readonly array $banned_users,
-        private readonly \ilCtrl $ctrl,
-        private readonly \ilLanguage $lng,
+        private readonly ilCtrl $ctrl,
+        private readonly ilLanguage $lng,
         Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory
     ) {
@@ -46,37 +54,39 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         $columns = $this->getColumns();
         $actions = $this->getActions();
 
-        return $this->ui_factory->table()
-                                ->data($this->lng->txt('ban_table_title'), $columns, $this)
-                                ->withActions($actions)
-                                ->withRequest($this->request);
+        return $this->ui_factory
+            ->table()
+            ->data($this->lng->txt('ban_table_title'), $columns, $this)
+            ->withActions($actions)
+            ->withRequest($this->request);
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, UI\Component\Table\Column\Column>
      */
     private function getColumns(): array
     {
         return [
-            'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
-                                        ->withIsSortable(true),
-
-            'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt('firstname'))
-                                            ->withIsSortable(true),
-
-            'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt('lastname'))
-                                           ->withIsSortable(true),
-
-            'timestamp' => $this->ui_factory->table()->column()->text($this->lng->txt('chtr_ban_ts_tbl_head'))
-                                            ->withIsSortable(true),
-
-            'actor' => $this->ui_factory->table()->column()->text($this->lng->txt('chtr_ban_actor_tbl_head'))
-                                        ->withIsSortable(true),
+            'login' => $this->ui_factory
+                ->table()->column()->text($this->lng->txt('login'))
+                ->withIsSortable(true),
+            'firstname' => $this->ui_factory
+                ->table()->column()->text($this->lng->txt('firstname'))
+                ->withIsSortable(true),
+            'lastname' => $this->ui_factory
+                ->table()->column()->text($this->lng->txt('lastname'))
+                ->withIsSortable(true),
+            'timestamp' => $this->ui_factory
+                ->table()->column()->text($this->lng->txt('chtr_ban_ts_tbl_head'))
+                ->withIsSortable(true),
+            'actor' => $this->ui_factory
+                ->table()->column()->text($this->lng->txt('chtr_ban_actor_tbl_head'))
+                ->withIsSortable(true),
         ];
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, UI\Component\Table\Action\Action>
      */
     private function getActions(): array
     {
@@ -87,14 +97,15 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
-            $url_builder->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'user_ids'
-            );
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'user_ids'
+        );
 
         return [
             'delete' => $this->ui_factory->table()->action()->multi(
@@ -151,34 +162,34 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     ): ?int {
         $this->initRecords();
 
-        return count((array) $this->records);
+        return count($this->records);
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function sortedRecords(Data\Order $order): array
     {
-        $records = $this->records;
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        return ilArrayUtil::stableSortArray($records, $order_field, strtolower($order_direction));
+        return ilArrayUtil::stableSortArray($this->records, $order_field, strtolower($order_direction));
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();
+
         $records = $this->sortedRecords($order);
 
         return $this->limitRecords($records, $range);
     }
 
     /**
-     * @param array<int, array<string, string>> $records
-     * @return array<int, array<string, string>>
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
      */
     private function limitRecords(array $records, Data\Range $range): array
     {

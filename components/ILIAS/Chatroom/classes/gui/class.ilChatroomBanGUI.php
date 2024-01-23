@@ -129,7 +129,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $tbl = new BannedUsersTable(
+        $tbl = new \ILIAS\Chatroom\Bans\BannedUsersTable(
             $data,
             $this->ilCtrl,
             $this->ilLng,
