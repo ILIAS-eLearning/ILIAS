@@ -4509,7 +4509,10 @@ class ilObjSurvey extends ilObject
 
             // send notification and add to desktop
             if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId())) {
-                $this->sendRaterNotification($a_user_id, $a_appraisee_id);
+                // out-commented, since adding raters will end in a mail
+                // form to send the mail "manually"
+                // otherwise two mails would be sent (tested in individual feedback)
+                //$this->sendRaterNotification($a_user_id, $a_appraisee_id);
             }
         }
     }
