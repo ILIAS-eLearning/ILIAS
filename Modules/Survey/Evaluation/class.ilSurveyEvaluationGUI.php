@@ -494,7 +494,7 @@ class ilSurveyEvaluationGUI
                     $row_results[1],
                     $excel_row,
                     $a_eval->getExportGrid($row_results[1]),
-                    is_array($texts[$row_title])
+                    is_array($texts[$row_title] ?? false)
                         ? array("" => $texts[$row_title])
                         : null
                 );
