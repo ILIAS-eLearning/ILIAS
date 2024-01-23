@@ -57,13 +57,30 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
+    private function handleTableActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+        if (!$query->has('chat_ban_table_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('chat_ban_table_action', $this->refinery->to()->string());
+        switch ($action) {
+            case 'delete':
+                $this->delete();
+                break;
+
+            default:
+                $this->ilCtrl->redirect($this, 'show');
+                break;
+        }
+    }
+
     public function delete(): void
     {
-        $userTrafo = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->kindlyTo()->int()
-        );
+        $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int());
 
-        $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
+        $users = $this->getRequestValue('chat_ban_table_user_ids', $userTrafo, []);
         if ($users === []) {
             $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
@@ -94,9 +111,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
-        $table = new ilBannedUsersTableGUI($this->gui, 'ban-show');
-        $table->setFormAction($this->controller->getFormAction($this->gui, 'ban-show'));
-
         $data = $room->getBannedUsers();
         $actorId = array_filter(array_map(static function (array $row): int {
             return (int) $row['actor_id'];
@@ -115,9 +129,15 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
             }
         });
 
-        $table->setData($data);
+        $tbl = new BannedUsersTable(
+            $data,
+            $this->ilCtrl,
+            $this->ilLng,
+            $this->http,
+            $this->uiFactory
+        );
 
-        $this->mainTpl->setVariable('ADM_CONTENT', $table->getHTML());
+        $this->mainTpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
 
     public function active(): void
