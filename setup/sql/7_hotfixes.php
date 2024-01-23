@@ -360,7 +360,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if (array_key_exists('options', $values)) {
         $idx = 0;
         foreach ($values['options'] as $option) {
-            $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
+            $query = 'insert ignore into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ', ' .
@@ -377,7 +377,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             }
             $idx = 0;
             foreach ($options as $option) {
-                $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
+                $query = 'insert ignore into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                     'values ( ' .
                     $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                     $ilDB->quote($lang, ilDBConstants::T_TEXT) . ', ' .
@@ -399,7 +399,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     ) {
         $idx = 0;
         foreach ($values as $option) {
-            $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
+            $query = 'insert ignore into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ', ' .
