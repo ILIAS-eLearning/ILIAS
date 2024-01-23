@@ -781,7 +781,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($a_access_code === "" && isset($t_arr[1])) {
             $a_access_code = $t_arr[1];
         }
-
         // see ilObjSurveyAccess::_checkGoto()
         if ($a_access_code !== '') {
             $sess = $DIC->survey()->internal()->repo()
@@ -804,7 +803,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $am = $domain_service->access($ref_id, $DIC->user()->getId());
             $survey = new ilObjSurvey($ref_id);
             $run_manager = $domain_service->execution()->run($survey, $DIC->user()->getId());
-            if ($run_manager->hasFinished() && $am->canAccessEvaluation()) {
+            if ($am->canAccessEvaluation() && $run_manager->hasFinished()) {
                 $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
                 $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
             }
