@@ -66,6 +66,7 @@ class TestPlaceholderValuesTest extends TestCase
 
         $test_object->method('getTitle')
             ->willReturn(' Some Title');
+
         $mark_schema = $this->getMockBuilder(\ILIAS\Test\Scoring\Marks\MarkSchema::class)
             ->disableOriginalConstructor()
             ->getMock();
