@@ -39,9 +39,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilObjTestSettingsScoringGUI: ilPropertyFormGUI, ilConfirmationGUI
+ * @ilCtrl_Calls ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI: ilPropertyFormGUI, ilConfirmationGUI
  */
-class ilObjTestSettingsScoringGUI extends TestSettingsGUI
+class SettingsScoringGUI extends TestSettingsGUI
 {
     /**
      * command constants
@@ -76,18 +76,18 @@ class ilObjTestSettingsScoringGUI extends TestSettingsGUI
         $template_id = $this->test_object->getTemplate();
 
         if ($template_id) {
-            $this->settingsTemplate = new ilSettingsTemplate(
+            $this->settingsTemplate = new \ilSettingsTemplate(
                 (int)$template_id,
                 ilObjTestFolderGUI::getSettingsTemplateConfig()
             );
         }
     }
 
-    protected function loadScoreSettings(): ilObjTestScoreSettings
+    protected function loadScoreSettings(): ScoreSettings
     {
         return $this->score_settings_repo->getFor($this->test_id);
     }
-    protected function storeScoreSettings(ilObjTestScoreSettings $score_settings): void
+    protected function storeScoreSettings(ScoreSettings $score_settings): void
     {
         $this->score_settings_repo->store($score_settings);
     }
@@ -102,7 +102,7 @@ class ilObjTestSettingsScoringGUI extends TestSettingsGUI
             $this->ctrl->redirect($this->test_gui, 'infoScreen');
         }
 
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
 
         $nextClass = $this->ctrl->getNextClass();
         switch ($nextClass) {
@@ -273,8 +273,8 @@ class ilObjTestSettingsScoringGUI extends TestSettingsGUI
 
     protected function getTaxonomyOptions(): array
     {
-        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($this->test_object->getId());
-        $taxononmy_translator = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
+        $available_taxonomy_ids = \ilObjTaxonomy::getUsageOfObject($this->test_object->getId());
+        $taxononmy_translator = new \ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
         $taxononmy_translator->loadLabelsFromTaxonomyIds($available_taxonomy_ids);
 
         $taxonomy_options = [];
@@ -303,7 +303,7 @@ class ilObjTestSettingsScoringGUI extends TestSettingsGUI
 
     private function showConfirmation(Request $request)
     {
-        $confirmation = new ilConfirmationGUI();
+        $confirmation = new \ilConfirmationGUI();
         $confirmation->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_RECALC);

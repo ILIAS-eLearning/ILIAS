@@ -67,7 +67,7 @@ class SettingsFinishing extends TestSettings
     }
 
     private function getRedirectionInputs(
-        ilLanguage $lng,
+        \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
     ): OptionalGroup {
@@ -121,7 +121,7 @@ class SettingsFinishing extends TestSettings
     }
 
     private function getMailNotificationInputs(
-        ilLanguage $lng,
+        \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
     ): OptionalGroup {

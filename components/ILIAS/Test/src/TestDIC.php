@@ -26,6 +26,7 @@ use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\MarksDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Administration\TestGlobalSettingsRepository;
 use ILIAS\Test\Administration\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLoggingRepository;

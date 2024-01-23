@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\Settings\TestSettings;
+
 class MainSettings
 {
     protected SettingsIntroduction $settings_introduction;

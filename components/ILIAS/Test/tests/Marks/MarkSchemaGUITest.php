@@ -40,6 +40,7 @@ class MarkSchemaGUITest extends ilTestBaseTestCase
 
         $this->testObj = new MarkSchemaGUI(
             $this->createMock(MarkSchemaAware::class),
+            $this->createMock(ilObjUser::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilGlobalTemplateInterface::class),

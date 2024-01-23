@@ -66,7 +66,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->activateTab('perm_settings');
-                $perm_gui = new ilPermissionGUI($this);
+                $perm_gui = new \ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case 'ilglobalunitconfigurationgui':
@@ -76,8 +76,8 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
                 $this->tabs_gui->setTabActive('units');
 
-                $gui = new ilGlobalUnitConfigurationGUI(
-                    new ilUnitConfigurationRepository(0)
+                $gui = new \ilGlobalUnitConfigurationGUI(
+                    new \ilUnitConfigurationRepository(0)
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -106,29 +106,29 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
     private function buildSettingsForm(): ilPropertyFormGUI
     {
-        $form = new ilPropertyFormGUI();
+        $form = new \ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth("100%");
         $form->setId("settings");
 
-        $header = new ilFormSectionHeaderGUI();
+        $header = new \ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt('settings'));
         $form->addItem($header);
 
         // question process locking behaviour (e.g. on saving users working data)
-        $chb = new ilCheckboxInputGUI($this->lng->txt('ass_process_lock'), 'ass_process_lock');
+        $chb = new \ilCheckboxInputGUI($this->lng->txt('ass_process_lock'), 'ass_process_lock');
         $chb->setChecked($this->getTestFolder()->getAssessmentProcessLockMode() !== ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
         $chb->setInfo($this->lng->txt('ass_process_lock_desc'));
         $form->addItem($chb);
-        $rg = new ilRadioGroupInputGUI($this->lng->txt('ass_process_lock_mode'), 'ass_process_lock_mode');
+        $rg = new \ilRadioGroupInputGUI($this->lng->txt('ass_process_lock_mode'), 'ass_process_lock_mode');
         $rg->setRequired(true);
-        $opt = new ilRadioOption(
+        $opt = new \ilRadioOption(
             $this->lng->txt('ass_process_lock_mode_file'),
             ilObjTestFolder::ASS_PROC_LOCK_MODE_FILE
         );
         $opt->setInfo($this->lng->txt('ass_process_lock_mode_file_desc'));
         $rg->addOption($opt);
-        $opt = new ilRadioOption(
+        $opt = new \ilRadioOption(
             $this->lng->txt('ass_process_lock_mode_db'),
             ilObjTestFolder::ASS_PROC_LOCK_MODE_DB
         );
@@ -139,7 +139,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         }
         $chb->addSubItem($rg);
 
-        $assessmentSetting = new ilSetting('assessment');
+        $assessmentSetting = new \ilSetting('assessment');
         $imap_line_color = $assessmentSetting->get('imap_line_color');
         if ($this->testrequest->isset('imap_line_color')) {
             $imap_line_color = $this->testrequest->strVal('imap_line_color');
@@ -148,7 +148,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $imap_line_color = 'FF0000';
         }
 
-        $linepicker = new ilColorPickerInputGUI($this->lng->txt('assessment_imap_line_color'), 'imap_line_color');
+        $linepicker = new \ilColorPickerInputGUI($this->lng->txt('assessment_imap_line_color'), 'imap_line_color');
         $linepicker->setValue($imap_line_color);
         $form->addItem($linepicker);
 
@@ -156,7 +156,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         if ($this->testrequest->isset('user_criteria')) {
             $user_criteria = $this->testrequest->strVal('user_criteria');
         }
-        $userCriteria = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
+        $userCriteria = new \ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
         $userCriteria->setInfo($this->lng->txt('user_criteria_desc'));
         $userCriteria->setRequired(true);
 
@@ -169,7 +169,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $userCriteria->setValue($user_criteria);
         $form->addItem($userCriteria);
 
-        $numRequiredAnswers = new ilNumberInputGUI(
+        $numRequiredAnswers = new \ilNumberInputGUI(
             $this->lng->txt('tst_skill_triggerings_num_req_answers'),
             'num_req_answers'
         );
@@ -181,18 +181,18 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $numRequiredAnswers->setValue($this->getTestFolder()->getSkillTriggeringNumAnswersBarrier());
         $form->addItem($numRequiredAnswers);
 
-        $ceeqwh = new ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');
+        $ceeqwh = new \ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');
         $ceeqwh->setChecked($this->getTestFolder()->getExportEssayQuestionsWithHtml());
         $ceeqwh->setInfo($this->lng->txt('export_essay_qst_with_html_desc'));
         $form->addItem($ceeqwh);
 
         // question settings
-        $header = new ilFormSectionHeaderGUI();
+        $header = new \ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("assf_questiontypes"));
         $form->addItem($header);
 
         // available question types
-        $allowed = new ilCheckboxGroupInputGUI(
+        $allowed = new \ilCheckboxGroupInputGUI(
             $this->lng->txt('assf_allowed_questiontypes'),
             "chb_allowed_questiontypes"
         );
@@ -206,26 +206,26 @@ class ilObjTestFolderGUI extends ilObjectGUI
         }
         $allowed->setValue($allowedtypes);
         foreach ($questiontypes as $type_name => $qtype) {
-            $allowed->addOption(new ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
+            $allowed->addOption(new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
         }
         $allowed->setInfo($this->lng->txt('assf_allowed_questiontypes_desc'));
         $form->addItem($allowed);
 
         // manual scoring
-        $manual = new ilCheckboxGroupInputGUI(
+        $manual = new \ilCheckboxGroupInputGUI(
             $this->lng->txt('assessment_log_manual_scoring_activate'),
             "chb_manual_scoring"
         );
         $manscoring = ilObjTestFolder::_getManualScoring();
         $manual->setValue($manscoring);
         foreach ($questiontypes as $type_name => $qtype) {
-            $manual->addOption(new ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
+            $manual->addOption(new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
         }
         $manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
         $form->addItem($manual);
 
         // scoring adjustment active
-        $scoring_activation = new ilCheckboxInputGUI(
+        $scoring_activation = new \ilCheckboxInputGUI(
             $this->lng->txt('assessment_scoring_adjust'),
             'chb_scoring_adjust'
         );
@@ -234,7 +234,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $form->addItem($scoring_activation);
 
         // scoring adjustment
-        $scoring = new ilCheckboxGroupInputGUI(
+        $scoring = new \ilCheckboxGroupInputGUI(
             $this->lng->txt('assessment_log_scoring_adjustment_activate'),
             "chb_scoring_adjustment"
         );
@@ -243,7 +243,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         foreach ($this->getTestFolder()->fetchScoringAdjustableTypes($questiontypes) as $type_name => $qtype) {
             $scoring->addOption(
-                new ilCheckboxOption($type_name, (string) $qtype["question_type_id"])
+                new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"])
             );
         }
         $scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
@@ -308,7 +308,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $this->getTestFolder()->setAssessmentProcessLockMode($form->getInput('ass_process_lock_mode'));
         }
 
-        $assessmentSetting = new ilSetting('assessment');
+        $assessmentSetting = new \ilSetting('assessment');
         $assessmentSetting->set('use_javascript', '1');
         if (strlen($form->getInput('imap_line_color') ?? '') === 6) {
             $assessmentSetting->set('imap_line_color', ilUtil::stripSlashes($form->getInput('imap_line_color')));
@@ -374,7 +374,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $title = $this->lng->txt("assessment_log_question") . ": " . $title;
             }
             $csvrow = [];
-            $date = new ilDateTime((int) $log['tstamp'], IL_CAL_UNIX);
+            $date = new \ilDateTime((int) $log['tstamp'], IL_CAL_UNIX);
             $csvrow[] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d H:i');
             $csvrow[] = trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]);
             $csvrow[] = trim($log["logtext"]);
@@ -396,24 +396,24 @@ class ilObjTestFolderGUI extends ilObjectGUI
      */
     protected function getLogDataOutputForm(): ilPropertyFormGUI
     {
-        $form = new ilPropertyFormGUI();
+        $form = new \ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth("100%");
         $form->setId("logs");
 
-        $header = new ilFormSectionHeaderGUI();
+        $header = new \ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("assessment_log"));
         $form->addItem($header);
 
         // from
-        $from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
+        $from = new \ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
         $from->setShowTime(true);
         $from->setRequired(true);
         $form->addItem($from);
 
         // until
-        $until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
+        $until = new \ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
         $until->setShowTime(true);
         $until->setRequired(true);
         $form->addItem($until);
@@ -421,7 +421,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $available_tests = ilObjTest::_getAvailableTests(1);
 
         // tests
-        $fortest = new ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
+        $fortest = new \ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
         $fortest->setRequired(true);
         $sorted_options = [];
         foreach ($available_tests as $key => $value) {
@@ -451,7 +451,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('logs');
 
-        $template = new ilTemplate("tpl.assessment_logs.html", true, true, "components/ILIAS/Test");
+        $template = new \ilTemplate("tpl.assessment_logs.html", true, true, "components/ILIAS/Test");
 
         $p_test = 0;
         $fromdate = 0;
@@ -477,8 +477,8 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $untildate = time();
             }
 
-            $values['log_from'] = (new ilDateTime($fromdate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
-            $values['log_until'] = (new ilDateTime($untildate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
+            $values['log_from'] = (new \ilDateTime($fromdate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
+            $values['log_until'] = (new \ilDateTime($untildate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
 
             $form->setValuesByArray($values);
         } else {

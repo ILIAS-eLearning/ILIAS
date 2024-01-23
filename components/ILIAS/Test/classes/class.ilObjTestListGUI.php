@@ -132,8 +132,8 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         $cmd = explode('::', $cmd);
 
-        if (count($cmd) == 2) {
-            $cmd_link = $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]], $cmd[1]);
+        if (count($cmd) === 2) {
+            $cmd_link = $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjTestGUI::class, $cmd[0]], $cmd[1]);
         } else {
             $cmd_link = $this->ctrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
         }

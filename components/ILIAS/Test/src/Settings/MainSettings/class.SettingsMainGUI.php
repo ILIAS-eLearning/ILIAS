@@ -28,7 +28,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\Settings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Checkbox;
@@ -42,12 +42,12 @@ use ILIAS\Refinery\Constraint;
 
 /**
  *
- * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilPropertyFormGUI
- * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilConfirmationGUI
- * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilTestSettingsChangeConfirmationGUI
+ * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilConfirmationGUI
+ * @ilCtrl_Calls ILIAS\Test\Settings\MainSettings\SettingsMainGUI: ilTestSettingsChangeConfirmationGUI
  *
  */
-class ilObjTestSettingsMainGUI extends TestSettingsGUI
+class SettingsMainGUI extends TestSettingsGUI
 {
     /**
      * command constants
@@ -74,7 +74,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
     protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
 
-    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
+    private \ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
 
     public function __construct(
         protected readonly \ilGlobalTemplateInterface $tpl,
@@ -100,7 +100,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
         $this->object_properties = $this->test_gui->getTestObject()->getObjectProperties();
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
         $this->main_settings_repository = $this->test_gui->getTestObject()->getMainSettingsRepository();
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+        $this->testQuestionSetConfigFactory = new \ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
             $this->lng,
@@ -130,8 +130,8 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
 
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
         $this->test_gui->prepareOutput();
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
-        $this->tabs->activateSubTab(ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
+        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateSubTab(\ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
     }
 
     private function showOldIntroduction(): void
@@ -482,7 +482,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
         $is_online = $this->test_object->getObjectProperties()->getPropertyIsOnline()
             ->toForm($this->lng, $field_factory, $this->refinery);
 
-        if (sizeof(ilObject::_getAllReferences($this->test_object->getId())) > 1) {
+        if (sizeof(\ilObject::_getAllReferences($this->test_object->getId())) > 1) {
             $is_online = $is_online->withByline(
                 $is_online->getByline() . ' ' . $this->lng->txt('rep_activation_online_object_info')
             );
@@ -711,7 +711,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
     {
         $sections = [];
 
-        $ecs = new ilECSTestSettings($this->test_object);
+        $ecs = new \ilECSTestSettings($this->test_object);
         $ecs_section = $ecs->getSettingsSection(
             $this->ui_factory->input()->field(),
             $this->refinery
@@ -742,7 +742,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
 
     protected function getOrganisationalUnitsActivationInput(): ?Checkbox
     {
-        $position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+        $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
             $this->test_object->getType()
         );
         if (!$position_settings->isActive()) {
@@ -754,7 +754,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
                 $this->lng->txt('obj_orgunit_positions'),
                 $this->lng->txt('obj_orgunit_positions_info')
             )->withValue(
-                (new ilOrgUnitObjectPositionSetting($this->test_object->getId()))->isActive()
+                (new \ilOrgUnitObjectPositionSetting($this->test_object->getId()))->isActive()
             );
         if (!$position_settings->isChangeableForObject()) {
             return $enable_organisational_units_access->withDisabled(true);
@@ -765,7 +765,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
     protected function saveAdditionalFunctionalitySettingsSection(array $sections): void
     {
         if (array_key_exists(self::ECS_FUNCTIONALITY_SETTINGS_LABEL, $sections)) {
-            $ecs = new ilECSTestSettings($this->test_object);
+            $ecs = new \ilECSTestSettings($this->test_object);
             $ecs->saveSettingsSection($sections[self::ECS_FUNCTIONALITY_SETTINGS_LABEL]);
         }
 
@@ -781,12 +781,12 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
 
     protected function saveOrganisationalUnitsActivation(bool $activation): void
     {
-        $position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
+        $position_settings = \ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
             $this->test_object->getType()
         );
 
         if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
-            $orgu_object_settings = new ilOrgUnitObjectPositionSetting($this->test_object->getId());
+            $orgu_object_settings = new \ilOrgUnitObjectPositionSetting($this->test_object->getId());
             $orgu_object_settings->setActive(
                 $activation
             );
@@ -802,7 +802,7 @@ class ilObjTestSettingsMainGUI extends TestSettingsGUI
             return $additional_settings;
         }
 
-        if (!(new ilSkillManagementSettings())->isActivated()) {
+        if (!(new \ilSkillManagementSettings())->isActivated()) {
             return $additional_settings->withSkillsServiceEnabled(false);
         }
 
