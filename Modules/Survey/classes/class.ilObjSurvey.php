@@ -608,15 +608,15 @@ class ilObjSurvey extends ilObject
             array($questionblock_id)
         );
         $questions = array();
-        $show_questiontext = 0;
-        $show_blocktitle = 0;
+        $show_questiontext = false;
+        $show_blocktitle = false;
         $title = "";
         while ($row = $ilDB->fetchAssoc($result)) {
             $duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
             $questions[] = $duplicate_id;
-            $title = $row["title"];
-            $show_questiontext = $row["show_questiontext"];
-            $show_blocktitle = $row["show_blocktitle"];
+            $title = (string) $row["title"];
+            $show_questiontext = (bool) $row["show_questiontext"];
+            $show_blocktitle = (bool) $row["show_blocktitle"];
         }
         $this->createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions);
     }
