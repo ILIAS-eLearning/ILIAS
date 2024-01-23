@@ -274,5 +274,4 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     {
         return array_slice($records, $range->getStart(), $range->getLength());
     }
-
 }
