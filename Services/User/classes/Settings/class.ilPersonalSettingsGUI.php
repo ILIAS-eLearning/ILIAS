@@ -768,7 +768,7 @@ class ilPersonalSettingsGUI
         $admin_mail = $this->settings->get('user_delete_own_account_email');
 
         $mmail = new ilMimeMail();
-        $mmail->From($this->sender_factory->system());
+        $mmail->From($this->mail_sender_factory->system());
 
         if ($user_email !== '') {
             $mmail->To($user_email);
