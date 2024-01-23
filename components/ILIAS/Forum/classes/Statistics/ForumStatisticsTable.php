@@ -18,13 +18,23 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Forum\Statistics;
+
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Factory as UIFactory;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use ilLPStatus;
+use ilStr;
+use ilLPStatusWrapper;
+use ilObjectLP;
+use ilLPStatusIcons;
+use ilLanguage;
+use ilObjUser;
+use ilForumProperties;
+use ilObjForum;
 
 class ForumStatisticsTable implements DataRetrieval
 {
@@ -176,7 +186,7 @@ class ForumStatisticsTable implements DataRetrieval
         Order $order,
         ?array $filter_data,
         ?array $additional_parameters,
-    ): Generator {
+    ): \Generator {
         $records = $this->getRecords($range, $order);
         foreach ($records as $record) {
             $row_id = (string) $record['usr_id'];
@@ -188,7 +198,7 @@ class ForumStatisticsTable implements DataRetrieval
     {
         $this->initRecords();
 
-        return count((array) $this->records);
+        return count($this->records);
     }
 
     private function getProgressStatus(int $user_id): string

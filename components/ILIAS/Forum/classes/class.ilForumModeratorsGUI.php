@@ -189,7 +189,7 @@ class ilForumModeratorsGUI
             );
         }
 
-        $tbl = new ForumModeratorsTable(
+        $tbl = new \ILIAS\Forum\Moderation\ForumModeratorsTable(
             $this->oForumModerators,
             $this->ctrl,
             $this->lng,

@@ -18,9 +18,18 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Forum\Moderation;
+
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ilArrayUtil;
+use ilObjUser;
+use ilObjectFactory;
+use ilForumModeratorsGUI;
+use ilLanguage;
+use ilCtrl;
+use ilForumModerators;
 
 class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
@@ -161,7 +170,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     ): ?int {
         $this->initRecords();
 
-        return count((array) $this->records);
+        return count($this->records);
     }
 
     /**
@@ -181,6 +190,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
         $this->initRecords();
+
         $records = $this->sortedRecords($order);
 
         return $this->limitRecords($records, $range);

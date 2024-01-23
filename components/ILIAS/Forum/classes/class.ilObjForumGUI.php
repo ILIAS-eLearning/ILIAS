@@ -1810,7 +1810,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->object->Forum->setForumId($this->object->getId());
 
-        $tbl = new ForumStatisticsTable(
+        $tbl = new \ILIAS\Forum\Statistics\ForumStatisticsTable(
             $this->object,
             $this->objProperties,
             ilLearningProgressAccess::checkAccess($this->object->getRefId()),
