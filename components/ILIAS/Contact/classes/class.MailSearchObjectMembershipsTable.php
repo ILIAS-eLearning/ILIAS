@@ -241,7 +241,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     ): ?int {
         $this->initRecords();
 
-        return count((array) $this->records);
+        return count($this->records);
     }
 
     /**
