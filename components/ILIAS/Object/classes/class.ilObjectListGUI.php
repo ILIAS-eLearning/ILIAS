@@ -2551,11 +2551,11 @@ class ilObjectListGUI
         if ($om !== 0 && !$this->http->agent()->isMobile()) {
             $this->default_command['frame'] = '';
             $link =
-                'javascript:void(0); onclick=startSAHS("' .
+                'javascript:void(0); onclick=startSAHS(\'' .
                 $link .
-                '","' .
+                '\',\'' .
                 $target .
-                '",' .
+                '\',' .
                 $om .
                 ',' .
                 $width .
