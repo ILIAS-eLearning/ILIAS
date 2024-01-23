@@ -26,6 +26,7 @@ namespace ILIAS\Test\Scoring\Marks;
 interface MarkSchemaAware
 {
     public function getMarkSchema(): MarkSchema;
+    public function storeMarkSchema(MarkSchema $mark_schema): void;
 
     /**
      * @return boolean|string True or an error string which can be used for display purposes

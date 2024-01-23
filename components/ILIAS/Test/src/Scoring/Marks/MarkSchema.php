@@ -40,6 +40,13 @@ class MarkSchema
         $this->mark_steps = [];
     }
 
+    public function withTestId(int $test_id): self
+    {
+        $clone = clone $this;
+        $clone->test_id = $test_id;
+        return $clone;
+    }
+
     public function getTestId(): int
     {
         return $this->test_id;
@@ -104,19 +111,20 @@ class MarkSchema
      */
     public function sort(): void
     {
-        function level_sort($a, $b): int
-        {
-            if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
-                $res = strcmp($a->getShortName(), $b->getShortName());
-                if ($res == 0) {
-                    return strcmp($a->getOfficialName(), $b->getOfficialName());
-                } else {
-                    return $res;
+        usort(
+            $this->mark_steps,
+            function ($a, $b): int {
+                if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
+                    $res = strcmp($a->getShortName(), $b->getShortName());
+                    if ($res == 0) {
+                        return strcmp($a->getOfficialName(), $b->getOfficialName());
+                    } else {
+                        return $res;
+                    }
                 }
+                return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
             }
-            return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
-        }
-        usort($this->mark_steps, 'level_sort');
+        );
     }
 
     /**
@@ -224,7 +232,7 @@ class MarkSchema
     }
 
 
-    public function toLog(): array
+    public function toLog(\ilLanguage $lng): array
     {
         $log_array = [];
         foreach ($this->getMarkSteps() as $mark) {

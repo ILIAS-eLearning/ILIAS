@@ -115,19 +115,19 @@ class MarkSchemaTableGUI extends \ilTable2GUI
      */
     public function fillRow(array $a_set): void
     {
-        $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
+        $short_name = new \ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
         $short_name->setValue($a_set['mark_short']);
         $short_name->setDisabled(!$this->is_editable);
         $short_name->setMaxLength(15);
         $short_name->setSize(10);
 
-        $official_name = new ilTextInputGUI('', 'mark_official_' . $a_set['mark_id']);
+        $official_name = new \ilTextInputGUI('', 'mark_official_' . $a_set['mark_id']);
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
         $official_name->setMaxLength(50);
         $official_name->setValue($a_set['mark_official']);
 
-        $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);
+        $percentage = new \ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);
         $percentage->allowDecimals(true);
         $percentage->setValue((string) $a_set['mark_percentage']);
         $percentage->setSize(10);
@@ -138,14 +138,14 @@ class MarkSchemaTableGUI extends \ilTable2GUI
         $this->tpl->setVariable('VAL_MARK_ID', $a_set['mark_id']);
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', (string) $a_set['mark_id'], !$this->is_editable)
+            \ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', (string) $a_set['mark_id'], !$this->is_editable)
         );
         $this->tpl->setVariable('VAL_SHORT_NAME', $short_name->render());
         $this->tpl->setVariable('VAL_OFFICIAL_NAME', $official_name->render());
         $this->tpl->setVariable('VAL_PERCENTAGE', $percentage->render());
         $this->tpl->setVariable(
             'VAL_PASSED_CHECKBOX',
-            ilLegacyFormElementsUtil::formCheckbox(
+            \ilLegacyFormElementsUtil::formCheckbox(
                 (bool) $a_set['mark_passed'],
                 'passed_' . $a_set['mark_id'],
                 '1',

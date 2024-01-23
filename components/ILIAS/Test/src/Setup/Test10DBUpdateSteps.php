@@ -59,7 +59,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, ['ref_id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'id');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE)) {
@@ -92,7 +92,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, ['ref_id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'id');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE)) {
@@ -131,7 +131,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['ref_id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['ref_id'], 'id');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::MARKING_LOG_TABLE)) {
@@ -170,7 +170,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['ref_id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['ref_id'], 'id');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::ERROR_LOG_TABLE)) {
@@ -209,7 +209,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'default' => ''
                 ]
             ]);
-            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['ref_id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['ref_id'], 'id');
         }
     }
 }

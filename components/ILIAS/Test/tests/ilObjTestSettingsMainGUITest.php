@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilObjTestSettingsMainGUITest extends ilTestBaseTestCase
+class SettingsMainGUITest extends ilTestBaseTestCase
 {
     public function testSuppressWarning(): void
     {

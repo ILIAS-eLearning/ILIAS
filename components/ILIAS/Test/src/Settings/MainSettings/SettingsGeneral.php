@@ -49,11 +49,11 @@ class SettingsGeneral extends TestSettings
         $inputs['question_set_type'] = $f->radio(
             $lng->txt('test_question_set_type')
         )->withOption(
-            ilObjTest::QUESTION_SET_TYPE_FIXED,
+            \ilObjTest::QUESTION_SET_TYPE_FIXED,
             $lng->txt('test_question_set_type_fixed'),
             $lng->txt('test_question_set_type_fixed_info')
         )->withOption(
-            ilObjTest::QUESTION_SET_TYPE_RANDOM,
+            \ilObjTest::QUESTION_SET_TYPE_RANDOM,
             $lng->txt('test_question_set_type_random'),
             $lng->txt('test_question_set_type_random_info')
         )->withValue($this->getQuestionSetType());

@@ -40,6 +40,7 @@ class MarkSchemaGUI
 {
     public function __construct(
         private MarkSchemaAware $object,
+        private \ilObjUser $active_user,
         private \ilLanguage $lng,
         private \ilCtrl $ctrl,
         private \ilGlobalTemplateInterface $tpl,
@@ -56,7 +57,7 @@ class MarkSchemaGUI
 
     public function executeCommand(): void
     {
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
         $cmd = $this->ctrl->getCmd('showMarkSchema');
         $this->$cmd();
     }
@@ -83,14 +84,14 @@ class MarkSchemaGUI
         $no_save_error = true;
         $this->object->getMarkSchema()->flush();
         $postdata = $this->request->getParsedBody();
-        foreach ($postdata as $key => $value) {
+        foreach (array_keys($postdata) as $key) {
             if (preg_match('/mark_short_(\d+)/', $key, $matches)) {
                 $passed = "0";
                 if (isset($postdata["passed_$matches[1]"])) {
                     $passed = "1";
                 }
 
-                $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
+                $percentage = str_replace(',', '.', \ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
                 if (!is_numeric($percentage)
                     || (float) $percentage < 0.0
                     || (float) $percentage > 100.0) {
@@ -99,10 +100,10 @@ class MarkSchemaGUI
                 }
 
                 $this->object->getMarkSchema()->addMarkStep(
-                    ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
-                    ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
+                    \ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
+                    \ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
                     (float) $percentage,
-                    (int) ilUtil::stripSlashes($passed)
+                    (int) \ilUtil::stripSlashes($passed)
                 );
             }
         }
@@ -114,7 +115,8 @@ class MarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        $this->object->getMarkSchema()->createSimpleSchema(
+        $mark_schema = $this->object->getMarkSchema();
+        $mark_schema->createSimpleSchema(
             $this->lng->txt('failed_short'),
             $this->lng->txt('failed_official'),
             0,
@@ -124,12 +126,12 @@ class MarkSchemaGUI
             50,
             1
         );
-        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
+        $this->object->storeMarkSchema($mark_schema);
         if ($this->logger->getLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
-                    $this->test_object->getRefId(),
+                    $this->object->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_RESET,
                     time(),
@@ -165,9 +167,9 @@ class MarkSchemaGUI
         }
 
         // test delete
-        $schema = clone $this->object->getMarkSchema();
-        $schema->deleteMarkSteps($deleted_mark_steps);
-        $check_result = $schema->checkMarks();
+        $mark_schema = clone $this->object->getMarkSchema();
+        $mark_schema->deleteMarkSteps($deleted_mark_steps);
+        $check_result = $mark_schema->checkMarks();
         if (is_string($check_result)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($check_result), true);
             $this->showMarkSchema();
@@ -175,18 +177,16 @@ class MarkSchemaGUI
         }
 
         //  actual delete
-        if (!empty($deleted_mark_steps)) {
-            $this->object->getMarkSchema()->deleteMarkSteps($deleted_mark_steps);
-        } else {
+        if (empty($deleted_mark_steps)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
-        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
+        $this->object->storeMarkSchema($mark_schema);
 
         if ($this->logger->getLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
-                    $this->test_object->getRefId(),
+                    $this->object->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     time(),
@@ -213,21 +213,21 @@ class MarkSchemaGUI
             return;
         }
 
-        $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
+        $this->object->storeMarkSchema(
+            $this->object->getMarkSchema()
+        );
         $this->object->onMarkSchemaSaved();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-        $this->object->getMarkSchema()->flush();
-        $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
 
         if ($this->logger->getLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
-                    $this->test_object->getRefId(),
+                    $this->object->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     time(),
-                    $this->object->getMarkSchema()->toLog()
+                    $this->object->getMarkSchema()->toLog($this->lng)
                 )
             );
         }

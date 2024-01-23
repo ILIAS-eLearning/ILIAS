@@ -25,7 +25,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
-use ILIAS\Test\Settings\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -34,10 +33,15 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarkSchemaAware;
-use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 
@@ -71,7 +75,8 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     private bool $online;
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     private InternalRequestService $testrequest;
-    private MarkSchema $mark_schema;
+    private MarksRepository $marks_repository;
+    private ?MarkSchema $mark_schema;
     public int $test_id = -1;
     public int $invitation = self::INVITATION_OFF;
     public string $author;
@@ -162,6 +167,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->test_man_scoring_done_helper = $local_dic['man_scoring_done_helper'];
         $this->logger = $local_dic['test_logger'];
         $this->log_viewer = $local_dic['test_log_viewer'];
+        $this->marks_repository = $local_dic['marks_repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -178,8 +184,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $this,
             $this->questioninfo
         );
-
-        $this->mark_schema = $local_dic['marks_repository']->getMarkSchemaFor($this->getTestId());
     }
 
     public function getLocalDIC(): ILIAS\DI\Container
@@ -255,6 +259,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         parent::read();
         $this->main_settings = null;
         $this->score_settings = null;
+        $this->mark_schema = null;
         $this->loadFromDb();
     }
 
@@ -413,13 +418,14 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $tst_dir;
     }
 
-    final public function isComplete(ilTestQuestionSetConfig $testQuestionSetConfig): bool
+    final public function isComplete(ilTestQuestionSetConfig $test_question_set_config): bool
     {
-        if (!count($this->mark_schema->mark_steps)) {
+        if ($this->getMarkSchema() === null
+            || $this->getMarkSchema()->getMarkSteps() === []) {
             return false;
         }
 
-        if (!$testQuestionSetConfig->isQuestionSetConfigured()) {
+        if (!$test_question_set_config->isQuestionSetConfigured()) {
             return false;
         }
 
@@ -528,13 +534,15 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             'activation_visibility' => $this->getActivationVisibility()
         ]);
 
-        if (!$properties_only) {
-            if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
-                $this->saveQuestionsToDb();
-            }
-
-            $this->mark_schema->saveToDb($this->test_id);
+        if ($properties_only) {
+            return;
         }
+
+        if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
+            $this->saveQuestionsToDb();
+        }
+
+        $this->marks_repository->storeMarkSchema($this->getMarkSchema());
     }
 
     public function saveQuestionsToDb(): void
@@ -595,10 +603,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         if ($result->numRows() === 1) {
             $data = $this->db->fetchObject($result);
             $this->setTestId($data->test_id);
-
-            $this->mark_schema->flush();
-            $this->mark_schema->loadFromDb($this->getTestId());
-
             $this->loadQuestions();
         }
 
@@ -836,6 +840,21 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             return (bool) $row["score_cutting"];
         }
         return false;
+    }
+
+    public function getMarkSchema(): MarkSchema
+    {
+        if ($this->mark_schema === null) {
+            $this->mark_schema = $this->marks_repository->getMarkSchemaFor($this->getTestId());
+        }
+
+        return $this->mark_schema;
+    }
+
+    public function storeMarkSchema(MarkSchema $mark_schema): void
+    {
+        $this->marks_repository->storeMarkSchema($mark_schema);
+        $this->mark_schema = null;
     }
 
     /**
@@ -2228,7 +2247,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                 $percentage = 0.0;
             }
         }
-        $mark_obj = $this->mark_schema->getMatchingMark($percentage);
+        $mark_obj = $this->getMarkSchema()->getMatchingMark($percentage);
         $first_date = getdate($first_visit);
         $last_date = getdate($last_visit);
         $qworkedthrough = 0;
@@ -2299,7 +2318,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $reached = $test_result["test"]["total_reached_points"];
             $total = $test_result["test"]["total_max_points"];
             $percentage = $total != 0 ? $reached / $total : 0;
-            $mark = $this->mark_schema->getMatchingMark($percentage * 100.0);
+            $mark = $this->getMarkSchema()->getMatchingMark($percentage * 100.0);
 
             $obligationsAnswered = $test_result["test"]["obligations_answered"];
 
@@ -2668,27 +2687,23 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         }
 
         foreach (array_keys($data->getParticipants()) as $active_id) {
-            $tstUserData = $data->getParticipant($active_id);
-
-            $percentage = $tstUserData->getReachedPointsInPercent();
-
-            $obligationsAnswered = $tstUserData->areObligationsAnswered();
-
-            $mark = $this->mark_schema->getMatchingMark($percentage);
+            $tst_user_data = $data->getParticipant($active_id);
+            $percentage = $tst_user_data->getReachedPointsInPercent();
+            $mark = $this->getMarkSchema()->getMatchingMark($percentage);
 
             if (is_object($mark)) {
-                $tstUserData->setMark($mark->getShortName());
-                $tstUserData->setMarkOfficial($mark->getOfficialName());
+                $tst_user_data->setMark($mark->getShortName());
+                $tst_user_data->setMarkOfficial($mark->getOfficialName());
 
-                $tstUserData->setPassed(
-                    $mark->getPassed() && $tstUserData->areObligationsAnswered()
+                $tst_user_data->setPassed(
+                    $mark->getPassed() && $tst_user_data->areObligationsAnswered()
                 );
             }
 
-            $visitingTime = $this->getVisitTimeOfParticipant($active_id);
+            $visiting_time = $this->getVisitTimeOfParticipant($active_id);
 
-            $tstUserData->setFirstVisit($visitingTime["firstvisit"]);
-            $tstUserData->setLastVisit($visitingTime["lastvisit"]);
+            $tst_user_data->setFirstVisit($visiting_time["firstvisit"]);
+            $tst_user_data->setLastVisit($visiting_time["lastvisit"]);
         }
 
         return $data;
@@ -3251,6 +3266,10 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $gamification_settings = $score_settings->getGamificationSettings();
         $result_summary_settings = $score_settings->getResultSummarySettings();
         $result_details_settings = $score_settings->getResultDetailsSettings();
+
+        $mark_schema = $this->getMarkSchema();
+        $mark_schema->flush();
+
         foreach ($assessment->qtimetadata as $metadata) {
             switch ($metadata["label"]) {
                 case "solution_details":
@@ -3508,7 +3527,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                 $mark_percentage = (float) $matches[1];
                 preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
                 $mark_passed = (int) $matches[1];
-                $this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
+                $mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
             }
         }
 
@@ -4036,7 +4055,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        foreach ($this->mark_schema->mark_steps as $index => $mark) {
+        foreach ($this->getMarkSchema()->mark_steps as $index => $mark) {
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "mark_step_$index");
             $a_xml_writer->xmlElement("fieldentry", null, sprintf(
@@ -4296,15 +4315,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
      */
     public function checkMarks(): string|bool
     {
-        return $this->mark_schema->checkMarks();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMarkSchema(): MarkSchema
-    {
-        return $this->mark_schema;
+        return $this->getMarkSchema()->checkMarks();
     }
 
     /**
@@ -4506,8 +4517,10 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->getScoreSettingsRepository()->store(
             $this->getScoreSettings()->withTestId($new_obj->getTestId())
         );
+        $this->marks_repository->storeMarkSchema(
+            $this->getMarkSchema()->withTestId($new_obj->getTestId())
+        );
 
-        $new_obj->mark_schema = clone $this->mark_schema;
         $new_obj->setTemplate($this->getTemplate());
 
         // clone certificate
@@ -5196,7 +5209,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                 } else {
                     $percentvalue = 0;
                 }
-                $mark_obj = $this->mark_schema->getMatchingMark($percentvalue * 100);
+                $mark_obj = $this->getMarkSchema()->getMatchingMark($percentvalue * 100);
                 $passed = "";
                 if ($mark_obj) {
                     $mark = $mark_obj->getOfficialName();
@@ -6292,7 +6305,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                 'name' => ['text', $a_name],
                 'user_fi' => ['integer', $this->user->getId()],
                 'defaults' => ['clob', serialize($testsettings)],
-                'marks' => ['clob', serialize($this->mark_schema->getMarkSteps())],
+                'marks' => ['clob', serialize($this->getMarkSchema()->getMarkSteps())],
                 'tstamp' => ['integer', time()]
             ]
         );
@@ -6314,7 +6327,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $unserialized_marks = $unserialized_marks->getMarkSteps();
         }
 
-        $this->mark_schema->setMarkSteps($unserialized_marks);
+        $this->getMarkSchema()->setMarkSteps($unserialized_marks);
 
         $this->storeActivationSettings([
             'is_activation_limited' => $testsettings['activation_limited'],
@@ -8078,7 +8091,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public function getScoreSettingsRepository(): ScoreSettingsRepository
     {
         if (!$this->score_settings_repo) {
-            $this->score_settings_repo = new ilObjTestScoreSettingsDatabaseRepository($this->db);
+            $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
         }
         return $this->score_settings_repo;
     }
@@ -8129,7 +8142,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
             $obligations_answered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
 
-            $mark = $this->mark_schema->getMatchingMark($percentage);
+            $mark = $this->getMarkSchema()->getMatchingMark($percentage);
             $is_passed = (bool) $mark->getPassed();
 
             $hint_count = $test_pass_result_row['hint_count'] ?? 0;
@@ -8304,11 +8317,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             'obligations_answered' => $obligations_answered,
             'exam_id' => $exam_identifier
         ];
-    }
-
-    public function resetMarkSchema(): void
-    {
-        $this->mark_schema->flush();
     }
 
     public function addToNewsOnOnline(

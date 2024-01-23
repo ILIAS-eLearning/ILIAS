@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\Settings\MainSettings\TestSettings;
+use ILIAS\Test\Settings\TestSettings;
 
 class ScoreSettings
 {

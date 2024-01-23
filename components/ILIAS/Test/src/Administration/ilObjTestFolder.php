@@ -47,7 +47,7 @@ class ilObjTestFolder extends ilObject
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
-        $this->setting = new ilSetting('assessment');
+        $this->setting = new \ilSetting('assessment');
         $this->type = 'assf';
         $local_dic = TestDIC::dic();
         $this->global_settings_repository = $local_dic['global_settings_repository'];
@@ -68,7 +68,7 @@ class ilObjTestFolder extends ilObject
 
     public static function getSkillTriggerAnswerNumberBarrier(): int
     {
-        $assSettings = new ilSetting('assessment');
+        $assSettings = new \ilSetting('assessment');
 
         return (int) $assSettings->get(
             self::SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER,
@@ -78,21 +78,21 @@ class ilObjTestFolder extends ilObject
 
     public function _enableAssessmentLogging(bool $a_enable): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         $setting->set('assessment_logging', (string) ((int) $a_enable));
     }
 
     public function _setLogLanguage(string $a_language): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         $setting->set('assessment_log_language', $a_language);
     }
 
     public static function _enabledAssessmentLogging(): bool
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         return (bool) $setting->get('assessment_logging', '0');
     }
@@ -103,7 +103,7 @@ class ilObjTestFolder extends ilObject
      */
     public static function _getForbiddenQuestionTypes(): array
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         $types = $setting->get('forbidden_questiontypes', '');
         $result = [];
 
@@ -122,7 +122,7 @@ class ilObjTestFolder extends ilObject
      */
     public function _setForbiddenQuestionTypes(array $typeIds): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         $types = '';
         if ($typeIds !== []) {
@@ -147,7 +147,7 @@ class ilObjTestFolder extends ilObject
      */
     public static function _getManualScoring(): array
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         $types = $setting->get('assessment_manual_scoring', '');
         return array_filter(array_map('intval', explode(',', $types)));
@@ -162,7 +162,7 @@ class ilObjTestFolder extends ilObject
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         $typeIds = array_filter(array_map('intval', explode(',', $setting->get('assessment_manual_scoring', ''))));
         $manualScoringTypes = [];
 
@@ -181,7 +181,7 @@ class ilObjTestFolder extends ilObject
      */
     public function _setManualScoring(array $type_ids): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         if ($type_ids === []) {
             $setting->delete('assessment_manual_scoring');
         } else {
@@ -194,7 +194,7 @@ class ilObjTestFolder extends ilObject
      */
     public static function getScoringAdjustableQuestions(): array
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
 
         $types = $setting->get('assessment_scoring_adjustment', '');
         return array_filter(array_map('intval', explode(',', $types)));
@@ -206,7 +206,7 @@ class ilObjTestFolder extends ilObject
      */
     public static function setScoringAdjustableQuestions(array $type_ids): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         if ($type_ids === []) {
             $setting->delete('assessment_scoring_adjustment');
         } else {
@@ -216,13 +216,13 @@ class ilObjTestFolder extends ilObject
 
     public static function getScoringAdjustmentEnabled(): bool
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         return (bool) $setting->get('assessment_adjustments_enabled', '0');
     }
 
     public static function setScoringAdjustmentEnabled(bool $active): void
     {
-        $setting = new ilSetting('assessment');
+        $setting = new \ilSetting('assessment');
         $setting->set('assessment_adjustments_enabled', (string) ((int) $active));
     }
 

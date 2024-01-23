@@ -64,12 +64,13 @@ class MarksDatabaseRepository implements MarksRepository
         }
 
         // Write new datasets
-        foreach ($mark_schema->getMarkSteps()->toStorage() as $marks) {
-            $marks['mark_id'] = ['integer', $this->db->nextId(self::DB_TABLE)];
-            $marks['test_fi'] = ['integer', $mark_schema->getTestId()];
+        foreach ($mark_schema->getMarkSteps() as $mark) {
+            $mark_array = $mark->toStorage();
+            $mark_array['mark_id'] = ['integer', $this->db->nextId(self::DB_TABLE)];
+            $mark_array['test_fi'] = ['integer', $mark_schema->getTestId()];
             $this->db->insert(
                 self::DB_TABLE,
-                $marks
+                $mark_array
             );
         }
     }

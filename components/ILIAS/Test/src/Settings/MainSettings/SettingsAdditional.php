@@ -47,7 +47,7 @@ class SettingsAdditional extends TestSettings
         array $environment = null
     ): array {
         $inputs = [];
-        if ((new ilSkillManagementSettings())->isActivated()) {
+        if ((new \ilSkillManagementSettings())->isActivated()) {
             $inputs['skills_service_activation'] = $this->getInputSkillsServiceActivation(
                 $lng,
                 $f,

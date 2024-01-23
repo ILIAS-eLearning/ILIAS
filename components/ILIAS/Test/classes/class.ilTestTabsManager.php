@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
+use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
+use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -354,10 +359,12 @@ class ilTestTabsManager
             $this->tabs->setBack2Target($this->getParentBackLabel(), $this->getParentBackHref());
         }
 
-        switch (strtolower($this->ctrl->getCmdClass())) {
-            case 'ilmarkschemagui':
-            case 'ilobjtestsettingsmaingui':
-            case 'ilobjtestsettingsscoringresultsgui':
+        $class_path = $this->ctrl->getCurrentClassPath();
+
+        switch (array_pop($class_path)) {
+            case MarkSchemaGUI::class:
+            case SettingsMainGUI::class:
+            case SettingsScoringGUI::class:
 
                 if ($this->isWriteAccessGranted()) {
                     $this->getSettingsSubTabs();
@@ -449,7 +456,10 @@ class ilTestTabsManager
             $this->tabs->addTab(
                 self::TAB_ID_TEST,
                 $this->lng->txt('test'),
-                $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD)
+                $this->ctrl->getLinkTargetByClass([
+                    ilObjTestGUI::class, ilTestScreenGUI::class],
+                    ilTestScreenGUI::DEFAULT_CMD
+                )
             );
         }
 
@@ -514,14 +524,14 @@ class ilTestTabsManager
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
             ];
 
-            $reflection = new ReflectionClass('ilObjTestSettingsMainGUI');
+            $reflection = new ReflectionClass(SettingsMainGUI::class);
             foreach ($reflection->getConstants() as $name => $value) {
                 if (substr($name, 0, 4) === 'CMD_') {
                     $settingsCommands[] = $value;
                 }
             }
 
-            $reflection = new ReflectionClass('ilObjTestSettingsScoringGUI');
+            $reflection = new ReflectionClass(SettingsScoringGUI::class);
             foreach ($reflection->getConstants() as $name => $value) {
                 if (substr($name, 0, 4) === 'CMD_') {
                     $settingsCommands[] = $value;
@@ -532,7 +542,7 @@ class ilTestTabsManager
 
             $this->tabs->addTarget(
                 'settings',
-                $this->ctrl->getLinkTargetByClass('ilObjTestSettingsMainGUI'),
+                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsMainGUI::class]),
                 $settingsCommands,
                 [
                     'ilmarkschemagui',
@@ -573,7 +583,7 @@ class ilTestTabsManager
         if ($this->isLpAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_LEARNING_PROGRESS,
-                $this->ctrl->getLinkTargetByClass(['illearningprogressgui'], ''),
+                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilLearningProgressGUI::class], ''),
                 '',
                 [
                     'illplistofobjectsgui',
@@ -591,7 +601,7 @@ class ilTestTabsManager
                 $this->tabs->addTarget(
                     self::TAB_ID_MANUAL_SCORING,
                     $this->ctrl->getLinkTargetByClass(
-                        'TestScoringByQuestionGUI',
+                        [ilObjTestGUI::class, TestScoringByQuestionGUI::class],
                         'showManScoringByQuestionParticipantsTable'
                     ),
                     [
@@ -616,7 +626,7 @@ class ilTestTabsManager
             $this->tabs->addTab(
                 self::TAB_ID_CORRECTION,
                 $this->lng->txt(self::TAB_ID_CORRECTION),
-                $this->ctrl->getLinkTargetByClass('ilTestCorrectionsGUI')
+                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestCorrectionsGUI::class])
             );
         }
 
@@ -653,7 +663,7 @@ class ilTestTabsManager
             );
 
             $mdgui = new ilObjectMetaDataGUI($this->getTestOBJ());
-            $mdtab = $mdgui->getTab();
+            $mdtab = $mdgui->getTab(ilObjTestGUI::class);
             if ($mdtab) {
                 $this->tabs->addTarget(
                     self::TAB_ID_META_DATA,
@@ -665,7 +675,7 @@ class ilTestTabsManager
 
             $this->tabs->addTarget(
                 self::TAB_ID_EXPORT,
-                $this->ctrl->getLinkTargetByClass('iltestexportgui', ''),
+                $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestExportGUI::class], ''),
                 '',
                 ['iltestexportgui']
             );
@@ -788,23 +798,23 @@ class ilTestTabsManager
     {
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_GENERAL,
-            $this->ctrl->getLinkTargetByClass('ilObjTestSettingsMainGUI'),
+            $this->ctrl->getLinkTargetByClass(SettingsMainGUI::class),
             '',											// auto activation regardless from cmd
-            ['ilobjtestsettingsmaingui']			// auto activation for ilObjTestSettingsGeneralGUI
+            [SettingsMainGUI::class]			// auto activation for ilObjTestSettingsGeneralGUI
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_MARK_SCHEMA,
-            $this->ctrl->getLinkTargetByClass('ilmarkschemagui', 'showMarkSchema'),
+            $this->ctrl->getLinkTargetByClass(MarkSchemaGUI::class, 'showMarkSchema'),
             '',
-            ['ilmarkschemagui']
+            [MarkSchemaGUI::class]
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_SCORING,
-            $this->ctrl->getLinkTargetByClass('ilObjTestSettingsScoringGUI'),
+            $this->ctrl->getLinkTargetByClass(SettingsScoringGUI::class),
             '',                                             // auto activation regardless from cmd
-            ['ilobjtestsettingsscoringgui']     // auto activation for ilObjTestSettingsScoringGUI
+            [SettingsScoringGUI::class]     // auto activation for SettingsScoringGUI
         );
 
         $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'introductionpage');
@@ -888,7 +898,7 @@ class ilTestTabsManager
      */
     protected function getDashboardTabTarget(): string
     {
-        return $this->ctrl->getLinkTargetByClass(['ilTestDashboardGUI', 'ilTestParticipantsGUI']);
+        return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestDashboardGUI::class, ilTestParticipantsGUI::class]);
     }
 
     public function getDashboardSubTabs()
@@ -935,11 +945,11 @@ class ilTestTabsManager
     protected function getResultsTabTarget(): string
     {
         if ($this->needsParticipantsResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI']);
+            return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class]);
         }
 
         if ($this->needsLoResultsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI']);
+            return $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestResultsGUI::class, ilTestEvalObjectiveOrientedGUI::class]);
         }
 
         if ($this->needsMyResultsSubTab()) {

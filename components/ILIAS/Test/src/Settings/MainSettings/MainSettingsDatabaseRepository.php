@@ -30,9 +30,9 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
     private static array $instances_by_obj_fi = [];
     private static array $instances_by_test_fi = [];
 
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db)
+    public function __construct(\ilDBInterface $db)
     {
         $this->db = $db;
     }
