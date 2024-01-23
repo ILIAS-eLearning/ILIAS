@@ -32,6 +32,7 @@ class InternalDomainService
 
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+    protected array $instances = [];
 
     public function __construct(
         Container $DIC,
@@ -45,7 +46,7 @@ class InternalDomainService
 
     public function noteAccess(): AccessManager
     {
-        return new AccessManager(
+        return $this->instances[AccessManager::class] = $this->instances[AccessManager::class] ?? new AccessManager(
             $this->data_service,
             $this->repo_service,
             $this
@@ -54,7 +55,7 @@ class InternalDomainService
 
     public function notes(): NotesManager
     {
-        return new NotesManager(
+        return $this->instances[NotesManager::class] = $this->instances[NotesManager::class] ?? new NotesManager(
             $this->data_service,
             $this->repo_service,
             $this
@@ -63,7 +64,7 @@ class InternalDomainService
 
     public function notification(): NotificationsManager
     {
-        return new NotificationsManager(
+        return $this->instances[NotificationsManager::class] = $this->instances[NotificationsManager::class] ?? new NotificationsManager(
             $this->data_service,
             $this->repo_service,
             $this
