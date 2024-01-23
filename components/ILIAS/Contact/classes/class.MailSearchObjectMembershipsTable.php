@@ -101,7 +101,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, UI\Component\Table\Column\Column>
      */
     private function getColumns(): array
     {
@@ -123,7 +123,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, ILIAS\UI\Component\Table\Action\Standard>
      */
     private function getActions(): array
     {
