@@ -322,5 +322,4 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     {
         return $field == 'obj_cnt_members';
     }
-
 }
