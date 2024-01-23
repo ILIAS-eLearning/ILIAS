@@ -320,6 +320,6 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
 
     private function numericOrdering(string $field): bool
     {
-        return $field == 'obj_cnt_members';
+        return $field === 'obj_cnt_members';
     }
 }
