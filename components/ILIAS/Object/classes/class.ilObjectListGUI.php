@@ -1093,7 +1093,7 @@ class ilObjectListGUI
         } else {
             $this->default_command['link'] = $this->modifyTitleLink($this->default_command['link']);
 
-            $this->default_command['link'] =
+            list($this->default_command['link'], $this->default_command['frame']) =
                 $this->modifySAHSlaunch($this->default_command['link'], $this->default_command['frame']);
 
             if ($this->default_command['frame'] != '') {
@@ -2535,34 +2535,38 @@ class ilObjectListGUI
     /**
     * workaround: SAHS in new javavasript-created window or iframe
     */
-    public function modifySAHSlaunch(string $link, string $wtarget): string
+    public function modifySAHSlaunch(string $link, string $target): array
     {
-        if (strstr($link, ilSAHSPresentationGUI::class)) {
-            $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-            $om = $sahs_obj->getOpenMode();
-            $width = $sahs_obj->getWidth();
-            $height = $sahs_obj->getHeight();
-            if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
-                $om++;
-            }
-            if ($om != 0 && !$this->http->agent()->isMobile()) {
-                $this->default_command['frame'] = '';
-                $link =
-                    'javascript:void(0); onclick=startSAHS("' .
-                    $link .
-                    '","' .
-                    $wtarget .
-                    '",' .
-                    $om .
-                    ',' .
-                    $width .
-                    ',' .
-                    $height .
-                    ');'
-                ;
-            }
+        if (strstr($link, ilSAHSPresentationGUI::class) === false) {
+            return [$link, $target];
         }
-        return $link;
+
+        $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+        $om = $sahs_obj->getOpenMode();
+        $width = $sahs_obj->getWidth();
+        $height = $sahs_obj->getHeight();
+        if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
+            $om++;
+        }
+        if ($om !== 0 && !$this->http->agent()->isMobile()) {
+            $this->default_command['frame'] = '';
+            $link =
+                'javascript:void(0); onclick=startSAHS("' .
+                $link .
+                '","' .
+                $target .
+                '",' .
+                $om .
+                ',' .
+                $width .
+                ',' .
+                $height .
+                ');'
+            ;
+        } else {
+            $target = "ilContObj" . $this->ref_id;
+        }
+        return [$link, $target];
     }
 
     public function insertPath(): void
@@ -3091,7 +3095,8 @@ class ilObjectListGUI
 
 
         if ($def_command['link'] ?? false) {
-            $def_command['link'] = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
+            list($def_command['link'], $def_command['frame']) =
+                $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
             $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
             $link = $this->ui->factory()
                 ->link()
@@ -3175,12 +3180,12 @@ class ilObjectListGUI
         $def_cmd_link = ($def_command['link'] ?? '');
 
         // workaround for scorm
-        $modified_link =
+        list($modified_link, $def_cmd_frame) =
             $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
         $image = $this->getTileImage();
         if ($def_cmd_link != '') {    // #24256
-            if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
+            if ($def_cmd_frame !== '' && ($modified_link === $def_cmd_link)) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use (
                     $def_cmd_frame,
                     $def_cmd_link
