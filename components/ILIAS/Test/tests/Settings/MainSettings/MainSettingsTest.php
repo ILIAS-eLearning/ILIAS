@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
-use ILIAS\Test\Settings\MainSettings\TestSettings;
 use ILIAS\Test\Settings\MainSettings\SettingsGeneral;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
 use ILIAS\Test\Settings\MainSettings\SettingsAccess;

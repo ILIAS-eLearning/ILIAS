@@ -61,25 +61,16 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->suspendTestButtonEnabled = $suspendTestButtonEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isUserPassOverviewEnabled(): bool
     {
         return $this->user_pass_overview_button_enabled;
     }
 
-    /**
-     * @param boolean $questionListButtonEnabled
-     */
-    public function setUserPassOverviewEnabled(bool $user_pass_overview_button_enabled)
+    public function setUserPassOverviewEnabled(bool $user_pass_overview_button_enabled): void
     {
         $this->user_pass_overview_button_enabled = $user_pass_overview_button_enabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isQuestionTreeVisible(): bool
     {
         return $this->questionTreeVisible;
@@ -90,9 +81,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->questionTreeVisible = $questionTreeVisible;
     }
 
-    /**
-     * @return boolean
-     */
     public function isFinishTestButtonEnabled(): bool
     {
         return $this->finishTestButtonEnabled;
@@ -179,7 +167,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SUSPEND_TEST)
             )
         );
-
         $this->addComponent($button);
     }
 
@@ -193,7 +180,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::QUESTION_SUMMARY)
             )
         );
-
         $this->addComponent($button);
     }
 

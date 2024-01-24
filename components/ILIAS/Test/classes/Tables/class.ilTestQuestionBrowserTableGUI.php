@@ -174,19 +174,19 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
         }
 
-        $testQuestionSetConfig = $this->buildTestQuestionSetConfig();
+        $test_question_set_config = $this->buildTestQuestionSetConfig();
 
         $manscoring = false;
 
         foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->test_obj->insertQuestion($testQuestionSetConfig, $value);
+            $last_question_id = $this->test_obj->insertQuestion($test_question_set_config, $value);
 
             if (!$manscoring) {
                 $manscoring |= assQuestion::_needsManualScoring($value);
             }
         }
 
-        $this->test_obj->saveCompleteStatus($testQuestionSetConfig);
+        $this->test_obj->saveCompleteStatus($test_question_set_config);
 
         if ($manscoring) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
@@ -484,12 +484,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionsData(): array
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+        $question_list->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
+        $question_list->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
 
-        $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
-        $questionList->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
-
-        $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        $repository_root_node = self::REPOSITORY_ROOT_NODE_ID;
 
         foreach ($this->getFilterItems() as $item) {
             if (!in_array($item->getValue(), [false, null, ''], true)) {
@@ -500,30 +499,29 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
                     case 'lifecycle':
                     case 'type':
                     case 'parent_title':
-                        $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
+                        $question_list->addFieldFilter($item->getPostVar(), $item->getValue());
                         break;
 
                     case 'repository_root_node':
-                        $repositoryRootNode = (int) $item->getValue();
+                        $repository_root_node = (int) $item->getValue();
                 }
             }
         }
-        if ($repositoryRootNode < 1) {
-            $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        if ($repository_root_node < 1) {
+            $repository_root_node = self::REPOSITORY_ROOT_NODE_ID;
         }
 
-        $parentObjectIds = $this->getQuestionParentObjIds($repositoryRootNode);
-
-        if (!count($parentObjectIds)) {
+        $parent_object_ids = $this->getQuestionParentObjIds($repository_root_node);
+        if ($parent_object_ids === []) {
             return [];
         }
 
-        $questionList->setParentObjIdsFilter($parentObjectIds);
-        $questionList->setParentObjectType($this->getQuestionParentObjectType());
+        $question_list->setParentObjIdsFilter($parent_object_ids);
+        $question_list->setParentObjectType($this->getQuestionParentObjectType());
 
-        $questionList->load();
+        $question_list->load();
 
-        return $questionList->getQuestionDataArray();
+        return $question_list->getQuestionDataArray();
     }
 
     private function getQuestionInstanceTypeFilter(): string
