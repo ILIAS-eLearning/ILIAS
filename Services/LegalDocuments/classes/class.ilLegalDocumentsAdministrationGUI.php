@@ -229,7 +229,8 @@ class ilLegalDocumentsAdministrationGUI
         $this->admin->requireEditable();
         $this->container->tabs()->clearTargets();
         $this->admin->idOrHash($this, function (Closure $link, string $title, DocumentId $id, bool $may_be_new) {
-            $form = $this->admin->documentForm($link, $title, $may_be_new);
+            $content = fn() => $this->config->legalDocuments()->document()->repository()->findId($id)->map(fn($d) => $d->content());
+            $form = $this->admin->documentForm($link, $title, $content, $may_be_new);
             $form = $this->admin->withFormData($form, function ($data) use (/* $edit_link, */$id) {
                 $this->config->legalDocuments()->document()->repository()->updateDocumentTitle($id, $data[0]['title']);
                 $this->returnWithMessage('saved_successfully', 'documents');
