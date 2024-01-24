@@ -235,8 +235,8 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             default:
                 try {
                     $res = explode('-', (string) $this->ctrl->getCmd(''), 2);
-                    $this->dispatchCall($res[0], $res[1] ?? '');
-                    if (method_exists($this, $this->ctrl->getCmd() . 'Object')) {
+                    $result = $this->dispatchCall($res[0], $res[1] ?? '');
+                    if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
                         $this->{$this->ctrl->getCmd() . 'Object'}();
                     }

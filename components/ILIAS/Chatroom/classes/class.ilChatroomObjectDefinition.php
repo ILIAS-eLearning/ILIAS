@@ -80,6 +80,11 @@ class ilChatroomObjectDefinition
         );
     }
 
+    public function hasGUI(string $gui): bool
+    {
+        return class_exists($this->getGUIClassName($gui));
+    }
+
     /**
      * Builds gui classname using given $gui and returns it.
      */

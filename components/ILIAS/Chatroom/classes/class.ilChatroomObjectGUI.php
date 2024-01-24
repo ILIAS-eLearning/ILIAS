@@ -37,11 +37,16 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    protected function dispatchCall(string $gui, string $method): void
+    protected function dispatchCall(string $gui, string $method): bool
     {
         $definition = $this->getObjectDefinition();
-        $guiHandler = $definition->buildGUI($gui, $this);
-        $guiHandler->execute($method);
+        if ($definition->hasGUI($gui)) {
+            $guiHandler = $definition->buildGUI($gui, $this);
+            $guiHandler->execute($method);
+            return true;
+        }
+
+        return false;
     }
 
     abstract protected function getObjectDefinition(): ilChatroomObjectDefinition;
