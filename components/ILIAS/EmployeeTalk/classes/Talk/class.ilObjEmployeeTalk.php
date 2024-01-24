@@ -18,9 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\components\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
+use ILIAS\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 
 final class ilObjEmployeeTalk extends ilObject
 {

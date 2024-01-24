@@ -18,16 +18,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\components\EmployeeTalk\TalkSeries\Repository;
+namespace ILIAS\EmployeeTalk\TalkSeries\Repository;
 
 use ilObjEmployeeTalkSeries;
 use ilObjUser;
 use ilDBInterface;
-use ILIAS\components\EmployeeTalk\TalkSeries\DTO\EmployeeTalkSerieSettingsDto;
+use ILIAS\EmployeeTalk\TalkSeries\DTO\EmployeeTalkSerieSettingsDto;
 
 /**
  * Class IliasDBEmployeeTalkSeriesRepository
- * @package ILIAS\components\EmployeeTalk\Talk\Repository
+ * @package ILIAS\EmployeeTalk\Talk\Repository
  */
 final class IliasDBEmployeeTalkSeriesRepository
 {

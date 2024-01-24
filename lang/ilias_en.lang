@@ -9097,6 +9097,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
 etal#:#etal_new#:#New Talk
