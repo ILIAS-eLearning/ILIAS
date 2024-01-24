@@ -7670,6 +7670,7 @@ crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Konto mit der Rolle „Kursadministration“ zugeordnet sein.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#Der Zeitraum für den zeitlich begrenzten Beitritt kann nicht bestimmt werden, wenn die Einstellung "Kein selbständiger Beitritt" aktiviert ist.
 crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
 crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
