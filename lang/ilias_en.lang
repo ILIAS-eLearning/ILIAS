@@ -3906,17 +3906,17 @@ common#:#download_with_uploaded_filename#:#Download With Uploaded Filename
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file will be the same as the original filename that was used when the file was uploaded to ILIAS. If this option is not selected, the filename of a downloaded file will be the same as the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV, the filename of a downloaded file is always the same as the title of the file object.
 common#:#downloading_settings#:#Download Settings
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?
-common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
-common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!
-common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection
-common#:#dpro_usr_agreement#:#Data Protection
+common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!
+common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection
+common#:#dpro_usr_agreement#:#Declaration of Data Protection
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.
 common#:#dpro_withdraw_consent_description#:#Withdraw your consent to our Declaration of Data Protection here.
-common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Data Protection.
-common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Data Protection.
+common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.
+common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.
 common#:#dpro_withdraw_consent_header#:#Withdraw to Consent of Declaration of Data Protection
-common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Data Protection.
-common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Data Protection.
+common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Declaration of Data Protection.
+common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection.
 common#:#drafts#:#Drafts
 common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#drag_files_here#:#Drag-and-drop your files here
@@ -4876,8 +4876,8 @@ common#:#obj_crsv#:#Course Certificate
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_dcl#:#Data Collection
 common#:#obj_dcl_duplicate#:#Copy Data Collection
-common#:#obj_dpro#:#Data Protection
-common#:#obj_dpro_desc#:#Data Protection Settings
+common#:#obj_dpro#:#Declaration of Data Protection
+common#:#obj_dpro_desc#:#Declaration of Data Protection Settings
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard settings
 common#:#obj_ecss#:#ECS
@@ -8826,21 +8826,21 @@ didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
 didactic#:#sess_closed_info#:#Session is not visible for non-participants.
-dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
-dpro#:#dpro_agree_date#:#Data Protection agreed on
-dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
+dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
+dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on
+dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
 dpro#:#dpro_mode#:#Agreement Mode
-dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.
+dpro#:#dpro_mode_desc#:#Please configure when and how the Declaration of Data Protection should be accepted.
 dpro#:#dpro_no_acceptance#:#Never, only informative
 dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.
 dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.
 dpro#:#dpro_once#:#Accept once
-dpro#:#dpro_reset_for_all_users#:#Reset Data Protection
-dpro#:#dpro_status_enable#:#Enable Data Protection
-dpro#:#dpro_status_enable_desc#:#Display relevant language-based Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Data Protection before they can enter ILIAS.
-dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
-dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Data Protection withdrawal
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Data Protection document, this will result in the deletion of the user’s account.
+dpro#:#dpro_reset_for_all_users#:#Reset the Declaration of Data Protection
+dpro#:#dpro_status_enable#:#Enable the Declaration of Data Protection
+dpro#:#dpro_status_enable_desc#:#Display relevant language-based Declaration of Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Declaration of Data Protection before they can enter ILIAS.
+dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
+dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Declaration of Data Protection withdrawal
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension
@@ -10714,6 +10714,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Document
 ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)
+ldoc#:#ldoc_updated_document#:#Document uploaded
 lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All

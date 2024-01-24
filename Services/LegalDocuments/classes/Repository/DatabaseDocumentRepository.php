@@ -152,11 +152,18 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
      */
     public function find(int $id): Result
     {
-        $document = current($this->select([$id])) ?: null;
-        if ($document) {
-            return new Ok($document);
-        }
-        return new Error('Document with ID ' . $id . ' not found.');
+        return $this->first(
+            $this->select([$id]),
+            'Document with ID ' . $id . ' not found.'
+        );
+    }
+
+    public function findId(DocumentId $document_id): Result
+    {
+        return match (get_class($document_id)) {
+            HashId::class => $this->findHash($document_id->hash()),
+            NumberId::class => $this->find($document_id->number()),
+        };
     }
 
     /**
@@ -339,5 +346,19 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
         ))['s'] ?? 0);
 
         return $sorting + 10;
+    }
+
+    private function findHash(string $hash): Result
+    {
+        return $this->first(
+            $this->queryDocuments($this->database->in('hash', [$hash], false, ilDBConstants::T_TEXT)),
+            'Document with hash . ' . json_encode($hash) . ' not found.'
+        );
+    }
+
+    private function first(array $array, string $message): Result
+    {
+        $document = current($array) ?: null;
+        return $document ? new Ok($document) : new Error($message);
     }
 }

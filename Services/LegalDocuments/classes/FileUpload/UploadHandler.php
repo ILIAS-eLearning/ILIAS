@@ -22,15 +22,23 @@ namespace ILIAS\LegalDocuments\FileUpload;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler as UploadHandlerInterface;
 use ILIAS\FileUpload\Handler\FileInfoResult;
+use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use Closure;
+use ILIAS\LegalDocuments\Value\DocumentContent;
+use ILIAS\Data\Result\Ok;
 
 class UploadHandler implements UploadHandlerInterface
 {
     /**
      * @param Closure(string): string $link
+     * @param Closure(): Result<DocumentContent> $content
+     * @param Closure(string): string $txt
      */
-    public function __construct(private readonly Closure $link)
-    {
+    public function __construct(
+        private readonly Closure $link,
+        private readonly Closure $content,
+        private readonly Closure $txt
+    ) {
     }
 
     public function getFileIdentifierParameterName(): string
@@ -60,7 +68,13 @@ class UploadHandler implements UploadHandlerInterface
 
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        return null;
+        return ($this->content)()->map(fn(DocumentContent $c) => new BasicFileInfoResult(
+            $identifier,
+            $identifier,
+            ($this->txt)('updated_document'),
+            strlen($c->value()),
+            $c->type()
+        ))->except(fn() => new Ok(null))->value();
     }
 
     public function supportsChunkedUploads(): bool
