@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
@@ -29,7 +35,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
  *
  * @ingroup 	ModulesTestQuestionPool
  */
-class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionPartiallySaveable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionPartiallySaveable, QuestionLMExportable, QuestionAutosaveable
 {
     /**
     * The gaps of the cloze question

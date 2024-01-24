@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-interface ilAssQuestionAutosaveable extends assQuestionInterface
-{
+namespace ILIAS\TestQuestionPool\Questions;
 
+interface QuestionAutosaveable extends Question
+{
 }

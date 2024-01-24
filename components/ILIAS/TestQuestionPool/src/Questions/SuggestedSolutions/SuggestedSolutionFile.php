@@ -17,14 +17,14 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\TA\Questions;
+namespace ILIAS\TestQuestionPool\Questions\SuggestedSolution;
 
 /**
  * a suggested solution for file-contents
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class assSuggestedSolutionFile extends assQuestionSuggestedSolution
+class SuggestedSolutionFile extends SuggestedSolution
 {
     public const ARRAY_KEY_FILENAME = 'name';
     public const ARRAY_KEY_TITLE = 'filename';

@@ -18,9 +18,9 @@ declare(strict_types=1);
  *********************************************************************/
 
 use Pimple\Container;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 
-use ILIAS\TA\Questions\assQuestionFactory;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\assQuestionFactory;
 
 class ilQuestionPoolDIC
 {
@@ -40,8 +40,8 @@ class ilQuestionPoolDIC
         $dic = $DIC;
         $container = new Container();
 
-        $dic['question.repo.suggestedsolutions'] = function ($c) use ($dic): assQuestionSuggestedSolutionsDatabaseRepository {
-            return new assQuestionSuggestedSolutionsDatabaseRepository($dic['ilDB']);
+        $dic['question.repo.suggestedsolutions'] = function ($c) use ($dic): SuggestedSolutionsDatabaseRepository {
+            return new SuggestedSolutionsDatabaseRepository($dic['ilDB']);
         };
 
         return $dic;

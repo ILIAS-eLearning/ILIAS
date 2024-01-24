@@ -19,18 +19,18 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
-use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\TA\Questions\assSuggestedSolutionText;
-use ILIAS\TA\Questions\assSuggestedSolutionFile;
-use ILIAS\TA\Questions\assSuggestedSolutionLink;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\assSuggestedSolutionText;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionLink;
 
 /**
  * test the suggested solution immutable(s)
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
 */
-class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutionsDatabaseRepository
+class SuggestedSolutionRepoMock extends SuggestedSolutionsDatabaseRepository
 {
     public function getSolution(
         int $id,
@@ -41,7 +41,7 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
         string $type,
         string $value,
         DateTimeImmutable $last_update
-    ): assQuestionSuggestedSolution {
+    ): SuggestedSolution {
         return $this->buildSuggestedSolution(
             $id,
             $question_id,
@@ -55,24 +55,24 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
     }
 }
 
-class assQuestionSuggestedSolutionTest extends TestCase
+class SuggestedSolutionTest extends TestCase
 {
-    private assQuestionSuggestedSolutionRepoMock $repo;
+    private SuggestedSolutionRepoMock $repo;
     protected function setUp(): void
     {
-        $this->repo = new assQuestionSuggestedSolutionRepoMock(
+        $this->repo = new SuggestedSolutionRepoMock(
             $this->createMock(ilDBInterface::class),
         );
     }
 
-    public function testSuggestedSolutionFile(): assSuggestedSolutionFile
+    public function testSuggestedSolutionFile(): SuggestedSolutionFile
     {
         $id = 123;
         $question_id = 321;
         $internal_link = '';
         $import_id = 'imported_xy';
         $subquestion_index = 0;
-        $type = assQuestionSuggestedSolution::TYPE_FILE;
+        $type = SuggestedSolution::TYPE_FILE;
 
         $values = [
             'name' => 'something.jpg',
@@ -93,8 +93,8 @@ class assQuestionSuggestedSolutionTest extends TestCase
             serialize($values),
             $last_update,
         );
-        $this->assertInstanceOf(assQuestionSuggestedSolution::class, $sugsol);
-        $this->assertInstanceOf(assSuggestedSolutionFile::class, $sugsol);
+        $this->assertInstanceOf(SuggestedSolution::class, $sugsol);
+        $this->assertInstanceOf(SuggestedSolutionFile::class, $sugsol);
 
         $this->assertEquals($values[$sugsol::ARRAY_KEY_TITLE], $sugsol->getTitle());
         $this->assertEquals($values[$sugsol::ARRAY_KEY_MIME], $sugsol->getMime());
@@ -111,7 +111,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
     /**
      * @depends testSuggestedSolutionFile
      */
-    public function testSuggestedSolutionMutatorsFile(assSuggestedSolutionFile $sugsol): void
+    public function testSuggestedSolutionMutatorsFile(SuggestedSolutionFile $sugsol): void
     {
         $values = [
             'name' => 'somethingelse.ico',

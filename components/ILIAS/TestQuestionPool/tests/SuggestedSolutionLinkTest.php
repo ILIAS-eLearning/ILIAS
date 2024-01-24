@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assSuggestedSolutionFile;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionLink;
 
 /**
 * Unit tests
@@ -27,21 +27,21 @@ use ILIAS\TA\Questions\assSuggestedSolutionFile;
 *
 * This test was automatically generated.
 */
-class assSuggestedSolutionFileTest extends assBaseTestCase
+class SuggestedSolutionLinkTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    private assSuggestedSolutionFile $object;
+    private SuggestedSolutionLink $object;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->object = new assSuggestedSolutionFile(0, 0, 0, '', new DateTimeImmutable(), '', '');
+        $this->object = new SuggestedSolutionLink(0, 0, 0, '', new DateTimeImmutable(), '', '');
     }
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(assSuggestedSolutionFile::class, $this->object);
+        $this->assertInstanceOf(SuggestedSolutionLink::class, $this->object);
     }
 }

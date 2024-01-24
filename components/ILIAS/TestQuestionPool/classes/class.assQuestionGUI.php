@@ -16,8 +16,12 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 
 /**
 * Basic GUI class for assessment questions
@@ -1143,7 +1147,7 @@ abstract class assQuestionGUI
 
     protected function getTypeOptions(): array
     {
-        foreach (assQuestionSuggestedSolution::TYPES as $k => $v) {
+        foreach (SuggestedSolution::TYPES as $k => $v) {
             $options[$k] = $this->lng->txt($v);
         }
         return $options;
@@ -1169,11 +1173,11 @@ abstract class assQuestionGUI
 
         $solution_type = $this->request->raw('solutiontype');
         if (is_string($solution_type) && strcmp($solution_type, "file") == 0
-            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
+            && (!$solution || $solution->getType() !== SuggestedSolution::TYPE_FILE)
         ) {
             $solution = $this->getSuggestedSolutionsRepo()->create(
                 $this->object->getId(),
-                assQuestionSuggestedSolution::TYPE_FILE
+                SuggestedSolution::TYPE_FILE
             );
         }
 
@@ -1750,7 +1754,7 @@ abstract class assQuestionGUI
 
     public function isAutosaveable(): bool
     {
-        return $this->object instanceof ilAssQuestionAutosaveable;
+        return $this->object instanceof QuestionAutosaveable;
     }
 
     protected function writeQuestionGenericPostData(): void
@@ -2005,8 +2009,8 @@ abstract class assQuestionGUI
         return $result;
     }
 
-    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
-    protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
+    protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
             $dic = ilQuestionPoolDIC::dic();

@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
 /**
  * Class for single choice questions
  * assFormulaQuestion is a class for single choice questions.
@@ -23,7 +27,7 @@
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup components\ILIASTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAssQuestionAutosaveable
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, QuestionAutosaveable
 {
     private array $variables;
     private array $results;

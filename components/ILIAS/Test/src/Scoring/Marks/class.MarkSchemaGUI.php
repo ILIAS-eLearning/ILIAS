@@ -127,7 +127,7 @@ class MarkSchemaGUI
             1
         );
         $this->object->storeMarkSchema($mark_schema);
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -182,7 +182,7 @@ class MarkSchemaGUI
         }
         $this->object->storeMarkSchema($mark_schema);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -219,7 +219,7 @@ class MarkSchemaGUI
         $this->object->onMarkSchemaSaved();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

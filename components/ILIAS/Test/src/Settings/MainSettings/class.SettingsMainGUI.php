@@ -238,7 +238,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $this->performSaveForm($data);
         $additional_information = $this->getObjectDataArrayForLog() + $this->main_settings->getArrayForLog();
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

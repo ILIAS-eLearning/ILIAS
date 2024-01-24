@@ -16,7 +16,12 @@
  *
  *********************************************************************/
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
 {
     private ?array $answerType = null;
     private $long_menu_text;

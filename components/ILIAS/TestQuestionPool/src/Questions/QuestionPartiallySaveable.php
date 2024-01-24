@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-interface assQuestionInterface
+namespace ILIAS\TestQuestionPool\Questions;
+
+interface QuestionPartiallySaveable extends Question
 {
-    public function validateSolutionSubmit();
 }

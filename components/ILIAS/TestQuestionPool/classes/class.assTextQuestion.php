@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
 /**
  * Class for text questions
  *
@@ -29,7 +34,7 @@
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
     /**

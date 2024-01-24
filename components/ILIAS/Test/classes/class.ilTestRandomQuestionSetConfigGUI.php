@@ -321,7 +321,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -603,7 +603,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -688,7 +688,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->test_obj->saveCompleteStatus($this->question_set_config);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -920,7 +920,7 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->question_set_config->setLastQuestionSyncTimestamp(0);
         $this->question_set_config->saveToDb();
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

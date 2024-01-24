@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
 /**
  * Class for horizontal ordering questions
  *
@@ -27,7 +32,7 @@
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
     protected const DEFAULT_TEXT_SIZE = 100;

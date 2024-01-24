@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TA\Questions;
+namespace ILIAS\TestQuestionPool\Questions\SuggestedSolution;
 
 /**
  * Repository for suggested solutions
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class assQuestionSuggestedSolutionsDatabaseRepository
+class SuggestedSolutionsDatabaseRepository
 {
     public const TABLE_SUGGESTED_SOLUTIONS = 'qpl_sol_sug';
 
@@ -36,7 +36,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         $this->db = $db;
     }
 
-    public function create(int $question_id, string $type): assQuestionSuggestedSolution
+    public function create(int $question_id, string $type): SuggestedSolution
     {
         $solution = $this->buildSuggestedSolution(
             -1,
@@ -52,7 +52,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
     }
 
     /**
-     * return assQuestionSuggestedSolution[]
+     * return SuggestedSolution[]
      */
     public function selectFor(int $question_id): array
     {
@@ -90,8 +90,8 @@ class assQuestionSuggestedSolutionsDatabaseRepository
     public function update(array $suggested_solutions): void
     {
         foreach ($suggested_solutions as $solution) {
-            if (!is_a($solution, assQuestionSuggestedSolution::class)) {
-                throw new \Exception('cannot update other than assQuestionSuggestedSolution');
+            if (!is_a($solution, SuggestedSolution::class)) {
+                throw new \Exception('cannot update other than SuggestedSolution');
             }
         };
 
@@ -161,16 +161,16 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         string $type,
         string $value,
         \DateTimeImmutable $last_update
-    ): assQuestionSuggestedSolution {
+    ): SuggestedSolution {
         switch ($type) {
-            case assQuestionSuggestedSolution::TYPE_FILE:
-                $suggestion_class = assSuggestedSolutionFile::class;
+            case SuggestedSolution::TYPE_FILE:
+                $suggestion_class = SuggestedSolutionFile::class;
                 break;
-            case assQuestionSuggestedSolution::TYPE_LM:
-            case assQuestionSuggestedSolution::TYPE_LM_CHAPTER:
-            case assQuestionSuggestedSolution::TYPE_LM_PAGE:
-            case assQuestionSuggestedSolution::TYPE_GLOSARY_TERM:
-                $suggestion_class = assSuggestedSolutionLink::class;
+            case SuggestedSolution::TYPE_LM:
+            case SuggestedSolution::TYPE_LM_CHAPTER:
+            case SuggestedSolution::TYPE_LM_PAGE:
+            case SuggestedSolution::TYPE_GLOSARY_TERM:
+                $suggestion_class = SuggestedSolutionLink::class;
                 $value = $internal_link;
                 break;
             default:
@@ -199,7 +199,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         \ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
     }
 
-    protected function additionalOnStore(assQuestionSuggestedSolution $solution): void
+    protected function additionalOnStore(SuggestedSolution $solution): void
     {
         if ($solution->isOfTypeLink()) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution->getInternalLink(), $matches)) {

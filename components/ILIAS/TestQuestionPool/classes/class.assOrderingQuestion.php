@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepository;
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+use ILIAS\TestQuestionPool\Questions\Ordering\OrderingQuestionDatabaseRepository as OQRepository;
 
 /**
  * Class for ordering questions
@@ -32,7 +36,7 @@ use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepos
  *
  * @ingroup components\ILIASTestQuestionPool
  */
-class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
     public const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
 
@@ -122,7 +126,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 
 
-    protected function getRepository(): ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository
+    protected function getRepository(): OQRepository
     {
         if (is_null($this->oq_repository)) {
             global $DIC;
@@ -952,11 +956,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
 
-    protected function getQuestionRepository(): ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository
+    protected function getQuestionRepository(): OQRepository
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        return new \ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository($ilDB);
+        return new OQRepository($ilDB);
     }
 
     public function saveAnswerSpecificDataToDb()
