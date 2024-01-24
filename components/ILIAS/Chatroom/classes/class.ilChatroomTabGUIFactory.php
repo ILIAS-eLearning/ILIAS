@@ -317,7 +317,7 @@ class ilChatroomTabGUIFactory
             ],
             'info' => [
                 'lng' => 'info_short',
-                'link' => $DIC->ctrl()->getLinkTargetByClass([$this->gui::class, ilInfoScreenGUI::class], 'info'),
+                'link' => $DIC->ctrl()->getLinkTargetByClass([$this->gui::class, ilInfoScreenGUI::class], 'showSummary'),
                 'permission' => 'read'
             ],
             'settings' => [
@@ -359,6 +359,9 @@ class ilChatroomTabGUIFactory
         $commandParts = explode('_', $command, 2);
         if (strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilPermissionGUI::class)) {
             $commandParts[0] = 'perm';
+        }
+        if (strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilInfoScreenGUI::class)) {
+            $commandParts[0] = 'info';
         }
 
         $this->buildTabs($DIC->tabs(), $config, $commandParts);

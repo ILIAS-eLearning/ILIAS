@@ -62,7 +62,7 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinition(string $moduleName): self
     {
-        return new self($moduleName, 'components/ILIAS/' . $moduleName . '/');
+        return new self($moduleName, '../components/ILIAS/' . $moduleName . '/');
     }
 
     /**
@@ -74,7 +74,7 @@ class ilChatroomObjectDefinition
     {
         return new self(
             $moduleName,
-            'components/ILIAS/' . $moduleName . '/',
+            '../components/ILIAS/' . $moduleName . '/',
             'classes',
             $guiScope
         );
@@ -82,7 +82,21 @@ class ilChatroomObjectDefinition
 
     public function hasGUI(string $gui): bool
     {
-        return class_exists($this->getGUIClassName($gui));
+        $path = $this->getGUIPath($gui);
+
+        return class_exists($this->getGUIClassName($gui)) && file_exists($path);
+    }
+
+    /**
+     * Builds gui path using given $gui and returns it.
+     */
+    public function getGUIPath(string $gui): string
+    {
+        return (
+            $this->moduleBasePath . '/' .
+            $this->relativeClassPath . '/' .
+            $this->guiScope . 'gui/class.' . $this->getGUIClassName($gui) . '.php'
+        );
     }
 
     /**

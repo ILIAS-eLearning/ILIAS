@@ -114,7 +114,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         if (!$response) {
             $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('unable_to_connect'), true);
-            $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');
+            $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
         }
 
         if (!$room->isSubscribed($chat_user->getUserId())) {
@@ -124,7 +124,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $response = $connector->sendEnterPrivateRoom($scope, $user_id);
         if (!$response) {
             $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('unable_to_connect'), true);
-            $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+            $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
         }
 
         $settings = $connector->getSettings();
@@ -441,7 +441,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->mainTpl->setOnScreenMessage('failure', $this->ilLng->txt('lost_connection'), true);
         }
 
-        $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');
+        $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
     }
 
     public function getUserProfileImages(): void
