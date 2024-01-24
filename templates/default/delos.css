@@ -12038,24 +12038,18 @@ a:hover {
   color: #3a4c65;
   text-decoration: underline;
 }
-a:focus-visible {
-  position: relative;
-  outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
-}
-a:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
-}
-a:active,
-a.engaged {
+a:focus:focus-visible {
   outline: none;
+}
+a:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+  outline-offset: initial;
+}
+a::after,
+a:focus:focus-visible::after {
+  content: none;
 }
 hr {
   margin-bottom: 0.8em;
@@ -15517,6 +15511,25 @@ ul.il-mm-selfloading {
   font-size: 13px;
   margin: 0;
 }
+.nav-tabs > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.nav-tabs > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.nav-tabs > li > a:active,
+.nav-tabs > li > a.engaged {
+  outline: none;
+}
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
@@ -15556,6 +15569,29 @@ ul.il-mm-selfloading {
 }
 #ilSubTab > li > a:hover {
   color: #3a4c65;
+}
+#ilSubTab > li > a:focus-visible {
+  border: none;
+  box-shadow: none;
+}
+#ilSubTab > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+#ilSubTab > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+#ilSubTab > li > a:active,
+#ilSubTab > li > a.engaged {
+  outline: none;
 }
 #ilSubTab > li.active > a,
 #ilSubTab > li.active > a:hover,
@@ -20164,3 +20200,4 @@ table.mceToolbar td {
   border: 1px solid #dddddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=./delos.css.map */

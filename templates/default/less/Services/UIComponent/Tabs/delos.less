@@ -14,6 +14,7 @@
 				//background-color: transparent;
 				//border-color: transparent;
 			}
+			.il-focus();
 		}
 		&.active {
 			//border-top: 4px solid lighten(@brand-primary, 25%);
@@ -71,6 +72,11 @@
 			&:hover {
 				color: @il-link-hover-color;
 			}
+			&:focus-visible {
+				border: none;
+				box-shadow: none;
+			}
+			.il-focus()
 		}
 		&.active > a {
 			&,
