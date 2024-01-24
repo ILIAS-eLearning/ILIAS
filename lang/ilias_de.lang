@@ -7782,6 +7782,7 @@ crs#:#crs_reg_code_link#:#Link für direkten Beitritt
 crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 crs#:#crs_reg_no_selfreg#:#Kein selbstständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
+crs#:#crs_reg_selfreg#:#Selbständiger Beitritt
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
