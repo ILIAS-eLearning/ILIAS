@@ -908,6 +908,26 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->editObject($form);
             return;
         }
+
+        // 29589
+        if (
+            $sub_type === ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED &&
+            (
+                !is_null($sub_period->getStart()) ||
+                !is_null($sub_period->getEnd())
+            )
+        ) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('crs_msg_no_self_registration_period_if_self_enrolment_disabled'),
+                true
+            );
+            $form->setValuesByPost();
+            $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input'));
+            $this->editObject($form);
+            return;
+        }
+
         $this->afterUpdate();
     }
 
