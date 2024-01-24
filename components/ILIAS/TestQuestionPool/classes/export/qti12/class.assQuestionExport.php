@@ -15,8 +15,8 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assQuestionSuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 
 /**
 * Class for question exports
@@ -250,7 +250,7 @@ class assQuestionExport
         return $writer;
     }
 
-    protected function addSuggestedSolutionLink(ilXmlWriter $writer, assQuestionSuggestedSolution $suggested_solution): ilXmlWriter
+    protected function addSuggestedSolutionLink(ilXmlWriter $writer, SuggestedSolution $suggested_solution): ilXmlWriter
     {
         if (!$suggested_solution->isOfTypeLink()) {
             return $writer;

@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionFile;
 
 /**
 * Unit tests
@@ -27,21 +27,21 @@ use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository;
 *
 * This test was automatically generated.
 */
-class assOrderingQuestionDatabaseRepositoryTest extends assBaseTestCase
+class SuggestedSolutionFileTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    private assOrderingQuestionDatabaseRepository $object;
+    private SuggestedSolutionFile $object;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->object = new assOrderingQuestionDatabaseRepository($this->createMock(ilDBInterface::class));
+        $this->object = new SuggestedSolutionFile(0, 0, 0, '', new DateTimeImmutable(), '', '');
     }
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(assOrderingQuestionDatabaseRepository::class, $this->object);
+        $this->assertInstanceOf(SuggestedSolutionFile::class, $this->object);
     }
 }

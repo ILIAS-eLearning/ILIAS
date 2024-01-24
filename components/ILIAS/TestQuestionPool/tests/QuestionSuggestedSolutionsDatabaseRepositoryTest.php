@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TA\Questions\assSuggestedSolutionLink;
+use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 
 /**
 * Unit tests
@@ -27,21 +27,21 @@ use ILIAS\TA\Questions\assSuggestedSolutionLink;
 *
 * This test was automatically generated.
 */
-class assSuggestedSolutionLinkTest extends assBaseTestCase
+class SuggestedSolutionsDatabaseRepositoryTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    private assSuggestedSolutionLink $object;
+    private SuggestedSolutionsDatabaseRepository $object;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->object = new assSuggestedSolutionLink(0, 0, 0, '', new DateTimeImmutable(), '', '');
+        $this->object = new SuggestedSolutionsDatabaseRepository($this->createMock(ilDBInterface::class));
     }
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(assSuggestedSolutionLink::class, $this->object);
+        $this->assertInstanceOf(SuggestedSolutionsDatabaseRepository::class, $this->object);
     }
 }

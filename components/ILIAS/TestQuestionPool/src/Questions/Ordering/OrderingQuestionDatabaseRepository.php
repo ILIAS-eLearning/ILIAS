@@ -18,12 +18,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\TA\Questions\Ordering;
+namespace ILIAS\TestQuestionPool\Questions\Ordering;
 
 /**
  * repository for assOrderingQuestion (the answer elements within, at least...)
  */
-class assOrderingQuestionDatabaseRepository
+class OrderingQuestionDatabaseRepository
 {
     public const TABLE_NAME_BASE = 'qpl_questions';
     public const TABLE_NAME_QUESTIONS = 'qpl_qst_ordering';

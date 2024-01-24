@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
-interface ilAssQuestionPartiallySaveable extends assQuestionInterface
+namespace ILIAS\TestQuestionPool\Questions;
+
+interface QuestionLMExportable extends Question
 {
+    public function toJSON(): string;
 }

@@ -228,7 +228,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     {
         $id = parent::create();
         $this->createMetaData();
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -1079,7 +1079,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
         $this->reindexFixedQuestionOrdering();
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -1142,7 +1142,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $this->removeTestActives($participant_data->getActiveIds());
         }
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -1176,7 +1176,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $this->removeTestResultsByActiveIds($participantData->getActiveIds());
         }
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -1356,7 +1356,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->loadQuestions();
         $this->saveCompleteStatus($test_question_set_config);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -3104,7 +3104,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         }
         $this->saveQuestionsToDb();
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -6741,7 +6741,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 
         $this->db->insert('tst_manual_fb', $update_default);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logScoringInteraction(
                 new TestScoringInteraction(
                     $this->lng,
@@ -7179,7 +7179,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             );
         }
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
@@ -7684,7 +7684,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             );
         }
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

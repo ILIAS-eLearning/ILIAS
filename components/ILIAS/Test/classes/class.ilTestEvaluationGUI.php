@@ -2007,7 +2007,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $test_pass_finisher = new ilTestPassFinishTasks($this->testSessionFactory->getSession($active_id), $obj_id);
         $test_pass_finisher->performFinishTasks($process_locker);
 
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

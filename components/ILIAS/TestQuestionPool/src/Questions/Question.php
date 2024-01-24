@@ -16,7 +16,13 @@
  *
  *********************************************************************/
 
-interface ilAssQuestionLMExportable extends assQuestionInterface
+namespace ILIAS\TestQuestionPool\Questions;
+
+use ILIAS\Test\Logging\TestParticipantInteraction;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
+use ILIAS\Test\Logging\TestAdministrationInteraction;
+
+interface Question
 {
-    public function toJSON(): string;
+    public function validateSolutionSubmit();
 }

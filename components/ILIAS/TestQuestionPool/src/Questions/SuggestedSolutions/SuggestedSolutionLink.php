@@ -17,14 +17,14 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\TA\Questions;
+namespace ILIAS\TestQuestionPool\Questions\SuggestedSolution;
 
 /**
  * a suggested solution that links to some other object/place
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class assSuggestedSolutionLink extends assQuestionSuggestedSolution
+class SuggestedSolutionLink extends SuggestedSolution
 {
     protected string $type;
     protected string $internal_link;

@@ -15,7 +15,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
 
 /**
@@ -33,7 +36,7 @@ use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
+class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
     use ManipulateThumbnailsInChoiceQuestionsTrait;
 
@@ -104,7 +107,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
         $this->answers = [];
-        $this->shuffle = 1;
+        $this->shuffle = true;
         $this->selectionLimit = null;
         $this->feedback_setting = 0;
     }

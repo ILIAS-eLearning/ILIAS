@@ -168,7 +168,7 @@ class SettingsScoringGUI extends TestSettingsGUI
         }
 
         $this->storeScoreSettings($settings);
-        if ($this->logger->getLoggingEnabled()) {
+        if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,

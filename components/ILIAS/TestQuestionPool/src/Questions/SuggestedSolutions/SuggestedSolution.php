@@ -17,14 +17,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TA\Questions;
+namespace ILIAS\TestQuestionPool\Questions\SuggestedSolution;
 
 /**
  * a suggested solution
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-abstract class assQuestionSuggestedSolution
+abstract class SuggestedSolution
 {
     public const TYPE_LM = 'lm';
     public const TYPE_LM_CHAPTER = 'st';

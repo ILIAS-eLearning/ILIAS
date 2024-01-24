@@ -201,6 +201,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return $ret;
     }
 
+    abstract protected function buildTestPassQuestionList();
+    abstract protected function populateQuestionOptionalMessage();
+
     protected function checkReadAccess()
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
@@ -337,11 +340,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
 
             if (is_numeric($q_id) && (int) $q_id) {
-                $questionOBJ = $this->getQuestionInstance($q_id);
+                $question_obj = $this->getQuestionInstance($q_id);
 
                 $active_id = (int) $this->test_session->getActiveId();
                 $pass = ilObjTest::_getPass($active_id);
-                $this->save_result = $questionOBJ->persistWorkingState(
+                $this->save_result = $question_obj->persistWorkingState(
                     $active_id,
                     $pass,
                     $this->object->areObligationsEnabled(),
@@ -350,7 +353,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                 if ($authorized && $this->test_session->isObjectiveOriented()) {
                     $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->test_session);
-                    $objectivesAdapter->updateQuestionResult($this->test_session, $questionOBJ);
+                    $objectivesAdapter->updateQuestionResult($this->test_session, $question_obj);
                 }
 
                 if ($authorized && $this->object->isSkillServiceToBeConsidered()) {
@@ -359,9 +362,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
         }
 
-        if (!$this->save_result || ($questionOBJ instanceof ilAssQuestionPartiallySaveable && !$questionOBJ->validateSolutionSubmit())) {
+        if (
+            !$this->save_result
+            || ($question_obj instanceof ilAssQuestionPartiallySaveable
+                && !$question_obj->validateSolutionSubmit())
+        ) {
             $this->ctrl->setParameter($this, "save_error", "1");
             ilSession::set("previouspost", $_POST);
+        }
+
+        if ($this->save_result && $this->logger->isLoggingEnabled()($interaction = $question_obj->getLastParticipantInteraction()) !== null) {
+            $this->logger->logParticipantInteraction($interaction);
         }
 
         return $this->save_result;
@@ -2315,8 +2326,6 @@ JS;
         $skillEvaluation->handleSkillTriggering();
     }
 
-    abstract protected function buildTestPassQuestionList();
-
     protected function showAnswerOptionalQuestionsConfirmation()
     {
         $confirmation = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng);
@@ -2837,9 +2846,9 @@ JS;
     }
 
     // hey: prevPassSolutions - determine solution pass index and configure gui accordingly
-    protected function initTestQuestionConfig(assQuestion $questionOBJ)
+    protected function initTestQuestionConfig(assQuestion $question_obj)
     {
-        $questionOBJ->getTestPresentationConfig()->setPreviousPassSolutionReuseAllowed(
+        $question_obj->getTestPresentationConfig()->setPreviousPassSolutionReuseAllowed(
             $this->object->isPreviousSolutionReuseEnabled($this->test_session->getActiveId())
         );
     }
@@ -3289,8 +3298,6 @@ JS;
 
         $userSolutionAdopter->perform();
     }
-
-    abstract protected function populateQuestionOptionalMessage();
 
     protected function handleTearsAndAngerNoObjectiveOrientedQuestion()
     {

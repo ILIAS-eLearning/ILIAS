@@ -34,9 +34,9 @@ class TestLogger implements LoggerInterface
     ) {
     }
 
-    public function getLoggingEnabled(): bool
+    public function isLoggingEnabled(): bool
     {
-        return $this->logging_settings->getLoggingEnabled();
+        return $this->logging_settings->isLoggingEnabled();
     }
 
     public function logTestAdministrationInteraction(TestAdministrationInteraction $interaction): void
@@ -63,7 +63,7 @@ class TestLogger implements LoggerInterface
     {
         $this->component_logger->emergency($message, $context);
 
-        if (!$this->logging_settings->getLoggingEnabled()
+        if (!$this->logging_settings->isLoggingEnabled()
             || !isset($context['ref_id'])) {
             return;
         }
@@ -76,7 +76,7 @@ class TestLogger implements LoggerInterface
     {
         $this->component_logger->alert($message, $context);
 
-        if (!$this->logging_settings->getLoggingEnabled()
+        if (!$this->logging_settings->isLoggingEnabled()
             || !isset($context['ref_id'])) {
             return;
         }
@@ -90,7 +90,7 @@ class TestLogger implements LoggerInterface
     {
         $this->component_logger->critical($message, $context);
 
-        if (!$this->logging_settings->getLoggingEnabled()
+        if (!$this->logging_settings->isLoggingEnabled()
             || !isset($context['ref_id'])) {
             return;
         }
@@ -102,7 +102,7 @@ class TestLogger implements LoggerInterface
     public function error(string|\Stringable $message, array $context = []): void
     {
 
-        if (!$this->logging_settings->getLoggingEnabled()
+        if (!$this->logging_settings->isLoggingEnabled()
             || !isset($context['ref_id'])) {
             return;
         }
@@ -137,7 +137,7 @@ class TestLogger implements LoggerInterface
     {
         $this->component_logger->log($message, $level, $context);
 
-        if (!$this->logging_settings->getLoggingEnabled()
+        if (!$this->logging_settings->isLoggingEnabled()
             || intval($level) < \ilLogLevel::ERROR
             || !isset($context['ref_id'])) {
             return;

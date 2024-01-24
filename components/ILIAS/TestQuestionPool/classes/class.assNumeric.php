@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
+
 /**
  * Class for numeric questions
  *
@@ -31,7 +35,7 @@
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionAutosaveable
+class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionAutosaveable
 {
     protected $lower_limit;
     protected $upper_limit;

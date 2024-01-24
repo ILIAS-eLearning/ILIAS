@@ -38,6 +38,6 @@ class TestGlobalSettingsRepository
 
     public function storeLoggingSettings(TestLoggingSettings $logging_settings): void
     {
-        $this->settings->set(self::SETTINGS_KEY_LOGGING_ENABLED, $logging_settings->getLoggingEnabled() ? '1' : '0');
+        $this->settings->set(self::SETTINGS_KEY_LOGGING_ENABLED, $logging_settings->isLoggingEnabled() ? '1' : '0');
     }
 }
