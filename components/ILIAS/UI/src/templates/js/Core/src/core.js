@@ -16,16 +16,23 @@
  */
 
 import il from 'il';
-import $ from 'jquery';
-import replaceContent from './core.replaceContent';
-import Tooltip from './core.Tooltip';
-import URLBuilder from './core.URLBuilder';
-import URLBuilderToken from './core.URLBuilderToken';
+import document from 'document';
+import Tooltip from './Tooltip';
+import URLBuilder from './URLBuilder';
+import URLBuilderToken from './URLBuilderToken';
+import HydrationRegistry from './Hydration/HydrationRegistry';
+import hydrateComponents from './Hydration/hydrateComponents';
+import AsyncRenderer from './AsyncRenderer';
 
 il.UI = il.UI || {};
 il.UI.core = il.UI.core || {};
 
-il.UI.core.replaceContent = replaceContent($);
 il.UI.core.Tooltip = Tooltip;
 il.UI.core.URLBuilder = URLBuilder;
 il.UI.core.URLBuilderToken = URLBuilderToken;
+
+il.UI.core.HydrationRegistry = new HydrationRegistry();
+il.UI.core.AsyncRenderer = new AsyncRenderer(il.UI.core.HydrationRegistry, document);
+il.UI.core.hydrateComponents = (element) => {
+  hydrateComponents(il.UI.core.HydrationRegistry, element);
+};

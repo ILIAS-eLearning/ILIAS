@@ -35,17 +35,15 @@ use LogicException;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component $component, RenderInterface $default_renderer): string
+    protected function renderComponent(Component $component, RenderInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper) {
             return $this->renderWrapper($component, $default_renderer);
         }
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
-        throw new LogicException("Cannot render '" . get_class($component) . "'");
+        return null;
     }
 
     public function registerResources(ResourceRegistry $registry): void
@@ -67,9 +65,7 @@ class Renderer extends AbstractComponentRenderer
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
 
-        $this->bindAndApplyJavaScript($dropzone, $template);
-
-        return $template->get();
+        return $this->dehydrateComponent($dropzone, $template, $this->getOptionalIdBinder());
     }
 
     protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer): string
@@ -100,9 +96,7 @@ class Renderer extends AbstractComponentRenderer
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
 
-        $this->bindAndApplyJavaScript($dropzone, $template);
-
-        return $template->get();
+        return $this->dehydrateComponent($dropzone, $template, $this->getOptionalIdBinder());
     }
 
     protected function initClientsideDropzone(FileInterface $dropzone): FileInterface
@@ -117,18 +111,5 @@ class Renderer extends AbstractComponentRenderer
                 });
             ";
         });
-    }
-
-    protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template): void
-    {
-        $template->setVariable('ID', $this->bindJavaScript($dropzone));
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            \ILIAS\UI\Component\Dropzone\File\Standard::class,
-            \ILIAS\UI\Component\Dropzone\File\Wrapper::class,
-        ];
     }
 }

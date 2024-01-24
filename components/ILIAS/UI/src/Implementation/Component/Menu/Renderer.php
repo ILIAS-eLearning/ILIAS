@@ -31,13 +31,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Menu\Menu) {
+            return null;
+        }
 
-        /**
-         * @var $component Menu\Menu
-         */
         $html = $this->renderMenu($component, $default_renderer);
 
         if ($component instanceof Menu\Drilldown) {
@@ -61,16 +60,14 @@ class Renderer extends AbstractComponentRenderer
                     return "il.UI.menu.drilldown.init($params);";
                 }
             );
-            $id = $this->bindJavaScript($component);
 
             $tpl_name = "tpl.drilldown.html";
             $tpl = $this->getTemplate($tpl_name, true, true);
-            $tpl->setVariable("ID", $id);
             $tpl->setVariable('TITLE', $component->getLabel());
             $tpl->setVariable('BACKNAV', $back_button_html);
             $tpl->setVariable('DRILLDOWN', $html);
 
-            return $tpl->get();
+            return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
         }
 
         return $html;
@@ -108,15 +105,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Menu/dist/drilldown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Menu\Menu::class
-        );
     }
 }

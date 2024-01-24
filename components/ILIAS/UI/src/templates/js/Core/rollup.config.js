@@ -13,12 +13,12 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import copyright from '../../../../../CI/Copyright-Checker/copyright';
+import copyright from '../../../../../../../scripts/Copyright-Checker/copyright';
 
 export default {
   external: [
     'il',
-    'jquery',
+    'document',
   ],
   input: './src/core.js',
   output: {
@@ -27,7 +27,7 @@ export default {
     banner: copyright,
     globals: {
       il: 'il',
-      jquery: '$',
+      document: 'document',
     },
   },
 };

@@ -28,21 +28,23 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
         switch (true) {
             case ($component instanceof ISlate\Notification):
                 return $this->renderNotificationSlate($component, $default_renderer);
-                break;
 
             case ($component instanceof ISlate\Combined):
             case ($component instanceof ISlate\Drilldown):
                 $contents = $this->getCombinedSlateContents($component);
                 break;
 
-            default:
+            case ($component instanceof ISlate\Legacy):
                 $contents = $component->getContents();
+                break;
+
+            default:
+                return null;
         }
 
         return $this->renderSlate($component, $contents, $default_renderer);
@@ -151,10 +153,8 @@ class Renderer extends AbstractComponentRenderer
                 return $js;
             }
         );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function renderNotificationSlate(
@@ -175,18 +175,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/maincontrols.min.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            ISlate\Legacy::class,
-            ISlate\Combined::class,
-            ISlate\Notification::class,
-            ISlate\Drilldown::class
-        );
     }
 }

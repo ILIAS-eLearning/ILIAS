@@ -32,14 +32,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if ($component instanceof Dropdown) {
+            return $this->renderDropdown($component, $default_renderer);
+        }
 
-        /**
-         * @var $component Dropdown
-         */
-        return $this->renderDropdown($component, $default_renderer);
+        return null;
     }
 
     protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer): string
@@ -74,9 +73,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $this->renderId($component, $tpl);
+        $apply_mandatory_menu_ids = function (Template $tpl, ?string $id): void {
+            $id = $id ?? $this->createId();
+            $tpl->setVariable("ID", $id);
+            $tpl->setVariable("ID_MENU", $id . "_menu");
+        };
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $apply_mandatory_menu_ids);
     }
 
     protected function renderItems(array $items, Template $tpl, RendererInterface $default_renderer): void
@@ -88,20 +91,6 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-
-    protected function renderId(
-        JavaScriptBindable $component,
-        Template $tpl
-    ): void {
-        $id = $this->bindJavaScript($component);
-        if ($id === null) {
-            $id = $this->createId();
-        }
-        $tpl->setVariable("ID", $id);
-        $tpl->setVariable("ID_MENU", $id."_menu");
-
-    }
-
     /**
      * @inheritdoc
      */
@@ -109,13 +98,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Dropdown/dropdown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Dropdown\Standard::class);
     }
 }

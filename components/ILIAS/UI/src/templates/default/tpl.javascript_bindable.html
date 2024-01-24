@@ -1,0 +1,14 @@
+{COMPONENT_HTML}
+<script>
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', () => {
+      il.UI.core.HydrationRegistry.addFunction('{HYDRATION_ID}', (component) => {
+        {HYDRATION_CODE}
+      });
+    });
+  } else {
+    il.UI.core.HydrationRegistry.addFunction('{HYDRATION_ID}', (component) => {
+      {HYDRATION_CODE}
+    });
+  }
+</script>

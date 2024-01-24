@@ -77,7 +77,6 @@ class Renderer implements ComponentRenderer
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($text) {
                 return "id:$text.$id content:$text";
             });
-            $this->bindOnloadCode($component);
         }
         return $component->text;
     }
@@ -85,11 +84,5 @@ class Renderer implements ComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         $registry->register("test.js");
-    }
-
-    private function bindOnloadCode(\ILIAS\UI\Component\JavaScriptBindable $component): void
-    {
-        $binder = $component->getOnLoadCode();
-        $this->js_binding->addOnLoadCode($binder("id"));
     }
 }

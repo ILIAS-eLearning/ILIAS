@@ -31,10 +31,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-        return $this->renderEntityListing($component, $default_renderer);
+        if ($component instanceof EntityListing) {
+            return $this->renderEntityListing($component, $default_renderer);
+        }
+
+        return null;
     }
 
     protected function renderEntityListing(EntityListing $component, RendererInterface $default_renderer): string
@@ -49,15 +52,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Listing\Entity\Standard::class
-        ];
     }
 }

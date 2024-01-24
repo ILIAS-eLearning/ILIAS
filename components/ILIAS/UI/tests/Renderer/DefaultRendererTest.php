@@ -186,11 +186,6 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
             {
                 return $this->self->component_renderer;
             }
-
-            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
-            {
-                return "";
-            }
         };
 
         $this->component_renderer->expects($this->once())
@@ -218,11 +213,6 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
             protected function getRendererFor(ILIAS\UI\Component\Component $component): ComponentRenderer
             {
                 return $this->self->component_renderer;
-            }
-
-            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
-            {
-                return "";
             }
         };
 

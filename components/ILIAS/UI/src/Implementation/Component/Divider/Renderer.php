@@ -29,17 +29,15 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Divider\Horizontal) {
             return $this->renderDividerHorizontal($component);
         }
         if ($component instanceof Component\Divider\Vertical) {
             return $this->renderDividerVertical();
         }
-        return "";
+        return null;
     }
 
     protected function renderDividerHorizontal(Component\Divider\Horizontal $component): string
@@ -67,16 +65,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->touchBlock("divider");
 
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Divider\Horizontal::class,
-            Component\Divider\Vertical::class
-        ];
     }
 }

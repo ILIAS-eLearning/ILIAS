@@ -37,12 +37,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var $component Glyph
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Symbol\Glyph\Glyph) {
+            return null;
+        }
 
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
@@ -66,17 +65,17 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl = $this->renderLabel($component, $tpl);
-
-        $id = $this->bindJavaScript($component);
-
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
-
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
-        return $tpl->get();
+
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock("with_id");
+                $tpl->setVariable("ID", $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function renderLabel(Component\Component $component, Template $tpl): Template
@@ -119,13 +118,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Symbol\Glyph\Glyph::class);
     }
 }

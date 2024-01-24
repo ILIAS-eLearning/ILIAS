@@ -40,14 +40,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var $component FilterInput
-         */
-        $this->checkComponent($component);
-
-        if (!$component instanceof F\Group) {
+        if ($component instanceof FilterInput && !$component instanceof F\Group) {
             $component = $this->setSignals($component);
         }
 
@@ -68,7 +63,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
                 return $this->renderMultiSelectField($component, $default_renderer);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                return null;
         }
     }
 
@@ -115,7 +110,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         FilterInput $component,
         string $input_html,
         RendererInterface $default_renderer,
-        string $id_pointing_to_input = ''
+        ?string $id_pointing_to_input = null
     ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -162,8 +157,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $prox = $prox->withOnClick($popover->getShowSignal());
         $tpl->touchBlock("tabindex");
 
-        $this->bindJSandApplyId($prox, $tpl);
-        return $tpl->get();
+        return $this->dehydrateComponent($prox, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function applyName(FilterInput $component, Template $tpl): ?string
@@ -171,13 +165,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
         return $name;
-    }
-
-    protected function bindJSandApplyId($component, Template $tpl): string
-    {
-        $id = $this->bindJavaScript($component) ?? $this->createId();
-        $tpl->setVariable("ID", $id);
-        return $id;
     }
 
     /**
@@ -214,8 +201,8 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+        [$component_html, $component_id] = $this->dehydrateComponentAndInterceptId($component, $tpl, $this->getMandatoryIdBinder());
+        return $this->wrapInFilterContext($component, $component_html, $default_renderer, $component_id);
     }
 
     protected function renderNumericField(F\Numeric $component, RendererInterface $default_renderer): string
@@ -223,8 +210,8 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.numeric.html", true, true);
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+        [$component_html, $component_id] = $this->dehydrateComponentAndInterceptId($component, $tpl, $this->getMandatoryIdBinder());
+        return $this->wrapInFilterContext($component, $component_html, $default_renderer, $component_id);
     }
 
     public function renderSelectField(F\Select $component, RendererInterface $default_renderer): string
@@ -256,9 +243,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $id = $this->bindJSandApplyId($component, $tpl);
+        [$component_html, $component_id] = $this->dehydrateComponentAndInterceptId($component, $tpl);
 
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+        return $this->wrapInFilterContext($component, $component_html, $default_renderer, $component_id);
     }
 
     protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer): string
@@ -268,9 +255,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
         $value = $component->getValue();
         $tpl->setVariable("VALUE", $value);
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-        $tpl->setVariable("ID", $id);
 
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
@@ -285,7 +269,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer);
+        $component_html = $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
+
+        return $this->wrapInFilterContext($component, $component_html, $default_renderer);
     }
 
     /**
@@ -317,19 +303,5 @@ class FilterContextRenderer extends AbstractComponentRenderer
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
         }
         return $input;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Field\Text::class,
-            Component\Input\Field\Numeric::class,
-            Component\Input\Field\Group::class,
-            Component\Input\Field\Select::class,
-            Component\Input\Field\MultiSelect::class
-        ];
     }
 }

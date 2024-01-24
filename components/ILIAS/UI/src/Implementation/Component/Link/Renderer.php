@@ -32,17 +32,15 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Link\Standard) {
             return $this->renderStandard($component);
         }
         if ($component instanceof Component\Link\Bulky) {
             return $this->renderBulky($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function setStandardVars(
@@ -79,18 +77,15 @@ class Renderer extends AbstractComponentRenderer
     {
         $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
         if (! $tooltip_embedding) {
-            $id = $this->bindJavaScript($component);
-            $tpl->setVariable("ID", $id);
-            return $tpl->get();
+            return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
         }
         $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
         $tooltip_id = $this->createId();
         $tpl->setCurrentBlock("with_aria_describedby");
         $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
         $tpl->parseCurrentBlock();
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
-        return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+        $component_html = $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
+        return $tooltip_embedding[0]($tooltip_id, $component_html);
     }
 
     protected function renderStandard(
@@ -117,16 +112,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $this->maybeRenderWithTooltip($component, $tpl);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Link\Standard::class,
-            Component\Link\Bulky::class
-        ];
     }
 }

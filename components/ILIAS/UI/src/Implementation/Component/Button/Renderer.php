@@ -32,24 +32,27 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Button\Close) {
             return $this->renderClose($component);
-        } elseif ($component instanceof Component\Button\Minimize) {
+        }
+        if ($component instanceof Component\Button\Minimize) {
             return $this->renderMinimize($component);
-        } elseif ($component instanceof Component\Button\Toggle) {
+        }
+        if ($component instanceof Component\Button\Toggle) {
             return $this->renderToggle($component);
-        } elseif ($component instanceof Component\Button\Month) {
+        }
+        if ($component instanceof Component\Button\Month) {
             return $this->renderMonth($component);
-        } else {
-            /**
-             * @var $component Component\Button\Button
-             */
+        }
+
+        // render Primary Standard, Shy, Tag, and Bulky
+        if ($component instanceof Component\Button\Button) {
             return $this->renderButton($component, $default_renderer);
         }
+
+        return null;
     }
 
     protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer): string
@@ -101,7 +104,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()) {
-                $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
+                $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
             }
         } else {
             $tpl->touchBlock("disabled");
@@ -131,13 +134,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
-        if ($tooltip_embedding) {
-            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
-        }
-
-        $this->maybeRenderId($component, $tpl);
-
         if ($component instanceof Component\Button\Tag) {
             $this->additionalRenderTag($component, $tpl);
         }
@@ -146,16 +142,29 @@ class Renderer extends AbstractComponentRenderer
             $this->additionalRenderBulky($component, $default_renderer, $tpl);
         }
 
+        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
         if (!$tooltip_embedding) {
-            return $tpl->get();
+            return $this->dehydrateComponent($component, $tpl, $this->maybeRenderId());
         }
 
+        $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
         $tooltip_id = $this->createId();
         $tpl->setCurrentBlock("with_aria_describedby");
         $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
         $tpl->parseCurrentBlock();
 
-        return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+        return $tooltip_embedding[0]($tooltip_id, $this->dehydrateComponent($component, $tpl, $this->maybeRenderId()));
+    }
+
+    protected function maybeRenderId(): \Closure
+    {
+        return static function (Template $tpl, ?string $id): void {
+            if ($id !== null) {
+                $tpl->setCurrentBlock("with_id");
+                $tpl->setVariable("ID", $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
     }
 
     /**
@@ -176,16 +185,14 @@ class Renderer extends AbstractComponentRenderer
         // if any var was set or block was touched.
         $tpl->setVariable("FORCE_RENDERING", "");
         $tpl->setVariable("ARIA_LABEL", $this->txt("close"));
-        $this->maybeRenderId($component, $tpl);
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->maybeRenderId());
     }
 
     protected function renderMinimize(Component\Button\Minimize $component): string
     {
         $tpl = $this->getTemplate("tpl.minimize.html", true, true);
         $tpl->setVariable("ARIA_LABEL", $this->txt("minimize"));
-        $this->maybeRenderId($component, $tpl);
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->maybeRenderId());
     }
 
     protected function renderToggle(Component\Button\Toggle $component): string
@@ -221,7 +228,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});");
@@ -249,30 +256,19 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tooltip_embedding = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
-        if ($tooltip_embedding) {
-            $component = $component->withAdditionalOnLoadCode($tooltip_embedding[1]);
+        [$embed_html, $embed_js] = $this->getTooltipRenderer()->maybeGetTooltipEmbedding(...$component->getHelpTopics());
+        if ($embed_html && $embed_js) {
+            $component = $component->withAdditionalOnLoadCode($embed_js);
             $tooltip_id = $this->createId();
             $tpl->setCurrentBlock("with_aria_describedby");
             $tpl->setVariable("ARIA_DESCRIBED_BY", $tooltip_id);
             $tpl->parseCurrentBlock();
 
-            $this->maybeRenderId($component, $tpl);
-            return $tooltip_embedding[0]($tooltip_id, $tpl->get());
+            $component_html = $this->dehydrateComponent($component, $tpl, $this->maybeRenderId());
+            return $embed_html($tooltip_id, $component_html);
         }
 
-        $this->maybeRenderId($component, $tpl);
-        return $tpl->get();
-    }
-
-    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl): void
-    {
-        $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
+        return $this->dehydrateComponent($component, $tpl, $this->maybeRenderId());
     }
 
     protected function renderMonth(Component\Button\Month $component): string
@@ -298,12 +294,9 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("LANG", $lang_key);
 
-        $component = $component->withAdditionalOnLoadCode(fn ($id) => "il.UI.button.initMonth('$id');");
-        $id = $this->bindJavaScript($component);
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
 
-        $tpl->setVariable("ID", $id);
-
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl): void
@@ -357,22 +350,5 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Button\Primary::class
-        , Component\Button\Standard::class
-        , Component\Button\Close::class
-        , Component\Button\Minimize::class
-        , Component\Button\Shy::class
-        , Component\Button\Month::class
-        , Component\Button\Tag::class
-        , Component\Button\Bulky::class
-        , Component\Button\Toggle::class
-        );
     }
 }

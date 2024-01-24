@@ -30,9 +30,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Counter\Counter) {
+            return null;
+        }
 
         $tpl = $this->getTemplate("tpl.counter.html", true, true);
         if ($component->getNumber() === 0) {
@@ -51,13 +53,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Counter/dist/counter.js');
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Counter\Counter::class);
     }
 }

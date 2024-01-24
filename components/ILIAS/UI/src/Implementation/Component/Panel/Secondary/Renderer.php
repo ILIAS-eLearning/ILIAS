@@ -31,16 +31,15 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(C\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(C\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof C\Panel\Secondary\Listing) {
             return $this->renderListing($component, $default_renderer);
-        } elseif ($component instanceof C\Panel\Secondary\Legacy) {
+        }
+        if ($component instanceof C\Panel\Secondary\Legacy) {
             return $this->renderLegacy($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
     protected function renderListing(C\Panel\Secondary\Listing $component, RendererInterface $default_renderer): string
@@ -117,13 +116,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(C\Panel\Secondary\Listing::class, C\Panel\Secondary\Secondary::class);
     }
 }

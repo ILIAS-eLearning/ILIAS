@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -34,12 +35,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Component\Image\Image $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Image\Image) {
+            return null;
+        }
+
         $tpl = $this->getTemplate("tpl.image.html", true, true);
 
         if (($sources = $component->getAdditionalHighResSources()) !== []) {
@@ -57,48 +58,43 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
-        $id = $this->bindJavaScript($component);
-        if (!empty($component->getAction())) {
-            $tpl->touchBlock("action_begin");
+        $render_image = static function (Template $tpl, ?string $id) use ($component): void {
+            if (!empty($component->getAction())) {
+                $tpl->touchBlock("action_begin");
 
-            if (is_string($component->getAction())) {
-                $tpl->setCurrentBlock("with_href");
-                $tpl->setVariable("HREF", $component->getAction());
-                $tpl->parseCurrentBlock();
+                if (is_string($component->getAction())) {
+                    $tpl->setCurrentBlock("with_href");
+                    $tpl->setVariable("HREF", $component->getAction());
+                    $tpl->parseCurrentBlock();
+                }
+
+                if (is_array($component->getAction())) {
+                    $tpl->setCurrentBlock("with_href");
+                    $tpl->setVariable("HREF", "#");
+                    $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("with_id");
+                    $tpl->setVariable("ID", $id);
+                    $tpl->parseCurrentBlock();
+                }
             }
 
-            if (is_array($component->getAction())) {
-                $tpl->setCurrentBlock("with_href");
-                $tpl->setVariable("HREF", "#");
-                $tpl->parseCurrentBlock();
-                $tpl->setCurrentBlock("with_id");
-                $tpl->setVariable("ID", $id);
-                $tpl->parseCurrentBlock();
+            if (!is_array($component->getAction()) && $id !== null) {
+                $tpl->setVariable("IMG_ID", " id='" . $id . "' ");
             }
-        }
 
-        if (!is_array($component->getAction()) && $id !== null) {
-            $tpl->setVariable("IMG_ID", " id='" . $id . "' ");
-        }
+            $tpl->setCurrentBlock($component->getType());
+            $tpl->setVariable("SOURCE", $component->getSource());
+            $tpl->setVariable("ALT", htmlspecialchars($component->getAlt()));
+            $tpl->parseCurrentBlock();
 
-        $tpl->setCurrentBlock($component->getType());
-        $tpl->setVariable("SOURCE", $component->getSource());
-        $tpl->setVariable("ALT", htmlspecialchars($component->getAlt()));
-        $tpl->parseCurrentBlock();
+            if (!empty($component->getAction())) {
+                $tpl->touchBlock("action_end");
+            }
+        };
 
-        if (!empty($component->getAction())) {
-            $tpl->touchBlock("action_end");
-        }
-
-        return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Image\Image::class];
+        // ensure an ID is set by passing it as an argument. this should be
+        // refactored since the ID should not correspond to any JavaScript.
+        return $this->dehydrateComponent($component, $tpl, $render_image);
     }
 
     /**

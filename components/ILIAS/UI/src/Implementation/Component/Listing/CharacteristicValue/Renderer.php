@@ -35,23 +35,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName(): array
+    protected function renderComponent(Component $component, RendererInterface $default_renderer): ?string
     {
-        return [Text::class];
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function render(Component $component, RendererInterface $default_renderer): string
-    {
-        $this->checkComponent($component);
-
         if ($component instanceof Text) {
             return $this->render_text($component);
         }
 
-        return '';
+        return null;
     }
 
     private function render_text(Text $component): string

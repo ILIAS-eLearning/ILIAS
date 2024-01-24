@@ -35,9 +35,9 @@ const KEY_DOWN = 40;
 
 export default class DataTable {
   /**
-   * @type {jQuery}
+   * @type {AsyncRenderer}
    */
-  #jquery;
+  #asyncRenderer;
 
   /**
    * @type {actionId: string, rowId: string}
@@ -75,13 +75,13 @@ export default class DataTable {
   #actionsRegistry;
 
   /**
-   * @param {jQuery} jquery
+   * @param {AsyncRenderer} asyncRenderer
    * @param {string} optActionId
    * @param {string} optRowId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, optActionId, optRowId, componentId) {
+  constructor(asyncRenderer, optActionId, optRowId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
@@ -94,7 +94,7 @@ export default class DataTable {
     this.#responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
     this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
 
-    this.#jquery = jquery;
+    this.#asyncRenderer = asyncRenderer;
     this.#signalConstants = {
       actionId: optActionId,
       rowId: optRowId,
@@ -218,32 +218,26 @@ export default class DataTable {
   }
 
   /**
-   * @param {string} url
+   * @param {string} target
    * @return void
    */
   asyncAction(target) {
-    this.#jquery.ajax({
-      url: target,
-      dataType: 'html',
-    }).done(
-      (html) => {
-        let modalId = '';
-        if (this.#jquery(html).first().prop('tagName') === 'SCRIPT') {
-          this.#jquery.globalEval(this.#jquery(html).first().text());
-        } else {
-          if (this.#jquery(html).first().hasClass('modal')) {
-            this.#modalResponseArea.innerHTML = html;
-            modalId = this.#jquery(html).first().get(0).id;
-          } else {
-            this.#responseContent.innerHTML = html;
-            modalId = this.#responseContainer.id;
-          }
-          const tmp = this.#jquery(`<div>${html}</div>`);
-          tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
-          il.UI.modal.showModal(modalId, {}, { id: modalId });
-        }
-      },
-    );
+    let modalId = null;
+    this.#asyncRenderer.attachElements(target, (elements) => {
+      const [newElement, newScript] = elements;
+
+      if (newElement.classList.contains('modal')) {
+        this.#modalResponseArea.replaceChildren(newElement, newScript ?? '');
+        modalId = newElement.id;
+        return this.#modalResponseArea;
+      }
+
+      this.#responseContent.replaceChildren(newElement, newScript ?? '');
+      modalId = this.#responseContainer.getAttribute('id');
+      return this.#responseContainer;
+    }).then(() => {
+      il.UI.modal.showModal(modalId, {}, { id: modalId });
+    });
   }
 
   /**

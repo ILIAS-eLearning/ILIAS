@@ -37,20 +37,21 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Notification) {
             return $this->renderNotification($component, $default_renderer);
-        } elseif ($component instanceof Group) {
+        }
+        if ($component instanceof Group) {
             return $this->renderGroup($component, $default_renderer);
-        } elseif ($component instanceof Standard) {
+        }
+        if ($component instanceof Standard) {
             return $this->renderStandard($component, $default_renderer);
-        } elseif ($component instanceof Shy) {
+        }
+        if ($component instanceof Shy) {
             return $this->renderShy($component, $default_renderer);
         }
-        return "";
+        return null;
     }
 
     protected function renderGroup(Group $component, RendererInterface $default_renderer): string
@@ -208,13 +209,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if ($component->getOnLoadCode() !== null) {
-            $tpl->setCurrentBlock("id");
-            $tpl->setVariable('ID', $this->bindJavaScript($component));
-            $tpl->parseCurrentBlock();
-        }
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock("id");
+                $tpl->setVariable('ID', $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_id);
     }
 
     protected function renderNotification(Notification $component, RendererInterface $default_renderer): string
@@ -261,12 +264,8 @@ class Renderer extends AbstractComponentRenderer
             fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
         );
 
-        //Bind id
-        $item_id = $this->bindJavaScript($component);
-
         $tpl->setCurrentBlock("aggregate_notifications");
         $tpl->setVariable("AGGREGATES", $aggregates_html);
-        $tpl->setVariable("PARENT_ID", $item_id);
         $tpl->parseCurrentBlock();
 
         // close action
@@ -281,11 +280,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }
 
-        $tpl->setCurrentBlock("id");
-        $tpl->setVariable('ID', $item_id);
-        $tpl->parseCurrentBlock();
+        $apply_optional_item_ids = static function (Template $tpl, ?string $item_id): void {
+            $tpl->setVariable("PARENT_ID", $item_id);
+            $tpl->setCurrentBlock("id");
+            $tpl->setVariable('ID', $item_id);
+            $tpl->parseCurrentBlock();
+        };
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $apply_optional_item_ids);
     }
 
     protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl): void
@@ -364,18 +366,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Item/dist/notification.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Standard::class,
-            Shy::class,
-            Group::class,
-            Notification::class
-        ];
     }
 }

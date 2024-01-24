@@ -27,19 +27,17 @@ use ILIAS\UI\Component\Modal\InterruptiveItem as ItemInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(
+    protected function renderComponent(
         Component $component,
         RendererInterface $default_renderer
-    ): string {
-        $this->checkComponent($component);
-
+    ): ?string {
         if ($component instanceof ItemInterface\Standard) {
             return $this->renderStandard($component, $default_renderer);
-        } elseif ($component instanceof ItemInterface\KeyValue) {
-            return $this->renderKeyValue($component, $default_renderer);
-        } else {
-            return '';
         }
+        if ($component instanceof ItemInterface\KeyValue) {
+            return $this->renderKeyValue($component, $default_renderer);
+        }
+        return null;
     }
 
     protected function renderStandard(
@@ -75,13 +73,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ITEM_VALUE', $component->getValue());
         $tpl->setVariable('ITEM_ID', $component->getId());
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            ItemInterface\Standard::class,
-            ItemInterface\KeyValue::class
-        );
     }
 }

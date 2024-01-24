@@ -34,29 +34,19 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Component\Chart\ProgressMeter\ProgressMeter $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Chart\ProgressMeter\FixedSize) {
-            /**
-             * @var Component\Chart\ProgressMeter\FixedSize $component
-             */
             return $this->renderFixedSize($component);
-        } elseif ($component instanceof Mini) {
-            /**
-             * @var Mini $component
-             */
+        }
+        if ($component instanceof Mini) {
             return $this->renderMini($component);
-        } else {
-            /**
-             * @var Component\Chart\ProgressMeter\Standard $component
-             */
+        }
+        if ($component instanceof Component\Chart\ProgressMeter\Standard) {
             return $this->renderStandard($component);
         }
+
+        return null;
     }
 
     /**
@@ -238,13 +228,5 @@ class Renderer extends AbstractComponentRenderer
     protected function getIsReached($a_val, $b_val): bool
     {
         return ($a_val >= $b_val);
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Chart\ProgressMeter\ProgressMeter::class];
     }
 }

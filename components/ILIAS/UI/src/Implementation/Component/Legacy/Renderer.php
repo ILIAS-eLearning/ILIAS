@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -33,24 +34,26 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        /**
-         * @var Legacy $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Legacy) {
+            return null;
+        }
 
         $component = $this->registerSignals($component);
-        $this->bindJavaScript($component);
-        return $component->getContent();
-    }
 
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Legacy\Legacy::class];
+        $tpl = $this->getTemplate('tpl.legacy.html', true, true);
+        $tpl->setVariable('CONTENT', $component->getContent());
+
+        $apply_optional_id = static function (Template $tpl, ?string $id): void {
+            if (null !== $id) {
+                $tpl->setCurrentBlock('with_id');
+                $tpl->setVariable('ID', $id);
+                $tpl->parseCurrentBlock();
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     protected function registerSignals(Legacy $component): Component\JavaScriptBindable

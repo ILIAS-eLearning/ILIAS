@@ -28,7 +28,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 
     class GlyphNonAbstractRenderer extends AbstractComponentRenderer
     {
-        public function render(Component $component, Renderer $default_renderer): string
+        protected function renderComponent(Component $component, Renderer $default_renderer): ?string
         {
         }
 
@@ -36,20 +36,17 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
             return $this->getTemplate($a, $b, $c);
         }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
-        }
     }
 
     class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer
     {
         public array $ids = array();
+        public Template $template_mock;
 
-        public function render(Component $component, Renderer $default_renderer): string
+        protected function renderComponent(Component $component, Renderer $default_renderer): ?string
         {
-            $this->ids[] = $this->bindJavaScript($component);
+            [$hmtl, $id] = $this->dehydrateComponentAndInterceptId($component, $this->template_mock);
+            $this->ids[] = $id;
             return "";
         }
     }
@@ -63,18 +60,13 @@ namespace ILIAS\UI\Implementation\Component\Counter {
 
     class CounterNonAbstractRenderer extends AbstractComponentRenderer
     {
-        public function render(Component $component, Renderer $default_renderer): string
+        protected function renderComponent(Component $component, Renderer $default_renderer): ?string
         {
         }
 
         public function _getTemplate(string $a, bool $b, bool $c): Template
         {
             return $this->getTemplate($a, $b, $c);
-        }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
         }
     }
 }
@@ -257,6 +249,7 @@ namespace {
                 $this->getUploadLimitResolver()
             );
 
+            $r->template_mock = $this->createMock(Template::class);
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 
             $ids = array();
@@ -285,6 +278,7 @@ namespace {
                 $this->getUploadLimitResolver()
             );
 
+            $r->template_mock = $this->createMock(Template::class);
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 
             $g = $g->withOnLoadCode(function ($id) {

@@ -34,10 +34,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof ViewControl\Standard) {
             if (!$component->getRequest()) {
                 throw new LogicException("No request was passed to the container. Please call 'withRequest' on the Container.");
@@ -45,7 +43,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        return null;
     }
 
 
@@ -69,6 +67,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.viewcontrol_container.html", true, true);
 
         $submission_signal = $component->getSubmissionSignal();
+        /** @var $component ViewControl\Standard */
         $component = $component->withAdditionalOnLoadCode(
             fn($id) => "$(document).on('{$submission_signal}',
                 function(event, signalData) { 
@@ -76,7 +75,6 @@ class Renderer extends AbstractComponentRenderer
                     return false;
                 });"
         );
-        $id = $this->bindJavaScript($component);
 
         $input_names = array_keys($component->getComponentInternalValues());
 
@@ -110,17 +108,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $tpl->setVariable("INPUTS", $default_renderer->render($inputs));
-        $tpl->setVariable('ID', $id);
-        return $tpl->get();
-    }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Container\ViewControl\Standard::class
-        ];
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 }

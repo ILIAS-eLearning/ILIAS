@@ -35,9 +35,8 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
         if ($component instanceof Component\Table\Presentation) {
             return $this->renderPresentationTable($component, $default_renderer);
         }
@@ -50,7 +49,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\DataRow) {
             return $this->renderDataRow($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        return null;
     }
 
     protected function renderPresentationTable(
@@ -86,32 +85,33 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("VC", $default_renderer->render($vcs));
         }
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
-
         $row_mapping = $component->getRowMapping();
         $data = $component->getData();
-        $component_id = $id;
 
         if (empty($data)) {
             $this->renderEmptyPresentationRow($tpl, $default_renderer, $this->txt('ui_table_no_records'));
-            return $tpl->get();
+            return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
         }
 
-        foreach ($data as $record) {
-            $row = $row_mapping(
-                new PresentationRow($component->getSignalGenerator(), $component_id),
-                $record,
-                $this->getUIFactory(),
-                $component->getEnvironment()
-            );
+        $render_table_rows = function (Template $tpl, ?string $id) use ($component, $default_renderer, $row_mapping, $data): void {
+            $id = $id ?? $this->createId();
+            $this->getOptionalIdBinder()($tpl, $id);
 
-            $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROW", $default_renderer->render($row));
-            $tpl->parseCurrentBlock();
-        }
+            foreach ($data as $record) {
+                $row = $row_mapping(
+                    new PresentationRow($component->getSignalGenerator(), $id),
+                    $record,
+                    $this->getUIFactory(),
+                    $component->getEnvironment()
+                );
 
-        return $tpl->get();
+                $tpl->setCurrentBlock("row");
+                $tpl->setVariable("ROW", $default_renderer->render($row));
+                $tpl->parseCurrentBlock();
+            }
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $render_table_rows);
     }
 
     protected function renderPresentationRow(
@@ -125,7 +125,6 @@ class Renderer extends AbstractComponentRenderer
         $sig_show = $component->getShowSignal();
         $sig_hide = $component->getCloseSignal();
         $sig_toggle = $component->getToggleSignal();
-        $id = $this->bindJavaScript($component);
 
         $expander = $f->symbol()->glyph()->expand("#")
             ->withOnClick($sig_show);
@@ -134,7 +133,6 @@ class Renderer extends AbstractComponentRenderer
         $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
             ->withOnClick($sig_show);
 
-        $tpl->setVariable("ID", $id);
         $tpl->setVariable("EXPANDER", $default_renderer->render($expander));
         $tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
         $tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
@@ -187,7 +185,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer): string
@@ -226,6 +224,7 @@ class Renderer extends AbstractComponentRenderer
         //TODO: Filter
         $filter_data = [];
         $additional_parameters = [];
+        /** @var Component\Table\Data $component */
         [$component, $view_controls] = $component->applyViewControls(
             $filter_data = [],
             $additional_parameters = []
@@ -242,16 +241,21 @@ class Renderer extends AbstractComponentRenderer
             $component->getAdditionalParameters()
         );
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
 
         $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
         if (!$rows->valid()) {
+            $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
             $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
-        } else {
+            return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
+        }
+
+        $render_table_rows = function (Template $tpl, ?string $id) use ($component, $default_renderer, $rows, $view_controls): void {
+            $id = $id ?? $this->createId();
+            $this->getOptionalIdBinder()($tpl, $id);
+
             $this->appendTableRows($tpl, $rows, $default_renderer);
 
             if ($component->hasMultiActions()) {
@@ -275,10 +279,11 @@ class Renderer extends AbstractComponentRenderer
                 $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
                 $sortation_signal->addOption('parent_container', $id);
             }
-        }
 
-        $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
-        return $tpl->get();
+            $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
+        };
+
+        return $this->dehydrateComponent($component, $tpl, $render_table_rows);
     }
 
     protected function renderTableHeader(
@@ -570,18 +575,5 @@ class Renderer extends AbstractComponentRenderer
             "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
             "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class,
-            Component\Table\Data::class,
-            Component\Table\DataRow::class
-        ];
     }
 }

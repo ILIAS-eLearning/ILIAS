@@ -30,8 +30,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
+        if (!$component instanceof Component\Deck\Deck) {
+            return null;
+        }
+
         $tpl_card = $this->getTemplate("tpl.deck_card.html", true, true);
         $tpl_row = $this->getTemplate("tpl.deck_row.html", true, true);
 
@@ -55,13 +59,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl_row->setCurrentBlock("row");
         $tpl_row->setVariable("CARDS", $content);
         $tpl_row->parseCurrentBlock();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Deck\Deck::class);
     }
 }

@@ -32,9 +32,11 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    protected function renderComponent(Component\Component $component, RendererInterface $default_renderer): ?string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Node\Node) {
+            return null;
+        }
 
         $tpl_name = "tpl.node.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
@@ -91,9 +93,6 @@ class Renderer extends AbstractComponentRenderer
             $component = $this->triggerFurtherSignals($component, $triggered_signals);
         }
 
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
-
         $subnodes = $component->getSubnodes();
 
         if (count($subnodes) > 0 || $async) {
@@ -116,7 +115,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("role_none");
         }
 
-        return $tpl->get();
+        return $this->dehydrateComponent($component, $tpl, $this->getOptionalIdBinder());
     }
 
     /**
@@ -141,7 +140,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $signals = json_encode($signals);
 
-        return $component->withAdditionalOnLoadCode(fn ($id) => "
+        return $component->withAdditionalOnLoadCode(fn($id) => "
 			$('#$id > span').click(function(e){
 				var node = $('#$id'),
 					signals = $signals;
@@ -153,17 +152,5 @@ class Renderer extends AbstractComponentRenderer
 
 				return false;
 			});");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Node\Simple::class,
-            Node\Bylined::class,
-            Node\KeyValue::class
-        );
     }
 }
