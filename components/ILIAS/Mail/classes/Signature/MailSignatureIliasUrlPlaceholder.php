@@ -32,11 +32,13 @@ class MailSignatureIliasUrlPlaceholder extends AbstractPlaceholderHandler
     public function addPlaceholder(array $placeholder): array
     {
         $clientUrl = ilUtil::_getHttpPath();
+
         $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
         if (is_array($clientdirs) && count($clientdirs) > 1) {
             $clientUrl .= '/login.php?client_id=' . CLIENT_ID;
         }
         $placeholder[$this->getId()] = $clientUrl;
+
         return $placeholder;
     }
 }

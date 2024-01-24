@@ -24,12 +24,10 @@ use ilLanguage;
 
 abstract class AbstractPlaceholderHandler implements Placeholder
 {
-    protected ilLanguage $lng;
+    protected ?Placeholder $next = null;
 
-    public function __construct()
+    public function __construct(protected ilLanguage $lng)
     {
-        global $DIC;
-        $this->lng = $DIC->language();
     }
 
     public function getLabel(): string
@@ -37,11 +35,10 @@ abstract class AbstractPlaceholderHandler implements Placeholder
         return $this->lng->txt('mail_nacc_' . strtolower($this->getId()));
     }
 
-    private ?Placeholder $next = null;
-
     public function setNext(Placeholder $next): Placeholder
     {
         $this->next = $next;
+
         return $next;
     }
 
@@ -53,14 +50,21 @@ abstract class AbstractPlaceholderHandler implements Placeholder
     public function handle(Signature $signature): ?array
     {
         $placeholders = [];
+
         if ($this->next) {
             $placeholders = $this->next->handle($signature);
         }
+
         if ($signature->supports($this)) {
             $placeholders = $this->addPlaceholder($placeholders);
         }
+
         return $placeholders;
     }
 
+    /**
+     * @param Placeholder[] $placeholder
+     * @return array<string, string>
+     */
     abstract public function addPlaceholder(array $placeholder): array;
 }

@@ -32,8 +32,8 @@ class ilMail
 {
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
-    private MailSignatureService $signature_service;
 
+    private MailSignatureService $signature_service;
     public int $user_id;
     private string $table_mail;
     private string $table_mail_saved;

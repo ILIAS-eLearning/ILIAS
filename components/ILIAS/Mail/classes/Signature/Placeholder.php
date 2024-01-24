@@ -23,8 +23,16 @@ namespace ILIAS\Mail\Signature;
 interface Placeholder
 {
     public function getId(): string;
+
     public function getLabel(): string;
+
+    /**
+     * @param Signature $signature
+     * @return array<string, string>|null
+     */
     public function handle(Signature $signature): ?array;
+
     public function setNext(self $next): self;
+
     public function getNext(): ?self;
 }

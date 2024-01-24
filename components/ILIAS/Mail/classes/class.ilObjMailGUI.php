@@ -525,7 +525,7 @@ class ilObjMailGUI extends ilObjectGUI
         $signature->setDisabled(!$this->isEditingAllowed());
         $form->addItem($signature);
 
-        $form->addItem($this->buildSignaturePlaceholderInput((new MailUserSignature(0))));
+        $form->addItem($this->buildSignaturePlaceholderInput(new MailUserSignature($this->settings)));
 
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
@@ -572,7 +572,7 @@ class ilObjMailGUI extends ilObjectGUI
         $signature->setDisabled(!$this->isEditingAllowed());
         $form->addItem($signature);
 
-        $form->addItem($this->buildSignaturePlaceholderInput((new MailInstallationSignature())));
+        $form->addItem($this->buildSignaturePlaceholderInput(new MailInstallationSignature($this->settings)));
 
         if ($this->isEditingAllowed()) {
             $form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
@@ -585,16 +585,17 @@ class ilObjMailGUI extends ilObjectGUI
     {
         $placeholder_input = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
-            $signature->getSettingsKeyword()
+            $signature->getPersistenceIdentifier()
         );
+        $placeholder_input->setDisabled(!$this->isEditingAllowed());
+
         $placeholder = $this->mail_signature_service->getPlaceholder();
-        while ($placeholder->getNext()) {
+        do {
             if ($signature->supports($placeholder)) {
                 $placeholder_input->addPlaceholder($placeholder->getId(), $placeholder->getLabel());
             }
-            $placeholder = $placeholder->getNext();
-        }
-        $placeholder_input->setDisabled(!$this->isEditingAllowed());
+        } while ($placeholder = $placeholder->getNext());
+
         return $placeholder_input;
     }
 

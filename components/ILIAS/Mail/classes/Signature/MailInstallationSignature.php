@@ -25,21 +25,19 @@ use ilSetting;
 class MailInstallationSignature implements Signature
 {
     public const MAIL_INSTALLATION_SIGNATURE = 'mail_system_sys_general_signature';
-    private ilSetting $settings;
+
     private MailSignatureIliasUrlPlaceholder $placeholder_chain;
 
-    public function __construct()
+    public function __construct(private ilSetting $settings)
     {
-        global $DIC;
-        $this->settings = $DIC->settings();
     }
 
     public function getSignature(): string
     {
-        return $this->settings->get($this->getSettingsKeyword(), '');
+        return $this->settings->get($this->getPersistenceIdentifier(), '');
     }
 
-    public function getSettingsKeyword(): string
+    public function getPersistenceIdentifier(): string
     {
         return self::MAIL_INSTALLATION_SIGNATURE;
     }

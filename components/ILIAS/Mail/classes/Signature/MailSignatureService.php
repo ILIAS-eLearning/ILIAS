@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Service;
 
-use ilUtil;
-use ilObjUser;
 use ilIniFile;
 use ilMustacheFactory;
-use ilSetting;
 use ILIAS\Mail\Signature\Placeholder;
 use ILIAS\Mail\Signature\MailSignatureIliasUrlPlaceholder;
 use ILIAS\Mail\Signature\MailSignatureInstallationNamePlaceholder;
@@ -35,44 +32,57 @@ use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
 use ILIAS\Mail\Signature\MailUserSignature;
 use ILIAS\Mail\Signature\MailSignatureInstallationDescriptionPlaceholder;
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Sign;
+use ilLanguage;
+use ilSetting;
 
 class MailSignatureService
 {
-    private ilMustacheFactory $mustacheFactory;
     private Placeholder $placeholder_chain;
 
-    public function __construct()
-    {
-        global $DIC;
-        $this->mustacheFactory = $DIC->mail()->mustacheFactory();
+    public function __construct(
+        private readonly ilMustacheFactory $mustacheFactory,
+        private readonly ilIniFile $client_ini_file,
+        private readonly ilLanguage $lng,
+        private readonly ilSetting $settings
+    ) {
     }
 
     public function installation(): string
     {
-        $signature = new MailInstallationSignature();
-        return $this->processSignature($this->getPlaceholder(), $signature);
+        return $this->processSignature(
+            $this->getPlaceholder(),
+            new MailInstallationSignature($this->settings)
+        );
     }
 
     public function user(int $user_id): string
     {
-        return $this->processSignature($this->getPlaceholder($user_id), new MailUserSignature($user_id));
+        return $this->processSignature(
+            $this->getPlaceholder($user_id),
+            new MailUserSignature($this->settings)
+        );
     }
 
     private function processSignature(Placeholder $placeholder, Signature $signature): string
     {
         $placeholders = $placeholder->handle($signature);
+
         return $this->mustacheFactory->getBasicEngine()->render($signature->getSignature(), $placeholders);
     }
 
     public function getPlaceholder(int $user_id = 0): Placeholder
     {
-        $p1 = new MailSignatureIliasUrlPlaceholder();
-        $p2 = new MailSignatureInstallationNamePlaceholder();
-        $p3 = new MailSignatureInstallationDescriptionPlaceholder();
-        $p4 = new MailSignatureUserNamePlaceholder($user_id);
-        $p5 = new MailSignatureUserFullnamePlaceholder($user_id);
-        $p1->setNext($p2)->setNext($p3)->setNext($p4)->setNext($p5);
-        return $p1;
+        $ilias_url_ph = new MailSignatureIliasUrlPlaceholder($this->lng);
+        $installation_name_ph = new MailSignatureInstallationNamePlaceholder($this->lng, $this->client_ini_file);
+        $installation_description_ph = new MailSignatureInstallationDescriptionPlaceholder($this->lng);
+        $user_name_ph = new MailSignatureUserNamePlaceholder($this->lng, $user_id);
+        $user_fullname_ph = new MailSignatureUserFullnamePlaceholder($this->lng, $user_id);
+        $ilias_url_ph
+            ->setNext($installation_name_ph)
+            ->setNext($installation_description_ph)
+            ->setNext($user_name_ph)
+            ->setNext($user_fullname_ph);
+
+        return $ilias_url_ph;
     }
 }

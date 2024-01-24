@@ -85,6 +85,11 @@ class MailService
 
     public function signature(): MailSignatureService
     {
-        return new MailSignatureService();
+        return new MailSignatureService(
+            $this->mustacheFactory(),
+            $this->dic->clientIni(),
+            $this->dic->language(),
+            $this->dic->settings()
+        );
     }
 }
