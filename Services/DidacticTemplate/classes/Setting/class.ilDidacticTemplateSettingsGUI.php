@@ -26,6 +26,8 @@ use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusCollection;
+use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 
 /**
  * Settings for a single didactic template
@@ -273,6 +275,37 @@ class ilDidacticTemplateSettingsGUI
         return $form;
     }
 
+    protected function checkInput(
+        ilPropertyFormGUI $form,
+        ilDidacticTemplateImport $import
+    ): ilImportStatusCollection {
+        $status = new ilImportStatusFactory();
+
+        if (!$form->checkInput()) {
+            $form->setValuesByPost();
+            return $status->collection();
+        }
+
+        $file = $form->getInput('file');
+        $tmp = ilFileUtils::ilTempnam() . '.xml';
+
+        // move uploaded file
+        ilFileUtils::moveUploadedFile(
+            $file['tmp_name'],
+            $file['name'],
+            $tmp
+        );
+        $import->setInputFile($tmp);
+        $statuses = $import->validateImportFile();
+
+        if (!$statuses->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+            $statuses = $statuses->withAddedStatus($status->handler()
+                ->withType(\ImportStatus\StatusType::SUCCESS)
+                ->withContent($status->content()->builder()->string()->withString('')));
+        }
+        return $statuses;
+    }
+
     protected function importTemplate(): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
@@ -286,10 +319,19 @@ class ilDidacticTemplateSettingsGUI
             $form = $this->createImportForm();
         }
 
-        if (!$form->checkInput()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-            $form->setValuesByPost();
+        $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
+        $statuses = $this->checkInput($form, $import);
 
+        if (!$statuses->hasStatusType(\ImportStatus\StatusType::SUCCESS)) {
+            $error_msg = ($statuses->getCollectionOfAllByType(\ImportStatus\StatusType::FAILED)->count() > 0)
+                ? $statuses
+                ->withNumberingEnabled(true)
+                ->toString(\ImportStatus\StatusType::FAILED)
+                : '';
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('didactic_import_failed') . $error_msg
+            );
             if ($setting instanceof ilDidacticTemplateSetting) {
                 $this->showEditImportForm($form);
             } else {
@@ -297,20 +339,6 @@ class ilDidacticTemplateSettingsGUI
             }
             return;
         }
-
-        // Do import
-        $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
-
-        $file = $form->getInput('file');
-        $tmp = ilFileUtils::ilTempnam() . '.xml';
-
-        // move uploaded file
-        ilFileUtils::moveUploadedFile(
-            $file['tmp_name'],
-            $file['name'],
-            $tmp
-        );
-        $import->setInputFile($tmp);
 
         try {
             $settings = $import->import();
@@ -321,18 +349,19 @@ class ilDidacticTemplateSettingsGUI
             }
         } catch (ilDidacticTemplateImportException $e) {
             $this->logger->error('Import failed with message: ' . $e->getMessage());
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
-            $form->setValuesByPost();
-
-            if ($setting instanceof ilDidacticTemplateSetting) {
-                $this->showEditImportForm($form);
-            } else {
-                $this->showImportForm($form);
-            }
-            return;
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage(),
+                true
+            );
+            $this->ctrl->redirect($this, 'importTemplate');
         }
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_import_success'), true);
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->lng->txt('didactic_import_success'),
+            true
+        );
 
         if ($setting instanceof ilDidacticTemplateSetting) {
             $this->ctrl->redirect($this, 'editTemplate');
