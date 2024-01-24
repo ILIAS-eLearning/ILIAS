@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
+use ILIAS\Test\Logging\TestParticipantInteraction;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
@@ -1483,9 +1485,9 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (!is_array($solution) ||
-                !array_key_exists("type", $solution) ||
-                strcmp($solution["type"], "file") !== 0) {
+            if (!is_array($solution)
+                || !array_key_exists('type', $solution)
+                || $solution['type'] !== 'file') {
                 continue;
             }
 
@@ -1598,7 +1600,7 @@ abstract class assQuestion
             while ($row = $this->db->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
                 $resolved_link = $this->resolveInternalLink($internal_link);
-                if (strcmp($internal_link, $resolved_link) != 0) {
+                if ($internal_link !== $resolved_link) {
                     // internal link was resolved successfully
                     $affectedRows = $this->db->manipulateF(
                         "UPDATE qpl_sol_sug SET internal_link = %s WHERE suggested_solution_id = %s",
@@ -2145,7 +2147,7 @@ abstract class assQuestion
 
 
 
-    public static function instantiateQuestionGUI(int $a_question_id): assQuestionGUI
+    public static function instantiateQuestionGUI(int $question_id): assQuestionGUI
     {
         //Shouldn't you live in assQuestionGUI, Mister?
 
@@ -2155,12 +2157,12 @@ abstract class assQuestion
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
         $questioninfo = $DIC->testQuestionPool()->questionInfo();
-        if (strcmp($a_question_id, "") != 0) {
-            $question_type = $questioninfo->getQuestionType($a_question_id);
+        if ($question_id > 0) {
+            $question_type = $questioninfo->getQuestionType($question_id);
 
             $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();
-            $question_gui->object->loadFromDb($a_question_id);
+            $question_gui->object->loadFromDb($question_id);
 
             $feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
             $question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
@@ -3039,4 +3041,13 @@ abstract class assQuestion
         return preg_replace(self::TRIM_PATTERN, '', $value);
     }
 
+    public function getLastParticipantInteraction(): ?TestParticipantInteraction
+    {
+        return new TestParticipantInteraction();
+    }
+
+    public function getLastQuestionAdministrationInteraction(): ?TestQuestionAdministrationInteraction
+    {
+        return new TestQuestionAdministrationInteraction();
+    }
 }

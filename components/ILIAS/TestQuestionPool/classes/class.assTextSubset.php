@@ -967,4 +967,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $this->addAnswer($answerOptionValue, $points, $qIndex);
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

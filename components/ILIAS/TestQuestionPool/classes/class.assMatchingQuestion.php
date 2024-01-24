@@ -1600,4 +1600,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $definition = $definition ?? $this->createMatchingDefinition();
         return new assAnswerMatchingPair($term, $definition, $points);
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

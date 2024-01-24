@@ -20,9 +20,11 @@ namespace ILIAS\TestQuestionPool\Questions;
 
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
-use ILIAS\Test\Logging\TestAdministrationInteraction;
 
 interface Question
 {
     public function validateSolutionSubmit();
+    public function toLog(): array;
+    public function getLastParticipantInteraction(): ?TestParticipantInteraction;
+    public function getLastQuestionAdministrationInteraction(): ?TestQuestionAdministrationInteraction;
 }

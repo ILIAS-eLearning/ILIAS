@@ -1625,17 +1625,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function toJSON(): string
     {
-        $result = [];
-        $result['id'] = $this->getId();
-        $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
-        $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['clozetext'] = $this->formatSAQuestion($this->getClozeText());
-        $result['nr_of_tries'] = $this->getNrOfTries();
-        $result['shuffle'] = $this->getShuffle();
-        $result['feedback'] = [
-            'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
-            'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+        $result = [
+            'id' => $this->getId(),
+            'type' => (string) $this->getQuestionType(),
+            'title' => $this->getTitle(),
+            'question' => $this->formatSAQuestion($this->getQuestion()),
+            'clozetext' => $this->formatSAQuestion($this->getClozeText()),
+            'nr_of_tries' => $this->getNrOfTries(),
+            'shuffle' => $this->getShuffle(),
+            'feedback' => [
+                'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
         ];
 
         $gaps = [];
@@ -2002,5 +2003,52 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $item->setOrder($gap->getItemCount());
 
         $gap->addItem($item);
+    }
+
+    public function toLog(): array
+    {
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'cloze_text' => $this->formatSAQuestion($this->getClozeText()),
+            'qst_nr_of_tries' => $this->getNrOfTries(),
+            'shuffle_answers' => $this->getShuffle(),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        $gaps = [];
+        foreach ($this->getGaps() as $key => $gap) {
+            $items = [];
+            foreach ($gap->getItems($this->getShuffler()) as $item) {
+                $jitem = [];
+                $jitem['points'] = $item->getPoints();
+                $jitem['value'] = $this->formatSAQuestion($item->getAnswertext());
+                $jitem['order'] = $item->getOrder();
+                if ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
+                    $jitem['lowerbound'] = $item->getLowerBound();
+                    $jitem['upperbound'] = $item->getUpperBound();
+                } else {
+                    $jitem['value'] = trim($jitem['value']);
+                }
+                array_push($items, $jitem);
+            }
+
+            if ($gap->getGapSize() && ($gap->getType() == assClozeGap::TYPE_TEXT || $gap->getType() == assClozeGap::TYPE_NUMERIC)) {
+                $jgap['size'] = $gap->getGapSize();
+            }
+
+            $jgap['shuffle'] = $gap->getShuffle();
+            $jgap['type'] = $gap->getType();
+            $jgap['item'] = $items;
+
+            array_push($gaps, $jgap);
+        }
+        $result['gaps'] = $gaps;
+        return $result;
     }
 }

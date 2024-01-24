@@ -1380,4 +1380,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     {
         return (bool) $this->isSingleline;
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }
