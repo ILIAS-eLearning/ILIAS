@@ -43,6 +43,7 @@ use DateTimeImmutable;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilObjUserFolderGUI;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 
 class Administration
 {
@@ -345,14 +346,16 @@ class Administration
 
     /**
      * @param Closure(string): string $link
+     * @param Closure(): Result<DocumentContent> $document_content
      */
-    public function documentForm(Closure $link, string $title, bool $may_be_new = false): Component
+    public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Component
     {
         $edit_link = $link('editDocument');
+        $content_title = $may_be_new ? 'form_document' : 'form_document_new';
 
         $section = $this->ui->create()->input()->field()->section([
             'title' => $this->ui->create()->input()->field()->text($this->ui->txt('title'))->withRequired(true)->withValue($title),
-            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link), $this->ui->txt('form_document'))->withAcceptedMimeTypes([
+            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
                 'text/html',
                 'text/plain',
             ])->withRequired($may_be_new),

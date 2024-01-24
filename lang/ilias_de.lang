@@ -10722,6 +10722,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Dokument
 ldoc#:#ldoc_tbl_hist_head_firstname#:#Vorname
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Nachname
 ldoc#:#ldoc_tbl_hist_head_login#:#Anmeldename
+ldoc#:#ldoc_updated_document#:#Dokument hochgeladen
 lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
 lhist#:#lhist_all#:#All
