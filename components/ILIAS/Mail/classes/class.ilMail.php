@@ -73,7 +73,8 @@ class ilMail
         private ?ilObjUser $actor = null,
         private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null,
         private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null,
-        ?Conductor $legal_documents = null
+        ?Conductor $legal_documents = null,
+        ?MailSignatureService $signature_service = null,
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -103,7 +104,7 @@ class ilMail
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
         $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
-        $this->signature_service = $DIC->mail()->signature();
+        $this->signature_service = $signature_service ?? $DIC->mail()->signature();
     }
 
     public function autoresponder(): AutoresponderService

@@ -25,9 +25,8 @@ use ilMustacheFactory;
 use ILIAS\Mail\Signature\Placeholder;
 use ILIAS\Mail\Signature\MailSignatureIliasUrlPlaceholder;
 use ILIAS\Mail\Signature\MailSignatureInstallationNamePlaceholder;
-use ILIAS\Mail\Signature\MailSignatureInstallationUrlPlaceholder;
 use ILIAS\Mail\Signature\MailSignatureUserFullnamePlaceholder;
-use ILIAS\Mail\Signature\MailSignatureUserNamePlaceholder;
+use ILIAS\Mail\Signature\MailSignatureUserLoginPlaceholder;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
 use ILIAS\Mail\Signature\MailUserSignature;
@@ -75,7 +74,7 @@ class MailSignatureService
         $ilias_url_ph = new MailSignatureIliasUrlPlaceholder($this->lng);
         $installation_name_ph = new MailSignatureInstallationNamePlaceholder($this->lng, $this->client_ini_file);
         $installation_description_ph = new MailSignatureInstallationDescriptionPlaceholder($this->lng);
-        $user_name_ph = new MailSignatureUserNamePlaceholder($this->lng, $user_id);
+        $user_name_ph = new MailSignatureUserLoginPlaceholder($this->lng, $user_id);
         $user_fullname_ph = new MailSignatureUserFullnamePlaceholder($this->lng, $user_id);
         $ilias_url_ph
             ->setNext($installation_name_ph)

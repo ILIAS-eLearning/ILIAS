@@ -47,7 +47,11 @@ abstract class AbstractPlaceholderHandler implements Placeholder
         return $this->next;
     }
 
-    public function handle(Signature $signature): ?array
+    /**
+     * @param Signature $signature
+     * @return string<string, string>
+     */
+    public function handle(Signature $signature): array
     {
         $placeholders = [];
 

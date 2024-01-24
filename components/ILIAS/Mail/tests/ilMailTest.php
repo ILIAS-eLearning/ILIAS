@@ -25,6 +25,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * Class ilMailMimeTest
@@ -597,7 +598,10 @@ class ilMailTest extends ilMailBaseTest
             0,
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
+            null,
+            null,
+            $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );
     }
 }

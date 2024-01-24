@@ -49,7 +49,7 @@ class MailUserSignature implements Signature
             MailSignatureIliasUrlPlaceholder::class,
             MailSignatureInstallationNamePlaceholder::class,
             MailSignatureInstallationDescriptionPlaceholder::class,
-            MailSignatureUserNamePlaceholder::class,
+            MailSignatureUserLoginPlaceholder::class,
             MailSignatureUserFullnamePlaceholder::class,
             => true,
             default => false,
