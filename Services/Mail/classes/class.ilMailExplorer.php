@@ -102,7 +102,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
     public function getNodeContent($a_node): string
     {
-        $content = $a_node['title'];
+        $content = ilLegacyFormElementsUtil::prepareFormOutput($a_node['title']);
 
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $content = $this->lng->txt('mail_folders');
