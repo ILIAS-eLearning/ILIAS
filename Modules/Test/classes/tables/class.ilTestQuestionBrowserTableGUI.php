@@ -482,7 +482,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionsData(): array
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository, $this->notes_service);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
 
         $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
         $questionList->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
