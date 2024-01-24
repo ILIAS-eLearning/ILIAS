@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @package components\ILIAS/Test
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssQuestionHintRequestGUI
@@ -30,7 +29,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
  * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilConfirmationGUI
  */
-class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
+class ilTestPlayerRandomQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
