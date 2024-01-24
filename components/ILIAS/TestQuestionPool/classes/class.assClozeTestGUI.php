@@ -40,8 +40,6 @@ use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
  */
 class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    public const OLD_CLOZE_TEST_UI = false;
-
     public const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
     jQuery.fn.extend({
         insertGapCodeAtCaret: function() {
@@ -534,27 +532,20 @@ JS;
 
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
-        if (self::OLD_CLOZE_TEST_UI) {
-            for ($gapCounter = 0; $gapCounter < $this->object->getGapCount(); $gapCounter++) {
-                $this->populateGapFormPart($form, $gapCounter);
-            }
-            return $form;
-        } else {
-            $json = $this->populateJSON();
-            $assClozeGapCombinationObject = new assClozeGapCombination();
-            $combination_exists = $assClozeGapCombinationObject->combinationExistsForQid($this->object->getId());
-            $combinations = [];
-            if ($combination_exists) {
-                $combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
-            }
-            $new_builder = new ilClozeGapInputBuilderGUI();
-            $header = new ilFormSectionHeaderGUI();
-            $form->addItem($header);
-            $new_builder->setValueByArray($json);
-            $new_builder->setValueCombinationFromDb($combinations);
-            $form->addItem($new_builder);
-            return $form;
+        $json = $this->populateJSON();
+        $assClozeGapCombinationObject = new assClozeGapCombination();
+        $combination_exists = $assClozeGapCombinationObject->combinationExistsForQid($this->object->getId());
+        $combinations = [];
+        if ($combination_exists) {
+            $combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
         }
+        $new_builder = new ilClozeGapInputBuilderGUI();
+        $header = new ilFormSectionHeaderGUI();
+        $form->addItem($header);
+        $new_builder->setValueByArray($json);
+        $new_builder->setValueCombinationFromDb($combinations);
+        $form->addItem($new_builder);
+        return $form;
     }
 
     protected function populateJSON(): array

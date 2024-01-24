@@ -1035,4 +1035,9 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         return true;
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

@@ -700,4 +700,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return '';
     }
 
+    public function toLog(): array
+    {
+        return [];
+    }
 }

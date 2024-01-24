@@ -1487,4 +1487,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         }
     }
 
+    public function toLog(): array
+    {
+        return [];
+    }
 }

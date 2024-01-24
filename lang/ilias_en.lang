@@ -711,7 +711,7 @@ assessment#:#false#:#False
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_answers#:#Feedback for Every Answer
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
-assessment#:#feedback_complete_solution#:#Correct solution
+assessment#:#feedback_complete_solution#:#Correct Solution
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_generic#:#Correct/Incorrect Answer Feedback

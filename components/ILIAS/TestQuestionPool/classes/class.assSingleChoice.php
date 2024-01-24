@@ -1295,4 +1295,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $this->feedback_setting = $feedback_setting;
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

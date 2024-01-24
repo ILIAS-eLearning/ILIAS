@@ -1143,5 +1143,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         return true;
     }
-    // hey.
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

@@ -1054,4 +1054,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         return null;
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }

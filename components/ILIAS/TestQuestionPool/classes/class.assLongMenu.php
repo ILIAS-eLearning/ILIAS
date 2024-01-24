@@ -895,4 +895,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
     }
+
+    public function toLog(): array
+    {
+        return [];
+    }
 }
