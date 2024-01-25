@@ -18,7 +18,7 @@
 
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
-    private $answerType;
+    private array $answerType;
     private $long_menu_text;
     private $json_structure;
     private $ilDB;
@@ -55,18 +55,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $this->identical_scoring = 1;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAnswerType()
+    public function getAnswerType(): array
     {
         return $this->answerType;
     }
 
-    /**
-     * @param mixed $answerType
-     */
-    public function setAnswerType($answerType): void
+    public function setAnswerType(array $answerType): void
     {
         $this->answerType = $answerType;
     }
