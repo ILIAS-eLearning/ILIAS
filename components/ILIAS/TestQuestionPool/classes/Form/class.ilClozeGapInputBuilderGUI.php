@@ -181,6 +181,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     $points_sum = 0;
                     if (array_key_exists('points', $gapText)) {
                         foreach ($gapText['points'] as $row => $points) {
+                            $points = str_replace(',', '.', $points);
                             if (isset($points) && $points != '' && is_numeric($points)) {
                                 $points_sum += $points;
                                 if ($points > 0) {
