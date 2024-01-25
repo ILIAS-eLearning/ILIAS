@@ -60,6 +60,9 @@ const ClozeQuestionGapBuilder = (function () {
         if (gap.type === 'text' || gap.type === 'select') {
           gap.values.forEach(
             (value) => {
+              if (value.answer === undefined) {
+                value.answer = '';
+              }
               value.answer = value.answer.replace('&#123;', '{');
               value.answer = value.answer.replace('&#125;', '}');
             },

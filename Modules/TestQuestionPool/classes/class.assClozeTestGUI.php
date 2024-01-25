@@ -132,26 +132,26 @@ JS;
     protected function writePostData(bool $always = false): int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
-        if (!$hasErrors) {
-            $cloze_text = $this->removeIndizesFromGapText(
-                $this->request->raw('cloze_text')
-            );
-
-            $this->object->setQuestion(
-                $this->request->raw('question')
-            );
-
-            $this->writeQuestionGenericPostData();
-            $this->object->setClozeText($cloze_text);
-            $this->object->setTextgapRating($this->request->raw('textgap_rating'));
-            $this->object->setIdenticalScoring((bool) ($this->request->raw('identical_scoring') ?? false));
-            $this->object->setFixedTextLength(($this->request->int('fixedTextLength') ?? 0));
-            $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
-            $this->saveTaxonomyAssignments();
-            return 0;
+        if ($hasErrors) {
+            return 1;
         }
 
-        return 1;
+        $cloze_text = $this->removeIndizesFromGapText(
+            $this->request->raw('cloze_text')
+        );
+
+        $this->object->setQuestion(
+            $this->request->raw('question')
+        );
+
+        $this->writeQuestionGenericPostData();
+        $this->object->setClozeText($cloze_text);
+        $this->object->setTextgapRating($this->request->raw('textgap_rating'));
+        $this->object->setIdenticalScoring((bool) ($this->request->raw('identical_scoring') ?? false));
+        $this->object->setFixedTextLength(($this->request->int('fixedTextLength') ?? 0));
+        $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+        $this->saveTaxonomyAssignments();
+        return 0;
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
