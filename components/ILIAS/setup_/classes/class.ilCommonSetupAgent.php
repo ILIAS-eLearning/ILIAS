@@ -28,7 +28,7 @@ use ILIAS\Setup\Config;
  * general all this stuff here is supposed to go elsewhere once we find out
  * which service it really belongs to.
  */
-class ilSetupAgent implements Setup\Agent
+class ilCommonSetupAgent implements Setup\Agent
 {
     public const PHP_MEMORY_LIMIT = "128M";
 

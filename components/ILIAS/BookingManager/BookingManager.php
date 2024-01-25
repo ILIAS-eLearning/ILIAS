@@ -32,6 +32,9 @@ class BookingManager implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ILIAS\BookingManager\Setup\Agent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

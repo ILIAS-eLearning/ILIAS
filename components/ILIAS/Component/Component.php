@@ -33,5 +33,10 @@ class Component implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[Component\EntryPoint::class] = fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
+
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilComponentsSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

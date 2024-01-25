@@ -32,6 +32,9 @@ class Database implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilDatabaseSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

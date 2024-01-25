@@ -30,7 +30,7 @@ interface AgentFinder
     /**
      * Collect core agents from the system bundled in a collection.
      */
-    public function getCoreAgents(): AgentCollection;
+    public function getComponentAgents(): AgentCollection;
 
     /**
      * Get a agent from a specific plugin.
