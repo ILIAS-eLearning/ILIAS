@@ -60,9 +60,12 @@ var ClozeQuestionGapBuilder = (function () {
         if (gap.type === 'text' || gap.type === 'select') {
           gap.values.forEach(
             (value) => {
-              value.answer = value.answer.replace('&#123;','{');
-              value.answer = value.answer.replace('&#125;','}');
-            }
+              if (value.answer === undefined) {
+                value.answer = '';
+              }
+              value.answer = value.answer.replace('&#123;', '{');
+              value.answer = value.answer.replace('&#125;', '}');
+            },
           );
         }
       }
