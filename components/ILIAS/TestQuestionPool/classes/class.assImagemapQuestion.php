@@ -78,12 +78,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
+        $title = '',
+        $comment = '',
+        $author = '',
         $owner = -1,
-        $question = "",
-        $image_filename = ""
+        $question = '',
+        $image_filename = ''
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->image_filename = $image_filename;
@@ -143,7 +143,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @return mixed|void
      */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb($original_id = ''): void
     {
         if ($original_id == '') {
             $this->saveQuestionDataToDb();
@@ -160,8 +160,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilDB->manipulateF(
-            "DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
-            [ "integer" ],
+            'DELETE FROM qpl_a_imagemap WHERE question_fi = %s',
+            [ 'integer' ],
             [ $this->getId() ]
         );
 
@@ -171,8 +171,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $answer_obj->setOrder($key);
             $next_id = $ilDB->nextId('qpl_a_imagemap');
             $ilDB->manipulateF(
-                "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                [ "integer", "integer", "text", "float", "integer", "text", "text", "float" ],
+                'INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
+                [ 'integer', 'integer', 'text', 'float', 'integer', 'text', 'text', 'float' ],
                 [ $next_id, $this->id, $answer_obj->getAnswertext(
                 ), $answer_obj->getPoints(), $answer_obj->getOrder(
                 ), $answer_obj->getCoords(), $answer_obj->getArea(
@@ -187,15 +187,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $ilDB = $DIC['ilDB'];
 
         $ilDB->manipulateF(
-            "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            [ "integer" ],
+            'DELETE FROM ' . $this->getAdditionalTableName() . ' WHERE question_fi = %s',
+            [ 'integer' ],
             [ $this->getId() ]
         );
 
         $ilDB->manipulateF(
-            "INSERT INTO " . $this->getAdditionalTableName(
-            ) . " (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)",
-            [ "integer", "text", 'integer' ],
+            'INSERT INTO ' . $this->getAdditionalTableName(
+            ) . ' (question_fi, image_file, is_multiple_choice) VALUES (%s, %s, %s)',
+            [ 'integer', 'text', 'integer' ],
             [
                                 $this->getId(),
                                 $this->image_filename,
@@ -209,7 +209,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 *
 * @access public
 */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
+    public function duplicate(bool $for_test = true, string $title = '', string $author = '', int $owner = -1, $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -261,7 +261,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = ""): int
+    public function copyObject($target_questionpool_id, $title = ''): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -290,7 +290,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ''): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -328,10 +328,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $ilLog = $DIC['ilLog'];
 
         $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+        $imagepath_original = str_replace('/$this->id/images', '/$question_id/images', $imagepath);
 
         if ((int) $objectId > 0) {
-            $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+            $imagepath_original = str_replace('/$this->obj_id/', '/$objectId/', $imagepath_original);
         }
 
         if (!file_exists($imagepath)) {
@@ -341,27 +341,27 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         // #18755
         if (!file_exists($imagepath_original . $filename)) {
-            $ilLog->write("Could not find an image map file when trying to duplicate image: " . $imagepath_original . $filename);
-            $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
-            $ilLog->write("Using fallback source directory:" . $imagepath_original);
+            $ilLog->write('Could not find an image map file when trying to duplicate image: ' . $imagepath_original . $filename);
+            $imagepath_original = str_replace('/$this->obj_id/', '/$objectId/', $imagepath_original);
+            $ilLog->write('Using fallback source directory:' . $imagepath_original);
         }
 
         if (!file_exists($imagepath_original . $filename) || !copy($imagepath_original . $filename, $imagepath . $filename)) {
-            $ilLog->write("Could not duplicate image for image map question: " . $imagepath_original . $filename);
+            $ilLog->write('Could not duplicate image for image map question: ' . $imagepath_original . $filename);
         }
     }
 
     public function copyImage($question_id, $source_questionpool): void
     {
         $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
+        $imagepath_original = str_replace('/$this->id/images', '/$question_id/images', $imagepath);
+        $imagepath_original = str_replace('/$this->obj_id/', '/$source_questionpool/', $imagepath_original);
         if (!file_exists($imagepath)) {
             ilFileUtils::makeDirParents($imagepath);
         }
         $filename = $this->getImageFilename();
         if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-            print "image could not be copied!!!! ";
+            print 'image could not be copied!!!! ';
         }
     }
 
@@ -380,24 +380,24 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->queryF(
-            "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            ["integer"],
+            'SELECT qpl_questions.*, ' . $this->getAdditionalTableName() . '.* FROM qpl_questions LEFT JOIN ' . $this->getAdditionalTableName() . ' ON ' . $this->getAdditionalTableName() . '.question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s',
+            ['integer'],
             [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
-            $this->setObjId($data["obj_fi"]);
-            $this->setTitle((string) $data["title"]);
-            $this->setComment((string) $data["description"]);
-            $this->setOriginalId($data["original_id"]);
+            $this->setObjId($data['obj_fi']);
+            $this->setTitle((string) $data['title']);
+            $this->setComment((string) $data['description']);
+            $this->setOriginalId($data['original_id']);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setAuthor($data["author"]);
-            $this->setPoints($data["points"]);
-            $this->setOwner($data["owner"]);
-            $this->setIsMultipleChoice($data["is_multiple_choice"] == self::MODE_MULTIPLE_CHOICE);
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setImageFilename($data["image_file"]);
+            $this->setAuthor($data['author']);
+            $this->setPoints($data['points']);
+            $this->setOwner($data['owner']);
+            $this->setIsMultipleChoice($data['is_multiple_choice'] == self::MODE_MULTIPLE_CHOICE);
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
+            $this->setImageFilename($data['image_file']);
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
@@ -411,15 +411,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
 
             $result = $ilDB->queryF(
-                "SELECT * FROM qpl_a_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
-                ["integer"],
+                'SELECT * FROM qpl_a_imagemap WHERE question_fi = %s ORDER BY aorder ASC',
+                ['integer'],
                 [$question_id]
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $image_map_question = new ASS_AnswerImagemap($data["answertext"] ?? '', $data["points"], $data["aorder"]);
-                    $image_map_question->setCoords($data["coords"]);
-                    $image_map_question->setArea($data["area"]);
+                    $image_map_question = new ASS_AnswerImagemap($data['answertext'] ?? '', $data['points'], $data['aorder']);
+                    $image_map_question->setCoords($data['coords']);
+                    $image_map_question->setArea($data['area']);
                     $image_map_question->setPointsUnchecked($data['points_unchecked']);
                     array_push($this->answers, $image_map_question);
                 }
@@ -460,10 +460,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $image_filename
     */
-    public function setImageFilename($image_filename, $image_tempfilename = ""): void
+    public function setImageFilename($image_filename, $image_tempfilename = ''): void
     {
         if (!empty($image_filename)) {
-            $image_filename = str_replace(" ", "_", $image_filename);
+            $image_filename = str_replace(' ', '_', $image_filename);
             $this->image_filename = $image_filename;
         }
         if (!empty($image_tempfilename)) {
@@ -477,7 +477,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             global $DIC;
             $ilLog = $DIC['ilLog'];
-            $ilLog->write("gespeichert: " . $imagepath . $image_filename);
+            $ilLog->write('gespeichert: ' . $imagepath . $image_filename);
         }
     }
 
@@ -490,16 +490,16 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $imagemap_contents
     */
-    public function get_imagemap_contents($href = "#"): string
+    public function get_imagemap_contents($href = '#'): string
     {
-        $imagemap_contents = "<map name=\"" . $this->title . "\"> ";
+        $imagemap_contents = '<map name=\'' . $this->title . '\'> ';
         for ($i = 0; $i < count($this->answers); $i++) {
-            $imagemap_contents .= "<area alt=\"" . $this->answers[$i]->getAnswertext() . "\" ";
-            $imagemap_contents .= "shape=\"" . $this->answers[$i]->getArea() . "\" ";
-            $imagemap_contents .= "coords=\"" . $this->answers[$i]->getCoords() . "\" ";
-            $imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->getOrder() . "\" /> ";
+            $imagemap_contents .= '<area alt=\'' . $this->answers[$i]->getAnswertext() . '\' ';
+            $imagemap_contents .= 'shape=\'' . $this->answers[$i]->getArea() . '\' ';
+            $imagemap_contents .= 'coords=\'' . $this->answers[$i]->getCoords() . '\' ';
+            $imagemap_contents .= "href=\"{$href}&selimage=" . $this->answers[$i]->getOrder() . "\" /> ";
         }
-        $imagemap_contents .= "</map>";
+        $imagemap_contents .= '</map>';
         return $imagemap_contents;
     }
 
@@ -518,11 +518,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @see ASS_AnswerImagemap
     */
     public function addAnswer(
-        $answertext = "",
+        $answertext = '',
         $points = 0.0,
         $order = 0,
-        $coords = "",
-        $area = "",
+        $coords = '',
+        $area = '',
         $points_unchecked = 0.0
     ): void {
         if (array_key_exists($order, $this->answers)) {
@@ -694,8 +694,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
         while ($data = $ilDB->fetchAssoc($result)) {
-            if (strcmp($data["value1"], "") != 0) {
-                array_push($found_values, $data["value1"]);
+            if (strcmp($data['value1'], '') != 0) {
+                array_push($found_values, $data['value1']);
             }
         }
 
@@ -823,7 +823,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function getQuestionType(): string
     {
-        return "assImagemapQuestion";
+        return 'assImagemapQuestion';
     }
 
     /**
@@ -836,7 +836,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function getAdditionalTableName(): string
     {
-        return "qpl_qst_imagemap";
+        return 'qpl_qst_imagemap';
     }
 
     /**
@@ -849,7 +849,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function getAnswerTableName(): string
     {
-        return "qpl_a_imagemap";
+        return 'qpl_a_imagemap';
     }
 
     /**
@@ -876,7 +876,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $i = 1;
         foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, $col, $answer->getArea() . ": " . $answer->getCoords());
+            $worksheet->setCell($startrow + $i, $col, $answer->getArea() . ': ' . $answer->getCoords());
             $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
 
             $cellValue = 0;
@@ -903,7 +903,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $file = $this->getImagePath() . $this->getImageFilename();
         @unlink($file);
         $this->flushAnswers();
-        $this->image_filename = "";
+        $this->image_filename = '';
     }
 
     /**
@@ -929,14 +929,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $order = 0;
         foreach ($this->getAnswers() as $key => $answer_obj) {
             array_push($answers, [
-                "answertext" => (string) $answer_obj->getAnswertext(),
-                "points" => (float) $answer_obj->getPoints(),
-                "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
-                "order" => $order,
-                "coords" => $answer_obj->getCoords(),
-                "state" => $answer_obj->getState(),
-                "area" => $answer_obj->getArea(),
-                "feedback" => $this->formatSAQuestion(
+                'answertext' => (string) $answer_obj->getAnswertext(),
+                'points' => (float) $answer_obj->getPoints(),
+                'points_unchecked' => (float) $answer_obj->getPointsUnchecked(),
+                'order' => $order,
+                'coords' => $answer_obj->getCoords(),
+                'state' => $answer_obj->getState(),
+                'area' => $answer_obj->getArea(),
+                'feedback' => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
             ]);
@@ -944,7 +944,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         $result['answers'] = $answers;
 
-        $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+        $mobs = ilObjMediaObject::_getMobsOfObject('qpl:html', $this->getId());
         $result['mobs'] = $mobs;
 
         return json_encode($result);
@@ -1019,20 +1019,20 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($maxStep > 0) {
             $data = $ilDB->queryF(
-                "SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                ["integer", "integer", "integer", "integer"],
+                'SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s',
+                ['integer', 'integer', 'integer', 'integer'],
                 [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
             $data = $ilDB->queryF(
-                "SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step IS NULL",
-                ["integer", "integer", "integer"],
+                'SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step IS NULL',
+                ['integer', 'integer', 'integer'],
                 [$active_id, $pass, $this->getId()]
             );
         }
 
         while ($row = $ilDB->fetchAssoc($data)) {
-            $result->addKeyValue($row["value1"], $row["value1"]);
+            $result->addKeyValue($row['value1'], $row['value1']);
         }
 
         $points = $this->calculateReachedPoints($active_id, $pass);
@@ -1081,7 +1081,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
     protected function isAddSolutionSelectionRequest(): bool
     {
-        if (!$this->request->isset("selImage")) {
+        if (!$this->request->isset('selImage')) {
             return false;
         }
 
@@ -1105,7 +1105,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
 
-        if (!$this->request->isset("remImage")) {
+        if (!$this->request->isset('remImage')) {
             return false;
         }
 
@@ -1121,7 +1121,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return null;
         }
 
-        return assQuestion::explodeKeyValues($this->request->raw("reuseSelection"));
+        return assQuestion::explodeKeyValues($this->request->raw('reuseSelection'));
     }
     protected function isReuseSolutionSelectionRequest(): bool
     {
@@ -1129,15 +1129,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
 
-        if (!$this->request->isset("reuseSelection")) {
+        if (!$this->request->isset('reuseSelection')) {
             return false;
         }
 
-        if (!strlen($this->request->raw("reuseSelection"))) {
+        if (!strlen($this->request->raw('reuseSelection'))) {
             return false;
         }
 
-        if (!preg_match('/\d(,\d)*/', $this->request->raw("reuseSelection"))) {
+        if (!preg_match('/\d(,\d)*/', $this->request->raw('reuseSelection'))) {
             return false;
         }
 
@@ -1146,6 +1146,39 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function toLog(): array
     {
-        return [];
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'cloze_text' => $this->formatSAQuestion($this->getClozeText()),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_imap_qst_mode' => $this->getIsMultipleChoice() ? '{{ tst_imap_qst_mode_mc }}' : '{{ tst_imap_qst_mode_sc }}',
+            'image' => $this->getImagePathWeb() . $this->getImageFilename(),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        $answers = [];
+        $order = 0;
+        foreach ($this->getAnswers() as $key => $answer_obj) {
+            array_push($answers, [
+                'answertext' => (string) $answer_obj->getAnswertext(),
+                'points' => (float) $answer_obj->getPoints(),
+                'points_unchecked' => (float) $answer_obj->getPointsUnchecked(),
+                'order' => $order,
+                'coords' => $answer_obj->getCoords(),
+                'state' => $answer_obj->getState(),
+                'feedback' => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
+                )
+            ]);
+            $order++;
+        }
+        $result['answers'] = $answers;
+
+        return $result;
     }
 }

@@ -1106,6 +1106,19 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function toLog(): array
     {
-        return [];
+        return [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'points' => $this->getPoints(),
+            'maxsize' => $this->getMaxFilesizeAsString(),
+            'allowedextensions' => $this->getAllowedExtensionsArray(),
+            'ass_completion_by_submission' => $this->isCompletionBySubmissionEnabled() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
     }
 }

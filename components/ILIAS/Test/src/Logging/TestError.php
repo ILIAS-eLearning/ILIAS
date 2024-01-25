@@ -28,7 +28,7 @@ class TestError implements TestUserInteraction
         private readonly ?int $question_id,
         private readonly ?\ilObjUser $administrator,
         private readonly ?\ilObjUser $participant,
-        private readonly TestErrorTypes $interaction_types,
+        private readonly TestErrorTypes $interaction_type,
         private readonly int $modification_timestamp,
         private readonly string $error_message
     ) {
@@ -57,7 +57,7 @@ class TestError implements TestUserInteraction
 
     public function getInteractionType(): TestErrorTypes
     {
-        return $this->interaction_types;
+        return $this->interaction_type;
     }
 
     public function getModificationTimestamp(): int

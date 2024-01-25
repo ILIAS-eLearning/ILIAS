@@ -1250,7 +1250,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass
      * @param boolean $returndetails (deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float|array
+    public function calculateReachedPoints($active_id, $pass = null, $authorized_solution = true, $returndetails = false): float|array
     {
         $ilDB = $this->db;
 
@@ -1258,7 +1258,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
         $user_result = [];
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value2"], "") != 0) {
@@ -2013,8 +2013,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             'question_title' => $this->getTitle(),
             'tst_question' => $this->formatSAQuestion($this->getQuestion()),
             'cloze_text' => $this->formatSAQuestion($this->getClozeText()),
-            'qst_nr_of_tries' => $this->getNrOfTries(),
-            'shuffle_answers' => $this->getShuffle(),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
             'tst_feedback' => [
                 'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
                 'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -2025,28 +2024,29 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         foreach ($this->getGaps() as $key => $gap) {
             $items = [];
             foreach ($gap->getItems($this->getShuffler()) as $item) {
-                $jitem = [];
-                $jitem['points'] = $item->getPoints();
-                $jitem['value'] = $this->formatSAQuestion($item->getAnswertext());
-                $jitem['order'] = $item->getOrder();
+                $item_array = [
+                    'points' => $item->getPoints(),
+                    'answer_text' => $this->formatSAQuestion($item->getAnswertext()),
+                    'order' => $item->getOrder()
+                ];
                 if ($gap->getType() == assClozeGap::TYPE_NUMERIC) {
-                    $jitem['lowerbound'] = $item->getLowerBound();
-                    $jitem['upperbound'] = $item->getUpperBound();
+                    $item_array['range_lower_limit'] = $item->getLowerBound();
+                    $item_array['range_upper_limit'] = $item->getUpperBound();
                 } else {
-                    $jitem['value'] = trim($jitem['value']);
+                    $item_array['answer_text'] = trim($item_array['answer_text']);
                 }
-                array_push($items, $jitem);
+                array_push($items, $item_array);
             }
 
             if ($gap->getGapSize() && ($gap->getType() == assClozeGap::TYPE_TEXT || $gap->getType() == assClozeGap::TYPE_NUMERIC)) {
-                $jgap['size'] = $gap->getGapSize();
+                $gap_array['cloze_fixed_textlength'] = $gap->getGapSize();
             }
 
-            $jgap['shuffle'] = $gap->getShuffle();
-            $jgap['type'] = $gap->getType();
-            $jgap['item'] = $items;
+            $gap_array['shuffle_answers'] = $gap->getShuffle();
+            $gap_array['type'] = $gap->getType();
+            $gap_array['values'] = $items;
 
-            array_push($gaps, $jgap);
+            array_push($gaps, $gap_array);
         }
         $result['gaps'] = $gaps;
         return $result;

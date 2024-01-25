@@ -30,7 +30,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         private int $test_ref_id,
         private int $question_id,
         private \ilObjUser $administrator,
-        private TestQuestionAdministrationInteractionTypes $interaction_types,
+        private TestQuestionAdministrationInteractionTypes $interaction_type,
         private int $modification_timestamp,
         private array $additional_data
     ) {
@@ -49,7 +49,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
 
     public function getInteractionType(): TestQuestionAdministrationInteractionTypes
     {
-        return $this->interaction_types;
+        return $this->interaction_type;
     }
 
     public function getAdministratorId(): int
