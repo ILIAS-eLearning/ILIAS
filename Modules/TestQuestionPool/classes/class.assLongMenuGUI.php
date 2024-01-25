@@ -106,7 +106,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $longmenu_text = $this->request->raw('longmenu_text') ?? '';
         $hidden_text_files = $this->request->raw('hidden_text_files') ?? '';
         $hidden_correct_answers = $this->request->raw('hidden_correct_answers') ?? [];
-        $long_menu_type = $this->request->raw('long_menu_type') ?? '';
+        $long_menu_type = $this->request->raw('long_menu_type') ?? [];
         $this->object->setLongMenuTextValue(ilUtil::stripSlashes($longmenu_text));
         $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_text_files))));
         $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_correct_answers))));
