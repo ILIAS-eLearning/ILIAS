@@ -2901,6 +2901,11 @@ class ilObjUser extends ilObject
         return self::$personal_image_cache[$this->getId()][$a_size][(int) $a_force_pic];
     }
 
+    public function hasProfilePicture(): bool
+    {
+        return (new ilUserAvatarResolver($this->getId()))->hasProfilePicture();
+    }
+
     public function getAvatar(): Avatar
     {
         return self::_getAvatar($this->getId());
