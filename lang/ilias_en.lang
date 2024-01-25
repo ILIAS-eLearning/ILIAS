@@ -1630,7 +1630,7 @@ assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_pass_best_pass#:#Score the Best Pass
+assessment#:#tst_pass_best_pass#:#Score the Best Attempt
 assessment#:#tst_pass_best_pass_desc#:#The attempt in which a participant has performed best will be be used for scoring purposes. This setting only applies when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Attempts
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
@@ -1640,7 +1640,7 @@ assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Attempt %s
 assessment#:#tst_pass_finished#:#Test pass finished
 assessment#:#tst_pass_finished_on#:#Test attempt finished on
-assessment#:#tst_pass_last_pass#:#Use Last Attempt’s Score
+assessment#:#tst_pass_last_pass#:#Score the Last Attempt
 assessment#:#tst_pass_last_pass_desc#:#A participant’s last attempt will be used for scoring purposes.
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
