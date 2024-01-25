@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs='http://www.w3.org/2001/XMLSchema'
+>
+    <xs:element name="didacticTemplateDefinition">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="didacticTemplate" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="didacticTemplate">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                <xs:element name="description" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                <xs:element name="translations" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="info" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="assignments" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="actions" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="creation"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="info">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="p" minOccurs="0" maxOccurs="1" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assignments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="assignment" minOccurs="1" maxOccurs="unbounded" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="actions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="blockRoleAction" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="localRoleAction" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="localPolicyAction" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="blockRoleAction">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="roleFilter" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="roleFilter">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="includePattern" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="source" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="includePattern">
+        <xs:complexType>
+            <xs:attribute name="preg" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="localRoleAction">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="skip"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="localPolicyAction">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="roleFilter" minOccurs="1" maxOccurs="1"/>
+                <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="skip"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
