@@ -108,10 +108,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
             $i = 0;
             $entries = $this->mailing_list->getAssignedEntries();
             if ($entries !== []) {
-                $usr_ids = [];
-                foreach ($entries as $entry) {
-                    $usr_ids[] = $entry['usr_id'];
-                }
+                $usr_ids = array_map(static fn (array $entry): int => (int) $entry['usr_id'], $entries);
 
                 $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
