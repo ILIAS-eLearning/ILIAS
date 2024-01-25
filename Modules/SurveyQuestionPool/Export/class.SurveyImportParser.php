@@ -527,12 +527,12 @@ class SurveyImportParser extends ilSaxParser
             case "material":
                 if ($this->in_survey) {
                     if (strcmp($this->getParent(), "objectives") == 0) {
-                        if (strcmp($this->material[0]["label"], "introduction") == 0) {
+                        if (isset($this->material[0]) && strcmp($this->material[0]["label"], "introduction") == 0) {
                             if (is_object($this->survey)) {
                                 $this->survey->setIntroduction($this->material[0]["text"]);
                             }
                         }
-                        if (strcmp($this->material[0]["label"], "outro") == 0) {
+                        if (isset($this->material[0]) && strcmp($this->material[0]["label"], "outro") == 0) {
                             if (is_object($this->survey)) {
                                 $this->survey->setOutro($this->material[0]["text"]);
                             }

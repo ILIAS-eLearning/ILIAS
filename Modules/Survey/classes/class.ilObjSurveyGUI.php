@@ -803,7 +803,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $am = $domain_service->access($ref_id, $DIC->user()->getId());
             $survey = new ilObjSurvey($ref_id);
             $run_manager = $domain_service->execution()->run($survey, $DIC->user()->getId());
-            if ($am->canAccessEvaluation() && $run_manager->hasFinished()) {
+            if ($am->canAccessEvaluation()) {
                 $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
                 $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
             }

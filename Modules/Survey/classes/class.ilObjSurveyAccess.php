@@ -304,7 +304,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                             $row = $ilDB->fetchAssoc($result);
 
                             if (self::_isSurveyParticipant($user_id, $row["survey_id"])) {
-                                return true;
+                                $survey = new ilObjSurvey($a_obj_id, false);
+                                $run_manager = $DIC->survey()->internal()->domain()
+                                    ->execution()->run($survey, $user_id);
+                                return $run_manager->hasFinished();
                             }
                         }
                         return false;
