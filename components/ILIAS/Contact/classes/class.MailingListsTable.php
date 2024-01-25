@@ -179,7 +179,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     ): ?int {
         $this->initRecords();
 
-        return count((array) $this->records);
+        return count($this->records);
     }
 
     /**
