@@ -223,11 +223,6 @@ class LegacyGotoHandler implements Handler
                 \ilCertificate::_goto($target_id);
                 break;
 
-                // links to the documentation of the kitchen sink in the administration
-            case 'stys':
-                (new \ilKSDocumentationGotoLink())->redirectWithGotoLink($target_id, $target_arr, $DIC->ctrl());
-                break;
-
                 //
                 // default implementation (should be used by all new object types)
                 //
