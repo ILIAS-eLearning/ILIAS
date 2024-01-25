@@ -700,11 +700,11 @@ assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
-assessment#:#exp_all_test_runs#:#All test runs
-assessment#:#exp_best_pass#:#Scored test run
-assessment#:#exp_eval_data#:#Export evaluation data as
+assessment#:#exp_all_test_runs#:#All test attempts
+assessment#:#exp_eval_data#:#Export data
 assessment#:#exp_file_created#:#Export file created.
-assessment#:#exp_scored_test_run#:#Scored test run
+assessment#:#exp_grammar_as#:#as
+assessment#:#exp_scored_test_run#:#Scored test attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Value (CSV)

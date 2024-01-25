@@ -701,13 +701,13 @@ assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer 
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_res_desc#:#In den Testergebnissen, der Statistik und dem Excel-Export wird die ILIAS-Prüfungsnummer dargestellt.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
-assessment#:#exp_best_pass#:#Bewerteter Durchlauf
-assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
+assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
-assessment#:#exp_scored_test_run#:#Bester Durchlauf
+assessment#:#exp_grammar_as#:#als
+assessment#:#exp_scored_test_run#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
+assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export#:#Export
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
