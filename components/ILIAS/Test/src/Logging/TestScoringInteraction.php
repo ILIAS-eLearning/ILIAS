@@ -31,7 +31,7 @@ class TestScoringInteraction implements TestUserInteraction
         private readonly int $question_id,
         private readonly \ilObjUser $administrator,
         private readonly \ilObjUser $participant,
-        private readonly TestScoringInteractionTypes $interaction_types,
+        private readonly TestScoringInteractionTypes $interaction_type,
         private readonly int $modification_timestamp,
         private readonly array $additional_data
     ) {
@@ -60,7 +60,7 @@ class TestScoringInteraction implements TestUserInteraction
 
     public function getInteractionType(): TestScoringInteractionTypes
     {
-        return $this->interaction_types;
+        return $this->interaction_type;
     }
 
     public function getModificationTimestamp(): int

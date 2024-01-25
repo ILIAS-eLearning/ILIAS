@@ -1127,6 +1127,22 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function toLog(): array
     {
-        return [];
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'error_text' => lRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        $result['correct_answers'] = $this->getErrorData();
+        $result['answers'] = $this->getErrorText();
+
+        return $result;
     }
 }

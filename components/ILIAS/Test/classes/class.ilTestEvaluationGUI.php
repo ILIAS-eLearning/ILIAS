@@ -1921,7 +1921,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->getId()
         );
 
-        $this->finishTestPass($active_id, $this->object->getId());
+        $this->finishTestPass(
+            $participant_data->getUserIdByActiveId($active_id),
+            $active_id,
+            $this->object->getId()
+        );
 
         $this->redirectBackToParticipantsScreen();
     }

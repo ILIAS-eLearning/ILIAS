@@ -24,7 +24,17 @@ use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 interface Question
 {
     public function validateSolutionSubmit();
+
     public function toLog(): array;
-    public function getLastParticipantInteraction(): ?TestParticipantInteraction;
-    public function getLastQuestionAdministrationInteraction(): ?TestQuestionAdministrationInteraction;
+
+    public function answerToParticipantInteraction(
+        int $test_id,
+        string $source_ip,
+        TestParticipantInteractionTypes $interaction_type
+    ): TestParticipantInteraction;
+
+    public function toQuestionAdministrationInteraction(
+        int $test_id,
+        TestQuestionAdministrationInteractionTypes $interaction_type
+    ): TestQuestionAdministrationInteraction;
 }
