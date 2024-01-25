@@ -911,11 +911,13 @@ const ClozeQuestionGapBuilder = (function () {
         let number = true;
         let select_at_least_on_positive = false;
         entry.values.forEach((values) => {
-          points += parseFloat(values.points);
-          if (parseFloat(values.points) > 0) {
+          let points_value = values.points;
+          points_value = points_value.toString().replace(',', '.');
+          points += parseFloat(points_value);
+          if (parseFloat(points_value) > 0) {
             select_at_least_on_positive = true;
           }
-          if (isNaN(values.points) || values.points === '') {
+          if (isNaN(points_value) || points_value === '') {
             pro.highlightRed($(`#gap_${row}\\[points\\]\\[${counter}\\]`));
             number = false;
           } else {
