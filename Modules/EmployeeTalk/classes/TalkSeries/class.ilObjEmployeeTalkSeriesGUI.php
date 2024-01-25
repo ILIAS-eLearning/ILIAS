@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
@@ -51,10 +51,13 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     protected NotificationHandlerInterface $notif_handler;
     protected ilPropertyFormGUI $form;
     private int $userId = -1;
+    private string $link_to_parent;
 
     public function __construct()
     {
-        $this->container = $GLOBALS["DIC"];
+        global $DIC;
+
+        $this->container = $DIC;
 
         $refId = $this->container
             ->http()
@@ -70,7 +73,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
         $this->type = ilObjEmployeeTalkSeries::TYPE;
 
-        $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
         $wrapper = $this->container->http()->wrapper()->query();
 
         if ($wrapper->has('usr_id')) {
@@ -90,6 +92,19 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
+    }
+
+    public function setLinkToParentGUI(string $link): void
+    {
+        $this->link_to_parent = $link;
+    }
+
+    public function redirectToParentGUI(): void
+    {
+        if (isset($this->link_to_parent)) {
+            $this->ctrl->redirectToURL($this->link_to_parent);
+        }
+        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class));
     }
 
     public function executeCommand(): void
@@ -138,6 +153,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      */
     protected function setTitleAndDescription(): void
     {
+        $this->tabs_gui->clearTargets();
         $this->tpl->resetHeaderBlock();
     }
 
@@ -153,34 +169,9 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         return false;
     }
 
-    public function confirmedDeleteObject(): void
-    {
-        if ($this->post_wrapper->has("mref_id")) {
-            $mref_id = $this->post_wrapper->retrieve(
-                "mref_id",
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
-            ilSession::set('saved_post', $saved_post);
-        }
-
-        $ru = new ilRepositoryTrashGUI($this);
-        $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post"));
-        ilSession::clear("saved_post");
-
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
-    }
-
-    public function cancelDeleteObject(): void
-    {
-        ilSession::clear("saved_post");
-
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
-    }
-
     public function cancelObject(): void
     {
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
+        $this->redirectToParentGUI();
     }
 
     /**
@@ -201,7 +192,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->createRecurringTalks($newObject, $event);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
+        $this->redirectToParentGUI();
     }
 
     public function saveObject(): void
@@ -607,11 +598,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             ilObjTalkTemplate::lookupOfflineStatus(ilObjTalkTemplate::_lookupObjectId($refId)) ?? true
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('etal_create_invalid_template_ref'), true);
-            $this->ctrl->redirectByClass([
-                strtolower(ilDashboardGUI::class),
-                strtolower(ilMyStaffGUI::class),
-                strtolower(ilEmployeeTalkMyStaffListGUI::class)
-            ], ControlFlowCommand::INDEX);
+            $this->redirectToParentGUI();
         }
 
         return $refId;

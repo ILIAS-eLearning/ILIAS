@@ -39,7 +39,7 @@ class ilKSDocumentationGotoLinkTest extends TestCase
     public function testGenerateGotoLink(): void
     {
         $link = $this->goto_link->generateGotoLink('nodeId', 'skinId', 'styleId');
-        $this->assertEquals('_nodeId_skinId_styleId', $link);
+        $this->assertEquals('nodeId/skinId/styleId', $link);
     }
 
     public function testRedirectWithGotoLink(): void
@@ -47,11 +47,12 @@ class ilKSDocumentationGotoLinkTest extends TestCase
         $ctrl_observer = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
             'setParameterByClass',
             'setTargetScript',
-            'redirectByClass'
+            'getLinkTargetByClass'
         ])->getMock();
 
+
         $ctrl_observer->expects($this->once())
-                      ->method('redirectByClass')
+                      ->method('getLinkTargetByClass')
                       ->with([
                           'ilAdministrationGUI',
                           'ilObjStyleSettingsGUI',
@@ -60,6 +61,6 @@ class ilKSDocumentationGotoLinkTest extends TestCase
                       ], 'entries');
 
         $params = ['something', 'something', 'something', 'nodeId', 'skinId', 'styleId'];
-        $this->goto_link->redirectWithGotoLink('ref_id', $params, $ctrl_observer);
+        $this->goto_link->generateRedirectURL($ctrl_observer, 1, $params[3], $params[4], $params[5]);
     }
 }

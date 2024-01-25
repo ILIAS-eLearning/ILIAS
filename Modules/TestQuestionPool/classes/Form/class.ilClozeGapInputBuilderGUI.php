@@ -181,6 +181,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     $points_sum = 0;
                     if (array_key_exists('points', $gapText)) {
                         foreach ($gapText['points'] as $row => $points) {
+                            $points = str_replace(',', '.', $points);
                             if (isset($points) && $points != '' && is_numeric($points)) {
                                 $points_sum += $points;
                                 if ($points > 0) {
@@ -211,7 +212,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                     'lower' => '_numeric_lower',
                                     'upper' => '_numeric_upper',
                                     'points' => '_numeric_points') as $part => $suffix) {
-                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix), false);
+                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix) ?? '', false);
                         $val = str_replace(',', '.', $val);
                         if ($eval->e($val) === false) {
                             $mark_errors[$part] = true;

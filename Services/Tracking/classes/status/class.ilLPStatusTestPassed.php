@@ -110,16 +110,16 @@ class ilLPStatusTestPassed extends ilLPStatus
                 $test_obj = new ilObjTest($a_obj_id, false);
                 $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 
-                if ($test_obj->getPassScoring() == SCORE_LAST_PASS) {
+                if ($test_obj->getPassScoring() === SCORE_LAST_PASS) {
                     $is_finished = false;
-                    if ($rec['last_finished_pass'] != null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
+                    if ($rec['last_finished_pass'] !== null && $rec['sequences'] - 1 === $rec['last_finished_pass']) {
                         $is_finished = true;
                     }
                     $status = $this->determineStatusForScoreLastPassTests(
                         $is_finished,
                         $is_passed
                     );
-                } elseif ($test_obj->getPassScoring() == SCORE_BEST_PASS) {
+                } elseif ($test_obj->getPassScoring() === SCORE_BEST_PASS) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
                     if ($rec['last_finished_pass'] != null) {

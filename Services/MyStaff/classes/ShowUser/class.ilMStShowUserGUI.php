@@ -109,18 +109,7 @@ class ilMStShowUserGUI
                 break;
             case strtolower(ilEmployeeTalkMyStaffUserGUI::class):
                 $this->addTabs(self::TAB_SHOW_TALKS);
-                $gui = new ilEmployeeTalkMyStaffUserGUI(
-                    ilMyStaffAccess::getInstance(),
-                    $DIC->ctrl(),
-                    $DIC->language(),
-                    $DIC->http()->request(),
-                    $DIC->ui()->mainTemplate(),
-                    $DIC->tabs(),
-                    new IliasDBEmployeeTalkRepository($DIC->database()),
-                    $DIC->ui(),
-                    ilObjEmployeeTalkAccess::getInstance(),
-                    $DIC->user()
-                );
+                $gui = new ilEmployeeTalkMyStaffUserGUI();
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
             default:

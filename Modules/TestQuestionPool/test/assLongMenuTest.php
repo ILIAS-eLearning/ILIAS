@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -216,8 +217,8 @@ class assLongmenuTest extends assBaseTestCase
     public function test_setAnswerType_shouldReturnGetAnswerType(): void
     {
         $obj = new assLongMenu();
-        $obj->setAnswerType(0);
-        $this->assertEquals(0, $obj->getAnswerType());
+        $obj->setAnswerType([]);
+        $this->assertEquals([], $obj->getAnswerType());
     }
 
     /* Removed by @kergomard 17 NOV 2022, we should introduce this again
