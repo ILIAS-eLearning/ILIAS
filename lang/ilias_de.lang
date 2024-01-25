@@ -708,6 +708,11 @@ assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export#:#Export
+assessment#:#export_cert_failed_for_users_p#:#Für die folgenden %s Konten konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
+assessment#:#export_cert_failed_for_users_s#:#Für das folgende Konto konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
+assessment#:#export_cert_ignored_for_users_p#:#Für die folgenden %s Konten liegt kein Zertifikats-Dokument im generierten Archiv, da für diese noch kein Zertifikat ausgestellt wurde: %s
+assessment#:#export_cert_ignored_for_users_s#:#Für das folgende Konto liegt kein Zertifikats-Dokument im generierten Archiv, da für dieses noch kein Zertifikat ausgestellt wurde: %s
+assessment#:#export_cert_no_users#:#Ein Zertifikats-Archiv kann nicht generiert werden, da aktuell keine Teilnehmer existierten.
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#extratime#:#Zeitverlängerung
