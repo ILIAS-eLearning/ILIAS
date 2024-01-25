@@ -211,7 +211,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                     'lower' => '_numeric_lower',
                                     'upper' => '_numeric_upper',
                                     'points' => '_numeric_points') as $part => $suffix) {
-                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix), false);
+                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix) ?? '', false);
                         $val = str_replace(',', '.', $val);
                         if ($eval->e($val) === false) {
                             $mark_errors[$part] = true;
