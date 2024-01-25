@@ -1614,7 +1614,7 @@ assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_pass_best_pass#:#Score the Best Pass
+assessment#:#tst_pass_best_pass#:#Score the Best Attempt
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
