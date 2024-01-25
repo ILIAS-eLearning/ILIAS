@@ -26,10 +26,10 @@ class OrderingRow extends Row implements T\OrderingRow
 {
     protected int $position;
 
-    public function withPosition(int $position): self
+    public function withPosition(int $position_index): self
     {
         $clone = clone $this;
-        $clone->position = $position;
+        $clone->position = $position_index;
         return $clone;
     }
 

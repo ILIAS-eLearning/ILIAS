@@ -201,8 +201,6 @@ class Renderer extends AbstractComponentRenderer
     public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-        $component = $this->applyViewControls($component);
-
         $component = $this->registerActions($component);
 
         //TODO: Filter
@@ -228,6 +226,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
+        $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
         if (!$rows->valid()) {
             $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
@@ -247,7 +246,6 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
             }
 
-            $sortation_signal = null;
             $sortation_view_control = array_filter(
                 $view_controls->getInputs(),
                 static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
@@ -318,9 +316,8 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl
     ): void {
         if ($component->hasSingleActions()) {
-            $tpl->setVariable('COL_INDEX_ACTION', (string) count($columns));
+            $tpl->setVariable('COL_INDEX_ACTION', (string) count($component->getColumns()));
             $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
-
         }
 
         if ($component->hasMultiActions()) {
@@ -571,7 +568,7 @@ class Renderer extends AbstractComponentRenderer
                 $cell_content = $default_renderer->render($cell_content);
             }
             $cell_tpl->setVariable('CELL_CONTENT', $cell_content);
-            $cell_tpl->setVariable('CELL_COL_TITLE', $component->getColumns()[$col_id]->getTitle());
+            $cell_tpl->setVariable('CELL_COL_TITLE', $row->getColumns()[$col_id]->getTitle());
             $cell_tpl->parseCurrentBlock();
         }
 

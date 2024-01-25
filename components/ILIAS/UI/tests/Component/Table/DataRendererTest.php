@@ -64,6 +64,14 @@ class DTRenderer extends I\Table\Renderer
     ) {
         return $this->renderTableHeader($default_renderer, $component, $tpl, $sortation_signal);
     }
+    public function p_renderActionsHeader(
+        TestDefaultRenderer $default_renderer,
+        I\Table\Data $component,
+        $tpl
+    ) {
+        return $this->renderActionsHeader($default_renderer, $component, $tpl);
+    }
+
 }
 
 
@@ -423,7 +431,7 @@ EOT;
         $table = $this->getUIFactory()->table()->data('', $columns, $data)
             ->withActions($actions)
             ->withRequest($this->getDummyRequest());
-        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $renderer->p_renderActionsHeader($this->getDefaultRenderer(), $table, $tpl);
         $actual = $this->brutallyTrimHTML($tpl->get());
 
         $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>';
