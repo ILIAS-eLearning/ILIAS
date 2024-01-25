@@ -363,9 +363,9 @@ JS;
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setTextSize($_POST["textsize"]);
-        $this->object->setOrderText($_POST["ordertext"]);
-        $this->object->setPoints((float) str_replace(',', '.', $_POST["points"]));
+        $this->object->setTextSize((float) str_replace(',', '.', $this->request->raw('textsize') ?? '0.0'));
+        $this->object->setOrderText($this->request->raw('ordertext'));
+        $this->object->setPoints((float) str_replace(',', '.', $this->request->raw('points')));
     }
 
     /**
