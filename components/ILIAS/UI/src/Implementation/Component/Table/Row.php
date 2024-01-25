@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 abstract class Row
@@ -90,7 +91,7 @@ abstract class Row
         );
     }
 
-    public function getCellContent(string $col_id): string
+    public function getCellContent(string $col_id): string|Component
     {
         if (!array_key_exists($col_id, $this->record)) {
             return '';

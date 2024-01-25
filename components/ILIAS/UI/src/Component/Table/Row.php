@@ -22,8 +22,9 @@ namespace ILIAS\UI\Component\Table;
 
 use  ILIAS\UI\Component\Table\Column\Column;
 use  ILIAS\UI\Component\Table\Action\Action;
+use  ILIAS\UI\Component\Component;
 
-interface Row extends \ILIAS\UI\Component\Component
+interface Row extends Component
 {
     public function getId(): string;
 
@@ -42,5 +43,5 @@ interface Row extends \ILIAS\UI\Component\Component
      */
     public function getActions(): array;
 
-    public function getCellContent(string $col_id): string;
+    public function getCellContent(string $col_id): string|Component;
 }

@@ -25,7 +25,7 @@ use  ILIAS\UI\Component\Table\Action\Action;
 
 interface OrderingRow extends Row
 {
-    public function withPosition(int $idx): self;
+    public function withPosition(int $position_index): self;
 
     public function getPosition(): int;
 }
