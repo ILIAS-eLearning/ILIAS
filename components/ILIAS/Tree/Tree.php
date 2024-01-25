@@ -32,6 +32,9 @@ class Tree implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilTreeSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

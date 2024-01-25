@@ -32,6 +32,9 @@ class Registration implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilRegistrationAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

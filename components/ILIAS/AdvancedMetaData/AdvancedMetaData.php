@@ -32,6 +32,9 @@ class AdvancedMetaData implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ILIAS\AdvancedMetaData\Setup\Agent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

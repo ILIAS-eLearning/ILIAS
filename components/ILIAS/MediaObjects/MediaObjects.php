@@ -32,6 +32,13 @@ class MediaObjects implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilMediaObjectSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ILIAS\MediaObjects\Setup\DBUpdateAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

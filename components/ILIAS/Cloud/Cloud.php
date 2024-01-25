@@ -32,6 +32,9 @@ class Cloud implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilObjCloudModuleUpdateAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }
