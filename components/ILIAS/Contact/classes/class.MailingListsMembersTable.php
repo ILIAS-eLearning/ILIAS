@@ -159,7 +159,8 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
-        $this->initRecords();
+        $this->initRecords(); 
+
         $records = $this->sortedRecords($order);
 
         return $this->limitRecords($records, $range);
