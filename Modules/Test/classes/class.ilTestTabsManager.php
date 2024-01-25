@@ -439,6 +439,7 @@ class ilTestTabsManager
             case 'evalUserDetail':
             case 'outStatisticsResultsOverview':
             case 'statisticsPassDetails':
+            case 'exportCertificateArchive':
                 $this->getStatisticsSubTabs();
                 break;
         }
@@ -760,7 +761,7 @@ class ilTestTabsManager
             'eval_all_users',
             $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outEvaluation'),
             ['outEvaluation', 'detailedEvaluation', 'exportEvaluation', 'evalUserDetail', 'passDetails',
-                'outStatisticsResultsOverview', 'statisticsPassDetails'],
+                'outStatisticsResultsOverview', 'statisticsPassDetails', 'exportCertificateArchive'],
             ''
         );
 
