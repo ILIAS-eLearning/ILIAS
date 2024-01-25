@@ -176,5 +176,4 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     {
         return array_slice($records, $range->getStart(), $range->getLength());
     }
-
 }
