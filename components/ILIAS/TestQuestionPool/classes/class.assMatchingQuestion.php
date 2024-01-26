@@ -39,7 +39,19 @@ use ILIAS\Refinery\Random\Seed\RandomSeed;
  */
 class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
+    public const MT_TERMS_PICTURES = 0;
+    public const MT_TERMS_DEFINITIONS = 1;
+
+    public const MATCHING_MODE_1_ON_1 = '1:1';
+    public const MATCHING_MODE_N_ON_N = 'n:n';
+
+    public int $thumb_geometry = 100;
     private int $shufflemode = 0;
+    public int $element_height;
+    public int $matching_type;
+    protected string $matchingMode = self::MATCHING_MODE_1_ON_1;
+
+    private RandomGroup $randomGroup;
 
     /**
     * The possible matching pairs of the matching question
@@ -49,47 +61,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @var array
     */
     public $matchingpairs;
-    /**
-    * Type of matching question
-    *
-    * There are two possible types of matching questions: Matching terms and definitions (=1)
-    * and Matching terms and pictures (=0).
-    *
-    * @var integer
-    */
-    public $matching_type;
 
     /**
-    * The terms of the matching question
-    *
-    * @var assAnswerMatchingTerm[]
+    * @var array<assAnswerMatchingTerm>
     */
     protected array $terms = [];
 
-    protected $definitions;
     /**
-    * Maximum thumbnail geometry
-    *
-    * @var integer
+    * @var array<assAnswerMatchingDefinition>
     */
-    public $thumb_geometry = 100;
-
-    /**
-    * Minimum element height
-    *
-    * @var integer
-    */
-    public $element_height;
-
-    public const MT_TERMS_PICTURES = 0;
-    public const MT_TERMS_DEFINITIONS = 1;
-
-    public const MATCHING_MODE_1_ON_1 = '1:1';
-    public const MATCHING_MODE_N_ON_N = 'n:n';
-
-    protected $matchingMode = self::MATCHING_MODE_1_ON_1;
-
-    private RandomGroup $randomGroup;
+    protected array $definitions = [];
 
     /**
      * assMatchingQuestion constructor
@@ -1603,6 +1584,38 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function toLog(): array
     {
-        return [];
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'qpl_qst_inp_matching_mode' => $this->getMatchingMode() === self::MATCHING_MODE_1_ON_1 ? '{{ qpl_qst_inp_matching_mode_one_on_one }}' : '{{ qpl_qst_inp_matching_mode_all_on_all }}',
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        foreach ($this->getTerms() as $term) {
+            $result['terms'][] = $term->getText();
+        }
+
+        foreach ($this->getDefinitions() as $definition) {
+            $result['definitions'][] = $this->formatSAQuestion((string) $definition->getText());
+        }
+
+        // #10353
+        $matching_pairs = [];
+        foreach ($this->getMatchingPairs() as $pair) {
+            $matching_pairs[] = [
+                "term" => $pair->getTerm()->getText(),
+                "defintion" => $this->formatSAQuestion((string) $definition->getText()),
+                "points" => (int) $pair->getPoints()
+            ];
+        }
+
+        $result['matching_pairs'] = array_values($matching_pairs);
+        return $result;
     }
 }

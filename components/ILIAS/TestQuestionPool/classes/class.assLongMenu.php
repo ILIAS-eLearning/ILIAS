@@ -866,8 +866,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
-        $replaced_quesiton_text = $this->getLongMenuTextValue();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
+        $replaced_quesiton_text = $this->getLongMenuTextValue();
         $result['lmtext'] = $this->formatSAQuestion($replaced_quesiton_text);
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
@@ -898,6 +898,19 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     public function toLog(): array
     {
-        return [];
+        return [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'lmtext' => $this->formatSAQuestion($this->getLongMenuTextValue()),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ],
+            'answers' => $this->getAnswers(),
+            'correct_answers' => $this->getCorrectAnswers()
+        ];
     }
 }

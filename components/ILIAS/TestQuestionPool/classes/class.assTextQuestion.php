@@ -37,43 +37,29 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
-    /**
-    * Maximum number of characters of the answertext
-    *
-    * Maximum number of characters of the answertext
-    *
-    * @var integer
-    */
-    public $maxNumOfChars;
+
+    public const SCORING_MODE_KEYWORD_RELATION_NONE = 'non';
+    public const SCORING_MODE_KEYWORD_RELATION_ANY = 'any';
+    public const SCORING_MODE_KEYWORD_RELATION_ALL = 'all';
+    public const SCORING_MODE_KEYWORD_RELATION_ONE = 'one';
+
+    private int $max_num_of_chars = 0;
+    private bool $word_counter_enabled = false;
+    private string $text_rating;
+    private int $matchcondition = 0;
+    private string $keyword_relation = self::SCORING_MODE_KEYWORD_RELATION_NONE;
 
     /**
-     * @var bool
+     *
+     * @var array<string>
      */
-    protected $wordCounterEnabled;
+    public array $keywords;
 
     /**
-    * Keywords of the question
-    *
-    * If every keyword in $keywords is found in the question answer,
-    * the question will be scored automatically with the maximum points
-    *
-    * @var string
-    */
-    public $keywords;
-
-    public $answers;
-
-    /**
-    * The method which should be chosen for text comparisons
-    *
-    * @var string
-    */
-    public $text_rating;
-
-    /* method for automatic string matching */
-    private $matchcondition;
-
-    public $keyword_relation = 'non';
+     *
+     * @var array<string>
+     */
+    public array $answers = [];
 
     /**
      * assTextQuestion constructor
@@ -88,18 +74,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      *
      */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = ""
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->wordCounterEnabled = false;
-        $this->maxNumOfChars = 0;
         $this->points = 1;
-        $this->answers = [];
-        $this->matchcondition = 0;
     }
 
     public function getMatchcondition(): int
@@ -294,76 +276,53 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
+    public function createNewOriginalFromThisDuplicate(
+        int $target_parent_id,
+        string $target_question_title = ""
+    ): int {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
+        $source_question_id = $this->id;
+        $source_parent_id = $this->getObjId();
 
         // duplicate the question in database
         $clone = $this;
         $clone->id = -1;
 
-        $clone->setObjId($targetParentId);
+        $clone->setObjId($target_parent_id);
 
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
+        if ($target_question_title !== '') {
+            $clone->setTitle($target_question_title);
         }
 
         $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-        // duplicate answers
-        #$clone->duplicateAnswers($sourceQuestionId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
+        $clone->copyPageOfQuestion($source_question_id);
+        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
+        $clone->onCopy($source_parent_id, $source_question_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
     }
 
-    /**
-    * Gets the maximum number of characters for the text solution
-    *
-    * @return integer The maximum number of characters for the text solution
-    * @access public
-    * @see $maxNumOfChars
-    */
     public function getMaxNumOfChars(): int
     {
-        return $this->maxNumOfChars;
+        return $this->max_num_of_chars;
     }
 
-    /**
-    * Sets the maximum number of characters for the text solution
-    *
-    * @param integer $maxchars The maximum number of characters for the text solution
-    * @access public
-    * @see $maxNumOfChars
-    */
     public function setMaxNumOfChars(int $maxchars = 0): void
     {
-        $this->maxNumOfChars = $maxchars;
+        $this->max_num_of_chars = $maxchars;
     }
 
-    /**
-     * @return bool
-     */
     public function isWordCounterEnabled(): bool
     {
-        return $this->wordCounterEnabled;
+        return $this->word_counter_enabled;
     }
 
-    /**
-     * @param bool $wordCounterEnabled
-     */
-    public function setWordCounterEnabled($wordCounterEnabled): void
+    public function setWordCounterEnabled(bool $word_counter_enabled): void
     {
-        $this->wordCounterEnabled = $wordCounterEnabled;
+        $this->word_counter_enabled = $word_counter_enabled;
     }
 
     /**
@@ -491,7 +450,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $solution = html_entity_decode($solution);
         // Return min points when keyword relation is NON KEYWORDS
-        if ($this->getKeywordRelation() == 'non') {
+        if ($this->getKeywordRelation() === self::SCORING_MODE_KEYWORD_RELATION_NONE) {
             return $this->getMinimumPoints();
         }
 
@@ -826,6 +785,10 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->answers[] = $answer;
     }
 
+    /**
+     *
+     * @return array<ASS_AnswerMultipleResponseImage>
+     */
     public function getAnswers(): array
     {
         return $this->answers;
@@ -970,12 +933,18 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public static function getScoringModesWithPointsByQuestion(): array
     {
-        return ['non', 'all', 'one'];
+        return [
+            self::SCORING_MODE_KEYWORD_RELATION_NONE,
+            self::SCORING_MODE_KEYWORD_RELATION_ALL,
+            self::SCORING_MODE_KEYWORD_RELATION_ONE
+        ];
     }
 
     public static function getScoringModesWithPointsByKeyword(): array
     {
-        return ['any'];
+        return [
+            self::SCORING_MODE_KEYWORD_RELATION_ANY
+        ];
     }
 
     /**
@@ -1057,6 +1026,43 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function toLog(): array
     {
-        return [];
+
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'points' => $this->getMaximumPoints(),
+            'qst_essay_wordcounter_enabled' => $this->isWordCounterEnabled() ? '{{ enabled }}' : '{{ disabled }}',
+            'maxchars' => $this->getMaxNumOfChars(),
+            'essay_scoring_mode' => '{{ ' . $this->getScoringModeLangVar($this->getKeywordRelation()) . ' }}',
+            'keywords' => array_map(
+                fn(ASS_AnswerMultipleResponseImage $answer) => [
+                    'answer' => $answer->getAnswertext(),
+                    'points' => $answer->getPoints() === 0.0 ? '' : $answer->getPoints()
+                ],
+                $this->getAnswers()
+            ),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+    }
+
+    private function getScoringModeLangVar(string $scoring_mode): string
+    {
+        switch($scoring_mode) {
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_NONE:
+                return 'essay_scoring_mode_without_keywords';
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY:
+                return 'essay_scoring_mode_keyword_relation_any';
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL:
+                return 'essay_scoring_mode_keyword_relation_all';
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE:
+                return 'essay_scoring_mode_keyword_relation_one';
+            default:
+                return '';
+        }
     }
 }

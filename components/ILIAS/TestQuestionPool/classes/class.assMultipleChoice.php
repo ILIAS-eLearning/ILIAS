@@ -58,7 +58,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public int $output_type;
 
     public $isSingleline;
-    public $lastChange;
     public $feedback_setting;
 
     /**
@@ -1383,6 +1382,32 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function toLog(): array
     {
-        return [];
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'ass_mc_sel_lim_setting' => (int) $this->getSelectionLimit(),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        foreach ($this->getAnswers() as $key => $answer_obj) {
+            $result['answers'][] = [
+                "answertext" => $this->formatSAQuestion($answer_obj->getAnswertext()),
+                "points_checked" => (float) $answer_obj->getPointsChecked(),
+                "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
+                "order" => (int) $answer_obj->getOrder(),
+                "image" => (string) $answer_obj->getImage(),
+                "feedback" => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
+                )
+            ];
+        }
+
+        return $result;
     }
 }
