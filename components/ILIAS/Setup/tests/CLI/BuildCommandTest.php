@@ -24,7 +24,7 @@ use ILIAS\Setup;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class BuildArtifactsCommandTest extends TestCase
+class BuildCommandTest extends TestCase
 {
     public function testBasicFunctionality(): void
     {
@@ -40,7 +40,7 @@ class BuildArtifactsCommandTest extends TestCase
         $objective = $this->createMock(Setup\Objective::class);
         $agent
             ->expects($this->once())
-            ->method("getBuildArtifactObjective")
+            ->method("getBuildObjective")
             ->with()
             ->willReturn($objective);
 
@@ -61,7 +61,7 @@ class BuildArtifactsCommandTest extends TestCase
             ->method("isApplicable")
             ->willReturn(true);
 
-        $command = new Setup\CLI\BuildArtifactsCommand($agent_finder);
+        $command = new Setup\CLI\BuildCommand($agent_finder);
         $tester = new CommandTester($command);
         $tester->execute([]);
     }

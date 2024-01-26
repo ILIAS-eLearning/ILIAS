@@ -86,7 +86,7 @@ All vendors for all scopes are collected when you perform a `composer install` o
 Furthermore, the collection of providers in the system can also be done by ILIAS-CLI:
 
 ```
-php ./cli/setup.php build-artifacts
+php ./cli/setup.php build
 ```
 
 How a specific provider must look like is described in the respective README.md files of the scopes.

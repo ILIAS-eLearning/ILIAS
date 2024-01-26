@@ -15,7 +15,7 @@
 	"scripts": {
 		"post-autoload-dump": [
 			"@php cli/build_bootstrap.php components/ILIAS/Setup/resources/dependency_resolution.php setup",
-			"@php cli/setup.php build-artifacts --yes"
+			"@php cli/setup.php build --yes"
 		],
 		"post-install-cmd": [
 			"@php vendor/composer/rmdirs.php"

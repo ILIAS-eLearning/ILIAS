@@ -55,7 +55,7 @@ class Agent implements AgentInterface
         return new ilTreeAdminNodeAddedObjective('dpro', 'DataProtection');
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new NullObjective();
     }

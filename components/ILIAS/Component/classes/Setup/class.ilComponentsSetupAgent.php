@@ -68,7 +68,7 @@ class ilComponentsSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Artifacts for Services/Component",
