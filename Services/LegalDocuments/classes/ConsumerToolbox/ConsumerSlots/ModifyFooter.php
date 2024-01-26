@@ -33,21 +33,17 @@ use Closure;
 
 final class ModifyFooter
 {
-    /** @var Closure(string): ilTemplate */
-    private readonly Closure $create_template;
-
     /**
      * @param Closure(list<Component>|Component): string $render
-     * @param null|Closure(string): ilTemplate $create_template
+     * @param Closure(string): ilTemplate $create_template
      */
     public function __construct(
         private readonly UI $ui,
         private readonly User $user,
         private readonly Provide $legal_documents,
         private readonly Closure $render,
-        ?Closure $create_template = null
+        private readonly Closure $create_template
     ) {
-        $this->create_template = $create_template ?? fn(string $name) => new ilTemplate($name, true, true, 'Services/LegalDocuments');
     }
 
     public function __invoke(Footer $footer): Footer
