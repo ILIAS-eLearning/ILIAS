@@ -36,7 +36,7 @@ class MailSignatureInstallationDescriptionPlaceholder extends AbstractPlaceholde
 
     public function getId(): string
     {
-        return 'ILIAS_DESC';
+        return 'INSTALLATION_DESC';
     }
 
     public function addPlaceholder(array $placeholder): array

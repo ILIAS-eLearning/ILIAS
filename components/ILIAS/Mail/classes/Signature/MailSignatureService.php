@@ -66,7 +66,7 @@ class MailSignatureService
     {
         $placeholders = $placeholder->handle($signature);
 
-        return $this->mustacheFactory->getBasicEngine()->render($signature->getSignature(), $placeholders);
+        return "\n\n\n" . $this->mustacheFactory->getBasicEngine()->render($signature->getSignature(), $placeholders);
     }
 
     public function getPlaceholder(int $user_id = 0): Placeholder

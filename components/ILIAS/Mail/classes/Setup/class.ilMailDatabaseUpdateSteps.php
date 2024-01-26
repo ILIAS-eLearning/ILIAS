@@ -262,7 +262,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         );
         if ($this->db->numRows($res) === 1) {
             $value = $this->db->fetchAssoc($res)['value'] ?? '';
-            $sys_general_signature = preg_replace('/(\s?\*\s?){2,}/', "\n\n--\n", $value);
+            $sys_general_signature = preg_replace('/(\s?\*\s?){2,}/', "\n\n-- \n", $value);
             // replace [] with {{}}
             $sys_general_signature = preg_replace('/\[([A-Z_]+?)\]/', '{{$1}}', $sys_general_signature);
             $sys_general_signature = str_replace(
@@ -281,13 +281,13 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             'keyword' => ['text', 'mail_system_sys_general_signature'],
             'value' => [
                 'text',
-                $sys_general_signature ?? "\n\n--\n{{INSTALLATION_NAME}}\n{{INSTALLATION_DESC}}\n{{ILIAS_URL}}\n"
+                $sys_general_signature ?? "\n\n-- \n{{INSTALLATION_NAME}}\n{{INSTALLATION_DESC}}\n{{ILIAS_URL}}\n"
             ],
         ]);
         $this->db->insert('settings', [
             'module' => ['text', 'common'],
             'keyword' => ['text', 'mail_system_usr_general_signature'],
-            'value' => ['text', "\n\n--\nThis mail was sent by {{USER_FULLNAME}} from {{INSTALLATION_NAME}}\n"],
+            'value' => ['text', "\n\n-- \nThis mail was sent by {{USER_FULLNAME}} from {{INSTALLATION_NAME}}\n"],
         ]);
     }
 }
