@@ -472,6 +472,16 @@ input[type="checkbox"] {
 				margin-left: $il-padding-xxlarge-horizontal;
 			}
 		}
+
+		.btn, input.btn, .tox-tinymce {
+			margin-left: $il-padding-xxlarge-horizontal;
+		}
+
+		.tox-tinymce {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
 	}
 
 	// Consistent vertical alignment of radios and checkboxes
