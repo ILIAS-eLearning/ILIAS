@@ -1433,7 +1433,8 @@ assessment#:#tst_finished#:#Beendet
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
 assessment#:#tst_general_properties#:#Einstellungen des Tests
-assessment#:#tst_header_participant#:#Ihre Antwort:
+assessment#:#tst_header_participant#:#Frage und Ihre Antwort:
+assessment#:#tst_header_participant_no_answer#:#Frage - nicht beantwortet:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
