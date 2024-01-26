@@ -9333,6 +9333,7 @@ exc#:#exc_notification#:#Personal Notification
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
 exc#:#exc_num_teams#:#Number
 exc#:#exc_ongoing#:#Ongoing
+exc#:#exc_optional#:#Optional
 exc#:#exc_order_by_deadline#:#Order by Deadline
 exc#:#exc_overview#:#Overview
 exc#:#exc_participant#:#Participant
