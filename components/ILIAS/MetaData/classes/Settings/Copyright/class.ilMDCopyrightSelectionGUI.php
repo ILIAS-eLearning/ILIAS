@@ -507,7 +507,7 @@ class ilMDCopyrightSelectionGUI
             return;
         }
         if (
-            $data['copyright']['image'][0] === 'link_group' &&
+            $data['copyright']['image'][0] === 'file_group' &&
             $image_file === ($data['copyright']['image'][1]['image_file'][0] ?? '')
         ) {
             return;
