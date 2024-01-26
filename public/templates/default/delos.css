@@ -11761,10 +11761,14 @@ div.ilFrmPostHeader span.small {
 .ilFrmTargetImage img {
   height: 20px !important;
 }
-.ilFrmTargetImage a {
+.ilFrmTargetImage a.il-link.link-bulky  {
   display: inline-block;
+  width: auto;
+  min-height: auto;
+  border: none;
+  background: inherit;
 }
-.ilFrmTargetImage .il-link.link-bulky .bulky-label {
+.ilFrmTargetImage a.il-link.link-bulky .bulky-label {
   display: none;
 }
 
