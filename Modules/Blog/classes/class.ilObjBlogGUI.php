@@ -1804,13 +1804,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->parseCurrentBlock();
             }
-            $this->ctrl->setParameterByClass(self::class, "bmn", null);
+
+            if (!$a_link_template) {
+                $this->ctrl->setParameterByClass(self::class, "bmn", null);
+                $url = $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd);
+            } else {
+                $url = "index.html";
+            }
             $wtpl->setVariable(
                 "STARTING_PAGE",
                 $this->ui->renderer()->render(
                     $this->ui->factory()->link()->standard(
                         $this->lng->txt("blog_starting_page"),
-                        $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd)
+                        $url
                     )
                 )
             );
@@ -3008,7 +3014,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $print_view->sendPrintView();
     }
 
-    protected function forwardExport() : void
+    protected function forwardExport(): void
     {
         $this->ctrl->redirectByClass(ilExportGUI::class);
     }
