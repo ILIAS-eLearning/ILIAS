@@ -110,18 +110,18 @@ class ilSystemStyleMainGUI
             $style_id = $config->getDefaultStyleId();
         }
 
-        $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $style_id);
-        $this->ctrl->setParameterByClass('ilsystemstylescssgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstylescssgui', 'style_id', $style_id);
-        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'style_id', $style_id);
-        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'skin_id', $skin_id);
-        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $style_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleScssGUI::class, 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleScssGUI::class, 'style_id', $style_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleIconsGUI::class, 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleIconsGUI::class, 'style_id', $style_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $style_id);
 
         try {
             switch ($next_class) {
-                case 'ilsystemstyleconfiggui':
+                case strtolower(ilSystemStyleConfigGUI::class):
                     $this->help->setSubScreenId('settings');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'settings');
@@ -145,7 +145,7 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
-                case 'ilsystemstylescssgui':
+                case strtolower(ilSystemStyleScssGUI::class):
                     $this->help->setSubScreenId('scss');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'scss');
@@ -165,7 +165,7 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_scss);
                     break;
-                case 'ilsystemstyleiconsgui':
+                case strtolower(ilSystemStyleIconsGUI::class):
                     $this->help->setSubScreenId('icons');
                     $this->checkPermission('sty_management');
                     $this->setUnderworldTabs($skin_id, 'icons');
@@ -187,7 +187,7 @@ class ilSystemStyleMainGUI
                     );
                     $this->ctrl->forwardCommand($system_styles_icons);
                     break;
-                case 'ilsystemstyledocumentationgui':
+                case strtolower(ilSystemStyleDocumentationGUI::class):
                     $this->help->setSubScreenId('documentation');
                     $read_only = !$this->checkPermission('sty_management', false);
                     $this->setUnderworldTabs($skin_id, 'documentation', $read_only);
@@ -215,7 +215,7 @@ class ilSystemStyleMainGUI
                     );
                     $documentation_gui->show($entries, $node_id);
                     break;
-                case 'ilsystemstyleoverviewgui':
+                case strtolower(ilSystemStyleOverviewGUI::class):
                 default:
                     $this->executeDefaultCommand($skin_factory, $skin_id, $style_id);
                     break;
