@@ -16,6 +16,11 @@ class ilLMPresentationStatus
     protected $lang;
 
     /**
+     * @var string
+     */
+    protected $concrete_lang;
+
+    /**
      * @var int?
      */
     protected $focus_id = null;
@@ -33,7 +38,8 @@ class ilLMPresentationStatus
         string $requested_search_string = "",
         string $offline,
         bool $export_all_languages,
-        string $export_format
+        string $export_format,
+        bool $embed_mode = false
     ) {
         $this->lm = $lm;
         $this->ot = ilObjectTranslation::getInstance($lm->getId());
@@ -46,6 +52,7 @@ class ilLMPresentationStatus
         $this->offline = $offline;
         $this->export_all_languages = $export_all_languages;
         $this->export_format = $export_format;
+        $this->embed_mode = $embed_mode;
         $this->init();
     }
 
@@ -56,6 +63,7 @@ class ilLMPresentationStatus
     {
         // determine language
         $this->lang = "-";
+        $this->concrete_lang = "-";
         if ($this->ot->getContentActivated()) {
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
@@ -63,6 +71,7 @@ class ilLMPresentationStatus
             } else {
                 $this->lang = $this->user->getCurrentLanguage();
             }
+            $this->concrete_lang = $this->lang;
             if ($this->lang == $this->ot->getMasterLanguage()) {
                 $this->lang = "-";
             }
@@ -82,6 +91,15 @@ class ilLMPresentationStatus
     public function getLang() : string
     {
         return $this->lang;
+    }
+
+    /**
+     * Only difference to getLang():
+     * if current language is the master lang the language key will be returned, not "-"
+     */
+    public function getConcreteLang() : string
+    {
+        return $this->concrete_lang;
     }
 
     /**
@@ -114,6 +132,11 @@ class ilLMPresentationStatus
     public function offline() : bool
     {
         return $this->offline;
+    }
+
+    public function getEmbedMode() : bool
+    {
+        return $this->embed_mode;
     }
 
     /**
@@ -178,5 +201,4 @@ class ilLMPresentationStatus
         }
         return false;               // zero or one page -> false
     }
-
 }

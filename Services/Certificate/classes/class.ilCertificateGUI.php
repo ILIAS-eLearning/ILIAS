@@ -176,6 +176,11 @@ class ilCertificateGUI
     /** @var \ILIAS\Filesystem\Filesystem|null */
     private $tmp_file_system;
 
+    /**
+     * @var ilObjCertificateSettings
+     */
+    private $globalCertificateSettings;
+
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
@@ -206,6 +211,8 @@ class ilCertificateGUI
         $this->tree = $DIC['tree'];
         $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
+
+        $this->globalCertificateSettings = new ilObjCertificateSettings();
 
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('cert');
@@ -550,8 +557,7 @@ class ilCertificateGUI
                 }
                 if ($backgroundImagePath === '') {
                     if ($_POST['background_delete'] || $previousCertificateTemplate->getBackgroundImagePath() === '') {
-                        $globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-                        $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
+                        $backgroundImagePath = $this->globalCertificateSettings->getDefaultBackgroundImagePath(true);
                     } else {
                         $backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
                     }

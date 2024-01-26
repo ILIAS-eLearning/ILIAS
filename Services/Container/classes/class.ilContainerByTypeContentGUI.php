@@ -161,7 +161,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                 
                 foreach ($this->items[$type] as $item_data) {
                     $item_ref_id = $item_data["child"];
-
                     if ($this->block_limit > 0 && !$this->getContainerGUI()->isActiveItemOrdering() && $position == $this->block_limit + 1) {
                         if ($position == $this->block_limit + 1) {
                             // render more button
@@ -171,8 +170,9 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                     }
 
                     if (!$this->renderer->hasItem($item_ref_id)) {
-                        $html = $this->renderItem($item_data, $position++);
+                        $html = $this->renderItem($item_data, $position);
                         if ($html != "") {
+                            $position++;
                             $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
                         }
                     }

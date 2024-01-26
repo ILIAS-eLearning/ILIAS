@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\HTTPServices;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class assBaseTestCase
@@ -38,6 +40,14 @@ abstract class assBaseTestCase extends TestCase
     protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+    }
+
+    /**
+     * @return HTTPServices&MockObject|MockObject
+     */
+    protected function getHttpMock()
+    {
+        return $this->getMockBuilder(HTTPServices::class)->disableOriginalConstructor()->getMock();
     }
 
     /**

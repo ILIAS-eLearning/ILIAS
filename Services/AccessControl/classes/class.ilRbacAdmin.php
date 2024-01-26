@@ -31,7 +31,7 @@ class ilRbacAdmin
 
         // set db & error handler
         (isset($ilDB)) ? $this->ilDB = &$ilDB : $this->ilDB = &$ilias->db;
-        
+
         if (!isset($ilErr)) {
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
@@ -39,7 +39,7 @@ class ilRbacAdmin
             $this->ilErr = &$ilErr;
         }
     }
-    
+
     /**
      * Set blocked status
      * @param type $a_role_id
@@ -51,7 +51,7 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         ilLoggerFactory::getLogger('crs')->logStack();
         $query = 'UPDATE rbac_fa set blocked = ' . $ilDB->quote($a_blocked_status, 'integer') . ' ' .
                 'WHERE rol_id = ' . $ilDB->quote($a_role_id, 'integer') . ' ' .
@@ -81,10 +81,10 @@ class ilRbacAdmin
         foreach ($review->assignedRoles($a_usr_id) as $role_id) {
             $this->deassignUser($role_id, $a_usr_id);
         }
-        
+
         $query = "DELETE FROM rbac_ua WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
-        
+
         return true;
     }
 
@@ -102,7 +102,7 @@ class ilRbacAdmin
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
-        if (!isset($a_rol_id) or !isset($a_ref_id)) {
+        if (!isset($a_rol_id) || !isset($a_ref_id)) {
             $message = get_class($this) . "::deleteRole(): Missing parameter! role_id: " . $a_rol_id . " ref_id of role folder: " . $a_ref_id;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
@@ -119,20 +119,20 @@ class ilRbacAdmin
 
         // TODO: check assigned users before deletion
         // This is done in ilObjRole. Should be better moved to this place?
-        
+
         // delete user assignements
         $query = "DELETE FROM rbac_ua " .
              "WHERE rol_id = " . $ilDB->quote($a_rol_id, 'integer');
         $res = $ilDB->manipulate($query);
-        
+
         // delete permission assignments
         $query = "DELETE FROM rbac_pa " .
              "WHERE rol_id = " . $ilDB->quote($a_rol_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
         //delete rbac_templates and rbac_fa
         $this->deleteLocalRole($a_rol_id);
-        
+
         return true;
     }
 
@@ -147,7 +147,7 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!isset($a_obj_id)) {
             $message = get_class($this) . "::deleteTemplate(): No obj_id given!";
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
@@ -176,12 +176,12 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!isset($a_rol_id)) {
             $message = get_class($this) . "::deleteLocalRole(): Missing parameter! role_id: '" . $a_rol_id . "'";
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        
+
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             return true;
@@ -190,7 +190,7 @@ class ilRbacAdmin
         if ($a_ref_id != 0) {
             $clause = 'AND parent = ' . $ilDB->quote($a_ref_id, 'integer') . ' ';
         }
-        
+
         $query = 'DELETE FROM rbac_fa ' .
              'WHERE rol_id = ' . $ilDB->quote($a_rol_id, 'integer') . ' ' .
              $clause;
@@ -202,14 +202,14 @@ class ilRbacAdmin
         $res = $ilDB->manipulate($query);
         return true;
     }
-    
+
     /**
      * Assign user limited
      * @param type $a_role_id
      * @param type $a_usr_id
      * @param type $a_limit
      */
-    public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = array())
+    public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = [])
     {
         global $DIC;
 
@@ -219,7 +219,7 @@ class ilRbacAdmin
         $ilAtomQuery->addTableLock('rbac_ua');
 
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id,$a_limit, $a_limited_roles) {
+            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) {
                 $ret = true;
                 $limit_query = 'SELECT COUNT(*) num FROM rbac_ua ' .
                 'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');
@@ -267,33 +267,33 @@ class ilRbacAdmin
 
         $ilDB = $DIC['ilDB'];
         $rbacreview = $DIC['rbacreview'];
-        
-        if (!isset($a_rol_id) or !isset($a_usr_id)) {
+
+        if (!isset($a_rol_id) || !isset($a_usr_id)) {
             $message = get_class($this) . "::assignUser(): Missing parameter! role_id: " . $a_rol_id . " usr_id: " . $a_usr_id;
             #$this->ilErr->raiseError($message,$this->ilErr->WARNING);
         }
-        
+
         // check if already assigned user id and role_id
         $alreadyAssigned = $rbacreview->isAssigned($a_usr_id, $a_rol_id);
-        
+
         // enhanced: only if we haven't had this role for this user
         if (!$alreadyAssigned) {
             $query = "INSERT INTO rbac_ua (usr_id, rol_id) " .
              "VALUES (" . $ilDB->quote($a_usr_id, 'integer') . "," . $ilDB->quote($a_rol_id, 'integer') . ")";
             $res = $ilDB->manipulate($query);
-        
+
             $rbacreview->setAssignedCacheEntry($a_rol_id, $a_usr_id, true);
         }
-        
+
         include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->assign($a_rol_id, $a_usr_id);
-        
-        
+
+
         $ref_id = $GLOBALS['DIC']['rbacreview']->getObjectReferenceOfRole($a_rol_id);
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
-        
+
         if (!$alreadyAssigned) {
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event assign user');
             $GLOBALS['DIC']['ilAppEventHandler']->raise(
@@ -325,8 +325,8 @@ class ilRbacAdmin
 
         $ilDB = $DIC['ilDB'];
         $rbacreview = $DIC->rbac()->review();
-        
-        if (!isset($a_rol_id) or !isset($a_usr_id)) {
+
+        if (!isset($a_rol_id) || !isset($a_usr_id)) {
             $message = get_class($this) . "::deassignUser(): Missing parameter! role_id: " . $a_rol_id . " usr_id: " . $a_usr_id;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
@@ -372,8 +372,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id)) {
+
+        if (!isset($a_rol_id) || !isset($a_ops) || !isset($a_ref_id)) {
             $this->ilErr->raiseError(get_class($this) . "::grantPermission(): Missing parameter! " .
                             "role_id: " . $a_rol_id . " ref_id: " . $a_ref_id . " operations: ", $this->ilErr->WARNING);
         }
@@ -384,18 +384,12 @@ class ilRbacAdmin
                 $this->ilErr->WARNING
             );
         }
-        
-        /*
-        if (count($a_ops) == 0)
-        {
-            return false;
-        }
-        */
+
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             return true;
         }
-        
+
         // convert all values to integer
         foreach ($a_ops as $key => $operation) {
             $a_ops[$key] = (int) $operation;
@@ -403,7 +397,7 @@ class ilRbacAdmin
 
         // Serialization des ops_id Arrays
         $ops_ids = serialize($a_ops);
-        
+
         $query = 'DELETE FROM rbac_pa ' .
             'WHERE rol_id = %s ' .
             'AND ref_id = %s';
@@ -412,14 +406,14 @@ class ilRbacAdmin
             array('integer','integer'),
             array($a_rol_id,$a_ref_id)
         );
-            
+
         if (!count($a_ops)) {
             return false;
         }
 
-        $query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) " .
+        $query = "INSERT INTO rbac_pa (rol_id, ops_id, ref_id) " .
              "VALUES " .
-             "(" . $ilDB->quote($a_rol_id, 'integer') . "," . $ilDB->quote($ops_ids, 'text') . "," . $ilDB->quote($a_ref_id, 'integer') . ")";
+             "(" . $ilDB->quote($a_rol_id, 'integer') . ", " . $ilDB->quote($ops_ids, 'text') . ", " . $ilDB->quote($a_ref_id, 'integer') . ")";
         $res = $ilDB->manipulate($query);
 
         return true;
@@ -448,7 +442,6 @@ class ilRbacAdmin
             $message = get_class($this) . "::revokePermission(): Missing parameter! ref_id: " . $a_ref_id;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        #$log->write("ilRBACadmin::revokePermission(), 0");
 
         // bypass protected status of roles
         if ($a_keep_protected != true) {
@@ -456,56 +449,53 @@ class ilRbacAdmin
             if ($a_rol_id == SYSTEM_ROLE_ID) {
                 return true;
             }
-    
+
             if ($a_rol_id) {
                 $and1 = " AND rol_id = " . $ilDB->quote($a_rol_id, 'integer') . " ";
             } else {
                 $and1 = "";
             }
-    
+
             $query = "DELETE FROM rbac_pa " .
                  "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer') .
                  $and1;
-            
+
             $res = $ilDB->manipulate($query);
-    
+
             return true;
         }
-        
+
         // consider protected status of roles
-    
+
         // in any case, get all roles in scope first
         $roles_in_scope = $rbacreview->getParentRoleIds($a_ref_id);
 
         if (!$a_rol_id) {
-            #$log->write("ilRBACadmin::revokePermission(), 1");
+            $role_ids = [];
 
-            $role_ids = array();
-            
             foreach ($roles_in_scope as $role) {
                 if ($role['protected'] == true) {
                     continue;
                 }
-                
+
                 $role_ids[] = $role['obj_id'];
             }
-            
+
             // return if no role in array
             if (!$role_ids) {
                 return true;
             }
-            
+
             $query = 'DELETE FROM rbac_pa ' .
                 'WHERE ' . $ilDB->in('rol_id', $role_ids, false, 'integer') . ' ' .
                 'AND ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
             $res = $ilDB->manipulate($query);
         } else {
-            #$log->write("ilRBACadmin::revokePermission(), 2");
             // exclude system role from rbac
             if ($a_rol_id == SYSTEM_ROLE_ID) {
                 return true;
             }
-            
+
             // exclude protected permission settings from revoking
             if ($roles_in_scope[$a_rol_id]['protected'] == true) {
                 return true;
@@ -519,7 +509,7 @@ class ilRbacAdmin
 
         return true;
     }
-    
+
     /**
      * Revoke subtree permissions
      * @param object $a_ref_id
@@ -531,16 +521,16 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'DELETE FROM rbac_pa ' .
                 'WHERE ref_id IN ' .
                 '( ' . $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
                 'AND rol_id = ' . $ilDB->quote($a_role_id, 'integer');
-        
+
         $ilDB->manipulate($query);
         return true;
     }
-    
+
     /**
      * Delete all template permissions of subtree nodes
      * @param object $a_ref_id
@@ -552,19 +542,19 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'DELETE FROM rbac_templates ' .
                 'WHERE parent IN ( ' .
                 $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
                 'AND rol_id = ' . $ilDB->quote($a_rol_id, 'integer');
-        
+
         $ilDB->manipulate($query);
 
         $query = 'DELETE FROM rbac_fa ' .
                 'WHERE parent IN ( ' .
                 $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
                 'AND rol_id = ' . $ilDB->quote($a_rol_id, 'integer');
-        
+
         $ilDB->manipulate($query);
 
         return true;
@@ -582,8 +572,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_ref_ids) or !is_array($a_ref_ids)) {
+
+        if (!isset($a_ref_ids) || !is_array($a_ref_ids)) {
             $message = get_class($this) . "::revokePermissionList(): Missing parameter or parameter is not an array! reference_list: " . var_dump($a_ref_ids);
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
@@ -605,7 +595,7 @@ class ilRbacAdmin
 
         return true;
     }
-    
+
     /**
      * Copies template permissions and permission of one role to another.
      *
@@ -622,12 +612,12 @@ class ilRbacAdmin
 
         $tree = $DIC['tree'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         // Copy template permissions
         $this->copyRoleTemplatePermissions($a_source_id, $a_source_parent, $a_dest_parent, $a_dest_id, $a_consider_protected);
-        
+
         $ops = $rbacreview->getRoleOperationsOnObject($a_source_id, $a_source_parent);
-        
+
         $this->revokePermission($a_dest_parent, $a_dest_id);
         $this->grantPermission($a_dest_id, $ops, $a_dest_parent);
         return true;
@@ -650,14 +640,14 @@ class ilRbacAdmin
         $rbacreview = $DIC['rbacreview'];
         $ilDB = $DIC['ilDB'];
 
-        if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent)) {
+        if (!isset($a_source_id) || !isset($a_source_parent) || !isset($a_dest_id) || !isset($a_dest_parent)) {
             $message = __METHOD__ . ": Missing parameter! source_id: " . $a_source_id .
                        " source_parent_id: " . $a_source_parent .
                        " dest_id : " . $a_dest_id .
                        " dest_parent_id: " . $a_dest_parent;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        
+
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             return true;
@@ -668,7 +658,7 @@ class ilRbacAdmin
              'WHERE rol_id = ' . $ilDB->quote($a_source_id, 'integer') . ' ' .
              'AND parent = ' . $ilDB->quote($a_source_parent, 'integer');
         $res = $ilDB->query($query);
-        $operations = array();
+        $operations = [];
         $rownum = 0;
         while ($row = $ilDB->fetchObject($res)) {
             $operations[$rownum]['type'] = $row->type;
@@ -680,7 +670,7 @@ class ilRbacAdmin
         $query = 'DELETE FROM rbac_templates WHERE rol_id = ' . $ilDB->quote($a_dest_id, 'integer') . ' ' .
             'AND parent = ' . $ilDB->quote($a_dest_parent, 'integer');
         $res = $ilDB->manipulate($query);
-        
+
         foreach ($operations as $row => $op) {
             $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                  'VALUES (' .
@@ -690,7 +680,7 @@ class ilRbacAdmin
                  $ilDB->quote($a_dest_parent, 'integer') . ")";
             $ilDB->manipulate($query);
         }
-        
+
         // copy also protection status if applicable
         if ($a_consider_protected == true) {
             if ($rbacreview->isProtected($a_source_parent, $a_source_id)) {
@@ -719,10 +709,10 @@ class ilRbacAdmin
 
         $rbacreview = $DIC['rbacreview'];
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_source1_id) or !isset($a_source1_parent)
-        or !isset($a_source2_id) or !isset($a_source2_parent)
-                or !isset($a_dest_id) or !isset($a_dest_parent)) {
+
+        if (!isset($a_source1_id) || !isset($a_source1_parent)
+            || !isset($a_source2_id) || !isset($a_source2_parent)
+            || !isset($a_dest_id) || !isset($a_dest_parent)) {
             $message = get_class($this) . "::copyRolePermissionIntersection(): Missing parameter! source1_id: " . $a_source1_id .
                        " source1_parent: " . $a_source1_parent .
                        " source2_id: " . $a_source2_id .
@@ -731,13 +721,13 @@ class ilRbacAdmin
                        " dest_parent_id: " . $a_dest_parent;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        
+
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             ilLoggerFactory::getLogger('ac')->debug('Ignoring system role.');
             return true;
         }
-        
+
         if ($rbacreview->isProtected($a_source2_parent, $a_source2_id)) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Role is protected');
             return true;
@@ -751,11 +741,11 @@ class ilRbacAdmin
                         "AND s2.parent = " . $ilDB->quote($a_source2_parent, 'integer') . " " .
                         "AND s1.type = s2.type " .
                         "AND s1.ops_id = s2.ops_id";
-        
+
         ilLoggerFactory::getLogger('ac')->dump($query);
-        
+
         $res = $ilDB->query($query);
-        $operations = array();
+        $operations = [];
         $rowNum = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $operations[$rowNum]['type'] = $row->type;
@@ -763,7 +753,7 @@ class ilRbacAdmin
 
             $rowNum++;
         }
-        
+
         // Delete template permissions of target
         $query = 'DELETE FROM rbac_templates WHERE rol_id = ' . $ilDB->quote($a_dest_id, 'integer') . ' ' .
             'AND parent = ' . $ilDB->quote($a_dest_parent, 'integer');
@@ -806,10 +796,10 @@ class ilRbacAdmin
         $ilDB = $DIC['ilDB'];
         $rbacreview = $DIC['rbacreview'];
 
-        
+
         $s1_ops = $rbacreview->getAllOperationsOfRole($a_source1_id, $a_source1_parent);
         $s2_ops = $rbacreview->getAlloperationsOfRole($a_source2_id, $a_source2_parent);
-        
+
         $this->deleteRolePermission($a_dest_id, $a_dest_parent);
 
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . print_r($s1_ops, true));
@@ -829,11 +819,11 @@ class ilRbacAdmin
                 $ilDB->manipulate($query);
             }
         }
-        
+
         // and the other direction...
         foreach ($s2_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (!isset($s1_ops[$type]) or !in_array($op, $s1_ops[$type])) {
+                if (!isset($s1_ops[$type]) || !in_array($op, $s1_ops[$type])) {
                     $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                         'VALUES( ' .
                         $ilDB->quote($a_dest_id, 'integer') . ', ' .
@@ -845,10 +835,10 @@ class ilRbacAdmin
                 }
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Subtract role permissions
      * @param type $a_source_id
@@ -862,13 +852,13 @@ class ilRbacAdmin
 
         $rbacreview = $DIC['rbacreview'];
         $ilDB = $DIC['ilDB'];
-        
+
         $s1_ops = $rbacreview->getAllOperationsOfRole($a_source_id, $a_source_parent);
         $d_ops = $rbacreview->getAllOperationsOfRole($a_dest_id, $a_dest_parent);
-        
+
         foreach ($s1_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (isset($d_ops[$type]) and in_array($op, $d_ops[$type])) {
+                if (isset($d_ops[$type]) && in_array($op, $d_ops[$type])) {
                     $query = 'DELETE FROM rbac_templates ' .
                             'WHERE rol_id = ' . $ilDB->quote($a_dest_id, 'integer') . ' ' .
                             'AND type = ' . $ilDB->quote($type, 'text') . ' ' .
@@ -881,7 +871,7 @@ class ilRbacAdmin
         return true;
     }
 
-    
+
     /**
      * Deletes all entries of a template. If an object type is given for third parameter only
      * the entries for that object type are deleted
@@ -897,8 +887,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_rol_id) or !isset($a_ref_id)) {
+
+        if (!isset($a_rol_id) || !isset($a_ref_id)) {
             $message = get_class($this) . "::deleteRolePermission(): Missing parameter! role_id: " . $a_rol_id . " ref_id: " . $a_ref_id;
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
@@ -907,7 +897,7 @@ class ilRbacAdmin
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             return true;
         }
-        
+
         if ($a_type !== false) {
             $and_type = " AND type=" . $ilDB->quote($a_type, 'text') . " ";
         }
@@ -916,12 +906,12 @@ class ilRbacAdmin
              'WHERE rol_id = ' . $ilDB->quote($a_rol_id, 'integer') . ' ' .
              'AND parent = ' . $ilDB->quote($a_ref_id, 'integer') . ' ' .
              $and_type;
-             
+
         $res = $ilDB->manipulate($query);
 
         return true;
     }
-    
+
     /**
      * Inserts template permissions in rbac_templates for an specific object type.
      *  Update of table rbac_templates
@@ -937,8 +927,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_rol_id) or !isset($a_type) or !isset($a_ops) or !isset($a_ref_id)) {
+
+        if (!isset($a_rol_id) || !isset($a_type) || !isset($a_ops) || !isset($a_ref_id)) {
             $message = get_class($this) . "::setRolePermission(): Missing parameter!" .
                        " role_id: " . $a_rol_id .
                        " type: " . $a_type .
@@ -947,21 +937,21 @@ class ilRbacAdmin
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
 
-        if (!is_string($a_type) or empty($a_type)) {
+        if (!is_string($a_type) || empty($a_type)) {
             $message = get_class($this) . "::setRolePermission(): a_type is no string or empty!";
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
 
-        if (!is_array($a_ops) or empty($a_ops)) {
+        if (!is_array($a_ops) || empty($a_ops)) {
             $message = get_class($this) . "::setRolePermission(): a_ops is no array or empty!";
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        
+
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             return true;
         }
-        
+
         foreach ($a_ops as $op) {
             $ilDB->replace(
                 'rbac_templates',
@@ -993,11 +983,9 @@ class ilRbacAdmin
     public function assignRoleToFolder($a_rol_id, $a_parent, $a_assign = "y")
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-        $rbacreview = $DIC['rbacreview'];
-        
-        if (!isset($a_rol_id) or !isset($a_parent)) {
+
+        if (!isset($a_rol_id) || !isset($a_parent)) {
             $message = get_class($this) . "::assignRoleToFolder(): Missing Parameter!" .
                        " role_id: " . $a_rol_id .
                        " parent_id: " . $a_parent .
@@ -1009,7 +997,7 @@ class ilRbacAdmin
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             return true;
         }
-        
+
         // if a wrong value is passed, always set assign to "n"
         if ($a_assign != "y") {
             $a_assign = "n";
@@ -1024,7 +1012,7 @@ class ilRbacAdmin
             ilLoggerFactory::getLogger('ac')->info('Role already assigned to object');
             return false;
         }
-        
+
         $query = sprintf(
             'INSERT INTO rbac_fa (rol_id, parent, assign, protected) ' .
             'VALUES (%s,%s,%s,%s)',
@@ -1051,8 +1039,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_type_id) or !isset($a_ops_id)) {
+
+        if (!isset($a_type_id) || !isset($a_ops_id)) {
             $message = get_class($this) . "::assignOperationToObject(): Missing parameter!" .
                        "type_id: " . $a_type_id .
                        "ops_id: " . $a_ops_id;
@@ -1078,8 +1066,8 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        if (!isset($a_type_id) or !isset($a_ops_id)) {
+
+        if (!isset($a_type_id) || !isset($a_ops_id)) {
             $message = get_class($this) . "::deassignPermissionFromObject(): Missing parameter!" .
                        "type_id: " . $a_type_id .
                        "ops_id: " . $a_ops_id;
@@ -1090,10 +1078,10 @@ class ilRbacAdmin
              "WHERE typ_id = " . $ilDB->quote($a_type_id, 'integer') . " " .
              "AND ops_id = " . $ilDB->quote($a_ops_id, 'integer');
         $res = $ilDB->manipulate($query);
-    
+
         return true;
     }
-    
+
     /**
      * Set protected
      * @global  $ilDB
@@ -1107,7 +1095,7 @@ class ilRbacAdmin
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // ref_id not used yet. protected permission acts 'global' for each role,
         // regardless of any broken inheritance before
         $query = 'UPDATE rbac_fa ' .
@@ -1116,7 +1104,7 @@ class ilRbacAdmin
         $res = $ilDB->manipulate($query);
         return true;
     }
-    
+
     /**
      * Copy local roles
      * This method creates a copy of all local role.
@@ -1134,8 +1122,8 @@ class ilRbacAdmin
         $rbacreview = $DIC['rbacreview'];
         $ilLog = $DIC['ilLog'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        $real_local = array();
+
+        $real_local = [];
         foreach ($rbacreview->getRolesOfRoleFolder($a_source_id, false) as $role_data) {
             $title = $ilObjDataCache->lookupTitle($role_data);
             if (substr($title, 0, 3) == 'il_') {
@@ -1151,20 +1139,20 @@ class ilRbacAdmin
             include_once("./Services/AccessControl/classes/class.ilObjRole.php");
             $orig = new ilObjRole($role);
             $orig->read();
-            
+
             $ilLog->write(__METHOD__ . ': Start copying of role ' . $orig->getTitle());
             $roleObj = new ilObjRole();
             $roleObj->setTitle($orig->getTitle());
             $roleObj->setDescription($orig->getDescription());
             $roleObj->setImportId($orig->getImportId());
             $roleObj->create();
-            
+
             $this->assignRoleToFolder($roleObj->getId(), $a_target_id, "y");
             $this->copyRolePermissions($role, $a_source_id, $a_target_id, $roleObj->getId(), true);
             $ilLog->write(__METHOD__ . ': Added new local role, id ' . $roleObj->getId());
         }
     }
-    
+
     /**
      * Init intersection permissions.
      * @global type $rbacreview
@@ -1180,7 +1168,7 @@ class ilRbacAdmin
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        
+
         if ($rbacreview->isProtected($a_role_parent, $a_role_id)) {
             // Assign object permissions
             $new_ops = $rbacreview->getOperationsOfRole(
@@ -1224,17 +1212,17 @@ class ilRbacAdmin
             ilObject::_lookupType($a_ref_id, true),
             $a_ref_id
         );
-        
+
         // revoke existing permissions
         $this->revokePermission($a_ref_id, $a_role_id);
-        
+
         // set new permissions for object
         $this->grantPermission(
             $a_role_id,
             (array) $new_ops,
             $a_ref_id
         );
-            
+
         return;
     }
 
@@ -1263,7 +1251,7 @@ class ilRbacAdmin
         return;
     }
 
-    
+
     /**
      * Adjust permissions of moved objects
      * - Delete permissions of parent roles that do not exist in new context
@@ -1275,52 +1263,58 @@ class ilRbacAdmin
      * @param int ref_id of old parent
      *
      */
-    public function adjustMovedObjectPermissions($a_ref_id, $a_old_parent)
+    public function adjustMovedObjectPermissions($ref_id, $old_parent)
     {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
-        
-        $new_parent = $tree->getParentId($a_ref_id);
-        $old_context_roles = $rbacreview->getParentRoleIds($a_old_parent, false);
+
+        $new_parent = $tree->getParentId($ref_id);
+        $old_context_roles = $rbacreview->getParentRoleIds($old_parent, false);
         $new_context_roles = $rbacreview->getParentRoleIds($new_parent, false);
-        
-        $for_addition = $for_deletion = array();
+
+        /**
+         * 2023-08-15 sk: We need to switch off the cache here, as otherwise there
+         * seems to be no way to get an adequate reading of the new path.
+         * We switch it back on again at the end of this function.
+         */
+        $tree->useCache(false);
+
+        $for_addition = $for_deletion = [];
         foreach ($new_context_roles as $new_role_id => $new_role) {
             if (!isset($old_context_roles[$new_role_id])) {
-                $for_addition[$new_role_id] = $new_role;
+                $for_addition[] = $new_role_id;
             } elseif ($new_role['parent'] != $old_context_roles[$new_role_id]['parent']) {
                 // handle stopped inheritance
-                $for_deletion[$new_role_id] = $new_role;
-                $for_addition[$new_role_id] = $new_role;
+                $for_deletion[] = $new_role_id;
+                $for_addition[] = $new_role_id;
             }
         }
         foreach ($old_context_roles as $old_role_id => $old_role) {
             if (!isset($new_context_roles[$old_role_id])) {
-                $for_deletion[$old_role_id] = $old_role;
+                $for_deletion[] = $old_role_id;
             }
         }
-        
-        if (!count($for_deletion) and !count($for_addition)) {
-            $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
+
+        if (!count($for_deletion) && !count($for_addition)) {
+            $this->applyMovedObjectDidacticTemplates($ref_id, $old_parent);
             return true;
         }
-        
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+
         $rbac_log_active = ilRbacLog::isActive();
         if ($rbac_log_active) {
             $role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
         }
-        
-        foreach ($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id), true) as $node_data) {
+
+        foreach ($tree->getSubTree($tree->getNodeData($ref_id), true) as $node_data) {
             $node_id = $node_data['child'];
 
             if ($rbac_log_active) {
                 $log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
             }
-            
+
             // If $node_data['type'] is not set, this means there is a tree entry without
             // object_reference and/or object_data entry
             // Continue in this case
@@ -1328,57 +1322,50 @@ class ilRbacAdmin
                 $ilLog->write(__METHOD__ . ': No type give. Choosing next tree entry.');
                 continue;
             }
-            
+
             if (!$node_id) {
                 $ilLog->write(__METHOD__ . ': Missing subtree node_id');
                 continue;
             }
-            
-            foreach ($for_deletion as $role_id => $role_data) {
+
+            foreach ($for_deletion as $role_id) {
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
-                //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
             }
-            foreach ($for_addition as $role_id => $role_data) {
+            foreach ($for_addition as $role_id) {
+                $role_parent_id = $rbacreview->getParentOfRole($role_id, $ref_id);
                 switch ($node_data['type']) {
                     case 'grp':
-                        include_once './Modules/Group/classes/class.ilObjGroup.php';
                         $tpl_id = ilObjGroup::lookupGroupStatusTemplateId($node_data['obj_id']);
                         $this->initIntersectionPermissions(
                             $node_data['child'],
                             $role_id,
-                            $role_data['parent'],
+                            $role_parent_id,
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
                         break;
-                    
+
                     case 'crs':
-                        include_once './Modules/Course/classes/class.ilObjCourse.php';
                         $tpl_id = ilObjCourse::lookupCourseNonMemberTemplatesId();
                         $this->initIntersectionPermissions(
                             $node_data['child'],
                             $role_id,
-                            $role_data['parent'],
+                            $role_parent_id,
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
                         break;
-                            
-                            
+
                     default:
                         $this->grantPermission(
                             $role_id,
-                            $ops = $rbacreview->getOperationsOfRole($role_id, $node_data['type'], $role_data['parent']),
+                            $rbacreview->getOperationsOfRole($role_id, $node_data['type'], $role_parent_id),
                             $node_id
                         );
                         break;
-                        
-                            
+
                 }
-                
-                
-                //var_dump("<pre>",'GRANT',$role_id,$ops,$role_id,$node_data['type'],$role_data['parent'],"</pre>");
             }
 
             if ($rbac_log_active) {
@@ -1388,6 +1375,11 @@ class ilRbacAdmin
             }
         }
 
-        $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
+        /**
+         * We switch the cache back on again. See above.
+         */
+        $tree->useCache();
+
+        $this->applyMovedObjectDidacticTemplates($ref_id, $old_parent);
     }
 } // END class.ilRbacAdmin

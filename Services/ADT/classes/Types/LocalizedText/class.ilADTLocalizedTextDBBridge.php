@@ -51,7 +51,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         if (in_array($language, $active_languages)){
             $this->getADT()->setTranslation(
                 $language,
-                $a_row[$this->getElementId() . '_translation']
+                (string) $a_row[$this->getElementId() . '_translation']
             );
         }
     }

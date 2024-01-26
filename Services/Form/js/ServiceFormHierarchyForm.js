@@ -533,6 +533,7 @@ var cur_target_id;
 var cur_fc;
 ilDragContent.prototype.onDragDrop = function(e, id)
 {
+	console.log("1");
 	target_id = id.substr(9);
 	source_id = this.id.substr(7);
 	//target_id = id;
@@ -543,7 +544,7 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 //		alert("Move " + source_id + " after " + target_id + "." + ilDetermineDragGroup(this) + "." + this.groups.grp_st + ".");
 	}
 
-	
+	console.log("2");
 	// do we need to disambiguate here?
 	var dmenu_id = "diss_menu_" + target_id + "_" + ilDetermineDragGroup(this);
 	var dmenu = document.getElementById(dmenu_id);
@@ -558,8 +559,10 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 		var first_child_drop_area = false;
 	}
 
+	console.log("3");
 	if (dmenu)
 	{
+		console.log("4");
 		if(menuBlocked || mouseUpBlocked) return;
 		menuBlocked = true;
 		setTimeout("nextMenuClick()", 100);
@@ -578,6 +581,7 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 	}
 	else
 	{
+		// {1fc_grp_st: '1', 29_grp_st: '0', 44_grp_st: '0', 36_grp_st: '0', 48_grp_st: '0', …}
 		if (as_subitem[target_id + "_" + ilDetermineDragGroup(this)] == "1")
 		{
 			var as = true;

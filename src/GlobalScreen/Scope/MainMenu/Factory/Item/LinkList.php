@@ -1,4 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -8,8 +28,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use InvalidArgumentException;
+use ReflectionFunction;
+use ReflectionException;
+use Generator;
 
 /**
  * Class LinkList
@@ -33,7 +56,7 @@ class LinkList extends AbstractChildItem implements
     /**
      * @var Link[]
      */
-    protected $links;
+    protected $links = [];
     /**
      * @var bool
      */
@@ -60,20 +83,15 @@ class LinkList extends AbstractChildItem implements
     }
 
     /**
-     * @param array|callable|\Generator $links
-     * @return LinkList
+     * @param array|callable|Generator $links
      */
-    public function withLinks($links) : LinkList
+    public function withLinks($links) : self
     {
         if (is_callable($links)) {
             try {
-                $r = new \ReflectionFunction($links);
-                if ($r->isGenerator()) {
-                    $links = iterator_to_array($links());
-                } else {
-                    $links = $links();
-                }
-            } catch (\ReflectionException $e) {
+                $r = new ReflectionFunction($links);
+                $links = $r->isGenerator() ? iterator_to_array($links()) : $links();
+            } catch (ReflectionException $e) {
                 $links = false;
             }
 
@@ -118,7 +136,7 @@ class LinkList extends AbstractChildItem implements
     {
         return $this->supports_async_loading;
     }
-    
+
     public function isVisible() : bool
     {
         $visible_links = 0;

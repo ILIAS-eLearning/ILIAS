@@ -1,0 +1,47 @@
+name: install-check-release_7-7.3
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+jobs:
+  installation:
+    runs-on: ubuntu-20.04
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.3]
+    env:
+      DB_DATABASE: ilias
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: release_7
+
+      - name: Copy config file to location outside webroot
+        run: |
+          cp CI/install-check/ilias-ci-config.json ../ilias-ci-config.json
+
+      - name: Start MySQL Service and switch to legacy authentication for PHP7.3
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';" -uroot -proot
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --no-dev
+
+      - name: Perform setup
+        run: |
+          php setup/setup.php install -y ../ilias-ci-config.json

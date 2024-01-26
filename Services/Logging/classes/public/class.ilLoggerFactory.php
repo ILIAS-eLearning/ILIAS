@@ -110,20 +110,34 @@ class ilLoggerFactory
             }
         }
     }
-    
+
     /**
      * Check if console handler is available
-     * @return boolean
+     * @return bool
      */
-    protected function isConsoleAvailable()
+    protected function isConsoleAvailable() : bool
     {
-        include_once './Services/Context/classes/class.ilContext.php';
         if (ilContext::getType() != ilContext::CONTEXT_WEB) {
             return false;
         }
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+
+        if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) {
+            // If the client expects HTML, allow console logging
+            return true;
+        }
+
+        if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
+            // If the client expects JSON, don't use console logging: https://mantis.ilias.de/view.php?id=37167
             return false;
         }
+
+        if ((isset($_GET['cmdMode']) && $_GET['cmdMode'] === 'asynch') || (
+            isset($GLOBALS['DIC']['http']) &&
+            strtolower($GLOBALS['DIC']->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
+        )) {
+            return false;
+        }
+
         return true;
     }
     

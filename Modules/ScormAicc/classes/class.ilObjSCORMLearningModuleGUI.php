@@ -92,7 +92,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->initPropertiesForm();
         $this->getPropertiesFormValues();
         $this->tpl->setContent($this->form->getHTML());
-
     }
 
     /**
@@ -341,8 +340,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->form->addItem($cb);
         $this->form->addCommandButton("saveProperties", $this->lng->txt("save"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
-
-
     }
 
 
@@ -353,7 +350,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
-        $values["Fobject_description"] = $this->object->getDescription();
+        $values["Fobject_description"] = $this->object->getLongDescription();
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
@@ -396,14 +393,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-		//title
-		$this->form->setTitle($this->lng->txt("import_sahs"));
-		
-		// SCORM-type
+        //title
+        $this->form->setTitle($this->lng->txt("import_sahs"));
+        
+        // SCORM-type
         $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
         $ne->setValue($this->lng->txt("lm_type_" . ilObjSAHSLearningModule::_lookupSubType($this->object->getID())));
         $this->form->addItem($ne);
-		
+        
         $options = array();
         include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
         if (ilUploadFiles::_getUploadDirectory()) {
@@ -439,8 +436,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         }
         $this->form->addCommandButton("newModuleVersionUpload", $this->lng->txt("upload"));
         $this->form->addCommandButton("cancel", $this->lng->txt("cancel"));
-		$this->form->setFormAction($DIC['ilCtrl']->getFormAction($this, "newModuleVersionUpload"));
-		$DIC['tpl']->setContent($this->form->getHTML());
+        $this->form->setFormAction($DIC['ilCtrl']->getFormAction($this, "newModuleVersionUpload"));
+        $DIC['tpl']->setContent($this->form->getHTML());
     }
 
 
@@ -592,7 +589,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $obj_service = $this->object_service;
         $this->initPropertiesForm();
         if ($this->form->checkInput()) {
-
             $this->object->setTitle($_POST["Fobject_title"]);
             $this->object->setDescription($_POST["Fobject_description"]);
 

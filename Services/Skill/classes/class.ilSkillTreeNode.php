@@ -14,6 +14,11 @@ class ilSkillTreeNode
      */
     protected $db;
 
+    /**
+     * @var ilSkillTree
+     */
+    public $skill_tree;
+
     const STATUS_PUBLISH = 0;
     const STATUS_DRAFT = 1;
     const STATUS_OUTDATED = 2;

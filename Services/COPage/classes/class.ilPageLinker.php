@@ -53,6 +53,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         $this->offline = $offline;
     }
 
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
+    }
+
 
     /**
      * @inheritDoc
@@ -129,8 +134,8 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "GlossaryItem":
-                        if ($targetframe == "None") {
-                            $targetframe = "Glossary";
+                        if ($targetframe == "Glossary") {
+                            $ltarget = "";
                         }
                         $href = "./goto.php?target=git_" . $target_id;
                         break;
@@ -152,7 +157,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "WikiPage":
-                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        $wiki_anc = "";
+                        if ($int_link["Anchor"] != "") {
+                            $wiki_anc = "#".rawurlencode($int_link["Anchor"]);
+                        }
+                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         break;
 
                     case "PortfolioPage":
@@ -206,7 +215,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         }
         $link_info .= "</IntLinkInfos>";
         $link_info .= $this->getLinkTargetsXML();
-
         return $link_info;
     }
 

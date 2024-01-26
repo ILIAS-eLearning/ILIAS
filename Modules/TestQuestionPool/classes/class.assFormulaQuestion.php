@@ -179,7 +179,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
         return true;
     }
-    
+
     /**
      * @param string $questionText
      * @return assFormulaQuestionResult[] $resObjects
@@ -188,16 +188,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     {
         $resObjects = array();
         $matches = null;
-        
+
         if (preg_match_all("/(\\\$r\\d+)/ims", $questionText, $matches)) {
             foreach ($matches[1] as $resultKey) {
                 $resObjects[] = $this->getResult($resultKey);
             }
         }
-        
+
         return $resObjects;
     }
-    
+
     /**
      * @param string $questionText
      * @return assFormulaQuestionVariable[] $varObjects
@@ -206,16 +206,16 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     {
         $varObjects = array();
         $matches = null;
-        
+
         if (preg_match_all("/(\\\$v\\d+)/ims", $questionText, $matches)) {
             foreach ($matches[1] as $variableKey) {
                 $varObjects[] = $this->getVariable($variableKey);
             }
         }
-        
+
         return $varObjects;
     }
-    
+
     /**
      * @param array $userSolution
      * @return bool
@@ -226,15 +226,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             if (!isset($userSolution[$varObj->getVariable()])) {
                 return false;
             }
-            
+
             if (!strlen($userSolution[$varObj->getVariable()])) {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * @return array $initialVariableSolutionValues
      */
@@ -245,14 +245,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
 
         $variableSolutionValues = array();
-        
+
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             $variableSolutionValues[$varObj->getVariable()] = $varObj->getValue();
         }
-        
+
         return $variableSolutionValues;
     }
-    
+
     /**
      * @param array $userdata
      * @param bool $graphicalOutput
@@ -266,9 +266,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if ((count($this->results) == 0) && (count($this->variables) == 0)) {
             return false;
         }
-        
+
         $text = $this->getQuestion();
-        
+
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
                 $varObj->setValue($userdata[$varObj->getVariable()]);
@@ -276,10 +276,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
             $unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
             $val = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
-            
+
             $text = preg_replace("/\\$" . substr($varObj->getVariable(), 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
         }
-        
+
+        $text = $this->purifyAndPrepareTextAreaOutput($text);
+
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
                 $resObj = $this->getResult($result);
@@ -353,7 +355,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 } else {
                     $input = '<input class="ilc_qinput_TextInput" type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
                 }
-                
+
                 $units = "";
                 if (count($this->getResultUnits($resObj)) > 0) {
                     if ($forsolution) {
@@ -462,7 +464,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $resulttext .= $this->lng->txt("rated_value") . " " . (($found['value']) ? $found['value'] : 0) . " " . (($found['value'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points')) . ", ";
                         $resulttext .= $this->lng->txt("rated_unit") . " " . (($found['unit']) ? $found['unit'] : 0) . " " . (($found['unit'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points'));
                     }
-                    
+
                     $resulttext .= ")";
                     $template->setVariable("RESULT_OUTPUT", $resulttext);
 
@@ -535,7 +537,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         // save variables
         $affectedRows = $ilDB->manipulateF(
             "
-		DELETE FROM il_qpl_qst_fq_var 
+		DELETE FROM il_qpl_qst_fq_var
 		WHERE question_fi = %s",
             array("integer"),
             array($this->getId())
@@ -565,7 +567,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             array("integer"),
             array($this->getId())
         );
-        
+
         foreach ($this->results as $result) {
             $next_id = $ilDB->nextId('il_qpl_qst_fq_res');
             if (is_object($result->getUnit())) {
@@ -575,7 +577,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             }
 
             $formula = str_replace(",", ".", $result->getFormula());
-            
+
             $ilDB->insert("il_qpl_qst_fq_res", array(
                 "result_id" => array("integer", $next_id),
                 "question_fi" => array("integer", $this->getId()),
@@ -647,7 +649,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             $this->setObjId($data["obj_fi"]);
             $this->setAuthor($data["author"]);
             $this->setOwner($data["owner"]);
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
@@ -884,7 +886,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
         return $points;
     }
-    
+
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
     {
         $user_solution = $previewSession->getParticipantsSolution();
@@ -893,7 +895,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         foreach ($this->getResults() as $result) {
             $v = isset($user_solution[$result->getResult()]) ? $user_solution[$result->getResult()] : null;
             $u = isset($user_solution[$result->getResult() . '_unit']) ? $user_solution[$result->getResult() . '_unit'] : null;
-            
+
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
@@ -904,22 +906,22 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
 
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-        
+
         return $this->ensureNonNegativePoints($reachedPoints);
     }
-    
+
     protected function isValidSolutionResultValue($submittedValue)
     {
         $submittedValue = str_replace(',', '.', $submittedValue);
-        
+
         if (is_numeric($submittedValue)) {
             return true;
         }
-        
+
         if (preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -941,7 +943,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
 
         $entered_values = false;
-        
+
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
             $solutionSubmit = $this->getSolutionSubmit();
             foreach ($solutionSubmit as $key => $value) {
@@ -1095,10 +1097,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
     {
         $userSolution = $previewSession->getParticipantsSolution();
-        
+
         foreach ($this->getSolutionSubmit() as $key => $val) {
             $matches = null;
-            
+
             if (preg_match("/^result_(\\\$r\\d+)$/", $key, $matches)) {
                 $userSolution[$matches[1]] = $val;
             } elseif (preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches)) {
@@ -1203,15 +1205,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             if (strpos($solutionvalue["value1"], "_unit")) {
                 $unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
                 if (is_object($unit)) {
-                    $worksheet->setCell($startrow + $i, 1, $unit->getUnit());
+                    $worksheet->setCell($startrow + $i, 2, $unit->getUnit());
                 }
             } else {
-                $worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
+                $worksheet->setCell($startrow + $i, 2, $solutionvalue["value2"]);
             }
             if (preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches)) {
                 $var = $this->getVariable($solutionvalue["value1"]);
                 if (is_object($var) && (is_object($var->getUnit()))) {
-                    $worksheet->setCell($startrow + $i, 2, $var->getUnit()->getUnit());
+                    $worksheet->setCell($startrow + $i, 3, $var->getUnit()->getUnit());
                 }
             }
             $i++;
@@ -1255,10 +1257,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             } elseif ($result->getUnit() == null) {
                 $unit_factor = 1;
                 // there is no fix result_unit, any "available unit" is accepted
-                
+
                 $available_units = $result->getAvailableResultUnits(parent::getId());
                 $result_name = $result->getResult();
-                
+
                 if ($available_units[$result_name] != null) {
                     $check_unit = in_array($user_solution[$result_name]['unit'], $available_units[$result_name]);
                 }
@@ -1297,7 +1299,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
         return $user_solution;
     }
-    
+
     public function setId($id = -1)
     {
         parent::setId($id);
@@ -1350,7 +1352,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
         return $solutionSubmit;
     }
-    
+
     public function validateSolutionSubmit()
     {
         foreach ($this->getSolutionSubmit() as $key => $value) {
@@ -1363,7 +1365,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 continue;
             }
         }
-        
+
         return true;
     }
 
@@ -1410,7 +1412,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-        
+
         if ($maxStep !== null) {
             $data = $ilDB->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",

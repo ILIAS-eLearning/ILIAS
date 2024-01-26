@@ -97,6 +97,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /* Removed by @kergomard 17 NOV 2022, we should introduce this again
     public function test_getErrorsFromText_emptyArgShouldPullInternal()
     {
         // Arrange
@@ -104,10 +105,10 @@ class assErrorTextTest extends assBaseTestCase
         $instance = new assErrorText();
 
         $errortext = '
-			Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
-			Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
-			Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
-			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
+            Eine ((Kündigung)) kommt durch zwei gleichlautende Willenserklärungen zustande.
+            Ein Vertrag kommt durch ((drei gleichlaute)) Willenserklärungen zustande.
+            Ein Kaufvertrag an der Kasse im #Supermarkt kommt durch das legen von Ware auf das
+            Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
 
         $expected = array(
             'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
@@ -120,7 +121,7 @@ class assErrorTextTest extends assBaseTestCase
 
         // Assert
         $this->assertEquals($expected, $actual);
-    }
+    } */
 
     public function test_setErrordata_newError()
     {

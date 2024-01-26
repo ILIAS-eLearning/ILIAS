@@ -319,7 +319,12 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         return $this->getParentObject()->getLocalCourseRoles($a_translation);
     }
-    
+
+    public function readMemberData(array $usr_ids, array $columns, bool $skip_names = false)
+    {
+        return $this->getParentGUI()->readMemberData($usr_ids, $columns, $skip_names);
+    }
+
     /**
      * Update lp from status
      */

@@ -215,7 +215,9 @@ class ilPCPlugged extends ilPageContent
                     $node->removeChild($child);
                 }
                 foreach ($properties as $name => $value) {
-                    $child = new DOMElement('PluggedProperty', $value);
+                    $child = new DOMElement('PluggedProperty',
+                        str_replace("&", "&amp;", $value)
+                    );
                     $node->appendChild($child);
                     $child->setAttribute('Name', $name);
                 }

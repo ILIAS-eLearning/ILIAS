@@ -89,21 +89,24 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
     {
         $data = array();
         
-        include_once 'Modules/Session/classes/class.ilEventParticipants.php';
-        
         foreach ($a_members as $user_id) {
             $name = ilObjUser::_lookupName($user_id);
             $data[$user_id] = array(
                 'name' => $name['lastname'] . ', ' . $name['firstname'],
                 'login' => $name['login']
             );
-            
-            foreach ($a_events as $event_obj) {
-                $event_part = new ilEventParticipants($event_obj->getId());
-                $data[$user_id]['event_' . $event_obj->getId()] = $event_part->hasParticipated($user_id);
-            }
         }
-        
+            include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+            foreach ($a_events as $event_obj) {
+                $users_of_event = ilEventParticipants::_getParticipated($event_obj->getID());
+                foreach ($a_members as $user_id) {
+                    if (array_key_exists($user_id, $users_of_event)) {
+                        $data[$user_id]['event_' . $event_obj->getId()] = true;
+                    } else {
+                        $data[$user_id]['event_' . $event_obj->getId()] = false;
+                    }
+                }
+            }
         $this->setData($data);
     }
         

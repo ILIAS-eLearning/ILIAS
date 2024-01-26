@@ -18,7 +18,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     
     const ILC_CSS_CLASS_LIST = 'ilc_qordul_OrderList';
     const ILC_CSS_CLASS_ITEM = 'ilc_qordli_OrderListItem';
-    const ILC_CSS_CLASS_HANDLE = 'ilc_qanswer_Answer';
     
     /**
      * @var string
@@ -96,7 +95,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $this->setHtmlListTag(parent::HTML_LIST_TAG_UL);
         $this->setCssListClass($this->getCssListClass() . ' ' . self::ILC_CSS_CLASS_LIST);
         $this->setCssItemClass($this->getCssItemClass() . ' ' . self::ILC_CSS_CLASS_ITEM);
-        $this->setCssHandleClass($this->getCssHandleClass() . ' ' . self::ILC_CSS_CLASS_HANDLE);
+        $this->setCssHandleClass($this->getCssHandleClass());
     }
     
     /**
@@ -347,16 +346,16 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $tpl = $this->getItemTemplate();
         
         switch ($this->getOrderingType()) {
-            case OQ_TERMS:
-            case OQ_NESTED_TERMS:
+            case assOrderingQuestion::OQ_TERMS:
+            case assOrderingQuestion::OQ_NESTED_TERMS:
             
                 $tpl->setCurrentBlock('item_text');
                 $tpl->setVariable("ITEM_CONTENT", ilUtil::prepareFormOutput($element['content']));
                 $tpl->parseCurrentBlock();
                 break;
                 
-            case OQ_PICTURES:
-            case OQ_NESTED_PICTURES:
+            case assOrderingQuestion::OQ_PICTURES:
+            case assOrderingQuestion::OQ_NESTED_PICTURES:
                 
                 $tpl->setCurrentBlock('item_image');
                 $tpl->setVariable("ITEM_SOURCE", $this->getThumbnailSource($element));

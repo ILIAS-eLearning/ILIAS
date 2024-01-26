@@ -13,7 +13,7 @@
 		<attribute name='InstallationId' type='string' use='required'/>
 		<attribute name='InstallationUrl' type='string' use='required'/>
 		<attribute name='Entity' type='string' use='required'/>
-		<attribute name='TargetRelease' type='string' use='required'/>
+		<attribute name='TargetRelease' type='string'/>
 		<attribute name='SchemaVersion' type='string' use='required'/>
 		</complexType>
 	</element>

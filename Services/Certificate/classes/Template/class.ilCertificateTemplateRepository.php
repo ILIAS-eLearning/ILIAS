@@ -308,8 +308,12 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
     {
         $this->logger->info(sprintf('START - Fetch all active certificate templates for object type: "%s"', $type));
 
-        $sql = 'SELECT * FROM il_cert_template WHERE obj_type = ' . $this->database->quote($type, 'text') . '
-AND currently_active = 1';
+        $sql = '
+            SELECT il_cert_template.* FROM il_cert_template
+            INNER JOIN object_data od ON od.obj_id =  il_cert_template.obj_id
+            WHERE obj_type = ' . $this->database->quote($type, 'text') . '
+            AND currently_active = 1
+        ';
         $query = $this->database->query($sql);
 
         $result = array();
@@ -364,6 +368,56 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         $this->database->manipulate($sql);
 
         $this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
+    }
+
+    public function updateDefaultBackgroundImagePaths(string $oldRelativePath, string $newRelativePath) : void
+    {
+        $this->logger->debug(sprintf(
+            'START - Update all default background image paths from "%s" to "%s"',
+            $oldRelativePath,
+            $newRelativePath
+        ));
+
+        $affectedRows = $this->database->manipulateF(
+            'UPDATE il_cert_template SET background_image_path = %s WHERE currently_active = 1 AND (background_image_path = %s OR background_image_path = %s )',
+            [
+                'text',
+                'text',
+                'text'
+            ],
+            [
+                $newRelativePath,
+                $oldRelativePath,
+                '/certificates/default/background.jpg']
+        );
+
+        $this->logger->debug(sprintf(
+            'END - Updated %s certificate templates using old path',
+            $affectedRows
+        ));
+    }
+
+    public function isBackgroundImageUsed(string $relativeImagePath) : bool
+    {
+        $this->logger->debug(sprintf(
+            'START - Checking if any certificate template uses background image path "%s"',
+            $relativeImagePath
+        ));
+
+        $result = $this->database->queryF(
+            'SELECT EXISTS(SELECT 1 FROM il_cert_template WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
+            ['text'],
+            [$relativeImagePath]
+        );
+
+        $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
+
+        $this->logger->debug(sprintf(
+            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
+            $relativeImagePath
+        ));
+
+        return $exists;
     }
 
     /**

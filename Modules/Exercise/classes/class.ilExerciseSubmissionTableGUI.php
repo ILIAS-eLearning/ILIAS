@@ -441,11 +441,11 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         "VAL_" . strtoupper($col),
                         $a_row[$col]
                             ? ilDatePresentation::formatDate(
-                            new ilDateTime($a_row[$col], IL_CAL_DATETIME),
-                            false,
-                            false,
-                            $include_seconds
-                        )
+                                new ilDateTime($a_row[$col], IL_CAL_DATETIME),
+                                false,
+                                false,
+                                $include_seconds
+                            )
                             : "&nbsp;"
                     );
                     break;
@@ -493,10 +493,11 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
         }
-
         if (!$has_no_team_yet &&
             $a_ass->hasActiveIDl() &&
-            !$a_ass->hasReadOnlyIDl()) {
+            !$a_ass->hasReadOnlyIDl() &&
+            (!is_null($a_row["calc_deadline"]) || $a_ass->getDeadline())    // calculated or common deadline given
+        ) {
             $idl_id = $a_ass->hasTeam()
                 ? "t" . ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id)
                 : $a_user_id;
@@ -519,21 +520,23 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         }
         
         // feedback files
-        if ($this->exc->hasTutorFeedbackFile()) {
-            $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
-            $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
-            $counter = $counter
-                ? " (" . $counter . ")"
-                : "";
+        if ($a_ass->canParticipantReceiveFeedback($a_user_id)) {
+            if ($this->exc->hasTutorFeedbackFile()) {
+                $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
+                $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
+                $counter = $counter
+                    ? " (" . $counter . ")"
+                    : "";
 
-            $items[] = $this->ui_factory->button()->shy(
-                $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
-                $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
-            );
+                $items[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
+                    $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
+                );
+            }
         }
 
         // comment (modal - see above)
-        if ($this->exc->hasTutorFeedbackText()) {
+        if ($this->exc->hasTutorFeedbackText() && $a_ass->canParticipantReceiveFeedback($a_user_id)) {
             $items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_text"), "#")
                 ->withOnLoadCode(function ($id) use ($comment_id) {
                     return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";

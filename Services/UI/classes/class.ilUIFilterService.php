@@ -108,15 +108,18 @@ class ilUIFilterService
             // values
             $val = $this->session->getValue($filter_id, $input_id);
             if (!is_null($val)) {
-                $i = $i->withValue($val);
+                try {
+                    $i = $i->withValue($val);
+                } catch (InvalidArgumentException $e) {
+                }
             }
             $inputs_with_session_data[$input_id] = $i;
         }
 
         // get the filter
         $filter = $ui->input()->container()->filter()->standard(
-            $this->request->getAction($base_action, self::CMD_TOGGLE_ON),
-            $this->request->getAction($base_action, self::CMD_TOGGLE_OFF),
+            $this->request->getAction($base_action, self::CMD_TOGGLE_ON, true),
+            $this->request->getAction($base_action, self::CMD_TOGGLE_OFF, true),
             $this->request->getAction($base_action, self::CMD_EXPAND),
             $this->request->getAction($base_action, self::CMD_COLLAPSE),
             $this->request->getAction($base_action, self::CMD_APPLY, true),

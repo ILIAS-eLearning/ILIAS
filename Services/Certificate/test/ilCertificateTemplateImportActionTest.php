@@ -19,7 +19,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $filesystem
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('deleteDir');
 
         $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
@@ -101,7 +101,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $filesystem
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('deleteDir');
 
         $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')

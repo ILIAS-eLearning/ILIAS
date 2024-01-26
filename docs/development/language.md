@@ -14,7 +14,8 @@ ILIAS offers multi-language support for the user interface of ILIAS.
     
 2. The `variable_ID` of a language entry MUST be unique within the whole language file. This avoids conflicts in the 
 presentation of language entries because the `language_module_ID` is not taken into consideration when ILIAS inserts 
-language entries into the output.
+language entries into the output. The uniqueness of the spelling must be guaranteed regardless of upper and lower case.
+Having a language entry `common#:#login#:#…` and  `common#:#Login#:#…` would violate the rule.
 
 3. New components MUST use the `object_ID` for the `language_module_ID` as defined in the related module.xml or 
 service.xml. The `language_module_ID` MUST also be used as a prefix for the variable names in this language module, 

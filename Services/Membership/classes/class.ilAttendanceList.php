@@ -524,6 +524,7 @@ class ilAttendanceList
 
         $tpl = $DIC->ui()->mainTemplate();
         $tpl->setContent($this->getHTML());
+        $tpl->addOnLoadCode("il.Util.print();");
         //$tpl->setVariable("CONTENT", $this->getHTML());
         //$tpl->setContent($this->getHTML());
     }
@@ -537,7 +538,7 @@ class ilAttendanceList
     {
         $tpl = new ilTemplate('tpl.attendance_list_print.html', true, true, 'Services/Membership');
 
-        
+
         // title
         
         ilDatePresentation::setUseRelativeDates(false);

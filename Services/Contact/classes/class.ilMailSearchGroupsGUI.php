@@ -64,6 +64,8 @@ class ilMailSearchGroupsGUI
      * @var ilFormatMail
      */
     protected $umail;
+    /** @var ILIAS\Refinery\Factory */
+    protected $rerfinery;
 
     /**
      * @var bool
@@ -83,6 +85,7 @@ class ilMailSearchGroupsGUI
         $this->rbacreview = $DIC['rbacreview'];
         $this->tree = $DIC['tree'];
         $this->cache = $DIC['ilObjDataCache'];
+        $this->refinery = $DIC->refinery();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -96,6 +99,22 @@ class ilMailSearchGroupsGUI
         $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         $this->umail = new ilFormatMail($this->user->getId());
+    }
+
+    private function getContext() : string
+    {
+        $context = 'mail';
+        if (isset($_GET['ref'])) {
+            $always = $context;
+            $context = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->custom()->transformation(static function ($value) use ($always) {
+                    return $always;
+                }),
+            ])->transform($_GET['ref']);
+        }
+
+        return $context;
     }
 
     public function executeCommand()
@@ -173,6 +192,15 @@ class ilMailSearchGroupsGUI
         foreach ($ids as $grp_id) {
             $ref_ids = ilObject::_getAllReferences($grp_id);
             foreach ($ref_ids as $ref_id) {
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    (int) $ref_id,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+                if (!$can_send_mails) {
+                    continue;
+                }
+
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
                     if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
@@ -289,7 +317,7 @@ class ilMailSearchGroupsGUI
         $this->ctrl->setParameter($this, 'view', 'mygroups');
         
         include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $_GET["ref"]);
+        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $this->getContext());
         $table->setId('search_grps_tbl');
         $grp_ids = ilGroupParticipants::_getMembershipByType($this->user->getId(), 'grp');
         
@@ -309,15 +337,21 @@ class ilMailSearchGroupsGUI
                 $showMemberListEnabled = (boolean) $oTmpGrp->getShowMembers();
                 $ref_ids = array_keys(ilObject::_getAllReferences($grp_id));
                 $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_ids[0]);
+                $oTmpGrp->setRefId($ref_ids[0]);
 
-                if ($hasUntrashedReferences && ($showMemberListEnabled || $isPrivilegedUser)) {
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $oTmpGrp,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+
+                if ($hasUntrashedReferences && ($showMemberListEnabled || $can_send_mails || $isPrivilegedUser)) {
                     $oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
                     $grp_members = $oGroupParticipants->getParticipants();
 
                     foreach ($grp_members as $key => $member) {
-                        $tmp_usr = new ilObjUser($member);
-                        
-                        if (!$tmp_usr->getActive()) {
+                        $is_active = ilObjUser::_lookupActive($member);
+                        if (!$is_active) {
                             unset($grp_members[$key]);
                         }
                     }
@@ -348,12 +382,12 @@ class ilMailSearchGroupsGUI
 
                     $this->ctrl->setParameter($this, 'search_grp', $grp_id);
                     $this->ctrl->setParameter($this, 'view', 'mygroups');
-                    
-                    if ($_GET["ref"] == "mail") {
-                        if ($this->mailing_allowed) {
+
+                    if ($this->getContext() === 'mail') {
+                        if ($this->mailing_allowed && $can_send_mails) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($_GET["ref"] == "wsp") {
+                    } elseif ($this->getContext() === 'wsp') {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
@@ -366,7 +400,8 @@ class ilMailSearchGroupsGUI
                         'CRS_NO_MEMBERS' => count($grp_members),
                         'CRS_PATH' => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
-                        "hidden_members" => $hiddenMembers
+                        "hidden_members" => $hiddenMembers,
+                        "can_send_mails" => $can_send_mails,
                     );
                     $counter++;
                     $tableData[] = $rowData;

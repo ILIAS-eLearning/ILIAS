@@ -104,6 +104,10 @@ class ilMediaPoolExporter extends ilXmlExporter
                 "component" => "Services/Object",
                 "entity" => "transl",
                 "ids" => $a_ids);
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "transl_entry",
+                "ids" => $a_ids);
         }
 
         $deps[] = array(

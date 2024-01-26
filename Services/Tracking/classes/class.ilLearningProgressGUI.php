@@ -275,7 +275,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
         $class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_MANUAL);
         $lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
-                
+
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         $grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
         $grp->setInfo($subitem_info);
         $form->addItem($grp);
@@ -301,12 +303,14 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $completed[] = $item_id;
                 }
             }
-            
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $icon = ilUtil::img($path, $text);
-            
-            $opt = new ilCheckboxOption($icon . " " . $possible_items[$item_id]["title"], $item_id);
+
+            $icon = $icons->renderIconForStatus($status);
+
+            $opt = new ilCheckboxOption(
+                $icon . " " . $possible_items[$item_id]["title"],
+                $item_id
+            );
+
             if ($info) {
                 $opt->setInfo($info);
             }
@@ -376,7 +380,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
         $class = ilLPStatusFactory::_getClassById($this->getObjId(), ilLPObjSettings::LP_MODE_COLLECTION_TLT);
         $info = $class::_getStatusInfo($this->getObjId(), true);
-        
+
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         foreach ($coll_items as $item_id) {
             // #16599 - deleted items should not be displayed
             if (!array_key_exists($item_id, $possible_items)) {
@@ -394,10 +400,9 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 in_array($ilUser->getId(), $info["in_progress"][$item_id])) {
                 $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $field->setHtml(ilUtil::img($path, $text));
-            
+
+            $field->setHtml($icons->renderIconForStatus($status));
+
             // stats
             $spent = 0;
             if (isset($info["tlt_users"][$item_id][$ilUser->getId()])) {

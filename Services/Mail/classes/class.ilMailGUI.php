@@ -107,17 +107,19 @@ class ilMailGUI
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'mailAttachment');
         } elseif ('new' === $type) {
-            $to = $this->httpRequest->getQueryParams()['rcp_to'] ?? '';
-            ilSession::set('rcp_to', ilUtil::stripSlashes($to));
-            if (!strlen(ilSession::get('rcp_to')) && ($recipients = ilMailFormCall::getRecipients())) {
-                ilSession::set('rcp_to', implode(',', $recipients));
-                ilMailFormCall::setRecipients([]);
-            }
+            foreach (['to', 'cc', 'bcc'] as $reciepient_type) {
+                $key = 'rcp_' . $reciepient_type;
 
-            $cc = $this->httpRequest->getQueryParams()['rcp_cc'] ?? '';
-            $bcc = $this->httpRequest->getQueryParams()['rcp_bcc'] ?? '';
-            ilSession::set('rcp_cc', ilUtil::stripSlashes($cc));
-            ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
+                $recipients = $this->httpRequest->getQueryParams()[$key] ?? '';
+
+                ilSession::set($key, ilUtil::stripSlashes($recipients));
+
+                if (ilSession::get($key) === '' &&
+                    ($recipients = ilMailFormCall::getRecipients($reciepient_type))) {
+                    ilSession::set($key, implode(',', $recipients));
+                    ilMailFormCall::setRecipients([], $reciepient_type);
+                }
+            }
 
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'mailUser');

@@ -1,6 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -369,5 +384,27 @@ EOT;
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($group));
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testGroupWithoutRequiredField(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs = [
+            $f->text(""),
+            $f->text("")
+        ];
+        $group = $f->group($inputs, '');
+        $this->assertFalse($group->isRequired());
+    }
+
+    public function testGroupWithRequiredField(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs = [
+            $f->text(""),
+            $f->text("")->withRequired(true)
+        ];
+        $group = $f->group($inputs, '');
+        $this->assertTrue($group->isRequired());
     }
 }

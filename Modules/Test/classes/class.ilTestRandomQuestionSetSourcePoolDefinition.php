@@ -288,7 +288,48 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue);
     }
-    
+
+    /**
+     * Get the type filter as a list of type tags
+     * @return string[]
+     */
+    public function getTypeFilterAsTypeTags() : array
+    {
+        $map = [];
+        foreach (ilObjQuestionPool::_getQuestionTypes(true) as $row) {
+            $map[$row['question_type_id']] = $row['type_tag'];
+        }
+
+        $tags = [];
+        foreach ($this->typeFilter as $type_id) {
+            if (isset($map[$type_id])) {
+                $tags[] = $map[$type_id];
+            }
+        }
+
+        return $tags;
+    }
+
+    /**
+     * Set the type filter from a list of type tags
+     * @param string[] $tags
+     */
+    public function setTypeFilterFromTypeTags(array $tags)
+    {
+        $map = [];
+        foreach (ilObjQuestionPool::_getQuestionTypes(true) as $row) {
+            $map[$row['type_tag']] = $row['question_type_id'];
+        }
+
+        $this->typeFilter = [];
+        foreach ($tags as $type_tag) {
+            if (isset($map[$type_tag])) {
+                $this->typeFilter[] = $map[$type_tag];
+            }
+        }
+    }
+
+
     /*
     public function setOriginalFilterTaxId($originalFilterTaxId)
     {
@@ -441,16 +482,10 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                 'pool_title' => array('text', $this->getPoolTitle()),
                 'pool_path' => array('text', $this->getPoolPath()),
                 'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-                // fau: taxFilter/typeFilter - use new db fields
-                #'origin_tax_fi' => array('integer', $this->getOriginalFilterTaxId()),
-                #'origin_node_fi' => array('integer', $this->getOriginalFilterTaxNodeId()),
-                #'mapped_tax_fi' => array('integer', $this->getMappedFilterTaxId()),
-                #'mapped_node_fi' => array('integer', $this->getMappedFilterTaxNodeId()),
                 'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
                 'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
                 'type_filter' => array('text', $this->getTypeFilterForDbValue()),
                 'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
-                // fau.
                 'quest_amount' => array('integer', $this->getQuestionAmount()),
                 'sequence_pos' => array('integer', $this->getSequencePosition())
             ),
@@ -475,16 +510,10 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                 'pool_title' => array('text', $this->getPoolTitle()),
                 'pool_path' => array('text', $this->getPoolPath()),
                 'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
-                // fau: taxFilter/typeFilter - use new db fields
-                #'origin_tax_fi' => array('integer', $this->getOriginalFilterTaxId()),
-                #'origin_node_fi' => array('integer', $this->getOriginalFilterTaxNodeId()),
-                #'mapped_tax_fi' => array('integer', $this->getMappedFilterTaxId()),
-                #'mapped_node_fi' => array('integer', $this->getMappedFilterTaxNodeId()),
                 'origin_tax_filter' => array('text', $this->getOriginalTaxonomyFilterForDbValue()),
                 'mapped_tax_filter' => array('text', $this->getMappedTaxonomyFilterForDbValue()),
                 'type_filter' => array('text', $this->getTypeFilterForDbValue()),
                 'lifecycle_filter' => array('text', $this->getLifecycleFilterForDbValue()),
-                // fau.
                 'quest_amount' => array('integer', $this->getQuestionAmount()),
                 'sequence_pos' => array('integer', $this->getSequencePosition())
         ));

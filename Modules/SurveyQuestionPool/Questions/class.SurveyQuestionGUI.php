@@ -280,12 +280,14 @@ abstract class SurveyQuestionGUI
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
-        $question->setUseRte(true);
-        $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $question->addPlugin("latex");
-        $question->addButton("latex");
-        $question->addButton("pastelatex");
-        $question->setRTESupport($this->object->getId(), "spl", "survey");
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $question->setUseRte(true);
+            $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $question->addPlugin("latex");
+            $question->addButton("latex");
+            $question->addButton("pastelatex");
+            $question->setRTESupport($this->object->getId(), "spl", "survey");
+        }
         $form->addItem($question);
         
         // obligatory

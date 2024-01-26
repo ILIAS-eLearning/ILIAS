@@ -14,4 +14,3 @@ $messages['fr'] = "Vous pouvez maintenant fermer la fenêtre de navigation";
 $message = (array_key_exists($lang, $messages)) ? $messages[$lang] : $messages[$defaultLanguage];
 echo "<pre>{$message}</pre>";
 exit;
-?>

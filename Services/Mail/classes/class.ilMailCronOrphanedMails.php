@@ -202,6 +202,11 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
+    public function ping() : void
+    {
+        ilCronManager::ping($this->getId());
+    }
+
     /**
      * Run job
      * @return ilCronJobResult
@@ -240,10 +245,11 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php';
-        $collector = new ilMailCronOrphanedMailsNotificationCollector();
+        $collector = new ilMailCronOrphanedMailsNotificationCollector($this);
 
         include_once'./Services/Mail/classes/class.ilMailCronOrphanedMailsNotifier.php';
         $notifier = new ilMailCronOrphanedMailsNotifier(
+            $this,
             $collector,
             (int) $this->settings->get('mail_threshold'),
             (int) $this->settings->get('mail_notify_orphaned')
@@ -255,10 +261,10 @@ class ilMailCronOrphanedMails extends ilCronJob
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionCollector.php';
-        $collector = new ilMailCronOrphanedMailsDeletionCollector();
+        $collector = new ilMailCronOrphanedMailsDeletionCollector($this);
 
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionProcessor.php';
-        $processor = new ilMailCronOrphanedMailsDeletionProcessor($collector);
+        $processor = new ilMailCronOrphanedMailsDeletionProcessor($this, $collector);
         $processor->processDeletion();
     }
 }

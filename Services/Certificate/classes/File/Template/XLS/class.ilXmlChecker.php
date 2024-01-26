@@ -102,7 +102,7 @@ class ilXMLChecker extends ilSaxParser
             $this->error_code = xml_get_error_code($a_xml_parser);
             $this->error_line = xml_get_current_line_number($a_xml_parser);
             $this->error_col = xml_get_current_column_number($a_xml_parser);
-            $this->error_msg = xml_error_string($a_xml_parser);
+            $this->error_msg = xml_error_string($this->error_code);
             $this->has_error = true;
             return false;
         }

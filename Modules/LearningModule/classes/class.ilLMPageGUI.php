@@ -21,16 +21,16 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * Constructor
      */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
+    public function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "",
+      $concrete_lang = "")
     {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->log = $DIC["ilLog"];
-        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang, $concrete_lang);
 
         $this->getPageConfig()->setUseStoredQuestionTries(ilObjContentObject::_lookupStoreTries($this->getPageObject()->getParentId()));
     }

@@ -112,27 +112,29 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             $form->addItem($text);
             
             // custom rte tags
-            $text->setUseRte(true);
-            $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
-            
-            // see ilObjForumGUI
-            $text->disableButtons(array(
-                'charmap',
-                'undo',
-                'redo',
-                'alignleft',
-                'aligncenter',
-                'alignright',
-                'alignjustify',
-                'anchor',
-                'fullscreen',
-                'cut',
-                'copy',
-                'paste',
-                'pastetext',
-                'code',
-                // 'formatselect' #13234
-            ));
+            if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+                $text->setUseRte(true);
+                $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
+
+                // see ilObjForumGUI
+                $text->disableButtons(array(
+                    'charmap',
+                    'undo',
+                    'redo',
+                    'alignleft',
+                    'aligncenter',
+                    'alignright',
+                    'alignjustify',
+                    'anchor',
+                    'fullscreen',
+                    'cut',
+                    'copy',
+                    'paste',
+                    'pastetext',
+                    'code',
+                    // 'formatselect' #13234
+                ));
+            }
             
             $form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
             $form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));

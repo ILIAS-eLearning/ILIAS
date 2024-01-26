@@ -554,7 +554,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $storage->deleteCurrentFile();
         $storage->uploadFile($result);
 
-        return $result->getName();
+        return $storage->getFileName();
     }
 
     protected function deleteFile()

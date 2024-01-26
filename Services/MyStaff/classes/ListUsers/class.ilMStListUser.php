@@ -16,13 +16,9 @@ class ilMStListUser
      */
     protected $usr_id;
     /**
-     * @var int
+     * @var string
      */
     protected $gender;
-    /**
-     * @var int
-     */
-    protected $time_limit_owner;
     /**
      * @var int
      */
@@ -86,11 +82,7 @@ class ilMStListUser
     /**
      * @var string
      */
-    protected $phone;
-    /**
-     * @var string
-     */
-    protected $mobile_phone;
+    protected $second_email;
     /**
      * @var ilObjUser
      */
@@ -112,24 +104,6 @@ class ilMStListUser
     public function setUsrId($usr_id)
     {
         $this->usr_id = $usr_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getTimeLimitOwner()
-    {
-        return $this->time_limit_owner;
-    }
-
-
-    /**
-     * @param int $time_limit_owner
-     */
-    public function setTimeLimitOwner($time_limit_owner)
-    {
-        $this->time_limit_owner = $time_limit_owner;
     }
 
 
@@ -226,41 +200,23 @@ class ilMStListUser
     /**
      * @return string
      */
-    public function getPhone()
+    public function getSecondEmail()
     {
-        return $this->phone;
+        return $this->second_email;
     }
 
 
     /**
-     * @param string $phone
+     * @param string $second_email
      */
-    public function setPhone($phone)
+    public function setSecondEmail($second_email)
     {
-        $this->phone = $phone;
+        $this->second_email = $second_email;
     }
 
 
     /**
      * @return string
-     */
-    public function getMobilePhone()
-    {
-        return $this->mobile_phone;
-    }
-
-
-    /**
-     * @param string $mobile_phone
-     */
-    public function setMobilePhone($mobile_phone)
-    {
-        $this->mobile_phone = $mobile_phone;
-    }
-
-
-    /**
-     * @return int
      */
     public function getGender()
     {
@@ -269,7 +225,7 @@ class ilMStListUser
 
 
     /**
-     * @param int $gender
+     * @param string $gender
      */
     public function setGender($gender)
     {

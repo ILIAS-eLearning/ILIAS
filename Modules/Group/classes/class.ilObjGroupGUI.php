@@ -30,6 +30,11 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 class ilObjGroupGUI extends ilContainerGUI
 {
     /**
+     * @var ilNewsService
+     */
+    protected $news;
+
+    /**
     * Constructor
     * @access	public
     */
@@ -46,6 +51,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('obj');
 
         $this->setting = $ilSetting;
+        $this->news = $DIC->news();
     }
 
     public function executeCommand()
@@ -677,17 +683,7 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                    ilObjectServiceSettingsGUI::USE_NEWS,
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                    ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                    ilObjectServiceSettingsGUI::TAG_CLOUD,
-                    ilObjectServiceSettingsGUI::BADGES,
-                    ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                )
+                $this->getSubServices()
             );
 
             // Save sorting
@@ -753,6 +749,25 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->ctrl->redirect($this, 'edit');
             return true;
         }
+    }
+
+    protected function getSubServices() : array
+    {
+        $subs = array(
+            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+            ilObjectServiceSettingsGUI::TAG_CLOUD,
+            ilObjectServiceSettingsGUI::BADGES,
+            ilObjectServiceSettingsGUI::SKILLS,
+            ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+            ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
+        );
+        if ($this->news->isGloballyActivated()) {
+            $subs[] = ilObjectServiceSettingsGUI::USE_NEWS;
+        }
+
+        return $subs;
     }
 
     /**
@@ -914,7 +929,7 @@ class ilObjGroupGUI extends ilContainerGUI
             (
                 ilObjUserTracking::_enabledLearningProgress() and
             ilObjUserTracking::_enabledUserRelatedData()
-        );
+            );
         if ($this->show_tracking) {
             include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->object->getId());
@@ -943,18 +958,17 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->getLinkTarget($this, "members")
             );
         }
-        
+
+        /**
+         * This reads out all fields in usr_data, including usr_id, firstname,
+         * lastname, and login, so should never be necessary here to call
+         * ilObjUser a second time (#31394).
+         */
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         foreach ($ids as $usr_id) {
-            $name = ilObjUser::_lookupName($usr_id);
-            $tmp_data['firstname'] = $name['firstname'];
-            $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
             $tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
             $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
-            $tmp_data['usr_id'] = $usr_id;
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
-            
+
             foreach ((array) $profile_data[$usr_id] as $field => $value) {
                 $tmp_data[$field] = $value;
             }
@@ -1115,7 +1129,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjgroupgui", "ilinfoscreengui"),
                     "showSummary"
-                                 ),
+                ),
                 "infoScreen",
                 "",
                 "",
@@ -1379,7 +1393,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
                         $reg_info['reg_info_free_places']
-                     );
+                    );
                 }
             }
             
@@ -1805,18 +1819,8 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::initServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                        ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                        ilObjectServiceSettingsGUI::USE_NEWS,
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                        ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                        ilObjectServiceSettingsGUI::TAG_CLOUD,
-                        ilObjectServiceSettingsGUI::BADGES,
-                        ilObjectServiceSettingsGUI::SKILLS,
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                        ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                    )
-                );
+                $this->getSubServices()
+            );
 
 
             $mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'), 'show_members');

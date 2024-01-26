@@ -216,7 +216,8 @@ class ilBibliographicDataSet extends ilDataSet
             . $this->import_bib_object->getFilename();
         $new_id = $this->import_bib_object->getId();
         $new_path = ilUtil::getDataDir() . "/bibl/" . $new_id;
-        mkdir($new_path);
+        mkdir($new_path, 0775, true);
         copy($import_path, $new_path . "/" . $this->import_bib_object->getFilename());
+        $this->import_bib_object->parseFileToDatabase();
     }
 }

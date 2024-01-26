@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `achieve` [a name objective](#achieve-method) of an agent 
+* `achieve` [a named objective](#achieve-a-named-objective) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
@@ -34,6 +34,9 @@ the path to the `setup.php` when the command is called from somewhere else.
 You most probably want to execute the setup with the user that also executes your
 webserver to avoid problems with filesystem permissions. The installation creates
 directories and files that the webserver will need to read and sometimes even modify.
+If you need to run setup as another user, please make sure that the user that executes
+the webserver has the necessary filesystem permissions (e.g. by using chown), to 
+avoid some errors which may be difficult to troubleshoot.
 
 The setup will ask you to confirm some assumptions during the setup process, where
 you will have to type `yes` (or `no`, of course). These checks can be overwritten
@@ -247,16 +250,16 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "components" : "all",
         "memcached_nodes" : [
             {
-                "active" : "1",
+                "active" : true,
                 "host" : "example1.com",
-                "port" : "4711",
-                "weight" : "10"
+                "port" : 4711,
+                "weight" : 10
             },
             {
-                "active" : "0",
+                "active" : false,
                 "host" : "example2.com",
-                "port" : "4712",
-                "weight" : "20"
+                "port" : 4712,
+                "weight" : 90
             }
         ]
     },
@@ -323,13 +326,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
 	},
     ```
   * *path_to_latex_cgi* (type: string) url of a mimetex installation (deprecated). Please configure MathJax in the ILIAS Administration.
-* *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
-    ```
-	"pdfgeneration" : {
-		"path_to_phantom_js" : "/usr/bin/phantomjs"
-	},
-    ```
-  * *path_to_phantom_js* (type: string) executable
 * *preview* (type: object) contains settings for Services/Preview
     ```
 	"preview" : {

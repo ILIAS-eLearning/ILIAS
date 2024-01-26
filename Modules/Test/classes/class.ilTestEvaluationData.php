@@ -123,7 +123,8 @@ class ilTestEvaluationData
 							usr_data.title,
 							usr_data.login,
 							tst_pass_result.*,
-							tst_active.submitted
+							tst_active.submitted,
+							tst_active.last_finished_pass
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -183,6 +184,8 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
                 
                 $this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
+
+                $this->getParticipant($row["active_fi"])->setLastFinishedPass($row['last_finished_pass']);
             }
             
             if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"]))) {

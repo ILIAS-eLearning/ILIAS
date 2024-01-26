@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\DI\HTTPServices;
 
 include_once('./Services/Object/classes/class.ilObjectGUI.php');
 include_once('./Modules/Session/classes/class.ilObjSession.php');
@@ -23,7 +40,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
      * @var ilLogger
      */
     protected $logger = null;
-
+    /**
+     * @var HTTPServices
+     */
+    protected $http;
 
     public $lng;
     public $ctrl;
@@ -60,8 +80,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
-        
-        $this->logger = $GLOBALS['DIC']->logger()->sess();
+
+        $this->http = $DIC->http();
+        $this->logger = $DIC->logger()->sess();
+        $this->ui = $DIC->ui();
     }
     
     
@@ -266,6 +288,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->getCurrentObject()->getRegistrationMaxUsers() and
             (count($event_part->getRegistered()) >= $this->getCurrentObject()->getRegistrationMaxUsers())
         ) {
+            if (!$this->getCurrentObject()->isRegistrationWaitingListEnabled()) {
+                ilUtil::sendInfo($this->lng->txt('sess_reg_max_users_exceeded'), true);
+                $this->ctrl->redirect($this, 'infoScreen');
+            }
             include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
             $wait = new ilSessionWaitingList($this->getCurrentObject()->getId());
             $wait->addToList($ilUser->getId());
@@ -547,31 +573,30 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         include_once './Modules/Session/classes/class.ilEventParticipants.php';
 
-        $btn_attend = ilLinkButton::getInstance();
-        $btn_attend->addCSSClass("btn-primary");
         $this->ctrl->setParameter($this, "ref_id", $this->getCurrentObject()->getRefId());
 
         $btn_excused = null;
         if ($this->object->isCannotParticipateOptionEnabled()) {
-            $btn_excused = \ilLinkButton::getInstance();
-            $btn_excused->setCaption($this->lng->txt('sess_bt_refuse'), false);
-            $btn_excused->setUrl($this->ctrl->getLinkTarget($this, 'refuseParticipation'));
+            $btn_excused = $this->ui->factory()->button()->standard(
+                $this->lng->txt('sess_bt_refuse'),
+                $this->ctrl->getLinkTarget($this, 'refuseParticipation')
+            );
         }
 
 
         if (ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         } elseif ($part->isSubscriber($ilUser->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         } elseif (ilSessionWaitingList::_isOnList($ilUser->getId(), $this->getCurrentObject()->getId())) {
             if (!is_null($btn_excused)) {
-                $ilToolbar->addButtonInstance($btn_excused);
+                $ilToolbar->addComponent($btn_excused);
             }
             return true;
         }
@@ -585,11 +610,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         ) {
             if ($this->getCurrentObject()->isRegistrationWaitingListEnabled()) {
                 ilUtil::sendInfo($this->lng->txt('sess_reg_max_users_exceeded_wl'));
-                $btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
-                $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
-                $ilToolbar->addButtonInstance($btn_attend);
+                $btn_attend = $this->ui->factory()->button()->primary(
+                    $this->lng->txt("mem_add_to_wl"),
+                    $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register")
+                );
+                $ilToolbar->addComponent($btn_attend);
                 if (!$event_part->isExcused($ilUser->getId()) && !is_null($btn_excused)) {
-                    $ilToolbar->addButtonInstance($btn_excused);
+                    $ilToolbar->addComponent($btn_excused);
                 }
                 return true;
             } else {
@@ -599,11 +626,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         } else {
             if (!isset($_SESSION['sess_hide_info'])) {
                 ilUtil::sendInfo($this->lng->txt('sess_join_info'));
-                $btn_attend->setCaption($this->lng->txt("join_session"), false);
-                $btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
-                $ilToolbar->addButtonInstance($btn_attend);
+                $btn_attend = $this->ui->factory()->button()->primary(
+                    $this->lng->txt("join_session"),
+                    $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register")
+                );
+                $ilToolbar->addComponent($btn_attend);
                 if (!$event_part->isExcused($ilUser->getId()) && !is_null($btn_excused)) {
-                    $ilToolbar->addButtonInstance($btn_excused);
+                    $ilToolbar->addComponent($btn_excused);
                 }
                 return true;
             }
@@ -1043,17 +1072,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     
     /**
      * update object
-     *
-     * @access protected
-     * @param
-     * @return
      */
-    public function updateObject()
+    public function updateObject() : bool
     {
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
-        
+
         $old_autofill = $this->object->hasWaitingListAutoFill();
                 
         $form = $this->initForm('edit');
@@ -1063,6 +1088,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $form->setValuesByPost();
             $this->editObject();
             return false;
+        }
+
+        //Mantis 21972: Choose didactic template on settings screen
+        $old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+        $modified = false;
+        $new_type_info = $form->getInput('didactic_type');
+        if ($new_type_info) {
+            $new_type = explode('_', $form->getInput('didactic_type'));
+            $new_type = $new_type[1];
+
+            $modified = ($new_type != $old_type);
+            $this->logger->info('Switched group type from ' . $old_type . ' to ' . $new_type);
         }
 
         if (
@@ -1105,14 +1143,53 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->object->hasWaitingListAutoFill()) {
             $this->object->handleAutoFill();
         }
-        
-        ilUtil::sendSuccess($this->lng->txt('event_updated'), true);
-        $this->ctrl->redirect($this, 'edit');
-        #$this->object->initFiles();
-        #$this->editObject();
-        return true;
+
+        //Mantis 21972: Choose didactic template on settings screen
+        if ($modified) {
+            if ($new_type == 0) {
+                $new_type_txt = $this->lng->txt('il_sess_status_open');
+            } else {
+                $dtpl = new ilDidacticTemplateSetting($new_type);
+                $new_type_txt = $dtpl->getPresentationTitle($this->lng->getLangKey());
+            }
+            $this->tabs_gui->activateTab('settings');
+
+            ilUtil::sendQuestion($this->lng->txt('sess_warn_sess_type_changed'));
+            $confirm = new ilConfirmationGUI();
+            $confirm->setFormAction($this->ctrl->getFormAction($this));
+            $confirm->addItem(
+                'sess_type',
+                $new_type,
+                $this->lng->txt('sess_info_new_sess_type') . ': ' . $new_type_txt
+            );
+            $confirm->addButton($this->lng->txt('sess_change_type'), 'updateSessionType');
+            $confirm->setCancel($this->lng->txt('cancel'), 'edit');
+
+            $this->tpl->setContent($confirm->getHTML());
+            return true;
+        } else {
+            ilUtil::sendSuccess($this->lng->txt('event_updated'), true);
+            $this->ctrl->redirect($this, 'edit');
+            #$this->object->initFiles();
+            #$this->editObject();
+            return true;
+        }
     }
-    
+
+    /**
+     * change session type
+     */
+    public function updateSessionTypeObject() : void
+    {
+        ilDidacticTemplateUtils::switchTemplate(
+            $this->object->getRefId(),
+            $this->http->request()->getParsedBody()['sess_type']
+        );
+
+        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'edit');
+    }
+
     /**
      * confirm delete files
      *
@@ -1572,10 +1649,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     /**
      * Init Form
-     *
-     * @access protected
      */
-    protected function initForm($a_mode)
+    protected function initForm(string $a_mode) : ilPropertyFormGUI
     {
         global $DIC;
 
@@ -1598,9 +1673,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setMultipart(true);
 
-        if ($a_mode == 'create') {
-            $this->form = $this->initDidacticTemplate($this->form);
-        }
+        $this->form = $this->initDidacticTemplate($this->form);
         
         $this->lng->loadLanguageModule('dateplaner');
         include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
@@ -1757,7 +1830,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             array(
                     ilObjectServiceSettingsGUI::CUSTOM_METADATA
                 )
-            );
+        );
 
         $gallery = new ilCheckboxInputGUI($this->lng->txt('sess_show_members'), 'show_members');
         $gallery->setChecked($this->object->getShowMembers());

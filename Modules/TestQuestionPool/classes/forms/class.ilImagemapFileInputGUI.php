@@ -300,7 +300,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                 }
                 if (strlen($area->getAnswertext())) {
                     $template->setCurrentBlock('area_name_value');
-                    $template->setVariable('VALUE_NAME', $area->getAnswertext());
+                    $template->setVariable('VALUE_NAME', htmlspecialchars($area->getAnswertext()));
                     $template->parseCurrentBlock();
                 }
                 $template->setCurrentBlock('row');

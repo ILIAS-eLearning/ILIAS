@@ -45,7 +45,7 @@ class DBRepositoryPreloader extends StandardRepositoryPreloader implements Repos
         }
         try {
             $r = $this->db->query(
-                "SELECT * 
+                "SELECT *, il_resource_revision.title AS revision_title
 FROM il_resource_revision
 JOIN il_resource_info ON il_resource_revision.rid = il_resource_info.rid AND il_resource_info.version_number = il_resource_revision.version_number
 JOIN il_resource ON il_resource_revision.rid = il_resource.rid

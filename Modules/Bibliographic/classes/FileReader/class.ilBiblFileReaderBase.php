@@ -1,12 +1,29 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBiblFileReaderBase
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
+    use ilBibliographicSecureString;
 
     /**
      * Number of maximum allowed characters for attributes in order to fit in the database
@@ -38,19 +55,20 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
      */
     protected $attribute_factory;
 
-
     /**
      * ilBiblFileReaderBase constructor.
      *
      * @param ilBiblEntryFactoryInterface $entry_factory
      */
-    public function __construct(ilBiblEntryFactoryInterface $entry_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblAttributeFactoryInterface $attribute_factory)
-    {
+    public function __construct(
+        ilBiblEntryFactoryInterface $entry_factory,
+        ilBiblFieldFactoryInterface $field_factory,
+        ilBiblAttributeFactoryInterface $attribute_factory
+    ) {
         $this->entry_factory = $entry_factory;
         $this->field_factory = $field_factory;
         $this->attribute_factory = $attribute_factory;
     }
-
 
     /**
      * @param $path_to_file
@@ -69,7 +87,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
         return true;
     }
-
 
     /**
      * @param $string
@@ -100,7 +117,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $string;
     }
 
-
     /**
      * @return string
      */
@@ -108,7 +124,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     {
         return $this->file_content;
     }
-
 
     /**
      * @param string $file_content
@@ -118,7 +133,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         $this->file_content = $file_content;
     }
 
-
     /**
      * @return string
      */
@@ -127,7 +141,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $this->path_to_file;
     }
 
-
     /**
      * @param string $path_to_file
      */
@@ -135,7 +148,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     {
         $this->path_to_file = $path_to_file;
     }
-
 
     /**
      * @inheritDoc
@@ -150,8 +162,15 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
             $x = 0;
             $parsed_entry = array();
             foreach ($file_entry as $key => $attribute) {
+                $key = $this->secure($key);
+                if (is_string($attribute)) {
+                    $attribute = $this->secure($attribute);
+                }
                 // if the attribute is an array, make a comma separated string out of it
                 if (is_array($attribute)) {
+                    $attribute = array_map(function (string $a) : string {
+                        return $this->secure($a);
+                    }, $attribute);
                     $attribute = implode(", ", $attribute);
                 }
                 // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
@@ -190,7 +209,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $entry_instances;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -199,7 +217,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $this->entry_factory;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -207,7 +224,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     {
         return $this->field_factory;
     }
-
 
     /**
      * @inheritDoc

@@ -280,15 +280,22 @@ class ilCalendarEntry implements ilDatePeriod
                             $title = $current . '/' . $max;
                         }
                     } else {
-                        /*
-                         * if($entry->hasBooked($this->getEntryId()))
-                         */
-                        include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
+                        $apps = ilConsultationHourAppointments::getAppointmentIds(
+                            $entry->getObjId(),
+                            $this->getContextId(),
+                            $this->getStart()
+                        );
                         $orig_event = $apps[0];
+                        $max = $entry->getNumberOfBookings();
+                        $current = $entry->getCurrentNumberOfBookings($this->getEntryId());
                         if ($entry->hasBooked($orig_event)) {
-                            $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
                             $title = $lng->txt('cal_date_booked');
+                        } elseif ($current >= $max) {
+                            $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: red';
+                            $title = $lng->txt('cal_booked_out');
+                        } else {
+                            $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
+                            $title = $lng->txt('cal_book_free');
                         }
                     }
                 }

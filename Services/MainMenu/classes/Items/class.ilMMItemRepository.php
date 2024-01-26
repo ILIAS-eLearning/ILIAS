@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
@@ -48,7 +66,7 @@ class ilMMItemRepository
         $this->main_collector->collectOnce();
         $this->services = $DIC->globalScreen();
 
-        foreach ($this->main_collector->getRawItems() as $top_item) {
+        foreach ($this->main_collector->getRawUnfilteredItems() as $top_item) {
             ilMMItemStorage::register($top_item);
         }
     }
@@ -219,11 +237,11 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     /**
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
      */
-    public function getPossibleTopItemTypesWithInformation() : array
+    public function getPossibleTopItemTypesWithInformation(bool $new): array
     {
         $types = [];
         foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
-            if ($information->isTop()) {
+            if (!$new || $information->isTop()) {
                 $types[$information->getType()] = $information;
             }
         }

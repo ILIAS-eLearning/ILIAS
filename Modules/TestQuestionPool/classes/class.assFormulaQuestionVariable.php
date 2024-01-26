@@ -48,7 +48,11 @@ class assFormulaQuestionVariable
         
 //		@todo check this
         if ($this->getPrecision() == 0) {
-            if ($this->getIntprecision() > $this->getRangeMax()) {
+            if (!$this->isIntPrecisionValid(
+                $this->getIntprecision(),
+                $this->getRangeMin(),
+                $this->getRangeMax()
+            )) {
                 global $DIC;
                 $lng = $DIC['lng'];
                 ilUtil::sendFailure($lng->txt('err_divider_too_big'));
@@ -89,6 +93,17 @@ class assFormulaQuestionVariable
     public function setRandomValue()
     {
         $this->setValue($this->getRandomValue());
+    }
+    
+    public function isIntPrecisionValid($int_precision, $min_range, $max_range)
+    {
+        $min_abs = abs($min_range);
+        $max_abs = abs($max_range);
+        $bigger_abs = $max_abs > $min_abs ? $max_abs : $min_abs;
+        if ($int_precision > $bigger_abs) {
+            return false;
+        }
+        return true;
     }
 
     /************************************

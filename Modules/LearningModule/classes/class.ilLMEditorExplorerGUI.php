@@ -121,9 +121,9 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         
         switch ($a_node["type"]) {
             case "du":
-//				$ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", $a_node["child"]);
+                $ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", null);
                 $ret = $ilCtrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters");
-//				$ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", $_GET["obj_id"]);
                 return $ret;
                 break;
 

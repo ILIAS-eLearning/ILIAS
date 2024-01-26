@@ -1,13 +1,29 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @defgroup ServicesUtilities Services/Utilities
  */
-
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
+
+/** @noRector */
+require_once './include/Unicode/UtfNormal.php';
 
 /**
 * Util class
@@ -198,15 +214,15 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
-        $vers = "";
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
+        $skin_version_appendix = "";
+        if ($mode !== "filesystem") {
             // use version from template xml to force reload on changes
             $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
-            $vers .= ($skin->getVersion() != '' ? str_replace(".", "-", '-' . $skin->getVersion()) : '');
+            $skin_version = $skin->getVersion();
+            $skin_version_appendix .= ($skin_version !== '' ? str_replace(".", "-", $skin_version) : '0');
+            $skin_version_appendix = "?skin_version=" . $skin_version_appendix;
         }
-        return $filename . $vers;
+        return $filename . $skin_version_appendix;
     }
 
     /**
@@ -240,12 +256,7 @@ class ilUtil
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_js_location . "templates/default/" . $js_name;
         }
-        $vers = "";
-        if ($add_version) {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-        return $filename . $vers;
+        return $filename;
     }
 
     /**
@@ -286,12 +297,6 @@ class ilUtil
 
         $ilSetting = $DIC->settings();
 
-        // add version as parameter to force reload for new releases
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-
         // use ilStyleDefinition instead of account to get the current skin and style
         require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() == "default") {
@@ -303,9 +308,9 @@ class ilUtil
         }
 
         if (is_file("./" . $in_style)) {
-            return $in_style . $vers;
+            return $in_style;
         } else {
-            return "templates/default/delos_cont.css" . $vers;
+            return "templates/default/delos_cont.css";
         }
     }
 
@@ -750,7 +755,6 @@ class ilUtil
     {
         // New code, uses MediaWiki Sanitizer
         $ret = $a_text;
-
         // www-URL ohne ://-Angabe
         $ret = preg_replace(
             "/(^|[\s]+)(www\.)([A-Za-z0-9#&=?.\/\-]+)/i",
@@ -773,6 +777,8 @@ class ilUtil
         $ret = str_replace('src="http://', '"***masked_im_start***', $ret);
 
         include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
+        $global_wgContLang = $GLOBALS["wgContLang"];
+        $GLOBALS["wgContLang"] = new ilMWFakery();
         $parser = new ilMWParserAdapter();
         $ret = $parser->replaceFreeExternalLinks($ret);
 
@@ -800,7 +806,7 @@ class ilUtil
                 $ret
             );
         }
-
+        $GLOBALS["wgContLang"] = $global_wgContLang;
         return($ret);
     }
 
@@ -1585,95 +1591,52 @@ class ilUtil
         //@chmod($a_dir, $a_mod);
     }
 
-
-    /**
-    * unzip file
-    *
-    * @param	string	$a_file		full path/filename
-    * @param	boolean	$overwrite	pass true to overwrite existing files
-    * @static
-    *
-    */
-    public static function unzip($a_file, $overwrite = false, $a_flat = false)
-    {
+    public static function unzip(
+        string $path_to_zip_file,
+        bool $overwrite_existing = false,
+        bool $unpack_flat = false
+    ) {
         global $DIC;
 
         $log = $DIC->logger()->root();
 
-        if (!is_file($a_file)) {
+        if (!is_file($path_to_zip_file)) {
             return;
         }
 
-        // if flat, move file to temp directory first
-        if ($a_flat) {
-            $tmpdir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmpdir);
-            copy($a_file, $tmpdir . DIRECTORY_SEPARATOR . basename($a_file));
-            $orig_file = $a_file;
-            $a_file = $tmpdir . DIRECTORY_SEPARATOR . basename($a_file);
-            $origpathinfo = pathinfo($orig_file);
-        }
+        // we unpack the zip always in a temp directory
+        $temporary_unzip_directory = ilUtil::ilTempnam();
+        ilUtil::makeDir($temporary_unzip_directory);
+        copy($path_to_zip_file, $temporary_unzip_directory . DIRECTORY_SEPARATOR . basename($path_to_zip_file));
+        $original_path_to_zip_file = $path_to_zip_file;
+        $path_to_zip_file = $temporary_unzip_directory . DIRECTORY_SEPARATOR . basename($path_to_zip_file);
+        $original_zip_path_info = pathinfo($original_path_to_zip_file);
+        $unzippable_zip_path_info = pathinfo($path_to_zip_file);
 
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
+        $unzippable_zip_directory = $unzippable_zip_path_info["dirname"];
+        $unzippable_zip_filename = $unzippable_zip_path_info["basename"];
 
         // unzip
-        $cdir = getcwd();
-        chdir($dir);
-        $unzip = PATH_TO_UNZIP;
-
-        // the following workaround has been removed due to bug
-        // http://www.ilias.de/mantis/view.php?id=7578
-        // since the workaround is quite old, it may not be necessary
-        // anymore, alex 9 Oct 2012
-        /*
-                // workaround for unzip problem (unzip of subdirectories fails, so
-                // we create the subdirectories ourselves first)
-                // get list
-                $unzipcmd = "-Z -1 ".ilUtil::escapeShellArg($file);
-                $arr = ilUtil::execQuoted($unzip, $unzipcmd);
-                $zdirs = array();
-
-                foreach($arr as $line)
-                {
-                    if(is_int(strpos($line, "/")))
-                    {
-                        $zdir = substr($line, 0, strrpos($line, "/"));
-                        $nr = substr_count($zdir, "/");
-                        //echo $zdir." ".$nr."<br>";
-                        while ($zdir != "")
-                        {
-                            $nr = substr_count($zdir, "/");
-                            $zdirs[$zdir] = $nr;				// collect directories
-                            //echo $dir." ".$nr."<br>";
-                            $zdir = substr($zdir, 0, strrpos($zdir, "/"));
-                        }
-                    }
-                }
-
-                asort($zdirs);
-
-                foreach($zdirs as $zdir => $nr)				// create directories
-                {
-                    ilUtil::createDirectory($zdir);
-                }
-        */
+        $current_directory = getcwd();
+        chdir($unzippable_zip_directory);
+        $unzip_command = PATH_TO_UNZIP;
 
         // real unzip
-        if (!$overwrite) {
-            $unzipcmd = ilUtil::escapeShellArg($file);
+        if (!$overwrite_existing) {
+            $unzip_parameters = ilUtil::escapeShellArg($unzippable_zip_filename);
         } else {
-            $unzipcmd = "-o " . ilUtil::escapeShellArg($file);
+            $unzip_parameters = "-o " . ilUtil::escapeShellArg($unzippable_zip_filename);
         }
-        ilUtil::execQuoted($unzip, $unzipcmd);
-
-        chdir($cdir);
+        ilUtil::execQuoted($unzip_command, $unzip_parameters);
+        // move back
+        chdir($current_directory);
 
         // remove all sym links
         clearstatcache();			// prevent is_link from using cache
-        $dir_realpath = realpath($dir);
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f) {
+
+        // sanitize filenames
+        $dir_realpath = realpath($unzippable_zip_directory);
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($unzippable_zip_directory)) as $name => $f) {
             if (is_link($name)) {
                 $target = readlink($name);
                 if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath) {
@@ -1681,22 +1644,38 @@ class ilUtil
                     $log->info("Removed symlink " . $name);
                 }
             }
+            if (is_file($name) && $name !== ilFileUtils::getValidFilename($name)) {
+                // rename file if it contains invalid suffix
+                $new_name = ilFileUtils::getValidFilename($name);
+                rename($name, $new_name);
+            }
         }
 
-        // if flat, get all files and move them to original directory
-        if ($a_flat) {
-            include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-            $filearray = array();
-            ilFileUtils::recursive_dirscan($tmpdir, $filearray);
-            if (is_array($filearray["file"])) {
-                foreach ($filearray["file"] as $k => $f) {
-                    if (substr($f, 0, 1) != "." && $f != basename($orig_file)) {
-                        copy($filearray["path"][$k] . $f, $origpathinfo["dirname"] . DIRECTORY_SEPARATOR . $f);
+        // rename executables
+        self::renameExecutables($unzippable_zip_directory);
+
+        // now we have to move the files to the original directory. if $a_flat is true, we move the files only without directories, otherwise we move the whole directory
+        if ($unpack_flat) {
+            $file_array = [];
+            ilFileUtils::recursive_dirscan($temporary_unzip_directory, $file_array);
+            if (is_array($file_array["file"])) {
+                foreach ($file_array["file"] as $k => $f) {
+                    if (
+                        substr($f, 0, 1) !== "."
+                        && $f !== basename($original_path_to_zip_file)
+                    ) {
+                        copy(
+                            $file_array["path"][$k] . $f,
+                            $original_zip_path_info["dirname"] . DIRECTORY_SEPARATOR . $f
+                        );
                     }
                 }
             }
-            ilUtil::delDir($tmpdir);
+        } else {
+            self::rCopy($temporary_unzip_directory, $original_zip_path_info["dirname"]);
         }
+
+        ilUtil::delDir($temporary_unzip_directory);
     }
 
     /**
@@ -2070,8 +2049,19 @@ class ilUtil
         /// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
 
         // #15914 - try to fix german umlauts
-        $umlauts = array("Ä" => "Ae", "Ö" => "Oe", "Ü" => "Ue",
-            "ä" => "ae", "ö" => "oe", "ü" => "ue", "ß" => "ss");
+        $umlauts = [
+            "Ä" => "Ae",
+            "Ö" => "Oe",
+            "Ü" => "Ue",
+            "ä" => "ae",
+            "ö" => "oe",
+            "ü" => "ue",
+            "é" => "e",
+            "è" => "e",
+            "é" => "e",
+            "ê" => "e",
+            "ß" => "ss"
+        ];
         foreach ($umlauts as $src => $tgt) {
             $a_filename = str_replace($src, $tgt, $a_filename);
         }
@@ -3570,10 +3560,12 @@ class ilUtil
     * @static
     *
     */
-    public static function rRenameSuffix($a_dir, $a_old_suffix, $a_new_suffix)
+    public static function rRenameSuffix(string $a_dir, string $a_old_suffix, string $a_new_suffix) : bool
     {
-        if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
-            || trim($a_old_suffix) == "") {
+        if ($a_dir === "/"
+            || $a_dir === ""
+            || strpos($a_dir, "..") !== false
+            || trim($a_old_suffix) === "") {
             return false;
         }
 
@@ -3584,29 +3576,58 @@ class ilUtil
 
         // read a_dir
         $dir = opendir($a_dir);
+        if ($dir === false) {
+            return false;
+        }
+
+        $prohibited = [
+            '...'
+        ];
 
         while ($file = readdir($dir)) {
-            if ($file != "." and
-            $file != "..") {
+            if (
+                $file !== "."
+                && $file !== ".."
+            ) {
+                // triple dot is not allowed in filenames
+                if (in_array($file, $prohibited)) {
+                    unlink($a_dir . "/" . $file);
+                    continue;
+                }
+
                 // directories
                 if (@is_dir($a_dir . "/" . $file)) {
-                    ilUtil::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
+                    self::rRenameSuffix($a_dir . "/" . $file, $a_old_suffix, $a_new_suffix);
                 }
 
                 // files
                 if (@is_file($a_dir . "/" . $file)) {
                     // first check for files with trailing dot
                     if (strrpos($file, '.') == (strlen($file) - 1)) {
-                        rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
+                        try {
+                            rename($a_dir . '/' . $file, substr($a_dir . '/' . $file, 0, -1));
+                        } catch (Throwable $t) {
+                            // to avoid exploits we do delete this file and continue renaming
+                            unlink($a_dir . '/' . $file);
+                            continue;
+                        }
+
                         $file = substr($file, 0, -1);
                     }
 
                     $path_info = pathinfo($a_dir . "/" . $file);
 
-                    if (strtolower($path_info["extension"]) ==
-                    strtolower($a_old_suffix)) {
+                    if (strtolower($path_info["extension"]) === strtolower($a_old_suffix)) {
                         $pos = strrpos($a_dir . "/" . $file, ".");
                         $new_name = substr($a_dir . "/" . $file, 0, $pos) . "." . $a_new_suffix;
+                        // check if file exists
+                        if (file_exists($new_name)) {
+                            if (is_dir($new_name)) {
+                                ilUtil::delDir($new_name);
+                            } else {
+                                unlink($new_name);
+                            }
+                        }
                         rename($a_dir . "/" . $file, $new_name);
                     }
                 }
@@ -3660,7 +3681,7 @@ class ilUtil
                 ? $security->getPasswordMaxLength()
                 : 10;
             if ($min > $max) {
-                $max = $max + 1;
+                $max = $min + 1;
             }
             $random = new \ilRandom();
             $length = $random->int($min, $max);
@@ -3838,10 +3859,11 @@ class ilUtil
             if (!$upload->hasUploads()) {
                 throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
             }
-            $upload_result = $upload->getResults()[$a_file];
+            $upload_result = $upload->getResults()[$a_file] ?? null;
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED
+                    || $processing_status->getCode() === ProcessingStatus::DENIED) {
                     throw new ilException($processing_status->getMessage());
                 }
             } else {
@@ -4654,14 +4676,25 @@ class ilUtil
             $secure = IL_COOKIE_SECURE;
         }
 
+        $cookie_parameters = [
+            'expires' => $expire,
+            'path' => IL_COOKIE_PATH,
+            'domain' => IL_COOKIE_DOMAIN,
+            'secure' => $secure,
+            'httponly' => IL_COOKIE_HTTPONLY,
+        ];
+
+        if (
+            $secure &&
+            (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+        ) {
+            $cookie_parameters['samesite'] = 'Lax';
+        }
+
         setcookie(
             $a_cookie_name,
             $a_cookie_value,
-            $expire,
-            IL_COOKIE_PATH,
-            IL_COOKIE_DOMAIN,
-            $secure,
-            IL_COOKIE_HTTPONLY
+            $cookie_parameters
         );
 
         if ((bool) $a_also_set_super_global) {

@@ -332,7 +332,7 @@ class ilEventParticipants
             "AND participated = 1";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_ids[] = $row->usr_id;
+            $user_ids[$row->usr_id] = $row->usr_id;
         }
         return $user_ids ? $user_ids : array();
     }

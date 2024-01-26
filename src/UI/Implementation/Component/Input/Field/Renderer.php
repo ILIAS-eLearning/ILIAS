@@ -175,7 +175,7 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($escape)) {
             $value = $escape($value);
         }
-        if ($value) {
+        if (isset($value) && strlen($value) > 0) {
             $tpl->setVariable("VALUE", $value);
         }
     }
@@ -241,7 +241,7 @@ class Renderer extends AbstractComponentRenderer
         $dependant_group_html = $default_renderer->render($component->getInputs());
 
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), "", $dependant_group_html);
+        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer) : string
@@ -597,6 +597,17 @@ class Renderer extends AbstractComponentRenderer
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $component->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
+        $upload_limit = \ilUtil::getUploadSizeLimitBytes();
+        $max_file_size = $component->getMaxFileFize() === -1
+            ? $upload_limit
+            : $component->getMaxFileFize();
+        // dropzone.js expects MiB, latest documentation is misleading, see
+        // https://github.com/dropzone/dropzone/issues/2197
+        $settings->max_file_size = min($max_file_size, $upload_limit) / 1024 / 1024;
+        $settings->max_file_size_text = sprintf(
+            $this->txt('ui_file_input_invalid_size'),
+            (string) round($settings->max_file_size, 3)
+        );
 
         /**
          * @var $component F\File
@@ -657,8 +668,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
-        $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
+        $registry->register('./node_modules/moment/min/moment-with-locales.min.js');
+        $registry->register('./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
         
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
@@ -667,7 +678,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
-        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
+        $registry->register('./node_modules/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }

@@ -84,40 +84,18 @@
 			hyphens: auto;
 		}
 
+                .panel-footer-for-shadow
+                {
+                    height: 0;
+                    width: 0;
+                }
+
 		.iosOnScreenChatMessageContainer {
-			background-color: transparent;
-
-			.iosOnScreenChatMessagePlaceholder {
-				position: absolute;
-				z-index: 0;
-				border: 0 none !important;
-				background-color: transparent;
-				opacity: .5;
-			}
-
-			.iosOnScreenChatMessage {
-				background-color: transparent;
-				position: relative;
-				z-index: 1;
-				white-space: pre-wrap;
-				user-select: text;
-				outline: none;
-				overflow-x: hidden;
-				height: auto;
-				min-height: 26px;
-				max-height: 75px;
-				overflow-wrap: break-word;
-				word-wrap: break-word;
-				-ms-word-break: break-all;
-				word-break: break-all;
-				word-break: break-word;
-				-ms-hyphens: auto;
-				-moz-hyphens: auto;
-				-webkit-hyphens: auto;
-				hyphens: auto;
-				cursor: text;
-				padding-right: 26px;
-			}
+                    resize: none;
+                    width: 100%;
+                    border: 1px solid;
+                    background: white;
+                    height: 25px;
 		}
 
 		.osc_truncate_username{

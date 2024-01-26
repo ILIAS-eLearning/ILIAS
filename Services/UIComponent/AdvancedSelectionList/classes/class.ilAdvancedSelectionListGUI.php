@@ -645,6 +645,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                 $tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());
             } else {
                 foreach ($items as $item) {
+                    $item["value"] = htmlspecialchars($item["value"], ENT_QUOTES);
                     if (isset($item["ref_id"])) {
                         $sel_arr[$item["ref_id"]] = (isset($item["title"]))
                             ? $item["title"]

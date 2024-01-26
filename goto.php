@@ -21,6 +21,8 @@
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
+global $DIC;
+
 // special handling for direct navigation request
 require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
 $nav_hist = new ilNavigationHistoryGUI();
@@ -30,9 +32,9 @@ $nav_hist->handleNavigationRequest();
 $orig_target = $_GET['target'];
 
 // user interface plugin slot hook
-if (is_object($ilPluginAdmin)) {
+if (is_object($DIC['ilPluginAdmin'])) {
     // get user interface plugins
-    $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+    $pl_names = $DIC['ilPluginAdmin']->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 
     // search
     foreach ($pl_names as $pl) {
@@ -58,14 +60,21 @@ if ($target_type == "impr") {
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
     // if anonymous: go to login page
-    if (!$ilUser->getId() || $ilUser->isAnonymous()) {
-        ilUtil::redirect("login.php?target=" . $orig_target . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage());
+    if (!$DIC->user()->getId() || $DIC->user()->isAnonymous()) {
+        $url = "login.php?target=" . $orig_target . "&cmd=force_login&lang=" . $DIC->user()->getCurrentLanguage();
+        if (isset($DIC->http()->request()->getQueryParams()['soap_pw'])) {
+            $url = ilUtil::appendUrlParameterString($url, 'soap_pw=' . $DIC->http()->request()->getQueryParams()['soap_pw']);
+        }
+        if (isset($DIC->http()->request()->getQueryParams()['ext_uid'])) {
+            $url = ilUtil::appendUrlParameterString($url, 'ext_uid=' . $DIC->http()->request()->getQueryParams()['ext_uid']);
+        }
+        ilUtil::redirect($url);
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $_GET["target"]);
         if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0) {
             ilUtil::sendFailure(sprintf(
-                $lng->txt("msg_no_perm_read_item"),
+                $DIC->language()->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
             ), true);
         } else {
@@ -225,16 +234,16 @@ switch ($target_type) {
     // default implementation (should be used by all new object types)
     //
     default:
-        if (!$objDefinition->isPlugin($target_type)) {
-            $class_name = "ilObj" . $objDefinition->getClassName($target_type) . "GUI";
-            $location = $objDefinition->getLocation($target_type);
+        if (!$DIC['objDefinition']->isPlugin($target_type)) {
+            $class_name = "ilObj" . $DIC['objDefinition']->getClassName($target_type) . "GUI";
+            $location = $DIC['objDefinition']->getLocation($target_type);
             if (is_file($location . "/class." . $class_name . ".php")) {
                 include_once($location . "/class." . $class_name . ".php");
                 call_user_func(array($class_name, "_goto"), $rest);
             }
         } else {
-            $class_name = "ilObj" . $objDefinition->getClassName($target_type) . "GUI";
-            $location = $objDefinition->getLocation($target_type);
+            $class_name = "ilObj" . $DIC['objDefinition']->getClassName($target_type) . "GUI";
+            $location = $DIC['objDefinition']->getLocation($target_type);
             if (is_file($location . "/class." . $class_name . ".php")) {
                 include_once($location . "/class." . $class_name . ".php");
                 call_user_func(array($class_name, "_goto"), array($rest, $class_name));

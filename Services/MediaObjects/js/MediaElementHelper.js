@@ -5,6 +5,9 @@
  * see https://mantis.ilias.de/view.php?id=32162
  */
 window.addEventListener('resize', (event) => {
+  // deactivated due to https://mantis.ilias.de/view.php?id=34976
+  // and https://mantis.ilias.de/view.php?id=35810
+  return;
   if (mejs && mejs.players) {
     let modifiedPlayers = [];
     for (const [key, player] of Object.entries(mejs.players)) {

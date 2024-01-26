@@ -388,12 +388,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
             // example key of variable: 'common#:#access'
             // example key of comment: 'common#:#access#:#comment'
-            $keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
+            $keys = explode($this->lng->separator, ilUtil::stripSlashes($key));
 
             if (count($keys) == 2) {
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
-                $value = ilUtil::stripSlashes($value, false);
+                $value = str_replace("<<", "«",$value);
+                $value = ilUtil::stripSlashes($value, true, "<strong><em><u><strike><ol><li><ul><p><div><i><b><code><sup><pre><gap><a><img><bdo><br><span>");
                 $save_array[$key] = $value;
 
                 // the comment has the key of the language with the suffix

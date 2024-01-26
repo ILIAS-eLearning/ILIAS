@@ -63,7 +63,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
             $link_data = ilParameterAppender::_append($link_data);
 
             // handle internal links (#10620)
-            if (stristr($link_data["target"], "|")) {
+            if ($link_data['internal']) {
                 $parts = explode("|", $link_data["target"]);
                 if ($parts[0] == "page") {
                     $parts[0] = "pg";

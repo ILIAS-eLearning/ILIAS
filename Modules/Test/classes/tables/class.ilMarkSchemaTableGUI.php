@@ -41,7 +41,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-        
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -67,6 +66,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->initColumns();
         $this->initData();
+
+        $this->initJS($DIC->ui()->mainTemplate());
     }
 
     /**
@@ -88,20 +89,36 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
     {
         $this->object->getMarkSchema()->sort();
 
-        $data = array();
+        $data = [];
 
         $marks = $this->object->getMarkSchema()->getMarkSteps();
         foreach ($marks as $key => $value) {
-            $data[] = array(
+            $data[] = [
                 'mark_id' => $key,
                 'mark_short' => $value->getShortName(),
                 'mark_official' => $value->getOfficialName(),
                 'mark_percentage' => $value->getMinimumLevel(),
-                'mark_passed' => $value->getPassed() ? 1 : 0
-            );
+                'mark_passed' => $value->getPassed()
+            ];
         }
 
         $this->setData($data);
+    }
+
+    private function initJS(ilGlobalTemplateInterface $tpl)
+    {
+        $tpl->addOnloadCode("
+            let form = document.querySelector('form[name=\"{$this->getFormName()}\"]');
+            let button = form.querySelector('input[name=\"cmd[saveMarks]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
     }
 
     /**
@@ -112,11 +129,13 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $short_name = new ilTextInputGUI('', 'mark_short_' . $row['mark_id']);
         $short_name->setValue($row['mark_short']);
         $short_name->setDisabled(!$this->is_editable);
+        $short_name->setMaxLength(15);
         $short_name->setSize(10);
 
         $official_name = new ilTextInputGUI('', 'mark_official_' . $row['mark_id']);
         $official_name->setSize(20);
         $official_name->setDisabled(!$this->object->canEditMarks());
+        $official_name->setMaxLength(50);
         $official_name->setValue($row['mark_official']);
 
         $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $row['mark_id']);

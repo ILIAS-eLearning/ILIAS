@@ -334,7 +334,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $ilCtrl = $this->ctrl;
         
         $user_id = $this->getPageContentUserId($a_user_id);
-
         /*
         if($this->getOutputMode() == "offline")
         {
@@ -352,7 +351,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         // full circle: additional was set in the original public user profile call
         $pub_profile->setAdditional($this->getAdditional());
 
-        if ($a_type == "manual" && sizeof($a_fields)) {
+        if ($a_type == "manual" && is_array($a_fields) && count($a_fields) > 0) {
             $prefs = array();
             foreach ($a_fields as $field) {
                 $field = trim($field);
@@ -699,6 +698,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
         
         $img_path = null;
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         $user_id = $this->getPageContentUserId($a_user_id);
         
@@ -760,16 +760,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 }
                 
                 if (isset($course["lp_status"])) {
-                    $lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($course["lp_status"]);
-                    $lp_alt = ilLearningProgressBaseGUI::_getStatusText($course["lp_status"]);
-                    
-                    if ($img_path) {
-                        $lp_icon = $img_path . basename($lp_icon);
-                    }
+                    $lp_icon_rendered = $lp_icons->renderIconForStatus($course["lp_status"]);
                     
                     $tpl->setCurrentBlock("lp_bl");
-                    $tpl->setVariable("LP_ICON_URL", $lp_icon);
-                    $tpl->setVariable("LP_ICON_ALT", $lp_alt);
+                    $tpl->setVariable("LP_ICON", $lp_icon_rendered);
                     $tpl->parseCurrentBlock();
                 }
                 
@@ -1223,5 +1217,4 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     {
         $this->ctrl->redirectByClass("ilObjPortfolioGUI", "view");
     }
-
 }

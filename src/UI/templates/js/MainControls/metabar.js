@@ -57,7 +57,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(!il.UI.page.isSmallScreen()) {
 					let next_focus_target = event.relatedTarget;
 					let current_slate = event.currentTarget;
-					if (!$.contains(current_slate, next_focus_target)) {
+					if (next_focus_target &&
+						!$.contains(current_slate, next_focus_target)) {
 						onClickDisengageAll();
 					}
 				}

@@ -132,6 +132,17 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $questionHint->setPoints($form->getInput('hint_points'));
 
             $questionHint->save();
+
+            if ($this->questionOBJ->isAdditionalContentEditingModePageObject() && !ilAssHintPage::_exists(
+                'qht',
+                $form->getInput('hint_id')
+            )) {
+                $pageObject = new ilAssHintPage();
+                $pageObject->setParentId($this->questionOBJ->getId());
+                $pageObject->setId($questionHint->getId());
+                $pageObject->createFromXML();
+            }
+
             ilUtil::sendSuccess($lng->txt('tst_question_hints_form_saved_msg'), true);
 
             if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {

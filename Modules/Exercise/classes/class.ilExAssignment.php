@@ -1592,7 +1592,27 @@ class ilExAssignment
                 "firstname" => $rec["firstname"]
                 );
         }
-        
+
+        // users in idl may already exist before occuring in the members db table
+        // if user starts an assignment with relative deadline
+        $idl = $this->getIndividualDeadlines();
+        foreach ($idl as $user_id => $v) {
+            if (!isset($mem[$user_id])) {
+                if (ilObjUser::_exists($user_id)) {
+                    $name = ilObjUser::_lookupName($user_id);
+                    $mem[$user_id] =
+                        array(
+                            "name" => $name["lastname"] . ", " . $name["firstname"],
+                            "login" => $name["login"],
+                            "usr_id" => $user_id,
+                            "lastname" => $name["lastname"],
+                            "firstname" => $name["firstname"]
+                        );
+                }
+            }
+        }
+
+
         $q = "SELECT * FROM exc_mem_ass_status " .
             "WHERE ass_id = " . $ilDB->quote($this->getId(), "integer");
         $set = $ilDB->query($q);
@@ -2288,7 +2308,7 @@ class ilExAssignment
     
     public function hasActiveIDl()
     {
-        return (bool) $this->getDeadline();
+        return (bool) $this->getDeadline() || (bool) $this->getRelativeDeadline();
     }
     
     public function hasReadOnlyIDl()
@@ -2336,7 +2356,9 @@ class ilExAssignment
         global $DIC;
         $db = $DIC->database();
         $id = $db->nextId("exc_ass_file_order");
-        $db->insert("exc_ass_file_order", [
+        $db->insert(
+            "exc_ass_file_order",
+            [
                 "id" => ["integer", $id],
                 "order_nr" => ["integer", $a_order_nr],
                 "assignment_id" => ["integer", $a_ass_id],
@@ -2596,5 +2618,16 @@ class ilExAssignment
             }
         }
         return $calculated_deadlines;
+    }
+
+    // see bug #36253
+    public function canParticipantReceiveFeedback($part_id) : bool
+    {
+        if ($this->hasTeam()) {
+            if (!ilExAssignmentTeam::getTeamId($this->getId(), $part_id)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

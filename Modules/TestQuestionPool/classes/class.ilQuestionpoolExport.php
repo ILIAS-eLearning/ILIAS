@@ -42,13 +42,13 @@ class ilQuestionpoolExport
         if (!is_array($array_questions)) {
             $array_questions = &$a_qpl_obj->getAllQuestionIds();
         }
-        
+
         $this->err = &$ilErr;
         $this->ilias = &$ilias;
         $this->db = &$ilDB;
         $this->mode = $a_mode;
         $this->lng = &$lng;
-        
+
         $settings = $this->ilias->getAllSettings();
         $this->inst_id = IL_INST_ID;
         $this->questions = $array_questions;
@@ -143,7 +143,7 @@ class ilQuestionpoolExport
         $expLog->delete();
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-        
+
         // write qti file
         $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->qti_filename, "w");
         fwrite($qti_file, $this->qpl_obj->questionsToXML($this->questions));
@@ -159,19 +159,10 @@ class ilQuestionpoolExport
             $this->questions
         );
         $ilBench->stop("QuestionpoolExport", "buildExportFile_getXML");
-
-        // dump xml document to screen (only for debugging reasons)
-        /*
-        echo "<PRE>";
-        echo htmlentities($this->xml->xmlDumpMem($format));
-        echo "</PRE>";
-        */
-
-        // dump xml document to file
         $ilBench->start("QuestionpoolExport", "buildExportFile_dumpToFile");
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
         $ilBench->stop("QuestionpoolExport", "buildExportFile_dumpToFile");
-        
+
         // add media objects which were added with tiny mce
         $ilBench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
         $this->exportXHTMLMediaObjects($this->export_dir . "/" . $this->subdir);
@@ -180,16 +171,10 @@ class ilQuestionpoolExport
         // zip the file
         $ilBench->start("QuestionpoolExport", "buildExportFile_zipFile");
         ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
-        if (@is_dir($this->export_dir . "/" . $this->subdir)) {
-            // Do not delete this dir, since it is required for container exports
-            #ilUtil::delDir($this->export_dir."/".$this->subdir);
-        }
-
         $ilBench->stop("QuestionpoolExport", "buildExportFile_zipFile");
 
         // destroy writer object
         $this->xml->_XmlWriter;
-
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("QuestionpoolExport", "buildExportFile");
 
@@ -199,7 +184,7 @@ class ilQuestionpoolExport
     public function exportXHTMLMediaObjects($a_export_dir)
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        
+
         foreach ($this->questions as $question_id) {
             $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
             foreach ($mobs as $mob) {
@@ -211,7 +196,7 @@ class ilQuestionpoolExport
             }
         }
     }
-    
+
     /**
     * build xml export file
     */

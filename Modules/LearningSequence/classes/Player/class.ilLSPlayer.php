@@ -98,20 +98,10 @@ class ilLSPlayer
         $this->ls_items->storeState($state, $current_item_ref_id, $next_item->getRefId());
 
         //get proper view
-        if ($next_item !== $current_item) {
+        if ($next_item != $current_item) {
             $view = $this->view_factory->getViewFor($next_item);
             $state = $this->ls_items->getStateFor($next_item, $view);
         }
-
-        //get position
-        list($item_position, $item) = $this->findItemByRefId($items, $next_item->getRefId());
-
-        //have the view build controls
-        $control_builder = $this->control_builder;
-        $view->buildControls($state, $control_builder);
-
-        //amend controls not set by the view
-        $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
 
         //content
         $obj_title = $next_item->getTitle();
@@ -126,6 +116,17 @@ class ilLSPlayer
         );
         $content = [$panel];
 
+        $items = $this->ls_items->getItems(); //reload items after renderComponentView content
+
+        //get position
+        list($item_position, $item) = $this->findItemByRefId($items, $next_item->getRefId());
+
+        //have the view build controls
+        $control_builder = $this->control_builder;
+        $view->buildControls($state, $control_builder);
+
+        //amend controls not set by the view
+        $control_builder = $this->buildDefaultControls($control_builder, $item, $item_position, $items);
 
         $rendered_body = $this->page_renderer->render(
             $this->lso_title,

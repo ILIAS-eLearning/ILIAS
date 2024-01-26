@@ -218,28 +218,30 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $list->setUseImages(false);
 
         if ($i->getPriority() == 1 && ($i->getUserId() == $this->user->getId() || $this->getUserEditAll())) {
-            $list->addItem(
-                $this->lng->txt("edit"),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                false,
-                "il.News.edit(" . $i->getId() . ");"
-            );
-            $list->addItem(
-                $this->lng->txt("delete"),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                false,
-                "il.News.delete(" . $i->getId() . ");"
-            );
+            if (!$news_renderer->preventEditing()) {
+                $list->addItem(
+                    $this->lng->txt("edit"),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    false,
+                    "il.News.edit(" . $i->getId() . ");"
+                );
+                $list->addItem(
+                    $this->lng->txt("delete"),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    false,
+                    "il.News.delete(" . $i->getId() . ");"
+                );
+            }
         }
 
         $news_renderer->addTimelineActions($list);

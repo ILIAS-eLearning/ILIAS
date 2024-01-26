@@ -21,6 +21,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
      * @var ilCertificateUserForObjectPreloader|null
      */
     private $preLoader;
+    protected $cached_user_names = [];
 
     /**
      * Constructor
@@ -181,7 +182,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
+        if (!$a_set['active']) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -266,27 +267,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
         if ($this->show_learning_progress) {
             $this->tpl->setCurrentBlock('lp');
-            switch ($a_set['progress']) {
-                case ilLPStatus::LP_STATUS_COMPLETED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
-                    break;
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+            $icon_rendered = $icons->renderIconForStatus($icons->lookupNumStatus($a_set['progress']));
 
-                case ilLPStatus::LP_STATUS_IN_PROGRESS:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
-                    break;
+            $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+            $this->tpl->setVariable('LP_STATUS_ICON', $icon_rendered);
 
-                case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
-                    break;
-
-                case ilLPStatus::LP_STATUS_FAILED:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
-                    break;
-            }
             $this->tpl->parseCurrentBlock();
         }
         
@@ -453,7 +439,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         // merge course data
         $course_user_data = $this->getParentObject()->readMemberData(
             $usr_ids,
-            $this->getSelectedColumns()
+            $this->getSelectedColumns(),
+            true
         );
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
@@ -464,7 +451,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
             // #15434
             if (!$this->checkAcceptance($user_id)) {
-                $ud = array();
+                $ud = [
+                    'active' => $ud['active'],
+                    'firstname' => $ud['firstname'],
+                    'lastname' => $ud['lastname'],
+                    'login' => $ud['login']
+                ];
             }
                         
             $a_user_data[$user_id] = array_merge($ud, $course_user_data[$user_id]);
@@ -492,7 +484,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                         if ($pinfo["user_id"] < 0) {
                             $passed_info = $this->lng->txt("crs_passed_status_system");
                         } elseif ($pinfo["user_id"] > 0) {
-                            $name = ilObjUser::_lookupName($pinfo["user_id"]);
+                            $name = $this->lookupUserName((int) $pinfo["user_id"]);
                             $passed_info = $this->lng->txt("crs_passed_status_manual_by") . ": " . $name["login"];
                         }
                     }
@@ -553,7 +545,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
                     
-                    $name = ilObjUser::_lookupName($edit_info['update_user']);
+                    $name = $this->lookupUserName((int) $edit_info['update_user']);
                     $a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'] . ' ' . $name['lastname'] . ', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                 }
             }
@@ -579,5 +571,16 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         );
         
         return $this->setData($a_user_data);
+    }
+
+    /**
+     * @return array{user_id: int, firstname: string, lastname: string, login: string, title: string}
+     */
+    protected function lookupUserName(int $user_id) : array
+    {
+        if (isset($this->cached_user_names[$user_id])) {
+            return $this->cached_user_names[$user_id];
+        }
+        return $this->cached_user_names[$user_id] = ilObjUser::_lookupName($user_id);
     }
 }

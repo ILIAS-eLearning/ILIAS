@@ -29,7 +29,7 @@ class ilUserUtil
     const START_REPOSITORY = 15;
     const START_REPOSITORY_OBJ = 16;
     const START_PD_MYSTAFF = 17;
-    
+
     /**
      * Default behaviour is:
      * - lastname, firstname if public profile enabled
@@ -65,9 +65,9 @@ class ilUserUtil
         if (!($return_as_array = is_array($a_user_id))) {
             $a_user_id = array($a_user_id);
         }
-        
+
         $sql = 'SELECT
-					a.usr_id, 
+					a.usr_id,
 					firstname,
 					lastname,
 					title,
@@ -75,17 +75,17 @@ class ilUserUtil
 					b.value public_profile,
 					c.value public_title
 				FROM
-					usr_data a 
-					LEFT JOIN 
-						usr_pref b ON 
+					usr_data a
+					LEFT JOIN
+						usr_pref b ON
 							(a.usr_id = b.usr_id AND
 							b.keyword = %s)
-					LEFT JOIN 
-						usr_pref c ON 
+					LEFT JOIN
+						usr_pref c ON
 							(a.usr_id = c.usr_id AND
 							c.keyword = %s)
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
-        
+
         $userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
 
         $names = array();
@@ -120,7 +120,7 @@ class ilUserUtil
             $d["login"] = $row->login;
             $d["public_profile"] = $has_public_profile;
 
-            
+
             if (!$a_omit_login) {
                 $pres .= "[" . $row->login . "]";
             }
@@ -138,7 +138,7 @@ class ilUserUtil
                 $pres = '<a href="' . $link . '">' . $pres . '</a>';
                 $d["link"] = $link;
             }
-    
+
             if ($a_user_image) {
                 $img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
                 $pres = '<img class="ilUserXXSmall" src="' . $img . '" alt="' . $lng->txt("icon") .
@@ -182,7 +182,7 @@ class ilUserUtil
             "SELECT value FROM usr_pref " .
             " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " and keyword = " . $ilDB->quote("public_profile", "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         return in_array($rec["value"], array("y", "g"));
@@ -201,16 +201,16 @@ class ilUserUtil
         if ($public_profile != 'y' and $public_profile != 'g') {
             return '';
         }
-        
+
         $GLOBALS['DIC']['ilCtrl']->setParameterByClass('ilpublicuserprofilegui', 'user', $a_usr_id);
         return $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
     }
-    
-    
+
+
     //
     // Personal starting point
     //
-    
+
     /**
      * Get all valid starting points
      *
@@ -222,22 +222,18 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
-        
+
         // for all conditions: see ilMainMenuGUI
-        
+
         $all = array();
-        
+
         $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
-        
-        if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
-            $ilSetting->get('disable_my_memberships') == 0)) {
-            $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
-        }
+        $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
-    
+
         if ($a_force_all || !$ilSetting->get("disable_personal_workspace")) {
             $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
@@ -249,14 +245,14 @@ class ilUserUtil
         }
 
         $all[self::START_REPOSITORY] = 'obj_root';
-        
+
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);
         }
-        
+
         return $all;
     }
-    
+
     /**
      * Set starting point setting
      *
@@ -271,7 +267,7 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
         $tree = $DIC['tree'];
-        
+
         if ($a_value == self::START_REPOSITORY_OBJ) {
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
@@ -284,7 +280,7 @@ class ilUserUtil
         $valid = array_keys(self::getPossibleStartingPoints());
         if (in_array($a_value, $valid)) {
             $ilSetting->set("usr_starting_point", $a_value);
-            if($a_value == self::START_PD_CALENDAR) {
+            if ($a_value == self::START_PD_CALENDAR) {
                 foreach ($a_cal_view as $key => $value) {
                     $ilSetting->set($key, $value);
                 }
@@ -293,7 +289,7 @@ class ilUserUtil
         }
         return false;
     }
-    
+
     /**
      * Get current starting point setting
      *
@@ -305,21 +301,21 @@ class ilUserUtil
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-                
+
         $valid = array_keys(self::getPossibleStartingPoints());
         $current = $ilSetting->get("usr_starting_point");
         if ($current == self::START_REPOSITORY_OBJ) {
             return $current;
         } elseif (!$current || !in_array($current, $valid)) {
             $current = self::START_PD_OVERVIEW;
-                    
+
             // #10715 - if 1 is disabled overview will display the current default
             if ($ilSetting->get('disable_my_offers') == 0 &&
                 $ilSetting->get('disable_my_memberships') == 0 &&
                 $ilSetting->get('personal_items_default_view') == 1) {
                 $current = self::START_PD_SUBSCRIPTION;
             }
-            
+
             self::setStartingPoint($current);
         }
         if ($ilUser->getId() == ANONYMOUS_USER_ID ||
@@ -328,7 +324,7 @@ class ilUserUtil
         }
         return $current;
     }
-    
+
     /**
      * Get current starting point setting as URL
      *
@@ -341,7 +337,7 @@ class ilUserUtil
         $tree = $DIC['tree'];
         $ilUser = $DIC['ilUser'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         $ref_id = 1;
         $by_default = true;
 
@@ -396,7 +392,7 @@ class ilUserUtil
         }
 
         $calendar_string = "";
-        if(!empty($cal_view) && !empty($cal_period)) {
+        if (!empty($cal_view) && !empty($cal_period)) {
             $calendar_string = "&cal_view=" . $cal_view . "&cal_agenda_per=" . $cal_period;
         }
 
@@ -422,13 +418,13 @@ class ilUserUtil
                     self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSelectedItems',
                     self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilMembershipOverviewGUI',
                     self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace',
-                    self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar'. $calendar_string,
+                    self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar' . $calendar_string,
                     self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilDashboardGUI::class . '&cmd=' . ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
                 );
                 return $map[$current];
         }
     }
-    
+
     /**
      * Get ref id of starting object
      *
@@ -439,7 +435,7 @@ class ilUserUtil
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         return $ilSetting->get("usr_starting_point_ref_id");
     }
 
@@ -470,7 +466,7 @@ class ilUserUtil
 
         return $ilSetting->get("user_cal_period");
     }
-    
+
     /**
      * Toggle personal starting point setting
      *
@@ -481,10 +477,10 @@ class ilUserUtil
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         $ilSetting->set("usr_starting_point_personal", (bool) $a_value);
     }
-    
+
     /**
      * Can starting point be personalized?
      *
@@ -495,10 +491,10 @@ class ilUserUtil
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         return $ilSetting->get("usr_starting_point_personal");
     }
-    
+
     /**
      * Did user set any personal starting point (yet)?
      *
@@ -509,10 +505,10 @@ class ilUserUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         return (bool) $ilUser->getPref("usr_starting_point");
     }
-        
+
     /**
      * Get current personal starting point
      *
@@ -523,7 +519,7 @@ class ilUserUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-                                
+
         $valid = array_keys(self::getPossibleStartingPoints());
         $current = $ilUser->getPref("usr_starting_point");
         if ($current == self::START_REPOSITORY_OBJ) {
@@ -533,7 +529,7 @@ class ilUserUtil
         }
         return $current;
     }
-    
+
     /**
      * Set personal starting point setting
      *
@@ -547,13 +543,13 @@ class ilUserUtil
 
         $ilUser = $DIC['ilUser'];
         $tree = $DIC['tree'];
-        
+
         if (!$a_value) {
             $ilUser->setPref("usr_starting_point", null);
             $ilUser->setPref("usr_starting_point_ref_id", null);
             return;
         }
-        
+
         if ($a_value == self::START_REPOSITORY_OBJ) {
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
@@ -570,7 +566,7 @@ class ilUserUtil
         }
         return false;
     }
-    
+
     /**
      * Get ref id of personal starting object
      *
@@ -581,7 +577,7 @@ class ilUserUtil
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         $ref_id = $ilUser->getPref("usr_starting_point_ref_id");
         if (!$ref_id) {
             $ref_id = self::getStartingObject();

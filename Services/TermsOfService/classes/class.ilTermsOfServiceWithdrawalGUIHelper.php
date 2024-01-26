@@ -82,7 +82,16 @@ class ilTermsOfServiceWithdrawalGUIHelper
                 $footer = $footer->withAdditionalModalAndTrigger(
                     $this->uiFactory->modal()->roundtrip(
                         $entity->getTitle(),
-                        $this->uiFactory->legacy($entity->getText() . $this->getWithdrawalSectionForModal()->get())
+                        [
+                            $this->uiFactory->legacy($this->lng->txt('usr_agreement_footer_intro')),
+                            $this->uiFactory->divider()->horizontal(),
+                            $this->uiFactory->legacy(
+                                implode('', [
+                                    $entity->getText(),
+                                    $this->getWithdrawalSectionForModal()->get()
+                                ])
+                            )
+                        ]
                     ),
                     $this->uiFactory->button()->shy($this->lng->txt('usr_agreement'), '#')
                 );

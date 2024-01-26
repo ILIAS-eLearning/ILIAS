@@ -27,7 +27,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected $tabs;
 
     protected $skill_tree;
-    
+
     /**
      * Contructor
      *
@@ -135,7 +135,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $skprof_gui = new ilSkillProfileGUI();
                 $ret = $this->ctrl->forwardCommand($skprof_gui);
                 break;
-                
+
             case 'ilpermissiongui':
                 $this->tabs_gui->activateTab('permissions');
                 $perm_gui = new ilPermissionGUI($this);
@@ -154,7 +154,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSkills";
                 }
-                
+
                 if ($cmd == "showTree") {
                     $this->showTree($_GET["templates_tree"]);
                 } else {
@@ -245,7 +245,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("skmg_settings"));
-        
+
         // Enable skill management
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("skmg_enable_skmg"),
@@ -283,7 +283,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt("skmg_allow_local_profiles_info"));
         $cb_prop->setChecked($skmg_set->getAllowLocalProfiles());
         $form->addItem($cb_prop);
-        
+
         // command buttons
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -311,7 +311,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $skmg_set->setAllowLocalProfiles((int) $_POST["allow_local_profiles"]);
 
         ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-        
+
         $ilCtrl->redirect($this, "editSettings");
     }
 
@@ -487,7 +487,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         } else {
             $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
         }
-        
+
         // SAVE POST VALUES
         $_SESSION["saved_post"] = $_POST["id"];
 
@@ -502,10 +502,18 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
+                $obj_title = (!in_array($node_obj->getType(), ["sktp", "sctp"]))
+                    ? $node_obj->getTitle()
+                    : $node_obj->getTitle() .
+                    " (" .
+                    $this->lng->txt("skmg_count_references") . " " .
+                    count(ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($node_obj->getId())) .
+                    ")";
+
                 $confirmation_gui->addItem(
                     "id[]",
                     $node_obj->getId(),
-                    $node_obj->getTitle(),
+                    $obj_title,
                     ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
                 );
             }
@@ -804,7 +812,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     //
     // Skill Templates
     //
-    
+
     /**
      * Edit skill templates
      */
@@ -823,7 +831,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     //
     // Tree
     //
-    
+
     /**
      * Show Editing Tree
      */
@@ -846,9 +854,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 }
             }
         }
-        
+
         $ilCtrl->setParameter($this, "templates_tree", $a_templates);
-        
+
         if ($a_templates) {
             $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_TEMPLATE_TREE, true);
             $exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree");

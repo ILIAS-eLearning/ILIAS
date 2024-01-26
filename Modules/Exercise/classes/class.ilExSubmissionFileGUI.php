@@ -74,7 +74,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         
         $titles = array();
         foreach ($a_submission->getFiles() as $file) {
-            $titles[] = $file["filetitle"];
+            $titles[] = htmlentities($file["filetitle"]);
         }
         $files_str = implode("<br>", $titles);
         if ($files_str == "") {

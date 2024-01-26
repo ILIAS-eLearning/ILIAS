@@ -68,11 +68,12 @@ final class PageMetricsService implements ilContentPageObjectConstants
     {
         $this->ensurePageObjectExists($command->getContentPageId(), $command->getLanguage());
 
-        $pageObjectGUI = new ilContentPagePageGUI($command->getContentPageId(), 0, true, $command->getLanguage());
+        $pageObjectGUI = new ilContentPagePageGUI($command->getContentPageId(), 0, false, $command->getLanguage());
         $pageObjectGUI->setEnabledTabs(false);
         $pageObjectGUI->setFileDownloadLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setFullscreenLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setSourcecodeDownloadScript(ILIAS_HTTP_PATH);
+        $pageObjectGUI->setProfileBackUrl(ILIAS_HTTP_PATH);
         $text = $pageObjectGUI->getHTML();
 
         $readingTimeTransformation = $this->refinery->string()->estimatedReadingTime();

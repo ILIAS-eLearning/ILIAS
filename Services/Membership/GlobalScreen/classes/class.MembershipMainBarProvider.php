@@ -1,5 +1,6 @@
 <?php namespace ILIAS\Membership\GlobalScreen;
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -11,7 +12,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
@@ -26,6 +26,10 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        if (!$this->dic->settings()->get('mmbr_my_crs_grp', 1)) {
+            return [];
+        }
+
         $dic = $this->dic;
         $access_helper = BasicAccessCheckClosures::getInstance();
 

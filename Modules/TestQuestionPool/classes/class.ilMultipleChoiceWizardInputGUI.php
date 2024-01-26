@@ -19,12 +19,12 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     */
     public function setValue($a_value)
     {
-        $this->values = array();
+        $this->values = [];
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index]);
+                    include_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index], $a_value['answer_id'][$index]);
                     array_push($this->values, $answer);
                 }
             }
@@ -42,9 +42,15 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $lng = $DIC['lng'];
         
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+
+        if (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 1) {
+            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                    false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+        } elseif (is_array($_POST[$this->getPostVar()]) && $_POST["types"] == 0) {
+                $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()],
+                    true, ilSingleChoiceWizardInputGUI::ALLOWED_PAGE_HTML_TAGS);
         }
+
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
@@ -228,6 +234,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setCurrentBlock("prop_points_unchecked_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsUnchecked()));
                     $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
                 $tpl->setVariable("SIZE", $this->getSize());
@@ -246,6 +255,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_unchecked_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsUnchecked()));
+                    $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getId()));
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');

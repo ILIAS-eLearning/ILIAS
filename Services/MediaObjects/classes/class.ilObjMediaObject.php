@@ -509,32 +509,6 @@ class ilObjMediaObject extends ilObject
     
     protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
     {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // if neither workspace nor portfolios are activated, we skip
-        // the quota update here. this due to performance reasons on installations
-        // that do not use workspace/portfolios, but heavily copy content.
-        // in extreme cases (media object in pool and personal blog, deactivate workspace, change media object,
-        // this may lead to incorrect data in the quota calculation)
-        if ($ilSetting->get("disable_personal_workspace") && !$ilSetting->get('user_portfolios')) {
-            return;
-        }
-
-        $parent_obj_ids = array();
-        foreach ($a_mob->getUsages() as $item) {
-            $parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
-            if ($parent_obj_id &&
-                !in_array($parent_obj_id, $parent_obj_ids)) {
-                $parent_obj_ids[] = $parent_obj_id;
-            }
-        }
-        
-        // we could suppress this if object is present in a (repository) media pool
-        // but this would lead to "quota-breaches" when the pool item is deleted
-        // and "suddenly" all workspace owners get filesize added to their
-        // respective quotas, regardless of current status
     }
 
     /**
@@ -961,6 +935,7 @@ class ilObjMediaObject extends ilObject
         $enlarge_path = "";
         $params = array('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => "",
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         //echo xslt_error($xh);
@@ -1516,7 +1491,6 @@ class ilObjMediaObject extends ilObject
             $width = 300;
             $height = 20;
         }
-        
         if (ilUtil::deducibleSize($a_format)) {
             include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             if ($a_type == "File") {
@@ -1568,7 +1542,6 @@ class ilObjMediaObject extends ilObject
         if ($height == 0 && $a_user_height === "") {
             $height = "";
         }
-
         return array("width" => $width, "height" => $height, "info" => $info);
     }
 
@@ -1701,6 +1674,19 @@ class ilObjMediaObject extends ilObject
         $a_format = "png",
         $a_size = "80"
     ) {
+        $size = (int) $a_size;
+        $m_dir = ilObjMediaObject::_getDirectory($this->getId());
+        $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
+        $file = $m_dir . "/" . $a_file;
+
+        $mime = ilObjMediaObject::getMimeType($file);
+        $wh = ilMediaImageUtil::getImageSize($file);
+
+        // see #8602
+        if ($size > (int) $wh[0] && $size > $wh[1]) {
+            $a_size = "";
+        }
+
         $m_dir = ilObjMediaObject::_getDirectory($this->getId());
         $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
         self::_createThumbnailDirectory($this->getId());
@@ -1902,6 +1888,9 @@ class ilObjMediaObject extends ilObject
     public function generatePreviewPic($a_width, $a_height, $sec = 1)
     {
         $item = $this->getMediaItem("Standard");
+        if ($item->getFormat() === "image/svg+xml") {
+            return;
+        }
 
         if ($item->getLocationType() == "LocalFile") {
             if (is_int(strpos($item->getFormat(), "image/"))) {

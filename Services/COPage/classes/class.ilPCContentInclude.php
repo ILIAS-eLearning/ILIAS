@@ -226,13 +226,17 @@ class ilPCContentInclude extends ilPageContent
     public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $lng = $this->lng;
-
+        
         $end = 0;
         $start = strpos($a_html, "{{{{{ContentInclude;");
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);
         }
         $i = 1;
+        $parent_lang = $this->getPage()->getLanguage();
+        if ($parent_lang == "-" && $this->getPage()->getConcreteLang() != "") {
+            $parent_lang = $this->getPage()->getConcreteLang();
+        }
         while ($end > 0) {
             $param = substr($a_html, $start + 20, $end - $start - 20);
             $param = explode(";", $param);
@@ -240,7 +244,7 @@ class ilPCContentInclude extends ilPageContent
             if ($param[0] == "mep" && is_numeric($param[1])) {
                 include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
                 $html = "";
-                $snippet_lang = $this->getPage()->getLanguage();
+                $snippet_lang = $parent_lang;
                 if (!ilPageObject::_exists("mep", $param[1], $snippet_lang)) {
                     $snippet_lang = "-";
                 }
@@ -248,6 +252,7 @@ class ilPCContentInclude extends ilPageContent
                     $page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
                     if ($a_mode != "offline") {
                         $page_gui->setFileDownloadLink($this->getFileDownloadLink());
+                        $page_gui->setProfileBackUrl($this->getProfileBackUrl());
                         $page_gui->setFullscreenLink($this->getFullscreenLink() . "&pg_type=mep");
                         $page_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadScript());
                     } else {

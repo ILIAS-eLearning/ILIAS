@@ -301,6 +301,7 @@ class ilBookingReservationDBRepository
                 ,"user_id" => $user_id
                 ,"counter" => 1
                 ,"user_name" => $uname["lastname"] . ", " . $uname["firstname"] // #17862
+                ,"login" => $uname["login"]
                 );
 
                 if ($a_has_schedule) {

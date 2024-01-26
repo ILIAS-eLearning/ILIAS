@@ -491,6 +491,10 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('forum') . ": " . $this->provider->getForumTitle();
         $body .= "\n\n";
+        if ($this->provider->providesClosestContainer()) {
+            $body .= $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) . ": " . $this->provider->closestContainer()->getTitle();
+            $body .= "\n\n";
+        }
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
         $body .= "\n\n";
         $body .= $this->getLanguageText($action) . ": \n------------------------------------------------------------\n";
@@ -575,9 +579,16 @@ class ilForumMailEventNotificationSender extends ilMailNotification
      */
     private function createSubjectText(string $subject) : string
     {
+        $container_text = '';
+        if ($this->provider->providesClosestContainer()) {
+            $container_text = " (" . $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) .
+                " \"" . $this->provider->closestContainer()->getTitle() . "\")";
+        }
+
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
+            $container_text,
             $this->provider->getThreadTitle()
         );
     }

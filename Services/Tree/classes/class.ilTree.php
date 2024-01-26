@@ -1574,13 +1574,11 @@ class ilTree
                 //$ilBench->start("Tree", "fetchNodeData_getTranslation");
                 $query = 'SELECT title,description FROM object_translation ' .
                     'WHERE obj_id = %s ' .
-                    'AND lang_code = %s ' .
-                    'AND NOT lang_default = %s';
+                    'AND lang_code = %s ';
 
-                $res = $ilDB->queryF($query, array('integer','text','integer'), array(
+                $res = $ilDB->queryF($query, array('integer','text'), array(
                     $data['obj_id'],
-                    $this->lang_code,
-                    1));
+                    $this->lang_code));
                 $row = $ilDB->fetchObject($res);
 
                 if ($row) {

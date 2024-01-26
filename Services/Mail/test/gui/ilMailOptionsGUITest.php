@@ -11,16 +11,12 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilMailOptionsGUITest extends ilMailBaseTest
 {
     /**
-     * @param ServerRequestInterface $request
-     * @param ilCtrl $ctrl
-     * @param ilSetting $settings
-     * @return ilMailOptionsGUI
      * @throws ReflectionException
      */
     protected function getMailOptionsGUI(
         ServerRequestInterface $request,
         ilCtrl $ctrl,
-        ilSetting $settings
+        ilMailOptions $mail_options
     ) : ilMailOptionsGUI {
         $tpl = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
@@ -31,12 +27,12 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         return new ilMailOptionsGUI(
             $tpl,
             $ctrl,
-            $settings,
             $lng,
             $user,
             $request,
             $mail,
-            $mailBox
+            $mailBox,
+            $mail_options
         );
     }
 
@@ -47,15 +43,29 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied() : void
     {
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
+        $request->method('getQueryParams')->willReturn([]);
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $ctrl->method('getCmd')->willReturn('showOptions');
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
+        $db = $this->createMock(ilDBInterface::class);
 
-        $settings->expects($this->any())->method('get')->with('show_mail_settings')->willReturn('1');
-        $ctrl->expects($this->any())->method('getCmd')->willReturn('showOptions');
-        $request->expects($this->any())->method('getQueryParams')->willReturn([]);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, $default = false) {
+            if ($key === 'show_mail_settings') {
+                return '1';
+            }
 
-        $gui = $this->getMailOptionsGUI($request, $ctrl, $settings);
+            return $default;
+        });
+
+        $options = new ilMailOptions(
+            0,
+            null,
+            $settings,
+            $db
+        );
+
+        $gui = $this->getMailOptionsGUI($request, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }
@@ -66,17 +76,31 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem() : void
     {
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
+        $request->method('getQueryParams')->willReturn([]);
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $ctrl->method('getCmd')->willReturn('showOptions');
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
+        $db = $this->createMock(ilDBInterface::class);
 
-        $settings->expects($this->any())->method('get')->with('show_mail_settings')->willReturn('0');
-        $ctrl->expects($this->any())->method('getCmd')->willReturn('showOptions');
-        $request->expects($this->any())->method('getQueryParams')->willReturn([]);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, $default = false) {
+            if ($key === 'show_mail_settings') {
+                return '0';
+            }
+
+            return $default;
+        });
 
         $ctrl->expects($this->once())->method('redirectByClass')->with('ilMailGUI');
 
-        $gui = $this->getMailOptionsGUI($request, $ctrl, $settings);
+        $options = new ilMailOptions(
+            0,
+            null,
+            $settings,
+            $db
+        );
+        
+        $gui = $this->getMailOptionsGUI($request, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }
@@ -87,19 +111,32 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings() : void
     {
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
-        $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
-        $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
-
-        $settings->expects($this->any())->method('get')->with('show_mail_settings')->willReturn('0');
-        $ctrl->expects($this->any())->method('getCmd')->willReturn('showOptions');
-
-        $ctrl->expects($this->once())->method('redirectByClass')->with('ilPersonalSettingsGUI');
-        $request->expects($this->any())->method('getQueryParams')->willReturn([
+        $request->method('getQueryParams')->willReturn([
             'referrer' => 'ilPersonalSettingsGUI'
         ]);
+        $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
+        $ctrl->expects($this->once())->method('redirectByClass')->with('ilPersonalSettingsGUI');
+        $ctrl->method('getCmd')->willReturn('showOptions');
+        $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
+        $db = $this->createMock(ilDBInterface::class);
 
-        $gui = $this->getMailOptionsGUI($request, $ctrl, $settings);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        $settings->method('get')->willReturnCallback(static function (string $key, $default = false) {
+            if ($key === 'show_mail_settings') {
+                return '0';
+            }
+
+            return $default;
+        });
+
+        $options = new ilMailOptions(
+            0,
+            null,
+            $settings,
+            $db
+        );
+
+        $gui = $this->getMailOptionsGUI($request, $ctrl, $options);
         $gui->setForm($form);
         $gui->executeCommand();
     }

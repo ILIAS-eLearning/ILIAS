@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
@@ -44,19 +60,17 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
             $response->fileSize = $file->getFileSize();
             $response->fileType = $file->getFileType();
             $response->error = null;
+            $this->uploaded_suffixes[] = $file->getFileExtension();
         } catch (Exception $e) {
             $file->delete();
             $response->error = $e->getMessage();
         }
-
-        $this->uploaded_suffixes[] = $file->getFileExtension();
 
         return $response;
     }
 
     public function getUploadedSuffixes() : array
     {
-        return $this->uploaded_suffixes;
+        return array_map('strtolower', $this->uploaded_suffixes);
     }
-
 }

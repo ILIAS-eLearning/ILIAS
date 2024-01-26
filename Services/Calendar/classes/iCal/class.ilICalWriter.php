@@ -23,17 +23,20 @@
 
 class ilICalWriter
 {
-    const LINEBREAK = "\r\n";
-    #const LINEBREAK = '<br />';
+    protected const LINEBREAK = "\r\n";
     // minus one to fix multi line breaks.
-    const LINE_SIZE = 74;
-    const BEGIN_LINE_WHITESPACE = ' ';
-    
-    private $ical = '';
+    protected const LINE_SIZE = 74;
+    protected const BEGIN_LINE_WHITESPACE = ' ';
+    protected const EMPTY = '';
+
+    /**
+     * @var string[]
+     */
+    protected $lines;
     
     public function __construct()
     {
-        $this->ical = '';
+        $this->lines = [];
     }
     
     public static function escapeText($a_text)
@@ -52,22 +55,17 @@ class ilICalWriter
                 '\,',
                 ),
             $a_text
-            );
+        );
     }
-    
-    /**
-     * Add a line to the ical string
-     * @return
-     * @param object $a_line
-     */
-    public function addLine($a_line)
+
+    public function addLine(string $a_line) : void
     {
         //$chunks = str_split($a_line, self::LINE_SIZE);
 
         include_once './Services/Utilities/classes/class.ilStr.php';
 
         // use multibyte split
-        $chunks = array();
+        $chunks = [];
         $len = ilStr::strLen($a_line);
         while ($len) {
             $chunks[] = ilStr::subStr($a_line, 0, self::LINE_SIZE);
@@ -76,21 +74,30 @@ class ilICalWriter
         }
 
         for ($i = 0; $i < count($chunks); $i++) {
-            $this->ical .= $chunks[$i];
-            if (isset($chunks[$i + 1])) {
-                $this->ical .= self::LINEBREAK;
-                $this->ical .= self::BEGIN_LINE_WHITESPACE;
-            }
+            $line = ($i > 0) ? self::BEGIN_LINE_WHITESPACE : self::EMPTY;
+            $line .= $chunks[$i];
+            $line .= (isset($chunks[$i + 1]) || ($i + 1) === count($chunks)) ? self::LINEBREAK : self::EMPTY;
+            $this->lines[] = $line;
         }
-        $this->ical .= self::LINEBREAK;
     }
-    
-    /**
-     * Return ical string
-     * @return
-     */
-    public function __toString()
+
+    public function byteCount() : int
     {
-        return $this->ical;
+        return strlen($this->__toString());
+    }
+
+    public function clear() : void
+    {
+        $this->lines = [];
+    }
+
+    public function append(ilICalWriter $other) : void
+    {
+        $this->lines = array_merge($this->lines, $other->lines);
+    }
+
+    public function __toString() : string
+    {
+        return implode('', $this->lines);
     }
 }

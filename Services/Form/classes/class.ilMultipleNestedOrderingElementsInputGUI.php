@@ -17,7 +17,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     
     const CSS_LIST_CLASS = 'dd-list';
     const CSS_ITEM_CLASS = 'dd-item';
-    const CSS_HANDLE_CLASS = 'dd-handle';
+    const CSS_HANDLE_CLASS = 'il-dd-handle';
     
     const POSTVAR_SUBFIELD_NEST_ELEM = 'content';
     const POSTVAR_SUBFIELD_NEST_INDENT = 'indentation';
@@ -440,6 +440,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $jsTpl->setVariable('HTML_LIST_TAG', $this->getHtmlListTag());
         $jsTpl->setVariable('CSS_LIST_CLASS', $this->getCssListClass());
         $jsTpl->setVariable('CSS_ITEM_CLASS', $this->getCssItemClass());
+        $jsTpl->setVariable('CSS_HANDLE_CLASS', $this->getCssHandleClass());
         $jsTpl->parseCurrentBlock();
         
         return $jsTpl->get();

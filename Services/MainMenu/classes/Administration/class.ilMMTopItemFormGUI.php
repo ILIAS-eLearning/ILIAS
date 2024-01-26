@@ -104,7 +104,9 @@ class ilMMTopItemFormGUI
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('topitem_icon'))
                         ->withByline($txt('topitem_icon_byline'))
-                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML])
+                        ->withMaxFileSize(ilMMUploadHandlerGUI::MAX_FILE_SIZE);
+
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
@@ -114,9 +116,12 @@ class ilMMTopItemFormGUI
 
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
-            $type_groups = $this->getTypeGroups($f);
-            $type = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'),
-                $txt('topitem_type_byline'))->withRequired(true);
+            $type_groups = $this->getTypeGroups($f, $this->item_facade->isEmpty());
+            $type = $f()->field()->switchableGroup(
+                $type_groups,
+                $txt('topitem_type'),
+                $txt('topitem_type_byline')
+            )->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? TopParentItem::class : $this->item_facade->getType();
                 $type = $type->withValue($this->hash($string));
@@ -133,16 +138,22 @@ class ilMMTopItemFormGUI
 
         // ROLE BASED VISIBILITY
         if ($this->item_facade->supportsRoleBasedVisibility()) {
-            $access = new ilObjMainMenuAccess();
-            $value_role_based_visibility = null;
-            if ($this->item_facade->hasRoleBasedVisibility() && $this->item_facade->getGlobalRoleIDs()) {
-                $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
+            $access                         = new ilObjMainMenuAccess();
+            $value_role_based_visibility    = NULL;
+            $global_roles = $access->getGlobalRoles();
+            $global_role_ids = $this->item_facade->getGlobalRoleIDs();
+            if($this->item_facade->hasRoleBasedVisibility() && !empty($global_role_ids)) {
+                // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
+                $value_role_based_visibility[0] = array_intersect(
+                    $global_role_ids,
+                    array_keys($global_roles)
+                );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
                 [
                     $f()->field()->multiSelect(
                         $txt('sub_global_roles'),
-                        $access->getGlobalRoles()
+                        $global_roles
                     )->withRequired(true)
                 ],
                 $txt('sub_role_based_visibility'),
@@ -218,10 +229,10 @@ class ilMMTopItemFormGUI
      * @param Closure $f
      * @return array
      */
-    private function getTypeGroups(Closure $f) : array
+    private function getTypeGroups(Closure $f, bool $new): array
     {
         $type_groups = [];
-        $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
+        $type_informations = $this->repository->getPossibleTopItemTypesWithInformation($new);
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())

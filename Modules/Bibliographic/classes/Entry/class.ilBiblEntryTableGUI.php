@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilDataCollectionField
@@ -56,8 +70,9 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         // enable sorting by alphabet -- therefore an unvisible column 'content' is added to the table, and the array-key 'content' is also delivered in setData
         $this->addColumn($this->lng()->txt('a'), 'content', 'auto');
         $this->initFilter();
-        $this->initData();
         $this->setOrderField('content');
+        $this->setExternalSorting(true);
+        $this->initData();
         $this->setDefaultOrderField('content');
     }
 
@@ -99,10 +114,14 @@ class ilBiblEntryTableGUI extends ilTable2GUI
      */
     public function fillRow($a_set)
     {
-        $ilBiblEntry = $this->facade->entryFactory()->findByIdAndTypeString($a_set['entry_id'], $a_set['entry_type']);
-        //TODO instanciate presentation gui class
-        $ilBiblOverviewGUI = new ilBiblEntryTablePresentationGUI($ilBiblEntry, $this->facade);
-        $this->tpl->setVariable('SINGLE_ENTRY', ilBiblEntryDetailPresentationGUI::prepareLatex($ilBiblOverviewGUI->getHtml()));
+        /** @var ilBiblEntryTablePresentationGUI $presentation_gui */
+        $presentation_gui = $a_set['overview_gui'];
+        $this->tpl->setVariable(
+            'SINGLE_ENTRY',
+            ilBiblEntryDetailPresentationGUI::prepareLatex(
+                $presentation_gui->getHtml()
+            )
+        );
         //Detail-Link
         $this->ctrl->setParameter($this->parent_obj, ilObjBibliographicGUI::P_ENTRY_ID, $a_set['entry_id']);
         $this->tpl->setVariable('DETAIL_LINK', $this->ctrl->getLinkTarget($this->parent_obj, 'showDetails'));
@@ -112,7 +131,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         foreach ($libraries as $library) {
             if ($library->getShowInList()) {
                 $presentation = new ilBiblLibraryPresentationGUI($library, $this->facade);
-                $arr_library_link[] = $presentation->getButton($this->facade, $ilBiblEntry);
+                $arr_library_link[] = $presentation->getButton($this->facade, $presentation_gui->getEntry());
             }
         }
         if (count($arr_library_link)) {
@@ -152,16 +171,23 @@ class ilBiblEntryTableGUI extends ilTable2GUI
             $query->addFilter($filter_info);
         }
 
-        $entries = array();
+        $entries = [];
         $object_id = $this->facade->iliasObjId();
         foreach (
             $this->facade->entryFactory()
                 ->filterEntryIdsForTableAsArray($object_id, $query) as $entry
         ) {
-            $ilBibliographicEntry = $this->facade->entryFactory()->findByIdAndTypeString($entry['entry_id'], $entry['entry_type']);
-            $entry['content'] = strip_tags($ilBibliographicEntry->getOverview());
+            /** @var $bibl_entry ilBiblEntry */
+            $bibl_entry = $this->facade->entryFactory()->findByIdAndTypeString($entry['entry_id'], $entry['entry_type']);
+            $overview_gui = new ilBiblEntryTablePresentationGUI($bibl_entry, $this->facade);
+            $entry['content'] = strip_tags($overview_gui->getHtml());
+            $entry['overview_gui'] = $overview_gui;
             $entries[] = $entry;
         }
+
+        usort($entries, function ($a, $b) {
+            return $a['content'] > $b['content'];
+        });
 
         $this->setData($entries);
     }

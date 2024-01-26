@@ -83,6 +83,17 @@ class ilPersonalSkillsGUI
      * @var \ILIAS\UI\Renderer
      */
     protected $ui_ren;
+
+    /**
+     * @var ilTree
+     */
+    protected $tree_service;
+
+    /**
+     * @var ilObjectDefinition
+     */
+    protected $obj_definition;
+
     protected $obj_id = 0;
     protected $obj_skills = array();
 
@@ -117,6 +128,8 @@ class ilPersonalSkillsGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
+        $this->tree_service = $DIC->repositoryTree();
+        $this->obj_definition = $DIC["objDefinition"];
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -477,6 +490,9 @@ class ilPersonalSkillsGUI
             $filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
             $html = $tpl->get() . $html;
+        } else {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_no_skills_selected_info"));
+            $html = $this->ui_ren->render($box);
         }
 
         $main_tpl->setContent($html);
@@ -892,16 +908,18 @@ class ilPersonalSkillsGUI
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
-        $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
-        $si->setOptions($options);
-        $si->setValue($cur_basic_skill_id);
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton(
-            $lng->txt("select"),
-            "assignMaterials"
-        );
-        
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        if (count($options) > 1) {
+            $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+            $si->setOptions($options);
+            $si->setValue($cur_basic_skill_id);
+            $ilToolbar->addInputItem($si, true);
+            $ilToolbar->addFormButton(
+                $lng->txt("select"),
+                "assignMaterials"
+            );
+
+            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        }
         
         // table
         $tab = new ilSkillAssignMaterialsTableGUI(
@@ -1093,16 +1111,18 @@ class ilPersonalSkillsGUI
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
-        $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
-        $si->setOptions($options);
-        $si->setValue($cur_basic_skill_id);
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton(
-            $lng->txt("select"),
-            "selfEvaluation"
-        );
-        
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        if (count($options) > 1) {
+            $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+            $si->setOptions($options);
+            $si->setValue($cur_basic_skill_id);
+            $ilToolbar->addInputItem($si, true);
+            $ilToolbar->addFormButton(
+                $lng->txt("select"),
+                "selfEvaluation"
+            );
+
+            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        }
         
         // table
         $tab = new ilSelfEvaluationSimpleTableGUI(
@@ -1185,14 +1205,26 @@ class ilPersonalSkillsGUI
 
         //$profiles = ilSkillProfile::getProfilesOfUser($a_user_id);
 
-        if (count($this->user_profiles) == 0 && $this->obj_skills == null) {
+        if (count($this->cont_profiles) == 0 && $this->obj_skills == null) {
             return;
         }
 
         $this->determineCurrentProfile();
         $this->showProfileSelectorToolbar();
-        
-        $tpl->setContent($this->getGapAnalysisHTML());
+
+        $html = $this->showInfoBox() . $this->getGapAnalysisHTML();
+        $tpl->setContent($html);
+    }
+
+    public function showInfoBox() : string
+    {
+        $link = $this->ui_fac->link()->standard(
+            $this->lng->txt("skmg_open_all_assigned_profiles"),
+            $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI", "ilPersonalSkillsGUI"])
+        );
+        $box = $this->ui_fac->messageBox()->info($this->lng->txt("skmg_cont_profiles_info"))->withLinks([$link]);
+
+        return $this->ui_ren->render($box);
     }
 
 
@@ -1207,19 +1239,20 @@ class ilPersonalSkillsGUI
         $ilCtrl = $this->ctrl;
 
         $options = array();
+        $cont_options = array();
         if (is_array($this->obj_skills) && $this->obj_id > 0) {
             $options[0] = $lng->txt("obj_" . ilObject::_lookupType($this->obj_id)) . ": " . ilObject::_lookupTitle($this->obj_id);
+            foreach ($this->cont_profiles as $p) {
+                $cont_options[$p["profile_id"]] = $p["title"];
+            }
+            asort($cont_options);
+            $options = $options + $cont_options;
         }
-
-        foreach ($this->user_profiles as $p) {
-            $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+        else {
+            foreach ($this->user_profiles as $p) {
+                $options[$p["id"]] = $p["title"];
+            }
         }
-
-        foreach ($this->cont_profiles as $p) {
-            $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
-        }
-
-        asort($options);
 
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
         $si->setOptions($options);
@@ -1275,7 +1308,23 @@ class ilPersonalSkillsGUI
                 $max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
                 $this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
             } elseif ($this->gap_mode == "max_per_object") {
-                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+                if ($this->obj_definition->isContainer(\ilObject::_lookupType($this->gap_mode_obj_id))) {
+                    $sub_objects = $this->tree_service->getSubTree(
+                        $this->tree_service->getNodeData((int) current(\ilObject::_getAllReferences($this->gap_mode_obj_id))),
+                        false,
+                        \ilObjectLP::getSupportedObjectTypes()
+                    );
+                    $max = 0;
+                    foreach ($sub_objects as $ref_id) {
+                        $obj_id = \ilContainerReference::_lookupObjectId($ref_id);
+                        $max_tmp = $bs->getMaxLevelPerObject($sk["tref_id"], $obj_id, $user_id);
+                        if ($max_tmp > $max) {
+                            $max = $max_tmp;
+                        }
+                    }
+                } else {
+                    $max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
+                }
                 $this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
             } else {
                 $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
@@ -1297,6 +1346,8 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
+        // needed fix for profiles in gap view, because there is no filter shown (yet)
+        $this->getFilter()->clear();
 
         if ($a_skills == null) {
             $a_skills = $this->obj_skills;
@@ -1328,7 +1379,7 @@ class ilPersonalSkillsGUI
                     "base_skill_id" => $l["base_skill_id"],
                     "tref_id" => $l["tref_id"],
                     "level_id" => $l["level_id"]
-                    );
+                );
             }
         } elseif (is_array($a_skills)) {
             $skills = $a_skills;
@@ -1728,9 +1779,16 @@ class ilPersonalSkillsGUI
         }
 
         ilDatePresentation::setUseRelativeDates(false);
-        $title = ($a_level_entry["trigger_obj_id"] > 0)
-                ? $a_level_entry["trigger_title"]
-                : "";
+        $title = "";
+        if ($a_level_entry["trigger_obj_id"] > 0) {
+            if (ilObject::_exists($a_level_entry["trigger_ref_id"], true)) {
+                $title = ilObject::_lookupTitle($a_level_entry["trigger_obj_id"]);
+            } elseif (!empty($del_data = ilObjectDataDeletionLog::get($a_level_entry["trigger_obj_id"]))) {
+                $title = $del_data["title"];
+            } else {
+                $title = ($a_level_entry["trigger_title"]) ?? "";
+            }
+        }
 
         if ($a_level_entry["trigger_ref_id"] > 0
             && $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"])) {
@@ -1858,6 +1916,13 @@ class ilPersonalSkillsGUI
                 }
             }
 
+            // note for self-evaluation
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $a_base_skill, $a_tref_id)) {
+                $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_self_eval"));
+                return $tpl->get();
+            }
+
             // suggested resources
             if ($too_low) {
                 $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
@@ -1940,6 +2005,7 @@ class ilPersonalSkillsGUI
     public function listAssignedProfile()
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $main_tpl = $this->tpl;
 
@@ -1972,7 +2038,13 @@ class ilPersonalSkillsGUI
 
         // render
         $html = "";
+        $not_all_self_evaluated = false;
         foreach ($skills as $s) {
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s["base_skill_id"], $s["tref_id"])) {
+                $not_all_self_evaluated = true;
+            }
+
             // todo draft check
             $html .= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
         }
@@ -1983,6 +2055,11 @@ class ilPersonalSkillsGUI
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
 
             $html = $tpl->get() . $html;
+        }
+
+        if ($not_all_self_evaluated) {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_skill_needs_self_eval_box"));
+            $html = $this->ui_ren->render($box) . $html;
         }
 
         $main_tpl->setContent($html);

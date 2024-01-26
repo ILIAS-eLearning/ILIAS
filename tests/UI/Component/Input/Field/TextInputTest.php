@@ -133,8 +133,26 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
+    public function test_render_value_0() : void
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $value = "0";
+        $text = $f->text($label)->withValue($value)->withNameFrom($this->name_source);
 
-    public function test_render_required()
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($text));
+
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+   <label for="id_1" class="control-label col-sm-3">label</label>	
+   <div class="col-sm-9"><input id="id_1" type="text" value="0" name="name_0" class="form-control form-control-sm" /></div>
+</div>
+');
+        $this->assertEquals($expected, $html);
+    }
+
+    public function test_render_required() : void
     {
         $f = $this->buildFactory();
         $label = "label";

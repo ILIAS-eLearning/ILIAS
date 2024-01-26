@@ -20,7 +20,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
     public function __construct(int $objectId)
     {
         $this->placeholder = array();
-        $this->objectId    = $objectId;
+        $this->objectId = $objectId;
 
         $this->initPlaceholders();
     }

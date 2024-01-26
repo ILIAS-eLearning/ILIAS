@@ -43,7 +43,7 @@ class ilMStListCompetencesSkillsGUI
 
     protected function checkAccessOrFail() : void
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
             return;
         } else {
             ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
@@ -86,6 +86,7 @@ class ilMStListCompetencesSkillsGUI
 
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
         $this->dic->ui()->mainTemplate()->setTitle($this->dic->language()->txt('mst_list_competences'));
+        $this->dic->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_skmg.svg'));
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
@@ -122,23 +123,5 @@ class ilMStListCompetencesSkillsGUI
     public function cancel() : void
     {
         $this->dic->ctrl()->redirect($this);
-    }
-
-
-    protected function getActions() : void
-    {
-        global $DIC;
-
-        $mst_co_usr_id = $DIC->http()->request()->getQueryParams()['mst_lcom_usr_id'];
-
-        if ($mst_co_usr_id > 0) {
-            $selection = new ilAdvancedSelectionListGUI();
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
-
-            echo $selection->getHTML(true);
-        }
-        exit;
     }
 }

@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\ResourceStorage\Preloader\SecureString;
 
 /**
 * File System Explorer GUI class
@@ -11,6 +27,7 @@
 */
 class ilFileSystemGUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     public $ctrl;
 
     protected $use_upload_directory = false;
@@ -634,14 +651,20 @@ class ilFileSystemGUI
             ? $this->main_dir . "/" . $cur_subdir . "/"
             : $this->main_dir . "/";
 
+        // check if this path is inside $dir
+        $old_name = ilUtil::stripSlashes($_GET["old_name"]);
+        $realpath = realpath($dir . $old_name);
+        if (strpos($realpath, realpath($dir)) !== 0) {
+            $this->ilias->raiseError($this->lng->txt("no_permission"), $this->ilias->error_obj->MESSAGE);
+        }
 
-        if (is_dir($dir . ilUtil::stripSlashes($_GET["old_name"]))) {
-            rename($dir . ilUtil::stripSlashes($_GET["old_name"]), $dir . $new_name);
+        if (is_dir($dir . $old_name)) {
+            rename($dir . $old_name, $dir . $new_name);
         } else {
             include_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
             try {
-                ilFileUtils::rename($dir . ilUtil::stripSlashes($_GET["old_name"]), $dir . $new_name);
+                ilFileUtils::rename($dir . $old_name, $dir . $new_name);
             } catch (ilException $e) {
                 ilUtil::sendFailure($e->getMessage(), true);
                 $this->ctrl->redirect($this, "listFiles");
@@ -724,10 +747,14 @@ class ilFileSystemGUI
         }
 
         if (is_file($_FILES["new_file"]["tmp_name"])) {
-            $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+            $name = $this->secure(ilUtil::stripSlashes($_FILES["new_file"]["name"]));
             $tgt_file = $cur_dir . "/" . $name;
-
-            ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+            try {
+                ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+            } catch (ilException $e) {
+                ilUtil::sendFailure($e->getMessage(), true);
+                $this->ctrl->redirect($this, "listFiles");
+            }
         } elseif ($_POST["uploaded_file"]) {
             include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 

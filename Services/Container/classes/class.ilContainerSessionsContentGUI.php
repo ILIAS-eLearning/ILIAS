@@ -125,7 +125,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if ($output_html != "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
-        
+
+        $prefix = $postfix = '';
         if (is_array($this->items["sess"]) ||
             $this->items['sess_link']['prev']['value'] ||
             $this->items['sess_link']['next']['value']) {
@@ -142,7 +143,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             $this->renderer->setBlockPosition("sess", 1);
             
             $position = 1;
-            
             foreach ($this->items["sess"] as $item_data) {
                 if (!$this->renderer->hasItem($item_data["child"])) {
                     $html = $this->renderItem($item_data, $position++, true);
@@ -151,10 +151,15 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
                     }
                 }
             }
+            #22328 render session block if previous or next session link is available
+            if (
+                !count($this->items['sess'] ?? []) &&
+                ($prefix !== '' || $postfix !== '')
+            ) {
+                $this->renderer->addItemToBlock('sess', '', 0, '&nbsp;');
+            }
         }
-
         $pos = $this->getItemGroupsHTML(1);
-        
         if (is_array($this->items["_all"])) {
             $this->renderer->addCustomBlock("_all", $lng->txt("content"));
             $this->renderer->setBlockPosition("_all", ++$pos);
@@ -208,28 +213,24 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             if ($prefp) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_prev_sessions'));
                 $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
+                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI()), 'view'));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_prev_sessions'));
                 $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
+                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI()), 'view'));
             }
+            $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
         } else {
             $prefn = $ilUser->getPref('crs_sess_show_next_' . $this->getContainerObject()->getId());
 
             if ($prefn) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             }
+            $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
+            $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI()), 'view'));
+            $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
         }
         $tpl->parseCurrentBlock();
 

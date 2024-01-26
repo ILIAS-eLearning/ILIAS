@@ -180,7 +180,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
                 //				$item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_folder_b.png");
                 $item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_dcl_fold.svg'));
             }
-            $item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
+            $item->setVariable("TXT_TITLE_LINKED", htmlspecialchars(basename($node->getPath())));
             $item->setVariable("HREF_TITLE_LINKED", $this->getLinkToFolder($node));
         } // File
         else {
@@ -194,10 +194,10 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
                 $this->formatBytes($node->getSize()) . "&nbsp;&nbsp;&nbsp;" . $modified
             );
             if ($download) {
-                $item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
+                $item->setVariable("TXT_TITLE_LINKED", htmlspecialchars(basename($node->getPath())));
                 $item->setVariable("HREF_TITLE_LINKED", $ilCtrl->getLinkTarget($gui_class, "getFile") . "&id=" . $node->getId());
             } else {
-                $item->setVariable("TXT_TITLE", basename($node->getPath()));
+                $item->setVariable("TXT_TITLE", htmlspecialchars(basename($node->getPath())));
             }
         }
 
@@ -256,7 +256,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
             $ilLocator->addItem($this->getPluginObject()->getCloudModulObject()->getTitle(), ilCloudPluginFileTreeGUI::getLinkToFolder($node));
         } else {
             $this->getLocatorHtml($this->getFileTree()->getNodeFromId($node->getParentId()));
-            $ilLocator->addItem(basename($node->getPath()), $this->getLinkToFolder($node));
+            $ilLocator->addItem(htmlspecialchars(basename($node->getPath())), $this->getLinkToFolder($node));
         }
 
         return "<DIV class='xcld_locator' id='xcld_locator_" . $node->getId() . "'>" . $ilLocator->getHTML() . "</DIV>";

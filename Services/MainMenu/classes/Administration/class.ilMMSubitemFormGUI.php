@@ -108,7 +108,8 @@ class ilMMSubitemFormGUI
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('sub_icon'))
                         ->withByline($txt('sub_icon_byline'))
-                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML])
+                        ->withMaxFileSize(ilMMUploadHandlerGUI::MAX_FILE_SIZE);
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
@@ -136,14 +137,20 @@ class ilMMSubitemFormGUI
         if($this->item_facade->supportsRoleBasedVisibility()) {
             $access                         = new ilObjMainMenuAccess();
             $value_role_based_visibility    = NULL;
-            if($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
-                $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
+            $global_roles = $access->getGlobalRoles();
+            $global_role_ids = $this->item_facade->getGlobalRoleIDs();
+            if($this->item_facade->hasRoleBasedVisibility() && !empty($global_role_ids)) {
+                // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
+                $value_role_based_visibility[0] = array_intersect(
+                    $global_role_ids,
+                    array_keys($global_roles)
+                );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
                 [
                     $f()->field()->multiSelect(
                         $txt('sub_global_roles'),
-                        $access->getGlobalRoles()
+                        $global_roles
                     )->withRequired(true)
                 ],
                 $txt('sub_role_based_visibility'),

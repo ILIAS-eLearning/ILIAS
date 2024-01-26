@@ -34,7 +34,10 @@ class ilTestGradingMessageBuilder
      * @var integer
      */
     private $activeId;
-
+    /**
+     * @var array
+     */
+    private $messageText = [];
     /**
      * @param ilLanguage $lng
      * @param ilObjTest $testOBJ
@@ -63,10 +66,6 @@ class ilTestGradingMessageBuilder
             $this->addMessagePart($this->buildGradingStatusMsg());
         }
 
-        if ($this->testOBJ->areObligationsEnabled()) {
-            $this->addMessagePart($this->buildObligationsMsg());
-        }
-        
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
             $this->addMessagePart($this->buildGradingMarkMsg());
         }
@@ -168,15 +167,6 @@ class ilTestGradingMessageBuilder
     private function getMaxPoints()
     {
         return $this->resultData['max_points'];
-    }
-    
-    private function buildObligationsMsg()
-    {
-        if ($this->areObligationsAnswered()) {
-            return $this->lng->txt('grading_obligations_answered_msg');
-        }
-
-        return $this->lng->txt('grading_obligations_missing_msg');
     }
     
     private function areObligationsAnswered()

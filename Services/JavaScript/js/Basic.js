@@ -231,13 +231,12 @@ il.Util = {
 	fixPosition: function (el) {
 		var r = il.Util.getRegion(el),
 			vp = il.Util.getViewportRegion();
-
 		// we only fix absolute positioned items
 		if ($(el).css("position") != "absolute") {
 			return;
 		}
 
-		if (vp.right - 20 < r.right) {
+		if (vp.right - 15 < r.right) {
 			il.Util.setX(el, r.x - (r.right - vp.right + 20));
 		}
 
@@ -278,7 +277,7 @@ il.Util = {
 	 */
 	print: function () {
 		if (typeof(window.print) != 'undefined') {
-			if (typeof MathJax !== 'undefined') {
+			if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
 				MathJax.Hub.Queue(
 					["Delay",MathJax.Callback,700],
 					window.print

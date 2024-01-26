@@ -31,6 +31,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
      */
     protected $filter = array();
     /**
+     * @var array
+     */
+    protected $selectable_columns_cached = [];
+    /**
+     * @var array
+     */
+    protected $usr_orgu_names = [];
+    /**
      * @var ilMyStaffAccess
      */
     protected $access;
@@ -153,11 +161,16 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
+    public function getSelectableColumns() : array
+    {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns()
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns() : array
     {
         $cols = array();
 
@@ -200,6 +213,21 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'lastname',
             );
         }
+        if ($arr_searchable_user_columns['email']) {
+            $cols['email'] = array(
+                'txt' => $this->dic->language()->txt('email'),
+                'default' => true,
+                'width' => 'auto',
+                'sort_field' => 'email',
+            );
+        }
+        if ($arr_searchable_user_columns['org_units'] ?? false) {
+            $cols['usr_assinged_orgus'] = array(
+                'txt' => $this->dic->language()->txt('objs_orgu'),
+                'default' => true,
+                'width' => 'auto',
+            );
+        }
 
         return $cols;
     }
@@ -227,6 +255,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id) : string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
 
     /**
      * @param ilMStListCompetencesSkill $profile
@@ -239,26 +275,50 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== null) {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
-                    $this->tpl->parseCurrentBlock();
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
+                switch ($k) {
+                    case 'usr_assinged_orgus':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            $this->getTextRepresentationOfUsersOrgUnits($profile->getUserId())
+                        );
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    default:
+                        if ($propGetter($k) !== null) {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
+                            $this->tpl->parseCurrentBlock();
+                        } else {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable('VALUE', '&nbsp;');
+                            $this->tpl->parseCurrentBlock();
+                        }
+                        break;
                 }
             }
         }
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->setAsynch(true);
+        $actions->setId($profile->getUserId() . "-" . $profile->getSkillNodeId());
 
-        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $profile->getUserId());
+        $mst_lcom_usr_id = $profile->getUserId();
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS, "", true)));
+        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $mst_lcom_usr_id);
+
+        $actions = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $actions,
+            $mst_lcom_usr_id,
+            rawurlencode($this->dic->ctrl()->getLinkTargetByClass(
+                "ilMStListCompetencesSkillsGUI",
+                \ilMStListCompetencesSkillsGUI::CMD_INDEX
+            ))
+        );
+
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
@@ -306,6 +366,9 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
+                case 'usr_assinged_orgus':
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($selected_skill->getUserId());
+                    break;
                 default:
                     $field_values[$k] = strip_tags($propGetter($k));
                     break;

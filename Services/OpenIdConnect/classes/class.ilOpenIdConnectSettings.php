@@ -23,6 +23,14 @@ class ilOpenIdConnectSettings
     const LOGOUT_SCOPE_GLOBAL = 0;
     const LOGOUT_SCOPE_LOCAL = 1;
 
+    const URL_VALIDATION_PROVIDER = 0;
+    const URL_VALIDATION_CUSTOM = 1;
+    const URL_VALIDATION_NONE = 2;
+
+    const VALIDATION_ISSUE_INVALID_SCOPE = 0;
+    const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
+
+
     /**
      * @var \ilOpenIdConnectSettings
      *
@@ -131,6 +139,9 @@ class ilOpenIdConnectSettings
      * @var array
      */
     private $additional_scopes = [];
+
+    private $validate_scopes = self::URL_VALIDATION_PROVIDER;
+    private $custom_discovery_url = null;
 
 
     /**
@@ -395,7 +406,8 @@ class ilOpenIdConnectSettings
     /**
      * @return array
      */
-    public function getAllScopes() : array {
+    public function getAllScopes() : array
+    {
         $scopes = $this->additional_scopes;
         array_unshift($scopes, self::DEFAULT_SCOPE);
 
@@ -484,34 +496,57 @@ class ilOpenIdConnectSettings
         }
         return '';
     }
+    public function setValidateScopes(int $validation_mode) : void
+    {
+        $this->validate_scopes = $validation_mode;
+    }
 
-    public function validateScopes(string $provider, array $custom_scopes) {
+    public function getValidateScopes() : int
+    {
+        return $this->validate_scopes;
+    }
+
+    public function setCustomDiscoveryUrl(?string $discoveryUrl) : void
+    {
+        $this->custom_discovery_url = $discoveryUrl;
+    }
+
+    public function getCustomDiscoveryUrl() : ?string
+    {
+        return $this->custom_discovery_url;
+    }
+
+    public function validateScopes(string $discoveryURL, array $custom_scopes)
+    {
+        $result = array();
         try {
-            $curl = new ilCurlConnection($provider . '/.well-known/openid-configuration');
+            $curl = new ilCurlConnection($discoveryURL);
             $curl->init();
 
             $curl->setOpt(CURLOPT_HEADER, 0);
             $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
             $curl->setOpt(CURLOPT_TIMEOUT, 4);
 
-            $response =  json_decode($curl->exec());
+            $response = $curl->exec();
 
-            if($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
-                return array();
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
+                $available_scopes = $response->scopes_supported;
+                $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
+                $available_scopes = $decoded_response->scopes_supported;
+                array_unshift($custom_scopes, self::DEFAULT_SCOPE);
+
+                $result = array_diff($custom_scopes, $available_scopes);
+                if (!empty(array_diff($custom_scopes, $available_scopes))) {
+                    $result = [self::VALIDATION_ISSUE_INVALID_SCOPE, array_diff($custom_scopes, $available_scopes)];
+                }
+            } else {
+                $result = [self::VALIDATION_ISSUE_DISCOVERY_ERROR, $response];
             }
-
-            $available_scopes = $response->scopes_supported;
-            array_unshift($custom_scopes, self::DEFAULT_SCOPE);
-
-            $result = array_diff($custom_scopes, $available_scopes);
-
-
-        } catch (ilCurlConnectionException $e){
+        } catch (ilCurlConnectionException $e) {
             throw $e;
         } finally {
             $curl->close();
         }
-
         return $result;
     }
 
@@ -541,6 +576,13 @@ class ilOpenIdConnectSettings
             $this->storage->set('pumap_' . $field, $this->getProfileMappingFieldUpdate($field));
         }
         $this->storage->set('role_mappings', (string) serialize($this->getRoleMappings()));
+
+        $this->storage->set('validate_scopes', (string) $this->getValidateScopes());
+        if (self::URL_VALIDATION_CUSTOM === $this->getValidateScopes()) {
+            $this->storage->set('custom_discovery_url', $this->getCustomDiscoveryUrl());
+        } else {
+            $this->storage->delete('custom_discovery_url');
+        }
     }
 
     /**
@@ -569,6 +611,10 @@ class ilOpenIdConnectSettings
         $this->setRole((int) $this->storage->get('role'), 0);
         $this->setUidField((string) $this->storage->get('uid'), '');
         $this->setRoleMappings((array) unserialize($this->storage->get('role_mappings', serialize([]))));
+        $this->setValidateScopes((int) $this->storage->get('validate_scopes', (string) self::URL_VALIDATION_PROVIDER));
+        if (self::URL_VALIDATION_CUSTOM === $this->getValidateScopes()) {
+            $this->setCustomDiscoveryUrl($this->storage->get('custom_discovery_url'));
+        }
     }
 
     /**

@@ -187,6 +187,15 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
      */
     private function sendLanguageVariableBasedAccountMail(ilObjUser $user, $rawPassword, $usedRegistrationCode)
     {
+        if (!$user->getEmail()) {
+            $this->logger->debug(sprintf(
+                "Missing email address, did not send account registration mail for user %s (id: %s) ...",
+                $user->getLogin(),
+                $user->getId()
+            ));
+            return;
+        }
+
         $this->logger->debug(sprintf(
             "Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...",
             $user->getLogin(),

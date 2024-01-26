@@ -21,6 +21,12 @@ interface ilForumNotificationMailData
      * @return int frm_data.top_pk
      */
     public function getForumId();
+
+    /** @return ilObjCourse|ilObjGroup|null */
+    public function closestContainer() : ?ilObject;
+
+    public function providesClosestContainer() : bool;
+
     
     /**
      * @return string frm_data.top_name

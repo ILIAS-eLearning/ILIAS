@@ -142,10 +142,13 @@ class ilExAssignmentGUI
         $tpl->setVariable("TITLE", $a_ass->getTitle() . $mand);
 
         // status icon
-        $stat = $a_ass->getMemberStatus()->getStatus();
-        $pic = $a_ass->getMemberStatus()->getStatusIcon();
-        $tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-        $tpl->setVariable("ALT_STATUS", $lng->txt("exc_" . $stat));
+        $tpl->setVariable(
+            "ICON_STATUS",
+            $this->getIconForStatus(
+                $a_ass->getMemberStatus()->getStatus(),
+                ilLPStatusIcons::ICON_VARIANT_SHORT
+            )
+        );
 
         return $tpl->get();
     }
@@ -292,18 +295,20 @@ class ilExAssignmentGUI
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
 
+                $output_filename = htmlspecialchars($file['name']);
+
                 if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
                     $item_id = "il-ex-modal-img-" . $a_ass->getId() . "-" . $cnt;
 
 
-                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $file['name']));
+                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
                     $image_lens = ilUtil::getImagePath("enlarge.svg");
 
                     $modal = ilModalGUI::getInstance();
                     $modal->setId($item_id);
                     $modal->setType(ilModalGUI::TYPE_LARGE);
                     $modal->setBody($image);
-                    $modal->setHeading($file["name"]);
+                    $modal->setHeading($output_filename);
                     $modal = $modal->getHTML();
 
                     $img_tpl = new ilTemplate("tpl.image_file.html", true, true, "Modules/Exercise");
@@ -315,7 +320,7 @@ class ilExAssignmentGUI
                     $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
-                    $a_info->addProperty($file["name"], $img_tpl->get());
+                    $a_info->addProperty($output_filename, $img_tpl->get());
                 } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
                     $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
                     $mp = new ilMediaPlayerGUI();
@@ -327,9 +332,9 @@ class ilExAssignmentGUI
                         $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"])))
                     );
                     $media_tpl->setVariable("DOWNLOAD_BUTTON", $ui_renderer->render($but));
-                    $a_info->addProperty($file["name"], $media_tpl->get());
+                    $a_info->addProperty($output_filename, $media_tpl->get());
                 } else {
-                    $a_info->addProperty($file["name"], $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
+                    $a_info->addProperty($output_filename, $lng->txt("download"), $this->getSubmissionLink("downloadFile", array("file" => urlencode($file["name"]))));
                 }
             }
         }
@@ -410,13 +415,8 @@ class ilExAssignmentGUI
                 );
             }
 
-            if ($status == "") {
-                //				  $a_info->addProperty($lng->txt("status"),
-//						$lng->txt("message_no_delivered_files"));
-            } elseif ($status != "notgraded") {
-                $img = '<img src="' . ilUtil::getImagePath("scorm/" . $status . ".svg") . '" ' .
-                    ' alt="' . $lng->txt("exc_" . $status) . '" title="' . $lng->txt("exc_" . $status) .
-                    '" />';
+            if ($status != "" && $status != "notgraded") {
+                $img = $this->getIconForStatus($status);
                 $a_info->addProperty(
                     $lng->txt("status"),
                     $img . " " . $lng->txt("exc_" . $status)
@@ -493,5 +493,34 @@ class ilExAssignmentGUI
         }
         
         return $url;
+    }
+
+    /**
+     * Get the rendered icon for a status (failed, passed or not graded).
+     */
+    protected function getIconForStatus(string $status, int $variant = ilLPStatusIcons::ICON_VARIANT_LONG) : string
+    {
+        $icons = ilLPStatusIcons::getInstance($variant);
+        $lng = $this->lng;
+
+        switch ($status) {
+            case "passed":
+                return $icons->renderIcon(
+                    $icons->getImagePathCompleted(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            case "failed":
+                return $icons->renderIcon(
+                    $icons->getImagePathFailed(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            default:
+                return $icons->renderIcon(
+                    $icons->getImagePathNotAttempted(),
+                    $lng->txt("exc_" . $status)
+                );
+        }
     }
 }

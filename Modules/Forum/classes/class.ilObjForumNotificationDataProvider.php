@@ -19,6 +19,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public $pos_author_id = 0;
     /** @var int */
     protected $forum_id = 0;
+    /** @var ilObjGroup|ilObjCourse */
+    protected $closest_container = null;
     /** @var string $forum_title */
     protected $forum_title = '';
     /** @var string $thread_title */
@@ -30,6 +32,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     private $db;
     private $access;
     private $user;
+    /** @var ilTree $tree */
+    private $tree;
 
     /**
      * @var bool
@@ -50,6 +54,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->db = $DIC->database();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
+        $this->tree = $DIC->repositoryTree();
 
         $this->notificationCache = $notificationCache;
 
@@ -97,6 +102,16 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public function getForumId()
     {
         return $this->forum_id;
+    }
+
+    public function closestContainer() : ?ilObject
+    {
+        return $this->closest_container;
+    }
+
+    public function providesClosestContainer() : bool
+    {
+        return $this->closest_container !== null;
     }
 
     /**
@@ -339,13 +354,44 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
             $row = $this->db->fetchAssoc($result);
 
+            $container = $this->determineClosestContainer($this->getRefId());
+            if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
+                $row['closest_container'] = $container;
+            }
+
             $this->notificationCache->store($cacheKey, $row);
         }
 
-        $row = $this->notificationCache->fetch($cacheKey);
+        $row = $row ?? $this->notificationCache->fetch($cacheKey);
         $this->forum_id = $row['top_pk'];
         $this->forum_title = $row['top_name'];
+        $this->closest_container = $row['closest_container'] ?? null;
+
+
         $this->is_anonymized = (bool) $row['anonymized'];
+    }
+
+    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
+    {
+        $cacheKey = $this->notificationCache->createKeyByValues([
+            'forum_container',
+            $frm_ref_id
+        ]);
+
+        if (false === $this->notificationCache->exists($cacheKey)) {
+            $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
+            if (!($ref_id > 0)) {
+                $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
+            }
+
+            if ($ref_id > 0) {
+                $container = ilObjectFactory::getInstanceByRefId($ref_id);
+                $this->notificationCache->store($cacheKey, $container);
+                return $container;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -367,7 +413,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getForumNotificationRecipients()
     {
@@ -435,7 +481,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getPostAnsweredRecipients()
     {
@@ -458,7 +504,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getPostActivationRecipients()
     {

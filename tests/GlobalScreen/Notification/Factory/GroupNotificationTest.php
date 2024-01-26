@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationGroupRenderer;
 
@@ -9,7 +26,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class GroupNotificationTest extends BaseNotificationSetUp
 {
-    public function testConstructByFactory()
+    public function testConstructByFactory() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
 
@@ -17,13 +34,13 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals($this->id, $group_notification->getProviderIdentification());
     }
 
-    public function testWitTitle()
+    public function testWitTitle() : void
     {
         $group_notification = $this->factory->standardGroup($this->id)->withTitle("test");
         $this->assertEquals("test", $group_notification->getTitle());
     }
 
-    public function testAddNotification()
+    public function testAddNotification() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals([], $group_notification->getNotifications());
@@ -34,7 +51,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals([$standard_notification,$standard_notification], $group_notification->getNotifications());
     }
 
-    public function testNotificationCount()
+    public function testNotificationCount() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getNotificationsCount());
@@ -45,7 +62,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals(2, $group_notification->getNotificationsCount());
     }
 
-    public function testNewNotificationCount()
+    public function testNewNotificationCount() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getNewNotificationsCount());
@@ -56,7 +73,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals(6, $group_notification->getNewNotificationsCount());
     }
 
-    public function testOldNotificationCount()
+    public function testOldNotificationCount() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getOldNotificationsCount());
@@ -70,13 +87,13 @@ class GroupNotificationTest extends BaseNotificationSetUp
     /**
      * Tests on AbstractBaseNotification
      */
-    public function testGetProviderIdentification()
+    public function testGetProviderIdentification() : void
     {
         $standard_notification = $this->factory->standard($this->id);
         $this->assertEquals($this->id, $standard_notification->getProviderIdentification());
     }
 
-    public function testGetRenderer()
+    public function testGetRenderer() : void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertInstanceOf(
@@ -85,13 +102,13 @@ class GroupNotificationTest extends BaseNotificationSetUp
         );
     }
 
-    public function testWithOpenedCallable()
+    public function testWithOpenedCallable() : void
     {
-        $callable = function () {
+        $callable = function () : string {
             return "something";
         };
         $standard_notification = $this->factory->standard($this->id);
-        $this->assertEquals(function () {
+        $this->assertEquals(function () : void {
         }, $standard_notification->getOpenedCallable());
         $standard_notification = $standard_notification->withOpenedCallable($callable);
         $this->assertEquals($callable, $standard_notification->getOpenedCallable());

@@ -33,11 +33,15 @@ include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.ph
  */
 class ilCalendarRemoteAccessHandler
 {
+    protected const LIMITED_QUERY_PARAM = 'limited';
     private $token_handler = null;
+    /**
+     * @var bool
+     */
+    protected $limit_enabled;
 
     /**
      * Constructor
-     * @return
      */
     public function __construct()
     {
@@ -75,7 +79,8 @@ class ilCalendarRemoteAccessHandler
         $this->initIlias();
         $logger = $GLOBALS['DIC']->logger()->cal();
         $this->initTokenHandler();
-        
+        $this->initLimitEnabled();
+
         if (!$this->initUser()) {
             $logger->warning('Calendar token is invalid. Authentication failed.');
             return false;
@@ -93,11 +98,11 @@ class ilCalendarRemoteAccessHandler
             #$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
             $cats = ilCalendarCategories::_getInstance();
             $cats->initialize(ilCalendarCategories::MODE_REMOTE_SELECTED, $this->getTokenHandler()->getCalendar());
-            $export = new ilCalendarExport($cats->getCategories(true));
+            $export = new ilCalendarExport($cats->getCategories(true), $this->limit_enabled);
         } else {
             $cats = ilCalendarCategories::_getInstance();
             $cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
-            $export = new ilCalendarExport($cats->getCategories(true));
+            $export = new ilCalendarExport($cats->getCategories(true), $this->limit_enabled);
         }
         
         $export->export();
@@ -119,7 +124,12 @@ class ilCalendarRemoteAccessHandler
         );
         return true;
     }
-    
+
+    protected function initLimitEnabled()
+    {
+        $this->limit_enabled = (bool) $_GET[self::LIMITED_QUERY_PARAM];
+    }
+
     protected function initIlias()
     {
         include_once "Services/Context/classes/class.ilContext.php";

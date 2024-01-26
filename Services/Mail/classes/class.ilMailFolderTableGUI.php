@@ -324,7 +324,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this->_isSentFolder;
     }
 
-    public function isTrashFolder() : bool 
+    public function isTrashFolder() : bool
     {
         return $this->_isTrashFolder;
     }
@@ -514,6 +514,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             if (is_array($this->getSelectedItems()) && in_array($mail['mail_id'], $this->getSelectedItems(), false)) {
                 $mail['checked'] = ' checked="checked" ';
             }
+            
+            $mail['txt_select_mail_with_subject'] = sprintf(
+                $this->lng->txt('select_mail_with_subject_x'),
+                htmlspecialchars($mail['m_subject'] ?? '')
+            );
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(
@@ -569,13 +574,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 if (!$mail['msr_subject']) {
                     $mail['msr_subject_link_read'] = $link_mark_as_read;
                     $mail['msr_subject_mailclass'] = $css_class;
-                    $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
+                    $mail['msr_subject'] = htmlspecialchars($mail['m_subject'] ?? '');
                 }
                 $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
-                $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
+                $mail['mail_subject'] = htmlspecialchars($mail['m_subject'] ?? '');
                 $mail['mail_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             }
 

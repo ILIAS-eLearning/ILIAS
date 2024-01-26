@@ -38,7 +38,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->checkReadAccess();
 
         $ilTabs->clearTargets();
-        
+
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -52,56 +52,60 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
             $this->object->getKioskMode()
         );
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->object->getTitle()
+        );
+        $instance_name = $DIC['ilSetting']->get('short_inst_name');
+        if (trim($instance_name) === '') {
+            $instance_name = 'ILIAS';
+        }
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
+            $instance_name
+        );
 
         $testSessionFactory = new ilTestSessionFactory($this->object);
         $this->testSession = $testSessionFactory->getSession($_GET['active_id']);
-        
+
         $this->ensureExistingTestSession($this->testSession);
         $this->checkTestSessionUser($this->testSession);
-        
+
         $this->initProcessLocker($this->testSession->getActiveId());
-        
+
         $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
         $this->testSequence->loadQuestions();
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionRelatedObjectivesList.php';
         $this->questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
 
-        include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
-        include_once "./Services/YUI/classes/class.ilYuiUtil.php";
         ilYuiUtil::initConnectionWithAnimation();
-        
+
         $this->handlePasswordProtectionRedirect();
-        
+
         $cmd = $this->getCommand($cmd);
-        
+
         switch ($next_class) {
             case 'ilassquestionpagegui':
-
                 $this->checkTestExecutable();
-                
+
                 $questionId = $this->testSequence->getQuestionForSequence($this->getCurrentSequenceElement());
 
-                require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
                 $page_gui = new ilAssQuestionPageGUI($questionId);
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 break;
 
             case 'iltestsubmissionreviewgui':
-
                 $this->checkTestExecutable();
 
-                require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
                 $gui = new ilTestSubmissionReviewGUI($this, $this->object, $this->testSession);
                 $gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilassquestionhintrequestgui':
-
                 $this->checkTestExecutable();
 
                 $questionGUI = $this->object->createQuestionGUI(
@@ -109,14 +113,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->testSequence->getQuestionForSequence($this->getCurrentSequenceElement())
                 );
 
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
                 $questionHintTracking = new ilAssQuestionHintTracking(
                     $questionGUI->object->getId(),
                     $this->testSession->getActiveId(),
                     $this->testSession->getPass()
                 );
 
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
                 $gui = new ilAssQuestionHintRequestGUI($this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking);
 
 // fau: testNav - save the 'answer changed' status for viewing hint requests
@@ -127,27 +129,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 break;
 
             case 'iltestsignaturegui':
-
                 $this->checkTestExecutable();
 
-                require_once './Modules/Test/classes/class.ilTestSignatureGUI.php';
                 $gui = new ilTestSignatureGUI($this);
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'iltestpasswordprotectiongui':
-
                 $this->checkTestExecutable();
 
-                require_once 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php';
                 $gui = new ilTestPasswordProtectionGUI($this->ctrl, $this->tpl, $this->lng, $this, $this->passwordChecker);
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
-
                 if (ilTestPlayerCommands::isTestExecutionCommand($cmd)) {
                     $this->checkTestExecutable();
+                }
+
+                if (strtolower($cmd) === 'showquestion') {
+                    $testPassesSelector = new ilTestPassesSelector($this->db, $this->object);
+                    $testPassesSelector->setActiveId($this->testSession->getActiveId());
+                    $testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
+
+                    if (!$testPassesSelector->openPassExists()) {
+                        $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_pass_finished'), true);
+                        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+                    }
                 }
 
                 $cmd .= 'Cmd';
@@ -199,7 +207,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->testSequence->loadQuestions();
 
         if ($this->testSession->isObjectiveOriented()) {
-            require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
             $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
 
             $objectivesAdapter->notifyTestStart($this->testSession, $this->object->getId());
@@ -209,7 +216,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $this->testSequence,
                 $this->questionRelatedObjectivesList
             );
-            
+
             if ($this->testSequence->hasOptionalQuestions()) {
                 $this->adoptUserSolutionsFromPreviousPass();
 
@@ -237,36 +244,40 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function updateLearningProgressOnTestStart()
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        require_once('./Modules/Test/classes/class.ilObjTestAccess.php');
-        require_once('./Services/Tracking/classes/class.ilLPStatusWrapper.php');
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
     }
-    
+
     private function isValidSequenceElement($sequenceElement)
     {
         if ($sequenceElement === false) {
             return false;
         }
-        
+
         if ($sequenceElement < 1) {
             return false;
         }
-        
+
         if (!$this->testSequence->getPositionOfSequence($sequenceElement)) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     protected function showQuestionCmd()
     {
+        global $DIC;
+        $help = $DIC->help();
+        $help->setScreenIdComponent("tst");
+        $help->setScreenId("assessment");
+        $help->setSubScreenId("question");
+
         $_SESSION['tst_pass_finish'] = 0;
 
         $_SESSION["active_time_id"] = $this->object->startWorkingTime(
@@ -289,7 +300,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!(int) $questionId && $this->testSession->isObjectiveOriented()) {
             $this->handleTearsAndAngerNoObjectiveOrientedQuestion();
         }
-        
+
         if (!$this->testSequence->isQuestionPresented($questionId)) {
             $this->testSequence->setQuestionPresented($questionId);
             $this->testSequence->saveToDb();
@@ -300,14 +311,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $questionId,
             $this->testSession->getPass()
         );
-        
+
         // fau: testNav - always use edit mode, except for fixed answer
         if ($this->isParticipantsAnswerFixed($questionId)) {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
             $instantResponse = true;
         } else {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
-            $instantResponse = $this->getInstantResponseParameter();
+            // #37025 don't show instant response if a request for it should fix the answer and answer is not yet fixed
+            if ($this->object->isInstantFeedbackAnswerFixationEnabled()) {
+                $instantResponse = false;
+            } else {
+                $instantResponse = $this->getInstantResponseParameter();
+            }
         }
         // fau.
 
@@ -316,11 +332,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!($questionGui instanceof assQuestionGUI)) {
             $this->handleTearsAndAngerQuestionIsNull($questionId, $sequenceElement);
         }
-        
+
         $questionGui->setSequenceNumber($this->testSequence->getPositionOfSequence($sequenceElement));
         $questionGui->setQuestionCount($this->testSequence->getUserQuestionCount());
 
-        require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
         $headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
         $headerBlockBuilder->setQuestionTitle($questionGui->object->getTitle());
@@ -332,7 +347,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($questionGui->object->getId())
         );
         if ($this->testSession->isObjectiveOriented()) {
-            require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
             $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
             $objectivesAdapter->buildQuestionRelatedObjectiveList($this->testSequence, $this->questionRelatedObjectivesList);
             $this->questionRelatedObjectivesList->loadObjectivesTitles();
@@ -346,9 +360,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
-        
+
         $isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
-        
+
         $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
         $this->ctrl->setParameter($this, 'pmode', $presentationMode);
         $formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
@@ -360,22 +374,23 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $navigationToolbarGUI->setDisabledStateEnabled(false);
 // fau.
                 $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                
+
                 break;
-            
+
             case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
-                
+
                 if ($this->testSequence->isQuestionOptional($questionGui->object->getId())) {
                     $this->populateQuestionOptionalMessage();
                 }
-                
+
                 $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                
+
                 break;
-            
+
             default:
-                
+
                 require_once 'Modules/Test/exceptions/class.ilTestException.php';
+
                 throw new ilTestException('no presentation mode given');
         }
 
@@ -385,7 +400,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         // fau: testNav - enable the question navigation in edit mode
         $this->populateQuestionNavigation($sequenceElement, false, $isNextPrimary);
         // fau.
-        
+
         if ($instantResponse) {
             // fau: testNav - always use authorized solution for instant feedback
             $this->populateInstantResponseBlocks(
@@ -414,7 +429,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if ($this->object->isForceInstantFeedbackEnabled()) {
             return $this->submitSolutionCmd();
         }
-        
+
         if ($this->saveQuestionSolution(true, false)) {
             $questionId = $this->testSequence->getQuestionForSequence(
                 $this->getCurrentSequenceElement()
@@ -453,16 +468,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $this->testSequence->setQuestionChecked($questionId);
                 $this->testSequence->saveToDb();
             }
-            
+
             if ($this->getNextCommandParameter()) {
                 if ($this->getNextSequenceParameter()) {
                     $this->ctrl->setParameter($this, 'sequence', $this->getNextSequenceParameter());
                     $this->ctrl->setParameter($this, 'pmode', '');
                 }
-                
+
                 $this->ctrl->redirect($this, $this->getNextCommandParameter());
             }
-            
+
             $this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
         } else {
             $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -494,14 +509,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
         );
-        
+
         $this->ctrl->saveParameter($this, 'sequence');
 
         $this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function skipQuestionCmd()
     {
         $curSequenceElement = $this->getCurrentSequenceElement();
@@ -510,7 +525,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!$this->isValidSequenceElement($nextSequenceElement)) {
             $nextSequenceElement = $this->testSequence->getFirstSequence();
         }
-        
+
         if ($this->object->isPostponingEnabled()) {
             $this->testSequence->postponeSequence($curSequenceElement);
             $this->testSequence->saveToDb();
@@ -521,17 +536,17 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function handleQuestionPostponing($sequenceElement)
     {
         $questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
-    
+
         $isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
             $this->testSession->getActiveId(),
             $questionId,
             $this->testSession->getPass()
         );
-        
+
         if (!$isQuestionWorkedThrough) {
             $this->testSequence->postponeQuestion($questionId);
             $this->testSequence->saveToDb();
@@ -542,11 +557,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         $lastSequenceElement = $this->getCurrentSequenceElement();
         $nextSequenceElement = $this->testSequence->getNextSequence($lastSequenceElement);
-        
+
         if ($this->object->isPostponingEnabled()) {
             $this->handleQuestionPostponing($lastSequenceElement);
         }
-        
+
         if (!$this->isValidSequenceElement($nextSequenceElement)) {
             $nextSequenceElement = $this->testSequence->getFirstSequence();
         }
@@ -592,7 +607,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         return !$this->object->endingTimeReached() && !$this->isMaxProcessingTimeReached() && !$this->isNrOfTriesReached();
     }
-    
+
     /**
      * @return integer
      */
@@ -600,7 +615,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         return $this->testSequence->getQuestionForSequence($_GET["sequence"]);
     }
-    
+
     /**
      * saves the user input of a question
      */
@@ -633,12 +648,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if ($this->canSaveResult() || $force) {
             // but only if the ending time is not reached
             $q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
-            
+
             if ($this->isParticipantsAnswerFixed($q_id)) {
                 // should only be reached by firebugging the disabled form in ui
                 throw new ilTestException('not allowed request');
             }
-            
+
             if (is_numeric($q_id) && (int) $q_id) {
                 $questionOBJ = $this->getQuestionInstance($q_id);
                 $pass = null;
@@ -654,7 +669,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 );
 
                 if ($authorized && $this->testSession->isObjectiveOriented()) {
-                    require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
                     $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
                     $objectivesAdapter->updateQuestionResult($this->testSession, $questionOBJ);
                 }
@@ -678,8 +692,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $questionId = $this->testSequence->getQuestionForSequence(
             $this->getCurrentSequenceElement()
         );
-        
-        if ($this->getAnswerChangedParameter() && !$this->isParticipantsAnswerFixed($questionId)) {
+
+        if (!$this->isParticipantsAnswerFixed($questionId)) {
             if ($this->saveQuestionSolution(true)) {
                 $this->removeIntermediateSolution();
                 $this->setAnswerChangedParameter(false);
@@ -692,7 +706,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->setQuestionChecked($questionId);
             $this->testSequence->saveToDb();
         }
-        
+
         $this->ctrl->setParameter($this, 'instresp', 1);
 
         // fau: testNav - handle navigation after feedback
@@ -751,7 +765,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $ilUser->getId(),
                 $this->object->getTestId()
             ));
-            
+
             return true;
         };
 
@@ -832,7 +846,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if ($this->object->getListOfQuestionsStart()) {
             $this->ctrl->redirect($this, ilTestPlayerCommands::QUESTION_SUMMARY);
         }
-        
+
         $this->ctrl->setParameter($this, 'sequence', $this->testSession->getLastSequence());
         $this->ctrl->setParameter($this, 'pmode', '');
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -848,13 +862,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        
+
         $assSettings = new ilSetting('assessment');
 
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         $isAssessmentLogEnabled = ilObjAssessmentFolder::_enabledAssessmentLogging();
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionUserSolutionAdopter.php';
         $userSolutionAdopter = new ilAssQuestionUserSolutionAdopter($ilDB, $assSettings, $isAssessmentLogEnabled);
 
         $userSolutionAdopter->setUserId($ilUser->getId());
@@ -864,7 +876,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $userSolutionAdopter->perform();
     }
-    
+
     abstract protected function populateQuestionOptionalMessage();
 
     protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
@@ -881,7 +893,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         return true;
     }
-    
+
     protected function isQuestionSummaryFinishTestButtonRequired()
     {
         return true;
@@ -893,18 +905,18 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->backToInfoScreenCmd();
     }
-    
+
     /**
      * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
      */
     protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId)
     {
         $isNextPrimary = true;
-        
+
         if ($this->object->isForceInstantFeedbackEnabled()) {
             $isNextPrimary = false;
         }
-        
+
         $questionsMissingResult = assQuestion::getQuestionsMissingResultRecord(
             $this->testSession->getActiveId(),
             $this->testSession->getPass(),
@@ -916,13 +928,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $isNextPrimary = false;
         } elseif (count($questionsMissingResult) == 1) {
             $lastOpenQuestion = current($questionsMissingResult);
-            
+
             if ($currentQuestionId == $lastOpenQuestion) {
                 $navigationToolbarGUI->setFinishTestButtonPrimary(true);
                 $isNextPrimary = false;
             }
         }
-        
+
         return $isNextPrimary;
     }
 }

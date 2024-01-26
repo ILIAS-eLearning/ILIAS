@@ -1,5 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 include_once './Services/EventHandling/interfaces/interface.ilAppEventListener.php';
 
@@ -22,7 +40,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
     */
     public static function handleEvent($a_component, $a_event, $a_params)
     {
-        $obj_id = $a_params['obj_id'];
+        $obj_id = $a_params['obj_id'] ?? null;
         
         switch ($a_component) {
             case 'Services/Object':
@@ -55,6 +73,15 @@ class ilTrackingAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
+
+            case 'Modules/Group':
+            case 'Modules/Course':
+            case 'Modules/LearningSequence':
+                switch ($a_event) {
+                    case 'addParticipant':
+                        ilLPStatusWrapper::_updateStatus((int) $obj_id, (int) ($a_params['usr_id'] ?? 0));
+                        break;
+                }
         }
         
         return true;

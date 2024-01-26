@@ -281,10 +281,10 @@ class ilOrgUnitStaffGUI
         $rbacreview = $DIC['rbacreview'];
         $superior_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "superior", $recursive);
         $superior_table->parseData();
-        $superior_table->setTitle($lng->txt("il_orgu_superior"));
+        $superior_table->setTitle($lng->txt("orgu_superior"));
         $employee_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "employee", $recursive);
         $employee_table->parseData();
-        $employee_table->setTitle($lng->txt("il_orgu_employee"));
+        $employee_table->setTitle($lng->txt("orgu_employee"));
 
         return $superior_table->getHTML() . $employee_table->getHTML();
     }

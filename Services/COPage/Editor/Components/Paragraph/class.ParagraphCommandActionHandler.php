@@ -160,6 +160,21 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function updateCommand($body, $auto = false) : Server\Response
     {
         $updated = $this->updateParagraph($body["data"]["pcid"], $body["data"]["content"], $body["data"]["characteristic"]);
+
+        // note: the initial_section_class is only sent from
+        // a cancel command to reset the class, if changed while editing
+
+        if ($body["data"]["initial_section_class"] != "") {
+            $page = $this->page_gui->getPageObject();
+            $page->addHierIDs();
+            $parent = $page->getParentContentObjectForPcId($body["data"]["pcid"]);
+            // case 1: parent section exists and new characteristic is not empty
+            if (!is_null($parent) && $parent->getType() == "sec") {
+                $parent->setCharacteristic($body["data"]["initial_section_class"]);
+                $updated = $page->update();
+            }
+        }
+
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
     }
 

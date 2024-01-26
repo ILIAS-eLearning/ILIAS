@@ -162,8 +162,12 @@ class ilRoleXmlImporter
 
         foreach ($role->operations as $sxml_operations) {
             foreach ($sxml_operations as $sxml_op) {
+                $operation = trim((string) $sxml_op);
+                if (!array_key_exists($operation, $operations)) {
+                    continue;
+                }
                 $ops_group = (string) $sxml_op['group'];
-                $ops_id = (int) $operations[trim((string) $sxml_op)];
+                $ops_id = (int) $operations[$operation];
                 $ops = trim((string) $sxml_op);
                 
                 if ($ops_group and $ops_id) {

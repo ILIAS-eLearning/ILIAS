@@ -97,6 +97,15 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
+    public function clear()
+    {
+        ilSession::clear("skmg_pf_type_of_formation");
+        ilSession::clear("skmg_pf_target_level");
+        ilSession::clear("skmg_pf_mat_res");
+        ilSession::clear("skmg_pf_from");
+        ilSession::clear("skmg_pf_to");
+    }
+
     /**
      * Is entry in range?
      * @param array $level_data
@@ -114,7 +123,9 @@ class ilPersonalSkillsFilterGUI
 
         // to
         if (ilSession::get("skmg_pf_to") != "") {
-            if ($level_entry["status_date"] > ilSession::get("skmg_pf_to")) {
+            $to = new ilDateTime(ilSession::get("skmg_pf_to"), IL_CAL_DATETIME);
+            $to->increment(IL_CAL_DAY, 1);
+            if ($level_entry["status_date"] > $to) {
                 return false;
             }
         }

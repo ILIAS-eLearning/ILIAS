@@ -15,7 +15,7 @@
 				<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc"/> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label><br />
 				<!-- END position_rep -->
 				<!-- BEGIN usr_search -->
-				<input type="radio" name="root_id" value="-1" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
+				<input type="radio" name="root_id" value="{USER_SEARCH_ID}" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
 				<!-- END usr_search -->
 				<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}"/><!-- END position_hid -->
 			</fieldset>
@@ -56,6 +56,7 @@
 
                     $("#ilMMSearchMenu input[type='radio']").change(function () {
                         $("#main_menu_search").focus();
+						$("#main_menu_search").autocomplete("enable");
 
                         /* close current search */
                         $("#main_menu_search").autocomplete("close");
@@ -64,6 +65,11 @@
 
                         var orig_datasource = "{AC_DATASOURCE}";
                         var type_val = $('input[name=root_id]:checked', '#mm_search_form').val();
+
+						if (type_val !== "{AC_ROOT_ID}" && type_val !== "{AC_USER_SEARCH_ID}") {
+							$("#main_menu_search").autocomplete("disable");
+							return;
+						}
 
                         $("#main_menu_search").autocomplete("option",
                             {

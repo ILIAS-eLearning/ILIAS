@@ -355,22 +355,18 @@ class ilExAssignmentTeam
         $ilDB = $this->db;
         
         // #18179
-        
-        $teams = array();
-        $set = $ilDB->query("SELECT DISTINCT(id)" .
-            " FROM il_exc_team");
+
+        // see also #31565
+        $obsolete_teams = [];
+        $set = $ilDB->query("SELECT DISTINCT l.team_id as id FROM il_exc_team_log as l LEFT JOIN il_exc_team as t ON (l.team_id = t.id) WHERE t.id IS NULL;");
         while ($row = $ilDB->fetchAssoc($set)) {
-            $teams[] = $row["id"];
+            $obsolete_teams[] = $row["id"];
         }
-        
-        $set = $ilDB->query("SELECT DISTINCT(team_id)" .
-            " FROM il_exc_team_log");
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $team_id = $row["team_id"];
-            if (!in_array($team_id, $teams)) {
-                $ilDB->manipulate("DELETE FROM il_exc_team_log" .
-                    " WHERE team_id = " . $ilDB->quote($team_id, "integer"));
-            }
+
+        if (count($obsolete_teams) > 0) {
+            $q = "DELETE FROM il_exc_team_log" .
+                " WHERE " . $ilDB->in("team_id", $obsolete_teams, false, "integer");
+            $ilDB->manipulate($q);
         }
     }
     

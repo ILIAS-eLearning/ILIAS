@@ -516,22 +516,24 @@ class ilLMTracker
     public function getIconForLMObject($a_node, $a_highlighted_node = 0)
     {
         $this->loadLMTrackingData();
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+
         if ($a_node["child"] == $a_highlighted_node) {
-            return ilUtil::getImagePath('scorm/running.svg');
+            return $icons->getImagePathRunning();
         }
         if (isset($this->tree_arr["nodes"][$a_node["child"]])) {
             switch ($this->tree_arr["nodes"][$a_node["child"]]["status"]) {
                 case ilLMTracker::IN_PROGRESS:
-                    return ilUtil::getImagePath('scorm/incomplete.svg');
+                    return $icons->getImagePathInProgress();
 
                 case ilLMTracker::FAILED:
-                    return ilUtil::getImagePath('scorm/failed.svg');
+                    return $icons->getImagePathFailed();
 
                 case ilLMTracker::COMPLETED:
-                    return ilUtil::getImagePath('scorm/completed.svg');
+                    return $icons->getImagePathCompleted();
             }
         }
-        return ilUtil::getImagePath('scorm/not_attempted.svg');
+        return $icons->getImagePathNotAttempted();
     }
 
     /**

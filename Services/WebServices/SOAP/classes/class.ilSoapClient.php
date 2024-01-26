@@ -54,7 +54,7 @@ class ilSoapClient
         }
         $this->connect_timeout = $timeout;
         
-        $this->response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
+        $this->response_timeout = (int) $ilSetting->get('soap_response_timeout', self::DEFAULT_RESPONSE_TIMEOUT);
     }
     
     /**

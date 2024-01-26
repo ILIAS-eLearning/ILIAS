@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\File\Sanitation\FilePathSanitizer;
@@ -22,6 +36,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
     use ilObjFileNews;
+    use ilObjFileSecureString;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -44,7 +59,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     protected $log;
 
-// ABSTRACT
+    // ABSTRACT
     /**
      * @var string
      */
@@ -69,7 +84,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var string
      */
     protected $action;
-// ABSTRACT
+    // ABSTRACT
 
     /**
      * @var string|null
@@ -118,7 +133,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
             $resource = $this->manager->getResource($id);
-            $this->implementation = new ilObjFileImplementationStorage($resource);
+            $this->implementation = new ilObjFileImplementationStorage(
+                $resource,
+                (int) $this->getId()
+            );
             $this->setMaxVersion($resource->getMaxRevision());
             $this->setVersion($resource->getMaxRevision());
         } else {
@@ -151,11 +169,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // bugfix mantis 0026160 && 0030391 and 0032340
         $title_info = new SplFileInfo($title);
         $filename_info = new SplFileInfo($filename);
-    
-        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
+
+        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getPathname());
         $extension = $filename_info->getExtension();
-    
-        return $filename . '.' . $extension;
+
+        return $this->secure($filename . '.' . $extension);
     }
 
     /**
@@ -398,6 +416,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->action = $a_action;
     }
 
+    public function handleChangedObjectTitle(string $new_title)
+    {
+        $this->setTitle($new_title);
+        $this->implementation->handleChangedObjectTitle($new_title);
+    }
+
 
     // CRUD
 
@@ -421,7 +445,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
 
-        $this->setFileName($row->file_name);
+        $this->setFileName($this->secure($row->file_name ?? ''));
         $this->setFileType($row->file_type);
         $this->setFileSize($row->file_size);
         $this->setVersion($row->version ? $row->version : 1);
@@ -687,12 +711,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_target_dir
+     * @param string $target_dir
      * @deprecated
      */
-    public function export($a_target_dir)
+    public function export(string $target_dir) : void
     {
-        $this->implementation->export($a_target_dir);
+        $this->implementation->export($target_dir);
     }
 
     /**
@@ -778,5 +802,4 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         return $this->implementation->getFileExtension();
     }
-
 }

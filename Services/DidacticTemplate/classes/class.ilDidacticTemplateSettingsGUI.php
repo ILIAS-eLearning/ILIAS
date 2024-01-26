@@ -309,6 +309,15 @@ class ilDidacticTemplateSettingsGUI
         } catch (ilDidacticTemplateImportException $e) {
             ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
             ilUtil::sendFailure($this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
+
+            $form->setValuesByPost();
+
+            if ($edit) {
+                $this->showEditImportForm($form);
+            } else {
+                $this->showImportForm($form);
+            }
+            return;
         }
 
         ilUtil::sendSuccess($this->lng->txt('didactic_import_success'), true);
@@ -375,7 +384,6 @@ class ilDidacticTemplateSettingsGUI
         $form = $this->initEditTemplate($temp);
 
         if ($form->checkInput()) {
-
             $tmp_file = $_FILES['icon']['tmp_name'];
             $upload_element = $form->getItemByPostVar('icon');
             if (
@@ -496,7 +504,7 @@ class ilDidacticTemplateSettingsGUI
         $form->addItem($desc);
 
 
-        $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'),'icon');
+        $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'), 'icon');
         $icon->setImage($set->getIconHandler()->getAbsolutePath());
         $icon->setInfo($this->lng->txt('didactic_icon_info'));
         $icon->getAllowDeletion(true);

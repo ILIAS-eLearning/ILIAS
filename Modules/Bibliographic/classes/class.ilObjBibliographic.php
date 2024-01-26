@@ -114,6 +114,7 @@ class ilObjBibliographic extends ilObject2
         if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
             $upload->process();
             $this->moveUploadedFile($upload);
+            $this->parseFileToDatabase();
         }
 
         $DIC->database()->insert(
@@ -125,7 +126,6 @@ class ilObjBibliographic extends ilObject2
                 "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
             ]
         );
-        $this->parseFileToDatabase();
     }
 
 

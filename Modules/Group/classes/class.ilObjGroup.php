@@ -878,6 +878,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             return false;
         }
 
+        $this->updateMetaData();
+
         $query = "UPDATE grp_settings " .
             "SET information = " . $ilDB->quote($this->getInformation(), 'text') . ", " .
             "grp_type = " . $ilDB->quote((int) $this->getGroupType(), 'integer') . ", " .
@@ -942,6 +944,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         $query = "DELETE FROM grp_settings " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
@@ -2236,13 +2240,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         global $DIC;
         $ilDB = $DIC["ilDB"];
         $query = 'SELECT show_members FROM grp_settings'
-            .' WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+            . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
-        if($ilDB->numRows($res) == 0) {
+        if ($ilDB->numRows($res) == 0) {
             return false;
         }
         $row = $ilDB->fetchAssoc($res);
-        return (bool)$row['show_members'];
+        return (bool) $row['show_members'];
     }
 
 
@@ -2273,5 +2277,4 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         );
         return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }
-
 } //END class.ilObjGroup

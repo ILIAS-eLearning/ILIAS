@@ -60,6 +60,8 @@ interface ilObjFileImplementationInterface
      */
     public function setFileSize($a_size);
 
+    public function handleChangedObjectTitle(string $new_title);
+
     public function getFileSize();
 
     /**
@@ -125,7 +127,9 @@ interface ilObjFileImplementationInterface
      *                           )
      */
     public function getVersions($version_ids = null) : array;
-
-    public function export($a_target_dir);
-
+    
+    /**
+     * @depracated
+     */
+    public function export(string $target_dir) : void;
 }

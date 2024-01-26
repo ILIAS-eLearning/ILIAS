@@ -87,7 +87,7 @@ class ilPCTabsGUI extends ilPageContentGUI
     /**
     * Edit tabs
     */
-    public function editProperties()
+    public function editProperties(bool $omit_form_init = false)
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -95,9 +95,11 @@ class ilPCTabsGUI extends ilPageContentGUI
         
         $this->displayValidationError();
         $this->setTabs();
-        
-        $this->initForm();
-        $this->getFormValues();
+
+        if (!$omit_form_init) {
+            $this->initForm();
+            $this->getFormValues();
+        }
         $html = $this->form->getHTML();
         $tpl->setContent($html);
     }
@@ -325,6 +327,24 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
+    protected function checkWidthHeight(ilPropertyFormGUI $form) : bool
+    {
+        $ok = true;
+        if ($form->getInput("type") === ilPCTabs::ACCORDION_HOR) {
+            if ($form->getInput("content_width") === "") {
+                $form->getItemByPostVar("content_width")
+                           ->setAlert($this->lng->txt("cont_hacc_needs_width"));
+                $ok = false;
+            }
+            if ($form->getInput("content_height") === "") {
+                $form->getItemByPostVar("content_height")
+                           ->setAlert($this->lng->txt("cont_hacc_needs_height"));
+                $ok = false;
+            }
+        }
+        return $ok;
+    }
+
     /**
     * Create new tabs in dom and update page in db
     */
@@ -334,7 +354,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $lng = $this->lng;
         
         $this->initForm("create");
-        if ($this->form->checkInput()) {
+        if ($this->form->checkInput() && $this->checkWidthHeight($this->form)) {
             $this->content_obj = new ilPCTabs($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
@@ -424,9 +444,13 @@ class ilPCTabsGUI extends ilPageContentGUI
     {
         $this->initForm();
         $this->updated = false;
-        if ($this->form->checkInput()) {
+        if ($this->form->checkInput() && $this->checkWidthHeight($this->form)) {
             $this->setPropertiesByForm();
             $this->updated = $this->pg_obj->update();
+        } else {
+            $this->form->setValuesByPost();
+            $this->editProperties(true);
+            return;
         }
         if ($this->updated === true) {
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

@@ -7,6 +7,9 @@ var filter = function($) {
       var cnt_hid = 0;
       var cnt_bar = 1;
 
+      //Set form action
+      $($filter).find(".il-standard-form").attr('action', window.location.pathname);
+
       //Filter fields (hide hidden stuff)
       $($filter).find(".il-filter-field-status").each(function () {
         $hidden_input = this;
@@ -55,8 +58,13 @@ var filter = function($) {
       $('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
 
       //Hide Add-Button when all Input Fields are shown in the Filter at the beginning
-      var addable_inputs = $(".il-popover-container:hidden").length;
-      if (addable_inputs === 0) {
+      var empty_list = true;
+      var addable_inputs = $($filter).find(".il-filter-add-list").find("li").each(function() {
+        if ($(this).css("display") !== "none" && $(this).css("visibility") !== "hidden") {
+          empty_list = false;
+        }
+      });
+      if (empty_list) {
         $(".btn-bulky").parents(".il-popover-container").hide();
       }
 
@@ -307,6 +315,7 @@ var filter = function($) {
     var url = parse_url(action);
     var url_params = url['query_params'];
     createHiddenInputs($el, url_params);
+    $el.parents('form').attr('action', url['path']);
     $el.parents('form').submit();
   };
 

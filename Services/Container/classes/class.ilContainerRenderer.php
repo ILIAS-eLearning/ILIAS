@@ -281,12 +281,17 @@ class ilContainerRenderer
             );
             
             // #18326
-            $this->item_ids[$a_item_id] = true;
+            $this->addItemId($a_item_id);
             
             $this->block_items[$a_block_id][] = $uniq_id;
             return true;
         }
         return false;
+    }
+
+    public function addItemId($a_item_id)
+    {
+        $this->item_ids[$a_item_id] = true;
     }
 
     /**

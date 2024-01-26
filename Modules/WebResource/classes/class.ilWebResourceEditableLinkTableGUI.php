@@ -157,6 +157,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['disable_check'] = $link['disable_check'];
             $tmp['valid'] = $link['valid'];
             $tmp['last_check'] = $link['last_check'];
+            $tmp['internal'] = $link['internal'];
             
             $tmp['params'] = ilParameterAppender::_getParams($link['link_id']);
             
@@ -175,7 +176,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         
-        if (!stristr($a_set['target'], '|')) {
+        if (!$a_set['internal']) {
             $this->tpl->setCurrentBlock('external');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->setVariable('VAL_TARGET', ilUtil::prepareFormOutput($a_set['target']));

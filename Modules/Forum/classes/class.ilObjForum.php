@@ -571,16 +571,20 @@ class ilObjForum extends ilObject
             $newThread->setUserAlias($old_thread['thr_usr_alias']);
             $newThread->setCreateDate($old_thread['thr_date']);
 
+            $old_thread_obj = new ilForumTopic($old_thread['thr_pk']);
+            $top_pos_pk = $old_thread_obj->getFirstPostId() ?: $old_post_id;
+            $top_pos = new ilForumPost($top_pos_pk);
+
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForum::_lookupPostMessage($old_post_id),
-                $old_post['notify'],
+                $top_pos->getMessage(),
+                (int) $top_pos->isNotificationEnabled(),
                 0,
                 1,
-                false
+                (bool) ($old_thread_obj->getNumPosts() - 1)
             );
 
-            $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
+            $old_forum_files = new ilFileDataForum($this->getId(), $top_pos_pk);
             $old_forum_files->ilClone($new_obj->getId(), $newPostId);
         }
 
@@ -1200,7 +1204,7 @@ class ilObjForum extends ilObject
         );
     }
     
-    public function getNumStickyThreads(): int
+    public function getNumStickyThreads() : int
     {
         $res = $this->db->query(
             'SELECT COUNT(is_sticky) num_sticky FROM frm_threads

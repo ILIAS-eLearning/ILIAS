@@ -40,7 +40,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @var integer
      */
-    protected $questionId;
+    protected $question_id;
     
     /**
      * @var array
@@ -49,13 +49,16 @@ class ilAssOrderingElementList implements Iterator
     
     /**
      * ilAssOrderingElementList constructor.
+     * @param ilAssOrderingElement[] $elements
      */
-    public function __construct()
-    {
+    public function __construct(
+        int $question_id = null,
+        array $elements = []
+    ) {
         $this->objectInstanceId = ++self::$objectInstanceCounter;
-        
-        $this->questionId = null;
-        $this->resetElements();
+
+        $this->question_id = $question_id;
+        $this->elements = $elements;
     }
 
     /**
@@ -88,85 +91,15 @@ class ilAssOrderingElementList implements Iterator
      */
     public function getQuestionId()
     {
-        return $this->questionId;
+        return $this->question_id;
     }
     
     /**
-     * @param integer $questionId
+     * @param integer $question_id
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($question_id)
     {
-        $this->questionId = $questionId;
-    }
-    
-    /**
-     * load elements from database
-     */
-    public function loadFromDb()
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilDB = $DIC['ilDB'];
-        
-        $result = $ilDB->queryF(
-            "SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY position ASC",
-            array('integer'),
-            array($this->getQuestionId())
-        );
-        
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $element = new ilAssOrderingElement();
-            
-            $element->setRandomIdentifier($row['random_id']);
-            $element->setSolutionIdentifier($row['solution_key']);
-            
-            $element->setPosition($row['position']);
-            $element->setIndentation($row["depth"]);
-            
-            $element->setContent($row['answertext']);
-            
-            $this->addElement($element);
-            $this->registerIdentifiers($element);
-        }
-    }
-    
-    /**
-     * TODO: refactor to a select/update/insert strategy incl. deleting all except existing
-     */
-    public function saveToDb()
-    {
-        /** @var ilDBInterface $ilDB */
-        $ilDB = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilDB'] : $GLOBALS['DIC']['ilDB'];
-        
-        $ilDB->manipulateF(
-            "DELETE FROM qpl_a_ordering WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getQuestionId() )
-        );
-        
-        foreach ($this as $orderElement) {
-            $this->ensureValidIdentifiers($orderElement);
-            
-            $ilDB->insert('qpl_a_ordering', array(
-                'answer_id' => array( 'integer', $ilDB->nextId('qpl_a_ordering') ),
-                'question_fi' => array( 'integer', $this->getQuestionId() ),
-                'answertext' => array( 'text', $orderElement->getContent()),
-                'solution_key' => array( 'integer', $orderElement->getSolutionIdentifier() ),
-                'random_id' => array( 'integer', $orderElement->getRandomIdentifier() ),
-                'position' => array( 'integer', $orderElement->getPosition() ),
-                'depth' => array( 'integer', $orderElement->getIndentation() ),
-                'tstamp' => array( 'integer', time() )
-            ));
-        }
-    }
-    
-    /**
-     * clears the contents of all elements
-     */
-    public function clearElementContents()
-    {
-        foreach ($this as $orderingElement) {
-            $orderingElement->setContent('');
-        }
+        $this->question_id = $question_id;
     }
     
     public function countElements()
@@ -255,7 +188,7 @@ class ilAssOrderingElementList implements Iterator
     }
     
     /**
-     * @return array[ilAssOrderingElement]
+     * @return ilAssOrderingElement[]
      */
     public function getElements()
     {
@@ -446,10 +379,12 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @param ilAssOrderingElement $element
      */
-    protected function ensureValidIdentifiers(ilAssOrderingElement $element)
+    public function ensureValidIdentifiers(ilAssOrderingElement $element)
     {
+        //TODO: remove!
         $this->ensureValidIdentifier($element, self::IDENTIFIER_TYPE_SOLUTION);
         $this->ensureValidIdentifier($element, self::IDENTIFIER_TYPE_RANDOM);
+        return $element;
     }
     
     /**
@@ -685,42 +620,19 @@ class ilAssOrderingElementList implements Iterator
         return $randomIdentifier;
     }
     
-    public static function isValidSolutionIdentifier($identifier)
+    public static function isValidSolutionIdentifier($identifier) : bool
     {
-        if (!is_numeric($identifier)) {
-            return false;
-        }
-        
-        if ($identifier != (int) $identifier) {
-            return false;
-        }
-        
-        if ($identifier < 0) {
-            return false;
-        }
-        
-        return true;
+        return is_numeric($identifier)
+            && $identifier == (int) $identifier
+            && (int) $identifier >= 0;
     }
     
-    public static function isValidRandomIdentifier($identifier)
+    public static function isValidRandomIdentifier($identifier) : bool
     {
-        if (!is_numeric($identifier)) {
-            return false;
-        }
-        
-        if ($identifier != (int) $identifier) {
-            return false;
-        }
-        
-        if ($identifier < self::RANDOM_IDENTIFIER_RANGE_LOWER_BOUND) {
-            return false;
-        }
-        
-        if ($identifier > self::RANDOM_IDENTIFIER_RANGE_UPPER_BOUND) {
-            return false;
-        }
-        
-        return true;
+        return is_numeric($identifier)
+            && $identifier == (int) $identifier
+            && (int) $identifier >= self::RANDOM_IDENTIFIER_RANGE_LOWER_BOUND
+            && (int) $identifier <= self::RANDOM_IDENTIFIER_RANGE_UPPER_BOUND;
     }
     
     public static function isValidPosition($position)
@@ -745,44 +657,16 @@ class ilAssOrderingElementList implements Iterator
     
     /**
      * @param ilAssOrderingElementList $otherList
-     * @return bool $hasSameElements
      */
-    public function hasSameElementSetByRandomIdentifiers(self $otherList)
+    public function hasSameElementSetByRandomIdentifiers(self $otherList) : bool
     {
         $numIntersectingElements = count(array_intersect(
             $otherList->getRandomIdentifierIndex(),
             $this->getRandomIdentifierIndex()
         ));
         
-        if ($numIntersectingElements != $this->countElements()) {
-            return false;
-        }
-        
-        if ($numIntersectingElements != $otherList->countElements()) {
-            return false;
-        }
-        
-        return true; // faster ;-)
-        
-        $otherListRandomIdentifierIndex = $otherList->getRandomIdentifierIndex();
-        
-        foreach ($this as $orderingElement) {
-            if (!in_array($orderingElement->getRandomIdentifier(), $otherListRandomIdentifierIndex)) {
-                return false;
-            }
-            
-            $randomIdentifierIndexMatchingsCount = count(array_keys(
-                $otherListRandomIdentifierIndex,
-                $orderingElement->getRandomIdentifier(),
-                false
-            ));
-            
-            if ($randomIdentifierIndexMatchingsCount != 1) {
-                return false;
-            }
-        }
-        
-        return $this->countElements() == $otherList->countElements();
+        return $numIntersectingElements == $this->countElements()
+            && $numIntersectingElements == $otherList->countElements();
     }
     
     public function getParityTrueElementList(self $otherList)
@@ -957,17 +841,13 @@ class ilAssOrderingElementList implements Iterator
         return $element;
     }
     
-    /**
-     * @param integer $questionId
-     * @param array[ilAssOrderingElement] $orderingElements
-     * @return ilAssOrderingElementList
-     */
-    public static function buildInstance($questionId, $orderingElements = array())
+    //TODO: remove this (it's __construct, actually...)
+    public static function buildInstance(int $question_id, array $elements = []) : ilAssOrderingElementList
     {
         $elementList = new self();
         
-        $elementList->setQuestionId($questionId);
-        $elementList->setElements($orderingElements);
+        $elementList->setQuestionId($question_id);
+        $elementList->setElements($elements);
         
         return $elementList;
     }
@@ -985,5 +865,22 @@ class ilAssOrderingElementList implements Iterator
         }
         
         return md5(serialize($items));
+    }
+
+    /**
+     * @param ilAssOrderingElement[];
+     */
+    public function withElements(array $elements) : self
+    {
+        $clone = clone $this;
+        $clone->elements = $elements;
+        return $clone;
+    }
+
+    public function withQuestionId(int $question_id) : self
+    {
+        $clone = clone $this;
+        $clone->question_id = $question_id;
+        return $clone;
     }
 }

@@ -381,7 +381,7 @@ class ilObjectPermissionStatusGUI
                 $objDefinition->isPlugin(substr($ops['operation'], 7))) {
                 $result_set[$counter]["operation"] = ilObjectPlugin::lookupTxtById(
                     substr($ops['operation'], 7),
-                    'rbac_' . $ops['operation']
+                    'obj_' . substr($ops['operation'], 7)
                 );
             } elseif ($objDefinition->isPlugin($this->object->getType())) {
                 $result_set[$counter]["operation"] = ilObjectPlugin::lookupTxtById(

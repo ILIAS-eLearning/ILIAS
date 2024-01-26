@@ -5,6 +5,7 @@
 ### Business Rules
 
 - Resource lists and item groups are currently presented underneath the content page, if they are not included in active(!) elements of the page (see bug report #9080, #26011). If resource should be hidden from users rbac or activation settings need to be used.
+- Items that are assigned to an item group or to a session are not presented in the "Content" block or in any "By Type" blocks again. They are not hidden from other sessions or item groups if assigned multiple times.
 
 ## Presentation of Tiles
 

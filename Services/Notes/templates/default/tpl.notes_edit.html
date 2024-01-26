@@ -1,5 +1,6 @@
 <div class="ilNoteInput">
 	<textarea aria-label="{LABEL}" class="form-control noRTEditor" id="note" name="note">{VAL_NOTE}</textarea>
-	<br /><input class="btn btn-default" type="submit" value="{TXT_CMD}" name="cmd[{CMD}]">
+	<br /><input class="btn btn-default" type="submit" value="{TXT_CMD}" name="cmd[{CMD}]"
+ onclick="(this.dataset.test) ? this.disabled = true : this.dataset.test = 1;">
 	<input type="hidden" value="{NOTE_ID}" name="note_id">
 </div>

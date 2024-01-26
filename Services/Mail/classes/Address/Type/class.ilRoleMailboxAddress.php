@@ -38,7 +38,6 @@ class ilRoleMailboxAddress
         ilMailRfc822AddressParserFactory $parserFactory = null,
         ilDBInterface $db = null,
         ilLanguage $lng = null
-
     ) {
         global $DIC;
 

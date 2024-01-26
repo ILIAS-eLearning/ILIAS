@@ -116,6 +116,7 @@
 						<xsl:if test="@font-size">
 							<xsl:text>font-size: </xsl:text>
 							<xsl:value-of select="@font-size"/>
+							<xsl:text>; </xsl:text>
 						</xsl:if>
 						<xsl:if test="@padding">
 							<xsl:text>padding: </xsl:text>

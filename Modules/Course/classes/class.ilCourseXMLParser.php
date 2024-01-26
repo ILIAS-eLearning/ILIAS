@@ -298,12 +298,21 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'WaitingListAutoFill':
             case 'CancellationEnd':
             case 'MinMembers':
+            case 'StatusDetermination':
+            case 'MailToMembersType':
                 break;
 
             case 'WelcomeMail':
                 if (array_key_exists('status', $a_attribs)) {
                     $this->course_obj->setAutoNotification((bool) $a_attribs['status']);
                 }
+                break;
+
+            case 'CourseMap':
+                $this->course_obj->setEnableCourseMap((bool) $a_attribs['enabled'] ?? false);
+                $this->course_obj->setLatitude((string) $a_attribs['latitude'] ?? '');
+                $this->course_obj->setLongitude((string) $a_attribs['longitude'] ?? '');
+                $this->course_obj->setLocationZoom((int) $a_attribs['location_zoom'] ?? 0);
                 break;
 
             case 'SessionLimit':
@@ -515,6 +524,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'Course':
 
                 $this->log->write('CourseXMLParser: import_id = ' . $this->course_obj->getImportId());
+                /*
+                 * This needs to be before MDUpdateListener, since otherwise container settings are
+                 * overwritten by ilContainer::update in MDUpdateListener, see #24733.
+                 */
+                $this->course_obj->readContainerSettings();
                 $this->course_obj->MDUpdateListener('General');
                 $this->course_obj->update();
                 $this->adv_md_handler->save();
@@ -562,8 +576,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_end = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
-                        }
-                        else {
+                        } else {
                             $this->period_end = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }
@@ -656,6 +669,14 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
             case 'TimingMode':
                 $this->course_obj->setTimingMode((int) $this->cdata);
+                break;
+
+            case 'StatusDetermination':
+                $this->course_obj->setStatusDetermination((int) $this->cdata);
+                break;
+
+            case 'MailToMembersType':
+                $this->course_obj->setMailToMembersType((int) $this->cdata);
                 break;
         }
         $this->cdata = '';

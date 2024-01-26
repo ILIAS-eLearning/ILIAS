@@ -54,6 +54,9 @@
 					<input type="text" class="form-control text-right" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
 <!-- END points -->
+<!-- BEGIN answer id field -->
+				<input class="form-control" type="hidden" name="{POST_VAR}[answer_id][{ROW_NUMBER}]" <!-- BEGIN prop_answer_id_propval -->value="{PROPERTY_VALUE}" <!-- END prop_answer_id_propval -->/>
+<!-- END answer id field -->
 				<td class="ilValignTop">
 					<button type="button" name="{CMD_ADD}" class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
 					<button type="button" name="{CMD_REMOVE}" class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>

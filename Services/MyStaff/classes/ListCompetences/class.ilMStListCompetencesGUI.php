@@ -52,7 +52,7 @@ class ilMStListCompetencesGUI
      */
     protected function checkAccessOrFail()
     {
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToCompetences()) {
             return;
         } else {
             ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
@@ -113,43 +113,5 @@ class ilMStListCompetencesGUI
     public function index()
     {
         $this->dic->ctrl()->redirectByClass(ilMStListCompetencesSkillsGUI::class);
-    }
-
-
-    /**
-     *
-     */
-    public function getActions()
-    {
-        $mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
-        $mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
-
-        if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
-            $selection = new ilAdvancedSelectionListGUI();
-
-            if ($this->dic->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
-                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
-            };
-
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
-            foreach (
-                ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
-                    'user_id' => $mst_co_usr_id,
-                    'object_reference.deleted' => null
-                ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
-            ) {
-                if ($this->dic->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
-                    $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
-                    $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
-                }
-            }
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($this->dic->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
-
-            echo $selection->getHTML(true);
-        }
-        exit;
     }
 }

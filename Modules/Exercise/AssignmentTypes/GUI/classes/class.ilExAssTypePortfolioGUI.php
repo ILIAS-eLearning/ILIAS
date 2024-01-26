@@ -41,7 +41,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         $repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
         $repo->setRequired(true);
         $repo->getExplorerGUI()->setSelectableTypes(array("prtt"));
-        $repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp"));
+        $repo->getExplorerGUI()->setTypeWhiteList(array("root", "prtt", "cat", "crs", "grp", "fold"));
         $radio_with_template->addSubItem($repo);
 
         $rd_template->addOption($radio_no_template);

@@ -201,6 +201,66 @@ abstract class ilParticipants
         return false;
     }
 
+    /**
+     * This method was introduced as a band-aid fix for #22764.
+     * Please do not use this anywhere else.
+     * @param int|ilObject  $ref_id_or_instance
+     */
+    public static function canSendMailToMembers(
+        $ref_id_or_instance,
+        ?int $usr_id = null,
+        ?int $mail_obj_ref_id = null
+    ) : bool {
+        global $DIC;
+
+        $access = $DIC->access();
+        $rbacsystem = $DIC->rbac()->system();
+
+        if (is_null($usr_id)) {
+            $usr_id = $DIC->user()->getId();
+        }
+        if (is_null($mail_obj_ref_id)) {
+            $mail_obj_ref_id = (new ilMail($usr_id))->getMailObjectReferenceId();
+        }
+        if (is_int($ref_id_or_instance)) {
+            $ref_id = $ref_id_or_instance;
+        } elseif ($ref_id_or_instance instanceof ilObject) {
+            $ref_id = (int) $ref_id_or_instance->getRefId();
+            if ($ref_id === 0) {
+                $ref_id = array_keys(ilObject::_getAllReferences($ref_id_or_instance->getId()))[0];
+            }
+        } else {
+            return false;
+        }
+
+        if (
+            $access->checkAccess('manage_members', '', $ref_id) &&
+            $rbacsystem->checkAccess('internal_mail', $mail_obj_ref_id)
+        ) {
+            return true;
+        }
+
+        $part = self::getInstance($ref_id);
+        if (!$part->isAssigned($usr_id)) {
+            return false;
+        }
+
+        $object = $ref_id_or_instance;
+        if (is_int($ref_id_or_instance)) {
+            $object = ilObjectFactory::getInstanceByRefId($ref_id_or_instance);
+        }
+
+        if ($object instanceof ilObjCourse) {
+            return $object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL;
+        } elseif ($object instanceof ilObjGroup) {
+            return $object->getMailToMembersType() == ilObjGroup::MAIL_ALLOWED_ALL;
+        } elseif ($object instanceof ilObjSession) {
+            return $object->getMailToMembersType() == ilObjSession::MAIL_ALLOWED_ALL;
+        }
+
+        return false;
+    }
+
 
     /**
      * Get user membership assignments by type
@@ -226,7 +286,7 @@ abstract class ilParticipants
                         array('obr.ref_id'),
                     ),
                 false
-                );
+            );
         }
 
         $query = "SELECT DISTINCT obd.obj_id,obr.ref_id,ua.usr_id FROM rbac_ua ua " .
@@ -238,10 +298,7 @@ abstract class ilParticipants
             "AND fa.assign = 'y' " .
             'AND ' . $ilDB->in('ua.usr_id', $a_user_ids, false, 'integer') . ' ' .
             $a2;
-
-        $logger->debug($query);
-
-
+        
         $obj_ids = [];
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
@@ -294,9 +351,10 @@ abstract class ilParticipants
             "JOIN object_reference obr ON fa.parent = obr.ref_id " .
             "JOIN object_data obd ON obr.obj_id = obd.obj_id " .
             $j2 .
-            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") .
+            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") . ' ' .
             "AND fa.assign = 'y' " .
             "AND ua.usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
+            'AND obr.deleted IS NULL ' .
             $a2;
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {

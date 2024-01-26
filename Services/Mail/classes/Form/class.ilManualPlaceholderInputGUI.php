@@ -155,6 +155,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     {
         $subtpl = new ilTemplate("tpl.mail_manual_placeholders.html", true, true, "Services/Mail");
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
+        $subtpl->setVariable('DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);
         if ($this->getAdviseText()) {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
         }
@@ -163,8 +164,12 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             foreach ($this->placeholders as $placeholder) {
                 $subtpl->setCurrentBlock('man_placeholder');
                 $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
-                $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
-                $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
+                $subtpl->setVariable('PLACEHOLDER', '[' . $placeholder['placeholder'] . ']');
+                $subtpl->setVariable('PLACEHOLDER_INTERACTION_INFO', sprintf(
+                    $this->lng->txt('mail_hint_add_placeholder_x'),
+                    '[' . $placeholder['placeholder'] . ']'
+                ));
+                $subtpl->setVariable('PLACEHOLDER_DESCRIPTION', $placeholder['title']);
                 $subtpl->parseCurrentBlock();
             }
         }

@@ -134,8 +134,11 @@ class ilCalendarSubscriptionGUI
         $hash = $this->createToken($this->user->getID(), $selection, $id);
         $url = ILIAS_HTTP_PATH . '/calendar.php?client_id=' . CLIENT_ID . '&token=' . $hash;
 
-        $tpl->setVariable('LINK', $url);
+        $tpl->setVariable('LINK', $url . '&limited=0');
         $tpl->setVariable('TXT_PERMA', $lng->txt('cal_ical_url'));
+
+        $tpl->setVariable('LINK_LIMITED', $url . '&limited=1');
+        $tpl->setVariable('TXT_PERMA_LIMITED', $lng->txt('cal_ical_url_google'));
 
         $roundtrip = $ui_factory->modal()->roundtrip(
             $lng->txt('cal_calendar_subscription_modal_title'),

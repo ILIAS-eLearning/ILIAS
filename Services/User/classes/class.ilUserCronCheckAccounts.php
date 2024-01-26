@@ -14,50 +14,50 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
 class ilUserCronCheckAccounts extends ilCronJob
 {
     protected $counter = 0; // [int]
-    
+
     public function getId()
     {
         return "user_check_accounts";
     }
-    
+
     public function getTitle()
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         return $lng->txt("check_user_accounts");
     }
-    
+
     public function getDescription()
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         return $lng->txt("check_user_accounts_desc");
     }
-    
+
     public function getDefaultScheduleType()
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
+
     public function getDefaultScheduleValue()
     {
         return;
     }
-    
+
     public function hasAutoActivation()
     {
         return false;
     }
-    
+
     public function hasFlexibleSchedule()
     {
         return false;
     }
-    
+
     public function run()
     {
         global $DIC;
@@ -65,12 +65,12 @@ class ilUserCronCheckAccounts extends ilCronJob
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         $lng = $DIC['lng'];
-        
+
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        
+
         $now = time();
         $two_weeks_in_seconds = $now + (60 * 60 * 24 * 14); // #14630
-            
+
         // all users who are currently active and expire in the next 2 weeks
         $query = "SELECT * FROM usr_data,usr_pref " .
             "WHERE time_limit_message = '0' " .
@@ -99,25 +99,28 @@ class ilUserCronCheckAccounts extends ilCronJob
 
             // Send mail
             $mail = new ilMimeMail();
-            
+
             $mail->From($sender);
             $mail->To($data['email']);
             $mail->Subject($this->txt($data['language'], 'account_expires_subject'), true);
-            $mail->Body($this->txt($data['language'], 'account_expires_body') . " " . strftime('%Y-%m-%d %R', $data['expires']));
+            $mail->Body(
+                $this->txt($data['language'], 'account_expires_body') . " " . strftime('%Y-%m-%d %R', $data['expires']) . "\n"
+                . "{$this->txt($data['language'], 'login')}: {$data['login']}"
+            );
             $mail->send();
 
             // set status 'mail sent'
             $query = "UPDATE usr_data SET time_limit_message = '1' WHERE usr_id = '" . $data['usr_id'] . "'";
             $ilDB->query($query);
-            
+
             // Send log message
             $ilLog->write('Cron: (checkUserAccounts()) sent message to ' . $data['login'] . '.');
-            
+
             $this->counter++;
         }
 
         $this->checkNotConfirmedUserAccounts();
-        
+
         if ($this->counter) {
             $status = ilCronJobResult::STATUS_OK;
         }
@@ -125,24 +128,24 @@ class ilUserCronCheckAccounts extends ilCronJob
         $result->setStatus($status);
         return $result;
     }
-    
+
     // #13288 / #12345
     protected function txt($language, $key, $module = 'common')
     {
         include_once 'Services/Language/classes/class.ilLanguage.php';
         return ilLanguage::_lookupEntry($language, $module, $key);
     }
-    
+
     protected function checkNotConfirmedUserAccounts()
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        
+
         require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
         $oRegSettigs = new ilRegistrationSettings();
-        
+
         $query = 'SELECT usr_id FROM usr_data '
                . 'WHERE (reg_hash IS NOT NULL AND reg_hash != %s)'
                . 'AND active = %s '
@@ -156,7 +159,7 @@ class ilUserCronCheckAccounts extends ilCronJob
             $oUser = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);
             $oUser->delete();
             $ilLog->write('Cron: Deleted ' . $oUser->getLogin() . ' [' . $oUser->getId() . '] ' . __METHOD__);
-            
+
             $this->counter++;
         }
     }

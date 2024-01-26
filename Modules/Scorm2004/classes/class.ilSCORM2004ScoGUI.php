@@ -613,10 +613,10 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
     
     public function downloadExportFile()
     {
-        $file = str_replace("..", "", $_GET['file']);
+        $file = basename($_GET['file']);
         $export = new ilSCORM2004Export($this->node_object);
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
-        ilUtil::deliverFile($export_dir . "/" . $file, $file);
+        ilFileDelivery::deliverFileAttached($export_dir . "/" . $file, $file);
     }
     
     /**

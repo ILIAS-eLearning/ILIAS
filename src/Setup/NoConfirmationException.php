@@ -7,7 +7,7 @@ namespace ILIAS\Setup;
 /**
  * Signals that a necessary confirmation from the admin is missing.
  */
-class NoConfirmationException extends \RuntimeException
+class NoConfirmationException extends NotExecutableException 
 {
     /**
      * @var string

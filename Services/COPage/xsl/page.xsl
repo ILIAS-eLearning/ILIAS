@@ -86,6 +86,7 @@
 <xsl:param name="enable_html_mob"/>
 <xsl:param name="enable_href"/>
 <xsl:param name="page_perma_link"/>
+<xsl:param name="acc_save_url"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -103,8 +104,8 @@
 		<xsl:value-of select="$pg_title"/>
 		</h1>
 	</xsl:if>
-	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:comment>COPage-PageTop</xsl:comment>
+	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div data-copg-ed-type="add-area">
@@ -127,7 +128,7 @@
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 
     <!-- Footnote List -->
-	<xsl:if test="count(//Footnote) > 0 and $append_footnotes = 'y'">
+	<xsl:if test="count(//Footnote) > 0 and $append_footnotes = 'y' and $mode != 'edit'">
 		<hr />
 		<xsl:for-each select="//Footnote">
 			<xsl:choose>
@@ -890,11 +891,17 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<xsl:param name="par_counter" select="-1" />
-	<xsl:comment>ParStart</xsl:comment>	
+	<xsl:comment>ParStart</xsl:comment>
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Headline1'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">headline1</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h1><xsl:attribute name="id">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -902,8 +909,14 @@
 		</h1>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
-		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">heading2</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
+			<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h2><xsl:attribute name="id">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -911,8 +924,14 @@
 		</h2>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">heading3</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
@@ -920,8 +939,14 @@
 		</h3>
 		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
+			<xsl:variable name="char_name">
+				<xsl:call-template name="CharacteristicName">
+					<xsl:with-param name="pctype">text_block</xsl:with-param>
+					<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/>  <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -1147,8 +1172,7 @@
 </xsl:template>
 
 <!-- Footnote (Links) -->
-<xsl:template match="Footnote"><a class="ilc_link_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
-	</a>
+	<xsl:template match="Footnote"><xsl:if test="$mode != 'edit' and $append_footnotes='y'"><a class="ilc_link_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]</a></xsl:if><xsl:if test="$mode = 'edit' or $append_footnotes!='y'">[fn]<xsl:apply-templates/>[/fn]</xsl:if>
 </xsl:template>
 
 
@@ -1867,7 +1891,9 @@
 		<xsl:if test="$mode != 'print'">
 			<xsl:if test="$mode != 'offline'">
 				<a class="ilc_flist_a_FileListItemLink" target="_blank">
-					<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+					<xsl:if test="$enable_href">
+						<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+					</xsl:if>
 					<xsl:call-template name="FileItemText"/>
 				</a>
 			</xsl:if>
@@ -1880,9 +1906,9 @@
 		</xsl:if>
 		<xsl:if test="$mode = 'print'">
 			<xsl:if test="$page_perma_link = ''">
-				<span class="ilc_Print_FileItem">
+				<a class="ilc_flist_a_FileListItemLink" href="#">
 					<xsl:call-template name="FileItemText"/>
-				</span>
+				</a>
 			</xsl:if>
 			<xsl:if test="$page_perma_link != ''">
 				<a class="ilc_flist_a_FileListItemLink" target="_blank">
@@ -2083,7 +2109,8 @@
 			position: relative;
 			<xsl:choose>
 				<!-- all images use table as container since they expand the table even without width/height -->
-				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">display:table;</xsl:when>
+				<!-- do same for svg, see 34557 -->
+				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/xxxsvg')">display:table;</xsl:when>
 				<!-- if we have width/height, we also use table as container, since we will expand it -->
 				<xsl:when test="$width != '' and $height != ''">display:table;</xsl:when>
 				<xsl:otherwise>
@@ -2128,7 +2155,7 @@
 			</xsl:if>
 
 			<!-- build object tag -->
-			<div class="ilc_Mob">
+			<div class="ilc_Mob" style="height:100%">
 
 				<!-- set width of td, see bug #10911 and #19464 -->
 				<xsl:if test="$width != ''">
@@ -2412,7 +2439,22 @@
 		<!-- text/html -->
 		<xsl:when test="$type = 'text/html'">
 			<xsl:if test = "$enable_html_mob = 'y'">
+				<xsl:variable name="style_val" >
+					<xsl:if test="$width != ''">
+						width:<xsl:value-of select="$width"/>px;
+					</xsl:if>
+					<xsl:if test="$width = ''">
+						width:100%;
+					</xsl:if>
+					<xsl:if test="$height != ''">
+						height:<xsl:value-of select="$height"/>px;
+					</xsl:if>
+					<xsl:if test="$height = ''">
+						height:100%;
+					</xsl:if>
+				</xsl:variable>
 				<iframe frameborder="0">
+					<xsl:attribute name="style"><xsl:value-of select="$style_val"/></xsl:attribute>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:if test="$width != ''">
 						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2432,14 +2474,23 @@
 
 		<!-- application/pdf -->
 		<xsl:when test="$type = 'application/pdf'">
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+			<xsl:variable name="style_val" >
 				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					width:<xsl:value-of select="$width"/>px;
+				</xsl:if>
+				<xsl:if test="$width = ''">
+					width:100%;
 				</xsl:if>
 				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					height:<xsl:value-of select="$height"/>px;
 				</xsl:if>
+				<xsl:if test="$height = ''">
+					height:100%;
+				</xsl:if>
+			</xsl:variable>
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$style_val"/></xsl:attribute>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -2448,7 +2499,6 @@
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
-
 		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
 		<xsl:when test="$mode = 'print'">
 			<div class="ilCOPGMediaPrint">
@@ -2834,7 +2884,7 @@
 
 		<!-- svg -->
 		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
-			<embed>
+			<embed style="width:100%">
 				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:if test="$width != ''">
@@ -2850,6 +2900,11 @@
 				</xsl:call-template>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</embed>
+		</xsl:when>
+
+		<!-- 36216 -->
+		<xsl:when test = "$type='application/octet-stream'">
+			Unsupported Media Type
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
@@ -3143,10 +3198,33 @@
 	</script>
 </xsl:template>
 
+<!-- CharacteristicName -->
+<xsl:template name="CharacteristicName">
+	<xsl:param name="pctype"/>
+	<xsl:param name="characteristic"/>
+	<xsl:variable name="key">char_<xsl:value-of select="$pctype"/>_<xsl:value-of select="$characteristic"/></xsl:variable>
+	<xsl:if test="$characteristic">
+		<xsl:choose>
+			<xsl:when test="//LVs/LV[@name=$key]/@value">
+				(<xsl:value-of select="//LVs/LV[@name=$key]/@value"/>)
+			</xsl:when>
+			<xsl:otherwise>
+				(<xsl:value-of select="$characteristic"/>)
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:if>
+</xsl:template>
+
 <!-- Section -->
 	<xsl:template match="Section">
+		<xsl:variable name="char_name">
+			<xsl:call-template name="CharacteristicName">
+				<xsl:with-param name="pctype">section</xsl:with-param>
+				<xsl:with-param name="characteristic"><xsl:value-of select="@Characteristic"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
 		<!-- Label -->
-		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:value-of select="$char_name"/></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
 				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>;<xsl:number count="Section" level="any" />}}}}}
@@ -3491,7 +3569,7 @@
 							height: null,
 							orientation: 'vertical',
 							behaviour: '<xsl:value-of select = "$beh"/>',
-							save_url: '',
+							save_url: '<xsl:value-of select = "$acc_save_url"/>',
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false

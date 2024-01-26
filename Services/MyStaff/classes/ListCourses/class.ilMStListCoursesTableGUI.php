@@ -30,6 +30,18 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
      */
     protected $filter = array();
     /**
+     * @var array
+     */
+    protected $selectable_columns_cached = [];
+    /**
+     * @var array|null
+     */
+    protected $orgu_names = null;
+    /**
+     * @var array
+     */
+    protected $usr_orgu_names = [];
+    /**
      * @var ilMyStaffAccess
      */
     protected $access;
@@ -96,16 +108,20 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
+        $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
+            $DIC->user()->getId(),
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
+        );
 
         $list_courses_fetcher = new ilMStListCourses($DIC);
-        $count = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $count = $list_courses_fetcher->getData($arr_usr_id, $options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
             'end' => intval($this->getLimit()),
         );
         $options['count'] = false;
-        $data = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $data = $list_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($count);
         $this->setData($data);
     }
@@ -128,7 +144,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array( ilMyStaffAccess::DEFAULT_CONTEXT ));
+        $item->setClickableTypes(array( ilMyStaffAccess::COURSE_CONTEXT ));
         $this->addFilterItem($item);
         $item->readFromSession();
         $item->setParent($this->getParentObject());
@@ -160,9 +176,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             $this->addFilterItem($item);
             $item->readFromSession();
             $this->filter["lp_status"] = $item->getValue();
-            if ($this->filter["lp_status"]) {
-                $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
-            }
+            $this->filter["lp_status"] = (int) $this->filter["lp_status"] - 1;
         }
 
         //user
@@ -174,7 +188,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->filter['user'] = $item->getValue();
 
         if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+            $paths = $this->getTextRepresentationOfOrgUnits();
             $options[0] = $DIC->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
                 $options[$org_ref_id] = $path;
@@ -187,11 +201,34 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfOrgUnits() : array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
 
-    /**
-     * @return array
-     */
-    public function getSelectableColumns()
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id) : string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
+    public function getSelectableColumns() : array
+    {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns() : array
     {
         global $DIC;
 
@@ -307,7 +344,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($profile->getUsrId())));
+                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($profile->getUsrId()));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'usr_reg_status':
@@ -337,14 +374,39 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(true);
         $actions->setId($profile->getUsrId() . "-" . $profile->getCrsRefId());
 
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $profile->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $profile->getCrsRefId());
+        $mst_lco_usr_id = $profile->getUsrId();
+        $mst_lco_crs_ref_id = $profile->getCrsRefId();
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-            ->getLinkTarget($this->parent_obj, ilMStListCoursesGUI::CMD_GET_ACTIONS, "", true)));
+        if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+            $link = \ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
+            $actions->addItem(\ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+        };
+
+        foreach (\ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
+            'user_id' => $mst_lco_usr_id,
+            'object_reference.deleted' => null
+        ), array( 'user_id' => '=', 'object_reference.deleted' => '!=' ))->get() as $org_unit_assignment) {
+            if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                $org_units = $this->getTextRepresentationOfOrgUnits();
+                $link = \ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+                $actions->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+            }
+        }
+
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $mst_lco_usr_id);
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $mst_lco_crs_ref_id);
+
+        $actions = ilMyStaffGUI::extendActionMenuWithUserActions(
+            $actions,
+            $mst_lco_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass(
+                "ilMStListCoursesGUI",
+                ilMStListCoursesGUI::CMD_INDEX
+            ))
+        );
+
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
@@ -393,7 +455,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
                     break;
                 case 'usr_reg_status':
                     $field_values[$k] = ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());

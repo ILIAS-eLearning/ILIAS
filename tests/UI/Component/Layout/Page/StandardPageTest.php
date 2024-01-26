@@ -225,7 +225,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
    <head>
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>Short Title: View Title</title>
       <style></style>
    </head>
@@ -267,7 +267,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
    <head>
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>:</title>
       <style></style>
       <meta name="meta_datum_key_1" content="meta_datum_value_1" />
@@ -309,7 +309,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
    <head>
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>: </title>
       <style></style>
    </head>

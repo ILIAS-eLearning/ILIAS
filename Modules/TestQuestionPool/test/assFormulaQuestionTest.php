@@ -337,6 +337,36 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             assFormulaQuestionResult::RESULT_NO_SELECTION
         );
+        $r13 = new assFormulaQuestionResult(
+            '$r12',
+            0,
+            0,
+            0,
+            null,
+            '1/(2*pi)*sqrt($v16*1000/$v15)+$v17-$v17',
+            $points,
+            2,
+            true,
+            33,
+            34,
+            33,
+            assFormulaQuestionResult::RESULT_NO_SELECTION
+        );
+        $r14 = new assFormulaQuestionResult(
+            '$r11',
+            0,
+            0,
+            0,
+            null,
+            '$v7/$v14',
+            $points,
+            $precision,
+            true,
+            33,
+            34,
+            33,
+            assFormulaQuestionResult::RESULT_NO_SELECTION
+        );
 
         $variables = [
             $v1->getVariable() => $v1,
@@ -371,6 +401,8 @@ class assFormulaQuestionTest extends assBaseTestCase
             $r10->getResult() => $r10,
             $r11->getResult() => $r11,
             $r12->getResult() => $r12,
+            $r13->getResult() => $r13,
+            $r14->getResult() => $r14,
         ];
 
         return [
@@ -389,8 +421,14 @@ class assFormulaQuestionTest extends assBaseTestCase
             [$r10, $variables, $results, '4/8', null, false],
             // RESULT_NO_SELECTION
             [$r11, $variables, $results, '1/3', null, true],
+            [$r14, $variables, $results, '0.67', null, true],
+            [$r14, $variables, $results, '0.66666', null, true],
+            [$r14, $variables, $results, '0.7', null, false],
+            [$r14, $variables, $results, '2/3', null, true],
             // Test for #22381
             [$r12, $variables, $results, '3.1', null, true],
+            [$r13, $variables, $results, '3.09', null, true],
+            [$r13, $variables, $results, '3.1', null, false],
         ];
     }
 }

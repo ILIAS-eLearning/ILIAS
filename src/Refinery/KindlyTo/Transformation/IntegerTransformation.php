@@ -46,7 +46,7 @@ class IntegerTransformation implements Transformation
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" can not be transformed into an integer', $from),
+            sprintf('The value "%s" can not be transformed into an integer', var_export($from, true)),
             'not_integer',
             $from
         );

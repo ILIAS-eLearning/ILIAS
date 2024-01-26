@@ -339,7 +339,7 @@ class ilBookingReservation
                     ? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
                     : null;
                 $av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
-                    ? strtotime($schedule->getAvailabilityTo()->get(IL_CAL_DATE) . " 23:59:59")
+                    ? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
                     : null;
                 
                 if (($av_from && $a_from < $av_from) ||

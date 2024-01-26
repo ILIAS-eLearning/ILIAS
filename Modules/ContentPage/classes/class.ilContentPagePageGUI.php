@@ -13,6 +13,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
     protected $isEmbeddedMode = false;
     /** @var string */
     protected $language = '-';
+    /** @var \ILIAS\DI\UIServices */
 
     /**
      * ilContentPagePageGUI constructor.
@@ -84,5 +85,24 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
     public function finishEditing() : void
     {
         $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
+    }
+
+    public function getAdditionalPageActions() : array
+    {
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', '1');
+
+        $tabs = [
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('obj_sty'),
+                $this->ctrl->getLinkTargetByClass([
+                    ilRepositoryGUI::class,
+                    ilObjContentPageGUI::class
+                ], 'editStyleProperties')
+            )
+        ];
+
+        $this->ctrl->setParameterByClass(ilObjContentPageGUI::class, 'page_editor_style', null);
+
+        return $tabs;
     }
 }

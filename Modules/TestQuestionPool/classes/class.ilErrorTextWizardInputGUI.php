@@ -17,7 +17,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     protected $value_maxlength = 255;
     protected $key_name = "";
     protected $value_name = "";
-    
+
     /**
     * Constructor
     *
@@ -66,7 +66,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->key_size;
     }
-    
+
     /**
     * Set value size.
     *
@@ -86,7 +86,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->value_size;
     }
-    
+
     /**
     * Set key maxlength.
     *
@@ -106,7 +106,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->key_maxlength;
     }
-    
+
     /**
     * Set value maxlength.
     *
@@ -126,7 +126,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->value_maxlength;
     }
-    
+
     /**
     * Set value name.
     *
@@ -146,7 +146,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->value_name;
     }
-    
+
     /**
     * Set key name.
     *
@@ -166,7 +166,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         return $this->key_name;
     }
-    
+
     /**
     * Set Values
     *
@@ -196,14 +196,14 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if (is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         $max_points = 0;
-        
-        if (is_array($foundvalues)) {
+
+        if (is_array($foundvalues) && count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['key']) && is_array($foundvalues['value'])) {
                 foreach ($foundvalues['key'] as $val) {
@@ -239,12 +239,10 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
                 }
             }
         } else {
-            if ($this->getRequired()) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
-                return false;
-            }
+            $this->setAlert($lng->txt('errortext_info'));
+            return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
@@ -257,7 +255,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_errortextwizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -289,7 +287,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
             }
             $tpl->setVariable("ROW_CLASS", $class);
             $tpl->setVariable("ROW_NUMBER", $i);
-            
+
             $tpl->setVariable("KEY_SIZE", $this->getKeySize());
             $tpl->setVariable("KEY_ID", $this->getPostVar() . "[key][$i]");
             $tpl->setVariable("KEY_MAXLENGTH", $this->getKeyMaxlength());

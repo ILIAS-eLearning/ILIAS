@@ -338,6 +338,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -872,9 +873,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $form->addItem($menu);
         
         // toc
+        /*
         $toc = new ilCheckboxInputGUI($this->lng->txt("cont_toc"), "cobj_act_toc");
         $toc->setChecked($this->object->isActiveTOC());
-        $form->addItem($toc);
+        $form->addItem($toc);*/
         
         // print view
         $print = new ilCheckboxInputGUI($this->lng->txt("cont_print_view"), "cobj_act_print");
@@ -960,7 +962,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     public function saveMenuProperties()
     {
         $this->object->setActiveLMMenu((int) $_POST["cobj_act_lm_menu"]);
-        $this->object->setActiveTOC((int) $_POST["cobj_act_toc"]);
+        //$this->object->setActiveTOC((int) $_POST["cobj_act_toc"]);
         $this->object->setActivePrintView((int) $_POST["cobj_act_print"]);
         $this->object->setActivePreventGlossaryAppendix((int) $_POST["cobj_act_print_prev_glo"]);
         $this->object->setHideHeaderFooterPrint((int) $_POST["hide_head_foot_print"]);
@@ -1479,7 +1481,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
 
         if ($a_parent_subobj_id == 0) {
-            $this->setTabs();
+            $this->setTabs("content");
         }
         
         if ($a_parent_subobj_id != 0) {

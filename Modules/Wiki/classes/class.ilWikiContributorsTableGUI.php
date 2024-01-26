@@ -162,13 +162,31 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
                 );
                 $this->tpl->parseCurrentBlock();
             }
+
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
             switch ($status) {
-                case ilWikiContributor::STATUS_PASSED: 	$pic = "scorm/passed.svg"; break;
-                case ilWikiContributor::STATUS_FAILED:	$pic = "scorm/failed.svg"; break;
-                default: 		$pic = "scorm/not_attempted.svg"; break;
+                case ilWikiContributor::STATUS_PASSED:
+                    $icon_rendered = $icons->renderIcon(
+                        $icons->getImagePathCompleted(),
+                        $lng->txt("wiki_passed")
+                    );
+                    break;
+                case ilWikiContributor::STATUS_FAILED:
+                    $icon_rendered = $icons->renderIcon(
+                        $icons->getImagePathFailed(),
+                        $lng->txt("wiki_failed")
+                    );
+                    break;
+                default:
+                    $icon_rendered = $icons->renderIcon(
+                        $icons->getImagePathNotAttempted(),
+                        $lng->txt("wiki_notgraded")
+                    );
+                    break;
             }
-            $this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-            $this->tpl->setVariable("ALT_STATUS", $lng->txt("wiki_" . $status));
+
+            $this->tpl->setVariable("ICON_STATUS", $icon_rendered);
             
             // mark
             $this->tpl->setVariable("TXT_MARK", $lng->txt("wiki_mark"));

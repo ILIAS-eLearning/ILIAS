@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
@@ -22,6 +36,8 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
+use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
+use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -85,7 +101,7 @@ class ilInitialisation
             )
         );
     }
-    
+
     /**
      * get common include code files
      */
@@ -95,17 +111,17 @@ class ilInitialisation
         if (ilContext::usesTemplate()) {
             require_once "./Services/UICore/classes/class.ilTemplate.php";
         }
-                
+
         // really always required?
         require_once "./Services/Utilities/classes/class.ilUtil.php";
         require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
         require_once "include/inc.ilias_version.php";
-        
+
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        
+
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
-    
+
     /**
      * This is a hack for  authentication.
      *
@@ -190,10 +206,10 @@ class ilInitialisation
                 break;
             case "icap":
                 define("IL_VIRUS_SCANNER", "icap");
-                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "i_cap_host"));
-                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
-                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
-                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
+                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "icap_host"));
+                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "icap_port"));
+                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "icap_service_name"));
+                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "icap_client_path"));
                 break;
 
             default:
@@ -362,7 +378,9 @@ class ilInitialisation
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
+            $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
             $fileUploadImpl->register(new BlacklistExtensionPreProcessor(ilFileUtils::getExplicitlyBlockedFiles(), $c->language()->txt("msg_info_blacklisted")));
+            $fileUploadImpl->register(new SVGBlacklistPreProcessor());
 
             return $fileUploadImpl;
         };
@@ -412,45 +430,50 @@ class ilInitialisation
             }
         }
 
-        $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
+        $ilias_http_path = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
+
+        // remove everything after the first .php in the path
+        $ilias_http_path = preg_replace('/(http|https)(:\/\/)(.*?\/.*?\.php).*/', '$1$2$3', $ilias_http_path);
 
         $f = new \ILIAS\Data\Factory();
-        $uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+        $uri = $f->uri(ilUtil::removeTrailingPathSeparators($ilias_http_path));
 
-        return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
+        $base_URI = $uri->getBaseURI();
+
+        return define('ILIAS_HTTP_PATH', $base_URI);
     }
 
     /**
      * This method determines the current client and sets the
      * constant CLIENT_ID.
      */
-    protected static function determineClient()
+    protected static function determineClient() : void
     {
         global $ilIliasIniFile;
+
+        if (defined('CLIENT_ID')) {
+            return;
+        }
 
         // check whether ini file object exists
         if (!is_object($ilIliasIniFile)) {
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
 
-        if (isset($_GET['client_id']) && strlen($_GET['client_id']) > 0) {
-            $_GET['client_id'] = \ilUtil::getClientIdByString((string) $_GET['client_id'])->toString();
-            if (!defined('IL_PHPUNIT_TEST')) {
-                if (ilContext::supportsPersistentSessions()) {
-                    ilUtil::setCookie('ilClientId', $_GET['client_id']);
-                }
-            }
-        } elseif (!isset($_COOKIE['ilClientId'])) {
-            ilUtil::setCookie('ilClientId', $ilIliasIniFile->readVariable('clients', 'default'));
+        $default_client_id = $ilIliasIniFile->readVariable('clients', 'default');
+
+        $client_id_to_use = '';
+        if (isset($_GET['client_id']) && is_string($_GET['client_id'])) {
+            $client_id_to_use = $_GET['client_id'];
+        }
+        
+        if ($client_id_to_use === '' && isset($_COOKIE['ilClientId']) && is_string($_COOKIE['ilClientId'])) {
+            $client_id_to_use = $_COOKIE['ilClientId'];
         }
 
-        if (!defined('IL_PHPUNIT_TEST') && ilContext::supportsPersistentSessions()) {
-            $clientId = $_COOKIE['ilClientId'];
-        } else {
-            $clientId = $_GET['client_id'];
-        }
+        $client_id_to_use = $client_id_to_use ?: $default_client_id;
 
-        define('CLIENT_ID', \ilUtil::getClientIdByString((string) $clientId)->toString());
+        define('CLIENT_ID', ilUtil::getClientIdByString($client_id_to_use)->toString());
     }
 
     /**
@@ -487,10 +510,8 @@ class ilInitialisation
 
         // invalid client id / client ini
         if ($ilClientIniFile->ERROR != "") {
-            $c = $_COOKIE["ilClientId"];
             $default_client = $ilIliasIniFile->readVariable("clients", "default");
-            ilUtil::setCookie("ilClientId", $default_client);
-            if (CLIENT_ID != "" && CLIENT_ID != $default_client) {
+            if (CLIENT_ID !== $default_client) {
                 $mess = array("en" => "Client does not exist.",
                         "de" => "Mandant ist ungültig.");
                 self::redirect("index.php?client_id=" . $default_client, null, $mess);
@@ -554,8 +575,8 @@ class ilInitialisation
             $mess = array(
                 "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
-                "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis."
+                "de" => "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar." .
+                    " Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal."
             );
             $mess_id = "init_error_maintenance";
 
@@ -640,6 +661,15 @@ class ilInitialisation
         define('IL_COOKIE_DOMAIN', '');
     }
 
+    private static function setClientIdCookie() : void
+    {
+        if (defined('CLIENT_ID') &&
+            !defined('IL_PHPUNIT_TEST') &&
+            ilContext::supportsPersistentSessions()) {
+            ilUtil::setCookie('ilClientId', CLIENT_ID);
+        }
+    }
+
     /**
      * set session cookie params
      */
@@ -655,13 +685,22 @@ class ilInitialisation
             $cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
             define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
-            session_set_cookie_params(
-                IL_COOKIE_EXPIRE,
-                IL_COOKIE_PATH,
-                IL_COOKIE_DOMAIN,
-                IL_COOKIE_SECURE,
-                IL_COOKIE_HTTPONLY
-            );
+            $cookie_parameters = [
+                'lifetime' => IL_COOKIE_EXPIRE,
+                'path' => IL_COOKIE_PATH,
+                'domain' => IL_COOKIE_DOMAIN,
+                'secure' => IL_COOKIE_SECURE,
+                'httponly' => IL_COOKIE_HTTPONLY,
+            ];
+
+            if (
+                $cookie_secure &&
+                (!isset(session_get_cookie_params()['samesite']) || strtolower(session_get_cookie_params()['samesite']) !== 'strict')
+            ) {
+                $cookie_parameters['samesite'] = 'Lax';
+            }
+
+            session_set_cookie_params($cookie_parameters);
         }
     }
 
@@ -952,22 +991,21 @@ class ilInitialisation
 
     /**
      * go to login
-     *
-     * @param int $a_auth_stat
      */
     protected static function goToLogin()
     {
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
+        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . CLIENT_ID;
+
         if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+
+            $script .= "&session_expired=1";
         }
         if (!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
-
-        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . $_COOKIE["ilClientId"] .
-            "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
             $script,
@@ -1096,6 +1134,8 @@ class ilInitialisation
 
             // add notices to error reporting
             error_reporting(E_ALL);
+        } else {
+            error_reporting(E_ALL & ~E_NOTICE);
         }
 
         if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
@@ -1182,7 +1222,7 @@ class ilInitialisation
     public static function handleErrorReporting()
     {
         // push the error level as high as possible / sane
-        error_reporting(E_ALL & ~E_NOTICE);
+        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
         // see handleDevMode() - error reporting might be overwritten again
         // but we need the client ini first
@@ -1328,6 +1368,7 @@ class ilInitialisation
         );
 
         self::setSessionCookieParams();
+        self::setClientIdCookie();
 
         // Init GlobalScreen
         self::initGlobalScreen($DIC);
@@ -1365,6 +1406,10 @@ class ilInitialisation
             !$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
             $GLOBALS['DIC']['ilAuthSession']->isExpired()
         ) {
+            if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+                ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+            }
+
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
             if (self::blockedAuthentication($current_script)) {
@@ -1467,7 +1512,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c)
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace([" ", ".", "-"], "_", ILIAS_VERSION_NUMERIC)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
@@ -1831,19 +1876,16 @@ class ilInitialisation
         }
     }
 
-    /**
-     * Extract current cmd from request
-     *
-     * @return string
-     */
-    protected static function getCurrentCmd()
+    protected static function getCurrentCmd() : string
     {
-        $cmd = $_REQUEST["cmd"];
+        $cmd = $_POST['cmd'] ?? ($_GET['cmd'] ?? '');
+
         if (is_array($cmd)) {
-            return array_shift(array_keys($cmd));
-        } else {
-            return $cmd;
+            $cmd_keys = array_keys($cmd);
+            $cmd = array_shift($cmd_keys) ?? '';
         }
+
+        return $cmd;
     }
 
     /**
@@ -1889,9 +1931,9 @@ class ilInitialisation
             return true;
         }
 
-        $requestBaseClass = strtolower((string) $_REQUEST['baseClass']);
+        $requestBaseClass = strtolower((string) ($_GET['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) $_REQUEST['cmdClass']);
+            $requestCmdClass = strtolower((string) ($_GET['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
@@ -1901,7 +1943,7 @@ class ilInitialisation
             }
             $cmd = self::getCurrentCmd();
             if (
-                $cmd == "showTermsOfService" || $cmd == "showClientList" ||
+                $cmd == "showTermsOfService" ||
                 $cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
                 $cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'showLogout' ||
                 $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
@@ -2075,7 +2117,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance($c->database());
         };
 
         $c["bt.injector"] = function ($c) {

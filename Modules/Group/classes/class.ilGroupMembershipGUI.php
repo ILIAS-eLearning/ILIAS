@@ -233,8 +233,19 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     {
         if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {
             $user_data = $this->member_data[$a_user_id];
-            $user_data['access'] = $this->member_data['access_time'];
-            $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
+
+            if (isset($user_data['access_time_unix'])) {
+                ilDatePresentation::setUseRelativeDates(false);
+                $user_data['access'] = ilDatePresentation::formatDate(
+                    new ilDateTime($user_data['access_time_unix'], IL_CAL_UNIX)
+                );
+                ilDatePresentation::setUseRelativeDates(true);
+            }
+
+            if (isset($user_data['progress'])) {
+                $user_data['progress'] = $this->lng->txt($user_data['progress']);
+            }
+
             return $user_data;
         }
         return [];

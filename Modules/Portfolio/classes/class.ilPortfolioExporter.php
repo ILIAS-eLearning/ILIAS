@@ -44,6 +44,13 @@ class ilPortfolioExporter extends ilXmlExporter
             "ids" => $obj_ids
         );
 
+        // common object properties
+        $deps[] = array(
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids
+        );
+
         return $deps;
     }
     

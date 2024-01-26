@@ -459,6 +459,11 @@ class ilCalendarCategories
             if ($info['obj_type'] == 'sess' || $info['obj_type'] == 'exc') {
                 continue;
             }
+
+            if ($info['remote'] == ilCalendarCategory::LTYPE_REMOTE) {
+                continue;
+            }
+
             if ($info['type'] == ilCalendarCategory::TYPE_USR and $info['editable']) {
                 $has_personal_calendar = true;
             }

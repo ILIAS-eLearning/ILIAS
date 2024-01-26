@@ -59,7 +59,8 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->lng->loadLanguageModule('crs');
         $this->ctrl = $ilCtrl;
-        
+
+        $this->setId('tbl_course_objective_material_assignment');
         parent::__construct($a_parent_obj, 'materialAssignment');
         $this->setFormName('assignments');
         $this->addColumn('', 'f', "1");
@@ -70,8 +71,8 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
 
         $this->setDefaultOrderField('title');
-        $this->setLimit(200);
-        
+        $this->setShowRowsSelector(true);
+
         $this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
         
         

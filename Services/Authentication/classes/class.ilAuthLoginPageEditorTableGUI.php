@@ -24,7 +24,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-
+        $this->setId('login_copage_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->lng = $lng;

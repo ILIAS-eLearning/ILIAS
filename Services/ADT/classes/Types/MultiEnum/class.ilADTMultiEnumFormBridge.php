@@ -56,7 +56,15 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
     public function importFromPost()
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
-        $this->getADT()->setSelections($this->getForm()->getInput($this->getElementId()));
+
+        /*
+         * BT 32161: post value is null when no checkbox is selected,
+         * check whether the corresponding form input really exists, just
+         * to be sure.
+         */
+        if (is_object($this->getForm()->getItemByPostVar($this->getElementId()))) {
+            $this->getADT()->setSelections($this->getForm()->getInput($this->getElementId()) ?? []);
+        }
     
         $field = $this->getForm()->getItemByPostvar($this->getElementId());
         $field->setValue($this->getADT()->getSelections());

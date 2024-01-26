@@ -404,6 +404,15 @@ class ilCourseXMLWriter extends ilXmlWriter
             ]
         );
 
+        $this->xmlElement('StatusDetermination', null, (int) $this->course_obj->getStatusDetermination());
+        $this->xmlElement('MailToMembersType', null, (int) $this->course_obj->getMailToMembersType());
+        $this->xmlElement('CourseMap', [
+            'enabled' => (int) $this->course_obj->getEnableCourseMap(),
+            'latitude' => $this->course_obj->getLatitude(),
+            'longitude' => $this->course_obj->getLongitude(),
+            'location_zoom' => $this->course_obj->getLocationZoom()
+        ]);
+
 
         $this->xmlEndTag('Settings');
 

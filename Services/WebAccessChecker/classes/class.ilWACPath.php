@@ -1,5 +1,21 @@
 <?php
-// declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\URI;
 
 /**
  * Class ilWACPath
@@ -123,17 +139,20 @@ class ilWACPath
     protected $path_without_query = '';
 
 
-    /**
-     * ilWACPath constructor.
-     *
-     * @param string $path
-     */
-    public function __construct($path)
+    public function __construct(string $path)
     {
-        assert(is_string($path));
+        $path = $this->normalizePath($path);
+
         $this->setOriginalRequest($path);
+
         $re = '/' . self::REGEX . '/';
         preg_match($re, $path, $result);
+
+        $result['path_without_query'] = strstr(
+            parse_url($path)['path'],
+            '/data/',
+            false
+        );
 
         foreach ($result as $k => $v) {
             if (is_numeric($k)) {
@@ -141,32 +160,30 @@ class ilWACPath
             }
         }
 
-        $moduleId = strstr(is_null($result['module_identifier']) ? '' : $result['module_identifier'], "/", true);
+        $moduleId = strstr($result['module_identifier'] ?? '', "/", true);
         $moduleId = $moduleId === false ? '' : $moduleId;
 
-        $this->setPrefix(is_null($result['prefix']) ? '' : $result['prefix']);
-        $this->setClient(is_null($result['client']) ? '' : $result['client']);
-        $this->setAppendix(is_null($result['appendix']) ? '' : $result['appendix']);
+        $this->setPrefix($result['prefix'] ?? '');
+        $this->setClient($result['client'] ?? '');
+        $this->setAppendix($result['appendix'] ?? '');
         $this->setModuleIdentifier($moduleId);
-        $this->setModuleType(is_null($result['module_type']) ? '' : $result['module_type']);
+        $this->setModuleType($result['module_type'] ?? '');
 
         $modulePath = null;
 
         if ($this->getModuleIdentifier()) {
-            $modulePath = strstr(is_null($result['module_path']) ? '' : $result['module_path'], $this->getModuleIdentifier(), true);
+            $modulePath = strstr($result['module_path'] ?? '', $this->getModuleIdentifier(), true);
             $modulePath = '.' . ($modulePath === false ? '' : $modulePath);
         } else {
-            $modulePath = ('.' . (is_null($result['module_path']) ? '' : $result['module_path']));
+            $modulePath = ('.' . ($result['module_path'] ?? ''));
         }
 
-        $this->setModulePath("$modulePath");
-        $this->setInSecFolder($result['sec'] === 'sec/');
-        $this->setPathWithoutQuery('.'
-                                   . (is_null($result['path_without_query']) ? '' : $result['path_without_query']));
-        $this->setPath('.' . (is_null($result['path']) ? '' : $result['path']));
-        $this->setSecurePath('.'
-                             . (is_null($result['secure_path_id']) ? '' : $result['secure_path_id']));
-        $this->setSecurePathId(is_null($result['module_type']) ? '' : $result['module_type']);
+        $this->setModulePath((string) $modulePath);
+        $this->setInSecFolder(($result['sec'] ?? null) === 'sec/');
+        $this->setPathWithoutQuery('.' . ($result['path_without_query'] ?? ''));
+        $this->setPath('.' . ($result['path'] ?? ''));
+        $this->setSecurePath('.' . ($result['secure_path_id'] ?? ''));
+        $this->setSecurePathId($result['module_type'] ?? '');
         // Pathinfo
         $parts = parse_url($path);
         $this->setFileName(basename($parts['path']));
@@ -267,6 +284,23 @@ class ilWACPath
         self::$video_suffixes = $video_suffixes;
     }
 
+    protected function normalizePath(string $path) : string
+    {
+        $original_path = parse_url($path, PHP_URL_PATH);
+        $query = parse_url($path, PHP_URL_QUERY);
+        $base_path = strstr(realpath("." . $original_path), '/' . self::DIR_DATA . '/', true) . '/';
+        $realpath = realpath("." . $original_path);
+        if ($realpath === false) {
+            return $path;
+        }
+        $normalized_path = str_replace(
+            $base_path,
+            '',
+            $realpath
+        );
+
+        return "/" . $normalized_path . (!empty($query) ? '?' . $query : '');
+    }
 
     /**
      * @return string
@@ -557,10 +591,7 @@ class ilWACPath
      */
     public function getCleanURLdecodedPath()
     {
-        $path = explode("?", (string) $this->path); // removing everything behind ?
-        $path_to_file = rawurldecode($path[0]);
-
-        return $path_to_file;
+        return rawurldecode($this->getPathWithoutQuery());
     }
 
 

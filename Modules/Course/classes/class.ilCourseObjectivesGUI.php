@@ -68,6 +68,11 @@ class ilCourseObjectivesGUI
      * @var ilLogger
      */
     private $logger = null;
+
+    /**
+     * @var ilCourseObjectiveMaterials
+     */
+    private $objectives_lm_obj;
     
     /**
      * Constructor
@@ -681,30 +686,40 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initLMObject((int) $_GET['objective_id']);
-        $this->objectives_lm_obj->deleteAll();
-        
-        if (is_array($_POST['materials'])) {
-            foreach ($_POST['materials'] as $node_id) {
-                $obj_id = $ilObjDataCache->lookupObjId($node_id);
-                $type = $ilObjDataCache->lookupType($obj_id);
-                
-                $this->objectives_lm_obj->setLMRefId($node_id);
-                $this->objectives_lm_obj->setLMObjId($obj_id);
-                $this->objectives_lm_obj->setType($type);
-                $this->objectives_lm_obj->add();
+
+        $visibleMaterials = is_array($_POST['visible_materials']) ? $_POST['visible_materials'] : [];
+        $visibleChapters = is_array($_POST['visible_chapters']) ? $_POST['visible_chapters'] : [];
+        $materials = is_array($_POST['materials']) ? $_POST['materials'] : [];
+        $chapters = is_array($_POST['chapters']) ? $_POST['chapters'] : [];
+
+        foreach ($visibleMaterials as $node_id) {
+            $obj_id = $ilObjDataCache->lookupObjId($node_id);
+            if (!in_array($node_id, $materials)) {
+                $this->objectives_lm_obj->deleteMaterial($node_id, $obj_id);
+                continue;
             }
+            if ($this->objectives_lm_obj->isMaterialAssigned($node_id, $obj_id)) {
+                continue;
+            }
+            $this->objectives_lm_obj->setLMRefId($node_id);
+            $this->objectives_lm_obj->setLMObjId($obj_id);
+            $this->objectives_lm_obj->setType($ilObjDataCache->lookupType($obj_id));
+            $this->objectives_lm_obj->add();
         }
-        if (is_array($_POST['chapters'])) {
-            foreach ($_POST['chapters'] as $chapter) {
-                include_once('./Modules/LearningModule/classes/class.ilLMObject.php');
-                
-                list($ref_id, $chapter_id) = explode('_', $chapter);
-                
-                $this->objectives_lm_obj->setLMRefId($ref_id);
-                $this->objectives_lm_obj->setLMObjId($chapter_id);
-                $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
-                $this->objectives_lm_obj->add();
+
+        foreach ($visibleChapters as $chapter) {
+            list($ref_id, $chapter_id) = explode('_', $chapter);
+            if (!in_array($chapter, $chapters)) {
+                $this->objectives_lm_obj->deleteMaterial($ref_id, $chapter_id);
+                continue;
             }
+            if ($this->objectives_lm_obj->isMaterialAssigned($ref_id, $chapter_id)) {
+                continue;
+            }
+            $this->objectives_lm_obj->setLMRefId($ref_id);
+            $this->objectives_lm_obj->setLMObjId($chapter_id);
+            $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
+            $this->objectives_lm_obj->add();
         }
         ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
         
@@ -1103,7 +1118,7 @@ class ilCourseObjectivesGUI
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
                 $GLOBALS['DIC']['ilDB'],
                 $tst
-                )
+            )
         );
                 
         $list->loadDefinitions();
@@ -1577,7 +1592,7 @@ class ilCourseObjectivesGUI
             $this->lng->txt('crs_checklist_objective'),
             $steps
         );
-        if(!empty($step_positions[$active_step])) {
+        if (!empty($step_positions[$active_step])) {
             $list = $list->withActive($step_positions[$active_step]);
         }
 

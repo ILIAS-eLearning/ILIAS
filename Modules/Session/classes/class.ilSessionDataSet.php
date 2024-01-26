@@ -287,6 +287,8 @@ class ilSessionDataSet extends ilDataSet
                 case "4.1.0":
                 case "5.0.0":
                 case "5.1.0":
+                case '5.4.0':
+                case '7.0':
                     $this->getDirectDataFromQuery($q = "SELECT event_id session_id, item_id " .
                         " FROM event_items " .
                         "WHERE " .

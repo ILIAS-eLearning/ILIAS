@@ -133,7 +133,10 @@ class ObjectiveIterator implements \Iterator
             $this->markAsFailed($cur);
             if (count($this->stack) === 0) {
                 throw new UnachievableException(
-                    "Objective had failed preconditions."
+                    "Objective '" . $cur->getLabel() . "' had failed preconditions:\n  - " .
+                    implode("\n  - ", array_map(function ($o) {
+                        return $o->getLabel();
+                    }, $failed_preconditions))
                 );
             }
             $this->next();

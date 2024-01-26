@@ -14,9 +14,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 {
     protected $outputmode;
-    
+
     protected $totalPoints;
-    
+
     /**
      * Constructor
      *
@@ -36,7 +36,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->outputmode = $outputmode;
-    
+        $ilCtrl->setParameterByClass('ilObjQuestionPoolGUI', 'output', $outputmode);
         $this->setFormName('printviewform');
         $this->setStyle('table', 'fullwidth');
 
@@ -47,18 +47,16 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        $this->setLimit(999);
-        
+
         $this->enable('sort');
         $this->enable('header');
-        //		$this->disable('numinfo');
         $this->disable('select_all');
     }
-    
+
     public function initColumns()
     {
         $this->addColumn($this->lng->txt("title"), 'title', '');
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
@@ -80,7 +78,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
             }
         }
     }
-    
+
     private function getPointsColumnHeader()
     {
         return $this->lng->txt("points") . ' (' . $this->getTotalPoints() . ')';

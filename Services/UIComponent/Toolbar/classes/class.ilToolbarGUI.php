@@ -451,6 +451,7 @@ class ilToolbarGUI
                 foreach ($this->sticky_items as $sticky_item) {
                     if ($sticky_item['label']) {
                         $tpl_sticky->setCurrentBlock('input_label');
+                        $tpl_sticky->setVariable('INPUT_ID', $sticky_item['item']->getFieldId());
                         $tpl_sticky->setVariable('TXT_INPUT', $sticky_item['item']->getTitle());
                         $tpl_sticky->parseCurrentBlock();
                     }
@@ -537,6 +538,7 @@ class ilToolbarGUI
                             if ($item["label"]) {
                                 $tpl_items->setCurrentBlock("input_label");
                                 $tpl_items->setVariable("TXT_INPUT", $item["input"]->getTitle());
+                                $tpl_items->setVariable("INPUT_ID", $item["input"]->getFieldId());
                                 $tpl_items->parseCurrentBlock();
                             }
                             $tpl_items->setCurrentBlock("input");

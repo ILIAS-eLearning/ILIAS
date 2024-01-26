@@ -12,6 +12,9 @@ use ILIAS\KioskMode\TOCBuilder;
 
 class ilLSTOCGUI extends ilExplorerBaseGUI
 {
+    /**
+     * @deprecated will be deleted with R8
+     */
     const NODE_ICONS = [
         TOCBuilder::LP_NOT_STARTED => "./templates/default/images/scorm/not_attempted.svg",
         TOCBuilder::LP_IN_PROGRESS => "./templates/default/images/scorm/incomplete.svg",
@@ -27,6 +30,16 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
      */
     protected $url_builder;
 
+    /**
+     * @var array<string>
+     */
+    protected $node_icons = [
+        TOCBuilder::LP_NOT_STARTED => '',
+        TOCBuilder::LP_IN_PROGRESS => '',
+        TOCBuilder::LP_COMPLETED => '',
+        TOCBuilder::LP_FAILED => ''
+    ];
+
     public function __construct(
         LSUrlBuilder $url_builder,
         ilCtrl $il_ctrl
@@ -36,6 +49,13 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $this->ctrl = $il_ctrl; //ilExplorerBaseGUI needs ctrl...
         $this->setSkipRootNode(false);
         $this->setNodeOnclickEnabled(true);
+
+        //get the image paths to the node icons
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        $this->node_icons[TOCBuilder::LP_NOT_STARTED] = $lp_icons->getImagePathNotAttempted();
+        $this->node_icons[TOCBuilder::LP_COMPLETED] = $lp_icons->getImagePathCompleted();
+        $this->node_icons[TOCBuilder::LP_IN_PROGRESS] = $lp_icons->getImagePathInProgress();
+        $this->node_icons[TOCBuilder::LP_FAILED] = $lp_icons->getImagePathFailed();
     }
 
     public function withStructure(string $json_structure)
@@ -103,7 +123,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     public function getNodeIcon($a_node)
     {
         $state = $a_node['state'] ?? TOCBuilder::LP_NOT_STARTED;
-        return static::NODE_ICONS[$state];
+        return $this->node_icons[$state];
     }
 
     /**

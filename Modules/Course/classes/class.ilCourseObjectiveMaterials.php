@@ -374,6 +374,7 @@ class ilCourseObjectiveMaterials
         
         return (int) $next_id;
     }
+
     public function delete($lm_id)
     {
         global $DIC;
@@ -389,6 +390,26 @@ class ilCourseObjectiveMaterials
         $res = $ilDB->manipulate($query);
 
         return true;
+    }
+
+    public function deleteMaterial(int $ref_id, int $obj_id) : bool
+    {
+        $query = "DELETE FROM crs_objective_lm " .
+            "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
+            "AND ref_id = " . $this->db->quote($ref_id, 'integer') . " " .
+            "AND obj_id = " . $this->db->quote($obj_id, 'integer');
+        $this->db->manipulate($query);
+        return true;
+    }
+
+    public function isMaterialAssigned(int $ref_id, int $obj_id) : bool
+    {
+        $query = "SELECT * FROM crs_objective_lm " .
+            "WHERE ref_id = " . $this->db->quote($ref_id, 'integer') . " " .
+            "AND obj_id = " . $this->db->quote($obj_id, 'integer') . " " .
+            "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
+        $res = $this->db->query($query);
+        return (bool) $res->numRows();
     }
 
     public function deleteAll()

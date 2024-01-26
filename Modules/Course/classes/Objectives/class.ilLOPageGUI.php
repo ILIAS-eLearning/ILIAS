@@ -25,4 +25,9 @@ class ilLOPageGUI extends ilPageObjectGUI
     {
         parent::__construct("lobj", $a_id, $a_old_nr, false, $a_lang);
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->returnToParent($this);
+    }
 }

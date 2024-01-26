@@ -613,8 +613,6 @@ class ilCalendarCategoryGUI
             return false;
         }
 
-        $this->getSearchToolbar();
-
         include_once 'Services/Search/classes/class.ilQueryParser.php';
         include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
         include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -676,6 +674,8 @@ class ilCalendarCategoryGUI
                 $this->showRoleList($res_sum->getResultIds());
                 break;
         }
+
+        $this->getSearchToolbar();
     }
     
     /**
@@ -1545,7 +1545,7 @@ class ilCalendarCategoryGUI
             "invitations",
             $lng->txt("cal_shared_calendars"),
             $ilCtrl->getLinkTarget($this, "invitations")
-            );
+        );
 
         $ilTabs->activateSubTab($a_active);
     }

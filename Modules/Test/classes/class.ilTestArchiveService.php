@@ -17,18 +17,18 @@ class ilTestArchiveService
      * @var ilObjTest
      */
     protected $testOBJ;
-    
+
     /**
      * @var ilTestParticipantData
      */
     protected $participantData;
-    
+
     public function __construct(ilObjTest $testOBJ)
     {
         $this->testOBJ = $testOBJ;
         $this->participantData = null;
     }
-    
+
     /**
      * @return ilTestParticipantData
      */
@@ -36,7 +36,7 @@ class ilTestArchiveService
     {
         return $this->participantData;
     }
-    
+
     /**
      * @param ilTestParticipantData $participantData
      */
@@ -44,7 +44,7 @@ class ilTestArchiveService
     {
         $this->participantData = $participantData;
     }
-    
+
     public function archivePassesByActives($passesByActives)
     {
         foreach ($passesByActives as $activeId => $passes) {
@@ -53,18 +53,15 @@ class ilTestArchiveService
             }
         }
     }
-    
+
     public function archiveActivesPass($activeId, $pass)
     {
         $content = $this->renderOverviewContent($activeId, $pass);
         $filename = $this->buildOverviewFilename($activeId, $pass);
-        
         ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
-
         $archiver = new ilTestArchiver($this->testOBJ->getId());
         $archiver->setParticipantData($this->getParticipantData());
         $archiver->handInTestResult($activeId, $pass, $filename);
-
         unlink($filename);
     }
 
@@ -80,7 +77,7 @@ class ilTestArchiveService
             $pass,
             false
         );
-        
+
         $gui = new ilTestServiceGUI($this->testOBJ);
 
         require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';

@@ -64,9 +64,9 @@ class ilMarkSchemaGUI
     public function executeCommand()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
-        
+
         $cmd = $this->ctrl->getCmd('showMarkSchema');
         $this->$cmd();
     }
@@ -100,27 +100,44 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        $this->saveMarkSchemaFormData();
-        $this->object->getMarkSchema()->addMarkStep();
+        if ($this->saveMarkSchemaFormData()) {
+            $this->object->getMarkSchema()->addMarkStep();
+        } else {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mark_schema_invalid'), true);
+        }
         $this->showMarkSchema();
     }
 
-    /**
-     * Save the mark schema POST data when the form was submitted
-     */
     protected function saveMarkSchemaFormData()
     {
+        $no_save_error = true;
         $this->object->getMarkSchema()->flush();
-        foreach ($_POST as $key => $value) {
+        $postdata = $_POST;
+        foreach ($postdata as $key => $value) {
             if (preg_match('/mark_short_(\d+)/', $key, $matches)) {
+                $passed = "0";
+                if (isset($postdata["passed_$matches[1]"])) {
+                    $passed = "1";
+                }
+
+                $percentage = str_replace(',', '.', ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
+                if (!is_numeric($percentage)
+                    || (float) $percentage < 0.0
+                    || (float) $percentage > 100.0) {
+                    $percentage = 0;
+                    $no_save_error = false;
+                }
+
                 $this->object->getMarkSchema()->addMarkStep(
-                    ilUtil::stripSlashes($_POST["mark_short_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["mark_official_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["mark_percentage_$matches[1]"]),
-                    ilUtil::stripSlashes($_POST["passed_$matches[1]"])
+                    ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
+                    ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
+                    (float) $percentage,
+                    (int) ilUtil::stripSlashes($passed)
                 );
             }
         }
+
+        return $no_save_error;
     }
 
     /**
@@ -146,26 +163,32 @@ class ilMarkSchemaGUI
     /**
      * Delete selected mark steps
      */
-    protected function deleteMarkSteps()
+    protected function deleteMarkSteps() : void
     {
+        $delete_mark_steps = $_POST['marks'];
         $this->ensureMarkSchemaCanBeEdited();
-
-        if (!isset($_POST['marks']) || !is_array($_POST['marks'])) {
+        if (!isset($delete_mark_steps) || !is_array($delete_mark_steps)) {
             $this->showMarkSchema();
             return;
         }
 
-        $this->saveMarkSchemaFormData();
-        $delete_mark_steps = array();
-        foreach ($_POST['marks'] as $mark_step_id) {
-            $delete_mark_steps[] = $mark_step_id;
+        // test delete
+        $schema = clone $this->object->getMarkSchema();
+        $schema->deleteMarkSteps($delete_mark_steps);
+        $check_result = $schema->checkMarks();
+        if (is_string($check_result)) {
+            ilUtil::sendFailure($this->lng->txt($check_result), true);
+            $this->showMarkSchema();
+            return;
         }
 
-        if (count($delete_mark_steps)) {
+        //  actual delete
+        if (!empty($delete_mark_steps)) {
             $this->object->getMarkSchema()->deleteMarkSteps($delete_mark_steps);
         } else {
-            ilUtil::sendInfo($this->lng->txt('tst_delete_missing_mark'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
         }
+        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
 
         $this->showMarkSchema();
     }
@@ -177,11 +200,10 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        try {
-            $this->saveMarkSchemaFormData();
+        if ($this->saveMarkSchemaFormData()) {
             $result = $this->object->checkMarks();
-        } catch (Exception $e) {
-            $result = $this->lng->txt('mark_schema_invalid');
+        } else {
+            $result = 'mark_schema_invalid';
         }
 
         if (is_string($result)) {
@@ -189,10 +211,12 @@ class ilMarkSchemaGUI
         } else {
             $this->object->getMarkSchema()->saveToDb($this->object->getMarkSchemaForeignId());
             $this->object->onMarkSchemaSaved();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->object->getMarkSchema()->flush();
+            $this->object->getMarkSchema()->loadFromDb($this->object->getTestId());
         }
 
-        $this->ctrl->redirect($this);
+        $this->showMarkSchema();
     }
 
     /**
@@ -300,7 +324,7 @@ class ilMarkSchemaGUI
             $mark_step->setDisabled($disabled);
             $allow_ects_marks->addSubItem($mark_step);
         }
-        
+
         $mark_step = new ilNonEditableValueGUI('F', 'ects_grade_f');
         $mark_step->setInfo(
             $this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_f_desc')
@@ -310,13 +334,13 @@ class ilMarkSchemaGUI
         $use_ects_fx = new ilCheckboxInputGUI($this->lng->txt('use_ects_fx'), 'use_ects_fx');
         $use_ects_fx->setDisabled($disabled);
         $allow_ects_marks->addSubItem($use_ects_fx);
-        
+
         $mark_step = new ilNonEditableValueGUI('FX', 'ects_grade_fx');
         $mark_step->setInfo(
             $this->lng->txt('ects_grade_desc_prefix') . ' ' . $this->lng->txt('ects_grade_fx_desc')
         );
         $use_ects_fx->addSubItem($mark_step);
-        
+
         $threshold = new ilNumberInputGUI($this->lng->txt('ects_fx_threshold'), 'ects_fx_threshold');
         $threshold->setInfo($this->lng->txt('ects_fx_threshold_info'));
         $threshold->setSuffix($this->lng->txt('percentile'));
@@ -325,7 +349,7 @@ class ilMarkSchemaGUI
         $threshold->setRequired(true);
         $threshold->setDisabled($disabled);
         $use_ects_fx->addSubItem($threshold);
-        
+
 
         $form->addItem($allow_ects_marks);
 

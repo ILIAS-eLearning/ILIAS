@@ -14,7 +14,6 @@ class ilObjWorkflowEngine extends ilObject
 {
     /**
      * ilObjWorkflowEngine constructor.
-     *
      * @param int  $id
      * @param bool $call_by_reference
      */
@@ -37,20 +36,5 @@ class ilObjWorkflowEngine extends ilObject
         }
 
         return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeTempPath;
-    }
-
-    /**
-     * @param bool $relative
-     * @return string
-     */
-    public static function getRepositoryDir($relative = false)
-    {
-        $relativeRepositoryPath = 'wfe/repository/';
-
-        if ($relative) {
-            return $relativeRepositoryPath;
-        }
-
-        return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeRepositoryPath;
     }
 }

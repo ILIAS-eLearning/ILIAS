@@ -186,7 +186,7 @@ class ilCmiXapiContentUploadImporter
         switch ($this->fetchFileExtension($uploadResult)) {
             case self::IMP_FILE_EXTENSION_XML:
                 
-                $this->handleXmlFileFromUpload($uploadResult->getName(),$uploadResult->getPath());
+                $this->handleXmlFileFromUpload($uploadResult->getName(), $uploadResult->getPath());
                 break;
                 
             case self::IMP_FILE_EXTENSION_ZIP:
@@ -386,8 +386,7 @@ class ilCmiXapiContentUploadImporter
             }
             if (!empty($masteryScore)) {
                 $this->object->setMasteryScore($masteryScore);
-            }
-            else {
+            } else {
                 $this->object->setMasteryScore(ilObjCmiXapi::LMS_MASTERY_SCORE);
             }
             
@@ -400,19 +399,18 @@ class ilCmiXapiContentUploadImporter
         
         $lpSettings = new ilLPObjSettings($this->object->getId());
         $mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
-        switch ($moveOn)
-        {
-            case ilCmiXapiLP::MOVEON_COMPLETED :
+        switch ($moveOn) {
+            case ilCmiXapiLP::MOVEON_COMPLETED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;
             break;
-            case ilCmiXapiLP::MOVEON_PASSED :
+            case ilCmiXapiLP::MOVEON_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
             break;
-            case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED :
+            case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED;
             break;
-            case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED : // ich würde es noch implementieren
-                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED; 
+            case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED: // ich würde es noch implementieren
+                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
             break;
         }
         $lpSettings->setMode($mode);
@@ -449,9 +447,7 @@ class ilCmiXapiContentUploadImporter
     {
         global $DIC;
         $objId = $this->object->getId();
-        $activityId = "https://ilias.de/cmi5/activityid/".(new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(),$objId . '-' . $publisherId);
+        $activityId = "https://ilias.de/cmi5/activityid/" . (new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(), $objId . '-' . $publisherId);
         return $activityId;
     }
-
-
 }

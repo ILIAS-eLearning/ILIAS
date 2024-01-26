@@ -268,23 +268,24 @@ class ilMailFormCall
     }
 
     /**
-     * @param string[] $recipients
+     * @param list<string> $recipients
      */
-    public static function setRecipients(array $recipients) : void
+    public static function setRecipients(array $recipients, string $type = 'to') : void
     {
-        $session = ilSession::get(self::SESSION_KEY);
-        $session['rcp_to'] = $recipients;
+        $session = ilSession::get(self::SESSION_KEY) ?? [];
+        $session['rcp_' . $type] = array_map('strval', array_values($recipients));
         ilSession::set(self::SESSION_KEY, $session);
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
-    public static function getRecipients() : array
+    public static function getRecipients(string $type = 'to') : array
     {
-        $session = ilSession::get(self::SESSION_KEY);
-        if (isset($session['rcp_to']) && is_array($session['rcp_to'])) {
-            return $session['rcp_to'];
+        $session = ilSession::get(self::SESSION_KEY) ?? [];
+        $key = 'rcp_' . $type;
+        if (isset($session[$key]) && is_array($session[$key])) {
+            return array_map('strval', array_values($session[$key]));
         }
 
         return [];

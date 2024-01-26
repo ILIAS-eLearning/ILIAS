@@ -11,92 +11,58 @@ require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthorin
 class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGUI
 {
     const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
-    
+
     protected $availableCommandButtonIds = null;
-    
+
     public function __construct()
     {
-        $this->setAvailableCommandButtonIds(array(
-            $this->buildCommandButtonId(OQ_TERMS),
-            $this->buildCommandButtonId(OQ_PICTURES),
-            $this->buildCommandButtonId(OQ_NESTED_TERMS),
-            $this->buildCommandButtonId(OQ_NESTED_PICTURES)
-        ));
-        
+        global $DIC;
+        $tpl = $DIC->ui()->mainTemplate();
+        $this->setAvailableCommandButtonIds(
+            [
+                $this->buildCommandButtonId(assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS),
+                $this->buildCommandButtonId(assOrderingQuestionGUI::CMD_SWITCH_TO_PICTURESS)
+            ]
+        );
         parent::__construct();
+        $tpl->addOnloadCode("
+            let form = document.getElementById('form_ordering');
+            let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
     }
-    
+
     protected function setAvailableCommandButtonIds($availableCommandButtonIds)
     {
         $this->availableCommandButtonIds = $availableCommandButtonIds;
     }
-    
+
     protected function getAvailableCommandButtonIds()
     {
         return $this->availableCommandButtonIds;
     }
-    
+
     public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ)
     {
-        switch ($questionOBJ->getOrderingType()) {
-            case OQ_TERMS:
-                
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_use_order_pictures"),
-                    $this->buildCommandButtonId(OQ_PICTURES)
-                );
-                $this->addCommandButton(
-                    "orderNestedTerms",
-                    $this->lng->txt("oq_btn_nest_terms"),
-                    $this->buildCommandButtonId(OQ_NESTED_TERMS)
-                );
-                break;
-            
-            case OQ_PICTURES:
-                
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_use_order_terms"),
-                    $this->buildCommandButtonId(OQ_TERMS)
-                );
-                $this->addCommandButton(
-                    "orderNestedPictures",
-                    $this->lng->txt("oq_btn_nest_pictures"),
-                    $this->buildCommandButtonId(OQ_NESTED_PICTURES)
-                );
-                break;
-            
-            case OQ_NESTED_TERMS:
-                
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_use_order_pictures"),
-                    $this->buildCommandButtonId(OQ_PICTURES)
-                );
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_define_terms"),
-                    $this->buildCommandButtonId(OQ_TERMS)
-                );
-                break;
-            
-            case OQ_NESTED_PICTURES:
-                
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_use_order_terms"),
-                    'assOrderingQuestionBtn_' . OQ_TERMS
-                );
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_define_pictures"),
-                    'assOrderingQuestionBtn_' . OQ_PICTURES
-                );
-                break;
+        if ($questionOBJ->isImageOrderingType()) {
+            $cmd = assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS;
+            $label = $this->lng->txt("oq_btn_use_order_terms");
+        } else {
+            $cmd = assOrderingQuestionGUI::CMD_SWITCH_TO_PICTURESS;
+            $label = $this->lng->txt("oq_btn_use_order_pictures");
         }
+
+        $id = $this->buildCommandButtonId($cmd);
+        $this->addCommandButton($cmd, $label, $id);
     }
-    
+
     /**
      * @return ilIdentifiedMultiValuesInputGUI
      */
@@ -106,18 +72,18 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
         );
     }
-    
+
     public function prepareValuesReprintable(assOrderingQuestion $questionOBJ)
     {
         $this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
     }
-    
+
     public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ)
     {
         $this->renewOrderingElementInput($questionOBJ);
         $this->renewOrderingCommandButtons($questionOBJ);
     }
-    
+
     /**
      * @param assOrderingQuestion $questionOBJ
      * @throws ilTestQuestionPoolException
@@ -130,12 +96,12 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         $replacingInput->setElementList($dodgingInput->getElementList($questionOBJ->getId()));
         $this->replaceFormItemByPostVar($replacingInput);
     }
-    
-    protected function buildCommandButtonId($orderingType)
+
+    protected function buildCommandButtonId($id)
     {
-        return self::COMMAND_BUTTON_PREFIX . $orderingType;
+        return self::COMMAND_BUTTON_PREFIX . $id;
     }
-    
+
     protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ)
     {
         $this->clearCommandButtons();

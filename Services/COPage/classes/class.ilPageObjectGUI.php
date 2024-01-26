@@ -20,6 +20,7 @@ class ilPageObjectGUI
     const PREVIEW = "preview";
     const OFFLINE = "offline";
     const PRINTING = "print";
+    protected $profile_back_url = "";
 
     protected $enabled_href = true;
 
@@ -149,7 +150,8 @@ class ilPageObjectGUI
         $a_id,
         $a_old_nr = 0,
         $a_prevent_get_id = false,
-        $a_lang = ""
+        $a_lang = "",
+        $concrete_lang = ""
     ) {
         global $DIC;
 
@@ -164,6 +166,7 @@ class ilPageObjectGUI
         $this->help = $DIC["ilHelp"];
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
+        $this->concrete_lang = $concrete_lang;
 
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
@@ -228,6 +231,7 @@ class ilPageObjectGUI
             $this->getOldNr(),
             $this->getLanguage()
         );
+        $page->setConcreteLang($this->concrete_lang);
         $this->setPageObject($page);
     }
     
@@ -740,7 +744,7 @@ class ilPageObjectGUI
      * Set open placeholder
      * @param string $a_val open placeholder pc id
      */
-    function setOpenPlaceHolder($a_val)
+    public function setOpenPlaceHolder($a_val)
     {
         $this->open_place_holder = $a_val;
     }
@@ -749,7 +753,7 @@ class ilPageObjectGUI
      * Get open placeholder
      * @return string open placeholder pc id
      */
-    function getOpenPlaceHolder()
+    public function getOpenPlaceHolder()
     {
         return $this->open_place_holder;
     }
@@ -1680,14 +1684,16 @@ class ilPageObjectGUI
                 $par = $this->obj->getParagraphForPCID($this->abstract_pcid);
                 $content = "<dummy><PageObject><PageContent><Paragraph Characteristic='" . $par->getCharacteristic() . "'>" .
                     $par->getText() . $link_xml .
-                    "</Paragraph></PageContent></PageObject></dummy>";
+                    "</Paragraph></PageContent></PageObject>" . $this->obj->getMultimediaXML() . "</dummy>";
             }
         } else {
             $content = $this->obj->getXMLFromDom(
                 false,
                 true,
                 true,
-                $link_xml . $this->getQuestionXML() . $template_xml . $this->getComponentPluginsXML()
+                $link_xml . $this->getQuestionXML() . $template_xml . $this->getComponentPluginsXML(),
+                false,
+                $this->getStyleId()
             );
         }
 
@@ -1792,6 +1798,8 @@ class ilPageObjectGUI
                          'img_row' => $row_path,
                          'img_cell' => $cell_path,
                          'img_item' => $item_path,
+                         'acc_save_url' => "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab" .
+                             "&user_id=" . $this->user->getId(),
                          'append_footnotes' => $append_footnotes,
                          'compare_mode' => $this->getCompareMode() ? "y" : "n",
                          'enable_split_new' => $enable_split_new,
@@ -1939,6 +1947,7 @@ class ilPageObjectGUI
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
                 $pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
                 $pc_obj->setFullscreenLink($this->determineFullscreenLink());
+                $pc_obj->setProfileBackUrl($this->getProfileBackUrl());
 
                 // post xsl page content modification by pc elements
                 $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
@@ -2301,6 +2310,7 @@ class ilPageObjectGUI
      */
     public function setDefaultLinkXml()
     {
+        $this->page_linker->setProfileBackUrl($this->getProfileBackUrl());
         $this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE);
         $this->setLinkXML($this->page_linker->getLinkXml($this->getPageObject()->getInternalLinks()));
     }
@@ -2322,10 +2332,24 @@ class ilPageObjectGUI
      */
     public function getProfileBackUrl()
     {
+        if ($this->profile_back_url != "") {
+            return $this->profile_back_url;
+        }
+        if ($this->getOutputMode() === self::OFFLINE) {
+            return "";
+        }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
     }
 
-    
+    /**
+     * Get profile back url
+     */
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
+    }
+
+
     /**
      * Download file of file lists
      */
@@ -2394,7 +2418,12 @@ class ilPageObjectGUI
         require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
         require_once("./Services/COPage/classes/class.ilPageObject.php");
-        $pg_obj = $this->getPageObject();
+        if ($_GET["pg_type"] === "mep") {
+            $pg_obj = new ilMediaPoolPage((int) $_GET["pg_id"]);
+        } else {
+            $pg_obj = $this->getPageObject();
+        }
+
         $pg_obj->buildDom();
 
         if (!empty($_GET["pg_id"])) {
@@ -2426,6 +2455,7 @@ class ilPageObjectGUI
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => "",
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         //echo "<br><br>".htmlentities($output);
@@ -2479,7 +2509,7 @@ class ilPageObjectGUI
                 $anchor = str_replace(
                     "TocH",
                     "TocA",
-                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 4)
+                    substr($a_output, $os, strpos($a_output, "-->", $os) - $os)
                 );
 
                 // get heading
@@ -2495,7 +2525,6 @@ class ilPageObjectGUI
                     "anchor" => $anchor);
             }
         }
-
         if (count($page_heads) > 1) {
             include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
             $list = new ilNestedList();
@@ -2905,7 +2934,9 @@ class ilPageObjectGUI
         //$pg_frame = $_GET["frame"];
         $wb_path = ilUtil::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
-        $params = array('mode' => $mode, 'webspace_path' => $wb_path);
+        $params = array('mode' => $mode,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
+                        'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         echo xslt_error($xh);
         xslt_free($xh);
@@ -3186,6 +3217,8 @@ class ilPageObjectGUI
     */
     public function editActivation()
     {
+        $this->setBackToEditTabs();
+
         $atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
@@ -3575,5 +3608,4 @@ class ilPageObjectGUI
     {
         return [];
     }
-
 }

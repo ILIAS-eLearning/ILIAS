@@ -48,7 +48,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
         $this->setShowRowsSelector(true);
 
-	$this->initOrdering();
+        $this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
@@ -62,7 +62,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
         $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by_uid');
         $this->addColumn($this->lng->txt('finalized_on'), 'finalized_tstamp');
-        $this->addColumn('', '');
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
 
     private function initOrdering()
@@ -120,9 +120,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $pass->readFromSession();
         $this->filter['pass'] = $pass->getValue();
 
-        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'),'only_answered');
+        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
         $this->addFilterItem($only_answered);
-        $only_answered->readFromSession();;
+        $only_answered->readFromSession();
+        ;
         $this->filter['only_answered'] = $only_answered->getChecked();
 
         $correction = new ilSelectInputGUI(
@@ -159,7 +160,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
         } else {
             $this->tpl->setVariable('VAL_NAME', $row['name']);
-	}
+        }
 
         if (!$this->first_row_rendered) {
             $this->first_row_rendered = true;

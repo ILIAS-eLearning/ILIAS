@@ -43,6 +43,11 @@ class ilCertificateCloneAction
     private $global_certificate_path;
 
     /**
+     * @var ilObjCertificateSettings
+     */
+    private $global_certificate_settings;
+
+    /**
      * @param ilDBInterface $database
      * @param ilCertificateFactory $certificateFactory
      * @param ilCertificateTemplateRepository $templateRepository
@@ -58,6 +63,7 @@ class ilCertificateCloneAction
         \ILIAS\Filesystem\Filesystem $fileSystem = null,
         ilLogger $logger = null,
         ilCertificateObjectHelper $objectHelper = null,
+        ?ilObjCertificateSettings $global_certificate_settings = null,
         string $webDirectory = CLIENT_WEB_DIR,
         string $global_certificate_path = null
     ) {
@@ -82,12 +88,14 @@ class ilCertificateCloneAction
         }
         $this->objectHelper = $objectHelper;
 
+        if (!$global_certificate_settings) {
+            $global_certificate_settings = new ilObjCertificateSettings();
+        }
+        $this->global_certificate_settings = $global_certificate_settings;
+
+
         if (null === $global_certificate_path) {
-            $global_certificate_path = str_replace(
-                '[CLIENT_WEB_DIR]',
-                '',
-                ilObjCertificateSettingsAccess::getBackgroundImagePath(true)
-            );
+            $global_certificate_path = $this->global_certificate_settings->getDefaultBackgroundImagePath(true);
         }
         $this->global_certificate_path = $global_certificate_path;
 
@@ -139,7 +147,8 @@ class ilCertificateCloneAction
                 ) {
                     $newBackgroundImage = $certificatePath . $backgroundImageFile;
                     $newBackgroundImageThumbnail = str_replace(
-                        $webDir, '',
+                        $webDir,
+                        '',
                         $this->getBackgroundImageThumbPath($certificatePath)
                     );
                     if ($this->fileSystem->has($newBackgroundImage) &&

@@ -62,7 +62,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * creates the folder structure
      *
-     * @return boolen
+     * @return boolean
      */
     public function create()
     {
@@ -114,9 +114,10 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * Upload the file
      *
-     * @param string[]
+     * @param UploadResult $result
      *
      * @return bool
+     * @throws ilException
      */
     public function uploadFile(UploadResult $result)
     {
@@ -139,19 +140,28 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
      */
     public function deleteCurrentFile()
     {
-        $files = $this->readDir();
-        $this->deleteFile($this->getAbsolutePath() . "/" . $files[0]);
+        $this->deleteFile($this->getFilePath());
     }
 
     /**
-     * Get the path of file
+     * Get the path of the file
      *
      * @return string
      */
     public function getFilePath()
     {
+        return $this->getAbsolutePath() . "/" . $this->getFileName();
+    }
+
+    /**
+     * Get the name of the file
+     *
+     * @return string
+     */
+    public function getFileName()
+    {
         $files = $this->readDir();
-        return $this->getAbsolutePath() . "/" . $files[0];
+        return $files[0];
     }
 
     /**

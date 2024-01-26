@@ -15,10 +15,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class assQuestionImport
 {
     /**
-    * The question object
-    *
-    * The question object
-    *
     * @var assQuestion
     */
     public $object;
@@ -32,6 +28,11 @@ class assQuestionImport
     public function __construct($a_object)
     {
         $this->object = $a_object;
+    }
+    
+    public function getQuestionId() : int
+    {
+        return (int) $this->object->getId();
     }
     
     public function getFeedbackGeneric($item)
@@ -252,7 +253,7 @@ class assQuestionImport
     
     /**
      * fetches the "additional content editing mode" information from qti item
-     * and falls back to ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT when no or invalid information is given
+     * and falls back to ADDITIONAL_CONTENT_EDITING_MODE_RTE when no or invalid information is given
      *
      * @final
      * @access protected
@@ -262,9 +263,9 @@ class assQuestionImport
     final protected function fetchAdditionalContentEditingModeInformation($qtiItem)
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
-        
+
         if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode)) {
-            $additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+            $additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
         }
         
         return $additionalContentEditingMode;

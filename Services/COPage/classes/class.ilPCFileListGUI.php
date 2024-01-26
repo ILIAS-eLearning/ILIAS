@@ -280,10 +280,22 @@ class ilPCFileListGUI extends ilPageContentGUI
             
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+            $this->afterCreation();
         } else {
             $this->insert();
         }
+    }
+
+    /**
+     * After creation processing
+     */
+    public function afterCreation()
+    {
+        $this->pg_obj->stripHierIDs();
+        $this->pg_obj->addHierIDs();
+        $this->ctrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
+        $this->ctrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
+        $this->ctrl->redirect($this, "editFiles");
     }
 
     /**

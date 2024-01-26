@@ -286,6 +286,10 @@ class ilObjTestXMLParser extends ilSaxParser
         $sourcePoolDefinition->setQuestionAmount((int) $attr['questAmount']);
         $sourcePoolDefinition->setSequencePosition((int) $attr['position']);
 
+        if (isset($attr['typeFilter']) && strlen($attr['typeFilter']) > 0) {
+            $sourcePoolDefinition->setTypeFilterFromTypeTags(explode(',', $attr['typeFilter']));
+        }
+
         // #21330
         if (isset($attr['tax']) && isset($attr['taxNode'])) {
             $mappedTaxFilter = array(

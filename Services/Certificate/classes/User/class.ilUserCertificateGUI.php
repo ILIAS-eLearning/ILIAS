@@ -358,7 +358,7 @@ class ilUserCertificateGUI
     {
         global $DIC;
 
-        $user = $DIC->user();
+        $user = $this->user;
         $language = $DIC->language();
 
         $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);

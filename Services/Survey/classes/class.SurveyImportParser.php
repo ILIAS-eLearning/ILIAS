@@ -9,9 +9,9 @@
  */
 class SurveyImportParser extends ilSaxParser
 {
-    protected int $showQuestiontext;
-    protected int $showBlocktitle;
-    protected int $compressView;
+    protected $showQuestiontext;
+    protected $showBlocktitle;
+    protected $compressView;
     public $path;
     public $depth;
     public $activequestion;
@@ -189,13 +189,13 @@ class SurveyImportParser extends ilSaxParser
                 foreach ($a_attribs as $attrib => $value) {
                     switch ($attrib) {
                         case "showQuestiontext":
-                            $this->showQuestiontext = $value;
+                            $this->showQuestiontext = (int) $value;
                             break;
                         case "showBlocktitle":
-                            $this->showBlocktitle = $value;
+                            $this->showBlocktitle = (int) $value;
                             break;
                         case "compressView":
-                            $this->compressView = $value;
+                            $this->compressView = (int) $value;
                             break;
                     }
                 }

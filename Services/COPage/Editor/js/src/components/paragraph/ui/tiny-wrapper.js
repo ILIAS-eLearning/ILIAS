@@ -120,6 +120,8 @@ export default class TinyWrapper {
       Sub: { inline: 'sub', classes: 'ilc_sub_Sub' }
     };
 
+    this.text_block_formats = {};
+
     this.cb = [];
 
     this.lib = tinyMCE;
@@ -232,6 +234,10 @@ export default class TinyWrapper {
 
   addTextFormat(f) {
     this.text_formats[f] = { inline: 'span', classes: 'ilc_text_inline_' + f };
+  }
+
+  setTextBlockFormats(formats) {
+    this.text_block_formats = formats;
   }
 
   pastePreProcess(pl, o) {
@@ -597,6 +603,14 @@ export default class TinyWrapper {
         cb();
       });
       wrapper.autoScroll();
+      this.clearUndo();
+    }
+  }
+
+  // see e.g. #32336
+  clearUndo() {
+    if (this.tiny) {
+      this.tiny.undoManager.clear();
     }
   }
 
@@ -697,9 +711,13 @@ export default class TinyWrapper {
       }
 
       let label = "";
+      let char_text = characteristic;
       if (!this.getDataTableMode()) {
+        if (this.text_block_formats[characteristic]) {
+          char_text = this.text_block_formats[characteristic];
+        }
         label = "<div class='ilEditLabel'>" + il.Language.txt("cont_ed_par") +
-          " (" + characteristic + ")</div>";
+          " (" + char_text + ")</div>";
       }
 
       c = label + "<" + tag + " style='position:static;' class='" + cl + "'>" + c + "</" + tag + ">";
@@ -750,6 +768,8 @@ export default class TinyWrapper {
     if (this.current_td) {              // MISSING
       back_el = back_el.parentNode;
     }
+
+    this.log(back_el);
 
     if (!back_el) {
       return;
@@ -889,6 +909,7 @@ export default class TinyWrapper {
     }
     this.autoResize();
     this.setParagraphClass(characteristic);
+    this.clearUndo();
   }
 
   getText() {
@@ -931,7 +952,7 @@ export default class TinyWrapper {
     }
     ed.execCommand('mceToggleFormat', false, t);
     ed.focus();
-    ed.selection.collapse(false);
+    //ed.selection.collapse(false); // see #33963
     this.autoResize();
   }
 

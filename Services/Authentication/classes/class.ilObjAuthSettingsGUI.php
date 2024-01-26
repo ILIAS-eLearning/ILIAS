@@ -113,6 +113,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
                 $generalSettingsTpl->setVariable('AUTH_NAME', $idp->getEntityId());
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
+            } elseif ($mode === AUTH_OPENID_CONNECT) {
+                $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', ilOpenIdConnectSettings::getInstance()->getActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == AUTH_LOCAL ? $icon_ok : $icon_not_ok);
@@ -300,7 +303,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 */
                 break;
                 
-				// @fix changed from AUTH_SHIB > is not defined
+                // @fix changed from AUTH_SHIB > is not defined
                 case AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"), true);
@@ -527,7 +530,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ilUtil::stripSlashes($_POST["ext_uid"]),
                 ilUtil::stripSlashes($_POST["soap_pw"]),
                 (boolean) $_POST["new_user"]
-                );
+            );
         }
         $this->tpl->setVariable("TEST_FORM", $form->getHTML() . $ret);
     }
@@ -1275,7 +1278,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         $form->addItem($txt);
 
-        if ($this->access->checkAccess('write', '',$this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $form->addCommandButton('saveApacheSettings', $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));

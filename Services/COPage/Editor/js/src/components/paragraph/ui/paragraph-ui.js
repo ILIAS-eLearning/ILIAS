@@ -200,6 +200,7 @@ export default class ParagraphUI {
     this.uiModel.config.text_formats.forEach(f =>
       wrapper.addTextFormat(f)
     );
+    wrapper.setTextBlockFormats(this.uiModel.config.text_block_formats);
 
     il.Util.addOnLoad(function () {
       $(window).resize(() => {
@@ -313,36 +314,37 @@ export default class ParagraphUI {
     if (!content) {
       content = "";
     }
+    let rng = ed.selection.getRng();
+    const startContainer = rng.startContainer;
+    const endContainer = rng.endContainer;
+    const startOffset = rng.startOffset;
+    const endOffset = rng.endOffset;
+
+    let mode = "";
+    if (startContainer.nodeName === "#text"
+      && startContainer.parentNode.nodeName === "P") {
+      mode = "text";
+    }
+
     if (ed.selection.getContent() === "")
     {
       stag = stag + content;
-      rcopy = ed.selection.getRng(true).cloneRange();
-      var nc = stag + ed.selection.getContent() + etag;
-      ed.selection.setContent(nc);
+      const nc = stag + ed.selection.getContent() + etag;
+
+      ed.selection.setContent(nc);    // note: this changes the start/end container
+
+      let rcopy = ed.selection.getRng().cloneRange();
+      let r =  ed.dom.createRng();
       ed.focus();
-      r =  ed.dom.createRng();
-      if (rcopy.endContainer.nextSibling) // usual text node
-      {
-        if (rcopy.endContainer.nextSibling.nodeName !== "P")
-        {
-          r.setEnd(rcopy.endContainer.nextSibling, stag.length);
-          r.setStart(rcopy.startContainer.nextSibling, stag.length);
-          ed.selection.setRng(r);
+      if (mode === "text") { // usual text node
+        let targetElement = rcopy.startContainer;
+        if (targetElement.nodeName === "P") {
+          targetElement = targetElement.firstChild;
         }
-        else
-        {
-          r.setStart(rcopy.endContainer.firstChild, stag.length);
-          r.setEnd(rcopy.endContainer.firstChild, stag.length);
-          ed.selection.setRng(r);
-        }
-      }
-      else if (rcopy.endContainer.firstChild) // e.g. when being in an empty list node
-      {
-        r.setEnd(rcopy.endContainer.firstChild, stag.length);
-        r.setStart(rcopy.startContainer.firstChild, stag.length);
+        r.setEnd(targetElement, stag.length + startOffset);
+        r.setStart(targetElement, stag.length + startOffset);
         ed.selection.setRng(r);
       }
-      ed.selection.setRng(r);
     }
     else
     {
@@ -417,10 +419,12 @@ export default class ParagraphUI {
     this.log("setParagraphClass");
     this.log(i);
     const fc = document.querySelector(".ilTinyParagraphClassSelector .dropdown button");
+    const ddbtn = document.querySelector(
+      ".ilTinyParagraphClassSelector button[data-copg-ed-par-class='" + i + "']");
     this.log(fc);
     if (fc) {
       this.log("SETTin DROP DOWN BUTTON: " + i)
-      fc.firstChild.textContent = i + " ";
+      fc.firstChild.textContent = ddbtn.textContent + " ";
     }
     this.tinyWrapper.setParagraphClass(i);
   }
@@ -795,7 +799,7 @@ export default class ParagraphUI {
       ed.shortcuts.add('meta+b', '', function() {parUI.cmdSpan('Strong');});
       ed.shortcuts.add('meta+u', '', function() {parUI.cmdSpan('Important');});
       ed.shortcuts.add('meta+i', '', function() {parUI.cmdSpan('Emph');});
-
+      wrapper.checkSplitOnReturn();
     });
   }
 
@@ -1031,7 +1035,19 @@ export default class ParagraphUI {
 
     // replacing the content may move the editing area, so
     // we need to synch the tiny position
-    this.tinyWrapper.synchInputRegion();
+    this.syncTiny();
+  }
+
+  // ugly but it does not work right away for whatever reason,
+  // e.g. in replaceRenderedParagraph, direct after inserting the new content
+  syncTiny() {
+    const w = this.tinyWrapper;
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 100);
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 300);
   }
 
   showLastUpdate(last_update) {
@@ -1072,7 +1088,12 @@ export default class ParagraphUI {
     if (i === "") {
       i = il.Language.txt("cont_no_block");
     } else {
-      i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
+      const dropdownEl = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i);
+      if (dropdownEl) {
+        i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
+      } else {
+        i = "";
+      }
     }
     const fc = document.querySelector(".ilSectionClassSelector .dropdown button");
     if (fc) {

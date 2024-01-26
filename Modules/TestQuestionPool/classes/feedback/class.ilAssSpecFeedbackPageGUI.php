@@ -22,11 +22,13 @@ class ilAssSpecFeedbackPageGUI extends ilPageObjectGUI
      */
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-
         parent::__construct("qfbs", $a_id, $a_old_nr);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(true);
+        if (strtolower($_GET['cmdClass']) === 'ilassquestionpreviewgui') {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
+        } else {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
+        }
     }
 }

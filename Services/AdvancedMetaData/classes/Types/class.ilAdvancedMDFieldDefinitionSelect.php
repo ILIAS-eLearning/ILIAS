@@ -121,7 +121,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      * @param array  $translations
      * @param string $language
      */
-    public function setOptionTranslationsForLanguage(array  $translations, string $language)
+    public function setOptionTranslationsForLanguage(array $translations, string $language)
     {
         $this->option_translations[$language] = $translations;
     }
@@ -210,8 +210,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $translation = $this->getOptionTranslation($language);
 
         $first = true;
-        foreach ($this->getOptions() as $index => $option)
-        {
+        foreach ($this->getOptions() as $index => $option) {
             $title = '';
             if ($first) {
                 $title = $lng->txt("meta_advmd_select_options");
@@ -294,8 +293,17 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      */
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
+        $this->importNewSelectOptions(true, $a_form, $language);
+    }
+
+    protected function importNewSelectOptions(
+        bool $multi,
+        ilPropertyFormGUI $a_form,
+        string $language = ''
+    ) : void {
         if (!$this->useDefaultLanguageMode($language)) {
-            return $this->importTranslatedFormPostValues($a_form, $language);
+            $this->importTranslatedFormPostValues($a_form, $language);
+            return;
         }
 
         if (!strlen($language)) {
@@ -304,30 +312,58 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         $old = $this->getOptionTranslation($language);
         $new = $a_form->getInput("opts");
-        
 
         $missing = array_diff_assoc($old, $new);
-
+        // keep track of the indices of entries persisting through the operation
+        $index_map = [];
+        foreach ($missing as $missing_idx => $missing_value) {
+            if (in_array($missing_value, $new)) {
+                $index_map[$missing_idx] = array_search($missing_value, $new);
+            }
+        }
 
         if (sizeof($missing)) {
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
+            $already_confirmed = is_array($this->confirmed_objects);
 
-            if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, true);
-                foreach ($missing as $missing_idx => $missing_value) {
-                    $in_use = $this->findBySingleValue($search, $missing_idx);
-                    if (is_array($in_use)) {
+            $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, $multi);
+            foreach ($missing as $missing_idx => $missing_value) {
+                $in_use = $this->findBySingleValue($search, $missing_idx);
+                if (is_array($in_use)) {
                     foreach ($in_use as $item) {
+                        if (array_key_exists($missing_idx, $index_map)) {
+                            $complete_id = $item[0] . "_" . $item[1] . "_" . $item[2];
+                            $new_index = $index_map[$missing_idx];
+                            $this->confirmed_objects[$missing_idx][$complete_id] = $new_index;
+                            continue;
+                        }
+                        if (!$already_confirmed) {
                             $this->confirm_objects[$missing_idx][] = $item;
                             $this->confirm_objects_values[$missing_idx] = $old[$missing_idx];
+                        }
                     }
                 }
-
             }
         }
-        }
         $this->old_options = $old;
+
+        // update the options along with their translations
         $this->setOptionTranslationsForLanguage($new, $language);
+        foreach ($this->getOptionTranslations() as $current_lang => $options) {
+            $current_lang = (string) $current_lang;
+            if ($current_lang === $language) {
+                continue;
+            }
+            $updated_translations = [];
+            foreach ($options as $idx => $option) {
+                if (array_key_exists($idx, $index_map)) {
+                    $updated_translations[$index_map[$idx]] = $option;
+                    continue;
+                }
+                $updated_translations[$idx] = $option;
+            }
+            $this->setOptionTranslationsForLanguage($updated_translations, $current_lang);
+        }
     }
 
     protected function findBySingleValue(ilADTEnumSearchBridgeMulti $a_search, $a_value)
@@ -527,7 +563,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ', ' .
                     $db->quote($lang_key, ilDBConstants::T_TEXT) . ', ' .
                     $db->quote($idx, ilDBConstants::T_INTEGER) . ', ' .
-                    $db->quote($option, ilDBConstants::T_TEXT).
+                    $db->quote($option, ilDBConstants::T_TEXT) .
                     ')' ;
                 $db->manipulate($query);
             }
@@ -548,6 +584,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $def->setOptions($this->old_options);
             $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def, false, true);
             ilADTFactory::initActiveRecordByType();
+
+            $page_list_mappings = [];
 
             foreach ($this->confirmed_objects as $old_option => $item_ids) {
                 // get complete old values
@@ -576,8 +614,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         //$old_idx = array_keys($old_value, $old_option);
                         $old_idx = $old_value;
                         if (isset($old_idx)) {
-                    
-                        $primary = array(
+                            $primary = array(
                             "obj_id" => array("integer", $obj_id),
                             "sub_type" => array("text", $sub_type),
                             "sub_id" => array("integer", $sub_id),
@@ -589,7 +626,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                                 [
                                     'value_index' => [ilDBConstants::T_INTEGER, $old_idx]
                                 ]
-                        );
+                            );
                             $index_new = array_merge(
                                 $primary,
                                 [
@@ -608,10 +645,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     
                     if ($sub_type == "wpg") {
                         // #15763 - adapt advmd page lists
-                        include_once "Modules/Wiki/classes/class.ilPCAMDPageList.php";
-                        ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option, true);
+                        $page_list_mappings[(string) $old_option] = (string) $new_option;
                     }
                 }
+            }
+
+            if (!empty($page_list_mappings)) {
+                ilPCAMDPageList::migrateField(
+                    $this->getFieldId(),
+                    $page_list_mappings
+                );
             }
 
             $this->confirmed_objects = array();
@@ -645,7 +688,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     public function importXMLProperty($a_key, $a_value)
     {
         if (!$a_key) {
-        $this->options[] = $a_value;
+            $this->options[] = $a_value;
         } else {
             $this->option_translations[$a_key][] = $a_value;
         }

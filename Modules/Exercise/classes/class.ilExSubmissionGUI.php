@@ -182,7 +182,7 @@ class ilExSubmissionGUI
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
-        
+
         if (!$a_submission->canView()) {
             return;
         }

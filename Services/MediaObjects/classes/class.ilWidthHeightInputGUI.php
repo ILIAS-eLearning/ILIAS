@@ -12,6 +12,10 @@
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
     /**
+     * @var bool
+     */
+    protected $support_constraint_props = false;
+    /**
      * @var ilObjUser
      */
     protected $user;
@@ -34,6 +38,17 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $this->setType("width_height");
         $this->dirs = array("width", "height");
     }
+
+    public function setSupportConstraintsProps(bool $a_val) : void
+    {
+        $this->support_constraint_props = $a_val;
+    }
+
+    public function getSupportConstraintsProps() : bool
+    {
+        return $this->support_constraint_props;
+    }
+
 
     /**
     * Set Width.
@@ -138,6 +153,21 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         
         $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
 
+        $wh_ratio = 0;
+        if ((int) $this->getHeight() > 0) {
+            $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
+        }
+        if ($this->getSupportConstraintsProps() && $wh_ratio > 0) {
+            $tpl->setCurrentBlock("cs_prop");
+            $tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));
+            $tpl->setVariable("CS_POST_VAR", $this->getPostVar());
+            if ($this->getConstrainProportions()) {
+                $tpl->setVariable("CHECKED", 'checked="checked"');
+            }
+            $tpl->setVariable("WH_RATIO", str_replace(",", ".", round($wh_ratio, 6)));
+            $tpl->parseCurrentBlock();
+        }
+
         foreach ($this->dirs as $dir) {
             switch ($dir) {
                 case "width": $value = strtolower(trim($this->getWidth())); break;
@@ -145,18 +175,10 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
             }
             $tpl->setVariable("VAL_" . strtoupper($dir), $value);
         }
-        if ($this->getConstrainProportions()) {
-            $tpl->setVariable("CHECKED", 'checked="checked"');
-        }
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
-        $tpl->setVariable("TXT_CONSTR_PROP", $lng->txt("cont_constrain_proportions"));
-        $wh_ratio = 0;
-        if ((int) $this->getHeight() > 0) {
-            $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
-        }
-        $tpl->setVariable("WH_RATIO", str_replace(",", ".", round($wh_ratio, 6)));
-        
+
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();

@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use IMSGlobal\LTI\ToolProvider;
+use ILIAS\LTI\ToolProvider;
 
 include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
 include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
@@ -69,13 +69,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
                 array_push($lti_context_ids,$this->ref_id);
                 $_SESSION['lti_context_ids'] = $lti_context_ids;
-                 $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+                $this->getLogger()->debug(var_export($_SESSION['lti_context_ids'], true));
             }
         }
         else {
             $this->getLogger()->debug("lti_context_ids is not set. Create new array...");
             $_SESSION['lti_context_ids'] = array($this->ref_id);
-            $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+            $this->getLogger()->debug(var_export($_SESSION['lti_context_ids'], true));
         }
 
         // for testing external css

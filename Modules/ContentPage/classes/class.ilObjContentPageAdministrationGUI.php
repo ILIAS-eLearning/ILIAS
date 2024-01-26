@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Component;
 /**
  * Class ilObjContentPageAdministrationGUI
  * @author Michael Jansen <mjansen@databay.de>
+ * @ilCtrl_Calls ilObjContentPageAdministrationGUI: ilPermissionGUI
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
 {

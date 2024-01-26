@@ -15,7 +15,8 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     const SQL_LIKE_END = 3;
     const SQL_LIKE_START = 4;
 
-    
+    private $title_query = '';
+
     /**
      * Is valid type
      * @param ilADT $a_adt
@@ -36,7 +37,16 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $title->setSize(255);
         $this->addToParentElement($title);
     }
-    
+
+    public function setTitleQuery(string $query) : void
+    {
+        $this->title_query = $query;
+    }
+
+    public function getTitleQuery() : string
+    {
+        return $this->title_query;
+    }
 
     /**
 
@@ -48,7 +58,8 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $value = $this->readFilter();
         if ($value !== null) {
-            $this->getADT()->setTargetRefId($value);
+            $this->getADT()->setTargetRefId(1);
+            $this->setTitleQuery($value);
         }
     }
 
@@ -61,12 +72,23 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            $item = $this->getForm()->getItemByPostVar($this->getElementId());
-            $item->setValue($post);
-            $this->getADT()->setTargetRefId($post);
+            if ($this->getForm() instanceof ilPropertyFormGUI) {
+                $item = $this->getForm()->getItemByPostVar($this->getElementId());
+                $item->setValue($post);
+                $this->setTitleQuery($post);
+                $this->getADT()->setTargetRefId(1);
+            } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+                $this->table_filter_fields[$this->getElementId()]->setValue($post);
+                $this->writeFilter($post);
+                $this->setTitleQuery($post);
+                $this->getADT()->setTargetRefId(1);
+            }
         } else {
+            $this->writeFilter();
+            $this->setTitleQuery('');
             $this->getADT()->setTargetRefId(null);
         }
+        return true;
     }
 
     /**
@@ -99,10 +121,12 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function isInCondition(ilADT $a_adt)
     {
-        if ($this->isValidADT($a_adt)) {
-            return $this->getADT()->equals($a_adt);
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
+            $ref_id = $a_adt->getTargetRefId();
+            $title = ilObject::_lookupTitle((int) ilObject::_lookupObjId($ref_id));
+            return strcasecmp($title, $this->getTitleQuery()) === 0;
         }
-        // @todo throw exception
+        return false;
     }
 
     /**

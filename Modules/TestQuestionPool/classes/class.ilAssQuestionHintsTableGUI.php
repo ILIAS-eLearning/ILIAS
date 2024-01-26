@@ -94,8 +94,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             require_once 'Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php';
-            
+
             foreach ($tableData as $key => $data) {
+                $this->ensurePageObjectExists('qht', $data['hint_id']);
                 $pageObjectGUI = new ilAssHintPageGUI($data['hint_id']);
                 $pageObjectGUI->setOutputMode("presentation");
                 $tableData[$key]['hint_text'] = $pageObjectGUI->presentation();
@@ -157,7 +158,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
                 $this->addMultiCommand(
                     ilAssQuestionHintsGUI::CMD_CUT_TO_ORDERING_CLIPBOARD,
                     $lng->txt('tst_questions_hints_table_multicmd_cut_hint')
-            );
+                );
             }
 
             $this->addCommandButton(
@@ -316,5 +317,15 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $txt = ilUtil::prepareTextareaOutput($rowData['hint_text'], true);
         $this->tpl->setVariable('HINT_TEXT', $txt);
         $this->tpl->setVariable('HINT_POINTS', $rowData['hint_points']);
+    }
+
+    protected function ensurePageObjectExists($pageObjectType, $pageObjectId) : void
+    {
+        if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {
+            $pageObject = new ilAssHintPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
+        }
     }
 }

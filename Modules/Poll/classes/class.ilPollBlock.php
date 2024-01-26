@@ -73,35 +73,36 @@ class ilPollBlock extends ilCustomBlock
             return false;
         }
         
-        if (!$this->mayVote($a_user_id) &&
+        if (!$this->maySeeQuestion($a_user_id) &&
             !$this->maySeeResults($a_user_id)) {
             return false;
         }
         
         return true;
     }
-    
-    public function mayVote($a_user_id)
+
+    public function maySeeQuestion($a_user_id)
     {
         if (!$this->active) {
             return false;
         }
-        
-        if ($a_user_id == ANONYMOUS_USER_ID) {
-            return false;
-        }
-        
+
         if ($this->poll->hasUserVoted($a_user_id)) {
             return false;
         }
-        
+
         if ($this->poll->getVotingPeriod() &&
             ($this->poll->getVotingPeriodBegin() > time() ||
-            $this->poll->getVotingPeriodEnd() < time())) {
+                $this->poll->getVotingPeriodEnd() < time())) {
             return false;
         }
-        
+
         return true;
+    }
+    
+    public function mayVote($a_user_id)
+    {
+        return $this->maySeeQuestion($a_user_id) && $a_user_id != ANONYMOUS_USER_ID;
     }
     
     public function mayNotResultsYet()

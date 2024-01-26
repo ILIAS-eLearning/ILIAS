@@ -1,8 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Search/classes/class.ilSearchSettings.php';
-include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\Object\CreationCallbackTrait;
 
 /**
 * Class ilSearchBaseGUI
@@ -18,17 +33,19 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 *
 *
 */
-class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
+class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling, ImplementsCreationCallback
 {
+    use CreationCallbackTrait;
+
     const SEARCH_FAST = 1;
     const SEARCH_DETAILS = 2;
     const SEARCH_AND = 'and';
     const SEARCH_OR = 'or';
-    
+
     const SEARCH_FORM_LUCENE = 1;
     const SEARCH_FORM_STANDARD = 2;
     const SEARCH_FORM_USER = 3;
-    
+
     /**
      * @var ilSearchSettings
      */
@@ -81,12 +98,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
         $ilLocator = $DIC['ilLocator'];
         $lng = $DIC['lng'];
-        
+
         $this->tpl->loadStandardTemplate();
-        
+
         //		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
         //		$this->tpl->setLocator();
-        
+
         //$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_src_b.gif"),
         //	$lng->txt("search"));
         $this->tpl->setTitleIcon(
@@ -97,7 +114,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
         ilUtil::infoPanel();
     }
-    
+
     /**
     * Init standard search form.
     */
@@ -117,7 +134,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $radg = new ilHiddenInputGUI('search_term_combination');
         $radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
         $this->form->addItem($radg);
-        
+
         if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
             if ($a_mode == self::SEARCH_FORM_STANDARD) {
                 // search type
@@ -127,7 +144,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                         ilSearchBaseGUI::SEARCH_FAST ?
                         ilSearchBaseGUI::SEARCH_FAST :
                         ilSearchBaseGUI::SEARCH_DETAILS
-                    );
+                );
                 $op1 = new ilRadioOption($lng->txt("search_fast_info"), ilSearchBaseGUI::SEARCH_FAST);
                 $radg->addOption($op1);
                 $op2 = new ilRadioOption($lng->txt("search_details_info"), ilSearchBaseGUI::SEARCH_DETAILS);
@@ -137,7 +154,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                 //				$op2->setChecked($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS);
             }
 
-            
+
             $cbgr = new ilCheckboxGroupInputGUI('', 'filter_type');
             $cbgr->setUseValuesAsKeys(true);
             $details = $this->getDetails();
@@ -161,10 +178,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                     }
                 }
             }
-            
+
             $cbgr->setValue(array_merge((array) $details, (array) $mimes));
             $op2->addSubItem($cbgr);
-            
+
             if ($a_mode != self::SEARCH_FORM_STANDARD && $det) {
                 $op2->setChecked(true);
             }
@@ -176,10 +193,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                 $this->form->addItem($op2);
             }
         }
-                
+
         $this->form->setFormAction($ilCtrl->getFormAction($this, 'performSearch'));
     }
-    
+
     /**
      * Init standard search form.
      */
@@ -189,7 +206,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-    
+
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
@@ -199,14 +216,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $radg = new ilHiddenInputGUI('search_term_combination');
         $radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
         $form->addItem($radg);
-        
+
         // search area
         include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
         $ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
         $ti->setSelectText($lng->txt("search_select_search_area"));
         $form->addItem($ti);
         $ti->readFromSession();
-        
+
         // alex, 15.8.2012: Added the following lines to get the value
         // from the main menu top right input search form
         if (isset($_POST["root_id"])) {
@@ -214,11 +231,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $ti->writeToSession();
         }
         $form->setFormAction($ilCtrl->getFormAction($this, 'performSearch'));
-        
+
         return $form;
     }
 
-    
+
     /**
      * Handle command
      * @param string $a_cmd
@@ -232,7 +249,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $this->$a_cmd();
         }
     }
-    
+
     /**
      * Interface methods
      */
@@ -241,7 +258,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();
     }
-     
+
     /**
      * Remove from dektop
      */
@@ -250,7 +267,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();
     }
-     
+
     /**
      * Show deletion screen
      */
@@ -259,7 +276,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin = new ilAdministrationCommandGUI($this);
         $admin->delete();
     }
-     
+
     /**
      * Cancel delete
      */
@@ -267,12 +284,17 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     {
         $this->showSavedResults();
     }
-    
+
+    public function cancelObject() : void
+    {
+        $this->showSavedResults();
+    }
+
     public function cancelMoveLinkObject()
     {
         $this->showSavedResults();
     }
-    
+
     /**
      * Delete objects
      */
@@ -282,7 +304,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin = new ilAdministrationCommandGUI($this);
         $admin->performDelete();
     }
-    
+
     /**
      * Interface ilAdministrationCommandHandler
      */
@@ -292,7 +314,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin = new ilAdministrationCommandGUI($this);
         $admin->cut();
     }
-     
+
     /**
      * Interface ilAdministrationCommandHandler
      */
@@ -302,14 +324,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin = new ilAdministrationCommandGUI($this);
         $admin->link();
     }
-         
+
     public function paste()
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
         $admin->paste();
     }
-    
+
     public function showLinkIntoMultipleObjectsTree()
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
@@ -323,7 +345,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin = new ilAdministrationCommandGUI($this);
         $admin->showPasteTree();
     }
-    
+
     public function performPasteIntoMultipleObjects()
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
@@ -342,7 +364,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $_SESSION["il_cont_admin_panel"] = true;
         $this->ctrl->redirect($this);
     }
-    
+
     public function disableAdministrationPanel()
     {
         $_SESSION["il_cont_admin_panel"] = false;
@@ -356,8 +378,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     {
         $this->ctrl->redirect($this);
     }
-    
-    
+
+
     /**
      * Add Locator
      */
@@ -366,7 +388,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $ilLocator->addItem($this->lng->txt('search'), $this->ctrl->getLinkTarget($this));
         $this->tpl->setLocator();
     }
-    
+
     /**
      * Add Pager
      *
@@ -379,14 +401,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         global $DIC;
 
         $tpl = $DIC['tpl'];
-        
+
         $_SESSION["$a_session_key"] = max($_SESSION["$a_session_key"], $this->search_cache->getResultPageNumber());
-        
+
         if ($_SESSION["$a_session_key"] == 1 and
             (count($result->getResults()) < $result->getMaxHits())) {
             return true;
         }
-        
+
         if ($this->search_cache->getResultPageNumber() > 1) {
             $this->ctrl->setParameter($this, 'page_number', $this->search_cache->getResultPageNumber() - 1);
             /*			$this->tpl->setCurrentBlock('prev');
@@ -404,7 +426,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                 */
                 continue;
             }
-            
+
             $this->ctrl->setParameter($this, 'page_number', $i);
             $link = '<a href="' . $this->ctrl->getLinkTarget($this, 'performSearch') . '" /a>' . $i . '</a> ';
             /*			$this->tpl->setCurrentBlock('pages_link');
@@ -412,7 +434,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                         $this->tpl->parseCurrentBlock();
             */
         }
-        
+
 
         if (count($result->getResults()) >= $result->getMaxHits()) {
             $this->ctrl->setParameter($this, 'page_number', $this->search_cache->getResultPageNumber() + 1);
@@ -428,10 +450,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                  $this->tpl->setVariable('SEARCH_PAGE',$this->lng->txt('search_page'));
                  $this->tpl->parseCurrentBlock();
         */
-        
+
         $this->ctrl->clearParameters($this);
     }
-    
+
     /**
      * Build path for search area
      * @return
@@ -454,7 +476,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         }
         return $path;
     }
-    
+
     /**
     * Data resource for autoComplete
     */
@@ -466,26 +488,26 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         echo $list;
         exit;
     }
-    
+
     // begin-patch creation_date
     protected function getCreationDateForm()
     {
         $options = $this->search_cache->getCreationFilter();
-        
+
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
-        
+
         $enabled = new ilCheckboxInputGUI($this->lng->txt('search_filter_cd'), 'screation');
         $enabled->setValue(1);
         $enabled->setChecked((bool) $options['enabled']);
         $form->addItem($enabled);
-        
+
         #$group = new ilRadioGroupInputGUI('', 'screation_type');
         #$group->setValue((int) $options['type']);
         #$group->addOption($opt1 = new ilRadioOption($this->lng->txt('search_filter_date'), 1));
-        
+
         $limit_sel = new ilSelectInputGUI('', 'screation_ontype');
         $limit_sel->setValue($options['ontype']);
         $limit_sel->setOptions(
@@ -496,8 +518,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             )
         );
         $enabled->addSubItem($limit_sel);
-        
-        
+
+
         if ($options['date']) {
             $now = new ilDate($options['date'], IL_CAL_UNIX);
         } else {
@@ -507,9 +529,9 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $ds->setRequired(true);
         $ds->setDate($now);
         $enabled->addSubItem($ds);
-        
+
         #$group->addOption($opt2 = new ilRadioOption($this->lng->txt('search_filter_duration'), 2));
-        
+
         #$duration = new ilDurationInputGUI($this->lng->txt('search_filter_duration'), 'screation_duration');
         #$duration->setMonths((int) $options['duration']['MM']);
         #$duration->setDays((int) $options['duration']['dd']);
@@ -519,14 +541,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         #$duration->setShowMinutes(false);
         #$duration->setTitle($this->lng->txt('search_newer_than'));
         #$opt2->addSubItem($duration);
-        
+
         #$enabled->addSubItem($group);
-                
+
         $form->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this, 'performSearch'));
-        
+
         return $form;
     }
-    
+
     /**
      * Get user search cache
      * @return ilUserSearchCache
@@ -535,7 +557,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     {
         return $this->search_cache;
     }
-    
+
     /**
      * Load creation date filter
      * @return array
@@ -545,8 +567,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         if (!$this->settings->isDateFilterEnabled()) {
             return array();
         }
-        
-        
+
+
         $form = $this->getCreationDateForm();
         $options = array();
         if ($form->checkInput()) {

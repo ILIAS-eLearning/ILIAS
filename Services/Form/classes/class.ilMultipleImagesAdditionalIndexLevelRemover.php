@@ -103,10 +103,11 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         }
         
         foreach ($uploadProperty as $subField => $submittedFile) {
-            foreach ($submittedFile as $identifier => $uploadValue) {
-                $uploadProperty[$identifier] = $uploadValue;
+            if (is_array($submittedFile)) {
+                foreach ($submittedFile as $identifier => $uploadValue) {
+                    $uploadProperty[$identifier] = $uploadValue;
+                }
             }
-            
             unset($uploadProperty[$subField]);
         }
         

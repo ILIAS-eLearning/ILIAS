@@ -128,26 +128,30 @@ class ilObjFolder extends ilContainer
     public function getViewMode()
     {
         $tree = $this->tree;
-        
-        // default: by type
-        $view = ilContainer::VIEW_BY_TYPE;
+        $possible_view_modes = [
+            ilContainer::VIEW_SESSIONS,
+            ilContainer::VIEW_BY_TYPE,
+            ilContainer::VIEW_SIMPLE
+        ];
 
-        // always inherit from
-        $container_ref_id = $tree->checkForParentType($this->ref_id, 'grp');
-        if (!$container_ref_id) {
-            $container_ref_id = $tree->checkForParentType($this->ref_id, 'crs');
-        }
-        if ($container_ref_id) {
-            include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
-            $view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_ref_id));
-            if ($view_mode == ilContainer::VIEW_SESSIONS ||
-                $view_mode == ilContainer::VIEW_BY_TYPE ||
-                $view_mode == ilContainer::VIEW_SIMPLE) {
-                $view = $view_mode;
+        // always try to inherit from grp container, then crs container
+        $container_grp_ref_id = $tree->checkForParentType($this->ref_id, 'grp');
+        if ($container_grp_ref_id) {
+            $grp_view_mode = ilObjGroup::lookupViewMode(ilObject::_lookupObjId($container_grp_ref_id));
+            if (in_array($grp_view_mode, $possible_view_modes)) {
+                return $grp_view_mode;
             }
         }
-        
-        return $view;
+        $container_crs_ref_id = $tree->checkForParentType($this->ref_id, 'crs');
+        if ($container_crs_ref_id) {
+            $crs_view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_crs_ref_id));
+            if (in_array($crs_view_mode, $possible_view_modes)) {
+                return $crs_view_mode;
+            }
+        }
+
+        // default: by type
+        return ilContainer::VIEW_BY_TYPE;
     }
 
     /**

@@ -29,6 +29,14 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
      */
     protected $filter = array();
     /**
+     * @var array
+     */
+    protected $selectable_columns_cached = [];
+    /**
+     * @var array
+     */
+    protected $usr_orgu_names = [];
+    /**
      * @var ilMyStaffAccess
      */
     protected $access;
@@ -79,6 +87,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
         $this->setDefaultOrderField('obj_title');
 
         $this->determineLimit();
@@ -86,7 +95,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit' => array(),
+            'limit' => array(
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
+            ),
             'count' => true,
             'sort' => array(
                 'field' => $this->getOrderField(),
@@ -96,12 +108,15 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $certificates_fetcher = new ilMStListCertificates($DIC);
         $data = $certificates_fetcher->getData($options);
-        $options['limit'] = array(
-            'start' => intval($this->getOffset()),
-            'end' => intval($this->getLimit()),
-        );
-        $this->setMaxCount(count($data));
+
         $this->setData($data);
+
+        $options['limit'] = array(
+            'start' => null,
+            'end' => null,
+        );
+        $max_data = $certificates_fetcher->getData($options);
+        $this->setMaxCount(count($max_data));
     }
 
 
@@ -115,8 +130,12 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->filter['obj_title'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+        $item = new ilTextInputGUI(
+            $DIC->language()->txt("login")
+            . "/" . $DIC->language()->txt("email")
+            . "/" . $DIC->language()->txt("name"),
+            "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -136,11 +155,16 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-
-    /**
-     * @return array
-     */
     public function getSelectableColumns() : array
+    {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns() : array
     {
         global $DIC;
 
@@ -186,11 +210,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
 
         if ($arr_searchable_user_columns['email']) {
-            $cols['usr_email'] = array(
+            $cols['userEmail'] = array(
                 'txt' => $DIC->language()->txt('email'),
                 'default' => true,
                 'width' => 'auto',
-                'sort_field' => 'usr_email',
+                'sort_field' => 'userEmail',
             );
         }
         if ($arr_searchable_user_columns['org_units']) {
@@ -229,6 +253,14 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id) : string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
 
     /**
      * @param UserCertificateDto $user_certificate_dto
@@ -246,7 +278,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId())));
+                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId()));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
@@ -272,7 +304,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(false);
         $actions->setId($user_certificate_dto->getCertificateId());
         $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $user_certificate_dto->getDownloadLink());
 
@@ -324,7 +355,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
                     break;
                 case 'issuedOnTimestamp':
                     $field_values[$k] = new ilDateTime($propGetter($k), IL_CAL_UNIX);

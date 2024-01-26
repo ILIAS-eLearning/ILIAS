@@ -1,7 +1,8 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
 		<input type="checkbox" name="materials[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
-	</td>	
+		<input type="hidden" name="visible_materials[]" value="{VAL_ID}" />
+	</td>
 	<td class="std ilCenter">
   		<label for="{VAL_ID}">
 			<img class="ilIcon" src="{ROW_TYPE_IMG}" alt="{ROW_TYPE_ALT}" title="{ROW_TYPE_ALT}" />
@@ -20,6 +21,7 @@
 				<!--  BEGIN begin_depth --><div class="listIndent"><!--  END begin_depth -->
 				<li>
 					<input type="checkbox" name="chapters[]" value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED} />
+					<input type="hidden" name="visible_chapters[]" value="{CHAP_ID}" />
 					<label for="{CHAP_ID}"> 
 						<img src="{CHAP_TYPE_IMG}" alt="{CHAP_TYPE_ALT}" title="{CHAP_TYPE_ALT}" />
 						{CHAPTER_TITLE}

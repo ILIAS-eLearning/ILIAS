@@ -9,6 +9,9 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
+    private const PING_THRESHOLD = 250;
+
+    private $job;
     /**
      * @var ilMailCronOrphanedMailsDeletionCollector
      */
@@ -23,18 +26,25 @@ class ilMailCronOrphanedMailsDeletionProcessor
      * @var \ilSetting
      */
     protected $settings;
+    private $mail_ids_for_path_stmt;
 
     /**
      * @param ilMailCronOrphanedMailsDeletionCollector $collector
      */
-    public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
+    public function __construct(ilMailCronOrphanedMails $job, ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
 
-        $this->collector = $collector;
-
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
+
+        $this->job = $job;
+        $this->collector = $collector;
+
+        $this->mail_ids_for_path_stmt = $this->db->prepare(
+            'SELECT COUNT(*) cnt FROM mail_attachment WHERE path = ?',
+            [ilDBConstants::T_TEXT]
+        );
     }
     
     /**
@@ -50,21 +60,32 @@ class ilMailCronOrphanedMailsDeletionProcessor
 				WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer') . '
 				GROUP BY path');
         
+        $i = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            $usage_res = $this->db->queryF(
-                'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
-                array('text'),
-                array($row['path'])
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
+            $usage_res = $this->db->execute(
+                $this->mail_ids_for_path_stmt,
+                [$row['path']]
             );
 
-            $num_rows = $this->db->numRows($usage_res);
-            if ($row['cnt_mail_ids'] >= $num_rows) {
+            $count_usages_data = $this->db->fetchAssoc($usage_res);
+            if (is_array($count_usages_data) && $count_usages_data !== [] && (int) $row['cnt_mail_ids'] >= (int) $count_usages_data['cnt']) {
                 // collect path to delete attachment file
-                $attachment_paths[$row['mail_id']] = $row['path'];
+                $attachment_paths[] = $row['path'];
             }
+
+            ++$i;
         }
 
-        foreach ($attachment_paths as $mail_id => $path) {
+        $i = 0;
+        foreach ($attachment_paths as $path) {
+            if ($i > 0 && $i % self::PING_THRESHOLD) {
+                $this->job->ping();
+            }
+
             try {
                 $path = CLIENT_DATA_DIR . '/mail/' . $path;
                 $iter = new RecursiveIteratorIterator(
@@ -81,22 +102,20 @@ class ilMailCronOrphanedMailsDeletionProcessor
                     if ($file->isDir()) {
                         ilUtil::delDir($path_name);
                         ilLoggerFactory::getLogger('mail')->info(sprintf(
-                            'Attachment directory (%s) deleted for mail_id: %s',
-                            $path_name,
-                            $mail_id
+                            "Attachment directory '%s' deleted",
+                            $path_name
                         ));
                     } else {
                         if (file_exists($path_name) && unlink($path_name)) {
                             ilLoggerFactory::getLogger('mail')->info(sprintf(
-                                'Attachment file (%s) deleted for mail_id: %s',
-                                $path_name,
-                                $mail_id
+                                "Attachment file '%s' deleted",
+                                $path_name
                             ));
                         } else {
                             ilLoggerFactory::getLogger('mail')->info(sprintf(
-                                'Attachment file (%s) for mail_id could not be deleted due to missing file system permissions: %s',
-                                $path_name,
-                                $mail_id
+                                "Attachment file '%s' for mail_id could not be deleted " .
+                                "due to missing file system permissions",
+                                $path_name
                             ));
                         }
                     }
@@ -104,11 +123,14 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
                 ilUtil::delDir($path);
                 ilLoggerFactory::getLogger('mail')->info(sprintf(
-                    'Attachment directory (%s) deleted for mail_id: %s',
-                    $path,
-                    $mail_id
+                    "Attachment directory '%s' deleted",
+                    $path
                 ));
             } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->warning($e->getMessage());
+                ilLoggerFactory::getLogger('mail')->warning($e->getTraceAsString());
+            } finally {
+                ++$i;
             }
         }
 

@@ -113,6 +113,17 @@
 		}
 	}
 
+	.panel-body {
+		//See #33757
+		&::after {
+			content: "";
+			display: inline;
+			height: 0;
+			clear: both;
+			visibility: hidden;
+		}
+	}
+
 }
 
 // color hierchachy highlight slate depth levels

@@ -241,25 +241,31 @@ class ilGlobalCache
         return $types;
     }
 
-    /**
-     * @param $service_type
-     * @return string
-     */
     public static function lookupServiceClassName($service_type)
     {
         switch ($service_type) {
             case self::TYPE_APC:
-                return 'ilApc';
-                break;
+                return ilApc::class;
             case self::TYPE_MEMCACHED:
-                return 'ilMemcache';
-                break;
+                return ilMemcache::class;
             case self::TYPE_XCACHE:
-                return 'ilXcache';
-                break;
+                return ilXcache::class;
             default:
-                return 'ilStaticCache';
-                break;
+                return ilStaticCache::class;
+        }
+    }
+
+    public static function lookupServiceConfigName(int $service_type): string
+    {
+        switch ($service_type) {
+            case self::TYPE_APC:
+                return 'apc';
+            case self::TYPE_MEMCACHED:
+                return 'memcached';
+            case self::TYPE_XCACHE:
+                return 'xcache';
+            default:
+                return 'static';
         }
     }
 

@@ -4,11 +4,11 @@ namespace XapiProxy;
 
 class DataService
 {
-    public static function initIlias($client_id) 
+    public static function initIlias($client_id)
     {
         define("CLIENT_ID", $client_id);
 
-	// see: commit 2844b5d7bfffe08728ecb54c21acf00fd65d5969
+        // see: commit 2844b5d7bfffe08728ecb54c21acf00fd65d5969
         //
         // or set clientId Cookie and Context class ilContextScorm: supportsPersistentSessions = true
         // or set clientId Cookie support own Context with supportsPersistentSessions = true
@@ -16,14 +16,14 @@ class DataService
 
         // Im Plugin war das auskommentiert(?)
         define('IL_COOKIE_HTTPONLY', true); // Default Value
-		define('IL_COOKIE_EXPIRE', 0);
-		define('IL_COOKIE_PATH', '/');
-		define('IL_COOKIE_DOMAIN', '');
+        define('IL_COOKIE_EXPIRE', 0);
+        define('IL_COOKIE_PATH', '/');
+        define('IL_COOKIE_DOMAIN', '');
         require_once('Services/Context/classes/class.ilContext.php');
-         \ilContext::init(\ilContext::CONTEXT_SCORM);
-		 //UK
-		 require_once("Services/Init/classes/class.ilInitialisation.php");
-		\ilInitialisation::initILIAS();
+        \ilContext::init(\ilContext::CONTEXT_SCORM);
+        //UK
+        require_once("Services/Init/classes/class.ilInitialisation.php");
+        \ilInitialisation::initILIAS();
         // Remember original values
         // $_ORG_SERVER = array(
           // 'HTTP_HOST'    => $_SERVER['HTTP_HOST'],
@@ -74,7 +74,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initDatabase()
     */
-    public static function initDatabase() 
+    public static function initDatabase()
     {
         if (!isset($GLOBALS['ilDB'])) {
             parent::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
@@ -107,13 +107,13 @@ class ilInitialisation extends \ilInitialisation
             parent::initClientIniFile();
         }
     }
-	
-	//UK
+    
+    //UK
     public static function initLog()
     {
         if (!isset($GLOBALS['ilLog'])) {
             parent::initLog();
-			parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./Services/EventHandling/classes/class.ilAppEventHandler.php");
+            parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./Services/EventHandling/classes/class.ilAppEventHandler.php");
         }
     }
 }

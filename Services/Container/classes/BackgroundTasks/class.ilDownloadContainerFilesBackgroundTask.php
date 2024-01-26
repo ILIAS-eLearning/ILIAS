@@ -125,7 +125,7 @@ class ilDownloadContainerFilesBackgroundTask
         $definition->setObjectRefIds($this->object_ref_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);
 
-        // Collect all files by the definition and prevent duplicates
+        // Collect all files and folders by the definition and prevent duplicates
         $collect_job = $this->task_factory->createTask(ilCollectFilesJob::class, [$definition, $this->initiated_by_folder_action]);
         $this->logger->debug('Collected files based on the following object ids: ');
         $this->logger->dump($this->object_ref_ids);

@@ -557,7 +557,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $ilAccess = $this->access;
 
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_node["child"], $obj_id)) {
+        if (
+            !ilConditionHandler::_checkAllConditionsOfTarget($a_node["child"], $obj_id)
+            && !$rbacsystem->checkAccess('write', $a_node["child"])
+        ) {
             return false;
         }
 
@@ -647,7 +650,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public static function getTopNodeForRefId(int $ref_id) : int {
+    public static function getTopNodeForRefId(int $ref_id) : int
+    {
         global $DIC;
 
         $setting = $DIC->settings();

@@ -21,13 +21,9 @@ class ilObjTestVerification extends ilVerificationObject
 
     protected function getPropertyMap()
     {
-        return array("issued_on" => self::TYPE_DATE,
+        return [
+            "issued_on" => self::TYPE_DATE,
             "file" => self::TYPE_STRING
-            /*
-            "success" => self::TYPE_BOOL,
-            "result" => self::TYPE_STRING,
-            "mark" => self::TYPE_STRING
-            */
-            );
+        ];
     }
 }

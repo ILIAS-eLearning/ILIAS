@@ -97,7 +97,25 @@ class ilBadge
                 
         return $res;
     }
-    
+
+    public function clone(int $target_parent_obj_id) : void
+    {
+        $this->setParentId($target_parent_obj_id);
+        $this->setActive(false);
+
+        if ($this->getId()) {
+            $img = $this->getImagePath();
+
+            $this->setId(0);
+            $this->create();
+
+            if ($img) {
+                // see uploadImage()
+                copy($img, $this->getImagePath());
+            }
+        }
+    }
+
     public function getTypeInstance()
     {
         if ($this->getTypeId()) {

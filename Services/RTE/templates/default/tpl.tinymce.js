@@ -85,9 +85,9 @@ _ilTinyMceInitCallbackRegistry.prototype = {
         this.callbacks.push(callback);
     },
 
-    callCallbacks: function() {
+    callCallbacks: function(ed) {
         for (var i = 0; i < this.callbacks.length; i++) {
-            this.callbacks[i]();
+            this.callbacks[i](ed);
         }
     }
 };
@@ -141,6 +141,7 @@ function UploadHandler(blobInfo, success, failure, progress) {
     var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
     xhr.open('POST', uploadUrl);
+    xhr.setRequestHeader('Accept', 'application/json');
     //xhr.withCredentials = settings.credentials;
     xhr.upload.onprogress = function(e) {
         progress(e.loaded / e.total * 100);
@@ -227,7 +228,7 @@ tinymce.init({
         });
     },
     init_instance_callback: function(ed) {
-        ilTinyMceInitCallbackRegistry.callCallbacks();
+        ilTinyMceInitCallbackRegistry.callCallbacks(ed);
     }
 });
 <!-- END tinymce -->

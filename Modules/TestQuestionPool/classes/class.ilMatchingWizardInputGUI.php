@@ -370,4 +370,14 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
+    }
 }

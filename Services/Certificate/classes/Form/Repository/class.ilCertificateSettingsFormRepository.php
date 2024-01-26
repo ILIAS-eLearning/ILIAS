@@ -70,6 +70,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @var ilCertificateBackgroundImageFileService
      */
     private $backGroundImageFileService;
+    /**
+     * @var ilObjCertificateSettings
+     */
+    private $globalCertificateSettings;
 
     /**
      * @param integer $objectId
@@ -112,6 +116,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
         $this->certificatePath = $certificatePath;
         $this->hasAdditionalElements = $hasAdditionalElements;
+        $this->globalCertificateSettings = new ilObjCertificateSettings();
 
         $database = $DIC->database();
 
@@ -248,9 +253,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $bgimage->setALlowDeletion(true);
         if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
-            if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
+            if ($this->globalCertificateSettings->hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-                $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+                $imagePath = ilWACSignedPath::signFile($this->globalCertificateSettings->getBackgroundImageThumbPathWeb());
                 $bgimage->setImage($imagePath);
                 $bgimage->setALlowDeletion(false);
             }
@@ -259,8 +264,17 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
             $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
-            if (!file_exists($thumbnailPath)) {
-                $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
+            if (!is_file($thumbnailPath)) {
+                //Trying if it uses default image path
+                $thumbnailPath = CLIENT_WEB_DIR . $certificateTemplate->getBackgroundImagePath() . '.thumb.jpg';
+                if (!is_file($thumbnailPath)) {
+                    //Trying to use global default image
+                    $thumbnailPath = $this->globalCertificateSettings->getDefaultBackgroundImageThumbPath();
+                    if (!is_file($thumbnailPath)) {
+                        //No image global default configured
+                        $thumbnailPath = '';
+                    }
+                }
                 $bgimage->setALlowDeletion(false);
             }
             $imagePath = ilWACSignedPath::signFile($thumbnailPath);

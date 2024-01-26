@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ResourceStorage\Preloader\SecureString;
+
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
@@ -13,6 +15,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilFileSystemTableGUI extends ilTable2GUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     protected $has_multi; // [bool]
     protected $row_commands = array();
     
@@ -209,7 +212,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $ilCtrl->setParameter($this->parent_obj, "resetoffset", "");
         } else {
             $this->tpl->setCurrentBlock("File");
-            $this->tpl->setVariable("TXT_FILENAME2", $a_set["entry"]);
+            $this->tpl->setVariable("TXT_FILENAME2", $this->secure($a_set["entry"]));
             $this->tpl->parseCurrentBlock();
         }
         

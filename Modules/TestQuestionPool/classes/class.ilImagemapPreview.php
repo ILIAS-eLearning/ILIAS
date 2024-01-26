@@ -82,7 +82,7 @@ class ilImagemapPreview
         $this->areas[$index] = array(
             "shape" => "$shape",
             "coords" => "$coords",
-            "title" => "$title",
+            "title" => htmlspecialchars($title),
             "href" => "$href",
             "target" => "$target",
             "linecolor" => '"' . $linecolor . '"',

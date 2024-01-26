@@ -77,6 +77,10 @@ FROM
 
         $query = $this->database->query($sql);
 
+        if ([] !== $ilCtrlStack) {
+            $ilCtrlStack[] = ilUserCertificateApiGUI::class;
+        }
+
         $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $id = (int) $row['id'];
@@ -88,7 +92,6 @@ FROM
 
             $link = '';
             if ([] !== $ilCtrlStack) {
-                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
                 $this->controller->clearParametersByClass(ilUserCertificateApiGUI::class);
@@ -186,6 +189,7 @@ WHERE object_reference.deleted IS NULL';
         $sql .= '
 ) AS cert
 INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
+INNER JOIN il_orgu_ua ON il_orgu_ua.user_id = cert.user_id
 ' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
@@ -234,12 +238,16 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
                     $orders[] = 'cert.acquired_timestamp' . $direction;
                     break;
 
+                case ($key === UserDataFilter::SORT_FIELD_USR_EMAIL):
+                    $orders[] = 'usr_data.email' . $direction;
+                    break;
+
                 default:
                     break;
             }
         }
 
-        $orderBy = 'ORDER BY ' . implode(', ', $orders);
+        $orderBy = ' ORDER BY ' . implode(', ', $orders);
 
         return $orderBy;
     }
@@ -285,6 +293,16 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
                 . ')';
         }
 
+        $userIdentification = $filter->getUserIdentification();
+        if (!empty($userIdentification)) {
+            $wheres[] = '(' . $this->database->like('usr_data.login', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.firstname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.lastname', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ' OR ' . $this->database->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $userIdentification . '%')
+                . ')';
+        }
+
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
@@ -309,6 +327,11 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         $onlyCertActive = $filter->isOnlyCertActive();
         if ($onlyCertActive === true) {
             $wheres[] = 'cert.currently_active = ' . $this->database->quote(1, ilDBConstants::T_INTEGER);
+        }
+
+        $orgUnitIds = $filter->getOrgUnitIds();
+        if ($orgUnitIds) {
+            $wheres[] = $this->database->in('il_orgu_ua.orgu_id', $orgUnitIds, false, ilDBConstants::T_INTEGER);
         }
 
         if (empty($wheres)) {

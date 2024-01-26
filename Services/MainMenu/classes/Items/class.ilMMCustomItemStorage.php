@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilMMCustomItemStorage
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -165,7 +181,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      */
     public function hasRoleBasedVisibility() : bool
     {
-        if($this->role_based_visibility !== NULL) {
+        if ($this->role_based_visibility !== null) {
             return $this->role_based_visibility;
         } else {
             return false;
@@ -191,7 +207,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      */
     public function getGlobalRoleIDs() : array
     {
-        return explode(",", $this->global_role_ids);
+        return array_map("intval", explode(",", $this->global_role_ids));
     }
 
 

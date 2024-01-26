@@ -18,7 +18,11 @@
 class ilSearchController
 {
     const TYPE_USER_SEARCH = -1;
-    
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+
     public $ctrl = null;
     public $ilias = null;
     public $lng = null;
@@ -40,6 +44,7 @@ class ilSearchController
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
+        $this->user = $DIC->user();
     }
 
     public function getLastClass()
@@ -91,6 +96,9 @@ class ilSearchController
                 break;
             
             case 'illuceneusersearchgui':
+                if ($this->user->getId() == ANONYMOUS_USER_ID) {
+                    $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+                }
                 $this->setLastClass('illuceneusersearchgui');
                 include_once './Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php';
                 $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());

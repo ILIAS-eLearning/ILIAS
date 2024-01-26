@@ -290,10 +290,6 @@ class ilLDAPAttributeToUser
                 switch ($field) {
                     case 'gender':
                         switch (strtolower($value)) {
-                            case 'n':
-                            case 'neutral':
-                                $this->writer->xmlElement('Gender', array(), 'n');
-                                break;
 
                             case 'm':
                             case 'male':
@@ -302,10 +298,13 @@ class ilLDAPAttributeToUser
 
                             case 'f':
                             case 'female':
-                            default:
                                 $this->writer->xmlElement('Gender', array(), 'f');
                                 break;
-                                
+                            // use the default for anything that is not clearly m or f
+                            default:
+                            $this->writer->xmlElement('Gender', array(), 'n');
+                                break;
+
                         }
                         break;
                     

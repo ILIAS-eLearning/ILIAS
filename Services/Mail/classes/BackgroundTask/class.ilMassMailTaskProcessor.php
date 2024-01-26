@@ -53,7 +53,7 @@ class ilMassMailTaskProcessor
     public function __construct(
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
-        ilLanguage  $language = null,
+        ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
         ilMailValueObjectJsonService $objectJsonService = null,
@@ -186,9 +186,7 @@ class ilMassMailTaskProcessor
             (string) serialize($contextParameters),
         ]);
 
-        if ($userId === (int) $this->anonymousUserId) {
-            return $task;
-        }
+        // Important: Don't return the task (e.g. as an early return for anonymous user id) https://mantis.ilias.de/view.php?id=33618
 
         $parameters = [$task, (int) $userId];
 

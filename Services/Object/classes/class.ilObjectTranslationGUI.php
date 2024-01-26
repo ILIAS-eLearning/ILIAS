@@ -234,6 +234,12 @@ class ilObjectTranslationGUI
 
         // save the stuff
         $this->obj_trans->setLanguages(array());
+        if ($this->obj_trans->getFallbackLanguage() != "") {
+            $obj_store_lang = $this->obj_trans->getFallbackLanguage();
+        } else {
+            $obj_store_lang = $this->obj_trans->getMasterLanguage()
+                ?? $_POST["lang"][$_POST["default"]];
+        }
 
         foreach ($_POST["title"] as $k => $v) {
             // update object data if default
@@ -243,7 +249,7 @@ class ilObjectTranslationGUI
             if ($this->obj_trans->getMasterLanguage() != "") {
                 $is_default = ($this->obj_trans->getMasterLanguage() == $_POST["lang"][$k]);
             }
-            if ($is_default) {
+            if ($_POST["lang"][$k] == $obj_store_lang) {
                 $this->obj->setTitle(ilUtil::stripSlashes($v));
                 $this->obj->setDescription(ilUtil::stripSlashes($_POST["desc"][$k]));
             }

@@ -314,8 +314,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"),
-                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit")
+            );
         }
 
         // page object
@@ -638,7 +640,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     if (!$this->isActiveAdministrationPanel() &&
                         !$this->isActiveOrdering() &&
                         $this->supportsPageEditor()) {
-                        $toolbar->addButton($lng->txt("cntr_text_media_editor"),
+                        $toolbar->addButton(
+                            $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
                         );
                     }
@@ -694,12 +697,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($_SESSION["clipboard"]) {
+        if ($_SESSION["clipboard"] && !$this->edit_order) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
             include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
+            $toolbar->setId("admclip");
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
@@ -720,6 +724,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             
             include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
+            $toolbar->setId("adm");
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
@@ -2882,8 +2887,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"),
-                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit")
+            );
         }
 
         include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
@@ -3373,11 +3380,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
 
         $item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
-        //$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+        $item_list->setInfo($this->lng->txt('cont_item_list_info'));
         $lpres->addOption($item_list);
 
         $tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
-        //$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+        $tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
         $lpres->addOption($tile_view);
 
         $lpres->setValue(
@@ -3548,6 +3555,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject()
     {
+        $this->checkPermission("write");
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
@@ -3602,6 +3610,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function removeFromSystemObject()
     {
+        $this->checkPermission("write");
         $ru = new ilRepUtilGUI($this);
         $ru->removeObjectsFromSystem($_POST["trash_id"]);
         $this->ctrl->redirect($this, "trash");
@@ -3635,6 +3644,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject()
     {
         $lng = $this->lng;
+        $this->checkPermission("write");
         include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 
         if (!isset($_POST["trash_id"])) {

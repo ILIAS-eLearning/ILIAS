@@ -136,6 +136,7 @@ class ilSCORMPresentationGUI
             $this->ctrl->setParameter($this, "autolaunch", $items[0]);
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
+        $this->tpl->setVariable("TITLE", $this->slm->getTitle());
         $this->tpl->setVariable("API_LINK", $api_link);
         $this->tpl->printToStdout("DEFAULT", false);
 
@@ -734,7 +735,7 @@ class ilSCORMPresentationGUI
             "SCO_ICO",
             ilUtil::getImagePath(
                 "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
-        )
+            )
         );
         $this->tpl->setVariable(
             "SCO_ALT",

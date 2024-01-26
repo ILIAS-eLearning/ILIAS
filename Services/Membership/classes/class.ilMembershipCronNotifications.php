@@ -401,6 +401,10 @@ class ilMembershipCronNotifications extends ilCronJob
             $parsed = array();
             if (is_array($items)) {
                 foreach ($items as $news_item) {
+                    if ($news_item === null) {
+                        continue;
+                    }
+
                     // # Type "<Object Title>": "<News Title>" - News Text
                     $parsed_item = $this->parseNewsItem($parent_ref_id, $filter_map, $news_item, false, $a_user_id);
                     if ($parsed_item) {
@@ -463,7 +467,7 @@ class ilMembershipCronNotifications extends ilCronJob
         $subject = sprintf($lng->txt("crs_subject_course_group_notification"), $client);
 
         $mail_content = $ntf->composeAndGetMessage($a_user_id, null, "read", true);
-        $log->debug("sending mail content: ".$mail_content);
+        $log->debug("sending mail content: " . $mail_content);
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);

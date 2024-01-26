@@ -65,7 +65,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         foreach ($mems as $d) {
             $data[$d] = ilObjUser::_lookupName($d);
             $data[$d]["user_id"] = $d;
-            $data[$d]["name"] = $data[$d]["lastname"] . ", " .$data[$d]["firstname"];
+            $data[$d]["name"] = $data[$d]["lastname"] . ", " . $data[$d]["firstname"];
         }
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -125,6 +125,35 @@ class ilExGradesTableGUI extends ilTable2GUI
         }
         return false;
     }
+
+    /**
+     * Get the rendered icon for a status (failed, passed or not graded).
+     */
+    protected function getIconForStatus(string $status) : string
+    {
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+        $lng = $this->lng;
+
+        switch ($status) {
+            case "passed":
+                return $icons->renderIcon(
+                    $icons->getImagePathCompleted(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            case "failed":
+                return $icons->renderIcon(
+                    $icons->getImagePathFailed(),
+                    $lng->txt("exc_" . $status)
+                );
+
+            default:
+                return $icons->renderIcon(
+                    $icons->getImagePathNotAttempted(),
+                    $lng->txt("exc_" . $status)
+                );
+        }
+    }
     
     
     /**
@@ -147,9 +176,10 @@ class ilExGradesTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("exc_notgraded"));
             $this->tpl->setVariable("TXT_PASSED", $lng->txt("exc_passed"));
             $this->tpl->setVariable("TXT_FAILED", $lng->txt("exc_failed"));
-            $pic = $member_status->getStatusIcon();
-            $this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-            $this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_" . $status));
+            $this->tpl->setVariable(
+                "ICON_STATUS",
+                $this->getIconForStatus($member_status->getStatus())
+            );
             
             // mark
             $mark = $member_status->getMark();
@@ -177,13 +207,11 @@ class ilExGradesTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock("grade");
         $status = ilExerciseMembers::_lookupStatus($this->exc_id, $user_id);
         $this->tpl->setVariable("SEL_" . strtoupper($status), ' selected="selected" ');
-        switch ($status) {
-            case "passed": 	$pic = "scorm/passed.svg"; break;
-            case "failed":	$pic = "scorm/failed.svg"; break;
-            default: 		$pic = "scorm/not_attempted.svg"; break;
-        }
-        $this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-        $this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_" . $status));
+
+        $this->tpl->setVariable(
+            "ICON_STATUS",
+            $this->getIconForStatus($status)
+        );
         
         // mark
         /*$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));

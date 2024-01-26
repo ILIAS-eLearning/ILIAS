@@ -127,6 +127,13 @@ class ilTestEvaluationUserData
     */
     public $passes;
 
+
+    /**
+     * Number of the last finished pass
+     * @var int|null
+     */
+    public $lastFinishedPass;
+
     /**
     * Questions
     *
@@ -376,24 +383,30 @@ class ilTestEvaluationUserData
             return $this->getLastPass();
         }
     }
-    
+
+    /**
+     * This is used in the export of test results
+     * Aligned with ilObjTest::_getBestPass: from passes with equal points the first one wins
+    */
     public function getBestPass()
     {
         $bestpoints = 0;
-        $bestpass = 0;
+        $bestpass = null;
         
         $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
         
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
-            
-            if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
+
+            if (($reached > $bestpoints
+                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
+                || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
         }
         
-        return $bestpass;
+        return (int) $bestpass;
     }
     
     public function getLastPass()
@@ -406,7 +419,31 @@ class ilTestEvaluationUserData
         }
         return $lastpass;
     }
-    
+
+    /**
+     * @return int
+     */
+    public function getFinishedPasses()
+    {
+        return $this->getLastFinishedPass() === null ? 0 : $this->getLastFinishedPass() + 1;
+    }
+
+    /**
+     * @return ?int
+     */
+    public function getLastFinishedPass()
+    {
+        return $this->lastFinishedPass;
+    }
+
+    /**
+     * @param ?int $pass
+     */
+    public function setLastFinishedPass($pass = null)
+    {
+        $this->lastFinishedPass = $pass;
+    }
+
     public function addQuestionTitle($question_id, $question_title)
     {
         $this->questionTitles[$question_id] = $question_title;

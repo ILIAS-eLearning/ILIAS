@@ -59,7 +59,11 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         $ilTabs = $DIC['ilTabs'];
         
         $next_class = $this->ctrl->getNextClass($this);
-        
+
+        if (!$DIC->access()->checkAccess('join', '', $this->getRefId())) {
+            $this->ctrl->redirectByClass(ilObjGroupGUI::class, 'infoScreen');
+        }
+
         if ($this->getWaitingList()->isOnList($ilUser->getId())) {
             $ilTabs->activateTab('leave');
         }

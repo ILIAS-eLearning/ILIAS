@@ -69,7 +69,7 @@
 	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, Period?, ViewMode?, SessionLimit?, WelcomeMail?)>
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, Period?, ViewMode?, SessionLimit?, WelcomeMail?, StatusDetermination?, MailToMembersType?, CourseMap?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
@@ -163,3 +163,13 @@
 		status (0,1) #REQUIRED
 >
 
+<!ELEMENT StatusDetermination (#PCDATA)>
+<!ELEMENT MailToMembersType (#PCDATA)>
+
+<!ELEMENT CourseMap EMPTY>
+<!ATTLIST
+		enabled (0,1) #REQUIRED
+		latitude #REQUIRED
+		longitude #REQUIRED
+		location_zoom #REQUIRED
+>

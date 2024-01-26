@@ -52,11 +52,32 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
         }
 
         for ($i = 0; $i < count($matches[1]); $i++) {
-            preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
+            preg_match("/alt\s*=\s*\"(.*)\"\s*/siU", $matches[1][$i], $alt);
             preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
             preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
 
+            if (!$this->verifyArea($coords, $shape)) {
+                $this->setAlert($lng->txt('ass_imap_no_map_found'));
+                return false;
+            }
+
             $this->shapes[] = new ASS_AnswerImagemap($alt[1], 0.0, $i, $coords[1], $shape[1]);
+        }
+
+        return true;
+    }
+
+    protected function verifyArea($coords, $shape)
+    {
+        if (!in_array(strtolower($shape[1]), assImagemapQuestion::AVAILABLE_SHAPES)) {
+            return false;
+        }
+
+        $coords_array = explode(',', $coords[1]);
+        foreach ($coords_array as $coord) {
+            if (!is_numeric($coord)) {
+                return false;
+            }
         }
 
         return true;

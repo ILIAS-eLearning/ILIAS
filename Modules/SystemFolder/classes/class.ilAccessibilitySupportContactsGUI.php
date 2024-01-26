@@ -120,12 +120,16 @@ class ilAccessibilitySupportContactsGUI
         $user = $DIC->user();
         $http = $DIC->http();
         $lng = $DIC->language();
+        $rbac_system = $DIC->rbac()->system();
 
-
-        $users = ilAccessibilitySupportContacts::getValidSupportContactIds();
-        if (count($users) > 0) {
-            if (!$user->getId() || $user->getId() == ANONYMOUS_USER_ID) {
-                $mails = ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress());
+        $contacts = ilAccessibilitySupportContacts::getValidSupportContactIds();
+        if (count($contacts) > 0) {
+            if ($rbac_system->checkAccess("internal_mail", ilMailGlobalServices::getMailObjectRefId())) {
+                return $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
+            } else {
+                $mails = ilUtil::prepareFormOutput(
+                    ilAccessibilitySupportContacts::getMailsToAddress()
+                );
                 $request_scheme =
                     isset($http->request()->getServerParams()['HTTPS'])
                     && $http->request()->getServerParams()['HTTPS'] !== 'off'
@@ -134,8 +138,6 @@ class ilAccessibilitySupportContactsGUI
                     . $http->request()->getServerParams()['HTTP_HOST']
                     . $http->request()->getServerParams()['REQUEST_URI'];
                 return "mailto:" . $mails . "?body=%0D%0A%0D%0A" . $lng->txt("report_accessibility_link_mailto") . "%0A" . rawurlencode($url);
-            } else {
-                return $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
             }
         }
         return "";

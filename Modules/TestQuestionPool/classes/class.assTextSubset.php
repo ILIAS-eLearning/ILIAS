@@ -444,45 +444,46 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function isAnswerCorrect($answers, $answer)
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
-        $result = 0;
+        global $DIC;
+        $refinery = $DIC->refinery();
         $textrating = $this->getTextRating();
+
         foreach ($answers as $key => $value) {
+            if ($this->answers[$key]->getPoints() <= 0) {
+                continue;
+            }
+            $value = html_entity_decode($value); #SB
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) { #SB
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_CASESENSITIVE:
-                    if (strcmp($value, $answer) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp($value, $answer) == 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if (levenshtein($value, $answer) <= 1 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 1);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if (levenshtein($value, $answer) <= 2 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 2);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if (levenshtein($value, $answer) <= 3 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 3);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if (levenshtein($value, $answer) <= 4 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 4);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if (levenshtein($value, $answer) <= 5 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 5);
                     break;
+            }
+
+            // run answers against Levenshtein2 methods
+            if (isset($transformation) && $transformation->transform($value) >= 0) {
+                return $key;
             }
         }
         return false;
@@ -773,7 +774,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $i = 1;
         foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, 0, $solution["value1"]);
+            $worksheet->setCell($startrow + $i, 2, $solution["value1"]);
             $i++;
         }
 
@@ -855,7 +856,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $available_answers = $this->getAvailableAnswers();
         $points = 0;
         foreach ($enteredTexts as $enteredtext) {
-            $index = $this->isAnswerCorrect($available_answers, $enteredtext);
+            $index = $this->isAnswerCorrect($available_answers, html_entity_decode($enteredtext));
             if ($index !== false) {
                 unset($available_answers[$index]);
                 $points += $this->answers[$index]->getPoints();
@@ -955,16 +956,16 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
     {
-            $found = false;
+        $found = false;
 
-            foreach ($this->getAnswers() as $item) {
-                if ($answerOptionValue !== $item->getAnswerText()) {
-                    continue;
-                }
-
-                $found = true;
-                break;
+        foreach ($this->getAnswers() as $item) {
+            if ($answerOptionValue !== $item->getAnswerText()) {
+                continue;
             }
+
+            $found = true;
+            break;
+        }
 
         return !$found;
     }

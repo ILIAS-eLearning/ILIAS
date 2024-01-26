@@ -18,4 +18,14 @@
 
 class ilBuddySystemIgnoredRequestRelationStateTableFilterMapper extends ilAbstractBuddySystemRelationStateTableFilterMapper
 {
+    public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation): bool
+    {
+        if (ilBuddySystemRequestedRelationState::class . '_a' === $filter_key) {
+            return $relation->isOwnedByActor();
+        } elseif ($relation->isOwnedByActor()) {
+            return false;
+        }
+
+        return parent::filterMatchesRelation($filter_key, $relation);
+    }
 }

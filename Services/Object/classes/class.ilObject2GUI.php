@@ -31,7 +31,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected $creation_forms = array();
     protected $id_type = array();
     protected $parent_id;
-    public $tree;
     protected $access_handler;
 
     const OBJECT_ID = 0;
@@ -40,7 +39,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     const REPOSITORY_OBJECT_ID = 3;
     const WORKSPACE_OBJECT_ID = 4;
     const PORTFOLIO_OBJECT_ID = 5;
-    
+
     /**
      * Constructor
      *
@@ -74,7 +73,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->parent_id = $a_parent_node_id;
         $this->type = $this->getType();
         $this->html = "";
-        
+
         $this->tabs_gui = $ilTabs;
         $this->objDefinition = $objDefinition;
         $this->tpl = $tpl;
@@ -130,7 +129,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
                 $params[] = "obj_id"; // ???
                 break;
-            
+
             case self::PORTFOLIO_OBJECT_ID:
                 $this->object_id = $a_id;
                 include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
@@ -148,7 +147,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->ctrl->saveParameter($this, $params);
 
 
-        
+
         // old stuff for legacy code (obsolete?)
         if (!$this->object_id) {
             $this->creation_mode = true;
@@ -161,26 +160,26 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
         $this->ref_id = $this->node_id;
         $this->obj_id = $this->object_id;
-        
+
 
 
         $this->assignObject();
-        
+
         // set context
         if (is_object($this->object)) {
             $this->ctrl->setContext($this->object->getId(), $this->object->getType());
         }
-        
+
         $this->afterConstructor();
     }
-    
+
     /**
      * Do anything that should be done after constructor in here.
      */
     protected function afterConstructor()
     {
     }
-    
+
     /**
      * execute command
      */
@@ -188,7 +187,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -201,7 +200,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->ctrl->forwardCommand($wspacc);
                     break;
                 }
-            
+
                 // no break
             default:
                 if (!$cmd) {
@@ -238,7 +237,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             }
         }
     }
-    
+
     /**
      * Get access handler
      *
@@ -269,7 +268,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                     ? $this->node_id
                     : $this->parent_id;
                 $ilLocator->addRepositoryItems($ref_id);
-                
+
                 // not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
                 if ($_GET["admin_mode"] == "" &&
                     strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui") {
@@ -289,13 +288,13 @@ abstract class ilObject2GUI extends ilObjectGUI
                             "ilobjrolegui"), "perm")
                     );
                 }
-                
+
                 // in workspace this is done in ilPersonalWorkspaceGUI
                 if ($this->object_id) {
                     $this->addLocatorItems();
                 }
                 $tpl->setLocator();
-                
+
                 break;
 
             case self::WORKSPACE_NODE_ID:
@@ -365,14 +364,14 @@ abstract class ilObject2GUI extends ilObjectGUI
             foreach ($_POST["id"] as $node_id) {
                 $del_nodes[$node_id] = $this->tree->getNodeData($node_id);
             }
-                                
+
             foreach ($del_nodes as $node_id => $node) {
                 // tree/reference
                 $this->tree->deleteReference($node_id);
                 if ($this->tree->isInTree($node_id)) {
                     $this->tree->deleteTree($node);
                 }
-                
+
                 // permission
                 $this->getAccessHandler()->removePermission($node_id);
 
@@ -390,7 +389,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
         $this->ctrl->redirect($this, "");
     }
-    
+
     public function getHTML()
     {
         return parent::getHTML();
@@ -455,7 +454,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         return parent::checkPermission($a_perm, $a_cmd, $a_type, $a_ref_id);
     }
-    
+
     // -> ilContainerGUI
     final protected function showPossibleSubObjects()
     {
@@ -483,7 +482,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         return parent::redirectToRefId();
     } // ok
-    
+
     // -> stefan
     final protected function fillCloneTemplate($a_tpl_varname, $a_type)
     {
@@ -577,7 +576,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 break;
         }
     }
-    
+
     /**
      * Deprecated functions
      */
@@ -623,12 +622,12 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected function addLocatorItems()
     {
     }
-    
+
     /**
      * Functions that must be overwritten
      */
     abstract public function getType();
-    
+
     /**
      * Deleted in ilObject
      */
@@ -678,7 +677,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected function initCreationForms($a_new_type)
     {
         $forms = parent::initCreationForms($a_new_type);
-        
+
         // cloning doesn't work in workspace yet
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             unset($forms[self::CFORM_CLONE]);
@@ -686,7 +685,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
         return $forms;
     }
-    
+
     /**
      * Import
      *
@@ -716,7 +715,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         if (!$a_parent_node_id) {
             $a_parent_node_id = $this->parent_id;
         }
-        
+
         // add new object to custom parent container
         if ((int) $_REQUEST["crtptrefid"]) {
             $a_parent_node_id = (int) $_REQUEST["crtptrefid"];
@@ -756,16 +755,16 @@ abstract class ilObject2GUI extends ilObjectGUI
                 // do nothing
                 break;
         }
-        
+
         // BEGIN ChangeEvent: Record save object.
         require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
         // END ChangeEvent: Record save object.
-            
+
         // use forced callback after object creation
         self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"]);
     }
-    
+
     /**
      * After creation callback
      *
@@ -825,14 +824,14 @@ abstract class ilObject2GUI extends ilObjectGUI
                 return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id);
             }
         }
-        
+
         // if we do not have a node id, check if current user is owner
         if ($this->obj_id && $this->object->getOwner() == $ilUser->getId()) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Add header action menu
      *
@@ -852,18 +851,18 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->node_id,
                     $this->object_id
                 );
-                
+
                 $dispatcher->setSubObject($a_sub_type, $a_sub_id);
-                
+
                 include_once "Services/Object/classes/class.ilObjectListGUI.php";
                 ilObjectListGUI::prepareJSLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
                 );
-                
+
                 $lg = $dispatcher->initHeaderAction();
-                
+
                 if (is_object($lg)) {
                     // to enable add to desktop / remove from desktop
                     if ($this instanceof ilDesktopItemHandling) {
@@ -882,7 +881,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             return parent::initHeaderAction($a_sub_type, $a_sub_id);
         }
     }
-    
+
     /**
      * Updating icons after ajax call
      */
@@ -890,13 +889,13 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::redrawHeaderActionObject();
     }
-    
+
     protected function getPermanentLinkWidget($a_append = null, $a_center = false)
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             $a_append .= "_wsp";
         }
-        
+
         include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
         $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $a_append);
         $plink->setIncludePermanentLinkText(false);

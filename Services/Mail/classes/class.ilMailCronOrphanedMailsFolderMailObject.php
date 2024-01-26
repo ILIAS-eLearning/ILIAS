@@ -13,9 +13,9 @@ class ilMailCronOrphanedMailsFolderMailObject
     protected $mail_id = 0;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $mail_subject = '';
+    protected $mail_subject = null;
 
     /**
      * @param $mail_id
@@ -44,7 +44,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getMailSubject()
     {
@@ -52,7 +52,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     }
 
     /**
-     * @param string $mail_subject
+     * @param string|null $mail_subject
      */
     public function setMailSubject($mail_subject)
     {

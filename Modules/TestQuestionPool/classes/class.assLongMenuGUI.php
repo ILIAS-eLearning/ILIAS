@@ -74,10 +74,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
+        $check = $form->checkInput() && $this->verifyAnswerOptions();
+
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);
         $custom_check = $this->object->checkQuestionCustomPart($form);
-        if (!$form->checkInput() || !$custom_check) {
+        if (!$check || !$custom_check) {
             if (!$custom_check) {
                 ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
             }
@@ -101,18 +103,30 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->saveTaxonomyAssignments();
     }
 
+    private function verifyAnswerOptions() : bool
+    {
+        $longmenu_text = $_POST['longmenu_text'] ?? '';
+        $hidden_text_files = $_POST['hidden_text_files'] ?? '';
+        $answer_options_from_text = preg_split(
+            "/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/",
+            $longmenu_text
+        );
+        $answer_options_from_files = json_decode(ilUtil::stripSlashes($hidden_text_files));
+        if (count($answer_options_from_text) - 1 !== count($answer_options_from_files)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+            return false;
+        }
+        return true;
+    }
+
     protected function trimArrayRecursive(array $data)
     {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                if (is_array($v)) {
-                    $data[$k] = $this->trimArrayRecursive($v);
-                } else {
-                    $data[$k] = trim($v);
-                }
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                $data[$k] = $this->trimArrayRecursive($v);
+            } else {
+                $data[$k] = trim($v);
             }
-        } else {
-            $data = trim($data);
         }
         return $data;
     }
@@ -157,7 +171,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setRows(10);
         $long_menu_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $long_menu_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $long_menu_text->addPlugin("latex");
@@ -172,10 +186,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $long_menu_text->setUseTagsForRteOnly(false);
         }
 
-        $long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
+        $long_menu_text->setValue($this->object->getLongMenuTextValue());
         $form->addItem($long_menu_text);
-        
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap_button_code.html", true, true, "Modules/TestQuestionPool");
+
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
         $tpl->parseCurrentBlock();
         $button = new ilCustomInputGUI('&nbsp;', '');
@@ -190,7 +204,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $modal->setBody('');
 
         $min_auto_complete = new ilNumberInputGUI($this->lng->txt("min_auto_complete"), 'min_auto_complete');
-        
+
         $auto_complete = $this->object->getMinAutoComplete();
         if ($auto_complete == 0) {
             $auto_complete = assLongMenu::MIN_LENGTH_AUTOCOMPLETE;
@@ -212,52 +226,66 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         $hidden_correct = new ilHiddenInputGUI('hidden_correct_answers');
         $form->addItem($hidden_correct);
-        
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", true, true, "Modules/TestQuestionPool");
+
+        $long_menu_language = [
+            'edit' => '[' . $this->lng->txt('edit') . ']',
+            'type' => $this->lng->txt('type'),
+            'answers' => $this->lng->txt('answers'),
+            'answer_options' => $this->lng->txt('answer_options'),
+            'correct_answers' => $this->lng->txt('correct_answers'),
+            'add_answers' => '[' . $this->lng->txt('add_answers') . ']',
+            'manual_editing' => $this->lng->txt('manual_editing')
+        ];
+
+        $question_parts = [
+            'list' => json_decode($this->object->getJsonStructure()),
+            'gap_placeholder' => assLongMenu::GAP_PLACEHOLDER,
+            'last_updated_element' => 0,
+            'replacement_word' => '',
+            'filereader_usable' => false,
+            'max_input_fields' => assLongMenu::MAX_INPUT_FIELDS
+        ];
+        $answers = $this->object->getAnswersObject();
+
         if (is_array($_POST) && array_key_exists('hidden_text_files', $_POST)) {
-            $tpl->setVariable('CORRECT_ANSWERS', $_POST['hidden_correct_answers']);
-            $tpl->setVariable('ALL_ANSWERS', $_POST['hidden_text_files']);
-        } else {
-            $tpl->setVariable('CORRECT_ANSWERS', $this->object->getJsonStructure());
-            $tpl->setVariable('ALL_ANSWERS', $this->object->getAnswersObject());
+            $question_parts['list'] = json_decode($_POST['hidden_correct_answers']);
+            $answers = $_POST['hidden_text_files'];
         }
-        $tpl->setVariable('MAX_INPUT_FIELDS', assLongMenu::MAX_INPUT_FIELDS);
-        $tpl->setVariable('GAP_PLACEHOLDER', assLongMenu::GAP_PLACEHOLDER);
+
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestion.js');
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));
         $tpl->setVariable("SELECT", $this->lng->txt('answers_select'));
         $tpl->setVariable("TEXT", $this->lng->txt('answers_text_box'));
         $tpl->setVariable("POINTS", $this->lng->txt('points'));
         $tpl->setVariable("INFO_TEXT_UPLOAD", $this->lng->txt('info_text_upload'));
         $tpl->setVariable("TXT_BROWSE", $this->lng->txt('select_file'));
-        $tpl->setVariable("MANUAL_EDITING", $this->lng->txt('manual_editing'));
-        $tpl->setVariable("CORRECT_ANSWER_TXT", $this->lng->txt('correct_answers'));
-        $tpl->setVariable("ANSWER_OPTIONS_TXT", $this->lng->txt('answer_options'));
-        $tpl->setVariable("ANSWERS_TXT", $this->lng->txt('answers'));
-        $tpl->setVariable("TYPE_TXT", $this->lng->txt('type'));
-        $tpl->setVariable("EDIT_TXT", $this->lng->txt('edit'));
-        $tpl->setVariable("ADD_ANSWER_TXT", $this->lng->txt('add_answers'));
         $tpl->setVariable('POINTS_ERROR', $this->lng->txt('enter_enough_positive_points'));
         $tpl->setVariable('AUTOCOMPLETE_ERROR', $this->lng->txt('autocomplete_error'));
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
-        require_once("Services/Form/classes/class.ilTagInputGUI.php");
         $tag_input = new ilTagInputGUI();
         $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');
         $tag_input->setJsSelfInit(false);
         $tag_input->setTypeAheadMinLength(1);
         $tpl->setVariable("TAGGING_PROTOTYPE", $tag_input->render(''));
-        
+
         $tpl->setVariable("MY_MODAL", $modal->getHTML());
-        
+
         $tpl->parseCurrentBlock();
+        $this->tpl->addOnLoadCode('longMenuQuestion.Init(' .
+            json_encode($long_menu_language) . ', ' .
+            json_encode($question_parts) . ', ' .
+            $answers . ');');
         $button = new ilCustomInputGUI('&nbsp;', '');
         $button->setHtml($tpl->get());
         $form->addItem($button);
         return $form;
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
@@ -302,11 +330,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $show_question_text = true
     ) {
         include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_lome_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "Modules/TestQuestionPool");
+
         if ($show_question_text) {
-            $question_text = $this->object->getQuestion();
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
             $correct_solution = $this->getUserSolution($active_id, $pass);
@@ -322,7 +349,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-            
+
             $fb = $this->getSpecificFeedbackOutput(array());
             $feedback .= strlen($fb) ? $fb : '';
         }
@@ -331,7 +358,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solution_template->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solution_template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
@@ -346,17 +373,17 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         return $solution_output;
     }
-    
+
     public function getPreview($show_question_only = false, $showInlineFeedback = false)
     {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         $user_solution = array_values($user_solution);
-        
+
         include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
 
         $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
         $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
@@ -368,8 +395,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $question_output;
     }
 
-    
-    
+
+
     public function getTestOutput(
         $active_id,
                         // hey: prevPassSolutions - will be always available from now on
@@ -396,10 +423,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", true, true, "Modules/TestQuestionPool");
-        
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
+
         $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
@@ -408,56 +435,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $page_output;
     }
 
-    /**
-     * Sets the ILIAS tabs for this question type
-     *
-     * @access public
-     *
-     */
-    public function setQuestionTabs()
-    {
-        $this->ilTabs->clearTargets();
-
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
-
-        if (strlen($q_type)) {
-            $classname = $q_type . "GUI";
-            $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
-        }
-
-        if ($_GET["q_id"]) {
-            $this->addTab_Question($this->ilTabs);
-        }
-
-        // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($this->ilTabs);
-
-        // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($this->ilTabs);
-
-        // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($this->ilTabs, $classname);
-
-        // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
-            $this->ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
-
-        $this->addBackTab($this->ilTabs);
-    }
-
     public function getSpecificFeedbackOutput($userSolution)
     {
-        if (!$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, 0)) {
+        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
         }
 
@@ -480,7 +460,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $this->object->prepareTextareaOutput($feedback, true);
     }
 
-    
+
     /**
      * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
      * The form elements will be shown disabled, so the users see the usual form but can only edit the settings, which
@@ -518,7 +498,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 }
             }
         }
-        $tpl = new ilTemplate('tpl.il_as_aggregated_long_menu_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_longmenu_question_answers_table.html', true, true, "Modules/TestQuestionPool");
         $json = json_decode($this->object->getJsonStructure());
         foreach ($json as $key => $value) {
             $tpl->setVariable('TITLE', 'Longmenu ' . ($key + 1));
@@ -544,8 +524,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         foreach ($text_array as $key => $value) {
             $answer_is_correct = false;
             $user_value = '';
-            $return_value .= $value;
+            $return_value .= $this->object->prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
+                if (!array_key_exists($key, $correct_answers)) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+                    continue;
+                }
                 if ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
                         $user_value = $user_solution[$key];
@@ -553,7 +537,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                             $answer_is_correct = true;
                         }
                     }
-                    
+
                     $return_value .= $this->getTextGapTemplate($key, $user_value, $solution, $answer_is_correct, $graphical);
                 } elseif ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_SELECT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
@@ -571,7 +555,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     private function getTextGapTemplate($key, $value, $solution, $ok = false, $graphical = false)
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_text_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_text_gap.html", true, true, "Modules/TestQuestionPool");
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');
             $tpl->setVariable('JS_IGNORE', '_ignore');
@@ -587,13 +571,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
         $tpl->setVariable('VALUE', $value);
         $tpl->setVariable('KEY', $key);
-        
+
         return $tpl->get();
     }
-    
+
     private function getSelectGapTemplate($key, $answers, $user_value, $solution, $ok = false, $graphical = false)
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_select_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_select_gap.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('KEY', $key);
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');
@@ -627,82 +611,82 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
         return $tpl->get();
     }
-    
+
     public function getSubQuestionsIndex()
     {
         return array_keys($this->object->getAnswers());
     }
-    
+
     public function getAnswersFrequency($relevant_answers, $questionIndex)
     {
-        $answers = array();
-        
+        $answers = [];
+
         foreach ($relevant_answers as $row) {
             if ($row['value1'] != $questionIndex) {
                 continue;
             }
-            
+
             if (!isset($answers[$row['value2']])) {
                 //$label = $this->getAnswerTextLabel($row['value1'], $row['value2']);
-                
+
                 $answers[$row['value2']] = array(
                     'answer' => $row['value2'], 'frequency' => 0
                 );
             }
-            
+
             $answers[$row['value2']]['frequency']++;
         }
-        
+
         return $answers;
     }
-    
+
     public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $table = parent::getAnswerFrequencyTableGUI(
             $parentGui,
             $parentCmd,
             $relevantAnswers,
             $questionIndex
         );
-        
+
         $table->setTitle(sprintf(
             $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
             $DIC->language()->txt('longmenu') . ' ' . ($questionIndex + 1)
         ));
-        
+
         return $table;
     }
-    
+
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
     {
         $correctAnswers = $this->object->getCorrectAnswers();
-        
+
         foreach ($this->object->getAnswers() as $lmIndex => $lm) {
             $lmValues = array(
                 'answers_all' => array(0 => $lm),
                 'answers_all_count' => count($lm),
                 'answers_correct' => $correctAnswers[$lmIndex][0]
             );
-            
+
             $lmPoints = $correctAnswers[$lmIndex][1];
-            
+
             $section = new ilFormSectionHeaderGUI();
             $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lmIndex + 1));
             $form->addItem($section);
-            
+
             $lmInput = new ilAssLongmenuCorrectionsInputGUI(
                 $this->lng->txt('answers'),
                 'longmenu_' . $lmIndex
             );
-            
+
             $lmInput->setRequired(true);
-            
+
             $lmInput->setValues($lmValues);
-            
+
             $form->addItem($lmInput);
-            
+
             $pointsInp = new ilNumberInputGUI($this->lng->txt("points"), 'points_' . $lmIndex);
             $pointsInp->setRequired(true);
             $pointsInp->allowDecimals(true);
@@ -713,32 +697,32 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $form->addItem($pointsInp);
         }
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
     {
         $correctAnswers = $this->object->getCorrectAnswers();
-        
+
         foreach ($this->object->getAnswers() as $lmIndex => $lm) {
             $pointsInput = (float) $form->getInput('points_' . $lmIndex);
             $correctAnswersInput = (array) $form->getInput('longmenu_' . $lmIndex . '_tags');
-            
+
             foreach ($correctAnswersInput as $idx => $answer) {
                 if (in_array($answer, $lm)) {
                     continue;
                 }
-                
+
                 unset($correctAnswersInput[$idx]);
             }
-            
+
             $correctAnswersInput = array_values($correctAnswersInput);
-            
+
             $correctAnswers[$lmIndex][0] = $correctAnswersInput;
             $correctAnswers[$lmIndex][1] = $pointsInput;
         }
-        
+
         $this->object->setCorrectAnswers($correctAnswers);
     }
 }

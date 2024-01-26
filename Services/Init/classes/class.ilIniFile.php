@@ -110,19 +110,13 @@ class ilIniFile
     */
     public function parse()
     {
-        //use php4 function parse_ini_file
         $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
 
         //check if groups are filled
         if ($this->GROUPS == false) {
-            // second try
-            $this->fixIniFile();
-            
-            $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
-            if ($this->GROUPS == false) {
-                $this->error("file_not_accessible");
-                return false;
-            }
+            $this->error("file_not_accessible");
+            return false;
+
         }
         //set current group
         $temp = array_keys($this->GROUPS);
@@ -130,45 +124,6 @@ class ilIniFile
         return true;
     }
 
-    /**
-     * Fix ini file (make it compatible for PHP 5.3)
-     */
-    public function fixIniFile()
-    {
-        // first read content
-        $lines = array();
-        $fp = @fopen($this->INI_FILE_NAME, "r");
-        while (!feof($fp)) {
-            $l = fgets($fp, 4096);
-            $skip = false;
-            if ((substr($l, 0, 2) == "/*" && $starttag) ||
-                substr($l, 0, 5) == "*/ ?>") {
-                $skip = true;
-            }
-            $starttag = false;
-            if (substr($l, 0, 5) == "<?php") {
-                $l = "; <?php exit; ?>";
-                $starttag = true;
-            }
-            if (!$skip) {
-                $l = str_replace("\n", "", $l);
-                $l = str_replace("\r", "", $l);
-                $lines[] = $l;
-            }
-        }
-        fclose($fp);
-        
-        // now write it back
-        $fp = @fopen($this->INI_FILE_NAME, "w");
-        
-        if (!empty($fp)) {
-            foreach ($lines as $l) {
-                fwrite($fp, $l . "\r\n");
-            }
-        }
-        fclose($fp);
-    }
-    
     /**
     * save ini-file-data to filesystem
     * @access	private

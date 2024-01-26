@@ -23,7 +23,8 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 {
     const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
-    
+    private const HANDLE_FILE_UPLOAD = 'handleFileUpload';
+
     /**
      * assFileUploadGUI constructor
      *
@@ -92,9 +93,9 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         $this->populateTaxonomyFormSection($form);
         $this->addQuestionFormCommandButtons($form);
-        
+
         $errors = false;
-    
+
         if ($save) {
             $form->setValuesByPost();
             $errors = !$form->checkInput();
@@ -135,7 +136,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->allowDecimals(true);
         $points->setValue(
             is_numeric($this->object->getPoints()) && $this->object->getPoints(
-                           ) >= 0 ? $this->object->getPoints() : ''
+            ) >= 0 ? $this->object->getPoints() : ''
         );
         $points->setRequired(true);
         $points->setSize(3);
@@ -145,7 +146,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
             'ass_completion_by_submission'
-                                           ), 'completion_by_submission');
+        ), 'completion_by_submission');
         $subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
         $subcompl->setValue(1);
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
@@ -261,7 +262,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
+        $template->setVariable("CMD_UPLOAD", self::HANDLE_FILE_UPLOAD);
         $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
         $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
         $template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
@@ -296,7 +297,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
@@ -306,7 +307,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
@@ -318,7 +319,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
         return $solutionoutput;
     }
-    
+
     public function getPreview($show_question_only = false, $showInlineFeedback = false)
     {
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "Modules/TestQuestionPool");
@@ -339,13 +340,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable('FILES', $table_gui->getHTML());
             $template->parseCurrentBlock();
         }
-        
+
         if (strlen($this->object->getAllowedExtensions())) {
             $template->setCurrentBlock("allowed_extensions");
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
         $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
         $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
@@ -365,7 +366,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html", true, true, "Modules/TestQuestionPool");
-        
+
         if ($active_id) {
             // hey: prevPassSolutions - obsolete due to central check
             #$solutions = NULL;
@@ -390,14 +391,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable('FILES', $table_gui->getHTML());
             $template->parseCurrentBlock();
         }
-        
+
         if (strlen($this->object->getAllowedExtensions())) {
             $template->setCurrentBlock("allowed_extensions");
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, true));
-        $template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable("CMD_UPLOAD", self::HANDLE_FILE_UPLOAD);
         $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
         $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
         $template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
@@ -410,74 +411,6 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
-    }
-
-    /**
-     * Sets the ILIAS tabs for this question type
-     *
-     * @access public
-     *
-     * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
-     */
-    public function setQuestionTabs()
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->clearTargets();
-        
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
-
-        if (strlen($q_type)) {
-            $classname = $q_type . "GUI";
-            $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
-        }
-
-        if ($_GET["q_id"]) {
-            $this->addTab_Question($ilTabs);
-        }
-
-        // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($ilTabs);
-
-        // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($ilTabs);
-
-        // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($ilTabs, $classname);
-
-        // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
-            $ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
-        
-        if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
-            $ref_id = $_GET["calling_test"];
-            if (strlen($ref_id) == 0) {
-                $ref_id = $_GET["test_ref_id"];
-            }
-
-            global $___test_express_mode;
-
-            if (!$_GET['test_express_mode'] && !$___test_express_mode) {
-                $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
-            } else {
-                $link = ilTestExpressPage::getReturnToPageLink();
-                $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
-            }
-        } else {
-            $ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
-        }
     }
 
     public function getSpecificFeedbackOutput($userSolution)
@@ -513,7 +446,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         // Empty implementation here since a feasible way to aggregate answer is not known.
         return ''; //print_r($relevant_answers,true);
     }
-    
+
     // hey: prevPassSolutions - shown files needs to be chosen so upload can replace or complete fileset
     /**
      * @return ilAssFileUploadFileTableDeleteButton
@@ -523,7 +456,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableDeleteButton.php';
         return ilAssFileUploadFileTableDeleteButton::getInstance();
     }
-    
+
     /**
      * @return ilAssFileUploadFileTableReuseButton
      */
@@ -532,7 +465,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableReuseButton.php';
         return ilAssFileUploadFileTableReuseButton::getInstance();
     }
-    
+
     /**
      * @return ilAssFileUploadFileTableCommandButton
      */
@@ -541,42 +474,42 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
             return $this->buildFileTableReuseButtonInstance();
         }
-        
+
         return $this->buildFileTableDeleteButtonInstance();
     }
-    
+
     protected function getTestPresentationFileTablePostVar()
     {
         if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
             return assFileUpload::REUSE_FILES_TBL_POSTVAR;
         }
-        
+
         return assFileUpload::DELETE_FILES_TBL_POSTVAR;
     }
     // hey.
-    
+
     // hey: prevPassSolutions - overwrite common prevPassSolution-Checkbox
     protected function getPreviousSolutionProvidedMessage()
     {
         return $this->lng->txt('use_previous_solution_advice_file_upload');
     }
-    
+
     protected function getPreviousSolutionConfirmationCheckboxHtml()
     {
         return '';
     }
     // hey.
-    
+
     public function getFormEncodingType()
     {
         return self::FORM_ENCODING_MULTIPART;
     }
-    
+
     public function isAnswerFreuqencyStatisticSupported()
     {
         return false;
     }
-    
+
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
     {
         // points
@@ -584,14 +517,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->allowDecimals(true);
         $points->setValue(
             is_numeric($this->object->getPoints()) && $this->object->getPoints(
-        ) >= 0 ? $this->object->getPoints() : ''
+            ) >= 0 ? $this->object->getPoints() : ''
         );
         $points->setRequired(true);
         $points->setSize(3);
         $points->setMinValue(0.0);
         $points->setMinvalueShouldBeGreater(false);
         $form->addItem($points);
-        
+
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
             'ass_completion_by_submission'
         ), 'completion_by_submission');
@@ -600,7 +533,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
         $form->addItem($subcompl);
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      */

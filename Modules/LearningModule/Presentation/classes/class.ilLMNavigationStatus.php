@@ -141,9 +141,13 @@ class ilLMNavigationStatus
         $this->chapter_has_no_active_page = false;
         $this->deactivated_page = false;
 
-        // determine object id
-        if ($this->requested_obj_id == 0) {
+        $requested_obj_id = $this->requested_obj_id;
+        if ($requested_obj_id > 0 && ilLMObject::_lookupContObjID($requested_obj_id) != $this->lm->getId()) {
+            $requested_obj_id = 0;
+        }
 
+        // determine object id
+        if ($requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
 
             if ($this->cmd == "resume") {
@@ -156,9 +160,8 @@ class ilLMNavigationStatus
                     }
                 }
             }
-
         } else {
-            $obj_id = $this->requested_obj_id;
+            $obj_id = $requested_obj_id;
             $active = ilLMPage::_lookupActive(
                 $obj_id,
                 $this->lm->getType(),
@@ -223,7 +226,7 @@ class ilLMNavigationStatus
             // check whether page found is within "clicked" chapter
             if ($this->lm_tree->isInTree($page_id)) {
                 $path = $this->lm_tree->getPathId($page_id);
-                if (!in_array($this->requested_obj_id, $path)) {
+                if (!in_array($requested_obj_id, $path)) {
                     $this->chapter_has_no_active_page = true;
                 }
             }

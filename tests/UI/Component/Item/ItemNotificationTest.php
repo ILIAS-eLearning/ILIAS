@@ -229,18 +229,12 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<div class="il-item-additional-content">someContent</div>
 				<hr class="il-item-divider">
 					<div class="row il-item-properties">
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop1</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val1</div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="row">
-								<div class="col-sm-3 il-item-property-name">prop2</div>
-								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val2</div>
-							</div>
-						</div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop1</span><span class="il-item-property-value">val1</span>
+                        </div>
+                        <div class="col-sm-12 il-multi-line-cap-3">
+                            <span class="il-item-property-name">prop2</span><span class="il-item-property-value">val2</span>
+                        </div>
 					</div>
 					<div class="il-aggregate-notifications" data-aggregatedby="id">
 						<div class="il-maincontrols-slate il-maincontrols-slate-notification">

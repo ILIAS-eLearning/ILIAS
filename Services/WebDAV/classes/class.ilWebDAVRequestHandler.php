@@ -14,7 +14,7 @@ use Sabre\DAV\Exception\BadRequest;
 class ilWebDAVRequestHandler
 {
     private static $instance;
-    
+
     public static function getInstance()
     {
         return self::$instance ? self::$instance : self::$instance = new ilWebDAVRequestHandler();
@@ -39,10 +39,10 @@ class ilWebDAVRequestHandler
     {
         $server = new Sabre\DAV\Server($this->getRootDir());
         $this->setPlugins($server);
-        $server->exec();
+        $server->start();
     }
-    
-    
+
+
     /**
      * Set server plugins
      */
@@ -67,7 +67,7 @@ class ilWebDAVRequestHandler
         $browser_plugin = new ilWebDAVSabreBrowserPlugin($DIC->ctrl());
         $server->addPlugin($browser_plugin);
     }
-    
+
     /**
      * Return the first object to mount on WebDAV
      *

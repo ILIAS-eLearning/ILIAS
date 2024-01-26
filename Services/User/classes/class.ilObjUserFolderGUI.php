@@ -184,36 +184,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return true;
     }
 
-    /**
-     * @param string $a_permission
-     */
-    protected function checkAccess($a_permission)
-    {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-
-        if (!$this->checkAccessBool($a_permission)) {
-            $ilErr->raiseError(
-                $this->lng->txt('msg_no_perm_read'),
-                $ilErr->WARNING
-            );
-        }
-    }
-
-    /**
-     * @param string $a_permission
-     * @return bool
-     */
-    protected function checkAccessBool($a_permission)
-    {
-        return $this->access->checkAccess(
-            $a_permission,
-            '',
-            $this->ref_id
-        );
-    }
-
     public function learningProgressObject()
     {
         global $DIC;
@@ -321,14 +291,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
-        if ($rbacsystem->checkAccess(
-            'create_usr',
-            $this->object->getRefId()
-        ) ||
-            $rbacsystem->checkAccess(
-                'cat_administrate_users',
-                $this->object->getRefId()
-            )) {
+        if ($rbacsystem->checkAccess('create_usr', $this->object->getRefId())
+            || $rbacsystem->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $button = ilLinkButton::getInstance();
             $button->setCaption("usr_add");
             $button->setUrl(
@@ -1059,10 +1023,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            $this->ilias->raiseError(
-                $this->lng->txt("no_checkbox"),
-                $this->ilias->error_obj->MESSAGE
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
+            $this->viewObject();
+            return;
         }
 
         if (!$a_from_search) {
@@ -1152,6 +1115,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function deleteUsersObject()
     {
         $_POST["selectedAction"] = "delete";
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_delete_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation($_POST["selectedAction"]);
     }
 
@@ -1170,6 +1138,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function deactivateUsersObject()
     {
         $_POST["selectedAction"] = "deactivate";
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_deactivate_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation($_POST["selectedAction"]);
     }
 
@@ -1220,7 +1193,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             !$rbacsystem->checkAccess('create_usr', $this->object->getRefId()) &&
             !$access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
+            return;
         }
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
@@ -1243,25 +1217,23 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // Import File
         include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI(
-            $lng->txt("import_file"),
-            "importFile"
+            $lng->txt('import_file'),
+            'importFile'
         );
-        $fi->setSuffixes(array("xml", "zip"));
+        $fi->setSuffixes(['xml']);
         $fi->setRequired(true);
-        //$fi->enableFileNameSelection();
-        //$fi->setInfo($lng->txt(""));
         $this->form->addItem($fi);
 
         $this->form->addCommandButton(
-            "importUserRoleAssignment",
-            $lng->txt("import")
+            'importUserRoleAssignment',
+            $lng->txt('import')
         );
         $this->form->addCommandButton(
-            "importCancelled",
-            $lng->txt("cancel")
+            'importCancelled',
+            $lng->txt('cancel')
         );
 
-        $this->form->setTitle($lng->txt("import_users"));
+        $this->form->setTitle($lng->txt('import_users'));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -1305,7 +1277,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $ilUser = $DIC->user();
 
-        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . session_id();
+        $importDir = 'user_import/usr_' . $ilUser->getId() . '_' . mb_substr(session_id(), 0, 8);
 
         return $importDir;
     }
@@ -1336,16 +1308,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
             //importParser needs the full path to xml file
             $xml_file_full_path = ilUtil::getDataDir() . '/' . $xml_file;
 
-            $form = $this->initUserRoleAssignmentForm($xml_file_full_path);
+            list($form, $message) = $this->initUserRoleAssignmentForm($xml_file_full_path);
 
-            $tpl->setContent($renderer->render($form));
+            $tpl->setContent($message . $renderer->render($form));
         } else {
             $this->form->setValuesByPost();
             $tpl->setContent($this->form->getHtml());
         }
     }
 
-    private function initUserRoleAssignmentForm($xml_file_full_path)
+    private function initUserRoleAssignmentForm($xml_file_full_path) : array
     {
         global $DIC;
 
@@ -1360,7 +1332,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $importParser->startParsing();
 
-        $this->verifyXmlData($importParser);
+        $message = $this->verifyXmlData($importParser);
 
         $xml_file_name = explode(
             "/",
@@ -1384,7 +1356,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // get global roles
         $all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-        $gl_roles = array();
+        $gl_roles = [];
         $roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
         foreach ($all_gl_roles as $obj_data) {
             // check assignment permission if called from local admin
@@ -1410,7 +1382,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // global roles
         $got_globals = false;
-        $global_selects = array();
+        $global_selects = [];
         foreach ($roles as $role_id => $role) {
             if ($role["type"] == "Global") {
                 if (!$got_globals) {
@@ -1424,7 +1396,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 }
 
                 //select options for new form input to still have both ids
-                $select_options = array();
+                $select_options = [];
                 foreach ($gl_roles as $key => $value) {
                     $select_options[$role_id . "-" . $key] = $value;
                 }
@@ -1507,7 +1479,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // because the user folder object is considered the parent of all
                 // local roles and may contains thousands of roles on large ILIAS
                 // installations.
-                $loc_roles = array();
+                $loc_roles = [];
 
                 $roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory());
                 foreach ($roles as $role_id => $role) {
@@ -1534,7 +1506,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // contained in the subtree of the category.
                 $loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
             }
-            $l_roles = array();
+            $l_roles = [];
 
             // create a search array with  .
             $l_roles_mailbox_searcharray = array();
@@ -1567,7 +1539,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     // locally administrated category in the tree path to the local role.
                     $isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
 
-                    $path_array = array();
+                    $path_array = [];
                     if ($this->tree->isInTree($rolf[0])) {
                         // Create path. Paths which have more than 4 segments
                         // are truncated in the middle.
@@ -1613,37 +1585,31 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
+                    $selectable_roles = [];
                     if ($this->object->getRefId() == USER_FOLDER_ID) {
                         // There are too many roles in a large ILIAS installation
                         // that's why whe show only a choice with the the option "ignore",
                         // and the matching roles.
-                        $selectable_roles = array();
                         $selectable_roles["ignore"] = $this->lng->txt("usrimport_ignore_role");
                         foreach ($matching_role_ids as $id) {
                             $selectable_roles[$role_id . "-" . $id] = $l_roles[$id];
                         }
-
-                        $select = $ui->input()->field()->select(
-                            $role["name"],
-                            $selectable_roles
-                        )
-                                     ->withValue($pre_select)
-                                     ->withRequired(true);
-                        array_push(
-                            $local_selects,
-                            $select
-                        );
                     } else {
-                        $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
-                        if (count($selectable_roles)) {
-                            $select = $ui->input()->field()->select($role["name"], $selectable_roles);
-                            array_push($local_selects, $select);
+                    }
+
+                    if (count($selectable_roles) > 0) {
+                        $select = $ui->input()->field()
+                            ->select($role["name"], $selectable_roles)
+                            ->withRequired(true);
+                        if (array_key_exists($pre_select, $selectable_roles)) {
+                            $select = $select->withValue($pre_select);
                         }
+                        $local_selects[] = $select;
                     }
                 }
             }
@@ -1687,28 +1653,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt("file_info")
         );
 
-        $global_role_info_section = $ui->input()->field()->section(
-            [$global_roles_assignment_info],
-            $this->lng->txt("global_role_assignment")
-        );
-        $global_role_selection_section = $ui->input()->field()->section(
-            $global_selects,
-            ""
-        );
-        $conflict_action_section = $ui->input()->field()->section(
-            [$conflict_action_select],
-            ""
-        );
-        $form_action = $DIC->ctrl()->getFormActionByClass(
-            'ilObjUserFolderGui',
-            'importUsers'
-        );
+        $form_action = $DIC->ctrl()->getFormActionByClass('ilObjUserFolderGui', 'importUsers');
 
-        $form_elements = array(
-            "file_info" => $file_info_section,
-            "global_role_info" => $global_role_info_section,
-            "global_role_selection" => $global_role_selection_section
-        );
+        $form_elements = [
+            "file_info" => $file_info_section
+        ];
+
+        if (!empty($global_selects)) {
+            $global_role_info_section = $ui->input()
+                ->field()
+                ->section([$global_roles_assignment_info], $this->lng->txt("global_role_assignment"));
+            $global_role_selection_section = $ui->input()->field()->section($global_selects, "");
+            $form_elements["global_role_info"] = $global_role_info_section;
+            $form_elements["global_role_selection"] = $global_role_selection_section;
+        }
 
         if (!empty($local_selects)) {
             $local_role_info_section = $ui->input()->field()->section(
@@ -1724,16 +1682,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements["local_role_selection"] = $local_role_selection_section;
         }
 
-        $form_elements["conflict_action"] = $conflict_action_section;
+        $form_elements["conflict_action"] = $ui->input()->field()->section([$conflict_action_select], "");
 
         if (!empty($mail_section)) {
             $form_elements["send_mail"] = $mail_section;
         }
 
-        return $ui->input()->container()->form()->standard(
+        return [$ui->input()->container()->form()->standard(
             $form_action,
             $form_elements
-        );
+        ), $message];
     }
 
     /**
@@ -1833,7 +1791,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData($importParser)
+    public function verifyXmlData($importParser) : string
     {
         global $DIC;
 
@@ -1842,13 +1800,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $import_dir = $this->getImportDir();
         switch ($importParser->getErrorLevel()) {
             case IL_IMPORT_SUCCESS:
-                break;
+                return '';
             case IL_IMPORT_WARNING:
-                $this->tpl->setVariable(
-                    "IMPORT_LOG",
-                    $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"))
-                );
-                break;
+                return $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
             case IL_IMPORT_FAILURE:
                 $filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
@@ -1857,7 +1811,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     ),
                     $this->ilias->error_obj->MESSAGE
                 );
-                return;
+                return '';
         }
     }
 
@@ -1903,7 +1857,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $xml_path = ilUtil::getDataDir() . '/' . $xml_file;
 
         if ($request->getMethod() == "POST") {
-            $form = $this->initUserRoleAssignmentForm($xml_path)->withRequest($request);
+            $form = $this->initUserRoleAssignmentForm($xml_path)[0]->withRequest($request);
             $result = $form->getData();
         } else {
             $this->ilias->raiseError(
@@ -1926,12 +1880,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $rule = $result["conflict_action"][0];
 
         //If local roles exist, merge the roles that are to be assigned, otherwise just take the array that has global roles
-        $roles = isset($result["local_role_selection"]) ? array_merge(
-            $result["global_role_selection"],
-            $result["local_role_selection"]
-        ) : $result["global_role_selection"];
+        $local_role_selection = (array) ($result['local_role_selection'] ?? []);
+        $global_role_selection = (array) ($result['global_role_selection'] ?? []);
+        $roles = array_merge(
+            $local_role_selection,
+            $global_role_selection
+        );
 
-        $role_assignment = array();
+        $role_assignment = [];
         foreach ($roles as $value) {
             $keys = explode(
                 "-",
@@ -3507,7 +3463,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     'ilRepositorySearchGUI',
                     ''
                 ),
-                array(),
+                [],
                 "ilrepositorysearchgui",
                 ""
             );
@@ -3776,6 +3732,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
 
         $a_target = USER_FOLDER_ID;
 
@@ -3784,7 +3741,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "",
             $a_target
         )) {
-            ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
+            $ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(
@@ -3885,38 +3842,38 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
 
-        $cmds = array();
+        $cmds = [];
         // see searchResultHandler()
         if ($a_search_form) {
-            if ($this->checkAccessBool('write')) {
-                $cmds = array(
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+                $cmds = [
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
                     'accessRestrict' => $this->lng->txt('accessRestrict'),
                     'accessFree' => $this->lng->txt('accessFree')
-                );
+                ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["delete"] = $this->lng->txt("delete");
             }
         } // show confirmation
         else {
-            if ($this->checkAccessBool('write')) {
-                $cmds = array(
+            if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+                $cmds = [
                     'activateUsers' => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
                     'restrictAccess' => $this->lng->txt('accessRestrict'),
                     'freeAccess' => $this->lng->txt('accessFree')
-                );
+                ];
             }
 
-            if ($this->checkAccessBool('delete')) {
+            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
                 $cmds["deleteUsers"] = $this->lng->txt("delete");
             }
         }
 
-        if ($this->checkAccessBool('write')) {
+        if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
             foreach ($export_types as $type) {
                 $cmd = explode(
@@ -4142,7 +4099,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilMailFormCall::getRedirectTarget(
                 $this,
                 '',
-                array(),
+                [],
                 array(
                     'type' => 'search_res'
                 )
@@ -4160,7 +4117,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
                 $security = ilSecuritySettings::_getInstance();
 
-                $fields = array();
+                $fields = [];
 
                 $subitems = array(
                     'ps_password_change_on_first_login_enabled' => array($security->isPasswordChangeOnFirstLoginEnabled(
@@ -4194,7 +4151,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields['ps_security_protection'] = array(null, null, $subitems);
 
                 return array(array("generalSettings", $fields));
-                
+
             case ilAdministrationSettingsFormHandler::FORM_TOS:
                 return [
                     [

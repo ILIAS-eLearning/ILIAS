@@ -206,13 +206,13 @@ class ilHTTPS
                 define('IL_COOKIE_SECURE', true);
             }
 
-            session_set_cookie_params(
-                IL_COOKIE_EXPIRE,
-                IL_COOKIE_PATH,
-                IL_COOKIE_DOMAIN,
-                true,
-                IL_COOKIE_HTTPONLY
-            );
+            session_set_cookie_params([
+                'lifetime' => IL_COOKIE_EXPIRE,
+                'path' => IL_COOKIE_PATH,
+                'domain' => IL_COOKIE_DOMAIN,
+                'secure' => true,
+                'httponly' => IL_COOKIE_HTTPONLY,
+            ]);
         }
 
         return true;

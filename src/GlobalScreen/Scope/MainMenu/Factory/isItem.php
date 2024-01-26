@@ -1,6 +1,26 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
 
-use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -10,7 +30,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
  */
 interface isItem extends isGlobalScreenItem
 {
-
     /**
      * Pass a callable which can decide whether your element is visible for
      * the current user
@@ -25,13 +44,13 @@ interface isItem extends isGlobalScreenItem
     public function isVisible() : bool;
 
     /**
-     * Pass a callable which can decide wheter your element is available in
+     * Pass a callable which can decide whether your element is available in
      * general, e.g. return false for the Badges Item when the Badges-Service
      * is disabled.
      * @param callable $is_avaiable
      * @return isItem|isChild
      */
-    public function withAvailableCallable(callable $is_avaiable) : isItem;
+    public function withAvailableCallable(callable $is_available) : isItem;
 
     /**
      * @return bool
@@ -84,10 +103,7 @@ interface isItem extends isGlobalScreenItem
      */
     public function setTypeInformation(TypeInformation $information) : isItem;
 
-    /**
-     * @return TypeInformation
-     */
-    public function getTypeInformation() : TypeInformation;
+    public function getTypeInformation() : ?TypeInformation;
 
     public function isTop() : bool;
 }

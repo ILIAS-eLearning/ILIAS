@@ -30,9 +30,9 @@ class ilVirusScannerICapClient extends ilVirusScanner
      * @param string $file
      * @return string
      */
-    protected function buildScanCommand($file = '-') // default means piping
+    protected function buildScanCommandArguments($file = '-') // default means piping
     {
-        return $this->scanCommand . ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
+        return ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
     }
 
     /**
@@ -45,8 +45,11 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $return_string = '';
         if (file_exists($a_filepath)) {
             if (is_readable($a_filepath)) {
-                $cmd            = $this->buildScanCommand($a_filepath) . " 2>&1";
-                $out            = ilUtil::execQuoted($cmd);
+                $a_filepath     = realpath($a_filepath);
+                $args           = ilUtil::escapeShellArg($a_filepath);
+                $arguments      = $this->buildScanCommandArguments($args) . " 2>&1";
+                $cmd            = ilUtil::escapeShellCmd($this->scanCommand);
+                $out            = ilUtil::execQuoted($cmd, $arguments);
                 $timeout        = preg_grep('/failed\/timedout.*/', $out);
                 $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
                 if (is_array($virus_detected) && count($virus_detected) > 0) {

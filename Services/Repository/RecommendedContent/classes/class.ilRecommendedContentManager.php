@@ -11,6 +11,11 @@
 class ilRecommendedContentManager
 {
     /**
+     * @var ilAccessHandler
+     */
+    protected $access;
+
+    /**
      * @var ilRecommendedContentDBRepository
      */
     protected $repo;
@@ -46,6 +51,8 @@ class ilRecommendedContentManager
         $this->fav_manager = (is_null($fav_manager))
             ? new ilFavouritesManager()
             : $fav_manager;
+
+        $this->access = $DIC->access();
     }
 
     /**
@@ -139,6 +146,7 @@ class ilRecommendedContentManager
     {
         $review = $this->rbacreview;
         $repo = $this->repo;
+        $access = $this->access;
 
         $role_ids = $review->assignedRoles($user_id);
 
@@ -148,8 +156,8 @@ class ilRecommendedContentManager
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
 
-        return array_filter($recommendations, function ($i) use ($favourites_ref_ids) {
-            return !in_array($i, $favourites_ref_ids);
+        return array_filter($recommendations, function ($i) use ($favourites_ref_ids, $access) {
+            return !in_array($i, $favourites_ref_ids) && $access->checkAccess('visible', '', $i);
         });
     }
 

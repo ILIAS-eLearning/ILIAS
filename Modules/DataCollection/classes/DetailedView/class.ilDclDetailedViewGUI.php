@@ -132,25 +132,7 @@ class ilDclDetailedViewGUI
         $cmdClass = $ilCtrl->getCmdClass();
         switch ($cmdClass) {
             case 'ilnotegui':
-                switch ($cmd) {
-                    case 'editNoteForm':
-                        $this->renderRecord(true);
-                        break;
-                    case 'showNotes':
-                        $this->renderRecord(false);
-                        break;
-                    case 'deleteNote':
-                        $this->notesGUI->deleteNote();
-                        $this->renderRecord();
-                        break;
-                    case 'cancelDelete':
-                        $this->notesGUI->cancelDelete();
-                        $this->renderRecord();
-                        break;
-                    default:
-                        $this->notesGUI->$cmd();
-                        break;
-                }
+                $ilCtrl->forwardCommand($this->notesGUI);
                 break;
             default:
                 $this->$cmd();
@@ -320,6 +302,8 @@ class ilDclDetailedViewGUI
 
     protected function renderComments($edit = false)
     {
+        global $DIC;
+        $this->notesGUI::initJavascript($DIC->ctrl()->getLinkTarget($this));
         if (!$edit) {
             return $this->notesGUI->getOnlyCommentsHtml();
         } else {

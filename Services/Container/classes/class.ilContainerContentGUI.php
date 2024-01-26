@@ -326,6 +326,13 @@ abstract class ilContainerContentGUI
             $this->container_gui,
             $this->getViewMode()
         );
+
+        // all event items are included per session rendering
+        // and should return true for hasItem
+        $event_items = ilEventItems::_getItemsOfContainer($this->container_obj->getRefId());
+        foreach ($event_items as $ev) {
+            $this->renderer->addItemId($ev);
+        }
     }
     
     /**
@@ -517,9 +524,8 @@ abstract class ilContainerContentGUI
             foreach ($this->embedded_block["type"] as $k => $type) {
                 if (is_array($this->items[$type]) &&
                     $this->renderer->addTypeBlock($type)) {
-                    // :TODO: obsolete?
-                    if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                    if ($this->hasForcedOrderByStartDate($type)) {
+                        $this->items[$type] = ilUtil::sortArray($this->items[$type], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;
@@ -535,6 +541,11 @@ abstract class ilContainerContentGUI
                 }
             }
         }
+    }
+
+    protected function hasForcedOrderByStartDate(string $type) : bool
+    {
+        return $type === 'sess' && get_class($this) === ilContainerSessionsContentGUI::class;
     }
     
     /**
@@ -573,7 +584,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
         }
         
-        if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
+        if ($this->getContainerGUI()->isActiveItemOrdering() && !$this->hasForcedOrderByStartDate($a_item_data['type'])) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', (int) $a_position * 10)
@@ -830,8 +841,9 @@ abstract class ilContainerContentGUI
                 }
 
                 if (!$this->renderer->hasItem($item_ref_id)) {
-                    $html = $this->renderItem($item_data, $position++);
+                    $html = $this->renderItem($item_data, $position);
                     if ($html != "") {
+                        $position++;
                         $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
                     }
                 }
@@ -921,7 +933,7 @@ abstract class ilContainerContentGUI
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
 
         // get all valid ids (this is filtered)
-        $all_ids = array_map(function($i) {
+        $all_ids = array_map(function ($i) {
             return $i["child"];
         }, $this->items["_all"]);
 
@@ -938,7 +950,7 @@ abstract class ilContainerContentGUI
             }
             return;
         }
-        
+
         $item_list_gui = $this->getItemGUI($a_itgr);
         $item_list_gui->enableNotes(false);
         $item_list_gui->enableTags(false);
@@ -957,8 +969,11 @@ abstract class ilContainerContentGUI
         include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
         include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorageGUI.php");
-        $stored_val = ilContainerBlockPropertiesStorageGUI::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(),
-            "opened");
+        $stored_val = ilContainerBlockPropertiesStorageGUI::getProperty(
+            "itgr_" . $a_itgr["ref_id"],
+            $ilUser->getId(),
+            "opened"
+        );
         if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN

@@ -82,6 +82,8 @@ class ilObjLearningSequence extends ilContainer
         $this->il_condition_handler = new ilConditionHandler();
 
         parent::__construct($id, $call_by_reference);
+
+        $this->lng->loadLanguageModule('rbac');
     }
 
     public static function getInstanceByRefId(int $ref_id)
@@ -393,7 +395,7 @@ class ilObjLearningSequence extends ilContainer
             $this->getPostConditionDB()::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
         ];
         foreach ($condition_types as $cond_type) {
-            $conditions[$cond_type] = $this->lng->txt($cond_type);
+            $conditions[$cond_type] = $this->lng->txt('condition_' . $cond_type);
         }
         return $conditions;
     }

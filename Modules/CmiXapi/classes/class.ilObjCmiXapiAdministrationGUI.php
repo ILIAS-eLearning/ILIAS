@@ -28,7 +28,8 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     public function getAdminTabs()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $DIC->help()->setScreenIdComponent("cmix");
         // lrs types tab
         
         $DIC->tabs()->addTab(
@@ -251,6 +252,18 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_sha256'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
+        );
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_sha256_info'));
+        $item->addOption($op);
+        $op = new ilRadioOption(
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_sha256url'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+        );
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+        $item->addOption($op);
+        $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
             ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
         );
@@ -427,20 +440,20 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
             ilObjCmiXapi::updateByPassProxyFromLrsType($lrsType);
         }
 
-        $lrsType->setOnlyMoveon((bool)$form->getInput("only_moveon"));
-        $lrsType->setAchieved((bool)$form->getInput("achieved"));
-        $lrsType->setAnswered((bool)$form->getInput("answered"));
-        $lrsType->setCompleted((bool)$form->getInput("completed"));
-        $lrsType->setFailed((bool)$form->getInput("failed"));
-        $lrsType->setInitialized((bool)$form->getInput("initialized"));
-        $lrsType->setPassed((bool)$form->getInput("passed"));
-        $lrsType->setProgressed((bool)$form->getInput("progressed"));
-        $lrsType->setSatisfied((bool)$form->getInput("satisfied"));
-        $lrsType->setTerminated((bool)$form->getInput("terminated"));
-        $lrsType->setHideData((bool)$form->getInput("hide_data"));
-        $lrsType->setTimestamp((bool)$form->getInput("timestamp"));
-        $lrsType->setDuration((bool)$form->getInput("duration"));
-        $lrsType->setNoSubstatements((bool)$form->getInput("no_substatements"));
+        $lrsType->setOnlyMoveon((bool) $form->getInput("only_moveon"));
+        $lrsType->setAchieved((bool) $form->getInput("achieved"));
+        $lrsType->setAnswered((bool) $form->getInput("answered"));
+        $lrsType->setCompleted((bool) $form->getInput("completed"));
+        $lrsType->setFailed((bool) $form->getInput("failed"));
+        $lrsType->setInitialized((bool) $form->getInput("initialized"));
+        $lrsType->setPassed((bool) $form->getInput("passed"));
+        $lrsType->setProgressed((bool) $form->getInput("progressed"));
+        $lrsType->setSatisfied((bool) $form->getInput("satisfied"));
+        $lrsType->setTerminated((bool) $form->getInput("terminated"));
+        $lrsType->setHideData((bool) $form->getInput("hide_data"));
+        $lrsType->setTimestamp((bool) $form->getInput("timestamp"));
+        $lrsType->setDuration((bool) $form->getInput("duration"));
+        $lrsType->setNoSubstatements((bool) $form->getInput("no_substatements"));
 
         $lrsType->setForcePrivacySettings((bool) $form->getInput("force_privacy_setting"));
         if ($lrsType->getForcePrivacySettings()) {

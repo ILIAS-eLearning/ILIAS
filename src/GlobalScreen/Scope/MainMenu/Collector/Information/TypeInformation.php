@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information;
 
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
@@ -6,40 +25,39 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
  * Class TypeInformation
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 final class TypeInformation
 {
-
     /**
-     * @var TypeRenderer
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TypeRenderer
      */
     private $renderer;
     /**
-     * @var
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
      */
     private $instance;
     /**
      * @var string
      */
-    private $type = "";
+    private $type;
     /**
      * @var string
      */
-    private $type_name_for_presentation = "";
+    private $type_name_for_presentation;
     /**
      * @var string
      */
-    private $type_byline_for_presentation = "";
+    private $type_byline_for_presentation;
     /**
-     * @var TypeHandler
+     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler
      */
     private $type_handler;
     /**
@@ -47,26 +65,20 @@ final class TypeInformation
      */
     private $creation_prevented = false;
 
-
-    /**
-     * TypeInformation constructor.
-     *
-     * @param string       $type
-     * @param string       $type_name_for_presentation
-     * @param TypeRenderer $renderer
-     * @param TypeHandler  $type_handler
-     * @param string|null  $type_byline
-     */
-    public function __construct(string $type, string $type_name_for_presentation, TypeRenderer $renderer = null, TypeHandler $type_handler = null, string $type_byline = null)
-    {
+    public function __construct(
+        string $type,
+        string $type_name_for_presentation,
+        TypeRenderer $renderer = null,
+        TypeHandler $type_handler = null,
+        string $type_byline = null
+    ) {
         $this->instance = new $type(new NullIdentification());
         $this->type = $type;
         $this->type_name_for_presentation = $type_name_for_presentation;
-        $this->type_handler = $type_handler ? $type_handler : new BaseTypeHandler();
-        $this->renderer = $renderer ? $renderer : new BaseTypeRenderer();
-        $this->type_byline_for_presentation = $type_byline ? $type_byline : "";
+        $this->type_handler = $type_handler ?: new BaseTypeHandler();
+        $this->renderer = $renderer ?: new BaseTypeRenderer();
+        $this->type_byline_for_presentation = $type_byline ?: "";
     }
-
 
     /**
      * @return bool
@@ -76,15 +88,13 @@ final class TypeInformation
         return $this->creation_prevented;
     }
 
-
     /**
      * @param bool $creation_prevented
      */
-    public function setCreationPrevented(bool $creation_prevented)
+    public function setCreationPrevented(bool $creation_prevented) : void
     {
         $this->creation_prevented = $creation_prevented;
     }
-
 
     /**
      * @return bool
@@ -98,7 +108,6 @@ final class TypeInformation
         return $this->instance instanceof isParent;
     }
 
-
     /**
      * @return bool
      */
@@ -110,7 +119,6 @@ final class TypeInformation
 
         return $this->instance instanceof isTopItem;
     }
-
 
     /**
      * @return bool
@@ -124,7 +132,6 @@ final class TypeInformation
         return $this->instance instanceof isChild;
     }
 
-
     /**
      * @return string
      */
@@ -133,15 +140,13 @@ final class TypeInformation
         return $this->type;
     }
 
-
     /**
      * @param string $type
      */
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type = $type;
     }
-
 
     /**
      * @return string
@@ -151,15 +156,13 @@ final class TypeInformation
         return $this->type_name_for_presentation;
     }
 
-
     /**
      * @param string $type_name_for_presentation
      */
-    public function setTypeNameForPresentation(string $type_name_for_presentation)
+    public function setTypeNameForPresentation(string $type_name_for_presentation) : void
     {
         $this->type_name_for_presentation = $type_name_for_presentation;
     }
-
 
     /**
      * @return string
@@ -169,15 +172,13 @@ final class TypeInformation
         return $this->type_byline_for_presentation;
     }
 
-
     /**
      * @param string $type_byline_for_presentation
      */
-    public function setTypeBylineForPresentation(string $type_byline_for_presentation)
+    public function setTypeBylineForPresentation(string $type_byline_for_presentation) : void
     {
         $this->type_byline_for_presentation = $type_byline_for_presentation;
     }
-
 
     /**
      * @return TypeHandler
@@ -187,15 +188,13 @@ final class TypeInformation
         return $this->type_handler;
     }
 
-
     /**
      * @param TypeHandler $type_handler
      */
-    public function setTypeHandler(TypeHandler $type_handler)
+    public function setTypeHandler(TypeHandler $type_handler) : void
     {
         $this->type_handler = $type_handler;
     }
-
 
     /**
      * @return TypeRenderer
@@ -205,11 +204,10 @@ final class TypeInformation
         return $this->renderer;
     }
 
-
     /**
      * @param TypeRenderer $renderer
      */
-    public function setRenderer(TypeRenderer $renderer)
+    public function setRenderer(TypeRenderer $renderer) : void
     {
         $this->renderer = $renderer;
     }

@@ -1,4 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
@@ -10,7 +30,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -30,11 +50,11 @@ class Complex extends AbstractChildItem implements
     use isInterchangeableItemTrait;
 
     /**
-     * @var Closure
+     * @var \Closure|null
      */
     private $content_wrapper;
     /**
-     * @var
+     * @var \ILIAS\UI\Component\Component|null
      */
     private $content;
     /**

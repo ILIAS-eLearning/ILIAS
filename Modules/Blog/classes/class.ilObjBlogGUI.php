@@ -619,6 +619,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         
         switch ($next_class) {
             case 'ilblogpostinggui':
+                // see 32264
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
@@ -787,6 +789,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
             
@@ -1166,7 +1169,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         
         $lng = $DIC->language();
         $toolbar = $DIC->toolbar();
-        
+
         if (!$this->checkPermissionBool("read")) {
             ilUtil::sendInfo($lng->txt("no_permission"));
             return;
@@ -1230,7 +1233,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $owner = $this->object->getOwner();
         
         $ilTabs->clearTargets();
-        $ilLocator->clearItems();
         $tpl->setLocator();
         
         $back_caption = "";
@@ -1362,9 +1364,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_tpl->setTitleIcon($ppic);
         $a_tpl->setTitle($this->object->getTitle());
         $a_tpl->setDescription($name);
-        
-        // to get rid of locator in repository preview
-        $a_tpl->setVariable("LOCATOR", "");
     }
     
     /**
@@ -2486,6 +2485,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         $lg = parent::initHeaderAction($sub_type, $sub_id);
+        if (!$lg) {
+            return null;
+        }
         $lg->enableComments(false);
         $lg->enableNotes(false);
 
@@ -2699,7 +2701,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilLocator = $this->locator;
         
         if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "preview"), "", $this->node_id);
         }
     }
     
@@ -3096,5 +3098,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected function exportWithComments()
     {
         $this->export(true);
+    }
+
+    protected function forwardExport() : void
+    {
+        $this->ctrl->redirectByClass(ilExportGUI::class);
     }
 }

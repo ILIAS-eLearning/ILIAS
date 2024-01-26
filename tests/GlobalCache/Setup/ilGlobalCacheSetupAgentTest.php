@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\GlobalCache\Setup;
 
@@ -153,7 +167,6 @@ class ilGlobalCacheSetupAgentTest extends TestCase
                 "components" => ["dummy"]
             ]
         );
-
     }
 
     public function testGetArrayToConfigTransformationWithMemcachedNode() : void
@@ -176,9 +189,11 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         );
 
         $this->assertInstanceOf(\ilGlobalCacheSettings::class, $settings);
-        $this->assertIsArray($settings->getMemcachedNodes());
+        $memcached_nodes = $settings->getMemcachedNodes();
 
-        $node = array_shift($settings->getMemcachedNodes());
+        $this->assertIsArray($memcached_nodes);
+
+        $node = array_shift($memcached_nodes);
 
         $this->assertEquals("1", $node->getStatus());
         $this->assertEquals("test.de", $node->getHost());

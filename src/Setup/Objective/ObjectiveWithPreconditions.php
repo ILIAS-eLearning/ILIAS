@@ -40,7 +40,18 @@ class ObjectiveWithPreconditions implements Setup\Objective
      */
     public function getHash() : string
     {
-        return $this->original->getHash();
+        return hash(
+            "sha256",
+            self::class
+            . $this->original->getHash()
+            . implode(
+                "",
+                array_map(
+                    function ($o) { return $o->getHash(); },
+                    $this->preconditions
+                )
+            )
+        );
     }
 
     /**

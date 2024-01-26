@@ -213,6 +213,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -349,6 +350,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $tm->setRequired(true);
         $form->addItem($tm);
 
+        // didactic template
+        $form = $this->initDidacticTemplate($form);
+
         $form->addCommandButton("save", $this->lng->txt($a_new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
@@ -389,6 +393,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $newObj->create();
             
             $this->putObjectInTree($newObj);
+
+            // apply didactic template?
+            $dtpl = $this->getDidacticTemplateVar("dtpl");
+            if ($dtpl) {
+                $newObj->applyDidacticTemplate($dtpl);
+            }
 
             // always send a message
             ilUtil::sendSuccess($this->lng->txt("glo_added"), true);

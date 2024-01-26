@@ -83,4 +83,22 @@ class ilSurveySkillThresholds
             array("threshold" => array("integer", (int) $a_threshold))
         );
     }
+
+    public function cloneTo(ilObjSurvey $target_survey, array $mapping) : void
+    {
+        $target_thresholds = new self($target_survey);
+        $set = $this->db->queryF("SELECT * FROM svy_skill_threshold " .
+            " WHERE survey_id = %s ",
+            ["integer"],
+            [$this->survey->getId()]
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $target_thresholds->writeThreshold(
+                (int) $rec["base_skill_id"],
+                (int) $rec["tref_id"],
+                (int) $rec["level_id"],
+                (int) $rec["threshold"]
+            );
+        }
+    }
 }

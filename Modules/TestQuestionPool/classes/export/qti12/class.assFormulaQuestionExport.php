@@ -93,7 +93,8 @@ class assFormulaQuestionExport extends assQuestionExport
                 "rating" => ($result->getRatingSimple()) ? "" : array("sign" => $result->getRatingSign(), "value" => $result->getRatingValue(), "unit" => $result->getRatingUnit()),
                 "unit" => (is_object($result->getUnit())) ? $result->getUnit()->getUnit() : "",
                 "unitvalue" => (is_object($result->getUnit())) ? $result->getUnit()->getId() : "",
-                "resultunits" => $ru
+                "resultunits" => $ru,
+                "resulttype" => $result->getResultType()
             );
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, $result->getResult());
@@ -122,6 +123,8 @@ class assFormulaQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("presentation");
         
         $this->addGenericFeedback($a_xml_writer);
+        
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
         
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

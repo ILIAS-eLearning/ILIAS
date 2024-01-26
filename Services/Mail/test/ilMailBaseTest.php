@@ -16,6 +16,10 @@ abstract class ilMailBaseTest extends TestCase
      */
     protected function setUp() : void
     {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();

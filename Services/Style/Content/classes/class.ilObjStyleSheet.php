@@ -1688,10 +1688,11 @@ class ilObjStyleSheet extends ilObject
                     fwrite($css_file, "\t" . $cur_par . ": " . $cur_val . ";\n");
 
                     // IE6 fix for minimum height
+                    /*
                     if ($cur_par == "min-height") {
                         fwrite($css_file, "\t" . "height" . ": " . "auto !important" . ";\n");
                         fwrite($css_file, "\t" . "height" . ": " . $cur_val . ";\n");
-                    }
+                    }*/
 
                     // opacity fix
                     if ($cur_par == "opacity") {

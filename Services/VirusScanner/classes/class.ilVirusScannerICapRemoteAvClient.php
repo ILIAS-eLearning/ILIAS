@@ -29,6 +29,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         $return_string = '';
         if (file_exists($a_filepath)) {
             if (is_readable($a_filepath)) {
+                $a_filepath = realpath($a_filepath);
                 $results = ($this->reqmod(
                     'avscan',
                     [

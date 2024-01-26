@@ -38,11 +38,11 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
     /**
      * @return ilCmiXapiHighscoreReport
      */
-    public function queryReport($objId)
+    public function queryReport($obj)
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
         
-        $report = new ilCmiXapiHighscoreReport($reportResponse, $objId);
+        $report = new ilCmiXapiHighscoreReport($reportResponse, $obj);
         
         return $report;
     }

@@ -7,6 +7,7 @@ interface IndividualAssessmentFileStorage
     public function isEmpty();
     public function deleteCurrentFile();
     public function getFilePath();
+    public function getFileName();
     public function uploadFile(UploadResult $file);
     public function create();
     /**

@@ -45,7 +45,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
@@ -75,7 +75,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
@@ -85,7 +85,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         $tags = self::getSelfAssessmentTags();
 
         $tstr = "";
-        
+
         foreach ($tags as $t) {
             $tstr .= "<" . $t . ">";
         }
@@ -94,7 +94,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
@@ -105,7 +105,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         $string = $this->stripHtmlExceptSelfAssessmentTags($string);
         return $string;
     }
-    
+
     /**
      * @param assQuestion $question
      */
@@ -113,7 +113,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     {
         $question->migrateContentForLearningModule(new self());
     }
-    
+
     /**
      * Get tags allowed in question tags in self assessment mode
      * @return array array of tags
@@ -122,22 +122,18 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     {
         // set tags we allow in self assessment mode
         $st = ilUtil::getSecureTags();
-        
+
         // we allow these tags, since they are typically used in the Tiny Assessment editor
         // and should not be deleted, if questions are copied from pools to learning modules
-        $not_supported = array("img", "p");
-        $tags = array();
-        
-        /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
-        $tags[] = 'p';
-        /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
-        
+        $not_supported = ['img'];
+        $tags = ['br', 'table', 'td', 'tr', 'th'];
+
         foreach ($st as $s) {
             if (!in_array($s, $not_supported)) {
                 $tags[] = $s;
             }
         }
-        
+
         return $tags;
     }
 }

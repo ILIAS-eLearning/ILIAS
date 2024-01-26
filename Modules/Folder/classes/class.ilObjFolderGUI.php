@@ -448,7 +448,7 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilHelp->setScreenIdComponent("fold");
 
         $this->tabs_gui->setTabActive("");
-        if ($rbacsystem->checkAccess('read', $this->ref_id)) {
+        if ($ilAccess->checkAccess('read', '', $this->ref_id)) {
             $this->tabs_gui->addTab(
                 "view_content",
                 $lng->txt("content"),

@@ -1,4 +1,20 @@
-<?php namespace ILIAS\LTI\Screen;
+<?php /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\LTI\Screen;
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
@@ -80,7 +96,10 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) use ($is_exit_mode) : ?MainBar {
+                function (?MainBar $mainbar) use ($is_exit_mode) : ?MainBar {
+                    if ($mainbar === null) {
+                        return null;
+                    }
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
                     if ($is_exit_mode) {
@@ -105,7 +124,10 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) use ($is_exit_mode, $screen_context_stack): ?Metabar {
+                function (?MetaBar $metabar) use ($is_exit_mode, $screen_context_stack) : ?Metabar {
+                    if ($metabar === null) {
+                        return null;
+                    }
                     $metabar = $metabar->withClearedEntries();
                     if ($is_exit_mode) {
                         return $metabar;
@@ -130,7 +152,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->title()
             ->withModification(
-                function (string $content) use ($is_exit_mode) : string {
+                function (?string $content) use ($is_exit_mode) : ?string {
                     if ($is_exit_mode) {
                         return $this->dic["lti"]->getTitleForExitPage();
                     }

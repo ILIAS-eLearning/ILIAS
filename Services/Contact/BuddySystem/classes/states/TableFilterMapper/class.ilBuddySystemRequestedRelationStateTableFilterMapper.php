@@ -18,9 +18,6 @@
 
 class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBuddySystemRelationStateTableFilterMapper
 {
-    /**
-     * @inheritDoc
-     */
     public function optionsForState() : array
     {
         return [
@@ -36,11 +33,11 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     /**
      * @inheritDoc
      */
-    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation) : bool
+    public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation) : bool
     {
         return (
-            (strtolower($filterKey) === strtolower(get_class($this->state) . '_a') && $relation->isOwnedByActor()) ||
-            (strtolower($filterKey) === strtolower(get_class($this->state) . '_p') && !$relation->isOwnedByActor())
+            (strtolower($filter_key) === strtolower(get_class($this->state) . '_a') && $relation->isOwnedByActor()) ||
+            (strtolower($filter_key) === strtolower(get_class($this->state) . '_p') && !$relation->isOwnedByActor())
         );
     }
 }

@@ -4343,8 +4343,7 @@ $ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_
 ?>
 <#5668>
 <?php
-if (!$ilDB->tableColumnExists('svy_svy', 'calculate_sum_score'))
-{
+if (!$ilDB->tableColumnExists('svy_svy', 'calculate_sum_score')) {
     $ilDB->addTableColumn('svy_svy', 'calculate_sum_score', array(
         "type" => "integer",
         "notnull" => true,
@@ -4355,8 +4354,7 @@ if (!$ilDB->tableColumnExists('svy_svy', 'calculate_sum_score'))
 ?>
 <#5669>
 <?php
-if (!$ilDB->tableColumnExists('copg_pc_def', 'top_item'))
-{
+if (!$ilDB->tableColumnExists('copg_pc_def', 'top_item')) {
     $ilDB->addTableColumn('copg_pc_def', 'top_item', array(
         "type" => "integer",
         "notnull" => true,
@@ -4367,8 +4365,7 @@ if (!$ilDB->tableColumnExists('copg_pc_def', 'top_item'))
 ?>
 <#5670>
 <?php
-if (!$ilDB->tableColumnExists('copg_pc_def', 'order_nr'))
-{
+if (!$ilDB->tableColumnExists('copg_pc_def', 'order_nr')) {
     $ilDB->addTableColumn('copg_pc_def', 'order_nr', array(
         "type" => "integer",
         "notnull" => true,
@@ -4380,8 +4377,8 @@ if (!$ilDB->tableColumnExists('copg_pc_def', 'order_nr'))
 <#5671>
 <?php
 
-$query = 'update object_data set offline = 1 where type = '.
-    $ilDB->quote('crs',\ilDBConstants::T_TEXT) . '  and offline IS NULL';
+$query = 'update object_data set offline = 1 where type = ' .
+    $ilDB->quote('crs', \ilDBConstants::T_TEXT) . '  and offline IS NULL';
 $ilDB->manipulate($query);
 
 ?>
@@ -4406,13 +4403,12 @@ $ilCtrlStructureReader->getStructure();
 <#5674>
 <?php
 // remove magpie cache dir
-$mcdir = CLIENT_WEB_DIR."/magpie_cache";
+$mcdir = CLIENT_WEB_DIR . "/magpie_cache";
 ilUtil::delDir($mcdir);
 ?>
 <#5675>
 <?php
-if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr'))
-{
+if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr')) {
     $ilDB->addTableColumn('skl_profile_level', 'order_nr', array(
         "type" => "integer",
         "notnull" => true,
@@ -4487,8 +4483,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'default_value')) {
         'il_dcl_tview_set',
         'default_value',
         array(
-            'type'    => 'text',
-            'length'  => 255,
+            'type' => 'text',
+            'length' => 255,
             'notnull' => false
         )
     );
@@ -4501,8 +4497,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_create')) {
         'il_dcl_tview_set',
         'required_create',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4516,8 +4512,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_create')) {
         'il_dcl_tview_set',
         'locked_create',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4531,8 +4527,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_create')) {
         'il_dcl_tview_set',
         'visible_create',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 1
         )
@@ -4546,8 +4542,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_edit')) {
         'il_dcl_tview_set',
         'visible_edit',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 1
         )
@@ -4561,8 +4557,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_edit')) {
         'il_dcl_tview_set',
         'required_edit',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4576,8 +4572,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_edit')) {
         'il_dcl_tview_set',
         'locked_edit',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4633,8 +4629,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_vs')) {
         'il_dcl_tableview',
         'step_vs',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 1
         )
@@ -4648,8 +4644,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_c')) {
         'il_dcl_tableview',
         'step_c',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4663,8 +4659,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_e')) {
         'il_dcl_tableview',
         'step_e',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4678,8 +4674,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_o')) {
         'il_dcl_tableview',
         'step_o',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4693,8 +4689,8 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_s')) {
         'il_dcl_tableview',
         'step_s',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         )
@@ -4704,18 +4700,18 @@ if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_s')) {
 <#5695>
 <?php
 $fields = array(
-    'id'       => array(
-        'type'   => 'integer',
+    'id' => array(
+        'type' => 'integer',
         'length' => '4',
 
     ),
     'tview_set_id' => array(
-        'type'   => 'integer',
+        'type' => 'integer',
         'length' => '4',
 
     ),
-    'value'      => array(
-        'type'   => 'text',
+    'value' => array(
+        'type' => 'text',
         'length' => '4000',
 
     )
@@ -4730,18 +4726,18 @@ if (!$ilDB->tableExists('il_dcl_stloc1_default')) {
 <#5696>
 <?php
 $fields = array(
-    'id'       => array(
-        'type'   => 'integer',
+    'id' => array(
+        'type' => 'integer',
         'length' => '4',
 
     ),
     'tview_set_id' => array(
-        'type'   => 'integer',
+        'type' => 'integer',
         'length' => '4',
 
     ),
-    'value'      => array(
-        'type'   => 'integer',
+    'value' => array(
+        'type' => 'integer',
         'length' => '4',
 
     )
@@ -4922,10 +4918,9 @@ $fields = array(
     ),
 
 );
-if (! $ilDB->tableExists('il_resource_stakeh')) {
+if (!$ilDB->tableExists('il_resource_stakeh')) {
     $ilDB->createTable('il_resource_stakeh', $fields);
     $ilDB->addPrimaryKey('il_resource_stakeh', array( 'internal' ));
-
 }
 ?>
 <#5711>
@@ -4933,32 +4928,32 @@ if (! $ilDB->tableExists('il_resource_stakeh')) {
 if (!$ilDB->tableExists('webr_lists')) {
     $fields = [
         'webr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'title' => [
-            'type'     => 'text',
-            'length'   => 127,
-            'notnull'  => false
+            'type' => 'text',
+            'length' => 127,
+            'notnull' => false
         ],
         'description' => [
-            'type'     => 'text',
-            'length'   => 4000,
-            'notnull'  => false
+            'type' => 'text',
+            'length' => 4000,
+            'notnull' => false
         ],
         'create_date' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'last_update' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ]
     ];
     $ilDB->createTable('webr_lists', $fields);
@@ -5004,7 +4999,6 @@ if ($ilDB->tableExists('webr_lists')) {
             );
         }
     }
-
 }
 ?>
 <#5713>
@@ -5062,9 +5056,8 @@ if (!$ilDB->tableColumnExists('obj_content_master_lng', 'fallback_lang')) {
 ?>
 <#5717>
 <?php
-if($ilDB->tableExists('cmix_lrs_types'))
-{
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'only_moveon') ) {
+if ($ilDB->tableExists('cmix_lrs_types')) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'only_moveon')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'only_moveon', array(
             'type' => 'integer',
             'length' => 1,
@@ -5072,7 +5065,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
             'default' => 0
         ));
     }
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'achieved') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'achieved')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'achieved', array(
             'type' => 'integer',
             'length' => 1,
@@ -5081,7 +5074,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'answered') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'answered')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'answered', array(
             'type' => 'integer',
             'length' => 1,
@@ -5090,7 +5083,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'completed') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'completed')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'completed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5099,7 +5092,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'failed') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'failed')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'failed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5108,7 +5101,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'initialized') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'initialized')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'initialized', array(
             'type' => 'integer',
             'length' => 1,
@@ -5117,7 +5110,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'passed') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'passed')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'passed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5126,7 +5119,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'progressed') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'progressed')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'progressed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5135,7 +5128,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'satisfied') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'satisfied')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'satisfied', array(
             'type' => 'integer',
             'length' => 1,
@@ -5144,7 +5137,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_terminated') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'c_terminated')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'c_terminated', array(
             'type' => 'integer',
             'length' => 1,
@@ -5153,7 +5146,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'hide_data') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'hide_data')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'hide_data', array(
             'type' => 'integer',
             'length' => 1,
@@ -5162,7 +5155,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_timestamp') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'c_timestamp')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'c_timestamp', array(
             'type' => 'integer',
             'length' => 1,
@@ -5171,7 +5164,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'duration') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'duration')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'duration', array(
             'type' => 'integer',
             'length' => 1,
@@ -5180,7 +5173,7 @@ if($ilDB->tableExists('cmix_lrs_types'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'no_substatements') ) {
+    if (!$ilDB->tableColumnExists('cmix_lrs_types', 'no_substatements')) {
         $ilDB->addTableColumn('cmix_lrs_types', 'no_substatements', array(
             'type' => 'integer',
             'length' => 1,
@@ -5192,9 +5185,8 @@ if($ilDB->tableExists('cmix_lrs_types'))
 ?>
 <#5718>
 <?php
-if($ilDB->tableExists('cmix_settings'))
-{
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'only_moveon') ) {
+if ($ilDB->tableExists('cmix_settings')) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'only_moveon')) {
         $ilDB->addTableColumn('cmix_settings', 'only_moveon', array(
             'type' => 'integer',
             'length' => 1,
@@ -5202,7 +5194,7 @@ if($ilDB->tableExists('cmix_settings'))
             'default' => 0
         ));
     }
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'achieved') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'achieved')) {
         $ilDB->addTableColumn('cmix_settings', 'achieved', array(
             'type' => 'integer',
             'length' => 1,
@@ -5211,7 +5203,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'answered') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'answered')) {
         $ilDB->addTableColumn('cmix_settings', 'answered', array(
             'type' => 'integer',
             'length' => 1,
@@ -5220,7 +5212,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'completed') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'completed')) {
         $ilDB->addTableColumn('cmix_settings', 'completed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5229,7 +5221,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'failed') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'failed')) {
         $ilDB->addTableColumn('cmix_settings', 'failed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5238,7 +5230,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'initialized') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'initialized')) {
         $ilDB->addTableColumn('cmix_settings', 'initialized', array(
             'type' => 'integer',
             'length' => 1,
@@ -5247,7 +5239,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'passed') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'passed')) {
         $ilDB->addTableColumn('cmix_settings', 'passed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5256,7 +5248,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'progressed') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'progressed')) {
         $ilDB->addTableColumn('cmix_settings', 'progressed', array(
             'type' => 'integer',
             'length' => 1,
@@ -5265,7 +5257,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'satisfied') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'satisfied')) {
         $ilDB->addTableColumn('cmix_settings', 'satisfied', array(
             'type' => 'integer',
             'length' => 1,
@@ -5274,7 +5266,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_terminated') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'c_terminated')) {
         $ilDB->addTableColumn('cmix_settings', 'c_terminated', array(
             'type' => 'integer',
             'length' => 1,
@@ -5283,7 +5275,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'hide_data') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'hide_data')) {
         $ilDB->addTableColumn('cmix_settings', 'hide_data', array(
             'type' => 'integer',
             'length' => 1,
@@ -5292,7 +5284,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_timestamp') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'c_timestamp')) {
         $ilDB->addTableColumn('cmix_settings', 'c_timestamp', array(
             'type' => 'integer',
             'length' => 1,
@@ -5301,7 +5293,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'duration') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'duration')) {
         $ilDB->addTableColumn('cmix_settings', 'duration', array(
             'type' => 'integer',
             'length' => 1,
@@ -5310,7 +5302,7 @@ if($ilDB->tableExists('cmix_settings'))
         ));
     }
 
-    if ( !$ilDB->tableColumnExists('cmix_settings', 'no_substatements') ) {
+    if (!$ilDB->tableColumnExists('cmix_settings', 'no_substatements')) {
         $ilDB->addTableColumn('cmix_settings', 'no_substatements', array(
             'type' => 'integer',
             'length' => 1,
@@ -5405,28 +5397,34 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5727>
 <?php
-$ilDB->update('settings',
+$ilDB->update(
+    'settings',
     ['module' => ['text', 'webdav']],
     [
         'module' => ['text', 'file_access'],
         'keyword' => ['text', 'custom_webfolder_instructions']
-    ]);
-$ilDB->update('settings',
+    ]
+);
+$ilDB->update(
+    'settings',
     ['module' => ['text', 'webdav']],
     [
         'module' => ['text', 'file_access'],
         'keyword' => ['text', 'custom_webfolder_instructions_enabled']
-    ]);
-$ilDB->update('settings',
+    ]
+);
+$ilDB->update(
+    'settings',
     ['module' => ['text', 'webdav']],
     [
         'module' => ['text', 'file_access'],
         'keyword' => ['text', 'webdav_versioning_enabled']
-    ]);
+    ]
+);
 ?>
 <#5728>
 <?php
-if (!$ilDB->tableColumnExists('didactic_tpl_settings','icon_ide')) {
+if (!$ilDB->tableColumnExists('didactic_tpl_settings', 'icon_ide')) {
     $ilDB->addTableColumn('didactic_tpl_settings', 'icon_ide', [
         'type' => ilDBConstants::T_TEXT,
         'length' => 64,
@@ -5604,14 +5602,13 @@ $fields = array(
     ),
 
 );
-if (! $ilDB->tableExists('il_adn_notifications')) {
+if (!$ilDB->tableExists('il_adn_notifications')) {
     $ilDB->createTable('il_adn_notifications', $fields);
     $ilDB->addPrimaryKey('il_adn_notifications', array( 'id' ));
 
-    if (! $ilDB->sequenceExists('il_adn_notifications')) {
+    if (!$ilDB->sequenceExists('il_adn_notifications')) {
         $ilDB->createSequence('il_adn_notifications');
     }
-
 }
 ?>
 <#5736>
@@ -5634,11 +5631,11 @@ $fields = array(
     ),
 
 );
-if (! $ilDB->tableExists('il_adn_dismiss')) {
+if (!$ilDB->tableExists('il_adn_dismiss')) {
     $ilDB->createTable('il_adn_dismiss', $fields);
     $ilDB->addPrimaryKey('il_adn_dismiss', array( 'id' ));
 
-    if (! $ilDB->sequenceExists('il_adn_dismiss')) {
+    if (!$ilDB->sequenceExists('il_adn_dismiss')) {
         $ilDB->createSequence('il_adn_dismiss');
     }
 }
@@ -5730,14 +5727,13 @@ if ($ilDB->tableColumnExists('adv_md_field_int', 'lang_default')) {
 <#5741>
 <?php
 
-if (!$ilDB->tableColumnExists('adv_md_record','lang_default')) {
+if (!$ilDB->tableColumnExists('adv_md_record', 'lang_default')) {
     $ilDB->addTableColumn('adv_md_record', 'lang_default', [
         'type' => 'text',
         'notnull' => false,
         'length' => 2,
         'default' => ''
     ]);
-
 }
 ?>
 <#5742>
@@ -5847,14 +5843,10 @@ $ilDB->addPrimaryKey('wiki_user_html_export', ['wiki_id', 'with_comments']);
 ?>
 <#5750>
 <?php
-$ilDB->update(
-    "wiki_user_html_export",
-    [
-        "start_ts" => ["timestamp", "1980-01-01 12:00:00"]
-    ],
-    [
-        "1" => ["integer", 1]
-    ]
+$ilDB->manipulateF(
+    'UPDATE wiki_user_html_export SET start_ts = %s',
+    ['timestamp'],
+    ["1980-01-01 12:00:00"]
 );
 ?>
 <#5751>

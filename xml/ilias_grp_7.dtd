@@ -4,7 +4,7 @@
 
 <!-- GROUP -->
 <!-- Added registration as optional due to BC to ILIAS 2 export -->
-<!ELEMENT group (title,description,owner?,information?,registration?,admissionNotification?,period?, admin*,member*,file*,folder*,Sort?, ViewMode?, SessionLimit?, ContainerSetting*)>
+<!ELEMENT group (title,description,owner?,information?,registration?,admissionNotification?,period?, admin*,member*,file*,folder*,Sort?, ViewMode?, SessionLimit?, ContainerSetting*, GroupMap?)>
 <!-- type is 'open' or 'closed' -->
 <!ATTLIST group
     exportVersion CDATA #REQUIRED
@@ -49,7 +49,7 @@
 
 
 		<!-- Registration settings -->
-<!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?, minMembers?, mailMembersType?)>
+<!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?, minMembers?, mailMembersType?, RegistrationAccessCode?)>
 
 <!--
 
@@ -99,6 +99,12 @@
 
 <!ELEMENT mailMembersType (#PCDATA)>
 
+<!ELEMENT RegistrationAccessCode EMPTY>
+<!ATTLIST
+	enabled (0,1) #REQUIRED
+	code #REQUIRED
+>
+
 <!-- FILE stored in objects directory with filename "id" -->
 <!ELEMENT file EMPTY>
 <!ATTLIST file
@@ -134,3 +140,11 @@
 <!ELEMENT ContainerSetting (#PCDATA)>
 <!ATTLIST ContainerSetting
 		id CDATA #REQUIRED>
+
+<!ELEMENT GroupMap EMPTY>
+<!ATTLIST
+	enabled (0,1) #REQUIRED
+	latitude #REQUIRED
+	longitude #REQUIRED
+	location_zoom #REQUIRED
+>

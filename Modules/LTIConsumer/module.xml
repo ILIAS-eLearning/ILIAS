@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="lti" class_name="LTIConsumer" dir="classes" checkbox="1"
-			inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" group="lres"
+			inherit="1" translate="db" allow_link="1" allow_copy="0" rbac="1" group="lres"
 			default_pos="120" export="0" lti_provider="0" orgunit_permissions="0" offline_handling="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

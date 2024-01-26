@@ -1,0 +1,54 @@
+services:
+	errorFormatter.csv:
+		class: \ILIAS\CI\PHPStan\ErrorFormatter\CSVFormatter
+rules:
+    - ILIAS\CI\PHPStan\Rules\NoLegacyButtonUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacyCheckboxListUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacyConfirmationUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacyExplorerUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyGlyphUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyGroupedListUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyLightboxUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyNestedListUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyOverlayUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyPanelUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyProgressBarUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacySelectionListUsagesRule # ILIAS 9
+    - ILIAS\CI\PHPStan\Rules\NoLegacySyntaxHighlighterUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyTableUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyTextHighlighterUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyToolbarUsagesRule # ILIAS 10
+    - ILIAS\CI\PHPStan\Rules\NoLegacyTooltipsUsagesRule # ILIAS 10
+parameters:
+    parallel:
+        maximumNumberOfProcesses: 10
+    customRulesetUsed: true
+    bootstrapFiles:
+        - constants.php
+    excludePaths:
+        - '%currentWorkingDirectory%/vendor/*'
+        - '%currentWorkingDirectory%/Customizing/*'
+        - '%currentWorkingDirectory%/CI/*'
+        - '%currentWorkingDirectory%/data/*'
+        - '%currentWorkingDirectory%/dicto/*'
+        - '%currentWorkingDirectory%/docs/*'
+        - '%currentWorkingDirectory%/lang/*'
+        - '%currentWorkingDirectory%/node_modules/*'
+        - '%currentWorkingDirectory%/templates/*'
+        - '%currentWorkingDirectory%/xml/*'
+        - '%currentWorkingDirectory%/.github/*'
+        - '%currentWorkingDirectory%/**/mediawiki/*'
+        - '%currentWorkingDirectory%/**/Wiki/libs/*'
+        - '%currentWorkingDirectory%/**/class.ilLTIConsumerResultService.php'
+    earlyTerminatingMethodCalls:
+        ilCtrl:
+            - redirect
+            - redirectByClass
+            - redirectToURL
+        ilCtrlInterface:
+            - redirect
+            - redirectByClass
+            - redirectToURL
+        ILIAS\HTTP\RawHTTPServices:
+            - close

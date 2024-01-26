@@ -18,7 +18,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
         $commands = array(
             array(
                 "permission" => "read",
-                "cmd" => "infoScreen",
+                "cmd" => "launch",
                 "lang_var" => "",
                 "default" => true
             ),

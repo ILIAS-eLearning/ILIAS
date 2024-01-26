@@ -39,6 +39,10 @@ require_once "./Services/Object/classes/class.ilObject.php";
 class ilContainer extends ilObject
 {
     /**
+     * @var ilNewsService
+     */
+    protected $news;
+    /**
      * @var ilDB
      */
     protected $db;
@@ -140,6 +144,7 @@ class ilContainer extends ilObject
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
         $this->obj_definition = $DIC["objDefinition"];
+        $this->news = $DIC->news();
 
 
         $this->setting = $DIC["ilSetting"];
@@ -310,6 +315,9 @@ class ilContainer extends ilObject
      */
     public function isNewsTimelineEffective()
     {
+        if (!$this->news->isGloballyActivated()) {
+            return false;
+        }
         if ($this->getUseNews()) {
             if ($this->getNewsTimeline()) {
                 return true;
@@ -537,13 +545,14 @@ class ilContainer extends ilObject
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $style_id = $this->getStyleSheetId();
         if ($style_id > 0) {
-            if (!!ilObjStyleSheet::_lookupStandard($style_id)) {
+            if (!ilObjStyleSheet::_lookupStandard($style_id)) {
                 $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
                 $new_id = $style_obj->ilClone();
                 $new_obj->setStyleSheetId($new_id);
                 $new_obj->update();
             } else {
                 $new_obj->setStyleSheetId($this->getStyleSheetId());
+                $new_obj->update();
             }
         }
 
@@ -667,7 +676,7 @@ class ilContainer extends ilObject
         include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
         $soap_client = new ilSoapClient();
-        $soap_client->setResponseTimeout(5);
+        $soap_client->setResponseTimeout($soap_client->getResponseTimeout());
         $soap_client->enableWSDL(true);
 
         $ilLog->write(__METHOD__ . ': Trying to call Soap client...');
@@ -832,7 +841,7 @@ class ilContainer extends ilObject
         // TODO: check this
         // get items attached to a session
         include_once './Modules/Session/classes/class.ilEventItems.php';
-        $event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
+        //$event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
 
         $classification_filter_active = $this->isClassificationFilterActive();
         foreach ($objects as $key => $object) {
@@ -869,9 +878,10 @@ class ilContainer extends ilObject
             }
             
             // filter out items that are attached to an event
-            if (in_array($object['ref_id'], $event_items) && !$classification_filter_active) {
+            // no, see #34701
+            /*if (in_array($object['ref_id'], $event_items) && !$classification_filter_active) {
                 continue;
-            }
+            }*/
             
             // filter side block items
             if (!$a_include_side_block && $objDefinition->isSideBlock($object['type'])) {
@@ -1087,7 +1097,10 @@ class ilContainer extends ilObject
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
             $this->setting->get('block_activated_news', true)
         ));
-        $this->setUseNews(self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, true));
+        $this->setUseNews(
+            self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, true)
+            && $this->news->isGloballyActivated()
+        );
     }
 
 
@@ -1107,7 +1120,7 @@ class ilContainer extends ilObject
         // using long descriptions?
         $short_desc = $ilSetting->get("rep_shorten_description");
         $short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
-        if (!$short_desc || $short_desc_max_length != ilObject::DESC_LENGTH) {
+        if (!$short_desc || $short_desc_max_length > 0) {
             // using (part of) shortened description
             if ($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::DESC_LENGTH) {
                 foreach ($objects as $key => $object) {
@@ -1367,8 +1380,11 @@ class ilContainer extends ilObject
                 } else {        // advanced metadata search
                     $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 
-                    $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(),
-                        true, false);
+                    $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                        $field->getADTDefinition(),
+                        true,
+                        false
+                    );
                     $field_form->setElementId("query[" . $key . "]");
                     $field_form->validate();
 
@@ -1377,17 +1393,24 @@ class ilContainer extends ilObject
                      * Only text fields take care of $parser_value being passed through
                      * new ilQueryParser($parser_value), thus other fields pass values by setting
                      * directly in the ADT objects. This could go to a new bridge.
+                     * Workaround #2:
+                     * Subtracting the value by 1 for selects completes the workaround started in
+                     * ilContainerFilterUtil::getFilterForRefId. This is necessary in R7 since KS
+                     * selects are confused by the value 0. For R8 this is somehow not a problem.
                      */
                     if ($field instanceof ilAdvancedMDFieldDefinitionSelectMulti) {
-                        $field_form->getADT()->setSelections([$val]);
+                        $field_form->getADT()->setSelections([$val - 1]);
                     }
                     if ($field instanceof ilAdvancedMDFieldDefinitionSelect) {
                         $adt = $field_form->getADT();
                         if ($adt instanceof ilADTMultiEnumText) {
-                            $field_form->getADT()->setSelections([$val]);
+                            $field_form->getADT()->setSelections([$val - 1]);
                         } else {
-                            $field_form->getADT()->setSelection($val);
+                            $field_form->getADT()->setSelection($val - 1);
                         }
+                    }
+                    if ($field instanceof ilAdvancedMDFieldDefinitionInteger) {
+                        $field_form->getADT()->setNumber((int) $val);
                     }
 
                     include_once 'Services/Search/classes/class.ilQueryParser.php';

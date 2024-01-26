@@ -19,7 +19,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
      */
     const FB_MODE_GAP_QUESTION = 'gapQuestion';
     const FB_MODE_GAP_ANSWERS = 'gapAnswers';
-    
+
     /**
      * constants for answer indexes in case of FB_MODE_GAP_ANSWERS
      */
@@ -31,9 +31,9 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     const FB_NUMERIC_GAP_RANGE_HIT_INDEX = 1;
     const FB_NUMERIC_GAP_TOO_LOW_INDEX = 2;
     const FB_NUMERIC_GAP_TOO_HIGH_INDEX = 3;
-    
+
     const SINGLE_GAP_FB_ANSWER_INDEX = -10;
-    
+
     /**
      * object instance of current question
      *
@@ -41,7 +41,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
      * @var assClozeTest
      */
     protected $questionOBJ = null;
-    
+
     /**
      * returns the answer options mapped by answer index
      * (overwrites parent method from ilAssMultiOptionQuestionFeedback)
@@ -52,7 +52,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     {
         return $this->questionOBJ->gaps;
     }
-    
+
     /**
      * @return boolean $isSaveableInPageObjectEditingMode
      */
@@ -60,7 +60,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     {
         return true;
     }
-    
+
     /**
      * builds an answer option label from given (mixed type) index and answer
      * (overwrites parent method from ilAssMultiOptionQuestionFeedback)
@@ -73,24 +73,24 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     protected function buildGapFeedbackLabel($gapIndex, $gap)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $answers = array();
-        
+
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $item) {
             $answers[] = '"' . $item->getAnswertext() . '"';
         }
-        
+
         $answers = implode(' / ', $answers);
-        
+
         $label = sprintf(
             $DIC->language()->txt('ass_cloze_gap_fb_gap_label'),
             $gapIndex + 1,
             $answers
         );
-        
+
         return $label;
     }
-    
+
     /**
      * @param integer $gapIndex
      * @param assAnswerCloze $item
@@ -99,14 +99,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     protected function buildTextGapGivenAnswerFeedbackLabel($gapIndex, $item)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         return sprintf(
             $DIC->language()->txt('ass_cloze_gap_fb_txt_match_label'),
             $gapIndex + 1,
             $item->getAnswertext()
         );
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -116,7 +116,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_txt_nomatch_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -126,7 +126,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_txt_empty_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @param assAnswerCloze $item
@@ -135,14 +135,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     protected function buildSelectGapOptionFeedbackLabel($gapIndex, $item)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         return sprintf(
             $DIC->language()->txt('ass_cloze_gap_fb_sel_opt_label'),
             $gapIndex + 1,
             $item->getAnswertext()
         );
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -152,7 +152,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_sel_empty_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -162,7 +162,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_num_valuehit_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -172,7 +172,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_num_rangehit_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -182,7 +182,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_num_toolow_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -192,7 +192,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_num_toohigh_label'), $gapIndex + 1);
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -202,23 +202,23 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         return sprintf($DIC->language()->txt('ass_cloze_gap_fb_num_empty_label'), $gapIndex + 1);
     }
-    
+
     public function completeSpecificFormProperties(ilPropertyFormGUI $form)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $header = new ilFormSectionHeaderGUI();
             $header->setTitle($this->lng->txt('feedback_answers'));
             $form->addItem($header);
-            
+
             $feedbackMode = new ilRadioGroupInputGUI(
                 $DIC->language()->txt('ass_cloze_fb_mode'),
                 'feedback_mode'
             );
             $feedbackMode->setRequired(true);
             $form->addItem($feedbackMode);
-            
+
             $fbModeGapQuestion = new ilRadioOption(
                 $DIC->language()->txt('ass_cloze_fb_mode_gap_qst'),
                 self::FB_MODE_GAP_QUESTION,
@@ -226,7 +226,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             );
             $this->completeFormPropsForFeedbackModeGapQuestion($fbModeGapQuestion);
             $feedbackMode->addOption($fbModeGapQuestion);
-            
+
             $fbModeGapAnswers = new ilRadioOption(
                 $DIC->language()->txt('ass_cloze_fb_mode_gap_answ'),
                 self::FB_MODE_GAP_ANSWERS,
@@ -236,7 +236,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $feedbackMode->addOption($fbModeGapAnswers);
         }
     }
-    
+
     protected function completeFormPropsForFeedbackModeGapQuestion(ilRadioOption $fbModeOpt)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
@@ -244,7 +244,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $this->buildGapFeedbackLabel($gapIndex, $gap),
                 true
             );
-            
+
             $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
                 $propertyLabel,
                 $this->buildPostVarForFbFieldPerGapQuestion($gapIndex),
@@ -252,29 +252,29 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             ));
         }
     }
-    
+
     protected function completeFormPropsForFeedbackModeGapAnswers(ilRadioOption $fbModeOpt)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
             switch ($gap->getType()) {
                 case assClozeGap::TYPE_TEXT:
-                    
+
                     $this->completeFbPropsForTextGap($fbModeOpt, $gap, $gapIndex);
                     break;
-                
+
                 case assClozeGap::TYPE_SELECT:
-                    
+
                     $this->completeFbPropsForSelectGap($fbModeOpt, $gap, $gapIndex);
                     break;
-                    
+
                 case assClozeGap::TYPE_NUMERIC:
-                    
+
                     $this->completeFbPropsForNumericGap($fbModeOpt, $gapIndex, $gap);
                     break;
             }
         }
     }
-    
+
     /**
      * @param ilRadioOption $fbModeOpt
      * @param assClozeGap $gap
@@ -287,43 +287,43 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $this->buildTextGapGivenAnswerFeedbackLabel($gapIndex, $item),
                 true
             );
-            
+
             $propertyPostVar = "feedback_answer_{$gapIndex}_{$answerIndex}";
-            
+
             $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
                 $propertyLabel,
                 $propertyPostVar,
                 $this->questionOBJ->isAdditionalContentEditingModePageObject()
             ));
         }
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildTextGapWrongAnswerFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_TEXT_GAP_NOMATCH_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildTextGapEmptyFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_TEXT_GAP_EMPTY_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
     }
-    
+
     /**
      * @param ilRadioOption $fbModeOpt
      * @param assClozeGap $gap
@@ -336,30 +336,30 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $this->buildSelectGapOptionFeedbackLabel($gapIndex, $item),
                 true
             );
-            
+
             $propertyPostVar = "feedback_answer_{$gapIndex}_{$optIndex}";
-            
+
             $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
                 $propertyLabel,
                 $propertyPostVar,
                 $this->questionOBJ->isAdditionalContentEditingModePageObject()
             ));
         }
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildSelectGapEmptyFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_SELECT_GAP_EMPTY_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
     }
-    
+
     /**
      * @param ilRadioOption $fbModeOpt
      * @param assClozeGap $gap
@@ -371,96 +371,96 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $this->buildNumericGapValueHitFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
-        
+
         if ($gap->numericRangeExists()) {
             $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
                 $this->buildNumericGapRangeHitFeedbackLabel($gapIndex),
                 true
             );
-            
+
             $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
-            
+
             $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
                 $propertyLabel,
                 $propertyPostVar,
                 $this->questionOBJ->isAdditionalContentEditingModePageObject()
             ));
         }
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildNumericGapTooLowFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_NUMERIC_GAP_TOO_LOW_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildNumericGapTooHighFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
-        
+
         $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
             $this->buildNumericGapEmptyFeedbackLabel($gapIndex),
             true
         );
-        
+
         $propertyPostVar = "feedback_answer_{$gapIndex}_" . self::FB_NUMERIC_GAP_EMPTY_INDEX;
-        
+
         $fbModeOpt->addSubItem($this->buildFeedbackContentFormProperty(
             $propertyLabel,
             $propertyPostVar,
             $this->questionOBJ->isAdditionalContentEditingModePageObject()
         ));
     }
-    
+
     public function initSpecificFormProperties(ilPropertyFormGUI $form)
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             /* @var ilRadioGroupInputGUI $fbMode */
             $fbMode = $form->getItemByPostVar('feedback_mode');
             $fbMode->setValue($this->questionOBJ->getFeedbackMode());
-            
+
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $this->initFeedbackFieldsPerGapQuestion($form);
                 $this->initFeedbackFieldsPerGapAnswers($form);
             } else {
                 switch ($this->questionOBJ->getFeedbackMode()) {
                     case self::FB_MODE_GAP_QUESTION:
-                        
+
                         $this->initFeedbackFieldsPerGapQuestion($form);
                         break;
-                    
+
                     case self::FB_MODE_GAP_ANSWERS:
-                        
+
                         $this->initFeedbackFieldsPerGapAnswers($form);
                         break;
                 }
             }
         }
     }
-    
+
     protected function initFeedbackFieldsPerGapQuestion(ilPropertyFormGUI $form)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
@@ -468,29 +468,29 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $form->getItemByPostVar($this->buildPostVarForFbFieldPerGapQuestion($gapIndex))->setValue($value);
         }
     }
-    
+
     protected function initFeedbackFieldsPerGapAnswers(ilPropertyFormGUI $form)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
             switch ($gap->getType()) {
                 case assClozeGap::TYPE_TEXT:
-                    
+
                     $this->initFbPropsForTextGap($form, $gap, $gapIndex);
                     break;
-                
+
                 case assClozeGap::TYPE_SELECT:
-                    
+
                     $this->initFbPropsForSelectGap($form, $gap, $gapIndex);
                     break;
-                
+
                 case assClozeGap::TYPE_NUMERIC:
-                    
+
                     $this->initFbPropsForNumericGap($form, $gapIndex, $gap);
                     break;
             }
         }
     }
-    
+
     protected function initFbPropsForTextGap(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
     {
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answerIndex => $item) {
@@ -498,16 +498,16 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $answerIndex);
             $form->getItemByPostVar($postVar)->setValue($value);
         }
-        
+
         $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_TEXT_GAP_NOMATCH_INDEX);
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_TEXT_GAP_NOMATCH_INDEX);
         $form->getItemByPostVar($postVar)->setValue($value);
-        
+
         $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_TEXT_GAP_EMPTY_INDEX);
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_TEXT_GAP_EMPTY_INDEX);
         $form->getItemByPostVar($postVar)->setValue($value);
     }
-    
+
     protected function initFbPropsForSelectGap(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
     {
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $optIndex => $item) {
@@ -515,12 +515,12 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, $optIndex);
             $form->getItemByPostVar($postVar)->setValue($value);
         }
-        
+
         $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_SELECT_GAP_EMPTY_INDEX);
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_SELECT_GAP_EMPTY_INDEX);
         $form->getItemByPostVar($postVar)->setValue($value);
     }
-    
+
     protected function initFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex, assClozeGap $gap)
     {
         $value = $this->getSpecificAnswerFeedbackFormValue($gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX);
@@ -545,38 +545,38 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_EMPTY_INDEX);
         $form->getItemByPostVar($postVar)->setValue($value);
     }
-    
+
     public function saveSpecificFormProperties(ilPropertyFormGUI $form)
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $fbMode = $form->getItemByPostVar('feedback_mode')->getValue();
-            
+
             if ($fbMode != $this->questionOBJ->getFeedbackMode()) {
                 $this->cleanupSpecificAnswerFeedbacks($this->questionOBJ->getFeedbackMode());
             }
-            
+
             $this->saveSpecificFeedbackMode($this->questionOBJ->getId(), $fbMode);
-            
+
             switch ($this->questionOBJ->getFeedbackMode()) {
                 case self::FB_MODE_GAP_QUESTION:
-                    
+
                     $this->saveFeedbackFieldsPerGapQuestion($form);
                     break;
-                
+
                 case self::FB_MODE_GAP_ANSWERS:
-                    
+
                     $this->saveFeedbackFieldsPerGapAnswers($form);
                     break;
             }
         }
     }
-    
+
     protected function saveFeedbackFieldsPerGapQuestion(ilPropertyFormGUI $form)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
             $postVar = $this->buildPostVarForFbFieldPerGapQuestion($gapIndex);
             $value = $form->getItemByPostVar($postVar)->getValue();
-            
+
             $this->saveSpecificAnswerFeedbackContent(
                 $this->questionOBJ->getId(),
                 $gapIndex,
@@ -585,29 +585,29 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             );
         }
     }
-    
+
     protected function saveFeedbackFieldsPerGapAnswers(ilPropertyFormGUI $form)
     {
         foreach ($this->getGapsByIndex() as $gapIndex => $gap) {
             switch ($gap->getType()) {
                 case assClozeGap::TYPE_TEXT:
-                    
+
                     $this->saveFbPropsForTextGap($form, $gap, $gapIndex);
                     break;
-                
+
                 case assClozeGap::TYPE_SELECT:
-                    
+
                     $this->saveFbPropsForSelectGap($form, $gap, $gapIndex);
                     break;
-                
+
                 case assClozeGap::TYPE_NUMERIC:
-                    
+
                     $this->saveFbPropsForNumericGap($form, $gapIndex, $gap);
                     break;
             }
         }
     }
-    
+
     protected function saveFbPropsForTextGap(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
     {
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answerIndex => $item) {
@@ -620,7 +620,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $value
             );
         }
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_TEXT_GAP_NOMATCH_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -629,7 +629,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             self::FB_TEXT_GAP_NOMATCH_INDEX,
             $value
         );
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_TEXT_GAP_EMPTY_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -639,7 +639,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $value
         );
     }
-    
+
     protected function saveFbPropsForSelectGap(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
     {
         foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $optIndex => $item) {
@@ -652,7 +652,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $value
             );
         }
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_SELECT_GAP_EMPTY_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -662,7 +662,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             $value
         );
     }
-    
+
     protected function saveFbPropsForNumericGap(ilPropertyFormGUI $form, $gapIndex, assClozeGap $gap)
     {
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_VALUE_HIT_INDEX);
@@ -673,7 +673,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             self::FB_NUMERIC_GAP_VALUE_HIT_INDEX,
             $value
         );
-        
+
         if ($gap->numericRangeExists()) {
             $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_RANGE_HIT_INDEX);
             $value = $form->getItemByPostVar($postVar)->getValue();
@@ -684,7 +684,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $value
             );
         }
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_TOO_LOW_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -693,7 +693,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             self::FB_NUMERIC_GAP_TOO_LOW_INDEX,
             $value
         );
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_TOO_HIGH_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -702,7 +702,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             self::FB_NUMERIC_GAP_TOO_HIGH_INDEX,
             $value
         );
-        
+
         $postVar = $this->buildPostVarForFbFieldPerGapAnswers($gapIndex, self::FB_NUMERIC_GAP_EMPTY_INDEX);
         $value = $form->getItemByPostVar($postVar)->getValue();
         $this->saveSpecificAnswerFeedbackContent(
@@ -726,12 +726,12 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
     {
         // sync specific feedback setting to duplicated question
-        
+
         $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
-        
+
         parent::duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
-    
+
     private function syncSpecificFeedbackSetting($sourceQuestionId, $targetQuestionId)
     {
         $res = $this->db->queryF(
@@ -739,22 +739,22 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
             array('integer'),
             array($sourceQuestionId)
         );
-        
+
         $row = $this->db->fetchAssoc($res);
-        
+
         $this->db->update(
             $this->questionOBJ->getAdditionalTableName(),
             array( 'feedback_mode' => array('text', $row['feedback_mode']) ),
             array( 'question_fi' => array('integer', $targetQuestionId) )
         );
     }
-    
+
     protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
     {
         $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
         parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
-    
+
     /**
      * saves the given specific feedback mode for the given question id to the db.
      * (It's stored to dataset of question itself)
@@ -764,14 +764,14 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     protected function saveSpecificFeedbackMode($questionId, $feedbackMode)
     {
         $this->questionOBJ->setFeedbackMode($feedbackMode);
-        
+
         $this->db->update(
             $this->questionOBJ->getAdditionalTableName(),
             array('feedback_mode' => array('text', $feedbackMode)),
             array('question_fi' => array('integer', $questionId))
         );
     }
-    
+
     /**
      * @param integer $gapIndex
      * @return string
@@ -780,7 +780,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     {
         return "feedback_answer_{$gapIndex}";
     }
-    
+
     /**
      * @param integer $gapIndex
      * @param integer $answerIndex
@@ -790,7 +790,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     {
         return "feedback_answer_{$gapIndex}_{$answerIndex}";
     }
-    
+
     /**
      * @param $gapIndex
      * @param $answerIndex
@@ -804,7 +804,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $gapIndex,
                 $answerIndex
             );
-            
+
             $value = $this->getPageObjectNonEditableValueHTML(
                 $this->getSpecificAnswerFeedbackPageObjectType(),
                 $pageObjectId
@@ -814,77 +814,102 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 $this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), $gapIndex, $answerIndex)
             );
         }
-        
+
         return $value;
     }
-    
+
     protected function cleanupSpecificAnswerFeedbacks($fbMode)
     {
         switch ($fbMode) {
             case self::FB_MODE_GAP_QUESTION:
                 $feedbackIds = $this->fetchFeedbackIdsForGapQuestionMode();
                 break;
-                
+
             case self::FB_MODE_GAP_ANSWERS:
                 $feedbackIds = $this->fetchFeedbackIdsForGapAnswersMode();
                 break;
-                
+
             default: $feedbackIds = array();
         }
-        
+
         $this->deleteSpecificAnswerFeedbacksByIds($feedbackIds);
     }
-    
+
     protected function fetchFeedbackIdsForGapQuestionMode()
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifiers = new ilAssSpecificFeedbackIdentifierList();
         $feedbackIdentifiers->load($this->questionOBJ->getId());
-        
+
         $feedbackIds = array();
-        
+
         foreach ($feedbackIdentifiers as $identifier) {
             if ($identifier->getAnswerIndex() != self::SINGLE_GAP_FB_ANSWER_INDEX) {
                 continue;
             }
-            
+
             $feedbackIds[] = $identifier->getFeedbackId();
         }
-        
+
         return $feedbackIds;
     }
-    
+
     protected function fetchFeedbackIdsForGapAnswersMode()
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifiers = new ilAssSpecificFeedbackIdentifierList();
         $feedbackIdentifiers->load($this->questionOBJ->getId());
-        
+
         $feedbackIds = array();
-        
+
         foreach ($feedbackIdentifiers as $identifier) {
             if ($identifier->getAnswerIndex() == self::SINGLE_GAP_FB_ANSWER_INDEX) {
                 continue;
             }
-            
+
             $feedbackIds[] = $identifier->getFeedbackId();
         }
-        
+
         return $feedbackIds;
     }
-    
-    protected function deleteSpecificAnswerFeedbacksByIds($feedbackIds)
+
+    public function isSpecificAnswerFeedbackAvailable($question_id)
+    {
+        if ($this->questionOBJ->getFeedbackMode() === self::FB_MODE_GAP_QUESTION) {
+            $feedback_ids = $this->fetchFeedbackIdsForGapQuestionMode();
+        } else {
+            $feedback_ids = $this->fetchFeedbackIdsForGapAnswersMode();
+        }
+
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            $all_feedback_content = '';
+            foreach ($feedback_ids as $feedback_id) {
+                $all_feedback_content .= $this->getPageObjectXML(
+                    $this->getSpecificAnswerFeedbackPageObjectType(),
+                    $feedback_id
+                );
+            }
+            return trim(strip_tags($all_feedback_content)) !== '';
+        }
+
+        return implode('', $this->getSpecificFeedbackContentForFeedbackIds($feedback_ids)) !== '';
+    }
+
+    /**
+     * @param int[] $feedbackIds
+     */
+    protected function deleteSpecificAnswerFeedbacksByIds($feedbackIds) : void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             foreach ($feedbackIds as $fbId) {
                 $this->ensurePageObjectDeleted($this->getSpecificAnswerFeedbackPageObjectType(), $fbId);
             }
         }
-        
+
         $IN_feedbackIds = $this->db->in('feedback_id', $feedbackIds, false, 'integer');
         $this->db->manipulate("DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE {$IN_feedbackIds}");
     }
-    
+
     public function determineTestOutputGapFeedback($gapIndex, $answerIndex)
     {
         if ($this->questionOBJ->getFeedbackMode() == self::FB_MODE_GAP_QUESTION) {
@@ -894,75 +919,75 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 self::SINGLE_GAP_FB_ANSWER_INDEX
             );
         }
-        
+
         return $this->getSpecificAnswerFeedbackTestPresentation($this->questionOBJ->getId(), $gapIndex, $answerIndex);
     }
-    
+
     public function determineAnswerIndexForAnswerValue(assClozeGap $gap, $answerValue)
     {
         switch ($gap->getType()) {
             case CLOZE_TEXT:
-                
+
                 if (!strlen($answerValue)) {
                     return self::FB_TEXT_GAP_EMPTY_INDEX;
                 }
-                
+
                 $items = $gap->getItems(new ilArrayElementOrderKeeper());
-                
+
                 foreach ($items as $answerIndex => $answer) {
                     /* @var assAnswerCloze $answer */
-                    
+
                     if ($answer->getAnswertext() == $answerValue) {
                         return $answerIndex;
                     }
                 }
-                
+
                 return self::FB_TEXT_GAP_NOMATCH_INDEX;
-            
+
             case CLOZE_SELECT:
-                
+
                 if (strlen($answerValue)) {
                     return $answerValue;
                 }
-                
+
                 return self::FB_SELECT_GAP_EMPTY_INDEX;
-            
+
             case CLOZE_NUMERIC:
-                
+
                 if (!strlen($answerValue)) {
                     return self::FB_NUMERIC_GAP_EMPTY_INDEX;
                 }
-                
+
                 /* @var assAnswerCloze $item */
-                
+
                 $item = current($gap->getItems(new ilArrayElementOrderKeeper()));
-                
+
                 if ($answerValue == $item->getAnswertext()) {
                     return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
                 }
-                
+
                 require_once 'Services/Math/classes/class.EvalMath.php';
                 $math = new EvalMath();
-                
+
                 $item = $gap->getItem(0);
                 $lowerBound = $math->evaluate($item->getLowerBound());
                 $upperBound = $math->evaluate($item->getUpperBound());
                 $preciseValue = $math->evaluate($item->getAnswertext());
-                
+
                 $solutionValue = $math->evaluate($answerValue);
-                
+
                 if ($solutionValue == $preciseValue) {
                     return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
                 }
-                
+
                 if ($solutionValue >= $lowerBound && $solutionValue <= $upperBound) {
                     return self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
                 }
-                
+
                 if ($solutionValue < $lowerBound) {
                     return self::FB_NUMERIC_GAP_TOO_LOW_INDEX;
                 }
-                
+
                 if ($solutionValue > $upperBound) {
                     return self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
                 }

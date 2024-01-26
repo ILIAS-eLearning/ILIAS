@@ -579,7 +579,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $instantResponse = true;
                 $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
             } else {
-                $instantResponse = $this->getInstantResponseParameter();
+                // #37025 don't show instant response if a request for it should fix the answer and answer is not yet fixed
+                if ($this->object->isInstantFeedbackAnswerFixationEnabled()) {
+                    $instantResponse = false;
+                } else {
+                    $instantResponse = $this->getInstantResponseParameter();
+                }
                 $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
             }
             // fau.
