@@ -146,7 +146,7 @@ class InitUIFramework
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],
                 $row_builder,
-                $c["ui.session"]
+                $c["ui.storage"],
             );
         };
         $c["ui.factory.table.column"] = function ($c) {
@@ -345,38 +345,28 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
         };
 
-        $c["ui.session"] = function ($c): ArrayAccess {
+        // currently this is will be a session storage because we cannot store
+        // data on the client, see https://mantis.ilias.de/view.php?id=38503.
+        $c["ui.storage"] = function ($c): ArrayAccess {
             return new class () implements ArrayAccess {
-                protected ?string $id = null;
-                protected array $data = [];
-
-                public function get(string $id)
-                {
-                    $this->id = $id;
-                    $this->data = \ilSession::get($id) ?? [];
-                    return $this;
-                }
-
                 public function offsetExists(mixed $offset): bool
                 {
-                    return array_key_exists($offset, $this->data);
+                    return ilSession::has($offset);
                 }
                 public function offsetGet(mixed $offset): mixed
                 {
-                    if(! $this->offsetExists($offset)) {
-                        return null;
-                    }
-                    return $this->data[$offset];
+                    return ilSession::get($offset);
                 }
                 public function offsetSet(mixed $offset, mixed $value): void
                 {
-                    $this->data[$offset] = $value;
-                    \ilSession::set($this->id, $this->data);
+                    if (!is_string($offset)) {
+                        throw new InvalidArgumentException('Offset needs to be of type string.');
+                    }
+                    ilSession::set($offset, $value);
                 }
                 public function offsetUnset(mixed $offset): void
                 {
-                    unset($this->data[$offset]);
-                    \ilSession::set($this->id, $this->data);
+                    ilSession::clear($offset);
                 }
             };
         };

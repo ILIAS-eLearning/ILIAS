@@ -81,7 +81,7 @@ abstract class ViewControl extends Container implements I\ViewControl
         return $this->request;
     }
 
-    public function withStoredValues(Input\ArrayInputData $input): self
+    public function withStoredInput(Input\ArrayInputData $input): self
     {
         $clone = clone $this;
         $clone->stored_input = $input;

@@ -40,7 +40,7 @@ class Factory implements T\Factory
         protected T\Column\Factory $column_factory,
         protected T\Action\Factory $action_factory,
         protected DataRowBuilder $data_row_builder,
-        protected \ArrayAccess $session,
+        protected \ArrayAccess $storage,
     ) {
     }
 
@@ -69,7 +69,7 @@ class Factory implements T\Factory
             $title,
             $columns,
             $data_retrieval,
-            $this->session
+            $this->storage
         );
     }
 

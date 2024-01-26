@@ -44,6 +44,8 @@ class Data extends Table implements T\Data, JSBindable
     public const VIEWCONTROL_KEY_ORDERING = 'order';
     public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
 
+    public const STORAGE_ID_PREFIX = self::class . '_';
+
     /**
      * @var array<string, Column>
      */
@@ -91,7 +93,7 @@ class Data extends Table implements T\Data, JSBindable
         string $title,
         array $columns,
         protected T\DataRetrieval $data_retrieval,
-        protected \ArrayAccess $session,
+        protected \ArrayAccess $storage,
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -360,26 +362,18 @@ class Data extends Table implements T\Data, JSBindable
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
-
-    protected function getInputDataFromSession(string ...$keys): ArrayInputData
+    protected function getStorageData(): ?array
     {
-        $stored_values = [];
-        if($storage = $this->getStorage()) {
-            foreach($keys as $k) {
-                if(isset($storage[$k])) {
-                    $stored_values[$k] = $storage[$k];
-                }
-            }
+        if (null !== ($storage_id = $this->getStorageId())) {
+            return $this->storage[$storage_id] ?? null;
         }
-        return new ArrayInputData($stored_values);
+        return null;
     }
 
-    protected function storeInputDataToSession(array $key_value): void
+    protected function setStorageData(array $data): void
     {
-        if($storage = $this->getStorage()) {
-            foreach($key_value as $k => $v) {
-                $storage[$k] = $v;
-            }
+        if (null !== ($storage_id = $this->getStorageId())) {
+            $this->storage[$storage_id] = $data;
         }
     }
 
@@ -387,11 +381,11 @@ class Data extends Table implements T\Data, JSBindable
         ViewControlContainer\ViewControl $view_controls,
         ServerRequestInterface $request
     ): ViewControlContainer\ViewControl {
-        $stored_values = $this->getInputDataFromSession(...array_keys($view_controls->getComponentInternalValues()));
+        $stored_values = new ArrayInputData($this->getStorageData() ?? []);
         $view_controls = $view_controls
-            ->withStoredValues($stored_values)
+            ->withStoredInput($stored_values)
             ->withRequest($request);
-        $this->storeInputDataToSession($view_controls->getComponentInternalValues());
+        $this->setStorageData($view_controls->getComponentInternalValues());
         return $view_controls;
     }
 
@@ -490,19 +484,16 @@ class Data extends Table implements T\Data, JSBindable
         return $clone;
     }
 
+    protected function getStorageId(): ?string
+    {
+        if (null !== ($id = $this->getId())) {
+            return self::STORAGE_ID_PREFIX . $id;
+        }
+        return null;
+    }
+
     protected function getId(): ?string
     {
         return $this->id;
-    }
-
-    protected function getStorage(): ?\ArrayAccess
-    {
-        $id = $this->getId();
-        if(! $id) {
-            return null;
-        }
-        $id = self::class . '_' . $id;
-        $this->session = $this->session->get($id);
-        return $this->session;
     }
 }
