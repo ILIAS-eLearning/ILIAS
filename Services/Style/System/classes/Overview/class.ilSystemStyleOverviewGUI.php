@@ -336,11 +336,11 @@ class ilSystemStyleOverviewGUI
                     $skin->addStyle($style);
                     $container = new ilSkinStyleContainer($this->lng, $skin, $this->message_stack);
                     $container->create($this->message_stack);
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $skin->getId());
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $style->getId());
+                    $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $skin->getId());
+                    $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $style->getId());
                     $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_created')));
                     $this->message_stack->sendMessages();
-                    $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
+                    $this->ctrl->redirectByClass(ilSystemStyleConfigGUI::class);
                 } catch (ilSystemStyleException $e) {
                     $this->message_stack->addMessage(new ilSystemStyleMessage(
                         $e->getMessage(),
@@ -707,9 +707,8 @@ class ilSystemStyleOverviewGUI
 
     protected function export(): void
     {
-        $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId(), $this->message_stack);
         try {
-            $container->export();
+            $this->style_container->export();
         } catch (Exception $e) {
             $this->message_stack->addMessage(new ilSystemStyleMessage(
                 $this->lng->txt('zip_export_failed') . ' ' . $e->getMessage(),

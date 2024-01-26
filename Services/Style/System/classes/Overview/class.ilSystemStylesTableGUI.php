@@ -210,8 +210,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
 
-                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
-                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'skin_id', $a_set['skin_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'style_id', $a_set['style_id']);
 
                 $config = new ilSystemStyleConfig();
                 if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
