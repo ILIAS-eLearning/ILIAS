@@ -38,7 +38,7 @@ class Setup implements Component\Component
             new \ILIAS\Setup\CLI\App(
                 $internal["command.install"],
                 $internal["command.update"],
-                $internal["command.build-artifacts"],
+                $internal["command.build"],
                 $internal["command.achieve"],
                 $internal["command.status"],
                 $internal["command.migrate"]
@@ -62,8 +62,8 @@ class Setup implements Component\Component
                 $internal["config_reader"],
                 $internal["common_preconditions"]
             );
-        $internal["command.build-artifacts"] = fn() =>
-            new \ILIAS\Setup\CLI\BuildArtifactsCommand(
+        $internal["command.build"] = fn() =>
+            new \ILIAS\Setup\CLI\BuildCommand(
                 $internal["agent_finder"]
             );
         $internal["command.achieve"] = fn() =>

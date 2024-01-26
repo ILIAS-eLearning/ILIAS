@@ -33,12 +33,12 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * Installation command.
  */
-class BuildArtifactsCommand extends Command
+class BuildCommand extends Command
 {
     use HasAgent;
     use ObjectiveHelper;
 
-    protected static $defaultName = "build-artifacts";
+    protected static $defaultName = "build";
 
     public function __construct(AgentFinder $agent_finder)
     {
@@ -61,7 +61,7 @@ class BuildArtifactsCommand extends Command
 
         $agent = $this->getRelevantAgent($input);
 
-        $objective = $agent->getBuildArtifactObjective();
+        $objective = $agent->getBuildObjective();
 
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
