@@ -45,6 +45,7 @@ class ModifyFooterTest extends TestCase
             $this->mock(UI::class),
             $this->mock(User::class),
             $this->mock(Provide::class),
+            $this->fail(...),
             $this->fail(...)
         ));
     }
