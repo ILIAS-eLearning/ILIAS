@@ -81,30 +81,21 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new C\Table\Column\Factory(),
             new C\Table\Action\Factory(),
             new C\Table\DataRowBuilder(),
-            $this->getSessionStorage()
+            $this->getMockStorage()
         );
     }
 
-    protected function getSessionStorage(): ArrayAccess
+    protected function getMockStorage(): ArrayAccess
     {
         return new class () implements ArrayAccess {
-            protected ?string $id = null;
             protected array $data = [];
-
-            public function get(string $id)
-            {
-                $this->id = $id;
-                $this->data = $_SESSION[$id] ?? [];
-                return $this;
-            }
-
             public function offsetExists(mixed $offset): bool
             {
-                return array_key_exists($offset, $this->data);
+                return isset($this->data[$offset]);
             }
             public function offsetGet(mixed $offset): mixed
             {
-                if(! $this->offsetExists($offset)) {
+                if(!$this->offsetExists($offset)) {
                     return null;
                 }
                 return $this->data[$offset];
@@ -112,12 +103,10 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             public function offsetSet(mixed $offset, mixed $value): void
             {
                 $this->data[$offset] = $value;
-                $_SESSION[$this->id] = $this->data;
             }
             public function offsetUnset(mixed $offset): void
             {
                 unset($this->data[$offset]);
-                $_SESSION[$this->id] = $this->data;
             }
         };
     }

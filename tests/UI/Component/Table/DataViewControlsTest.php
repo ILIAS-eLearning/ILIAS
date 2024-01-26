@@ -169,7 +169,7 @@ class DataViewControlsTest extends TableTestBase
         return $request;
     }
 
-    public function testDataTableViewControlsSessionStorage(): void
+    public function testDataTableViewControlStorage(): void
     {
         $factory = $this->getTableFactory();
         $columns = [

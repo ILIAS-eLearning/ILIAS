@@ -197,49 +197,52 @@ class DataTest extends TableTestBase
         $this->assertEquals(2, $table->getVisibleColumns()['f2']->getIndex());
     }
 
-    protected function getMockTableWithStorage(): I\Table\Data
+    public function testDataTableWithId(): void
     {
-        return new class (
-            $this->getSessionStorage()
-        ) extends C\Table\Data {
-            public function __construct(
-                protected \ArrayAccess $session
-            ) {
+        $table = new class () extends C\Table\Data {
+            public function __construct()
+            {
             }
-
+            public function mockGetStorageId(): ?string
+            {
+                return $this->getStorageId();
+            }
             public function mockGetId(): ?string
             {
                 return $this->getId();
             }
-            public function mockGetStorage(): ?\ArrayAccess
+        };
+
+        $this->assertNull($table->mockGetId());
+        $this->assertNull($table->mockGetStorageId());
+
+        $table_id = 'some_id';
+        $internal_table_id = C\Table\Data::STORAGE_ID_PREFIX . $table_id;
+        $table = $table->withId($table_id);
+        $this->assertEquals($table_id, $table->mockGetId());
+        $this->assertEquals($internal_table_id, $table->mockGetStorageId());
+    }
+
+    public function testDataTableWithIdAndStorage(): void
+    {
+        $table_id = 'some_id';
+        $internal_table_id = C\Table\Data::STORAGE_ID_PREFIX . $table_id;
+        $table_data = ['a' => 'b'];
+        $storage = $this->getMockStorage();
+        $storage[$internal_table_id] = $table_data;
+
+        $table = new class ($storage) extends C\Table\Data {
+            public function __construct(
+                protected \ArrayAccess $storage,
+            ) {
+            }
+            public function mockGetStorageData(): ?array
             {
-                return $this->getStorage();
+                return $this->getStorageData();
             }
         };
+
+        $table = $table->withId($table_id);
+        $this->assertEquals($table_data, $table->mockGetStorageData());
     }
-
-    public function testDataTableIdAndStorage(): void
-    {
-        $table = $this->getMockTableWithStorage();
-        $this->assertNull($table->mockGetId());
-        $this->assertNull($table->mockGetStorage());
-        $table = $table->withId('some_id');
-        $this->assertEquals('some_id', $table->mockGetId());
-        $this->assertInstanceOf(\ArrayAccess::class, $table->mockGetStorage());
-    }
-
-    public function testDataTableStorage(): void
-    {
-        $store = $this->getMockTableWithStorage()->withId('first')->mockGetStorage();
-        $store['A'] = 1;
-
-        $store = $this->getMockTableWithStorage()->withId('second')->mockGetStorage();
-        $store['B'] = 1;
-        $this->assertNull($store['A']);
-
-        $store = $this->getMockTableWithStorage()->withId('first')->mockGetStorage();
-        $this->assertNull($store['B']);
-        $this->assertEquals(1, $store['A']);
-    }
-
 }
