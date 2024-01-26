@@ -16,10 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
+use ILIAS\Test\QuestionIdentifiers;
+
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
-use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
+use ILIAS\DI\UIServices as UIServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
@@ -99,7 +105,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->http_request = $DIC->http()->request();
         $this->data_factory = new DataFactory();
         $this->archives = $DIC->archives();
-        parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
+        parent::__construct('', $this->qplrequest->getRefId(), true, false);
 
         $this->ctrl->saveParameter($this, [
             'ref_id',
@@ -239,7 +245,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->tpl,
                     $this->lng,
                     $ilDB,
-                    $ilUser,
                     $randomGroup,
                     $this->global_screen
                 );
@@ -248,6 +253,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
                 $gui->initHintTracking();
+                $this->tabs_gui->setBackTarget(
+                    $this->lng->txt('backtocallingpool'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'questions')
+                );
 
                 $ilHelp = $this->help;
                 $ilHelp->setScreenIdComponent('qpl');
@@ -491,7 +500,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case '':
 
                 //table actions.
-                if ($action = $this->getQueryParamString($this->action_parameter_token)) {
+                if ($action = $this->getQueryParamString($this->action_parameter_token->getName())) {
                     $ids = $this->request_wrapper->retrieve(
                         $this->row_id_token->getName(),
                         $this->refinery->custom()->transformation(fn($v) => $v)
@@ -1071,6 +1080,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
         }
 
+        if ($this->qplrequest->isset('calling_consumer') && (int) $this->qplrequest->raw('calling_consumer')) {
+            $ref_id = (int) $this->qplrequest->raw('calling_consumer');
+            $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+            if ($consumer instanceof ilQuestionEditingFormConsumer) {
+                ilUtil::redirect(
+                    $consumer->getQuestionEditingFormBackTarget($this->qplrequest->raw('consumer_context'))
+                );
+            }
+            ilUtil::redirect(ilLink::_getLink($ref_id));
+        }
+
         $this->object->purgeQuestions();
         // reset test_id SESSION variable
         ilSession::set('test_id', '');
@@ -1412,7 +1432,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (!is_array($this->qplrequest->raw('q_id')) && $this->qplrequest->raw('q_id') > 0 && $this->qplrequest->raw(
             'cmd'
         ) !== 'questions') {
-            $q_gui = assQuestionGUI::_getQuestionGUI('', $this->qplrequest->raw('q_id'));
+            $q_gui = assQuestionGUI::_getQuestionGUI('', $this->qplrequest->getQuestionId());
             if ($q_gui !== null && $q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();

@@ -289,11 +289,9 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         switch ($this->fetchContextParameter()) {
             case self::CONTEXT_LIST_VIEW:
-
-                return 'questions';
+                return 'showQuestions';
 
             case self::CONTEXT_PAGE_VIEW:
-
                 return 'showPage';
         }
 

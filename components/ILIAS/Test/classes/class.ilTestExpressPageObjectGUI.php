@@ -160,7 +160,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $cmds = [
                     'handleToolbarCommand',
                     'addQuestion',
-                    'questions',
+                    'showQuestions',
                     'insertQuestions',
                     'browseForQuestions',
                     'filterAvailableQuestions',
@@ -238,7 +238,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $type = ilObjQuestionPool::getQuestionTypeByTypeId($qtype);
         }
 
-        $this->ctrl->setReturn($this, 'questions');
+        $this->ctrl->setReturn($this, 'showQuestions');
 
         $q_gui = assQuestionGUI::_getQuestionGUI($type);
 
@@ -435,14 +435,14 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $new_pool->addSubItem($name);
 
         $form->addCommandButton('handleToolbarCommand', $this->lng->txt('create'));
-        $form->addCommandButton('questions', $this->lng->txt('cancel'));
+        $form->addCommandButton('showQuestions', $this->lng->txt('cancel'));
 
         $this->help->setSubScreenId(implode('_', $subScreenId));
 
         return $form->getHTML();
     }
 
-    public function questions()
+    public function showQuestions()
     {
         $this->ctrl->saveParameterByClass('ilobjtestgui', 'q_id');
         $this->ctrl->redirectByClass('ilobjtestgui', 'showPage');
