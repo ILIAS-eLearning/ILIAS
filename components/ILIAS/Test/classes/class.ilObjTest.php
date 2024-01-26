@@ -1405,7 +1405,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     * @access public
     * @see $questions
     */
-    public function &getQuestionTitlesAndIndexes(): array
+    public function getQuestionTitlesAndIndexes(): array
     {
         $titles = [];
         if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
@@ -1959,12 +1959,12 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public function evalTotalPersons(): int
     {
         $result = $this->db->queryF(
-            "SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s",
+            'SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s',
             ['integer'],
             [$this->getTestId()]
         );
         $row = $this->db->fetchAssoc($result);
-        return $row["total"];
+        return $row['total'];
     }
 
     /**

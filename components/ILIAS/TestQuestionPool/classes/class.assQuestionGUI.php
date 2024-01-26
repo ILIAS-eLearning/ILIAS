@@ -392,7 +392,7 @@ abstract class assQuestionGUI
         $this->setTargetGuiClass(get_class($linkTargetGui));
     }
 
-    public function setTargetGuiClass($targetGuiClass): void
+    public function setTargetGuiClass(string $targetGuiClass): void
     {
         $this->targetGuiClass = $targetGuiClass;
     }

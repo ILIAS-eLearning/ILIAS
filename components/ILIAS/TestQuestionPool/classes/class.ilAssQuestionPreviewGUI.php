@@ -62,7 +62,6 @@ class ilAssQuestionPreviewGUI
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
         private ilDBInterface $db,
-        private ilObjUser $user,
         private RandomGroup $randomGroup,
         private GlobalScreen $global_screen
     ) {
@@ -98,28 +97,6 @@ class ilAssQuestionPreviewGUI
                     $classname,
                     ""
                 );
-                if ((isset($_GET['calling_test']) && strlen($_GET['calling_test']) !== 0) ||
-                    (isset($_GET['test_ref_id']) && strlen($_GET['test_ref_id']) !== 0)) {
-                    $ref_id = $_GET['calling_test'];
-                    if (strlen($ref_id) !== 0 && !is_numeric($ref_id)) {
-                        $ref_id_array = explode('_', $ref_id);
-                        $ref_id = array_pop($ref_id_array);
-                    }
-
-                    if (strlen($ref_id) === 0) {
-                        $ref_id = $_GET['test_ref_id'];
-                    }
-
-                    $link = ilTestExpressPage::getReturnToPageLink();
-                    $this->tabs->setBackTarget(
-                        $this->lng->txt("backtocallingtest"),
-                        "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id"
-                    );
-                } else {
-                    $this->ctrl->clearParameterByClass(ilObjQuestionPoolGUI::class, 'q_id');
-                    $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, "questions"));
-                    $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'q_id', $questionId);
-                }
             }
         }
         $this->questionGUI->outAdditionalOutput();
@@ -161,6 +138,11 @@ class ilAssQuestionPreviewGUI
         $this->tpl->parseCurrentBlock();
     }
 
+    public function setBackTarget(string $back_target): void
+    {
+        $this->back_target = $back_target;
+    }
+
     public function executeCommand(): void
     {
         global $DIC;
@@ -199,8 +181,11 @@ class ilAssQuestionPreviewGUI
                 $this->showCmd($comments_panel_html);
                 break;
             default:
-                $cmd = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
-                $this->$cmd();
+                $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
+                if ($cmd === 'previewQuestion') {
+                    $cmd = self::CMD_SHOW;
+                }
+                $this->{$cmd . 'Cmd'}();
         }
     }
 
