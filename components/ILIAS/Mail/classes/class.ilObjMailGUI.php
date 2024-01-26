@@ -518,7 +518,7 @@ class ilObjMailGUI extends ilObjectGUI
         $form->addItem($user_envelope_from_addr);
 
         [$user_signature_inputs, $installation_signature_inputs] = array_map(
-            fn(Signature $signature) => $this->buildSignaturePlaceholderInputs($signature),
+            fn(Signature $signature): array => $this->buildSignaturePlaceholderInputs($signature),
             $this->getAvailableSignatures()
         );
         foreach ($user_signature_inputs as $user_signature_input) {
