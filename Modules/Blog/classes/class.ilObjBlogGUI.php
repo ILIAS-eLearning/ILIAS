@@ -1736,7 +1736,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $mon_counter++;
 
                 $month_name = ilCalendarUtil::_numericMonthToString((int) substr($month, 5));
-
                 if (!$a_link_template) {
                     $ilCtrl->setParameter($this, "bmn", $month);
                     $month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
@@ -1803,13 +1802,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->parseCurrentBlock();
             }
-            $this->ctrl->setParameterByClass(self::class, "bmn", null);
+            if (!$a_link_template) {
+                $this->ctrl->setParameterByClass(self::class, "bmn", null);
+                $url = $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd);
+            } else {
+                $url = "index.html";
+            }
+
             $wtpl->setVariable(
                 "STARTING_PAGE",
                 $this->ui->renderer()->render(
                     $this->ui->factory()->link()->standard(
                         $this->lng->txt("blog_starting_page"),
-                        $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd)
+                        $url
                     )
                 )
             );

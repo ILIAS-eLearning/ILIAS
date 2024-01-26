@@ -45,6 +45,8 @@ class ResourcesCollector
         // workaround (note that pcquestion currently checks for page config, if self assessment is enabled
         if (is_null($pg)) {
             $pg = new \ilLMPage();
+        }
+        if($pg->getXMLContent() === "") {
             $pg->setXMLContent("<PageObject></PageObject>");
         }
         $this->output_mode = $output_mode;
