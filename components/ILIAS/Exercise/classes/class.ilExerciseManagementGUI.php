@@ -711,35 +711,35 @@ class ilExerciseManagementGUI
 
         $actions_dropdown = $this->ui_factory->dropdown()->standard($actions);
         if ($a_data['status'] == self::GRADE_NOT_GRADED) {
-            $str_status_key = $this->lng->txt('exc_tbl_status');
-            $str_status_value = $this->lng->txt('not_yet');
+            $str_status_key = $this->lng->txt('exc_tbl_status') . ": ";
+            $str_status_value = "-";
         } else {
-            $str_status_key = $this->lng->txt('exc_tbl_status_time');
+            $str_status_key = $this->lng->txt('exc_tbl_status_time') . ": ";
             $str_status_value = ilDatePresentation::formatDate(new ilDateTime($a_data["status_time"], IL_CAL_DATETIME));
         }
 
-        $str_mark_key = $this->lng->txt("exc_tbl_mark");
-        $str_mark_value = $this->lng->txt('not_yet');
+        $str_mark_key = $this->lng->txt("exc_tbl_mark") . ": ";
+        $str_mark_value = "-";
 
         if (($a_data['mark'] != "")) {
             $str_mark_value = $a_data['mark'];
         }
 
         if ($a_data['feedback_time']) {
-            $str_evaluation_key = $this->lng->txt('exc_tbl_feedback_time');
+            $str_evaluation_key = $this->lng->txt('exc_tbl_feedback_time') . ": ";
             $str_evaluation_value = ilDatePresentation::formatDate(new ilDateTime($a_data["feedback_time"], IL_CAL_DATETIME));
         } else {
-            $str_evaluation_key = $this->lng->txt('exc_settings_feedback');
-            $str_evaluation_value = $this->lng->txt('not_yet');
+            $str_evaluation_key = $this->lng->txt('exc_settings_feedback') . ": ";
+            $str_evaluation_value = "-";
         }
 
         $card_content = array(
-            $this->lng->txt("exc_tbl_submission_date") => ilDatePresentation::formatDate(new ilDateTime($a_data["udate"], IL_CAL_DATETIME)),
+            $this->lng->txt("exc_tbl_submission_date") . ": " => ilDatePresentation::formatDate(new ilDateTime($a_data["udate"], IL_CAL_DATETIME)),
             $str_status_key => $str_status_value,
             $str_mark_key => $str_mark_value,
             $str_evaluation_key => $str_evaluation_value,
-            $this->lng->txt('feedback_given') => $a_data['fb_given'],
-            $this->lng->txt('feedback_received') => $a_data['fb_received']
+            $this->lng->txt('feedback_given') . ": " => $a_data['fb_given'],
+            $this->lng->txt('feedback_received') . ": " => $a_data['fb_received']
         );
         $card_tpl = new ilTemplate("tpl.exc_report_details_card.html", true, true, "components/ILIAS/Exercise");
         foreach ($card_content as $key => $value) {
@@ -787,8 +787,11 @@ class ilExerciseManagementGUI
             }
             $feedback_tpl->parseCurrentBlock();
         }
-        $feedback_tpl->setVariable("GRADE", $this->lng->txt('grade') . ": " . $this->lng->txt('exc_' . $a_data['status']));
-        $feedback_tpl->setVariable("COMMENT", $this->lng->txt('exc_comment') . "<br>" . $a_data['comment']);
+        $feedback_tpl->setVariable("GRADE", $this->lng->txt('exc_grading') . ": " . $this->lng->txt('exc_' . $a_data['status']));
+        $comment = ($a_data['comment'] === "")
+            ? "-"
+            : $a_data['comment'];
+        $feedback_tpl->setVariable("COMMENT", $this->lng->txt('exc_comment') . ": <br>" . $comment);
 
         $feedback_panel = $this->ui_factory->panel()->sub("", $this->ui_factory->legacy($feedback_tpl->get()));
 
