@@ -99,11 +99,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_dashboard");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::DSHS, $title);
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
-            ->addSymbolDecorator(function (Symbol $symbol) use ($title): Symbol {
-                return $symbol->withAdditionalOnLoadCode(function ($id) {
-                    return "console.log('Dashbaord');";
-                });
-            })
             ->withSymbol($icon)
             ->withTitle($title)
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")
