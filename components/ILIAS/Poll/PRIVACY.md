@@ -1,4 +1,4 @@
-# Survey Privacy
+# Poll Privacy
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
