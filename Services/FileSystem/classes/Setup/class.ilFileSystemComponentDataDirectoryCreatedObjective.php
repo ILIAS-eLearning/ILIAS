@@ -1,20 +1,23 @@
 <?php
 
-use ILIAS\Setup;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Setup;
+
 class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective\DirectoryCreatedObjective implements Setup\Objective
 {
     public const DATADIR = 1;
@@ -23,7 +26,6 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     protected string $component_dir;
 
     protected int $base_location;
-
 
     public function __construct(
         string $component_dir,
@@ -34,7 +36,6 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         $this->component_dir = $component_dir;
         $this->base_location = $base_location;
     }
-
 
     public function getHash(): string
     {
@@ -56,8 +57,8 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         }
 
         $client_data_dir = $data_dir . '/' . $client_id;
-        $new_dir = $client_data_dir . '/' . $this->component_dir;
-        return $new_dir;
+
+        return $client_data_dir . '/' . $this->component_dir;
     }
 
     /**
@@ -81,6 +82,9 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
 
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
+        if (!$this->checkEnvironment($environment)) {
+            throw new Setup\UnachievableException("Environment is not ready for this objective");
+        }
         $this->path = $this->buildPath($environment);
         return parent::achieve($environment);
     }
@@ -90,7 +94,21 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
+        if (!$this->checkEnvironment($environment)) {
+            return false;
+        }
         $this->path = $this->buildPath($environment);
         return parent::isApplicable($environment);
+    }
+
+    private function checkEnvironment(Setup\Environment $environment): bool
+    {
+        if (null === $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI)) {
+            return false;
+        }
+        if (null === $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID)) {
+            return false;
+        }
+        return true;
     }
 }
