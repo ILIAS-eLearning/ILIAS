@@ -1489,6 +1489,17 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
     public function toLog(): array
     {
-        return [];
+        return [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'variables' => serialize($this->getVariables()),
+            'results' => serialize($this->getResults()),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
     }
 }

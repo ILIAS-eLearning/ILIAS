@@ -1583,6 +1583,50 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function toLog(): array
     {
-        return [];
+        return [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'qst_use_nested_answers' => array_reduce(
+                $this->getOrderingTypeLangVars($this->getOrderingType()),
+                fn(string $string, string $lang_var) => $string .= '{{ ' . $lang_var . ' }}',
+                ''
+            ),
+            'points' => $this->getPoints(),
+            'answer' => $this->getSolutionOutputForLog(),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+    }
+
+    private function getOrderingTypeLangVars(string $ordering_type): array
+    {
+        switch($ordering_type) {
+            case self::QQ_PICTURES:
+                return ['qst_nested_nested_answers_off', 'oq_btn_use_order_pictures'];
+            case self::OQ_TERMS:
+                return ['qst_nested_nested_answers_off', 'oq_btn_use_order_terms'];
+            case self::QQ_NESTED_PICTURES:
+                return ['qst_nested_nested_answers_on', 'oq_btn_use_order_pictures'];
+            case self::QQ_NESTED_TERMS:
+                return ['qst_nested_nested_answers_on', 'oq_btn_use_order_terms'];
+            default:
+                return ['', ''];
+        }
+    }
+
+    private function getSolutionOutputForLog(): string
+    {
+        $solution_ordering_list = $this->getOrderingElementList();
+
+        $answers_gui = $this->buildNestedOrderingElementInputGui();
+        $answers_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_CORRECT_SOLUTION_PRESENTATION);
+        $answers_gui->setInteractionEnabled(false);
+        $answers_gui->setElementList($solution_ordering_list);
+
+        return $answers_gui->getHTML();
     }
 }

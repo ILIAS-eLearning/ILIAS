@@ -1298,6 +1298,30 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function toLog(): array
     {
-        return [];
+        $result = [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'shuffle_answers' => $this->getShuffle() ? '{{ enabled }}' : '{{ disabled }}',
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
+
+        foreach ($this->getAnswers() as $key => $answer_obj) {
+            $result['answers'][] = [
+                "answertext" => $this->formatSAQuestion($answer_obj->getAnswertext()),
+                "points" => (float) $answer_obj->getPoints(),
+                "order" => (int) $answer_obj->getOrder(),
+                "image" => (string) $answer_obj->getImage(),
+                "feedback" => $this->formatSAQuestion(
+                    $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
+                )
+            ];
+        }
+
+        return $result;
     }
 }

@@ -19,7 +19,9 @@
 namespace ILIAS\TestQuestionPool\Questions;
 
 use ILIAS\Test\Logging\TestParticipantInteraction;
+use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
+use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 
 interface Question
 {
@@ -29,6 +31,8 @@ interface Question
 
     public function answerToParticipantInteraction(
         int $test_id,
+        int $active_id,
+        int $pass,
         string $source_ip,
         TestParticipantInteractionTypes $interaction_type
     ): TestParticipantInteraction;

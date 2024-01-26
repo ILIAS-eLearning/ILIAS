@@ -394,13 +394,13 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $tpl->setVariable('SCORING_LABEL', $this->lng->txt('essay_scoring_mode') . ': ');
 
         switch ($this->object->getKeywordRelation()) {
-            case 'any':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_any'));
                 break;
-            case 'all':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_all'));
                 break;
-            case 'one':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE:
                 $tpl->setVariable('SCORING_MODE', $this->lng->txt('essay_scoring_mode_keyword_relation_one'));
                 break;
         }
@@ -584,21 +584,21 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         $points = 0;
         switch ($this->object->getKeywordRelation()) {
-            case 'non':
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_NONE:
                 $this->object->setAnswers([]);
-                $points = str_replace(',', '.', $_POST['non_keyword_points'] ?? '');
+                $points = str_replace(',', '.', $this->request->raw('non_keyword_points') ?? '');
                 break;
-            case 'any':
-                $this->object->setAnswers($_POST['any_keyword']);
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY:
+                $this->object->setAnswers($this->request->raw('any_keyword'));
                 $points = $this->object->getMaximumPoints();
                 break;
-            case 'all':
-                $this->object->setAnswers($_POST['all_keyword']);
-                $points = str_replace(',', '.', $_POST['all_keyword_points'] ?? '');
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL:
+                $this->object->setAnswers($this->request->raw('all_keyword'));
+                $points = str_replace(',', '.', $this->request->raw('all_keyword_points') ?? '');
                 break;
-            case 'one':
-                $this->object->setAnswers($_POST['one_keyword']);
-                $points = (float) str_replace(',', '.', $_POST['one_keyword_points'] ?? '');
+            case assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE:
+                $this->object->setAnswers($this->request->raw('one_keyword'));
+                $points = (float) str_replace(',', '.', $this->request->raw('one_keyword_points') ?? '');
                 break;
         }
         $this->object->setPoints((float) $points);
@@ -649,28 +649,28 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $scoringOptionNone = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_without_keywords'),
-            'non',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_NONE,
             $this->lng->txt(
                 'essay_scoring_mode_without_keywords_desc'
             )
         );
         $scoringOptionAnyKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_any'),
-            'any',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ANY,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_any_desc'
             )
         );
         $scoringOptionAllKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_all'),
-            'all',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ALL,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_all_desc'
             )
         );
         $scoringOptionOneKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_one'),
-            'one',
+            assTextQuestion::SCORING_MODE_KEYWORD_RELATION_ONE,
             $this->lng->txt(
                 'essay_scoring_mode_keyword_relation_one_desc'
             )

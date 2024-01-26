@@ -730,6 +730,18 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
     public function toLog(): array
     {
-        return [];
+        return [
+            'question_id' => $this->getId(),
+            'question_type' => (string) $this->getQuestionType(),
+            'question_title' => $this->getTitle(),
+            'tst_question' => $this->formatSAQuestion($this->getQuestion()),
+            'textsize' => ((int) $this->getTextSize()) ? (int) $this->getTextSize() : 100,
+            'ordertext' => $this->getOrderText(),
+            'points' => $this->getPoints(),
+            'tst_feedback' => [
+                'feedback_incomplete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
+                'feedback_complete_solution' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
+            ]
+        ];
     }
 }
