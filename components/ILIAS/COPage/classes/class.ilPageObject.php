@@ -381,6 +381,10 @@ abstract class ilPageObject
         $error = null;
         $this->dom = $this->dom_util->docFromString($this->getXMLContent(true), $error);
         $path = "//PageObject";
+        if (is_null($this->dom)) {
+            throw new ilCOPageException("Invalid page xml (" .
+                $this->getId() . "," . $this->getLanguage() . "): " . $this->getXMLContent(true));
+        }
         $nodes = $this->dom_util->path($this->dom, $path);
         if (count($nodes) == 1) {
             $this->node = $nodes->item(0);
