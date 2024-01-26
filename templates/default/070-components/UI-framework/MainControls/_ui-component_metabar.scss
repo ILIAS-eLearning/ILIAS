@@ -63,7 +63,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 		font-size: $il-metabar-glyph-size;
 	}
 
-	 > li > .btn.btn-bulky, > li > .il-link.link-bulky {
+	 > li > .btn.btn-bulky, > li > a.il-link.link-bulky {
 		border: $il-metabar-entry-border;
 		background-color: transparent;
 		height: $il-metabar-entry-height;
