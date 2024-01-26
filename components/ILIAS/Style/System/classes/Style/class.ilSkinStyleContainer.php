@@ -81,7 +81,8 @@ class ilSkinStyleContainer
         mkdir($this->getSkinDirectory(), 0775, true);
 
         foreach ($this->getSkin()->getStyles() as $style) {
-            $this->addStyle($style);
+            $old_style = new ilSkinStyle('', '', '-', '-', '-', '-');
+            $this->updateStyle($style->getId(), $old_style);
         }
         $this->writeSkinToXML();
     }
@@ -118,7 +119,8 @@ class ilSkinStyleContainer
             mkdir($this->getSkinDirectory().$style->getId(), 0775, true);
         }
 
-        if ($style->getImageDirectory() != $old_style->getImageDirectory() && !is_dir($this->getImagesStylePath($style->getId()))) {
+        if ($style->getId()."/".$style->getImageDirectory() != $old_style->getId()."/".$old_style->getImageDirectory()
+            && !is_dir($this->getImagesStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() .$old_style->getId()."/". $old_style->getImageDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -133,7 +135,8 @@ class ilSkinStyleContainer
             }
         }
 
-        if ($style->getFontDirectory() != $old_style->getFontDirectory() && !is_dir($this->getFontsStylePath($style->getId()))) {
+        if ($style->getId()."/".$style->getFontDirectory() != $old_style->getId()."/".$old_style->getFontDirectory()
+            && !is_dir($this->getFontsStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getFontDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -148,7 +151,8 @@ class ilSkinStyleContainer
             }
         }
 
-        if ($style->getSoundDirectory() != $old_style->getSoundDirectory() && !is_dir($this->getSoundsStylePath($style->getId()))) {
+        if ($style->getId()."/".$style->getSoundDirectory() != $old_style->getId()."/".$old_style->getSoundDirectory()
+            && !is_dir($this->getSoundsStylePath($style->getId()))) {
             if (is_dir($this->getSkinDirectory() . $old_style->getId()."/". $old_style->getSoundDirectory())) {
                 $this->file_system->changeResourceDirectory(
                     $this->getSkinDirectory(),
@@ -163,43 +167,46 @@ class ilSkinStyleContainer
             }
         }
 
-        if (is_dir($this->getScssSettingsPath($old_style->getId()))) {
-            $this->file_system->changeResourceDirectory(
-                $this->getSkinDirectory(),
-                $style->getId().'/'.$this->getScssSettingsFolderName(),
-                $old_style->getId().'/'.$this->getScssSettingsFolderName()
-            );
-        } elseif(!is_dir($this->getScssSettingsPath($old_style->getId()))) {
-            $this->copySettingsFromDefault($style);
-        }
-
-        if (file_exists($this->getSkinDirectory() .$old_style->getId().'/'.$old_style->getCssFile() . '.scss')) {
-            rename(
-                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.scss',
-                $this->getScssFilePath($style->getId())
-            );
-        } else {
-            $this->createMainScssFile($style);
-        }
-
-        if (file_exists($this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css')) {
-            rename(
-                $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css',
-                $this->getCSSFilePath($style->getId())
-            );
-        } else {
-            try {
-                $this->compileScss($style->getId());
-            } catch (Exception $e) {
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage(
-                        $e->getMessage(),
-                        ilSystemStyleMessage::TYPE_ERROR
-                    )
+        if($style->getId() != $old_style->getId()) {
+            if (is_dir($this->getScssSettingsPath($old_style->getId()))) {
+                $this->file_system->changeResourceDirectory(
+                    $this->getSkinDirectory(),
+                    $style->getId().'/'.$this->getScssSettingsFolderName(),
+                    $old_style->getId().'/'.$this->getScssSettingsFolderName()
                 );
-                copy($this->getSystemStylesConf()->getDelosPath() . '.css', $this->getCSSFilePath($style->getId()));
+            } elseif(!is_dir($this->getScssSettingsPath($old_style->getId()))) {
+                $this->copySettingsFromDefault($style);
+            }
+
+            if (file_exists($this->getSkinDirectory() .$old_style->getId().'/'.$old_style->getCssFile() . '.scss')) {
+                rename(
+                    $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.scss',
+                    $this->getScssFilePath($style->getId())
+                );
+            } else {
+                $this->createMainScssFile($style);
+            }
+
+            if (file_exists($this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css')) {
+                rename(
+                    $this->getSkinDirectory().$old_style->getId().'/'.$old_style->getCssFile().'.css',
+                    $this->getCSSFilePath($style->getId())
+                );
+            } else {
+                try {
+                    $this->compileScss($style->getId());
+                } catch (Exception $e) {
+                    $this->getMessageStack()->addMessage(
+                        new ilSystemStyleMessage(
+                            $e->getMessage(),
+                            ilSystemStyleMessage::TYPE_ERROR
+                        )
+                    );
+                    copy($this->getSystemStylesConf()->getDelosPath() . '.css', $this->getCSSFilePath($style->getId()));
+                }
             }
         }
+
 
         $this->writeSkinToXML();
     }
