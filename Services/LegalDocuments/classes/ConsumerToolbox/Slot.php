@@ -31,6 +31,7 @@ use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\LazyProvide;
 use Closure;
 use ilObjUser;
+use ilTemplate;
 
 class Slot
 {
@@ -44,7 +45,7 @@ class Slot
 
     public function showOnLoginPage(): ShowOnLoginPage
     {
-        return new ShowOnLoginPage($this->provide, $this->blocks->ui());
+        return new ShowOnLoginPage($this->provide, $this->blocks->ui(), $this->template(...));
     }
 
     /**
@@ -70,7 +71,7 @@ class Slot
 
     public function modifyFooter(User $user): ModifyFooter
     {
-        return new ModifyFooter($this->blocks->ui(), $user, $this->provide, fn($arg) => $this->container->ui()->renderer()->render($arg));
+        return new ModifyFooter($this->blocks->ui(), $user, $this->provide, fn($arg) => $this->container->ui()->renderer()->render($arg), $this->template(...));
     }
 
     /**
@@ -111,5 +112,10 @@ class Slot
             },
             fn(): string => 'Missing acceptance for: ' . $this->id
         );
+    }
+
+    private function template(string $name): ilTemplate
+    {
+        return new ilTemplate($name, true, true, 'Services/LegalDocuments');
     }
 }
