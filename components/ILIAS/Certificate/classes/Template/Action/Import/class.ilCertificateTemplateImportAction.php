@@ -209,7 +209,7 @@ class ilCertificateTemplateImportAction
             $newVersion,
             $iliasVerision,
             time(),
-            true,
+            false,
             $backgroundImagePath,
             $cardThumbnailImagePath
         );
