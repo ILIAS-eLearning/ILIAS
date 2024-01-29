@@ -115,6 +115,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $raw_input = $this->getFormInput();
 
         $value = is_array($raw_input) ? $raw_input['link'] : $raw_input;
+        $value = is_string($value) ? $value : "";
         $field_values = [];
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $field_values["field_" . $this->getRecordField()->getField()->getId() . "_title"] = (isset($raw_input['title'])) ? $raw_input['title'] : '';
