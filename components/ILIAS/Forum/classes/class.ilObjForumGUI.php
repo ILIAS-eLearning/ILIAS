@@ -853,14 +853,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                         ->withCurrentPage($current_page);
 
         if($found_threads === false) {
-            $vc_container = $this->factory->panel()->standard(
+            $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
-                $this->factory->legacy(
-                    $this->lng->txt('frm_no_threads')
-                )
-            );
+                [$this->factory->item()->group($this->lng->txt('frm_no_threads'),[])]);
         } else {
-            $vc_container = $this->factory->panel()->standard(
+            $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
                 [$top_threads, $normal_threads]
             )->withViewControls($view_control);
