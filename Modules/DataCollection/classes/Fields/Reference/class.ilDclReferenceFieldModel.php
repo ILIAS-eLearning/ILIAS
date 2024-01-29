@@ -37,6 +37,11 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 
         $ref_field = ilDclCache::getFieldCache((int)$this->getProperty(self::PROP_REFERENCE));
 
+        //ATM, some referenced fields can not be sorted (Ratings, Formulas and Plugins), PR would be nice if fixeable.
+        if($ref_field->getStorageLocation() == 0) {
+            return null;
+        }
+
         $select_str = "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
         $join_str = "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()} ON (record_field_{$this->getId()}.record_id = record.id AND record_field_{$this->getId()}.field_id = "
             . $ilDB->quote($this->getId(), 'integer') . ") ";

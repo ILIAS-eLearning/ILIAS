@@ -561,6 +561,8 @@ class ilDclRecordListGUI
             self::class,
             self::CMD_SHOW
         );
+        $this->ctrl->setParameterByClass(self::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
+
     }
 
     protected function checkAccess(): bool
