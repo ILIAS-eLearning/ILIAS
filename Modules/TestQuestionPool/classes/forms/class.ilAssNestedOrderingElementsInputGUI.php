@@ -34,6 +34,8 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     public const ILC_CSS_CLASS_LIST = 'ilc_qordul_OrderList';
     public const ILC_CSS_CLASS_ITEM = 'ilc_qordli_OrderListItem';
 
+    public const DEFAULT_THUMBNAIL_PREFIX = 'thumb.';
+
     /**
      * @var string
      */
@@ -48,8 +50,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @var mixed
      */
     protected $orderingType = null;
-
-    public const DEFAULT_THUMBNAIL_PREFIX = 'thumb.';
 
     /**
      * @var string
@@ -335,6 +335,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
                 $correctness = 'correct';
             }
             $tpl->setCurrentBlock('correctness_icon');
+
             $tpl->setVariable("ICON_OK", $this->getCorrectnessIcon($correctness));
             $tpl->parseCurrentBlock();
         }

@@ -436,7 +436,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param boolean $result_output         Show the reached points for parts of the question
      * @param boolean $show_question_only    Show the question without the ILIAS content around
      * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+     * @param boolean $show_correct_solution  Show the correct solution instead of the user solution
      * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
      * @param bool    $show_question_text
      * @return string The solution output of the question as HTML code
@@ -474,7 +474,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $answers_gui->setCorrectnessTrueElementList(
             $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
         );
-
+        if (!$show_correct_solution) {
+            $answers_gui->setShowCorrectnessIconsEnabled(true);
+        }
         $solution_html = $answers_gui->getHTML();
 
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
