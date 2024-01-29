@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a property in a property form.
@@ -116,6 +116,9 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
             if ($option->getInfo() != "") {
                 $tpl->setCurrentBlock("radio_option_desc");
                 $tpl->setVariable("RADIO_OPTION_DESC", $option->getInfo());
+                if ($option->getInfo() !== '') {
+                    $tpl->setVariable('DESCRIPTION_FOR_ID', $this->getFieldId() . "_" . $option->getValue());
+                }
                 $tpl->parseCurrentBlock();
             }
 
@@ -154,6 +157,9 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
             $tpl->setVariable("OP_ID", $this->getFieldId() . "_" . $option->getValue());
+            if ($option->getInfo() !== '') {
+                $tpl->setVariable('DESCRIBED_BY_FIELD_ID', $this->getFieldId() . "_" . $option->getValue());
+            }
             $tpl->setVariable("FID", $this->getFieldId());
             if ($this->getDisabled() or $option->getDisabled()) {
                 $tpl->setVariable('DISABLED', 'disabled="disabled" ');
