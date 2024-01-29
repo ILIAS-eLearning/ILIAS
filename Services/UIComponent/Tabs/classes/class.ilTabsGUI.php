@@ -494,7 +494,7 @@ class ilTabsGUI
             if ($this->back_2_title != "") {
                 $tpl->setCurrentBlock("back_2_tab");
                 $tpl->setVariable("BACK_2_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
-                $tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
+                $tpl->setVariable("BACK_2_TAB_LINK", ilUtil::secureUrl($this->back_2_target));
                 $tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
                 if ($this->back_2_frame != "") {
                     $tpl->setVariable("BACK_2_TAB_TARGET", ' target="' . $this->back_2_frame . '" ');
@@ -507,7 +507,7 @@ class ilTabsGUI
             if ($this->back_title != "") {
                 $tpl->setCurrentBlock("back_tab");
                 $tpl->setVariable("BACK_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
-                $tpl->setVariable("BACK_TAB_LINK", $this->back_target);
+                $tpl->setVariable("BACK_TAB_LINK", ilUtil::secureUrl($this->back_target));
                 $tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
                 if ($this->back_frame != "") {
                     $tpl->setVariable("BACK_TAB_TARGET", ' target="' . $this->back_frame . '" ');
