@@ -4159,6 +4159,7 @@ common#:#forums_threads#:#Themen
 common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
+common#:#frm_no_threads#:#Aktuell ist kein Thema verfügbar.
 common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_edit#:#Forum bearbeiten
