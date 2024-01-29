@@ -91,8 +91,12 @@ class TutorFeedbackFileManager
         }
         // LEGACY
         $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-        $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
-        return $storage->countFeedbackFiles($this->getLegacyFeedbackId($participant_id));
+        try {
+            $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
+            return $storage->countFeedbackFiles($this->getLegacyFeedbackId($participant_id));
+        } catch (\ilExerciseException $e) {
+        }
+        return 0;
     }
 
     public function getFeedbackTitle(int $participant_id): string

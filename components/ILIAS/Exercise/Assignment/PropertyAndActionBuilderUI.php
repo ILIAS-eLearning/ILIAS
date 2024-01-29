@@ -614,7 +614,8 @@ class PropertyAndActionBuilderUI
             foreach ($files as $file) {
                 $cnt++;
                 // get mime type
-                $mime = \ilObjMediaObject::getMimeType($file['fullpath']);
+                //$mime = \ilObjMediaObject::getMimeType($file['fullpath']);
+                $mime = $file["mime"];
                 $output_filename = htmlspecialchars($file['name']);
 
                 if ($this->media_type->isImage($mime)) {
@@ -781,8 +782,11 @@ class PropertyAndActionBuilderUI
         $feedback_id = $this->submission->getFeedbackId();
         $lng = $this->lng;
 
-        $storage = new \ilFSStorageExercise($ass->getExerciseId(), $ass->getId());
-        $cnt_files = $storage->countFeedbackFiles($feedback_id);
+        //$storage = new \ilFSStorageExercise($ass->getExerciseId(), $ass->getId());
+        //$cnt_files = $storage->countFeedbackFiles($feedback_id);
+        $feedback_file_manager = $this->domain->assignment()->tutorFeedbackFile($ass->getId());
+        $cnt_files = $feedback_file_manager->count($this->user_id);
+
 
         $lpcomment = $ass->getMemberStatus()->getComment();
         $mark = $ass->getMemberStatus()->getMark();
@@ -818,7 +822,7 @@ class PropertyAndActionBuilderUI
             }
 
             if ($cnt_files > 0) {
-                $files = $storage->getFeedbackFiles($feedback_id);
+                $files = $feedback_file_manager->getFiles($this->user_id);
                 foreach ($files as $file) {
                     $link = $f->link()->standard(
                         $lng->txt("download"),
