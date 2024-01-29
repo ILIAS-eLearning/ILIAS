@@ -822,14 +822,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
         }
 
+        $found_threads = false;
         if(count($top_group) > 0) {
             $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
+            $found_threads = true;
         } else {
             $top_threads = $this->factory->item()->group('', $top_group);
         }
 
         if(count($thread_group) > 0) {
             $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
+            $found_threads = true;
         } else {
             $normal_threads = $this->factory->item()->group('', $thread_group);
         }
@@ -851,10 +854,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                         ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
                                         ->withCurrentPage($current_page);
 
-        $vc_container = $this->factory->panel()->standard(
-            $this->lng->txt('thread_overview'),
-            [$top_threads, $normal_threads]
-        )->withViewControls($view_control);
+        if($found_threads === false) {
+            $vc_container = $this->factory->panel()->standard(
+                $this->lng->txt('thread_overview'),
+                $this->factory->legacy(
+                    $this->lng->txt('frm_no_threads')
+                )
+            );
+        } else {
+            $vc_container = $this->factory->panel()->standard(
+                $this->lng->txt('thread_overview'),
+                [$top_threads, $normal_threads]
+            )->withViewControls($view_control);
+        }
+
+
 
         $default_html = $this->renderer->render($vc_container);
         $modals = $this->renderer->render($this->modal_collection);
@@ -869,6 +883,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
         $this->initStyleSheets();
+
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 

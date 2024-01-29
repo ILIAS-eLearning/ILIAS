@@ -4156,6 +4156,7 @@ common#:#forums_threads#:#Threads
 common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
 common#:#forums_your_name#:#Your Name
 common#:#frm#:#Forum
+common#:#frm_no_threads#:#There are no threads available at the moment.
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
