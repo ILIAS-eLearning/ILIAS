@@ -227,7 +227,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $question_pool_title = $this->lng->txt('tst_question_not_from_pool_info');
 
-        if (isset($a_set['orig_obj_fi'])) {
+        if (isset($a_set['orig_obj_fi']) && ilObject::_lookupTitle($a_set['orig_obj_fi']) !== null) {
             $question_pool_title = $this->buildPossiblyLinkedQuestonPoolTitle(
                 $this->ctrl,
                 $this->access,
