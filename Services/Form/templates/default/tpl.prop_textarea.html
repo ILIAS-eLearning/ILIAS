@@ -1,5 +1,8 @@
 <!-- BEGIN prop_textarea -->
-<textarea class="form-control <!-- BEGIN no_rteditor --> noRTEditor<!-- END no_rteditor -->" name="{POST_VAR}" id="{ID}"   <!-- BEGIN prop_ta_c --><!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w --><!-- END prop_ta_w --> {DISABLED} {REQUIRED} onKeyUp="return il.Form.showCharCounterTextarea('{POST_VAR}','textarea_feedback_{ID}','{MINCHARS}','{MAXCHARS}')" >{PROPERTY_VALUE}</textarea>
+<textarea
+	<!-- BEGIN described_by -->aria-describedby="<!-- BEGIN described_by_description -->desc_{DESCRIBED_BY_DESCRIPTION_FIELD_ID}<!-- END described_by_description -->"<!-- END described_by -->
+	class="form-control <!-- BEGIN no_rteditor --> noRTEditor<!-- END no_rteditor -->"
+	name="{POST_VAR}" id="{ID}"   <!-- BEGIN prop_ta_c --><!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w --><!-- END prop_ta_w --> {DISABLED} {REQUIRED} onKeyUp="return il.Form.showCharCounterTextarea('{POST_VAR}','textarea_feedback_{ID}','{MINCHARS}','{MAXCHARS}')" >{PROPERTY_VALUE}</textarea>
 <!-- END prop_textarea -->
 <!-- BEGIN disabled_rte -->
 <div style="overflow: auto; width:400px; height:100px; color:#888888; border: 1px solid; border-color:#C0C0C0; padding: 5px;">

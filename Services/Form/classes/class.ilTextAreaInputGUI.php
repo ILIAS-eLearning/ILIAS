@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a text area property in a property form.
@@ -314,6 +314,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         $lng = $this->lng;
 
         $ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
+
+        if ($this->getInfo() !== '') {
+            $ttpl->setCurrentBlock('described_by_description');
+            $ttpl->setVariable('DESCRIBED_BY_DESCRIPTION_FIELD_ID', $this->getFieldId());
+            $ttpl->parseCurrentBlock();
+        }
 
         // disabled rte
         if ($this->getUseRte() && $this->getDisabled()) {
