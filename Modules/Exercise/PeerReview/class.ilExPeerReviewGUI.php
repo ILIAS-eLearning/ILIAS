@@ -476,7 +476,7 @@ class ilExPeerReviewGUI
 
         $tpl->setTitle($this->ass->getTitle() . ": " . $lng->txt("exc_peer_review_given"));
 
-        $info_widget = new ilInfoScreenGUI($this);
+        $this->gui->permanentLink()->setGivenFeedbackPermanentLink();
 
         $panel = $this->getReceivedFeedbackPanel($peer_items);
 
