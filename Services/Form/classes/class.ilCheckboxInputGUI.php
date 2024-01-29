@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a checkbox property in a property form.
@@ -148,6 +148,9 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         }
 
         $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
+        if ($this->getInfo() !== '') {
+            $tpl->setVariable('DESCRIBED_BY_FIELD_ID', $this->getFieldId());
+        }
 
         return $tpl->get();
     }
