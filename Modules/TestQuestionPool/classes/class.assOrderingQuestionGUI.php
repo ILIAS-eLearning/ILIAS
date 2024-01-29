@@ -412,7 +412,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param boolean $result_output         Show the reached points for parts of the question
      * @param boolean $show_question_only    Show the question without the ILIAS content around
      * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+     * @param boolean $show_correct_solution  Show the correct solution instead of the user solution
      * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
      * @param bool    $show_question_text
      *
@@ -425,12 +425,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $result_output = false,
         $show_question_only = true,
         $show_feedback = false,
-        $forceCorrectSolution = false,
+        $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
     ) {
         $solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
-            $forceCorrectSolution,
+            $show_correct_solution,
             $active_id,
             $pass,
             $this->getUseIntermediateSolution()
@@ -438,20 +438,21 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $answers_gui = $this->object->buildNestedOrderingElementInputGui();
 
-        if ($forceCorrectSolution) {
+        if ($show_correct_solution) {
             $answers_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_CORRECT_SOLUTION_PRESENTATION);
         } else {
             $answers_gui->setContext(ilAssNestedOrderingElementsInputGUI::CONTEXT_USER_SOLUTION_PRESENTATION);
         }
 
         $answers_gui->setInteractionEnabled(false);
-
         $answers_gui->setElementList($solutionOrderingList);
 
         $answers_gui->setCorrectnessTrueElementList(
             $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
         );
-
+        if (!$show_correct_solution) {
+            $answers_gui->setShowCorrectnessIconsEnabled(true);
+        }
         $solution_html = $answers_gui->getHTML();
 
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");

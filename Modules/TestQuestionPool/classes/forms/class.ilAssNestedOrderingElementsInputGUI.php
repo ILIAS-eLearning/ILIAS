@@ -18,7 +18,9 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     
     const ILC_CSS_CLASS_LIST = 'ilc_qordul_OrderList';
     const ILC_CSS_CLASS_ITEM = 'ilc_qordli_OrderListItem';
-    
+
+    const DEFAULT_THUMBNAIL_PREFIX = 'thumb.';
+
     /**
      * @var string
      */
@@ -34,8 +36,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      */
     protected $orderingType = null;
     
-    const DEFAULT_THUMBNAIL_PREFIX = 'thumb.';
-    
     /**
      * @var string
      */
@@ -45,27 +45,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @var string
      */
     protected $elementImagePath = null;
-    
-    const CORRECTNESS_ICON_TRUE = 'icon_ok.svg';
-    const CORRECTNESS_LNGVAR_TRUE = 'answer_is_right';
-    
-    const CORRECTNESS_ICON_FALSE = 'icon_not_ok.svg';
-    const CORRECTNESS_LNGVAR_FALSE = 'answer_is_wrong';
-    
-    /**
-     * @var array
-     */
-    protected $correctnessIcons = array(
-        true => self::CORRECTNESS_ICON_TRUE, false => self::CORRECTNESS_ICON_FALSE
-    );
-    
-    /**
-     * @var array
-     */
-    protected $correctnessLngVars = array(
-        true => self::CORRECTNESS_LNGVAR_TRUE, false => self::CORRECTNESS_LNGVAR_FALSE
-    );
-    
+
     /**
      * @var bool
      */
@@ -241,36 +221,12 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      */
     public function getCorrectnessIconFilename($correctness)
     {
-        return $this->correctnessIcons[(bool) $correctness];
+        if((bool) $correctness){
+            return ilUtil::getImagePath('icon_ok.svg');
+        }
+        return ilUtil::getImagePath('icon_not_ok.svg');
     }
-    
-    /**
-     * @param bool $correctness
-     * @param string $iconFilename
-     */
-    public function setCorrectnessIconFilename($correctness, $iconFilename)
-    {
-        $this->correctnessIcons[(bool) $correctness] = $iconFilename;
-    }
-    
-    /**
-     * @param bool $correctness
-     * @return string
-     */
-    public function getCorrectnessLangVar($correctness)
-    {
-        return $this->correctnessLngVars[(bool) $correctness];
-    }
-    
-    /**
-     * @param bool $correctness
-     * @param string $langVar
-     */
-    public function setCorrectnessLangVar($correctness, $langVar)
-    {
-        $this->correctnessLngVars[(bool) $correctness] = $langVar;
-    }
-    
+
     /**
      * @param bool $correctness
      * @return string
@@ -279,7 +235,11 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
-        return $lng->txt($this->correctnessLngVars[(bool) $correctness]);
+        if ((bool) $correctness){
+            return $lng->txt('answer_is_right');
+        }
+        return $lng->txt('answer_is_wrong');
+
     }
     
     /**
@@ -366,8 +326,9 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         
         if ($this->isShowCorrectnessIconsEnabled()) {
             $tpl->setCurrentBlock('correctness_icon');
-            $tpl->setVariable("ICON_SRC", $this->getCorrectnessIconFilename($this->getCorrectness($identifier)));
-            $tpl->setVariable("ICON_TEXT", $this->getCorrectnessText($this->getCorrectness($identifier)));
+            $correctness = $this->getCorrectness($element['random_id']);
+            $tpl->setVariable("ICON_SRC", $this->getCorrectnessIconFilename($correctness));
+            $tpl->setVariable("ICON_TEXT", $this->getCorrectnessText($correctness));
             $tpl->parseCurrentBlock();
         }
         
