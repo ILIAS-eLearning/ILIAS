@@ -15518,7 +15518,7 @@ fieldset[disabled] .checkbox label {
 .form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control, .form-horizontal .row > select.form-control {
   margin-left: 15px;
 }
-.form-horizontal .row > .btn, .form-horizontal .row > input.btn, .form-horizontal .row > .tox-tinymce {
+.form-horizontal .row > .btn, .form-horizontal .row > input.btn, .form-horizontal .row > .tox-tinymce, .form-horizontal .row > div.input {
   margin-left: 15px;
 }
 .form-horizontal .row > .tox-tinymce {
