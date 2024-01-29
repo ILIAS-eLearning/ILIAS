@@ -433,14 +433,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     //                    $importFromXml = true;
                     //                }
                     $mprops = $importer->moduleProperties;
-                    $subType = (string) $mprops["SubType"];
-                    if ($subType === "scorm") {
-                        $newObj = new ilObjSCORMLearningModule();
-                    } else {
-                        $newObj = new ilObjSCORM2004LearningModule();
-                        // $newObj->setEditable($_POST["editable"]=='y');
-                        // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                        // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    try {
+                        $subType = (string) $mprops["SubType"];
+                        if ($subType === "scorm") {
+                            $newObj = new ilObjSCORMLearningModule();
+                        } else {
+                            $newObj = new ilObjSCORM2004LearningModule();
+                            // $newObj->setEditable($_POST["editable"]=='y');
+                            // $newObj->setImportSequencing($_POST["import_sequencing"]);
+                            // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                        }
+                    } catch (\Exception $e) {
+                        ilFileUtils::delDir($lmTempDir, false);
+                        $this->lng->loadLanguageModule("obj");
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage(), true);
+                        return;
                     }
                 }
                 break;
