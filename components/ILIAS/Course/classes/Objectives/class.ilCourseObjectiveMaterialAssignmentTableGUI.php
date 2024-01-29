@@ -129,7 +129,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 
     protected function getAllSubObjects(int $a_ref_id): array
     {
-        $tree = new ilTree(ilObject::_lookupObjId($a_ref_id));
+        $tree = new ilNestedSetTree(ilObject::_lookupObjId($a_ref_id));
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
         $chapter = [];

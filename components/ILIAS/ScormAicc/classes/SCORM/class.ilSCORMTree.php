@@ -25,7 +25,7 @@ declare(strict_types=1);
 *
 * @ingroup components\ILIASScormAicc
 */
-class ilSCORMTree extends ilTree
+class ilSCORMTree extends ilNestedSetTree
 {
     /**
     * Constructor

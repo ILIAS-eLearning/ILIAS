@@ -20,7 +20,7 @@
  * Taxonomy tree
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilTaxonomyTree extends ilTree
+class ilTaxonomyTree extends ilNestedSetTree
 {
     public function __construct(int $a_id)
     {

@@ -30,7 +30,7 @@ class ilMailbox
 {
     protected ilLanguage $lng;
     protected ilDBInterface $db;
-    protected ilTree $mtree;
+    protected ilNestedSetTree $mtree;
     /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
     protected array $actions = [
         'moveMails' => '',
@@ -59,7 +59,7 @@ class ilMailbox
         $this->table_tree = 'mail_tree';
 
         if ($this->usrId !== 0) {
-            $this->mtree = new ilTree($this->usrId);
+            $this->mtree = new ilNestedSetTree($this->usrId);
             $this->mtree->setTableNames($this->table_tree, $this->table_mail_obj_data);
         }
 

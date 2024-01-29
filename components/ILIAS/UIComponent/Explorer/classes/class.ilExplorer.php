@@ -36,7 +36,7 @@ class ilExplorer
     public string $id = "";
     public string $output = "";
     public array $format_options = [];
-    public ilTree $tree;
+    public ilNestedSetTree|ilTree $tree;
     public string $target = "";
     public string $target_get = "";
     public string $params_get = "";

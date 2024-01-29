@@ -148,7 +148,7 @@ class ilLMObjectGUI
         if ($target == 0) {
             $target = $this->requested_target;
         }
-        $tree = new ilTree($this->content_object->getId());
+        $tree = new ilNestedSetTree($this->content_object->getId());
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
 
@@ -160,7 +160,7 @@ class ilLMObjectGUI
             // determine last child of current type
             $childs = $tree->getChildsByType($parent_id, $this->obj->getType());
             if (count($childs) == 0) {
-                $target = ilTree::POS_FIRST_NODE;
+                $target = ilNestedSetTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -192,7 +192,7 @@ class ilLMObjectGUI
     }
 
 
-        /**
+    /**
      * cancel deletion of page/structure objects
      */
     public function cancelDelete(): void

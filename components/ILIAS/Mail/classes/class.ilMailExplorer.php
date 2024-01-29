@@ -42,7 +42,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->tree = new ilTree($userId);
+        $this->tree = new ilNestedSetTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
 
         parent::__construct('mail_exp', $parentObject, '', $this->tree);

@@ -20,7 +20,7 @@ declare(strict_types=1);
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilECSCmsTree extends ilTree
+class ilECSCmsTree extends ilNestedSetTree
 {
     public function __construct(int $a_tree_id)
     {

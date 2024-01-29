@@ -53,7 +53,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilAccessHandler $access;
     protected ilSetting $settings;
     protected ilLocatorGUI $locator;
-    protected ilTree $tree;
     protected ilHelpGUI $help;
     protected ilObjLearningModule $lm;
     public ilGlobalTemplateInterface $tpl;
@@ -103,7 +102,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->offline = ($a_export_format != "");
         $this->export_all_languages = $a_all_languages;
-        $this->export_format = $a_export_format;        // html/scorm
+        $this->export_format = $a_export_format;
         $this->offline_directory = $a_export_dir;
 
         $this->tabs = $DIC->tabs();
@@ -114,7 +113,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
         $this->locator = $DIC["ilLocator"];
-        $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
         $this->global_screen = $DIC->globalScreen();
 
@@ -232,8 +230,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->requested_obj_type = $request->getObjType();
         $this->requested_ref_id = $request->getRefId();
-        $this->requested_transl = $request->getTranslation();      // handled by presentation status
-        $this->requested_obj_id = $request->getObjId();            // handled by navigation status
+        // handled by presentation status
+        $this->requested_transl = $request->getTranslation();
+        // handled by navigation status
+        $this->requested_obj_id = $request->getObjId();
         $this->requested_back_pg = $request->getBackPage();
         $this->requested_frame = $request->getFrame();
         $this->requested_search_string = $request->getSearchString();

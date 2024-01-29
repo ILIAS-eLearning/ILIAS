@@ -130,7 +130,8 @@ class ilLMPageObject extends ilLMObject
         // copy page content and activation
         $page = $lm_page->getPageObject();
         $this->page_object->copy($page->getId(), $page->getParentType(), $page->getParentId());
-        $lm_page->read();	// this gets the updated page object into lm page
+        // this gets the updated page object into lm page
+        $lm_page->read();
 
         // copy translations
         ilLMObjTranslation::copy($this->getId(), $lm_page->getId());
@@ -153,7 +154,8 @@ class ilLMPageObject extends ilLMObject
         $lm_page->setImportId("il__pg_" . $this->getId());
         $lm_page->setType($this->getType());
         $lm_page->setDescription($this->getDescription());
-        $lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
+        // setting "upload" flag to true prevents creating of meta data
+        $lm_page->create(true);
         $a_copied_nodes[$this->getId()] = $lm_page->getId();
 
         // copy meta data
@@ -517,12 +519,14 @@ class ilLMPageObject extends ilLMObject
         }
         $lm_tree = new ilLMTree($lm_id);
         $lm = new ilObjLearningModule($lm_id, false);
-        if (!$first_child) {	// insert after node id
+        if (!$first_child) {
+            // insert after node id
             $parent_id = $lm_tree->getParentId($node_id);
             $target = $node_id;
-        } else {           // insert as first child
+        } else {
+            // insert as first child
             $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
+            $target = ilNestedSetTree::POS_FIRST_NODE;
         }
 
         $page_ids = array();

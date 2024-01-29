@@ -223,14 +223,14 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                return array(
-                        "LmId" => "integer",
-                        "LinkType" => "text",
-                        "Title" => "text",
-                        "Target" => "text",
-                        "LinkRefId" => "text",
-                        "Active" => "text"
-                    );
+                    return array(
+                            "LmId" => "integer",
+                            "LinkType" => "text",
+                            "Title" => "text",
+                            "Target" => "text",
+                            "LinkRefId" => "text",
+                            "Active" => "text"
+                        );
             }
         }
 
@@ -239,12 +239,12 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                return array(
-                        "Id" => "integer",
-                        "Lang" => "text",
-                        "Title" => "text",
-                        "ShortTitle" => "text"
-                    );
+                    return array(
+                            "Id" => "integer",
+                            "Lang" => "text",
+                            "Title" => "text",
+                            "ShortTitle" => "text"
+                        );
             }
         }
         return [];
@@ -264,7 +264,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                switch ($a_version) {
+                    switch ($a_version) {
                         case "5.1.0":
                             $q = "SELECT id, title, description," .
                                 " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
@@ -276,24 +276,22 @@ class ilLearningModuleDataSet extends ilDataSet
 
                         case "5.4.0":
                         case "8.0":
-                        $q = "SELECT id, title, description," .
-                                " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
-                                " hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
-                                " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
-                                " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
-                                " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
+                            $q = "SELECT id, title, description," .
+                                    " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
+                                    " hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
+                                    " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
+                                    " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
+                                    " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
                     }
 
                     $set = $ilDB->query($q);
                     $this->data = array();
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         // comments activated?
-                        $rec["comments"] = (string) (int)
-                            $this->notes->domain()->commentsActive((int) $rec["id"]);
+                        $rec["comments"] = (string) (int) $this->notes->domain()->commentsActive((int) $rec["id"]);
 
                         if ($a_version === "8.0") {
-                            $rec["estimated_reading_time"] = (string) (int)
-                                $this->reading_time_manager->isActivated((int) $rec["id"]);
+                            $rec["estimated_reading_time"] = (string) (int) $this->reading_time_manager->isActivated((int) $rec["id"]);
                         }
 
                         if ($this->getMasterLanguageOnly()) {
@@ -301,8 +299,7 @@ class ilLearningModuleDataSet extends ilDataSet
                         }
                         $tmp = array();
                         foreach ($rec as $k => $v) {
-                            $tmp[$this->convertToLeadingUpper($k)]
-                                = $v;
+                            $tmp[$this->convertToLeadingUpper($k)] = $v;
                         }
                         $rec = $tmp;
                         $this->data[] = $rec;
@@ -334,8 +331,7 @@ class ilLearningModuleDataSet extends ilDataSet
                         }
                         $tmp = array();
                         foreach ($rec as $k => $v) {
-                            $tmp[$this->convertToLeadingUpper($k)]
-                                = $v;
+                            $tmp[$this->convertToLeadingUpper($k)] = $v;
                         }
                         $rec = $tmp;
                         $obj_ids[] = $rec["Child"];
@@ -358,8 +354,7 @@ class ilLearningModuleDataSet extends ilDataSet
                         $rec3["parent"] = 0;
                         $tmp = array();
                         foreach ($rec3 as $k => $v) {
-                            $tmp[$this->convertToLeadingUpper($k)]
-                                = $v;
+                            $tmp[$this->convertToLeadingUpper($k)] = $v;
                         }
                         $this->data[] = $tmp;
                     }
@@ -372,7 +367,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                $this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active" .
+                    $this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active" .
                         " FROM lm_menu " .
                         " WHERE " . $ilDB->in("lm_id", $a_ids, false, "integer"));
                     break;
@@ -384,7 +379,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                $this->getDirectDataFromQuery("SELECT id, lang, title, short_title" .
+                    $this->getDirectDataFromQuery("SELECT id, lang, title, short_title" .
                         " FROM lm_data_transl " .
                         " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
                     break;
@@ -426,7 +421,6 @@ class ilLearningModuleDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         //var_dump($a_rec);
-
         switch ($a_entity) {
             case "lm":
 
@@ -505,7 +499,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $st_obj->setShortTitle($a_rec["ShortTitle"]);
                             $st_obj->setImportId($a_rec["ImportId"]);
                             $st_obj->create(true);
-                            ilLMObject::putInTree($st_obj, $parent, ilTree::POS_LAST_NODE);
+                            ilLMObject::putInTree($st_obj, $parent, ilNestedSetTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "components/ILIAS/LearningModule",
                                 "lm_tree",
@@ -529,7 +523,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $pg_obj->setShortTitle($a_rec["ShortTitle"]);
                             $pg_obj->setImportId($a_rec["ImportId"]);
                             $pg_obj->create(true, true);
-                            ilLMObject::putInTree($pg_obj, $parent, ilTree::POS_LAST_NODE);
+                            ilLMObject::putInTree($pg_obj, $parent, ilNestedSetTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "components/ILIAS/LearningModule",
                                 "lm_tree",

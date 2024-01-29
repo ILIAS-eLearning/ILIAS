@@ -29,12 +29,12 @@ class ilWorkspaceAccessHandler
     protected ilSetting $settings;
     protected ilDBInterface $db;
     /**
-     * @var ilTree|ilWorkspaceTree|null
+     * @var ilNestedSetTree|ilWorkspaceTree|null
      */
-    protected ?ilTree $tree;
+    protected ?ilNestedSetTree $tree;
 
     public function __construct(
-        ilTree $a_tree = null
+        ilNestedSetTree $a_tree = null
     ) {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilWorkspaceAccessHandler
      *
      * @return ilWorkspaceTree
      */
-    public function getTree(): ilTree
+    public function getTree(): ilNestedSetTree
     {
         return $this->tree;
     }
@@ -78,7 +78,7 @@ class ilWorkspaceAccessHandler
      * check access for an object
      */
     public function checkAccessOfUser(
-        ilTree $a_tree,
+        ilNestedSetTree $a_tree,
         int $a_user_id,
         string $a_permission,
         string $a_cmd,

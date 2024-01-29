@@ -252,7 +252,7 @@ class ilMailFolderGUI
             $oneConfirmationDialogueRendered = true;
         }
 
-        $mtree = new ilTree($this->user->getId());
+        $mtree = new ilNestedSetTree($this->user->getId());
         $mtree->setTableNames('mail_tree', 'mail_obj_data');
 
         $isUserSubFolder = false;

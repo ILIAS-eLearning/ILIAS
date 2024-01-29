@@ -29,7 +29,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 {
     protected ilLanguage $lng;
     protected \Psr\Http\Message\ServerRequestInterface $httpRequest;
-    protected ?ilTree $tree = null;
+    protected null|ilNestedSetTree|ilTree $tree = null;
     protected string $tree_label = "";
     protected string $order_field = "";
     protected bool $order_field_numeric = false;
@@ -47,7 +47,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         string $a_expl_id,
         $a_parent_obj,
         string $a_parent_cmd,
-        ilTree $a_tree,
+        null|ilNestedSetTree|ilTree $a_tree,
         string $a_node_parameter_name = "node_id"
     ) {
         global $DIC;
@@ -59,7 +59,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         $this->tree = $a_tree;
     }
 
-    public function getTree(): ilTree
+    public function getTree(): ilNestedSetTree|ilTree
     {
         return $this->tree;
     }

@@ -1227,7 +1227,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->cancelDelete();
         }
 
-        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+        if (count($ids) == 1 && $ids[0] == ilNestedSetTree::POS_FIRST_NODE) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"), true);
             $this->cancelDelete();
         }
@@ -1253,7 +1253,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
 
         foreach ($ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
+            if ($id != ilNestedSetTree::POS_FIRST_NODE) {
                 $obj = new ilLMObject($this->lm, $id);
                 $caption = $obj->getTitle();
 
@@ -1290,7 +1290,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // delete all selected objects
         foreach ($ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
+            if ($id != ilNestedSetTree::POS_FIRST_NODE) {
                 $obj = ilLMObjectFactory::getInstance($this->lm, $id, false);
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
@@ -1407,7 +1407,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             return;
         }
 
-        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+        if (count($ids) == 1 && $ids[0] == ilNestedSetTree::POS_FIRST_NODE) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"));
             if ($a_parent_subobj_id == 0) {
                 $this->ctrl->redirect($this, "chapters");
@@ -2395,12 +2395,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 
-        if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
+        if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {
+            // insert after node id
             $parent_id = $this->lm_tree->getParentId($node_id);
             $target = $node_id;
-        } else {													// insert as first child
+        } else {
+            // insert as first child
             $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
+            $target = ilNestedSetTree::POS_FIRST_NODE;
         }
 
         for ($i = 1; $i <= $num; $i++) {
@@ -2427,12 +2429,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
-        if (!$first_child) {	// insert after node id
+        if (!$first_child) {
+            // insert after node id
             $parent_id = $this->lm_tree->getParentId($node_id);
             $target = $node_id;
-        } else {													// insert as first child
+        } else {
+            // insert as first child
             $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
+            $target = ilNestedSetTree::POS_FIRST_NODE;
         }
 
         // copy and paste

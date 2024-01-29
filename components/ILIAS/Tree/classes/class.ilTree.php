@@ -211,12 +211,18 @@ class ilTree
 
         if ($this->__isMainTree()) {
             if ($setting->get('main_tree_impl', 'ns') == 'ns') {
-                $this->tree_impl = new ilNestedSetTree($this);
+                $this->tree_impl = new ilNestedSetTree(
+                    $this->tree_id,
+                    $this->root_id
+                );
             } else {
                 $this->tree_impl = new ilMaterializedPathTree($this);
             }
         } else {
-            $this->tree_impl = new ilNestedSetTree($this);
+            $this->tree_impl = new ilNestedSetTree(
+                $this->tree_id,
+                $this->root_id
+            );
         }
     }
 

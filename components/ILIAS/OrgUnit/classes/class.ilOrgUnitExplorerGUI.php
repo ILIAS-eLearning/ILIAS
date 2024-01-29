@@ -28,7 +28,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 {
     protected const ORGU = "orgu";
     protected array $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
-    protected ?ilTree $tree = null;
+    protected null|ilNestedSetTree|ilTree $tree = null;
     protected ilAccessHandler $access;
     private ilSetting $settings;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $http_post;
@@ -52,7 +52,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
         $this->http_post = $DIC->http()->wrapper()->post();
-        $this->http_query= $DIC->http()->wrapper()->query();
+        $this->http_query = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC["refinery"];
     }
 
