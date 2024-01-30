@@ -220,20 +220,22 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     {
         $roles = implode(',', $this->http->wrapper()->post()->retrieve(
             'cron_inactivated_user_delete_include_roles',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
         ));
 
-        $pertiod = null;
-        try {
-            $pertiod = $this->http->wrapper()->post()->retrieve(
-                'cron_inactivated_user_delete_period',
-                $this->refinery->kindlyTo()->int()
-            );
-        } catch (ConstraintViolationException $e) {
-        }
+        $period = $this->http->wrapper()->post()->retrieve(
+            'cron_inactivated_user_delete_period',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
 
         $this->settings->set('cron_inactivated_user_delete_include_roles', $roles);
-        $this->settings->set('cron_inactivated_user_delete_period', (string) ($pertiod ?? self::DEFAULT_INACTIVITY_PERIOD));
+        $this->settings->set('cron_inactivated_user_delete_period', (string) ($period ?? self::DEFAULT_INACTIVITY_PERIOD));
 
         return true;
     }
