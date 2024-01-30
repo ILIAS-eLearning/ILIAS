@@ -1581,6 +1581,7 @@ class ilSCORM13PlayerGUI
     {
         global $DIC;
         $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
+        $filename = str_replace('/', '', $filename);
         //Header
         header('Content-Type: text/html; charset=UTF-8');
         echo file_get_contents($this->logDirectory() . "/" . $filename);
@@ -1842,6 +1843,7 @@ class ilSCORM13PlayerGUI
         //delete files
         if ($logdata->action === "DELETE") {
             $filename = $logdata->value;
+            $filename = str_replace('/', '', $filename);
             $path = $this->logDirectory() . "/" . $filename;
             unlink($path);
             return;
