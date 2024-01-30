@@ -408,6 +408,7 @@ class ilForumNotification
             $result[(int) $row['user_id']]['admin_force_noti'] = (int) $row['admin_force_noti'];
             $result[(int) $row['user_id']]['user_toggle_noti'] = (int) $row['user_toggle_noti'];
             $result[(int) $row['user_id']]['interested_events'] = (int) $row['interested_events'];
+            $result[(int) $row['user_id']]['user_id_noti'] = (int) $row['user_id_noti'];
         }
 
         return $result;
