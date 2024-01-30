@@ -429,6 +429,8 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "User":
+                $this->containedTags = [];
+
                 $this->acc_mail->reset();
                 $this->prefs = array();
                 $this->currentPrefKey = null;
