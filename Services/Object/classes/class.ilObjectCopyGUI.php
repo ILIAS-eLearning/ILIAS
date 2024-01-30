@@ -823,7 +823,7 @@ class ilObjectCopyGUI
     protected function copySingleObject(): void
     {
         // Source defined
-        if (!count($this->getSources())) {
+        if ($this->getSources() === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
@@ -974,7 +974,7 @@ class ilObjectCopyGUI
             $orig_page->copy($target_object->getId(), "cont", $target_object->getId());
         }
 
-        $style_id = $source_object->getStyleSheetId();
+        $style_id = ilObjStyleSheet::lookupObjectStyle($source_object->getId());
         if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
             $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
             $new_id = $style_obj->ilClone();
