@@ -425,23 +425,19 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $zar->open($tempFile);
                     $zar->extractTo($lmTempDir);
                     $zar->close();
+                    ilFileUtils::renameExecutables($lmTempDir);
                     $importer = new ilScormAiccImporter();
                     $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                    $importFromXml = true;
-                    //                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
-                    //                    $importFromXml = true;
-                    //                }
-                    $mprops = $importer->moduleProperties;
                     try {
+                        $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                        $importFromXml = true;
+                        $mprops = $importer->moduleProperties;
+
                         $subType = (string) $mprops["SubType"];
                         if ($subType === "scorm") {
                             $newObj = new ilObjSCORMLearningModule();
                         } else {
                             $newObj = new ilObjSCORM2004LearningModule();
-                            // $newObj->setEditable($_POST["editable"]=='y');
-                            // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                            // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                         }
                     } catch (\Exception $e) {
                         ilFileUtils::delDir($lmTempDir, false);
