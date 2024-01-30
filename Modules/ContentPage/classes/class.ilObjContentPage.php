@@ -105,7 +105,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->copy($new_obj->getId());
 
-        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+        if (ilContentPagePage::_exists($this->getType(), $this->getId(), '', true)) {
             $translations = ilContentPagePage::lookupTranslations($this->getType(), $this->getId());
             foreach ($translations as $language) {
                 $originalPageObject = new ilContentPagePage($this->getId(), 0, $language);
@@ -226,7 +226,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     {
         parent::doDelete();
 
-        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+        if (ilContentPagePage::_exists($this->getType(), $this->getId(), '', true)) {
             $originalPageObject = new ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
