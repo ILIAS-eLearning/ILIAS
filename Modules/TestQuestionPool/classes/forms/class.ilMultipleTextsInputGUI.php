@@ -179,19 +179,14 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
 
         if (!$this->getDisabled()) {
-            $config = [
-                'fieldContainerSelector' => '.ilWzdContainerText',
-                'reindexingRequiredElementsSelectors' => ['input:text', 'button'],
-                'handleRowCleanUpCallback' => 'function(rowElem)
-                    {
-                        $(rowElem).find("input:text").val("");
-                    }'
-            ];
+            $config = '{'
+                . '"fieldContainerSelector": ".ilWzdContainerText", '
+                . '"reindexingRequiredElementsSelectors": ["input:text", "button"], '
+                . '"handleRowCleanUpCallback": function(rowElem) {$(rowElem).find("input:text").val("")}'
+                . '}';
             $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
             $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/identifiedwizardinput.js");
-            $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init("
-                . json_encode($config)
-                . ");");
+            $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init({$config});");
         }
 
         return $tpl->get();
