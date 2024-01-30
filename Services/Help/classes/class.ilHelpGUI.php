@@ -53,6 +53,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $this->settings = $domain->settings();
         $this->lng = $domain->lng();
         $this->user = $domain->user();
+        $this->ui = $this->internal()->gui()->ui();
 
         $this->help_map = $domain->map();
         $this->presentation = $domain->presentation();
