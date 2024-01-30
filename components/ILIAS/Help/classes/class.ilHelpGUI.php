@@ -53,7 +53,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $this->settings = $domain->settings();
         $this->lng = $domain->lng();
         $this->user = $domain->user();
-        $this->ui = $this->internal()->gui()->ui();
 
         $this->help_map = $domain->map();
         $this->presentation = $domain->presentation();
@@ -61,6 +60,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     protected function initUI(): void
     {
+        $this->ui = $this->internal()->gui()->ui();
         $gui = $this->internal()->gui();
         $this->ctrl = $gui->ctrl();
         $this->help_request = $gui->standardRequest();
