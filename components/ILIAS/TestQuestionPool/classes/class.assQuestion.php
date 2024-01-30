@@ -22,6 +22,7 @@ use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 use ILIAS\TestQuestionPool\Questions\Question;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\QuestionFilesService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 
@@ -44,18 +45,8 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
 /**
- * Abstract basic class which is to be extended by the concrete assessment question type classes
- *
- * The assQuestion class defines and encapsulates basic/common methods and attributes as well
- * as it provides abstract methods that are to be implemented by concrete question type classes.
- *
- * @abstract
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @ingroup		ModulesTestQuestionPool
  */
 abstract class assQuestion implements Question
 {
@@ -99,12 +90,12 @@ abstract class assQuestion implements Question
     protected int $thumb_size;
     protected string $question;
     protected float $points = 0.0;
-    protected bool $shuffle;
+    protected bool $shuffle = true;
     protected int $test_id;
     protected int $obj_id = 0;
     protected ?int $original_id = null;
     private int $nr_of_tries;
-    protected int $lastChange;
+    protected ?int $lastChange = null;
     private string $export_image_path;
     protected ?string $external_id = null;
     private string $additionalContentEditingMode = '';
@@ -207,6 +198,11 @@ abstract class assQuestion implements Question
         }
 
         return true;
+    }
+
+    public function getCurrentUser(): ilObjUser
+    {
+        return $this->current_user;
     }
 
     public function getShuffler(): Transformation
@@ -874,12 +870,13 @@ abstract class assQuestion implements Question
             ['integer'],
             [$question_id]
         );
-        if ($this->db->numRows($result) == 1) {
-            $row = $this->db->fetchAssoc($result);
-            $obj_id = $row["obj_fi"];
-        } else {
-            return; // nothing to do
+        if ($this->db->numRows($result) !== 1) {
+            return;
         }
+
+        $row = $this->db->fetchAssoc($result);
+        $obj_id = $row["obj_fi"];
+
         try {
             $this->deletePageOfQuestion($question_id);
         } catch (Exception $e) {
@@ -925,9 +922,9 @@ abstract class assQuestion implements Question
             return;
         }
 
+        $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
         try {
-            $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
-            if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
+            if (is_dir($directory)) {
                 ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
@@ -1168,8 +1165,6 @@ abstract class assQuestion implements Question
     */
     public function createNewQuestion(bool $a_create_page = true): int
     {
-        $ilUser = $this->current_user;
-
         $complete = "0";
         $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($this->dic->testQuestionPool()->internal()->request()->getRefId())) ? $this->dic->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
@@ -1188,7 +1183,7 @@ abstract class assQuestion implements Question
                 "title" => ["text", ''],
                 "description" => ["text", ''],
                 "author" => ["text", $this->getAuthor()],
-                "owner" => ["integer", $ilUser->getId()],
+                "owner" => ["integer", $this->current_user->getId()],
                 "question_text" => ["clob", ''],
                 "points" => ["float", "0.0"],
                 "nr_of_tries" => ["integer", $this->getDefaultNrOfTries()], // #10771
@@ -1251,6 +1246,125 @@ abstract class assQuestion implements Question
             "question_id" => ["integer", $this->getId()]
             ]);
         }
+    }
+
+    public function duplicate(
+        bool $for_test = true,
+        string $title = '',
+        string $author = '',
+        int $owner = -1,
+        $testObjId = null
+    ): int {
+        if ($this->id <= 0) {
+            // The question has not been saved. It cannot be duplicated
+            return -1;
+        }
+        // duplicate the question in database
+        $this_id = $this->getId();
+        $this_obj_id = $this->getObjId();
+
+        $clone = $this;
+        $original_id = $this->questioninfo->getOriginalId($this->id);
+        $clone->id = -1;
+
+        if ((int) $testObjId > 0) {
+            $clone->setObjId($testObjId);
+        }
+
+        if ($title) {
+            $clone->setTitle($title);
+        }
+        if ($author) {
+            $clone->setAuthor($author);
+        }
+        if ($owner) {
+            $clone->setOwner($owner);
+        }
+        if ($for_test) {
+            $clone->saveToDb($original_id);
+        } else {
+            $clone->saveToDb();
+        }
+
+        $clone->copyPageOfQuestion($this_id);
+        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
+
+        $clone->duplicateQuestionTypeSpecificProperties($clone, $this_id, $this_obj_id);
+
+        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
+
+        return $clone->id;
+    }
+
+    protected function duplicateQuestionTypeSpecificProperties(
+        self $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): self {
+        return $clone;
+    }
+
+    final public function copyObject($target_questionpool_id, $title = ""): int
+    {
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
+        }
+        // duplicate the question in database
+        $clone = $this;
+        $original_id = $this->questioninfo->getOriginalId($this->id);
+        $clone->id = -1;
+        $source_questionpool_id = $this->getObjId();
+        $clone->setObjId($target_questionpool_id);
+        if ($title) {
+            $clone->setTitle($title);
+        }
+        $clone->saveToDb();
+        $clone->copyPageOfQuestion($original_id);
+        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+
+        $clone = $this->cloneQuestionTypeSpecificProperties($clone, $target_parent_id, $source_parent_id);
+
+        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
+
+        return $clone->id;
+    }
+
+    final public function createNewOriginalFromThisDuplicate(int $target_parent_id, string $target_question_title = ""): int
+    {
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
+        }
+
+        $source_question_id = $this->id;
+        $source_parent_id = $this->getObjId();
+
+        // duplicate the question in database
+        $clone = $this;
+        $clone->id = -1;
+
+        $clone->setObjId($target_parent_id);
+
+        if ($target_question_title) {
+            $clone->setTitle($target_question_title);
+        }
+
+        $clone->saveToDb();
+        $clone->copyPageOfQuestion($source_question_id);
+        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
+
+        $clone = $this->cloneQuestionTypeSpecificProperties($clone, $target_parent_id, $source_parent_id);
+
+        $clone->onCopy($source_parent_id, $source_question_id, $clone->getObjId(), $clone->getId());
+
+        return $clone->id;
+    }
+
+    protected function cloneQuestionTypeSpecificProperties(
+        self $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): self {
+        return $clone;
     }
 
     public function saveToDb(): void
@@ -1745,7 +1859,7 @@ abstract class assQuestion implements Question
 
     public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $preview_session, $reached_points): ?float
     {
-        $hint_tracking = new ilAssQuestionPreviewHintTracking($DIC->database(), $preview_session);
+        $hint_tracking = new ilAssQuestionPreviewHintTracking($this->db, $preview_session);
         $requests_statistic_data = $hint_tracking->getRequestStatisticData();
         return $reached_points - $requests_statistic_data->getRequestsPoints();
     }
@@ -2413,12 +2527,12 @@ abstract class assQuestion implements Question
 		";
     }
 
-    public function setLastChange($lastChange): void
+    public function setLastChange(int $lastChange): void
     {
         $this->lastChange = $lastChange;
     }
 
-    public function getLastChange()
+    public function getLastChange(): ?int
     {
         return $this->lastChange;
     }
@@ -2726,8 +2840,6 @@ abstract class assQuestion implements Question
         return json_encode([]);
     }
 
-    abstract public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int;
-
     // hey: prevPassSolutions - check for authorized solution
     public function intermediateSolutionExists(int $active_id, int $pass): bool
     {
@@ -2951,7 +3063,7 @@ abstract class assQuestion implements Question
     protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
-            $dic = ilQuestionPoolDIC::dic();
+            $dic = QuestionPoolDIC::dic();
             $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
         }
         return $this->suggestedsolution_repo;

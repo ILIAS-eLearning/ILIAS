@@ -43,42 +43,19 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public const OUTPUT_ORDER = 0;
     public const OUTPUT_RANDOM = 1;
 
-    /**
-     * The given answers of the multiple choice question
-     * $answers is an array of the given answers of the multiple choice question
-     */
-    public array $answers;
+    public array $answers = [];
+    public bool $is_singleline = false;
+    public int $feedback_setting = 0;
+    protected ?int $selection_limit = null;
 
-    /**
-     * Output type
-     *
-     * This is the output type for the answers of the multiple choice question. You can select
-     * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-     */
-    public int $output_type;
-
-    public $isSingleline;
-    public $feedback_setting;
-
-    /**
-     * @var integer
-     */
-    protected $selectionLimit;
-
-    /**
-     * @param mixed $isSingleline
-     */
-    public function setIsSingleline($isSingleline): void
+    public function setIsSingleline(bool $is_singleline): void
     {
-        $this->isSingleline = $isSingleline;
+        $this->is_singleline = $is_singleline;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIsSingleline()
+    public function getIsSingleline(): bool
     {
-        return $this->isSingleline;
+        return $this->is_singleline;
     }
 
     /**
@@ -96,19 +73,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @see assQuestion:assQuestion()
      */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = "",
-        $output_type = self::OUTPUT_ORDER
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = "",
+        private int $output_type = self::OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->output_type = $output_type;
         $this->answers = [];
         $this->shuffle = true;
-        $this->selectionLimit = null;
-        $this->feedback_setting = 0;
     }
 
     /**
@@ -116,15 +90,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     public function getSelectionLimit(): ?int
     {
-        return $this->selectionLimit;
+        return $this->selection_limit;
     }
 
-    /**
-     * @param int $selectionLimit
-     */
-    public function setSelectionLimit($selectionLimit): void
+    public function setSelectionLimit(?int $selection_limit): void
     {
-        $this->selectionLimit = $selectionLimit;
+        $this->selection_limit = $selection_limit;
     }
 
     /**
@@ -194,7 +165,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->isSingleline = ($data['allow_images']) ? false : true;
+            $this->is_singleline = ($data['allow_images']) ? false : true;
             $this->lastChange = $data['tstamp'];
             $this->setSelectionLimit((int) $data['selection_limit'] > 0 ? (int) $data['selection_limit'] : null);
             $this->feedback_setting = $data['feedback_setting'];
@@ -239,118 +210,22 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         parent::loadFromDb($question_id);
     }
 
-    /**
-     * Duplicates an assMultipleChoiceQuestion
-     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the images
-        $clone->duplicateImages($this_id, $thisObjId);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function duplicateQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $clone->duplicateImages($source_question_id, $source_parent_id);
+        return $clone;
     }
 
-    /**
-     * Copies an assMultipleChoice object
-     */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
-        $clone->copyImages($original_id, $source_questionpool_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-        // duplicate the image
-        $clone->copyImages($sourceQuestionId, $sourceParentId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $clone->copyImages($source_question_id, $source_parent_id);
+        return $clone;
     }
 
     /**
@@ -608,7 +483,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $oldthumbsize = 0;
-        if ($this->isSingleline && ($this->getThumbSize())) {
+        if ($this->is_singleline && ($this->getThumbSize())) {
             // get old thumbnail size
             $result = $ilDB->queryF(
                 "SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -621,7 +496,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             }
         }
 
-        if (!$this->isSingleline) {
+        if (!$this->is_singleline) {
             ilFileUtils::delDir($this->getImagePath());
         }
 
@@ -630,8 +505,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $this->getAdditionalTableName(),
             [
                 'shuffle' => ['text', $this->getShuffle()],
-                'allow_images' => ['text', $this->isSingleline ? 0 : 1],
-                'thumb_size' => ['integer', strlen($this->getThumbSize()) ? $this->getThumbSize() : null],
+                'allow_images' => ['text', $this->is_singleline ? 0 : 1],
+                'thumb_size' => ['integer', $this->getThumbSize()],
                 'selection_limit' => ['integer', $this->getSelectionLimit()],
                 'feedback_setting' => ['integer', $this->getSpecificFeedbackSetting()]
             ],
@@ -831,7 +706,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     $result = 1;
                 } else {
                     // create thumbnail file
-                    if ($this->isSingleline && ($this->getThumbSize())) {
+                    if ($this->is_singleline && ($this->getThumbSize())) {
                         $this->generateThumbForFile(
                             $image_filename,
                             $this->getImagePath(),
@@ -1100,21 +975,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function getMultilineAnswerSetting(): int
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
-        if ($multilineAnswerSetting != 1) {
-            $multilineAnswerSetting = 0;
+        $multiline_answer_setting = $this->current_user->getPref("tst_multiline_answers");
+        if ($multiline_answer_setting !== '1') {
+            $multiline_answer_setting = '0';
         }
-        return $multilineAnswerSetting;
+        return (int) $multiline_answer_setting;
     }
 
-    public function setMultilineAnswerSetting($a_setting = 0): void
+    public function setMultilineAnswerSetting($setting = 0): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilUser->writePref("tst_multiline_answers", $a_setting);
+        $this->current_user->writePref('tst_multiline_answers', (string) $setting);
     }
 
     /**
@@ -1126,9 +996,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param integer $a_feedback_setting
      */
-    public function setSpecificFeedbackSetting($a_feedback_setting): void
+    public function setSpecificFeedbackSetting(int $feedback_setting): void
     {
-        $this->feedback_setting = $a_feedback_setting;
+        $this->feedback_setting = $feedback_setting;
     }
 
     /**
@@ -1377,7 +1247,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function isSingleline()
     {
-        return (bool) $this->isSingleline;
+        return (bool) $this->is_singleline;
     }
 
     public function toLog(): array

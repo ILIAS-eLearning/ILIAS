@@ -159,7 +159,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $cmds = [
                     'handleToolbarCommand',
-                    'addQuestion',
+                    'createQuestion',
                     'showQuestions',
                     'insertQuestions',
                     'browseForQuestions',
@@ -202,17 +202,17 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 break;
 
             default:
-                $type = ilObjQuestionPool::getQuestionTypeByTypeId(ilUtil::stripSlashes((string) $this->testrequest->raw('qtype')));
+                $type = ilObjQuestionPool::getQuestionTypeByTypeId(ilUtil::stripSlashes((string) $this->testrequest->raw('question_type')));
 
                 if (!$this->testrequest->raw('q_id')) {
-                    $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $this->testrequest->raw('sel_question_types')));
+                    $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $this->testrequest->raw('question_type')));
                     $q_gui->setQuestionTabs();
 
                     $this->ctrl->forwardCommand($q_gui);
                     break;
                 }
 
-                $this->ctrl->setReturn($this, 'questions');
+                $this->ctrl->setReturn($this, 'showQuestions');
 
                 $q_gui = assQuestionGUI::_getQuestionGUI($type, (int) $this->testrequest->raw('q_id'));
                 if ($q_gui->object) {
@@ -233,9 +233,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
     public function addPageOfQuestions($type = ''): assQuestionGUI
     {
         if (!$type) {
-            $qtype = $this->testrequest->raw('qtype');
+            $question_type = $this->testrequest->raw('question_type');
             $pool = new ilObjQuestionPool();
-            $type = ilObjQuestionPool::getQuestionTypeByTypeId($qtype);
+            $type = ilObjQuestionPool::getQuestionTypeByTypeId($question_type);
         }
 
         $this->ctrl->setReturn($this, 'showQuestions');
@@ -251,10 +251,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function handleToolbarCommand()
     {
-        if ($this->testrequest->raw('qtype')) {
-            $questionType = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw('qtype'));
-        } elseif ($this->testrequest->raw('sel_question_types')) {
-            $questionType = $this->testrequest->raw('sel_question_types');
+        if ($this->testrequest->raw('question_type')) {
+            $questionType = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw('question_type'));
+        } elseif ($this->testrequest->raw('question_type')) {
+            $questionType = $this->testrequest->raw('question_type');
         }
 
         if (ilObjTestFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
@@ -276,7 +276,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case 3: // existing pool
 
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_qpl', $this->testrequest->raw('sel_qpl'));
-                $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'question_type', $questionType);
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
@@ -304,7 +304,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case 2: // new pool
 
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'txt_qpl', $this->testrequest->raw('txt_qpl'));
-                $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'question_type', $questionType);
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
@@ -337,11 +337,11 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         }
     }
 
-    public function addQuestion(): string
+    public function createQuestion(): string
     {
         $subScreenId = ['createQuestion'];
 
-        $this->ctrl->setParameter($this, 'qtype', $this->testrequest->raw('qtype'));
+        $this->ctrl->setParameter($this, 'question_type', $this->testrequest->raw('question_type'));
 
         $form = new ilPropertyFormGUI();
 
@@ -359,7 +359,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $options[$data['question_type_id']] = $label;
         }
 
-        $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'qtype');
+        $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'question_type');
         $si->setOptions($options);
         $form->addItem($si, true);
 
@@ -453,7 +453,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $cmdClass = $questionType . 'GUI';
 
         $this->ctrl->setParameterByClass($cmdClass, 'ref_id', $this->testrequest->getRefId());
-        $this->ctrl->setParameterByClass($cmdClass, 'sel_question_types', $questionType);
+        $this->ctrl->setParameterByClass($cmdClass, 'question_type', $questionType);
         $this->ctrl->setParameterByClass($cmdClass, 'test_ref_id', $this->testrequest->getRefId());
         $this->ctrl->setParameterByClass($cmdClass, 'calling_test', $this->testrequest->getRefId());
         $this->ctrl->setParameterByClass($cmdClass, 'q_id', $qid);
@@ -473,7 +473,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
     {
         $this->ctrl->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
         $this->ctrl->setParameterByClass('ilObjTestGUI', 'q_id', $qid);
-        $this->ctrl->setParameterByClass('ilObjTestGUI', 'sel_question_types', $questionType);
+        $this->ctrl->setParameterByClass('ilObjTestGUI', 'question_type', $questionType);
         $this->ctrl->setParameterByClass('ilObjTestGUI', 'prev_qid', $prev_qid);
         $redir = $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'createQuestion', '', false, false);
 
@@ -489,25 +489,14 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         } else {
             $manscoring = false;
 
-            $test_question_set_config_factory = new ilTestQuestionSetConfigFactory(
-                $this->tree,
-                $this->db,
-                $this->lng,
-                $this->log,
-                $this->component_repository,
-                $this->test_object,
-                $this->questioninfo
-            );
-            $test_question_set_config = $test_question_set_config_factory->getQuestionSetConfig();
-
-            foreach ($selected_array as $key => $value) {
-                $last_question_id = $this->test_object->insertQuestion($test_question_set_config, $value);
+            foreach ($selected_array as $value) {
+                $last_question_id = $this->test_object->insertQuestion($value);
 
                 if (!$manscoring) {
                     $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
                 }
             }
-            $this->test_object->saveCompleteStatus($test_question_set_config);
+
             if ($manscoring) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('manscoring_hint'), true);
             } else {

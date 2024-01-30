@@ -179,6 +179,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     */
     public function uploadchoice(): void
     {
+        if ($this->object->getId() === -1) {
+            $this->object->createNewQuestion();
+        }
         $this->writePostData(true);
         $position = key($_POST['cmd']['uploadchoice']);
         $this->editQuestion();

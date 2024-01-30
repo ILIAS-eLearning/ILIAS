@@ -31,6 +31,8 @@ abstract class ilAssQuestionHintAbstractGUI
     protected ?assQuestionGUI $questionGUI = null;
     protected ?assQuestion $questionOBJ = null;
     protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
     /**
      * Constructor
@@ -45,5 +47,7 @@ abstract class ilAssQuestionHintAbstractGUI
         global $DIC;
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs = $DIC->tabs();
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
     }
 }

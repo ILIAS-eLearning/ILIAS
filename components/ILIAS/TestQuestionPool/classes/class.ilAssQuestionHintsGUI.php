@@ -48,29 +48,16 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_RESET_ORDERING_CLIPBOARD = 'resetOrderingClipboard';
     public const CMD_CONFIRM_SYNC = 'confirmSync';
 
-    private $hintOrderingClipboard = null;
-    private ilLanguage $lng;
-    private ilCtrl $ctrl;
+    private ?bool $hintOrderingClipboard = null;
     private QuestionInfoService $questioninfo;
-
-    /**
-     * @var bool
-     */
-    protected $editingEnabled = false;
+    protected bool $editingEnabled = false;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * Constructor
-     *
-     * @access	public
-     * @param	assQuestionGUI	$questionGUI
-     */
     public function __construct(assQuestionGUI $questionGUI)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($questionGUI);
 
@@ -282,9 +269,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
+        if ($this->request->raw("calling_test")
+            && $originalexists
+            && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
 
@@ -339,9 +326,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
+        if ($this->request->raw("calling_test")
+            && $originalexists
+            && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
 

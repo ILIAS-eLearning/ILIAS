@@ -205,8 +205,8 @@ class ilObjTestFolderGUI extends ilObjectGUI
             }
         }
         $allowed->setValue($allowedtypes);
-        foreach ($questiontypes as $type_name => $qtype) {
-            $allowed->addOption(new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
+        foreach ($questiontypes as $type_name => $question_type) {
+            $allowed->addOption(new \ilCheckboxOption($type_name, (string) $question_type["question_type_id"]));
         }
         $allowed->setInfo($this->lng->txt('assf_allowed_questiontypes_desc'));
         $form->addItem($allowed);
@@ -218,8 +218,8 @@ class ilObjTestFolderGUI extends ilObjectGUI
         );
         $manscoring = ilObjTestFolder::_getManualScoring();
         $manual->setValue($manscoring);
-        foreach ($questiontypes as $type_name => $qtype) {
-            $manual->addOption(new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"]));
+        foreach ($questiontypes as $type_name => $question_type) {
+            $manual->addOption(new \ilCheckboxOption($type_name, (string) $question_type["question_type_id"]));
         }
         $manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
         $form->addItem($manual);
@@ -241,9 +241,9 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $scoring_active = $this->getTestFolder()->getScoringAdjustableQuestions();
         $scoring->setValue($scoring_active);
 
-        foreach ($this->getTestFolder()->fetchScoringAdjustableTypes($questiontypes) as $type_name => $qtype) {
+        foreach ($this->getTestFolder()->fetchScoringAdjustableTypes($questiontypes) as $type_name => $question_type) {
             $scoring->addOption(
-                new \ilCheckboxOption($type_name, (string) $qtype["question_type_id"])
+                new \ilCheckboxOption($type_name, (string) $question_type["question_type_id"])
             );
         }
         $scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));

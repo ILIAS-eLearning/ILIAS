@@ -682,115 +682,22 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return (float)$points;
     }
 
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the images
-        $clone->cloneAnswerImages($this_id, $thisObjId, $clone->getId(), $clone->getObjId());
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($target_parent_id, $target_question_title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $source_question_id = $this->id;
-        $source_parent_id = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($target_parent_id);
-
-        if ($target_question_title) {
-            $clone->setTitle($target_question_title);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($source_question_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
-        // duplicate the image
+    protected function duplicateQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
         $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-
-        $clone->onCopy($source_parent_id, $source_question_id, $target_parent_id, $clone->getId());
-
-        return $clone->id;
+        return $clone;
     }
 
-    /**
-     * Copies an assMultipleChoice object
-     */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
-        $clone->cloneAnswerImages($original_id, $source_questionpool_id, $clone->getId(), $clone->getObjId());
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
+        return $clone;
     }
 
     protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void

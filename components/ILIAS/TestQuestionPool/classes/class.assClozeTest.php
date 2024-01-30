@@ -50,28 +50,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @var array
      */
-    public $gap_combinations;
-
-
-    public $gap_combinations_exists;
-
-    /**
-    * The start tag beginning a cloze gap
-    *
-    * The start tag is set to "*[" by default.
-    *
-    * @var string
-    */
-    public $start_tag;
-
-    /**
-    * The end tag beginning a cloze gap
-    *
-    * The end tag is set to "]" by default.
-    *
-    * @var string
-    */
-    public $end_tag;
+    protected $gap_combinations = [];
+    protected bool $gap_combinations_exists = false;
+    private string $start_tag = '[gap]';
+    private string $end_tag = '[/gap]';
 
     /**
     * The rating option for text gaps
@@ -80,10 +62,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * - case insensitive text gaps
     * - case sensitive text gaps
     * - various levenshtein distances
-    *
-    * @var string
     */
-    public $textgap_rating;
+    public string $textgap_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
 
     /**
     * Defines the scoring for "identical solutions"
@@ -91,58 +71,25 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * If the learner selects the same solution twice
     * or more in different gaps, only the first choice
     * will be scored if identical_scoring is 0.
-    *
-    * @var boolean
     */
-    public $identical_scoring;
-
-    /**
-    * The fixed text length for all text fields in the cloze question
-    *
-    * @var integer
-    */
-    public $fixedTextLength;
-
-    public $cloze_text;
-
-    /**
-     * @var ilAssClozeTestFeedback
-     */
+    protected bool $identical_scoring = true;
+    protected int $fixedTextLength = 0;
+    protected string $cloze_text = '';
     public ilAssQuestionFeedback $feedbackOBJ;
-
     protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
-
     private RandomGroup $randomGroup;
 
-    /**
-     * assClozeTest constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assClozeTest object.
-     *
-     * @param string  $title   A title string to describe the question
-     * @param string  $comment A comment string to describe the question
-     * @param string  $author  A string containing the name of the questions author
-     * @param integer $owner   A numerical ID to identify the owner/creator
-     * @param string  $question
-     */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = ""
     ) {
         global $DIC;
 
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->start_tag = "[gap]";
-        $this->end_tag = "[/gap]";
-        $this->gaps = [];
         $this->setQuestion($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
-        $this->fixedTextLength = "";
-        $this->identical_scoring = 1;
-        $this->gap_combinations_exists = false;
-        $this->gap_combinations = [];
         $this->randomGroup = $DIC->refinery()->random();
     }
 
@@ -930,135 +877,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         return $points;
-    }
-
-    /**
-    * Duplicates an assClozeTest
-    *
-    * @access public
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-        if ($this->gap_combinations_exists) {
-            $this->copyGapCombination($this_id, $clone->getId());
-        }
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->getId();
-    }
-
-    /**
-    * Copies an assClozeTest object
-    *
-    * @access public
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $thisId = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-        $original_id = $this->questioninfo->getOriginalId($this->getId());
-        $clone->id = -1;
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        $clone->saveToDb();
-
-        if ($this->gap_combinations_exists) {
-            $this->copyGapCombination($original_id, $clone->getId());
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-
-        $clone->onCopy($thisObjId, $thisId, $clone->getObjId(), $clone->getId());
-
-        return $clone->getId();
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-
-        if ($this->gap_combinations_exists) {
-            $this->copyGapCombination($sourceQuestionId, $clone->getId());
-            $clone->saveToDb();
-        }
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
     }
 
     public function copyGapCombination($orgID, $newID): void

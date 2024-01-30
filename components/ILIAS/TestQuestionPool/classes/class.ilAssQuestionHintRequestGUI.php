@@ -42,8 +42,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         private string $parent_cmd,
         assQuestionGUI $question_gui,
         private $question_hint_tracking,
-        private ilCtrl $ctrl,
-        private ilLanguage $lng,
+        protected ilCtrl $ctrl,
+        protected ilLanguage $lng,
         private ilGlobalTemplateInterface $tpl,
         protected ilTabsGUI $tabs,
         private GlobalScreen $global_screen

@@ -55,7 +55,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return ['uploadImage', 'removeImage'];
     }
 
-    protected function editQuestion(ilPropertyFormGUI $form = null): void
+    public function editQuestion(ilPropertyFormGUI $form = null): void
     {
         if ($form === null) {
             $form = $this->buildEditForm();

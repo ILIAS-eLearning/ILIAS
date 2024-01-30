@@ -174,7 +174,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-            ->with($testObj, 'showQuestions')
+            ->with($testObj, ilObjTestGUI::DEFAULT_CMD)
         ;
         $testObj->backObject();
     }
@@ -187,11 +187,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-<<<<<<< HEAD
-            ->with($testObj, 'questions')
-=======
-            ->with($this->testObj, 'showQuestions')
->>>>>>> ff859bebc55 (Test: Refactoring Accessing Questions From Test)
+            ->with($testObj, ilObjTestGUI::DEFAULT_CMD)
         ;
         $testObj->cancelCreateQuestionObject();
     }
@@ -204,11 +200,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-<<<<<<< HEAD
-            ->with($testObj, 'questions')
-=======
-            ->with($this->testObj, 'showQuestions')
->>>>>>> ff859bebc55 (Test: Refactoring Accessing Questions From Test)
+            ->with($testObj, ilObjTestGUI::DEFAULT_CMD)
         ;
         $testObj->cancelRemoveQuestionsObject();
     }
@@ -221,11 +213,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-<<<<<<< HEAD
-            ->with($testObj, 'questions')
-=======
-            ->with($this->testObj, 'showQuestions')
->>>>>>> ff859bebc55 (Test: Refactoring Accessing Questions From Test)
+            ->with($testObj, ilObjTestGUI::DEFAULT_CMD)
         ;
         $testObj->moveQuestionsObject();
     }
