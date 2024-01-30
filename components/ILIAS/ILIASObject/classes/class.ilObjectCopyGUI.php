@@ -723,6 +723,25 @@ class ilObjectCopyGUI
         return '';
     }
 
+    /**
+     * Save selected source from membership screen
+     */
+    protected function saveSourceMembership(): void
+    {
+        $source = $this->retriever->getMaybeInt('source');
+        if ($source === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
+            $this->ctrl->redirect($this, 'showSourceSelectionMembership');
+            return;
+        }
+
+        $this->setSource([$source]);
+        $this->setType(ilObject::_lookupType($this->getFirstSource(), true));
+        $this->ctrl->setParameter($this, 'source_id', $source);
+
+        $this->executeNextStepAfterSourceSelection();
+    }
+
     private function executeNextStepAfterSourceSelection(): void
     {
         if (!$this->obj_definition->isContainer($this->getType())) {
@@ -741,30 +760,6 @@ class ilObjectCopyGUI
         }
 
         $this->showItemSelection();
-    }
-
-    /**
-     * Save selected source from membership screen
-     */
-    protected function saveSourceMembership(): void
-    {
-        $source = $this->retriever->getMaybeInt('source');
-        if ($source === null) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->ctrl->redirect($this, 'showSourceSelectionMembership');
-            return;
-        }
-
-        $this->setSource([$source]);
-        $this->setType(ilObject::_lookupType($this->getFirstSource(), true));
-        $this->ctrl->setParameter($this, 'source_id', $source);
-
-        if ($this->obj_definition->isContainer($this->getType())) {
-            $this->showItemSelection();
-            return;
-        }
-
-        $this->copySingleObject();
     }
 
     protected function showCopyPageSelection(): void
