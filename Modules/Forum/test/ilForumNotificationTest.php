@@ -333,6 +333,7 @@ class ilForumNotificationTest extends TestCase
             'admin_force_noti' => 20,
             'user_toggle_noti' => 90,
             'interested_events' => 8,
+            'user_id_noti' => 6,
         ];
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
