@@ -471,14 +471,17 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         if ($delete_period > 0) {
             $roles = implode(',', $this->http->wrapper()->post()->retrieve(
                 'cron_inactive_user_delete_include_roles',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ])
             ));
 
             $this->settings->set('cron_inactive_user_delete_include_roles', $roles);
             $this->settings->set('cron_inactive_user_delete_period', (string) $delete_period);
         }
 
-        if ($this->reminderTimer > $reminder_period) {
+        if ($this->reminder_period > $reminder_period) {
             $this->cron_delete_reminder_mail->flushDataTable();
         }
 
