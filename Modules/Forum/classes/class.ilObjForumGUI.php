@@ -854,10 +854,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                         ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
                                         ->withCurrentPage($current_page);
 
-        if($found_threads === false) {
+        if ($found_threads === false) {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
-                [$this->factory->item()->group($this->lng->txt('frm_no_threads'),[])]);
+                [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]);
         } else {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
