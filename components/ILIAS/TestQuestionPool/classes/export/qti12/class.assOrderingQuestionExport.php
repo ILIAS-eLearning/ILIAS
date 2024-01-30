@@ -41,19 +41,17 @@ class assOrderingQuestionExport extends assQuestionExport
     public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
         $ilias = $DIC['ilias'];
 
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
-        $attrs = array(
+        $attrs = [
             "ident" => "il_" . IL_INST_ID . "_qst_" . $this->object->getId(),
             "title" => $this->object->getTitle(),
             "maxattempts" => $this->object->getNrOfTries()
-        );
+        ];
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
@@ -92,16 +90,16 @@ class assOrderingQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("itemmetadata");
 
         // PART I: qti presentation
-        $attrs = array(
+        $attrs = [
             "label" => $this->object->getTitle()
-        );
+        ];
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
         $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
-        $attrs = array();
+        $attrs = [];
 
         if ($this->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
             $ordering_type = 'OQP';
@@ -113,10 +111,10 @@ class assOrderingQuestionExport extends assQuestionExport
             $ordering_type = 'OQT';
         }
 
-        $attrs = array(
+        $attrs = [
             "ident" => $ordering_type,
             "rcardinality" => "Ordered"
-        );
+        ];
 
         $attrs["output"] = "javascript";
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
@@ -125,23 +123,23 @@ class assOrderingQuestionExport extends assQuestionExport
             $a_xml_writer = $this->addSuggestedSolutionLink($a_xml_writer, $solution);
         }
         // shuffle output
-        $attrs = array();
+        $attrs = [];
         if ($this->object->getShuffle()) {
-            $attrs = array(
+            $attrs = [
                 "shuffle" => "Yes"
-            );
+            ];
         } else {
-            $attrs = array(
+            $attrs = [
                 "shuffle" => "No"
-            );
+            ];
         }
         $a_xml_writer->xmlStartTag("render_choice", $attrs);
 
         // add answers
         foreach ($this->object->getOrderingElementList() as $element) {
-            $attrs = array(
+            $attrs = [
                 'ident' => $element->getExportIdent()
-            );
+            ];
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             if ($this->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES
             || $this->object->getOrderingType() == assOrderingQuestion::OQ_NESTED_PICTURES) {
@@ -149,11 +147,11 @@ class assOrderingQuestionExport extends assQuestionExport
 
                 $a_xml_writer->xmlStartTag("material");
                 if ($force_image_references) {
-                    $attrs = array(
+                    $attrs = [
                         "imagtype" => $imagetype,
                         "label" => $element->getContent(),
                         "uri" => $this->object->getImagePathWeb() . $element->getContent()
-                    );
+                    ];
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
                     $imagepath = $this->object->getImagePath() . $element->getContent();
@@ -167,11 +165,11 @@ class assOrderingQuestionExport extends assQuestionExport
                             if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
                                 $imagetype = "image/" . $matches[1];
                             }
-                            $attrs = array(
+                            $attrs = [
                                 "imagtype" => $imagetype,
                                 "label" => $element->getContent(),
                                 "embedded" => "base64"
-                            );
+                            ];
                             $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                         }
                     }
@@ -183,7 +181,7 @@ class assOrderingQuestionExport extends assQuestionExport
                 $this->addQTIMaterial($a_xml_writer, $element->getContent(), true, false);
                 $a_xml_writer->xmlEndTag("material");
                 $a_xml_writer->xmlStartTag("material");
-                $attrs = array("label" => "answerdepth");
+                $attrs = ["label" => "answerdepth"];
                 $a_xml_writer->xmlElement("mattext", $attrs, $element->getIndentation());
                 $a_xml_writer->xmlEndTag("material");
             }
@@ -202,13 +200,13 @@ class assOrderingQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("outcomes");
         // add response conditions
         foreach ($this->object->getOrderingElementList() as $element) {
-            $attrs = array(
+            $attrs = [
                 "continue" => "Yes"
-            );
+            ];
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
-            $attrs = array();
+            $attrs = [];
 
             if ($this->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
                 $ordering_type = 'OQP';
@@ -220,22 +218,22 @@ class assOrderingQuestionExport extends assQuestionExport
                 $ordering_type = 'OQT';
             }
 
-            $attrs = array("respident" => $ordering_type);
+            $attrs = ["respident" => $ordering_type];
 
             $attrs["index"] = $element->getPosition();
             $a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti setvar
-            $attrs = array(
+            $attrs = [
                 "action" => "Add"
-            );
+            ];
             $points = $this->object->getPoints() / $this->object->getOrderingElementList()->countElements();
             $a_xml_writer->xmlElement("setvar", $attrs, $points);
             // qti displayfeedback
-            $attrs = array(
+            $attrs = [
                 "feedbacktype" => "Response",
                 "linkrefid" => "link_" . $element->getPosition()
-            );
+            ];
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
@@ -245,15 +243,15 @@ class assOrderingQuestionExport extends assQuestionExport
             true
         );
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "continue" => "Yes"
-            );
+            ];
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
 
             foreach ($this->object->getOrderingElementList() as $element) {
-                $attrs = array();
+                $attrs = [];
 
                 if ($this->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
                     $ordering_type = 'OQP';
@@ -265,7 +263,7 @@ class assOrderingQuestionExport extends assQuestionExport
                     $ordering_type = 'OQT';
                 }
 
-                $attrs = array("respident" => $ordering_type);
+                $attrs = ["respident" => $ordering_type];
 
                 $attrs["index"] = $element->getPosition();
                 $a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
@@ -273,10 +271,10 @@ class assOrderingQuestionExport extends assQuestionExport
 
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti displayfeedback
-            $attrs = array(
+            $attrs = [
                 "feedbacktype" => "Response",
                 "linkrefid" => "response_allcorrect"
-            );
+            ];
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
@@ -286,16 +284,16 @@ class assOrderingQuestionExport extends assQuestionExport
             false
         );
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "continue" => "Yes"
-            );
+            ];
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
             $a_xml_writer->xmlStartTag("not");
 
             foreach ($this->object->getOrderingElementList() as $element) {
-                $attrs = array();
+                $attrs = [];
                 if ($this->object->getOrderingType() == assOrderingQuestion::OQ_PICTURES) {
                     $ordering_type = 'OQP';
                 } elseif ($this->object->getOrderingType() == assOrderingQuestion::OQ_NESTED_PICTURES) {
@@ -306,7 +304,7 @@ class assOrderingQuestionExport extends assQuestionExport
                     $ordering_type = 'OQT';
                 }
 
-                $attrs = array("respident" => $ordering_type);
+                $attrs = ["respident" => $ordering_type];
 
                 $attrs["index"] = $element->getPosition();
                 $a_xml_writer->xmlElement("varequal", $attrs, $element->getPosition());
@@ -315,10 +313,10 @@ class assOrderingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("not");
             $a_xml_writer->xmlEndTag("conditionvar");
             // qti displayfeedback
-            $attrs = array(
+            $attrs = [
                 "feedbacktype" => "Response",
                 "linkrefid" => "response_onenotcorrect"
-            );
+            ];
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
         }
@@ -327,10 +325,10 @@ class assOrderingQuestionExport extends assQuestionExport
 
         // PART III: qti itemfeedback
         foreach ($this->object->getOrderingElementList() as $element) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "link_" . $element->getPosition(),
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -346,10 +344,10 @@ class assOrderingQuestionExport extends assQuestionExport
         }
 
         if (strlen($feedback_allcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_allcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
@@ -358,10 +356,10 @@ class assOrderingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
         if (strlen($feedback_onenotcorrect)) {
-            $attrs = array(
+            $attrs = [
                 "ident" => "response_onenotcorrect",
                 "view" => "All"
-            );
+            ];
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");

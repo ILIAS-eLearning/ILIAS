@@ -23,19 +23,19 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, QuestionLMExportable, QuestionAutosaveable
 {
-    private ?array $answerType = null;
-    private $long_menu_text;
-    private $json_structure;
-    private $ilDB;
-    private $specificFeedbackSetting;
-    private $minAutoComplete;
-    private $identical_scoring;
-
     public const ANSWER_TYPE_SELECT_VAL = 0;
     public const ANSWER_TYPE_TEXT_VAL = 1;
     public const GAP_PLACEHOLDER = 'Longmenu';
     public const MIN_LENGTH_AUTOCOMPLETE = 3;
     public const MAX_INPUT_FIELDS = 500;
+
+    private ?array $answerType = null;
+    private string $long_menu_text = '';
+    private string $json_structure = '';
+    private ilDBInterface $ilDB;
+    private int $specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
+    private int $minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
+    private bool $identical_scoring = true;
 
     protected const HAS_SPECIFIC_FEEDBACK = false;
 
@@ -46,18 +46,15 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     private $answers = [];
 
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = ""
     ) {
         global $DIC;
-        $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
-        $this->minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->ilDB = $DIC->database();
-        $this->identical_scoring = 1;
     }
 
     public function getAnswerType(): ?array
@@ -104,12 +101,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return null;
     }
 
-    public function setLongMenuTextValue($long_menu_text = ""): void
+    public function setLongMenuTextValue(string $long_menu_text = ''): void
     {
         $this->long_menu_text = $this->getHtmlQuestionContentPurifier()->purify($long_menu_text);
     }
 
-    public function getLongMenuTextValue()
+    public function getLongMenuTextValue(): string
     {
         return $this->long_menu_text;
     }
@@ -127,7 +124,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     /**
      * @return mixed
      */
-    public function getJsonStructure()
+    public function getJsonStructure(): string
     {
         return $this->json_structure;
     }
@@ -135,7 +132,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     /**
      * @param mixed $json_structure
      */
-    public function setJsonStructure($json_structure): void
+    private function setJsonStructure(string $json_structure): void
     {
         $this->json_structure = $json_structure;
     }
@@ -491,104 +488,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $this->loadCorrectAnswerData($this->getId());
         return $this->getJsonStructure();
     }
-
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        $clone->copyPageOfQuestion($this_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-
-        $clone->copyPageOfQuestion($original_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
 
     /**
      * Returns the points, a learner has reached answering the question.

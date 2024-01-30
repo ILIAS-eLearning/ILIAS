@@ -169,7 +169,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         );
     }
 
-    protected function editQuestion(ilPropertyFormGUI $form = null): void
+    public function editQuestion(ilPropertyFormGUI $form = null): void
     {
         if ($form === null) {
             $form = $this->buildEditForm();

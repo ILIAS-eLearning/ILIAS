@@ -39,32 +39,21 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 {
     use ManipulateThumbnailsInChoiceQuestionsTrait;
 
-    public const OUTPUT_ORDER = 0;
-    public const OUTPUT_RANDOM = 1;
+    protected const OUTPUT_ORDER = 0;
+    protected const OUTPUT_RANDOM = 1;
+
+    protected const FEEDBACK_MODE_ALL_ANSWERS = 1;
+    protected const FEEDBACK_MODE_SELECTED_ANSWERS = 2;
+    protected const FEEDBACK_MODE_CORRECT_ANSWERS = 3;
 
     private bool $isSingleline = true;
 
     /**
-    * The given answers of the single choice question
-    * $answers is an array of the given answers of the single choice question
+    * @var array<ASS_AnswerBinaryStateImage>
     */
-    public array $answers;
-
-    /**
-     * Output type
-     *
-     * This is the output type for the answers of the single choice question. You can select
-     * OUTPUT_ORDER(=0) or OUTPUT_RANDOM (=1). The default output type is OUTPUT_ORDER
-     */
+    public array $answers = [];
     public int $output_type;
-
-    /**
-     * 1 - Feedback is shown for all answer options.
-     * 2 - Feedback is shown for all checked/selected options.
-     * 3 - Feedback is shown for all correct options.
-     * @var int
-     */
-    protected $feedback_setting;
+    protected int $feedback_setting = self::FEEDBACK_MODE_SELECTED_ANSWERS;
 
     /**
      * assSingleChoice constructor
@@ -90,9 +79,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
-        $this->answers = [];
-        $this->shuffle = 1;
-        $this->feedback_setting = 2;
     }
 
     /**
@@ -103,20 +89,21 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     */
     public function isComplete(): bool
     {
-        if ($this->title !== ''
+        if (
+            $this->title !== ''
             && $this->author !== null && $this->author !== ''
             && $this->question !== null && $this->question !== ''
             && $this->answers !== []
-            && $this->getMaximumPoints() > 0) {
+            && $this->getMaximumPoints() > 0
+        ) {
             foreach ($this->answers as $answer) {
-                if ($answer->getAnswertext() === '' && !$answer->hasImage()) {
+                if ($answer->getAnswertext() === '' && $answer->getImage() === '') {
                     return false;
                 }
             }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -193,9 +180,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
                 $this->setThumbSize($data['thumb_size']);
             }
-            $this->isSingleline = ($data['allow_images']) ? false : true;
+            $this->isSingleline = $data['allow_images'] === false;
             $this->lastChange = $data['tstamp'];
-            $this->feedback_setting = $data['feedback_setting'];
+            $this->feedback_setting = $data['feedback_setting'] ?? self::FEEDBACK_MODE_SELECTED_ANSWERS;
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
@@ -238,141 +225,30 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         parent::loadFromDb($question_id);
     }
 
-    /**
-    * Duplicates an assSingleChoiceQuestion
-    *
-    * @access public
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the images
-        $clone->duplicateImages($this_id, $thisObjId);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function duplicateQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $clone->duplicateImages($source_question_id, $source_parent_id);
+        return $clone;
     }
 
-    /**
-    * Copies an assSingleChoice object
-    *
-    * @access public
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
-        $clone->copyImages($original_id, $source_questionpool_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $clone->copyImages($source_question_id, $source_parent_id);
+        return $clone;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-        // duplicate the image
-        $clone->copyImages($sourceQuestionId, $sourceParentId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Adds a possible answer for a single choice question. A ASS_AnswerBinaryStateImage object will be
-    * created and assigned to the array $this->answers.
-    *
-    * @param string $answertext The answer text
-    * @param double $points The points for selecting the answer (even negative points can be used)
-    * @param boolean $state Defines the answer as correct (TRUE) or incorrect (FALSE)
-    * @param integer $order A possible display order of the answer
-    * @param double $points The points for not selecting the answer (even negative points can be used)
-    * @access public
-    * @see $answers
-    * @see ASS_AnswerBinaryStateImage
-    */
     public function addAnswer(
-        $answertext = "",
-        $points = 0.0,
-        $order = 0,
-        $answerimage = null,
-        $answer_id = -1
+        string $answertext = '',
+        float $points = 0.0,
+        int $order = 0,
+        string $answerimage = '',
+        int $answer_id = -1
     ): void {
         $answertext = $this->getHtmlQuestionContentPurifier()->purify($answertext);
         if (array_key_exists($order, $this->answers)) {
@@ -563,24 +439,20 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass      Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
+    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
         $entered_values = 0;
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
             $update = -1;
-            if ($ilDB->numRows($result)) {
-                $row = $ilDB->fetchAssoc($result);
+            if ($this->db->numRows($result)) {
+                $row = $this->db->fetchAssoc($result);
                 $update = $row["solution_id"];
             }
 
@@ -1103,10 +975,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function getMultilineAnswerSetting()
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
-        $multilineAnswerSetting = $ilUser->getPref("tst_multiline_answers");
+        $multilineAnswerSetting = $this->current_user->getPref("tst_multiline_answers");
         if ($multilineAnswerSetting != 1) {
             $multilineAnswerSetting = 0;
         }
@@ -1115,9 +984,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function setMultilineAnswerSetting($a_setting = 0): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilUser->writePref("tst_multiline_answers", (string) $a_setting);
+        $this->current_user->writePref("tst_multiline_answers", (string) $a_setting);
     }
 
     /**
@@ -1126,12 +993,10 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * 1 - Feedback is shown for all answer options.
      * 2 - Feedback is shown for all checked/selected options.
      * 3 - Feedback is shown for all correct options.
-     *
-     * @param integer $a_feedback_setting
      */
-    public function setSpecificFeedbackSetting($a_feedback_setting): void
+    public function setSpecificFeedbackSetting($feedback_setting): void
     {
-        $this->feedback_setting = $a_feedback_setting;
+        $this->feedback_setting = $feedback_setting;
     }
 
     /**
@@ -1140,8 +1005,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * 1 - Feedback is shown for all answer options.
      * 2 - Feedback is shown for all checked/selected options.
      * 3 - Feedback is shown for all correct options.
-     *
-     * @return integer
      */
     public function getSpecificFeedbackSetting(): int
     {

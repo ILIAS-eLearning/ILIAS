@@ -783,7 +783,7 @@ class ilObjQuestionPool extends ilObject
      * @param integer $question_id Object id of the question
      * @access private
      */
-    public function moveToClipboard($question_id): void
+    public function moveToClipboard(int $question_id): void
     {
         if (ilSession::get('qpl_clipboard') == null) {
             ilSession::set('qpl_clipboard', []);
@@ -793,18 +793,18 @@ class ilObjQuestionPool extends ilObject
         ilSession::set('qpl_clipboard', $clip);
     }
 
-    public function cleanupClipboard($deletedQuestionId): void
+    public function cleanupClipboard(int $deleted_question_id): void
     {
         if (ilSession::get('qpl_clipboard') == null) {
             return;
         }
 
         $clip = ilSession::get('qpl_clipboard');
-        if (!isset($clip[$deletedQuestionId])) {
+        if (!isset($clip[$deleted_question_id])) {
             return;
         }
 
-        unset($clip[$deletedQuestionId]);
+        unset($clip[$deleted_question_id]);
 
         if (!count($clip)) {
             ilSession::clear('qpl_clipboard');
@@ -936,13 +936,13 @@ class ilObjQuestionPool extends ilObject
      * @access public
      */
     public static function _getAvailableQuestionpools(
-        $use_object_id = false,
-        $equal_points = false,
-        $could_be_offline = false,
-        $showPath = false,
-        $with_questioncount = false,
-        $permission = 'read',
-        $usr_id = ''
+        bool $use_object_id = false,
+        bool $equal_points = false,
+        bool $could_be_offline = false,
+        bool $showPath = false,
+        bool $with_questioncount = false,
+        string $permission = 'read',
+        int $usr_id = 0
     ): array {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -951,7 +951,7 @@ class ilObjQuestionPool extends ilObject
 
         $result_array = [];
         $permission = (strlen($permission) == 0) ? 'read' : $permission;
-        $qpls = ilUtil::_getObjectsByOperations('qpl', $permission, (strlen($usr_id)) ? $usr_id : $ilUser->getId(), -1);
+        $qpls = ilUtil::_getObjectsByOperations('qpl', $permission, $usr_id > 0 ? $usr_id : $ilUser->getId(), -1);
         $obj_ids = [];
         foreach ($qpls as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);

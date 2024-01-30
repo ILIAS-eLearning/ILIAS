@@ -16,22 +16,18 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * GUI class for management of a single hint for assessment questions
- *
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Grégory Saive <gsaive@databay.de>
  * @version		$Id$
- *
- * @package		Modules/TestQuestionPool
+
  *
  * @ilCtrl_Calls ilAssQuestionHintGUI: ilAssHintPageGUI
  */
 class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 {
-    /**
-     * command constants
-     */
     public const CMD_SHOW_FORM = 'showForm';
     public const CMD_SAVE_FORM = 'saveForm';
     public const CMD_CANCEL_FORM = 'cancelForm';
@@ -59,7 +55,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
 
         $cmd = $ilCtrl->getCmd(self::CMD_SHOW_FORM);
         $nextClass = $ilCtrl->getNextClass($this);
@@ -91,11 +86,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     private function showFormCmd(ilPropertyFormGUI $form = null): void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
 
         if ($form instanceof ilPropertyFormGUI) {
             $form->setValuesByPost();
@@ -115,20 +106,8 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * saves the form on successfull validation and redirects to showForm command
-     *
-     * @access	private
-     * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     */
     private function saveFormCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
         $questionHint = new ilAssQuestionHint();
         if ($this->request->isset('hint_id')) {
             $questionHint->load((int) $this->request->int('hint_id'));
@@ -151,42 +130,38 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $questionHint->setPoints($form->getInput('hint_points'));
 
             $questionHint->save();
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_form_saved_msg'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_question_hints_form_saved_msg'), true);
 
             if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $this->questionOBJ->updateTimestamp();
             }
 
             $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
-            if ($this->request->raw('calling_test') && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
-                $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+            if (
+                $this->request->raw('calling_test')
+                && $originalexists
+                && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())
+            ) {
+                $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
 
 
             if ($hintJustCreated && $this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-                $ilCtrl->setParameterByClass('ilasshintpagegui', 'hint_id', $questionHint->getId());
-                $ilCtrl->redirectByClass('ilasshintpagegui', 'edit');
+                $this->ctrl->setParameterByClass('ilasshintpagegui', 'hint_id', $questionHint->getId());
+                $this->ctrl->redirectByClass('ilasshintpagegui', 'edit');
             } else {
-                $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+                $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             }
         }
 
-        $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_form_invalid_msg'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('tst_question_hints_form_invalid_msg'));
         $this->showFormCmd($form);
     }
 
-    /**
-     * gateway command method to jump back to question hints overview
-     *
-     * @access	private
-     * @global	ilCtrl	$ilCtrl
-     */
     private function cancelFormCmd(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $ilCtrl->redirectByClass('ilAssQuestionHintsGUI');
+        $this->ctrl->redirectByClass('ilAssQuestionHintsGUI');
     }
 
     /**

@@ -45,7 +45,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     private int $max_num_of_chars = 0;
     private bool $word_counter_enabled = false;
-    private string $text_rating;
+    private string $text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
     private int $matchcondition = 0;
     private string $keyword_relation = self::SCORING_MODE_KEYWORD_RELATION_NONE;
 
@@ -189,120 +189,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         parent::loadFromDb($question_id);
-    }
-
-    /**
-    * Duplicates an assTextQuestion
-    *
-    * @access public
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        #$clone->duplicateAnswers($this_id);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Copies an assTextQuestion object
-    *
-    * @access public
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate answers
-        #$clone->duplicateAnswers($original_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate(
-        int $target_parent_id,
-        string $target_question_title = ""
-    ): int {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $source_question_id = $this->id;
-        $source_parent_id = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($target_parent_id);
-
-        if ($target_question_title !== '') {
-            $clone->setTitle($target_question_title);
-        }
-
-        $clone->saveToDb();
-        $clone->copyPageOfQuestion($source_question_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
-        $clone->onCopy($source_parent_id, $source_question_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
     }
 
     public function getMaxNumOfChars(): int
@@ -548,12 +434,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
+    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
@@ -643,36 +525,16 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
     public function getQuestionType(): string
     {
         return "assTextQuestion";
     }
 
-    /**
-    * Returns the rating option for text comparisons
-    *
-    * @return string The rating option for text comparisons
-    * @see $text_rating
-    * @access public
-    */
     public function getTextRating(): string
     {
         return $this->text_rating;
     }
 
-    /**
-    * Sets the rating option for text comparisons
-    *
-    * @param string $a_textgap_rating The rating option for text comparisons
-    * @see $textgap_rating
-    * @access public
-    */
     public function setTextRating($a_text_rating): void
     {
         switch ($a_text_rating) {

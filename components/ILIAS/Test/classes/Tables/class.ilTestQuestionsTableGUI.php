@@ -256,7 +256,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         );
 
         if ($this->isQuestionManagingEnabled()) {
-            $editHref = $this->getQuestionEditLink($a_set, get_class($this->getParentObject()), 'editQuestion');
+            $editHref = $this->getQuestionEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
             $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
             $editPageHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
@@ -302,24 +302,23 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function getPreviewLink(array $row_data): string
     {
-        $target_class = get_class($this->getParentObject());
         $this->ctrl->setParameterByClass(
-            $target_class,
+            ilAssQuestionPreviewGUI::class,
             'ref_id',
             current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
-            $target_class,
+            ilAssQuestionPreviewGUI::class,
             'q_id',
             $row_data['question_id']
         );
 
         $question_href = $this->ctrl->getLinkTargetByClass(
-            $target_class,
-            'previewQuestion'
+            ilAssQuestionPreviewGUI::class,
+            'show'
         );
-        $this->ctrl->setParameterByClass($target_class, 'q_id', '');
+        $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', '');
 
         return $question_href;
     }

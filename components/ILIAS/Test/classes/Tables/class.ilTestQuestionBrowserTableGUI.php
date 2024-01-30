@@ -179,7 +179,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $manscoring = false;
 
         foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->test_obj->insertQuestion($test_question_set_config, $value);
+            $last_question_id = $this->test_obj->insertQuestion($value);
 
             if (!$manscoring) {
                 $manscoring |= assQuestion::_needsManualScoring($value);
@@ -289,7 +289,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         switch ($this->fetchContextParameter()) {
             case self::CONTEXT_LIST_VIEW:
-                return 'showQuestions';
+                return ilObjTestGUI::DEFAULT_CMD;
 
             case self::CONTEXT_PAGE_VIEW:
                 return 'showPage';

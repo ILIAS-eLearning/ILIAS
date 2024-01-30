@@ -17,6 +17,7 @@
 
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
 * Class for question imports
@@ -293,7 +294,7 @@ class assQuestionImport
     protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
-            $dic = ilQuestionPoolDIC::dic();
+            $dic = QuestionPoolDIC::dic();
             $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
         }
         return $this->suggestedsolution_repo;

@@ -193,133 +193,30 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         parent::loadFromDb($question_id);
     }
 
-    public function duplicate(
-        bool $for_test = true,
-        ?string $title = "",
-        ?string $author = "",
-        ?int $owner = -1,
-        $testObjId = null
-    ): int {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = clone $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        //$list = $this->getRepository()->getOrderingList($original_id)
-        $list = $this->getRepository()->getOrderingList($this_id)
-            ->withQuestionId($clone->getId());
-        $list->distributeNewRandomIdentifiers();
-        $clone->setOrderingElementList($list);
-        $clone->saveToDb();
-
-        $clone->copyPageOfQuestion($this_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        $clone->duplicateImages($this_id, $thisObjId, $clone->getId(), $testObjId);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-        return $clone->getId();
-    }
-
-    /**
-    * Copies an assOrderingQuestion object
-    *
-    * @access public
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = clone $this;
-        $this_id = $this->getId();
-        $original_id = $this->questioninfo->getOriginalId($this_id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-
-        $list = $this->getRepository()->getOrderingList($this_id)
-            ->withQuestionId($clone->getId());
-        $list->distributeNewRandomIdentifiers();
-        $clone->setOrderingElementList($list);
-        $clone->saveToDb();
-
-        $clone->copyPageOfQuestion($original_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        $clone->duplicateImages($original_id, $source_questionpool_id, $clone->getId(), $target_questionpool_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->getId();
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = clone $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-
+    protected function duplicateQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
         $list = $this->getRepository()->getOrderingList($this->getId())
             ->withQuestionId($clone->getId());
         $list->distributeNewRandomIdentifiers();
         $clone->setOrderingElementList($list);
-        $clone->saveToDb();
+        $clone->duplicateImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
+        return $clone;
+    }
 
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-        // duplicate the image
-        $clone->duplicateImages($sourceQuestionId, $sourceParentId, $clone->getId(), $clone->getObjId());
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+    protected function cloneQuestionTypeSpecificProperties(
+        \assQuestion $clone,
+        int $source_question_id,
+        int $source_parent_id
+    ): \assQuestion {
+        $list = $this->getRepository()->getOrderingList($this->getId())
+            ->withQuestionId($clone->getId());
+        $list->distributeNewRandomIdentifiers();
+        $clone->setOrderingElementList($list);
+        $clone->duplicateImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
+        return $clone;
     }
 
     public function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id): void

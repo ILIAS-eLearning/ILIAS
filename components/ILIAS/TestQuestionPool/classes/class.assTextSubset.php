@@ -39,48 +39,15 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
     /**
-    * The text which defines the correct set of answers
-    *
     * @var array
     */
-    public $answers;
+    public array $answers = [];
 
     /**
     * The number of correct answers to solve the question
-    *
-    * @var integer
     */
-    public $correctanswers;
-
-    /**
-    * The method which should be chosen for text comparisons
-    *
-    * @var string
-    */
-    public $text_rating;
-
-    /**
-     * assTextSubset constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assTextSubset object.
-     *
-     * @param string $title A title string to describe the question
-     * @param string $comment A comment string to describe the question
-     * @param string $author A string containing the name of the questions author
-     * @param integer $owner A TextSubsetal ID to identify the owner/creator
-     * @param string $question The question string of the TextSubset question
-     */
-    public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
-    ) {
-        parent::__construct($title, $comment, $author, $owner, $question);
-        $this->answers = [];
-        $this->correctanswers = 0;
-    }
+    public int $correctanswers = 0;
+    public string $text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
 
     /**
     * Returns true, if a TextSubset question is complete for use
@@ -206,118 +173,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             // add answer
             $this->answers[] = new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers));
         }
-    }
-
-    /**
-    * Duplicates an assTextSubsetQuestion
-    *
-    * @access public
-    */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", int $owner = -1, $testObjId = null): int
-    {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return -1;
-        }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $thisObjId = $this->getObjId();
-
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
-        }
-
-        if ($title) {
-            $clone->setTitle($title);
-        }
-
-        if ($author) {
-            $clone->setAuthor($author);
-        }
-        if ($owner) {
-            $clone->setOwner($owner);
-        }
-
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
-        $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-
-        $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    /**
-    * Copies an assTextSubset object
-    *
-    * @access public
-    */
-    public function copyObject($target_questionpool_id, $title = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-        // duplicate the question in database
-        $clone = $this;
-
-        $original_id = $this->questioninfo->getOriginalId($this->id);
-        $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
-        if ($title) {
-            $clone->setTitle($title);
-        }
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
-    }
-
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
-    {
-        if ($this->getId() <= 0) {
-            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
-        }
-
-        $sourceQuestionId = $this->id;
-        $sourceParentId = $this->getObjId();
-
-        // duplicate the question in database
-        $clone = $this;
-        $clone->id = -1;
-
-        $clone->setObjId($targetParentId);
-
-        if ($targetQuestionTitle) {
-            $clone->setTitle($targetQuestionTitle);
-        }
-
-        $clone->saveToDb();
-        // copy question page content
-        $clone->copyPageOfQuestion($sourceQuestionId);
-        // copy XHTML media objects
-        $clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
-
-        $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
     }
 
     /**
@@ -491,28 +346,14 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return false;
     }
 
-    /**
-    * Returns the rating option for text comparisons
-    *
-    * @return string The rating option for text comparisons
-    * @see $text_rating
-    * @access public
-    */
     public function getTextRating(): string
     {
         return $this->text_rating;
     }
 
-    /**
-    * Sets the rating option for text comparisons
-    *
-    * @param string $a_textgap_rating The rating option for text comparisons
-    * @see $textgap_rating
-    * @access public
-    */
-    public function setTextRating($a_text_rating): void
+    public function setTextRating(string $text_rating): void
     {
-        switch ($a_text_rating) {
+        switch ($text_rating) {
             case assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE:
             case assClozeGap::TEXTGAP_RATING_CASESENSITIVE:
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN1:
@@ -591,12 +432,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
+    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }

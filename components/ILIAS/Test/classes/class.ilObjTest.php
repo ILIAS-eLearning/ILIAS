@@ -1042,27 +1042,28 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     }
 
     /**
-     * @param int $questionId
-     * @param array $activeIds
-     * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+     * @param array<int> $active_ids
      */
-    public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap): void
-    {
+    public function removeQuestionFromSequences(
+        int $question_id,
+        array $active_ids,
+        ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+    ): void {
         $test_sequence_factory = new ilTestSequenceFactory(
             $this,
             $this->db,
             $this->questioninfo
         );
 
-        foreach ($activeIds as $activeId) {
+        foreach ($active_ids as $active_id) {
             $passSelector = new ilTestPassesSelector($this->db, $this);
-            $passSelector->setActiveId($activeId);
+            $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($activeId, $pass);
+                $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
                 $test_sequence->loadFromDb();
 
-                $test_sequence->removeQuestion($questionId, $reindexedSequencePositionMap);
+                $test_sequence->removeQuestion($question_id, $reindexedSequencePositionMap);
                 $test_sequence->saveToDb();
             }
         }
@@ -1222,9 +1223,12 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         ilAssQuestionHintTracking::deleteRequestsByActiveIds($active_ids);
     }
 
-    private function removeTestActives($activeIds)
+    /**
+     * @param array<int> $active_ids
+     */
+    private function removeTestActives(array $active_ids)
     {
-        $IN_activeIds = $this->db->in('active_id', $activeIds, false, 'integer');
+        $IN_activeIds = $this->db->in('active_id', $active_ids, false, 'integer');
         $this->db->manipulate("DELETE FROM tst_active WHERE $IN_activeIds");
     }
 
@@ -1320,7 +1324,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $duplicate_id;
     }
 
-    public function insertQuestion(ilTestQuestionSetConfig $test_question_set_config, int $question_id, bool $link_only = false): int
+    public function insertQuestion(int $question_id, bool $link_only = false): int
     {
         if ($link_only) {
             $duplicate_id = $question_id;
@@ -1354,7 +1358,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             [$this->getTestId()]
         );
         $this->loadQuestions();
-        $this->saveCompleteStatus($test_question_set_config);
+        $this->saveCompleteStatus($this->question_set_config_factory->getQuestionSetConfig());
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
@@ -2097,24 +2101,15 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $time;
     }
 
-    /**
-    * Returns the complete working time in seconds for a test participant
-    *
-    * @return integer The working time in seconds for the test participant
-    * @access public
-    */
-    public static function _getWorkingTimeOfParticipantForPass($active_id, $pass): int
+    public function getWorkingTimeOfParticipantForPass(int $active_id, int $pass): int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
             ['integer','integer'],
             [$active_id, $pass]
         );
         $time = 0;
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
             $epoch_1 = mktime(
                 (int) $matches[4],
@@ -2718,17 +2713,13 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $data;
     }
 
-    public static function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass): array
+    public function getQuestionCountAndPointsForPassOfParticipant($active_id, $pass): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $question_set_type = $this->lookupQuestionSetTypeByActiveId($active_id);
 
-        $questionSetType = ilObjTest::lookupQuestionSetTypeByActiveId($active_id);
-
-        switch ($questionSetType) {
+        switch ($question_set_type) {
             case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-
-                $res = $ilDB->queryF(
+                $res = $this->db->queryF(
                     "
 						SELECT		tst_test_rnd_qst.pass,
 									COUNT(tst_test_rnd_qst.question_fi) qcount,
@@ -2747,12 +2738,10 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                     ['integer', 'integer'],
                     [$active_id, $pass]
                 );
-
                 break;
 
             case ilObjTest::QUESTION_SET_TYPE_FIXED:
-
-                $res = $ilDB->queryF(
+                $res = $this->db->queryF(
                     "
 						SELECT		COUNT(tst_test_question.question_fi) qcount,
 									SUM(qpl_questions.points) qsum
@@ -2770,15 +2759,13 @@ class ilObjTest extends ilObject implements MarkSchemaAware
                     ['integer'],
                     [$active_id]
                 );
-
                 break;
 
             default:
-
                 throw new ilTestException("not supported question set type: $questionSetType");
         }
 
-        $row = $ilDB->fetchAssoc($res);
+        $row = $this->db->fetchAssoc($res);
 
         if (is_array($row)) {
             return ["count" => $row["qcount"], "points" => $row["qsum"]];
@@ -3067,14 +3054,10 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     }
 
     /**
-    * Move questions to another position
-    *
-    * @param array $move_questions An array with the question id's of the questions to move
-    * @param integer $target_index The question id of the target position
+    * @param array<int> $move_questions
     * @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
-    * @access public
     */
-    public function moveQuestions($move_questions, $target_index, $insert_mode)
+    public function moveQuestions(array $move_questions, int $target_index, int $insert_mode): void
     {
         $this->questions = array_values($this->questions);
         $array_pos = array_search($target_index, $this->questions);
@@ -5717,14 +5700,10 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $questions;
     }
 
-    /**
-     * @param int $questionId
-     * @return bool
-     */
-    public function isTestQuestion($questionId): bool
+    public function isTestQuestion(int $question_id): bool
     {
         foreach ($this->getTestQuestions() as $questionData) {
-            if ($questionData['question_id'] != $questionId) {
+            if ($questionData['question_id'] != $question_id) {
                 continue;
             }
 
@@ -5734,12 +5713,12 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return false;
     }
 
-    public function checkQuestionParent($questionId): bool
+    public function checkQuestionParent(int $question_id): bool
     {
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(question_id) cnt FROM qpl_questions WHERE question_id = %s AND obj_fi = %s",
             ['integer', 'integer'],
-            [$questionId, $this->getId()]
+            [$question_id, $this->getId()]
         ));
 
         return (bool) $row['cnt'];
@@ -6127,17 +6106,8 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return $this->getMainSettings()->getAccessSettings()->getFixedParticipants();
     }
 
-    /**
-     * returns the question set type of test relating to passed active id
-     *
-     * @param integer $activeId
-     * @return string $questionSetType
-     */
-    public static function lookupQuestionSetTypeByActiveId($active_id): ?string
+    public function lookupQuestionSetTypeByActiveId(int $active_id): ?string
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $query = "
 			SELECT		tst_tests.question_set_type
 			FROM		tst_active
@@ -6146,9 +6116,9 @@ class ilObjTest extends ilObject implements MarkSchemaAware
 			WHERE		tst_active.active_id = %s
 		";
 
-        $res = $ilDB->queryF($query, ['integer'], [$active_id]);
+        $res = $this->db->queryF($query, ['integer'], [$active_id]);
 
-        while ($row = $ilDB->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             return $row['question_set_type'];
         }
 
@@ -7491,13 +7461,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         return call_user_func([$class, 'isObligationPossible'], $question_id);
     }
 
-    /**
-     * checks wether the question with given id is marked as obligatory or not
-     *
-     * @param integer $questionId
-     * @return boolean $obligatory
-     */
-    public static function isQuestionObligatory($question_id): bool
+    public static function isQuestionObligatory(int $question_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -7774,31 +7738,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     }
 
     /**
-     * lookup-er for question set type
-     *
-     * @global ilDBInterface $ilDB
-     * @param integer $objId
-     * @return string $questionSetType
-     */
-    public static function lookupQuestionSetType($objId): ?string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
-
-        $res = $ilDB->queryF($query, ['integer'], [$objId]);
-
-        $questionSetType = null;
-
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $questionSetType = $row['question_set_type'];
-        }
-
-        return $questionSetType;
-    }
-
-    /**
      * Returns the fact wether this test is a fixed question set test or not
      *
      * @return boolean $isFixedTest
@@ -7816,18 +7755,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public function isRandomTest(): bool
     {
         return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
-    }
-
-    /**
-     * Returns the fact wether the test with passed obj id is a random questions test or not
-     *
-     * @param integer $a_obj_id
-     * @return boolean $isRandomTest
-     * @deprecated
-     */
-    public static function _lookupRandomTest($a_obj_id): bool
-    {
-        return self::lookupQuestionSetType($a_obj_id) == self::QUESTION_SET_TYPE_RANDOM;
     }
 
     public function getQuestionSetTypeTranslation(ilLanguage $lng, $questionSetType): string
@@ -8206,8 +8133,8 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         ilAssQuestionProcessLocker $process_locker = null,
         int $test_obj_id = null
     ): array {
-        $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-        $time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
+        $data = $this->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+        $time = $this->getWorkingTimeOfParticipantForPass($active_id, $pass);
 
         $result = $this->db->queryF(
             '

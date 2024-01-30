@@ -192,7 +192,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
     public function isSaveCommand(): bool
     {
-        return in_array($this->ctrl->getCmd(), array('save', 'saveEdit', 'saveReturn'));
+        return in_array($this->ctrl->getCmd(), ['save', 'saveEdit', 'saveReturn']);
     }
 
     /**

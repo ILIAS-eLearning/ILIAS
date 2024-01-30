@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+
 /**
 * Unit tests
 *
@@ -25,21 +29,21 @@
 *
 * This test was automatically generated.
 */
-class ilQuestionPoolDICTest extends assBaseTestCase
+class QuestionPoolDICTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    private ilQuestionPoolDIC $object;
+    private QuestionPoolDIC $object;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
-        $this->object = new ilQuestionPoolDIC();
+
+        $this->object = new QuestionPoolDIC();
     }
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilQuestionPoolDIC::class, $this->object);
+        $this->assertInstanceOf(QuestionPoolDIC::class, $this->object);
     }
 }
