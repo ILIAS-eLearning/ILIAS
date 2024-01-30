@@ -1,7 +1,23 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+
+declare(strict_types=1);
 
 abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 {
@@ -55,7 +71,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
         $this->setLimit(0);
 
         $this->setTitle(
-            $this->lng->txt('search_results') . ' "' . str_replace(array('"'), '', $this->getSearchTerm()) . '"'
+            $this->lng->txt('search_results') . ' "' . str_replace(['"'], '', ilLegacyFormElementsUtil::prepareFormOutput($this->getSearchTerm())) . '"'
         );
     }
 
