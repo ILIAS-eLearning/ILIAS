@@ -40,14 +40,14 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /** @var mixed */
     protected $value;
 
-    public function __construct(string $label, protected string $dependencyElementId)
+    public function __construct(string $label, string $http_post_param_name, protected string $dependencyElementId)
     {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->httpState = $DIC->http();
 
-        parent::__construct($label);
+        parent::__construct($label, $http_post_param_name);
 
         $this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
     }

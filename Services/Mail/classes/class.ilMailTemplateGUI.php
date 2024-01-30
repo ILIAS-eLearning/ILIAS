@@ -388,6 +388,7 @@ class ilMailTemplateGUI
 
         $placeholders = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
+            'm_placeholders',
             'm_message'
         );
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
@@ -470,6 +471,7 @@ class ilMailTemplateGUI
 
         $placeholders = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
+            'm_placeholders',
             'm_message'
         );
         $placeholders->setDisabled(!$this->isEditingAllowed());

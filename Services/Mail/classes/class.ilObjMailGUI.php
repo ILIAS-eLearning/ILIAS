@@ -558,6 +558,7 @@ class ilObjMailGUI extends ilObjectGUI
 
         $placeholders = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
+            'm_placeholders',
             'mail_system_sys_signature'
         );
         $placeholder_list = [
