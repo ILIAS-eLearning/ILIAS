@@ -339,7 +339,11 @@ JS;
         }
 
         if (!$checkonly) {
-            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+            $modal = ilModalGUI::getInstance();
+            $modal->setHeading($this->lng->txt(''));
+            $modal->setId('ilGapModal');
+            $modal->setBody('');
+            $this->tpl->setVariable("QUESTION_DATA", $form->getHTML() . $modal->getHTML());
         }
         return $errors;
     }

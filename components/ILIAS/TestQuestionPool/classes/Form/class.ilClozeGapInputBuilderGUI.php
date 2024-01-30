@@ -258,11 +258,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $renderer = $DIC->ui()->renderer();
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($lng->txt(''));
-        $modal->setId("ilGapModal");
-        $modal->setBody('');
-
         $cloze_settings_js = 'ClozeSettings = {'
             . ' gaps_php             : ' . json_encode(array($this->getValue()))
             . ',gaps_combination     : ' . json_encode($this->getValueCombination())
@@ -286,9 +281,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             './components/ILIAS/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
         );
 
-
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $custom_template->setVariable("MY_MODAL", $modal->getHTML());
         $custom_template->setVariable('GAP_JSON', json_encode(array($this->getValue())));
         $custom_template->setVariable('GAP', $lng->txt('gap'));
         $custom_template->setVariable('GAP_COMBINATION_JSON', json_encode($this->getValueCombination()));
