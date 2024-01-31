@@ -89,7 +89,7 @@ abstract class Action implements I\Action
         if ($target instanceof URI) {
             $target = $this->url_builder->withParameter(
                 $this->row_id_parameter,
-                [$row_id]
+                $row_id
             )
             ->buildURI();
         }
