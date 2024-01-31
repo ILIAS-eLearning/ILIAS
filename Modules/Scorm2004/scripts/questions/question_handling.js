@@ -890,9 +890,14 @@ ilias.questions.showFeedback =function(a_id) {
 		}else{
 			var txt_wrong_answers = ilias.questions.txt.wrong_answers;
 		}
+		if(!questions[a_id].feedback['tries'] &&
+			questions[a_id].nr_of_tries - answers[a_id].tries > 0) {
+			txt_wrong_answers = '';
+		}
+		if(questions[a_id].feedback['correct']){
+			ilias.questions.txt.all_answers_correct = questions[a_id].feedback['correct'];
+		}
 		// JKN PATCH END
-
-		ilias.questions.txt.all_answers_correct = questions[a_id].feedback['correct'];
 	}
 	else
 	{
@@ -958,8 +963,11 @@ ilias.questions.showFeedback =function(a_id) {
 
 			if (ilias.questions.default_feedback)
 			{
-				fbtext = '<b>' + ilias.questions.txt.nr_of_tries_exceeded + '</b><br />'
-							+ ilias.questions.txt.correct_answers_shown + '<br />';
+				// JKN PATCH START
+					fbtext = '<b>' + txt_wrong_answers + '</b><br />'
+					+ ilias.questions.txt.nr_of_tries_exceeded + '<br />';
+				// JKN PATCH END
+
 			}
 
 			if (questions[a_id].feedback['onenotcorrect'])
