@@ -686,15 +686,20 @@ assessment#:#examid_in_test_pass_desc#:#Un ID Essai est affiché dans le test. U
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.
 assessment#:#exp_all_test_runs#:#All test runs###31 10 2023 new variable
-assessment#:#exp_best_pass#:#Scored test run###31 10 2023 new variable
 assessment#:#exp_eval_data#:#Exporter les résultats
 assessment#:#exp_file_created#:#Fichier d'export créé.
+assessment#:#exp_grammar_as#:#as###31 01 2024 new variable
 assessment#:#exp_scored_test_run#:#Scored test run###31 10 2023 new variable
 assessment#:#exp_type_certificate#:#Certificat (PDF)
 assessment#:#exp_type_excel#:# Excel
 assessment#:#exp_type_spss#:#  SPSS
 assessment#:#expected_result_type#:#Type de résultat attendu
 assessment#:#export#:#Exporter
+assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_s#:#The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.###31 01 2024 new variable
 assessment#:#export_essay_qst_with_html#:#Exporter la question de dissertation avec le code HTML
 assessment#:#export_essay_qst_with_html_desc#:#Si cette option est activée, il est possible d’exporter les questions de dissertation avec HTML vers Excel.
 assessment#:#extratime#:#Temps Supplémentaire
@@ -2490,6 +2495,7 @@ book#:#book_cal_entry#:#Réservation de :
 book#:#book_confirm_booking#:#Confirmer réservation
 book#:#book_confirm_booking_no_schedule#:#Etes-vous sûr de vouloir réserver cette ressource ?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmation de Réservation
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.###31 01 2024 new variable
 book#:#book_confirm_cancel#:#Etes-vous sûr de vouloir supprimer la réservation suivante ?
 book#:#book_confirm_cancel_aggregation#:#Nombre d’annulations
 book#:#book_confirm_delete#:#Désirez-vous vraiment supprimer les objets suivants ?
@@ -2942,8 +2948,6 @@ chatroom#:#client_chatserver_connection#:#Client de connexion serveur
 chatroom#:#client_proxy_info#:#Si le serveur n’est pas accessible avec l’adresse IP et le port par défaut, il est possible de configurer une URL personnalisée pour la connexion du client au serveur.
 chatroom#:#connection_url_info#:#Veuillez insérer une URL pour la connexion au serveur.
 chatroom#:#custom_username#:#Nom d'Utilisateur Personnalisé
-chatroom#:#delete_private_room#:#Supprimer Salle de Chat Privée
-chatroom#:#delete_private_room_question#:#Confirmer la suppression du salon privé?
 chatroom#:#dhparam#:#Paramètre Diffie-Hellman
 chatroom#:#display_past_msgs#:#Nombre de Messages Précédents
 chatroom#:#duration_from#:#De
@@ -2965,9 +2969,6 @@ chatroom#:#invite_username#:#Nom d'Utilisateur
 chatroom#:#key#:#Clé
 chatroom#:#kick_question#:#Voulez-vous vraiment exclure l&
 chatroom#:#kicked#:#Vous avez été éjecté de cet espace de discussion
-chatroom#:#kicked_from_private_room#:#Vous avez été exclu de la salle de Chat privée <b>
-chatroom#:#leave_private_room#:#Quitter Salle de Chat Privée
-chatroom#:#left_private_room#:#A quitté le salon privé
 chatroom#:#lost_connection#:#La connexion au Chat a été interrompue.
 chatroom#:#main#:#Salle principale
 chatroom#:#messages#:#Messages###31 10 2023 new variable
@@ -2984,10 +2985,6 @@ chatroom#:#osc_noti_title#:#Nouveau message de discussion
 chatroom#:#period#:#Période
 chatroom#:#permissions#:#Permissions
 chatroom#:#preferred_chatname#:#Preferred Name###31 10 2023 new variable
-chatroom#:#private_room_closed#:#La salle de Chat <b>
-chatroom#:#private_room_entered#:#Bienvenue dans la salle de Chat privée <b>
-chatroom#:#private_room_entered_user#:#L&
-chatroom#:#private_room_left#:#L&
 chatroom#:#public_chat_created#:#La salle de Chat publique a été ajoutée au catalogue.
 chatroom#:#scope#:#Salle/Salle de Chat Privée
 chatroom#:#select_custom_username#:#Sélectionner Nom d'Utilisateur Personnalisé
@@ -3745,6 +3742,7 @@ common#:#context#:#Contexte
 common#:#continue#:#continuer
 common#:#continue_work#:#Continuer
 common#:#contra#:#Contre
+common#:#copa#:#Content Page###31 01 2024 new variable
 common#:#copy#:#Copier
 common#:#copyChapter#:#Copier
 common#:#copyPage#:#Copier
@@ -3901,6 +3899,7 @@ common#:#downloading_settings#:#Paramètres de téléchargement
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###31 10 2023 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###31 10 2023 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!###31 10 2023 new variable
+common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection###31 10 2023 new variable
 common#:#dpro_usr_agreement#:#Data Protection###31 10 2023 new variable
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.###31 10 2023 new variable
@@ -4154,6 +4153,7 @@ common#:#frm_edit#:#Editer le Forum
 common#:#frm_import#:#Importer Forum
 common#:#frm_latest_postings#:#Derniers Articles
 common#:#frm_new#:#Nouveau Forum
+common#:#frm_no_threads#:#There are no threads available at the moment.###31 01 2024 new variable
 common#:#frm_statistics_ranking#:#Classement
 common#:#from#:#De
 common#:#fullname#:#Nom complet
@@ -4741,6 +4741,7 @@ common#:#msg_perm_adopted_from_itself#:#Vous ne pouvez pas adopter les permissio
 common#:#msg_removed#:#Objet(s) supprimé(s) du système.
 common#:#msg_role_reserved_prefix#:#Le préfixe 'il_' est réservé aux rôles générés automatiquement.  Veuillez choisir un autre nom
 common#:#msg_roleassignment_changed#:#Assignation de rôle modifée
+common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.###31 01 2024 new variable
 common#:#msg_sysrole_not_deletable#:#Le rôle système ne peut pas être supprimé
 common#:#msg_sysrole_not_editable#:#Les paramètres de permissions du rôle système ne peuvent pas être modifiés. Le rôle système donne à  tous les utilisateurs assignés un accès illimité sur tous les objets et fonctions.
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
@@ -4775,7 +4776,6 @@ common#:#no#:#Non
 common#:#no_access_item#:#Vous n'avez pas la permission d'accéder à cet objet.
 common#:#no_access_item_public#:#Vous devez être connecté et disposer des permissions nécessaires pour accéder à cet objet.
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
-common#:#no_agreement_description#:#Aucune charte d'utilisation n'est actuellement fournie. Veuillez contacter l'administrateur.
 common#:#no_checkbox#:#Veuillez sélectionner au moins un élément.
 common#:#no_condition_selected#:#Veuillez sélectionner une précondition.
 common#:#no_date#:#Pas de date
@@ -5721,6 +5721,7 @@ common#:#top_of_page#:#Haut de page
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?###31 10 2023 new variable
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###31 10 2023 new variable
 common#:#tos_force_accept_usr_agreement#:#You must accept the Terms of Service!###31 10 2023 new variable
+common#:#tos_no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#tos_refuse_acceptance#:#Refuse to Accept Terms of Service###31 10 2023 new variable
 common#:#tos_usr_agreement#:#Terms of Service###31 10 2023 new variable
 common#:#tos_usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###31 10 2023 new variable
@@ -7318,6 +7319,7 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 10 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 10 2023 new variable
 copg#:#copg_days#:#Days###31 10 2023 new variable
 copg#:#copg_details#:#Details
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###31 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 10 2023 new variable
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
@@ -7327,11 +7329,14 @@ copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page hist
 copg#:#copg_list_item_style#:#List Item###31 10 2023 new variable
 copg#:#copg_list_style#:#List###31 10 2023 new variable
 copg#:#copg_list_styles#:#List Formats###31 10 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###31 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###31 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###12 12 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Les questions ne sont pas supportées dans ce contexte.
 copg#:#copg_reload_page#:#Reload Page
+copg#:#copg_remove_formats#:#Remove Formatting###31 01 2024 new variable
 copg#:#copg_sec_link_info#:#Si vous définissez un lien sur toute la section, veuillez vous assurer qu’aucun autre élément interactif n’est inclus dans la section. Autrement, son comportement peut être irrégulier.
 copg#:#copg_snippet_cannot_be_edited#:#Il s'agit d’un extrait du contenu prédéfini et il ne peut pas être édité ici.
 copg#:#copg_x_minutes#:#%s minute(s)###31 10 2023 new variable
@@ -7657,6 +7662,7 @@ crs#:#crs_members_groups#:#Répartition par groupes
 crs#:#crs_members_map#:#Carte des Membres du Cours
 crs#:#crs_members_print_title#:#Membres du cours
 crs#:#crs_min_one_admin#:#Il existe au moins un administrateur assigné à  ce cours.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###31 01 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_new_status#:#Votre nouveau statut est :
@@ -7768,6 +7774,7 @@ crs#:#crs_reg_code_link#:#Lien d'Inscription
 crs#:#crs_reg_max_info#:#Définir le nombre maximum d'utilisateurs pouvant être inscrits à  ce cours. '0' signifie illimité.
 crs#:#crs_reg_no_selfreg#:#Pas d'auto-inscription
 crs#:#crs_reg_password_info#:#Les utilisateurs doivent entrer ce mot de passe pour s'inscrire à ce cours.
+crs#:#crs_reg_selfreg#:#Self-Enrolment###31 01 2024 new variable
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_until#:#Période d'Inscription
 crs#:#crs_reg_user_already_subscribed#:#Vous vous êtes déjà fait une demande d'inscription à ce cours
@@ -7982,6 +7989,7 @@ crs#:#events#:#Sessions
 crs#:#export_members#:#Exporter Participants
 crs#:#grouping_change_assignment#:#Modifier Assignation
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###31 01 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Les cours et les groupes suivants ne respectent pas le nombre minimum de membres (encore).
 crs#:#mem_cron_min_members_reason#:#Vous recevez ce message parce que vous avez activé la notification dans l'onglet membres.
 crs#:#mem_cron_min_members_subject#:#Cours / Groupe: Vérification du Nombre Minimum des Membres
@@ -8435,6 +8443,7 @@ dateplaner#:#cal_weekly#:#Hebdomadaire
 dateplaner#:#cal_where#:#Lieu
 dateplaner#:#cal_year_s#:#Année(s)
 dateplaner#:#cal_yearly#:#Annuelle
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###31 01 2024 new variable
 dateplaner#:#created#:#Créé
 dateplaner#:#crs_cal_activation_end#:#Fin du Cours
 dateplaner#:#crs_cal_activation_start#:#Début du Cours
@@ -9082,6 +9091,7 @@ etal#:#etal_add_new_item#:#Add new Talk###31 10 2023 new variable
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###31 10 2023 new variable
 etal#:#etal_date_appointment_edit#:#Date of Talk###31 10 2023 new variable
 etal#:#etal_date_series_edit#:#Date of Talk Series###31 10 2023 new variable
+etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###31 01 2024 new variable
 etal#:#etal_edit#:#General###31 10 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 10 2023 new variable
 etal#:#etal_new#:#New Talk###31 10 2023 new variable
@@ -9315,6 +9325,7 @@ exc#:#exc_notification#:#Notification Personnelle
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
 exc#:#exc_num_teams#:#Number
 exc#:#exc_ongoing#:#Ongoing###31 10 2023 new variable
+exc#:#exc_optional#:#Optional###31 01 2024 new variable
 exc#:#exc_order_by_deadline#:#Trier par Date Limite
 exc#:#exc_overview#:#Vue d'Ensemble
 exc#:#exc_participant#:#Participant
@@ -9701,6 +9712,8 @@ file#:#preview_persisting_info#:#Generated previews will be stored, otherwise th
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###31 10 2023 new variable
 file#:#replace_file_info#:#Toutes les versions du fichier seront supprimées.
 file#:#resource_id#:#Resource ID
+file#:#service_settings#:#Additional Features###31 01 2024 new variable
+file#:#service_settings_saved#:#Saved###31 01 2024 new variable
 file#:#set_license_for_all_files#:#Set License for all Files###31 10 2023 new variable
 file#:#show_amount_of_downloads#:#Show number of downloads###31 10 2023 new variable
 file#:#show_amount_of_downloads_info#:#When active, the number of downloads will be visible on the info-page of a file object.###31 10 2023 new variable
@@ -10698,6 +10711,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Document###31 10 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###31 10 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###31 10 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###31 10 2023 new variable
+ldoc#:#ldoc_updated_document#:#Document uploaded###31 01 2024 new variable
 lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All
@@ -11186,6 +11200,7 @@ mail#:#mail_add_subject#:#Veuillez saisir un sujet
 mail#:#mail_allow_external#:#E-mail externe
 mail#:#mail_allow_external_info#:#Si cette option est désactivée, la livraison d’e-mails externes (via SMTP) est désactivée globalement.
 mail#:#mail_assign_entry_to_mailing_list#:#Ajouter un contact de votre carnet d'adresse à  la liste de diffusion
+mail#:#mail_assign_to_mailing_list#:#Assign###31 01 2024 new variable
 mail#:#mail_attachment_file_not_exist#:#Au moins une des pièces-attachées suivantes n’existe pas: %1$s
 mail#:#mail_attachments#:#Pièces Jointes
 mail#:#mail_auto_generated_info#:#Ce message vous a été automatiquement envoyé par la plateforme ILIAS %s, %s
@@ -11337,8 +11352,8 @@ mail#:#mail_second_email#:#Deuxième adresse e-mail
 mail#:#mail_sel_label#:#Choose the Recipients
 mail#:#mail_sel_users#:#Envoyer un mail aux utilisateurs sélectionnés
 mail#:#mail_select_attachment#:#Veuillez sélectionner une pièce jointe pour le téléchargement.
-mail#:#mail_select_course#:#Veuillez sélectionner au moins un cours.
-mail#:#mail_select_group#:#Veuillez sélectionner au moins un groupe.
+mail#:#mail_select_crs#:#Please select at least one course.###31 01 2024 new variable
+mail#:#mail_select_grp#:#Please select at least one group.###31 01 2024 new variable
 mail#:#mail_select_one_entry#:#Vous devez sélectionner une entrée
 mail#:#mail_select_one_file#:#Vous devez sélectionner un fichier
 mail#:#mail_send_html#:#HTML Frame for External Emails
@@ -12926,6 +12941,7 @@ poll#:#poll_activation_online_info#:#Lorsque hors-ligne, seuls les administrateu
 poll#:#poll_add#:#Ajouter Vote
 poll#:#poll_anonymous_warning#:#Votre nom n'est pas visible dans les résultats du sondage.
 poll#:#poll_answer#:#Réponse
+poll#:#poll_answer_selected_alt_text#:#Selected###31 01 2024 new variable
 poll#:#poll_answers#:#Réponses Possibles
 poll#:#poll_barchart#:#Graphique à barres
 poll#:#poll_block_message_already_voted#:#Vous avez déjà voté.
@@ -13015,6 +13031,7 @@ prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#export_memberships#:#Export Assignments###31 10 2023 new variable
+prg#:#foreign_assignment#:#not top node###31 01 2024 new variable
 prg#:#form_msg_file_wrong_file_type#:#Mauvais type de fichier.
 prg#:#header_remove_certificate#:#Do you really want to remove the certificate for the selected Users?###31 10 2023 new variable
 prg#:#header_update_certificate#:#Do you really want to update the certificate?###31 10 2023 new variable
@@ -13029,6 +13046,7 @@ prg#:#label_role#:#Role Name
 prg#:#last_edited#:#Last edited
 prg#:#last_edited_by#:#Last Editor
 prg#:#mail_assignments#:#Mail to assigned Users
+prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.###31 01 2024 new variable
 prg#:#manage_assignments#:#Manage Assignments
 prg#:#membership_source_id#:#Id
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
@@ -13563,6 +13581,8 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+qpl#:#qpl_filter_commented_exclude#:#Questions without comments###31 01 2024 new variable
+qpl#:#qpl_filter_commented_only#:#Questions with comments###31 01 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint
@@ -15471,8 +15491,11 @@ style#:#color_changed_to#:#à:
 style#:#color_reset#:#Les couleurs des icônes ont été réinitialisées. Important: Notez que la mise en cache peut empêcher vos changements d’apparaître. Vous pourriez avoir besoin de supprimer le cache de votre navigateur.
 style#:#color_update#:#Les couleurs des icônes ont été mises à jour. Important: Notez que la mise en cache peut empêcher vos changements d’apparaître. Vous pourriez avoir besoin de supprimer le cache de votre navigateur.
 style#:#default_style_set_to#:#Le style du système par défaut a été défini comme:
+style#:#dir_changed_to#:#The directory has been moved to:###31 01 2024 new variable
 style#:#dir_copied_from#:#Le répertoire a été copié depuis:
+style#:#dir_created#:#The following directory has been created:###31 01 2024 new variable
 style#:#dir_deleted#:#Le répertoire suivant a été supprimé:
+style#:#dir_preserved_backup#:#Preserved Backup folder:###31 01 2024 new variable
 style#:#dir_preserved_linked#:#Lien préservé:
 style#:#directory_created#:#Répertoire créé:
 style#:#documentation#:#Documentation
@@ -15498,6 +15521,7 @@ style#:#in_main_scss_file#:#is not imported inside the system styles main scss f
 style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.###31 10 2023 new variable
 style#:#ks_documentation_of_style#:#Documentation de style d’évier de cuisine:
 style#:#ks_documentation_of_substyle#:#Documentation de sous-style d’évier de cuisine:
+style#:#main_scss_created#:#Main SCSS has been created:###31 01 2024 new variable
 style#:#manage_system_styles#:#Gérer les styles de système
 style#:#msg_sub_style_created#:#Le sous-style a été créé.
 style#:#msg_sys_style_created#:#Le nouveau style de système a été créé avec succès.
@@ -15524,6 +15548,8 @@ style#:#scss_can_not_be_modified#:#Scss cannot be modified###31 10 2023 new vari
 style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:###31 10 2023 new variable
 style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###31 10 2023 new variable
 style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###31 10 2023 new variable
+style#:#scss_folder_reset#:#Scss folder reset###31 01 2024 new variable
+style#:#scss_folder_updated#:#Scss folder has been updated###31 01 2024 new variable
 style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:###31 10 2023 new variable
 style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.###31 10 2023 new variable
 style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.###31 10 2023 new variable
@@ -15764,6 +15790,7 @@ style#:#sty_type_ca_icont#:#Contenu d’articles Carrousel
 style#:#sty_type_ca_ihead#:#En-tête d’article Carrousel
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
+style#:#sty_type_em#:#Emphasised###31 01 2024 new variable
 style#:#sty_type_flist#:#Liste de fichier
 style#:#sty_type_flist_a#:#Lien de l'item de la liste de fichier
 style#:#sty_type_flist_cont#:#Conteneur de la liste de fichier
@@ -15835,6 +15862,7 @@ style#:#sty_type_sco_keyw#:#Mots-clés du SCO
 style#:#sty_type_sco_obj#:#Objectif du SCO
 style#:#sty_type_sco_title#:#Titre du SCO
 style#:#sty_type_section#:#Section
+style#:#sty_type_strong#:#Strong###31 01 2024 new variable
 style#:#sty_type_sub#:#Indice
 style#:#sty_type_sup#:#Exposant
 style#:#sty_type_table#:#Tableau
@@ -16809,6 +16837,8 @@ trac#:#trac_filter_hidden#:#Caché
 trac#:#trac_first_access#:#Premier accès
 trac#:#trac_first_and_last_access#:#Premier et dernier accès
 trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings###31 10 2023 new variable
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Postings###31 01 2024 new variable
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Posting###31 01 2024 new variable
 trac#:#trac_group_materials#:#Regrouper les Objets
 trac#:#trac_group_materials_save#:#Enregistrer le Nombre d'Objets Obligatoires
 trac#:#trac_grouped_material_obligatory_err#:#Le nombre de ressources à réussir doit être supérieur à 0 et inférieur au nombre de ressources du groupe.
@@ -17035,9 +17065,7 @@ ui#:#ui_link_label#:#Label###31 10 2023 new variable
 ui#:#ui_link_url#:#URL###31 10 2023 new variable
 ui#:#ui_md_input_edit#:#Edit###31 10 2023 new variable
 ui#:#ui_md_input_view#:#View###31 10 2023 new variable
-ui#:#ui_numeric_only#:#Please insert a whole number.
 ui#:#ui_table_no_records#:#No records###31 10 2023 new variable
-ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript###31 10 2023 new variable
 user#:#all_roles_has_starting_point#:#Tous les rôles ont des points de départ
 user#:#back_to_starting_points_list#:#Retour aux points de départ
@@ -17197,6 +17225,8 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.
 validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.
 validation#:#not_numeric#:#'%s' is not numeric.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
+validation#:#numeric_only#:#Please insert a whole number.###31 01 2024 new variable
+validation#:#tag_required#:#Please insert at least one tag.###31 01 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###31 10 2023 new variable
 webr#:#invalid_links_tbl#:#Liens Non Valides
 webr#:#webr_active#:#Actif

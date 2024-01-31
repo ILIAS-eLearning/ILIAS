@@ -700,15 +700,20 @@ assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID###27 01 2015 new variable
 assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.###27 01 2015 new variable
 assessment#:#exp_all_test_runs#:#All test runs###12 12 2023 new variable
-assessment#:#exp_best_pass#:#Scored test run###12 12 2023 new variable
 assessment#:#exp_eval_data#:#导出评价数据
 assessment#:#exp_file_created#:#Export file created.###24 10 2013 new variable
+assessment#:#exp_grammar_as#:#as###31 01 2024 new variable
 assessment#:#exp_scored_test_run#:#Scored test run###12 12 2023 new variable
 assessment#:#exp_type_certificate#:#Certificate (PDF) xy
 assessment#:#exp_type_excel#:#  Excel
 assessment#:#exp_type_spss#:#  SPSS
 assessment#:#expected_result_type#:#Expected result type###24 10 2013 new variable
 assessment#:#export#:#导出
+assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_s#:#The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.###31 01 2024 new variable
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code###25 10 2016 new variable
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.###25 10 2016 new variable
 assessment#:#extratime#:#Extra Time###24 10 2013 new variable
@@ -2504,6 +2509,7 @@ book#:#book_cal_entry#:#Booking of：
 book#:#book_confirm_booking#:#确认预订
 book#:#book_confirm_booking_no_schedule#:#您确定想预订以下对象？
 book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation###24 10 2013 new variable
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.###31 01 2024 new variable
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###30 12 2013 new variable
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations###26 09 2014 new variable
 book#:#book_confirm_delete#:#您确定要删除以下项？
@@ -2956,8 +2962,6 @@ chatroom#:#client_chatserver_connection#:#Client to Server Connection###25 10 20
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.###25 10 2016 new variable
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.###25 10 2016 new variable
 chatroom#:#custom_username#:#自定义用户名
-chatroom#:#delete_private_room#:#删除私人房间
-chatroom#:#delete_private_room_question#:#Confirm delete private room?###25 10 2016 new variable
 chatroom#:#dhparam#:#Diffie-Hellman Parameter###25 10 2016 new variable
 chatroom#:#display_past_msgs#:#已往消息的数量
 chatroom#:#duration_from#:#来自
@@ -2979,9 +2983,6 @@ chatroom#:#invite_username#:#用户名
 chatroom#:#key#:#Key###25 10 2016 new variable
 chatroom#:#kick_question#:#您真的想从当前房间踢除用户吗？
 chatroom#:#kicked#:#You have been kicked from this chat room###25 10 2016 new variable
-chatroom#:#kicked_from_private_room#:#您已经被踢出私人房间 <b>#title#</b>。
-chatroom#:#leave_private_room#:#离开私人房间
-chatroom#:#left_private_room#:#Left private room###25 10 2016 new variable
 chatroom#:#lost_connection#:#聊天服务器连接已中断。
 chatroom#:#main#:#主房间
 chatroom#:#messages#:#Messages###12 12 2023 new variable
@@ -2998,10 +2999,6 @@ chatroom#:#osc_noti_title#:#New Chat Message###07 02 2020 new variable
 chatroom#:#period#:#周期
 chatroom#:#permissions#:#权限
 chatroom#:#preferred_chatname#:#Preferred Name###29 07 2022 new variable
-chatroom#:#private_room_closed#:#聊天室 <b>#title#</b> 已关闭。
-chatroom#:#private_room_entered#:#欢迎来私人房间 <b>#title#</b>。
-chatroom#:#private_room_entered_user#:#用户 <b>#user#</b> 已进入私人房间 <b>#title#</b>。
-chatroom#:#private_room_left#:#用户 <b>#user#</b> 已离开私人房间 <b>#title#</b>。
 chatroom#:#public_chat_created#:#公共聊天室已添加到知识库
 chatroom#:#scope#:#房间/私人房间
 chatroom#:#select_custom_username#:#选择自定义用户名
@@ -3759,6 +3756,7 @@ common#:#context#:#上下文
 common#:#continue#:#继续
 common#:#continue_work#:#继续
 common#:#contra#:#Contra
+common#:#copa#:#Content Page###31 01 2024 new variable
 common#:#copy#:#复制
 common#:#copyChapter#:#复制
 common#:#copyPage#:#复制页面
@@ -3915,6 +3913,7 @@ common#:#downloading_settings#:#下载设置
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###12 12 2023 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###12 12 2023 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!###12 12 2023 new variable
+common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection###12 12 2023 new variable
 common#:#dpro_usr_agreement#:#Data Protection###12 12 2023 new variable
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.###12 12 2023 new variable
@@ -4168,6 +4167,7 @@ common#:#frm_edit#:#编辑论坛
 common#:#frm_import#:#Import Forum###24 10 2013 new variable
 common#:#frm_latest_postings#:#最新文章
 common#:#frm_new#:#新论坛
+common#:#frm_no_threads#:#There are no threads available at the moment.###31 01 2024 new variable
 common#:#frm_statistics_ranking#:#排名
 common#:#from#:#从
 common#:#fullname#:#名字
@@ -4755,6 +4755,7 @@ common#:#msg_perm_adopted_from_itself#:#您不能从当前角色或角色模板�
 common#:#msg_removed#:#已从系统删除对象。
 common#:#msg_role_reserved_prefix#:#前缀“il_”保留为自生成角色。请选择其它名称
 common#:#msg_roleassignment_changed#:#已更改角色分配
+common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.###31 01 2024 new variable
 common#:#msg_sysrole_not_deletable#:#不能删除系统角色
 common#:#msg_sysrole_not_editable#:#系统角色设置可能已更改。系统角色赋予所有指定用户无限制地访问全部对象和功能。
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###29 07 2022 new variable
@@ -4789,7 +4790,6 @@ common#:#no#:#否
 common#:#no_access_item#:#您没有权限访问这个项目。
 common#:#no_access_item_public#:#这个项目不能在公共地方被访问
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.###07 02 2020 new variable
-common#:#no_agreement_description#:#此次安装当前没有提供用户协议文本。请联系系统管理员。
 common#:#no_checkbox#:#未选中复选框
 common#:#no_condition_selected#:#请选择一个先决条件。
 common#:#no_date#:#无日期
@@ -5735,6 +5735,7 @@ common#:#top_of_page#:#页面顶部
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?###12 12 2023 new variable
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###12 12 2023 new variable
 common#:#tos_force_accept_usr_agreement#:#You must accept the Terms of Service!###12 12 2023 new variable
+common#:#tos_no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#tos_refuse_acceptance#:#Refuse to Accept Terms of Service###12 12 2023 new variable
 common#:#tos_usr_agreement#:#Terms of Service###12 12 2023 new variable
 common#:#tos_usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###12 12 2023 new variable
@@ -7332,6 +7333,7 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###29 07 2022 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###29 07 2022 new variable
 copg#:#copg_days#:#Days###29 07 2022 new variable
 copg#:#copg_details#:#Details###29 07 2022 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###31 01 2024 new variable
 copg#:#copg_entries#:#Entries###29 07 2022 new variable
 copg#:#copg_error#:#Error###29 07 2022 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 07 2022 new variable
@@ -7341,11 +7343,14 @@ copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page hist
 copg#:#copg_list_item_style#:#List Item###12 12 2023 new variable
 copg#:#copg_list_style#:#List###12 12 2023 new variable
 copg#:#copg_list_styles#:#List Formats###12 12 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###31 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###29 07 2022 new variable
 copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###31 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###12 12 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
 copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###31 01 2024 new variable
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###29 07 2022 new variable
@@ -7671,6 +7676,7 @@ crs#:#crs_members_groups#:#课程成员组
 crs#:#crs_members_map#:#课程成员地图
 crs#:#crs_members_print_title#:#课程成员
 crs#:#crs_min_one_admin#:#必须至少有一个管理员分配给本课程
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###31 01 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###12 12 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###12 12 2023 new variable
 crs#:#crs_new_status#:#您的新状态
@@ -7782,6 +7788,7 @@ crs#:#crs_reg_code_link#:#注册链接
 crs#:#crs_reg_max_info#:#定义能被分配到这门课程的最大用户数。'0'表示无限。
 crs#:#crs_reg_no_selfreg#:#No self-enrolment###30 12 2013 new variable
 crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.###30 12 2013 new variable
+crs#:#crs_reg_selfreg#:#Self-Enrolment###31 01 2024 new variable
 crs#:#crs_reg_subject#:#消息
 crs#:#crs_reg_until#:#注册日期
 crs#:#crs_reg_user_already_subscribed#:#您已经订阅了本课程
@@ -7996,6 +8003,7 @@ crs#:#events#:#会话
 crs#:#export_members#:#导出参与者
 crs#:#grouping_change_assignment#:#改变分配
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###07 02 2020 new variable
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###31 01 2024 new variable
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###25 10 2015 new variable
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.###25 10 2015 new variable
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###25 10 2015 new variable
@@ -8449,6 +8457,7 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#位置
 dateplaner#:#cal_year_s#:#年
 dateplaner#:#cal_yearly#:#Yearly
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###31 01 2024 new variable
 dateplaner#:#created#:#已创建
 dateplaner#:#crs_cal_activation_end#:#课程结束
 dateplaner#:#crs_cal_activation_start#:#课程开始
@@ -9096,6 +9105,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID###12 12 2023 new variable
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###31 01 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###12 12 2023 new variable
 etal#:#etal_new#:#New Talk
@@ -9329,6 +9339,7 @@ exc#:#exc_notification#:#Personal Notification###11 03 2014 new variable
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments###07 02 2020 new variable
 exc#:#exc_num_teams#:#Number###10 11 2018 new variable
 exc#:#exc_ongoing#:#Ongoing###12 12 2023 new variable
+exc#:#exc_optional#:#Optional###31 01 2024 new variable
 exc#:#exc_order_by_deadline#:#截止日期排序
 exc#:#exc_overview#:#概况
 exc#:#exc_participant#:#参与者
@@ -9715,6 +9726,8 @@ file#:#preview_persisting_info#:#Generated preview images will be stored by ILIA
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###12 12 2023 new variable
 file#:#replace_file_info#:#所有文件版本都将被删除。
 file#:#resource_id#:#Resource ID###29 07 2022 new variable
+file#:#service_settings#:#Additional Features###31 01 2024 new variable
+file#:#service_settings_saved#:#Saved###31 01 2024 new variable
 file#:#set_license_for_all_files#:#Set License for All Files###12 12 2023 new variable
 file#:#show_amount_of_downloads#:#Show Number of Downloads###12 12 2023 new variable
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.###12 12 2023 new variable
@@ -10712,6 +10725,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Document###12 12 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###12 12 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###12 12 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###12 12 2023 new variable
+ldoc#:#ldoc_updated_document#:#Document uploaded###31 01 2024 new variable
 lhist#:#cont_create_lhist#:#Create Learning History Element###10 11 2018 new variable
 lhist#:#cont_update_lhist#:#Edit Learning History Element###10 11 2018 new variable
 lhist#:#lhist_all#:#All###10 11 2018 new variable
@@ -11200,6 +11214,7 @@ mail#:#mail_add_subject#:#请输入标题
 mail#:#mail_allow_external#:#External Emails###31 08 2017 new variable
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.###31 08 2017 new variable
 mail#:#mail_assign_entry_to_mailing_list#:#指派您的地址簿中的一条记录到邮件列表
+mail#:#mail_assign_to_mailing_list#:#Assign###31 01 2024 new variable
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s###25 10 2016 new variable
 mail#:#mail_attachments#:#附件
 mail#:#mail_auto_generated_info#:#这封邮件已通过ILIAS安装 %s 自动发送给您。
@@ -11351,8 +11366,8 @@ mail#:#mail_second_email#:#Second Email Address###31 08 2017 new variable
 mail#:#mail_sel_label#:#Choose the Recipients###29 07 2022 new variable
 mail#:#mail_sel_users#:#Send Mail to Selected Users###08 10 2015 new variable
 mail#:#mail_select_attachment#:#请选择一个附件下载。
-mail#:#mail_select_course#:#请至少选择一个课程。
-mail#:#mail_select_group#:#请至少选择一个组。
+mail#:#mail_select_crs#:#Please select at least one course.###31 01 2024 new variable
+mail#:#mail_select_grp#:#Please select at least one group.###31 01 2024 new variable
 mail#:#mail_select_one_entry#:#您必须选择一个条目
 mail#:#mail_select_one_file#:#您必须选择一个文件
 mail#:#mail_send_html#:#HTML Frame for External Emails###25 10 2016 new variable
@@ -12940,6 +12955,7 @@ poll#:#poll_activation_online_info#:#如果离线，仅管理员能看和编辑�
 poll#:#poll_add#:#添加投票
 poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
 poll#:#poll_answer#:#答案
+poll#:#poll_answer_selected_alt_text#:#Selected###31 01 2024 new variable
 poll#:#poll_answers#:#可能的答案
 poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
 poll#:#poll_block_message_already_voted#:#您已经在这个调查中投票。
@@ -13029,6 +13045,7 @@ prg#:#edit_participants#:#Edit Members###07 02 2020 new variable
 prg#:#error_updating_deadline#:#Error during updating deadline.###07 02 2020 new variable
 prg#:#error_updating_expire_date#:#Error during updating expire date.###07 02 2020 new variable
 prg#:#export_memberships#:#Export Assignments###12 12 2023 new variable
+prg#:#foreign_assignment#:#not top node###31 01 2024 new variable
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.###22 11 2017 new variable
 prg#:#header_remove_certificate#:#Do you really want to remove the certificate for the selected Users?###12 12 2023 new variable
 prg#:#header_update_certificate#:#Do you really want to update the certificate?###12 12 2023 new variable
@@ -13043,6 +13060,7 @@ prg#:#label_role#:#Role Name###07 02 2020 new variable
 prg#:#last_edited#:#Last edited###07 02 2020 new variable
 prg#:#last_edited_by#:#Last Editor###07 02 2020 new variable
 prg#:#mail_assignments#:#Mail to assigned Users###29 07 2022 new variable
+prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.###31 01 2024 new variable
 prg#:#manage_assignments#:#Manage Assignments###29 07 2022 new variable
 prg#:#membership_source_id#:#Id###07 02 2020 new variable
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>###07 02 2020 new variable
@@ -13577,6 +13595,8 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+qpl#:#qpl_filter_commented_exclude#:#Questions without comments###31 01 2024 new variable
+qpl#:#qpl_filter_commented_only#:#Questions with comments###31 01 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qfbs#:#Special Feedback###29 07 2022 new variable
 qpl#:#qpl_page_type_qht#:#Hint###29 07 2022 new variable
@@ -15485,8 +15505,11 @@ style#:#color_changed_to#:#to:###25 10 2016 new variable
 style#:#color_reset#:#The colors of the icons have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
 style#:#color_update#:#The colors of the icons have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###22 11 2017 new variable
 style#:#default_style_set_to#:#The default system style has been set to:###25 10 2016 new variable
+style#:#dir_changed_to#:#The directory has been moved to:###31 01 2024 new variable
 style#:#dir_copied_from#:#The directory has been copied to from:###25 10 2016 new variable
+style#:#dir_created#:#The following directory has been created:###31 01 2024 new variable
 style#:#dir_deleted#:#The following directory has been deleted:###25 10 2016 new variable
+style#:#dir_preserved_backup#:#Preserved Backup folder:###31 01 2024 new variable
 style#:#dir_preserved_linked#:#Preserved Link:###25 10 2016 new variable
 style#:#directory_created#:#Directory created:###25 10 2016 new variable
 style#:#documentation#:#Documentation###25 10 2016 new variable
@@ -15512,6 +15535,7 @@ style#:#in_main_scss_file#:#is not imported inside the system styles main scss f
 style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.###12 12 2023 new variable
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:###31 08 2017 new variable
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:###31 08 2017 new variable
+style#:#main_scss_created#:#Main SCSS has been created:###31 01 2024 new variable
 style#:#manage_system_styles#:#Manage System Styles###31 08 2017 new variable
 style#:#msg_sub_style_created#:#The sub style has been created.###25 10 2016 new variable
 style#:#msg_sys_style_created#:#The new system style has successfully been created.###25 10 2016 new variable
@@ -15538,6 +15562,8 @@ style#:#scss_can_not_be_modified#:#Scss cannot be modified###12 12 2023 new vari
 style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:###12 12 2023 new variable
 style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###12 12 2023 new variable
 style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###12 12 2023 new variable
+style#:#scss_folder_reset#:#Scss folder reset###31 01 2024 new variable
+style#:#scss_folder_updated#:#Scss folder has been updated###31 01 2024 new variable
 style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:###12 12 2023 new variable
 style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.###12 12 2023 new variable
 style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.###12 12 2023 new variable
@@ -15778,6 +15804,7 @@ style#:#sty_type_ca_icont#:#Carousel Item Content###30 08 2015 new variable
 style#:#sty_type_ca_ihead#:#Carousel Item Header###30 08 2015 new variable
 style#:#sty_type_code_block#:#Code (Block)###07 02 2020 new variable
 style#:#sty_type_code_inline#:#Code (Inline)###07 02 2020 new variable
+style#:#sty_type_em#:#Emphasised###31 01 2024 new variable
 style#:#sty_type_flist#:#文件列表
 style#:#sty_type_flist_a#:#文件列表条目的链接
 style#:#sty_type_flist_cont#:#文件列表容器
@@ -15849,6 +15876,7 @@ style#:#sty_type_sco_keyw#:#SCO 关键词
 style#:#sty_type_sco_obj#:#SCO 目标
 style#:#sty_type_sco_title#:#SCO 标题
 style#:#sty_type_section#:#段落
+style#:#sty_type_strong#:#Strong###31 01 2024 new variable
 style#:#sty_type_sub#:#Subscript###30 08 2015 new variable
 style#:#sty_type_sup#:#Superscript###30 08 2015 new variable
 style#:#sty_type_table#:#表格
@@ -16823,6 +16851,8 @@ trac#:#trac_filter_hidden#:#隐藏：
 trac#:#trac_first_access#:#首次访问
 trac#:#trac_first_and_last_access#:#第一个和最后一个访问
 trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings###29 07 2022 new variable
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Postings###31 01 2024 new variable
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Posting###31 01 2024 new variable
 trac#:#trac_group_materials#:#组材料
 trac#:#trac_group_materials_save#:#保存必修资料的数目
 trac#:#trac_grouped_material_obligatory_err#:#通过的材料数量必须大于0并且小于分组的材料数。
@@ -17049,9 +17079,7 @@ ui#:#ui_link_label#:#Label###29 07 2022 new variable
 ui#:#ui_link_url#:#URL###29 07 2022 new variable
 ui#:#ui_md_input_edit#:#Edit###12 12 2023 new variable
 ui#:#ui_md_input_view#:#View###12 12 2023 new variable
-ui#:#ui_numeric_only#:#Please insert a whole number.###29 07 2022 new variable
 ui#:#ui_table_no_records#:#No records###12 12 2023 new variable
-ui#:#ui_tag_required#:#Please insert at least one tag.###29 07 2022 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 user#:#all_roles_has_starting_point#:#All the roles have starting points###31 08 2017 new variable
 user#:#back_to_starting_points_list#:#Back to Starting Points###31 08 2017 new variable
@@ -17211,6 +17239,8 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.###10
 validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.###10 11 2018 new variable
 validation#:#not_numeric#:#'%s' is not numeric.###10 11 2018 new variable
 validation#:#not_numeric_empty_string#:#Your input is not numeric.###07 02 2020 new variable
+validation#:#numeric_only#:#Please insert a whole number.###31 01 2024 new variable
+validation#:#tag_required#:#Please insert at least one tag.###31 01 2024 new variable
 violation#:#not_a_string#:#Given value is not a String###29 07 2022 new variable
 webr#:#invalid_links_tbl#:#无效链接
 webr#:#webr_active#:#激活

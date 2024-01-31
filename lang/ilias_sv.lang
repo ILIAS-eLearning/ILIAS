@@ -701,15 +701,20 @@ assessment#:#examid_in_test_pass_desc#:#Ett ILIAS-examensnummer visas i testet. 
 assessment#:#examid_in_test_res#:#Visa ILIAS provnummer
 assessment#:#examid_in_test_res_desc#:#I testresultaten, statistiken och Excel-exporten visas ILIAS-examensnumret.
 assessment#:#exp_all_test_runs#:#All test runs###21 11 2023 new variable
-assessment#:#exp_best_pass#:#Scored test run###21 11 2023 new variable
 assessment#:#exp_eval_data#:#Exportera utvärderingsdata som
 assessment#:#exp_file_created#:#Exportfil genererad.
+assessment#:#exp_grammar_as#:#as###31 01 2024 new variable
 assessment#:#exp_scored_test_run#:#Scored test run###21 11 2023 new variable
 assessment#:#exp_type_certificate#:#Certifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Kommaseparerade värden (CSV)
 assessment#:#expected_result_type#:#Typ av förväntat resultat
 assessment#:#export#:#Export
+assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_ignored_for_users_s#:#The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s###31 01 2024 new variable
+assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.###31 01 2024 new variable
 assessment#:#export_essay_qst_with_html#:#Exportera fritextfrågor med HTML-kod
 assessment#:#export_essay_qst_with_html_desc#:#Om aktiverat har du möjlighet att exportera fritextfrågor med den angivna HTML-koden till Excel.
 assessment#:#extratime#:#Tidsförlängning
@@ -2505,6 +2510,7 @@ book#:#book_cal_entry#:#Bokning från
 book#:#book_confirm_booking#:#Gör en bokning
 book#:#book_confirm_booking_no_schedule#:#Är du säker på att du vill boka följande objekt?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Bekräftelse av bokning
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.###31 01 2024 new variable
 book#:#book_confirm_cancel#:#Är du säker på att du vill avboka följande bokning?
 book#:#book_confirm_cancel_aggregation#:#Antal avbokningar
 book#:#book_confirm_delete#:#Vill du verkligen ta bort följande objekt?
@@ -2957,8 +2963,6 @@ chatroom#:#client_chatserver_connection#:#Anslutning klient till server
 chatroom#:#client_proxy_info#:#Om servern inte kan nås via den aktuella IP-adressen och porten är det möjligt att definiera en alternativ URL för anslutningen mellan klient och server.
 chatroom#:#connection_url_info#:#Ange här en URL via vilken servern kan nås.
 chatroom#:#custom_username#:#Own chat namn
-chatroom#:#delete_private_room#:#Radera #Séparée
-chatroom#:#delete_private_room_question#:#Ta bort Separée från listan?
 chatroom#:#dhparam#:#Diffie-Hellman-parametrar
 chatroom#:#display_past_msgs#:#Chat recension
 chatroom#:#duration_from#:#Från
@@ -2980,9 +2984,6 @@ chatroom#:#invite_username#:#Login namn
 chatroom#:#key#:#Nyckel
 chatroom#:#kick_question#:#Vill du verkligen sparka ut användaren från det aktuella chattrummet?
 chatroom#:#kicked#:#Moderering har tagit bort dig från chatten.###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
-chatroom#:#kicked_from_private_room#:#De kastades ut från <b>#titeln#</b> separée.
-chatroom#:#leave_private_room#:#Att lämna separationen
-chatroom#:#left_private_room#:#Att lämna separationen
 chatroom#:#lost_connection#:# Anslutningen till chattservern avbröts.
 chatroom#:#main#:#huvudrum
 chatroom#:#messages#:#Messages###21 11 2023 new variable
@@ -2999,10 +3000,6 @@ chatroom#:#osc_noti_title#:#Nytt chattmeddelande
 chatroom#:#period#:#Tidsperiod
 chatroom#:#permissions#:#Rättigheter
 chatroom#:#preferred_chatname#:#Wanted name###Ny introducerad variabel i samband med jämställdhetsintegrering för ILIAS 8
-chatroom#:#private_room_closed#:#Rummet <b>#title#</b> har stängts.
-chatroom#:#private_room_entered#:#Välkommen till Séparée <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#Användaren <b>#username#</b> har gått in i separée <b>#title#</b>.
-chatroom#:#private_room_left#:#Användaren <b>#user#</b> har lämnat separée <b>#title#</b>.
 chatroom#:#public_chat_created#:#Ett nytt offentligt chattrum har skapats i tidningen.
 chatroom#:#scope#:#Rum/Séparée
 chatroom#:#select_custom_username#:#Visat namn i chatten
@@ -3760,6 +3757,7 @@ common#:#context#:#Kontext
 common#:#continue#:#Fortsättning
 common#:#continue_work#:#Fortsättning
 common#:#contra#:#Contra
+common#:#copa#:#Content Page###31 01 2024 new variable
 common#:#copy#:#Kopia
 common#:#copyChapter#:#Kopia
 common#:#copyPage#:#Kopia
@@ -3916,6 +3914,7 @@ common#:#downloading_settings#:#Inställningar
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###21 11 2023 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###21 11 2023 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!###21 11 2023 new variable
+common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection###21 11 2023 new variable
 common#:#dpro_usr_agreement#:#Data Protection###21 11 2023 new variable
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.###21 11 2023 new variable
@@ -4169,6 +4168,7 @@ common#:#frm_edit#:#Edit forum
 common#:#frm_import#:#Importforum
 common#:#frm_latest_postings#:#Sista bidrag
 common#:#frm_new#:#Skapa nytt forum
+common#:#frm_no_threads#:#There are no threads available at the moment.###31 01 2024 new variable
 common#:#frm_statistics_ranking#:#Rankningar
 common#:#from#:#Från
 common#:#fullname#:#Fullständigt namn
@@ -4756,6 +4756,7 @@ common#:#msg_perm_adopted_from_itself#:#Det är inte möjligt att ta över rätt
 common#:#msg_removed#:#Objekt som avlägsnats från systemet
 common#:#msg_role_reserved_prefix#:#Prefixet 'il_' är reserverat för automatiskt genererade roller. Vänligen välj ett annat namn!
 common#:#msg_roleassignment_changed#:#Rolltilldelning ändrad
+common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.###31 01 2024 new variable
 common#:#msg_sysrole_not_deletable#:#Systemrollen kan inte tas bort
 common#:#msg_sysrole_not_editable#:#Rättighetsinställningarna för systemrollen kan inte ändras. Systemrollen ger de tilldelade användarna obegränsad åtkomst till alla objekt och funktioner.
 common#:#msg_to_many_files#:#För många filer valda, tillåtet antal filer
@@ -4790,7 +4791,6 @@ common#:#no#:#Nej
 common#:#no_access_item#:#Du har inte tillräcklig behörighet för att komma åt detta objekt.
 common#:#no_access_item_public#:#För att kunna använda detta objekt måste du vara inloggad och ha lämpliga åtkomsträttigheter.
 common#:#no_accessibility_control_concept_description#:#För närvarande finns ingen information om tillgänglighet i den här installationen. Kontakta <a href="%1$s">kontaktpunkten</a> för tillgänglighet för mer information.
-common#:#no_agreement_description#:#Inget användaravtal erbjuds för närvarande i denna installation. Kontakta din <a href="%1$s">systemadministratör för</a> mer information.
 common#:#no_checkbox#:#Du har inte gjort något val.
 common#:#no_condition_selected#:#Du har inte valt något förhandsvillkor.
 common#:#no_date#:#Inget datum
@@ -5736,6 +5736,7 @@ common#:#top_of_page#:#Sidan börjar
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?###21 11 2023 new variable
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###21 11 2023 new variable
 common#:#tos_force_accept_usr_agreement#:#You must accept the Terms of Service!###21 11 2023 new variable
+common#:#tos_no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###31 01 2024 new variable
 common#:#tos_refuse_acceptance#:#Refuse to Accept Terms of Service###21 11 2023 new variable
 common#:#tos_usr_agreement#:#Terms of Service###21 11 2023 new variable
 common#:#tos_usr_agreement_footer_intro#:#You have declared your consent to these terms of service.###21 11 2023 new variable
@@ -7333,6 +7334,7 @@ copg#:#copg_cron_keep_entries#:#Minsta antal bidrag
 copg#:#copg_cron_keep_entries_info#:#Detta antal poster sparas i historiken, även om de är äldre än den angivna perioden.
 copg#:#copg_days#:#dagar
 copg#:#copg_details#:#Detaljer
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###31 01 2024 new variable
 copg#:#copg_entries#:#Inträden
 copg#:#copg_error#:#Problem
 copg#:#copg_error_occured_modal#:#Tyvärr, ett fel har uppstått. Tryck på "Ladda om sidan" för att återgå till det senast sparade innehållet.
@@ -7342,11 +7344,14 @@ copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigera
 copg#:#copg_list_item_style#:#List Item###21 11 2023 new variable
 copg#:#copg_list_style#:#List###21 11 2023 new variable
 copg#:#copg_list_styles#:#List Formats###21 11 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###31 01 2024 new variable
 copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###31 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###21 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
 copg#:#copg_reload_page#:#Reload sida
+copg#:#copg_remove_formats#:#Remove Formatting###31 01 2024 new variable
 copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
 copg#:#copg_snippet_cannot_be_edited#:#Detta är en fördefinierad innehållsmodul som inte kan redigeras just nu.
 copg#:#copg_x_minutes#:#%s minut(er)
@@ -7672,6 +7677,7 @@ crs#:#crs_members_groups#:#Gruppmedlemskap
 crs#:#crs_members_map#:#Card kursdeltagare
 crs#:#crs_members_print_title#:#Kursdeltagare
 crs#:#crs_min_one_admin#:#Minst en administratör måste vara kvar på den här kursen.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###31 01 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#Mina kurser och grupper
 crs#:#crs_my_courses_groups_enabled_info#:#Om du aktiverar det här alternativet visas alternativet "Mina kurser och grupper" i tidningen.
 crs#:#crs_new_status#:#Din status
@@ -7783,6 +7789,7 @@ crs#:#crs_reg_code_link#:#Länk för direkt anslutning
 crs#:#crs_reg_max_info#:#När det maximala antalet medlemmar har uppnåtts är det inte längre möjligt att ansluta sig självständigt.
 crs#:#crs_reg_no_selfreg#:#Ingen oberoende accession
 crs#:#crs_reg_password_info#:#Användare måste ange detta lösenord för att gå med i kursen.
+crs#:#crs_reg_selfreg#:#Self-Enrolment###31 01 2024 new variable
 crs#:#crs_reg_subject#:#Meddelande
 crs#:#crs_reg_until#:#Tidsperiod för anslutningar
 crs#:#crs_reg_user_already_subscribed#:#Du har redan skickat in en ansökan om antagning! Vänligen vänta på bekräftelsen.
@@ -7997,6 +8004,7 @@ crs#:#events#:#Sessioner
 crs#:#export_members#:#Export av deltagardata
 crs#:#grouping_change_assignment#:#Ändra uppdrag
 crs#:#grp_grp_already_assigned#:#Eftersom du redan är medlem i en av grupperna kan du inte gå med i en annan grupp från listan!
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###31 01 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Följande kurser och grupper når för närvarande inte upp till minimiantalet medlemmar
 crs#:#mem_cron_min_members_reason#:#Om du inte längre vill få aviseringar för dessa kurser och grupper, avaktivera kryssrutan "Avisering" på fliken "Medlemmar" i respektive objekt.
 crs#:#mem_cron_min_members_subject#:#Kurs/Grupp
@@ -8450,6 +8458,7 @@ dateplaner#:#cal_weekly#:#Veckovis
 dateplaner#:#cal_where#:#Plats
 dateplaner#:#cal_year_s#:#År
 dateplaner#:#cal_yearly#:#Årlig
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###31 01 2024 new variable
 dateplaner#:#created#:#skapad på
 dateplaner#:#crs_cal_activation_end#:#Kursens slut
 dateplaner#:#crs_cal_activation_start#:#Kursstart
@@ -9097,6 +9106,7 @@ etal#:#etal_add_new_item#:#Lägg till ny konversation
 etal#:#etal_create_invalid_template_ref#:#Ogiltigt ID för samtalsmall
 etal#:#etal_date_appointment_edit#:#Talk datum
 etal#:#etal_date_series_edit#:#Talkserie
+etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###31 01 2024 new variable
 etal#:#etal_edit#:#Allmänt
 etal#:#etal_invalid_user#:#Detta konto existerar inte eller kan inte bjudas in.
 etal#:#etal_new#:#Nytt samtal
@@ -9330,6 +9340,7 @@ exc#:#exc_notification#:#Personlig anmälan
 exc#:#exc_nr_random_mand#:#Antal obligatoriska träningsenheter
 exc#:#exc_num_teams#:#Nummer
 exc#:#exc_ongoing#:#Ongoing###21 11 2023 new variable
+exc#:#exc_optional#:#Optional###31 01 2024 new variable
 exc#:#exc_order_by_deadline#:#Sortera efter deadline
 exc#:#exc_overview#:#Översikt
 exc#:#exc_participant#:#Deltagare
@@ -9716,6 +9727,8 @@ file#:#preview_persisting_info#:#Generated preview images will be stored by ILIA
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###21 11 2023 new variable
 file#:#replace_file_info#:#Alla filversioner raderas.
 file#:#resource_id#:#Resurser ID
+file#:#service_settings#:#Additional Features###31 01 2024 new variable
+file#:#service_settings_saved#:#Saved###31 01 2024 new variable
 file#:#set_license_for_all_files#:#Set License for All Files###21 11 2023 new variable
 file#:#show_amount_of_downloads#:#Show Number of Downloads###21 11 2023 new variable
 file#:#show_amount_of_downloads_info#:#Display the number of times a file object has been downloaded on its 'Info' page.###21 11 2023 new variable
@@ -10713,6 +10726,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Document###21 11 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###21 11 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###21 11 2023 new variable
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###21 11 2023 new variable
+ldoc#:#ldoc_updated_document#:#Document uploaded###31 01 2024 new variable
 lhist#:#cont_create_lhist#:#Create element för inlärningshistorik
 lhist#:#cont_update_lhist#:#Redigera element för inlärningshistorik
 lhist#:#lhist_all#:#Alla
@@ -11201,6 +11215,7 @@ mail#:#mail_add_subject#:#Vänligen ange ett ämne
 mail#:#mail_allow_external#:#Externa e-postmeddelanden
 mail#:#mail_allow_external_info#:#Om den inte är aktiverad undertrycks sändningen av externa e-postmeddelanden (via SMTP) globalt.
 mail#:#mail_assign_entry_to_mailing_list#:#Att tilldela en kontakt till distributionslistan "%s
+mail#:#mail_assign_to_mailing_list#:#Assign###31 01 2024 new variable
 mail#:#mail_attachment_file_not_exist#:#Minst en av följande bilagor kunde inte hittas
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#Detta e-postmeddelande skickades automatiskt till dig av ILIAS-installationen %s, %s.
@@ -11352,8 +11367,8 @@ mail#:#mail_second_email#:#Den andra e-postadressen
 mail#:#mail_sel_label#:#Send mail to###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 mail#:#mail_sel_users#:#Urvalda personer###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
 mail#:#mail_select_attachment#:#Välj en bilaga för att ladda ner.
-mail#:#mail_select_course#:#Välj minst en kurs.
-mail#:#mail_select_group#:#Vänligen välj minst en grupp.
+mail#:#mail_select_crs#:#Please select at least one course.###31 01 2024 new variable
+mail#:#mail_select_grp#:#Please select at least one group.###31 01 2024 new variable
 mail#:#mail_select_one_entry#:#Du måste välja minst en post
 mail#:#mail_select_one_file#:#Du måste välja minst en fil
 mail#:#mail_send_html#:#HTML-ram
@@ -12941,6 +12956,7 @@ poll#:#poll_activation_online_info#:#Välj denna inställning för att göra rö
 poll#:#poll_add#:#Skapa omröstning
 poll#:#poll_anonymous_warning#:#Ditt namn visas inte i röstningsresultaten.
 poll#:#poll_answer#:#Svar
+poll#:#poll_answer_selected_alt_text#:#Selected###31 01 2024 new variable
 poll#:#poll_answers#:#Möjliga svar
 poll#:#poll_barchart#:#Balkdiagram
 poll#:#poll_block_message_already_voted#:#Du har redan röstat.
@@ -13030,6 +13046,7 @@ prg#:#edit_participants#:#Redigera uppdrag
 prg#:#error_updating_deadline#:#Ett fel uppstod under uppdateringen av 'Deadline'.
 prg#:#error_updating_expire_date#:#Ett fel uppstod vid uppdatering av 'Expiration Qualification'.
 prg#:#export_memberships#:#Export Assignments###21 11 2023 new variable
+prg#:#foreign_assignment#:#not top node###31 01 2024 new variable
 prg#:#form_msg_file_wrong_file_type#:#Fel filtyp.
 prg#:#header_remove_certificate#:#Do you really want to remove the certificate for the selected Users?###21 11 2023 new variable
 prg#:#header_update_certificate#:#Do you really want to update the certificate?###21 11 2023 new variable
@@ -13044,6 +13061,7 @@ prg#:#label_role#:#Rollens namn
 prg#:#last_edited#:#Last redigerad
 prg#:#last_edited_by#:#Last redigerad av
 prg#:#mail_assignments#:#Mail till tilldelade användare
+prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.###31 01 2024 new variable
 prg#:#manage_assignments#:#Hantera uppdrag
 prg#:#membership_source_id#:#Id
 prg#:#membership_source_id_byline_objid#:#Var god använd <b>objektets id</b>
@@ -13578,6 +13596,8 @@ pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
 pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
 pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer
 pwsp#:#pwsp_enable_wsp_links#:# Aktivera länkar
+qpl#:#qpl_filter_commented_exclude#:#Questions without comments###31 01 2024 new variable
+qpl#:#qpl_filter_commented_only#:#Questions with comments###31 01 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Allmän feedback
 qpl#:#qpl_page_type_qfbs#:#Särskild feedback
 qpl#:#qpl_page_type_qht#:#Note
@@ -15486,8 +15506,11 @@ style#:#color_changed_to#:#till
 style#:#color_reset#:#Färgerna på ikonerna har återställts. Viktigt
 style#:#color_update#:#Färgerna på ikonerna har uppdaterats. Viktigt
 style#:#default_style_set_to#:#Standardstilen har ändrats till
+style#:#dir_changed_to#:#The directory has been moved to:###31 01 2024 new variable
 style#:#dir_copied_from#:#Mappen kopierades från
+style#:#dir_created#:#The following directory has been created:###31 01 2024 new variable
 style#:#dir_deleted#:#Följande mapp har tagits bort
+style#:#dir_preserved_backup#:#Preserved Backup folder:###31 01 2024 new variable
 style#:#dir_preserved_linked#:#Bevarade länkar
 style#:#directory_created#:#Folder skapad
 style#:#documentation#:#Dokumentation
@@ -15513,6 +15536,7 @@ style#:#in_main_scss_file#:#is not imported inside the system styles main scss f
 style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.###21 11 2023 new variable
 style#:#ks_documentation_of_style#:#Dokumentärer om "Kitchen Sink" efter stil
 style#:#ks_documentation_of_substyle#:#"Kitchen Sink"-dokumentation efter understil
+style#:#main_scss_created#:#Main SCSS has been created:###31 01 2024 new variable
 style#:#manage_system_styles#:#Hantera systemets stilar
 style#:#msg_sub_style_created#:#Understilen har skapats.
 style#:#msg_sys_style_created#:#Den nya systemstilsfilen har skapats framgångsrikt.
@@ -15539,6 +15563,8 @@ style#:#scss_can_not_be_modified#:#Scss cannot be modified###21 11 2023 new vari
 style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:###21 11 2023 new variable
 style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###21 11 2023 new variable
 style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.###21 11 2023 new variable
+style#:#scss_folder_reset#:#Scss folder reset###31 01 2024 new variable
+style#:#scss_folder_updated#:#Scss folder has been updated###31 01 2024 new variable
 style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:###21 11 2023 new variable
 style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.###21 11 2023 new variable
 style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.###21 11 2023 new variable
@@ -15779,6 +15805,7 @@ style#:#sty_type_ca_icont#:#Carousel - Innehållselement
 style#:#sty_type_ca_ihead#:#Carousel - Rubrikelement
 style#:#sty_type_code_block#:#Kod (Block)
 style#:#sty_type_code_inline#:#Kod (Inline)
+style#:#sty_type_em#:#Emphasised###31 01 2024 new variable
 style#:#sty_type_flist#:# Lista över filer
 style#:#sty_type_flist_a#:#Länk fil lista post
 style#:#sty_type_flist_cont#:#Fil lista container
@@ -15850,6 +15877,7 @@ style#:#sty_type_sco_keyw#:#SCO nyckelord
 style#:#sty_type_sco_obj#:#SCO Lärandemål
 style#:#sty_type_sco_title#:#SCO-titel
 style#:#sty_type_section#:#Blockera
+style#:#sty_type_strong#:#Strong###31 01 2024 new variable
 style#:#sty_type_sub#:#Djupgående
 style#:#sty_type_sup#:#Höjdmarkerad
 style#:#sty_type_table#:#Tabell
@@ -16824,6 +16852,8 @@ trac#:#trac_filter_hidden#:#Färgad ut
 trac#:#trac_first_access#:#Första åtkomst
 trac#:#trac_first_and_last_access#:#Första och sista tillgång
 trac#:#trac_frm_contribution_num_postings#:#Erforderligt antal bidrag
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Postings###31 01 2024 new variable
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Posting###31 01 2024 new variable
 trac#:#trac_group_materials#:#Create grouping med valfritt material
 trac#:#trac_group_materials_save#:#Spara antal obligatoriska material
 trac#:#trac_grouped_material_obligatory_err#:#Antalet obligatoriska material måste vara större än 0 och mindre än antalet material som tilldelats denna gruppering.
@@ -17050,9 +17080,7 @@ ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit###21 11 2023 new variable
 ui#:#ui_md_input_view#:#View###21 11 2023 new variable
-ui#:#ui_numeric_only#:#Var god ange ett heltal.
 ui#:#ui_table_no_records#:#No records###21 11 2023 new variable
-ui#:#ui_tag_required#:#Var vänlig ange minst en dag.
 ui#:#ui_transcription#:#Transkript
 user#:#all_roles_has_starting_point#:#Alla roller med definierad startsida
 user#:#back_to_starting_points_list#:#Tillbaka till startsidorna
@@ -17212,6 +17240,8 @@ validation#:#not_max_length#:#Den angivna texten har en längd på mer än '%s'.
 validation#:#not_min_length#:#Din inmatning har en längd på %d och är därför under minimilängden på %d.
 validation#:#not_numeric#:#'%s' är inte numeriskt.
 validation#:#not_numeric_empty_string#:#Din inmatning är inte numerisk.
+validation#:#numeric_only#:#Please insert a whole number.###31 01 2024 new variable
+validation#:#tag_required#:#Please insert at least one tag.###31 01 2024 new variable
 violation#:#not_a_string#:#Värdet är inte en sträng
 webr#:#invalid_links_tbl#:#Ogiltiga länkar
 webr#:#webr_active#:#Aktiv
