@@ -538,44 +538,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function editObject(): void
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $rbacsystem = $DIC->rbac()->system();
-        $access = $DIC->access();
-
-        // User folder
-        // User folder && access granted by rbac or by org unit positions
-        if ($this->usrf_ref_id == USER_FOLDER_ID
-            && (
-                !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id)
-                || !$rbacsystem->checkAccess('write', $this->usrf_ref_id)
-                    && !$access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                || $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                    && !in_array(
-                        $this->object->getId(),
-                        $access->filterUserIdsByPositionOfCurrentUser(
-                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                            USER_FOLDER_ID,
-                            [$this->object->getId()]
-                        )
-                    )
-            )
-        ) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
-        }
-
-        if ($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
-        }
-        // if called from local administration $this->usrf_ref_id is category id
-        // Todo: this has to be fixed. Do not mix user folder id and category id
-        if ($this->usrf_ref_id != USER_FOLDER_ID) {
-            // check if user is assigned to category
-            if (!$rbacsystem->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
-                $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
-            }
-        }
+        $this->checkUserWriteRight();
 
         if ($this->usrf_ref_id != USER_FOLDER_ID) {
             $this->tabs_gui->clearTargets();
@@ -782,44 +745,8 @@ class ilObjUserGUI extends ilObjectGUI
 
     public function updateObject(): void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        $rbacsystem = $DIC->rbac()->system();
-        $ilUser = $DIC->user();
-        $access = $DIC->access();
-
-        // User folder && access granted by rbac or by org unit positions
-        if ($this->usrf_ref_id == USER_FOLDER_ID &&
-            (
-                !$rbacsystem->checkAccess('visible,read', USER_FOLDER_ID) ||
-                !$access->checkRbacOrPositionPermissionAccess(
-                    'write',
-                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                    USER_FOLDER_ID
-                ) ||
-                !in_array(
-                    $this->object->getId(),
-                    $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        'write',
-                        \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                        USER_FOLDER_ID,
-                        [$this->object->getId()]
-                    )
-                )
-            )
-        ) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
-        }
-        // if called from local administration $this->usrf_ref_id is category id
-        // Todo: this has to be fixed. Do not mix user folder id and category id
-        if ($this->usrf_ref_id != USER_FOLDER_ID) {
-            // check if user is assigned to category
-            if (!$rbacsystem->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
-                $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"), $this->ilias->error_obj->MESSAGE);
-            }
-        }
-        $this->initForm("edit");
+        $this->checkUserWriteRight();
+        $this->initForm('edit');
 
         // Manipulate form so ignore required fields are no more required. This has to be done before ilPropertyFormGUI::checkInput() is called.
         $profileMaybeIncomplete = false;
@@ -2226,6 +2153,37 @@ class ilObjUserGUI extends ilObjectGUI
             }
         } elseif ($agreeDate) {
             $agreeDate->setValue($this->lng->txt('tos_not_accepted_yet'));
+        }
+    }
+
+    private function checkUserWriteRight(): void
+    {
+        if ($this->usrf_ref_id == USER_FOLDER_ID
+            && (
+                !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
+                || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)
+                    && (
+                        !$this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                        || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                            && !in_array(
+                                $this->object->getId(),
+                                $this->access->filterUserIdsByPositionOfCurrentUser(
+                                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                                    USER_FOLDER_ID,
+                                    [$this->object->getId()]
+                                )
+                            )
+                    )
+            )
+        ) {
+            $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
+        }
+
+        // if called from local administration $this->usrf_ref_id is category id
+        // Todo: this has to be fixed. Do not mix user folder id and category id
+        if ($this->usrf_ref_id != USER_FOLDER_ID
+            && !$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
+            $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
         }
     }
 }
