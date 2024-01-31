@@ -65,11 +65,15 @@ final class Agreement implements AgreementInterface
               $this->agreementForm($gui, $cmd) :
               $this->ui->create()->divider()->horizontal();
 
-        return (new PageContent($this->ui->txt('accept_usr_agreement'), [
+        $content = (new PageContent($this->ui->txt('accept_usr_agreement'), [
             $this->showDocument(),
             $form,
             $this->logoutLink(),
-        ]))->withOnScreenMessage('info', $this->ui->txt('accept_usr_agreement_intro'));
+        ]));
+
+        return $this->user->matchingDocument()->isOk() ?
+            $content->withOnScreenMessage('info', $this->ui->txt('accept_usr_agreement_intro')) :
+            $content;
     }
 
     public function needsToAgree(): bool
