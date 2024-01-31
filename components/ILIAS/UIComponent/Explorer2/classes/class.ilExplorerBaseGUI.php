@@ -35,7 +35,7 @@ abstract class ilExplorerBaseGUI
     protected static string $js_tree_path = "./node_modules/jstree/dist/jstree.js";
     protected static string $js_tree_path_css = "./node_modules/jstree/dist/themes/default/style.min.css";
 
-    protected static string $js_expl_path = "./components/ILIAS/UIComponent/Explorer2/js/Explorer2.js";
+    protected static string $js_expl_path = "assets/js/Explorer2.js";
     protected bool $skip_root_node = false;
     protected bool $ajax = false;
     protected array $custom_open_nodes = array();

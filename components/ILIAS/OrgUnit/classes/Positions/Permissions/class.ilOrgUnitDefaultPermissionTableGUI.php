@@ -44,7 +44,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->dic()
              ->ui()
              ->mainTemplate()
-             ->addJavaScript('./components/ILIAS/AccessControl/js/ilPermSelect.js');
+             ->addJavaScript('assets/js/ilPermSelect.js');
 
         $this->setTitle(
             $this->dic()->language()->txt('orgu_permission_settings_'

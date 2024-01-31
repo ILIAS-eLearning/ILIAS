@@ -523,7 +523,7 @@ class ilPersonalSkillsGUI
             $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
         }
         $skill_html = $uip->getHTML($skill_html);
-        $main_tpl->addJavaScript("./components/ILIAS/Skill/js/SkillEntries.js");
+        $main_tpl->addJavaScript("assets/js/SkillEntries.js");
 
         return $skill_html;
     }

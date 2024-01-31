@@ -1673,7 +1673,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         ilObjMediaObjectGUI::includePresentationJS($a_tpl);
 
-        $tpl->addJavaScript("./components/ILIAS/MediaPool/js/ilMediaPool.js");
+        $tpl->addJavaScript("assets/js/ilMediaPool.js");
 
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", "");
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", $a_mpool_ref_id);

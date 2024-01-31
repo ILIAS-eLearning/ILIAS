@@ -834,14 +834,14 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/tagInput.js');
+        $registry->register('assets/js/tagInput.js');
 
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/input.js');
+        $registry->register('assets/js/input.js');
         $registry->register('./node_modules/dropzone/dist/dropzone.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/file.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/groups.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/dynamic_inputs_renderer.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/dist/input.factory.min.js');
+        $registry->register('assets/js/file.js');
+        $registry->register('assets/js/groups.js');
+        $registry->register('assets/js/dynamic_inputs_renderer.js');
+        $registry->register('assets/js/input.factory.min.js');
     }
 
     /**

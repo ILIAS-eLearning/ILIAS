@@ -2433,7 +2433,7 @@ JS;
         $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->object->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
 
-        $this->tpl->addJavascript('./components/ILIAS/Test/js/ilTestPlayerQuestionEditControl.js');
+        $this->tpl->addJavascript('assets/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');
     }
     // fau.

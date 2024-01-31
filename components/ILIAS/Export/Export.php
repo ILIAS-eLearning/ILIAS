@@ -32,6 +32,5 @@ class Export implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
     }
 }

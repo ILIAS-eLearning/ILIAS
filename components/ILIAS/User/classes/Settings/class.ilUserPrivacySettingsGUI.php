@@ -497,7 +497,7 @@ class ilUserPrivacySettingsGUI
     ): ilTemplate {
         $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'components/ILIAS/Chatroom');
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', '0')) {
-            $pageTemplate->addJavaScript('./components/ILIAS/Notifications/js/browser_notifications.js');
+            $pageTemplate->addJavaScript('assets/js/browser_notifications.js');
 
             $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('standard/icon_alert.svg'));
             $tpl->setVariable('BROWSER_NOTIFICATION_TOGGLE_LABEL', $this->lng->txt('osc_enable_browser_notifications_label'));

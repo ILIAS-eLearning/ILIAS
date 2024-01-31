@@ -1922,7 +1922,7 @@ class ilExerciseManagementGUI
 
         $ajax_url = $this->ctrl->getLinkTarget($this, "handleIndividualDeadlineCalls", "", true, false);
 
-        $tpl->addJavaScript("./components/ILIAS/Exercise/js/ilExcIDl.js", true, 3);
+        $tpl->addJavaScript("assets/js/ilExcIDl.js", true, 3);
         $tpl->addOnLoadCode('il.ExcIDl.init("' . $ajax_url . '");');
 
         ilCalendarUtil::initDateTimePicker();

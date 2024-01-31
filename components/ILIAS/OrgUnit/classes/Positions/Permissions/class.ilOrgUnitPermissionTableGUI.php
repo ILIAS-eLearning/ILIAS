@@ -45,7 +45,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
         $this->setId('objpositionperm_' . $this->ref_id);
 
-        $tpl->addJavaScript('./components/ILIAS/AccessControl/js/ilPermSelect.js');
+        $tpl->addJavaScript('assets/js/ilPermSelect.js');
 
         $this->setTitle($this->lng->txt('org_permission_settings'));
         $this->setEnableHeader(true);

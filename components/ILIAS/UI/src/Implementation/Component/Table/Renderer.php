@@ -554,8 +554,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Table/table.min.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Modal/modal.js');
+        $registry->register('assets/js/table.min.js');
+        $registry->register('assets/js/modal.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

@@ -56,7 +56,7 @@ class ilMainMenuSearchGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $DIC->ui()->mainTemplate()->addJavascript('components/ILIAS/Search/js/SearchMainMenu.js');
+        $DIC->ui()->mainTemplate()->addJavascript('assets/js/SearchMainMenu.js');
 
         $this->initRefIdFromQuery();
     }

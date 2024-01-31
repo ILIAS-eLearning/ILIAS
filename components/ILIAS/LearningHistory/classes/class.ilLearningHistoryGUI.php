@@ -68,7 +68,7 @@ class ilLearningHistoryGUI
             ? $to
             : null;
 
-        $this->main_tpl->addJavaScript("./components/ILIAS/LearningHistory/js/LearningHistory.js");
+        $this->main_tpl->addJavaScript("assets/js/LearningHistory.js");
         $this->http = $DIC->http();
     }
 

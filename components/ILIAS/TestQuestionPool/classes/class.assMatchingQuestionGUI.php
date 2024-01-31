@@ -635,9 +635,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js');
+        $this->tpl->addJavaScript('assets/js/ilMatchingQuestion.js');
         $this->tpl->addOnLoadCode('ilMatchingQuestionInit();');
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'components/ILIAS/TestQuestionPool'));
 
@@ -806,9 +806,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js');
+        $this->tpl->addJavaScript('assets/js/ilMatchingQuestion.js');
         $this->tpl->addOnLoadCode('ilMatchingQuestionInit();');
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'components/ILIAS/TestQuestionPool'));
 

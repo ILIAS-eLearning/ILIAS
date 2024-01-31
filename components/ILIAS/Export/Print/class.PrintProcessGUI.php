@@ -89,7 +89,7 @@ class PrintProcessGUI
         $ui = $this->ui;
         $lng = $this->lng;
 
-        $ui->mainTemplate()->addJavaScript("./components/ILIAS/Form/js/Form.js");
+        $ui->mainTemplate()->addJavaScript("assets/js/Form.js");
         $modal = $ui->factory()->modal()->roundtrip(
             $this->lng->txt("exp_print_pdf"),
             $ui->factory()->legacy('some modal')

@@ -63,7 +63,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
         global $DIC;
         $tpl = $DIC['tpl'];
 
-        $tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
+        $tpl->addJavaScript("assets/js/ilExplorer.js");
     }
 
     /**

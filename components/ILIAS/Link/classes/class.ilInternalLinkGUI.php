@@ -924,12 +924,12 @@ class ilInternalLinkGUI
 
         $lng->loadLanguageModule("link");
 
-        $tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
+        $tpl->addJavaScript("assets/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
 
-        $tpl->addJavascript("./components/ILIAS/Link/js/ilIntLink.js");
+        $tpl->addJavascript("assets/js/ilIntLink.js");
         // #18721
-        $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
+        $tpl->addJavaScript("assets/js/Form.js");
 
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($lng->txt("link_link"));

@@ -95,7 +95,7 @@ class ilCalendarViewGUI
         if ($this->presentation_type == self::CAL_PRESENTATION_DAY ||
             $this->presentation_type == self::CAL_PRESENTATION_WEEK) {
             iljQueryUtil::initjQuery($this->main_tpl);
-            $this->main_tpl->addJavaScript('./components/ILIAS/Calendar/js/calendar_appointment.js');
+            $this->main_tpl->addJavaScript('assets/js/calendar_appointment.js');
         }
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();

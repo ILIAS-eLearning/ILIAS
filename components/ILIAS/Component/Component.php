@@ -36,7 +36,11 @@ class Component implements Component\Component
 
         $contribute[\ILIAS\Setup\Agent::class] = fn() =>
             new \ilComponentsSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $internal[Component\Resource\PublicAssetManager::class],
+                $seek[Component\Resource\PublicAsset::class]
             );
+
+        $internal[Component\Resource\PublicAssetManager::class] = fn() =>
+            new Component\Resource\PublicAssetManager();
     }
 }

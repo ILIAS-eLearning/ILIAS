@@ -179,7 +179,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
          * @var $globalTpl \ilTemplate
          */
         $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-        $globalTpl->addJavascript("./components/ILIAS/OrgUnit/templates/default/authority.js");
+        $globalTpl->addJavascript("assets/js/authority.js");
 
         $config = json_encode(array());
 

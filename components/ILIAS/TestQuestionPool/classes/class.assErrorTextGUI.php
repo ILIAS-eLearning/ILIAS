@@ -384,7 +384,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $template->setVariable("ERRORTEXT_VALUE", join(',', $selections['user']));
 
         $this->tpl->addOnLoadCode('il.test.player.errortext.init()');
-        $this->tpl->addJavascript('./components/ILIAS/TestQuestionPool/templates/default/errortext.js');
+        $this->tpl->addJavascript('assets/js/errortext.js');
         $questionoutput = $template->get();
 
         if ($show_question_only) {

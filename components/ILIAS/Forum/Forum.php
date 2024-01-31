@@ -36,5 +36,7 @@ class Forum implements Component\Component
             new \ilForumSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "autosave.js");
     }
 }

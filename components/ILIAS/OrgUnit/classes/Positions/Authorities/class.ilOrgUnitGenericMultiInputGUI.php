@@ -332,7 +332,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     public function initCSSandJS()
     {
         global $tpl;
-        $tpl->addJavascript('components/ILIAS/OrgUnit/js/generic_multi_line_input.js');
+        $tpl->addJavascript('assets/js/generic_multi_line_input.js');
     }
 
     /**

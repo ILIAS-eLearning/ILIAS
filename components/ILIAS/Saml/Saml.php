@@ -32,6 +32,17 @@ class Saml implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "saml.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "metadata.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "module.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "saml1-acs.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "saml2-acs.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "saml2-logout.php");
     }
 }

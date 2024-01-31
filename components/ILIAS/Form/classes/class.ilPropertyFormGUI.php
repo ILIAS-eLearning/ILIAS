@@ -492,8 +492,8 @@ class ilPropertyFormGUI extends ilFormGUI
         ilYuiUtil::initEvent();
         ilYuiUtil::initDom();
 
-        $tpl->addJavaScript("./components/ILIAS/JavaScript/js/Basic.js");
-        $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
+        $tpl->addJavaScript("assets/js/Basic.js");
+        $tpl->addJavaScript("assets/js/Form.js");
 
         $this->tpl = new ilTemplate("tpl.property_form.html", true, true, "components/ILIAS/Form");
 
@@ -632,7 +632,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
-            $tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormMulti.js");
+            $tpl->addJavascript("assets/js/ServiceFormMulti.js");
 
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());

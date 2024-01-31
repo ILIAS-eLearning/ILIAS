@@ -79,7 +79,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->help_items = array();
 
         ilYuiUtil::initDragDrop();
-        $this->main_tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormHierarchyForm.js");
+        $this->main_tpl->addJavascript("assets/js/ServiceFormHierarchyForm.js");
 
 
         $this->http = $DIC->http();

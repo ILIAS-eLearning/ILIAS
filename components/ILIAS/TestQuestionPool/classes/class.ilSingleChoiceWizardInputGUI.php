@@ -536,7 +536,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/singlechoicewizard.js");
+        $tpl->addJavascript("assets/js/answerwizardinput.js");
+        $tpl->addJavascript("assets/js/singlechoicewizard.js");
     }
 }

@@ -159,7 +159,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSectionSorting(int $view, string $title): Section
     {
-        $this->tpl->addJavaScript("components/ILIAS/Dashboard/Administration/js/SortationUserInputHandler.js");
+        $this->tpl->addJavaScript("assets/js/SortationUserInputHandler.js");
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(

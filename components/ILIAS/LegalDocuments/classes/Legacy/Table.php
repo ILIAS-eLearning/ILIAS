@@ -64,7 +64,7 @@ class Table extends ilTable2GUI implements TableSelection
         iljQueryUtil::initjQuery($DIC->ui()->mainTemplate());
         ilYuiUtil::initPanel(false, $DIC->ui()->mainTemplate());
         ilYuiUtil::initOverlay($DIC->ui()->mainTemplate());
-        $DIC->ui()->mainTemplate()->addJavaScript('./components/ILIAS/Form/js/Form.js');
+        $DIC->ui()->mainTemplate()->addJavaScript('assets/js/Form.js');
         $this->determineOffsetAndOrder();
         $this->setData($table->rows($this));
     }

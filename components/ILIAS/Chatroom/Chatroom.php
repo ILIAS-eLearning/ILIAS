@@ -36,5 +36,11 @@ class Chatroom implements Component\Component
             new \ilChatroomSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "chatroom.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "iliaschat.jquery.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "chatroom.css");
     }
 }

@@ -63,7 +63,7 @@ class Renderer extends AbstractComponentRenderer
 
         $highlight_node_on_click = $component->getHighlightOnNodeClick();
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
+            fn($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
         );
 
         $id = $this->bindJavaScript($component);
@@ -103,7 +103,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Tree/tree.js');
+        $registry->register('assets/js/tree.js');
     }
 
     /**

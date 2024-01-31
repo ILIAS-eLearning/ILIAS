@@ -208,7 +208,7 @@ class ilPollBlockGUI extends ilBlockGUI
     protected function initJS(): void
     {
         if (!self::$js_init) {
-            $this->main_tpl->addJavaScript("components/ILIAS/Poll/js/ilPoll.js");
+            $this->main_tpl->addJavaScript("assets/js/ilPoll.js");
             self::$js_init = true;
         }
     }

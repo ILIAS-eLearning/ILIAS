@@ -44,7 +44,7 @@ class iljQueryUtil
         }
 
         $a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 0);
-        $a_tpl->addJavaScript('./node_modules/jquery-migrate/dist/jquery-migrate.min.js', true, 0);
+        $a_tpl->addJavaScript('assets/js/jquery-migrate.min.js', true, 0);
     }
 
 
@@ -70,7 +70,7 @@ class iljQueryUtil
      */
     public static function getLocaljQueryPath(): string
     {
-        return "./node_modules/jquery/dist/jquery" . self::$min . ".js";
+        return "assets/js/jquery" . self::$min . ".js";
     }
 
 

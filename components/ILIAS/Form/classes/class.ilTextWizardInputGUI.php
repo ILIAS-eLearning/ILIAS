@@ -150,8 +150,8 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
 
         if (!$this->getDisabled()) {
-            $this->tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
-            $this->tpl->addJavascript("./components/ILIAS/Form/templates/default/textwizard.js");
+            $this->tpl->addJavascript("assets/js/ServiceFormWizardInput.js");
+            $this->tpl->addJavascript("assets/js/textwizard.js");
         }
 
         return $tpl->get();

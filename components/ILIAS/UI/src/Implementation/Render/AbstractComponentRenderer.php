@@ -61,7 +61,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
      */
     public function registerResources(ResourceRegistry $registry): void
     {
-        $registry->register('./components/ILIAS/UI/src/templates/js/Core/dist/core.js');
+        $registry->register('assets/js/core.js');
     }
 
     /**

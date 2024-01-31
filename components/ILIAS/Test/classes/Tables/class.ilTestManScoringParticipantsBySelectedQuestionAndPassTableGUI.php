@@ -51,7 +51,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
-        $this->main_tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
+        $this->main_tpl->addJavaScript('assets/js/tinymce/tinymce.js');
 
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));

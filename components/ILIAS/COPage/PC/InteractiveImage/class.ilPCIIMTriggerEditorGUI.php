@@ -34,8 +34,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         iljQueryUtil::initjQueryUI();
         parent::__construct($a_content_obj, $a_page, $request);
 
-        $this->main_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
-        $this->main_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePCInteractiveImage.js");
+        $this->main_tpl->addJavaScript("assets/js/ilCOPagePres.js");
+        $this->main_tpl->addJavaScript("assets/js/ilCOPagePCInteractiveImage.js");
 
         ilAccordionGUI::addJavaScript();
         ilAccordionGUI::addCss();

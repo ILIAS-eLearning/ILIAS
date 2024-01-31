@@ -119,7 +119,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
             $i_tpl->setVariable("TXT_TAKE_SNAPSHOT", $lng->txt("form_take_snapshot"));
             $i_tpl->parseCurrentBlock();
             $main_tpl = $this->tpl;
-            $main_tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormImageFileCapture.js");
+            $main_tpl->addJavascript("assets/js/ServiceFormImageFileCapture.js");
         }
 
         if ($this->getImage() != "") {

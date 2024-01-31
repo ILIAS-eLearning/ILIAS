@@ -357,7 +357,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         if ($this->getMulti()) {
             $output = '<div id="' . $this->getFieldId() . '" class="multi_line_input">' . $output . '</div>';
-            $this->global_tpl->addJavaScript('components/ILIAS/DataCollection/js/generic_multi_line_input.js');
+            $this->global_tpl->addJavaScript('assets/js/generic_multi_line_input.js');
             $id = $this->getFieldId();
             $element_config = json_encode($this->input_options);
             $options = json_encode(['limit' => $this->limit,

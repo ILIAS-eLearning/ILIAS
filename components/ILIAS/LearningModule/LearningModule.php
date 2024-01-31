@@ -36,5 +36,7 @@ class LearningModule implements Component\Component
             new \ilLearningModuleSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "LearningModule.js");
     }
 }

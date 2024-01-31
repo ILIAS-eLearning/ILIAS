@@ -373,8 +373,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/ViewControl/sortation.js');
-        $registry->register('./src/UI/templates/js/ViewControl/pagination.js');
+        $registry->register('assets/js/viewcontrols.min.js');
     }
 
     protected function renderId(

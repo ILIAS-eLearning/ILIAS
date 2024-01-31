@@ -238,7 +238,7 @@ class ilTinyMCE extends ilRTE
             $tpl->parseCurrentBlock();
 
             if (!self::$renderedToGlobalTemplate) {
-                $this->tpl->addJavaScript('public/node_modules/tinymce/tinymce.js');
+                $this->tpl->addJavaScript('assets/js/tinymce.js');
                 $this->tpl->addOnLoadCode($tpl->get());
                 self::$renderedToGlobalTemplate = true;
             }
@@ -306,7 +306,7 @@ class ilTinyMCE extends ilRTE
         $tpl->parseCurrentBlock();
 
         if (!self::$renderedToGlobalTemplate) {
-            $this->tpl->addJavaScript('public/node_modules/tinymce/tinymce.js');
+            $this->tpl->addJavaScript('assets/js/tinymce.js');
             $this->tpl->addOnLoadCode($tpl->get());
             self::$renderedToGlobalTemplate = true;
         }
@@ -336,7 +336,7 @@ class ilTinyMCE extends ilRTE
         $template->setVariable('LANG', $this->_getEditorLanguage());
         $template->parseCurrentBlock();
 
-        $this->tpl->addJavaScript('public/node_modules/tinymce/tinymce.js');
+        $this->tpl->addJavaScript('assets/js/tinymce.js');
         $this->tpl->addOnLoadCode($template->get());
     }
 

@@ -716,6 +716,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         ilYuiUtil::initOverlay();
         iljQueryUtil::initjQuery();
 
-        $tpl->addJavascript("./components/ILIAS/Tracking/js/ilObjStat.js");
+        $tpl->addJavascript("assets/js/ilObjStat.js");
     }
 }

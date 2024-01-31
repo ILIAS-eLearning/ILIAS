@@ -263,8 +263,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $answers = $this->request->raw('hidden_text_files');
         }
 
-        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
-        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestion.js');
+        $this->tpl->addJavaScript('assets/js/longMenuQuestionGapBuilder.js');
+        $this->tpl->addJavaScript('assets/js/longMenuQuestion.js');
         $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap.html", true, true, "components/ILIAS/TestQuestionPool");
         $tpl->setVariable('MAX_INPUT_FIELDS', assLongMenu::MAX_INPUT_FIELDS);
         $tpl->setVariable('GAP_PLACEHOLDER', assLongMenu::GAP_PLACEHOLDER);
@@ -421,7 +421,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     protected function getTemplateForPreviewAndTest(array $user_solution): ilTemplate
     {
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "components/ILIAS/TestQuestionPool");
-        $this->tpl->addJavaScript('./components/ILIAS/TestQuestionPool/templates/default/longMenuQuestionPlayer.js');
+        $this->tpl->addJavaScript('assets/js/longMenuQuestionPlayer.js');
         $this->tpl->addOnLoadCode('il.test.player.longmenu.init('
             . $this->object->getMinAutoComplete() . ', '
             . json_encode($this->object->getAvailableAnswerOptions())

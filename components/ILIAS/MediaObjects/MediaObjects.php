@@ -36,5 +36,9 @@ class MediaObjects implements Component\Component
             new \ilMediaObjectSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "MediaObjectsCompletion.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ServiceMediaObjectPropWidthHeight.js");
     }
 }

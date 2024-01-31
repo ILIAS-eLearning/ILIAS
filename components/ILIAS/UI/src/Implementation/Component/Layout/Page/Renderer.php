@@ -170,7 +170,7 @@ class Renderer extends AbstractComponentRenderer
         if ($for_ui_demo) {
             $additional_js_files = [
                 iljQueryUtil::getLocaljQueryPath(),
-                './components/ILIAS/JavaScript/js/Basic.js',
+                'assets/js/Basic.js',
                 ilUIFramework::BOOTSTRAP_JS,
                 './node_modules/jquery-migrate/jquery-migrate.min.js',
             ];
@@ -203,7 +203,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Page/stdpage.js');
+        $registry->register('assets/js/stdpage.js');
     }
 
     /**

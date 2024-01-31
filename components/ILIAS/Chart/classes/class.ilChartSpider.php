@@ -73,8 +73,8 @@ class ilChartSpider extends ilChart
     {
         $tpl = $this->tpl;
 
-        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.highlighter.js");
-        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.spider.js");
+        $tpl->addJavaScript("assets/js/jquery.flot.highlighter.js");
+        $tpl->addJavaScript("assets/js/jquery.flot.spider.js");
     }
 
     public function parseGlobalOptions(stdClass $a_options): void

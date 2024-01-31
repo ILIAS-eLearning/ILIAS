@@ -57,7 +57,7 @@ class ilExcCriteriaRating extends ilExcCriteria
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
-        $tpl->addJavaScript("components/ILIAS/Exercise/js/ilExcPeerReview.js");
+        $tpl->addJavaScript("assets/js/ilExcPeerReview.js");
         $tpl->addOnLoadCode("il.ExcPeerReview.setAjax('" .
             $ilCtrl->getLinkTargetByClass("ilExPeerReviewGUI", "updateCritAjax", "", true, false) .
             "')");

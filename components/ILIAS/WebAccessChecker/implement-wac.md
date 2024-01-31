@@ -10,7 +10,7 @@ The new WebAccessChecker allows fast and secure delivery of files in the /data d
 
 All requests to /data are now redirected to the WAC-Script per default, the .htaccess-File has a new entry:
 
-`RewriteRule ^data/.*/.*/.*$ Services/WebAccessChecker/wac.php [L]`
+`RewriteRule ^data/.*/.*/.*$ wac.php [L]`
 
 The WAC delivers the file after the following decisions:
 

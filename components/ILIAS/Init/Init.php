@@ -32,6 +32,31 @@ class Init implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "register.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "pwassist.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "login.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "logout.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "index.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "ilias.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "error.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "sso/index.php", "sso");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\OfComponent($this, ".htaccess", ".");
     }
 }

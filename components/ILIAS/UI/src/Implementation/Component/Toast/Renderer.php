@@ -82,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
-        $component = $component->withAdditionalOnLoadCode(fn ($id) => "
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "
                 il.UI.toast.setToastSettings($id);
                 il.UI.toast.showToast($id);
             ");
@@ -104,7 +104,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Toast/toast.js');
+        $registry->register('assets/js/toast.js');
     }
 
     /**

@@ -42,7 +42,7 @@ class ilSessionReminderGUI
 
         iljQueryUtil::initjQuery($this->page);
 
-        $this->page->addJavaScript('./components/ILIAS/Authentication/js/session_reminder.js');
+        $this->page->addJavaScript('assets/js/session_reminder.js');
 
         $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $this->lng->getLangKey();
         $devMode = defined('DEVMODE') && DEVMODE ? 1 : 0;

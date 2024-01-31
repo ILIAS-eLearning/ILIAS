@@ -532,7 +532,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
         }
         // generate the question output
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
+        $this->tpl->addJavaScript('assets/js/ilAssMultipleChoice.js');
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
 
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -619,7 +619,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     protected function getUseUnchangedAnswerCheckboxHtml(): string
     {
         // hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js');
+        $this->tpl->addJavaScript('assets/js/ilAssMultipleChoice.js');
 
         $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'components/ILIAS/TestQuestionPool');
 

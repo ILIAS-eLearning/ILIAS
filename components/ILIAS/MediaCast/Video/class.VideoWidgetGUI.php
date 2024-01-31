@@ -35,7 +35,7 @@ class VideoWidgetGUI
     ) {
         global $DIC;
 
-        $main_tpl->addJavaScript("components/ILIAS/MediaCast/Video/js/video_widget.js");
+        $main_tpl->addJavaScript("assets/js/video_widget.js");
         $this->main_tpl = $main_tpl;
         $this->dom_wrapper_id = $dom_wrapper_id;
         $this->ui = $DIC->ui();

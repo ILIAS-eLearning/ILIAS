@@ -402,8 +402,8 @@ $.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
 );
 JS;
 
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode($init_code);
         }
 

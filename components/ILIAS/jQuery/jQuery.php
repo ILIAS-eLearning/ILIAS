@@ -32,6 +32,9 @@ class jQuery implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("jquery-migrate/dist/jquery-migrate.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("jquery/dist/jquery.min.js");
     }
 }

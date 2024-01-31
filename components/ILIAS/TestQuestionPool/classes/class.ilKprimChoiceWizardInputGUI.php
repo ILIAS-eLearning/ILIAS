@@ -316,9 +316,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-        $this->tpl->addJavascript("components/ILIAS/TestQuestionPool/templates/default/kprimchoicewizard.js");
-        $this->tpl->addJavascript('components/ILIAS/TestQuestionPool/js/ilAssKprimChoice.js');
+        $this->tpl->addJavascript("assets/js/answerwizardinput.js");
+        $this->tpl->addJavascript("assets/js/kprimchoicewizard.js");
+        $this->tpl->addJavascript('assets/js/ilAssKprimChoice.js');
     }
 
     public function checkUploads($foundvalues): bool

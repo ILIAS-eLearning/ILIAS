@@ -453,7 +453,7 @@ class ilToolbarGUI
             // form?
             if ($this->getFormAction() !== "") {
                 // #18947
-                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Form/js/Form.js");
+                $GLOBALS["tpl"]->addJavaScript("assets/js/Form.js");
 
                 if ($this->getOpenFormTag()) {
                     $tpl->setCurrentBlock("form_open");

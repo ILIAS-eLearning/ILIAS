@@ -437,7 +437,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $config['itemClass'] = $this->getCssItemClass();
         $config['handleClass'] = $this->getCssHandleClass();
 
-        $this->global_tpl->addJavaScript('components/ILIAS/TestQuestionPool/templates/default/nested_ordering.js');
+        $this->global_tpl->addJavaScript('assets/js/nested_ordering.js');
         $this->global_tpl->addOnLoadCode("nested_ordering_input.init('"
             . $this->getInstanceId() . "', '"
             . $this->getPostVarSubField('indentation') . "', "
@@ -456,7 +456,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
 
-            $this->getGlobalTpl()->addJavaScript('./node_modules/nestable2/dist/jquery.nestable.min.js');
+            $this->getGlobalTpl()->addJavaScript('assets/js/jquery.nestable.min.js');
             $this->renderJsInit();
 
             return $this->renderMainList();

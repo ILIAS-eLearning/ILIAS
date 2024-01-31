@@ -876,7 +876,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
             // #15508
             if (!self::$initialized) {
-                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Portfolio/js/ilPortfolio.js");
+                $GLOBALS["tpl"]->addJavaScript("assets/js/ilPortfolio.js");
                 $GLOBALS["tpl"]->addOnLoadCode("ilPortfolio.init()");
             }
             self::$initialized++;

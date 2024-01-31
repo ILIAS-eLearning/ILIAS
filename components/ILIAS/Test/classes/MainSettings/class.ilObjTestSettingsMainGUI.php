@@ -312,7 +312,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $message .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
         }
 
-        $this->tpl->addJavaScript('./components/ILIAS/Test/templates/default/settings_confirmation.js');
+        $this->tpl->addJavaScript('assets/js/settings_confirmation.js');
         $on_load_code = static function (string $id): string {
             return 'il.test.confirmSettings.init(' . $id . ')';
         };
