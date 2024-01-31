@@ -162,7 +162,7 @@ class Table extends ilTable2GUI implements TableSelection
         if ($is_component($x) || (is_array($x) && array_filter($x, fn($x) => !$is_component($x)) === [])) {
             global $DIC;
             return $DIC->ui()->renderer()->render($this->removeModals($x));
-        } elseif (is_callable($x)) {
+        } elseif ($x instanceof Closure) {
             return $x();
         } elseif (is_string($x)) {
             return htmlentities($x);

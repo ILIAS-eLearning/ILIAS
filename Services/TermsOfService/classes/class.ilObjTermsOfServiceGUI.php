@@ -197,7 +197,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                  [];
 
         $reset_date = new DateTimeImmutable('@' . $this->dic->settings()->get('tos_last_reset', '0'));
+
+        $this->tpl->setCurrentBlock('mess');
         $this->legal_documents->admin()->setVariable('MESSAGE', $this->legal_documents->admin()->resetBox($reset_date, $buttons));
+        $this->tpl->parseCurrentBlock('mess');
     }
 
     private function confirmReset(): void
