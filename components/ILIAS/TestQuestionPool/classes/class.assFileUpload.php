@@ -612,38 +612,53 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return sprintf('%.1f MB', $size / 1024 / 1024);
     }
 
-    public function getMaxFilesizeInBytes(): int
+    protected function getMaxFilesizeInBytes(): int
     {
         if ($this->getMaxSize() > 0) {
             return $this->getMaxSize();
         }
 
-        // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf = ini_get('upload_max_filesize');
-        // get the value for the maximal post data from the php.ini (if available)
-        $pms = init_get('post_max_size');
+        return $this->determineMaxFilesize();
+    }
 
-        //convert from short-string representation to 'real' bytes
-        $multiplier_a = ['K' => 1024, 'M' => 1024 * 1024, 'G' => 1024 * 1024 * 1024];
 
-        $umf_parts = preg_split('/(\d+)([K|G|M])/', $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        $pms_parts = preg_split('/(\d+)([K|G|M])/', $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+    public function determineMaxFilesize(): int
+    {
+        $upload_max_filesize = ini_get('upload_max_filesize');
+        $post_max_size = ini_get('post_max_size');
+
+        //convert from short-string representation to "real" bytes
+        $multiplier_a = [ "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 ];
+        $umf_parts = preg_split(
+            "/(\d+)([K|G|M])/",
+            $upload_max_filesize,
+            -1,
+            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+        );
+        $pms_parts = preg_split(
+            "/(\d+)([K|G|M])/",
+            $post_max_size,
+            -1,
+            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+        );
 
         if (count($umf_parts) === 2) {
-            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+            $upload_max_filesize = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
+
         if (count($pms_parts) === 2) {
-            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+            $post_max_size = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
         // use the smaller one as limit
-        $max_filesize = min($umf, $pms);
+        $max_filesize = min($upload_max_filesize, $post_max_size);
 
         if (!$max_filesize) {
-            $max_filesize = max($umf, $pms);
+            $max_filesize = max($upload_max_filesize, $post_max_size);
+            return $max_filesize;
         }
 
-        return (int) $max_filesize;
+        return $max_filesize;
     }
 
     /**
