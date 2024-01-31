@@ -12,16 +12,20 @@
 <!-- END allowed_image_suffixes -->
 <!-- BEGIN image -->
 <img class="imagemap" style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-<input type="submit" class="btn btn-default btn-sm" name="cmd[deleteImage]" id="{POST_VAR_D}_delete" value="{TXT_DELETE_EXISTING}" />
 <br />
 <!-- BEGIN has_value -->
 <input type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
 <!-- END has_value -->
+
 <div class="text-right">
 	<input class="btn btn-default" type="submit" name="cmd[addRect][{POST_VAR_D}]" value="{TEXT_ADD_RECT}" />
 	<input class="btn btn-default" type="submit" name="cmd[addCircle][{POST_VAR_D}]" value="{TEXT_ADD_CIRCLE}" />
 	<input class="btn btn-default" type="submit" name="cmd[addPoly][{POST_VAR_D}]" value="{TEXT_ADD_POLY}" />
 </div>
+<div>
+	<input type="submit" class="btn btn-default" name="cmd[deleteImage]" id="{POST_VAR_D}_delete" value="{TXT_DELETE_EXISTING}" />
+</div>
+
 <!-- END image -->
 <!-- BEGIN areas -->
 <div class="form-inline">
