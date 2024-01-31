@@ -233,7 +233,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
             );
 
             if ($job->hasAutoActivation()) {
-                $this->activateJob($job);
+                $this->activateJob($job, new DateTimeImmutable('@' . time()));
                 $job->activationWasToggled($this->db, $this->setting, true);
             } else {
                 // to overwrite dependent settings
@@ -303,6 +303,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
 
     public function updateJobResult(
         ilCronJob $job,
+        DateTimeImmutable $when,
         ilObjUser $actor,
         ilCronJobResult $result,
         bool $wasManualExecution = false
@@ -315,7 +316,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
             ' , job_result_code = ' . $this->db->quote($result->getCode(), 'text') .
             ' , job_result_message = ' . $this->db->quote($result->getMessage(), 'text') .
             ' , job_result_type = ' . $this->db->quote((int) $wasManualExecution, 'integer') .
-            ' , job_result_ts = ' . $this->db->quote(time(), 'integer') .
+            ' , job_result_ts = ' . $this->db->quote($when->getTimestamp(), 'integer') .
             ' , job_result_dur = ' . $this->db->quote($result->getDuration() * 1000, 'integer') .
             ' WHERE job_id = ' . $this->db->quote($job->getId(), 'text');
         $this->db->manipulate($query);
@@ -345,8 +346,12 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         }
     }
 
-    public function activateJob(ilCronJob $job, ?ilObjUser $actor = null, bool $wasManuallyExecuted = false): void
-    {
+    public function activateJob(
+        ilCronJob $job,
+        DateTimeImmutable $when,
+        ?ilObjUser $actor = null,
+        bool $wasManuallyExecuted = false
+    ): void {
         $usrId = 0;
         if ($wasManuallyExecuted && $actor instanceof ilObjUser) {
             $usrId = $actor->getId();
@@ -356,20 +361,24 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
             ' job_status = ' . $this->db->quote(1, 'integer') .
             ' , job_status_user_id = ' . $this->db->quote($usrId, 'integer') .
             ' , job_status_type = ' . $this->db->quote($wasManuallyExecuted, 'integer') .
-            ' , job_status_ts = ' . $this->db->quote(time(), 'integer') .
+            ' , job_status_ts = ' . $this->db->quote($when->getTimestamp(), 'integer') .
             ' WHERE job_id = ' . $this->db->quote($job->getId(), 'text');
         $this->db->manipulate($query);
     }
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
-    {
+    public function deactivateJob(
+        ilCronJob $job,
+        DateTimeImmutable $when,
+        ilObjUser $actor,
+        bool $wasManuallyExecuted = false
+    ): void {
         $usrId = $wasManuallyExecuted ? $actor->getId() : 0;
 
         $query = 'UPDATE cron_job SET ' .
             ' job_status = ' . $this->db->quote(0, 'integer') .
             ' , job_status_user_id = ' . $this->db->quote($usrId, 'integer') .
             ' , job_status_type = ' . $this->db->quote($wasManuallyExecuted, 'integer') .
-            ' , job_status_ts = ' . $this->db->quote(time(), 'integer') .
+            ' , job_status_ts = ' . $this->db->quote($when->getTimestamp(), 'integer') .
             ' WHERE job_id = ' . $this->db->quote($job->getId(), 'text');
         $this->db->manipulate($query);
     }

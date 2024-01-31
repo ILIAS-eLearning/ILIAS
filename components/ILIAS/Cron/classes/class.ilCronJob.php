@@ -74,8 +74,9 @@ abstract class ilCronJob
             return true;
         }
 
-        $now = new DateTimeImmutable('@' . time());
-        if ($this->date_time_provider !== null) {
+        if ($this->date_time_provider === null) {
+            $now = new DateTimeImmutable('@' . time(), new DateTimeZone(date_default_timezone_get()));
+        } else {
             $now = ($this->date_time_provider)();
         }
 
@@ -119,6 +120,9 @@ abstract class ilCronJob
         return false;
     }
 
+    /**
+     * @param Closure():DateTimeInterface|null $date_time_provider
+     */
     public function setDateTimeProvider(?Closure $date_time_provider): void
     {
         if ($date_time_provider !== null) {
