@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
 use ilUtil;
 

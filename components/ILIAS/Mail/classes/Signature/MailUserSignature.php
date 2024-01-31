@@ -21,6 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Signature;
 
 use ilSetting;
+use ILIAS\Mail\Placeholder\MailSignatureIliasUrlPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureInstallationNamePlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureInstallationDescriptionPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureUserLoginPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureUserFullnamePlaceholder;
+use ILIAS\Mail\Placeholder\Placeholder;
 
 class MailUserSignature implements Signature
 {

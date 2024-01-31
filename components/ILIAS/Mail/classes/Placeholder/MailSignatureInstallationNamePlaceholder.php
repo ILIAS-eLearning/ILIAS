@@ -18,25 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
 use ilIniFile;
 use ilLanguage;
 
-class MailSignatureInstallationDescriptionPlaceholder extends AbstractPlaceholderHandler
+class MailSignatureInstallationNamePlaceholder extends AbstractPlaceholderHandler
 {
-    private ilIniFile $clientIniFile;
-
-    public function __construct(ilLanguage $lng)
+    public function __construct(ilLanguage $lng, private readonly ilIniFile $clientIniFile)
     {
-        global $DIC;
-        $this->clientIniFile = $DIC['ilClientIniFile'];
         parent::__construct($lng);
     }
 
     public function getId(): string
     {
-        return 'INSTALLATION_DESC';
+        return 'INSTALLATION_NAME';
     }
 
     public function addPlaceholder(array $placeholder): array

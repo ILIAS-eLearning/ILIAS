@@ -18,27 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
-use ilObjUser;
-use ilLanguage;
+use ILIAS\Mail\Signature\Signature;
 
-class MailSignatureUserLoginPlaceholder extends AbstractPlaceholderHandler
+interface Placeholder
 {
-    public function __construct(ilLanguage $lng, private readonly int $user_id)
-    {
-        parent::__construct($lng);
-    }
+    public function getId(): string;
 
-    public function getId(): string
-    {
-        return 'USER_LOGIN';
-    }
+    public function getLabel(): string;
 
-    public function addPlaceholder(array $placeholder): array
-    {
-        $placeholder[$this->getId()] = ilObjUser::_lookupLogin($this->user_id);
+    /**
+     * @param Signature $signature
+     * @return array<string, string>|null
+     */
+    public function handle(Signature $signature): ?array;
 
-        return $placeholder;
-    }
+    public function setNext(self $next): self;
+
+    public function getNext(): ?self;
 }

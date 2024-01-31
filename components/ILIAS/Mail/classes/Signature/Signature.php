@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Signature;
 
+use ILIAS\Mail\Placeholder\Placeholder;
+
 interface Signature
 {
     public function getSignature(): string;

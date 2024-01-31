@@ -18,26 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
-use ilIniFile;
+use ilObjUser;
 use ilLanguage;
 
-class MailSignatureInstallationNamePlaceholder extends AbstractPlaceholderHandler
+class MailSignatureUserLoginPlaceholder extends AbstractPlaceholderHandler
 {
-    public function __construct(ilLanguage $lng, private readonly ilIniFile $clientIniFile)
+    public function __construct(ilLanguage $lng, private readonly int $user_id)
     {
         parent::__construct($lng);
     }
 
     public function getId(): string
     {
-        return 'INSTALLATION_NAME';
+        return 'USER_LOGIN';
     }
 
     public function addPlaceholder(array $placeholder): array
     {
-        $placeholder[$this->getId()] = $this->clientIniFile->readVariable('client', 'name');
+        $placeholder[$this->getId()] = ilObjUser::_lookupLogin($this->user_id);
 
         return $placeholder;
     }

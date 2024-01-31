@@ -18,21 +18,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
-interface Placeholder
+use ilObjUser;
+use ilLanguage;
+use ilUserUtil;
+
+class MailSignatureUserFullnamePlaceholder extends AbstractPlaceholderHandler
 {
-    public function getId(): string;
+    public function __construct(ilLanguage $lng, private readonly int $user_id)
+    {
+        parent::__construct($lng);
+    }
 
-    public function getLabel(): string;
+    public function getId(): string
+    {
+        return 'USER_FULLNAME';
+    }
 
-    /**
-     * @param Signature $signature
-     * @return array<string, string>|null
-     */
-    public function handle(Signature $signature): ?array;
+    public function addPlaceholder(array $placeholder): array
+    {
+        $placeholder[$this->getId()] = ilUserUtil::getNamePresentation($this->user_id);
 
-    public function setNext(self $next): self;
-
-    public function getNext(): ?self;
+        return $placeholder;
+    }
 }

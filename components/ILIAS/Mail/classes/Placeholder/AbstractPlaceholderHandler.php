@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Mail\Signature;
+namespace ILIAS\Mail\Placeholder;
 
 use ilLanguage;
+use ILIAS\Mail\Signature\Signature;
 
 abstract class AbstractPlaceholderHandler implements Placeholder
 {

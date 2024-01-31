@@ -22,17 +22,17 @@ namespace ILIAS\Mail\Service;
 
 use ilIniFile;
 use ilMustacheFactory;
-use ILIAS\Mail\Signature\Placeholder;
-use ILIAS\Mail\Signature\MailSignatureIliasUrlPlaceholder;
-use ILIAS\Mail\Signature\MailSignatureInstallationNamePlaceholder;
-use ILIAS\Mail\Signature\MailSignatureUserFullnamePlaceholder;
-use ILIAS\Mail\Signature\MailSignatureUserLoginPlaceholder;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
 use ILIAS\Mail\Signature\MailUserSignature;
-use ILIAS\Mail\Signature\MailSignatureInstallationDescriptionPlaceholder;
 use ilLanguage;
 use ilSetting;
+use ILIAS\Mail\Placeholder\Placeholder;
+use ILIAS\Mail\Placeholder\MailSignatureIliasUrlPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureInstallationNamePlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureInstallationDescriptionPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureUserLoginPlaceholder;
+use ILIAS\Mail\Placeholder\MailSignatureUserFullnamePlaceholder;
 
 class MailSignatureService
 {
