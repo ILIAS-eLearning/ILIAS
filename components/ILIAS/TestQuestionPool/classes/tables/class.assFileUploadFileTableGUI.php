@@ -20,9 +20,6 @@
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Björn Heyser <bheyser@databay.de>
-* @version $Id$
-*
-* @ingroup components\ILIASGroup
 */
 class assFileUploadFileTableGUI extends ilTable2GUI
 {
@@ -49,49 +46,31 @@ class assFileUploadFileTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('filename'), 'filename', '70%');
         $this->addColumn($this->lng->txt('date'), 'date', '29%');
         $this->setDisplayAsBlock(true);
-
-        // hey: prevPassSolutions - configure table with initCommand()
         $this->setPrefix('deletefiles');
         $this->setSelectAllCheckbox('deletefiles');
-        // hey.
 
         $this->setRowTemplate("tpl.il_as_qpl_fileupload_file_row.html", "components/ILIAS/TestQuestionPool");
 
         $this->disable('sort');
         $this->disable('linkbar');
         $this->enable('header');
-        // hey: prevPassSolutions - configure table with initCommand()
-        #$this->enable('select_all');
-        // hey.
     }
 
-    // hey: prevPassSolutions - support file reuse with table
-    /**
-     * @return bool
-     */
     protected function hasPostVar(): bool
     {
         return (bool) strlen($this->getPostVar());
     }
 
-    /**
-     * @return string
-     */
     public function getPostVar(): string
     {
         return $this->postVar;
     }
 
-    /**
-     * @param string $postVar
-     */
-    public function setPostVar($postVar): void
+    public function setPostVar(string $postVar): void
     {
         $this->postVar = $postVar;
     }
-    // hey.
 
-    // hey: prevPassSolutions - support file reuse with table
     public function initCommand(string $lang_var, string $cmd, string $post_var): void
     {
         if (count($this->getData())) {
@@ -105,37 +84,21 @@ class assFileUploadFileTableGUI extends ilTable2GUI
             $this->addCommandButton($this->parent_cmd, $this->lng->txt($lang_var), $on_click);
         }
     }
-    // hey.
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-
         $this->tpl->setVariable('VAL_ID', $a_set['solution_id']);
-        // hey: prevPassSolutions - support file reuse with table
         $this->tpl->setVariable('VAL_FILE', $this->buildFileItemContent($a_set));
 
         if ($this->hasPostVar()) {
             $this->tpl->setVariable('VAL_POSTVAR', $this->getPostVar());
         }
-        // hey.
+
         ilDatePresentation::setUseRelativeDates(false);
         $this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX)));
     }
 
-    // hey: prevPassSolutions - support file reuse with table
-    /**
-     * @param $a_set
-     */
-    protected function buildFileItemContent($a_set): string
+    protected function buildFileItemContent(array $a_set): string
     {
         $value = $a_set['value2'];
         if($value === 'rid') {
@@ -155,5 +118,4 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 
         return $link;
     }
-    // hey.
 }

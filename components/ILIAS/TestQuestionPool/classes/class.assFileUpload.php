@@ -598,23 +598,18 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $userSolution;
     }
 
-    /**
-    * Return the maximum allowed file size as string
-    *
-  * @return string The number of bytes of the maximum allowed file size
-    */
     public function getMaxFilesizeAsString(): string
     {
         $size = $this->getMaxFilesizeInBytes();
         if ($size < 1024) {
-            $max_filesize = sprintf('%d Bytes', $size);
-        } elseif ($size < 1024 * 1024) {
-            $max_filesize = sprintf('%.1f KB', $size / 1024);
-        } else {
-            $max_filesize = sprintf('%.1f MB', $size / 1024 / 1024);
+            return sprintf('%d Bytes', $size);
         }
 
-        return $max_filesize;
+        if ($size < 1024 * 1024) {
+            return  sprintf('%.1f KB', $size / 1024);
+        }
+
+        return sprintf('%.1f MB', $size / 1024 / 1024);
     }
 
     public function getMaxFilesizeInBytes(): int
@@ -892,38 +887,24 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $previewSession->setParticipantsSolution($userSolution);
     }
 
-    /**
-     * This method is called after an user submitted one or more files.
-     * It should handle the setting 'Completion by Submission' and, if enabled, set the status of
-     * the current user.
-     *
-     * @param	integer
-     * @param	integer
-     */
-    protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized): void
+    protected function handleSubmission(int $active_id, int $pass, bool $obligations_answered, bool $authorized): void
     {
-        if (!$authorized) {
+        if (!$authorized
+            || !$this->isCompletionBySubmissionEnabled()
+            || !$this->getUploadedFiles($active_id, $pass, $authorized)) {
             return;
         }
 
-        if ($this->isCompletionBySubmissionEnabled()) {
-            $maxpoints = $this->questioninfo->getMaximumPoints($this->getId());
+        $maxpoints = $this->questioninfo->getMaximumPoints($this->getId());
 
-            if ($this->getUploadedFiles($active_id, $pass, $authorized)) {
-                $points = $maxpoints;
-            } else {
-                // fau: testNav - don't set reached points if no file is available
-                return;
-                // fau.
-            }
+        $points = $maxpoints;
 
-            assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, true, $obligationsAnswered);
+        assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, true, $obligations_answered);
 
-            ilLPStatusWrapper::_updateStatus(
-                ilObjTest::_getObjectIDFromActiveID((int) $active_id),
-                ilObjTestAccess::_getParticipantId((int) $active_id)
-            );
-        }
+        ilLPStatusWrapper::_updateStatus(
+            ilObjTest::_getObjectIDFromActiveID((int) $active_id),
+            ilObjTestAccess::_getParticipantId((int) $active_id)
+        );
     }
 
     public function getQuestionType(): string
@@ -955,8 +936,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function getRTETextWithMediaObjects(): string
     {
-        $text = parent::getRTETextWithMediaObjects();
-        return $text;
+        return parent::getRTETextWithMediaObjects();
     }
 
     /**
@@ -1016,9 +996,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->maxsize;
     }
 
-    public function setMaxSize(?int $a_value): void
+    public function setMaxSize(?int $value): void
     {
-        $this->maxsize = $a_value;
+        $this->maxsize = $value;
     }
 
     public function getAllowedExtensionsArray(): array
@@ -1035,25 +1015,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->allowedextensions;
     }
 
-    /**
-    * Set allowed file extensions
-    *
-    * @param string $a_value Allowed file extensions
-    */
     public function setAllowedExtensions(string $a_value): void
     {
         $this->allowedextensions = strtolower(trim($a_value));
     }
 
-    /**
-     * Checks if file uploads exist for a given test and the original id of the question
-     *
-     * @param int $test_id
-     */
-    public function hasFileUploads($test_id): bool
+    public function hasFileUploads(int $test_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
         $query = '
 		SELECT tst_solutions.solution_id
 		FROM tst_solutions, tst_active, qpl_questions
@@ -1061,34 +1029,23 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		AND tst_solutions.question_fi = qpl_questions.question_id
 		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s
 		AND tst_solutions.value1 is not null';
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             $query,
             ['integer', 'integer'],
             [$this->getId(), $test_id]
         );
         if ($result->numRows() > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
-    /**
-     * Generates a ZIP file containing all file uploads for a given test and the original id of the question
-     *
-     * @param int $ref_id
-     * @param int $test_id
-     * @param string $test_title
-     */
-    public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title): void
+    public function deliverFileUploadZIPFile(int $ref_id, int $test_id, string $test_title): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
         $exporter = new ilAssFileUploadUploadsExporter(
-            $ilDB,
-            $lng,
+            $this->db,
+            $this->lng,
             $ref_id,
             $test_id
         );
@@ -1104,18 +1061,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->completion_by_submission;
     }
 
-    /**
-     * Enabled/Disable completion by submission
-     *
-     * @param boolean $bool
-     */
-    public function setCompletionBySubmission($bool): assFileUpload
+    public function setCompletionBySubmission(bool $bool): assFileUpload
     {
         $this->completion_by_submission = (bool) $bool;
         return $this;
     }
 
-    public static function isObligationPossible(int $questionId): bool
+    public static function isObligationPossible(int $question_id): bool
     {
         return true;
     }

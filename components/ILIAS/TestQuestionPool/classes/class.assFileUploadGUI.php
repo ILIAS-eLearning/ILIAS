@@ -77,7 +77,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $this->object->setPoints((float) str_replace(',', '.', $_POST["points"]));
-        $this->object->setMaxSize(($_POST['maxsize'] ?? null) ? (int) $_POST['maxsize'] : null);
+        $this->object->setMaxSize($this->request->int('maxsize') !== 0 ? $this->request->int('maxsize') : null);
         $this->object->setAllowedExtensions($_POST["allowedextensions"] ?? '');
         $this->object->setCompletionBySubmission(isset($_POST['completion_by_submission']) && $_POST['completion_by_submission'] == 1);
     }
@@ -168,12 +168,12 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     public function determineMaxFilesize(): int
     {
         //mbecker: Quick fix for mantis bug 8595: Change size file
-        $upload_max_filesize = get_cfg_var("upload_max_filesize");
+        $upload_max_filesize = ini_get('upload_max_filesize');
         // get the value for the maximal post data from the php.ini (if available)
-        $post_max_size = get_cfg_var("post_max_size");
+        $post_max_size = ini_get('post_max_size');
 
         //convert from short-string representation to "real" bytes
-        $multiplier_a = array( "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 );
+        $multiplier_a = [ "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 ];
         $umf_parts = preg_split(
             "/(\d+)([K|G|M])/",
             $upload_max_filesize,
@@ -244,24 +244,15 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 $this->lng->txt('already_delivered_files')
             );
             $table_gui->setData($files);
-            // hey: prevPassSolutions - table refactored
-            #$table_gui->initCommand(
-            #$this->buildFileTableDeleteButtonInstance(), assFileUploadGUI::DELETE_FILES_TBL_POSTVAR
-            #);
-            // hey.
             $table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "components/ILIAS/TestQuestionPool");
             $table_gui->setSelectAllCheckbox("");
-            // hey: prevPassSolutions - table refactored
-            #$table_gui->clearCommandButtons();
-            #$table_gui->disable('select_all');
-            // hey.
             $table_gui->disable('numinfo');
             $template->setCurrentBlock("files");
             $template->setVariable('FILES', $table_gui->getHTML());
             $template->parseCurrentBlock();
         }
 
-        if (strlen($this->object->getAllowedExtensions())) {
+        if ($this->object->getAllowedExtensions() === '') {
             $template->setCurrentBlock("allowed_extensions");
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
