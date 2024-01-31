@@ -54,6 +54,7 @@ class ilMailTest extends ilMailBaseTest
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
         $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
+        $this->setGlobalVariable('ilCtrl', $this->createMock(ilCtrl::class));
 
         $webDir = 'public/data';
         define("ILIAS_WEB_DIR", $webDir);
