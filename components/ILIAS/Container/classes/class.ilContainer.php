@@ -699,7 +699,7 @@ class ilContainer extends ilObject
                 $object['type'],
                 ['file', 'fold', 'cat'],
                 true
-            ) && ilObjFileAccess::_isFileHidden($object['title'])) {
+            ) && ilObjFileAccess::_isFileHidden((string) $object['title'])) {
                 $this->setHiddenFilesFound(true);
                 if (!$a_admin_panel_enabled) {
                     continue;
@@ -709,7 +709,7 @@ class ilContainer extends ilObject
 
             // including event items!
             if (!self::$data_preloaded) {
-                $preloader->addItem($object["obj_id"], $object["type"], $object["child"]);
+                $preloader->addItem((int) $object["obj_id"], $object["type"], $object["child"]);
             }
 
             // filter side block items
@@ -717,7 +717,7 @@ class ilContainer extends ilObject
                 continue;
             }
 
-            $all_ref_ids[] = $object["child"];
+            $all_ref_ids[] = (int) $object["child"];
         }
 
         // data preloader
