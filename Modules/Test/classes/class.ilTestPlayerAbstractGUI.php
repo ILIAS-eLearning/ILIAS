@@ -1229,7 +1229,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-        // fau.
+            // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -1870,22 +1870,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function initTestPageTemplate()
     {
         $onload_js = <<<JS
-            let key_event = (event) => {
-                if( event.key === 13  && event.target.tagName.toLowerCase() === "a" ) {
-                    return;
-                }
-                if (event.key === 13 &&
-                    event.target.tagName.toLowerCase() !== "textarea" &&
-                    (event.target.tagName.toLowerCase() !== "input" || event.target.type.toLowerCase() !== "submit")) {
-                    event.preventDefault();
-                }
-            };
+    let key_event = (event) => {
+        if( event.key === 13  && event.target.tagName.toLowerCase() === "a" ) {
+            return;
+        }
+        if (event.key === 13 &&
+            event.target.tagName.toLowerCase() !== "textarea" &&
+            (event.target.tagName.toLowerCase() !== "input" || event.target.type.toLowerCase() !== "submit")) {
+            event.preventDefault();
+        }
+    };
 
-            let form = document.getElementById('taForm');
-            form.onkeyup = key_event;
-            form.onkeydown = key_event;
-            form.onkeypress = key_event;
-            JS;
+    let form = document.getElementById('taForm');
+    form.onkeyup = key_event;
+    form.onkeydown = key_event;
+    form.onkeypress = key_event;
+JS;
         $this->tpl->addOnLoadCode($onload_js);
         $this->tpl->addBlockFile(
             $this->getContentBlockName(),
