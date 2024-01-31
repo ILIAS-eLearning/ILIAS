@@ -36,5 +36,8 @@ class StaticURL implements Component\Component
             new \ILIAS\StaticURL\SetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "goto.php");
     }
 }

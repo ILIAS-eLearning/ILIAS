@@ -36,5 +36,8 @@ class Calendar implements Component\Component
             new \ilCalendarSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "calendar.php");
     }
 }

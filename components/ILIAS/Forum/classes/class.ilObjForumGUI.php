@@ -110,7 +110,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->type = 'frm';
         parent::__construct($data, $id, $call_by_reference, false);
 
-        $this->tpl->addJavaScript('./components/ILIAS/JavaScript/js/Basic.js');
+        $this->tpl->addJavaScript('assets/js/Basic.js');
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
@@ -855,7 +855,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($found_threads === false) {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),
-                [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]);
+                [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
+            );
         } else {
             $vc_container = $this->factory->panel()->listing()->standard(
                 $this->lng->txt('thread_overview'),

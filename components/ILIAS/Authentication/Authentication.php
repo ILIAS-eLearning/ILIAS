@@ -36,5 +36,8 @@ class Authentication implements Component\Component
             new \ilAuthenticationSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "sessioncheck.php");
     }
 }

@@ -456,10 +456,10 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/mainbar.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/maincontrols.min.js');
-        $registry->register('./components/ILIAS/GlobalScreen/src/Client/dist/GS.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/system_info.js');
+        $registry->register('assets/js/mainbar.js');
+        $registry->register('assets/js/maincontrols.min.js');
+        $registry->register('assets/js/GS.js');
+        $registry->register('assets/js/system_info.js');
     }
 
     /**

@@ -5,7 +5,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "declaration": false,
-    "outDir": "./dist",
+    "outDir": "../../resources",
     "rootDir": "./src",
     "sourceMap": false,
     "target": "es5"

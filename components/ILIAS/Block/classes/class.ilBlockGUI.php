@@ -122,7 +122,7 @@ abstract class ilBlockGUI
         $this->ui = $DIC->ui();
 
         ilYuiUtil::initConnection();
-        $this->main_tpl->addJavaScript("./components/ILIAS/Block/js/ilblockcallback.js");
+        $this->main_tpl->addJavaScript("./assets/js/ilblockcallback.js");
 
         $this->setLimit((int) $this->user->getPref("hits_per_page"));
 

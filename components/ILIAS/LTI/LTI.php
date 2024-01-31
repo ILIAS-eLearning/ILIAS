@@ -36,5 +36,8 @@ class LTI implements Component\Component
             new \ilLTISetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "lti.php");
     }
 }
