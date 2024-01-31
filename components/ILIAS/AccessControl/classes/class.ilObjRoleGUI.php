@@ -442,7 +442,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
             $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
