@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilForumNotification
- * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @version $Id:$
- * @ingroup ModulesForum
- */
+declare(strict_types=1);
+
 class ilForumNotification
 {
     /** @var array<int, array<string, mixed>[]>  */
