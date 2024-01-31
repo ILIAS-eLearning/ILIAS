@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Contact\MailingLists\MailingListsTable;
+use ILIAS\Contact\MailingLists\MailingListsMembersTable;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>

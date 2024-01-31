@@ -18,9 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Contact\MailingLists;
+
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ilArrayUtil;
+use ilMailingList;
+use ilMailingListsGUI;
+use ilLanguage;
+use ilCtrl;
+use ilMailingLists;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
@@ -67,7 +75,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\>
      */
     private function getColumns(): array
     {
@@ -82,7 +90,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, \ILIAS\UI\Component\Table\Action\>
      */
     private function getActions(): array
     {
@@ -150,7 +158,6 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 $this->records[$counter]['title'] = $entry->getTitle() . ' [#il_ml_' . $entry->getId() . ']';
                 $this->records[$counter]['description'] = $entry->getDescription() ?? '';
                 $this->records[$counter]['members'] = count($entry->getAssignedEntries());
-                $this->ctrl->setParameter($this, 'ml_id', $entry->getId());
 
                 ++$counter;
             }

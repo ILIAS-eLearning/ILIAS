@@ -18,9 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Contact\MailingLists;
+
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ilArrayUtil;
+use ilUserUtil;
+use ilMailingListsGUI;
+use ilLanguage;
+use ilCtrl;
+use ilMailingList;
 
 class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 {
@@ -58,7 +66,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\>
      */
     private function getColumns(): array
     {
@@ -69,7 +77,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, \ILIAS\UI\Component\Table\Action\>
      */
     private function getActions(): array
     {
