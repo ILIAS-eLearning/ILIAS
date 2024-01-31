@@ -36,5 +36,8 @@ class Help implements Component\Component
             new \ILIAS\Help\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilHelp.js");
     }
 }

@@ -167,7 +167,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         $a_tpl->parseCurrentBlock();
 
         $tpl = $this->tpl;
-        $tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./components/ILIAS/Form/templates/default/textwizard.js");
+        $tpl->addJavascript("assets/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("assets/js/textwizard.js");
     }
 }

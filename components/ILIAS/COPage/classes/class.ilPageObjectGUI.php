@@ -1077,7 +1077,7 @@ class ilPageObjectGUI
         //		$this->initSelfAssessmentRendering();
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
-        $main_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
+        $main_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         // needed for overlays in iim
         ilOverlayGUI::initJavascript();
@@ -2428,7 +2428,7 @@ class ilPageObjectGUI
         $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
-        $this->tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
         ilModalGUI::initJS();
     }
@@ -2599,7 +2599,7 @@ class ilPageObjectGUI
 
         $this->setBackToEditTabs();
 
-        $this->tpl->addJavaScript("./components/ILIAS/COPage/js/page_history.js");
+        $this->tpl->addJavaScript("assets/js/page_history.js");
 
         $table_gui = new ilPageHistoryTableGUI($this, "history");
         $table_gui->setId("hist_table");

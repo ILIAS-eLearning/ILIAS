@@ -931,7 +931,7 @@ class ilMailFormGUI
 
         $this->tpl->setVariable('FORM', $form_gui->getHTML());
 
-        $this->tpl->addJavaScript('components/ILIAS/Mail/js/ilMailComposeFunctions.js');
+        $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
     }
 

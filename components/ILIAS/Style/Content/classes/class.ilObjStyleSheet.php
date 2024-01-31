@@ -1615,23 +1615,23 @@ class ilObjStyleSheet extends ilObject
 
             return $path;
         } else {		// todo: work this out
-            return "../components/ILIAS/COPage/css/content.css";
+            return "./components/ILIAS/COPage/css/content.css";
         }
     }
 
     public static function getContentPrintStyle(): string
     {
-        return "../components/ILIAS/COPage/css/print_content.css";
+        return "./components/ILIAS/COPage/css/print_content.css";
     }
 
     public static function getSyntaxStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/syntaxhighlight.css";
+        return "./components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
     public static function getBaseContentStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/content_base.css";
+        return "./components/ILIAS/COPage/css/content_base.css";
     }
 
     public function update(): bool

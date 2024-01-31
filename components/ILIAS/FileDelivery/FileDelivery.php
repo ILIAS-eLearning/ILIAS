@@ -36,5 +36,8 @@ class FileDelivery implements Component\Component
             new \ILIAS\FileDelivery\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "deliver.php");
     }
 }

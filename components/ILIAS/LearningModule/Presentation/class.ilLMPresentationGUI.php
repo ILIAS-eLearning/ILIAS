@@ -624,7 +624,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             ilAccordionGUI::addJavaScript();
             ilAccordionGUI::addCss();
 
-            $this->tpl->addJavaScript("./components/ILIAS/LearningModule/js/LearningModule.js");
+            $this->tpl->addJavaScript("assets/js/LearningModule.js");
 
             // handle initial content
             if ($this->requested_frame == "") {
@@ -645,7 +645,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             }
 
             // from main menu
-            //				$this->tpl->addJavascript("./components/ILIAS/JavaScript/js/Basic.js");
+            //				$this->tpl->addJavascript("assets/js/Basic.js");
             ilYuiUtil::initConnection($this->tpl);
         }
     }

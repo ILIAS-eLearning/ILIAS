@@ -1145,9 +1145,9 @@ class ilTestServiceGUI
         $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
 
         $solution = $this->getCorrectSolutionOutput($active_id, $active_id, $pass, $objectives_list);

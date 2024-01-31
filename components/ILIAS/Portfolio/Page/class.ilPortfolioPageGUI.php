@@ -659,7 +659,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
         $month_gui->addScheduleFilter($filter);
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'components/ILIAS/Calendar'));
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css'));
 
         $this->lng->loadLanguageModule("dateplaner");
         return '<h3>' . $this->lng->txt("app_consultation_hours") . '</h3>' .
@@ -879,7 +879,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
             // #15508
             if (!self::$initialized) {
-                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Portfolio/js/ilPortfolio.js");
+                $GLOBALS["tpl"]->addJavaScript("assets/js/ilPortfolio.js");
                 $GLOBALS["tpl"]->addOnLoadCode("ilPortfolio.init()");
             }
             self::$initialized++;

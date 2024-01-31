@@ -36,5 +36,8 @@ class Notes implements Component\Component
             new \ILIAS\Notes\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilNotes.js");
     }
 }

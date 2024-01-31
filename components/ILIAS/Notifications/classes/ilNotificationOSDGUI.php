@@ -66,8 +66,8 @@ class ilNotificationOSDGUI
         iljQueryUtil::initjQuery($this->page);
         ilPlayerUtil::initMediaElementJs($this->page);
 
-        $this->page->addJavaScript('components/ILIAS/Notifications/templates/default/notifications.js');
-        $this->page->addCSS('components/ILIAS/Notifications/templates/default/osd.css');
+        $this->page->addJavaScript('assets/js/notifications.js');
+        $this->page->addCSS('assets/css/osd.css');
         $this->page->addOnLoadCode($osdTemplate->get());
     }
 }

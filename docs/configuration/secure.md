@@ -632,7 +632,7 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
         [...]
         set $root $document_root;
         location ~ /data/ {
-            rewrite ^/data/(.*)/(.*)/(.*)$ /Services/WebAccessChecker/wac.php last;
+            rewrite ^/data/(.*)/(.*)/(.*)$ /wac.php last;
 
             location ~ [^/]\.php(/|$) { access_log off; log_not_found off; deny all; }
         }

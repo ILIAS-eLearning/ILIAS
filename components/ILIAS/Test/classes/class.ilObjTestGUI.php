@@ -2334,7 +2334,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
         $template->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
 
         $print_date = mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d"), (int) date("Y"));
         $max_points = 0;
@@ -2393,7 +2393,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->getTabsManager()->getQuestionsSubTabs();
         $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "components/ILIAS/Test");
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
 
         $max_points = 0;
         $counter = 1;

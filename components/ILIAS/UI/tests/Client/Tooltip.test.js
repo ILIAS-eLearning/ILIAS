@@ -1,579 +1,579 @@
 import { expect } from 'chai';
 
-import Tooltip from "../../../../../components/ILIAS/UI/src/templates/js/Core/src/core.Tooltip.js";
+import Tooltip from '../../resources/js/Core/src/core.Tooltip.js';
 
-describe("tooltip class exists", function() {
-    it("Tooltip", function() {
-        expect(Tooltip).not.to.be.undefined; 
-    });
+describe('tooltip class exists', () => {
+  it('Tooltip', () => {
+    expect(Tooltip).not.to.be.undefined;
+  });
 });
 
-describe("tooltip initializes", function() {
-    var addEventListenerElement = [];
-    var addEventListenerContainer = [];
-    var getAttribute = [];
-    var getElementById = [];
+describe('tooltip initializes', () => {
+  const addEventListenerElement = [];
+  const addEventListenerContainer = [];
+  const getAttribute = [];
+  const getElementById = [];
 
-    var window = {};
+  const window = {};
 
-    var document = {
-        getElementById: function(which) {
-            getElementById.push(which);
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
-    };
+  const document = {
+    getElementById(which) {
+      getElementById.push(which);
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-            addEventListenerContainer.push({e : ev, h: handler});
-        },
-    };
+  const container = {
+    addEventListener(ev, handler) {
+      addEventListenerContainer.push({ e: ev, h: handler });
+    },
+  };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-            addEventListenerElement.push({e : ev, h: handler});
-        },
-        getAttribute: function(which) {
-            getAttribute.push(which);
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
-    };
+  const element = {
+    addEventListener(ev, handler) {
+      addEventListenerElement.push({ e: ev, h: handler });
+    },
+    getAttribute(which) {
+      getAttribute.push(which);
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
 
-    var tooltip = {
-        style: {
-            transform: null
-        }
-    };
+  var tooltip = {
+    style: {
+      transform: null,
+    },
+  };
 
-    var object = new Tooltip(element);
-    object.checkVerticalBounds = function() {};
-    object.checkHorizontalBounds = function() {};
+  const object = new Tooltip(element);
+  object.checkVerticalBounds = function () {};
+  object.checkHorizontalBounds = function () {};
 
-    it("searches tooltip element", function() {
-        expect(getAttribute).to.include("aria-describedby");
-        expect(getElementById).to.include("attribute-aria-describedby");
-    });
+  it('searches tooltip element', () => {
+    expect(getAttribute).to.include('aria-describedby');
+    expect(getElementById).to.include('attribute-aria-describedby');
+  });
 
-    it("binds events on element", function() {
-        expect(addEventListenerElement).to.deep.include({e: "focus", h: object.showTooltip});
-        expect(addEventListenerElement).to.deep.include({e: "blur", h: object.hideTooltip});
-    });
+  it('binds events on element', () => {
+    expect(addEventListenerElement).to.deep.include({ e: 'focus', h: object.showTooltip });
+    expect(addEventListenerElement).to.deep.include({ e: 'blur', h: object.hideTooltip });
+  });
 
-
-    it("binds events on container", function() {
-        expect(addEventListenerContainer).to.deep.include({e: "mouseenter", h: object.showTooltip});
-        expect(addEventListenerContainer).to.deep.include({e: "touchstart", h: object.showTooltip});
-        expect(addEventListenerContainer).to.deep.include({e: "mouseleave", h: object.hideTooltip});
-    });
+  it('binds events on container', () => {
+    expect(addEventListenerContainer).to.deep.include({ e: 'mouseenter', h: object.showTooltip });
+    expect(addEventListenerContainer).to.deep.include({ e: 'touchstart', h: object.showTooltip });
+    expect(addEventListenerContainer).to.deep.include({ e: 'mouseleave', h: object.hideTooltip });
+  });
 });
 
+describe('tooltip show works', () => {
+  const addEventListenerDocument = [];
+  let classListAdd = [];
 
-describe("tooltip show works", function() {
-    var addEventListenerDocument = [];
-    var classListAdd = [];
+  const window = {};
 
-    var window = {};
+  const document = {
+    addEventListener(ev, handler) {
+      addEventListenerDocument.push({ e: ev, h: handler });
+    },
+    getElementById(which) {
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
 
-    var document = {
-        addEventListener: function(ev, handler) {
-            addEventListenerDocument.push({e: ev, h: handler});
-        },
-        getElementById: function(which) {
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
-    };
+  const container = {
+    addEventListener(ev, handler) {
+    },
+    classList: {
+      add(which) {
+        classListAdd.push(which);
+      },
+      remove(which) {
+        classListRemove.push(which);
+      },
+    },
+  };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-        },
-        classList: {
-            add: function(which) {
-                classListAdd.push(which);
-            },
-            remove: function(which) {
-                classListRemove.push(which);
-            }
-        }
-    };
+  const element = {
+    addEventListener(ev, handler) {
+    },
+    getAttribute(which) {
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-        },
-        getAttribute: function(which) {
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
-    };
+  var tooltip = {
+    style: {
+      transform: null,
+    },
+  };
 
-    var tooltip = {
-        style: {
-            transform: null
-        }
-    };
+  const object = new Tooltip(element);
+  object.checkVerticalBounds = function () {};
+  object.checkHorizontalBounds = function () {};
 
-    var object = new Tooltip(element);
-    object.checkVerticalBounds = function() {};
-    object.checkHorizontalBounds = function() {};
+  it('binds events on document', () => {
+    classListAdd = [];
 
-    it("binds events on document", function () {
-        classListAdd = [];
+    expect(addEventListenerDocument).not.to.deep.include({ e: 'keydown', h: object.onKeyDown });
+    expect(addEventListenerDocument).not.to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
 
-        expect(addEventListenerDocument).not.to.deep.include({e: "keydown", h: object.onKeyDown});
-        expect(addEventListenerDocument).not.to.deep.include({e: "pointerdown", h: object.onPointerDown});
-    
-        object.showTooltip();
+    object.showTooltip();
 
-        expect(addEventListenerDocument).to.deep.include({e: "keydown", h: object.onKeyDown});
-        expect(addEventListenerDocument).to.deep.include({e: "pointerdown", h: object.onPointerDown});
-    });
+    expect(addEventListenerDocument).to.deep.include({ e: 'keydown', h: object.onKeyDown });
+    expect(addEventListenerDocument).to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+  });
 
-    it("adds visibility classes from tooltip", function () {
-        classListAdd = [];
+  it('adds visibility classes from tooltip', () => {
+    classListAdd = [];
 
-        object.showTooltip();
+    object.showTooltip();
 
-        expect(classListAdd).to.deep.equal(["c-tooltip--visible"]);
-    });
+    expect(classListAdd).to.deep.equal(['c-tooltip--visible']);
+  });
 });
 
-describe("tooltip hide works", function() {
-    var classListRemove = [];
-    var removeEventListener = [];
+describe('tooltip hide works', () => {
+  let classListRemove = [];
+  const removeEventListener = [];
 
-    var window = {};
+  const window = {};
 
-    var document = {
-        addEventListener: function(ev, handler) {
-        },
-        removeEventListener: function(ev, handler) {
-            removeEventListener.push({e: ev, h: handler});
-        },
-        getElementById: function(which) {
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
+  const document = {
+    addEventListener(ev, handler) {
+    },
+    removeEventListener(ev, handler) {
+      removeEventListener.push({ e: ev, h: handler });
+    },
+    getElementById(which) {
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
+
+  const container = {
+    addEventListener(ev, handler) {
+    },
+    classList: {
+      add(which) {
+      },
+      remove(which) {
+        classListRemove.push(which);
+      },
+    },
+  };
+
+  const element = {
+    addEventListener(ev, handler) {
+    },
+    getAttribute(which) {
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
+
+  var tooltip = {
+    style: {
+      transform: null,
+    },
+  };
+
+  const object = new Tooltip(element);
+  object.checkVerticalBounds = function () {};
+  object.checkHorizontalBounds = function () {};
+
+  it('unbinds events on document when tooltip hides', () => {
+    expect(removeEventListener).not.to.deep.include({ e: 'keydown', h: object.onKeyDown });
+    expect(removeEventListener).not.to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+
+    object.hideTooltip();
+
+    expect(removeEventListener).to.deep.include({ e: 'keydown', h: object.onKeyDown });
+    expect(removeEventListener).to.deep.include({ e: 'pointerdown', h: object.onPointerDown });
+  });
+
+  it('removes visibility classes from tooltip', () => {
+    classListRemove = [];
+
+    object.hideTooltip();
+
+    expect(classListRemove).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+  });
+
+  it('hides on escape key', () => {
+    let hideTooltipCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
     };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-        },
-        classList: {
-            add: function(which) {
-            },
-            remove: function(which) {
-                classListRemove.push(which);
-            }
-        }
+    object.onKeyDown({ key: 'Escape' });
+
+    expect(hideTooltipCalled).to.equal(true);
+    object.hideTooltip = keep;
+  });
+
+  it('hides on esc key', () => {
+    let hideTooltipCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
     };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-        },
-        getAttribute: function(which) {
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
+    object.onKeyDown({ key: 'Esc' });
+
+    expect(hideTooltipCalled).to.equal(true);
+    object.hideTooltip = keep;
+  });
+
+  it('ignores other key', () => {
+    let hideTooltipCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
     };
 
-    var tooltip = {
-        style: {
-            transform: null
-        }
+    object.onKeyDown({ key: 'Strg' });
+
+    expect(hideTooltipCalled).to.equal(false);
+    object.hideTooltip = keep;
+  });
+
+  it('hides and calls blur on click somewhere', () => {
+    let hideTooltipCalled = false;
+    let blurCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
+    };
+    element.blur = function () {
+      blurCalled = true;
     };
 
-    var object = new Tooltip(element);
-    object.checkVerticalBounds = function() {};
-    object.checkHorizontalBounds = function() {};
+    object.onPointerDown({});
 
-    it("unbinds events on document when tooltip hides", function () {
-        expect(removeEventListener).not.to.deep.include({e: "keydown", h: object.onKeyDown});
-        expect(removeEventListener).not.to.deep.include({e: "pointerdown", h: object.onPointerDown});
-    
-        object.hideTooltip();
+    expect(hideTooltipCalled).to.equal(true);
+    expect(blurCalled).to.equal(true);
+    object.hideTooltip = keep;
+  });
 
-        expect(removeEventListener).to.deep.include({e: "keydown", h: object.onKeyDown});
-        expect(removeEventListener).to.deep.include({e: "pointerdown", h: object.onPointerDown});
-    });
+  it('does not hide on click on tooltip and prevents default', () => {
+    let hideTooltipCalled = false;
+    let preventDefaultCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
+    };
+    const preventDefault = function () {
+      preventDefaultCalled = true;
+    };
 
-    it("removes visibility classes from tooltip", function () {
-        classListRemove = [];
+    object.onPointerDown({ target: object.tooltip, preventDefault });
 
-        object.hideTooltip();
+    expect(hideTooltipCalled).to.equal(false);
+    expect(preventDefaultCalled).to.equal(true);
+    object.hideTooltip = keep;
+  });
 
-        expect(classListRemove).to.deep.equal(["c-tooltip--visible", "c-tooltip--top"]);
-    }); 
+  it('does not hide on click on element and prevents default', () => {
+    let hideTooltipCalled = false;
+    let preventDefaultCalled = false;
+    const keep = object.hideTooltip;
+    object.hideTooltip = function () {
+      hideTooltipCalled = true;
+    };
+    const preventDefault = function () {
+      preventDefaultCalled = true;
+    };
 
-    it("hides on escape key", function () {
-        var hideTooltipCalled = false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
+    object.onPointerDown({ target: element, preventDefault });
 
-        object.onKeyDown({key : "Escape"});
-
-        expect(hideTooltipCalled).to.equal(true);
-        object.hideTooltip = keep;
-    });
-
-    it("hides on esc key", function () {
-        var hideTooltipCalled = false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
-
-        object.onKeyDown({key : "Esc"});
-
-        expect(hideTooltipCalled).to.equal(true);
-        object.hideTooltip = keep;
-    });
-
-    it("ignores other key", function () {
-        var hideTooltipCalled = false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
-
-        object.onKeyDown({key : "Strg"});
-
-        expect(hideTooltipCalled).to.equal(false);
-        object.hideTooltip = keep;
-    });
-
-    it("hides and calls blur on click somewhere", function() {
-        var hideTooltipCalled = false;
-        var blurCalled = false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
-        element.blur = function () {
-            blurCalled = true;
-        };
-
-        object.onPointerDown({});
-
-        expect(hideTooltipCalled).to.equal(true);
-        expect(blurCalled).to.equal(true);
-        object.hideTooltip = keep;
-    });
-
-    it("does not hide on click on tooltip and prevents default", function() {
-        var hideTooltipCalled = false;
-        var preventDefaultCalled= false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
-        var preventDefault = function () {
-            preventDefaultCalled= true;
-        };
-
-        object.onPointerDown({target: object.tooltip, preventDefault: preventDefault});
-
-        expect(hideTooltipCalled).to.equal(false);
-        expect(preventDefaultCalled).to.equal(true);
-        object.hideTooltip = keep;
-    });
-
-    it("does not hide on click on element and prevents default", function() {
-        var hideTooltipCalled = false;
-        var preventDefaultCalled = false;
-        var keep = object.hideTooltip;
-        object.hideTooltip = function () {
-            hideTooltipCalled = true;
-        };
-        var preventDefault = function () {
-            preventDefaultCalled= true;
-        };
-
-        object.onPointerDown({target: element, preventDefault: preventDefault});
-
-        expect(hideTooltipCalled).to.equal(false);
-        expect(preventDefaultCalled).to.equal(true);
-        object.hideTooltip = keep;
-    });
+    expect(hideTooltipCalled).to.equal(false);
+    expect(preventDefaultCalled).to.equal(true);
+    object.hideTooltip = keep;
+  });
 });
 
-describe("tooltip is on top if there is not enough space below", function() {
-    var classListAdd = [];
-    var classListRemove = [];
+describe('tooltip is on top if there is not enough space below', () => {
+  let classListAdd = [];
+  let classListRemove = [];
 
-    var window = {};
+  const window = {};
 
-    var document = {
-        addEventListener: function(ev, handler) {
-        },
-        removeEventListener: function(ev, handler) {
-        },
-        getElementById: function(which) {
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
-    };
+  const document = {
+    addEventListener(ev, handler) {
+    },
+    removeEventListener(ev, handler) {
+    },
+    getElementById(which) {
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-        },
-        classList: {
-            add: function(which) {
-                classListAdd.push(which);
-            },
-            remove: function(which) {
-                classListRemove.push(which);
-            }
-        }
-    };
+  const container = {
+    addEventListener(ev, handler) {
+    },
+    classList: {
+      add(which) {
+        classListAdd.push(which);
+      },
+      remove(which) {
+        classListRemove.push(which);
+      },
+    },
+  };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-        },
-        getAttribute: function(which) {
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
-    };
+  const element = {
+    addEventListener(ev, handler) {
+    },
+    getAttribute(which) {
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
 
-    var clientRect = null;
-    var tooltip = {
-        getBoundingClientRect: function () {
-            return clientRect;
-        },
-        style: {
-            transform: null
-        }
-    };
+  let clientRect = null;
+  var tooltip = {
+    getBoundingClientRect() {
+      return clientRect;
+    },
+    style: {
+      transform: null,
+    },
+  };
 
+  it('does not add top-class if there is enough space', () => {
+    clientRect = { bottom: 90 };
+    window.innerHeight = 100;
 
-    it("does not add top-class if there is enough space", function () {
-        clientRect = {bottom: 90};
-        window.innerHeight = 100;
+    classListAdd = [];
+    const object = new Tooltip(element);
+    object.main = null;
+    object.showTooltip();
 
-        classListAdd = [];
-        var object = new Tooltip(element);
-        object.main = null;
-        object.showTooltip();
+    expect(classListAdd).to.deep.equal(['c-tooltip--visible']);
+  });
 
-        expect(classListAdd).to.deep.equal(["c-tooltip--visible"]);
-    });
+  it('does add top-class if there is not enough space', () => {
+    clientRect = { bottom: 110 };
+    window.innerHeight = 100;
 
-    it("does add top-class if there is not enough space", function () {
-        clientRect = {bottom: 110};
-        window.innerHeight = 100;
+    classListAdd = [];
+    const object = new Tooltip(element);
+    object.main = null;
+    object.showTooltip();
 
-        classListAdd = [];
-        var object = new Tooltip(element);
-        object.main = null;
-        object.showTooltip();
+    expect(classListAdd).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+  });
 
-        expect(classListAdd).to.deep.equal(["c-tooltip--visible", "c-tooltip--top"]);
-    });
+  it('removes top-class when it hides', () => {
+    const object = new Tooltip(element);
+    object.main = null;
 
-    it("removes top-class when it hides", function() {
-        var object = new Tooltip(element);
-        object.main = null;
+    classListRemove = [];
+    object.hideTooltip();
 
-        classListRemove = [];
-        object.hideTooltip();
+    expect(classListRemove).to.deep.equal(['c-tooltip--visible', 'c-tooltip--top']);
+  });
 
-        expect(classListRemove).to.deep.equal(["c-tooltip--visible", "c-tooltip--top"]);
-    });
+  it('removes transform when it hides', () => {
+    const object = new Tooltip(element);
+    object.main = null;
 
-    it("removes transform when it hides", function() {
-        var object = new Tooltip(element);
-        object.main = null;
+    object.tooltip.style.transform = 'foo';
+    object.hideTooltip();
 
-        object.tooltip.style.transform = "foo";
-        object.hideTooltip();
-
-        expect(object.tooltip.style.transform).to.equal(null);
-    });
+    expect(object.tooltip.style.transform).to.equal(null);
+  });
 });
 
-describe("tooltip moves to left or right if there is not enough space", function() {
-    var window = {};
+describe('tooltip moves to left or right if there is not enough space', () => {
+  const window = {};
 
-    var document = {
-        addEventListener: function(ev, handler) {
-        },
-        removeEventListener: function(ev, handler) {
-        },
-        getElementById: function(which) {
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
-    };
+  const document = {
+    addEventListener(ev, handler) {
+    },
+    removeEventListener(ev, handler) {
+    },
+    getElementById(which) {
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-        },
-        classList: {
-            add: function(which) {
-            },
-            remove: function(which) {
-            }
-        }
-    };
+  const container = {
+    addEventListener(ev, handler) {
+    },
+    classList: {
+      add(which) {
+      },
+      remove(which) {
+      },
+    },
+  };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-        },
-        getAttribute: function(which) {
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
-    };
+  const element = {
+    addEventListener(ev, handler) {
+    },
+    getAttribute(which) {
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
 
-    var clientRect = null;
-    var tooltip = {
-        getBoundingClientRect: function () {
-            return clientRect;
-        },
-        style: {
-            transform: null
-        }
-    };
+  let clientRect = null;
+  var tooltip = {
+    getBoundingClientRect() {
+      return clientRect;
+    },
+    style: {
+      transform: null,
+    },
+  };
 
+  it('does not move if there is enough space', () => {
+    clientRect = { left: 10, right: 20 };
+    window.innerWidth = 100;
 
-    it("does not move if there is enough space", function () {
-        clientRect = {left: 10, right: 20};
-        window.innerWidth= 100;
+    const object = new Tooltip(element);
+    object.main = null;
+    object.showTooltip();
 
-        var object = new Tooltip(element);
-        object.main = null;
-        object.showTooltip();
+    expect(tooltip.style.transform).to.equal(null);
+  });
 
-        expect(tooltip.style.transform).to.equal(null);
-    });
+  it('does move to left if there is enough space', () => {
+    clientRect = { left: 20, right: 110 };
+    window.innerWidth = 100;
 
-    it("does move to left if there is enough space", function () {
-        clientRect = {left: 20, right: 110};
-        window.innerWidth = 100;
+    const object = new Tooltip(element);
+    object.main = null;
+    object.showTooltip();
 
-        var object = new Tooltip(element);
-        object.main = null;
-        object.showTooltip();
+    expect(tooltip.style.transform).to.equal('translateX(-10px)');
+  });
 
-        expect(tooltip.style.transform).to.equal("translateX(-10px)");
-    });
+  it('does move to right if there is enough space', () => {
+    clientRect = { left: -10, right: 20, width: 40 };
+    window.innerWidth = 100;
 
-    it("does move to right if there is enough space", function () {
-        clientRect = {left: -10, right: 20, width: 40};
-        window.innerWidth= 100;
+    const object = new Tooltip(element);
+    object.main = null;
+    object.showTooltip();
 
-        var object = new Tooltip(element);
-        object.main = null;
-        object.showTooltip();
-
-        expect(tooltip.style.transform).to.equal("translateX(-10px)");
-    });
+    expect(tooltip.style.transform).to.equal('translateX(-10px)');
+  });
 });
 
-describe("get display rect", function() {
-    var window = {};
+describe('get display rect', () => {
+  const window = {};
 
-    var document = {
-        addEventListener: function(ev, handler) {
-        },
-        removeEventListener: function(ev, handler) {
-        },
-        getElementById: function(which) {
-            return tooltip;
-        },
-        getElementsByTagName: function (tag) {
-            return [];
-        },
-        parentWindow: window
-    };
+  const document = {
+    addEventListener(ev, handler) {
+    },
+    removeEventListener(ev, handler) {
+    },
+    getElementById(which) {
+      return tooltip;
+    },
+    getElementsByTagName(tag) {
+      return [];
+    },
+    parentWindow: window,
+  };
 
-    var container = {
-        addEventListener: function(ev, handler) {
-        },
-        classList: {
-            add: function(which) {
-            },
-            remove: function(which) {
-            }
-        }
-    };
+  const container = {
+    addEventListener(ev, handler) {
+    },
+    classList: {
+      add(which) {
+      },
+      remove(which) {
+      },
+    },
+  };
 
-    var element = {
-        addEventListener: function(ev, handler) {
-        },
-        getAttribute: function(which) {
-            return "attribute-" + which;
-        },
-        ownerDocument: document,
-        parentElement: container
-    };
+  const element = {
+    addEventListener(ev, handler) {
+    },
+    getAttribute(which) {
+      return `attribute-${which}`;
+    },
+    ownerDocument: document,
+    parentElement: container,
+  };
 
-    var clientRect = null;
-    var tooltip = {
-        getBoundingClientRect: function () {
-            return clientRect;
-        },
-        style: {
-            transform: null
-        }
-    };
+  const clientRect = null;
+  var tooltip = {
+    getBoundingClientRect() {
+      return clientRect;
+    },
+    style: {
+      transform: null,
+    },
+  };
 
-    it("returns window coordinates if tooltip is not in main", function () {
-        var object = new Tooltip(element);
+  it('returns window coordinates if tooltip is not in main', () => {
+    const object = new Tooltip(element);
 
-        window.innerWidth = 100;
-        window.innerHeight= 150;
+    window.innerWidth = 100;
+    window.innerHeight = 150;
 
-        var rect = object.getDisplayRect();
+    const rect = object.getDisplayRect();
 
-        expect(rect).to.deep.equal({left: 0, top: 0, width: 100, height: 150});
+    expect(rect).to.deep.equal({
+      left: 0, top: 0, width: 100, height: 150,
     });
+  });
 
-    it("returns main coordinates if tooltip is in main", function () {
-        var main = {
-            contains: function (e) {
-                return true;
-            },
-            getBoundingClientRect: function () {
-                return {
-                    left: 10,
-                    top: 20,
-                    width: 110,
-                    height: 120
-                };
-            }
-        }
-        element.ownerDocument.getElementsByTagName = function (w) {
-            return [main];
-        }
+  it('returns main coordinates if tooltip is in main', () => {
+    const main = {
+      contains(e) {
+        return true;
+      },
+      getBoundingClientRect() {
+        return {
+          left: 10,
+          top: 20,
+          width: 110,
+          height: 120,
+        };
+      },
+    };
+    element.ownerDocument.getElementsByTagName = function (w) {
+      return [main];
+    };
 
-        var object = new Tooltip(element);
-        var rect = object.getDisplayRect();
+    const object = new Tooltip(element);
+    const rect = object.getDisplayRect();
 
-        expect(rect).to.deep.equal({left: 10, top: 20, width: 110, height: 120});
+    expect(rect).to.deep.equal({
+      left: 10, top: 20, width: 110, height: 120,
     });
+  });
 });

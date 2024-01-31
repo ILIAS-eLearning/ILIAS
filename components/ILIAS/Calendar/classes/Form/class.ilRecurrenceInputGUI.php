@@ -47,7 +47,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     {
         global $DIC;
 
-        $DIC->ui()->mainTemplate()->addJavaScript("./components/ILIAS/Calendar/js/recurrence_input.js");
+        $DIC->ui()->mainTemplate()->addJavaScript("assets/js/recurrence_input.js");
         $this->user = $DIC->user();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->recurrence = new ilCalendarRecurrence();

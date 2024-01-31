@@ -36,5 +36,7 @@ class Mail implements Component\Component
             new \ilMailSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilMailComposeFunctions.js");
     }
 }

@@ -36,5 +36,16 @@ class Notifications implements Component\Component
             new \ilNotificationUpdateAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "notifications.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "browser_notifications.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "osd.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\OfComponent($this, "receive.mp3", "assets/sounds");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\OfComponent($this, "receive.ogg", "assets/sounds");
     }
 }

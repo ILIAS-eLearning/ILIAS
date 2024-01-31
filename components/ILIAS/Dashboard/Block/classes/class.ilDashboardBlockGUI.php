@@ -169,7 +169,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->lng->loadLanguageModule('rep');
         $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
-        $this->main_tpl->addJavaScript('components/ILIAS/Dashboard/Block/js/ReplaceModalContent.js');
+        $this->main_tpl->addJavaScript('assets/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();

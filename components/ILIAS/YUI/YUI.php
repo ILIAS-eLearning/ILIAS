@@ -32,6 +32,27 @@ class YUI implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/yahoo-dom-event/yahoo-dom-event.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/connection/connection-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/dragdrop/dragdrop-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/element/element-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/container/container-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/utilities/utilities.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/resize/resize-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/container/container_core-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/menu/menu-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/button/button-min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/cookie/cookie.js");
     }
 }

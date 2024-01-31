@@ -32,11 +32,11 @@ jobs:
         with:
           node-version: ${{ matrix.nodejs }}
 
+      - name: Install Node.js packages
+        run: npm clean-install
+
       - name: Install Composer packages
         run: composer install --no-interaction --no-progress
-
-      - name: Install Node.js packages
-        run: cp public/package.json .; cp public/package-lock.json .; npm clean-install
 
       - name: PHP Unit Test
         run: scripts/PHPUnit/run_tests.sh

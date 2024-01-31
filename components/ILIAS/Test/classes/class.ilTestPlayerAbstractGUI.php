@@ -1376,9 +1376,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
 
         $this->tpl->setCurrentBlock("adm_content");
@@ -1438,9 +1438,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
         if (strlen($top_data)) {
             $this->tpl->setCurrentBlock("top_data");
@@ -2433,7 +2433,7 @@ JS;
         $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->object->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
 
-        $this->tpl->addJavascript('./components/ILIAS/Test/js/ilTestPlayerQuestionEditControl.js');
+        $this->tpl->addJavascript('assets/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');
     }
     // fau.

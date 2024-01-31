@@ -36,5 +36,7 @@ class OrgUnit implements Component\Component
             new \ilOrgUnitSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "authority.js");
     }
 }

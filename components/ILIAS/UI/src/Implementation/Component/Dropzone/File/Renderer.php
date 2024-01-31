@@ -50,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
 
     public function registerResources(ResourceRegistry $registry): void
     {
-        $registry->register("./components/ILIAS/UI/src/templates/js/Dropzone/File/dropzone.js");
+        $registry->register("assets/js/dropzone.js");
 
         parent::registerResources($registry);
     }

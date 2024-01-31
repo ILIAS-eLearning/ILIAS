@@ -392,10 +392,10 @@ class ilParticipantsTestResultsGUI
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());
-            $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+            $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
             if ($this->getTestObj()->getShowSolutionAnswersOnly()) {
                 $this->main_tpl->addCss(
-                    ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"),
+                    ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"),
                     "print"
                 );
             }

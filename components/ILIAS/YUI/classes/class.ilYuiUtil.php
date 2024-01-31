@@ -38,8 +38,8 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/connection-min.js");
     }
 
 
@@ -50,7 +50,7 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
     }
 
 
@@ -61,7 +61,7 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
     }
 
 
@@ -74,9 +74,9 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/dragdrop-min.js");
+        $tpl->addJavaScript("assets/js/element-min.js");
     }
 
 
@@ -89,7 +89,7 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
     }
 
     /**
@@ -102,15 +102,15 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/container-min.js");
         self::addContainerCss($tpl);
         $tpl->addCss("./components/ILIAS/Calendar/css/panel_min.css");
 
         if ($a_resize) {
             $tpl->addCss(self::YUI_BASE . "/resize/assets/skins/sam/resize.css");
-            $tpl->addJavaScript(self::YUI_BASE . "/utilities/utilities-min.js");
-            $tpl->addJavaScript(self::YUI_BASE . "/resize/resize-min.js");
+            $tpl->addJavaScript("assets/js/utilities.js");
+            $tpl->addJavaScript("assets/js/resize-min.js");
         }
     }
 
@@ -123,9 +123,9 @@ class ilYuiUtil
     public static function initConnectionWithAnimation(): void
     {
         $tpl = self::ensureGlobalTemplate();
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/animation-min.js");
+        $tpl->addJavaScript("assets/js/connection-min.js");
     }
 
 
@@ -139,8 +139,8 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/container_core-min.js");
         self::addContainerCss($tpl);
     }
 
@@ -152,13 +152,13 @@ class ilYuiUtil
     public static function initButtonControl(): void
     {
         $tpl = self::ensureGlobalTemplate();
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
+        $tpl->addJavaScript("assets/js/yahoo-dom-event.js");
+        $tpl->addJavaScript("assets/js/element-min.js");
 
-        $tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/menu/menu-min.js");
+        $tpl->addJavaScript("assets/js/container_core-min.js");
+        $tpl->addJavaScript("assets/js/menu-min.js");
 
-        $tpl->addJavaScript(self::YUI_BASE . "/button/button-min.js");
+        $tpl->addJavaScript("assets/js/button-min.js");
 
         $tpl->addCss(self::YUI_BASE . "/button/assets/skins/sam/button.css");
         $tpl->addCss(self::YUI_BASE . "/menu/assets/skins/sam/menu.css");
@@ -171,8 +171,8 @@ class ilYuiUtil
     public static function initCookie(): void
     {
         $tpl = self::ensureGlobalTemplate();
-        $tpl->addJavaScript(self::YUI_BASE . "/yahoo/yahoo-min.js", 1);
-        $tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js", 1);
+        $tpl->addJavaScript("assets/js/yahoo-min.js", 1);
+        $tpl->addJavaScript("assets/js/cookie.js", 1);
     }
 
 

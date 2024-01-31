@@ -124,7 +124,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
             return "";
         }
 
-        $tpl->addJavaScript("components/ILIAS/Container/Classification/js/ilClassification.js");
+        $tpl->addJavaScript("assets/js/ilClassification.js");
 
         return parent::getHTML();
     }

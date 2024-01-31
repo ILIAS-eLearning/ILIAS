@@ -809,7 +809,7 @@ class ilObjectCopyGUI
         $this->log->debug('Target(s): ' . print_r($this->getTargets(), true));
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt($this->getType() . '_copy_threads_info'));
-        $this->tpl->addJavaScript('./components/ILIAS/CopyWizard/js/ilContainer.js');
+        $this->tpl->addJavaScript('assets/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
         $table = new ilObjectCopySelectionTableGUI($this, 'showItemSelection', $this->getType(), $copy_page);

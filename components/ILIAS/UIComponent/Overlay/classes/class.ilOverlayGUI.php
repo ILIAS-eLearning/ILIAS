@@ -157,7 +157,7 @@ class ilOverlayGUI
         $tpl = $DIC->ui()->mainTemplate();
 
         ilYuiUtil::initOverlay($tpl);
-        $tpl->addJavaScript("./components/ILIAS/UIComponent/Overlay/js/ilOverlay.js");
+        $tpl->addJavaScript("assets/js/ilOverlay.js");
     }
 
     public function getTriggerOnLoadCode(

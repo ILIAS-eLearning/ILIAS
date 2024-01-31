@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
 
-import ddmodel from '../../../../src/templates/js/Menu/src/drilldown.model.js';
-import ddmapping from '../../../../src/templates/js/Menu/src/drilldown.mapping.js';
-import ddpersistence from '../../../../src/templates/js/Menu/src/drilldown.persistence.js';
-import dd from '../../../../src/templates/js/Menu/src/drilldown.main.js';
-import drilldown from '../../../../src/templates/js/Menu/src/drilldown.instances.js';
+import ddmodel from '../../../../resources/js/Menu/src/drilldown.model.js';
+import ddmapping from '../../../../resources/js/Menu/src/drilldown.mapping.js';
+import ddpersistence from '../../../../resources/js/Menu/src/drilldown.persistence.js';
+import dd from '../../../../resources/js/Menu/src/drilldown.main.js';
+import drilldown from '../../../../resources/js/Menu/src/drilldown.instances.js';
 
 describe('drilldown', () => {
   beforeEach(() => {

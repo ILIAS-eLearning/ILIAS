@@ -40,5 +40,7 @@ class AccessControl implements Component\Component
             new \ilAccessRBACSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilPermSelect.js");
     }
 }

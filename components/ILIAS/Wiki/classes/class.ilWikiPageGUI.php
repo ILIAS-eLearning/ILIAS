@@ -1134,7 +1134,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $lng = $DIC->language();
 
-        $a_tpl->addJavaScript("./components/ILIAS/Wiki/js/WikiEdit.js");
+        $a_tpl->addJavaScript("assets/js/WikiEdit.js");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '" . $lng->txt("wiki_page_exists") . "';");
         $a_tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '" . $lng->txt("wiki_new_page") . "';");
     }

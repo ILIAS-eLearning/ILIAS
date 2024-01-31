@@ -110,7 +110,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->type = 'frm';
         parent::__construct($data, $id, $call_by_reference, false);
 
-        $this->tpl->addJavaScript('./components/ILIAS/JavaScript/js/Basic.js');
+        $this->tpl->addJavaScript('assets/js/Basic.js');
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
@@ -234,7 +234,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
             $interval = ilForumPostDraft::lookupAutosaveInterval();
 
-            $this->tpl->addJavaScript('./components/ILIAS/Forum/js/autosave.js');
+            $this->tpl->addJavaScript('assets/js/autosave_forum.js');
             $autosave_cmd = 'autosaveDraftAsync';
             if ($this->objCurrentPost->getId() === 0 && $this->objCurrentPost->getThreadId() === 0) {
                 $autosave_cmd = 'autosaveThreadDraftAsync';

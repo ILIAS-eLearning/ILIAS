@@ -195,16 +195,16 @@ abstract class ilChart
 
         iljQueryUtil::initjQuery();
 
-        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/excanvas.min.js");
-        $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.min.js");
+        $tpl->addJavaScript("assets/js/excanvas.min.js");
+        $tpl->addJavaScript("assets/js/jquery.flot.min.js");
 
         if ($this->auto_resize) {
             // #13108
-            $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.resize.min.js");
+            $tpl->addJavaScript("assets/js/jquery.flot.resize.min.js");
         }
 
         if ($this->stacked) {
-            $tpl->addJavaScript("components/ILIAS/Chart/js/flot/jquery.flot.stack.min.js");
+            $tpl->addJavaScript("assets/js/jquery.flot.stack.min.js");
         }
 
         $this->addCustomJS();

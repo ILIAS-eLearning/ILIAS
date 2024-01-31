@@ -67,7 +67,7 @@ class ilLikeGUI
     protected function initJavascript(): void
     {
         ilYuiUtil::initConnection();
-        $this->main_tpl->addJavaScript("./components/ILIAS/Like/js/Like.js");
+        $this->main_tpl->addJavaScript("assets/js/Like.js");
     }
 
     public function setObject(

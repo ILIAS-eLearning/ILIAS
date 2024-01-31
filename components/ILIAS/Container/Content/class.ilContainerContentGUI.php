@@ -89,7 +89,7 @@ abstract class ilContainerContentGUI
         $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
-        $tpl->addJavaScript("./components/ILIAS/Container/js/Container.js");
+        $tpl->addJavaScript("assets/js/Container.js");
 
         $this->log = ilLoggerFactory::getLogger('cont');
 

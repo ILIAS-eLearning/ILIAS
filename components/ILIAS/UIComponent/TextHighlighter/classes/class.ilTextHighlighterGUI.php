@@ -44,7 +44,7 @@ class ilTextHighlighterGUI
         if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
-        $a_tpl->addJavaScript("./components/ILIAS/UIComponent/TextHighlighter/js/ilTextHighlighter.js");
+        $a_tpl->addJavaScript("assets/js/ilTextHighlighter.js");
         $a_tpl->addOnLoadCode("il.TextHighlighter.highlight('" . $a_dom_node_id . "','" . $a_text . "');");
     }
 }

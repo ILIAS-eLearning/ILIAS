@@ -111,12 +111,12 @@ xmlns="http://www.w3.org/2000/svg">
     private function provideSomeComplexSaneSVG(): array
     {
         return [
-            [__DIR__ . '/../../../../../public/templates/default/images/media/bigplay.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/nav/jstree.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/media/loader.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/object/col.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/logo/HeaderIcon.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/object/answered_not.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/bigplay.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/nav/jstree.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/loader.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/col.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/logo/HeaderIcon.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/answered_not.svg'],
         ];
     }
 
