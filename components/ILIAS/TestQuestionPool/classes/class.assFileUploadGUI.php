@@ -133,7 +133,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $maxsize->setInfo($this->lng->txt("maxsize_info"));
         $maxsize->setSize(10);
         $maxsize->setMinValue(0);
-        $maxsize->setMaxValue((float) $this->determineMaxFilesize());
+        $maxsize->setMaxValue((float) $this->object->getMaxFilesizeInBytes());
         $maxsize->setRequired(false);
         $form->addItem($maxsize);
 
@@ -163,47 +163,6 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
         $form->addItem($subcompl);
         return $form;
-    }
-
-    public function determineMaxFilesize(): int
-    {
-        //mbecker: Quick fix for mantis bug 8595: Change size file
-        $upload_max_filesize = ini_get('upload_max_filesize');
-        // get the value for the maximal post data from the php.ini (if available)
-        $post_max_size = ini_get('post_max_size');
-
-        //convert from short-string representation to "real" bytes
-        $multiplier_a = [ "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 ];
-        $umf_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            $upload_max_filesize,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-        $pms_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            $post_max_size,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-
-        if (count($umf_parts) === 2) {
-            $upload_max_filesize = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
-        }
-
-        if (count($pms_parts) === 2) {
-            $post_max_size = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
-        }
-
-        // use the smaller one as limit
-        $max_filesize = min($upload_max_filesize, $post_max_size);
-
-        if (!$max_filesize) {
-            $max_filesize = max($upload_max_filesize, $post_max_size);
-            return $max_filesize;
-        }
-
-        return $max_filesize;
     }
 
     /**
