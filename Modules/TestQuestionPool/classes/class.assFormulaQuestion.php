@@ -295,7 +295,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 if (is_array($userdata) &&
                     isset($userdata[$result]) &&
                     isset($userdata[$result]["value"])) {
-                    $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
+
+                    $input = $this->generateResultInputHTML($result, $userdata[$result]["value"], $forsolution);
                 } elseif ($forsolution) {
                     $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
                     $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
@@ -306,14 +307,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                             $frac_helper = $value[1];
                             $value = $value[0];
                         }
-                        $value = ' value="' . $value . '"';
                     }
 
-                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
-                        $value
-                    ) . '</span>';
+                    $input = $this->generateResultInputHTML($result, $value, true);
                 } else {
-                    $input = $this->generateResultInputHTML($result, '');
+                    $input = $this->generateResultInputHTML($result, '', false);
                 }
 
                 $units = "";
@@ -354,7 +352,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= ' ' . $this->lng->txt('expected_result_type') . ': ' . $this->lng->txt('result_dec');
                         break;
                     case assFormulaQuestionResult::RESULT_FRAC:
-                        if (strlen($frac_helper)) {
+                        if ($frac_helper !== '') {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
                         } elseif (is_array($userdata) &&
                             array_key_exists($result, $userdata) &&
@@ -367,7 +365,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= ' ' . $this->lng->txt('expected_result_type') . ': ' . $this->lng->txt('result_frac');
                         break;
                     case assFormulaQuestionResult::RESULT_CO_FRAC:
-                        if (strlen($frac_helper)) {
+                        if ($frac_helper !== '') {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
                         } elseif (is_array($userdata) && isset($userdata[$result]) && isset($userdata[$result]["frac_helper"]) && $userdata[$result]["frac_helper"] !== '') {
                             if (!preg_match('-/-', $value)) {
@@ -454,8 +452,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return $text;
     }
 
-    protected function generateResultInputHTML(string $result_key, string $result_value): string
+    protected function generateResultInputHTML(string $result_key, string $result_value, bool $forsolution): string
     {
+        if ($forsolution) {
+            return  '<span class="ilc_qinput_TextInput solutionbox">'
+                . ilLegacyFormElementsUtil::prepareFormOutput($result_value)
+                . '</span>';
+        }
         $input = '<input class="ilc_qinput_TextInput" type="text"';
         $input .= 'spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"';
         $input .= 'name="result_' . $result_key . '"';
