@@ -14364,9 +14364,9 @@ rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobje
 rbac#:#role_blocked#:#: <i>Rolle wird gesperrt</i>
 rbac#:#role_confirm_block_role#:#Rollen-Status speichern
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der ausgewählten Rollen ändern?
-rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
-rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
-rbac#:#role_unblocked#:#: <i>Sperrung der Rolle wird aufgehoben</i>
+rbac#:#role_confirm_block_role_info#:#Für die Aktion „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Bei allen blockierten Rollen werden die für dieses Objekt und die darin enthaltenen Unterobjekte entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem „Rolle sperren“ wieder aufgehoben wird.
+rbac#:#role_confirm_unblock_role_info#:#Beim Aufheben von „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Die lokale Zugriffsregelung wird wieder aufgeboben.<br />• Die Rechte der entsperrten Rollen werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rollen neu gesetzt. Dies gilt für das aktuelle Objekt und alle enthaltenen Unterobjekte.
+rbac#:#role_unblocked#:#: <i>Die Sperrung der Rolle wird aufgehoben.</i>
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
 rbac#:#root_visible#:#ILIAS-System ist sichtbar
