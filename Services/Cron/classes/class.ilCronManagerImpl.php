@@ -19,29 +19,29 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Data\Clock\ClockFactory;
 
-/**
- * Cron management
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesCron
- */
 class ilCronManagerImpl implements ilCronManager
 {
-    public function __construct(private readonly ilCronJobRepository $cronRepository, private readonly ilDBInterface $db, private readonly ilSetting $settings, private readonly ilLogger $logger)
-    {
+    public function __construct(
+        private readonly ilCronJobRepository $cronRepository,
+        private readonly ilDBInterface $db,
+        private readonly ilSetting $settings,
+        private readonly ilLogger $logger,
+        private readonly ClockFactory $clock_factory
+    ) {
     }
 
     private function getMicrotime(): float
     {
-        [$usec, $sec] = explode(' ', microtime());
-        return ((float) $usec + (float) $sec);
+        return ((int) $this->clock_factory->system()->now()->format('Uu')) / 1000000;
     }
 
     public function runActiveJobs(ilObjUser $actor): void
     {
         $this->logger->info('CRON - batch start');
 
-        $ts = time();
+        $ts = $this->clock_factory->system()->now()->getTimestamp();
         $this->settings->set('last_cronjob_start_ts', (string) $ts);
 
         $useRelativeDates = ilDatePresentation::useRelativeDates();
@@ -117,6 +117,10 @@ class ilCronManagerImpl implements ilCronManager
             $jobData = array_pop($jobsData);
         }
 
+        $job->setDateTimeProvider(function (): DateTimeImmutable {
+            return $this->clock_factory->system()->now();
+        });
+
         // already running?
         if ($jobData['alive_ts']) {
             $this->logger->info('CRON - job ' . $jobData['job_id'] . ' still running');
@@ -124,7 +128,7 @@ class ilCronManagerImpl implements ilCronManager
             $cut = 60 * 60 * 3;
 
             // is running (and has not pinged) for 3 hours straight, we assume it crashed
-            if (time() - ((int) $jobData['alive_ts']) > $cut) {
+            if ($this->clock_factory->system()->now()->getTimestamp() - ((int) $jobData['alive_ts']) > $cut) {
                 $this->cronRepository->updateRunInformation($jobData['job_id'], 0, 0);
                 $this->deactivateJob($job, $actor); // #13082
 
@@ -133,20 +137,32 @@ class ilCronManagerImpl implements ilCronManager
                 $result->setCode(ilCronJobResult::CODE_SUPPOSED_CRASH);
                 $result->setMessage('Cron job deactivated because it has been inactive for 3 hours');
 
-                $this->cronRepository->updateJobResult($job, $actor, $result, $isManualExecution);
+                $this->cronRepository->updateJobResult(
+                    $job,
+                    $this->clock_factory->system()->now(),
+                    $actor,
+                    $result,
+                    $isManualExecution
+                );
 
                 $this->logger->info('CRON - job ' . $jobData['job_id'] . ' deactivated (assumed crash)');
             }
         } // initiate run?
         elseif ($job->isDue(
-            $jobData['job_result_ts'] ? new DateTimeImmutable('@' . $jobData['job_result_ts']) : null,
+            $jobData['job_result_ts'] ? (new DateTimeImmutable(
+                '@' . $jobData['job_result_ts']
+            ))->setTimezone($this->clock_factory->system()->now()->getTimezone()) : null,
             is_numeric($jobData['schedule_type']) ? CronJobScheduleType::tryFrom((int) $jobData['schedule_type']) : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
         )) {
             $this->logger->info('CRON - job ' . $jobData['job_id'] . ' started');
 
-            $this->cronRepository->updateRunInformation($jobData['job_id'], time(), time());
+            $this->cronRepository->updateRunInformation(
+                $jobData['job_id'],
+                $this->clock_factory->system()->now()->getTimestamp(),
+                $this->clock_factory->system()->now()->getTimestamp()
+            );
 
             $ts_in = $this->getMicrotime();
             try {
@@ -174,7 +190,13 @@ class ilCronManagerImpl implements ilCronManager
 
             $result->setDuration($ts_dur);
 
-            $this->cronRepository->updateJobResult($job, $actor, $result, $isManualExecution);
+            $this->cronRepository->updateJobResult(
+                $job,
+                $this->clock_factory->system()->now(),
+                $actor,
+                $result,
+                $isManualExecution
+            );
             $this->cronRepository->updateRunInformation($jobData['job_id'], 0, 0);
 
             $this->logger->info('CRON - job ' . $jobData['job_id'] . ' finished');
@@ -192,7 +214,13 @@ class ilCronManagerImpl implements ilCronManager
         $result->setCode(ilCronJobResult::CODE_MANUAL_RESET);
         $result->setMessage('Cron job re-activated by admin');
 
-        $this->cronRepository->updateJobResult($job, $actor, $result, true);
+        $this->cronRepository->updateJobResult(
+            $job,
+            $this->clock_factory->system()->now(),
+            $actor,
+            $result,
+            true
+        );
         $this->cronRepository->resetJob($job);
 
         $this->activateJob($job, $actor, true);
@@ -200,13 +228,13 @@ class ilCronManagerImpl implements ilCronManager
 
     public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
-        $this->cronRepository->activateJob($job, $actor, $wasManuallyExecuted);
+        $this->cronRepository->activateJob($job, $this->clock_factory->system()->now(), $actor, $wasManuallyExecuted);
         $job->activationWasToggled($this->db, $this->settings, true);
     }
 
     public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
-        $this->cronRepository->deactivateJob($job, $actor, $wasManuallyExecuted);
+        $this->cronRepository->deactivateJob($job, $this->clock_factory->system()->now(), $actor, $wasManuallyExecuted);
         $job->activationWasToggled($this->db, $this->settings, false);
     }
 
@@ -229,7 +257,7 @@ class ilCronManagerImpl implements ilCronManager
         $this->db->manipulateF(
             'UPDATE cron_job SET alive_ts = %s WHERE job_id = %s',
             ['integer', 'text'],
-            [time(), $jobId]
+            [$this->clock_factory->system()->now()->getTimestamp(), $jobId]
         );
     }
 }

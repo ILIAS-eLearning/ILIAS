@@ -713,7 +713,8 @@ class ilInitialisation
                 $c['cron.repository'],
                 $c->database(),
                 $c->settings(),
-                $c->logger()->cron()
+                $c->logger()->cron(),
+                (new \ILIAS\Data\Factory())->clock()
             );
         };
     }
