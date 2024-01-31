@@ -135,7 +135,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $maxsize->setInfo($this->lng->txt("maxsize_info"));
         $maxsize->setSize(10);
         $maxsize->setMinValue(0);
-        $maxsize->setMaxValue((float) $this->object->getMaxFilesizeInBytes());
+        $maxsize->setMaxValue((float) $this->object->determineMaxFilesize());
         $maxsize->setRequired(false);
         $form->addItem($maxsize);
 
