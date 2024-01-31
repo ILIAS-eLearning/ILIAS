@@ -587,7 +587,8 @@ class ilObjMailGUI extends ilObjectGUI
 
         $placeholder_input = new ilManualPlaceholderInputGUI(
             $this->lng->txt('mail_form_placeholders_label'),
-            $signature->getPersistenceIdentifier()
+            'm_placeholders',
+            $signature->getPersistenceIdentifier(),
         );
         $placeholder_input->setDisabled(!$this->isEditingAllowed());
 
