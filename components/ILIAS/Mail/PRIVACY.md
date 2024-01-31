@@ -81,6 +81,8 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - Of course emails delivered externally by "SMTP" or "Sendmail" are the responsibility of the respective email clients.
   - The "FROM" header used for sending external emails is built from the globally configured
   email address and the configured name placeholder, which may include the full name presentation, the firstname and the lastname.
+  - The signature configured in "Administration > Communication > Mail > Settings > External E-Mails > User E-Mails can contain placeholders for user login and
+    user full name presentation.
   - If the "Use Gloal Reply-To" setting in "Administration > Communication > Mail > Settings > External E-Mails"
     is disabled, the user's email address and its full name are used as the "Reply-To" header in user created emails.
     Otherwise, the global reply-to address is used.
