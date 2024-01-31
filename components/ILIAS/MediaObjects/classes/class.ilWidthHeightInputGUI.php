@@ -138,7 +138,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
 
         $this->main_tpl
-            ->addJavaScript("./components/ILIAS/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
+            ->addJavaScript("assets/js/ServiceMediaObjectPropWidthHeight.js");
         $this->main_tpl->addOnLoadCode(
             'prop_width_height["prop_' . $this->getPostVar() . '"] = ' . $ratio . ';'
         );

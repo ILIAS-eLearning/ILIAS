@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import filter from "../../../../../../../components/ILIAS/UI/src/templates/js/Input/Container/src/filter.main.js";
+import filter from '../../../../resources/js/Input/Container/src/filter.main.js';
 
-describe('filter components are there', function() {
-  it('filter', function() {
+describe('filter components are there', () => {
+  it('filter', () => {
     expect(filter).to.not.be.undefined;
   });
 });

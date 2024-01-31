@@ -35,7 +35,7 @@ class ilComponentRepositoryExistsObjective implements Setup\Objective
      */
     public function getLabel(): string
     {
-        return "ilComponentRepository is initialized and stored into the environment.";
+        return "ilComponentRepository (with database) is initialized and stored into the environment.";
     }
 
     /**

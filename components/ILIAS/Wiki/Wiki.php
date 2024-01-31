@@ -36,5 +36,10 @@ class Wiki implements Component\Component
             new \ILIAS\Wiki\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "WikiPres.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "WikiEdit.js");
     }
 }

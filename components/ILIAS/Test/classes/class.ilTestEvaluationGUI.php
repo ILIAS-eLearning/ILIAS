@@ -315,7 +315,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, 'outEvaluation');
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css', 'components/ILIAS/Test'), 'print');
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css'), 'print');
 
         $backBtn = $this->ui_factory->button()->standard($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'outEvaluation'));
         $this->toolbar->addComponent($backBtn);
@@ -964,9 +964,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     protected function setCss(): void
     {
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
     }
@@ -2047,7 +2047,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->addCss(\ilUtil::getStyleSheetLocation("filesystem"));
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
-        $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
 
         ilMathJax::getInstance()->includeMathJax($tpl);
 

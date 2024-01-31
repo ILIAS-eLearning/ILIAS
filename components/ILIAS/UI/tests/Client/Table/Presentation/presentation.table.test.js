@@ -17,8 +17,8 @@
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
-import PresentationTableFactory from '../../../../src/templates/js/Table/src/presentationtable.factory';
-import PresentationTable from '../../../../src/templates/js/Table/src/presentationtable.class';
+import PresentationTableFactory from '../../../../resources/js/Table/src/presentationtable.factory';
+import PresentationTable from '../../../../resources/js/Table/src/presentationtable.class';
 
 describe('Presentation Table', () => {
   beforeEach(() => {

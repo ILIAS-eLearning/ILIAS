@@ -532,7 +532,7 @@ class ilExplorer
         }
 
         ilYuiUtil::initConnection();
-        $tpl->addJavaScript("./components/ILIAS/UIComponent/Explorer/js/ilExplorer.js");
+        $tpl->addJavaScript("assets/js/ilExplorer.js");
 
         //echo "hh";
         // set global body class

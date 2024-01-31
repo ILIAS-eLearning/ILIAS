@@ -18,8 +18,8 @@
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 
-import DataTableFactory from '../../../../../../../components/ILIAS/UI/src/templates/js/Table/src/datatable.factory';
-import DataTable from '../../../../../../../components/ILIAS/UI/src/templates/js/Table/src/datatable.class';
+import DataTableFactory from '../../../../resources/js/Table/src/datatable.factory';
+import DataTable from '../../../../resources/js/Table/src/datatable.class';
 
 function initMockedDom() {
   const dom = new JSDOM(

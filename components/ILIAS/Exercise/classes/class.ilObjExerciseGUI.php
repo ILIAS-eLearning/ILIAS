@@ -896,7 +896,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             return;
         }
 
-        //$tpl->addJavaScript("./components/ILIAS/Exercise/js/ilExcPresentation.js");
+        //$tpl->addJavaScript("assets/js/ilExcPresentation.js");
 
         $exc = $this->object;
 

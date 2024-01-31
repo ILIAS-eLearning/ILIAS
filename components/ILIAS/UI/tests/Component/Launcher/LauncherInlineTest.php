@@ -214,7 +214,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     <div class="c-launcher__status">
         <div class="c-launcher__status__message">$msg_html
         </div>
-        <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/standard/icon_default.svg" alt="some icon"/></div>
+        <div class="c-launcher__status__icon"><img class="icon course small" src="./assets/images/standard/icon_default.svg" alt="some icon"/></div>
     </div>
     <div class="c-launcher__description">
         some description

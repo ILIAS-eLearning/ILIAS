@@ -337,7 +337,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     public function showSearch(): void
     {
         ilOverlayGUI::initJavascript();
-        $this->tpl->addJavascript("./components/ILIAS/Search/js/Search.js");
+        $this->tpl->addJavascript("assets/js/Search.js");
 
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'components/ILIAS/Search');

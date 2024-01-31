@@ -143,6 +143,6 @@ class ilModalGUI
 
         $tpl = $a_main_tpl ?? $DIC["tpl"];
 
-        $tpl->addJavaScript("./components/ILIAS/UIComponent/Modal/js/Modal.js");
+        $tpl->addJavaScript("assets/js/Modal.js");
     }
 }

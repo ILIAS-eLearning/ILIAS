@@ -92,7 +92,7 @@ class ilMediaObjectsPlayerWrapperGUI
             $mcst_settings = ilMediaCastSettings::_getInstance();
             $treshold = (int) $mcst_settings->getVideoCompletionThreshold();
 
-            $main_tpl->addJavaScript("./components/ILIAS/MediaObjects/js/MediaObjectsCompletion.js");
+            $main_tpl->addJavaScript("assets/js/MediaObjectsCompletion.js");
             $ctrl->setParameter($this, "mob_tracking_ref_id", $tracking_container_ref_id);
             $ctrl->setParameter($this, "mob_tracking_mob_id", $mob->getId());
             $url = $ctrl->getLinkTarget($this, "saveCompletion");

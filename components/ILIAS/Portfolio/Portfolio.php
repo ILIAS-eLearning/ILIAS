@@ -36,5 +36,8 @@ class Portfolio implements Component\Component
             new \ILIAS\Portfolio\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilPortfolio.js");
     }
 }

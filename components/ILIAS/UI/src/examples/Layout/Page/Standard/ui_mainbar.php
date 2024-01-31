@@ -227,7 +227,7 @@ function getRenderedPage(Container $dic, MainBar $mainbar): string
     $f = $dic->ui()->factory();
     list($page_title, $content) = getUIContent($f, $dic->http()->request());
 
-    $logo = $f->image()->responsive("templates/default/images/logo/HeaderIcon.svg", "ILIAS");
+    $logo = $f->image()->responsive("assets/images/logo/HeaderIcon.svg", "ILIAS");
     $responsive_logo = $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS");
 
     $breadcrumbs = null;

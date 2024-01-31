@@ -40,5 +40,18 @@ class MediaObjects implements Component\Component
             new \ILIAS\MediaObjects\Setup\DBUpdateAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "MediaObjectsCompletion.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ServiceMediaObjectPropWidthHeight.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("mediaelement/build/mediaelement-and-player.min.js");
+        /* This is missing in the node-modules-build, but added in PHP code.
+                $contribute[Component\Resource\PublicAsset::class] = fn() =>
+                    new Component\Resource\NodeModule("mediaelement/build/vimeo.min.js");
+        */
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("mediaelement/build/mediaelementplayer.min.css");
     }
 }

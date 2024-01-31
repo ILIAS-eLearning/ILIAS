@@ -417,7 +417,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./node_modules/chart.js/dist/chart.min.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Chart/Bar/dist/bar.js');
+        $registry->register('assets/js/bar.js');
     }
 
     protected function getComponentInterfaceName(): array

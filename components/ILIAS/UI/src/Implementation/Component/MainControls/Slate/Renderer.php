@@ -174,7 +174,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/MainControls/dist/maincontrols.min.js');
+        $registry->register('assets/js/maincontrols.min.js');
     }
 
     /**

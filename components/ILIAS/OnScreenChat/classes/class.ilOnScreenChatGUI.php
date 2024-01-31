@@ -288,15 +288,15 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
-            $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
-            $page->addJavascript('./components/ILIAS/UIComponent/Modal/js/Modal.js');
-            $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
-            $page->addJavascript('./components/ILIAS/Notifications/js/browser_notifications.js');
-            $page->addJavascript('./components/ILIAS/OnScreenChat/js/onscreenchat-notifications.js');
-            $page->addJavascript('./components/ILIAS/OnScreenChat/js/moment.js');
-            $page->addJavascript('./components/ILIAS/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
-            $page->addJavascript('./components/ILIAS/OnScreenChat/js/chat.js');
-            $page->addJavascript('./components/ILIAS/OnScreenChat/js/onscreenchat.js');
+            $page->addJavaScript('assets/js/jquery.ui.touch-punch.js');
+            $page->addJavascript('assets/js/Modal.js');
+            $page->addJavascript('assets/js/moment-with-locales.min.js');
+            $page->addJavascript('assets/js/browser_notifications.js');
+            $page->addJavascript('assets/js/onscreenchat-notifications.js');
+            $page->addJavascript('assets/js/moment.js');
+            $page->addJavascript('assets/js/socket.io-client/dist/socket.io.js');
+            $page->addJavascript('assets/js/chat.js');
+            $page->addJavascript('assets/js/onscreenchat.js');
             $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig, JSON_THROW_ON_ERROR) . ");");
             $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig, JSON_THROW_ON_ERROR) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");

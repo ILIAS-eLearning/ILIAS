@@ -1515,7 +1515,7 @@ class ilTable2GUI extends ilTableGUI
         $filter = $this->getFilterItems();
         $opt_filter = $this->getFilterItems(true);
 
-        $main_tpl->addJavascript("./components/ILIAS/Table/js/ServiceTable.js");
+        $main_tpl->addJavascript("assets/js/ServiceTable.js");
 
         if (count($filter) == 0 && count($opt_filter) == 0) {
             return;

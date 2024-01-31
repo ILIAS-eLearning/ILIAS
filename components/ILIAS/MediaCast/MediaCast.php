@@ -36,5 +36,8 @@ class MediaCast implements Component\Component
             new \ILIAS\MediaCast\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "video_widget.js");
     }
 }

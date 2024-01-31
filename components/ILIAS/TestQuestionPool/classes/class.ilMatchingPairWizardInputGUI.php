@@ -201,8 +201,8 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         $global_tpl = $DIC['tpl'];
-        $global_tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-        $global_tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/matchingpairwizard.js");
+        $global_tpl->addJavascript("asserts/js/answerwizardinput.js");
+        $global_tpl->addJavascript("asserts/js/matchingpairwizard.js");
 
         $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;

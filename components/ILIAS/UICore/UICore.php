@@ -36,5 +36,8 @@ class UICore implements Component\Component
             new \ilUICoreSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("bootstrap/dist/js/bootstrap.min.js");
     }
 }

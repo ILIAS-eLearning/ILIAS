@@ -460,8 +460,8 @@ abstract class ilUnitConfigurationGUI
 
         $category = $this->getCategoryById($this->request->int('category_id'), false);
 
-        $this->tpl->addJavaScript("./components/ILIAS/JavaScript/js/Basic.js");
-        $this->tpl->addJavaScript("./components/ILIAS/Form/js/Form.js");
+        $this->tpl->addJavaScript("assets/js/Basic.js");
+        $this->tpl->addJavaScript("assets/js/Form.js");
         $this->lng->loadLanguageModule('form');
 
         $ilToolbar->addButton(

@@ -132,7 +132,7 @@ class ilCOPageHTMLExport
                 $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
             );
             ilFileUtils::makeDirParents($this->exp_dir . "/components/ILIAS/COPage/css");
-            copy("components/ILIAS/COPage/css/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
+            copy("components/ILIAS/COPage/resources/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());

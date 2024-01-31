@@ -27,8 +27,8 @@ class ilPlayerUtil
     public static function getLocalMediaElementJsPath(): array
     {
         return [
-            "./node_modules/mediaelement/build/mediaelement-and-player.min.js",
-            "./node_modules/mediaelement/build/renderers/vimeo.min.js"
+            "./assets/js/mediaelement-and-player.min.js",
+            "./assets/js/renderers/vimeo.min.js"
         ];
     }
 
@@ -37,7 +37,7 @@ class ilPlayerUtil
      */
     public static function getLocalMediaElementCssPath(): string
     {
-        return "./node_modules/mediaelement/build/mediaelementplayer.min.css";
+        return "./assets/css/mediaelementplayer.min.css";
     }
 
     /**

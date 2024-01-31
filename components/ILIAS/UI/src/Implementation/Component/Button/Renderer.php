@@ -101,7 +101,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()) {
-                $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
+                $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
             }
         } else {
             $tpl->touchBlock("disabled");
@@ -164,9 +164,9 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Button/button.js');
-        $registry->register("./node_modules/moment/min/moment-with-locales.min.js");
-        $registry->register("./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
+        $registry->register('assets/js/button.js');
+        $registry->register("./assets/js/moment-with-locales.min.js");
+        $registry->register("./assets/js/bootstrap-datetimepicker.min.js");
     }
 
     protected function renderClose(Component\Button\Close $component): string
@@ -221,7 +221,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});");
@@ -298,7 +298,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("LANG", $lang_key);
 
-        $component = $component->withAdditionalOnLoadCode(fn ($id) => "il.UI.button.initMonth('$id');");
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable("ID", $id);

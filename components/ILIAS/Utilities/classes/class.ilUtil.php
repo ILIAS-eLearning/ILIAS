@@ -63,51 +63,40 @@ class ilUtil
      *
      */
     public static function getImagePath(
-        string $img,
-        string $module_path = "",
-        string $mode = "output",
+        string $image_name,
+        string $module_path = "", // this parameter only supports "" value
+        string $mode = "output", // this parameter does not control anything anymore
         bool $offline = false
     ): string {
-        global $DIC;
-
-        $styleDefinition = null;
-        if (isset($DIC["styleDefinition"])) {
-            $styleDefinition = $DIC["styleDefinition"];
+        if ($offline) {
+            return "./images/" . $image_name;
         }
+
+        global $DIC;
+        $styleDefinition = $DIC["styleDefinition"] ?? null;
 
         if ($module_path != "") {
-            $module_path = "/" . $module_path;
+            throw new \LogicException(
+                "\$module_path only supports '' as value."
+            );
         }
 
-        // default image
-        $default_img = "." . $module_path . "/templates/default/images/" . $img;
+        $use_custom_skin = (ilStyleDefinition::getCurrentSkin() !== "default");
 
-        // use ilStyleDefinition instead of account to get the current skin and style
-        $current_skin = ilStyleDefinition::getCurrentSkin();
-        $current_style = ilStyleDefinition::getCurrentStyle();
+        if ($use_custom_skin) {
+            $filename =
+                "./Customizing/global/skin/"
+                . ilStyleDefinition::getCurrentSkin() . "/"
+                . ilStyleDefinition::getCurrentStyle() . "/"
+                . (!is_object($styleDefinition) ? "images" : $styleDefinition->getImageDirectory(ilStyleDefinition::getCurrentStyle())) . "/"
+                . $image_name;
 
-        if (is_object($styleDefinition)) {
-            $image_dir = $styleDefinition->getImageDirectory($current_style);
-        } else {
-            $image_dir = "images";
+            if ($file_exists("./public/" . $filename)) {
+                return $filename;
+            }
         }
 
-        $skin_img = "";
-
-        if ($current_skin == "default") {
-            $skin_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
-        } elseif (is_object($styleDefinition) && $current_skin != "default") {
-            $skin_img = "./Customizing/global/skin/" .
-                $current_skin . "/". $current_style. "/". $module_path . $image_dir . "/" . $img;
-        }
-
-        if ($offline) {
-            return "./images/" . $img;
-        } elseif (file_exists($skin_img)) {
-            return $skin_img;        // found image for skin and style
-        }
-
-        return $default_img;            // take image in default
+        return "./assets/images/" . $image_name;
     }
 
     /**
@@ -140,41 +129,46 @@ class ilUtil
      */
     public static function getStyleSheetLocation(
         string $mode = "output",
-        string $a_css_name = "",
-        string $a_css_location = ""
+        string $a_css_name = ""
     ): string {
-        global $DIC;
+        $force_reload = ($mode !== "filesystem");
+        $use_default_style_file = ($a_css_name === "");
+        $use_custom_skin = (ilStyleDefinition::getCurrentSkin() !== "default");
 
-        $ilSetting = $DIC->settings();
-
-        // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
 
-        $stylesheet_name = (strlen($a_css_name))
-            ? $a_css_name
-            : ilStyleDefinition::getCurrentStyle() . ".css";
-        if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0)) {
-            $a_css_location = $a_css_location . "/";
+        if ($use_default_style_file) {
+            $stylesheet_name = ilStyleDefinition::getCurrentStyle() . ".css";
+        } else {
+            $stylesheet_name = $a_css_name;
         }
 
-        $filename = "";
-        // use ilStyleDefinition instead of account to get the current skin
-        if (ilStyleDefinition::getCurrentSkin() != "default") {
-            $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-            ) . "/" . ilStyleDefinition::getCurrentStyle() . "/" . $a_css_location . $stylesheet_name;
+        if ($use_custom_skin) {
+            $filename =
+                "./Customizing/global/skin/"
+                . ilStyleDefinition::getCurrentSkin() . "/"
+                . ilStyleDefinition::getCurrentStyle() . "/"
+                . $stylesheet_name;
+        } else {
+            $filename = "./assets/css/" . $stylesheet_name;
         }
-        if (strlen($filename) == 0 || !file_exists($filename)) {
-            $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
+
+        if (!$force_reload) {
+            return $filename;
         }
-        $skin_version_appendix = "";
-        if ($mode !== "filesystem") {
-            // use version from template xml to force reload on changes
-            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
-            $skin_version = $skin->getVersion();
-            $skin_version_appendix .= ($skin_version !== '' ? str_replace(".", "-", $skin_version) : '0');
-            $skin_version_appendix = "?skin_version=" . $skin_version_appendix;
+
+        // add version as parameter to force reload for new releases
+
+        // use version from template xml to force reload on changes
+        $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+        $skin_version = $skin->getVersion();
+        if ($skin_version !== "") {
+            $skin_version_appendix = str_replace(".", "-", $skin_version);
+        } else {
+            $skin_version_appendix = '0';
         }
-        return $filename . $skin_version_appendix;
+
+        return $filename . "?skin_version=" . $skin_version_appendix;
     }
 
     /**
@@ -197,7 +191,7 @@ class ilUtil
         if (is_file("./" . $in_style)) {
             return $in_style;
         } else {
-            return "templates/default/delos_cont.css";
+            return "assets/css/delos_cont.css";
         }
     }
 
@@ -458,13 +452,13 @@ class ilUtil
             $a_str = strip_tags($a_str);        // strip all other tags
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
-        // a possible solution could be something like:
-        // $a_str = str_replace("<", "&lt;", $a_str);
-        // $a_str = str_replace(">", "&gt;", $a_str);
-        // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+            // a possible solution could be something like:
+            // $a_str = str_replace("<", "&lt;", $a_str);
+            // $a_str = str_replace(">", "&gt;", $a_str);
+            // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
             //
-        // output would be ok then, but input fields would show
-        // "a &lt;= b" for input "a <= b" if data is brought back to a form
+            // output would be ok then, but input fields would show
+            // "a &lt;= b" for input "a <= b" if data is brought back to a form
         } else {
             // only for scripts, that need to allow more/other tags and parameters
             if ($a_strip_html) {

@@ -39,7 +39,7 @@ class BTNotificationProvider extends AbstractNotificationProvider implements Not
             return [];
         }
 
-        $this->dic->ui()->mainTemplate()->addJavaScript("./components/ILIAS/BackgroundTasks_/js/background_task_refresh.js");
+        $this->dic->ui()->mainTemplate()->addJavaScript("assets/js/background_task_refresh.js");
         $this->dic->language()->loadLanguageModule('background_tasks');
 
         $id = fn (string $id): IdentificationInterface => $this->if->identifier($id);

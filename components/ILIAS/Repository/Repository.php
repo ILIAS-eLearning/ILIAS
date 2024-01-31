@@ -40,5 +40,8 @@ class Repository implements Component\Component
             new \ILIAS\Repository\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "repository.js");
     }
 }

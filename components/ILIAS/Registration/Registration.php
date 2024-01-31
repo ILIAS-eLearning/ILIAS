@@ -36,5 +36,8 @@ class Registration implements Component\Component
             new \ilRegistrationAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "confirmReg.php");
     }
 }

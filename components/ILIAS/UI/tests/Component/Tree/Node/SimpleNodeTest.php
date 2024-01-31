@@ -187,7 +187,7 @@ EOT;
 			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
-						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
+						<img class="icon small" src="./assets/images/standard/icon_default.svg" alt=""/>
 						label
 					</span>
 				</span>
@@ -215,7 +215,7 @@ EOT;
 			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
-						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt="Different Icon Label"/>
+						<img class="icon small" src="./assets/images/standard/icon_default.svg" alt="Different Icon Label"/>
 						label
 					</span>
 				</span>
