@@ -229,7 +229,6 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
                         $this->records[$counter]['obj_cnt_members'] = count($usr_ids);
                         $this->records[$counter]['obj_path'] = $path;
                         $this->records[$counter]['hidden_members'] = $hiddenMembers;
-                        $this->ctrl->setParameter($this, 'obj_id', $object->getId());
 
                         ++$counter;
                     }
