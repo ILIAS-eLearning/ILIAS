@@ -247,6 +247,8 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
                  [];
 
         $reset_date = $this->data_protection_settings->lastResetDate()->value();
+        $this->tpl->setCurrentBlock('mess');
         $this->legal_documents->admin()->setVariable('MESSAGE', $this->legal_documents->admin()->resetBox($reset_date, $buttons));
+        $this->tpl->parseCurrentBlock('mess');
     }
 }
