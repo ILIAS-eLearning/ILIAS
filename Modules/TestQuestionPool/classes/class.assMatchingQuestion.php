@@ -110,10 +110,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         global $DIC;
 
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->matchingpairs = array();
+        $this->matchingpairs = [];
         $this->matching_type = $matching_type;
-        $this->terms = array();
-        $this->definitions = array();
+        $this->terms = [];
+        $this->definitions = [];
         $this->randomGroup = $DIC->refinery()->random();
     }
 
@@ -167,94 +167,86 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function saveAnswerSpecificDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        // delete old terms
-        $ilDB->manipulateF(
+        $this->rebuildThumbnails();
+
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_mterm WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getId() )
+            [ 'integer' ],
+            [ $this->getId() ]
         );
 
         // delete old definitions
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_mdef WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getId() )
+            [ 'integer' ],
+            [ $this->getId() ]
         );
 
-        $termids = array();
+        $termids = [];
         // write terms
         foreach ($this->terms as $key => $term) {
-            $next_id = $ilDB->nextId('qpl_a_mterm');
-            $ilDB->insert('qpl_a_mterm', array(
-                'term_id' => array('integer', $next_id),
-                'question_fi' => array('integer', $this->getId()),
-                'picture' => array('text', $term->getPicture()),
-                'term' => array('text', $term->getText()),
-                'ident' => array('integer', $term->getIdentifier())
-            ));
+            $next_id = $this->db->nextId('qpl_a_mterm');
+            $this->db->insert('qpl_a_mterm', [
+                'term_id' => ['integer', $next_id],
+                'question_fi' => ['integer', $this->getId()],
+                'picture' => ['text', $term->getPicture()],
+                'term' => ['text', $term->getText()],
+                'ident' => ['integer', $term->getIdentifier()]
+            ]);
             $termids[$term->getIdentifier()] = $next_id;
         }
 
-        $definitionids = array();
+        $definitionids = [];
         // write definitions
         foreach ($this->definitions as $key => $definition) {
-            $next_id = $ilDB->nextId('qpl_a_mdef');
-            $ilDB->insert('qpl_a_mdef', array(
-                'def_id' => array('integer', $next_id),
-                'question_fi' => array('integer', $this->getId()),
-                'picture' => array('text', $definition->getPicture()),
-                'definition' => array('text', $definition->getText()),
-                'ident' => array('integer', $definition->getIdentifier())
-            ));
+            $next_id = $this->db->nextId('qpl_a_mdef');
+            $this->db->insert('qpl_a_mdef', [
+                'def_id' => ['integer', $next_id],
+                'question_fi' => ['integer', $this->getId()],
+                'picture' => ['text', $definition->getPicture()],
+                'definition' => ['text', $definition->getText()],
+                'ident' => ['integer', $definition->getIdentifier()]
+            ]);
             $definitionids[$definition->getIdentifier()] = $next_id;
         }
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_matching WHERE question_fi = %s",
-            array( 'integer' ),
-            array( $this->getId() )
+            [ 'integer' ],
+            [ $this->getId() ]
         );
         $matchingpairs = $this->getMatchingPairs();
         foreach ($matchingpairs as $key => $pair) {
-            $next_id = $ilDB->nextId('qpl_a_matching');
-            $ilDB->manipulateF(
+            $next_id = $this->db->nextId('qpl_a_matching');
+            $this->db->manipulateF(
                 "INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, definition_fi) VALUES (%s, %s, %s, %s, %s)",
-                array( 'integer', 'integer', 'float', 'integer', 'integer' ),
-                array(
+                [ 'integer', 'integer', 'float', 'integer', 'integer' ],
+                [
                                     $next_id,
                                     $this->getId(),
                                     $pair->getPoints(),
                                     $termids[$pair->getTerm()->getIdentifier()],
                                     $definitionids[$pair->getDefinition()->getIdentifier()]
-                                )
+                                ]
             );
         }
-
-        $this->rebuildThumbnails();
     }
 
     public function saveAdditionalQuestionDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        // save additional data
-
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            [ "integer" ],
+            [ $this->getId() ]
         );
 
-        $ilDB->insert($this->getAdditionalTableName(), array(
-            'question_fi' => array('integer', $this->getId()),
-            'shuffle' => array('text', $this->getShuffleMode()),
-            'matching_type' => array('text', $this->matching_type),
-            'thumb_geometry' => array('integer', $this->getThumbGeometry()),
-            'matching_mode' => array('text', $this->getMatchingMode())
-        ));
+        $this->db->insert($this->getAdditionalTableName(), [
+            'question_fi' => ['integer', $this->getId()],
+            'shuffle' => ['text', $this->getShuffleMode()],
+            'matching_type' => ['text', $this->matching_type],
+            'thumb_geometry' => ['integer', $this->getThumbGeometry()],
+            'matching_mode' => ['text', $this->getMatchingMode()]
+        ]);
     }
 
     /**
@@ -265,9 +257,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function loadFromDb($question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $query = "
 			SELECT		qpl_questions.*,
 						{$this->getAdditionalTableName()}.*
@@ -277,14 +266,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			WHERE		qpl_questions.question_id = %s
 		";
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             $query,
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId((int)$question_id);
             $this->setObjId((int)$data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -312,45 +301,45 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
 
-        $termids = array();
-        $result = $ilDB->queryF(
+        $termids = [];
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id ASC",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         $this->terms = [];
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $term = $this->createMatchingTerm($data['term'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
                 $this->terms[] = $term;
                 $termids[$data['term_id']] = $term;
             }
         }
 
-        $definitionids = array();
-        $result = $ilDB->queryF(
+        $definitionids = [];
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_mdef WHERE question_fi = %s ORDER BY def_id ASC",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
 
-        $this->definitions = array();
+        $this->definitions = [];
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $definition = $this->createMatchingDefinition($data['definition'] ?? '', $data['picture'] ?? '', (int)$data['ident']);
                 array_push($this->definitions, $definition);
                 $definitionids[$data['def_id']] = $definition;
             }
         }
 
-        $this->matchingpairs = array();
-        $result = $ilDB->queryF(
+        $this->matchingpairs = [];
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_matching WHERE question_fi = %s ORDER BY answer_id",
-            array('integer'),
-            array($question_id)
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $pair = $this->createMatchingPair(
                     $termids[$data['term_fi']],
                     $definitionids[$data['definition_fi']],
@@ -581,7 +570,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($position < count($this->matchingpairs)) {
             $part1 = array_slice($this->matchingpairs, 0, $position);
             $part2 = array_slice($this->matchingpairs, $position);
-            $this->matchingpairs = array_merge($part1, array($pair), $part2);
+            $this->matchingpairs = array_merge($part1, [$pair], $part2);
         } else {
             array_push($this->matchingpairs, $pair);
         }
@@ -680,7 +669,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function flushMatchingPairs(): void
     {
-        $this->matchingpairs = array();
+        $this->matchingpairs = [];
     }
 
     /**
@@ -779,7 +768,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($position < count($this->terms)) {
             $part1 = array_slice($this->terms, 0, $position);
             $part2 = array_slice($this->terms, $position);
-            $this->terms = array_merge($part1, array($term), $part2);
+            $this->terms = array_merge($part1, [$term], $part2);
         } else {
             array_push($this->terms, $term);
         }
@@ -799,7 +788,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($position < count($this->definitions)) {
             $part1 = array_slice($this->definitions, 0, $position);
             $part2 = array_slice($this->definitions, $position);
-            $this->definitions = array_merge($part1, array($definition), $part2);
+            $this->definitions = array_merge($part1, [$definition], $part2);
         } else {
             array_push($this->definitions, $definition);
         }
@@ -811,7 +800,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function flushTerms(): void
     {
-        $this->terms = array();
+        $this->terms = [];
     }
 
     /**
@@ -820,7 +809,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function flushDefinitions(): void
     {
-        $this->definitions = array();
+        $this->definitions = [];
     }
 
     /**
@@ -875,18 +864,15 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
 
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
         $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
-        while ($data = $ilDB->fetchAssoc($result)) {
+        while ($data = $this->db->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 if (!isset($found_values[$data['value2']])) {
-                    $found_values[$data['value2']] = array();
+                    $found_values[$data['value2']] = [];
                 }
 
                 $found_values[$data['value2']][] = $data['value1'];
@@ -920,12 +906,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return $this->getMostPositiveScoredUniqueTermMatchingPairs();
         }
 
-        return array();
+        return [];
     }
 
     private function getPositiveScoredMatchingPairs(): array
     {
-        $matchingPairs = array();
+        $matchingPairs = [];
 
         foreach ($this->matchingpairs as $pair) {
             if ($pair->getPoints() <= 0) {
@@ -940,7 +926,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     private function getMostPositiveScoredUniqueTermMatchingPairs(): array
     {
-        $matchingPairsByDefinition = array();
+        $matchingPairsByDefinition = [];
 
         foreach ($this->matchingpairs as $pair) {
             if ($pair->getPoints() <= 0) {
@@ -965,11 +951,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function fetchIndexedValuesFromValuePairs(array $valuePairs): array
     {
-        $indexedValues = array();
+        $indexedValues = [];
 
         foreach ($valuePairs as $valuePair) {
             if (!isset($indexedValues[$valuePair['value2']])) {
-                $indexedValues[$valuePair['value2']] = array();
+                $indexedValues[$valuePair['value2']] = [];
             }
 
             $indexedValues[$valuePair['value2']][] = $valuePair['value1'];
@@ -1069,7 +1055,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $request = $this->dic->testQuestionPool()->internal()->request();
         $post = $request->getParsedBody();
 
-        $matchings = array();
+        $matchings = [];
         if (array_key_exists('matching', $post)) {
             $postData = $post['matching'][$this->getId()];
             foreach ($this->getDefinitions() as $definition) {
@@ -1077,7 +1063,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     foreach ($this->getTerms() as $term) {
                         if (isset($postData[$definition->getIdentifier()][$term->getIdentifier()])) {
                             if (!is_array($postData[$definition->getIdentifier()])) {
-                                $postData[$definition->getIdentifier()] = array();
+                                $postData[$definition->getIdentifier()] = [];
                             }
                             $matchings[$definition->getIdentifier()][] = $term->getIdentifier();
                         }
@@ -1095,7 +1081,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return true;
         }
 
-        $handledTerms = array();
+        $handledTerms = [];
 
         foreach ($submittedMatchings as $definition => $terms) {
             if (count($terms) > 1) {
@@ -1219,7 +1205,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function getAnswerTableName(): array
     {
-        return array("qpl_a_matching", "qpl_a_mterm");
+        return ["qpl_a_matching", "qpl_a_mterm"];
     }
 
     /**
@@ -1313,16 +1299,33 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function rebuildThumbnails(): void
     {
+        $new_terms = [];
         foreach ($this->terms as $term) {
-            if (strlen($term->getPicture())) {
+            if ($term->getPicture() !== '') {
+                $current_file_path = $this->getImagePath() . $term->getPicture();
+                $new_file_name = $this->buildHashedImageFilename($term->getPicture(), true);
+                $new_file_path = $this->getImagePath() . $new_file_name;
+                rename($current_file_path, $new_file_path);
+                $term = $term->withPicture($new_file_name);
                 $this->generateThumbForFile($this->getImagePath(), $term->getPicture());
             }
+            $new_terms[] = $term;
         }
+        $this->terms = $new_terms;
+
+        $new_definitions = [];
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->getPicture())) {
+            if ($definition->getPicture() !== '') {
+                $current_file_path = $this->getImagePath() . $definition->getPicture();
+                $new_file_name = $this->buildHashedImageFilename($definition->getPicture(), true);
+                $new_file_path = $this->getImagePath() . $new_file_name;
+                rename($current_file_path, $new_file_path);
+                $definition = $definition->withPicture($new_file_name);
                 $this->generateThumbForFile($this->getImagePath(), $definition->getPicture());
             }
+            $new_definitions[] = $definition;
         }
+        $this->definitions = $new_definitions;
     }
 
     public function getThumbPrefix(): string
@@ -1333,9 +1336,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     protected function generateThumbForFile($path, $file): void
     {
         $filename = $path . $file;
-        if (@file_exists($filename)) {
+        if (file_exists($filename)) {
             $thumbpath = $path . $this->getThumbPrefix() . $file;
-            $path_info = @pathinfo($filename);
+            $path_info = pathinfo($filename);
             $ext = "";
             switch (strtoupper($path_info['extension'])) {
                 case 'PNG':
@@ -1366,10 +1369,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['matching_mode'] = $this->getMatchingMode();
         $result['shuffle'] = true;
-        $result['feedback'] = array(
+        $result['feedback'] = [
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
-        );
+        ];
 
         $this->setShuffler($this->randomGroup->shuffleArray(new RandomSeed()));
 
@@ -1479,12 +1482,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getExpressionTypes(): array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression,
             iQuestionCondition::NumericResultExpression,
             iQuestionCondition::MatchingResultExpression,
             iQuestionCondition::EmptyAnswerExpression,
-        );
+        ];
     }
     /**
     * Get the user solution for a question by active_id and the test pass
@@ -1496,52 +1499,49 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
-        $data = $ilDB->queryF(
+        $data = $this->db->queryF(
             "SELECT ident FROM qpl_a_mdef WHERE question_fi = %s ORDER BY def_id",
-            array("integer"),
-            array($this->getId())
+            ["integer"],
+            [$this->getId()]
         );
 
-        $definitions = array();
-        for ($index = 1; $index <= $ilDB->numRows($data); ++$index) {
-            $row = $ilDB->fetchAssoc($data);
+        $definitions = [];
+        for ($index = 1; $index <= $this->db->numRows($data); ++$index) {
+            $row = $this->db->fetchAssoc($data);
             $definitions[$row["ident"]] = $index;
         }
 
-        $data = $ilDB->queryF(
+        $data = $this->db->queryF(
             "SELECT ident FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term_id",
-            array("integer"),
-            array($this->getId())
+            ["integer"],
+            [$this->getId()]
         );
 
-        $terms = array();
-        for ($index = 1; $index <= $ilDB->numRows($data); ++$index) {
-            $row = $ilDB->fetchAssoc($data);
+        $terms = [];
+        for ($index = 1; $index <= $this->db->numRows($data); ++$index) {
+            $row = $this->db->fetchAssoc($data);
             $terms[$row["ident"]] = $index;
         }
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
         if ($maxStep !== null) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
-                array("integer", "integer", "integer","integer"),
-                array($active_id, $pass, $this->getId(), $maxStep)
+                ["integer", "integer", "integer","integer"],
+                [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-                array("integer", "integer", "integer"),
-                array($active_id, $pass, $this->getId())
+                ["integer", "integer", "integer"],
+                [$active_id, $pass, $this->getId()]
             );
         }
 
-        while ($row = $ilDB->fetchAssoc($data)) {
+        while ($row = $this->db->fetchAssoc($data)) {
             if ($row["value1"] > 0) {
                 $result->addKeyValue($definitions[$row["value2"]], $terms[$row["value1"]]);
             }
