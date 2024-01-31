@@ -90,7 +90,7 @@ class ActionTest extends ILIAS_UI_TestBase
     {
         $act = $this->link_action->withRowId('test-id');
         $this->assertEquals(
-            'ref_id=1&namespace_rowids[]=test-id',
+            'ref_id=1&namespace_rowids=test-id',
             urldecode($act->getTarget()->getQuery())
         );
     }

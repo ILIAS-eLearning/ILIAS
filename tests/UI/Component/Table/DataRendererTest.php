@@ -464,8 +464,8 @@ EOT;
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param=row_id-1" id="id_1">label1</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param=row_id-1" id="id_2">label2</button></li>
         </ul>
     </div>
 </td>
