@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,35 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class CronJobManagerTest extends TestCase
 {
+    private function createClockFactoryMock(): \ILIAS\Data\Clock\ClockFactory
+    {
+        $clock_factory = $this->createMock(ILIAS\Data\Clock\ClockFactory::class);
+        $now = new DateTimeImmutable('@' . time());
+        $clock_factory->method('system')->willReturn(
+            new class ($now) implements \ILIAS\Data\Clock\ClockInterface {
+                private DateTimeImmutable $now;
+
+                public function __construct(DateTimeImmutable $now)
+                {
+                    $this->now = $now;
+                }
+
+                public function now(): DateTimeImmutable
+                {
+                    return $this->now;
+                }
+            }
+        );
+
+        return $clock_factory;
+    }
+
     public function testCronManagerActivatesJobWhenJobWasReset(): void
     {
         $db = $this->createMock(ilDBInterface::class);
@@ -34,15 +57,19 @@ class CronJobManagerTest extends TestCase
             ->onlyMethods(['getId'])
             ->getMock();
 
+        $clock_factory = $this->createClockFactoryMock();
+
         $cronManager = new ilCronManagerImpl(
             $repository,
             $db,
             $setting,
-            $logger
+            $logger,
+            $clock_factory
         );
 
         $repository->expects($this->once())->method('updateJobResult')->with(
             $job,
+            $clock_factory->system()->now(),
             $user,
             $this->isInstanceOf(ilCronJobResult::class),
             true
@@ -54,6 +81,7 @@ class CronJobManagerTest extends TestCase
 
         $repository->expects($this->once())->method('activateJob')->with(
             $job,
+            $clock_factory->system()->now(),
             $user,
             true
         );
@@ -79,16 +107,19 @@ class CronJobManagerTest extends TestCase
             ->onlyMethods(['getId'])
             ->getMock();
 
+        $clock_factory = $this->createClockFactoryMock();
+
         $cronManager = new ilCronManagerImpl(
             $repository,
             $db,
             $setting,
-            $logger
+            $logger,
+            $clock_factory
         );
 
         $repository->expects($this->exactly(2))->method('activateJob')->withConsecutive(
-            [$job, $user, true],
-            [$job, $user, false]
+            [$job, $clock_factory->system()->now(), $user, true],
+            [$job, $clock_factory->system()->now(), $user, false]
         );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(
@@ -113,16 +144,19 @@ class CronJobManagerTest extends TestCase
             ->onlyMethods(['getId'])
             ->getMock();
 
+        $clock_factory = $this->createClockFactoryMock();
+
         $cronManager = new ilCronManagerImpl(
             $repository,
             $db,
             $setting,
-            $logger
+            $logger,
+            $clock_factory
         );
 
         $repository->expects($this->exactly(2))->method('deactivateJob')->withConsecutive(
-            [$job, $user, true],
-            [$job, $user, false]
+            [$job, $clock_factory->system()->now(), $user, true],
+            [$job, $clock_factory->system()->now(), $user, false]
         );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(
