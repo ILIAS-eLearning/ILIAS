@@ -152,6 +152,10 @@ class ilItemGroupItems
                 continue;
             }
 
+            if (!isset($node['title'])) {
+                $node['title'] = '';
+            }
+
             // filter hidden files
             // see http://www.ilias.de/mantis/view.php?id=10269
             if ($node['type'] == "file" &&
