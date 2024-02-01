@@ -1114,6 +1114,13 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
 
+        // JKN PATCH START
+        //if multiple tries, get the hint feedback too.
+        if((int) $this->getNrOfTries() > 0 ){
+            $result['feedback']['tries'] = $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(),'hint'));
+        }
+        // JKN PATCH END
+
         $answers = array();
         $has_image = false;
         foreach ($this->getAnswers() as $key => $answer_obj) {

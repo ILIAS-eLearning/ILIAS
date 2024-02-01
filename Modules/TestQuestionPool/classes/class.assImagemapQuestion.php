@@ -916,6 +916,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
+
+        // JKN PATCH START
+        // if multiple tries, get the hint feedback too.
+        if((int) $this->getNrOfTries() > 0 ){
+            $result['feedback']['tries'] = $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(),'hint'));
+        }
+        // JKN PATCH END
+
         $result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 
         $answers = array();

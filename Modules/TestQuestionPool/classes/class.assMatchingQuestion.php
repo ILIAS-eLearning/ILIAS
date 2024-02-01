@@ -1387,6 +1387,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
 
+        // JKN PATCH START
+        //if multiple tries, get the hint feedback too.
+        if((int) $this->getNrOfTries() > 0 ){
+            $result['feedback']['tries'] = $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(),'hint'));
+        }
+        // JKN PATCH END
+
         require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
         $this->setShuffler(new ilArrayElementShuffler());
         $seed = $this->getShuffler()->getSeed();
