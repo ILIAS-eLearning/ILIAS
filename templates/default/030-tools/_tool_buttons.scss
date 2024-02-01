@@ -140,6 +140,9 @@ $button_active-transform: scale(.95) !default;
         font-size: inherit; // see set-size
         font-weight: $font-weight;
         text-decoration: $text-decoration;
+
+        // KEYBOARD FOCUS
+        @include focus.il-focus-outline-only();
     }
 
     @if $set-size {
@@ -176,9 +179,6 @@ $button_active-transform: scale(.95) !default;
             border-style: solid;
             border-color: $hover_border-color;
         }
-
-        // KEYBOARD FOCUS
-        @include focus.il-focus-outline-only();
 
         // ACTIVE (BEING PRESSED)
         &:active {
