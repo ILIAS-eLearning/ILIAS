@@ -25,7 +25,7 @@ class ilNestedSetTree implements ilTreeImplementation
         $this->db = $DIC->database();
     }
 
-    public function getTree(): \ilTree
+    protected function getTree(): \ilTree
     {
         return $this->tree;
     }
@@ -711,7 +711,7 @@ class ilNestedSetTree implements ilTreeImplementation
      * if startnode is not given the rootnode is startnode
      * @return int[]
      */
-    public function getPathIdsUsingNestedSets(int $a_endnode_id, int $a_startnode_id = 0): array
+    protected function getPathIdsUsingNestedSets(int $a_endnode_id, int $a_startnode_id = 0): array
     {
         // The nested sets algorithm is very easy to implement.
         // Unfortunately it always does a full table space scan to retrieve the path
