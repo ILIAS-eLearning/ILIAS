@@ -154,7 +154,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->setRequired(true);
         $points->setSize(3);
         $points->setMinValue(0.0);
-        $points->setMinvalueShouldBeGreater(false);
+        $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
@@ -447,7 +447,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $points->setRequired(true);
         $points->setSize(3);
         $points->setMinValue(0.0);
-        $points->setMinvalueShouldBeGreater(false);
+        $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
