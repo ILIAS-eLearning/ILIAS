@@ -555,6 +555,7 @@ class ilForumPostDraft
             $res = $ilDB->queryF(
                 '
 				SELECT COUNT(draft_id) num_drafts, thread_id FROM frm_posts_drafts 
+				INNER JOIN frm_posts ON pos_pk = post_id 
 				WHERE forum_id = %s AND post_author_id = %s
 				GROUP BY thread_id',
                 ['integer', 'integer'],
