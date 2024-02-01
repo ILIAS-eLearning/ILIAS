@@ -2055,7 +2055,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->getLinkTarget(
                 $this,
                 'showThreads',
-                ''
             )
         );
 
