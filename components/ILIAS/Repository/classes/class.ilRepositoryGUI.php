@@ -179,12 +179,10 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
 
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($next_class);
             if ($this->ctrl->getCmd() === "return") {
-                //$this->ctrl->setCmd(null);    // this does not work anymore
                 $this->ctrl->redirectByClass($next_class, "");
             }
+            $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
         }
 
         // commands that are always handled by repository gui
