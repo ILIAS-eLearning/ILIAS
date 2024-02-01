@@ -9,6 +9,7 @@
 			padding: @il-padding-large-vertical @il-padding-xlarge-horizontal @il-padding-base-vertical;
 			font-size: @il-font-size-base;
 			margin: 0;
+			.il-focus();
 		}
 		&.active > a {
 			&,
@@ -64,6 +65,11 @@
 				text-decoration: underline;
 				background-color: transparent;
 			}
+			&:focus-visible {
+				border: none;
+				box-shadow: none;
+			}
+			.il-focus()
 		}
 		&.active > a {
 			&,
