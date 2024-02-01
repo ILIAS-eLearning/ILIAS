@@ -2195,24 +2195,10 @@ a:hover, a:focus {
   color: #3a4c65;
   text-decoration: underline;
 }
-a:focus {
-  outline: none;
-  outline-offset: 0px;
-}
 a:focus-visible {
-  position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
-}
-a:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
 small,
@@ -2449,12 +2435,27 @@ code {
 .breadcrumb_wrapper .breadcrumb span.crumb a:hover {
   color: #3a4c65;
 }
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus::after {
+  content: none;
+}
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible::after {
   content: none;
+}
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
   content: " \e606";
@@ -2523,6 +2524,11 @@ ol.breadcrumb > li + li:before {
 .il-drilldown .navbar-form > .menulevel + a, .navbar-form > a + a {
   margin-left: 3px;
 }
+.btn:focus-visible, .il-link.link-bulky:focus-visible,
+.il-drilldown .menulevel:focus-visible, .navbar-form > a:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
+}
 
 a.btn.disabled, a.disabled.il-link.link-bulky,
 .il-drilldown a.disabled.menulevel, .navbar-form > a.disabled, fieldset[disabled] a.btn, fieldset[disabled] a.il-link.link-bulky,
@@ -2562,10 +2568,6 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #3a4c65;
-}
-.btn-default:focus-visible, .navbar-form > a:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-default:active, .navbar-form > a:active {
   transform: none;
@@ -2614,10 +2616,6 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #3b5620;
-}
-.btn-primary:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-primary:active {
   transform: none;
@@ -3076,6 +3074,25 @@ input.btn, input.il-link.link-bulky,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn + .btn-default.btn {
   margin-left: 3px;
 }
+.btn-ctrl:focus-visible, .il-viewcontrol-section > .btn-default:focus-visible, .il-viewcontrol-section > .btn-link:focus-visible,
+.il-viewcontrol-section .btn-group > .btn-default:focus-visible,
+.il-viewcontrol-section .btn-group > .btn-link:focus-visible,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus-visible,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus-visible,
+.il-viewcontrol-pagination__num-of-items > .btn-default:focus-visible,
+.il-viewcontrol-pagination__num-of-items > .btn-link:focus-visible,
+.il-viewcontrol-pagination > .btn-default:focus-visible,
+.il-viewcontrol-pagination > .btn-link:focus-visible,
+.il-viewcontrol-pagination .dropdown > .btn-default:focus-visible,
+.il-viewcontrol-pagination .dropdown > .btn-link:focus-visible,
+.il-viewcontrol-pagination .last > .btn-default:focus-visible,
+.il-viewcontrol-pagination .last > .btn-link:focus-visible,
+.il-viewcontrol-mode > .btn-default:focus-visible,
+.il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus-visible,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
+}
 .btn-ctrl:hover, .il-viewcontrol-section > .btn-default:hover, .il-viewcontrol-section > .btn-link:hover,
 .il-viewcontrol-section .btn-group > .btn-default:hover,
 .il-viewcontrol-section .btn-group > .btn-link:hover,
@@ -3098,25 +3115,6 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #4c6586;
-}
-.btn-ctrl:focus-visible, .il-viewcontrol-section > .btn-default:focus-visible, .il-viewcontrol-section > .btn-link:focus-visible,
-.il-viewcontrol-section .btn-group > .btn-default:focus-visible,
-.il-viewcontrol-section .btn-group > .btn-link:focus-visible,
-.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus-visible,
-.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus-visible,
-.il-viewcontrol-pagination__num-of-items > .btn-default:focus-visible,
-.il-viewcontrol-pagination__num-of-items > .btn-link:focus-visible,
-.il-viewcontrol-pagination > .btn-default:focus-visible,
-.il-viewcontrol-pagination > .btn-link:focus-visible,
-.il-viewcontrol-pagination .dropdown > .btn-default:focus-visible,
-.il-viewcontrol-pagination .dropdown > .btn-link:focus-visible,
-.il-viewcontrol-pagination .last > .btn-default:focus-visible,
-.il-viewcontrol-pagination .last > .btn-link:focus-visible,
-.il-viewcontrol-mode > .btn-default:focus-visible,
-.il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus-visible,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-ctrl:active, .il-viewcontrol-section > .btn-default:active, .il-viewcontrol-section > .btn-link:active,
 .il-viewcontrol-section .btn-group > .btn-default:active,
@@ -3333,11 +3331,6 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #e2e8ef;
 }
-.btn-bulky:focus-visible, .il-link.link-bulky:focus-visible,
-.il-drilldown .menulevel:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .btn-bulky:active, .il-link.link-bulky:active,
 .il-drilldown .menulevel:active {
   background-color: #bdbdbd;
@@ -3512,10 +3505,6 @@ button .minimize, button .close {
   border-width: 1px;
   border-style: solid;
   border-color: #3a4c65;
-}
-.btn-tag:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-tag:active {
   transform: none;
@@ -4771,10 +4760,6 @@ td.form-inline > div.form-group {
   border-width: 1px;
   border-style: solid;
   border-color: #3b5620;
-}
-.c-launcher .btn-bulky:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .c-launcher .btn-bulky:active {
   transform: none;
@@ -13331,8 +13316,8 @@ div.ilc_va_icont_VAccordICont {
 }
 .ilAwarenessItem > div[role=button]:focus-visible:focus-visible {
   position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
 }
 .ilAwarenessItem > div[role=button]:focus-visible:focus-visible::after {
   content: " ";
@@ -15166,8 +15151,8 @@ p#copg-auto-save {
 }
 .ilPageVideo button:focus-visible, .ilPageAudio button:focus-visible {
   position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
 }
 .ilPageVideo button:focus-visible::after, .ilPageAudio button:focus-visible::after {
   content: " ";
@@ -15253,8 +15238,8 @@ input[type=file]:focus-visible,
 input[type=radio]:focus-visible,
 input[type=checkbox]:focus-visible {
   position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
 }
 input[type=file]:focus-visible::after,
 input[type=radio]:focus-visible::after,
@@ -15289,7 +15274,7 @@ input[type=checkbox]:focus-visible::after {
 }
 .form-control:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .form-control::-moz-placeholder {
   color: #6f6f6f;
@@ -17998,6 +17983,43 @@ a.ilMediaLightboxClose:hover {
 #ilTab > li > a:hover {
   border-color: white white white;
 }
+#ilTab > li > a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus::after {
+  content: none;
+}
+#ilTab > li > a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus-visible::after {
+  content: none;
+}
+#ilTab > li > a:focus {
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+#ilTab > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
 #ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus {
   color: white;
   cursor: default;
@@ -18029,6 +18051,43 @@ a.ilMediaLightboxClose:hover {
 #ilSubTab > li > a:hover {
   text-decoration: underline;
   background-color: transparent;
+}
+#ilSubTab > li > a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus::after {
+  content: none;
+}
+#ilSubTab > li > a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus-visible::after {
+  content: none;
+}
+#ilSubTab > li > a:focus {
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+#ilSubTab > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
 }
 #ilSubTab > li.active > a, #ilSubTab > li.active > a:hover, #ilSubTab > li.active > a:focus {
   color: #4c6586;
@@ -18106,8 +18165,8 @@ a.ilMediaLightboxClose:hover {
 }
 .ilToolbar .navbar-toggle:focus-visible {
   position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
 }
 .ilToolbar .navbar-toggle:focus-visible::after {
   content: " ";
@@ -18621,8 +18680,8 @@ img.ilUserXXSmall {
 }
 .webdav-view-control:focus-visible {
   position: relative;
-  outline: 3px solid #0078D7;
-  outline-offset: 4px;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
 }
 .webdav-view-control:focus-visible::after {
   content: " ";

@@ -15,8 +15,9 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 	}
 	&:focus-visible {
 		position: relative;
-		outline: $il-focus-outline-inner;
-		outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1px;
+		// outermost protection color line
+		outline: $il-focus-outline-outer;
+		outline-offset: $il-focus-outline-outer-width + $il-focus-outline-inner-width;
 		
 		&::after {
 			content: " ";
@@ -25,7 +26,9 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 			left: -$il-focus-outline-outer-width;
 			right: -$il-focus-outline-outer-width;
 			bottom: -$il-focus-outline-outer-width;
+			// innermost protection color line
 			border: $il-focus-outline-outer;
+			// middle focus line
 			outline: $il-focus-outline-inner;
 		}
 	}
@@ -37,7 +40,7 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 @mixin il-focus-outline-only($clearAfter: false) {
 	&:focus-visible{
 		outline: $il-focus-outline-inner;
-		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 6px $il-focus-protection-color;
+		box-shadow: inset 0px 0px 0px $il-focus-outline-outer-width $il-focus-protection-color, 0px 0px 0px ($il-focus-outline-outer-width + $il-focus-outline-inner-width) $il-focus-protection-color;
 		@if $clearAfter {
 			&::after {
 				content: none;
@@ -61,14 +64,40 @@ $il-focus-outline-outer: $il-focus-outline-outer-width solid $il-focus-protectio
 	}
 }
 
-// KEYBOARD FOCUS FOR ELEMENTS AT THE EDGE
+// KEYBOARD FOCUS FOR ELEMENTS AT THE EDGE AND MULTI-LINE TEXT
 // some elements at the edge do not show the focus outline because it's already offscreen
-// in this case use this mixin instead
+// or for inline elements that break into multiple lines
+// in these cases use this mixin instead
 @mixin il-focus-border-only($clearAfter: false) {
 	&:focus-visible {
 		outline: none;
 		border: $il-focus-outline-inner;
 		box-shadow: inset 0px 0px 0px 2px $il-focus-protection-color, 0px 0px 0px 2px $il-focus-protection-color;
+		@if $clearAfter {
+			&::after {
+				content: none;
+			}
+		}
+	}
+}
+
+@mixin clear-focus-for-override($clearAfter: false) {
+	&:focus {
+		border: inherit;
+		box-shadow: inherit;
+		outline: none;
+    	outline-offset: 0px;
+		@if $clearAfter {
+			&::after {
+				content: none;
+			}
+		}
+	}
+	&:focus-visible {
+		border: inherit;
+		box-shadow: inherit;
+		outline: none;
+    	outline-offset: 0px;
 		@if $clearAfter {
 			&::after {
 				content: none;

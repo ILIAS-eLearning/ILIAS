@@ -1,4 +1,5 @@
 @use "../../../../010-settings/" as *;
+@use "../../../../030-tools/tool_focus-outline" as focus;
 @use "../../../../050-layout/basics" as *;
 
 $nav-tabs-active-link-hover-bg: $il-text-color !default;
@@ -31,6 +32,8 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 			&:hover {
 				border-color: $il-main-bg $il-main-bg $il-main-bg;
 			}
+			@include focus.clear-focus-for-override($clearAfter: true);
+			@include focus.il-focus();
 		}
 
 		// Active state, and its :hover to override normal :hover
@@ -76,6 +79,8 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 				text-decoration: underline;
 				background-color: transparent;
 			}
+			@include focus.clear-focus-for-override($clearAfter: true);
+			@include focus.il-focus();
 		}
 		&.active > a {
 			&,

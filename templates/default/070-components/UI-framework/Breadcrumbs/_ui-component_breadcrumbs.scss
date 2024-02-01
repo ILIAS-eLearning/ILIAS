@@ -25,7 +25,8 @@
 			&:hover {
 				color: $il-standard-page-breadcrumbs-active-color;
 			}
-			@include il-focus-outline-only($clearAfter: true);
+			@include clear-focus-for-override($clearAfter: true);
+			@include il-focus-outline-only();
 		}
 
 		&>span+span:before {
