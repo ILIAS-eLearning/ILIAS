@@ -636,11 +636,7 @@ class ilTree
             throw new InvalidArgumentException('Node already in tree.');
         }
 
-        $query = 'DELETE from tree ' .
-            'WHERE tree = ' . $this->db->quote($a_tree_id, 'integer') . ' ' .
-            'AND child = ' . $this->db->quote($a_source_id, 'integer');
-        $this->db->manipulate($query);
-
+        ilTree::_removeEntry($a_tree_id, $a_source_id, 'tree');
         $this->insertNode($a_source_id, $a_target_id, self::POS_LAST_NODE, $a_reset_deleted_date);
     }
 
@@ -1249,18 +1245,10 @@ class ilTree
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-
-        if ($this->table_obj_reference) {
-            // Use inner join instead of left join to improve performance
-            $innerjoin = "JOIN " . $this->table_obj_reference . " ON v.child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
-                "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
-        } else {
-            // Use inner join instead of left join to improve performance
-            $innerjoin = "JOIN " . $this->table_obj_data . " ON v.child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
-        }
+        $join = $this->buildJoin();
 
         $query = 'SELECT * FROM ' . $this->table_tree . ' s, ' . $this->table_tree . ' v ' .
-            $innerjoin .
+            $join .
             'WHERE s.child = %s ' .
             'AND s.parent = v.child ' .
             'AND s.' . $this->tree_pk . ' = %s ' .
