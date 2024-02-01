@@ -240,7 +240,7 @@ class ilTree
     /**
      * Check if cache is active
      */
-    public function isCacheUsed(): bool
+    protected function isCacheUsed(): bool
     {
         return $this->__isMainTree() && $this->use_cache;
     }
@@ -259,11 +259,6 @@ class ilTree
     public function getParentCache(): array
     {
         return $this->parent_cache;
-    }
-
-    protected function getLangCode(): string
-    {
-        return $this->lang_code;
     }
 
     /**
@@ -327,7 +322,7 @@ class ilTree
     /**
      * reset in tree cache
      */
-    public function resetInTreeCache(): void
+    protected function resetInTreeCache(): void
     {
         $this->in_tree_cache = array();
     }
@@ -1539,32 +1534,6 @@ class ilTree
     }
 
     /**
-     * get left value of given node
-     * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
-     */
-    public function getLeftValue(int $a_node_id): int
-    {
-        global $DIC;
-
-        if (!isset($a_node_id)) {
-            $message = "No node_id given!";
-            $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE child = %s ' .
-            'AND ' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-        $row = $this->db->fetchObject($res);
-        return (int) $row->lft;
-    }
-
-    /**
      * get sequence number of node in sibling sequence
      * @throws InvalidArgumentException
      * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
@@ -1637,11 +1606,6 @@ class ilTree
     public function getTreeId(): int
     {
         return $this->tree_id;
-    }
-
-    public function setTreeId(int $a_tree_id): void
-    {
-        $this->tree_id = $a_tree_id;
     }
 
     /**
@@ -1783,7 +1747,7 @@ class ilTree
      * renumber left/right values and close the gaps in numbers
      * (recursive)
      */
-    private function __renumber(int $node_id = 1, int $i = 1): int
+    protected function __renumber(int $node_id = 1, int $i = 1): int
     {
         if ($this->isRepositoryTree()) {
             $query = 'UPDATE ' . $this->table_tree . ' SET lft = %s WHERE child = %s';
@@ -1944,7 +1908,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __checkDelete(array $a_node): bool
+    protected function __checkDelete(array $a_node): bool
     {
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, [], false);
         $this->logger->debug($query);
@@ -1976,7 +1940,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __getSubTreeByParentRelation(int $a_node_id, array &$parent_childs): bool
+    protected function __getSubTreeByParentRelation(int $a_node_id, array &$parent_childs): bool
     {
         // GET PARENT ID
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
@@ -2019,7 +1983,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __validateSubtrees(array &$lft_childs, array $parent_childs): bool
+    protected function __validateSubtrees(array &$lft_childs, array $parent_childs): bool
     {
         // SORT BY KEY
         ksort($lft_childs);
@@ -2193,7 +2157,7 @@ class ilTree
     /**
      * check if current tree instance operates on repository tree table
      */
-    public function isRepositoryTree(): bool
+    protected function isRepositoryTree(): bool
     {
         return $this->table_tree == 'tree';
     }
