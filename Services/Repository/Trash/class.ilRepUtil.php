@@ -185,6 +185,7 @@ class ilRepUtil
         $ilLog = $DIC["ilLog"];
         $ilAppEventHandler = $DIC["ilAppEventHandler"];
         $tree = $DIC->repositoryTree();
+        $logger = $DIC->logger()->rep();
 
         $log = $ilLog;
 
@@ -239,10 +240,12 @@ class ilRepUtil
                     continue;
                 }
 
-                // write log entry
-                $log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: " . $node_obj->getId() .
-                    ", ref_id: " . $node_obj->getRefId() . ", type: " . $node_obj->getType() . ", " .
-                    "title: " . $node_obj->getTitle());
+                $logger->info(
+                    'delete obj_id: ' . $node_obj->getId() .
+                    ', ref_id: ' . $node_obj->getRefId() .
+                    ', type: ' . $node_obj->getType() .
+                    ', title: ' . $node_obj->getTitle()
+                );
                 $affected_ids[$node["ref_id"]] = [
                                                     "ref_id" => $node["ref_id"],
                                                     "obj_id" => $node_obj->getId(),
@@ -268,9 +271,10 @@ class ilRepUtil
                 $tree->deleteTree($node_data);
             }
 
-            // write log entry
-            $log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: " . $node_data["tree"] .
-                ", child: " . $node_data["child"]);
+            $logger->info(
+                'deleted tree, tree_id: ' . $node_data['tree'] .
+                ', child: ' . $node_data['child']
+            );
         }
 
         // send global events
@@ -302,11 +306,14 @@ class ilRepUtil
         $ilLog = $DIC["ilLog"];
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
+        $logger = $DIC->logger()->rep();
 
         $log = $ilLog;
 
-        $q = "SELECT tree FROM tree WHERE parent= " .
-            $ilDB->quote($a_node_id, "integer") . " AND tree < 0";
+        // this queries for trash items in the trash of deleted nodes
+        $q = 'SELECT tree FROM tree WHERE parent = ' . $ilDB->quote($a_node_id, ilDBConstants::T_INTEGER) .
+            ' AND tree < 0 ' .
+            ' AND tree = -1 * child' ;
 
         $r = $ilDB->query($q);
 
@@ -319,33 +326,34 @@ class ilRepUtil
                 $row->tree *= (-1);
                 $del_node_data = $deleted_tree->getNodeData($row->tree);
                 $del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
-
+                // delete trash in the trash of trash...
                 self::removeDeletedNodes($row->tree, $a_checked, $a_delete_objects, $a_affected_ids);
 
                 if ($a_delete_objects) {
                     foreach ($del_subtree_nodes as $node) {
                         $node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"]);
-
-                        // write log entry
-                        $log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: " . $node_obj->getId() .
-                            ", ref_id: " . $node_obj->getRefId() . ", type: " . $node_obj->getType() . ", " .
-                            "title: " . $node_obj->getTitle());
+                        $logger->info(
+                            'removeDeletedNodes: delete obj_id: ' . $node_obj->getId() .
+                            ', ref_id: ' . $node_obj->getRefId() .
+                            ', type: ' . $node_obj->getType() .
+                            ', title: ' . $node_obj->getTitle()
+                        );
                         $a_affected_ids[$node["ref_id"]] = [
                                                             "ref_id" => $node["ref_id"],
                                                             "obj_id" => $node_obj->getId(),
                                                             "type" => $node_obj->getType(),
                                                             "old_parent_ref_id" => $node["parent"]
                         ];
-
                         $node_obj->delete();
                     }
                 }
-
-                $tree->deleteTree($del_node_data);
-
-                // write log entry
-                $log->write("ilObjectGUI::removeDeletedNodes(), deleted tree, tree_id: " . $del_node_data["tree"] .
-                    ", child: " . $del_node_data["child"]);
+                // tree instance with -child tree id
+                $trash_tree = new ilTree($del_node_data['tree']);
+                $trash_tree->deleteTree($del_node_data);
+                $logger->info(
+                    'removeDeltedNodes: deleted tree, tree_id: ' . $del_node_data['tree'] .
+                    ', child: ' . $del_node_data['child']
+                );
             }
         }
     }
