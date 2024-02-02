@@ -193,6 +193,10 @@ class Zip
             new \RecursiveDirectoryIterator($directory_to_zip),
             \RecursiveIteratorIterator::SELF_FIRST
         );
+        $prefix = '';
+        if ($this->options->ensureTopDirectory()) {
+            $prefix = basename($directory_to_zip) . '/';
+        }
 
         foreach ($files as $file) {
             $pathname = $file->getPathname();
@@ -209,6 +213,7 @@ class Zip
             if ($this->isPathIgnored($pathname, $this->options)) {
                 continue;
             }
+            $path_inside_zip = $prefix . ltrim($path_inside_zip, $prefix);
             $this->addPath(realpath($pathname), $path_inside_zip);
         }
     }
