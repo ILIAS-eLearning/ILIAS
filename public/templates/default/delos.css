@@ -3710,6 +3710,8 @@ button .minimize, button .close {
   padding: 9px 6px;
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
+  position: relative;
+  z-index: 1;
   background-color: inherit;
   border: #dddddd 1px solid;
   width: 29px;

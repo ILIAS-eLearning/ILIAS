@@ -130,6 +130,8 @@ $il-card-border-radius: 0;
 
 			> .dropdown {
 				> button {
+					position: relative;
+					z-index: 1;
 					background-color: inherit;
 					border: $il-card-repository-dropdown-border;
 					width: calc($il-icon-size-medium - $il-padding-large-vertical);
