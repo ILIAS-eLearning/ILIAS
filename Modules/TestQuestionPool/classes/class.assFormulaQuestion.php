@@ -302,8 +302,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
 
                     $input = $this->generateResultInputHTML($result, $userdata[$result]["value"], $forsolution);
                 } elseif ($forsolution) {
-                    $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
-                    $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
+                    $value = '';
+                    if (!is_array($userdata)) {
+                        $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
+                        $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
+                    }
 
                     if ($is_frac) {
                         $value = assFormulaQuestionResult::convertDecimalToCoprimeFraction($value);
