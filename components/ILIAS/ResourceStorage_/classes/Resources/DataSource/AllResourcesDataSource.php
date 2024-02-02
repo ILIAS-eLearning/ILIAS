@@ -91,6 +91,7 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
             $stakeholders[$d['id']] = $stakeholder->getConsumerNameForPresentation();
         }
 
+        asort($stakeholders);
 
         return [
             'title' => $ui_factory->input()->field()->text(
@@ -138,7 +139,7 @@ class AllResourcesDataSource extends BaseTableDataSource implements TableDataSou
             $q .= " GROUP BY il_resource_revision.rid ";
         }
 
-//        $q .= $this->buildHaving();
+        //        $q .= $this->buildHaving();
 
         if (!$count_only) {
             $q .= $this->buildSortation();

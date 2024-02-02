@@ -10432,7 +10432,7 @@ irss#:#by_title_asc#:#By Title (Ascending)
 irss#:#by_title_desc#:#By Title (Descending)
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#file_size#:#File Size (This Revision)
-irss#:#file_size_bigger_than#:#File Size greater than (MB)
+irss#:#file_size_bigger_than#:#File Size > MB
 irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_upload#:#Drop Files to upload
@@ -10454,7 +10454,7 @@ irss#:#sorting_3#:#By File Size (Ascending)
 irss#:#sorting_4#:#By File Size (Descending)
 irss#:#sorting_5#:#By Creation Date (Ascending)
 irss#:#sorting_6#:#By Creation Date (Descending)
-irss#:#stakeholders#:#Stakeholders
+irss#:#stakeholders#:#Origin
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#File Type
