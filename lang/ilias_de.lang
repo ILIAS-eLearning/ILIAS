@@ -897,6 +897,8 @@ assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer od
 assessment#:#msg_poly_added#:#Polygon hinzugefügt
 assessment#:#msg_questions_moved#:#Fragen verschoben
 assessment#:#msg_rect_added#:#Rechteck hinzugefügt
+assessment#:#msg_score_settings_modified_and_recalc#:#Die Einstellungen wurden gespeichert und die Resultate neu berechnet.
+assessment#:#msg_score_settings_not_modified#:#Die Einstellungen wurden nicht gespeichert.
 assessment#:#msg_selected_for_move#:#Fragen zum Verschieben ausgewählt
 assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit

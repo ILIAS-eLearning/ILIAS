@@ -897,6 +897,8 @@ assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater o
 assessment#:#msg_poly_added#:#Polygon added
 assessment#:#msg_questions_moved#:#Question(s) moved
 assessment#:#msg_rect_added#:#Rectangle added
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
