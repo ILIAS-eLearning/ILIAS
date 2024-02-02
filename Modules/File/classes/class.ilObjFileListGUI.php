@@ -218,6 +218,11 @@ class ilObjFileListGUI extends ilObjectListGUI
         string $type,
         ?int $obj_id = null
     ): bool {
+        // LP settings only in repository
+        if ($this->context !== self::CONTEXT_REPOSITORY && $permission === "edit_learning_progress") {
+            return false;
+        }
+
         $data = ilObjFileAccess::getListGUIData($this->obj_id);
 
         $additional_check = match ($cmd) {
