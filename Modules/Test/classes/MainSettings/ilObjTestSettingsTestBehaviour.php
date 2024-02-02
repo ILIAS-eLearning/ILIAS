@@ -212,12 +212,12 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         }
 
         $pass_waiting_array = explode(':', $pass_waiting);
-        if (count($pass_waiting_array) !== 4) {
+        if (count($pass_waiting_array) === 4) {
             return $pass_waiting;
         }
 
         $month = array_shift($pass_waiting_array);
-        $pass_waiting_array[0] += $month * 31;
+        $pass_waiting_array[0] = strval((int) $pass_waiting_array[0] + (int) $month * 31);
         return implode(':', $pass_waiting_array);
     }
 
