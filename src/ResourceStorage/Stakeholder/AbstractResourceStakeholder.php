@@ -23,24 +23,17 @@ namespace ILIAS\ResourceStorage\Stakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
- * Class AbstractResourceStakeholder
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
     private string $provider_name_cache = '';
 
-    /**
-     * @inheritDoc
-     */
     public function getFullyQualifiedClassName(): string
     {
         return static::class;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isResourceInUse(ResourceIdentification $identification): bool
     {
         return false;
@@ -51,26 +44,16 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
         return true;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOwnerOfResource(ResourceIdentification $identification): int
     {
         return 6;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getConsumerNameForPresentation(): string
     {
         if ($this->provider_name_cache !== '' && is_string($this->provider_name_cache)) {
@@ -78,15 +61,12 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
         }
         $reflector = new \ReflectionClass($this);
 
-        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
+        $parts = explode(DIRECTORY_SEPARATOR, str_replace(ILIAS_ABSOLUTE_PATH, '', dirname($reflector->getFileName())));
+        $parts = array_filter($parts, static function ($part) {
+            return $part !== '' && $part !== 'classes';
+        });
 
-        preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
-
-        $this->provider_name_cache = isset($matches[1]) ? is_string(
-            $matches[1]
-        ) ? $matches[1] : self::class : self::class;
-
-        return $this->provider_name_cache;
+        return $this->provider_name_cache = implode('/', $parts);
     }
 
     public function getLocationURIForResourceUsage(ResourceIdentification $identification): ?string
