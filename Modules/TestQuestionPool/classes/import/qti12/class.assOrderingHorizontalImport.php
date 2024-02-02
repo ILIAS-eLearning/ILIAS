@@ -62,7 +62,7 @@ class assOrderingHorizontalImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setPoints($item->getMetadataEntry("points"));
         $this->object->setOrderText($item->getMetadataEntry("ordertext"));
-        $this->object->setTextSize($item->getMetadataEntry("textsize"));
+        $this->object->setTextSize((float) $item->getMetadataEntry("textsize"));
         $this->object->setSeparator($item->getMetadataEntry("separator"));
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
