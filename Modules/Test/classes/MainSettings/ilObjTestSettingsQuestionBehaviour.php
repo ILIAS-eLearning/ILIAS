@@ -158,6 +158,17 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         Refinery $refinery,
         array $environment
     ): OptionalGroup {
+        $constraint = $refinery->custom()->constraint(
+            fn(?array $vs) => $vs === null
+                || (
+                    $vs['enabled_feedback_types']['instant_feedback_specific'] === true
+                        || $vs['enabled_feedback_types']['instant_feedback_generic'] === true
+                        || $vs['enabled_feedback_types']['instant_feedback_points'] === true
+                        || $vs['enabled_feedback_types']['instant_feedback_solution'] === true
+                )
+                    && $vs['feedback_trigger'] !== '',
+            $lng->txt('select_at_least_one_feedback_type_and_trigger')
+        );
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
@@ -182,6 +193,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             $lng->txt('tst_instant_feedback'),
             $lng->txt('tst_instant_feedback_desc')
         )->withValue(null)
+            ->withAdditionalTransformation($constraint)
             ->withAdditionalTransformation($trafo);
 
         if ($this->isAnyInstantFeedbackOptionEnabled()) {
@@ -232,7 +244,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $sub_inputs_feedback['enabled_feedback_types'] = $f->group(
             $feedback_options,
             $lng->txt('tst_instant_feedback_contents')
-        )->withRequired(true);
+        );
 
         $sub_inputs_feedback['feedback_trigger'] = $f->radio(
             $lng->txt('tst_instant_feedback_trigger')
@@ -244,7 +256,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
             '1',
             $lng->txt('tst_instant_feedback_trigger_forced'),
             $lng->txt('tst_instant_feedback_trigger_forced_desc')
-        );
+        )->withRequired(true);
 
         return $sub_inputs_feedback;
     }
