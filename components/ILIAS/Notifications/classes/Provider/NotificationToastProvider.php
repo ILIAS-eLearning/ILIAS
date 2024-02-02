@@ -31,6 +31,8 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard;
 use ILIAS\UI\Implementation\Component\Toast\Toast;
 use ilSetting;
+use ilLSCompletionNotificationProvider;
+
 use function Sabre\Xml\Deserializer\functionCaller;
 
 /**
@@ -107,6 +109,10 @@ class NotificationToastProvider extends AbstractToastProvider
             case ContactNotificationProvider::NOTIFICATION_TYPE:
                 $name = Standard::CADM;
                 break;
+            case ilLSCompletionNotificationProvider::NOTIFICATION_TYPE:
+                $name = Standard::LSO;
+                break;
+
         }
         return $this->dic->ui()->factory()->symbol()->icon()->standard($name, $type);
     }
