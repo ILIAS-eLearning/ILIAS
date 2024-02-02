@@ -180,7 +180,6 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
     ): array {
         $sub_inputs_force_waiting_between_attempts['days'] = $f->numeric($lng->txt('days'))
             ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
-            ->withAdditionalTransformation($refinery->int()->isLessThanOrEqual(31))
             ->withRequired(true)
             ->withValue(0);
         $sub_inputs_force_waiting_between_attempts['hours'] = $f->numeric($lng->txt('hours'))
@@ -204,7 +203,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         }
 
         $pass_waiting_array = explode(':', $pass_waiting);
-        if (count($pass_waiting_array) === 4) {
+        if (count($pass_waiting_array) === 3) {
             return $pass_waiting;
         }
 
