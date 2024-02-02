@@ -315,8 +315,11 @@ class ilObjFileGUI extends ilObject2GUI
         $this->infoScreen();
     }
 
-    protected function addUIFormToAccordion(ilAccordionGUI $accordion, Standard $form, int $form_type): void
-    {
+    protected function addUIFormToAccordion(
+        ilAccordionGUI $accordion,
+        Standard $form,
+        int $form_type
+    ): void {
         // abort if form-type is unknown
         if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
             return;
@@ -342,10 +345,11 @@ class ilObjFileGUI extends ilObject2GUI
         if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
             return;
         }
+        $title = $form->getTitle();
         $form->setTitle(''); // see https://mantis.ilias.de/view.php?id=37786
 
         $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-        $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $form->getTitle());
+        $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $title);
 
         $accordion->addItem($tpl->get(), $form->getHTML());
     }
