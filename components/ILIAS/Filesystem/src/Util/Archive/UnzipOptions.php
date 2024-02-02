@@ -28,7 +28,6 @@ final class UnzipOptions extends Options
     protected ?string $zip_output_path = null;
     private bool $flat = false;
     private bool $overwrite = false;
-    private bool $ensure_top_directory = false;
 
     public function getZipOutputPath(): ?string
     {
@@ -66,15 +65,5 @@ final class UnzipOptions extends Options
         return $clone;
     }
 
-    public function withEnsureTopDirectoy(bool $ensure): self
-    {
-        $clone = clone $this;
-        $clone->ensure_top_directory = $ensure;
-        return $clone;
-    }
 
-    public function ensureTopDirectory(): bool
-    {
-        return $this->ensure_top_directory;
-    }
 }

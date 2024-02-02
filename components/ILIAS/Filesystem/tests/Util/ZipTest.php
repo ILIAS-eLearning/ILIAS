@@ -80,13 +80,45 @@ class ZipTest extends TestCase
         define('ILIAS_ABSOLUTE_PATH', __DIR__);
 
         mkdir($this->unzips_dir);
-        $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP);
+        $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, false);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
         $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
         $this->assertEquals(5, $unzip_again->getAmountOfFiles());
 
-        unlink($this->unzips_dir . self::ZIPPED_ZIP);
+        $depth = 0;
+        foreach ($unzip_again->getPaths() as $path) {
+            $parts = explode('/', $path);
+            $depth = max($depth, count($parts));
+        }
+        $this->assertEquals(1, $depth);
+        $this->recurseRmdir($this->unzips_dir);
+    }
+
+    public function LegacyZipWithTop(): void
+    {
+        $legacy = new LegacyArchives();
+
+        define('CLIENT_WEB_DIR', __DIR__);
+        define('ILIAS_WEB_DIR', __DIR__);
+        define('CLIENT_ID', 'test');
+        define('CLIENT_DATA_DIR', __DIR__);
+        define('ILIAS_ABSOLUTE_PATH', __DIR__);
+
+        mkdir($this->unzips_dir);
+        $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, true);
+        $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
+
+        $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
+        $this->assertEquals(5, $unzip_again->getAmountOfFiles());
+
+        $depth = 0;
+        foreach ($unzip_again->getPaths() as $path) {
+            $parts = explode('/', $path);
+            $depth = max($depth, count($parts));
+        }
+        $this->assertEquals(2, $depth);
+        $this->recurseRmdir($this->unzips_dir);
     }
 
     /**

@@ -31,11 +31,25 @@ abstract class Options
         '__MACOSX',
     ];
 
+    protected bool $ensure_top_directory = false;
+
     /**
      * @description like __MACOSX, will filter out all paths which contain one of those snippets
      */
     public function getIgnoredPathSnippets(): array
     {
         return $this->ignore;
+    }
+
+    public function withEnsureTopDirectoy(bool $ensure): self
+    {
+        $clone = clone $this;
+        $clone->ensure_top_directory = $ensure;
+        return $clone;
+    }
+
+    public function ensureTopDirectory(): bool
+    {
+        return $this->ensure_top_directory;
     }
 }
