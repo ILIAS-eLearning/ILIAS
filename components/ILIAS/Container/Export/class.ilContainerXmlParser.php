@@ -83,7 +83,7 @@ class ilContainerXmlParser
 
             // see below and ilContainerImporter::finalProcessing()
             $this->mapping->addMapping('components/ILIAS/Container', 'objs', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
-            $this->mapping->addMapping('components/ILIAS/Object', 'obj', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
+            $this->mapping->addMapping('components/ILIAS/ILIASObject', 'obj', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
         }
 
         if (!$new_ref) {
@@ -209,7 +209,7 @@ class ilContainerXmlParser
         $new->setPermissions($parent_node);
 
         $this->mapping->addMapping('components/ILIAS/Container', 'objs', (string) $obj_id, (string) $new->getId());
-        $this->mapping->addMapping('components/ILIAS/Object', 'obj', (string) $obj_id, (string) $new->getId());
+        $this->mapping->addMapping('components/ILIAS/ILIASObject', 'obj', (string) $obj_id, (string) $new->getId());
         $this->mapping->addMapping('components/ILIAS/Container', 'refs', (string) $ref_id, (string) $new->getRefId());
 
         return $new->getRefId();

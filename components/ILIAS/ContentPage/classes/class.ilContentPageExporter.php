@@ -111,7 +111,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
         if (self::OBJ_TYPE === $a_entity) {
             $deps[] = [
-                'component' => 'components/ILIAS/Object',
+                'component' => 'components/ILIAS/ILIASObject',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

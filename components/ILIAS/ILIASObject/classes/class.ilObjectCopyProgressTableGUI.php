@@ -55,7 +55,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $this->setExternalSorting(true);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
-        $this->setRowTemplate('tpl.object_copy_progress_table_row.html', 'components/ILIAS/Object');
+        $this->setRowTemplate('tpl.object_copy_progress_table_row.html', 'components/ILIAS/ILIASObject');
 
         $this->addColumn($this->lng->txt('obj_target_location'));
         $this->addColumn($this->lng->txt('obj_copy_progress'));

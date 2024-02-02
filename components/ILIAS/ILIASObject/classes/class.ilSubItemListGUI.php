@@ -124,7 +124,7 @@ abstract class ilSubItemListGUI
 
     public function init(ilObjectListGUI $item_list_gui, int $ref_id, array $subitem_ids): void
     {
-        $this->tpl = new ilTemplate('tpl.subitem_list.html', true, true, 'components/ILIAS/Object');
+        $this->tpl = new ilTemplate('tpl.subitem_list.html', true, true, 'components/ILIAS/ILIASObject');
         $this->item_list_gui = $item_list_gui;
         $this->ref_id = $ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->getRefId());

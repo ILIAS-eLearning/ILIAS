@@ -91,7 +91,7 @@ class ilContainerExporter extends ilXmlExporter
 
         // service settings
         $res[] = [
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "common",
             "ids" => $a_ids
         ];

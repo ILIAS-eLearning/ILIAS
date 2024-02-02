@@ -119,7 +119,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
      */
     protected function getLegacyContent(): string
     {
-        $btpl = new ilTemplate("tpl.advmd_block.html", true, true, "components/ILIAS/Object");
+        $btpl = new ilTemplate("tpl.advmd_block.html", true, true, "components/ILIAS/ILIASObject");
 
         // see ilAdvancedMDRecordGUI::parseInfoPage()
 

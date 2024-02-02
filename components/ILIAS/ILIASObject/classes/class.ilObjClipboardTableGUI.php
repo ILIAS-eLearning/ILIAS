@@ -36,7 +36,7 @@ class ilObjClipboardTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
 
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate("tpl.obj_cliboard_row.html", "components/ILIAS/Object");
+        $this->setRowTemplate("tpl.obj_cliboard_row.html", "components/ILIAS/ILIASObject");
     }
 
     protected function fillRow(array $set): void

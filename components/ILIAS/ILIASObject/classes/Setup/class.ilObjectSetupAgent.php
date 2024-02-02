@@ -30,7 +30,7 @@ class ilObjectSetupAgent extends NullAgent
     public function getUpdateObjective(Config $config = null): Objective
     {
         return new ObjectiveCollection(
-            'Database is updated for Services/Object',
+            'Database is updated for ILIASObject',
             false,
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new ilObjectDBUpdateSteps()
@@ -44,7 +44,7 @@ class ilObjectSetupAgent extends NullAgent
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ObjectiveCollection(
-            'components/ILIAS/Object',
+            'components/ILIAS/ILIASObject',
             true,
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,

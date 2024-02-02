@@ -38,7 +38,7 @@ class ilCmiXapiAppEventListener
                     self::onServiceUserDeleteUser($parameter);
                 }
                 break;
-            case "components/ILIAS/Object":
+            case "components/ILIAS/ILIASObject":
                 switch ($event) {
                     case "delete":
                     case "toTrash":

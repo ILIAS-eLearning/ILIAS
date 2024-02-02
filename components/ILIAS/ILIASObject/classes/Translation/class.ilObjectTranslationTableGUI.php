@@ -56,7 +56,7 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate("tpl.obj_translation_row.html", "components/ILIAS/Object");
+        $this->setRowTemplate("tpl.obj_translation_row.html", "components/ILIAS/ILIASObject");
         $this->disable("footer");
         $this->setEnableTitle(true);
 
