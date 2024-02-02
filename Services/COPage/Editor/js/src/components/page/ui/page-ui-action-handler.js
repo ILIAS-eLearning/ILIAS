@@ -428,8 +428,14 @@ export default class PageUIActionHandler {
     );
 
     this.client.sendCommand(update_action).then(result => {
-      this.ui.handlePageReloadResponse(result);
-      dispatch.dispatch(af.page().editor().enablePageEditing());
+      const p = result.payload;
+      if (p.formError) {
+        //document.querySelector(".copg-new-content-placeholder img").outerHTML = this.ui.uiModel.components[model.getCurrentPCName()].icon;
+        this.ui.showFormAfterError(p.form);
+      } else {
+        this.ui.handlePageReloadResponse(result);
+        dispatch.dispatch(af.page().editor().enablePageEditing());
+      }
     });
   }
 

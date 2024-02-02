@@ -7246,6 +7246,7 @@ copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+copg#:#copg_active_to_small#:#Dieses Datum muss größer als das "Aktiv ab" Datum sein.
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
