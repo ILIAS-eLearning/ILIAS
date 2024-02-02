@@ -77,8 +77,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
     {
         return [
             [null],
-            [''],
-            ['string']
+            ['0:0:0:0']
         ];
     }
 
