@@ -76,17 +76,7 @@ $popover-border-radius-small: 0px;
 	}
 
   }
-  &.webui-popover-fixed {
+  &.webui-popover {
 	position: fixed;
-  }
-}
-
-@media (max-width: 768px) {
-  .il-popover {
-	&.webui-popover-fixed {
-	  position: absolute;
-	  left:     0 !important;
-	  width:    100%;
-	}
   }
 }
