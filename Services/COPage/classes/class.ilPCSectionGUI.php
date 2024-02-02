@@ -44,7 +44,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(["section"]);
 
         if ($params["form"] == true) {
-            $insert = !($this->content_obj);
+            $insert = $params["insert"] ?? false;
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 

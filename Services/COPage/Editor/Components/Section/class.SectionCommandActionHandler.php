@@ -82,9 +82,22 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
 
         // note: we  have everyting in _POST here, form works the usual way
         $updated = true;
-        if ($form->checkInput()) {
+        if ($sec_gui->checkInput($form)) {
             $sec_gui->setValuesFromForm($form);
             $updated = $page->update();
+        } else {
+            $html = $this->ctrl->getHTML(
+                $sec_gui,
+                [
+                    "form" => true,
+                    "ui_wrapper" => $this->ui_wrapper,
+                    "update_fail" => true,
+                    "insert" => true,
+                    "buttons" => [["Page", "component.save", $this->lng->txt("insert")],
+                                  ["Page", "component.cancel", $this->lng->txt("cancel")]]
+                ]
+            );
+            return $this->ui_wrapper->sendFormError($html);
         }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
