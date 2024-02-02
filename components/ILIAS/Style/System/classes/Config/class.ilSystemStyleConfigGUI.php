@@ -348,7 +348,7 @@ class ilSystemStyleConfigGUI
                               $style->setFontDirectory($v);
                           }
                       ));
-        $sound_dir = $f->field()->text($this->lng->txt('image_dir'), $this->lng->txt('sound_dir_description'))
+        $sound_dir = $f->field()->text($this->lng->txt('sound_dir'), $this->lng->txt('sound_dir_description'))
                        ->withValue($style->getSoundDirectory())
                        ->withAdditionalTransformation($this->refinery->custom()->transformation(
                            function ($v) use ($style) {
