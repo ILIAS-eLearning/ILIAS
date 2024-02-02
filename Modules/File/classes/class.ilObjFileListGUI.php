@@ -268,32 +268,43 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
-        // only create permalink for repository
-        if ($cmd === "sendfile" && $this->context === self::CONTEXT_REPOSITORY) {
-            if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
-                // return the perma link for downloads
-                return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
-            }
-
+        $infoscreen = function (): string {
             $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
             return $this->ctrl->getLinkTargetByClass(
                 ilRepositoryGUI::class,
                 'infoScreen'
             );
-        }
+        };
 
-        if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-            $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
-            if (ilObjFileAccess::isZIP($file_data['mime'] ?? null)) {
-                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass(
-                    ilRepositoryGUI::class,
-                    ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                );
-                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-            } else {
-                $access_granted = false;
-            }
+        switch ($this->context) {
+            case self::CONTEXT_REPOSITORY:
+                // only create permalink for repository
+                if ($cmd === "sendfile") {
+                    if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                        // return the perma link for downloads
+                        return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
+                    }
+
+                    return $infoscreen();
+                }
+                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
+                    $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+                    if (ilObjFileAccess::isZIP($file_data['mime'] ?? null)) {
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+                        $cmd_link = $this->ctrl->getLinkTargetByClass(
+                            ilRepositoryGUI::class,
+                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
+                        );
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
+                    } else {
+                        $access_granted = false;
+                    }
+                }
+                return parent::getCommandLink($cmd);
+            case self::CONTEXT_WORKSPACE:
+                if ($cmd === "sendfile" && !ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                    return $infoscreen();
+                }
         }
 
         return parent::getCommandLink($cmd);
