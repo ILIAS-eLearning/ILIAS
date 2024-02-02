@@ -91,7 +91,7 @@ class ilTestLP extends ilObjectLP
         $testOBJ->removeTestResultsByUserIds($user_ids);
 
         // :TODO: there has to be a better way
-        $test_ref_id = (int) $this->request->int('ref_id');
+        $test_ref_id = $this->request->int('ref_id');
         if ($this->test_object && $this->test_object->getRefId()) {
             $test_ref_id = $this->test_object->getRefId();
         }
