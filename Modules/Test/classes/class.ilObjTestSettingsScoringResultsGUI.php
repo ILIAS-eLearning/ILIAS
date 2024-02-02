@@ -159,7 +159,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
                             ->getData();
                         $this->storeScoreSettings($settings);
                         $this->testOBJ->recalculateScores(true);
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified_and_recalc"), true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_score_settings_modified_and_recalc"), true);
                         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
                         break;
                     case self::CMD_CANCEL_RECALC:

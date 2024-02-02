@@ -115,10 +115,6 @@ class ilLPStatusTestFinished extends ilLPStatus
         int $a_usr_id,
         object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $res = $this->db->query(
             "
 			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences

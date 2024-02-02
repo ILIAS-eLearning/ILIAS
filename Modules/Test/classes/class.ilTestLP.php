@@ -76,7 +76,7 @@ class ilTestLP extends ilObjectLP
         $this->testObj = $test;
     }
 
-    protected function resetCustomLPDataForUserIds(array $a_user_ids, bool $a_recursive = true): void
+    protected function resetCustomLPDataForUserIds(array $user_ids, bool $recursive = true): void
     {
         /* @var ilObjTest $testOBJ */
         if ($this->testObj) {
@@ -85,32 +85,36 @@ class ilTestLP extends ilObjectLP
         } else {
             $testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
         }
-        $testOBJ->removeTestResultsByUserIds($a_user_ids);
+        $testOBJ->removeTestResultsByUserIds($user_ids);
 
         // :TODO: there has to be a better way
-        $test_ref_id = (int) $this->request->raw("ref_id");
+        $test_ref_id = $this->request->int('ref_id');
         if ($this->testObj && $this->testObj->getRefId()) {
             $test_ref_id = $this->testObj->getRefId();
         }
 
-        if ($test_ref_id) {
-            $course_obj_id = ilLOTestAssignments::lookupContainerForTest($test_ref_id);
-            if ($course_obj_id) {
-                // remove objective results data
-                $lo_assignments = ilLOTestAssignments::getInstance($course_obj_id);
-                ilLOUserResults::deleteResultsFromLP(
-                    $course_obj_id,
-                    $a_user_ids,
-                    $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_INITIAL,
-                    $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_QUALIFIED,
-                    ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
-                );
-                $lp_status = ilLPStatusFactory::_getInstance($course_obj_id);
-                if (strtolower(get_class($lp_status)) != "illpstatus") {
-                    foreach ($a_user_ids as $user_id) {
-                        $lp_status->_updateStatus($course_obj_id, $user_id);
-                    }
-                }
+        if ($test_ref_id === 0) {
+            return;
+        }
+
+        $course_obj_id = ilLOTestAssignments::lookupContainerForTest($test_ref_id);
+        if ($course_obj_id === 0) {
+            return;
+        }
+
+        // remove objective results data
+        $lo_assignments = ilLOTestAssignments::getInstance($course_obj_id);
+        ilLOUserResults::deleteResultsFromLP(
+            $course_obj_id,
+            $user_ids,
+            $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_INITIAL,
+            $lo_assignments->getTypeByTest($test_ref_id) === ilLOSettings::TYPE_TEST_QUALIFIED,
+            ilLOTestAssignments::lookupObjectivesForTest($test_ref_id)
+        );
+        $lp_status = ilLPStatusFactory::_getInstance($course_obj_id);
+        if (strtolower(get_class($lp_status)) !== 'illpstatus') {
+            foreach ($user_ids as $user_id) {
+                $lp_status->_updateStatus($course_obj_id, $user_id);
             }
         }
     }

@@ -10556,6 +10556,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $scoring = new ilTestScoring($this);
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
+        ilLPStatusWrapper::_updateStatus($this->getId(), $this->user->getId());
     }
 
     public static function getTestObjIdsWithActiveForUserId($userId): array
