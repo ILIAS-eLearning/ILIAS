@@ -110,7 +110,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 
             if ($test_obj->getPassScoring() === SCORE_LAST_PASS) {
                 $is_finished = false;
-                if ($rec['last_finished_pass'] !== null && $rec['sequences'] - 1 === $rec['last_finished_pass']) {
+                if ($rec['last_finished_pass'] !== null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
                     $is_finished = true;
                 }
                 $status = $this->determineStatusForScoreLastPassTests(
