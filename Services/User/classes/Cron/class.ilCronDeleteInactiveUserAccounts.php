@@ -259,7 +259,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             if(
                 $this->cron_delete_reminder_mail->sendReminderMailIfNeeded(
                     $user,
-                    $$this->reminder_period,
+                    $this->reminder_period,
                     $account_will_be_deleted_on
                 )
             ) {
