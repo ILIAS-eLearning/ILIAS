@@ -385,6 +385,10 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
 
         $query = 'UPDATE cron_job SET ' .
             ' job_status = ' . $this->db->quote(0, 'integer') .
+            ' , job_result_status = ' . $this->db->quote(null, 'text') .
+            ' , job_result_message = ' . $this->db->quote(null, 'text') .
+            ' , job_result_type = ' . $this->db->quote(null, 'text') .
+            ' , job_result_code = ' . $this->db->quote(null, 'text') .
             ' , job_status_user_id = ' . $this->db->quote($usrId, 'integer') .
             ' , job_status_type = ' . $this->db->quote($wasManuallyExecuted, 'integer') .
             ' , job_status_ts = ' . $this->db->quote($when->getTimestamp(), 'integer') .
