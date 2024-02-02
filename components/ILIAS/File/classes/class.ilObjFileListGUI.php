@@ -36,7 +36,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 {
     use ilObjFileSecureString;
 
-    private bool $use_flavor_for_cards = true;
     protected string $title;
     private IconDatabaseRepository $icon_repo;
     private ActionDBRepository $action_repo;
@@ -58,37 +57,6 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function insertCommands(): void
     {
     }
-
-    protected function getTileImagePath(): string
-    {
-        if (!$this->use_flavor_for_cards) {
-            return parent::getTileImagePath();
-        }
-        // First we use a configured Tile Image
-        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
-        if ($object === null) {
-            return '';
-        }
-
-        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
-        if ($img !== null && $img->exists()) {
-            return $img->getFullPath();
-        }
-        // Fallback to use a flavour as tile image
-        if (!$this->use_flavor_for_cards) {
-            // Fallback to use a default tile image
-            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-        }
-        if (($flavour_path = $this->getCardImageFallbackPath(
-            $this->obj_id,
-            $this->type
-        )) === '') {
-            // Fallback to use a default tile image
-            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-        }
-        return $flavour_path;
-    }
-
     /**
      * initialisation
      */
