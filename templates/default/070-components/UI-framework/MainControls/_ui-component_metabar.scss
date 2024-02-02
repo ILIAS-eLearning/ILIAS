@@ -142,14 +142,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 			color: $il-metabar-glyph-color;
 			font-size: $il-metabar-small-glyph-size;
 		}
-		.il-counter-status,
-		.il-counter-novelty {
-			margin-top: 0;
-			top: $il-margin-large-vertical
-		}
-		.bulky-label {
-			margin-left: 10px;
-		}
+
 		.il-counter-spacer {
 			margin-left: -18px;
 		}
@@ -169,6 +162,12 @@ $il-metabar-small-glyph-size: 1.25rem;
 
 		.il-maincontrols-slate {
 			min-width: 260px;
+		}
+
+		.il-maincontrols-slate-content {
+			> .btn + .btn {
+				margin-left: 0;
+			}
 		}
 	}
 }
