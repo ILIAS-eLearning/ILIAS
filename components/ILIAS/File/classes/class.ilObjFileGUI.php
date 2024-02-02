@@ -291,6 +291,7 @@ class ilObjFileGUI extends ilObject2GUI
                     $ilTabs->clearTargets();
 
                     parent::executeCommand();
+                    break; // otherwise subtabs are duplicated
                 }
 
                 if (empty($cmd) || $cmd === 'render') {
