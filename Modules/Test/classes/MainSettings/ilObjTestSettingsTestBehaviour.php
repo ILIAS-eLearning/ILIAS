@@ -207,7 +207,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
 
     private function cleanupPassWaiting(?string $pass_waiting): ?string
     {
-        if ($pass_waiting === null) {
+        if ($pass_waiting === null || $pass_waiting === '') {
             return null;
         }
 
