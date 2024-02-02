@@ -2259,7 +2259,7 @@ bgtask#:#bgtask_processing#:#Download erzeugen
 bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
 bgtask#:#bgtask_setting_limit#:#Globales Limit
-bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert nicht überschreitet.
+bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert in MB nicht überschreitet.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
