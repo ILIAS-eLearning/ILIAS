@@ -459,7 +459,8 @@ class ilObjectCopyGUI
         try {
             $targets = $this->retriever->getArrayOfInt('target');
         } catch (ConstraintViolationException $e) {
-            $targets = [];
+            $possible_target = $this->retriever->getMaybeInt('target');
+            $targets = $possible_target === null ? [] : [$possible_target];
         }
 
         if ($targets !== []) {
