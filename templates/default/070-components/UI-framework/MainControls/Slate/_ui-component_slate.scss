@@ -29,6 +29,9 @@ $il-slate-tree-padding: $il-padding-small-vertical 0;
 		}
 		.icon {
 			filter: invert(50%);
+			@media (prefers-contrast: more) {
+				filter: none;
+			}
 		}
 	}
 	.il-maincontrols-slate .btn-bulky {

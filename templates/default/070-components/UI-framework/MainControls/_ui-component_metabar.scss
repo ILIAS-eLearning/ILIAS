@@ -32,6 +32,9 @@ $il-metabar-small-glyph-size: 1.25rem;
 	}
 
 	.glyphicon {
+		@media (prefers-contrast: more) {
+			filter: none;
+		}
 		filter: invert(50%);
 		font-family: 'il-icons';
 		font-size: $il-slate-bulky-glyph-size;

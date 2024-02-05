@@ -126,6 +126,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		}
 		.icon {
 			filter: $il-mainbar-btn-icon-filter;
+			@media (prefers-contrast: more) {
+				filter: none;
+			}
 			&.small {
 				width: $il-mainbar-trigger-icon-size;
 				height: $il-mainbar-trigger-icon-size;
@@ -143,6 +146,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 			}
 			.icon {
 				filter: if($hover-or-engaged == "hover", $il-mainbar-btn-hover-icon-filter, $il-mainbar-btn-engaged-icon-filter);
+				@media (prefers-contrast: more) {
+					filter: none;
+				}
 			}
 			.bulky-label {
 				color: if($hover-or-engaged == "hover", $il-mainbar-btn-color-hover, $il-mainbar-btn-color-engaged);
@@ -175,6 +181,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 				color: $il-mainbar-btn-color-engaged;
 				.icon {
 					filter: $il-mainbar-btn-icon-filter;
+					@media (prefers-contrast: more) {
+						filter: none;
+					}
 				}
 				.bulky-label {
 					color: $il-mainbar-btn-color;
@@ -185,6 +194,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 				color: $il-mainbar-btn-color-engaged;
 				.icon  {
 					filter: $il-mainbar-btn-engaged-icon-filter;
+					@media (prefers-contrast: more) {
+						filter: none;
+					}
 				}
 				.bulky-label {
 					color: $il-mainbar-btn-color-engaged;
@@ -241,6 +253,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		color: white;
 		.icon  {
 			filter: $il-mainbar-btn-icon-filter;
+			@media (prefers-contrast: more) {
+				filter: none;
+			}
 		}
 	}
 	.btn-bulky.engaged {
@@ -267,6 +282,9 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		color: $il-mainbar-btn-color;
 		.icon {
 			filter: $il-mainbar-btn-icon-filter;
+			@media (prefers-contrast: more) {
+				filter: none;
+			}
 		}
 		.bulky-label {
 			text-overflow: ellipsis;

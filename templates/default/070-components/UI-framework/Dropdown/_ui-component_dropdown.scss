@@ -49,6 +49,13 @@ $cursor-disabled: not-allowed !default;
 	border-top: s.$il-caret-width-base solid \9; // IE8
 	border-right: s.$il-caret-width-base solid transparent;
 	border-left: s.$il-caret-width-base solid transparent;
+	@media (prefers-contrast: more) {
+		border: none;
+		&:before {
+			font-family: il-icons;
+			content: "\e604";
+		}
+	}
   }
   
   // The dropdown wrapper (div)

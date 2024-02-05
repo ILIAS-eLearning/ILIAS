@@ -369,6 +369,15 @@
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
+@media (prefers-contrast: more) {
+  .caret {
+    border: none;
+  }
+  .caret:before {
+    font-family: il-icons;
+    content: "\e604";
+  }
+}
 
 .dropup,
 .dropdown {
@@ -5491,6 +5500,12 @@ footer {
 .il-maincontrols-slate .link-bulky .icon {
   filter: invert(50%);
 }
+@media (prefers-contrast: more) {
+  .il-maincontrols-slate .btn-bulky .icon,
+  .il-maincontrols-slate .link-bulky .icon {
+    filter: none;
+  }
+}
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #f9f9f9;
 }
@@ -5641,6 +5656,11 @@ footer {
   font-size: 1.0625rem;
   margin-right: 6px;
   position: relative;
+}
+@media (prefers-contrast: more) {
+  .il-maincontrols-metabar .glyphicon {
+    filter: none;
+  }
 }
 .il-maincontrols-metabar .input-group {
   display: block;
@@ -5945,6 +5965,12 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .icon {
   filter: brightness(5);
 }
+@media (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky .icon,
+  .il-mainbar-triggers .il-link.link-bulky .icon {
+    filter: none;
+  }
+}
 .il-mainbar-triggers .btn-bulky .icon.small,
 .il-mainbar-triggers .il-link.link-bulky .icon.small {
   width: 25px;
@@ -5963,6 +5989,12 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
   filter: invert(50%);
 }
+@media (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky.engaged .icon,
+  .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+    filter: none;
+  }
+}
 .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
   color: #2c2c2c;
@@ -5979,6 +6011,12 @@ footer {
 .il-mainbar-triggers .btn-bulky:focus-visible .icon,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .icon {
   filter: invert(50%);
+}
+@media (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky:focus-visible .icon,
+  .il-mainbar-triggers .il-link.link-bulky:focus-visible .icon {
+    filter: none;
+  }
 }
 .il-mainbar-triggers .btn-bulky:focus-visible .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .bulky-label {
@@ -5997,6 +6035,12 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover .icon,
 .il-mainbar-triggers .il-link.link-bulky:hover .icon {
   filter: invert(50%);
+}
+@media (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky:hover .icon,
+  .il-mainbar-triggers .il-link.link-bulky:hover .icon {
+    filter: none;
+  }
 }
 .il-mainbar-triggers .btn-bulky:hover .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
@@ -6019,10 +6063,20 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky:hover .icon {
     filter: brightness(5);
   }
+}
+@media (hover: none) and (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky:hover .icon,
+  .il-mainbar-triggers .il-link.link-bulky:hover .icon {
+    filter: none;
+  }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky:hover .bulky-label,
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -6032,6 +6086,14 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
     filter: invert(50%);
   }
+}
+@media (hover: none) and (prefers-contrast: more) {
+  .il-mainbar-triggers .btn-bulky.engaged .icon,
+  .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+    filter: none;
+  }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
   .il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
     color: #2c2c2c;
@@ -6075,6 +6137,12 @@ footer {
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
   filter: brightness(5);
 }
+@media (prefers-contrast: more) {
+  .il-mainbar-tools-button .btn-bulky .icon,
+  .il-mainbar-tools-button .btn-bulky.engaged .icon {
+    filter: none;
+  }
+}
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: #e2e8ef;
   color: #2c2c2c;
@@ -6099,6 +6167,12 @@ footer {
 .il-mainbar-tools-entries .btn-bulky .icon, .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
   filter: brightness(5);
+}
+@media (prefers-contrast: more) {
+  .il-mainbar-tools-entries .btn-bulky .icon, .il-mainbar-tools-entries .btn-bulky .icon,
+  .il-mainbar-tools-entries .il-link.link-bulky .icon {
+    filter: none;
+  }
 }
 .il-mainbar-tools-entries .btn-bulky .bulky-label, .il-mainbar-tools-entries .btn-bulky .bulky-label,
 .il-mainbar-tools-entries .il-link.link-bulky .bulky-label {
