@@ -193,7 +193,7 @@ class ilLocalUserGUI
                 $this->logger->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
-            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId((int)$user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -218,7 +218,7 @@ class ilLocalUserGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'performDeleteUsers');
         $confirm->setCancel($this->lng->txt('cancel'), 'index');
         foreach ($_POST['id'] as $user) {
-            $name = ilObjUser::_lookupName($user);
+            $name = ilObjUser::_lookupName((int)$user);
             $confirm->addItem(
                 'user_ids[]',
                 $user,
