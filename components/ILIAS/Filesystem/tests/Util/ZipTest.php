@@ -74,7 +74,7 @@ class ZipTest extends TestCase
         $legacy = new LegacyArchives();
 
         define('CLIENT_WEB_DIR', __DIR__);
-        define('ILIAS_WEB_DIR', __DIR__);
+        define('ILIAS_WEB_DIR', 'public/data');
         define('CLIENT_ID', 'test');
         define('CLIENT_DATA_DIR', __DIR__);
         define('ILIAS_ABSOLUTE_PATH', __DIR__);
@@ -100,7 +100,7 @@ class ZipTest extends TestCase
         $legacy = new LegacyArchives();
 
         define('CLIENT_WEB_DIR', __DIR__);
-        define('ILIAS_WEB_DIR', __DIR__);
+        define('ILIAS_WEB_DIR', 'public/data');
         define('CLIENT_ID', 'test');
         define('CLIENT_DATA_DIR', __DIR__);
         define('ILIAS_ABSOLUTE_PATH', __DIR__);

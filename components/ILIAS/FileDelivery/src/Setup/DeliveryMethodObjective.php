@@ -28,7 +28,7 @@ use ILIAS\Setup;
  */
 class DeliveryMethodObjective extends BuildArtifactObjective
 {
-    public const ARTIFACT = '../components/ILIAS/FileDelivery/src/artifacts/delivery_method.php';
+    public const ARTIFACT = __DIR__ . '/../artifacts/delivery_method.php';
     public const SETTINGS = 'delivery_method';
     public const XSENDFILE = 'xsendfile';
     public const PHP = 'php';

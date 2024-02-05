@@ -89,7 +89,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
         $files_order = $ass->getInstructionFilesOrder();
         $files = array();
 
-        $path = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/" . $this->getPath();
+        $path = "./public/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/" . $this->getPath();
 
         if (!is_dir($path)) {
             return $files;

@@ -98,7 +98,7 @@ class ilInitialisation
     protected static function requireCommonIncludes(): void
     {
         /** @noRector */
-        require_once("../ilias_version.php");
+        require_once(__DIR__ . "/../../../../ilias_version.php");
         self::initGlobal("ilBench", "ilBenchmark", "./components/ILIAS/Utilities/classes/class.ilBenchmark.php");
     }
 
@@ -110,16 +110,20 @@ class ilInitialisation
      */
     protected static function initIliasIniFile(): void
     {
-        $ilIliasIniFile = new ilIniFile("../ilias.ini.php");
+        $ilIliasIniFile = new ilIniFile(__DIR__ . "/../../../../ilias.ini.php");
         $ilIliasIniFile->read();
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
         // initialize constants
+        // aka internal data directory
         if (!defined('ILIAS_DATA_DIR')) {
             define("ILIAS_DATA_DIR", $ilIliasIniFile->readVariable("clients", "datadir"));
         }
+        // aka Public Web Directory in Web, relative path to the webroot (public).
         if (!defined('ILIAS_WEB_DIR')) {
-            define("ILIAS_WEB_DIR", $ilIliasIniFile->readVariable("clients", "path"));
+            $from_ilias_ini = $ilIliasIniFile->readVariable("clients", "path");
+            $from_ilias_ini = str_replace('public/', '', $from_ilias_ini);
+            define("ILIAS_WEB_DIR", $from_ilias_ini);
         }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", $ilIliasIniFile->readVariable('server', 'absolute_path'));
@@ -233,7 +237,7 @@ class ilInitialisation
              * @var FilesystemFactory $delegatingFactory
              */
             $delegatingFactory = $c['filesystem.factory'];
-            $webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
+            $webConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID);
             return $delegatingFactory->getLocal($webConfiguration);
         };
 
@@ -476,7 +480,7 @@ class ilInitialisation
         global $ilIliasIniFile;
 
         // check whether ILIAS_WEB_DIR is set.
-        if (ILIAS_WEB_DIR == "") {
+        if (!defined('ILIAS_WEB_DIR') || empty(ILIAS_WEB_DIR)) {
             self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile called without ILIAS_WEB_DIR.");
         }
 
@@ -493,7 +497,7 @@ class ilInitialisation
         }
 
         // get settings from ini file
-        $ilClientIniFile = new ilIniFile($ini_file);
+        $ilClientIniFile = new ilIniFile(__DIR__ . "/../../../../public/" . $ini_file);
         $ilClientIniFile->read();
 
         // invalid client id / client ini
@@ -539,7 +543,7 @@ class ilInitialisation
             define("CLIENT_DATA_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID);
         }
         if (!defined("CLIENT_WEB_DIR")) {
-            define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
+            define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/public/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
         }
         define("CLIENT_NAME", $ilClientIniFile->readVariable('client', 'name')); // Change SS
 

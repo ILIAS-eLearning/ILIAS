@@ -48,6 +48,7 @@ class ilSkinFactory
      */
     public function skinFromXML(string $path = ''): ilSkin
     {
+        $path = realpath(__DIR__ . '/../../../../../../templates/' . $path);
         try {
             $xml = new SimpleXMLElement(file_get_contents($path));
         } catch (Exception $e) {

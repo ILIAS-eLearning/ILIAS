@@ -103,7 +103,7 @@ class ilWebAccessChecker
         // Check if Path is within accepted paths
         if ($this->getPathObject()->getModuleType() !== 'rs') {
             $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
-            $path = realpath($clean_path);
+            $path = realpath(__DIR__ . '/../../../../public/' . $clean_path);
             $data_dir = realpath(CLIENT_WEB_DIR);
             if (strpos($path, $data_dir) !== 0) {
                 return false;
@@ -224,7 +224,8 @@ class ilWebAccessChecker
         global $DIC;
 
         $is_user = $DIC->user() instanceof ilObjUser;
-        $user_id_is_zero = ($DIC->user()->getId() === 0);
+        $id = $DIC->user()->getId();
+        $user_id_is_zero = ($id === 0);
         $not_on_login_page = $this->isRequestNotFromLoginPage();
         if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);

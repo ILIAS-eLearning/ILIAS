@@ -28,7 +28,7 @@ use ILIAS\Setup;
  */
 class KeyRotationObjective extends BuildArtifactObjective
 {
-    public const KEY_ROTATION = '../components/ILIAS/FileDelivery/src/artifacts/key_rotation.php';
+    public const KEY_ROTATION = __DIR__ . '/../artifacts/key_rotation.php';
     public const KEY_LENGTH = 32;
     private const NUMBER_OF_KEYS = 5;
 

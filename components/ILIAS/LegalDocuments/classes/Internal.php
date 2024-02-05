@@ -54,6 +54,6 @@ class Internal
 
     public static function path(): string
     {
-        return '../components/ILIAS/LegalDocuments/artifacts/consumers.php';
+        return __DIR__ . '/../artifacts/consumers.php';
     }
 }

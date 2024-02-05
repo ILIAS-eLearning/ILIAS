@@ -24,7 +24,7 @@
  */
 class ilWACPath
 {
-    public const DIR_DATA = "data";
+    public const DIR_DATA = "public/data";
     public const DIR_SEC = "sec";
     /**
      * Copy this without to regex101.com and test with some URL of files
@@ -94,7 +94,7 @@ class ilWACPath
 
         $result['path_without_query'] = strstr(
             parse_url($path)['path'],
-            '/public/data/',
+            '/data/',
             false
         );
 
@@ -406,7 +406,8 @@ class ilWACPath
      */
     public function getCleanURLdecodedPath(): string
     {
-        return rawurldecode($this->getPathWithoutQuery());
+        $string = $this->getPathWithoutQuery();
+        return rawurldecode($string);
     }
 
     public function setPath(string $path): void

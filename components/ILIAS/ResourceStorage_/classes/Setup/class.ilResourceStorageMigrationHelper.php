@@ -70,7 +70,7 @@ class ilResourceStorageMigrationHelper
             define("CLIENT_WEB_DIR", dirname(__DIR__, 5) . "/public/data/" . $client_id);
         }
         if (!defined("ILIAS_WEB_DIR")) {
-            define("ILIAS_WEB_DIR", dirname(__DIR__, 5));
+            define("ILIAS_WEB_DIR", 'public/data');
         }
         if (!defined("CLIENT_ID")) {
             define("CLIENT_ID", $client_id);
