@@ -279,7 +279,7 @@ EOT;
                                 <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <span class="modal-title">Modal1</span>
+                                <h1 class="modal-title">Modal1</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
@@ -295,7 +295,7 @@ EOT;
                                 <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <span class="modal-title">Modal2</span>
+                                <h1 class="modal-title">Modal2</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">

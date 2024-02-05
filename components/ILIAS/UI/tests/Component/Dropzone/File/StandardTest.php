@@ -45,7 +45,7 @@ class StandardTest extends FileTestBase
 	<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
 		<div class="modal-dialog" role="document" data-replace-marker="component">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title">' . $expected_title . '</span></div>
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
@@ -114,7 +114,7 @@ class StandardTest extends FileTestBase
 	<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
 		<div class="modal-dialog" role="document" data-replace-marker="component">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title">' . $expected_title . '</span></div>
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><h1 class="modal-title">' . $expected_title . '</h1></div>
 				<div class="modal-body">
 					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">' . $this->input->getCanonicalName() . '</form>
 				</div>
