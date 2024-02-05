@@ -7,9 +7,9 @@
 
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 
-chdir('../../');
+//chdir('../../../../');
 /** @noRector */
-require_once('./vendor/composer/vendor/autoload.php');
+require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
 
 $container = new \ILIAS\DI\Container();
 
