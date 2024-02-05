@@ -744,11 +744,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         foreach ($this->getAllTypes($range, $order) as $idx => $type) {
             $default_language = $type->getDefaultLang();
 
-            $icon = '';
+            $icon = $this->ui_factory->symbol()->icon()->standard('prg', $this->lng->txt('prg_type'), 'small');
             if($type->getIconIdentifier() && $icon_path = $this->getIconPath($type)) {
-                $icon = $this->ui_renderer->render(
-                    $this->ui_factory->symbol()->icon()->custom($icon_path, '')
-                );
+                $icon = $this->ui_factory->symbol()->icon()->custom($icon_path, '');
             }
 
             yield $row_builder->buildDataRow(
