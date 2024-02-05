@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 {
@@ -199,7 +199,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                     //draft/active/outdated
                     "program_status" => $programme->getStatus(),
                     "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y'),
-                    "deadline" => $progress->getDeadline(),
+                    "deadline" => $progress->isSuccessful() ? null : $progress->getDeadline(),
                     "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
                 ];
             },
