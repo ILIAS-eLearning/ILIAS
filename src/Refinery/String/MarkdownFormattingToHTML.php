@@ -29,9 +29,18 @@ class MarkdownFormattingToHTML
 {
     private \League\CommonMark\CommonMarkConverter $converter;
 
-    public function __construct()
+    public function __construct(bool $escape = true)
     {
-        $this->converter = new \League\CommonMark\CommonMarkConverter();
+        $config = [
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 42 // https://commonmark.thephpleague.com/1.5/security/#nesting-level
+        ];
+
+        if ($escape === true) {
+            $config['html_input'] = 'escape';
+        }
+
+        $this->converter = new \League\CommonMark\CommonMarkConverter($config);
     }
 
     /**
