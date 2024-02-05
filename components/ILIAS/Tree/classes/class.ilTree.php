@@ -1378,17 +1378,9 @@ class ilTree
 
     /**
      * This is a wrapper for isSaved() with a more useful name
-     */
-    public function isDeleted(int $a_node_id): bool
-    {
-        return $this->isSaved($a_node_id);
-    }
-
-    /**
-     * Use method isDeleted
      * @deprecated since 4.4.0
      */
-    public function isSaved(int $a_node_id): bool
+    public function isDeleted(int $a_node_id): bool
     {
         if ($this->isCacheUsed() && isset($this->is_saved_cache[$a_node_id])) {
             return $this->is_saved_cache[$a_node_id];
