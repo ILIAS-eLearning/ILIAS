@@ -28,6 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class CollectionBuilderTest
@@ -42,12 +43,14 @@ class CollectionBuilderTest extends TestCase
     {
         $this->collection_builder = new CollectionBuilder(
             $this->collection_repo = $this->createMock(CollectionRepository::class),
+            new Subject(),
             new DummyIDGenerator(self::DUMMY_RCID)
         );
         $this->collections = new Collections(
             $this->resource_builder = $this->createMock(ResourceBuilder::class),
             $this->collection_builder,
-            $this->createMock(RepositoryPreloader::class)
+            $this->createMock(RepositoryPreloader::class),
+            new Subject()
         );
     }
 

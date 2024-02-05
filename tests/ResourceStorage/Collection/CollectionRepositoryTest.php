@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\DummyIDGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class CollectionTest
@@ -82,7 +83,7 @@ class CollectionRepositoryTest extends TestCase
                           )
                       );
 
-        $this->repo->update($collection);
+        $this->repo->update($collection, new Subject());
     }
 
 }

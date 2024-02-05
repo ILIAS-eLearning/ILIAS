@@ -30,6 +30,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class CollectionTest
@@ -60,6 +61,7 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
 
         $this->collection_builder = new CollectionBuilder(
             $this->collection_repository,
+            new Subject(),
             $this->rcid_generator
         );
 
@@ -77,7 +79,8 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         $this->collections = new Collections(
             $this->resource_builder,
             $this->collection_builder,
-            $this->preloader
+            $this->preloader,
+            new Subject()
         );
     }
 
@@ -243,7 +246,8 @@ class CollectionTest extends AbstractBaseResourceBuilderTest
         $collections_service = new Collections(
             $this->resource_builder,
             $this->collection_builder,
-            $this->preloader
+            $this->preloader,
+            new Subject()
         );
 
         $this->collection_repository

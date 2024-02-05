@@ -25,6 +25,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Preloader\SecureString;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class CollectionBuilder
@@ -43,6 +44,7 @@ class CollectionBuilder
 
     public function __construct(
         Repository\CollectionRepository $collection_repository,
+        private Subject $events,
         ?CollectionIdentificationGenerator $id_generator = null,
         ?\ILIAS\ResourceStorage\Lock\LockHandler $lock_handler = null
     ) {
@@ -107,12 +109,12 @@ class CollectionBuilder
             $result = $this->lock_handler->lockTables(
                 $this->collection_repository->getNamesForLocking(),
                 function () use ($collection): void {
-                    $this->collection_repository->update($collection);
+                    $this->collection_repository->update($collection, $this->events);
                 }
             );
             $result->runAndUnlock();
         } else {
-            $this->collection_repository->update($collection);
+            $this->collection_repository->update($collection, $this->events);
         }
 
         return true;

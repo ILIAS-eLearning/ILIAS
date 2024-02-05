@@ -41,6 +41,7 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class Services
@@ -49,6 +50,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
  */
 class Services
 {
+    protected Subject $events;
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
     protected \ILIAS\ResourceStorage\Collection\Collections $collections;
@@ -69,6 +71,7 @@ class Services
         SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
+        $this->events = new Subject();
         $src_builder ??= new InlineSrcBuilder();
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
@@ -81,6 +84,7 @@ class Services
         );
         $collection_builder = new CollectionBuilder(
             $repositories->getCollectionRepository(),
+            $this->events,
             new UniqueIDCollectionIdentificationGenerator(),
             $lock_handler
         );
@@ -102,7 +106,8 @@ class Services
         $this->collections = new Collections(
             $resource_builder,
             $collection_builder,
-            $this->preloader
+            $this->preloader,
+            $this->events
         );
 
         $flavour_builder = new FlavourBuilder(
@@ -142,5 +147,10 @@ class Services
     public function preload(array $identification_strings): void
     {
         $this->preloader->preload($identification_strings);
+    }
+
+    public function events(): Subject
+    {
+        return $this->events;
     }
 }

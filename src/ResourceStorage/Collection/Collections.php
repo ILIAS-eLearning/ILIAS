@@ -26,6 +26,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class Collections
@@ -47,7 +48,8 @@ class Collections
     public function __construct(
         ResourceBuilder $resource_builder,
         CollectionBuilder $collection_builder,
-        RepositoryPreloader $preloader
+        RepositoryPreloader $preloader,
+        private Subject $events
     ) {
         $this->resource_builder = $resource_builder;
         $this->collection_builder = $collection_builder;
