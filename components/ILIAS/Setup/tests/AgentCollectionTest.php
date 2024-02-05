@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\Setup;
 
 require_once(__DIR__ . "/Helper.php");
@@ -28,8 +28,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
-
-require_once("./components/ILIAS/Setup/tests/Helper.php");
 
 class AgentCollectionTest extends TestCase
 {
