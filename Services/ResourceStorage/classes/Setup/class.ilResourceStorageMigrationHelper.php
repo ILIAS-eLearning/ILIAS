@@ -34,6 +34,7 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\ResourceStorage\Events\Subject;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -92,7 +93,8 @@ class ilResourceStorageMigrationHelper
         $this->resource_builder = $init->getResourceBuilder($container);
         $this->flavour_builder = $init->getFlavourBuilder($container);
         $this->collection_builder = new CollectionBuilder(
-            new CollectionDBRepository($db)
+            new CollectionDBRepository($db),
+            new Subject()
         );
 
         $this->repositories = $container[InitResourceStorage::D_REPOSITORIES];
