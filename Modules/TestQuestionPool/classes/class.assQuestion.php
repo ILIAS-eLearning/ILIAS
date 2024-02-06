@@ -61,6 +61,8 @@ abstract class assQuestion
     protected const DEFAULT_THUMB_SIZE = 150;
     protected const MINIMUM_THUMB_SIZE = 20;
 
+    public const TRIM_PATTERN = '/^[\p{C}\p{Z}]+|[\p{C}\p{Z}]+$/u';
+
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -4199,4 +4201,24 @@ abstract class assQuestion
         $res = $this->db->query($query);
         return $res->numRows() > 0;
     }
+
+    /**
+     * Trim non-printable characters from the beginning and end of a string.
+     *
+     * Note: The PHP trim() function is not fully Unicode-compatible and may not handle
+     * non-printable characters effectively. As a result, it may not trim certain Unicode
+     * characters, such as control characters, zero width characters or ideographic space as expected.
+     *
+     * This method provides a workaround for trimming non-printable characters until PHP 8.4,
+     * where the mb_trim() function is introduced. Users are encouraged to migrate to mb_trim()
+     * for proper Unicode and non-printable character handling.
+     *
+     * @param string $value The string to trim.
+     * @return string The trimmed string.
+     */
+    public static function extendedTrim(string $value): string
+    {
+        return preg_replace(self::TRIM_PATTERN, '', $value);
+    }
+
 }
