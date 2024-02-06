@@ -228,9 +228,6 @@ abstract class ilClaimingPermissionHelper
         }
 
         foreach ($this->plugins as $plugin) {
-            if (is_null($a_action_sub_id)) {
-
-            }
             $a_action_sub_id = is_null($a_action_sub_id)
                 ? ilAdvancedMDPermissionHelper::SUBACTION_UNDEFINED
                 : $a_action_sub_id;
