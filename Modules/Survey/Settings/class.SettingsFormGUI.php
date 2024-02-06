@@ -495,8 +495,8 @@ class SettingsFormGUI
             $txt[] = "[" . strtoupper($placeholder) . "]: " . $lng->txt($caption);
         }
         $txt = implode("<br />", $txt);
-        $participantdatainfo = new \ilNonEditableValueGUI($lng->txt("mailparticipantdata_placeholder"), "", true);
-        $participantdatainfo->setValue($txt);
+        $participantdatainfo = new \ilNonEditableValueGUI($lng->txt("svy_placeholders_label"), "", true);
+        $participantdatainfo->setValue($lng->txt("mailparticipantdata_placeholder") . "<br />" . $txt);
 
         $mailnotification->addSubItem($mailaddresses);
         $mailnotification->addSubItem($participantdata);

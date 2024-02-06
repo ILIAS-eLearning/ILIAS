@@ -16649,6 +16649,7 @@ svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 svy#:#svy_invite_participants#:#Teilnehmer einladen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Auswahl Druckansicht
 svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
 svy#:#svy_remove_participants#:#Teilnehmer entfernen
