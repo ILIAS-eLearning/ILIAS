@@ -486,7 +486,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function getTabs(): void
     {
-        $read_access_ref_id = $this->rbacsystem->checkAccess('visible, read', $this->object->getRefId());
+        $read_access_ref_id = $this->rbacsystem->checkAccess('visible', $this->object->getRefId())
+            && $this->rbacsystem->checkAccess('read', $this->object->getRefId());
         if ($read_access_ref_id) {
             $this->tabs_gui->addTab(
                 self::TAB_VIEW_CONTENT,
