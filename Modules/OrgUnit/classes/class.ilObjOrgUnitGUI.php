@@ -394,14 +394,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs->activateSubTab("view_content");
         }
 
-        $container_view->setOutput();
-
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
         if (! $this->ctrl->isAsynch()) {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
         }
+
+        $container_view->setOutput();
+
         $this->showPermanentLink();
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
