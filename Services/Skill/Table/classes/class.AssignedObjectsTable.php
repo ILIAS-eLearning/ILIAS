@@ -127,12 +127,10 @@ class AssignedObjectsTable
                     $records[$i]["title"] = \ilObject::_lookupTitle($obj_id);
 
                     $obj_type = \ilObject::_lookupType($obj_id);
-                    $icon = $this->ui_ren->render(
-                        $this->ui_fac->symbol()->icon()->standard(
-                            $obj_type,
-                            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
-                            "medium"
-                        )
+                    $icon = $this->ui_fac->symbol()->icon()->standard(
+                        $obj_type,
+                        $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+                        "medium"
                     );
                     $records[$i]["type"] = $icon;
 

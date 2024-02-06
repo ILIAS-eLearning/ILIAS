@@ -329,12 +329,10 @@ class LevelResourcesTable
                     }
                     $records[$i]["lp_trigger"] = $trigger;
 
-                    $icon = $this->ui_ren->render(
-                        $this->ui_fac->symbol()->icon()->standard(
-                            $obj_type,
-                            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
-                            "medium"
-                        )
+                    $icon = $this->ui_fac->symbol()->icon()->standard(
+                        $obj_type,
+                        $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+                        "medium"
                     );
                     $records[$i]["type"] = $icon;
 
