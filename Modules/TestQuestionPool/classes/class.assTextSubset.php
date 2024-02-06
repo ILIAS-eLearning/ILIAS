@@ -845,7 +845,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $this->dic->refinery()->kindlyTo()->string()
                 );
                 if ($value) {
-                    $value = trim($value);
+                    $value = $this->extendedTrim($value);
                     $value = $purifier->purify($value);
                     $solutionSubmit[] = $value;
                 }

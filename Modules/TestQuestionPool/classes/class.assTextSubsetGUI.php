@@ -316,7 +316,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
         foreach ($this->answers_from_post as $index => $answertext) {
-            $this->object->addAnswer(htmlentities(trim($answertext)), $_POST['answers']['points'][$index], $index);
+            $answertext = assQuestion::extendedTrim($answertext);
+            $this->object->addAnswer(htmlentities($answertext), $_POST['answers']['points'][$index], $index);
         }
     }
 
