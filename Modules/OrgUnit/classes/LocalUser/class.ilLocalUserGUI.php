@@ -240,15 +240,7 @@ class ilLocalUserGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $offset = $_GET["offset"];
-        // init sort_by (unfortunatly sort_by is preset with 'title'
-        if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"])) {
-            $order = "login";
-        } else {
-            $order = $_GET["sort_by"];
-        }
 
-        $direction = $_GET["sort_order"];
         if (!$this->getObjId()) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
@@ -263,6 +255,7 @@ class ilLocalUserGUI
         );
         $ass_roles = $this->rbacReview->assignedRoles($this->getObjId());
         $counter = 0;
+        $f_result = [];
         foreach ($roles as $role) {
             $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
@@ -302,7 +295,7 @@ class ilLocalUserGUI
         // check minimum one global role
         if (!$this->checkGlobalRoles($_POST['role_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
-            $this->assignRolesObject();
+            $this->assignRoles();
 
             return false;
         }

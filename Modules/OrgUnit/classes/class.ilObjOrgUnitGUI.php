@@ -222,7 +222,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 );
                 if (!ilObjOrgUnitAccess::_checkAccessToUserLearningProgress(
                     $this->object->getRefid(),
-                    $_GET['obj_id']
+                    (int)$_GET['obj_id']
                 )) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirectByClass("ilOrgUnitUserAssignmentGUI", "index");
@@ -232,7 +232,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT,
                     $this->ref_id,
-                    $_GET['obj_id']
+                    (int)$_GET['obj_id']
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
