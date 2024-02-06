@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\Signature\MailUserSignature;
+use ILIAS\Mail\Signature\Signature;
+use ILIAS\Mail\Signature\MailInstallationSignature;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -33,6 +37,7 @@ class ilObjMailGUI extends ilObjectGUI
 
     private readonly ilTabsGUI $tabs;
     private readonly ilMustacheFactory $mustache_factory;
+    private MailSignatureService $mail_signature_service;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -42,6 +47,7 @@ class ilObjMailGUI extends ilObjectGUI
 
         $this->tabs = $DIC->tabs();
         $this->mustache_factory = $DIC->mail()->mustacheFactory();
+        $this->mail_signature_service = $DIC->mail()->signature();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -374,7 +380,7 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         $mail->setSaveInSentbox(false);
-        $mail->appendInstallationSignature(true);
+        $mail->appendInstallationSignature(!$isManualMail);
 
         $lngVariablePrefix = 'sys';
         if ($isManualMail) {
@@ -511,6 +517,14 @@ class ilObjMailGUI extends ilObjectGUI
         $user_envelope_from_addr->setDisabled(!$this->isEditingAllowed());
         $form->addItem($user_envelope_from_addr);
 
+        [$user_signature_inputs, $installation_signature_inputs] = array_map(
+            fn(Signature $signature): array => $this->buildSignaturePlaceholderInputs($signature),
+            $this->getAvailableSignatures()
+        );
+        foreach ($user_signature_inputs as $user_signature_input) {
+            $form->addItem($user_signature_input);
+        }
+
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('mail_settings_system_frm_head'));
         $form->addItem($sh);
@@ -548,29 +562,9 @@ class ilObjMailGUI extends ilObjectGUI
         $system_return_path->setDisabled(!$this->isEditingAllowed());
         $form->addItem($system_return_path);
 
-        $signature = new ilTextAreaInputGUI(
-            $this->lng->txt('mail_system_sys_signature'),
-            'mail_system_sys_signature'
-        );
-        $signature->setRows(8);
-        $signature->setDisabled(!$this->isEditingAllowed());
-        $form->addItem($signature);
-
-        $placeholders = new ilManualPlaceholderInputGUI(
-            $this->lng->txt('mail_form_placeholders_label'),
-            'm_placeholders',
-            'mail_system_sys_signature'
-        );
-        $placeholder_list = [
-            ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
-            ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],
-            ['placeholder' => 'ILIAS_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
-        ];
-        foreach ($placeholder_list as $value) {
-            $placeholders->addPlaceholder($value['placeholder'], $value['label']);
+        foreach ($installation_signature_inputs as $installation_signature_input) {
+            $form->addItem($installation_signature_input);
         }
-        $placeholders->setDisabled(!$this->isEditingAllowed());
-        $form->addItem($placeholders);
 
         if ($this->isEditingAllowed()) {
             $form->addCommandButton('saveExternalSettingsForm', $this->lng->txt('save'));
@@ -579,12 +573,43 @@ class ilObjMailGUI extends ilObjectGUI
         return $form;
     }
 
+    /**
+     * @return ilFormPropertyGUI[]
+     */
+    private function buildSignaturePlaceholderInputs(Signature $signature): array
+    {
+        $signature_input = new ilTextAreaInputGUI(
+            $this->lng->txt($signature->getPersistenceIdentifier()),
+            $signature->getPersistenceIdentifier()
+        );
+        $signature_input->setRows(8);
+        $signature_input->setDisabled(!$this->isEditingAllowed());
+
+        $placeholder_input = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'm_placeholders',
+            $signature->getPersistenceIdentifier(),
+        );
+        $placeholder_input->setDisabled(!$this->isEditingAllowed());
+
+        $placeholder = $this->mail_signature_service->getPlaceholder();
+        do {
+            if ($signature->supports($placeholder)) {
+                $placeholder_input->addPlaceholder($placeholder->getId(), $placeholder->getLabel());
+            }
+        } while ($placeholder = $placeholder->getNext());
+
+        return [$signature_input, $placeholder_input];
+    }
+
     protected function populateExternalSettingsForm(ilPropertyFormGUI $form): void
     {
         $subjectPrefix = $this->settings->get('mail_subject_prefix');
         if (null === $subjectPrefix) {
             $subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
         }
+
+        [$user_signature, $installation_signature] = $this->getAvailableSignatures();
 
         $form->setValuesByArray([
             'mail_smtp_status' => (bool) $this->settings->get('mail_smtp_status', '0'),
@@ -602,9 +627,10 @@ class ilObjMailGUI extends ilObjectGUI
             'mail_system_usr_env_from_addr' => $this->settings->get('mail_system_usr_env_from_addr', ''),
             'mail_system_sys_from_addr' => $this->settings->get('mail_system_sys_from_addr', ''),
             'mail_system_sys_from_name' => $this->settings->get('mail_system_sys_from_name', ''),
+             $user_signature->getPersistenceIdentifier() => $this->settings->get($user_signature->getPersistenceIdentifier(), ''),
             'mail_system_sys_reply_to_addr' => $this->settings->get('mail_system_sys_reply_to_addr', ''),
             'mail_system_sys_env_from_addr' => $this->settings->get('mail_system_sys_env_from_addr', ''),
-            'mail_system_sys_signature' => $this->settings->get('mail_system_sys_signature', ''),
+            $installation_signature->getPersistenceIdentifier() => $this->settings->get($installation_signature->getPersistenceIdentifier(), ''),
             'use_global_reply_to_addr' => (bool) $this->settings->get('use_global_reply_to_addr', '0'),
             'global_reply_to_addr' => $this->settings->get('global_reply_to_addr', ''),
         ]);
@@ -648,7 +674,13 @@ class ilObjMailGUI extends ilObjectGUI
         }, $this->lng->txt('mail_template_invalid_tpl_syntax'));
 
         $valid_templates = true;
-        foreach (['mail_system_usr_from_name', 'mail_system_sys_signature'] as $template) {
+        $availabe_signatures = array_map(
+            static fn(Signature $signature): string => $signature->getPersistenceIdentifier(),
+            $this->getAvailableSignatures()
+        );
+        foreach (
+            ['mail_system_usr_from_name', ...$availabe_signatures] as $template
+        ) {
             try {
                 $is_valid_template_syntax->check((string) $form->getInput($template));
             } catch (Exception) {
@@ -695,7 +727,13 @@ class ilObjMailGUI extends ilObjectGUI
         );
         $this->settings->set('use_global_reply_to_addr', (string) ((int) $form->getInput('use_global_reply_to_addr')));
         $this->settings->set('global_reply_to_addr', (string) $form->getInput('global_reply_to_addr'));
-        $this->settings->set('mail_system_sys_signature', (string) $form->getInput('mail_system_sys_signature'));
+
+        foreach ($availabe_signatures as $availabe_signature) {
+            $this->settings->set(
+                $availabe_signature,
+                (string) $form->getInput($availabe_signature)
+            );
+        }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showExternalSettingsForm');
@@ -722,5 +760,16 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
+    }
+
+    /**
+     * @return Signature[]
+     */
+    private function getAvailableSignatures(): array
+    {
+        return [
+            new MailUserSignature($this->settings),
+            new MailInstallationSignature($this->settings),
+        ];
     }
 }

@@ -22,6 +22,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -32,6 +33,7 @@ class ilMail
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
 
+    private MailSignatureService $signature_service;
     public int $user_id;
     private string $table_mail;
     private string $table_mail_saved;
@@ -39,6 +41,7 @@ class ilMail
     protected ?array $mail_data = [];
     private bool $save_in_sentbox;
     private bool $append_installation_signature = false;
+    private bool $append_user_signature = false;
 
     private ?string $context_id = null;
     private array $context_parameters = [];
@@ -70,7 +73,8 @@ class ilMail
         private ?ilObjUser $actor = null,
         private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null,
         private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null,
-        ?Conductor $legal_documents = null
+        ?Conductor $legal_documents = null,
+        ?MailSignatureService $signature_service = null,
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -100,6 +104,7 @@ class ilMail
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
         $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
+        $this->signature_service = $signature_service ?? $DIC->mail()->signature();
     }
 
     public function autoresponder(): AutoresponderService
@@ -1213,6 +1218,10 @@ class ilMail
             true,
             (string) ($this->context_parameters[self::PROP_CONTEXT_SUBJECT_PREFIX] ?? '')
         );
+
+        if (!$this->isSystemMail()) {
+            $message .= $this->signature_service->user($this->user_id);
+        }
         $mailer->Body($message);
 
         if ($cc !== '') {
@@ -1222,6 +1231,7 @@ class ilMail
         if ($bcc !== '') {
             $mailer->Bcc($bcc);
         }
+
 
         foreach ($attachments as $attachment) {
             $mailer->Attach(
@@ -1363,28 +1373,7 @@ class ilMail
     public static function _getInstallationSignature(): string
     {
         global $DIC;
-
-        $signature = $DIC->settings()->get('mail_system_sys_signature', '');
-
-        $clientUrl = ilUtil::_getHttpPath();
-        $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
-        if (is_array($clientdirs) && count($clientdirs) > 1) {
-            $clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
-        }
-
-        $placeholders = [
-            'INSTALLATION_NAME' => $DIC['ilClientIniFile']->readVariable('client', 'name'),
-            'INSTALLATION_DESC' => $DIC['ilClientIniFile']->readVariable('client', 'description'),
-            'ILIAS_URL' => $clientUrl,
-        ];
-
-        $signature = $DIC->mail()->mustacheFactory()->getBasicEngine()->render($signature, $placeholders);
-
-        if (!preg_match('/^[\n\r]+/', (string) $signature)) {
-            $signature = "\n" . $signature;
-        }
-
-        return $signature;
+        return $DIC->mail()->signature()->installation();
     }
 
     public static function getSalutation(int $a_usr_id, ?ilLanguage $a_language = null): string

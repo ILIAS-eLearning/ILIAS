@@ -82,4 +82,14 @@ class MailService
     {
         return new \ilMustacheFactory();
     }
+
+    public function signature(): MailSignatureService
+    {
+        return new MailSignatureService(
+            $this->mustacheFactory(),
+            $this->dic->clientIni(),
+            $this->dic->language(),
+            $this->dic->settings()
+        );
+    }
 }
