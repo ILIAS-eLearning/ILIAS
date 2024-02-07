@@ -27,6 +27,9 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     public const TAG_CONDITION = 'Condition';
     public const TAG_LPSETTING = 'LPSetting';
     public const TAG_LPREFID = 'LPRefId';
+    public const TAG_TITLE = 'title';
+    public const TAG_DESCRIPTION = 'description';
+    public const TAG_CONTAINERSETTING = 'ContainerSetting';
 
     protected ilLearningSequenceSettings $ls_settings;
 
@@ -75,7 +78,14 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
             'members_gallery' => $this->ls_settings->getMembersGallery() ? 'true' : 'false'
         ];
         $this->xmlStartTag(self::TAG_LSO, $attributes);
+
+        $this->xmlElement(self::TAG_TITLE, null, $this->ls_object->getTitle());
+        if ($desc = $this->ls_object->getDescription()) {
+            $this->xmlElement(self::TAG_DESCRIPTION, null, $desc);
+        }
+
         $this->writeLPSettings();
+        \ilContainer::_exportContainerSettings($this, $this->ls_object->getId());
     }
 
     protected function writeLPSettings(): void
