@@ -169,6 +169,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             ilLoggerFactory::getLogger('obj')->debug($this->ctrl->getNextClass() . ' <-> ' . $class_name);
 
             if ($this->ctrl->getNextClass() !== strtolower('ilObj' . $class_name . 'GUI')) {
+                $this->ctrl->setParameterByClass($next_class, "new_type", $new_type);
                 $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
             }
         } elseif ((($next_class = $this->ctrl->getNextClass($this)) == "")
