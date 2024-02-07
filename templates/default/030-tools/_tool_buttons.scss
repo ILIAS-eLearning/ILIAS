@@ -191,6 +191,12 @@ $button_active-transform: scale(.95) !default;
             border-color: $active_border-color;
         }
 
+        // FOCUS
+        &:focus {
+            color: $text-color;
+            text-decoration: $text-decoration;
+        }
+
         // DEACTIVATED
         &[disabled],
         fieldset[disabled] {
