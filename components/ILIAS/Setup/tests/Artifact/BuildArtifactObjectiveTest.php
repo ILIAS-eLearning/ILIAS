@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\Artifact;
 
@@ -35,7 +35,7 @@ class BuildArtifactObjectiveTest extends TestCase
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->onlyMethods(["build", "buildIn", "getArtifactPath"])
+            ->onlyMethods(["build", "buildIn", "getArtifactName"])
             ->getMock();
 
         $this->artifact = $this->createMock(Setup\Artifact::class);
@@ -46,7 +46,7 @@ class BuildArtifactObjectiveTest extends TestCase
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->onlyMethods(["build", "getArtifactPath"])
+            ->onlyMethods(["build", "getArtifactName"])
             ->getMock();
 
         $this->o
@@ -65,28 +65,20 @@ class BuildArtifactObjectiveTest extends TestCase
 
     public function testGetHash(): void
     {
-        $path = "path/to/artifact";
-
-        $this->o
-            ->expects($this->once())
-            ->method("getArtifactPath")
-            ->with()
-            ->willReturn($path);
-
         $this->assertIsString($this->o->getHash());
     }
 
     public function testGetLabel(): void
     {
-        $path = "path/to/artifact";
+        $name = "my_artifact";
 
         $this->o
             ->expects($this->once())
-            ->method("getArtifactPath")
+            ->method("getArtifactName")
             ->with()
-            ->willReturn($path);
+            ->willReturn($name);
 
-        $this->assertEquals("Build ./$path", $this->o->getLabel());
+        $this->assertEquals("Build $name Artifact", $this->o->getLabel());
     }
 
     public function testIsNotable(): void
@@ -94,17 +86,8 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertTrue($this->o->isNotable());
     }
 
-    public const TEST_PATH = __DIR__ . "../BuildArtifactObjectiveTest_testAchive";
-
     public function testAchieve(): void
     {
-        $path = self::TEST_PATH;
-        $this->o
-            ->expects($this->atLeastOnce())
-            ->method("getArtifactPath")
-            ->with()
-            ->willReturn($path);
-
         $this->o
             ->expects($this->once())
             ->method("buildIn")
@@ -120,13 +103,15 @@ class BuildArtifactObjectiveTest extends TestCase
 
         $this->o->achieve($this->env);
 
-        $this->assertEquals($artifact, file_get_contents( $path));
+        $path = $this->o::PATH();
+
+        $this->assertEquals($artifact, file_get_contents($path));
     }
 
     public function tearDown(): void
     {
-        if (file_exists("./components/" . self::TEST_PATH)) {
-            unlink("./components/" . self::TEST_PATH);
+        if (file_exists($this->o::PATH())) {
+            unlink($this->o::PATH());
         }
     }
 }

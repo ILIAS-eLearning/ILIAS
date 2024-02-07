@@ -13,18 +13,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Setup;
 
 class ilComponentBuildComponentInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return \ilArtifactComponentRepository::COMPONENT_DATA_PATH;
+        return "component_data";
     }
-
 
     public function build(): Setup\Artifact
     {

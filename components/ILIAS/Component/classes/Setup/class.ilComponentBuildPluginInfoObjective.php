@@ -13,8 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\Setup;
 
@@ -24,9 +23,10 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     protected const PLUGIN_PHP = "plugin.php";
     protected const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
 
-    public function getArtifactPath(): string
+
+    public function getArtifactName(): string
     {
-        return \ilArtifactComponentRepository::PLUGIN_DATA_PATH;
+        return "plugin_data";
     }
 
 

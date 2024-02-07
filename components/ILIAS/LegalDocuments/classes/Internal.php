@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 use Closure;
+use ILIAS\LegalDocuments\Setup\ConsumerObjective;
 
 class Internal
 {
@@ -36,7 +37,7 @@ class Internal
     {
         $lens = fn($consumer) => $consumer->uses($create_wiring($consumer->id()), new LazyProvide(fn() => $create_provide($consumer->id())));
         $this->map = array_reduce(
-            $consumer_classes ?? require self::path(),
+            $consumer_classes ?? require ConsumerObjective::PATH(),
             fn($map, $consumer) => $map->append($lens(new $consumer())->map()),
             new Map()
         )->value();
@@ -50,10 +51,5 @@ class Internal
     public function get(string $name, string $key)
     {
         return $this->map[$name][$key] ?? null;
-    }
-
-    public static function path(): string
-    {
-        return __DIR__ . '/../artifacts/consumers.php';
     }
 }

@@ -28,15 +28,16 @@ use ILIAS\Setup;
  */
 class DeliveryMethodObjective extends BuildArtifactObjective
 {
-    public const ARTIFACT = __DIR__ . '/../artifacts/delivery_method.php';
     public const SETTINGS = 'delivery_method';
     public const XSENDFILE = 'xsendfile';
     public const PHP = 'php';
 
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return self::ARTIFACT;
+        return "delivery_method";
     }
+
+
 
     public function build(): Setup\Artifact
     {

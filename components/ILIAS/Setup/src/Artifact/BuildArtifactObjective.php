@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Setup\Artifact;
 
 use ILIAS\Setup;
@@ -28,6 +28,16 @@ use ILIAS\Setup;
  */
 abstract class BuildArtifactObjective implements Setup\Objective
 {
+    private const ARTIFACTS = __DIR__ . "/../../../../../artifacts";
+
+    /**
+     * @return string The path where the artifact should be stored. You can use this path to require the artifact.
+     */
+    final public static function PATH(): string
+    {
+        return realpath(self::ARTIFACTS) . "/" . md5(static::class) . ".php";
+    }
+
     private const COMPONENTS_DIRECTORY = "components";
 
     /**
@@ -35,7 +45,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * This is understood to be a path relative to the ILIAS root directory.
      */
-    abstract public function getArtifactPath(): string;
+    abstract public function getArtifactName(): string;
 
     /**
      * Build the artifact based. If you want to use the environment
@@ -73,17 +83,17 @@ abstract class BuildArtifactObjective implements Setup\Objective
      */
     public function getHash(): string
     {
-        return hash("sha256", $this->getArtifactPath());
+        return hash("sha256", $this->getArtifactName());
     }
 
     /**
-     * Defaults to "Build $this->getArtifactPath()".
+     * Defaults to 'Build ' . $this->getArtifactName().' Artifact'.
      *
      * @inheritdocs
      */
     public function getLabel(): string
     {
-        return 'Build ' . $this->getRelativeArtifactPath();
+        return 'Build ' . $this->getArtifactName().' Artifact';
     }
 
     /**
@@ -105,7 +115,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
     {
         $artifact = $this->buildIn($environment);
 
-        $path = $this->getRelativeArtifactPath();
+        $path = $this->getAbsoluteArtifactPath();
 
         $this->makeDirectoryFor($path);
 
@@ -117,28 +127,31 @@ abstract class BuildArtifactObjective implements Setup\Objective
     private function getRelativeArtifactPath(): string
     {
         $here = realpath(__DIR__ . "/../../../../../");
+        return "./" . ltrim(str_replace($here, "", $this->getAbsoluteArtifactPath()), "/");
+    }
 
-        $artifact_path = $this->getArtifactPath();
+    private function getAbsoluteArtifactPath(): string
+    {
+        $here = realpath(__DIR__ . "/../../../../../");
+
+        $artifact_path = static::PATH();
 
         switch (true) {
             case strpos($artifact_path, "/") === 0:
             case strpos($artifact_path, "./") === 0:
-                $path = $this->realpath($artifact_path);
+                return $this->realpath($artifact_path);
                 break;
             case strpos($artifact_path, "../" . self::COMPONENTS_DIRECTORY . "") === 0:
-                $path = $this->realpath($here . "/" . self::COMPONENTS_DIRECTORY . "/" . $artifact_path);
+                return $this->realpath($here . "/" . self::COMPONENTS_DIRECTORY . "/" . $artifact_path);
                 break;
 
             case strpos($artifact_path, "../") === 0:
                 $dirname = dirname((new \ReflectionClass($this))->getFileName());
-                $path = $this->realpath($dirname . "/" . $artifact_path);
+                return $this->realpath($dirname . "/" . $artifact_path);
                 break;
             default:
-                $path = $this->realpath($artifact_path);
-                break;
+                return $this->realpath($artifact_path);
         }
-
-        return "./" . ltrim(str_replace($here, "", $path), "/");
     }
 
     public function isApplicable(Setup\Environment $environment): bool

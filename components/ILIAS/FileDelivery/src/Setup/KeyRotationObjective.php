@@ -28,21 +28,20 @@ use ILIAS\Setup;
  */
 class KeyRotationObjective extends BuildArtifactObjective
 {
-    public const KEY_ROTATION = __DIR__ . '/../artifacts/key_rotation.php';
     public const KEY_LENGTH = 32;
     private const NUMBER_OF_KEYS = 5;
-
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return self::KEY_ROTATION;
+        return "key_rotation";
     }
+
 
     public function build(): Setup\Artifact
     {
         $current_keys = null;
-        if (is_readable(self::KEY_ROTATION)) {
+        if (is_readable(self::PATH())) {
             /** @var array $current_keys */
-            $current_keys = require self::KEY_ROTATION;
+            $current_keys = require self::PATH();
         }
 
         $new_keys = [];

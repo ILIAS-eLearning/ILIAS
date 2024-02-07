@@ -26,23 +26,12 @@
 !/component/ILIAS
 
 # Generated Files
-/artifacts
+/artifacts/*
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
 /components/ILIAS/setup_/sql/dbupdate_custom.php
 /install_client.php
-/components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php
-/components/ILIAS/Style/System/data/data.php
-/components/ILIAS/UICore/artifacts/ctrl_structure.php
-/components/ILIAS/UICore/artifacts/ctrl_plugin_structure.php
-/components/ILIAS/UICore/artifacts/ctrl_base_classes.php
-/components/ILIAS/UICore/artifacts/ctrl_security.php
-/components/ILIAS/Component/artifacts/*
-/components/ILIAS/EventHandling/artifacts/*
-/components/ILIAS/ILIASObject/artifacts/*
-/components/ILIAS/LegalDocuments/artifacts/*
-/components/ILIAS/FileDelivery/src/artifacts/*
 
 # Directories
 /public/data
@@ -65,8 +54,4 @@ phpstan-baseline.neon
 
 # File Delivery
 override.php
-components/ILIAS/ResourceStorage_/artifacts/flavour_data.php
 components/ILIAS/FileHandlingDemo
-components/ILIAS/FileDelivery/artifacts
-components/ILIAS/StaticURL/artifacts
-components/ILIAS/StaticURL/src/artifacts

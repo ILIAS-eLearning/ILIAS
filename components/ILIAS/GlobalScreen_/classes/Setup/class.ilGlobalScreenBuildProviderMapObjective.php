@@ -32,10 +32,11 @@ use ILIAS\GlobalScreen\Scope\Toast\Provider\ToastProvider;
  */
 class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return "../components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php";
+        return "global_screen_providers";
     }
+
 
     public function build(): Setup\Artifact
     {
