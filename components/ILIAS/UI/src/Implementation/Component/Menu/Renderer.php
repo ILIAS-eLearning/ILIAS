@@ -35,12 +35,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
-        /**
-         * @var $component Menu\Menu
-         */
-        $html = $this->renderMenu($component, $default_renderer);
-
         if ($component instanceof Menu\Drilldown) {
+            $items_html = $this->renderMenuItems($component, $default_renderer);
             $ui_factory = $this->getUIFactory();
             $back_signal = $component->getBacklinkSignal();
             $persistence_id = $component->getPersistenceId();
@@ -61,19 +57,21 @@ class Renderer extends AbstractComponentRenderer
                     return "il.UI.menu.drilldown.init($params);";
                 }
             );
-            $id = $this->bindJavaScript($component);
+            $id_drilldown = $this->bindJavaScript($component);
+            $id_filter = $this->createId();
 
             $tpl_name = "tpl.drilldown.html";
             $tpl = $this->getTemplate($tpl_name, true, true);
-            $tpl->setVariable("ID", $id);
-            $tpl->setVariable('TITLE', $component->getLabel());
+            $tpl->setVariable("ID", $id_drilldown);
+            $tpl->setVariable('LABEL', 'Filter Nodes in ' . $component->getLabel());
+            $tpl->setVariable('ID_FILTER', $id_filter);
             $tpl->setVariable('BACKNAV', $back_button_html);
-            $tpl->setVariable('DRILLDOWN', $html);
+            $tpl->setVariable('DRILLDOWN', $items_html);
 
             return $tpl->get();
         }
 
-        return $html;
+        return $this->renderMenu($component, $default_renderer);
     }
 
     /**
@@ -90,15 +88,21 @@ class Renderer extends AbstractComponentRenderer
             $label = $default_renderer->render($label);
         }
         $tpl_menu->setVariable('LABEL', $label);
+        $tpl_menu->setVariable('ITEMS', $this->renderMenuItems($component, $default_renderer));
+        return $tpl_menu->get();
+    }
 
+    protected function renderMenuItems(
+        Menu\Menu $component,
+        RendererInterface $default_renderer
+    ): string {
         $html = '';
         foreach ($component->getItems() as $item) {
             $tpl_item = $this->getTemplate('tpl.menuitem.html', true, true);
             $tpl_item->setVariable('ITEM', $default_renderer->render($item));
             $html .= $tpl_item->get();
         }
-        $tpl_menu->setVariable('ITEMS', $html);
-        return $tpl_menu->get();
+        return $html;
     }
 
     /**
