@@ -6080,8 +6080,6 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
-}
-@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -10732,13 +10730,6 @@ tbody.collapse.in {
   padding-left: 0;
   list-style: none;
   text-align: center;
-}
-.carousel-indicators:hover, .carousel-indicators:focus {
-  outline: 0;
-  color: #4c6586;
-  text-decoration: none;
-  filter: alpha(opacity=90);
-  opacity: 0.9;
 }
 .carousel-indicators li {
   display: inline-block;
@@ -15845,6 +15836,11 @@ a#ilHelpClose {
 
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
+}
+.il_InfoScreenPropertyValue .breadcrumb {
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
 }
 
 /* Services/Init */
