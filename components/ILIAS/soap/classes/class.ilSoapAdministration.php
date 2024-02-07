@@ -253,7 +253,7 @@ class ilSoapAdministration
 
         ilInitialisation::initILIAS();
 
-        $clientdirs = glob(CLIENT_WEB_DIR . "/*", GLOB_ONLYDIR);
+        $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (is_array($clientdirs)) {
