@@ -24,6 +24,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * @author Jens Conze
@@ -57,6 +58,7 @@ class ilMailFormGUI
     private readonly ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
     private readonly Factory $ui_factory;
+    private readonly Renderer $ui_rederer;
 
     public function __construct(
         ilMailTemplateService $templateService = null,
@@ -78,6 +80,7 @@ class ilMailFormGUI
         $this->mbox = new ilMailbox($this->user->getId());
         $this->purifier = $bodyPurifier ?? new ilMailBodyPurifier();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_rederer = $DIC->ui()->renderer();
 
         $requestMailObjId = $this->getBodyParam(
             'mobj_id',
@@ -821,11 +824,14 @@ class ilMailFormGUI
         $form_gui->addItem($inp);
 
         $att = new ilMailFormAttachmentPropertyGUI(
+            $this->ui_factory,
+            $this->ui_rederer,
             $this->lng->txt(
                 isset($mailData['attachments']) && is_array($mailData['attachments']) ?
                 'edit' :
                 'add'
             ),
+            'editAttachments',
             'm_attachment'
         );
         if (isset($mailData['attachments']) && is_array($mailData['attachments'])) {
