@@ -49,6 +49,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     protected ilAccessHandler $ilAccess;
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\ResourceStorage\Services $irss;
+
 
     public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
@@ -64,6 +66,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $this->tpl->loadStandardTemplate();
         $this->refinery = $DIC->refinery();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->irss = $DIC['resource_storage'];
 
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
@@ -218,6 +221,25 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         }
 
         return $info;
+    }
+
+    protected function downloadFileObject(): void
+    {
+        $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
+        if (
+            $member
+            && $member->notify()
+            && $member->finalized()
+            && $member->viewFile()
+            && $member->fileName()
+            && $member->fileName() != ""
+        ) {
+            $identifier = $member->getGrading()->getFile();
+            $resource_id = $this->irss->manage()->find($identifier);
+            if($resource_id) {
+                $this->irss->consume()->download($resource_id)->run();
+            }
+        }
     }
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info): ilInfoScreenGUI
