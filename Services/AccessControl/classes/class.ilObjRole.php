@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjRole
@@ -162,7 +162,7 @@ class ilObjRole extends ilObject
         if ($res->numRows() > 0) {
             $row = $this->db->fetchAssoc($res);
             $this->setAllowRegister((bool) $row['allow_register']);
-            $this->toggleAssignUsersStatus((bool) ($row['assign_user'] ?? false));
+            $this->toggleAssignUsersStatus((bool) ($row['assign_users'] ?? false));
         } else {
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new ilObjectException('There is no dataset with id: ' . $this->id);
