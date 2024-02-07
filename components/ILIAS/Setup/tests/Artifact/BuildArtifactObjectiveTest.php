@@ -86,7 +86,7 @@ class BuildArtifactObjectiveTest extends TestCase
             ->with()
             ->willReturn($path);
 
-        $this->assertEquals("Build $path", $this->o->getLabel());
+        $this->assertEquals("Build ./$path", $this->o->getLabel());
     }
 
     public function testIsNotable(): void
@@ -94,7 +94,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertTrue($this->o->isNotable());
     }
 
-    public const TEST_PATH = "../BuildArtifactObjectiveTest_testAchive";
+    public const TEST_PATH = __DIR__ . "../BuildArtifactObjectiveTest_testAchive";
 
     public function testAchieve(): void
     {
@@ -120,7 +120,7 @@ class BuildArtifactObjectiveTest extends TestCase
 
         $this->o->achieve($this->env);
 
-        $this->assertEquals($artifact, file_get_contents("./components/" . $path));
+        $this->assertEquals($artifact, file_get_contents( $path));
     }
 
     public function tearDown(): void
