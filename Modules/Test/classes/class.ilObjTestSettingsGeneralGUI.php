@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -1543,7 +1544,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         if ($this->formPropertyExists($form,'redirection_enabled')) {
             if (empty($form->getInput('redirection_enabled'))){
                 $this->testOBJ->setRedirectionMode(REDIRECT_NONE);
-            } else{
+            } else {
                 $this->testOBJ->setRedirectionMode(($form->getInput('redirection_mode')));
             }
         } else {
