@@ -4,11 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.unreleasedLabels = exports.browserNameMap = void 0;
-const unreleasedLabels = {
+const unreleasedLabels = exports.unreleasedLabels = {
   safari: "tp"
 };
-exports.unreleasedLabels = unreleasedLabels;
-const browserNameMap = {
+const browserNameMap = exports.browserNameMap = {
   and_chr: "chrome",
   and_ff: "firefox",
   android: "android",
@@ -20,11 +19,10 @@ const browserNameMap = {
   ios_saf: "ios",
   node: "node",
   deno: "deno",
-  op_mob: "opera",
+  op_mob: "opera_mobile",
   opera: "opera",
   safari: "safari",
   samsung: "samsung"
 };
-exports.browserNameMap = browserNameMap;
 
 //# sourceMappingURL=targets.js.map
