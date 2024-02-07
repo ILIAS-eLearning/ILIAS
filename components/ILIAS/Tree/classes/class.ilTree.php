@@ -216,7 +216,10 @@ class ilTree
                     $this->root_id
                 );
             } else {
-                $this->tree_impl = new ilMaterializedPathTree($this);
+                $this->tree_impl = new ilMaterializedPathTree(
+                    $this->tree_id,
+                    $this->root_id
+                );
             }
         } else {
             $this->tree_impl = new ilNestedSetTree(
