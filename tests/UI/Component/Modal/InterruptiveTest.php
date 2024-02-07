@@ -100,7 +100,7 @@ class InterruptiveTest extends ModalBase
 					<div class="alert alert-warning il-modal-interruptive-message" role="alert">Message</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" value="delete" name="cmd[delete]">
+					<input type="submit" class="btn btn-primary" value="delete">
 					<button class="btn btn-default" data-dismiss="modal">cancel</button>
 				</div>
 			</div>
@@ -114,20 +114,18 @@ EOT;
 
     public function testLabels(): void
     {
-        $action_label = 'actionlabel';
-        $cancel_label = 'cancellabel';
+        $action_label = sha1('actionlabel');
+        $cancel_label = sha1('cancellabel');
         $interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'someaction')
             ->withActionButtonLabel($action_label)
             ->withCancelButtonLabel($cancel_label);
 
-        $this->assertEquals(
-            $action_label,
-            $interruptive->getActionButtonLabel()
-        );
-        $this->assertEquals(
-            $cancel_label,
-            $interruptive->getCancelButtonLabel()
-        );
+        $html = $this->getDefaultRenderer()->render($interruptive);
+
+        // cancel label should be used for button and close glyph (x).
+        $this->assertEquals(2, substr_count($html, $cancel_label));
+        // action label should be used exactly once.
+        $this->assertEquals(1, substr_count($html, $action_label));
     }
 }
 

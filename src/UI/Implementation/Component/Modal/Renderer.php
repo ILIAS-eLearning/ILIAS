@@ -140,10 +140,8 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
-        $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
-        $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
-        $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
-        $tpl->setVariable('CLOSE_LABEL', $this->txt($modal->getCancelButtonLabel()));
+        $tpl->setVariable('ACTION_BUTTON_LABEL', $modal->getActionButtonLabel() ?? $this->txt('delete'));
+        $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
 
         return $tpl->get();
     }

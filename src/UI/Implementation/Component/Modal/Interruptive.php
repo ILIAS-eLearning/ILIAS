@@ -34,8 +34,8 @@ class Interruptive extends Modal implements M\Interruptive
     protected array $items = array();
     protected string $title;
     protected string $message;
-    protected string $action_button_label = 'delete';
-    protected string $cancel_button_label = 'cancel';
+    protected ?string $action_button_label = null;
+    protected ?string $cancel_button_label = null;
     protected string $form_action;
 
     public function __construct(
@@ -94,7 +94,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getActionButtonLabel(): string
+    public function getActionButtonLabel(): ?string
     {
         return $this->action_button_label;
     }
@@ -113,7 +113,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel(): string
+    public function getCancelButtonLabel(): ?string
     {
         return $this->cancel_button_label;
     }
