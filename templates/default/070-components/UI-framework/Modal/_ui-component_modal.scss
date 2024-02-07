@@ -26,9 +26,8 @@ $modal-header-border-color:   #e5e5e5 !default;
 //** Modal footer border color
 $modal-footer-border-color:   $modal-header-border-color !default;
 
-$modal-lg:                    900px !default;
-$modal-md:                    600px !default;
-$modal-sm:                    300px !default;
+$modal-md:                    $il-column-standard-width * 2 + $il-padding-xlarge-horizontal * 2 + 2 !default;
+$modal-sm:                    $il-column-standard-width + $il-padding-xlarge-horizontal * 2 + 2 !default;
 
 $modal-title-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 $modal-title-line-height: $il-line-height-base;
@@ -53,7 +52,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 .modal-open {
 	overflow: hidden;
   }
-  
+
   // Container that the modal scrolls within
   .modal {
 	position: fixed;
@@ -65,11 +64,11 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	display: none;
 	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
-  
+
 	// Prevent Chrome on Windows from adding a focus outline. For details, see
 	// https://github.com/twbs/bootstrap/pull/10951.
 	outline: 0;
-  
+
 	// When fading in the modal, animate it to slide down
 	&.fade {
 		transition-property: opacity;
@@ -106,14 +105,14 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	overflow-x: hidden;
 	overflow-y: auto;
   }
-  
+
   // Shell div to position the modal with bottom padding
   .modal-dialog {
 	position: relative;
 	width: auto;
 	margin: 10px;
   }
-  
+
   // Actual modal
   .modal-content {
 	position: relative;
@@ -126,7 +125,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	// Remove focus outline from opened modal
 	outline: 0;
   }
-  
+
   // Modal background
   .modal-backdrop {
 	position: fixed;
@@ -140,7 +139,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	&.fade { @include opacity(0); }
 	&.fade.in { @include opacity($modal-backdrop-opacity); }
   }
-  
+
   // Modal header
   // Top section of the modal w/ title and dismiss
   .modal-header {
@@ -152,14 +151,14 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   .modal-header .close {
 	margin-top: -2px;
   }
-  
+
   // Title text within header
   .modal-title {
 	font-size: $il-font-size-large;
 	margin: 0;
 	line-height: $modal-title-line-height;
   }
-  
+
   // Modal body
   // Where all modal content resides (sibling of .modal-header and .modal-footer)
   .modal-body {
@@ -172,14 +171,14 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 		  }
 	  }
   }
-  
+
   // Footer (for actions)
   .modal-footer {
 	padding: $modal-inner-padding;
 	text-align: right; // right align buttons
 	border-top: 1px solid $modal-footer-border-color;
 	@include clearfix; // clear it in case folks use .pull-* classes on buttons
-  
+
 	// Properly space out buttons
 	.btn + .btn {
 	  margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
@@ -194,7 +193,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	  margin-left: 0;
 	}
   }
-  
+
   // Measure scrollbar width for padding body during modal show/hide
   .modal-scrollbar-measure {
 	position: absolute;
@@ -203,7 +202,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	height: 50px;
 	overflow: scroll;
   }
-  
+
   // Scale up the modal
   @media (min-width: $il-grid-float-breakpoint-max) {
 	// Automatically set modal's width for larger viewports
@@ -214,13 +213,13 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	.modal-content {
 	  @include box-shadow(0 5px 15px rgba(0, 0, 0, .5));
 	}
-  
+
 	// Modal sizes
 	.modal-sm { width: $modal-sm; }
   }
-  
+
   @media (min-width: $screen-md-min) {
-	.modal-lg { width: $modal-lg; }
+	.modal-lg { width: $modal-md; }
   }
 
 // end of section based on bootstrap 3
