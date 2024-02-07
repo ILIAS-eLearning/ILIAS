@@ -44,6 +44,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected int $counter;
     protected string $actual_name;
     protected string $cdata = '';
+    protected string $current_container_setting = '';
 
     public function __construct(
         protected ilObjLearningSequence $obj,
@@ -111,6 +112,10 @@ class ilLearningSequenceXMLParser extends ilSaxParser
                 $this->ls_item_data[$this->counter]["condition_value"] = '';
                 break;
 
+            case Writer::TAG_CONTAINERSETTING:
+                $this->current_container_setting = $attributes['id'];
+                break;
+
             default:
                 break;
         }
@@ -124,6 +129,24 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             case Writer::TAG_LPREFID:
                 $this->lp_settings["lp_item_ref_ids"][] = trim($this->cdata);
                 break;
+            case Writer::TAG_CONTAINERSETTING:
+                if ($this->current_container_setting) {
+                    ilContainer::_writeContainerSetting(
+                        $this->obj->getId(),
+                        $this->current_container_setting,
+                        trim($this->cdata)
+                    );
+                }
+                break;
+
+            case Writer::TAG_TITLE:
+                $this->obj->setTitle(trim($this->cdata));
+                break;
+
+            case Writer::TAG_DESCRIPTION:
+                $this->obj->setDescription(trim($this->cdata));
+                break;
+
             default:
                 break;
         }
