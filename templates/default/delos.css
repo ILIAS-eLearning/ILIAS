@@ -17049,6 +17049,11 @@ body.ilBodyPrint {
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
+.il_InfoScreenPropertyValue .breadcrumb {
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
+}
 /* Services/Init */
 @media only screen and (max-width: 768px) {
   div.ilStartupFrame {
