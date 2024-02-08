@@ -4,6 +4,7 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../050-layout/basics" as l;
 @use "../../../050-layout/standardpage/" as l-spage;
+@use "../../../030-tools/tool_focus-outline" as f;
 
 //== Drilldown Menu
 //
@@ -52,6 +53,7 @@ $il-drilldown-left-indent: l.$il-padding-large-horizontal + s-symbol.$il-icon-si
 				height: 100%;
 				background-color: transparent;
     			border: none;
+				@include f.il-focus-border-only();
 			}
 		}
 	}

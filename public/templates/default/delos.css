@@ -6710,6 +6710,11 @@ footer {
   background-color: transparent;
   border: none;
 }
+.il-drilldown header .backnav .btn-bulky:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+}
 .il-drilldown header.show-backnav {
   padding-left: 38px;
 }
