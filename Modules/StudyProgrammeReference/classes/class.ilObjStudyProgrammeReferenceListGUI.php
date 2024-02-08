@@ -197,6 +197,8 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
             $this->setAdditionalInformation(null);
         }
 
+        $this->reference_ref_id = $a_ref_id;
+
         return ilObjectListGUI::getListItemHTML(
             $a_ref_id,
             $a_obj_id,
