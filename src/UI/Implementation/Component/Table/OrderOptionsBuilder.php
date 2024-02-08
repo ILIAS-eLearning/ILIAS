@@ -23,7 +23,9 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ilLanguage;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
-use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Column;
+use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 /**
  * The Order Options Builder provides labels for the
@@ -31,14 +33,16 @@ use ILIAS\UI\Component\Table\Column\Column;
  */
 class OrderOptionsBuilder
 {
+    protected const SEPERATOR = ', ';
+
     public function __construct(
         protected ilLanguage $lng,
-        protected DataFactory $data_factory,
+        protected DataFactory $data_factory
     ) {
     }
 
     /**
-     * @param array<string, Column>
+     * @param array<string, Column\Column>
      * @return array<string, Order>
      */
     public function buildFor(array $columns): array
@@ -50,43 +54,66 @@ class OrderOptionsBuilder
             list($label_asc, $label_desc) = $this->getLabelsByColumn($col);
             $asc = $internal_label_asc ?? $label_asc;
             $desc = $internal_label_desc ?? $label_desc;
-            $sort_options[$title . ', ' . $asc] = $this->data_factory->order($id, 'ASC');
-            $sort_options[$title . ', ' . $desc] = $this->data_factory->order($id, 'DESC');
+            $sort_options[$title . self::SEPERATOR . $asc] = $this->data_factory->order($id, Order::ASC);
+            $sort_options[$title . self::SEPERATOR . $desc] = $this->data_factory->order($id, Order::DESC);
         }
         return $sort_options;
     }
 
-    protected function getLabelsByColumn(Column $column): array
+    /**
+     * @return string[]
+     */
+    protected function getLabelsByColumn(Column\Column $column): array
     {
+        $column_interface = array_filter(
+            class_implements($column, false),
+            fn($c) => str_starts_with($c, Column::class) && str_ends_with($c, $column->getType())
+        );
 
-        $asc = ['', 'generic_ascending'];
-        $desc = ['', 'generic_descending'];
-        switch($column->getType()) {
-            case 'Text':
-            case 'EMail':
-            case 'Link':
-            case 'LinkListing':
-            case 'Status':
-                $asc = ['', 'alphabetical_ascending'];
-                $desc = ['', 'alphabetical_descending'];
-                break;
-            case 'Number':
-                $asc = ['', 'numerical_ascending'];
-                $desc = ['', 'numerical_descending'];
-                break;
-            case 'Boolean':
-                $asc = [$column->format(true), 'first'];
-                $desc = [$column->format(false), 'first'];
-                break;
-            case 'Date':
-            case 'TimeSpan':
-                $asc = ['', 'chronological_ascending'];
-                $desc = ['', 'chronological_descending'];
+        switch(reset($column_interface)) {
+            case Column\Text::class:
+            case Column\EMail::class:
+            case Column\Link::class:
+            case Column\Link::class:
+            case Column\LinkListing::class:
+            case Column\Status::class:
+                return [
+                    $this->lng->txt('order_option_alphabetical_ascending'),
+                    $this->lng->txt('order_option_alphabetical_descending')
+                ];
+
+            case Column\Number::class:
+                return [
+                    $this->lng->txt('order_option_numerical_ascending'),
+                    $this->lng->txt('order_option_numerical_descending')
+                ];
+
+            case Column\Boolean::class:
+                $column_value_true = $column->format(true);
+                $column_value_false = $column->format(false);
+                if($column_value_true instanceof Component) {
+                    $column_value_true = $column_value_true->getLabel();
+                }
+                if($column_value_false instanceof Component) {
+                    $column_value_false = $column_value_false->getLabel();
+                }
+                return [
+                    $column_value_true . ' ' . $this->lng->txt('order_option_first'),
+                    $column_value_false . ' ' . $this->lng->txt('order_option_first')
+                ];
+
+            case Column\Date::class:
+            case Column\TimeSpan::class:
+                return [
+                    $this->lng->txt('order_option_chronological_ascending'),
+                    $this->lng->txt('order_option_chronological_descending')
+                ];
+
+            default:
+                return [
+                    $this->lng->txt('order_option_generic_ascending'),
+                    $this->lng->txt('order_option_generic_descending')
+                ];
         }
-
-        return [
-            trim(implode(' ', [$asc[0] , $this->lng->txt('order_option_' . $asc[1])])),
-            trim(implode(' ', [$desc[0] , $this->lng->txt('order_option_' . $desc[1])]))
-        ];
     }
 }
