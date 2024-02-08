@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
+use ILIAS\News\Access\NewsAccess;
 
 /**
  * BlockGUI class for block NewsForContext
@@ -31,6 +32,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      * object type names with settings->news settings subtab
      */
     public const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
+    protected NewsAccess $news_access;
     protected bool $cache_hit = false;
     protected bool $dynamic = false;
     protected ilNewsCache $acache;
@@ -65,6 +67,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $this->news_access = new NewsAccess($this->std_request->getRefId());
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -259,7 +263,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         // add edit commands
-        if ($this->getEnableEdit()) {
+        if ($this->news_access->canAdd()) {
             $this->addBlockCommand(
                 $ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
                 $lng->txt("edit")

@@ -34,12 +34,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     protected ?array $old_options = null;
 
     protected array $option_translations = [];
-    private \ilGlobalTemplateInterface $main_tpl;
     public function __construct(?int $a_field_id = null, string $language = '')
     {
         parent::__construct($a_field_id, $language);
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
     public function getType(): int
@@ -429,7 +426,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         $sel->setValue($post_conf_det[$this->getFieldId()][$old_option]);
                     } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sum") {
                         $sel->setAlert($lng->txt("msg_input_is_required"));
-                        $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
+                        $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                     }
                 }
                 $single = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_single"), "sgl");
@@ -487,7 +484,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                             $sel->setValue($post_conf[$this->getFieldId()][$old_option][$item_id]);
                         } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sgl") {
                             $sel->setAlert($lng->txt("msg_input_is_required"));
-                            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
+                            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                         }
                     }
 

@@ -533,7 +533,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
                     $xml .= "</MediaAliasItem>";
@@ -602,7 +602,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
 
