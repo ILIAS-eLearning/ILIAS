@@ -15,7 +15,7 @@ This part of the documentation deals with concepts and business rules, for techn
 * A **Question Constraint** imposes a constraint on a question of the survey.
 * A **Survey Run** represents the current state of a user progress during a survey (access to pages, finished state)
 * An **Answer** represents an answer given by a user during a Survey Run.
-* An **Invitation** invites a user to participate in a survey by adding a task to his/her task list.
+* An **Invitation** invites a user to participate in a survey by adding a task to his/her task list, see https://docu.ilias.de/goto_docu_wiki_wpage_6098_1357.html
 
 ## Question Answers
 
