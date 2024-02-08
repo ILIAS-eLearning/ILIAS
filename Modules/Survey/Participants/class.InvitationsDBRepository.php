@@ -59,6 +59,18 @@ class InvitationsDBRepository
         );
     }
 
+    public function removeAll(int $survey_id): void
+    {
+        $db = $this->db;
+
+        $db->manipulateF(
+            "DELETE FROM svy_invitation WHERE " .
+            " survey_id = %s",
+            ["integer"],
+            [$survey_id]
+        );
+    }
+
 
     /**
      * Add invitation
