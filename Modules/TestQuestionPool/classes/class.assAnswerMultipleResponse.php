@@ -32,10 +32,6 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
 {
     /**
     * The points given to the answer when the answer is not checked
-    *
-    * The points given to the answer when the answer is not checked
-    *
-    * @var float|int|string|null
     */
     public $points_unchecked;
 
