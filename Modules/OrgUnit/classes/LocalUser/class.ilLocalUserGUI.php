@@ -445,10 +445,23 @@ class ilLocalUserGUI
 
     protected function setTableGUIBasicData($tbl, &$result_set, string $a_from = ""): void
     {
-        $order = $_GET["sort_by"] ?: 'title';
-        $direction = $_GET["sort_order"] ?: 'asc';
-        $offset = $_GET["offset"] ?: 0;
-        $limit = $_GET["limit"] ?: 0;
+        $r = $this->refinery;
+        $order = $this->query_wrapper->retrieve("sort_by", $r->byTrying([
+            $r->kindlyTo()->string(),
+            $r->always('title')
+        ]));
+        $direction = $this->query_wrapper->retrieve("sort_order", $r->byTrying([
+            $r->kindlyTo()->string(),
+            $r->always('asc')
+        ]));
+        $offset = $this->query_wrapper->retrieve("offset", $r->byTrying([
+            $r->kindlyTo()->int(),
+            $r->always(0)
+        ]));
+        $limit = $this->query_wrapper->retrieve("limit", $r->byTrying([
+            $r->kindlyTo()->int(),
+            $r->always(0)
+        ]));
 
         if ($a_from == 'clipboardObject') {
             $tbl->disable("footer");
