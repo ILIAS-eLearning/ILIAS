@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
  * This class handles all operations on files (attachments) in directory ilias_data/mail
@@ -242,20 +243,21 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    /**
-     * @param array{name:string, tmp_name:string} $file
-     */
-    public function storeUploadedFile(array $file): void
+    public function storeUploadedFile(UploadResult $result): string
     {
-        $file['name'] = ilFileUtils::_sanitizeFilemame($file['name']);
+        $filename = ilFileUtils::_sanitizeFilemame(
+            $result->getName()
+        );
 
-        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
+        $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $filename);
 
         ilFileUtils::moveUploadedFile(
-            $file['tmp_name'],
-            $file['name'],
-            $this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
+            $result->getPath(),
+            $filename,
+            $this->getMailPath() . '/' . $this->user_id . '_' . $filename
         );
+
+        return $filename;
     }
 
     /**

@@ -374,7 +374,10 @@ class ilContainer extends ilObject
 
             foreach ($settings as $keyword => $value) {
                 // :TODO: proper custom icon export/import
-                if (stripos($keyword, "icon") !== false) {
+                if (
+                    stripos($keyword, "icon") !== false
+                    && $keyword !== 'hide_header_icon_and_title'
+                ) {
                     continue;
                 }
 

@@ -193,7 +193,7 @@ class ilLocalUserGUI
                 $this->logger->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_found_to_delete'));
             }
-            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = ilObjectFactory::getInstanceByObjId((int)$user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -218,7 +218,7 @@ class ilLocalUserGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'performDeleteUsers');
         $confirm->setCancel($this->lng->txt('cancel'), 'index');
         foreach ($_POST['id'] as $user) {
-            $name = ilObjUser::_lookupName($user);
+            $name = ilObjUser::_lookupName((int)$user);
             $confirm->addItem(
                 'user_ids[]',
                 $user,
@@ -240,15 +240,7 @@ class ilLocalUserGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $offset = $_GET["offset"];
-        // init sort_by (unfortunatly sort_by is preset with 'title'
-        if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"])) {
-            $order = "login";
-        } else {
-            $order = $_GET["sort_by"];
-        }
 
-        $direction = $_GET["sort_order"];
         if (!$this->getObjId()) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->index();
@@ -263,6 +255,7 @@ class ilLocalUserGUI
         );
         $ass_roles = $this->rbacReview->assignedRoles($this->getObjId());
         $counter = 0;
+        $f_result = [];
         foreach ($roles as $role) {
             $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
@@ -302,7 +295,7 @@ class ilLocalUserGUI
         // check minimum one global role
         if (!$this->checkGlobalRoles($_POST['role_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
-            $this->assignRolesObject();
+            $this->assignRoles();
 
             return false;
         }

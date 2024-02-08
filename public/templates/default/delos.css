@@ -1,7 +1,4 @@
 @charset "UTF-8";
-/*
-* Dependencies
-*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -682,9 +679,8 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Normalize
-*/
-/* print less */
+* Dependencies
+*/ /* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -892,6 +888,9 @@ th {
   padding: 0;
 }
 
+/*
+* Normalize
+*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2002,9 +2001,6 @@ th {
     display: none !important;
   }
 }
-/*
-* Elements
-*/
 * {
   box-sizing: border-box;
 }
@@ -2366,9 +2362,8 @@ code {
   }
 }
 /*
-* Components
+* Elements
 */
-/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -2608,6 +2603,10 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #273445;
 }
+.btn-default:focus, .navbar-form > a:focus {
+  color: white;
+  text-decoration: none;
+}
 .btn-default[disabled], .navbar-form > a[disabled],
 .btn-default fieldset[disabled],
 .navbar-form > a fieldset[disabled] {
@@ -2655,6 +2654,10 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #223112;
+}
+.btn-primary:focus {
+  color: white;
+  text-decoration: none;
 }
 .btn-primary[disabled],
 .btn-primary fieldset[disabled] {
@@ -3170,6 +3173,25 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: white;
 }
+.btn-ctrl:focus, .il-viewcontrol-section > .btn-default:focus, .il-viewcontrol-section > .btn-link:focus,
+.il-viewcontrol-section .btn-group > .btn-default:focus,
+.il-viewcontrol-section .btn-group > .btn-link:focus,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus,
+.il-viewcontrol-pagination__num-of-items > .btn-default:focus,
+.il-viewcontrol-pagination__num-of-items > .btn-link:focus,
+.il-viewcontrol-pagination > .btn-default:focus,
+.il-viewcontrol-pagination > .btn-link:focus,
+.il-viewcontrol-pagination .dropdown > .btn-default:focus,
+.il-viewcontrol-pagination .dropdown > .btn-link:focus,
+.il-viewcontrol-pagination .last > .btn-default:focus,
+.il-viewcontrol-pagination .last > .btn-link:focus,
+.il-viewcontrol-mode > .btn-default:focus,
+.il-viewcontrol-mode > .btn-link:focus, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus {
+  color: #4c6586;
+  text-decoration: none;
+}
 .btn-ctrl[disabled], .il-viewcontrol-section > [disabled].btn-default, .il-viewcontrol-section > [disabled].btn-link,
 .il-viewcontrol-section .btn-group > [disabled].btn-default,
 .il-viewcontrol-section .btn-group > [disabled].btn-link,
@@ -3368,6 +3390,11 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #bdbdbd;
 }
+.btn-bulky:focus, .il-link.link-bulky:focus,
+.il-drilldown .menulevel:focus {
+  color: #161616;
+  text-decoration: none;
+}
 .btn-bulky[disabled], [disabled].il-link.link-bulky,
 .il-drilldown [disabled].menulevel,
 .btn-bulky fieldset[disabled],
@@ -3542,6 +3569,10 @@ button .minimize, button .close {
   border-width: 1px;
   border-style: solid;
   border-color: #273445;
+}
+.btn-tag:focus {
+  color: white;
+  text-decoration: none;
 }
 .btn-tag[disabled],
 .btn-tag fieldset[disabled] {
@@ -4850,6 +4881,10 @@ td.form-inline > div.form-group {
   border-style: solid;
   border-color: #223112;
 }
+.c-launcher .btn-bulky:focus {
+  color: white;
+  text-decoration: none;
+}
 .c-launcher .btn-bulky[disabled],
 .c-launcher .btn-bulky fieldset[disabled] {
   background-color: #b0b0b0;
@@ -6123,6 +6158,8 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
+}
+@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -6672,6 +6709,11 @@ footer {
   height: 100%;
   background-color: transparent;
   border: none;
+}
+.il-drilldown header .backnav .btn-bulky:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-drilldown header.show-backnav {
   padding-left: 38px;
@@ -9662,7 +9704,6 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
-/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10355,7 +10396,6 @@ div.il_info {
   border-color: #dddddd;
 }
 
-/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10475,9 +10515,15 @@ tbody.collapse.in {
   border-bottom-left-radius: 0;
 }
 
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
+.btn-group .dropdown-toggle:active:not(:focus-visible),
+.btn-group.open .dropdown-toggle:not(:focus-visible) {
   outline: 0;
+}
+.btn-group .dropdown-toggle:active:focus-visible:focus-visible,
+.btn-group.open .dropdown-toggle:focus-visible:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
 .btn-group > .btn + .dropdown-toggle {
@@ -10755,13 +10801,6 @@ tbody.collapse.in {
   list-style: none;
   text-align: center;
 }
-.carousel-indicators:hover, .carousel-indicators:focus {
-  outline: 0;
-  color: #4c6586;
-  text-decoration: none;
-  filter: alpha(opacity=90);
-  opacity: 0.9;
-}
 .carousel-indicators li {
   display: inline-block;
   width: 10px;
@@ -10989,7 +11028,6 @@ tbody.collapse.in {
   clip: auto;
 }
 
-/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -15867,6 +15905,11 @@ a#ilHelpClose {
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
+.il_InfoScreenPropertyValue .breadcrumb {
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
+}
 
 /* Services/Init */
 @media only screen and (max-width: 991px) {
@@ -18778,6 +18821,13 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
+/*
+* Components
+*/
+/* UI Framework */
+/* Component parts from old delos.scss */
+/* Adapted from Bootstrap 3 */
+/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
