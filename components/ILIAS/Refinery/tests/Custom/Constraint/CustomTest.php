@@ -84,7 +84,7 @@ class CustomTest extends TestCase
     {
         $lng_closure = $this->constraint->_getLngClosure();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(ArgumentCountError::class);
 
         $lng_closure();
     }
