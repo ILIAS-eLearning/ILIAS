@@ -38,7 +38,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
     /**
      * InterruptiveModal[]
      */
-    private array $delete_modals;
+    private array $delete_modals = [];
 
     public function __construct(ControlFlowCommandHandler $a_parent_obj, $a_parent_cmd = '')
     {
