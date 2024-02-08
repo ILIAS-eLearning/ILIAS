@@ -383,6 +383,8 @@ class ilObjSurvey extends ilObject
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForCompleteObject();
         }
+
+        $this->invitation_manager->removeAll($this->getSurveyId());
     }
 
     /**
