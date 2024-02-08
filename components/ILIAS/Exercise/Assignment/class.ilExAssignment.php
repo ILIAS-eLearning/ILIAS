@@ -23,7 +23,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\components\ResourceStorage_\Collections\View\PreviewDefinition;
+use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
