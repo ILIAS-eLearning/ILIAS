@@ -24,6 +24,11 @@ use ILIAS\Setup;
 
 /**
  * This is an objective to build some artifact.
+ *
+ * @deprecated not deprecated in the true sense of the word, but we will be making major changes to the artifacts
+ * infrastructure, see for example https://github.com/ILIAS-eLearning/ILIAS/pull/7013#pullrequestreview-1869594435
+ *
+ * therefore: if you are currently implementing it, please contact Richard Klees or Fabian Schmid
  */
 abstract class BuildArtifactObjective implements Setup\Objective
 {
