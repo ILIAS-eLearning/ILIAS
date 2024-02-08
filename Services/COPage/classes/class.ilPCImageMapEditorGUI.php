@@ -90,7 +90,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        switch ($this->map_repo->getMode()) {
+        switch ($this->map->getMode()) {
             // save edited link
             case "edit_link":
 //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
@@ -99,19 +99,19 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $area_link_type = $this->edit_request->getString("area_link_type");
                 if ($area_link_type == IL_INT_LINK) {
                     $this->std_alias_item->setAreaIntLink(
-                        $this->map_repo->getAreaNr(),
-                        $this->map_repo->getLinkType(),
-                        $this->map_repo->getLinkTarget(),
-                        $this->map_repo->getLinkFrame()
+                        $this->map->getAreaNr(),
+                        $this->map->getLinkType(),
+                        $this->map->getLinkTarget(),
+                        $this->map->getLinkFrame()
                     );
                 } elseif ($area_link_type == IL_NO_LINK) {
                     $this->std_alias_item->setAreaExtLink(
-                        $this->map_repo->getAreaNr(),
+                        $this->map->getAreaNr(),
                         ""
                     );
                 } else {
                     $this->std_alias_item->setAreaExtLink(
-                        $this->map_repo->getAreaNr(),
+                        $this->map->getAreaNr(),
                         $this->edit_request->getString("area_link_ext")
                     );
                 }
@@ -121,18 +121,18 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
-                    $this->map_repo->getAreaNr(),
-                    $this->map_repo->getAreaType(),
-                    $this->map_repo->getCoords()
+                    $this->map->getAreaNr(),
+                    $this->map->getAreaType(),
+                    $this->map->getCoords()
                 );
                 $this->page->update();
                 break;
 
             // save new area
             default:
-                $area_type = $this->map_repo->getAreaType();
-                $coords = $this->map_repo->getCoords();
-
+                $area_type = $this->map->getAreaType();
+                $coords = $this->map->getCoords();
+                $link = [];
                 $area_link_type = $this->edit_request->getString("area_link_type");
                 switch ($area_link_type) {
                     case IL_EXT_LINK:
@@ -148,11 +148,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                         break;
 
                     case IL_INT_LINK:
+                        $int_link = $this->map->getInternalLink();
                         $link = array(
                             "LinkType" => IL_INT_LINK,
-                            "Type" => $this->map_repo->getLinkType(),
-                            "Target" => $this->map_repo->getLinkTarget(),
-                            "TargetFrame" => $this->map_repo->getLinkFrame());
+                            "Type" => $int_link["type"],
+                            "Target" => $int_link["target"],
+                            "TargetFrame" => $int_link["target_frame"]);
                         break;
                 }
 
@@ -162,7 +163,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                     $area_type,
                     $coords,
                     $this->edit_request->getString("area_name"),
-                    []
+                    $link
                 );
                 $this->page->update();
                 break;
