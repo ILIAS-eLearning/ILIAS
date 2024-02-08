@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 {
@@ -185,15 +185,18 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         int $a_context = self::CONTEXT_REPOSITORY
     ): string {
         $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
-        $target_ref_id = current(ilObject::_getAllReferences($target_obj_id));
-        $prg = new ilObjStudyProgramme($target_ref_id);
-        $assignments = $prg->getAssignments();
-        if ($this->getCheckboxStatus() && count($assignments) > 0) {
+
+        $prg_dic = \ilStudyProgrammeDIC::dic();
+        $assignment_repo = $prg_dic['repo.assignment'];
+        $has_assignments = $assignment_repo->countAllForNodeIsContained($target_obj_id);
+
+        if ($this->getCheckboxStatus() && $has_assignments) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
             $this->enableCheckbox(false);
         } else {
             $this->setAdditionalInformation(null);
         }
+
         return ilObjectListGUI::getListItemHTML(
             $a_ref_id,
             $a_obj_id,
