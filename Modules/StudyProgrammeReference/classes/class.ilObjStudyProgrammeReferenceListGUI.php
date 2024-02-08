@@ -188,7 +188,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 
         $prg_dic = \ilStudyProgrammeDIC::dic();
         $assignment_repo = $prg_dic['repo.assignment'];
-        $has_assignments = $assignment_repo->countAllForNodeIsContained($target_obj_id);
+        $has_assignments = $assignment_repo->countAllForNodeIsContained($target_obj_id) > 0;
 
         if ($this->getCheckboxStatus() && $has_assignments) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
