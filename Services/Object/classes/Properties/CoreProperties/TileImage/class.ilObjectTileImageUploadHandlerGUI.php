@@ -123,24 +123,6 @@ class ilObjectTileImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler i
         );
     }
 
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        if ($this->has_access === false) {
-            return $this->getAccessFailureResult(
-                $this->getFileIdentifierParameterName(),
-                $identifier,
-                $this->language
-            );
-        }
-
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_OK,
-            $identifier,
-            "We just don't do anything here."
-        );
-    }
-
     public function getInfoResult(string $identifier): ?FileInfoResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {

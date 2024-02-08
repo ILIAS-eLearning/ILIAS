@@ -105,7 +105,6 @@ il.UI.Input = il.UI.Input || {};
 		/**
 		 * @param {string} input_id
 		 * @param {string} upload_url
-		 * @param {string} removal_url
 		 * @param {string} file_identifier
 		 * @param {int} current_file_count
 		 * @param {int} max_file_amount
@@ -117,7 +116,6 @@ il.UI.Input = il.UI.Input || {};
 		let init = function (
 			input_id,
 			upload_url,
-			removal_url,
 			file_identifier,
 			current_file_count,
 			max_file_amount,
@@ -161,7 +159,6 @@ il.UI.Input = il.UI.Input || {};
 					parallelUploads: 1,
 					current_file_count: current_file_count,
 					file_identifier: file_identifier,
-					removal_url: removal_url,
 					input_id: input_id,
 					chunking: should_upload_be_chunked,
 					forceChunking: should_upload_be_chunked,
@@ -582,27 +579,6 @@ il.UI.Input = il.UI.Input || {};
 			}
 		}
 
-		let processRemovals = function (input_id, event) {
-			let file_to_remove = removal_items[input_id];
-			let dropzone = dropzones[input_id];
-			for (let i = 0, i_max = file_to_remove.length; i < i_max; i++) {
-				let file_id = file_to_remove[i];
-				$.ajax({
-					type: 'GET',
-					url: dropzone.options.removal_url,
-					data: {
-						[dropzone.options.file_identifier]: file_id,
-					},
-					success: json_response => {
-
-					},
-					error: json_response => {
-
-					},
-				});
-			}
-		}
-
 		let processCurrentFormDropzones = function (event) {
 			// retrieve all file inputs of the current form.
 			let file_inputs = current_form.find(SELECTOR.file_input);
@@ -613,7 +589,6 @@ il.UI.Input = il.UI.Input || {};
                 for (let i = 0; i < file_inputs.length; i++) {
                     let input_id = file_inputs[i].id;
                     let dropzone = dropzones[input_id];
-                    processRemovals(input_id, event);
                     to_process += dropzone.files.length;
                     if (dropzone.files.length !== 0) {
                         dropzone.processQueue();
@@ -627,7 +602,6 @@ il.UI.Input = il.UI.Input || {};
             } else {
                 let input_id = file_inputs.attr('id');
 				let dropzone = dropzones[input_id];
-				processRemovals(input_id, event);
 				if (0 !== dropzone.files.length) {
 					dropzone.processQueue();
 				} else {

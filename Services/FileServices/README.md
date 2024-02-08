@@ -28,7 +28,6 @@ The simplest variant is to address your `UploadHandler` via ilCtrl. For this the
 
 ```php
 abstract protected function getUploadResult() : HandlerResult;
-abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 abstract public function getInfoForExistingFiles(array $file_ids) : array;
 ```
@@ -79,29 +78,11 @@ An example would be:
 The `$identifier` in a BasicHandlerResult is the value that is then returned as a string value in the form processing after the form is submitted (e. g. `$form->getData();`, see documentation for `\ILIAS\UI\Component\Input\Container\Form\Form`).
 
 #### getRemoveResult
-To remove files that a user has dropped into a file input (and thus have already been processed), he clicks on the (X) in the form field. An asynchronous request is sent to the delete URL, and the identifier of the desired file is sent as a parameter. This is received as a parameter in the method. The method is responsible for deleting this file. In the case of the ResourceStorageService this can be done very simply as follows:
+This function has been removed, because the premature removal of files leads to follow-up problems. 
+Please see the discussion on https://mantis.ilias.de/view.php?id=37161 and https://github.com/ILIAS-eLearning/ILIAS/pull/5807 for more details.
+Please use the storage service for handling the removal of files.
 
-```php
-    protected function getRemoveResult(string $identifier) : HandlerResult
-    {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
-            $this->storage->manage()->remove($id, $this->stakeholder);
-            $status = HandlerResult::STATUS_OK;
-            $message = "file removal OK";
-        } else {
-            $status = HandlerResult::STATUS_OK;
-            $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
-        }
 
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(), 
-            $status, 
-            $identifier, 
-            $message
-        );
-    } 
-```
-If you do not use the storage service, you are responsible for the deletion.
 
 #### getInfoResult
 Here a file input or dropzone can request information about an existing file, e.g. if the form field with `->withValue()` already contains a file. Example with the ResourceStorageService:

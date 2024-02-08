@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
@@ -9,19 +24,6 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\Services as HttpServices;
 use ilCtrl;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilCtrlAwareUploadHandler
  *
@@ -30,7 +32,6 @@ use ilCtrl;
 abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandler
 {
     protected const CMD_UPLOAD = 'upload';
-    protected const CMD_REMOVE = 'remove';
     protected const CMD_INFO = 'info';
 
     protected HttpServices $http;
@@ -84,11 +85,14 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
 
 
     /**
-     * @inheritDoc
+     * @deprecated This function has been removed together with getRemoveResult(),
+     * because the premature removal of files leads to follow-up problems.
+     * Please see the discussion on https://mantis.ilias.de/view.php?id=37161 and
+     * https://github.com/ILIAS-eLearning/ILIAS/pull/5807 for more details.
      */
-    public function getFileRemovalURL(): string
+    final public function getFileRemovalURL(): string
     {
-        return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_REMOVE);
+        throw new \ilException('AbstractCtrlAwareUploadHandler::getFileRemovalURL() -> Deprecated function, please do not use!');
     }
 
     protected function readChunkedInformation(): void
@@ -124,12 +128,6 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
                     );
                 }
                 break;
-            case self::CMD_REMOVE:
-                // here you delete the previously uploaded file again, you know
-                // which file to delete since you defined what 'my_file_id' is.
-                $file_identifier = $this->http->request()->getQueryParams()[$this->getFileIdentifierParameterName()];
-                $content = json_encode($this->getRemoveResult($file_identifier));
-                break;
             case self::CMD_INFO:
                 // here you give info about an already existing file
                 // return a JsonEncoded \ILIAS\FileUpload\Handler\FileInfoResult
@@ -150,7 +148,16 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     abstract protected function getUploadResult(): HandlerResult;
 
 
-    abstract protected function getRemoveResult(string $identifier): HandlerResult;
+    /**
+     * @deprecated This function has been removed together with getFileRemovalURL(),
+     * because the premature removal of files leads to follow-up problems.
+     * Please see the discussion on https://mantis.ilias.de/view.php?id=37161 and
+     * https://github.com/ILIAS-eLearning/ILIAS/pull/5807 for more details.
+     */
+    final protected function getRemoveResult(string $identifier): HandlerResult
+    {
+        throw new \ilException('AbstractCtrlAwareUploadHandler::getRemoveResult() -> Deprecated function, please do not use!');
+    }
 
 
     abstract public function getInfoResult(string $identifier): ?FileInfoResult;
@@ -162,5 +169,4 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     {
         return false;
     }
-
 }

@@ -99,24 +99,6 @@ class ilObjectCustomIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler 
         );
     }
 
-    protected function getRemoveResult(string $file_name): HandlerResult
-    {
-        if ($this->has_access === false) {
-            return $this->getAccessFailureResult(
-                $this->getFileIdentifierParameterName(),
-                $file_name,
-                $this->language
-            );
-        }
-
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_OK,
-            $file_name,
-            'There is nothing to do here.'
-        );
-    }
-
     public function getInfoResult(string $file_name): ?FileInfoResult
     {
         if ($this->has_access === false) {
