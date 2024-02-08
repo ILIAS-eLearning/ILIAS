@@ -35,6 +35,7 @@ use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {
@@ -42,7 +43,8 @@ class GroupTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->basicGroup = new ToGroup(new DataFactory());
+        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        $this->basicGroup = new ToGroup(new DataFactory(), $language);
     }
 
     public function testIsIntegerTransformationInstance(): void

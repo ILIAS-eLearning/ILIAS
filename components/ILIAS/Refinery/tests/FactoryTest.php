@@ -27,6 +27,7 @@ use ILIAS\Refinery\DateTime\Group as DateTimeGroup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\IdentityTransformation;
+use ILIAS\Refinery\IsExecutableTransformation;
 use ILIAS\Refinery\In\Group as InGroup;
 use ILIAS\Refinery\Integer\Group as IntegerGroup;
 use ILIAS\Refinery\Logical\Group as LogicalGroup;
@@ -139,5 +140,11 @@ class FactoryTest extends TestCase
     {
         $instance = $this->basicFactory->identity();
         $this->assertInstanceOf(IdentityTransformation::class, $instance);
+    }
+
+    public function testExecutable(): void
+    {
+        $instance = $this->basicFactory->executable();
+        $this->assertInstanceOf(IsExecutableTransformation::class, $instance);
     }
 }

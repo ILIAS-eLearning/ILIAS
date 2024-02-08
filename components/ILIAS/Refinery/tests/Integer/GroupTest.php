@@ -27,6 +27,8 @@ use ILIAS\Refinery\Integer\LessThan;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Integer\GreaterThanOrEqual;
 use ILIAS\Refinery\Integer\LessThanOrEqual;
+use ILIAS\Refinery\In\Group as InGroup;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
@@ -36,11 +38,14 @@ class GroupTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new Factory();
-        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
+        $language = $this->getMockBuilder(Language::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $in = $this->getMockBuilder(InGroup::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->group = new IntegerGroup($dataFactory, $language);
+        $this->group = new IntegerGroup($dataFactory, $language, $in);
     }
 
     public function testGreaterThanInstance(): void
@@ -64,5 +69,24 @@ class GroupTest extends TestCase
     {
         $instance = $this->group->isLessThanOrEqual(42);
         $this->assertInstanceOf(LessThanOrEqual::class, $instance);
+    }
+
+    public function testIsBetween(): void
+    {
+        $dataFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        $in = $this->getMockBuilder(InGroup::class)->disableOriginalConstructor()->getMock();
+        $series = $this->getMockBuilder(Constraint::class)->getMock();
+
+        $in->expects(self::once())->method('series')->willReturnCallback(function (array $array) use ($series) {
+            $this->assertSame(2, count($array));
+            $this->assertInstanceOf(GreaterThanOrEqual::class, $array[0]);
+            $this->assertInstanceOf(LessThanOrEqual::class, $array[1]);
+
+            return $series;
+        });
+
+        $group = new IntegerGroup($dataFactory, $language, $in);
+        $this->assertSame($series, $group->isBetween(4, 8));
     }
 }
