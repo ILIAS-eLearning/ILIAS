@@ -920,7 +920,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function editOrderObject(): void
     {
         $ilTabs = $this->tabs;
-
         $this->edit_order = true;
         $this->view_manager->setContentView();
         $this->renderObject();
@@ -2666,6 +2665,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!$this->object || !ilContainer::_lookupContainerSetting($this->object->getId(), "filter", '0')) {
             return;
         }
+
+        if ($this->isActiveOrdering() || $this->ctrl->getCmd() === "editOrder") {
+            return;
+        }
+
         $filter_service = $this->container_filter_service;
         $request = $DIC->http()->request();
 
