@@ -389,7 +389,7 @@ class ilObjMediaCast extends ilObject
     ): void {
         $items = [];
         foreach ($this->readOrder() as $i) {
-            if(!array_key_exists($i, $mapping)) {
+            if (!array_key_exists($i, $mapping)) {
                 continue;
             }
             $items[] = $mapping[$i];
@@ -520,7 +520,7 @@ class ilObjMediaCast extends ilObject
             $mc_item->setContent($long_desc);
         }
         $mc_item->setLimitation(false);
-        // @todo handle visibility
+        $mc_item->setVisibility($this->getDefaultAccess() == 0 ? "users" : "public");
         $mc_item->create();
 
         $lp = ilObjectLP::getInstance($this->getId());
