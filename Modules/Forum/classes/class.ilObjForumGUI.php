@@ -1541,10 +1541,12 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
-
         $this->tabs->setBackTarget(
             $this->lng->txt('all_topics'),
-            'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $_GET['ref_id']
+            $this->ctrl->getLinkTarget(
+                $this,
+                'showThreads'
+            )
         );
 
         /**
