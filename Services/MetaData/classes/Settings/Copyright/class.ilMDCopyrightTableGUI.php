@@ -65,7 +65,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('title'), 'title', "30%");
         $this->addColumn($this->lng->txt('md_used'), 'used', "5%");
         $this->addColumn($this->lng->txt('md_copyright_preview'), 'preview', "50%");
-        $this->addColumn($this->lng->txt('meta_copyright_status'), 'status', "5%");
+        $this->addColumn($this->lng->txt('meta_copyright_status'), 'status', "10%");
 
         if ($this->has_write) {
             $this->addColumn('', 'edit', "10%");
@@ -100,11 +100,18 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('VAL_USAGE', $a_set['used']);
         $this->tpl->setVariable('VAL_PREVIEW', $a_set['preview']);
+
+        $status = [];
         if ($a_set['status']) {
-            $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('meta_copyright_outdated'));
+            $status[] = $this->lng->txt('meta_copyright_outdated');
         } else {
-            $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('meta_copyright_in_use'));
+            $status[] = $this->lng->txt('meta_copyright_in_use');
         }
+        if ($a_set['default']) {
+            $status[] = $this->lng->txt('md_copyright_default');
+        }
+
+        $this->tpl->setVariable('VAL_STATUS', implode(', ', $status));
 
         if ($this->has_write) {
             $this->tpl->setVariable('ACTIONS', $this->getActionsForEntry(
