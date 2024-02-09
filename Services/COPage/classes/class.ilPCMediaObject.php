@@ -461,6 +461,24 @@ class ilPCMediaObject extends ilPageContent
             return $a_output;
         }
 
+        if ($a_mode === "edit") {
+            $a_output = str_replace(
+                "{{{{{Unsupported Media Type}}}}}",
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->messageBox()->info(
+                        $this->lng->txt("copg_unsupported_media_type")
+                    )
+                ),
+                $a_output
+            );
+        } else {
+            $a_output = str_replace(
+                "{{{{{Unsupported Media Type}}}}}",
+                "",
+                $a_output
+            );
+        }
+
         // add fullscreen modals
         $page = $this->getPage();
         $suffix = "-" . $page->getParentType() . "-" . $page->getId();
