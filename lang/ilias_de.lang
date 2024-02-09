@@ -11339,6 +11339,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
 meta#:#md_copyright_alt_text#:#Alternativtext
 meta#:#md_copyright_alt_text_info#:#Wird für das ‘alt’ Attribut des Bildes verwendet
+meta#:#md_copyright_default#:#Standard
 meta#:#md_copyright_edit#:#Copyright-Vorgabe bearbeiten
 meta#:#md_copyright_enable_info#:#Aktivieren Sie diese Einstellung, um vordefinierte Nutzungslizenzen anzubieten.
 meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren
