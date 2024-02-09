@@ -3836,6 +3836,7 @@ common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird
 common#:#current_password#:#Derzeitiges Passwort
 common#:#current_user_avatar#:#Ihr Profilbild
 common#:#currently_used_disk_space#:#Aktueller Speicherverbrauch
+common#:#customize_page#:#Seite gestalten
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#Täglich
@@ -8076,6 +8077,7 @@ dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_page_edit_info#:#Mit der Bearbeitung der Dashboard Seite ändern sie das Aussehen des Dashboards für ALLE Benutzer!
 dash#:#dash_presentation#:#Präsentation
 dash#:#dash_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
