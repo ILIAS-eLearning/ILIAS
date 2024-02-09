@@ -282,7 +282,7 @@ class ilObjDataCollection extends ilObject2
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOnline($this->getOnline());
+            $new_obj->setOnline(true);
         }
 
         $new_obj->cloneStructure($this->getRefId());
