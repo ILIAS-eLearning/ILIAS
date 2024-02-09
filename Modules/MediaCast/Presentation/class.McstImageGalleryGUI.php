@@ -23,6 +23,7 @@
  */
 class McstImageGalleryGUI
 {
+    protected string $rss_link;
     protected \ilObjMediaCast $media_cast;
     protected ilGlobalTemplateInterface $tpl;
     protected \ILIAS\DI\UIServices $ui;
@@ -31,11 +32,13 @@ class McstImageGalleryGUI
     protected \ilCtrl $ctrl;
     protected \ilToolbarGUI $toolbar;
 
-    public function __construct(\ilObjMediaCast $obj, $tpl = null)
+    public function __construct(\ilObjMediaCast $obj, $tpl = null,
+        string $rss_link = "")
     {
         global $DIC;
 
         $this->ui = $DIC->ui();
+        $this->rss_link = $rss_link;
         $this->lng = $DIC->language();
         $this->media_cast = $obj;
         $this->tpl = $tpl;
@@ -71,6 +74,14 @@ class McstImageGalleryGUI
         $toolbar->setFormAction($ctrl->getFormAction($this));
         if ($this->media_cast->getDownloadable()) {
             $toolbar->addFormButton($lng->txt("mcst_download_all"), "downloadAll");
+        }
+
+        if ($this->rss_link !== "") {
+            $b = $f->link()->standard(
+                $lng->txt("mcst_webfeed"),
+                $this->rss_link
+            )->withOpenInNewViewport(true);
+            $toolbar->addComponent($b);
         }
 
         // cards and modals
