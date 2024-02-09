@@ -36,7 +36,7 @@ class ilDclFileFieldModel extends ilDclBaseFieldModel
         $record_query = new ilDclRecordQueryObject();
         $record_query->setSelectStatement($select_str);
         $record_query->setJoinStatement($join_str);
-        $record_query->setOrderStatement("field_{$this->getId()} " . $direction);
+        $record_query->setOrderStatement("field_{$this->getId()} " . $direction . ", ID ASC");
 
         return $record_query;
     }
