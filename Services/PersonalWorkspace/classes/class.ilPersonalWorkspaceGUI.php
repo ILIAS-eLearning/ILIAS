@@ -95,7 +95,11 @@ class ilPersonalWorkspaceGUI
 
         $ilCtrl->setReturn($this, "render");
 
-        $this->tool_context->current()->addAdditionalData(ilWorkspaceGSToolProvider::SHOW_WS_TREE, true);
+        if (!in_array($ilCtrl->getCmd(), ["shareFilter"]) &&
+            !in_array(strtolower($ilCtrl->getCmdClass()), ["ilobjectownershipmanagementgui"])
+        ) {
+            $this->tool_context->current()->addAdditionalData(ilWorkspaceGSToolProvider::SHOW_WS_TREE, true);
+        }
 
         // new type
         if ($this->std_request->getNewType()) {
