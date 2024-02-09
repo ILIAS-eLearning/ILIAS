@@ -1724,10 +1724,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->setTitleIcon(ilObject::_getIcon(0, "big", "frm"));
 
         $ref_id = $this->retrieveRefId();
-
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('frm_all_threads'),
-            'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id
+            $this->ctrl->getLinkTarget(
+                $this,
+                'showThreads'
+            )
         );
 
         /** @var ilForum $frm */
