@@ -178,12 +178,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 break;
 
             case "mcstimagegallerygui":
-                $view = new \McstImageGalleryGUI($this->object, $this->tpl);
+                $view = new \McstImageGalleryGUI($this->object, $this->tpl, $this->getFeedLink());
                 $this->ctrl->forwardCommand($view);
                 break;
 
             case "mcstpodcastgui":
-                $view = new \McstPodcastGUI($this->object, $this->tpl);
+                $view = new \McstPodcastGUI($this->object, $this->tpl, $this->getFeedLink());
                 $this->ctrl->forwardCommand($view);
                 break;
 
@@ -268,11 +268,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $table_gui->setSelectAllCheckbox("item_id");
         }
 
-        $feed_icon_html = $this->getFeedIconsHTML();
-        if ($feed_icon_html !== "") {
-            $table_gui->setHeaderHTML($feed_icon_html);
-        }
-
         $new_table = $this->getManageTableGUI();
 
         $script = <<<EOT
@@ -301,76 +296,24 @@ EOT;
         return $this->gui->getMediaCastManageTableGUI($this, "tableCommand");
     }
 
-    public function getFeedIconsHTML(): string
+    public function getFeedLink(): string
     {
-        $lng = $this->lng;
-        $row1 = "";
-        $row2 = "";
-
-        $html = "";
-
         $public_feed = ilBlockSetting::_lookup(
             "news",
             "public_feed",
             0,
             $this->object->getId()
         );
-
+        $url = "";
         // rss icon/link
         if ($public_feed) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-
             if ($enable_internal_rss) {
-                // create dummy object in db (we need an id)
-                $items = $this->object->getItemsArray();
-                foreach (ilObjMediaCast::$purposes as $purpose) {
-                    foreach ($items as  $id => $item) {
-                        $mob = new ilObjMediaObject($item["mob_id"]);
-                        $mob->read();
-                        if ($mob->hasPurposeItem($purpose)) {
-                            if ($html == "") {
-                                $html = " ";
-                            }
-                            $url = ILIAS_HTTP_PATH . "/feed.php?client_id=" . rawurlencode(CLIENT_ID) . "&" . "ref_id=" . $this->requested_ref_id . "&purpose=$purpose";
-                            $title = $lng->txt("news_feed_url");
-
-                            switch (strtolower($purpose)) {
-                                case "audioportable":
-                                    $type1 = ilRSSButtonGUI::ICON_RSS_AUDIO;
-                                    $type2 = ilRSSButtonGUI::ICON_ITUNES_AUDIO;
-                                    break;
-
-                                case "videoportable":
-                                    $type1 = ilRSSButtonGUI::ICON_RSS_VIDEO;
-                                    $type2 = ilRSSButtonGUI::ICON_ITUNES_VIDEO;
-                                    break;
-
-                                default:
-                                    $type1 = ilRSSButtonGUI::ICON_RSS;
-                                    $type2 = ilRSSButtonGUI::ICON_ITUNES;
-                                    break;
-                            }
-                            $row1 .= "&nbsp;" . ilRSSButtonGUI::get($type1, $url);
-                            if ($this->object->getPublicFiles()) {
-                                $url = preg_replace("/https?/i", "itpc", $url);
-                                $title = $lng->txt("news_feed_url");
-
-                                $row2 .= "&nbsp;" . ilRSSButtonGUI::get($type2, $url);
-                            }
-                            break;
-                        }
-                    }
-                }
-                if ($html != "") {
-                    $html .= $row1;
-                    if ($row2 != "") {
-                        $html .= $row2;
-                    }
-                }
+                $url = ILIAS_HTTP_PATH . "/feed.php?client_id=" . rawurlencode(CLIENT_ID) . "&" . "ref_id=" . $this->requested_ref_id;
             }
         }
-        return $html;
+        return $url;
     }
 
     /**
@@ -1607,19 +1550,19 @@ EOT;
         if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY) {
             $this->showGallery();
         } elseif ($this->object->getViewMode() == ilObjMediaCast::VIEW_IMG_GALLERY) {
-            $view = new \McstImageGalleryGUI($this->object, $this->tpl);
+            $view = new \McstImageGalleryGUI($this->object, $this->tpl, $this->getFeedLink());
             $this->tabs->activateTab("content");
             $this->addContentSubTabs("content");
             $tpl->setContent($this->ctrl->getHTML($view));
         } elseif ($this->object->getViewMode() == ilObjMediaCast::VIEW_PODCAST) {
-            $view = new \McstPodcastGUI($this->object, $this->tpl);
+            $view = new \McstPodcastGUI($this->object, $this->tpl, $this->getFeedLink());
             $this->tabs->activateTab("content");
             $this->addContentSubTabs("content");
             $tpl->setContent($this->ctrl->getHTML($view));
         } elseif ($this->object->getViewMode() == ilObjMediaCast::VIEW_VCAST) {
             $ilTabs->activateTab("content");
             $this->addContentSubTabs("content");
-            $view = new \ILIAS\MediaCast\Presentation\VideoViewGUI($this->object, $tpl);
+            $view = new \ILIAS\MediaCast\Presentation\VideoViewGUI($this->object, $tpl, $this->getFeedLink());
             $view->setCompletedCallback($this->ctrl->getLinkTarget(
                 $this,
                 "handlePlayerCompletedEvent",
