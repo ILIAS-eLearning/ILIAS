@@ -1541,7 +1541,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
-        
         $this->tabs->setBackTarget(
             $this->lng->txt('all_topics'),
             $this->ctrl->getLinkTarget(
