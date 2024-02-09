@@ -278,7 +278,8 @@ class ilMediaCreationGUI
                     "mep_id",
                     "",
                     20,
-                    $this->getMimeTypes(true)
+                    $this->getMimeTypes(true),
+                    true
                 );
             // ->meta()->text()->meta()->textarea()
         }
@@ -464,6 +465,12 @@ class ilMediaCreationGUI
      */
     public function performBulkUpload(): void
     {
+        $form = $this->getUploadForm();
+        if (!$form->isValid()) {
+            $this->main_tpl->setContent($form->render());
+            return;
+        }
+
         $this->ctrl->setParameter($this, "mep_hash", $this->request->getUploadHash());
         $this->ctrl->redirect($this, "editTitlesAndDescriptions");
     }
