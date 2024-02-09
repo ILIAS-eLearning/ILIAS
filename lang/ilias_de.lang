@@ -7364,6 +7364,7 @@ copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+copg#:#copg_unsupported_media_type#:#Dieses Medienobjekt hat einen nicht unterstützen Medientyp.
 copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status#:#Lesezeit
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
