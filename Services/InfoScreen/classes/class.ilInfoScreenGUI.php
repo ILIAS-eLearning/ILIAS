@@ -993,7 +993,7 @@ class ilInfoScreenGUI
 
         // global switch
         if ($ilSetting->get("disable_comments")) {
-            $notes_gui->enablePublicNotes(false);
+            return "";
         } else {
             $ref_id = $this->gui_object->getObject()->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
