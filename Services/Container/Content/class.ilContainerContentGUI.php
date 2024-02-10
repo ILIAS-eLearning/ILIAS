@@ -276,7 +276,8 @@ abstract class ilContainerContentGUI
             ,
             $sorting->getBlockPositions(),
             $this->container_gui,
-            $this->getViewMode()
+            $this->getViewMode(),
+            $this->getContainerGUI()->isActiveAdministrationPanel()
         );
 
         // all event items are included per session rendering
@@ -902,7 +903,14 @@ abstract class ilContainerContentGUI
         $position = 1;
         foreach ($items as $item) {
             // we are NOT using hasItem() here, because item might be in multiple item groups
-            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $item_group->getListPresentation());
+
+            $it_pres = $item_group->getListPresentation();
+            if ($this->getContainerGUI()->isActiveOrdering() ||
+                $this->getContainerGUI()->isActiveAdministrationPanel()) {
+                $it_pres = "list";
+            }
+
+            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $it_pres);
             if ($html2 != "") {
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);

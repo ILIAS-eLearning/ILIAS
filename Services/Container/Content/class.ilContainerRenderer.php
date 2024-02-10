@@ -24,6 +24,7 @@
 class ilContainerRenderer
 {
     protected const UNIQUE_SEPARATOR = "-";
+    protected bool $admin_panel;
 
     protected ilLanguage $lng;
     protected ilSetting $settings;
@@ -64,10 +65,12 @@ class ilContainerRenderer
         bool $a_active_block_ordering = false,
         array $a_block_custom_positions = [],
         ?ilContainerGUI $container_gui_obj = null,
-        int $a_view_mode = ilContainerContentGUI::VIEW_MODE_LIST
+        int $a_view_mode = ilContainerContentGUI::VIEW_MODE_LIST,
+        bool $admin_panel = false
     ) {
         global $DIC;
 
+        $this->admin_panel = $admin_panel;
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $this->ui = $DIC->ui();
@@ -472,7 +475,7 @@ class ilContainerRenderer
             if (is_numeric($a_block_id)) {
                 $item_group = new ilObjItemGroup($a_block_id);
                 if ($item_group->getListPresentation() !== "") {
-                    $view_mode = ($item_group->getListPresentation() === "tile")
+                    $view_mode = ($item_group->getListPresentation() === "tile" && !$this->active_block_ordering && !$this->admin_panel)
                         ? ilContainerContentGUI::VIEW_MODE_TILE
                         : ilContainerContentGUI::VIEW_MODE_LIST;
                     $tile_size = $item_group->getTileSize();
