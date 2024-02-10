@@ -1135,10 +1135,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ctype = $this->style_request->getTempType();
         if ($ctype == "") {
             $ctype = "table";
-            $ilCtrl->setParameter($this, "temp_type", $ctype);
         }
 
         $this->setTemplatesSubTabs();
+        $ilCtrl->setParameter($this, "temp_type", $ctype);
         $ilTabs->setSubTabActive("sty_" . $ctype . "_templates");
 
         // action commands
@@ -1345,6 +1345,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $scs = ilObjStyleSheet::_getTemplateClassTypes(
             $this->style_request->getTempType()
         );
+
         foreach ($scs as $sc => $st) {
             $sc_input = new ilSelectInputGUI($lng->txt("sty_" . $sc . "_class"), $sc . "_class");
             $chars = $this->object->getCharacteristics($st);
