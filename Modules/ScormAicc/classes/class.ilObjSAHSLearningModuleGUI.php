@@ -338,6 +338,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC->access();
         $ilErr = $DIC['ilErr'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $importFromXml = false;
 
@@ -398,9 +399,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         switch ($subType) {
             case "scorm2004":
                 $newObj = new ilObjSCORM2004LearningModule();
-                //            $newObj->setEditable(false);//$_POST["editable"] == 'y');
-                //            $newObj->setImportSequencing($_POST["import_sequencing"]);
-                //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                 break;
 
             case "scorm":
@@ -412,15 +410,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $fType = $sFile["type"];
                 $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
                 if (in_array($fType, $cFileTypes)) {
-                    $timeStamp = time();
                     $tempFile = $sFile["tmp_name"];
-                    $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
-                    $lmTempDir = $lmDir . $timeStamp;
-                    if (!file_exists($lmTempDir)) {
-                        if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
-                            throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
-                        }
-                    }
+                    $lmTempDir = ilFileUtils::ilTempnam();
+                    ilFileUtils::makeDir($lmTempDir);
                     $zar = new ZipArchive();
                     $zar->open($tempFile);
                     $zar->extractTo($lmTempDir);
@@ -428,21 +420,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     ilFileUtils::renameExecutables($lmTempDir);
                     $importer = new ilScormAiccImporter();
                     $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                    try {
-                        $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                        $importFromXml = true;
-                        $mprops = $importer->moduleProperties;
+                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                    $importFromXml = true;
+                    $mprops = $importer->moduleProperties;
 
+                    if (isset($mprops["SubType"])) {
                         $subType = (string) $mprops["SubType"];
                         if ($subType === "scorm") {
                             $newObj = new ilObjSCORMLearningModule();
                         } else {
                             $newObj = new ilObjSCORM2004LearningModule();
                         }
-                    } catch (\Exception $e) {
+                    } else {
                         ilFileUtils::delDir($lmTempDir, false);
-                        $this->lng->loadLanguageModule("obj");
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage(), true);
+                        $ilLog->info("SCORM import of ILIAS exportfile not possible because of missing SCORM SubType");
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
                         return;
                     }
                 }
