@@ -332,13 +332,13 @@ class ilObjectGUI implements ImplementsCreationCallback
         if (!is_object($this->object)) {
             if ($this->requested_crtptrefid > 0) {
                 $cr_obj_id = ilObject::_lookupObjId($this->requested_crtcb);
-                $this->tpl->setTitle(ilObject::_lookupTitle($cr_obj_id));
-                $this->tpl->setTitleIcon(ilObject::_getIcon($cr_obj_id));
+                $this->tpl->setTitle($this->maskTemplateMarkers(ilObject::_lookupTitle($cr_obj_id)));
+                $this->tpl->setTitleIcon($this->maskTemplateMarkers(ilObject::_getIcon($cr_obj_id)));
             }
             return;
         }
-        $this->tpl->setTitle($this->object->getPresentationTitle());
-        $this->tpl->setDescription($this->object->getLongDescription());
+        $this->tpl->setTitle($this->maskTemplateMarkers($this->object->getPresentationTitle()));
+        $this->tpl->setDescription($this->maskTemplateMarkers($this->object->getLongDescription()));
 
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
         if (strtolower($base_class) == "iladministrationgui") {
@@ -1685,5 +1685,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->favourites->remove($this->user->getId(), $item_ref_id);
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
+    }
+
+    private function maskTemplateMarkers(string $string): string
+    {
+        return str_replace(['{', '}'], ['&#123;', '&#125;'], $string);
     }
 }
