@@ -38,12 +38,17 @@ class DomainService
 
     public function getNrOfNotesForContext(
         Context $context,
-        bool $incl_sub = false
+        bool $incl_sub = false,
+        ?int $author = null
     ): int {
+        if (is_null($author)) {
+            $author = $this->internal_domain->user()->getId();
+        }
         return $this->notes_manager->getNrOfNotesForContext(
             $context,
             Note::PRIVATE,
-            $incl_sub
+            $incl_sub,
+            $author
         );
     }
 
