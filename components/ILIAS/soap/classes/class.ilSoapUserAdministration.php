@@ -224,26 +224,26 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         // first verify
-        $importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
-        $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
+        $importParser = new ilUserImportParser("", ilUserImportParser::IL_VERIFY, $conflict_rule);
+        $importParser->setUserMappingMode(ilUserImportParser::IL_USER_MAPPING_ID);
         $importParser->setXMLContent($usr_xml);
         $importParser->startParsing();
 
         switch ($importParser->getErrorLevel()) {
-            case IL_IMPORT_SUCCESS:
+            case ilUserImportParser::IL_IMPORT_SUCCESS:
                 break;
-            case IL_IMPORT_WARNING:
+            case ilUserImportParser::IL_IMPORT_WARNING:
                 return $this->getImportProtocolAsXML($importParser->getProtocol());
                 break;
-            case IL_IMPORT_FAILURE:
+            case ilUserImportParser::IL_IMPORT_FAILURE:
                 return $this->getImportProtocolAsXML($importParser->getProtocol());
         }
 
         // verify is ok, so get role assignments
 
-        $importParser = new ilUserImportParser("", IL_EXTRACT_ROLES, $conflict_rule);
+        $importParser = new ilUserImportParser("", ilUserImportParser::IL_EXTRACT_ROLES, $conflict_rule);
         $importParser->setXMLContent($usr_xml);
-        $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
+        $importParser->setUserMappingMode(ilUserImportParser::IL_USER_MAPPING_ID);
         $importParser->startParsing();
 
         $roles = $importParser->getCollectedRoles();
@@ -313,9 +313,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         //print_r ($permitted_roles);
 
-        $importParser = new ilUserImportParser("", IL_USER_IMPORT, $conflict_rule);
+        $importParser = new ilUserImportParser("", ilUserImportParser::IL_USER_IMPORT, $conflict_rule);
         $importParser->setSendMail($send_account_mail);
-        $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
+        $importParser->setUserMappingMode(ilUserImportParser::IL_USER_MAPPING_ID);
         $importParser->setFolderId($folder_id);
         $importParser->setXMLContent($usr_xml);
 
@@ -323,7 +323,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         $importParser->startParsing();
 
-        if ($importParser->getErrorLevel() !== IL_IMPORT_FAILURE) {
+        if ($importParser->getErrorLevel() !== ilUserImportParser::IL_IMPORT_FAILURE) {
             return $this->getUserMappingAsXML($importParser->getUserMapping());
         }
         return $this->getImportProtocolAsXML($importParser->getProtocol());
