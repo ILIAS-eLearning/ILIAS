@@ -783,8 +783,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = array();
+        $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+
         if (($active_id > 0) && (!$show_correct_solution)) {
             $user_solution["active_id"] = $active_id;
             $user_solution["pass"] = $pass;
@@ -946,12 +946,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $user_solution[$matches[1]] = $solution_value["value2"];
             }
         }
-        // fau.
 
-        if (!$this->object->hasRequiredVariableSolutionValues($user_solution)) {
-            foreach ($this->object->getInitialVariableSolutionValues() as $val1 => $val2) {
-                $this->object->saveCurrentSolution($active_id, $pass, $val1, $val2, true);
-            }
+        if ($user_solution === []) {
+            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
         }
 
         // generate the question output
