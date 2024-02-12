@@ -80,7 +80,8 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new \ILIAS\Data\Factory(),
             new C\Table\Column\Factory(),
             new C\Table\Action\Factory(),
-            new C\Table\DataRowBuilder()
+            new C\Table\DataRowBuilder(),
+            new C\Table\OrderingRowBuilder()
         );
     }
 }

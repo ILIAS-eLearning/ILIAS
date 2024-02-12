@@ -18,22 +18,12 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+namespace ILIAS\UI\Component\Table;
 
-class TableFactoryTest extends AbstractFactoryTest
+interface OrderingRowBuilder
 {
-    public array $kitchensink_info_settings = [
-        "presentation" => [
-            "context" => false,
-            "rules" => true
-        ],
-        "data" => [
-            "context" => false
-        ],
-        "ordering" => [
-            "context" => false
-        ]
-    ];
-
-    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    /**
+     * @param array<string, mixed> $record
+     */
+    public function buildRow(string $id, array $record): OrderingRow;
 }

@@ -34,6 +34,18 @@ use ILIAS\UI\URLBuilder;
  */
 class DataTest extends TableTestBase
 {
+    protected function getFactory()
+    {
+        return new C\Table\Factory(
+            new C\SignalGenerator(),
+            new \ILIAS\Data\Factory(),
+            new C\Table\Column\Factory(),
+            new C\Table\Action\Factory(),
+            new C\Table\DataRowBuilder(),
+            new C\Table\OrderingRowBuilder()
+        );
+    }
+
     protected function getDataRetrieval(): I\Table\DataRetrieval
     {
         return new class () implements I\Table\DataRetrieval {

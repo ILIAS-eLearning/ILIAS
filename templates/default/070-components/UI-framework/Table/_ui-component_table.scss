@@ -178,6 +178,7 @@ th.c-table-data__cell {
     @include brk.on-screen-size(large) {
         top: spage.$il-standard-page-breadcrumbs-height - 1px;
     }
+
 }
 
 // shadow below header when sticky (because borders and box shadow are left behind in tables)
@@ -252,6 +253,15 @@ th.c-table-data__cell:after {
     position: sticky;
     left: -1px; // so text doesn't glitch through on left edge
     z-index: 2;
+}
+
+.c-table-data__positioninput {
+    label {
+        display:none;
+    }
+    input {
+        width : 50px;
+    }
 }
 
 //

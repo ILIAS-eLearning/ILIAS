@@ -33,7 +33,7 @@ interface Data extends Table
     /**
      * @param array<string, Action\Action>    $actions
      */
-    public function withActions(array $actions): self;
+    public function withActions(array $actions): static;
 
     /**
      * Rendering the Table must be done using the current Request:
@@ -41,7 +41,7 @@ interface Data extends Table
      * and parameters will already influence e.g. the presentation of
      * column-titles (think of ordering...).
      */
-    public function withRequest(ServerRequestInterface $request): self;
+    public function withRequest(ServerRequestInterface $request): static;
 
     /**
      * Number of Rows is the amount of rows shown per page

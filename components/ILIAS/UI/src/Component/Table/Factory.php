@@ -261,4 +261,43 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Action\Factory
      */
     public function action(): Action\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Ordering Table lists records in a structured, tabular way,
+     *       and offers means to change the order of them.
+     *
+     *   composition: >
+     *       The Ordering Table will have an input for each row to change the
+     *       order of rows as well as an submit button to apply the new order.
+     *
+     *   effect: >
+     *       The user may input numeric values to change the order of records.
+     *       She may also drag rows to the desired position; the inputs' values
+     *       will change accordingly.
+     *
+     *   rivals:
+     *     Data Table: >
+     *       The Ordering Table is strongly focused on arranging the records.
+     *       It does not provide any View Controls like Pagination or Sortation.
+     *
+     * rules:
+     *   usage:
+     *       1: >
+     *         Colums (and their values) MUST provide adequate information to
+     *         identify and distinguish records.
+     *
+     * ---
+     * @param string     $title
+     * @param array<string, Column\Column>     $columns
+     * @return \ILIAS\UI\Component\Table\Ordering
+     */
+    public function ordering(
+        string $title,
+        array $columns,
+        OrderingBinding $retrieval
+    ): Ordering;
 }
