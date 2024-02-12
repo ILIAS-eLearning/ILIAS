@@ -6252,7 +6252,7 @@ content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bi
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
-content#:#cont_click_edit#:#<b>Klicken</b> Sie ein <b>Seitenelement</b>, um es zu <b>bearbeiten</b>.
+content#:#cont_click_edit#:#Um ein <b>Seitenelement zu bearbeiten</b>, <b>klicken</b> Sie es an.
 content#:#cont_click_multi_select#:#<b>Klicken</b> Sie Seitenelemente um diese <b>auszuwählen</b> oder die Auswahl wieder aufzuheben.
 content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des Polygons oder speichern Sie den gewünschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
@@ -6339,7 +6339,7 @@ content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Der Reiter „Download“ wird in der Präsentationsansicht angezeigt. Erzeugen Sie im Reiter „Export„ eine Exportdatei und geben Sie diese für den öffentlichen Zugriff frei. Dann können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für die Offline-Nutzung oder den Import in eine andere ILIAS-Installation.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
-content#:#cont_drag_and_drop_elements#:#<b>Ziehen</b> Sie ein Seitenelement mit der Maus auf einen Platzhalter um es zu <b>bewegen</b>.
+content#:#cont_drag_and_drop_elements#:#Um ein Seitenelement zu <b>verschieben</b>, <b>ziehen</b> Sie es mit der Maus auf den gewünschten Platzhalter.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -7046,7 +7046,7 @@ content#:#cont_set_styles#:#Styles bestimmen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
 content#:#cont_settings#:#Lernmoduleinstellungen
 content#:#cont_shape#:#Form
-content#:#cont_shift_click_to_select#:#Mit <b>Shift + Klick</b> <b>wählen</b> Sie ein Seitenelement <b>aus</b> und wechseln in den Auswahlmodus.
+content#:#cont_shift_click_to_select#:#Um Seitenelemente zum <b>Löschen, Kopieren usw.</b> auszuwählen, drücken Sie die <b>Umschalt-Taste</b> ⇧ und <b>klicken</b> auf die Seitenelemente.
 content#:#cont_short_title#:#Kurztitel
 content#:#cont_short_title_info#:#Kurztitel werden in der Baumdarstellung auf der linken Seite und für das Vor- und Zurück-Navigieren genutzt.
 content#:#cont_short_titles#:#Kurztitel
