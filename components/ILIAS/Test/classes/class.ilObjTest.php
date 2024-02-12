@@ -3427,7 +3427,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $participant_functionality_settings = $participant_functionality_settings->withSuspendTestAllowed((bool) $metadata["entry"]);
                     break;
                 case "sequence_settings":
-                    $participant_functionality_settings->withPostponedQuestionsMoveToEnd((bool) $metadata["entry"]);
+                    $participant_functionality_settings = $participant_functionality_settings->withPostponedQuestionsMoveToEnd((bool) $metadata["entry"]);
                     break;
                 case "show_marker":
                     $participant_functionality_settings = $participant_functionality_settings->withQuestionMarkingEnabled((bool) $metadata["entry"]);
@@ -3548,6 +3548,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'obligations_enabled':
                     $question_behaviour_settings = $question_behaviour_settings->withCompulsoryQuestionsEnabled((bool) $metadata['entry']);
                     break;
+                case 'show_summary':
+                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled(($metadata['entry'] & 1) > 0)
+                        ->withUsrPassOverviewMode((int) $metadata['entry']);
             }
             if (preg_match("/mark_step_\d+/", $metadata["label"])) {
                 $xmlmark = $metadata["entry"];
