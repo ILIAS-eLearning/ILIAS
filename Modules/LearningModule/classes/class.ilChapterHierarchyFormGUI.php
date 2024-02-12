@@ -309,8 +309,9 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     return $lng->txt("cont_page_deactivated_elements");
                 }
             }
+            return $lng->txt("pg");
         }
-        return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
+        return $lng->txt("st");;
     }
 
     /**
