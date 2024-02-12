@@ -179,13 +179,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         switch ($conflict_rule) {
             case 2:
-                $conflict_rule = IL_UPDATE_ON_CONFLICT;
+                $conflict_rule = ilUserImportParser::IL_UPDATE_ON_CONFLICT;
                 break;
             case 3:
-                $conflict_rule = IL_IGNORE_ON_CONFLICT;
+                $conflict_rule = ilUserImportParser::IL_IGNORE_ON_CONFLICT;
                 break;
             default:
-                $conflict_rule = IL_FAIL_ON_CONFLICT;
+                $conflict_rule = ilUserImportParser::IL_FAIL_ON_CONFLICT;
         }
         if ($folder_id === 0 && !$access->checkAccess('create_usr', '', self::USER_FOLDER_ID)) {
             return $this->raiseError(
