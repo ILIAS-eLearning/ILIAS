@@ -2463,6 +2463,11 @@ class ilObjSurvey extends ilObject
             $user_id = (int) ilObjUser::_lookupId($recipient);
             if ($user_id > 0) {
                 $ntf->sendMailAndReturnRecipients([$user_id]);
+            } else {
+                $user_ids = ilObjUser::getUserIdsByEmail($recipient);
+                if (count($user_ids) > 0) {
+                    $ntf->sendMailAndReturnRecipients([current($user_ids)]);
+                }
             }
             /*  note: this block is replace by the single line above
                 since the UI asks for account names and the "e-mail" fallback leads
