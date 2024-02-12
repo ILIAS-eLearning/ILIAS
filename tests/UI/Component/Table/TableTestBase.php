@@ -81,8 +81,8 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new C\Table\Column\Factory(),
             new C\Table\Action\Factory(),
             new C\Table\DataRowBuilder(),
-            $this->getMockStorage()
-            new C\Table\OrderOptionsBuilder(
+            $this->getMockStorage(),
+            new C\Table\Column\OrderOptionsBuilder(
                 $this->getLanguage(),
                 new \ILIAS\Data\Factory()
             )

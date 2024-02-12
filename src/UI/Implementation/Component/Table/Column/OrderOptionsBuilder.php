@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table;
+namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ilLanguage;
 use ILIAS\Data\Factory as DataFactory;
@@ -65,30 +65,20 @@ class OrderOptionsBuilder
      */
     protected function getLabelsByColumn(Column\Column $column): array
     {
-        $column_interface = array_filter(
-            class_implements($column, false),
-            fn($c) => str_starts_with($c, Column::class) && str_ends_with($c, $column->getType())
-        );
-
-        switch(reset($column_interface)) {
-            case Column\Text::class:
-            case Column\EMail::class:
-            case Column\Link::class:
-            case Column\Link::class:
-            case Column\LinkListing::class:
-            case Column\Status::class:
+        switch($column->getOrderLabelType()) {
+            case OrderLabelType::ALPHABETICAL:
                 return [
                     $this->lng->txt('order_option_alphabetical_ascending'),
                     $this->lng->txt('order_option_alphabetical_descending')
                 ];
 
-            case Column\Number::class:
+            case OrderLabelType::NUMERIC:
                 return [
                     $this->lng->txt('order_option_numerical_ascending'),
                     $this->lng->txt('order_option_numerical_descending')
                 ];
 
-            case Column\Boolean::class:
+            case OrderLabelType::BOOL:
                 $column_value_true = $column->format(true);
                 $column_value_false = $column->format(false);
                 if($column_value_true instanceof Component) {
@@ -102,13 +92,13 @@ class OrderOptionsBuilder
                     $column_value_false . ' ' . $this->lng->txt('order_option_first')
                 ];
 
-            case Column\Date::class:
-            case Column\TimeSpan::class:
+            case OrderLabelType::DATE:
                 return [
                     $this->lng->txt('order_option_chronological_ascending'),
                     $this->lng->txt('order_option_chronological_descending')
                 ];
 
+            case OrderLabelType::GENERIC:
             default:
                 return [
                     $this->lng->txt('order_option_generic_ascending'),

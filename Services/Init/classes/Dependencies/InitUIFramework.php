@@ -138,7 +138,7 @@ class InitUIFramework
         };
         $c["ui.factory.table"] = function ($c) {
             $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
-            $order_options_builder = new ILIAS\UI\Implementation\Component\Table\OrderOptionsBuilder(
+            $order_options_builder = new ILIAS\UI\Implementation\Component\Table\Column\OrderOptionsBuilder(
                 $c['lng'],
                 $c["ui.data_factory"]
             );

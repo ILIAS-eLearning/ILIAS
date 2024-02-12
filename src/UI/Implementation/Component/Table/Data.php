@@ -35,6 +35,7 @@ use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
+use ILIAS\UI\Implementation\Component\Table\Column\OrderOptionsBuilder;
 
 class Data extends Table implements T\Data, JSBindable
 {

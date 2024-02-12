@@ -20,20 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
-use ILIAS\UI\Component\Table\Column as C;
-use ILIAS\UI\Component\Link\Standard;
-use ILIAS\UI\Component\Component;
-
-class Link extends Column implements C\Link
+/**
+ * OrderOptionsBuilder has different approaches/translations according to
+ * the nature of the column.
+ */
+enum OrderLabelType: int
 {
-    public function format($value): string|Component
-    {
-        $this->checkArgInstanceOf('value', $value, Standard::class);
-        return $value;
-    }
-
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::ALPHABETICAL;
-    }
+    case GENERIC = 0;
+    case ALPHABETICAL = 1;
+    case NUMERIC = 2;
+    case BOOL = 3;
+    case DATE = 4;
 }

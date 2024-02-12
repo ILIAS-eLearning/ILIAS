@@ -24,4 +24,8 @@ use ILIAS\UI\Component\Table\Column as C;
 
 class EMail extends Column implements C\EMail
 {
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::ALPHABETICAL;
+    }
 }

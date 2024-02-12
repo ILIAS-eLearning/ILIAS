@@ -48,4 +48,9 @@ class Boolean extends Column implements C\Boolean
         $this->checkBoolArg('value', $value);
         return $value ? $this->true_option : $this->false_option;
     }
+
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::BOOL;
+    }
 }

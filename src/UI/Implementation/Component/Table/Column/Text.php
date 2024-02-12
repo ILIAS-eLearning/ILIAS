@@ -24,4 +24,8 @@ use ILIAS\UI\Component\Table\Column as C;
 
 class Text extends Column implements C\Text
 {
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::ALPHABETICAL;
+    }
 }

@@ -84,4 +84,9 @@ class Number extends Column implements C\Number
         }
         return $value;
     }
+
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::NUMERIC;
+    }
 }

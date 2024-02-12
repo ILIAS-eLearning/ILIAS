@@ -51,6 +51,12 @@ abstract class Column implements C\Column
         return array_pop($class);
     }
 
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::GENERIC;
+    }
+
+
     public function withIsSortable(
         bool $flag
     ): self {

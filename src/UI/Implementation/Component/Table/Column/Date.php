@@ -40,4 +40,9 @@ class Date extends Column implements C\Date
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
         return $value->format($this->getFormat()->toString());
     }
+
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::DATE;
+    }
 }

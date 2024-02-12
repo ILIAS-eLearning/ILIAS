@@ -21,7 +21,7 @@ declare(strict_types=1);
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use ILIAS\UI\Implementation\Component\Table\OrderOptionsBuilder;
+use ILIAS\UI\Implementation\Component\Table\Column\OrderOptionsBuilder;
 use ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;

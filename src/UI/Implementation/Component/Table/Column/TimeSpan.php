@@ -43,4 +43,9 @@ class TimeSpan extends Column implements C\TimeSpan
             . ' - ' .
             $value[1]->format($this->getFormat()->toString());
     }
+
+    public function getOrderLabelType(): OrderLabelType
+    {
+        return OrderLabelType::DATE;
+    }
 }

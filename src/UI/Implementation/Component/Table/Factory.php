@@ -41,7 +41,7 @@ class Factory implements T\Factory
         protected T\Action\Factory $action_factory,
         protected DataRowBuilder $data_row_builder,
         protected \ArrayAccess $storage,
-        protected OrderOptionsBuilder $order_option_builder
+        protected Column\OrderOptionsBuilder $order_option_builder
     ) {
     }
 
@@ -70,7 +70,7 @@ class Factory implements T\Factory
             $title,
             $columns,
             $data_retrieval,
-            $this->storage
+            $this->storage,
             $this->order_option_builder
         );
     }
