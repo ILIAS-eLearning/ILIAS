@@ -118,7 +118,7 @@ class ilStyleCharacteristicGUI
                     "pasteCharacteristicsWithinStyle", "pasteCharacteristicsFromOtherStyle",
                     "saveStatus", "setOutdated", "removeOutdated",
                     "editTagStyle", "refreshTagStyle", "updateTagStyle",
-                    "editTagTitles", "saveTagTitles"])) {
+                    "editTagTitles", "saveTagTitles", "switchMQuery"])) {
                     $this->$cmd();
                 }
         }
@@ -1312,4 +1312,15 @@ class ilStyleCharacteristicGUI
 
         $ilCtrl->redirect($this, "listCharacteristics");
     }
+
+    /**
+     * Switch media query
+     */
+    public function switchMQuery(): void
+    {
+        $ctrl = $this->gui_service->ctrl();
+        $ctrl->setParameter($this, "mq_id", $this->request->getMediaQueryId());
+        $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
+    }
+
 }
