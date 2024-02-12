@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * SCORM Learning Modules
@@ -421,19 +421,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $importer = new ilScormAiccImporter();
                     $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
                     $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                    $importFromXml = true;
-                    $mprops = $importer->moduleProperties;
+                    $import_result = $importer->getResult();
 
-                    if (isset($mprops["SubType"])) {
-                        $subType = (string) $mprops["SubType"];
-                        if ($subType === "scorm") {
+                    $importFromXml = true;
+
+                    if ($import_result->isOK()) {
+                        $properties = $import_result->value();
+                        if (($subType = $properties['SubType']) === 'scorm') {
                             $newObj = new ilObjSCORMLearningModule();
                         } else {
                             $newObj = new ilObjSCORM2004LearningModule();
                         }
                     } else {
                         ilFileUtils::delDir($lmTempDir, false);
-                        $ilLog->info("SCORM import of ILIAS exportfile not possible because of missing SCORM SubType");
+                        $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
+                        $ilLog->error($import_result->error());
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
                         return;
                     }
