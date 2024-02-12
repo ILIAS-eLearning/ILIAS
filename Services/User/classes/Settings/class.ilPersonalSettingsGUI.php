@@ -387,6 +387,7 @@ class ilPersonalSettingsGUI
             }
 
             $si = new ilSelectInputGUI($this->lng->txt('language'), 'language');
+            $si->setOptionsLangAttribute(fn($options, $key) => $key);
             $si->setOptions($options);
             $si->setValue($this->user->getLanguage());
             $si->setDisabled((bool) $this->settings->get('usr_settings_disable_language'));
