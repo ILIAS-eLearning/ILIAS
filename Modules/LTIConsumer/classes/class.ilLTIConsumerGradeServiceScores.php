@@ -157,7 +157,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         ilLPStatus::writeStatus($objId, $userId, $lp_status, $lp_percentage, true);
 
-        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $score->timestamp);
+        $ltiTimestamp = DateTimeImmutable::createFromFormat(DateTimeInterface::RFC3339_EXTENDED, $score->timestamp);
         $gradeValues = [
             'id' => array('integer', $DIC->database()->nextId('lti_consumer_grades')),
             'obj_id' => array('integer', $objId),
