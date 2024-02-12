@@ -175,9 +175,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 $this->object->getColumns()->addCategory($value, $columns['other'][$key] ?? 0, 0, null, $columns['scale'][$key]);
             }
         }
-        if (isset($columns["neutral"]) && is_string($columns["neutral"])) {
+        if (isset($columns["neutral"][0]) && is_string($columns["neutral"][0])) {
             $this->object->getColumns()->addCategory(
-                $columns['neutral'],
+                $columns['neutral'][0],
                 0,
                 1,
                 null,
