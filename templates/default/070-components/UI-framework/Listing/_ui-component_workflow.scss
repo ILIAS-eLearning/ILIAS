@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:color";
 @use "../../../010-settings/"as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
 @use "../../../050-layout/basics" as *;
@@ -7,10 +8,10 @@
 //== Workflow
 //
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
-$il-workflow-icon-size: 21px;
+$il-workflow-icon-size: 22px;
 $il-workflow-icon-font-color: white;
 $il-workflow-available-text-color: $il-text-color;
-$il-workflow-unavailable-text-color: $il-main-border-color;
+$il-workflow-unavailable-text-color: color.scale($il-text-color, $lightness: 30%);
 
 .il-workflow {
 	word-break: break-word;
@@ -38,16 +39,16 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 	.il-workflow-step {
 		&:before {
 			background-color: $il-workflow-icon-font-color;
-			border: $il-workflow-icon-size*0.05 solid $il-main-color;
+			border: 2px solid $il-main-color;
 			border-radius: 50%;
 			color: $il-workflow-icon-font-color;
 			content: "";
 			font-family: Glyphicons Halflings;
 			font-size: math.floor($il-workflow-icon-size*0.52381);
 			height: $il-workflow-icon-size;
-			line-height: math.ceil($il-workflow-icon-size*0.9);
+			line-height: $il-workflow-icon-size;
 			margin-left: math.floor($il-workflow-icon-size*0.25);
-			padding-left: math.ceil($il-workflow-icon-size*0.04761);
+			padding-left: 0px;
 			position: absolute;
 			text-align: center;
 			width: $il-workflow-icon-size;
@@ -66,18 +67,20 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 	.no-longer-available {
 		&:before {
 			content: "\e033";
-			color: $il-workflow-unavailable-text-color;
-			background-color: $il-panel-footer-bg;
-			border: none;
+			background-color: $il-main-bg;
+			border: 2px solid $il-neutral-light-color;
 		}
 		&.in-progress {
 			&:before {
-				background-color: lighten($il-main-color, 30%);
-				color: $il-workflow-icon-font-color;
+				background-color: $il-neutral-light-color;
 			}
 			.text span {
-				color: $il-neutral-color;
-				opacity: .5;
+				color: $il-workflow-unavailable-text-color;
+			}
+		}
+		&.not-started {
+			&::before {
+				color: $il-workflow-unavailable-text-color;
 			}
 		}
 		.text {
@@ -93,8 +96,7 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 	.completed-successfully,
 	.completed-unsuccessfully {
 		&:before {
-			background-color: $il-workflow-unavailable-text-color;
-			color: $il-workflow-icon-font-color;
+			background-color: $il-neutral-light-color;
 		}
 	}
 	.completed-successfully {
@@ -140,7 +142,7 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 	.text {
 		border-left: 1px dashed $il-neutral-color;
 		font-size: $il-workflow-icon-size*0.7;
-		margin-left: math.floor($il-workflow-icon-size*0.75);
+		margin-left: math.ceil($il-workflow-icon-size*0.75);
 		padding: 0 0 $il-workflow-icon-size*1.5 $il-workflow-icon-size;
 		.il-workflow-step-label {
 			display: block;
