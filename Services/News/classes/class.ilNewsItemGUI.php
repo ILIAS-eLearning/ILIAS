@@ -597,9 +597,6 @@ class ilNewsItemGUI
 
     public static function isRteActivated(): bool
     {
-        if (ilObjAdvancedEditing::_getRichTextEditor() === "") {
-            return false;
-        }
-        return true;
+        return false;
     }
 }
