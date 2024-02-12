@@ -839,8 +839,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $this->initColorForm();
-        $this->form_gui->checkInput();
-
         if ($this->form_gui->checkInput()) {
             if ($this->color_manager->colorExists($this->form_gui->getInput("color_name"))) {
                 $col_input = $this->form_gui->getItemByPostVar("color_name");
@@ -866,9 +864,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
+        $c_name = $this->style_request->getColorName();
+        $ilCtrl->setParameter($this, "c_name", $c_name);
         $this->initColorForm("edit");
 
-        $c_name = $this->style_request->getColorName();
         if ($this->form_gui->checkInput()) {
             if ($this->color_manager->colorExists($this->form_gui->getInput("color_name")) &&
                 $this->form_gui->getInput("color_name") != $c_name) {
@@ -883,7 +882,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $ilCtrl->redirect($this, "listColors");
             }
         }
-        $ilCtrl->setParameter($this, "c_name", $c_name);
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
