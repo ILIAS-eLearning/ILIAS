@@ -6126,7 +6126,7 @@ content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
+content#:#cont_add_elements#:#<b>Click</b> on a plus symbol to <b>add</b> a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
 content#:#cont_add_popup#:#Add Popup
@@ -6230,7 +6230,7 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
-content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.
+content#:#cont_click_edit#:#To <b>edit</b> a page element, <b>click</b> on it.
 content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
 content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
@@ -6315,7 +6315,7 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Enable Download
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_drag_and_drop_elements#:#To <b>move</b> an element, <b>Drag and drop</b> it to a placeholder.
+content#:#cont_drag_and_drop_elements#:#To <b>move</b> a page element, <b>drag</b> it with the mouse to the intended location and <b/>drop<b> it.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left#:#Align: Left
@@ -6980,7 +6980,7 @@ content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
 content#:#cont_settings#:#Settings for learning modules
 content#:#cont_shape#:#Shape
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode.
+content#:#cont_shift_click_to_select#:#To select page elements for <b>deleting, copying etc</b>, press <b>Shift</b> ⇧ and <b>click</b> on the respective page elements.
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
 content#:#cont_short_titles#:#Short Titles
