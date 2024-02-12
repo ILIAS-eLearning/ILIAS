@@ -360,15 +360,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Switch media query
-     */
-    public function switchMQueryObject(): void
-    {
-        $ctrl = $this->gui_service->ctrl();
-        $ctrl->setParameter($this, "mq_id", $this->style_request->getMediaQueryId());
-        $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
-    }
 
     public function exportStyleObject(): void
     {
@@ -1084,7 +1075,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
             foreach ($mq_ids as $i) {
                 $mq = $this->object->getMediaQueryForId($i);
-                $cgui->addItem("mq_id[]", $i, $mq["mquery"]);
+                $cgui->addItem("mq_id[]", (string) $i, $mq["mquery"]);
             }
 
             $tpl->setContent($cgui->getHTML());
