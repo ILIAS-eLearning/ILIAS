@@ -382,7 +382,7 @@ class assClozeGap
                 $best_solutions = [];
                 if ($combinations !== null && $combinations['best_solution'] == 1) {
                     $points_string_for_key = (string) $combinations['points'];
-                    $best_solutions[] = [];
+                    $best_solutions[$combinations['points']] = [];
                     array_push($best_solutions[$points_string_for_key], $combinations['answer']);
                 } else {
                     foreach ($this->getItems($shuffler) as $answer) {
