@@ -240,8 +240,10 @@ class ilMembershipCronNotificationsData
             foreach ($r as $ref_id => $n) {
                 foreach ($n as $news_id) {
                     $this->log->debug("Load missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
-                    $this->user_news_aggr[$user_id][$ref_id][$news_id] = $this->news[$news_id];
-                    $this->news_per_user[$user_id][$ref_id][$news_id] = $news_id;
+                    if (isset($this->news[$news_id])) {
+                        $this->user_news_aggr[$user_id][$ref_id][$news_id] = $this->news[$news_id];
+                        $this->news_per_user[$user_id][$ref_id][$news_id] = $news_id;
+                    }
                 }
             }
         }
