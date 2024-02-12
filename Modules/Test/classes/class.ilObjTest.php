@@ -1243,6 +1243,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->db->manipulate("DELETE FROM tst_result_cache WHERE $IN_activeIds");
         $this->db->manipulate("DELETE FROM tst_sequence WHERE $IN_activeIds");
         $this->db->manipulate("DELETE FROM tst_times WHERE $IN_activeIds");
+        $this->db->manipulate('DELETE FROM ' . PassPresentedVariablesRepo::TABLE_NAME . ' WHERE ' . $this->db->in('active_id', $activeIds, false, 'integer'));
 
         if ($this->isRandomTest()) {
             $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE $IN_activeIds");

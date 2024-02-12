@@ -70,14 +70,12 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         );
     }
 
-    /**
-     * @return array
-     */
     private function getTablesUsedDuringSolutionUpdate(): array
     {
-        return array(
-            array('name' => 'tst_solutions', 'sequence' => true)
-        );
+        return [
+            ['name' => 'tst_solutions', 'sequence' => true],
+            ['name' => PassPresentedVariablesRepo::TABLE_NAME, 'sequence' => false]
+        ];
     }
 
     /**
