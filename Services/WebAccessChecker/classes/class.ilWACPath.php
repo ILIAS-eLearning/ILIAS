@@ -286,20 +286,26 @@ class ilWACPath
 
     protected function normalizePath(string $path) : string
     {
+        $path = ltrim($path, '.');
         $original_path = parse_url($path, PHP_URL_PATH);
         $query = parse_url($path, PHP_URL_QUERY);
-        $base_path = strstr(realpath("." . $original_path), '/' . self::DIR_DATA . '/', true) . '/';
+
+        $real_data_dir = realpath("./" . self::DIR_DATA);
         $realpath = realpath("." . $original_path);
-        if ($realpath === false) {
-            return $path;
+
+        if (strpos($realpath, $real_data_dir) !== 0) {
+            throw new ilWACException(ilWACException::ACCESS_DENIED);
         }
-        $normalized_path = str_replace(
-            $base_path,
-            '',
-            $realpath
+
+        $normalized_path = ltrim(
+            str_replace(
+                $real_data_dir,
+                '',
+                $realpath
+            ), '/'
         );
 
-        return "/" . $normalized_path . (!empty($query) ? '?' . $query : '');
+        return "/" . self::DIR_DATA . '/' . $normalized_path . (!empty($query) ? '?' . $query : '');
     }
 
     /**
