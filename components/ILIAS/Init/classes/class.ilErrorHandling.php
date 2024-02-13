@@ -137,9 +137,9 @@ class ilErrorHandling
 
         $session_failure = ilSession::get('failure');
         if ($session_failure && strpos($message, 'Cannot find this block') !== 0) {
-            $m = "Fatal Error: Called raise error two times.<br>" .
-                "First error: " . $session_failure . '<br>' .
-                "Last Error:" . $message;
+            $m = 'Fatal Error: Called raise error two times.<br>' .
+                'First error: ' . $session_failure . '<br>' .
+                'Last Error:' . $message;
             $log->write($m);
             ilSession::clear('failure');
             die($m);
@@ -147,22 +147,22 @@ class ilErrorHandling
 
         if (strpos($message, 'Cannot find this block') === 0) {
             if (defined('DEVMODE') && DEVMODE) {
-                echo "<b>DEVMODE</b><br><br>";
-                echo "<b>Template Block not found.</b><br>";
-                echo "You used a template block in your code that is not available.<br>";
-                echo "Native Messge: <b>" . $message . "</b><br>";
-                echo "Backtrace:<br>";
+                echo '<b>DEVMODE</b><br><br>';
+                echo '<b>Template Block not found.</b><br>';
+                echo 'You used a template block in your code that is not available.<br>';
+                echo 'Native Messge: <b>' . $message . '</b><br>';
+                echo 'Backtrace:<br>';
                 foreach ($backtrace as $b) {
-                    if ($b["function"] === "setCurrentBlock" &&
-                        basename($b["file"]) !== "class.ilTemplate.php") {
-                        echo "<b>";
+                    if ($b['function'] === 'setCurrentBlock' &&
+                        basename($b['file']) !== 'class.ilTemplate.php') {
+                        echo '<b>';
                     }
-                    echo "File: " . $b["file"] . ", ";
-                    echo "Line: " . $b["line"] . ", ";
-                    echo $b["function"] . "()<br>";
-                    if ($b["function"] === "setCurrentBlock" &&
-                        basename($b["file"]) !== "class.ilTemplate.php") {
-                        echo "</b>";
+                    echo 'File: ' . $b['file'] . ', ';
+                    echo 'Line: ' . $b['line'] . ', ';
+                    echo $b['function'] . '()<br>';
+                    if ($b['function'] === 'setCurrentBlock' &&
+                        basename($b['file']) !== 'class.ilTemplate.php') {
+                        echo '</b>';
                     }
                 }
                 exit;
@@ -180,42 +180,42 @@ class ilErrorHandling
 
         if ($code === $this->WARNING) {
             if (!$this->DEBUG_ENV) {
-                $message = "Under Construction";
+                $message = 'Under Construction';
             }
 
             ilSession::set('failure', $message);
 
-            if (!defined("ILIAS_MODULE")) {
-                ilUtil::redirect("error.php");
+            if (!defined('ILIAS_MODULE')) {
+                ilUtil::redirect('error.php');
             } else {
-                ilUtil::redirect("../error.php");
+                ilUtil::redirect('../error.php');
             }
         }
         $updir = '';
         if ($code === $this->MESSAGE) {
             ilSession::set('failure', $message);
             // save post vars to session in case of error
-            $_SESSION["error_post_vars"] = $_POST;
+            $_SESSION['error_post_vars'] = $_POST;
 
-            if (empty($_SESSION["referer"])) {
-                $dirname = dirname($_SERVER["PHP_SELF"]);
+            if (empty($_SESSION['referer'])) {
+                $dirname = dirname($_SERVER['PHP_SELF']);
                 $ilurl = parse_url(ilUtil::_getHttpPath());
 
                 $subdir = '';
-                if (is_array($ilurl) && array_key_exists('path', $ilurl) && strlen($ilurl['path'])) {
-                    $subdir = substr(strstr($dirname, (string) $ilurl["path"]), strlen((string) $ilurl["path"]));
-                    $updir = "";
+                if (is_array($ilurl) && array_key_exists('path', $ilurl) && $ilurl['path'] !== '') {
+                    $subdir = substr(strstr($dirname, (string) $ilurl['path']), strlen((string) $ilurl['path']));
+                    $updir = '';
                 }
                 if ($subdir) {
-                    $num_subdirs = substr_count($subdir, "/");
+                    $num_subdirs = substr_count($subdir, '/');
 
                     for ($i = 1; $i <= $num_subdirs; $i++) {
-                        $updir .= "../";
+                        $updir .= '../';
                     }
                 }
-                ilUtil::redirect($updir . "index.php");
+                ilUtil::redirect($updir . 'index.php');
             }
-            ilUtil::redirect($_SESSION["referer"]);
+            ilUtil::redirect($_SESSION['referer']);
         }
     }
 
@@ -232,7 +232,7 @@ class ilErrorHandling
     public function appendMessage(string $a_message): void
     {
         if ($this->getMessage()) {
-            $this->message .= "<br /> ";
+            $this->message .= '<br /> ';
         }
         $this->message .= $a_message;
     }
@@ -249,19 +249,18 @@ class ilErrorHandling
 
     protected function isDevmodeActive(): bool
     {
-        return defined("DEVMODE") && (int) DEVMODE === 1;
+        return defined('DEVMODE') && (int) DEVMODE === 1;
     }
 
     protected function defaultHandler(): HandlerInterface
     {
-        // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             global $DIC;
 
             $session_id = substr(session_id(), 0, 5);
-            $random = new \ilRandom();
+            $random = new ilRandom();
             $err_num = $random->int(1, 9999);
-            $file_name = $session_id . "_" . $err_num;
+            $file_name = $session_id . '_' . $err_num;
 
             $logger = ilLoggingErrorSettings::getInstance();
             if (!empty($logger->folder())) {
@@ -272,11 +271,11 @@ class ilErrorHandling
             //Use $lng if defined or fallback to english
             if ($DIC->isDependencyAvailable('language')) {
                 $DIC->language()->loadLanguageModule('logging');
-                $message = sprintf($DIC->language()->txt("log_error_message"), $file_name);
+                $message = sprintf($DIC->language()->txt('log_error_message'), $file_name);
 
                 if ($logger->mail()) {
-                    $message .= " " . sprintf(
-                        $DIC->language()->txt("log_error_message_send_mail"),
+                    $message .= ' ' . sprintf(
+                        $DIC->language()->txt('log_error_message_send_mail'),
                         $logger->mail(),
                         $file_name,
                         $logger->mail()
@@ -291,36 +290,33 @@ class ilErrorHandling
             }
             if ($DIC->isDependencyAvailable('ui') && $DIC->isDependencyAvailable('ctrl')) {
                 $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
-                $DIC->ctrl()->redirectToURL("error.php");
+                $DIC->ctrl()->redirectToURL('error.php');
             } else {
                 ilSession::set('failure', $message);
-                header("Location: error.php");
+                header('Location: error.php');
                 exit;
             }
         });
     }
 
-    /**
-     * Get the handler to be used in DEVMODE.
-     */
     protected function devmodeHandler(): HandlerInterface
     {
         global $ilLog;
 
         switch (ERROR_HANDLER) {
-            case "TESTING":
+            case 'TESTING':
                 return new ilTestingHandler();
 
-            case "PLAIN_TEXT":
+            case 'PLAIN_TEXT':
                 return new ilPlainTextHandler();
 
-            case "PRETTY_PAGE":
+            case 'PRETTY_PAGE':
                 // fallthrough
             default:
                 if ((!defined('ERROR_HANDLER') || ERROR_HANDLER !== 'PRETTY_PAGE') && $ilLog) {
                     $ilLog->write(
                         "Unknown or undefined error handler '" . ERROR_HANDLER . "'. " .
-                        "Falling back to PrettyPageHandler."
+                        'Falling back to PrettyPageHandler.'
                     );
                 }
 
@@ -378,7 +374,9 @@ class ilErrorHandling
 
     protected function loggingHandler(): HandlerInterface
     {
-        // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
+        /**
+         * @var 
+         */
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
              * Don't move this out of this callable
@@ -387,8 +385,21 @@ class ilErrorHandling
             global $ilLog;
 
             if (is_object($ilLog)) {
-                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ":" . $exception->getLine();
+                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ':' . $exception->getLine();
                 $message .= $exception->getTraceAsString();
+
+                $previous = $exception->getPrevious();
+                while ($previous) {
+                    $message .= "\n\nCaused by\n" . sprintf(
+                            '%s: %s in file %s on line %d',
+                            get_class($previous),
+                            $previous->getMessage(),
+                            $previous->getFile(),
+                            $previous->getLine()
+                        );
+                    $previous = $previous->getPrevious();
+                }
+                
                 $ilLog->error($exception->getCode() . ' ' . $message);
             }
 
@@ -411,20 +422,17 @@ class ilErrorHandling
                 if ($level >= E_USER_NOTICE) {
                     if ($ilLog) {
                         $severity = Whoops\Util\Misc::translateErrorCode($level);
-                        $ilLog->write("\n\n" . $severity . " - " . $message . "\n" . $file . " - line " . $line . "\n");
+                        $ilLog->write("\n\n" . $severity . ' - ' . $message . "\n" . $file . ' - line ' . $line . "\n");
                     }
                     return true;
                 }
             }
 
-            // trigger whoops error handling
             if ($this->whoops instanceof RunInterface) {
                 return $this->whoops->handleError($level, $message, $file, $line);
             }
-            if ($this->whoops) {
-                return $this->whoops->handleError($level, $message, $file, $line);
-            }
         }
+
         return true;
     }
 }

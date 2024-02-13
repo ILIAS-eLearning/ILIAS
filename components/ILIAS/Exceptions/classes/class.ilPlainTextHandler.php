@@ -36,15 +36,37 @@ class ilPlainTextHandler extends \Whoops\Handler\PlainTextHandler
 
     public function generateResponse(): string
     {
-        return $this->getExceptionOutput() . $this->tablesContent() . "\n";
+        return $this->getPlainTextExceptionOutput() . $this->tablesContent() . "\n";
+    }
+
+    protected function getSimpleExceptionOutput(Throwable $exception): string
+    {
+        return sprintf(
+            '%s: %s in file %s on line %d',
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine()
+        );
     }
 
     /**
      * Get a short info about the exception.
      */
-    protected function getExceptionOutput(): string
+    protected function getPlainTextExceptionOutput(bool $with_previous = true): string
     {
-        return Formatter::formatExceptionPlain($this->getInspector());
+        $message = Formatter::formatExceptionPlain($this->getInspector());
+
+        if ($with_previous) {
+            $exception = $this->getInspector()->getException();
+            $previous = $exception->getPrevious();
+            while ($previous) {
+                $message .= "\n\nCaused by\n" . $this->getSimpleExceptionOutput($previous);
+                $previous = $previous->getPrevious();
+            }
+        }
+
+        return $message;
     }
 
     /**
