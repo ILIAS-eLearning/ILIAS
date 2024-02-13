@@ -109,11 +109,12 @@ class ResourceBuilder
      */
     public function new(
         UploadResult $result,
-        InfoResolver $info_resolver
+        InfoResolver $info_resolver,
+        ResourceType $type = ResourceType::SINGLE_FILE
     ): StorableResource {
         $resource = $this->resource_repository->blank(
             $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
-            ResourceType::SINGLE_FILE
+            $type
         );
 
         return $this->append($resource, $result, $info_resolver, RevisionStatus::PUBLISHED);
@@ -122,11 +123,12 @@ class ResourceBuilder
     public function newFromStream(
         FileStream $stream,
         InfoResolver $info_resolver,
-        bool $keep_original = false
+        bool $keep_original = false,
+        ResourceType $type = ResourceType::SINGLE_FILE
     ): StorableResource {
         $resource = $this->resource_repository->blank(
             $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
-            ResourceType::SINGLE_FILE
+            $type
         );
 
         return $this->appendFromStream(
@@ -138,11 +140,11 @@ class ResourceBuilder
         );
     }
 
-    public function newBlank(): StorableResource
+    public function newBlank(ResourceType $type = ResourceType::SINGLE_FILE): StorableResource
     {
         $resource = $this->resource_repository->blank(
             $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
-            ResourceType::SINGLE_FILE
+            $type
         );
         $resource->setStorageID($this->primary_storage_handler->getID());
 

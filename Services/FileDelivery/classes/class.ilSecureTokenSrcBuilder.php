@@ -39,7 +39,7 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
         $this->inline = new InlineSrcBuilder($file_delivery);
     }
 
-    public function getRevisionURL(Revision $revision, bool $signed = true): string
+    public function getRevisionURL(Revision $revision, bool $signed = true, float $valid_for_at_least_minutes  = 60.0): string
     {
         // get stream from revision
         $stream = $revision->maybeStreamResolver()?->getStream();
@@ -49,7 +49,7 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
             $revision->getTitle(),
             Disposition::INLINE,
             $GLOBALS['ilUser']->getId() ?? 0,
-            1
+            (int) (ceil($valid_for_at_least_minutes / 60))
         );
     }
 

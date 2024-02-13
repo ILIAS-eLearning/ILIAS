@@ -141,8 +141,8 @@ class Group
      * This method returns an instance of the MarkdownFormattingToHTML class which can be used to tranform a markdown
      * formatted string to HTML.
      */
-    public function markdown(): MarkdownFormattingToHTML
+    public function markdown(bool $escape = true): MarkdownFormattingToHTML
     {
-        return new MarkdownFormattingToHTML();
+        return new MarkdownFormattingToHTML($escape);
     }
 }

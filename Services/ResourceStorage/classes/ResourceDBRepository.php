@@ -114,6 +114,7 @@ class ResourceDBRepository implements ResourceRepository
                 [
                     self::IDENTIFICATION => ['text', $rid],
                     'storage_id' => ['text', $resource->getStorageID()],
+                    'rtype' => ['text', $resource->getType()->value],
                 ],
                 [
                     self::IDENTIFICATION => ['text', $rid],
@@ -126,6 +127,7 @@ class ResourceDBRepository implements ResourceRepository
                 [
                     self::IDENTIFICATION => ['text', $rid],
                     'storage_id' => ['text', $resource->getStorageID()],
+                    'rtype' => ['text', $resource->getType()->value],
                 ]
             );
         }
@@ -157,7 +159,7 @@ class ResourceDBRepository implements ResourceRepository
     public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
-            "SELECT rid, storage_id FROM " . self::TABLE_NAME . " WHERE "
+            "SELECT rid, storage_id, rtype FROM " . self::TABLE_NAME . " WHERE "
             . $this->db->in(self::IDENTIFICATION, $identification_strings, false, 'text')
         );
         while ($d = $this->db->fetchAssoc($r)) {

@@ -2932,7 +2932,7 @@ class ilObjUser extends ilObject
         $define = new ilUserAvatarResolver($a_usr_id);
         $define->setForcePicture($a_force_pic);
         $define->setSize($a_size);
-        return ilWACSignedPath::signFile($define->getLegacyPictureURL());
+        return $define->getLegacyPictureURL();
     }
 
     public static function copyProfilePicturesToDirectory(

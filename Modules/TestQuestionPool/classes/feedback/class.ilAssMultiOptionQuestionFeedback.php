@@ -159,6 +159,23 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return $allFeedbackContents;
     }
 
+    public function getAllSpecificAnswerPageEditorFeedbackContents(int $question_id): string
+    {
+        $feedback_identifiers = new ilAssSpecificFeedbackIdentifierList();
+        $feedback_identifiers->load($question_id);
+
+        $all_feedback_content = '';
+        foreach ($feedback_identifiers as $identifier) {
+            $feedback_content = $this->getPageObjectContent(
+                $this->getSpecificAnswerFeedbackPageObjectType(),
+                $identifier->getFeedbackId()
+            );
+            $all_feedback_content .= $this->cleanupPageContent($feedback_content);
+        }
+
+        return $all_feedback_content;
+    }
+
     public function saveSpecificAnswerFeedbackContent(int $question_id, int $question_index, int $answer_index, string $feedback_content): int
     {
         if ($feedback_content !== '') {
@@ -381,6 +398,12 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     public function specificAnswerFeedbackExists(): bool
     {
-        return $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId()) !== '';
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            $all_feedback_content = $this->getAllSpecificAnswerPageEditorFeedbackContents($this->questionOBJ->getId());
+        } else {
+            $all_feedback_content = $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId());
+        }
+
+        return $all_feedback_content !== '';
     }
 }

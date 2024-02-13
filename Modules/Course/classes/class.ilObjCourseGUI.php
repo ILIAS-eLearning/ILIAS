@@ -169,6 +169,12 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
 
+    public function deleteObject(bool $error = false): void
+    {
+        $this->tabs_gui->activateTab('view_content');
+        parent::deleteObject($error);
+    }
+
     public function renderContainer(): void
     {
         parent::renderObject();
