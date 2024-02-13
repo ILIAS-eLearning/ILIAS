@@ -534,7 +534,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                     $this->getRemoveMultipleActionText(),
                     $this->ui->factory()->legacy($this->manage($replace_signal ?? null))
                 );
-                $modal = $modal->withAdditionalOnLoadCode(function ($id) {
+                $content = $modal->withAdditionalOnLoadCode(function ($id) {
                     return "
                     $('#$id').attr('data-modal-name', 'remove_modal_view_" . $this->viewSettings->getCurrentView() . "');
                     ";
@@ -542,9 +542,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 break;
             case 'confirm':
             default:
-                $modal = $this->ui->factory()->legacy($this->confirmRemoveObject());
+                if ($this->viewSettings->isSelectedItemsViewActive()) {
+                    $question = $this->lng->txt('dash_info_sure_remove_from_favs');
+                } else {
+                    $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
+                }
+                $content = [
+                    $this->ui->factory()->messageBox()->confirmation($question),
+                    $this->ui->factory()->legacy($this->confirmRemoveObject())
+                ];
         }
-        $responseStream = Streams::ofString($this->ui->renderer()->renderAsync($modal));
+        $responseStream = Streams::ofString($this->ui->renderer()->renderAsync($content));
         $this->http->saveResponse(
             $this->http->response()
                        ->withBody($responseStream)
