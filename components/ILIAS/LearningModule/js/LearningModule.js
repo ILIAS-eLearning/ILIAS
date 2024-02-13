@@ -17,13 +17,14 @@ il.LearningModule = {
 	},
 
 	hideNextNavigation: function () {
-		document.querySelectorAll(".ilc_page_rnav_RightNavigation").
-			forEach(el => { el.classList.add("ilNoDisplay") });
+		console.log("HIDE NEXT");
+		document.querySelectorAll(".ilToolbar .nav .ilToolbarStickyItem:nth-of-type(3) .btn").
+			forEach(el => { el.disabled = true; });
 	},
 
 	showNextNavigation: function () {
-		document.querySelectorAll(".ilc_page_rnav_RightNavigation").
-		forEach(el => { el.classList.remove("ilNoDisplay") });
+		document.querySelectorAll(".ilToolbar .nav .ilToolbarStickyItem:nth-of-type(3) .btn").
+		forEach(el => { el.disabled = false; });
 	},
 
 	showContentFrame: function (e, target) {
