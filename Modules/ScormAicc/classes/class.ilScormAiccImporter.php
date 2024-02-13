@@ -44,11 +44,11 @@ class ilScormAiccImporter extends ilXmlImporter
             // $importDir = $this->getImportDirectory();
             // $a_import_dirname = $lmTempDir . '/' . basename($importDir);
             // if (!file_exists($tempFile)) {
-                // $tempFile = $importDir . '/content.zip';
-                // $a_import_dirname = $importDir;
+            // $tempFile = $importDir . '/content.zip';
+            // $a_import_dirname = $importDir;
             // }
             // if (!file_exists($lmTempDir)) {
-                // mkdir($lmTempDir, 0755, true);
+            // mkdir($lmTempDir, 0755, true);
             // }
             // $zar = new ZipArchive();
             // $zar->open($tempFile);
@@ -68,7 +68,13 @@ class ilScormAiccImporter extends ilXmlImporter
                     $xml = file_get_contents($propertiesFile);
 
                     if (isset($xml)) {
-                        $xmlRoot = simplexml_load_string($xml);
+                        $use_internal_errors = libxml_use_internal_errors(true);
+                        $xmlRoot = simplexml_load_string(trim($xml));
+                        libxml_use_internal_errors($use_internal_errors);
+                        if (!$xmlRoot instanceof SimpleXMLElement) {
+                            $ilLog->write('XML for SCORM Import is: ' . $xml . $xmlRoot);
+                            return false;
+                        }
 
                         foreach ($this->dataset->properties as $key => $value) {
                             $this->moduleProperties[$key] = $xmlRoot->$key;

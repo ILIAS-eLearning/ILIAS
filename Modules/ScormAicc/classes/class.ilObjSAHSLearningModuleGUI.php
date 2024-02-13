@@ -456,13 +456,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $fType = $sFile["type"];
             $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
             if (in_array($fType, $cFileTypes)) {
-                $timeStamp = time();
                 $tempFile = $sFile["tmp_name"];
-                $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
-                $lmTempDir = $lmDir . $timeStamp;
-                if (!file_exists($lmTempDir)) {
-                    mkdir($lmTempDir, 0755, true);
-                }
+                $lmTempDir = ilUtil::ilTempnam();
+                ilUtil::makeDir($lmTempDir);
                 $zar = new ZipArchive();
                 $zar->open($tempFile);
                 $zar->extractTo($lmTempDir);
@@ -470,13 +466,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 ilUtil::renameExecutables($lmTempDir);
                 require_once "./Modules/ScormAicc/classes/class.ilScormAiccImporter.php";
                 $importer = new ilScormAiccImporter();
-                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
-                try {
-                    if ($importer->importXmlRepresentation("sahs", null, $import_dirname, "") == true) {
-                        $importFromXml = true;
-                    }
-                    $mprops = [];
-                    $mprops = $importer->moduleProperties;
+//                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
+                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
+                $importFromXml = false;
+                if ($importer->importXmlRepresentation("sahs", null, $import_dirname, "") == true) {
+                    $importFromXml = true;
+                }
+                $mprops = [];
+                $mprops = $importer->moduleProperties;
+                if ($importFromXml && isset($mprops["SubType"])) {
                     $subType = $mprops["SubType"];
                     if ($subType == "scorm") {
                         include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
@@ -488,10 +486,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                         // $newObj->setImportSequencing($_POST["import_sequencing"]);
                         // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                     }
-                } catch (\Exception $e) {
+                } else {
                     ilUtil::delDir($lmTempDir, false);
-                    $this->lng->loadLanguageModule("obj");
-                    ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage(), true);
+                    ilUtil::sendFailure($this->lng->txt("import_file_not_valid"), true);
                     return;
                 }
             }
