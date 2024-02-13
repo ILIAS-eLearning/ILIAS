@@ -30,10 +30,18 @@ use ILIAS\FileDelivery\Token\Data\Stream;
  */
 abstract class BaseDelivery
 {
+    protected const MIME_TYPE_MAP = __DIR__ . '/../../../FileUpload/src/mime_type_map.php';
+
+    protected array $mime_type_map;
+
     public function __construct(
         protected \ILIAS\HTTP\Services $http,
         protected ResponseBuilder $response_builder
     ) {
+        if(is_readable(self::MIME_TYPE_MAP)) {
+            $map = include self::MIME_TYPE_MAP;
+        }
+        $this->mime_type_map = $map ?? [];
     }
 
     protected function saveAndClose(

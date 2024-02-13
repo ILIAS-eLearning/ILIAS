@@ -168,18 +168,18 @@ final class StreamDelivery extends BaseDelivery
 
     private function determineMimeType(string $file_inside_zip_uri): string
     {
-        // lookup map
         $suffix = strtolower(pathinfo($file_inside_zip_uri, PATHINFO_EXTENSION));
-        $map = require __DIR__ . '/../../../../../components/ILIAS/FileUpload/src/mime_type_map.php';
+        if (isset($this->mime_type_map[$suffix])) {
+            if (is_array($this->mime_type_map[$suffix]) && isset($this->mime_type_map[$suffix][0])) {
+                return $this->mime_type_map[$suffix][0];
+            }
 
-        if (isset($map[$suffix])) {
-            return is_array($map[$suffix]) ? $map[$suffix][0] : $map[$suffix];
+            return $this->mime_type_map[$suffix];
         }
-
 
         $mime_type = mime_content_type($file_inside_zip_uri);
         if ($mime_type === 'application/octet-stream') {
-            $mime_type = mime_content_type(substr($file_inside_zip_uri, 64));
+            $mime_type = mime_content_type(substr($file_inside_zip_uri, 6));
         }
         return $mime_type ?: 'application/octet-stream';
     }
