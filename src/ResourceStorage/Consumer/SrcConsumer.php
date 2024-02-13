@@ -50,7 +50,7 @@ class SrcConsumer
     {
         return $this->src_builder->getRevisionURL(
             $this->stream_access->populateRevision($this->getRevision()),
-            $signed, 
+            $signed,
             60
         );
     }
