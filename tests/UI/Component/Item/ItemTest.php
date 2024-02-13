@@ -219,7 +219,7 @@ class ItemTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
         <div class="il-item il-std-item ">
-            <div class="il-item-title">Item Title</div>
+            <h4 class="il-item-title">Item Title</h4>
 			<div class="il-item-actions l-bar__container"><div class="l-bar__element"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
@@ -272,7 +272,7 @@ EOT;
 			<img src="src" class="img-standard" alt="str" />
 		</div>
 		<div class="col-xs-10 col-sm-9">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 	</div>
 </div>
@@ -301,7 +301,7 @@ EOT;
 			<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label" />
         </div>
 		<div class="media-body">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 	</div>
 </div>
@@ -333,7 +333,7 @@ EOT;
             </span>
         </div>
         <div class="media-body">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
         </div>
     </div>
 </div>
@@ -364,7 +364,7 @@ EOT;
             </span>
         </div>
         <div class="media-body">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
         </div>
     </div>
 </div>
@@ -390,7 +390,7 @@ EOT;
 <div class="il-item il-std-item ">
 	<div class="row">
 	    <div class="col-sm-9">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
@@ -442,7 +442,7 @@ EOT;
 			<img src="src" class="img-standard" alt="str" />
 		</div>
 	    <div class="col-xs-6 col-sm-7 col-lg-8">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
@@ -494,7 +494,7 @@ EOT;
 			<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label" />
         </div>
 		<div class="media-body">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 		<div class="media-right">
 			<div class="il-chart-progressmeter-box ">
@@ -547,7 +547,7 @@ EOT;
 			lead
 		</div>
 		<div class="col-sm-9">
-            <div class="il-item-title">title</div>
+            <h4 class="il-item-title">title</h4>
 		</div>
 	</div>
 </div>
@@ -578,9 +578,9 @@ EOT;
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = $this->brutallyTrimHTML(<<<EOT
 <div class="il-item il-std-item ">
-    <div class="il-item-title">
+    <h4 class="il-item-title">
         <button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button>
-    </div>
+    </h4>
     <hr class="il-item-divider" />
     <div class="row">
         <div class="col-md-6 il-multi-line-cap-3">
@@ -623,7 +623,7 @@ EOT);
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="il-item il-std-item "><div class="il-item-title"><a href="https://www.ilias.de">ILIAS</a></div></div>
+<div class="il-item il-std-item "><h4 class="il-item-title"><a href="https://www.ilias.de">ILIAS</a></h4></div>
 EOT;
 
         $this->assertHTMLEquals($expected, $html);
@@ -640,7 +640,7 @@ EOT;
         $html = $r->render($c);
         $expected = <<<EOT
 <div class="il-item il-std-item ">
-    <div class="il-item-title">title</div>
+    <h4 class="il-item-title">title</h4>
     <div class="il-item-audio"><div class="il-audio-container">
     <audio class="il-audio-player" id="id_1" src="src" preload="metadata"></audio>
 </div></div>
@@ -668,7 +668,7 @@ EOT;
 
         $expected = <<<EOT
         <div class="il-item il-std-item ">
-            <div class="il-item-title">Title</div>
+            <h4 class="il-item-title">Title</h4>
             <div class="il-item-actions l-bar__container">
                 <div class="l-bar__element">$expected_button_html
             </div>
@@ -697,7 +697,7 @@ EOT;
 
         $expected = <<<EOT
         <div class="il-item il-std-item ">
-            <div class="il-item-title">Title</div>
+            <h4 class="il-item-title">Title</h4>
             <div class="il-item-actions l-bar__container">
                 <div class="l-bar__element">$expected_link_html</div>
             </div>
