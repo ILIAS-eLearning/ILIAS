@@ -15215,6 +15215,7 @@ sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
 sess#:#sess_mem_contacts#:#Tutorial Support
+sess#:#sess_mem_send_mail#:#Send Mail
 sess#:#sess_mem_tbl_header#:#Session Participants
 sess#:#sess_member_administration#:#Edit Participants
 sess#:#sess_members#:#Participants
