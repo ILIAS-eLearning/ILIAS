@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Implementation\Component\Table\Data;
+use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\DATA\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
