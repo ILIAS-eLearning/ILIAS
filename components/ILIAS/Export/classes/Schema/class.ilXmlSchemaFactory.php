@@ -26,7 +26,7 @@ use ILIAS\Data\Version;
 
 class ilXmlSchemaFactory
 {
-    private const SCHEMA_DEFINITION_LOCATION = './components/ILIAS/Export/xml/SchemaValidation';
+    private const SCHEMA_DEFINITION_LOCATION = '../components/ILIAS/Export/xml/SchemaValidation';
 
     private ilXmlSchemaInfoCollection $collection;
 
