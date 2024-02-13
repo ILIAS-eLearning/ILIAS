@@ -23,6 +23,7 @@ namespace ILIAS\FileDelivery\Delivery\ResponseBuilder;
 use Psr\Http\Message\ResponseInterface;
 use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -38,6 +39,18 @@ class PHPResponseBuilder implements ResponseBuilder
         ResponseInterface $response,
         FileStream $stream,
     ): ResponseInterface {
+        $uri = $stream->getMetadata('uri');
+
+        try {
+            $response = $response->withHeader(
+                ResponseHeader::LAST_MODIFIED,
+                date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
+            );
+        } catch (\Throwable) {
+        }
+
+        $response = $response->withHeader(ResponseHeader::ETAG, md5($uri));
+
         return $response->withBody($stream);
     }
 

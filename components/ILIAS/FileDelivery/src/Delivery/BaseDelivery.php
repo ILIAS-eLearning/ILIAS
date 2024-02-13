@@ -72,7 +72,6 @@ abstract class BaseDelivery
     ): ResponseInterface {
         $r = $r->withHeader('X-ILIAS-FileDelivery-Method', $this->response_builder->getName());
         $r = $r->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
-
         $r = $r->withHeader(
             ResponseHeader::CONTENT_DISPOSITION,
             $disposition->value . '; filename="' . $file_name . '"'
@@ -82,14 +81,6 @@ abstract class BaseDelivery
             ResponseHeader::EXPIRES,
             date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
         );
-        $r = $r->withHeader(ResponseHeader::ETAG, md5($uri));
-        try {
-            $r = $r->withHeader(
-                ResponseHeader::LAST_MODIFIED,
-                date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
-            );
-        } catch (\Throwable) {
-        }
 
         return $r;
     }
