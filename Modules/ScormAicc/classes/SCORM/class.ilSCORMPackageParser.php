@@ -90,7 +90,7 @@ class ilSCORMPackageParser extends ilSaxParser
     
     public function getPackageTitle()
     {
-        return $this->package_title;
+        return ilUtil::stripSlashes($this->package_title);
     }
 
     /*

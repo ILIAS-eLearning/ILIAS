@@ -79,13 +79,11 @@ class ilScormAiccImporter extends ilXmlImporter
                         foreach ($this->dataset->properties as $key => $value) {
                             $this->moduleProperties[$key] = $xmlRoot->$key;
                         }
-                        $this->moduleProperties["Title"] = $xmlRoot->Title;
-                        $this->moduleProperties["Description"] = $xmlRoot->Description;
 
                         foreach ($this->moduleProperties as $key => $xmlRoot) {
                             $xmlRootValue = $xmlRoot->__toString();
                             $filteredValue = preg_replace('%\s%', '', $xmlRootValue);
-                            $this->moduleProperties[$key] = $filteredValue;
+                            $this->moduleProperties[$key] = ilUtil::stripSlashes($filteredValue);
                         }
 
                         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
