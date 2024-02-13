@@ -130,6 +130,7 @@ class ilDatePresentation
         global $DIC;
 
         $lng = $DIC['lng'];
+        $lng->loadLanguageModule('dateplaner');
         $ilUser = $DIC['ilUser'];
         
         if ($date->isNull()) {
@@ -139,6 +140,7 @@ class ilDatePresentation
         $has_time = !is_a($date, 'ilDate');
         
         // Converting pure dates to user timezone might return wrong dates
+        $date_info = [];
         if ($has_time) {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', $ilUser->getTimeZone());
         } else {
@@ -157,9 +159,9 @@ class ilDatePresentation
                 include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
                 $date_str = "";
                 if ($a_include_wd) {
-                    $date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
+                    $date_str = $lng->txt(self::$weekdays[$date_info['wday']]) . ", 	";
                 }
-                $date_str .= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
+                $date_str .= $date_info['mday'] . '. ' .
                     ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
                     $date_info['year'];
             }
