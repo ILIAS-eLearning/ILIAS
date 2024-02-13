@@ -600,4 +600,10 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilTabs->activateSubTab($a_tab);
         $ilTabs->activateTab("settings");
     }
+
+    public function deleteObject(bool $error = false): void
+    {
+        $this->tabs_gui->activateTab('view_content');
+        parent::deleteObject($error);
+    }
 }
