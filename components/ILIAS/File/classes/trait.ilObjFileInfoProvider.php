@@ -90,7 +90,8 @@ trait ilObjFileInfoProvider
             $this->getLanguage()->txt("version") => $version_nr,
             $this->getLanguage()->txt("version_uploaded") => $version_date,
             $this->getLanguage()->txt("file_uploaded_by") => ilUserUtil::getNamePresentation($version_uploader),
-            $this->getLanguage()->txt("download_link") => $download_link_tpl->get()
+            $this->getLanguage()->txt("download_link") => $download_link_tpl->get(),
+            $this->getLanguage()->txt("download_link") => $download_link_tpl->get(),
         ];
     }
 
@@ -100,8 +101,9 @@ trait ilObjFileInfoProvider
     public function getFileInfoForAuthorsAndAdmins(): array
     {
         $amount_of_downloads = null;
+
         if ($this->getGeneralSettings()->isShowAmountOfDownloads()) {
-            sprintf(
+            $amount_of_downloads = sprintf(
                 $this->getLanguage()->txt("amount_of_downloads_since"),
                 $this->getFileObj()->getAmountOfDownloads(),
                 $this->getFileObj()->getCreateDate(),
