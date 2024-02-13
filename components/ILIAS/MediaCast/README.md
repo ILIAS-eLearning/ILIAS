@@ -20,3 +20,4 @@
 
 - Since release 8 ILIAS provides a dedicated view for image content, see https://docu.ilias.de/goto_docu_wiki_wpage_6316_1357.html
 - Supported types are png, jpeg and gif.
+- If the learning progress is set to **Collection of Media Objects** the presentation will not provide the multi page lightbox. Every image has to be opened from the main view, to set the item to "completed".
