@@ -55,6 +55,7 @@ class ilObjCourseGUI extends ilContainerGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
     protected ilHelpGUI $help;
+    protected ilTabsGUI $tabs;
     protected ilNavigationHistory $navigation_history;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -65,6 +66,7 @@ class ilObjCourseGUI extends ilContainerGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->help = $DIC->help();
+        $this->tabs = $DIC->tabs();
         $this->logger = $DIC->logger()->crs();
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ctrl->saveParameter($this, ['ref_id']);
@@ -163,6 +165,12 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->ctrl->setCmdClass(get_class($course_content_obj));
             $this->ctrl->forwardCommand($course_content_obj);
         }
+    }
+
+    public function deleteObject(bool $error = false): void
+    {
+        $this->tabs->activateTab('view_content');
+        parent::deleteObject($error);
     }
 
     public function renderContainer(): void
