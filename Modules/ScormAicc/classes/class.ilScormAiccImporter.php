@@ -167,7 +167,7 @@ class ilScormAiccImporter extends ilXmlImporter
                             foreach ($this->module_properties as $key => $property_node) {
                                 $property_value = $property_node->__toString();
                                 $filteredValue = preg_replace('%\s%', '', $property_value);
-                                $this->module_properties[$key] = $filteredValue;
+                                $this->module_properties[$key] = ilUtil::stripSlashes($filteredValue);
                             }
 
                             return $this->df->ok($this->module_properties);

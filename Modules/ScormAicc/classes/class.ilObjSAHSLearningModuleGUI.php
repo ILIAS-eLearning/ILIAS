@@ -385,6 +385,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $name = $this->lng->txt("no_title");
         }
 
+        $description = "";
+
         $subType = "scorm2004";
         if ($DIC->http()->wrapper()->post()->has('sub_type')) {
             $subType = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
@@ -424,7 +426,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $import_result = $importer->getResult();
 
                     $importFromXml = true;
-
                     if ($import_result->isOK()) {
                         $properties = $import_result->value();
                         if (($subType = $properties['SubType']) === 'scorm') {
@@ -432,6 +433,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                         } else {
                             $newObj = new ilObjSCORM2004LearningModule();
                         }
+                        $name = $properties['Title'];
+                        $description = $properties['Description'];
                     } else {
                         ilFileUtils::delDir($lmTempDir, false);
                         $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
@@ -445,7 +448,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $newObj->setTitle($name);
         $newObj->setSubType($subType);
-        $newObj->setDescription("");
+        $newObj->setDescription($description);
         $newObj->setOfflineStatus(false);
         $newObj->create(true);
         $newObj->createReference();

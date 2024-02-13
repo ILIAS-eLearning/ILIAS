@@ -79,7 +79,7 @@ class ilSCORMPackageParser extends ilSaxParser
 
     public function getPackageTitle(): string
     {
-        return $this->package_title;
+        return ilUtil::stripSlashes($this->package_title);
     }
 
     /**
@@ -342,14 +342,14 @@ class ilSCORMPackageParser extends ilSaxParser
                     switch ($this->getAncestorElement(1)) {
                         case "organization":
                             $this->current_organization->setTitle(
-                                $this->current_organization->getTitle() . $a_data
+                                ilUtil::stripSlashes($this->current_organization->getTitle() . $a_data)
                             );
-                            $this->package_title = $this->current_organization->getTitle();
+                            $this->package_title = ilUtil::stripSlashes($this->current_organization->getTitle());
                             break;
 
                         case "item":
                             $this->item_stack[count($this->item_stack) - 1]->setTitle(
-                                $this->item_stack[count($this->item_stack) - 1]->getTitle() . $a_data
+                                ilUtil::stripSlashes($this->item_stack[count($this->item_stack) - 1]->getTitle() . $a_data)
                             );
                             break;
                     }
