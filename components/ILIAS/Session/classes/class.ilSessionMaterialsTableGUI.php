@@ -58,23 +58,24 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $this->parent_ref_id = $this->tree->getParentId($a_parent_obj->getCurrentObject()->getRefId());
         $this->parent_object_id = $a_parent_obj->getCurrentObject()->getId();
 
-        //$this->setEnableNumInfo(false);
-        //$this->setLimit(100);
         $this->setRowTemplate("tpl.session_materials_row.html", "components/ILIAS/Session");
-
         $this->setFormName('materials');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->addColumn("", "f", "1");
-        $this->addColumn($this->lng->txt("crs_materials"), "object", "90%");
+        $this->addColumn($this->lng->txt("crs_materials"), "title", "90%");
         $this->addColumn($this->lng->txt("sess_is_assigned"), "active", "5");
-        //todo can I remove this?
         $this->setSelectAllCheckbox('items');
 
         $this->setFilterCommand("applyFilter");
         $this->setResetCommand("resetFilter");
+        $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
+        $this->setDefaultOrderDirection('desc');
+        $this->setDefaultOrderField('active');
 
         $this->initFilter();
+        $this->determineOffsetAndOrder(true);
         $this->lng->loadLanguageModule('sess');
     }
 
@@ -121,11 +122,13 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             if (!empty($this->getMaterialItems())) {
                 $node["sorthash"] = (int) (!in_array($node['ref_id'], $this->getMaterialItems())) . $node["title"];
             }
+            $node['active'] = in_array($node['ref_id'], ($this->getMaterialItems() ?? []));
             $materials[] = $node;
         }
 
-        $materials = ilArrayUtil::sortArray($materials, "sorthash", "ASC");
-
+        // stable sort by assignment
+        $materials = ilArrayUtil::stableSortArray($materials, 'title', 'asc');
+        $materials = ilArrayUtil::stableSortArray($materials, $this->getOrderField(), $this->getOrderDirection());
         if (!empty($this->filter)) {
             $materials = $this->filterData($materials);
         }
