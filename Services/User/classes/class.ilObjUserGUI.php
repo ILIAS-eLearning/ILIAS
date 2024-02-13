@@ -784,7 +784,7 @@ class ilObjUserGUI extends ilObjectGUI
             } catch (ilUserException $e) {
                 $this->tpl->setOnScreenMessage('failure', $e->getMessage());
                 $this->form_gui->setValuesByPost();
-                $tpl->setContent($this->form_gui->getHTML());
+                $this->tpl->setContent($this->form_gui->getHTML());
                 return;
             }
 
@@ -854,14 +854,14 @@ class ilObjUserGUI extends ilObjectGUI
 
             // If the current user is editing its own user account,
             // we update his preferences.
-            if ($ilUser->getId() == $this->object->getId()) {
-                $ilUser->readPrefs();
+            if ($this->user->getId() == $this->object->getId()) {
+                $this->user->readPrefs();
             }
-            $ilUser->setPref(
+            $this->user->setPref(
                 'send_info_mails',
                 ($this->form_gui->getInput("send_mail") == 'y') ? 'y' : 'n'
             );
-            $ilUser->writePrefs();
+            $this->user->writePrefs();
 
             $mail_message = $this->__sendProfileMail();
             $msg = $this->lng->txt('saved_successfully') . $mail_message;
@@ -891,7 +891,7 @@ class ilObjUserGUI extends ilObjectGUI
         } else {
             $this->form_gui->setValuesByPost();
             $this->tabs_gui->activateTab('properties');
-            $tpl->setContent($this->form_gui->getHtml());
+            $this->tpl->setContent($this->form_gui->getHtml());
         }
     }
 
@@ -900,11 +900,6 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function getValues(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-
         $data = array();
 
         // login data

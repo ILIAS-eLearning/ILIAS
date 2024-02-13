@@ -6231,7 +6231,7 @@ content#:#cont_click_br_corner#:#Please click on the bottom right corner of the 
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
 content#:#cont_click_edit#:#To <b>edit</b> a page element, <b>click</b> on it.
-content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> them.
 content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
