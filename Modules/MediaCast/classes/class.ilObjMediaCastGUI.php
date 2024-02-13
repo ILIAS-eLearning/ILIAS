@@ -1489,6 +1489,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $this->showGallery();
         } elseif ($this->object->getViewMode() == ilObjMediaCast::VIEW_IMG_GALLERY) {
             $view = new \McstImageGalleryGUI($this->object, $this->tpl, $this->getFeedLink());
+            $view->setCompletedCallback($this->ctrl->getLinkTarget(
+                $this,
+                "handlePlayerCompletedEvent",
+                "",
+                true,
+                false
+            ));
             $this->tabs->activateTab("content");
             $this->addContentSubTabs("content");
             $tpl->setContent($this->ctrl->getHTML($view));

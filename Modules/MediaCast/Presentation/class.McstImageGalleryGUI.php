@@ -23,6 +23,8 @@
  */
 class McstImageGalleryGUI
 {
+    protected \ILIAS\MediaCast\InternalDomainService $domain;
+    protected string $completed_callback;
     protected string $rss_link;
     protected \ilObjMediaCast $media_cast;
     protected ilGlobalTemplateInterface $tpl;
@@ -32,9 +34,11 @@ class McstImageGalleryGUI
     protected \ilCtrl $ctrl;
     protected \ilToolbarGUI $toolbar;
 
-    public function __construct(\ilObjMediaCast $obj, $tpl = null,
-        string $rss_link = "")
-    {
+    public function __construct(
+        \ilObjMediaCast $obj,
+        $tpl = null,
+        string $rss_link = ""
+    ) {
         global $DIC;
 
         $this->ui = $DIC->ui();
@@ -45,6 +49,7 @@ class McstImageGalleryGUI
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
+        $this->domain = $DIC->mediaCast()->internal()->domain();
     }
 
     public function executeCommand(): void
@@ -89,6 +94,10 @@ class McstImageGalleryGUI
         $modals = [];
 
         $pages = [];
+
+        $lp_collection_mode = $this->domain->learningProgress($this->media_cast)->isCollectionMode();
+
+        $mob_modals = [];
         foreach ($this->media_cast->getSortedItemsArray() as $item) {
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
@@ -110,8 +119,15 @@ class McstImageGalleryGUI
             );
 
             $pages[] = $f->modal()->lightboxImagePage($image, $mob->getTitle());
+            if ($lp_collection_mode) {
+                $mob_modals[$mob->getId()] = $f->modal()->lightbox($pages);
+                $pages = [];
+            }
         }
-        $main_modal = $f->modal()->lightbox($pages);
+        $main_modal = null;
+        if (!$lp_collection_mode) {
+            $main_modal = $f->modal()->lightbox($pages);
+        }
 
         $cnt = 0;
         foreach ($this->media_cast->getSortedItemsArray() as $item) {
@@ -144,13 +160,28 @@ class McstImageGalleryGUI
                 $mob->getTitle()
             );
 
-            $modal = $main_modal;
+            if (!$lp_collection_mode) {
+                $modal = $main_modal;
+            } else {
+                $modal = $mob_modals[$mob->getId()];
+            }
 
             $card_image = $preview_image->withAction($modal->getShowSignal());
-            $card_image = $card_image->withAdditionalOnLoadCode(function ($id) use ($cnt) {
-                return "$('#$id').click(function(e) { document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click(); });";
+            $slide_to = "";
+            $completed_cb = "";
+            if (!$lp_collection_mode) {
+                $slide_to = "document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click();";
+            } else {
+                $completed_cb = $this->completed_callback . '&mob_id=' . $mob->getId();
+                $completed_cb = "$.ajax({type:'GET', url: '$completed_cb'});";
+            }
+
+            $card_image = $card_image->withAdditionalOnLoadCode(function ($id) use ($slide_to, $completed_cb) {
+                return "$('#$id').click(function(e) { $slide_to $completed_cb });";
             });
-            $cnt++;
+            if (!$lp_collection_mode) {
+                $cnt++;
+            }
 
             $sections = ($mob->getDescription())
                 ? [$f->legacy($mob->getDescription())]
@@ -179,10 +210,15 @@ class McstImageGalleryGUI
 
         $deck = $f->deck($cards);
 
-        if (count($pages) == 0) {
+        if (count($pages) === 0 && count($mob_modals) === 0) {
             return "";
         }
-        return "<div id='il-mcst-img-gallery'>" . $renderer->render(array_merge([$deck], [$main_modal])) . "</div>";
+        if (!$lp_collection_mode) {
+            $modals = [$main_modal];
+        } else {
+            $modals = $mob_modals;
+        }
+        return "<div id='il-mcst-img-gallery'>" . $renderer->render(array_merge([$deck], $modals)) . "</div>";
     }
 
     protected function downloadAll(): void
@@ -203,5 +239,10 @@ class McstImageGalleryGUI
         }
 
         $this->ctrl->redirectByClass("ilobjmediacastgui", "showContent");
+    }
+
+    public function setCompletedCallback(string $completed_callback): void
+    {
+        $this->completed_callback = $completed_callback;
     }
 }
