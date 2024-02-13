@@ -130,6 +130,21 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $revision_title = null
     ): ResourceIdentification {
+        return $this->newStreamBased(
+            $stream,
+            $stakeholder,
+            ResourceType::SINGLE_FILE,
+            $revision_title
+        );
+    }
+
+    private function newStreamBased(
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        ResourceType $type,
+        string $revision_title = null
+    ): ResourceIdentification
+    {
         $info_resolver = new StreamInfoResolver(
             $stream,
             1,
@@ -140,7 +155,8 @@ class Manager
         $resource = $this->resource_builder->newFromStream(
             $stream,
             $info_resolver,
-            true
+            true,
+            $type
         );
         $resource->addStakeholder($stakeholder);
         $this->resource_builder->store($resource);
@@ -156,7 +172,12 @@ class Manager
         // check if stream is a ZIP
         $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
 
-        return $this->stream($stream, $stakeholder, $revision_title);
+        return $this->newStreamBased(
+            $stream,
+            $stakeholder,
+            ResourceType::CONTAINER,
+            $revision_title
+        );
     }
 
     public function find(string $identification): ?ResourceIdentification

@@ -118,8 +118,25 @@ class Consumers
             throw new \InvalidArgumentException('Expected StorableContainerResource');
         }
 
-        return $this->consumer_factory->container(
+        return $this->consumer_factory->containerZIP(
             $resource
+        );
+    }
+
+    public function containerURI(
+        ResourceIdentification $identification,
+        string $start_file = 'index.html',
+        float $valid_for_at_least_minutes = 60.0
+    ): ContainerURIConsumer {
+        $resource = $this->resource_builder->get($identification);
+        if ($resource->getType() !== ResourceType::CONTAINER || !$resource instanceof StorableContainerResource) {
+            throw new \InvalidArgumentException('Expected StorableContainerResource');
+        }
+        return $this->consumer_factory->containerURI(
+            $resource,
+            $this->src_builder,
+            $start_file,
+            $valid_for_at_least_minutes
         );
     }
 }
