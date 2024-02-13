@@ -215,7 +215,7 @@ class ilTreeTrashQueries
             $query .= 'and ' . $this->db->like(
                 'type',
                 \ilDBConstants::T_TEXT,
-                $filter['type'] . '%'
+                $filter['type']
             ) . ' ';
         }
         if (isset($filter['title'])) {
