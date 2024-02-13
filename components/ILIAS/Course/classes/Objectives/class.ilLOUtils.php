@@ -119,6 +119,7 @@ class ilLOUtils
      */
     public static function lookupQplBySequence(int $a_test_ref_id, int $a_sequence_id): string
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         if (!$a_sequence_id) {
@@ -139,7 +140,7 @@ class ilLOUtils
 
         $list->loadDefinitions();
 
-        $translator = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
+        $translator = new ilTestQuestionFilterLabelTranslater($DIC['ilDB'], $DIC['lng']);
         $translator->loadLabels($list);
 
         $title = '';
@@ -154,7 +155,7 @@ class ilLOUtils
 
     protected static function buildQplTitleByDefinition(
         ilTestRandomQuestionSetSourcePoolDefinition $def,
-        ilTestTaxonomyFilterLabelTranslater $trans
+        ilTestQuestionFilterLabelTranslater $trans
     ): string {
         $title = $def->getPoolTitle();
         $filterTitle = array();

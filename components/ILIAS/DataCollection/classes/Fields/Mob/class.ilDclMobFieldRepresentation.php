@@ -90,7 +90,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 
         $prop_page_details = new ilDclCheckboxInputGUI(
             $this->lng->txt('dcl_link_detail_page'),
-            'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT
+            'prop_' . ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE
         );
         $opt->addSubItem($prop_page_details);
 

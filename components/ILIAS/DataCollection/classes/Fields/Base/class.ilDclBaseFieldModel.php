@@ -51,7 +51,8 @@ class ilDclBaseFieldModel
     public const PROP_N_REFERENCE = "multiple_selection";
     public const PROP_FORMULA_EXPRESSION = "expression";
     public const PROP_DISPLAY_COPY_LINK_ACTION_MENU = "display_action_menu";
-    public const PROP_LINK_DETAIL_PAGE_TEXT = "link_detail_page";
+    public const PROP_LINK_DETAIL_PAGE_TEXT = "link_detail_page_text";
+    public const PROP_LINK_DETAIL_PAGE = "link_detail_page";
     public const PROP_SUPPORTED_FILE_TYPES = "supported_file_types";
     public const PROP_PLUGIN_HOOK_NAME = "plugin_hook_name";
     // type of table il_dcl_view
@@ -634,7 +635,7 @@ class ilDclBaseFieldModel
 
         $sql_obj->setSelectStatement($select_str);
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setOrderStatement("field_{$this->getId()} $direction");
+        $sql_obj->setOrderStatement("field_{$this->getId()} $direction, ID ASC");
 
         return $sql_obj;
     }
@@ -714,8 +715,9 @@ class ilDclBaseFieldModel
     public function storePropertiesFromForm(ilPropertyFormGUI $form): void
     {
         $field_props = $this->getValidFieldProperties();
+        $representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
+
         foreach ($field_props as $property) {
-            $representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
             $value = $form->getInput($representation->getPropertyInputFieldId($property));
 
             // save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.

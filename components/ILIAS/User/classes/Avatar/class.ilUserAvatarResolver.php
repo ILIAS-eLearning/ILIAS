@@ -141,7 +141,7 @@ class ilUserAvatarResolver
         }
 
         if ($this->hasProfilePicture()) {
-            $picture = ilWACSignedPath::signFile($this->getLegacyPictureURL());
+            $picture = $this->getLegacyPictureURL();
             return $this->ui->symbol()->avatar()->picture(
                 $picture,
                 $this->for_user->getLogin()

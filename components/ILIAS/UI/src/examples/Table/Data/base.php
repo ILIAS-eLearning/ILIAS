@@ -219,10 +219,12 @@ function base()
 
 
     /**
-     * setup the Table and hand over the request
+     * setup the Table and hand over the request;
+     * with an ID for the table, parameters will be stored throughout url changes
      */
     $table = $f->table()
             ->data('a data table', $columns, $data_retrieval)
+            ->withId('example_base')
             ->withActions($actions)
             ->withRequest($request);
 

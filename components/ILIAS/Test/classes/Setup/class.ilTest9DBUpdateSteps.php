@@ -312,4 +312,42 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             'suspend_test_allowed'
         );
     }
+
+    public function step_19(): void
+    {
+        if (!$this->db->tableExists('tst_qst_var_presented')) {
+            $this->db->createTable('tst_qst_var_presented', [
+                'question_id' => [
+                    'type' => 'integer',
+                    'length' => 8,
+                    'notnull' => true
+                ],
+                'active_id' => [
+                    'type' => 'integer',
+                    'length' => 8,
+                    'notnull' => true
+                ],
+                'pass' => [
+                    'type' => 'integer',
+                    'length' => 8,
+                    'notnull' => true
+                ],
+                'variable' => [
+                    'type' => 'text',
+                    'length' => 32,
+                    'notnull' => true
+                ],
+                'value' => [
+                    'type' => 'text',
+                    'length' => 64,
+                    'notnull' => true
+                ]
+            ]);
+            $this->db->addPrimaryKey(
+                'tst_qst_var_presented',
+                ['question_id','active_id','pass','variable']
+            );
+        }
+    }
+
 }

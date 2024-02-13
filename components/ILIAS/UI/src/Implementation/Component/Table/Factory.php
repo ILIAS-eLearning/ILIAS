@@ -39,7 +39,8 @@ class Factory implements T\Factory
         protected DataFactory $data_factory,
         protected T\Column\Factory $column_factory,
         protected T\Action\Factory $action_factory,
-        protected DataRowBuilder $data_row_builder
+        protected DataRowBuilder $data_row_builder,
+        protected \ArrayAccess $storage,
     ) {
     }
 
@@ -67,7 +68,8 @@ class Factory implements T\Factory
             $this->data_row_builder,
             $title,
             $columns,
-            $data_retrieval
+            $data_retrieval,
+            $this->storage
         );
     }
 

@@ -77,55 +77,60 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
 
         $user_log->debug('Check Profile');
 
-        if (!$this->isInFulfillment()) {
-            // profile incomplete
-            if ($this->user->getProfileIncomplete()) {
-                $user_log->debug('Is Incomplete');
-                return true;
-            }
-            // if profile is not shared yet
-            if (!in_array($this->user->getPref('public_profile'), ['y', 'g'])) {
-                $user_log->debug('Is not public');
-                // x days after first login
-                if ($prompt_settings->getMode() === ilProfilePromptSettings::MODE_ONCE_AFTER_LOGIN) {
-                    $user_log->debug('Mode: X days after login');
-                    // if user has logged in and not received a prompt yet
-                    if ($user_prompt->getFirstLogin() !== '' && $user_prompt->getLastPrompt() === '') {
-                        $user_log->debug('User has logged in and not prompted yet');
-                        // check if first login + days < now
-                        $deadline = new ilDateTime($user_prompt->getFirstLogin(), IL_CAL_DATETIME);
-                        $deadline->increment(IL_CAL_DAY, $prompt_settings->getDays());
-                        $user_log->debug('Check Deadline: ' . $deadline->get(IL_CAL_DATETIME) .
-                            ' < now: ' . ilUtil::now());
-                        if ($deadline->get(IL_CAL_DATETIME) < ilUtil::now()) {
-                            $user_log->debug('Deadline is due');
-                            $this->update_prompt = true;
-                            return true;
-                        }
-                    }
-                }
+        if ($this->isInFulfillment()) {
+            return false;
+        }
 
-                // repeat every x days
-                if ($prompt_settings->getMode() === ilProfilePromptSettings::MODE_REPEAT) {
-                    $user_log->debug('Mode: Repeat all x days');
-                    // check if max(first login,last prompted) + days < now
-                    $deadline = max($user_prompt->getFirstLogin(), $user_prompt->getLastPrompt());
-                    if ($deadline != '') {
-                        $user_log->debug('User logged in already.');
-                        $deadline = new ilDateTime($deadline, IL_CAL_DATETIME);
-                        $deadline->increment(IL_CAL_DAY, $prompt_settings->getDays());
-                        $user_log->debug('Check Deadline: ' . $deadline->get(IL_CAL_DATETIME) .
-                            ' < now: ' . ilUtil::now());
-                        if ($deadline->get(IL_CAL_DATETIME) < ilUtil::now()) {
-                            $user_log->debug('Deadline is due');
-                            $this->update_prompt = true;
-                            return true;
-                        }
-                    }
-                }
+        // profile incomplete
+        if ($this->user->getProfileIncomplete()) {
+            $user_log->debug('Is Incomplete');
+            return true;
+        }
+        // if profile is not shared yet
+        if (in_array($this->user->getPref('public_profile'), ['y', 'g'])) {
+            return false;
+        }
+
+        $user_log->debug('Is not public');
+        // x days after first login
+        if ($prompt_settings->getMode() === ilProfilePromptSettings::MODE_ONCE_AFTER_LOGIN) {
+            $user_log->debug('Mode: X days after login');
+            // if user has logged in and not received a prompt yet
+            if ($user_prompt->getFirstLogin() === '' || $user_prompt->getLastPrompt() !== '') {
+                return false;
+            }
+            $user_log->debug('User has logged in and not prompted yet');
+            // check if first login + days < now
+            $deadline = new ilDateTime($user_prompt->getFirstLogin(), IL_CAL_DATETIME);
+            $deadline->increment(IL_CAL_DAY, $prompt_settings->getDays());
+            $user_log->debug('Check Deadline: ' . $deadline->get(IL_CAL_DATETIME) .
+                ' < now: ' . ilUtil::now());
+            if ($deadline->get(IL_CAL_DATETIME) < ilUtil::now()) {
+                $user_log->debug('Deadline is due');
+                $this->update_prompt = true;
+                return true;
             }
         }
 
+        // repeat every x days
+        if ($prompt_settings->getMode() === ilProfilePromptSettings::MODE_REPEAT) {
+            $user_log->debug('Mode: Repeat all x days');
+            // check if max(first login,last prompted) + days < now
+            $deadline = max($user_prompt->getFirstLogin(), $user_prompt->getLastPrompt());
+            if ($deadline == '') {
+                return false;
+            }
+            $user_log->debug('User logged in already.');
+            $deadline_as_il_data = new ilDateTime($deadline, IL_CAL_DATETIME);
+            $deadline_as_il_data->increment(IL_CAL_DAY, $prompt_settings->getDays());
+            $user_log->debug('Check Deadline: ' . $deadline_as_il_data->get(IL_CAL_DATETIME) .
+                ' < now: ' . ilUtil::now());
+            if ($deadline_as_il_data->get(IL_CAL_DATETIME) < ilUtil::now()) {
+                $user_log->debug('Deadline is due');
+                $this->update_prompt = true;
+                return true;
+            }
+        }
         return false;
     }
 

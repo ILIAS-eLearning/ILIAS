@@ -339,16 +339,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
             $this->tpl->setTitle($this->object->getTitle(), true);
         } else {
-            $this->tpl->setTitle($this->object->getTitle());
-            $this->tpl->setDescription($this->object->getLongDescription());
-
-            // set tile icon
-            $icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
-            $this->tpl->setTitleIcon($icon, $this->lng->txt("obj_" . $this->object->getType()));
-
-            $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-            $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
-            $this->tpl->setAlertProperties($lgui->getAlertProperties());
+            parent::setTitleAndDescription();
         }
     }
 
@@ -935,7 +926,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function editOrderObject(): void
     {
         $ilTabs = $this->tabs;
-
         $this->edit_order = true;
         $this->getModeManager()->setOrderingMode();
         $this->renderObject();
@@ -2634,6 +2624,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!$this->object || !ilContainer::_lookupContainerSetting($this->object->getId(), "filter", '0')) {
             return;
         }
+
+        if ($this->isActiveOrdering() || $this->ctrl->getCmd() === "editOrder") {
+            return;
+        }
+
         $filter_service = $this->container_filter_service;
         $request = $DIC->http()->request();
 

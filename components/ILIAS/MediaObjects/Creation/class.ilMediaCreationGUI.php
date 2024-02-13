@@ -272,7 +272,7 @@ class ilMediaCreationGUI
                     "",
                     20,
                     $this->getMimeTypes(true)
-                );
+                )->required();
             // ->meta()->text()->meta()->textarea()
         }
         return $this->bulk_upload_form;
@@ -457,6 +457,12 @@ class ilMediaCreationGUI
      */
     public function performBulkUpload(): void
     {
+        $form = $this->getUploadForm();
+        if (!$form->isValid()) {
+            $this->main_tpl->setContent($form->render());
+            return;
+        }
+
         $this->ctrl->setParameter($this, "mep_hash", $this->request->getUploadHash());
         $this->ctrl->redirect($this, "editTitlesAndDescriptions");
     }

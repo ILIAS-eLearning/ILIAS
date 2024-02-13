@@ -29,6 +29,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
     private array $results;
     private array $resultunits;
     private ilUnitConfigurationRepository $unitrepository;
+    protected PassPresentedVariablesRepo $pass_presented_variables_repo;
 
     public function __construct(
         string $title = "",
@@ -42,6 +43,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
         $this->results = array();
         $this->resultunits = array();
         $this->unitrepository = new ilUnitConfigurationRepository(0);
+        $this->pass_presented_variables_repo = new PassPresentedVariablesRepo($this->db);
     }
 
     public function clearVariables(): void
@@ -233,9 +235,28 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
         return true;
     }
 
-    /**
-     * @return array $initialVariableSolutionValues
-     */
+    public function getVariableSolutionValuesForPass(
+        int $active_id,
+        int $pass
+    ): array {
+        $question_id = $this->getId();
+        $values = $this->pass_presented_variables_repo->getFor(
+            $question_id,
+            $active_id,
+            $pass
+        );
+        if(is_null($values)) {
+            $values = $this->getInitialVariableSolutionValues();
+            $this->pass_presented_variables_repo->store(
+                $question_id,
+                $active_id,
+                $pass,
+                $values
+            );
+        }
+        return $values;
+    }
+
     public function getInitialVariableSolutionValues(): array
     {
         foreach ($this->fetchAllResults($this->getQuestion()) as $resObj) {
@@ -249,6 +270,20 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
         }
 
         return $variableSolutionValues;
+    }
+
+    public function saveCurrentSolution(int $active_id, int $pass, $value1, $value2, bool $authorized = true, $tstamp = 0): int
+    {
+        $init_solution_vars = $this->getVariableSolutionValuesForPass($active_id, $pass);
+        foreach ($init_solution_vars as $val1 => $val2) {
+            $this->db->manipulateF(
+                "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
+                ['integer', 'integer','integer', 'text'],
+                [$active_id, $this->getId(), $pass, $val1]
+            );
+            parent::saveCurrentSolution($active_id, $pass, $val1, $val2, $authorized);
+        }
+        return parent::saveCurrentSolution($active_id, $pass, $value1, $value2, $authorized, $tstamp);
     }
 
     /**
@@ -523,8 +558,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
      */
     public function saveToDb($original_id = ""): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
 
         if ($original_id == "") {
             $this->saveQuestionDataToDb();
@@ -1460,4 +1494,5 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             return $this->getResults();
         }
     }
+
 }

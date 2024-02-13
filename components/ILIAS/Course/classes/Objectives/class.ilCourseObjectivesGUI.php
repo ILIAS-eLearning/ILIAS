@@ -814,7 +814,7 @@ class ilCourseObjectivesGUI
         );
 
         $list->loadDefinitions();
-        $translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
+        $translater = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
         $translater->loadLabels($list);
 
         $options[0] = $this->lng->txt('select_one');
