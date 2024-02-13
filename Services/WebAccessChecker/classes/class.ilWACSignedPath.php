@@ -1,6 +1,21 @@
 <?php
-// declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+// declare(strict_types=1);
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\GlobalHttpState;
@@ -197,8 +212,15 @@ class ilWACSignedPath
 
         // FIX: currently the cookies are never stored, we must use setcookie
         foreach ($jar->getAll() as $cookie) {
-            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpires(), $cookie->getPath(),
-                $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttpOnly());
+            setcookie(
+                $cookie->getName(),
+                $cookie->getValue(),
+                $cookie->getExpires(),
+                $cookie->getPath(),
+                $cookie->getDomain(),
+                $cookie->getSecure(),
+                $cookie->getHttpOnly()
+            );
         }
     }
 
@@ -256,7 +278,7 @@ class ilWACSignedPath
         if (!$path_to_file) {
             return '';
         }
-        $ilWACPath = new ilWACPath($path_to_file);
+        $ilWACPath = new ilWACPath($path_to_file, false);
         if (!$ilWACPath->getClient()) {
             return $path_to_file;
         }

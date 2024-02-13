@@ -139,9 +139,11 @@ class ilWACPath
     protected $path_without_query = '';
 
 
-    public function __construct(string $path)
+    public function __construct(string $path, bool $normalize = true)
     {
-        $path = $this->normalizePath($path);
+        if ($normalize) {
+            $path = $this->normalizePath($path);
+        }
 
         $this->setOriginalRequest($path);
 
@@ -294,7 +296,7 @@ class ilWACPath
         $realpath = realpath("." . $original_path);
 
         if (strpos($realpath, $real_data_dir) !== 0) {
-            throw new ilWACException(ilWACException::ACCESS_DENIED);
+            throw new ilWACException(ilWACException::ACCESS_DENIED, "Path is not in data directory");
         }
 
         $normalized_path = ltrim(
@@ -302,7 +304,8 @@ class ilWACPath
                 $real_data_dir,
                 '',
                 $realpath
-            ), '/'
+            ),
+            '/'
         );
 
         return "/" . self::DIR_DATA . '/' . $normalized_path . (!empty($query) ? '?' . $query : '');
