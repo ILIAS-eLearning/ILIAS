@@ -233,6 +233,9 @@ class ilWACPath
     protected function normalizePath(string $path): string
     {
         $path = ltrim($path, '.');
+        // cut everything before "data/" (for installations using a subdirectory)
+        $path = strstr($path, '/' . self::DIR_DATA . '/');
+
         $original_path = parse_url($path, PHP_URL_PATH);
         $query = parse_url($path, PHP_URL_QUERY);
 
