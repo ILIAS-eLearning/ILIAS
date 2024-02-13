@@ -136,6 +136,12 @@ not come in effect immediately, because the corresponding artifact has not been
 updated. This is done via `php cli/setup.php build-artifacts` or when updating
 the composer class-map.
 
+You can use your artifact with the following method which resolves to the 
+path whre the artifact is stored:
+
+```php
+    $array_data = require MyArtifact::PATH();
+```
 
 #### Example: Global Screen Provider
 

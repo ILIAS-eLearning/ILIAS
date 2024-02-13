@@ -56,11 +56,11 @@ class ilWACSecurePath extends ActiveRecord
             );
         }
 
-        $secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
-        if (!file_exists($secure_path_checking_class)) {
+        // $secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
+        if (!class_exists($obj->getCheckingClass())) {
             throw new ilWACException(
                 ilWACException::CODE_NO_PATH,
-                'Checking Instance not found in path: ' . $secure_path_checking_class
+                'Checking Instance not found: ' . $obj->getCheckingClass()
             );
         }
         $class_name = $obj->getCheckingClass();

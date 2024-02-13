@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,40 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Setup\Artifact;
 
 use ILIAS\Setup;
 
 /**
  * This is an objective to build some artifact.
+ *
+ * @deprecated not deprecated in the true sense of the word, but we will be making major changes to the artifacts
+ * infrastructure, see for example https://github.com/ILIAS-eLearning/ILIAS/pull/7013#pullrequestreview-1869594435
+ *
+ * therefore: if you are currently implementing it, please contact Richard Klees or Fabian Schmid
  */
 abstract class BuildArtifactObjective implements Setup\Objective
 {
+    private const ARTIFACTS = __DIR__ . "/../../../../../artifacts";
+
+    /**
+     * @return string The path where the artifact should be stored. You can use this path to require the artifact.
+     */
+    final public static function PATH(): string
+    {
+        return realpath(self::ARTIFACTS) . "/" . md5(static::class) . ".php";
+    }
+
+    private const COMPONENTS_DIRECTORY = "components";
+
     /**
      * Get the filename where the builder wants to put its artifact.
      *
      * This is understood to be a path relative to the ILIAS root directory.
      */
-    abstract public function getArtifactPath(): string;
+    abstract public function getArtifactName(): string;
 
     /**
      * Build the artifact based. If you want to use the environment
@@ -70,17 +87,17 @@ abstract class BuildArtifactObjective implements Setup\Objective
      */
     public function getHash(): string
     {
-        return hash("sha256", $this->getArtifactPath());
+        return hash("sha256", $this->getArtifactName());
     }
 
     /**
-     * Defaults to "Build $this->getArtifactPath()".
+     * Defaults to 'Build ' . $this->getArtifactName().' Artifact'.
      *
      * @inheritdocs
      */
     public function getLabel(): string
     {
-        return 'Build ' . $this->getArtifactPath();
+        return 'Build ' . $this->getArtifactName() . ' Artifact';
     }
 
     /**
@@ -102,9 +119,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
     {
         $artifact = $this->buildIn($environment);
 
-        // TODO: Do we want to configure this?
-        $base_path = __DIR__ . "/../../../..";
-        $path = $base_path . "/" . $this->getArtifactPath();
+        $path = static::PATH();
 
         $this->makeDirectoryFor($path);
 
@@ -122,7 +137,9 @@ abstract class BuildArtifactObjective implements Setup\Objective
     {
         $dir = pathinfo($path)["dirname"];
         if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
+            if (!mkdir($dir, 0755, true) && !is_dir($dir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+            }
         }
     }
 }

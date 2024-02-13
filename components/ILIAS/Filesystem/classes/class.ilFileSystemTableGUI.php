@@ -103,7 +103,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.directory_row.html",
-            "components/ILIAS/FileSystem"
+            "components/ILIAS/FileSystem_"
         );
         $this->setEnableTitle(true);
     }
@@ -127,7 +127,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
      */
     public function getEntries(): array
     {
-        if ($this->filesystem->has($this->relative_cur_dir)) {
+        $path = $this->relative_cur_dir;
+        if ($this->filesystem->has($path)) {
             $entries = [];
             if ($this->cur_dir !== '') {
                 $entries['..'] = [
@@ -140,7 +141,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 ];
             }
 
-            foreach ($this->filesystem->listContents($this->relative_cur_dir) as $i => $content) {
+            foreach ($this->filesystem->listContents($path) as $i => $content) {
                 $basename = basename($content->getPath());
                 $entries[$basename] = [
                     'order_val' => $i,

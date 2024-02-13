@@ -100,8 +100,8 @@ class ilObjectDIC extends PimpleContainer
 
         $this['object_type_specific_properties_factory'] = fn($c): ObjectTypeSpecificPropertiesFactory
             => new ObjectTypeSpecificPropertiesFactory(
-                is_readable(ilObjectTypeSpecificPropertiesArtifactObjective::PATH) ?
-                    include ilObjectTypeSpecificPropertiesArtifactObjective::PATH
+                is_readable(ilObjectTypeSpecificPropertiesArtifactObjective::PATH()) ?
+                    include ilObjectTypeSpecificPropertiesArtifactObjective::PATH()
                     : [],
                 $DIC['ilDB']
             );

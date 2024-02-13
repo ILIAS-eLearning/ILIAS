@@ -29,12 +29,11 @@ use ILIAS\Setup\Environment;
 
 class ilObjectTypeSpecificPropertiesArtifactObjective extends BuildArtifactObjective
 {
-    public const PATH = '../artifacts/ILIASObject/object_specific_properties.php';
-
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return self::PATH;
+        return "object_specific_properties";
     }
+
 
     public function build(): Artifact
     {

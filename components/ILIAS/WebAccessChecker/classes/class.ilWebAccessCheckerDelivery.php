@@ -187,7 +187,9 @@ class ilWebAccessCheckerDelivery
             $path_to_file = $path->getCleanURLdecodedPath();
         }
 
-        $ilFileDelivery = new Delivery($path_to_file, $this->http);
+        $real_path_to_file = realpath(__DIR__ . '/../../../../public/' . $path_to_file);
+
+        $ilFileDelivery = new Delivery($real_path_to_file, $this->http);
         $ilFileDelivery->setCache(true);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
         if ($path->isStreamable()) { // fixed 0016468

@@ -87,15 +87,18 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
             self::$startfile[$a_id] = $start_file . "";
         }
 
-        $dir = ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id;
+        $dir = realpath(__DIR__ . '/../../../../public/' . ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id);
 
-        if (($start_file !== "") &&
-            (is_file($dir . "/" . $start_file))) {
-            return "./" . $dir . "/" . $start_file;
-        } elseif (is_file($dir . "/index.html")) {
-            return "./" . $dir . "/index.html";
-        } elseif (is_file($dir . "/index.htm")) {
-            return "./" . $dir . "/index.htm";
+        if (($start_file !== "") && (is_file($dir . "/" . $start_file))) {
+            return  $dir . "/" . $start_file;
+        }
+
+        if (is_file($dir . "/index.html")) {
+            return  $dir . "/index.html";
+        }
+
+        if (is_file($dir . "/index.htm")) {
+            return  $dir . "/index.htm";
         }
 
         return "";

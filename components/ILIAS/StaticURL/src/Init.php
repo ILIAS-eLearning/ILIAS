@@ -44,7 +44,7 @@ final class Init
         };
 
         $c['static_url.handler'] = static function (Container $c): HandlerService {
-            $handlers = (require ArtifactObjective::ARTIFACT ?? []);
+            $handlers = (require ArtifactObjective::PATH() ?? []);
             $handlers = array_map(static function (string $handler): Handler {
                 return new $handler();
             }, $handlers);

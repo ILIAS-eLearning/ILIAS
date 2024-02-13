@@ -103,7 +103,7 @@ class ilWebAccessChecker
         // Check if Path is within accepted paths
         if ($this->getPathObject()->getModuleType() !== 'rs') {
             $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
-            $path = realpath($clean_path);
+            $path = realpath(__DIR__ . '/../../../../public/' . $clean_path);
             $data_dir = realpath(CLIENT_WEB_DIR);
             if (strpos($path, $data_dir) !== 0) {
                 return false;
