@@ -278,6 +278,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->addHeaderAction();
     }
 
+    protected function renderObject(): void
+    {
+        $this->infoScreenObject();
+    }
+
     protected function membersObject(): void
     {
         $this->ctrl->redirectByClass('ilSessionMembershipGUI', 'participants');
