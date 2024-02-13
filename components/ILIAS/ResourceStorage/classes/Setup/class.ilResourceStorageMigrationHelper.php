@@ -34,6 +34,9 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
+use ILIAS\Filesystem\Util\Archive\Zip;
+use ILIAS\Filesystem\Util\Archive\ZipOptions;
+use ILIAS\ResourceStorage\Resource\ResourceType;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -299,7 +302,47 @@ class ilResourceStorageMigrationHelper
             false
         );
 
-        // add bibliographic stakeholder and store resource
+        // add stakeholder and store resource
+        $resource->addStakeholder($this->stakeholder);
+        $this->resource_builder->store($resource);
+
+        return $resource->getIdentification();
+    }
+
+    public function moveDirectoryToContainerResource(
+        string $absolute_path_to_directory,
+        int $owner_user_id,
+    ): ?ResourceIdentification
+    {
+        // check if directory exists
+        if (!is_dir($absolute_path_to_directory)) {
+            return null;
+        }
+
+        $zip = new Zip(
+            (new ZipOptions())->withEnsureTopDirectoy(false)
+        );
+        $zip->addDirectory($absolute_path_to_directory);
+        try {
+            $zip_stream = $zip->get();
+        } catch (Throwable $e) {
+            return null; // could not create zip
+        }
+
+        $resource = $this->resource_builder->newFromStream(
+            $zip_stream,
+            new StreamInfoResolver(
+                $zip_stream,
+                1,
+                $owner_user_id,
+                basename($absolute_path_to_directory),
+                basename($absolute_path_to_directory)
+            ),
+            true,
+            ResourceType::CONTAINER
+        );
+
+        // add stakeholder and store resource
         $resource->addStakeholder($this->stakeholder);
         $this->resource_builder->store($resource);
 
