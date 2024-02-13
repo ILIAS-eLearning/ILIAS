@@ -124,7 +124,7 @@ final class StreamDelivery extends BaseDelivery
                 $payload->getUri(),
                 $payload->getMimeType(),
                 $payload->getFilename(),
-                Disposition::from($payload->getDisposition())
+                Disposition::tryFrom($payload->getDisposition()) ?? Disposition::INLINE
             );
 
             $this->http->saveResponse(
@@ -143,19 +143,20 @@ final class StreamDelivery extends BaseDelivery
                 $this->notFound($r);
             }
 
+            // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
+            $this->response_builder = new PHPResponseBuilder();
+
+            $mime_type = $this->determineMimeType($file_inside_zip_uri);
             $r = $this->setGeneralHeaders(
                 $r,
                 $file_inside_zip_uri,
-                $this->determineMimeType($file_inside_zip_uri),
+                $mime_type,
                 basename($sub_request),
                 Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
             );
 
-            // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
-            $response_builder = new PHPResponseBuilder();
-
             $this->http->saveResponse(
-                $response_builder->buildForStream(
+                $this->response_builder->buildForStream(
                     $r,
                     Streams::ofResource($file_inside_zip_stream, true)
                 )
@@ -167,9 +168,18 @@ final class StreamDelivery extends BaseDelivery
 
     private function determineMimeType(string $file_inside_zip_uri): string
     {
+        // lookup map
+        $suffix = strtolower(pathinfo($file_inside_zip_uri, PATHINFO_EXTENSION));
+        $map = require __DIR__ . '/../../../../../components/ILIAS/FileUpload/src/mime_type_map.php';
+
+        if (isset($map[$suffix])) {
+            return is_array($map[$suffix]) ? $map[$suffix][0] : $map[$suffix];
+        }
+
+
         $mime_type = mime_content_type($file_inside_zip_uri);
         if ($mime_type === 'application/octet-stream') {
-            $mime_type = mime_content_type(substr($file_inside_zip_uri, 6));
+            $mime_type = mime_content_type(substr($file_inside_zip_uri, 64));
         }
         return $mime_type ?: 'application/octet-stream';
     }
