@@ -136,6 +136,10 @@ input[type="checkbox"] {
 
 	// Placeholder
 	@include placeholder;
+	
+	&[required] {
+		@include placeholder($il-input-color);
+	}
 
 	// Unstyle the caret on `<select>`s in IE10+.
 	&::-ms-expand {
