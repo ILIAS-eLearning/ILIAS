@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeSettings
 {
@@ -113,6 +113,13 @@ class ilStudyProgrammeSettings
     public function getObjId(): int
     {
         return $this->obj_id;
+    }
+
+    public function withObjId(int $obj_id): self
+    {
+        $clone = clone $this;
+        $clone->obj_id = $obj_id;
+        return $clone;
     }
 
     /**
