@@ -2533,6 +2533,14 @@ ol.breadcrumb > li + li:before {
   outline: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
+.btn .glyph, .il-link.link-bulky .glyph,
+.il-drilldown .menulevel .glyph, .navbar-form > a .glyph,
+.btn .glyph .glyphicon,
+.il-link.link-bulky .glyph .glyphicon,
+.il-drilldown .menulevel .glyph .glyphicon,
+.navbar-form > a .glyph .glyphicon {
+  color: unset;
+}
 
 a.btn.disabled, a.disabled.il-link.link-bulky,
 .il-drilldown a.disabled.menulevel, .navbar-form > a.disabled, fieldset[disabled] a.btn, fieldset[disabled] a.il-link.link-bulky,
