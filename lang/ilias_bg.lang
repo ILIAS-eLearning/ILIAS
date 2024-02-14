@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Продължава изб�
 assessment#:#tst_gap_analysis#:#Анализ на пропуските
 assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_header_participant#:#Резултат:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Правилно решение:
 assessment#:#tst_heading_scoring#:#Оценяване
 assessment#:#tst_hide_side_list#:#Скриване на списъка с въпроси
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#Местоположение
 dateplaner#:#cal_year_s#:#Година(и)
 dateplaner#:#cal_yearly#:#Годишно
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Създадено
 dateplaner#:#crs_cal_activation_end#:#Край на курса
 dateplaner#:#crs_cal_activation_start#:#Започване на курса

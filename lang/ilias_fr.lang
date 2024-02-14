@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Sélection des Questions
 assessment#:#tst_gap_analysis#:#Analyse d’écart
 assessment#:#tst_general_properties#:#Paramètres Généraux
 assessment#:#tst_header_participant#:#Résultat :
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Solution correcte :
 assessment#:#tst_heading_scoring#:#Notation
 assessment#:#tst_hide_side_list#:#Masquer liste de question
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Hebdomadaire
 dateplaner#:#cal_where#:#Lieu
 dateplaner#:#cal_year_s#:#Année(s)
 dateplaner#:#cal_yearly#:#Annuelle
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Créé
 dateplaner#:#crs_cal_activation_end#:#Fin du Cours
 dateplaner#:#crs_cal_activation_start#:#Début du Cours

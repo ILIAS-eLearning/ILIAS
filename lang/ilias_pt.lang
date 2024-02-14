@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continuar seleção de pergu
 assessment#:#tst_gap_analysis#:#Análise de intervalo
 assessment#:#tst_general_properties#:#A sua resposta:
 assessment#:#tst_header_participant#:#Melhor solução:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Pontuação
 assessment#:#tst_heading_scoring#:#Ocultar lista de perguntas
 assessment#:#tst_hide_side_list#:#Data
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Semanal
 dateplaner#:#cal_where#:#Localização
 dateplaner#:#cal_year_s#:#Ano(s)
 dateplaner#:#cal_yearly#:#Anual
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Nenhum fórum selecionado para mover os tópicos escolhidos
 dateplaner#:#crs_cal_activation_end#:#Antes de serem publicados, todos os postings têm de ser aprovados por um moderador.
 dateplaner#:#crs_cal_activation_start#:#Posting censurado, comentário por moderador

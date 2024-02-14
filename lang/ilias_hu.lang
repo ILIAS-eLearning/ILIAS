@@ -1462,6 +1462,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Folyamatos kérdéskiválasz
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
 assessment#:#tst_general_properties#:#Általános beállítások
 assessment#:#tst_header_participant#:#Az Ön válasza:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Legjobb megoldás:
 assessment#:#tst_heading_scoring#:#Pontozás
 assessment#:#tst_hide_side_list#:#Kérdéslista elrejtése
@@ -8335,6 +8336,7 @@ dateplaner#:#cal_weekly#:#Hetente
 dateplaner#:#cal_where#:#Hely
 dateplaner#:#cal_year_s#:#Év
 dateplaner#:#cal_yearly#:#Évente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Létrehozva
 dateplaner#:#crs_cal_activation_end#:#Kurzus láthatóságának vége
 dateplaner#:#crs_cal_activation_start#:#Kurzus láthatóságának kezdete

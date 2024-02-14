@@ -1450,6 +1450,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Selección continua de pregu
 assessment#:#tst_gap_analysis#:#Análisis de huecos
 assessment#:#tst_general_properties#:#Propiedades generales
 assessment#:#tst_header_participant#:#Resultado:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Solución correcta:
 assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_side_list#:#Ocultar lista de preguntas
@@ -8323,6 +8324,7 @@ dateplaner#:#cal_weekly#:#Semanalmente
 dateplaner#:#cal_where#:#Localización
 dateplaner#:#cal_year_s#:#A&ntilde;o(s)
 dateplaner#:#cal_yearly#:#Anualmente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Creada
 dateplaner#:#crs_cal_activation_end#:#Fin de curso
 dateplaner#:#crs_cal_activation_start#:#Comienzo de curso

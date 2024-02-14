@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
 assessment#:#tst_general_properties#:#Karakteristikat gjenerale
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
 assessment#:#tst_heading_scoring#:#Scoring ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Weekly###02 06 2008 new variable
 dateplaner#:#cal_where#:#Location###02 06 2008 new variable
 dateplaner#:#cal_year_s#:#Year(s)###02 06 2008 new variable
 dateplaner#:#cal_yearly#:#Yearly###02 06 2008 new variable
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Krijohet
 dateplaner#:#crs_cal_activation_end#:#Course End###02 06 2008 new variable
 dateplaner#:#crs_cal_activation_start#:#Course Start###02 06 2008 new variable

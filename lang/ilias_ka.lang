@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
 assessment#:#tst_general_properties#:#ზოგადი პარამეტრები
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
 assessment#:#tst_heading_scoring#:#შეფასება
 assessment#:#tst_hide_side_list#:#დავმალოთ კითხვების სია
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#კვირეულად
 dateplaner#:#cal_where#:#ადგილი
 dateplaner#:#cal_year_s#:#წლები
 dateplaner#:#cal_yearly#:#წლიურად
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#შექმნილია
 dateplaner#:#crs_cal_activation_end#:#კურსის დასასრული
 dateplaner#:#crs_cal_activation_start#:#კურსის დასაწყისი

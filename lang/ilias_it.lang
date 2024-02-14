@@ -1462,6 +1462,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Selezione continua di domand
 assessment#:#tst_gap_analysis#:#Analisi gap
 assessment#:#tst_general_properties#:#Impostazioni generali del test
 assessment#:#tst_header_participant#:#La tua risposta:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Migliore soluzione possibile:
 assessment#:#tst_heading_scoring#:#Punteggio
 assessment#:#tst_hide_side_list#:#Nascondi la lista di domande
@@ -8335,6 +8336,7 @@ dateplaner#:#cal_weekly#:#Settimanale
 dateplaner#:#cal_where#:#Posizione
 dateplaner#:#cal_year_s#:#Anno/i
 dateplaner#:#cal_yearly#:#Annualmente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Creato il
 dateplaner#:#crs_cal_activation_end#:#Fino del corso
 dateplaner#:#crs_cal_activation_start#:#Inizio del corso

@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Kontinuirani izbor pitanja
 assessment#:#tst_gap_analysis#:#Analiza praznine
 assessment#:#tst_general_properties#:#Opće postavke
 assessment#:#tst_header_participant#:#Vaš odgovor:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Najbolje moguće rješenje:
 assessment#:#tst_heading_scoring#:#Broj bodova
 assessment#:#tst_hide_side_list#:#Sakrij popis pitanja
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Tjedno
 dateplaner#:#cal_where#:#Mjesto
 dateplaner#:#cal_year_s#:#Godina(e)
 dateplaner#:#cal_yearly#:#Godišnje
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Stvoreno
 dateplaner#:#crs_cal_activation_end#:#Dostupnost tečaja završava
 dateplaner#:#crs_cal_activation_start#:#Dostupnost tečaja započinje

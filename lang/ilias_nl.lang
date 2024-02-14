@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Doorgaan met vragenselectie
 assessment#:#tst_gap_analysis#:#Gap Analyse
 assessment#:#tst_general_properties#:#Algemene eigenschappen
 assessment#:#tst_header_participant#:#Resultaat:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Correcte oplossing:
 assessment#:#tst_heading_scoring#:#Score
 assessment#:#tst_hide_side_list#:#Verberg vragen bestand
@@ -8321,6 +8322,7 @@ dateplaner#:#cal_weekly#:#Wekelijks
 dateplaner#:#cal_where#:#Lokatie
 dateplaner#:#cal_year_s#:#Jaar/Jaren
 dateplaner#:#cal_yearly#:#Jaarlijks
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###14 02 2024 new variable
 dateplaner#:#created#:#Aangemaakt
 dateplaner#:#crs_cal_activation_end#:#Cursuseinde
 dateplaner#:#crs_cal_activation_start#:#Cursusaanvang
