@@ -22,7 +22,7 @@ namespace ILIAS\TestQuestionPool\Import;
 
 trait BuildImportDirectoriesTrait
 {
-    private string $import_temp_directory = ILIAS_DATA_DIR . DIRECTORY_SEPARATOR . CLIENT_ID . DIRECTORY_SEPARATOR . 'temp';
+    private string $import_temp_directory = CLIENT_DATA_DIR . DIRECTORY_SEPARATOR . 'temp';
 
     protected function buildImportDirectoriesFromImportFile(string $file_to_import): array
     {

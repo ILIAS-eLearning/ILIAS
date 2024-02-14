@@ -35,6 +35,7 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilSetting();
 
         $this->testObj = new ilObjTestVerificationGUI(
             0,
