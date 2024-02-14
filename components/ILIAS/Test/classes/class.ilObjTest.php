@@ -22,8 +22,8 @@ use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
 
 /**
  * Class ilObjTest
@@ -37,6 +37,7 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
+    use BuildImportDirectoriesTrait;
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
     public const INVITATION_OFF = 0;
@@ -347,35 +348,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         sort($files);
 
         return $files;
-    }
-
-    public static function _setImportDirectory($a_import_dir = null): void
-    {
-        if ($a_import_dir !== null) {
-            ilSession::set('tst_import_dir', $a_import_dir);
-            return;
-        }
-
-        ilSession::clear('tst_import_dir');
-    }
-
-    /**
-    * Get the import directory location of the test
-    *
-    * @return mixed|null The location of the import directory or false if the directory doesn't exist
-    */
-    public static function _getImportDirectory()
-    {
-        if (strlen(ilSession::get('tst_import_dir'))) {
-            return ilSession::get('tst_import_dir');
-        }
-        return null;
-    }
-
-    /** @return mixed|null */
-    public function getImportDirectory()
-    {
-        return ilObjTest::_getImportDirectory();
     }
 
     /**
@@ -3256,6 +3228,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function fromXML(ilQTIAssessment $assessment)
     {
+        $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
         ilSession::clear('import_mob_xhtml');
 
         $this->saveToDb(true);
@@ -3275,7 +3248,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             foreach ($objectives->materials as $material) {
                 $introduction_settings = $this->addIntroductionToSettingsFromImport(
                     $introduction_settings,
-                    $this->qtiMaterialToArray($material)
+                    $this->qtiMaterialToArray($material),
+                    $importdir
                 );
             }
         }
@@ -3287,7 +3261,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $finishing_settings,
                 $this->qtiMaterialToArray(
                     $assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)
-                )
+                ),
+                $importdir
             );
         }
 
@@ -3586,13 +3561,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->loadFromDb();
     }
 
-    private function addIntroductionToSettingsFromImport(ilObjTestSettingsIntroduction $settings, array $material)
-    {
+    private function addIntroductionToSettingsFromImport(
+        ilObjTestSettingsIntroduction $settings,
+        array $material,
+        string $importdir
+    ): ilObjTestSettingsIntroduction {
         $text = $material['text'];
         $mobs = $material['mobs'];
         if (str_starts_with($text, '<PageObject>')) {
-            $text = $this->retrieveMobsFromPageImports($text, $mobs);
-            $text = $this->retrieveFilesFromPageImports($text);
+            $text = $this->retrieveMobsFromPageImports($text, $mobs, $importdir);
+            $text = $this->retrieveFilesFromPageImports($text, $importdir);
             $page_object = new ilTestPage();
             $page_object->setParentId($this->getId());
             $page_object->setXMLContent($text);
@@ -3600,22 +3578,26 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             return $settings->withIntroductionPageId($new_page_id);
         }
 
-        $text = $this->retrieveMobsFromLegacyImports($text, $mobs);
+        $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
         return new ilObjTestSettingsIntroduction(
             $settings->getTestId(),
-            strlen($text) > 0,
+            $text !== '',
             $text
         );
     }
 
-    private function addConcludingRemarksToSettingsFromImport(ilObjTestSettingsFinishing $settings, array $material)
-    {
+    private function addConcludingRemarksToSettingsFromImport(
+        ilObjTestSettingsFinishing $settings,
+        array $material,
+        string $importdir
+    ): ilObjTestSettingsFinishing {
+        $file_to_import = ilSession::get('path_to_import_file');
         $text = $material['text'];
         $mobs = $material['mobs'];
         if (str_starts_with($text, '<PageObject>')) {
-            $text = $this->retrieveMobsFromPageImports($text, $mobs);
-            $text = $this->retrieveFilesFromPageImports($text);
+            $text = $this->retrieveMobsFromPageImports($text, $mobs, $importdir);
+            $text = $this->retrieveFilesFromPageImports($text, $importdir);
             $page_object = new ilTestPage();
             $page_object->setParentId($this->getId());
             $page_object->setXMLContent($text);
@@ -3623,7 +3605,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             return $settings->withConcludingRemarksPageId($new_page_id);
         }
 
-        $text = $this->retrieveMobsFromLegacyImports($text, $mobs);
+        $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
 
         return new ilObjTestSettingsFinishing(
             $settings->getTestId(),
@@ -3638,10 +3620,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         );
     }
 
-    private function retrieveMobsFromPageImports(string $text, array $mobs): string
+    private function retrieveMobsFromPageImports(string $text, array $mobs, string $importdir): string
     {
         foreach ($mobs as $mob) {
-            $importfile = ilObjTest::_getImportDirectory() . '/' . ilSession::get('tst_import_subdir') . '/' . $mob['uri'];
+            $importfile = $importdir . DIRECTORY_SEPARATOR . $mob['uri'];
             if (file_exists($importfile)) {
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), 'tst:gp', $this->getId());
@@ -3651,11 +3633,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $text;
     }
 
-    private function retrieveFilesFromPageImports(string $text): string
+    private function retrieveFilesFromPageImports(string $text, string $importdir): string
     {
         preg_match_all('/il_(\d+)_file_(\d+)/', $text, $matches);
         foreach ($matches[0] as $match) {
-            $source_dir = ilObjTest::_getImportDirectory() . '/' . ilSession::get('tst_import_subdir') . '/objects/' . $match;
+            $source_dir = $importdir . DIRECTORY_SEPARATOR . 'objects' . DIRECTORY_SEPARATOR . $match;
             $files = scandir($source_dir, SCANDIR_SORT_DESCENDING);
             if ($files !== false && $files !== [] && is_file($source_dir . '/' . $files[0])) {
                 $file = fopen($source_dir . '/' . $files[0], 'rb');
@@ -3669,10 +3651,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $text;
     }
 
-    private function retrieveMobsFromLegacyImports(string $text, array $mobs): string
+    private function retrieveMobsFromLegacyImports(string $text, array $mobs, string $importdir): string
     {
         foreach ($mobs as $mob) {
-            $importfile = ilObjTest::_getImportDirectory() . '/' . ilSession::get('tst_import_subdir') . '/' . $mob['uri'];
+            $importfile = $importdir . DIRECTORY_SEPARATOR . $mob['uri'];
             if (file_exists($importfile)) {
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), 'tst:html', $this->getId());

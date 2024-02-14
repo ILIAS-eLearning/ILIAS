@@ -39,11 +39,16 @@ class assClozeTestImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
-    {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
+    public function fromXML(
+        string $importdirectory,
+        int $user_id,
+        ilQTIItem $item,
+        int $questionpool_id,
+        ?int $tst_id,
+        ?ilObject &$tst_object,
+        int &$question_counter,
+        array $import_mapping
+    ): array {
         // empty session variable for imported xhtml mobs
         ilSession::clear('import_mob_xhtml');
         $presentation = $item->getPresentation();
@@ -81,7 +86,7 @@ class assClozeTestImport extends assQuestionImport
                                         $gaps,
                                         [
                                             "ident" => $response->getIdent(),
-                                            "type" => CLOZE_NUMERIC,
+                                            "type" => assClozeGap::TYPE_NUMERIC,
                                             "answers" => [],
                                             "minnumber" => $response->getRenderType()->getMinnumber(),
                                             "maxnumber" => $response->getRenderType()->getMaxnumber(),
@@ -94,7 +99,7 @@ class assClozeTestImport extends assQuestionImport
                                     array_push(
                                         $gaps,
                                         ["ident" => $response->getIdent(),
-                                              "type" => CLOZE_TEXT,
+                                              "type" => assClozeGap::TYPE_TEXT,
                                               "answers" => [],
                                               'gap_size' => $response->getRenderType()->getMaxchars()
                                         ]
@@ -120,7 +125,7 @@ class assClozeTestImport extends assQuestionImport
                                     "shuffle" => $rendertype->getShuffle()
                                 ];
                             }
-                            array_push($gaps, ["ident" => $response->getIdent(), "type" => CLOZE_SELECT, "shuffle" => $rendertype->getShuffle(), "answers" => $answers]);
+                            array_push($gaps, ["ident" => $response->getIdent(), "type" => assClozeGap::TYPE_SELECT, "shuffle" => $rendertype->getShuffle(), "answers" => $answers]);
                             break;
                     }
                     break;
@@ -146,14 +151,14 @@ class assClozeTestImport extends assQuestionImport
                     if (strcmp($gapident, "") != 0) {
                         foreach ($gaps as $gi => $g) {
                             if (strcmp($g["ident"], $gapident) == 0) {
-                                if ($g["type"] == CLOZE_SELECT) {
+                                if ($g["type"] == assClozeGap::TYPE_SELECT) {
                                     foreach ($gaps[$gi]["answers"] as $ai => $answer) {
                                         if (strcmp($answer["answertext"], $equals) == 0) {
                                             $gaps[$gi]["answers"][$ai]["action"] = $setvar->getAction();
                                             $gaps[$gi]["answers"][$ai]["points"] = $setvar->getContent();
                                         }
                                     }
-                                } elseif ($g["type"] == CLOZE_TEXT) {
+                                } elseif ($g["type"] == assClozeGap::TYPE_TEXT) {
                                     array_push($gaps[$gi]["answers"], [
                                         "answertext" => $equals,
                                         "points" => $setvar->getContent(),
@@ -161,7 +166,7 @@ class assClozeTestImport extends assQuestionImport
                                         "action" => $setvar->getAction()
 
                                     ]);
-                                } elseif ($g["type"] == CLOZE_NUMERIC) {
+                                } elseif ($g["type"] == assClozeGap::TYPE_NUMERIC) {
                                     array_push($gaps[$gi]["answers"], [
                                         "answertext" => $equals,
                                         "points" => $setvar->getContent(),
@@ -239,7 +244,7 @@ class assClozeTestImport extends assQuestionImport
         $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
-        $this->object->setOwner($ilUser->getId());
+        $this->object->setOwner($user_id);
         $this->object->setObjId($questionpool_id);
         $textgap_rating = $item->getMetadataEntry("textgaprating");
         $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
@@ -261,10 +266,10 @@ class assClozeTestImport extends assQuestionImport
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
                 $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
-                    case CLOZE_SELECT:
+                    case assClozeGap::TYPE_SELECT:
                         $clozegap->setShuffle($answer["shuffle"]);
                         break;
-                    case CLOZE_NUMERIC:
+                    case assClozeGap::TYPE_NUMERIC:
                         $gapanswer->setLowerBound($gap["minnumber"]);
                         $gapanswer->setUpperBound($gap["maxnumber"]);
                         break;
@@ -311,11 +316,7 @@ class assClozeTestImport extends assQuestionImport
         }
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
-                if ($tst_id > 0) {
-                    $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
-                } else {
-                    $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
-                }
+                $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
 

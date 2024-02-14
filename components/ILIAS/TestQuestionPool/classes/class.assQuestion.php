@@ -280,31 +280,30 @@ abstract class assQuestion
         return $this->processLocker;
     }
 
-    /**
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param object $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    */
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
-    {
+    final public function fromXML(
+        string $importdirectory,
+        int $user_id,
+        ilQTIItem $item,
+        int $questionpool_id,
+        ?int $tst_id,
+        ?ilObject &$tst_object,
+        int &$question_counter,
+        array $import_mapping
+    ): array {
         $classname = $this->getQuestionType() . "Import";
         $import = new $classname($this);
-        $import_mapping = $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
+        $new_import_mapping = $import->fromXML(
+            $importdirectory,
+            $user_id,
+            $item,
+            $questionpool_id,
+            $tst_id,
+            $tst_object,
+            $question_counter,
+            $import_mapping
+        );
 
-        foreach ($solutionhints as $hint) {
-            $h = new ilAssQuestionHint();
-            $h->setQuestionId($import->getQuestionId());
-            $h->setIndex($hint['index'] ?? "");
-            $h->setPoints($hint['points'] ?? "");
-            $h->setText($hint['txt'] ?? "");
-            $h->save();
-        }
-        return $import_mapping;
+        return $new_import_mapping;
     }
 
     /**
@@ -312,7 +311,7 @@ abstract class assQuestion
     *
     * @return string The QTI xml representation of the question
     */
-    public function toXML(
+    final public function toXML(
         bool $a_include_header = true,
         bool $a_include_binary = true,
         bool $a_shuffle = false,
