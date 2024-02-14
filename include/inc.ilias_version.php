@@ -9,5 +9,5 @@
 *
 * @package ilias-core
 */
-define("ILIAS_VERSION", "7.27 2023-12-12");
-define("ILIAS_VERSION_NUMERIC", "7.27");			// since version ILIAS 6 this must be always x.y: x and y are numbers
+define("ILIAS_VERSION", "7.28 2024-02-14");
+define("ILIAS_VERSION_NUMERIC", "7.28");			// since version ILIAS 6 this must be always x.y: x and y are numbers

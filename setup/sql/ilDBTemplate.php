@@ -47358,7 +47358,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '108')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '110')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
@@ -56621,7 +56621,7 @@ $fields = array (
 	)
 	,"street" => array (
 		"notnull" => false
-		,"length" => 40
+		,"length" => 512
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -58239,6 +58239,9 @@ $ilDB->addIndex("webr_items", $in_fields, "i1", false);
 
 $in_fields = array("webr_id");
 $ilDB->addIndex("webr_items", $in_fields, "i3", false);
+
+$in_fields = array("webr_id","active");
+$ilDB->addIndex("webr_items", $in_fields, "i4", false);
 
 $ilDB->createSequence("webr_items", 1);
 

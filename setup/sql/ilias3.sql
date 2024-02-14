@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.6.12-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.16-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.6.12-MariaDB-0ubuntu0.22.04.1
+-- Server version	10.6.16-MariaDB-0ubuntu0.22.04.1
 
 --
 -- Table structure for table `acc_access_key`
@@ -19941,7 +19941,7 @@ INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
 INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','108');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','110');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5751');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
@@ -23837,7 +23837,7 @@ CREATE TABLE `usr_data` (
   `gender` char(1) DEFAULT 'm',
   `email` varchar(80) DEFAULT NULL,
   `institution` varchar(80) DEFAULT NULL,
-  `street` varchar(40) DEFAULT NULL,
+  `street` varchar(512) DEFAULT NULL,
   `city` varchar(40) DEFAULT NULL,
   `zipcode` varchar(10) DEFAULT NULL,
   `country` varchar(40) DEFAULT NULL,
@@ -24455,7 +24455,8 @@ CREATE TABLE `webr_items` (
   `internal` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`link_id`),
   KEY `i1_idx` (`link_id`,`webr_id`),
-  KEY `i3_idx` (`webr_id`)
+  KEY `i3_idx` (`webr_id`),
+  KEY `i4_idx` (`webr_id`,`active`)
 ) ;
 
 --
@@ -25050,4 +25051,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-12-12 18:09:02
+-- Dump completed on 2024-02-14 15:34:41
