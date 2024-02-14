@@ -815,6 +815,13 @@ class ilContainerRenderer
         $page_html = $this->renderContainerPage();
         $block_tpl = $this->initBlockTemplate();
 
+        $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
+        foreach($this->item_presentation->getAllRefIds() as $ref_id) {
+            $rd = $this->item_presentation->getRawDataByRefId($ref_id);
+            $preloader->addItem($rd["obj_id"], $rd["type"], $ref_id);
+        }
+        $preloader->preload();
+
         $embedded_block_ids = $this->item_presentation->getPageEmbeddedBlockIds();
         foreach ($sequence->getBlocks() as $block) {
             $block_id = "";
