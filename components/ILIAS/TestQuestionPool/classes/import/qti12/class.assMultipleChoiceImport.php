@@ -27,23 +27,16 @@
 */
 class assMultipleChoiceImport extends assQuestionImport
 {
-    /**
-    * Creates a question from a QTI file
-    *
-    * Receives parameters from a QTI parser and creates a valid ILIAS question object
-    *
-    * @param ilQtiItem $item The QTI item object
-    * @param integer $questionpool_id The id of the parent questionpool
-    * @param integer $tst_id The id of the parent test if the question is part of a test
-    * @param object $tst_object A reference to the parent test object
-    * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
-    * @param array $import_mapping An array containing references to included ILIAS objects
-    * @access public
-    */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
-    {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+    public function fromXML(
+        string $importdirectory,
+        int $user_id,
+        ilQTIItem $item,
+        int $questionpool_id,
+        ?int $tst_id,
+        ?ilObject &$tst_object,
+        int &$question_counter,
+        array $import_mapping
+    ): array {
         // empty session variable for imported xhtml mobs
         ilSession::clear('import_mob_xhtml');
 
@@ -115,7 +108,6 @@ class assMultipleChoiceImport extends assQuestionImport
                     break;
             }
         }
-        $responses = [];
         $feedbacks = [];
         $feedbacksgeneric = [];
         foreach ($item->resprocessing as $resprocessing) {
@@ -209,7 +201,7 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
-        $this->object->setOwner($ilUser->getId());
+        $this->object->setOwner($user_id);
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
@@ -275,11 +267,7 @@ class assMultipleChoiceImport extends assQuestionImport
         $answers = &$this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
-                if ($tst_id > 0) {
-                    $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
-                } else {
-                    $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
-                }
+                $importfile = $importdirectory . DIRECTORY_SEPARATOR . $mob["uri"];
 
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
