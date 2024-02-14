@@ -90,7 +90,8 @@ class ilModulesOrgUnitTypeTest extends TestCase
                 );
 
                 $form_factory = new Component\Input\Container\Form\Factory(
-                    $field_factory
+                    $field_factory,
+                    $signal_generator
                 );
                 $container_factory = new Component\Input\Container\Factory(
                     $form_factory,

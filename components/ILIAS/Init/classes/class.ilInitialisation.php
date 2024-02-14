@@ -493,7 +493,7 @@ class ilInitialisation
         if (defined('CLIENT_WEB_DIR')) {
             $ini_file = CLIENT_WEB_DIR . $ini_file;
         } else {
-            $ini_file = "../" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+            $ini_file = ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
         }
 
         // get settings from ini file
@@ -504,7 +504,6 @@ class ilInitialisation
         if ($ilClientIniFile->ERROR != "") {
             $default_client = $ilIliasIniFile->readVariable("clients", "default");
             ilUtil::setCookie("ilClientId", $default_client);
-
             if (CLIENT_ID != "" && CLIENT_ID != $default_client) {
                 $mess = array("en" => "Client does not exist.",
                               "de" => "Mandant ist ungültig."
