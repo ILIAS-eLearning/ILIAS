@@ -50,7 +50,7 @@ class ilSCORM13Package
     public string $packageHash = "";
     public int $userId;
 
-    //    private $idmap = array();
+    private array $idmap = [];
     private float $progress = 0.0;
 
     /**
@@ -223,7 +223,10 @@ class ilSCORM13Package
         $j['base'] = $packageFolder . '/';
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
-
+        $j['item']['title'] = ilUtil::stripSlashes($j['item']['title']);
+        for($i = 0; $i < count($j['item']['item']); $i++) {
+            $j['item']['item'][$i]['title'] = ilUtil::stripSlashes($j['item']['item'][$i]['title']);
+        }
 
         //last step - build ADL Activity tree
         $act = new SeqTreeBuilder();
@@ -368,8 +371,8 @@ class ilSCORM13Package
                             break;
                         case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
                             break;
-                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
-                            //                            break;
+                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
+                            break;
                         case 'primary': $names[] = 'c_primary';
                             break;
                             //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
