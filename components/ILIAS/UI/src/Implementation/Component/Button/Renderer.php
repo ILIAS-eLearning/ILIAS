@@ -26,6 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Renderer extends AbstractComponentRenderer
@@ -83,18 +84,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $label = $component->getLabel();
-        if ($label !== null) {
-            if($label instanceof Glyph) {
-                if($label->getAction() !== null) {
-                    $label = $label->withAction('#');
-                    $component = $component->withLabel($label);
-                }
-                $default_renderer = $default_renderer->withAdditionalContext($component);
-                $label = $default_renderer->render($label);
+        $tpl->setVariable("LABEL", $component->getLabel());
+        if($symbol = $component->getSymbol()) {
+            if($symbol instanceof Glyph && $symbol->getAction() !== null) {
+                $symbol = $symbol->withAction('#');
             }
-            $tpl->setVariable("LABEL", $label);
+            $default_renderer = $default_renderer->withAdditionalContext($component);
+            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
+
         if ($component->isActive()) {
             // The actions might also be a list of signals, these will be appended by
             // bindJavascript in maybeRenderId.

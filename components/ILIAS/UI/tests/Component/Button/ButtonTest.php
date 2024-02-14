@@ -121,11 +121,9 @@ class ButtonTest extends ILIAS_UI_TestBase
     {
         $f = $this->getButtonFactory();
         $glyph = new Glyph(C\Symbol\Glyph\Glyph::LIKE, '');
-        $glyph2 = new Glyph(C\Symbol\Glyph\Glyph::DISLIKE, '');
-        $b = $f->$factory_method($glyph, "http://www.ilias.de");
-        $b2 = $b->withLabel($glyph2);
-        $this->assertEquals($glyph, $b->getLabel());
-        $this->assertEquals($glyph2, $b2->getLabel());
+        $b = $f->$factory_method('', '')
+            ->withSymbol($glyph);
+        $this->assertEquals($glyph, $b->getSymbol());
     }
 
     /**

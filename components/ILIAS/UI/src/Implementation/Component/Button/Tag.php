@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Button;
 use ILIAS\UI\Component as C;
 use ILIAS\Data as D;
 use ILIAS\Data\Color;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Tag extends Button implements C\Button\Tag
 {

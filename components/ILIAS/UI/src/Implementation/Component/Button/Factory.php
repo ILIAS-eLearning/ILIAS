@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,22 +18,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\NotImplementedException;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Factory implements B\Factory
 {
     /**
      * @inheritdoc
      */
-    public function standard(string|Glyph $label, $action): B\Standard
+    public function standard(string $label, $action): B\Standard
     {
         return new Standard($label, $action);
     }
@@ -39,7 +38,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function primary(string|Glyph $label, $action): B\Primary
+    public function primary(string $label, $action): B\Primary
     {
         return new Primary($label, $action);
     }
@@ -63,7 +62,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function tag(string|Glyph $label, $action): B\Tag
+    public function tag(string $label, $action): B\Tag
     {
         return new Tag($label, $action);
     }
@@ -71,7 +70,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function shy(string|Glyph $label, $action): B\Shy
+    public function shy(string $label, $action): B\Shy
     {
         return new Shy($label, $action);
     }
@@ -96,7 +95,7 @@ class Factory implements B\Factory
      * @inheritdoc
      */
     public function toggle(
-        string|Glyph $label,
+        string $label,
         $on_action,
         $off_action,
         bool $is_on = false,
