@@ -378,6 +378,7 @@ class ilExport
 
         // zip the file
         $this->log->debug("zip: " . $export_dir . "/" . $new_file);
+        $this->log->debug("run dir: " . $this->export_run_dir);
         ilFileUtils::zip($this->export_run_dir, $export_dir . "/" . $new_file);
         ilFileUtils::delDir($this->export_run_dir);
 
