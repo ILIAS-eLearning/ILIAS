@@ -40,11 +40,11 @@ function base()
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';
-                $record['i1'] = $this->ui_renderer->render(
-                    $this->ui_factory->symbol()->icon()->standard('crs', '', 'small')
-                );
-                $record['i2'] = $this->ui_renderer->render(
-                    $this->ui_factory->chart()->progressMeter()->mini(80, $number)
+                $record['i1'] = $this->ui_factory->symbol()->icon()->standard('crs', '', 'small');
+                $record['i2'] = $this->ui_factory->symbol()->icon()->custom(
+                    'templates/default/images/standard/icon_checked.svg',
+                    '',
+                    'small'
                 );
                 yield $row_builder->buildDataRow($row_id, $record);
             }

@@ -80,7 +80,34 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             new \ILIAS\Data\Factory(),
             new C\Table\Column\Factory(),
             new C\Table\Action\Factory(),
-            new C\Table\DataRowBuilder()
+            new C\Table\DataRowBuilder(),
+            $this->getMockStorage()
         );
+    }
+
+    protected function getMockStorage(): ArrayAccess
+    {
+        return new class () implements ArrayAccess {
+            protected array $data = [];
+            public function offsetExists(mixed $offset): bool
+            {
+                return isset($this->data[$offset]);
+            }
+            public function offsetGet(mixed $offset): mixed
+            {
+                if(!$this->offsetExists($offset)) {
+                    return null;
+                }
+                return $this->data[$offset];
+            }
+            public function offsetSet(mixed $offset, mixed $value): void
+            {
+                $this->data[$offset] = $value;
+            }
+            public function offsetUnset(mixed $offset): void
+            {
+                unset($this->data[$offset]);
+            }
+        };
     }
 }

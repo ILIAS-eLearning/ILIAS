@@ -25,6 +25,9 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Implementation\Component\Link;
 use ILIAS\UI\Implementation\Component\Listing;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph as GlyphInterface;
 
 /**
  * Basic Tests for Table-Columns.
@@ -62,6 +65,24 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertEquals('FALSE', $col->format(false));
     }
 
+    public function testDataTableColumnBoolFormatWithIcon(): void
+    {
+        $ok = new StandardIcon('', 'ok', 'small', false);
+        $no = new StandardIcon('', 'notok', 'small', false);
+        $col = new Column\Boolean('col', $ok, $no);
+        $this->assertEquals($ok, $col->format(true));
+        $this->assertEquals($no, $col->format(false));
+    }
+
+    public function testDataTableColumnBoolFormatWithGlyph(): void
+    {
+        $ok = new Glyph(GlyphInterface::LIKE, '');
+        $no = new Glyph(GlyphInterface::DISLIKE, '');
+        $col = new Column\Boolean('col', $ok, $no);
+        $this->assertEquals($ok, $col->format(true));
+        $this->assertEquals($no, $col->format(false));
+    }
+
     public function testDataTableColumnDateFormat(): void
     {
         $df = new \ILIAS\Data\Factory();
@@ -97,19 +118,64 @@ class ColumnTest extends ILIAS_UI_TestBase
         $this->assertEquals('1,00 €', $col->format(1));
     }
 
-    public function testDataTableColumnLinkFormat(): void
+    public static function provideColumnFormats(): array
     {
-        $col = new Column\Link('col');
-        $link = new Link\Standard('label', '#');
-        $this->assertEquals($link, $col->format($link));
+        return [
+            [
+                'column' => new Column\LinkListing(''),
+                'value' => new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\LinkListing(''),
+                'value' => new Listing\Unordered(['string', 'string']),
+                'ok' => false
+            ],
+            [
+                'column' => new Column\LinkListing(''),
+                'value' => new Listing\Ordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\LinkListing(''),
+                'value' => 123,
+                'ok' => false
+            ],
+            [
+                'column' => new Column\Link(''),
+                'value' => new Link\Standard('label', '#'),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\Link(''),
+                'value' => 'some string',
+                'ok' => false
+            ],
+            [
+                'column' => new Column\StatusIcon(''),
+                'value' => new StandardIcon('', '', 'small', false),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\StatusIcon(''),
+                'value' => 'some string',
+                'ok' => false
+            ],
+        ];
     }
 
-    public function testDataTableColumnLinkFormatAcceptsOnlyLinks(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $col = new Column\Link('col');
-        $link = 'some string';
-        $this->assertEquals($link, $col->format($link));
+    /**
+￼    * @dataProvider provideColumnFormats
+￼    */
+    public function testDataTableColumnAllowedFormats(
+        Column\Column $column,
+        mixed $value,
+        bool $ok
+    ): void {
+        if(! $ok) {
+            $this->expectException(\InvalidArgumentException::class);
+        }
+        $this->assertEquals($value, $column->format($value));
     }
 
     public function testDataTableColumnLinkListingFormat(): void

@@ -9170,6 +9170,9 @@ td.c-table-data__cell--highlighted {
 .c-table-data__row:hover td.c-table-data__cell--highlighted {
   background-color: #dedede;
 }
+.c-table-data__cell__col-title {
+  display: none;
+}
 .il-workflow {
   word-break: break-word;
 }

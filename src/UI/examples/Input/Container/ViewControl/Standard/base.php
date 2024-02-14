@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Container\ViewControl\Standard;
 
 use ILIAS\Data\Order;
+use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 function base()
 {

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../../Base.php");
+require_once(__DIR__ . "/TableTestBase.php");
 
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component as C;
@@ -28,22 +28,11 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
 /**
  * Tests for Presentation Table.
  */
-class PresentationTest extends ILIAS_UI_TestBase
+class PresentationTest extends TableTestBase
 {
-    private function getFactory(): I\Component\Table\Factory
-    {
-        return new I\Component\Table\Factory(
-            new I\Component\SignalGenerator(),
-            new \ILIAS\Data\Factory(),
-            new I\Component\Table\Column\Factory(),
-            new I\Component\Table\Action\Factory(),
-            new I\Component\Table\DataRowBuilder()
-        );
-    }
-
     public function testTableConstruction(): void
     {
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
         $pt = $f->presentation('title', [], function (): void {
@@ -64,7 +53,7 @@ class PresentationTest extends ILIAS_UI_TestBase
     public function testBareTableRendering(): void
     {
         $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
         $expected = <<<EXP
@@ -82,7 +71,7 @@ EXP;
 
     public function testRowConstruction(): void
     {
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], function (): void {
         });
         $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
@@ -221,7 +210,7 @@ EXP;
 EXP;
 
         $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
         $this->assertHTMLEquals(
@@ -283,7 +272,7 @@ EXP;
 </div>
 EXP;
         $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
+        $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
         $this->assertHTMLEquals(

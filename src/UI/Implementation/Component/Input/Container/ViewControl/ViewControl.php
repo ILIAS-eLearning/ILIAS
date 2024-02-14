@@ -44,6 +44,7 @@ abstract class ViewControl extends Container implements I\ViewControl
 
     protected Signal $submit_signal;
     protected ?ServerRequestInterface $request = null;
+    protected Input\ArrayInputData $stored_input;
 
     /**
      * @param I\ViewControlInput[] $controls
@@ -57,6 +58,7 @@ abstract class ViewControl extends Container implements I\ViewControl
         parent::__construct($name_source);
         $this->setInputGroup($view_control_factory->group($controls)->withDedicatedName('view_control'));
         $this->submit_signal = $signal_generator->create();
+        $this->stored_input = new Input\ArrayInputData([]);
     }
 
     public function getSubmissionSignal(): Signal
@@ -79,6 +81,13 @@ abstract class ViewControl extends Container implements I\ViewControl
         return $this->request;
     }
 
+    public function withStoredInput(Input\ArrayInputData $input): self
+    {
+        $clone = clone $this;
+        $clone->stored_input = $input;
+        return $clone;
+    }
+
     /**
      * @inheritDoc
      */
@@ -87,7 +96,8 @@ abstract class ViewControl extends Container implements I\ViewControl
         $internal_input_data = new Input\ArrayInputData($this->getComponentInternalValues());
         return new StackedInputData(
             new QueryParamsFromServerRequest($request),
-            $internal_input_data
+            $this->stored_input,
+            $internal_input_data,
         );
     }
 

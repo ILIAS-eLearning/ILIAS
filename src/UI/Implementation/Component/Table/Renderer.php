@@ -186,7 +186,7 @@ class Renderer extends AbstractComponentRenderer
 
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration($action_id, $action));
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string)$action_id, $action));
             if ($action->isAsync()) {
                 $signal = clone $component->getAsyncActionSignal();
                 $signal->addOption(Action::OPT_ACTIONID, $action_id);
@@ -310,7 +310,9 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->hasSingleActions()) {
-            $tpl->touchBlock('header_action_cell');
+            $tpl->setVariable('COL_INDEX_ACTION', (string) count($columns));
+            $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
+
         }
         if ($component->hasMultiActions()) {
             $signal = $component->getSelectionSignal();
