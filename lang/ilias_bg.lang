@@ -911,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#Броят на термините т
 assessment#:#msg_poly_added#:#Добавен полигон
 assessment#:#msg_questions_moved#:#Въпросите са преместени
 assessment#:#msg_rect_added#:# Добавен правоъгълник
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Въпроси, избрани за преместване
 assessment#:#new_category#:#Нова категория единици
 assessment#:#new_unit#:#Нова единица
@@ -1432,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Продължава изб�
 assessment#:#tst_gap_analysis#:#Анализ на пропуските
 assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_header_participant#:#Резултат:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Правилно решение:
 assessment#:#tst_heading_scoring#:#Оценяване
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -7231,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#Време за четене###22 06 2022 new va
 copa#:#copa_value_reading_time_f_p#:#%s минути###22 06 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s минута###22 06 2022 new variable
 copa#:#obj_copa_duplicate#:#Дублиране на страница със съдържание
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Активирайте HTML/Javascript
 copg#:#copg_allow_html_info#:#Потребителят може да използва HTML или Javascript съдържание на страницата. Това може да доведе до проблеми със сигурността. Не активирайте, ако функциите могат да се използват от потребители, които според вас не заслужават доверие. Поддръжката на добавянето на HTML съдържание по този начин може да бъде преустановена в бъдеща версия.
 copg#:#copg_an_error_occured#:#Възникна грешка.###22 06 2022 new variable
@@ -7258,6 +7262,7 @@ copg#:#copg_reload_page#:#Презареждане на страницата###2
 copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Ако зададете връзка към целия раздел, моля, уверете се, че в раздела не са включени други интерактивни елементи. В противен случай поведението им може да бъде нестабилно.
 copg#:#copg_snippet_cannot_be_edited#:#Това е предварително дефиниран фрагмент от съдържанието и не може да се редактира тук.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Време за четене###22 06 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#Ако е разрешено, очакваното време за четене за обекти на страница със съдържание ще бъде определено и показано.###22 06 2022 new variable
@@ -7581,6 +7586,7 @@ crs#:#crs_members_groups#:#Групи на членовете на курса
 crs#:#crs_members_map#:#Карта на членовете на курса
 crs#:#crs_members_print_title#:#Членове на курса
 crs#:#crs_min_one_admin#:#За този курс трябва да има поне един администратор.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Новият ви статус е:
@@ -7908,6 +7914,7 @@ crs#:#events#:#Sessions
 crs#:#export_members#:#Експортиране на участници
 crs#:#grouping_change_assignment#:#Промяна на заданието
 crs#:#grp_grp_already_assigned#:#Вие вече сте член на тази група от групи.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Следващите курсове и групи не отговарят на изискванията за минимален брой членове (все още).
 crs#:#mem_cron_min_members_reason#:#Получавате това съобщение, защото сте активирали известието в раздела за членове.
 crs#:#mem_cron_min_members_subject#:#Курс/Група: Проверка на минималния брой членове
@@ -11319,6 +11326,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:# Добавяне на предварително зададени авторски права
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Предварителна настройка на авторските права
 meta#:#md_copyright_enable_info#:#Изберете тази опция, за да предложите избор от предварително дефинирани авторски права
 meta#:#md_copyright_enabled#:#Активиране на избора на авторски права
@@ -16147,6 +16155,7 @@ svy#:#svy_finish_survey#:#Завършване на проучването '%1'
 svy#:#svy_invite_participants#:#Привличане на участници
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Проучване
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Отстраняване на всички участници
 svy#:#svy_remove_participants#:#Отстраняване на участници

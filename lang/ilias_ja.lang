@@ -911,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#用語数は定義数と等しいか�
 assessment#:#msg_poly_added#:#多角形の追加
 assessment#:#msg_questions_moved#:#問題の移動
 assessment#:#msg_rect_added#:#長方形の追加
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#移動用に選択した問題
 assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_unit#:#新ユニット
@@ -1432,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#問題選択の継続
 assessment#:#tst_gap_analysis#:#ギャップ分析
 assessment#:#tst_general_properties#:#全般プロパティ
 assessment#:#tst_header_participant#:#結果:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#正解:
 assessment#:#tst_heading_scoring#:#採点
 assessment#:#tst_hide_pagecontents#:#ページコンテンツを非表示
@@ -7231,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#読み取り時間
 copa#:#copa_value_reading_time_f_p#:#%s 分
 copa#:#copa_value_reading_time_f_s#:#%s 分
 copa#:#obj_copa_duplicate#:#コンテンツページを複製
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#HTML/Javascriptを有効にする
 copg#:#copg_allow_html_info#:#ユーザはHTMLまたはJavascriptページコンテンツを利用できます。セキュリティ事項に影響する可能性があります。信頼に欠けるユーザによる機能の利用可能性がある場合は有効にしてはいけません。HTMLコンテンツの追加するサポートは将来バージョンで打ち切る可能性があります。
 copg#:#copg_an_error_occured#:#エラーが発生しました。
@@ -7258,6 +7262,7 @@ copg#:#copg_reload_page#:#ページの再読み込み
 copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
 copg#:#copg_snippet_cannot_be_edited#:#これは定義済みコンテンツスニペットなのでここでは編集できません。
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s 分
 cpad#:#cpad_reading_time_status#:#読込み時間
 cpad#:#cpad_reading_time_status_desc#:#有効にすると、コンテンツページオブジェクトの読込み予測時間が確定して表示されます。
@@ -7581,6 +7586,7 @@ crs#:#crs_members_groups#:#グループのメンバーシップ
 crs#:#crs_members_map#:#コースメンバーのマップ
 crs#:#crs_members_print_title#:#コースメンバー
 crs#:#crs_min_one_admin#:#このコース割当てのための管理者が一人は必要です。
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#新しいステータスは次の通り:
@@ -7908,6 +7914,7 @@ crs#:#events#:#セッション
 crs#:#export_members#:#受講者をエクスポート
 crs#:#grouping_change_assignment#:#割当て変更
 crs#:#grp_grp_already_assigned#:#既にグループのこのグループ化されたメンバーです。
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#次のコースとグループは(まだ)最小メンバー数に達していません。
 crs#:#mem_cron_min_members_reason#:#メンバータブ内の通知をアクティブにしているのでこのメッセージを受領します。
 crs#:#mem_cron_min_members_subject#:#コース/グループ: 最小メンバ数ーチェック
@@ -11319,6 +11326,7 @@ meta#:#md_copyright#:#著作権
 meta#:#md_copyright_add#:#著作権のプリセットを追加
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#著作権のプリセットを編集
 meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
@@ -16147,6 +16155,7 @@ svy#:#svy_finish_survey#:#サーベイ'%1'を修了
 svy#:#svy_invite_participants#:#参加者を招待
 svy#:#svy_link_to_svy#:#サーベイへのリンク
 svy#:#svy_part_overview#:#概要
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#印刷ビュー選択
 svy#:#svy_remove_all_participants#:#全参加者を削除
 svy#:#svy_remove_participants#:#参加者を削除

@@ -925,6 +925,8 @@ assessment#:#msg_number_of_terms_too_low#:#Il numero dei termini deve essere mag
 assessment#:#msg_poly_added#:#Aggiunto poligono
 assessment#:#msg_questions_moved#:#Domanda(e) spostata(e)
 assessment#:#msg_rect_added#:#Aggiunto rettangolo
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Domanda(e) selezionata(e) per lo spostamento
 assessment#:#new_category#:#Nuova categoria di unità
 assessment#:#new_unit#:#Nuova unità
@@ -1446,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Selezione continua di domand
 assessment#:#tst_gap_analysis#:#Analisi gap
 assessment#:#tst_general_properties#:#Impostazioni generali del test
 assessment#:#tst_header_participant#:#La tua risposta:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Migliore soluzione possibile:
 assessment#:#tst_heading_scoring#:#Punteggio
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -7245,6 +7248,7 @@ copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Pagina di contenuti duplicati
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Abilita HTML / Javascript
 copg#:#copg_allow_html_info#:#L'utente può utilizzare il contenuto della pagina HTML o Javascript. Ciò può causare problemi di sicurezza. Non attivare, se le funzionalità possono essere utilizzate dagli utenti che ritieni non attendibili. Il supporto per aggiungere contenuto HTML in questo modo potrebbe essere sospeso in una versione futura.
 copg#:#copg_an_error_occured#:#An error occured.
@@ -7272,6 +7276,7 @@ copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
 copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Se si imposta un link sul tutta la sezione, bisogna assicurarsi che nessun altro elemento interattivo sia incluso nella sezione. Altrimenti il loro comportamento potrebbe essere errato.
 copg#:#copg_snippet_cannot_be_edited#:#Questo è un frammento di contenuto predefinito e non può essere modificato qui.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
@@ -7595,6 +7600,7 @@ crs#:#crs_members_groups#:#Gruppi dei membri del corso
 crs#:#crs_members_map#:#Mappa dei membri del corso
 crs#:#crs_members_print_title#:#Iscritti al corso
 crs#:#crs_min_one_admin#:#Deve essere assegnato almeno un amministratore a questo corso.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Il tuo nuovo status e':
@@ -7922,6 +7928,7 @@ crs#:#events#:#Sessioni
 crs#:#export_members#:#Esporta partecipanti
 crs#:#grouping_change_assignment#:#Cambio assegnazione
 crs#:#grp_grp_already_assigned#:#Sei già membro di questo raggruppamento di gruppi.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#I gruppi e i corsi seguenti non soddisfano (ancora)il numero minimo di membri.
 crs#:#mem_cron_min_members_reason#:#Hai ricevuto questa mail perché hai attivato la notifica nella scheda dei membri.
 crs#:#mem_cron_min_members_subject#:#Corso/Gruppo: Controllo numero minimo dei membri
@@ -11333,6 +11340,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Aggiungi preset di Copyright
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Modifica il preset di Copyright
 meta#:#md_copyright_enable_info#:#Seleziona questa opzione per mostrare una selezione di copyright predefiniti.
 meta#:#md_copyright_enabled#:#Abilita la selezione dei Copyright
@@ -16161,6 +16169,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_invite_participants#:#Invita partecipanti
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Panoramica
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Rimuovi tutti i partecipanti
 svy#:#svy_remove_participants#:#Rimuovi partecipanti

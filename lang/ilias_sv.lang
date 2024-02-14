@@ -926,6 +926,8 @@ assessment#:#msg_number_of_terms_too_low#:#Antalet termer måste vara större ä
 assessment#:#msg_poly_added#:#Polygon tillagd
 assessment#:#msg_questions_moved#:#Frågeställningar uppskjutna
 assessment#:#msg_rect_added#:#Rektangel tillagd
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Frågor om att flytta utvalda
 assessment#:#new_category#:#Nya enheter Kategori
 assessment#:#new_unit#:#Ny enhet
@@ -1447,6 +1449,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Kontinuerligt urval av fråg
 assessment#:#tst_gap_analysis#:#Analys av luckor
 assessment#:#tst_general_properties#:#Inställningar för testet
 assessment#:#tst_header_participant#:#Ditt svar
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Bästa möjliga lösning
 assessment#:#tst_heading_scoring#:#Rating
 assessment#:#tst_hide_pagecontents#:# Dölj sidans innehåll
@@ -7246,6 +7249,7 @@ copa#:#copa_prop_reading_time#:#Tid för läsning
 copa#:#copa_value_reading_time_f_p#:#%s minuter
 copa#:#copa_value_reading_time_f_s#:#%s minut
 copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Tillåt HTML/Javascript
 copg#:#copg_allow_html_info#:#Användare kan använda HTML eller Javascript i sidinnehåll. Detta kan leda till säkerhetsproblem. Du bör endast aktivera denna funktion för komponenter som används av betrodda användare. Möjligheten att inkludera HTML på detta sätt kan komma att tas bort
 copg#:#copg_an_error_occured#:#Tyvärr har ett problem uppstått.
@@ -7273,6 +7277,7 @@ copg#:#copg_reload_page#:#Reload sida
 copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
 copg#:#copg_snippet_cannot_be_edited#:#Detta är en fördefinierad innehållsmodul som inte kan redigeras just nu.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minut(er)
 cpad#:#cpad_reading_time_status#:#Tid för läsning
 cpad#:#cpad_reading_time_status_desc#:#Om den är aktiverad beräknas och visas den uppskattade lästiden för innehållssidor.
@@ -7596,6 +7601,7 @@ crs#:#crs_members_groups#:#Gruppmedlemskap
 crs#:#crs_members_map#:#Card kursdeltagare
 crs#:#crs_members_print_title#:#Kursdeltagare
 crs#:#crs_min_one_admin#:#Minst en administratör måste vara kvar på den här kursen.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#Mina kurser och grupper
 crs#:#crs_my_courses_groups_enabled_info#:#Om du aktiverar det här alternativet visas alternativet "Mina kurser och grupper" i tidningen.
 crs#:#crs_new_status#:#Din status
@@ -7923,6 +7929,7 @@ crs#:#events#:#Sessioner
 crs#:#export_members#:#Export av deltagardata
 crs#:#grouping_change_assignment#:#Ändra uppdrag
 crs#:#grp_grp_already_assigned#:#Eftersom du redan är medlem i en av grupperna kan du inte gå med i en annan grupp från listan!
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Följande kurser och grupper når för närvarande inte upp till minimiantalet medlemmar
 crs#:#mem_cron_min_members_reason#:#Om du inte längre vill få aviseringar för dessa kurser och grupper, avaktivera kryssrutan "Avisering" på fliken "Medlemmar" i respektive objekt.
 crs#:#mem_cron_min_members_subject#:#Kurs/Grupp
@@ -11334,6 +11341,7 @@ meta#:#md_copyright#:#Upphovsrätt
 meta#:#md_copyright_add#:#Ny standard
 meta#:#md_copyright_alt_text#:#Alternativ text
 meta#:#md_copyright_alt_text_info#:#Används för 'alt'-attributet för bilden
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Ändra copyright-standard
 meta#:#md_copyright_enable_info#:#Aktivera denna inställning för att erbjuda fördefinierade användningslicenser.
 meta#:#md_copyright_enabled#:#Aktivera val av upphovsrätt
@@ -16162,6 +16170,7 @@ svy#:#svy_finish_survey#:#Redigera undersökning "%1
 svy#:#svy_invite_participants#:#Bjud in deltagare
 svy#:#svy_link_to_svy#:#Länk till undersökningen
 svy#:#svy_part_overview#:#Översikt
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Selektion utskriftsvy
 svy#:#svy_remove_all_participants#:#Radera alla deltagardata
 svy#:#svy_remove_participants#:#Ta bort deltagare

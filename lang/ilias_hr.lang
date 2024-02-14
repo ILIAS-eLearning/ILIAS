@@ -911,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#Broj pojmova mora biti veći ili jedn
 assessment#:#msg_poly_added#:#Dodan je poligon
 assessment#:#msg_questions_moved#:#Pitanje(a) je(su) pomaknuto(a)
 assessment#:#msg_rect_added#:#Dodan je pravokutnik
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Pitanje(a) odabrano(a) za pomicanje
 assessment#:#new_category#:#Kategorija nove jedinice
 assessment#:#new_unit#:#Nova jedinica
@@ -1432,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Kontinuirani izbor pitanja
 assessment#:#tst_gap_analysis#:#Analiza praznine
 assessment#:#tst_general_properties#:#Opće postavke
 assessment#:#tst_header_participant#:#Vaš odgovor:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Najbolje moguće rješenje:
 assessment#:#tst_heading_scoring#:#Broj bodova
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -7231,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#Reading Time###04 06 2021 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###04 06 2021 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###04 06 2021 new variable
 copa#:#obj_copa_duplicate#:#Dupliciraj stranicu sadržaja
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###04 06 2021 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 06 2021 new variable
 copg#:#copg_an_error_occured#:#An error occured.###04 06 2021 new variable
@@ -7258,6 +7262,7 @@ copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
 copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Ako postavite poveznicu na cijeli odjeljak, pripazite da unutar odjeljka ne postoje drugi interaktivni elementi. U protivnom njihovo ponašanje može biti nestalno.
 copg#:#copg_snippet_cannot_be_edited#:#Ovo je unaprijed definirani isječak sadržaja koji se ovdje ne može uređivati.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###04 06 2021 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###04 06 2021 new variable
@@ -7581,6 +7586,7 @@ crs#:#crs_members_groups#:#Članstva u grupama
 crs#:#crs_members_map#:#Karta članova tečaja
 crs#:#crs_members_print_title#:#Članovi tečaja
 crs#:#crs_min_one_admin#:#Ovom tečaju mora biti dodijeljen barem jedan administrator.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Vaš novi status je:
@@ -7908,6 +7914,7 @@ crs#:#events#:#Sesije
 crs#:#export_members#:#Izvezi sudionike
 crs#:#grouping_change_assignment#:#Promijeni zadatak
 crs#:#grp_grp_already_assigned#:#Već ste član ove skupine grupa.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Sljedeći tečajevi i grupe ne zadovoljavaju minimalni broj članova (još).
 crs#:#mem_cron_min_members_reason#:#Ovu poruku primate jer ste aktivirali obavijest na kartici članova.
 crs#:#mem_cron_min_members_subject#:#Tečaj/grupa: Provjera minimalnog broja članova
@@ -11319,6 +11326,7 @@ meta#:#md_copyright#:#Autorska prava
 meta#:#md_copyright_add#:#Dodaj zadano autorsko pravo
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Uredi zadano autorsko pravo
 meta#:#md_copyright_enable_info#:#Odaberite ovu opciju da biste ponudili izbor unaprijed definiranih autorskih prava.
 meta#:#md_copyright_enabled#:#Omogući odabir autorskih prava
@@ -16147,6 +16155,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'###04 06 2021 new variable
 svy#:#svy_invite_participants#:#Invite Participants###04 06 2021 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Overview###04 06 2021 new variable
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Remove all Participants###04 06 2021 new variable
 svy#:#svy_remove_participants#:#Remove Participants###04 06 2021 new variable
