@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
     protected array $fields = [];
@@ -30,20 +26,35 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     {
         if ($this->getFields()) {
             $queried_fields = [];
-            foreach ($this->getFields() as $field => $status) {
-                if ($status) {
-                    $queried_fields[] = $field . ':' . $this->query_string;
-                }
+            $token_operator = ' OR ';
+            if (ilSearchSettings::getInstance()->getDefaultOperator() === ilSearchSettings::OPERATOR_AND) {
+                $token_operator = ' AND ';
             }
 
-            if ($queried_fields) {
-                $this->parsed_query = implode(' OR ', $queried_fields);
-            } else {
-                $this->parsed_query = $this->query_string;
+            foreach ($this->getFields() as $field => $status) {
+                if (!$status) {
+                    continue;
+                }
+
+                $field_query = '';
+                $tokens = array_map(trim(...), explode(' ', $this->query_string));
+                foreach ($tokens as $token) {
+                    if ($field_query !== '') {
+                        $field_query .= $token_operator;
+                    }
+                    $field_query .= '(' . $field . ':' . $token . ')';
+                }
+
+                $queried_fields[] = '(' . $field_query . ')';
             }
-        } else {
-            $this->parsed_query = $this->query_string;
+
+            if ($queried_fields !== []) {
+                $this->parsed_query = implode(' OR ', $queried_fields);
+                return;
+            }
         }
+
+        parent::parse();
     }
 
     public function setFields(array $fields): void
