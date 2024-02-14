@@ -30,7 +30,7 @@ class HasMaxLength extends Constraint
     {
         parent::__construct(
             static function ($value) use ($max_length): bool {
-                return $value === null || strlen($value) <= $max_length;
+                return strlen($value) <= $max_length;
             },
             static function ($txt, $value) use ($max_length): string {
                 return $txt("not_max_length", $max_length);
