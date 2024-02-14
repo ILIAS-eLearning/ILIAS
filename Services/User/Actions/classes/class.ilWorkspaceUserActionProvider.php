@@ -68,6 +68,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         $f->setType("shared_res");
         $f->setText($lng->txt("wsp_shared_resources"));
         $ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", ilObjUser::_lookupLogin($a_target_user));
+        $ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "shr_id", $a_target_user);
         $f->setHref($ilCtrl->getLinkTargetByClass(
             array("ildashboardgui", "ilpersonalworkspacegui", "ilobjworkspacerootfoldergui"),
             "listSharedResourcesOfOtherUser"
