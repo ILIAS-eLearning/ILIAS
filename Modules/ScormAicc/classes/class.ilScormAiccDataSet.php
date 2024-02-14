@@ -36,7 +36,7 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * @var string[][]
      */
-    public  $properties = [
+    public $properties = [
         //"OfflineZipCreated" => "datetime",
         "Id" => ["db_col" => "id", "db_type" => "integer"],
         //"EntryPage" => "integer",
@@ -168,7 +168,7 @@ class ilScormAiccDataSet extends ilDataSet
                     $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key]];
                 }
 
-                if (count($od_columns) > 0) {
+                if (isset($od_columns) && count($od_columns) > 0) {
                     $od_conditions ["obj_id"] = ["integer", $a_id];
                     $ilDB->update("object_data", $od_columns, $od_conditions);
                 }
@@ -214,8 +214,8 @@ class ilScormAiccDataSet extends ilDataSet
         $id = $this->data["id"];
 
         // requirements
-        require_once( dirname(__DIR__,3) . "/Services/Export/classes/class.ilExport.php");
-        require_once(dirname(__DIR__,3) . "/Services/Xml/classes/class.ilXmlWriter.php");
+        require_once(dirname(__DIR__, 3) . "/Services/Export/classes/class.ilExport.php");
+        require_once(dirname(__DIR__, 3) . "/Services/Xml/classes/class.ilXmlWriter.php");
 
 
         // prepare archive skeleton
@@ -395,7 +395,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         foreach ($this->data as $key => $value) {
             $writer->xmlElement($this->getElementNameByDbColumn($key), null, $value, true, true);
-			$writer->appendXML("\n");
+            $writer->appendXML("\n");
         }
 
         $writer->xmlEndTag("DataSet");

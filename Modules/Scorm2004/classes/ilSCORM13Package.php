@@ -257,6 +257,10 @@ class ilSCORM13Package
         $j['base'] = $packageFolder . '/';
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
+        $j['item']['title'] = ilUtil::stripSlashes($j['item']['title']);
+        for ($i = 0; $i < count($j['item']['item']); $i++) {
+            $j['item']['item'][$i]['title'] = ilUtil::stripSlashes($j['item']['item'][$i]['title']);
+        }
     
 
         //last step - build ADL Activity tree

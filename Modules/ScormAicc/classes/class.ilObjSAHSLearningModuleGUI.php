@@ -429,6 +429,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $name = $this->lng->txt("no_title");
         }
 
+        $description = "";
+
         $subType = $_POST["sub_type"];
 
         // always import authoring packages as scorm2004, see bug #27801
@@ -486,6 +488,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                         // $newObj->setImportSequencing($_POST["import_sequencing"]);
                         // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                     }
+                    $name = $mprops['Title'];
+                    $description = $mprops['Description'];
                 } else {
                     ilUtil::delDir($lmTempDir, false);
                     ilUtil::sendFailure($this->lng->txt("import_file_not_valid"), true);
@@ -497,7 +501,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $newObj->setTitle($name);
         $newObj->setSubType($subType);
-        $newObj->setDescription("");
+        $newObj->setDescription($description);
         $newObj->setOfflineStatus(true);
         $newObj->create(true);
         $newObj->createReference();

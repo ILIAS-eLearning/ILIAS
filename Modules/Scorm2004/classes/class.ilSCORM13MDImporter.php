@@ -47,7 +47,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      */
     public function setTitle($a_val)
     {
-        $this->title = $a_val;
+        $this->title = ilUtil::stripSlashes($a_val);
     }
     
     /**
@@ -57,7 +57,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      */
     public function getTitle()
     {
-        return $this->title;
+        return ilUtil::stripSlashes($this->title);
     }
     
     /**
@@ -67,7 +67,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      */
     public function setDescription($a_val)
     {
-        $this->description = $a_val;
+        $this->description = ilUtil::stripSlashes($a_val);
     }
     
     /**
@@ -77,7 +77,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      */
     public function getDescription()
     {
-        return $this->description;
+        return ilUtil::stripSlashes($this->description);
     }
     
     /**

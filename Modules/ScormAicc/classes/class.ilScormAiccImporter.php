@@ -79,6 +79,8 @@ class ilScormAiccImporter extends ilXmlImporter
                         foreach ($this->dataset->properties as $key => $value) {
                             $this->moduleProperties[$key] = $xmlRoot->$key;
                         }
+                        $this->moduleProperties["Title"] = $xmlRoot->Title;
+                        $this->moduleProperties["Description"] = $xmlRoot->Description;
 
                         foreach ($this->moduleProperties as $key => $xmlRoot) {
                             $xmlRootValue = $xmlRoot->__toString();
