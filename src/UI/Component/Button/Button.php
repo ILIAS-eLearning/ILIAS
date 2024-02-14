@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\HasHelpTopics;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes commonalities between standard and primary buttons.
@@ -35,12 +35,22 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
     /**
      * Get the label on the button.
      */
-    public function getLabel(): string|Glyph;
+    public function getLabel(): string;
 
     /**
      * Get a button like this, but with an additional/replaced label.
      */
-    public function withLabel(string|Glyph $label): Button;
+    public function withLabel(string $label): Button;
+
+    /**
+     * Get a symbol as part of the Buttons's label.
+     */
+    public function getSymbol(): ?Symbol;
+
+    /**
+     * Get a button like this with a symbol in its label
+     */
+    public function withSymbol(?Symbol $symbol): self;
 
     /**
      * Get the action of the button, i.e. an URL that the button links to or

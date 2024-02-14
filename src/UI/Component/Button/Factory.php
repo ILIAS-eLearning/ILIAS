@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,13 +18,10 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 /**
  * This is how a factory for buttons looks like.
@@ -74,11 +73,11 @@ interface Factory
      *          If the Button is not stateful (which is the default), the
      *          aria-attribute SHOULD be omitted.
      * ---
-     * @param	string|Glyph		$label
+     * @param	string				$label
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Standard
      */
-    public function standard(string|Glyph $label, $action): Standard;
+    public function standard(string $label, $action): Standard;
 
     /**
      * ---
@@ -132,11 +131,11 @@ interface Factory
      *          aria-attribute SHOULD be omitted.
      *
      * ---
-     * @param	string|Glyph		$label
+     * @param	string		$label
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Primary
      */
-    public function primary(string|Glyph $label, $action): Primary;
+    public function primary(string $label, $action): Primary;
 
     /**
      * ---
@@ -197,11 +196,11 @@ interface Factory
      *           of an outer UI component or if there is not enough space for a
      *           standard button presentation.
      * ---
-     * @param	string|Glyph		$label
+     * @param	string		$label
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Shy
      */
-    public function shy(string|Glyph $label, $action): Shy;
+    public function shy(string $label, $action): Shy;
 
     /**
      * ---

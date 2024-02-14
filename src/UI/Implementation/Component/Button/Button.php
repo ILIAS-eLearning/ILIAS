@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\HasHelpTopics;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This implements commonalities between standard and primary buttons.
@@ -39,17 +39,18 @@ abstract class Button implements C\Button\Button
     use Engageable;
     use HasHelpTopics;
 
-    protected string|Glyph $label;
+    protected ?Symbol $symbol = null;
     protected ?string $action;
     protected bool $active = true;
     protected string $aria_label = '';
     protected bool $aria_checked = false;
 
 
-    public function __construct(string|Glyph $label, $action)
-    {
+    public function __construct(
+        protected string $label,
+        $action
+    ) {
         $this->checkStringOrSignalArg("action", $action);
-        $this->label = $label;
         if (is_string($action)) {
             $this->action = $action;
         } else {
@@ -61,7 +62,7 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function getLabel(): string|Glyph
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -69,10 +70,28 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withLabel(string|Glyph $label): C\Button\Button
+    public function withLabel(string $label): C\Button\Button
     {
         $clone = clone $this;
         $clone->label = $label;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSymbol(): ?Symbol
+    {
+        return $this->symbol;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withSymbol(?Symbol $symbol): self
+    {
+        $clone = clone $this;
+        $clone->symbol = $symbol;
         return $clone;
     }
 
