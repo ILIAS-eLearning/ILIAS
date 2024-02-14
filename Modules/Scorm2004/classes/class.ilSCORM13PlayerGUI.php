@@ -363,6 +363,7 @@ class ilSCORM13PlayerGUI
 
         $initSuspendData = null;
         $initAdlactData = null;
+        $initGlobalobjData = null;
         if ($this->slm->getSequencing() == true) {
             $initSuspendData = json_decode($this->getSuspendDataInit());
             $initAdlactData = json_decode($this->getADLActDataInit());
