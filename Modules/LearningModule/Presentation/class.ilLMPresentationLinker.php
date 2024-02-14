@@ -412,8 +412,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         $nframe = ($ltarget == "")
                             ? $this->frame
                             : $ltarget;
-                        $href =
-                            $this->getLink($a_cmd = "glossary", (int) $target_id, $nframe, $type);
+                        $href = "";
+                        if (ilGlossaryTerm::_exists((int) $target_id)) {
+                            $href =
+                                $this->getLink($a_cmd = "glossary", (int) $target_id, $nframe, $type);
+                        }
                         break;
 
                     case "MediaObject":
