@@ -205,6 +205,12 @@ class ItemPresentationManager
         return $this->item_set->getRawDataByRefId($ref_id);
     }
 
+    public function getAllRefIds(): ?array
+    {
+        $this->init();
+        return $this->item_set->getAllRefIds();
+    }
+
     public function getRefIdsOfType(string $type): array
     {
         $this->init();
