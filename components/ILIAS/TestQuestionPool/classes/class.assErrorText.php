@@ -505,18 +505,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $startrow + $i + 1;
     }
 
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, &$tst_object, int &$question_counter, array $import_mapping, array &$solutionhints = []): array
-    {
-        $import = new assErrorTextImport($this);
-        return $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
-    }
-
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
-    {
-        $export = new assErrorTextExport($this);
-        return $export->toXML($a_include_header, $a_include_binary, $a_shuffle, $test_output, $force_image_references);
-    }
-
     public function setErrorsFromParsedErrorText(): void
     {
         $current_error_data = $this->getErrorData();

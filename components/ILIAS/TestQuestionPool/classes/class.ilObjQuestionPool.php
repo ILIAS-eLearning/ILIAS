@@ -557,29 +557,6 @@ class ilObjQuestionPool extends ilObject
         return $export_dir;
     }
 
-    public static function _setImportDirectory($a_import_dir = null): void
-    {
-        if ($a_import_dir !== null) {
-            ilSession::set('qpl_import_dir', $a_import_dir);
-            return;
-        }
-
-        ilSession::clear('qpl_import_dir');
-    }
-
-    /**
-     * get import directory of lm
-     */
-    public static function _getImportDirectory(): string
-    {
-        return ilSession::get('qpl_import_dir') ?? '';
-    }
-
-    public function getImportDirectory()
-    {
-        return ilObjQuestionPool::_getImportDirectory();
-    }
-
     /**
      * Retrieve an array containing all question ids of the questionpool
      *
