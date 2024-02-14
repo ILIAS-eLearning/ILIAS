@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.6.12-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.19  Distrib 10.6.16-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.6.12-MariaDB-0ubuntu0.22.04.1
+-- Server version	10.6.16-MariaDB-0ubuntu0.22.04.1
 
 --
 -- Table structure for table `acc_access_key`
@@ -3189,7 +3189,7 @@ CREATE TABLE `cp_item` (
 CREATE TABLE `cp_manifest` (
   `base` varchar(200) DEFAULT NULL,
   `cp_node_id` int(11) NOT NULL DEFAULT 0,
-  `defaultorganization` varchar(50) DEFAULT NULL,
+  `defaultorganization` varchar(255) DEFAULT NULL,
   `id` varchar(200) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `uri` varchar(255) DEFAULT NULL,
@@ -7220,6 +7220,7 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',9,'2023-03-31 13:10:07
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',10,'2023-03-31 13:10:07.991955','2023-03-31 13:10:08.003472');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',11,'2023-05-17 16:34:13.517597','2023-05-17 16:34:13.532396');
 INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB80',12,'2023-05-17 16:34:13.532947','2023-05-17 16:34:13.537961');
+INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-02-14 15:58:32.828596','2024-02-14 15:58:32.837435');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps8',1,'2023-05-17 16:34:13.592751','2023-05-17 16:34:13.598572');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',1,'2023-03-31 13:10:08.762867','2023-03-31 13:10:08.777841');
 INSERT INTO `il_db_steps` VALUES ('ilSkillDBUpdateSteps',2,'2023-03-31 13:10:08.778520','2023-03-31 13:10:08.783301');
@@ -7251,6 +7252,7 @@ INSERT INTO `il_db_steps` VALUES ('ilTreeDBUpdateSteps8',1,'2023-06-21 14:26:12.
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',1,'2023-06-21 14:26:12.990740','2023-06-21 14:26:13.010246');
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',2,'2023-07-28 17:12:14.517581','2023-07-28 17:12:14.535810');
 INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',3,'2023-10-23 15:11:23.309986','2023-10-23 15:11:23.315407');
+INSERT INTO `il_db_steps` VALUES ('ilUser8DBUpdateSteps',4,'2024-02-14 15:58:32.841548','2024-02-14 15:58:32.847008');
 INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',1,'2023-10-23 15:11:23.316516','2023-10-23 15:11:23.321536');
 INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',2,'2023-10-23 15:11:23.322403','2023-10-23 15:11:23.327533');
 INSERT INTO `il_db_steps` VALUES ('ilUserTableUpdateSteps',3,'2023-10-23 15:11:23.328168','2023-10-23 15:11:23.340048');
@@ -13118,7 +13120,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-01-17 12:41:24','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2024-02-14 15:58:32','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -20111,7 +20113,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.8.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.9.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -23883,7 +23885,7 @@ CREATE TABLE `usr_data` (
   `gender` char(1) DEFAULT 'm',
   `email` varchar(128) DEFAULT NULL,
   `institution` varchar(80) DEFAULT NULL,
-  `street` varchar(40) DEFAULT NULL,
+  `street` varchar(512) DEFAULT NULL,
   `city` varchar(40) DEFAULT NULL,
   `zipcode` varchar(10) DEFAULT NULL,
   `country` varchar(40) DEFAULT NULL,
@@ -25095,4 +25097,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2024-01-17 12:41:26
+-- Dump completed on 2024-02-14 15:58:33
