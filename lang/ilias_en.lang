@@ -6146,7 +6146,6 @@ content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_elements#:#<b>Click</b> on a plus symbol to <b>add</b> a new element.
-content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
 content#:#cont_add_popup#:#Add Popup
@@ -13321,6 +13320,7 @@ prg#:#restart_period_info#:#Days before qualification expiration to restart qual
 prg#:#restart_period_label#:#Days before expiry
 prg#:#restart_recheck_desc#:#For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist.
 prg#:#restart_recheck_label#:#Check prerequisites again
+prg#:#restarted#:#restarted
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role
