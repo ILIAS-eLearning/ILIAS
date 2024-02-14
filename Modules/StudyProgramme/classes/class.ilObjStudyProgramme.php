@@ -302,6 +302,17 @@ class ilObjStudyProgramme extends ilContainer
         return !is_null($type) && count($this->type_repository->getAssignedAMDRecordIdsByType($type->getId(), true)) > 0;
     }
 
+    public function cloneObject(int $target_ref_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
+    {
+        $new_obj = parent::cloneObject($target_ref_id, $copy_id, $omit_tree);
+        $settings = $this->getSettings()->withObjId($new_obj->getId());
+        $settings = $settings->withAssessmentSettings(
+            $settings->getAssessmentSettings()->withStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
+        );
+        $new_obj->updateSettings($settings);
+        return $new_obj;
+    }
+
     ////////////////////////////////////
     // GETTERS AND SETTERS
     ////////////////////////////////////
