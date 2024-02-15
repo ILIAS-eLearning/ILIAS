@@ -103,10 +103,12 @@ class ilErrorHandling
      */
     public function getHandler(): HandlerInterface
     {
-        // TODO: * Use Whoops in production mode? This would require an appropriate
-        //		   error-handler.
-        //		 * Check for context? The current implementation e.g. would output HTML for
-        //		   for SOAP.
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
+            return new ilSoapExceptionHandler();
+        }
+
+        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling. 
+
         if ($this->isDevmodeActive()) {
             return $this->devmodeHandler();
         }
@@ -302,10 +304,6 @@ class ilErrorHandling
     protected function devmodeHandler(): HandlerInterface
     {
         global $ilLog;
-
-        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
-            return new ilSoapExceptionHandler();
-        }
 
         switch (ERROR_HANDLER) {
             case 'TESTING':
