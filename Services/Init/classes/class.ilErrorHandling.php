@@ -303,6 +303,10 @@ class ilErrorHandling
     {
         global $ilLog;
 
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
+            return new ilSoapExceptionHandler();
+        }
+
         switch (ERROR_HANDLER) {
             case 'TESTING':
                 return new ilTestingHandler();
