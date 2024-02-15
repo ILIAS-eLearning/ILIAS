@@ -64,6 +64,8 @@ function base()
         ->withLabel('disabled')
         ->withByline('You cannot pick anything, as the field is disabled');
 
+    $required = $date->withRequired(true);
+
     //Step 2: define form and form actions
     $form = $ui->input()->container()->form()->standard('#', [
         'date' => $date,
@@ -73,7 +75,8 @@ function base()
         'to_tokyotime' => $timezoned,
         'tokyotime_local_preset' => $timezoned_preset1,
         'tokyotime' => $timezoned_preset2,
-        'disabled' => $disabled
+        'disabled' => $disabled,
+        'required' => $required
     ]);
 
     //Step 3: implement some form data processing.
