@@ -47,7 +47,7 @@ abstract class Column implements C\Column
 
     public function getType(): string
     {
-        $class = explode('\\', $this::class);
+        $class = explode('\\', static::class);
         return array_pop($class);
     }
 
@@ -105,7 +105,10 @@ abstract class Column implements C\Column
         return $this->highlighted;
     }
 
-    public function format($value): string|Component
+    /**
+     * @return string|Component
+     */
+    public function format($value)
     {
         return (string) $value;
     }

@@ -32,16 +32,33 @@ use Closure;
  */
 class Factory implements T\Factory
 {
+    protected SignalGeneratorInterface $signal_generator;
+    protected ViewControlFactory $view_control_factory;
+    protected ViewControlContainerFactory $view_control_container_factory;
+    protected DataFactory $data_factory;
+    protected T\Column\Factory $column_factory;
+    protected T\Action\Factory $action_factory;
+    protected DataRowBuilder $data_row_builder;
+    protected \ArrayAccess $storage;
+
     public function __construct(
-        protected SignalGeneratorInterface $signal_generator,
-        protected ViewControlFactory $view_control_factory,
-        protected ViewControlContainerFactory $view_control_container_factory,
-        protected DataFactory $data_factory,
-        protected T\Column\Factory $column_factory,
-        protected T\Action\Factory $action_factory,
-        protected DataRowBuilder $data_row_builder,
-        protected \ArrayAccess $storage,
+        SignalGeneratorInterface $signal_generator,
+        ViewControlFactory $view_control_factory,
+        ViewControlContainerFactory $view_control_container_factory,
+        DataFactory $data_factory,
+        T\Column\Factory $column_factory,
+        T\Action\Factory $action_factory,
+        DataRowBuilder $data_row_builder,
+        \ArrayAccess $storage
     ) {
+        $this->signal_generator = $signal_generator;
+        $this->view_control_factory = $view_control_factory;
+        $this->view_control_container_factory = $view_control_container_factory;
+        $this->data_factory = $data_factory;
+        $this->column_factory = $column_factory;
+        $this->action_factory = $action_factory;
+        $this->data_row_builder = $data_row_builder;
+        $this->storage = $storage;
     }
 
     /**

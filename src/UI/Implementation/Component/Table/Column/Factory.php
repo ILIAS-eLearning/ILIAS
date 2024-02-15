@@ -53,9 +53,11 @@ class Factory implements I\Factory
 
     public function boolean(
         string $title,
-        string|Icon|Glyph $true,
-        string|Icon|Glyph $false
+        $true,
+        $false
     ): I\Boolean {
+        assert(is_string($true) || $true instanceof Icon || $true instanceof Glyph);
+        assert(is_string($false) || $false instanceof Icon || $false instanceof Glyph);
         return new Boolean($title, $true, $false);
     }
 

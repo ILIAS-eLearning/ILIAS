@@ -28,7 +28,8 @@ use ILIAS\UI\Component\Component;
 
 class LinkListing extends Column implements C\LinkListing
 {
-    public function format($value): string|Component
+    
+    public function format($value)
     {
         $listing = $this->toArray($value);
         $this->checkArgListElements("value", $listing, [Ordered::class, Unordered::class]);

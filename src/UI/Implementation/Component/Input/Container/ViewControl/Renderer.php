@@ -81,7 +81,7 @@ class Renderer extends AbstractComponentRenderer
         $input_names = array_keys($component->getComponentInternalValues());
 
         $query_params = array_filter(
-            $component->getRequest()?->getQueryParams(),
+            $component->getRequest()->getQueryParams(),
             fn ($k) => ! in_array($k, $input_names),
             ARRAY_FILTER_USE_KEY
         );

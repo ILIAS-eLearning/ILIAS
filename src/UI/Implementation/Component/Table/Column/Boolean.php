@@ -26,10 +26,19 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Boolean extends Column implements C\Boolean
 {
+    /**
+     * @var string|Icon|Glyph
+     */
+    protected $true_option;
+    /**
+     * @var string|Icon|Glyph
+     */
+    protected $false_option;
+
     public function __construct(
         string $title,
-        protected string|Icon|Glyph $true_option,
-        protected string|Icon|Glyph $false_option
+        $true_option,
+        $false_option
     ) {
         parent::__construct($title);
 
@@ -41,9 +50,11 @@ class Boolean extends Column implements C\Boolean
                 "If Glyps are used to indicate the state, they MUST NOT have an attached action."
             );
         }
+        $this->true_option = $true_option;
+        $this->false_option = $false_option;
     }
 
-    public function format($value): string|Icon|Glyph
+    public function format($value)
     {
         $this->checkBoolArg('value', $value);
         return $value ? $this->true_option : $this->false_option;

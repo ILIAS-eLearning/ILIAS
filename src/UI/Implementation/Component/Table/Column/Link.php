@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Component;
 
 class Link extends Column implements C\Link
 {
-    public function format($value): string|Component
+    public function format($value)
     {
         $this->checkArgInstanceOf('value', $value, Standard::class);
         return $value;

@@ -169,7 +169,7 @@ class ColumnTest extends ILIAS_UI_TestBase
 ￼    */
     public function testDataTableColumnAllowedFormats(
         Column\Column $column,
-        mixed $value,
+        $value,
         bool $ok
     ): void {
         if(! $ok) {

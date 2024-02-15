@@ -121,9 +121,11 @@ class DataRendererTest extends TableTestBase
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class ($this->getTableFactory()) extends NoUIFactory {
+            protected Component\Table\Factory $table_factory;
             public function __construct(
-                protected Component\Table\Factory $table_factory
+                Component\Table\Factory $table_factory
             ) {
+                $this->table_factory = $table_factory;
             }
             public function button(): Component\Button\Factory
             {

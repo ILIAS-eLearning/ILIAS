@@ -94,9 +94,11 @@ interface Factory
      *       If Glyps are used to indicate the state, they MUST NOT have an attached
      *       action.
      * ---
+     * @var string|Icon|Glyph $true
+     * @var string|Icon|Glyph $false
      * @return \ILIAS\UI\Component\Table\Column\Boolean
      */
-    public function boolean(string $title, string|Icon|Glyph $true, string|Icon|Glyph $false): Boolean;
+    public function boolean(string $title, $true, $false): Boolean;
 
     /**
      * ---

@@ -37,9 +37,11 @@ class DataViewControlsTest extends TableTestBase
     protected function getDataRetrieval(int $total_count): I\Table\DataRetrieval
     {
         return new class ($total_count) implements I\Table\DataRetrieval {
+            protected int $total_count;
             public function __construct(
-                protected int $total_count
+                int $total_count
             ) {
+                $this->total_count = $total_count;
             }
             public function getRows(
                 I\Table\DataRowBuilder $row_builder,

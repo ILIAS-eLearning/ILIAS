@@ -80,32 +80,43 @@ class Data extends Table implements T\Data, JSBindable
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
     protected ?string $id = null;
+    protected ViewControl\Factory $view_control_factory;
+    protected ViewControlContainer\Factory $view_control_container_factory;
+    protected DataFactory $data_factory;
+    protected DataRowBuilder $data_row_builder;
+    protected T\DataRetrieval $data_retrieval;
+    protected \ArrayAccess $storage;
 
     /**
      * @param array<string, Column> $columns
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        protected ViewControl\Factory $view_control_factory,
-        protected ViewControlContainer\Factory $view_control_container_factory,
-        protected DataFactory $data_factory,
-        protected DataRowBuilder $data_row_builder,
+        ViewControl\Factory $view_control_factory,
+        ViewControlContainer\Factory $view_control_container_factory,
+        DataFactory $data_factory,
+        DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
-        protected T\DataRetrieval $data_retrieval,
-        protected \ArrayAccess $storage,
+        T\DataRetrieval $data_retrieval,
+        \ArrayAccess $storage
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
             throw new \InvalidArgumentException('cannot construct a table without columns.');
         }
-
         parent::__construct($title);
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
         $this->async_action_signal = $signal_generator->create();
 
         $this->columns = $this->enumerateColumns($columns);
+        $this->view_control_factory = $view_control_factory;
+        $this->view_control_container_factory = $view_control_container_factory;
+        $this->data_factory = $data_factory;
+        $this->data_row_builder = $data_row_builder;
+        $this->data_retrieval = $data_retrieval;
+        $this->storage = $storage;
     }
 
     /**
@@ -403,8 +414,13 @@ class Data extends Table implements T\Data, JSBindable
         if ($request = $this->getRequest()) {
             $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
+
+            $range = $data[self::VIEWCONTROL_KEY_PAGINATION] ?? null;
+            if($range) {
+                $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
+            }
             $table = $table
-                ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
+                ->withRange($range)
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)
                 ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
         }
