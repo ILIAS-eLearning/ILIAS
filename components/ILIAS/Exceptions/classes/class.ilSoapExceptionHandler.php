@@ -22,6 +22,10 @@ class ilSoapExceptionHandler extends \Whoops\Handler\Handler
 {
     private function buildFaultString(): string
     {
+        if (!defined('DEVMODE') || DEVMODE !== 1) {
+            return htmlspecialchars($this->getInspector()->getException()->getMessage());
+        }
+
         $fault_string = \Whoops\Exception\Formatter::formatExceptionPlain($this->getInspector());
         $exception = $this->getInspector()->getException();
         $previous = $exception->getPrevious();
@@ -44,7 +48,7 @@ class ilSoapExceptionHandler extends \Whoops\Handler\Handler
         );
     }
 
-    public function handle()
+    public function handle(): ?int
     {
         echo $this->toXml();
 
