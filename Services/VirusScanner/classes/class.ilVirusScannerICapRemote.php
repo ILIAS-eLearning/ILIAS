@@ -184,7 +184,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
                     }
                 }
                 foreach ($encapsulated as $section => $offset) {
-                    $data = substr($body[1], $offset);
+                    $data = substr($body[1], (int) $offset);
                     switch ($section) {
                         case 'req-hdr':
                         case 'res-hdr':
