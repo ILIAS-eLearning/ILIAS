@@ -207,8 +207,12 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
             return $this->requirement_constraint;
         }
 
-        return $this->refinery->string()->hasMinLength(1)
-            ->withProblemBuilder(fn($txt, $value) => $txt("datetime_required"));
+        return $this->refinery->logical()->sequential([
+            $this->refinery->logical()->not($this->refinery->null()),
+            $this->refinery->string()->hasMinLength(1)
+        ])
+        ->withProblemBuilder(fn($txt, $value) => $txt("datetime_required"));
+
     }
 
     /**
