@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -688,8 +691,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -897,9 +901,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -1979,6 +1980,9 @@ th {
     display: none !important;
   }
 }
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2340,8 +2344,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -5397,19 +5402,19 @@ footer {
 }
 .il-workflow-container .il-workflow-step:before {
   background-color: white;
-  border: 1.05px solid #4c6586;
+  border: 2px solid #4c6586;
   border-radius: 50%;
   color: white;
   content: "";
   font-family: Glyphicons Halflings;
   font-size: 11px;
-  height: 21px;
-  line-height: 19px;
+  height: 22px;
+  line-height: 22px;
   margin-left: 5px;
-  padding-left: 1px;
+  padding-left: 0px;
   position: absolute;
   text-align: center;
-  width: 21px;
+  width: 22px;
 }
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
@@ -5421,31 +5426,31 @@ footer {
 .il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
   content: "\e033";
-  color: #dddddd;
-  background-color: #f9f9f9;
-  border: none;
+  background-color: white;
+  border: 2px solid #737373;
 }
 .il-workflow-container .not-available.in-progress:before,
 .il-workflow-container .no-longer-available.in-progress:before {
-  background-color: #a1b3ca;
-  color: white;
+  background-color: #737373;
 }
 .il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
-  color: #2c2c2c;
-  opacity: 0.5;
+  color: #5c5c5c;
+}
+.il-workflow-container .not-available.not-started::before,
+.il-workflow-container .no-longer-available.not-started::before {
+  color: #5c5c5c;
 }
 .il-workflow-container .not-available .text,
 .il-workflow-container .no-longer-available .text {
-  color: #dddddd;
+  color: #5c5c5c;
 }
 .il-workflow-container .no-longer-available:before {
   content: "\e023";
 }
 .il-workflow-container .completed-successfully:before,
 .il-workflow-container .completed-unsuccessfully:before {
-  background-color: #dddddd;
-  color: white;
+  background-color: #737373;
 }
 .il-workflow-container .completed-successfully:before {
   content: "\e013";
@@ -5460,12 +5465,12 @@ footer {
 }
 .il-workflow-container .active:before {
   margin: 0;
-  width: 31.5px;
-  height: 31.5px;
+  width: 33px;
+  height: 33px;
   font-size: 1.115rem;
 }
 .il-workflow-container .active.completed-successfully:before, .il-workflow-container .active.completed-unsuccessfully:before {
-  line-height: 31.5px;
+  line-height: 33px;
   background-color: #4c6586;
 }
 .il-workflow-container .active .text .il-workflow-step-label,
@@ -5476,9 +5481,9 @@ footer {
 }
 .il-workflow-container .text {
   border-left: 1px dashed #2c2c2c;
-  font-size: 14.7px;
-  margin-left: 15px;
-  padding: 0 0 31.5px 21px;
+  font-size: 15.4px;
+  margin-left: 17px;
+  padding: 0 0 33px 22px;
 }
 .il-workflow-container .text .il-workflow-step-label {
   display: block;
@@ -6115,8 +6120,6 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
     color: white;
   }
-}
-@media (hover: none) {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
@@ -9680,6 +9683,7 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10372,6 +10376,7 @@ div.il_info {
   border-color: #dddddd;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11004,6 +11009,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18804,13 +18810,6 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
-/*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
