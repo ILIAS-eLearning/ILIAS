@@ -105,11 +105,11 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
             new \DateTimeZone($environment['user_time_zone'])
         );
 
-        $inputs['time_limit_start'] = $field_factory->dateTime($language->txt('duration_default_label_start'))
+        $inputs['time_limit_start'] = $field_factory->dateTime($language->txt('rep_activation_limited_start'))
             ->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format'])
             ->withUseTime(true);
-        $inputs['time_limit_end'] = $field_factory->dateTime($language->txt('duration_default_label_end'))
+        $inputs['time_limit_end'] = $field_factory->dateTime($language->txt('rep_activation_limited_end'))
             ->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format'])
             ->withUseTime(true);
