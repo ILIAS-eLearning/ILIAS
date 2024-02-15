@@ -2237,10 +2237,9 @@ class ilExerciseManagementGUI
             "index.html";
         $this->log->debug("index html file: " . $index_html_file);
 
-        ilWACSignedPath::signFolderOfStartFile($index_html_file);
-
         $web_filesystem = $DIC->filesystem()->web();
         if ($last_opening > $submission_time && $web_filesystem->has($index_html_file)) {
+            ilWACSignedPath::signFolderOfStartFile($index_html_file);
             ilUtil::redirect($index_html_file);
         }
         $error_msg = "";
@@ -2255,7 +2254,7 @@ class ilExerciseManagementGUI
 
                 $submission_repository = $this->service->repo()->submission();
                 $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
-
+                ilWACSignedPath::signFolderOfStartFile($index_html_file);
                 ilUtil::redirect($index_html_file . "?" . time());
             }
 
