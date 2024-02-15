@@ -4683,6 +4683,9 @@ td.form-inline > div.form-group {
 .il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
   display: block;
 }
+.il-item h4.il-item-title {
+  margin: 0;
+}
 .il-item .il-item-actions {
   float: right;
 }
