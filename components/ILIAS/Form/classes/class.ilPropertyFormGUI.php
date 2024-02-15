@@ -492,7 +492,7 @@ class ilPropertyFormGUI extends ilFormGUI
         ilYuiUtil::initEvent();
         ilYuiUtil::initDom();
 
-        $tpl->addJavaScript("./components/ILIAS/JavaScript/js/Basic.js");
+        $tpl->addJavaScript("assets/js/Basic.js");
         $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
 
         $this->tpl = new ilTemplate("tpl.property_form.html", true, true, "components/ILIAS/Form");

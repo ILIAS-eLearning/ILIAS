@@ -86,7 +86,7 @@ class HasAgentTest extends TestCase
 
         $this->agent_finder
             ->expects($this->once())
-            ->method("getCoreAgents")
+            ->method("getComponentAgents")
             ->with()
             ->willReturn($ac);
 

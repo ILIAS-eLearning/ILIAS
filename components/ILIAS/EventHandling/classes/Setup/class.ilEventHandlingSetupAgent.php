@@ -65,7 +65,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Artifacts for Services/EventHandling",

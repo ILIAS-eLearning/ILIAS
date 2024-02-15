@@ -46,7 +46,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
+        return $this->refinery->custom()->transformation(fn($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
             $data["type"] ?? \ilBackgroundTasksSetupConfig::TYPE_SYNCHRONOUS,
             $data["max_number_of_concurrent_tasks"] ?? 1
         ));
@@ -76,7 +76,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

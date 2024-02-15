@@ -31,7 +31,7 @@ use ILIAS\Setup\Config;
  */
 class Agent implements Setup\Agent
 {
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Setup\ObjectiveCollection(
             'File StreamDelivery Artifacts',

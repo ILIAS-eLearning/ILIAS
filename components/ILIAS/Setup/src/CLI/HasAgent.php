@@ -46,7 +46,7 @@ trait HasAgent
 
         if ($input->hasOption("no-plugins") && $input->getOption("no-plugins")) {
             // The agents of the core are in all folders but the customizing folder.
-            return $this->agent_finder->getCoreAgents();
+            return $this->agent_finder->getComponentAgents();
         }
 
         if ($input->hasOption("plugin")) {

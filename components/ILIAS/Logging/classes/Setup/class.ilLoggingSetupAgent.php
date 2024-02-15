@@ -90,7 +90,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Setup\Objective\NullObjective();
     }

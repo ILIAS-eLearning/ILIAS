@@ -49,7 +49,7 @@ class ilContentPageSetupAgent implements Setup\Agent
         return new ilDatabaseUpdateStepsExecutedObjective(new ilContentPageUpdateSteps());
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

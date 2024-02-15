@@ -25,6 +25,8 @@ use ILIAS\Data;
 
 class ImplementationOfAgentFinder implements AgentFinder
 {
+    protected AgentCollection $component_agents;
+
     /**
      * @var array<string, Agent> $predefined_agents
      */
@@ -33,8 +35,9 @@ class ImplementationOfAgentFinder implements AgentFinder
         protected Data\Factory $data_factory,
         protected \ILIAS\Language\Language $lng,
         protected ImplementationOfInterfaceFinder $interface_finder,
-        protected array $predefined_agents = []
+        $component_agents
     ) {
+        $this->component_agents = new AgentCollection($refinery, $component_agents);
     }
 
     /**
@@ -44,7 +47,7 @@ class ImplementationOfAgentFinder implements AgentFinder
      */
     public function getAgents(): AgentCollection
     {
-        $agents = $this->getCoreAgents();
+        $agents = $this->getComponentAgents();
 
         // Get a list of existing plugins in the system.
         $plugins = $this->getPluginNames();
@@ -63,34 +66,9 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * Collect core agents from the system bundled in a collection.
      */
-    public function getCoreAgents(): AgentCollection
+    public function getComponentAgents(): AgentCollection
     {
-        // Initialize the agents.
-        $agents = new AgentCollection(
-            $this->refinery,
-            $this->predefined_agents
-        );
-
-        // This is a list of all agent classes in the system (which we don't want to ignore).
-        $agent_classes = $this->interface_finder->getMatchingClassNames(
-            Agent::class,
-            ["[/]Customizing/.*"]
-        );
-
-        foreach ($agent_classes as $class_name) {
-            if ($class_name != 'ILIAS\Setup\AgentCollection') {
-                $agents = $agents->withAdditionalAgent(
-                    $this->getAgentNameByClassName($class_name),
-                    new $class_name(
-                        $this->refinery,
-                        $this->data_factory,
-                        $this->lng
-                    )
-                );
-            }
-        }
-
-        return $agents;
+        return $this->component_agents;
     }
 
     /**

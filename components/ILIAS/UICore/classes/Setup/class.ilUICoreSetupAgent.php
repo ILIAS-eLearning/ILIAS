@@ -57,7 +57,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new ObjectiveCollection(
             'buildIlCtrlArtifacts',
@@ -93,7 +93,7 @@ class ilUICoreSetupAgent implements Agent
             'buildIlCtrlArtifacts' => new ObjectiveConstructor(
                 'builds all necessary ilCtrl artifacts.',
                 function () {
-                    return $this->getBuildArtifactObjective();
+                    return $this->getBuildObjective();
                 }
             ),
 

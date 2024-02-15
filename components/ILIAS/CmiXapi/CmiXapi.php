@@ -32,6 +32,9 @@ class CmiXapi implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilCmiXapiSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

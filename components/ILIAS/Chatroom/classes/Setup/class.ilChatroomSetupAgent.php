@@ -233,7 +233,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         return new ObjectiveCollection('Update chatroom database and server config', false, ...$objectives);
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

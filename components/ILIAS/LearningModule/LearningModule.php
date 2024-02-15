@@ -32,6 +32,9 @@ class LearningModule implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilLearningModuleSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

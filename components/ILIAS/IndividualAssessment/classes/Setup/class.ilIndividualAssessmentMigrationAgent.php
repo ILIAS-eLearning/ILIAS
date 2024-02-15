@@ -51,7 +51,7 @@ class ilIndividualAssessmentMigrationAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

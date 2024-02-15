@@ -32,6 +32,9 @@ class OrgUnit implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilOrgUnitSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

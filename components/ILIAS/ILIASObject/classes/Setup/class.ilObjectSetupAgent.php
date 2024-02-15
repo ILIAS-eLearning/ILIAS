@@ -64,7 +64,7 @@ class ilObjectSetupAgent extends NullAgent
         ];
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new ilObjectTypeSpecificPropertiesArtifactObjective();
     }

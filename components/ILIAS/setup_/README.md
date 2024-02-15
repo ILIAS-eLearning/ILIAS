@@ -6,7 +6,7 @@ main commands to manage ILIAS installations:
 * `install` will [set an installation up](#install-ilias)
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
-* `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
+* `build` [recreates static assets](#build-static-assets) of an installation
 * `achieve` [a named objective](#achieve-a-named-objective) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
@@ -106,10 +106,15 @@ Like for `install` and `update`, plugins are included here, but can be controlle
 via options.
 
 
-## Build ILIAS Artifacts
+## Build Static Assets
 
-Artifacts are source code files that are created based on the ILIAS source tree.
-You can refresh them by calling `php cli/setup.php build-artifacts` from your
+There are two types of assets that ILIAS needs to function:
+
+* **Artifacts** are source code files that are created based on the ILIAS source tree.
+* The **Public Folder** is filled with resources from the ILIAS components to be
+  served on the web.
+
+You can refresh them by calling `php cli/setup.php build` from your
 installation. Make sure you run the command with the webserver user or adjust
 filesystem permissions later on, because the webserver will need to access the
 generated files. Please do not invoke this function unless it is explicitly stated

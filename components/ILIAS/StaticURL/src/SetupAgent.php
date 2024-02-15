@@ -28,7 +28,7 @@ use ILIAS\Setup\Objective;
  */
 class SetupAgent extends Agent\NullAgent implements Agent
 {
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new ArtifactObjective();
     }

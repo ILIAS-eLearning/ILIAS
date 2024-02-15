@@ -133,7 +133,7 @@ is required or storing that information in the database. Thanks to op-code-cachi
 the information will practically be in-memory. This approach has one major downside:
 When adding or changing code that is included in some artifact, the change does
 not come in effect immediately, because the corresponding artifact has not been
-updated. This is done via `php cli/setup.php build-artifacts` or when updating
+updated. This is done via `php cli/setup.php build` or when updating
 the composer class-map.
 
 You can use your artifact with the following method which resolves to the 

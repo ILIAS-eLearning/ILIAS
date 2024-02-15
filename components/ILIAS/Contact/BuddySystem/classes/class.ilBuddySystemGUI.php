@@ -67,7 +67,7 @@ class ilBuddySystemGUI
         ) {
             $DIC->language()->loadLanguageModule('buddysystem');
 
-            $page->addJavaScript('./components/ILIAS/Contact/BuddySystem/js/buddy_system.js');
+            $page->addJavaScript('./assets/js/buddy_system.js');
 
             $config = new stdClass();
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([

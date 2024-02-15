@@ -64,7 +64,7 @@ class AgentTest extends TestCase
 
     public function testGetBuildArtifactObjective(): void
     {
-        $this->assertInstanceOf(ConsumerObjective::class, (new Agent($this->mock(Refinery::class)))->getBuildArtifactObjective());
+        $this->assertInstanceOf(ConsumerObjective::class, (new Agent($this->mock(Refinery::class)))->getBuildObjective());
     }
 
     public function testGetStatusObjective(): void

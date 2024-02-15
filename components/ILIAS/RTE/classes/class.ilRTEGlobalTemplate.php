@@ -35,19 +35,19 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
      * List of JS-Files that should be included.
      * @var array<int,string>
      */
-    protected array $js_files = [0 => './components/ILIAS/JavaScript/js/Basic.js'];
+    protected array $js_files = [0 => 'assets/js/Basic.js'];
 
     /**
      * Stores if a version parameter should be appended to the js-file to force reloading.
      * @var array<string,bool>
      */
-    protected array $js_files_vp = ['./components/ILIAS/JavaScript/js/Basic.js' => true];
+    protected array $js_files_vp = ['assets/js/Basic.js' => true];
 
     /**
      * Stores the order in which js-files should be included.
      * @var array<string,int>
      */
-    protected array $js_files_batch = ['./components/ILIAS/JavaScript/js/Basic.js' => 1];
+    protected array $js_files_batch = ['assets/js/Basic.js' => 1];
 
     public function __construct(
         string $file,

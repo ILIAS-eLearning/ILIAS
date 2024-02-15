@@ -33,5 +33,14 @@ class Component implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[Component\EntryPoint::class] = fn() => new Component\EntryPoint\HelloWorld("Component/HelloWorld");
+
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilComponentsSetupAgent(
+                $internal[Component\Resource\PublicAssetManager::class],
+                $seek[Component\Resource\PublicAsset::class]
+            );
+
+        $internal[Component\Resource\PublicAssetManager::class] = fn() =>
+            new Component\Resource\PublicAssetManager();
     }
 }

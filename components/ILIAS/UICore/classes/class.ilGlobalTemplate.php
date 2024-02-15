@@ -36,7 +36,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var string[]
      */
     protected array $js_files = [
-        "./components/ILIAS/JavaScript/js/Basic.js",
+        "assets/js/Basic.js",
     ];
 
     /**
@@ -44,7 +44,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var array<string, bool>
      */
     protected array $js_files_vp = [
-        "./components/ILIAS/JavaScript/js/Basic.js" => true,
+        "assets/js/Basic.js" => true,
     ];
 
     /**
@@ -52,7 +52,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * @var array<string, int>
      */
     protected array $js_files_batch = [
-        "./components/ILIAS/JavaScript/js/Basic.js" => 1,
+        "assets/js/Basic.js" => 1,
     ];
 
     /**

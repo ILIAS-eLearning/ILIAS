@@ -106,7 +106,7 @@ class InstallCommandTest extends TestCase
 
         $agent
             ->expects($this->never())
-            ->method("getBuildArtifactObjective")
+            ->method("getBuildObjective")
             ->with()
             ->willReturn(new Setup\Objective\NullObjective());
 

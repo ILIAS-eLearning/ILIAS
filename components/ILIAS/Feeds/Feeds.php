@@ -32,6 +32,10 @@ class Feeds implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "privfeed.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "feed.php");
     }
 }

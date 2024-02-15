@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-require_once(__DIR__ . "/../artifacts/bootstrap.php");
+require_once(__DIR__ . "/../artifacts/bootstrap_setup.php");
 require_once(__DIR__ . "/../ilias_version.php");
 
 exit(entry_point("The ILIAS Setup"));

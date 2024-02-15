@@ -50,7 +50,7 @@ class ilMailSetupAgent implements Setup\Agent
         );
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

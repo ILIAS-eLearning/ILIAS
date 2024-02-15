@@ -268,7 +268,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
     public function testGetBuildArtifactObjective(): void
     {
-        $objective_collection = $this->obj->getBuildArtifactObjective();
+        $objective_collection = $this->obj->getBuildObjective();
 
         $this->assertInstanceOf(NullObjective::class, $objective_collection);
     }

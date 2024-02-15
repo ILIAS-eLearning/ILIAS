@@ -41,7 +41,7 @@ class ilVirusScannerSetupAgent implements Setup\Agent
 
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data): ilVirusScannerSetupConfig => new ilVirusScannerSetupConfig(
+        return $this->refinery->custom()->transformation(fn($data): ilVirusScannerSetupConfig => new ilVirusScannerSetupConfig(
             $data["virusscanner"] ?? ilVirusScannerSetupConfig::VIRUS_SCANNER_NONE,
             $data["path_to_scan"] ?? null,
             $data["path_to_clean"] ?? null,
@@ -65,7 +65,7 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

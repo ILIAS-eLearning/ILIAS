@@ -49,7 +49,7 @@ class ilWOPISetupAgent implements Agent
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90());
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Objective\NullObjective();
     }

@@ -40,7 +40,7 @@ class Client
 
     public function init(MetaContent $content): void
     {
-        $content->addJs("./components/ILIAS/GlobalScreen/src/Client/dist/GS.js", true, 1);
+        $content->addJs("assets/js/GS.js", true, 1);
         $init_script = "il.GS.Client.init('" . json_encode($this->settings) . "');";
         $content->addOnloadCode($init_script, 1);
     }

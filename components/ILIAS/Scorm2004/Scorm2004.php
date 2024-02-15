@@ -32,6 +32,10 @@ class Scorm2004 implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "storeScorm2004.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "storeScorm.php");
     }
 }

@@ -31,7 +31,7 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
     {
         $this->refinery = $refinery;
     }
-     public function hasConfig(): bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
