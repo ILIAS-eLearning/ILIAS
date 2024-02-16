@@ -453,8 +453,8 @@ class ilUserImportParser extends ilSaxParser
                 $this->user_id = -1;
                 if (isset($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
-                        $this->user_id = $a_attribs["Id"];
-                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], (int) IL_INST_ID) > 0) {
+                        $this->user_id = (int) $a_attribs["Id"];
+                    } elseif (($id = (int) ilUtil::__extractId($a_attribs["Id"], (int) IL_INST_ID)) > 0) {
                         $this->user_id = $id;
                     }
                 }
@@ -594,8 +594,8 @@ class ilUserImportParser extends ilSaxParser
 
                 if (!is_null($a_attribs["Id"]) && $this->getUserMappingMode() === self::IL_USER_MAPPING_ID) {
                     if (is_numeric($a_attribs["Id"])) {
-                        $this->user_id = $a_attribs["Id"];
-                    } elseif ($id = ilUtil::__extractId($a_attribs["Id"], (int) IL_INST_ID) > 0) {
+                        $this->user_id = (int) $a_attribs["Id"];
+                    } elseif (($id = (int) ilUtil::__extractId($a_attribs["Id"], (int) IL_INST_ID)) > 0) {
                         $this->user_id = $id;
                     }
                 }
