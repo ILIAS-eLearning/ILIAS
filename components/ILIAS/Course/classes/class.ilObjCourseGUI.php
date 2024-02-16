@@ -1162,7 +1162,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getRefId(),
             $this->object->getType(),
             array(),
-            '_rcode' . $this->object->getRegistrationAccessCode()
+            'rcode' . $this->object->getRegistrationAccessCode()
         );
         $link->setHtml('<span class="small">' . $val . '</span>');
         $reg_code->addSubItem($link);
