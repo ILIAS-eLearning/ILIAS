@@ -1,18 +1,20 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 
 class ilCSVUtil
@@ -32,7 +34,7 @@ class ilCSVUtil
     public static function &processCSVRow(
         array &$row,
         bool $quoteAll = false,
-        string $separator = ";",
+        string $separator = ';',
         bool $outUTF8 = false,
         bool $compatibleWithMSExcel = true
     ): array {
@@ -42,11 +44,11 @@ class ilCSVUtil
             if ($quoteAll) {
                 $surround = true;
             }
-            if (strpos($entry, "\"") !== false) {
-                $entry = str_replace("\"", "\"\"", $entry);
+            if (str_contains($entry, '"')) {
+                $entry = str_replace('"', '""', $entry);
                 $surround = true;
             }
-            if (strpos($entry, $separator) !== false) {
+            if (str_contains($entry, $separator)) {
                 $surround = true;
             }
             if ($compatibleWithMSExcel) {
@@ -55,16 +57,15 @@ class ilCSVUtil
             }
             if ($surround) {
                 if ($outUTF8) {
-                    $resultarray[$rowindex] = "\"" . $entry . "\"";
+                    $resultarray[$rowindex] = '"' . $entry . '"';
                 } else {
-                    $resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+                    
+                    $resultarray[$rowindex] = iconv('UTF-8', 'ISO-8859-1', '"' . $entry . '"');
                 }
+            } elseif ($outUTF8) {
+                $resultarray[$rowindex] = $entry;
             } else {
-                if ($outUTF8) {
-                    $resultarray[$rowindex] = $entry;
-                } else {
-                    $resultarray[$rowindex] = utf8_decode($entry);
-                }
+                $resultarray[$rowindex] = iconv('UTF-8', 'ISO-8859-1', $entry);
             }
         }
         return $resultarray;
