@@ -24,4 +24,11 @@ use ILIAS\UI\Component\Table\Column as C;
 
 class Status extends Column implements C\Status
 {
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_descending')
+        ];
+    }
 }

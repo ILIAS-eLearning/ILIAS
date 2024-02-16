@@ -151,11 +151,8 @@ class InitUIFramework
             );
         };
         $c["ui.factory.table.column"] = function ($c) {
-            $label_factory = new ILIAS\UI\Implementation\Component\Table\Column\OrderingLabels(
-                $c["lng"]
-            );
             return new ILIAS\UI\Implementation\Component\Table\Column\Factory(
-                $label_factory
+                $c["lng"]
             );
         };
         $c["ui.factory.table.action"] = function ($c) {

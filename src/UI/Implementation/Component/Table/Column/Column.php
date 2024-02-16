@@ -28,6 +28,8 @@ abstract class Column implements C\Column
 {
     use ComponentHelper;
 
+    protected const SEPERATOR = ', ';
+
     protected bool $sortable = true;
     protected bool $optional = false;
     protected bool $initially_visible = true;
@@ -37,7 +39,7 @@ abstract class Column implements C\Column
     protected ?string $desc_label = null;
 
     public function __construct(
-        protected \Closure $ordering_label_builder,
+        protected \ilLanguage $lng,
         protected string $title
     ) {
     }
@@ -81,11 +83,9 @@ abstract class Column implements C\Column
      */
     public function getOrderingLabels(): array
     {
-        $f = $this->ordering_label_builder;
-        [$default_asc, $default_desc] = $f($this);
         return [
-            $this->asc_label ?? $default_asc,
-            $this->desc_label ?? $default_desc
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_generic_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_generic_descending')
         ];
     }
 
