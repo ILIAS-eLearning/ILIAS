@@ -419,8 +419,8 @@ class PropertyAndActionBuilderUI
             if ($mark !== "") {
                 $this->setHeadProperty(
                     self::PROP_MARK,
-                    $lng->txt("mark"),
-                    $lng->txt($mark)
+                    $lng->txt("exc_mark"),
+                    $mark
                 );
             }
         }
