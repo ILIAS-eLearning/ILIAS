@@ -138,7 +138,6 @@ class Zip
         }
     }
 
-
     public function get(): \ILIAS\Filesystem\Stream\Stream
     {
         $this->storeZIPtoFilesystem();
@@ -193,14 +192,20 @@ class Zip
             new \RecursiveDirectoryIterator($directory_to_zip),
             \RecursiveIteratorIterator::SELF_FIRST
         );
+        $pattern = null;
         $prefix = '';
         if ($this->options->ensureTopDirectory()) {
             $prefix = basename($directory_to_zip) . '/';
+            $pattern = '/^' . preg_quote($prefix, '/') . '/';
         }
 
         foreach ($files as $file) {
             $pathname = $file->getPathname();
             $path_inside_zip = str_replace($directory_to_zip . '/', '', $pathname);
+            if ($pattern !== null) {
+                $path_inside_zip = $prefix . preg_replace($pattern, '', $path_inside_zip);
+            }
+
             /** @var $file \SplFileInfo */
             if ($file->isDir()) {
                 // add directory to zip if it's empty
@@ -213,7 +218,7 @@ class Zip
             if ($this->isPathIgnored($pathname, $this->options)) {
                 continue;
             }
-            $path_inside_zip = $prefix . ltrim($path_inside_zip, $prefix);
+
             $this->addPath(realpath($pathname), $path_inside_zip);
         }
     }

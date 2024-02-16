@@ -341,12 +341,12 @@ EOT;
         <ul>
             <li class="il-std-item-container">
               <div class="il-item il-std-item ">
-                <div class="il-item-title">title1</div>
+                <h4 class="il-item-title">title1</h4>
               </div>
             </li>
             <li class="il-std-item-container">
               <div class="il-item il-std-item ">
-                <div class="il-item-title">title2</div>
+                <h4 class="il-item-title">title2</h4>
               </div>
             </li>
         </ul>

@@ -16,23 +16,21 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Whoops\Exception\Formatter;
 use Whoops\Exception\Inspector;
 
-/**
- * Saves error informations into file
- *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
 class ilLoggingErrorFileStorage
 {
     protected const KEY_SPACE = 25;
-    protected const FILE_FORMAT = ".log";
+    protected const FILE_FORMAT = '.log';
 
     protected Inspector $inspector;
     protected string $file_path;
     protected string $file_name;
-
+    /** @var list<string> */
+    private array $exclusion_list = [];
 
     public function __construct(Inspector $inspector, string $file_path, string $file_name)
     {
@@ -41,7 +39,22 @@ class ilLoggingErrorFileStorage
         $this->file_name = $file_name;
     }
 
-    protected function createDir(string $path): void
+    /**
+     * @param list<string> $exclusion_list
+     */
+    public function withExclusionList(array $exclusion_list): self
+    {
+        $clone = clone $this;
+        $clone->exclusion_list = $exclusion_list;
+        return $clone;
+    }
+
+    private function stripNullBytes(string $ret): string
+    {
+        return str_replace("\0", '', $ret);
+    }
+
+    protected function createDir(): void
     {
         if (!is_dir($this->file_path)) {
             ilFileUtils::makeDirParents($this->file_path);
@@ -51,17 +64,16 @@ class ilLoggingErrorFileStorage
     protected function content(): string
     {
         return $this->pageHeader()
-              . $this->exceptionContent()
-              . $this->tablesContent()
-        ;
+            . $this->exceptionContent()
+            . $this->tablesContent();
     }
 
     public function write(): void
     {
-        $this->createDir($this->file_path);
+        $this->createDir();
 
-        $file_name = $this->file_path . "/" . $this->file_name . self::FILE_FORMAT;
-        $stream = fopen($file_name, 'w+');
+        $file_name = $this->file_path . '/' . $this->file_name . self::FILE_FORMAT;
+        $stream = fopen($file_name, 'wb+');
         fwrite($stream, $this->content());
         fclose($stream);
         chmod($file_name, 0755);
@@ -69,23 +81,32 @@ class ilLoggingErrorFileStorage
 
     protected function pageHeader(): string
     {
-        return "";
+        return '';
     }
 
-    /**
-     * Get a short info about the exception.
-     */
     protected function exceptionContent(): string
     {
-        return Formatter::formatExceptionPlain($this->inspector);
+        $message = Formatter::formatExceptionPlain($this->inspector);
+
+        $exception = $this->inspector->getException();
+        $previous = $exception->getPrevious();
+        while ($previous) {
+            $message .= "\n\nCaused by\n" . sprintf(
+                    '%s: %s in file %s on line %d',
+                    get_class($previous),
+                    $previous->getMessage(),
+                    $previous->getFile(),
+                    $previous->getLine()
+                );
+            $previous = $previous->getPrevious();
+        }
+
+        return $message;
     }
 
-    /**
-     * Get the header for the page.
-     */
     protected function tablesContent(): string
     {
-        $ret = "";
+        $ret = '';
         foreach ($this->tables() as $title => $content) {
             $ret .= "\n\n-- $title --\n\n";
             if (count($content) > 0) {
@@ -95,8 +116,8 @@ class ilLoggingErrorFileStorage
                     // indent multiline values, first print_r, split in lines,
                     // indent all but first line, then implode again.
                     $first = true;
-                    $indentation = str_pad("", self::KEY_SPACE);
-                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) {
+                    $indentation = str_pad('', self::KEY_SPACE);
+                    $value = implode("\n", array_map(static function ($line) use (&$first, $indentation): string {
                         if ($first) {
                             $first = false;
                             return $line;
@@ -110,62 +131,66 @@ class ilLoggingErrorFileStorage
                 $ret .= "empty\n";
             }
         }
-        return $ret;
+
+        return $this->stripNullBytes($ret);
     }
 
-    /**
-     * Get the tables that should be rendered.
-     */
     protected function tables(): array
     {
         $post = $_POST;
         $server = $_SERVER;
 
-        $post = $this->hidePassword($post);
+        $post = $this->hideSensitiveData($post);
+        $server = $this->hideSensitiveData($server);
         $server = $this->shortenPHPSessionId($server);
 
-        return array( "GET Data" => $_GET
-            , "POST Data" => $post
-            , "Files" => $_FILES
-            , "Cookies" => $_COOKIE
-            , "Session" => $_SESSION ?? array()
-            , "Server/Request Data" => $server
-            , "Environment Variables" => $_ENV
-            );
+        return [
+            'GET Data' => $_GET,
+            'POST Data' => $post,
+            'Files' => $_FILES,
+            'Cookies' => $_COOKIE,
+            'Session' => $_SESSION ?? [],
+            'Server/Request Data' => $server,
+            'Environment Variables' => $_ENV
+        ];
     }
 
     /**
-     * Replace passwort from post array with security message
+     * @param array<string, mixed> $super_global
+     * @return array<string, mixed>
      */
-    private function hidePassword(array $post): array
+    private function hideSensitiveData(array $super_global): array
     {
-        if (isset($post["password"])) {
-            $post["password"] = "REMOVED FOR SECURITY";
-        }
+        foreach ($this->exclusion_list as $parameter) {
+            if (isset($super_global[$parameter])) {
+                $super_global[$parameter] = 'REMOVED FOR SECURITY';
+            }
 
-        return $post;
-    }
-
-    /**
-     * Shorts the php session id
-     */
-    private function shortenPHPSessionId(array $server): array
-    {
-        if (!isset($server["HTTP_COOKIE"])) {
-            return $server;
-        }
-        $cookie_content = $server["HTTP_COOKIE"];
-        $cookie_content = explode(";", $cookie_content);
-
-        foreach ($cookie_content as $key => $content) {
-            $content_array = explode("=", $content);
-            if (trim($content_array[0]) == session_name()) {
-                $content_array[1] = substr($content_array[1], 0, 5) . " (SHORTENED FOR SECURITY)";
-                $cookie_content[$key] = implode("=", $content_array);
+            if (isset($super_global['post_vars'][$parameter])) {
+                $super_global['post_vars'][$parameter] = 'REMOVED FOR SECURITY';
             }
         }
 
-        $server["HTTP_COOKIE"] = implode(";", $cookie_content);
+        return $super_global;
+    }
+
+    private function shortenPHPSessionId(array $server): array
+    {
+        if (!isset($server['HTTP_COOKIE'])) {
+            return $server;
+        }
+        $cookie_content = $server['HTTP_COOKIE'];
+        $cookie_content = explode(';', $cookie_content);
+
+        foreach ($cookie_content as $key => $content) {
+            $content_array = explode('=', $content);
+            if (trim($content_array[0]) === session_name()) {
+                $content_array[1] = substr($content_array[1], 0, 5) . ' (SHORTENED FOR SECURITY)';
+                $cookie_content[$key] = implode('=', $content_array);
+            }
+        }
+
+        $server['HTTP_COOKIE'] = implode(';', $cookie_content);
 
         return $server;
     }
