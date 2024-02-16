@@ -1196,6 +1196,10 @@ class ilObjMediaObject extends ilObject
                     case "cstr":
                         // repository pages
                         $obj_id = $id;
+                        // see #39159
+                        if ($obj_id < 0 && ilObject::_lookupType(-$obj_id) === "lso") {
+                            $obj_id = -$obj_id;
+                        }
                         break;
                 }
                 break;
