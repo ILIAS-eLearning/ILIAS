@@ -163,7 +163,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_mail_notification_reg_req_bod2'));
                     $this->appendBody("\n");
-                    $this->appendBody($this->createPermanentLink([], '_mem'));
+                    $this->appendBody($this->createPermanentLink([], 'mem'));
 
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
@@ -248,7 +248,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
                     $this->appendBody("\n\n");
-                    $this->appendBody($this->createPermanentLink([], '_part'));
+                    $this->appendBody($this->createPermanentLink([], 'part'));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
@@ -287,7 +287,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
                     $this->appendBody("\n\n");
-                    $this->appendBody($this->createPermanentLink([], '_part'));
+                    $this->appendBody($this->createPermanentLink([], 'part'));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
@@ -326,7 +326,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
                     $this->appendBody("\n\n");
-                    $this->appendBody($this->createPermanentLink([], '_part'));
+                    $this->appendBody($this->createPermanentLink([], 'part'));
                     $this->getMail()->appendInstallationSignature(true);
 
                     $this->sendMail(array($rcp));
