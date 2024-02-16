@@ -837,7 +837,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $rtpl->setCurrentBlock("question_bl");
 
                     // heading
-                    if (strlen($question["heading"])) {
+                    if (strlen($question["heading"] ?? "")) {
                         $rtpl->setVariable("HEADING", trim($question["heading"] ?? ""));
                     }
 
@@ -919,7 +919,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $question_parts = array();
 
                     // heading
-                    if (strlen($question["heading"])) {
+                    if (strlen($question["heading"] ?? "")) {
                         $question_parts[$this->lng->txt("heading")] = trim($question["heading"] ?? "");
                     }
 
