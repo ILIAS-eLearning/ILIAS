@@ -26,29 +26,45 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Factory implements I\Factory
 {
-    public function text(string $title): I\Text
-    {
-        return new Text($title);
+    public function __construct(
+        protected \Pimple\Container $label_builder
+    ) {
     }
 
-    public function number(string $title): I\Number
+    public function text(string $title): I\Text
     {
-        return new Number($title);
+        return new Text(
+            $this->label_builder['alphabetical'],
+            $title
+        );
+    }
+
+    public function number(
+        string $title
+    ): I\Number {
+        return new Number(
+            $this->label_builder['numeric'],
+            $title
+        );
     }
 
     public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\Date
     {
-        return new Date($title, $format);
+        return new Date(
+            $this->label_builder['date'],
+            $title,
+            $format
+        );
     }
 
     public function status(string $title): I\Status
     {
-        return new Status($title);
+        return new Status($this->label_builder['alphabetical'], $title);
     }
 
     public function statusIcon(string $title): I\StatusIcon
     {
-        return new StatusIcon($title);
+        return new StatusIcon($this->label_builder['generic'], $title);
     }
 
     public function boolean(
@@ -56,26 +72,26 @@ class Factory implements I\Factory
         string|Icon|Glyph $true,
         string|Icon|Glyph $false
     ): I\Boolean {
-        return new Boolean($title, $true, $false);
+        return new Boolean($this->label_builder['boolean'], $title, $true, $false);
     }
 
     public function eMail(string $title): I\EMail
     {
-        return new EMail($title);
+        return new EMail($this->label_builder['alphabetical'], $title);
     }
 
     public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\TimeSpan
     {
-        return new TimeSpan($title, $format);
+        return new TimeSpan($this->label_builder['date'], $title, $format);
     }
 
     public function link(string $title): I\Link
     {
-        return new Link($title);
+        return new Link($this->label_builder['alphabetical'], $title);
     }
 
     public function linkListing(string $title): I\LinkListing
     {
-        return new LinkListing($title);
+        return new LinkListing($this->label_builder['alphabetical'], $title);
     }
 }

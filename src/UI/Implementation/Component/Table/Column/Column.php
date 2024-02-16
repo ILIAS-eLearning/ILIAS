@@ -36,8 +36,10 @@ abstract class Column implements C\Column
     protected ?string $asc_label = null;
     protected ?string $desc_label = null;
 
-    public function __construct(protected string $title)
-    {
+    public function __construct(
+        protected \Closure $ordering_label_builder,
+        protected string $title
+    ) {
     }
 
     public function getTitle(): string
@@ -50,12 +52,6 @@ abstract class Column implements C\Column
         $class = explode('\\', $this::class);
         return array_pop($class);
     }
-
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::GENERIC;
-    }
-
 
     public function withIsSortable(
         bool $flag
@@ -81,11 +77,16 @@ abstract class Column implements C\Column
     }
 
     /**
-     * @return array<string|null>
+     * @return string[]
      */
     public function getOrderingLabels(): array
     {
-        return [$this->asc_label, $this->desc_label];
+        $f = $this->ordering_label_builder;
+        [$default_asc, $default_desc] = $f($this);
+        return [
+            $this->asc_label ?? $default_asc,
+            $this->desc_label ?? $default_desc
+        ];
     }
 
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self

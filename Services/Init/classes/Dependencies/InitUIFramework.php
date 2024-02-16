@@ -138,10 +138,7 @@ class InitUIFramework
         };
         $c["ui.factory.table"] = function ($c) {
             $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
-            $order_options_builder = new ILIAS\UI\Implementation\Component\Table\Column\OrderOptionsBuilder(
-                $c['lng'],
-                $c["ui.data_factory"]
-            );
+
             return new ILIAS\UI\Implementation\Component\Table\Factory(
                 $c["ui.signal_generator"],
                 $c['ui.factory.input.viewcontrol'],
@@ -150,12 +147,16 @@ class InitUIFramework
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],
                 $row_builder,
-                $c["ui.storage"],
-                $order_options_builder
+                $c["ui.storage"]
             );
         };
         $c["ui.factory.table.column"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Table\Column\Factory();
+            $label_factory = new ILIAS\UI\Implementation\Component\Table\Column\OrderingLabels(
+                $c["lng"]
+            );
+            return new ILIAS\UI\Implementation\Component\Table\Column\Factory(
+                $label_factory
+            );
         };
         $c["ui.factory.table.action"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Table\Action\Factory();

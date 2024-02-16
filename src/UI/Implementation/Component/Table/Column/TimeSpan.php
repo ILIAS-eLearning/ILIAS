@@ -25,9 +25,12 @@ use ILIAS\Data\DateFormat\DateFormat;
 
 class TimeSpan extends Column implements C\TimeSpan
 {
-    public function __construct(string $title, protected DateFormat $format)
-    {
-        parent::__construct($title);
+    public function __construct(
+        \Closure $ordering_label_builder,
+        string $title,
+        protected DateFormat $format
+    ) {
+        parent::__construct($ordering_label_builder, $title);
     }
 
     public function getFormat(): DateFormat
@@ -42,10 +45,5 @@ class TimeSpan extends Column implements C\TimeSpan
             $value[0]->format($this->getFormat()->toString())
             . ' - ' .
             $value[1]->format($this->getFormat()->toString());
-    }
-
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::DATE;
     }
 }

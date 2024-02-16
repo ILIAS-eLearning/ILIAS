@@ -35,7 +35,6 @@ use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
-use ILIAS\UI\Implementation\Component\Table\Column\OrderOptionsBuilder;
 
 class Data extends Table implements T\Data, JSBindable
 {
@@ -94,8 +93,7 @@ class Data extends Table implements T\Data, JSBindable
         string $title,
         array $columns,
         protected T\DataRetrieval $data_retrieval,
-        protected \ArrayAccess $storage,
-        protected OrderOptionsBuilder $order_options_builder
+        protected \ArrayAccess $storage
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -457,7 +455,16 @@ class Data extends Table implements T\Data, JSBindable
             return null;
         }
 
-        $sort_options = $this->order_options_builder->buildFor($sortable_visible_cols);
+        $sort_options = [];
+        foreach ($sortable_visible_cols as $col_id => $col) {
+
+            $order_asc = $this->data_factory->order($col_id, Order::ASC);
+            $order_desc = $this->data_factory->order($col_id, Order::DESC);
+
+            $labels = $col->getOrderingLabels();
+            $sort_options[$labels[0]] = $order_asc;
+            $sort_options[$labels[1]] = $order_desc;
+        }
         return $this->view_control_factory->sortation($sort_options);
     }
 

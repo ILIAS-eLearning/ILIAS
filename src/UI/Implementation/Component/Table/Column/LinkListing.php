@@ -36,9 +36,4 @@ class LinkListing extends Column implements C\LinkListing
         $this->checkArgListElements("list items", $listing_items, Standard::class);
         return $value;
     }
-
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::ALPHABETICAL;
-    }
 }

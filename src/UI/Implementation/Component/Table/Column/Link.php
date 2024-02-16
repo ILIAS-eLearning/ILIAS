@@ -31,9 +31,4 @@ class Link extends Column implements C\Link
         $this->checkArgInstanceOf('value', $value, Standard::class);
         return $value;
     }
-
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::ALPHABETICAL;
-    }
 }

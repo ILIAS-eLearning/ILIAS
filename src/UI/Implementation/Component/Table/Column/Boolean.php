@@ -27,11 +27,12 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 class Boolean extends Column implements C\Boolean
 {
     public function __construct(
+        \Closure $ordering_label_builder,
         string $title,
         protected string|Icon|Glyph $true_option,
         protected string|Icon|Glyph $false_option
     ) {
-        parent::__construct($title);
+        parent::__construct($ordering_label_builder, $title);
 
         if (
             ($true_option instanceof Glyph && $true_option->getAction() !== null)
@@ -49,8 +50,4 @@ class Boolean extends Column implements C\Boolean
         return $value ? $this->true_option : $this->false_option;
     }
 
-    public function getOrderLabelType(): OrderLabelType
-    {
-        return OrderLabelType::BOOL;
-    }
 }
