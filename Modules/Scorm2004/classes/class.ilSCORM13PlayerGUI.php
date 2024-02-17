@@ -1164,7 +1164,7 @@ class ilSCORM13PlayerGUI
                 while ($row = $ilDB->fetchAssoc($res)) {
                     $tmp_result = array();
                     foreach ($row as $key => $value) {
-                        if ($k === "comment" && $key === "c_timestamp" && strpos($value, ' ') == 10) {
+                        if ($k === "comment" && $key === "c_timestamp" && strpos((string) $value, ' ') == 10) {
                             $value = str_replace(' ', 'T', $value);
                         }
                         $tmp_result[] = $value;
