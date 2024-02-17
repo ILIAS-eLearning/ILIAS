@@ -28,6 +28,9 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
+    private const PARENT_CLASS = 'c-drilldown__branch';
+    private const LEAF_CLASS = 'c-drilldown__leaf';
+
     /**
      * @inheritdoc
      */
@@ -99,6 +102,11 @@ class Renderer extends AbstractComponentRenderer
         $html = '';
         foreach ($component->getItems() as $item) {
             $tpl_item = $this->getTemplate('tpl.menuitem.html', true, true);
+            if ($item instanceof Menu\Sub) {
+                $tpl_item->setVariable('CLASS', self::PARENT_CLASS);
+            } else {
+                $tpl_item->setVariable('CLASS', self::LEAF_CLASS);
+            }
             $tpl_item->setVariable('ITEM', $default_renderer->render($item));
             $html .= $tpl_item->get();
         }

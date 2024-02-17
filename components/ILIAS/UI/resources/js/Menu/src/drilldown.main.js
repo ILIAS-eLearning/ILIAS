@@ -1,57 +1,110 @@
-var dd = function(model, mapping, persistence) {
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*/
 
-	var
-	model = model,
-	mapping = mapping,
-	persistence = persistence,
+export default class Drilldown {
+  /**
+   * @type {DrilldownPersistence}
+   */
+  #persistence;
 
-	init = function(id, back_signal) {
-		$(document).on(back_signal, upLevel);
-		var list = mapping.parse(id);
-		mapping.parseLevel(list, model.actions.addLevel, engageLevel, filter);
+  /**
+   * @type {DrilldownModel}
+   */
+  #model;
 
-		var level = persistence.read();
-		if(!level) {
-			level = 0;
-		}
+  /**
+   * @type {DrilldownMapping}
+   */
+  #mapping;
 
-    engageLevel(level);
-	},
-	engageLevel = function(id) {
-		model.actions.engageLevel(id);
-		apply();
-	},
-  filter = function(e) {
-    model.actions.filter(e);
-    mapping.setFiltered(model.actions.getFiltered());
+  /**
+   * @param {jQuery} $
+   * @param {DrilldownPersistence} persistence
+   * @param {DrilldownModel} model
+   * @param {DrilldownMapping} mapping
+   * @param {string} backSignal
+   */
+  constructor($, persistence, model, mapping, backSignal) {
+    this.#persistence = persistence;
+    this.#model = model;
+    this.#mapping = mapping;
+
+    $(document).on(backSignal, () => { this.#upLevel(); });
+    this.#mapping.setFilterHandler(
+      (e) => {
+        this.#filter(e);
+      },
+    );
+    this.#mapping.parseLevel(
+      (headerDisplayElement, parent, leaves) => this.#model
+        .addLevel(headerDisplayElement, parent, leaves),
+      (index, text) => {
+        return this.#model.buildLeaf(index, text);
+      },
+      (levelId) => {
+        this.#engageLevel(levelId);
+      }
+    );
+
+    this.#engageLevel(this.#persistence.read());
+  }
+
+  /**
+   *
+   * @param {integer} levelId
+   * @returns {void}
+   */
+  #engageLevel(levelId) {
+    this.#model.engageLevel(levelId);
+    this.#apply();
+  }
+
+  /**
+   * @param {Event} e
+   * @returns {void}
+   */
+  #filter(e) {
+    this.#model.filter(e);
+    this.#mapping.setFiltered(this.#model.getFiltered());
     e.target.focus();
-  },
-	upLevel = function() {
-		model.actions.upLevel();
-		apply();
-	},
-	apply = function() {
-		let
-    current = model.actions.getCurrent(),
-    parent = model.actions.getParent(),
-    level = 2;
+  }
+
+  /**
+   * @returns {void}
+   */
+  #upLevel() {
+    this.#model.upLevel();
+    this.#apply();
+  }
+
+  /**
+   * @returns {void}
+   */
+  #apply() {
+    const current = this.#model.getCurrent();
+    const parent = this.#model.getParent();
+    let level = 2;
     if (current.parent === null) {
       level = 0;
     } else if (current.parent === '0') {
       level = 1;
     }
-		mapping.setEngaged(current.id);
-		persistence.store(current.id);
-		mapping.setHeader(current.headerDisplayElement, parent.headerDisplayElement);
-		mapping.setHeaderBacknav(level);
-    mapping.correctRightColumnPosition(current.id);
-	},
-
-	public_interface = {
-		init: init,
-		engage: engageLevel
-    };
-    return public_interface;
-};
-
-export default dd;
+    this.#mapping.setEngaged(current.id);
+    this.#persistence.store(current.id);
+    this.#mapping.setHeader(current.headerDisplayElement, parent.headerDisplayElement);
+    this.#mapping.setHeaderBacknav(level);
+    this.#mapping.correctRightColumnPositionAndHeight(current.id);
+  }
+}

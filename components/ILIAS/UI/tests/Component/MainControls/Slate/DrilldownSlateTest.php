@@ -90,22 +90,28 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
         $html = $r->render($slate);
 
         $expected = '
-
-            <div class="il-maincontrols-slate disengaged" id="id_3">
+            <div class="il-maincontrols-slate disengaged" id="id_4">
                 <div class="il-maincontrols-slate-content" data-replace-marker="content">
-                    <div class="il-drilldown" id="id_2">
-
-                        <header class="show-title show-backnav">
-                            <h2>ddmenu</h2>
-                            <div class="backnav">
-                                <button class="btn btn-bulky" id="id_1" aria-label="back"><span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
+                    <div class="c-drilldown" id="id_2">
+                        <header class="c-drilldown__header--showbacknav">
+                            <div></div>
+                            <div></div>
+                            <div class="c-drilldown__filter">
+                                <label for=\'id_3\' class="control-label">Filter Nodes in ddmenu</label>
+                                <input id=\'id_3\' type="text" name=\'\' class="form-control" />
+                            </div>
+                            <div class="c-drilldown__backnav">
+                                <button class="btn btn-bulky" id="id_1" aria-label="back">
+                                    <span class="glyph" role="img">
+                                        <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="bulky-label"></span>
+                                </button>
                             </div>
                         </header>
-                        <ul>
-                            <li><button class="menulevel" aria-expanded="false">ddmenu<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
-                                <ul></ul>
-                            </li>
-                        </ul>
+                        <div class="c-drilldown__menu">
+                            <ul></ul>
+                        </div>
                     </div>
                 </div>
             </div>
