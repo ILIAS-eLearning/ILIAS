@@ -1,139 +1,192 @@
-var ddmodel = function() {
-    var
-    data = [],
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*/
 
-    classes = {
-        level : {
-            id: null,
-            parent: null,
-            engaged : false,
-            filtered : false,
-            headerDisplayElement : '',
-            leaves : []
+export default class DrilldownModel {
+  /**
+   * @type {object}
+   */
+  #level = {
+    id: null,
+    parent: null,
+    engaged: false,
+    headerDisplayElement: '',
+    leaves: [],
+  };
+
+  /**
+   * @type {object}
+   */
+  #leaf = {
+    index: null,
+    text: null,
+    filtered: false,
+  };
+
+  /**
+   * @type {this.#level[]}
+   */
+  #data = [];
+
+  /**
+   * @param {string} levelId
+   * @param {HTMLButtonElement} headerDisplayElement
+   * @param {int} parent
+   * @param {array} leaves
+   * @returns {this.#level}
+   */
+  #buildLevel(levelId, headerDisplayElement, parent, leaves) {
+    const level = { ...this.#level };
+    level.id = levelId;
+    level.parent = parent;
+    level.headerDisplayElement = headerDisplayElement;
+    level.leaves = leaves;
+    return level;
+  }
+
+  buildLeaf(index, text) {
+    const leaf = { ...this.#leaf };
+    leaf.index = index;
+    leaf.text = text;
+    return leaf;
+  }
+
+  /**
+   * @param {HTMLButtonElement} headerDisplayElement
+   * @param {int} parent
+   * @param {array} leaves
+   * @returns {this.#level}
+   */
+  addLevel(headerDisplayElement, parent, leaves) {
+    const levelId = this.#data.length.toString();
+    const level = this.#buildLevel(levelId, headerDisplayElement, parent, leaves);
+    this.#data[level.id] = level;
+    return this.#data[level.id];
+  }
+
+  /**
+   * @param  {String} levelId
+   */
+  engageLevel(levelId) {
+    this.#data.forEach(
+      (level) => {
+        const levelRef = level;
+        levelRef.engaged = false;
+        if (level.id === levelId) {
+          levelRef.engaged = true;
         }
-    },
+      },
+    );
+  }
 
-    factories = {
-        cloned: (obj, params) => Object.assign({}, obj, params),
-        level : (headerDisplayElement, parent, leaves) => factories.cloned(classes.level, {
-            id : data.length.toString(),
-            headerDisplayElement : headerDisplayElement,
-            parent : parent,
-            leaves : leaves
-        })
-    },
+  /**
+   * @returns {this.#level}
+   */
+  getCurrent() {
+    const cur = this.#data.find(
+      (level) => level.engaged,
+    );
+    if (cur !== undefined) {
+      return cur;
+    }
+    return this.#data[0];
+  }
 
-    actions = {
-      addLevel : function(headerDisplayElement, parent, leaves) {
-          if(! parent) {
-              parent = null;
-          }
-          var level = factories.level(headerDisplayElement, parent, leaves);
-          data[level.id] = level;
-          return level;
-      },
-      /**
-       * @param  {String} id
-       */
-      engageLevel : function(id) {
-          for(var idx in data) {
-              data[idx].engaged = false;
-              if(data[idx].id === id) {
-                  data[idx].engaged = true;
-              }
-          }
-      },
-      getCurrent : function() {
-          for(var idx in data) {
-              if(data[idx].engaged) {
-                  return data[idx];
-              };
-          }
-          return data[0];
-      },
-      getParent : function() {
-          let cur = actions.getCurrent();
-          if (cur.parent) {
-            return data[cur.parent];
-          }
+  /**
+   * @returns {integer}
+   */
+  getParent() {
+    const cur = this.getCurrent();
+    if (cur.parent) {
+      return this.#data[cur.parent];
+    }
+    return {};
+  }
 
-          return {};
-      },
-      upLevel : function() {
-          var cur = actions.getCurrent();
-          if(cur.parent) {
-              actions.engageLevel(data[cur.parent].id);
-          }
-      },
-      /**
-       * @param {Event} e
-       */
-      filter : function (e) {
-        let
-        value = e.target.value.toLowerCase(),
-        removeFilteredRecursive = (id) => {
-          if (id !== null && id !== 0) {
-            data[id].filtered = false;
-            if (data[id].parent !== null && data[id].parent !== 0) {
-              removeFilteredRecursive(data[id].parent);
-            }
-          }
-        };
+  /**
+   * @return {void}
+   */
+  upLevel() {
+    const cur = this.getCurrent();
+    if (cur.parent) {
+      this.engageLevel(this.#data[cur.parent].id);
+    }
+  }
 
-        data.forEach(
-          (level, levelId) => {
-            var hasVisibleLeaves = false;
-            level.leaves.forEach(
-              (leaf) => {
-                if (leaf.text.toLowerCase().includes(value) === false) {
-                  leaf.filtered = true;
-                  return;
-                }
-                leaf.filtered = false;
-                hasVisibleLeaves = true;
-              }
-            );
-            level.filtered = true;
-            if (hasVisibleLeaves) {
-              level.filtered = false;
-              if (level.parent !== null && level.parent !== 0) {
-                removeFilteredRecursive(levelId);
-              }
-            }
-          }
-        );
-      },
-      getFiltered : function () {
-        let filtered = [];
-        data.forEach(
-          (level) => {
-            if (level.filtered) {
-              filtered.push(level);
+  /**
+   * @param {integer} levelId
+   * @return {void}
+   */
+  #removeFilteredRecursive(levelId) {
+    if (levelId !== null && levelId !== 0) {
+      return;
+    }
+
+    this.#data[levelId].filtered = false;
+    if (this.#data[levelId].parent !== null && this.#data[levelId].parent !== 0) {
+      this.#removeFilteredRecursive(this.#data[levelId].parent);
+    }
+  }
+
+  /**
+   * @param {Event} e
+   * @returns {void}
+   */
+  filter(e) {
+    const value = e.target.value.toLowerCase();
+    this.#data.forEach(
+      (level) => {
+        const levelRef = level;
+        levelRef.leaves.forEach(
+          (leaf) => {
+            const leafRef = leaf;
+            if (value === '') {
+              leafRef.filtered =  false;
               return;
             }
-            let leaves = level.leaves.filter(
-              (leaf) => {
-                return leaf.filtered;
-              }
-            );
-            if (leaves.length > 0) {
-              let clone = factories.cloned(classes.level, {
-                id : level.id,
-                headerDisplayElement : level.headerDisplayElement,
-                parent : level.parent,
-                leaves : [...leaves]
-              });
-              filtered.push(clone);
+            if (leafRef.text.toLowerCase().includes(value) === false) {
+              leafRef.filtered = true;
+              return;
             }
-          }
+            leafRef.filtered = false;
+          },
         );
-        return filtered;
-      }
-    },
+      },
+    );
+  }
 
-    public_interface = {
-        actions : actions
-    };
-    return public_interface;
-};
-export default ddmodel;
+  /**
+   * @returns {this.#level[]}
+   */
+  getFiltered() {
+    const filtered = [];
+    this.#data.forEach(
+      (level) => {
+        const leaves = level.leaves.filter(
+          (leaf) => leaf.filtered,
+        );
+        if (leaves.length > 0) {
+          const clone = this.#buildLevel(
+            level.id,
+            level.headerDisplayElement,
+            level.parent,
+            [...leaves],
+          );
+          filtered.push(clone);
+        }
+      },
+    );
+    return filtered;
+  }
+}

@@ -1,34 +1,54 @@
-var ddpersistence = function(dd_id) {
-    var cs = null,
-        dd_id,
-        key = 'level_id',
+/**
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*/
 
-    storage = function() {
-        if (cs && dd_id !== null) { return cs; }
-        return new il.Utilities.CookieStorage(dd_id);
-    },
+export default class DrilldownPersistence {
+  /**
+     * @type {string}
+     */
+  #key = 'level_id';
 
-    store = function(level_id) {
-        cs = storage();
-        if(cs) {
-            cs.add(key, level_id);
-            cs.store();
-        }
-    },
+  /**
+     * @type {object}
+     */
+  #cookieStorage;
 
-    read = function() {
-        cs = storage();
-        if (!cs) {
-            return null;
-        }
-        return cs.items[key];
-    },
+  /**
+     * @param {string} persistenceId
+     */
+  constructor(cookieStorage) {
+    this.#cookieStorage = cookieStorage;
+  }
 
-    public_interface = {
-        read: read,
-        store: store
-    };
-    return public_interface;
-};
+  #storage() {
+    return this.#cookieStorage;
+  }
 
-export default ddpersistence;
+  /**
+     * @returns {string}
+     */
+  read() {
+    return this.#cookieStorage.items[this.#key] ?? 0;
+  }
+
+  /**
+     *
+     * @param {string} level_id
+     * @returns void
+     */
+  store(levelId) {
+    this.#cookieStorage.add(this.#key, levelId);
+    this.#cookieStorage.store();
+  }
+}
