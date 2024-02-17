@@ -110,7 +110,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         $columns['creation_date'] = $c->text($this->lng->txt("created"))->withIsSortable(false);
         $columns['update_date'] = $c->text($this->lng->txt("last_update"))->withIsSortable(false);
         if ($this->preview) {
-            $columns['preview'] = $c->statusIcon($this->lng->txt("preview"))->withIsSortable(false);
+            $columns['preview'] = $c->text($this->lng->txt("preview"))->withIsSortable(false);
         }
 
         return $columns;
