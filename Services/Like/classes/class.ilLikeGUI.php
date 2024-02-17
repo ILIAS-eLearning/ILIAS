@@ -66,6 +66,7 @@ class ilLikeGUI
 
     protected function initJavascript(): void
     {
+        ilYuiUtil::initConnection();
         $this->main_tpl->addJavaScript("./Services/Like/js/Like.js");
     }
 
