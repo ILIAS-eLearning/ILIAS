@@ -714,6 +714,7 @@ EOT;
             $mediaItem->setLocationType($locationType);
             $mediaItem->setHAlign("Left");
             $mediaItem->setHeight(self::isAudio($format) ? 0 : 180);
+            $mob->generatePreviewPic(320, 240);
         }
 
         if (($purpose === "Standard") && isset($title)) {
