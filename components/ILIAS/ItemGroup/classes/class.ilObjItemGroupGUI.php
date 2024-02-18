@@ -236,14 +236,32 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ilTabs->activateTab("materials");
 
         $parent_ref_id = $tree->getParentId($this->object->getRefId());
-
-        $gui = new ilObjectAddNewItemGUI($parent_ref_id);
-        $gui->setDisabledObjectTypes(array("itgr", "sess"));
-        $gui->setAfterCreationCallback($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes(),
+                $parent_gui_class,
+                $this->object->getRefId()
+            )
+        );
         $gui->render();
 
         $tab = new ilItemGroupItemsTableGUI($this->gui, $this, "listMaterials");
         $tpl->setContent($tab->getHTML());
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
+        $parent_type = ilObject::_lookupType($parent_ref_id, true);
+        $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
+        $parent_gui = new $parent_gui_class($parent_ref_id, true, false);
+        $types = $parent_gui->getCreatableObjectTypes();
+        foreach (array_merge(['itgr', 'sess' ], $this->objDefinition->getSideBlockTypes()) as $type_to_remove) {
+            unset($types[$type_to_remove]);
+        }
+        return $types;
     }
 
     public function saveItemAssignment(): void
