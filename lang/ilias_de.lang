@@ -5464,6 +5464,7 @@ common#:#sahs_export_file#:#aus ILIAS exportierte SCORM-Archiv-Datei
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
+common#:#sahs_new#:#Neues Lernmodul anlegen
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr

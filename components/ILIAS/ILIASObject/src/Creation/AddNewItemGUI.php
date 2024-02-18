@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ILIASObject\Creation;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Render add new item selector
@@ -38,9 +39,7 @@ class AddNewItemGUI
     private \ilGlobalTemplateInterface $tpl;
 
     private UIFactory $ui_factory;
-    private array $disabled_object_types = [];
-    private int $creation_url_callback = 0;
-    private ?\ilGroupedListGUI $gl = null;
+    private UIRenderer $ui_renderer;
 
     /**
      * @param array<ILIAS\ILIASObject\Creation\AddNewItemElement> $elements
@@ -61,6 +60,7 @@ class AddNewItemGUI
         $this->tpl = $DIC["tpl"];
 
         $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         $this->lng->loadLanguageModule("rep");
         $this->lng->loadLanguageModule("cntr");
@@ -79,7 +79,10 @@ class AddNewItemGUI
         $button = $this->ui_factory->button()->primary($this->lng->txt('cntr_add_new_item'), $modal->getShowSignal());
 
         $this->toolbar->addComponent($button);
-        $this->toolbar->addComponent($modal);
+        $this->tpl->setVariable(
+            'IL_OBJECT_ADD_NEW_ITEM_MODAL',
+            $this->ui_renderer->render($modal)
+        );
     }
 
     /**
