@@ -348,7 +348,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->isActiveOrdering()) {
             return;
         }
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements($this->getCreatableObjectTypes())
+        );
         $gui->render();
     }
 
@@ -427,8 +429,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // we will create nested forms in case, e.g. a news/calendar item is added
         if ($is_container_cmd) {
             $this->showAdministrationPanel();
+
             if (!$this->edit_order) {
                 $this->showPossibleSubObjects();
+            }
+            if ($this->isActiveAdministrationPanel()) {
+                $this->addImportButtonToToolbar();
             }
 
             if (is_object($this->object) &&
