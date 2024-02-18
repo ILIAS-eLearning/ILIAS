@@ -322,8 +322,9 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirect($eval_gui, "openEvaluation");
     }
 
-    protected function addDidacticTemplateOptions(array &$a_options): void
+    protected function retrieveAdditionalDidacticTemplateOptions(): array
     {
+        $a_options = [];
         // JF, 2013-06-10
         $a_options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
             $this->lng->txt("survey_360_mode_info"));
@@ -335,6 +336,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // individual feedback
         $a_options["individfeedb_1"] = array($this->lng->txt("svy_ind_feedb_mode"),
             $this->lng->txt("svy_ind_feedb_info"));
+
+        return $a_options;
     }
 
     protected function afterSave(ilObject $new_object): void
@@ -604,36 +607,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         echo $auto->getList(ilUtil::stripSlashes($this->edit_request->getTerm()));
         exit();
-    }
-
-    //
-    // IMPORT/EXPORT
-    //
-
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("import_svy"));
-
-        $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
-        $fi->setSuffixes(array("zip"));
-        $fi->setRequired(true);
-        $form->addItem($fi);
-
-        $svy = new ilObjSurvey();
-        $questionspools = $svy->getAvailableQuestionpools(true, true, true);
-
-        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool_short"), "spl");
-        $pools->setOptions(array("" => $this->lng->txt("dont_use_questionpool")) + $questionspools);
-        $pools->setRequired(false);
-        $form->addItem($pools);
-
-        $form->addCommandButton("importSurvey", $this->lng->txt("import"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
     }
 
     public function importSurveyObject(): void
