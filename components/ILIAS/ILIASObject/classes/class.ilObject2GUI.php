@@ -646,11 +646,6 @@ abstract class ilObject2GUI extends ilObjectGUI
         return $forms;
     }
 
-    public function importFile(): void
-    {
-        parent::importFileObject($this->parent_id);
-    }
-
     /**
      * Add object to tree at given position
      */
