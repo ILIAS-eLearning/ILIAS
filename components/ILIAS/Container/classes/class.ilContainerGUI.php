@@ -348,7 +348,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->isActiveOrdering()) {
             return;
         }
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements($this->getCreatableObjectTypes())
+        );
         $gui->render();
     }
 
@@ -428,6 +430,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($is_container_cmd) {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
+            if ($this->isActiveAdministrationPanel()) {
+                $this->addImportButtonToToolbar();
+            }
 
             if (is_object($this->object) &&
                 $user->getId() !== ANONYMOUS_USER_ID &&
