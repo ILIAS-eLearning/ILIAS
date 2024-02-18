@@ -673,7 +673,18 @@
      */
     correctRightColumnPositionAndHeight(levelId) {
       const elem = this.#elements.levels[levelId];
+      const menu = this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
       const height = this.#elements.dd.querySelector(`.${this.#classes.MENU}`).offsetHeight;
+      if (height === 0) {
+        const triggerResize = new ResizeObserver((element) => {
+          if (element[0].target.offsetHeight > 0) {
+            this.correctRightColumnPositionAndHeight(levelId);
+            triggerResize.unobserve(menu);
+          }
+        });
+        triggerResize.observe(menu);
+        return;
+      }
       this.#elements.levels.forEach(
         (e) => {
           const eRef = e;
