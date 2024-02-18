@@ -354,54 +354,17 @@ class ilObjFileGUI extends ilObject2GUI
         $accordion->addItem($tpl->get(), $form->getHTML());
     }
 
-    protected function getCreationFormsHTML(array $a_forms): string
-    {
-        // abort if empty array was passed
-        if ($a_forms === []) {
-            return '';
-        }
-
-        if (1 === count($a_forms)) {
-            $creation_form = end($a_forms);
-            if ($creation_form instanceof Standard) {
-                return $this->ui->renderer()->render($creation_form);
-            }
-
-            if ($creation_form instanceof ilPropertyFormGUI) {
-                return $creation_form->getHTML();
-            }
-        }
-
-        $accordion = new ilAccordionGUI();
-        $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
-
-        foreach ($a_forms as $type => $form) {
-            if ($form instanceof Standard) {
-                $this->addUIFormToAccordion($accordion, $form, $type);
-            }
-
-            if ($form instanceof ilPropertyFormGUI) {
-                $this->addLegacyFormToAccordion($accordion, $form, $type);
-            }
-        }
-
-        return "<div class='ilCreationFormSection'>{$accordion->getHTML()}</div>";
-    }
-
     /**
      * @return array
      */
-    protected function initCreationForms($a_new_type): array
+    protected function initCreateForm(string $new_type): Standard
     {
-        $forms = [];
-        $forms[self::CFORM_NEW] = $this->initUploadForm();
+        return $this->initUploadForm();
+    }
 
-        // repository only
-        if ($this->id_type !== self::WORKSPACE_NODE_ID) {
-            $forms[self::CFORM_IMPORT] = $this->initImportForm(ilObjFile::OBJECT_TYPE);
-        }
-
-        return $forms;
+    protected function getCreationFormTitle(): string
+    {
+        return $this->lng->txt('upload_files');
     }
 
     public function initUploadForm(): Standard
