@@ -120,10 +120,6 @@ class ilObjCourseGUI extends ilContainerGUI
             return;
         }
 
-        if ($this->isActiveAdministrationPanel()) {
-            $this->addAdoptContentLinkToToolbar();
-        }
-
         // Fill meta header tags
         ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'crs');
 
@@ -169,6 +165,10 @@ class ilObjCourseGUI extends ilContainerGUI
             // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
             // $this->ctrl->setCmdClass(get_class($course_content_obj));
             $this->ctrl->forwardCommand($course_content_obj);
+        }
+
+        if ($this->isActiveAdministrationPanel()) {
+            $this->addAdoptContentLinkToToolbar();
         }
     }
 
@@ -1581,7 +1581,11 @@ class ilObjCourseGUI extends ilContainerGUI
             !$this->isActiveAdministrationPanel()) {
             return;
         }
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes()
+            )
+        );
         $gui->render();
     }
 
