@@ -27,12 +27,14 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Radio;
+use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
 use ILIAS\Object\CreationCallbackTrait;
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilObjectGUI
@@ -63,6 +65,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     public const CFORM_NEW = 1;
     public const CFORM_IMPORT = 2;
     public const CFORM_CLONE = 3;
+    public const SUPPORTED_IMPORT_MIME_TYPES = [\ILIAS\FileUpload\MimeType::APPLICATION__ZIP];
     protected \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
@@ -92,6 +95,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
     private MultiObjectPropertiesManipulator $multi_object_manipulator;
+    private Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
     protected bool $creation_mode = false;
@@ -126,6 +130,7 @@ class ilObjectGUI implements ImplementsCreationCallback
      */
     public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->request = $DIC->http()->request();
@@ -154,6 +159,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->temp_file_system = $DIC->filesystem()->temp();
 
         $this->data = $data;
         $this->id = $id;
@@ -847,6 +853,31 @@ class ilObjectGUI implements ImplementsCreationCallback
         );
     }
 
+    protected function addImportButtonToToolbar(): void
+    {
+        $modal = $this->buildImportModal();
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('import'),
+                $modal->getShowSignal()
+            )
+        );
+        $this->toolbar->addComponent(
+            $modal
+        );
+    }
+
+    private function buildImportModal(): RoundTrip
+    {
+        return $this->ui_factory->modal()
+            ->roundtrip(
+                $this->lng->txt('import'),
+                [],
+                $this->buildImportFormInputs(),
+                $this->ctrl->getFormAction($this, 'routeImportCmd')
+            )->withSubmitLabel($this->lng->txt('import'));
+    }
+
     protected function addAvailabilityPeriodButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
     {
         $toolbar->addSeparator();
@@ -1141,154 +1172,220 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->redirect($this, "edit");
     }
 
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
+    protected function buildImportFormInputs(): array
     {
+        $trafo = $this->refinery->custom()->transformation(
+            function ($vs): array {
+                if ($vs === null) {
+                    return null;
+                }
+                if (!isset($vs[1])) {
+                    return [self::UPLOAD_TYPE_LOCAL => $vs[0][0]];
+                } elseif ((int) $vs[1][0] === self::UPLOAD_TYPE_LOCAL) {
+                    return [self::UPLOAD_TYPE_LOCAL => $vs[1][0][0]];
+                } else {
+                    $upload_factory = new ilImportDirectoryFactory();
+                    $export_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
+                    $type = $this->extractFileTypeFromImportFilename($vs[1][0]) ?? '';
+                    $file = $export_upload->getAbsolutePathForHash($this->user->getId(), $type, $vs[1][0]);
+                    return [
+                        self::UPLOAD_TYPE_UPLOAD_DIRECTORY => $file
+                    ];
+                }
+            }
+        );
+
+        $constraint = $this->refinery->custom()->constraint(
+            function ($vs): bool {
+                $filename = $vs[self::UPLOAD_TYPE_LOCAL] ?? null;
+                if ($filename === null) {
+                    return $this->importFileOfValidType(basename($vs[self::UPLOAD_TYPE_UPLOAD_DIRECTORY]));
+                }
+                return $filename !== ''
+                    && $this->temp_file_system->hasDir($filename)
+                    && ($files = $this->temp_file_system->listContents($filename))
+                    && $this->importFileOfValidType(basename($files[0]->getPath()));
+            },
+            $this->lng->txt('import_file_not_valid')
+        );
+
         $import_directory_factory = new ilImportDirectoryFactory();
-        $export_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
-        $upload_files = $export_directory->getFilesFor($this->user->getId(), $new_type);
-        $has_upload_files = false;
-        if (count($upload_files)) {
-            $has_upload_files = true;
-        }
+        $upload_files = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT)
+            ->getFilesFor($this->user->getId());
 
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
-        $form->setTitle($this->lng->txt($new_type . "_import"));
+        $field_factory = $this->ui_factory->input()->field();
 
-        $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
-        $fi->setSuffixes(["zip"]);
-        $fi->setRequired(true);
-        if ($has_upload_files) {
+        $file_upload_input = $field_factory->file(new \ImportUploadHandlerGUI(), $this->lng->txt('import_file'))
+            ->withAcceptedMimeTypes(self::SUPPORTED_IMPORT_MIME_TYPES)
+            ->withMaxFiles(1);
+
+        if ($upload_files !== []) {
             $this->lng->loadLanguageModule('content');
-            $option = new ilRadioGroupInputGUI(
-                $this->lng->txt('cont_choose_file_source'),
-                'upload_type'
-            );
-            $option->setValue((string) self::UPLOAD_TYPE_LOCAL);
-            $form->addItem($option);
 
-            $direct = new ilRadioOption($this->lng->txt('cont_choose_local'), (string) self::UPLOAD_TYPE_LOCAL);
-            $option->addOption($direct);
-
-            $direct->addSubItem($fi);
-            $upload = new ilRadioOption(
-                $this->lng->txt('cont_choose_upload_dir'),
-                (string) self::UPLOAD_TYPE_UPLOAD_DIRECTORY
+            $file_upload_input = $field_factory->switchableGroup(
+                [
+                    self::UPLOAD_TYPE_LOCAL => $field_factory->group(
+                        [$file_upload_input],
+                        $this->lng->txt('cont_choose_local')
+                    ),
+                    self::UPLOAD_TYPE_UPLOAD_DIRECTORY => $field_factory->group(
+                        [$field_factory->select($this->lng->txt('cont_uploaded_file'), $upload_files)->withRequired(true)],
+                        $this->lng->txt('cont_choose_upload_dir'),
+                    )
+                ],
+                $this->lng->txt('cont_choose_file_source')
             );
-            $option->addOption($upload);
-            $files = new ilSelectInputGUI(
-                $this->lng->txt('cont_choose_upload_dir'),
-                'uploadFile'
-            );
-            $upload_files[''] = $this->lng->txt('cont_select_from_upload_dir');
-            $files->setOptions($upload_files);
-            $files->setRequired(true);
-            $upload->addSubItem($files);
         }
 
-        if (!$has_upload_files) {
-            $form->addItem($fi);
-        }
-
-        $form->addCommandButton("importFile", $this->lng->txt("import"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
+        return [
+            'upload' => $file_upload_input->withAdditionalTransformation($trafo)
+                ->withAdditionalTransformation($constraint)
+        ];
     }
 
-    protected function importFileObject(int $parent_id = null): void
+    protected function routeImportCmdObject(): void
     {
-        if (!$parent_id) {
-            $parent_id = $this->requested_ref_id;
+        $modal = $this->buildImportModal()->withRequest($this->request);
+        $data = $modal->getData();
+
+        if ($data === null) {
+            $this->tpl->setVariable(
+                'IL_OBJECT_MODALS',
+                $this->ui_renderer->render(
+                    $modal->withOnLoad(
+                        $modal->getShowSignal()
+                    )
+                )
+            );
+            $this->viewObject();
+            return;
         }
-        $new_type = $this->requested_new_type;
-        $upload_type = self::UPLOAD_TYPE_LOCAL;
-        if ($this->post_wrapper->has("upload_type")) {
-            $upload_type = $this->post_wrapper->retrieve("upload_type", $this->refinery->kindlyTo()->int());
+
+        $file_to_import = $this->getFileToImportFromImportFormData($data);
+        $new_type = $this->extractFileTypeFromImportFilename(basename($file_to_import));
+        $path_to_uploaded_file_in_temp_dir = '';
+        if (array_key_first($data['upload']) === self::UPLOAD_TYPE_LOCAL) {
+            $path_to_uploaded_file_in_temp_dir = $data['upload'][self::UPLOAD_TYPE_LOCAL];
         }
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        if (!$this->checkPermissionBool('create', '', $new_type)) {
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            $this->error->raiseError($this->lng->txt('no_create_permission'));
         }
 
         $this->lng->loadLanguageModule($new_type);
-        $this->ctrl->setParameter($this, "new_type", $new_type);
+        $this->ctrl->setParameter($this, 'new_type', $new_type);
 
-        $form = $this->initImportForm($new_type);
-        if ($form->checkInput()) {
-            // :todo: make some check on manifest file
-            if ($this->obj_definition->isContainer($new_type)) {
-                $imp = new ilImportContainer((int) $parent_id);
-            } else {
-                $imp = new ilImport((int) $parent_id);
-            }
+        $target_class = 'ilObj' . $this->obj_definition->getClassName($new_type) . 'GUI';
+        $target = new $target_class('', 0);
+        $target->importFile($file_to_import, $path_to_uploaded_file_in_temp_dir);
+        $this->viewObject();
+    }
 
-            try {
-                if ($upload_type == self::UPLOAD_TYPE_LOCAL) {
-                    $new_id = $imp->importObject(
-                        null,
-                        $_FILES["importfile"]["tmp_name"],
-                        $_FILES["importfile"]["name"],
-                        $new_type
-                    );
-                } else {
-                    $hash = $this->request->getParsedBody()['uploadFile'] ?? '';
-                    $upload_factory = new ilImportDirectoryFactory();
-                    $export_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
-                    $file = $export_upload->getAbsolutePathForHash($this->user->getId(), $new_type, $hash);
-
-                    $new_id = $imp->importObject(
-                        null,
-                        $file,
-                        basename($file),
-                        $new_type,
-                        '',
-                        true
-                    );
-                }
-            } catch (ilException $e) {
-                $this->tmp_import_dir = $imp->getTemporaryImportDir();
-                $this->lng->loadLanguageModule('obj');
-
-                $this->tpl->setOnScreenMessage(
-                    "failure",
-                    $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage()
-                );
-                $form->setValuesByPost();
-                $this->tpl->setContent($form->getHTML());
-                return;
-            }
-
-            if ($new_id > 0) {
-                $this->ctrl->setParameter($this, "new_type", "");
-
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id);
-                // put new object id into tree - already done in import for containers
-                if (!$this->obj_definition->isContainer($new_type)) {
-                    $this->putObjectInTree($newObj);
-                } else {
-                    $ref_ids = ilObject::_getAllReferences($newObj->getId());
-                    if (count($ref_ids) === 1) {
-                        $newObj->setRefId((int) current($ref_ids));
-                    }
-                    $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);   // see #24244
-                }
-
-                $this->afterImport($newObj);
-            } else {
-                if ($this->obj_definition->isContainer($new_type)) {
-                    $this->tpl->setOnScreenMessage("failure", $this->lng->txt("container_import_zip_file_invalid"));
-                } else {
-                    // not enough information here...
-                    return;
-                }
-            }
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
+    {
+        if ($this instanceof ilContainerGUI) {
+            $imp = new ilImportContainer($this->requested_ref_id);
+        } else {
+            $imp = new ilImport($this->requested_ref_id);
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
+        try {
+            $new_id = $imp->importObject(
+                null,
+                $file_to_import,
+                basename($file_to_import),
+                $this->type,
+                '',
+                true
+            );
+        } catch (ilException $e) {
+            $this->tmp_import_dir = $imp->getTemporaryImportDir();
+            $this->lng->loadLanguageModule('obj');
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('obj_import_file_error') . ' <br />' . $e->getMessage()
+            );
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            return;
+        }
+
+        if ($new_id === null
+            || $new_id === 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'));
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            return;
+        }
+
+        $this->ctrl->setParameter($this, 'new_type', '');
+
+        $new_obj = ilObjectFactory::getInstanceByObjId($new_id);
+        // put new object id into tree - already done in import for containers
+        if (!$this->obj_definition->isContainer($this->typ)) {
+            $this->putObjectInTree($new_obj);
+        } else {
+            $ref_ids = ilObject::_getAllReferences($new_obj->getId());
+            if (count($ref_ids) === 1) {
+                $new_obj->setRefId((int) current($ref_ids));
+            }
+            $this->callCreationCallback($new_obj, $this->obj_definition, $this->requested_crtcb);   // see #24244
+        }
+
+        if ($path_to_uploaded_file_in_temp_dir !== ''
+            && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
+            $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
+        }
+
+        $this->afterImport($new_obj);
+        $this->ctrl->setParameterByClass(get_class($new_obj), 'ref_id', $new_obj->getRefId());
+        $this->ctrl->redirectByClass(get_class($new_obj));
+    }
+
+    protected function deleteUploadedImportFile(string $path_to_uploaded_file_in_temp_dir): void
+    {
+        if ($path_to_uploaded_file_in_temp_dir !== ''
+            && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
+            $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
+        }
+    }
+
+    /**
+     * Check if filename matches a given type
+     */
+    private function importFileOfValidType(string $filename): bool
+    {
+        $file_type = $this->extractFileTypeFromImportFilename($filename);
+        if ($file_type === null
+            || !in_array($file_type, $this->obj_definition->getAllObjects())) {
+            return false;
+        }
+        return true;
+    }
+
+    protected function extractFileTypeFromImportFilename(string $filename): ?string
+    {
+        $matches = [];
+        $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
+        if ($result === false
+            || $result === 0
+            || !isset($matches[1])) {
+            return null;
+        }
+        return $matches[1];
+    }
+
+    protected function getFileToImportFromImportFormData(array $data)
+    {
+        $upload_data = $data['upload'];
+        if (array_key_first($upload_data) === self::UPLOAD_TYPE_LOCAL
+            && $this->temp_file_system->hasDir($upload_data[self::UPLOAD_TYPE_LOCAL])) {
+            $files = $this->temp_file_system->listContents($upload_data[self::UPLOAD_TYPE_LOCAL]);
+            return CLIENT_DATA_DIR . DIRECTORY_SEPARATOR
+                . 'temp' . DIRECTORY_SEPARATOR
+                . $files[0]->getPath();
+        }
+        return $upload_data[self::UPLOAD_TYPE_UPLOAD_DIRECTORY];
     }
 
     /**
@@ -1707,16 +1804,6 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setFileUploadRefId($this->ref_id);
     }
 
-    /**
-     * Redirect after creation, see https://docu.ilias.de/goto_docu_wiki_wpage_5035_1357.html
-     * Should be overwritten and redirect to settings screen.
-     */
-    public function redirectAfterCreation(): void
-    {
-        $link = ilLink::_getLink($this->object->getRefId());
-        $this->ctrl->redirectToURL($link);
-    }
-
     public function addToDeskObject(): void
     {
         $this->favourites->add(
@@ -1737,22 +1824,23 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
+    protected function getCreatableObjectTypes(): array
+    {
+        $subtypes = $this->obj_definition->getCreatableSubObjects(
+            $this->object->getType(),
+            ilObjectDefinition::MODE_REPOSITORY,
+            $this->object->getRefId()
+        );
+        return $subtypes;
+    }
+
     protected function buildAddNewItemElements(
-        int $mode,
-        array $disabled_object_types = [],
+        array $subtypes,
         string $create_target_class = ilRepositoryGUI::class,
         ?int $redirect_target_ref_id = null,
     ): array {
         if ($redirect_target_ref_id !== null) {
             $this->ctrl->setParameterByClass(self::class, 'crtcb', (string) $redirect_target_ref_id);
-        }
-        $subtypes = $this->obj_definition->getCreatableSubObjects(
-            $this->object->getType(),
-            $mode,
-            $this->object->getRefId()
-        );
-        foreach ($disabled_object_types as $type) {
-            unset($subtypes[$type]);
         }
 
         $elements = $this->initAddNewItemElementsFromNewItemGroups(
@@ -1777,7 +1865,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         string $create_target_class,
         array $new_item_groups,
         array $new_item_groups_subitems,
-        array $subitems
+        array $subtypes
     ): array {
         if ($new_item_groups === []) {
             return [];
@@ -1790,7 +1878,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                 $create_target_class,
                 $new_item_groups_subitems[$group_id],
                 $group['title'] ?? $group,
-                $subitems
+                $subtypes
             );
 
             if ($group_element !== null) {
@@ -1804,7 +1892,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     private function initAddnewItemElementsFromDefaultGroups(
         string $create_target_class,
         array $default_groups,
-        array $subitems
+        array $subtypes
     ): array {
         $add_new_item_elements = [];
         foreach ($default_groups['groups'] as $group_id => $group) {
@@ -1819,7 +1907,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                 $create_target_class,
                 $obj_types_in_group,
                 $group['title'],
-                $subitems
+                $subtypes
             );
 
             if ($group_element !== null) {
@@ -1834,12 +1922,12 @@ class ilObjectGUI implements ImplementsCreationCallback
         string $create_target_class,
         array $obj_types_in_group,
         string $title,
-        array $subitems
+        array $subtypes
     ): ?AddNewItemElement {
         $add_new_items_content_array = $this->buildSubItemsForGroup(
             $create_target_class,
             $obj_types_in_group,
-            $subitems
+            $subtypes
         );
         if ($add_new_items_content_array === []) {
             return null;
@@ -1856,14 +1944,14 @@ class ilObjectGUI implements ImplementsCreationCallback
     private function buildSubItemsForGroup(
         string $create_target_class,
         array $obj_types_in_group,
-        array $subitems
+        array $subtypes
     ): array {
         $add_new_items_content_array = [];
         foreach($obj_types_in_group as $type) {
-            if (!array_key_exists($type, $subitems)) {
+            if (!array_key_exists($type, $subtypes)) {
                 continue;
             }
-            $subitem = $subitems[$type];
+            $subitem = $subtypes[$type];
             $this->ctrl->setParameterByClass($create_target_class, 'new_type', $type);
             $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
                 AddNewItemElementTypes::Object,
