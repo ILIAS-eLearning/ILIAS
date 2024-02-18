@@ -39,7 +39,7 @@ class ilExportImportDirectory extends ilImportDirectory
         return (bool) count($this->getFilesFor($user_id, $type));
     }
 
-    public function getFilesFor(int $user_id, string $type): array
+    public function getFilesFor(int $user_id): array
     {
         if (!$this->exists()) {
             return [];
@@ -52,9 +52,7 @@ class ilExportImportDirectory extends ilImportDirectory
         $files = [];
         foreach ($finder as $file) {
             $basename = basename($file->getPath());
-            if ($this->matchesType($type, $basename)) {
-                $files[base64_encode($file->getPath())] = $basename;
-            }
+            $files[base64_encode($file->getPath())] = $basename;
         }
         if ($this->storage->hasDir($this->getRelativePath() . '/' . $user_id)) {
             $finder = $this->storage->finder()->in([$this->getRelativePath() . '/' . $user_id])
@@ -70,22 +68,6 @@ class ilExportImportDirectory extends ilImportDirectory
         }
         asort($files);
         return $files;
-    }
-
-    /**
-     * Check if filename matches a given type
-     */
-    protected function matchesType(string $type, string $filename): bool
-    {
-        $matches = [];
-        $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
-        if (!$result) {
-            return false;
-        }
-        if (isset($matches[1]) && $matches[1] == $type) {
-            return true;
-        }
-        return false;
     }
 
     public function getAbsolutePathForHash(int $user_id, string $type, string $post_hash): string
