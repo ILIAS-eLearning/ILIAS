@@ -17,7 +17,7 @@
 
 il.Explorer2 = {
 
-	current_search_term: '',
+	current_search_term: [],
 
 	selects: {},
 	
@@ -29,18 +29,23 @@ il.Explorer2 = {
 			js_tree_config.core.data = {url: config.url + "&exp_cmd=getNodeAsync",
 				data: function(n) {
 					var id = n.id;
+					console.log("data called");
 					if (n.id === "#") {
 						id = "";
 					}
 					if (id == "") {
+						console.log(n);
+						console.log(il.Explorer2.current_search_term[0]);
 						return {
 							exp_cont: config.container_id,
-							searchterm: il.Explorer2.current_search_term
+							searchterm: il.Explorer2.current_search_term[0]
 						};
 					} else {
+						console.log(n);
+						console.log(il.Explorer2.current_search_term[id]);
 						let d = {
 							exp_cont: config.container_id,
-							searchterm: il.Explorer2.current_search_term
+							searchterm: il.Explorer2.current_search_term[id]
 						};
 						d[node_name] = id;
 						return d;
@@ -59,6 +64,10 @@ il.Explorer2 = {
 		}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
 		}).on('ready.jstree', function (e, data) {
+
+			il.Explorer2.setEvents("#" + config.container_id, config.container_id);
+
+		}).on('refresh.jstree', function (e, data) {
 
 			il.Explorer2.setEvents("#" + config.container_id, config.container_id);
 
@@ -92,8 +101,13 @@ il.Explorer2 = {
 				e.stopPropagation();
 				e.preventDefault();
 				var pid = $(e.target).parents("li").parents("li").attr("id");
-				il.Explorer2.current_search_term = $(e.target).val();
-				$("#" + cid).jstree('refresh_node', pid);
+				if (pid) {
+					il.Explorer2.current_search_term[pid] = $(e.target).val();
+					$("#" + cid).jstree('refresh_node', pid);
+				} else {
+					il.Explorer2.current_search_term[0] = $(e.target).val();
+					$("#" + cid).jstree('refresh');
+				}
 			}
 		});
 

@@ -484,9 +484,9 @@ abstract class ilExplorerBaseGUI
         if (!in_array($root, $this->open_nodes)) {
             $this->open_nodes[] = $root;
         }
+        $this->setSearchTerm(ilUtil::stripSlashes($this->requested_searchterm));
         if ($this->requested_node_id !== "") {
             $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
-            $this->setSearchTerm(ilUtil::stripSlashes($this->requested_searchterm));
             $this->renderChilds($id, $etpl);
         } else {
             $this->getNodeId($this->getRootNode());
@@ -599,6 +599,7 @@ abstract class ilExplorerBaseGUI
 
         $tpl = $a_main_tpl ?? $DIC["tpl"];
 
+        ilYuiUtil::initConnection();
         iljQueryUtil::initjQuery($tpl);
 
         $tpl->addJavaScript(self::getLocalExplorerJsPath());
@@ -758,7 +759,7 @@ abstract class ilExplorerBaseGUI
         $childs = $this->getChildsOfNode($a_node_id);
         $childs = $this->sortChilds($childs, $a_node_id);
 
-        if (count($childs) > 0 || ($this->getSearchTerm() !== "" && $this->requested_node_id === $this->getDomNodeIdForNodeId($a_node_id))) {
+        if (count($childs) > 0 || ($this->getSearchTerm() !== "" && $this->isNodeRequested($a_node_id))) {
             // collect visible childs
 
             $visible_childs = [];
@@ -777,14 +778,13 @@ abstract class ilExplorerBaseGUI
 
             // search field, if too many childs
             $any = false;
-            if (($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child) || $this->getSearchTerm() !== "") {
-                if (!$any) {
-                    $this->listStart($tpl);
-                    $any = true;
-                }
+            if (($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child) || ($this->getSearchTerm() !== "" && $this->isNodeRequested($a_node_id))) {
+                $this->listStart($tpl);
+                $any = true;
+
                 $tpl->setCurrentBlock("list_search");
                 $tpl->setVariable("SEARCH_CONTAINER_ID", $a_node_id);
-                if ($this->requested_node_id === $this->getDomNodeIdForNodeId($a_node_id)) {
+                if ($this->isNodeRequested($a_node_id)) {
                     $tpl->setVariable("SEARCH_VAL", $this->getSearchTerm());
                 }
                 $tpl->parseCurrentBlock();
@@ -808,6 +808,12 @@ abstract class ilExplorerBaseGUI
                 $this->listEnd($tpl);
             }
         }
+    }
+
+    protected function isNodeRequested(string $a_node_id): bool
+    {
+        return ($this->requested_node_id === $this->getDomNodeIdForNodeId($a_node_id) ||
+            ($this->requested_node_id === "" && $a_node_id == $this->getNodeId($this->getRootNode())));
     }
 
     /**
