@@ -600,14 +600,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->redirect($this, "export");
     }
 
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = parent::initImportForm($new_type);
-        $form->getItemByPostVar('importfile')->setSuffixes(array("zip", "xml"));
-
-        return $form;
-    }
-
     protected function initCreationForms(string $new_type): array
     {
         $form = $this->initImportForm($new_type);
@@ -618,54 +610,27 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         return $forms;
     }
 
-    protected function importFileObject(int $parent_id = null): void
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
     {
         $tpl = $this->tpl;
 
-        if (!$parent_id) {
-            $parent_id = $this->edit_request->getRefId();
+        $newObj = new ilObjSurveyQuestionPool();
+        $newObj->setTitle("dummy");
+        $newObj->create(true);
+        $this->putObjectInTree($newObj);
+
+        // import qti data
+        $newObj->importObject($file_to_import);
+
+        if ($path_to_uploaded_file_in_temp_dir !== ''
+            && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
+            $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
         }
-        $new_type = $this->edit_request->getNewType();
 
-        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
-            throw new ilPermissionException($this->lng->txt("no_create_permission"));
-        }
-
-        $this->lng->loadLanguageModule($new_type);
-        $this->ctrl->setParameter($this, "new_type", $new_type);
-
-        $form = $this->initImportForm($new_type);
-        if ($form->checkInput()) {
-            $newObj = new ilObjSurveyQuestionPool();
-            $newObj->setType($new_type);
-            $newObj->setTitle("dummy");
-            $newObj->create(true);
-            $this->putObjectInTree($newObj);
-
-            $newObj->createImportDirectory();
-
-            // copy uploaded file to import directory
-            $upload = $_FILES["importfile"];
-            $file = pathinfo($upload["name"]);
-            $full_path = $newObj->getImportDirectory() . "/" . $upload["name"];
-            ilFileUtils::moveUploadedFile(
-                $upload["tmp_name"],
-                $upload["name"],
-                $full_path
-            );
-
-            // import qti data
-            $newObj->importObject($full_path);
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
-            ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
+        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
+        ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjSurveyQuestionPoolGUI");
-        }
-
-        // display form to correct errors
-        $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
     }
 
     /**
