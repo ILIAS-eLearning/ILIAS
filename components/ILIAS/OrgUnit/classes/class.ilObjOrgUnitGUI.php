@@ -348,8 +348,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                         $this->setSubTabsSettings('edit_advanced_settings');
                         $this->updateAdvancedSettings();
                         break;
-                    case 'importFile':
-                        $this->importFileObject();
+                    case 'routeImportCmd':
+                        $this->routeImportCmdObject();
                         break;
                     case 'cancelMoveLink':
                         $this->cancelMoveLinkObject();
@@ -425,11 +425,24 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function showPossibleSubObjects(): void
     {
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
-        $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-        //$gui->setCreationUrl("ilias.php?ref_id=" . $this->ref_id . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
-        $gui->setCreationUrl($this->ctrl->getLinkTarget($this, 'create'));
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes(),
+                self::class
+            )
+        );
         $gui->render();
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $subtypes = $this->obj_definition->getCreatableSubObjects(
+            $this->object->getType(),
+            ilObjectDefinition::MODE_ADMINISTRATION,
+            $this->object->getRefId()
+        );
+        unset($subtypes[ilObjEmployeeTalkSeries::TYPE]);
+        return $subtypes;
     }
 
     /**
