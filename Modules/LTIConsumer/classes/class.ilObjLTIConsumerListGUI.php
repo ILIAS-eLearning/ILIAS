@@ -191,6 +191,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         $commands = explode('::', $cmd);
 
         if (count($commands) == 2) {
+            $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
             $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
                 [
                     'ilRepositoryGUI',
@@ -202,7 +203,6 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         } else {
             $cmd_link = $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjLTIConsumerGUI'], $commands[0]);
         }
-
         return $cmd_link;
     }
 }
