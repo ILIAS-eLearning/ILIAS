@@ -108,6 +108,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->rbac_review = $DIC->rbac()->review();
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->settings = $DIC['ilSetting'];
 
         $tree = $DIC["tree"];
 
