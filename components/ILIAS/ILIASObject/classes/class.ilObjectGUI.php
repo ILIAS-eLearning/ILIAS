@@ -963,6 +963,8 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
             $data['title_and_description']
         );
+        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
+        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
 
         $this->putObjectInTree($new_obj);
 
