@@ -229,16 +229,6 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->folder_tree = $a_tree;
     }
 
-    protected function importFileObject(?int $parent_id = null): void
-    {
-        $lng = $this->lng;
-
-        parent::importFileObject($parent_id);
-
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        $this->ctrl->returnToParent($this);
-    }
-
     protected function initEditForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
@@ -528,7 +518,11 @@ class ilObjFolderGUI extends ilContainerGUI
      */
     protected function showPossibleSubObjects(): void
     {
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes()
+            )
+        );
         $gui->render();
     }
 
