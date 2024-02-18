@@ -597,12 +597,14 @@ class ilObject
         $this->setOwner($owner);
 
         // write log entry
-        $this->log->write(sprintf(
-            "ilObject::create(), finished, obj_id: %s, type: %s, title: %s",
-            $this->getId(),
-            $this->getType(),
-            $this->getTitle()
-        ));
+        $this->log->write(
+            sprintf(
+                "ilObject::create(), finished, obj_id: %s, type: %s, title: %s",
+                $this->getId(),
+                $this->getType(),
+                $this->getTitle()
+            )
+        );
 
         $this->app_event_handler->raise(
             'components/ILIAS/ILIASObject',
