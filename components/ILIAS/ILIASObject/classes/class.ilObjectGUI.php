@@ -25,6 +25,8 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\URI;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\Object\ImplementsCreationCallback;
 use ILIAS\Object\CreationCallbackTrait;
 use ILIAS\Object\ilObjectDIC;
@@ -644,106 +646,155 @@ class ilObjectGUI implements ImplementsCreationCallback
         // use forced callback after object creation
         $this->ctrl->saveParameter($this, "crtcb");
 
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
+        if (!$this->checkPermissionBool('create', '', $new_type)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($new_type);
+        $this->ctrl->setParameter($this, 'new_type', $new_type);
+
+        $create_form = $this->initCreateForm($new_type);
+        $this->tpl->setContent($this->getCreationFormsHTML($create_form));
+    }
+
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI $form): string
+    {
+        $title = $this->getCreationFormTitle();
+
+        $content = $form;
+        if ($form instanceof ilPropertyFormGUI) {
+            $form->setTitle('');
+            $form->setTitleIcon('');
+            $form->setTableWidth("100%");
+            $content = $this->ui_factory->legacy($form->getHTML());
+        }
+
+        $panel = $this->ui_factory->panel()->standard($title, $content);
+
+        return $this->ui_renderer->render($panel);
+    }
+
+    protected function getCreationFormTitle(): string
+    {
+        return $this->lng->txt($this->requested_new_type . '_new');
+    }
+
+    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI
+    {
+        $object = $this->getObject();
+        if ($object === null) {
+            $object = new ilObject();
+        }
+        $form_fields['title_and_description'] = $object->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
+
+        $didactic_templates = $this->didacticTemplatesToForm();
+
+        if ($didactic_templates !== null) {
+            $form_fields['didactic_templates'] = $didactic_templates;
+        }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'save'),
+            $form_fields
+        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
+    }
+
+    protected function didacticTemplatesToForm(): ?Radio
+    {
+        $this->lng->loadLanguageModule('didactic');
+
+        list($existing_exclusive, $options) = $this->buildDidacticTemplateOptions();
+
+        if (sizeof($options) < 2) {
+            return null;
+        }
+
+        $didactic_templates_radio = $this->ui_factory->input()->field()->radio($this->lng->txt('type'));
+
+        foreach ($options as $value => $option) {
+            if ($existing_exclusive && $value == 'dtpl_0') {
+                //Skip default disabled if an exclusive template exists - Whatever the f*** that means!
+                continue;
+            }
+            $didactic_templates_radio = $didactic_templates_radio->withOption($value, $option[0], $option[1] ?? '');
+        }
+
+        if (!$this->getCreationMode()) {
+            $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+            $didactic_templates_radio = $didactic_templates_radio->withValue($value);
+
+            if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
+                //add or rename actual value to not available
+                $options[$value] = [$this->lng->txt('not_available')];
+            }
         } else {
-            $this->lng->loadLanguageModule($new_type);
-            $this->ctrl->setParameter($this, "new_type", $new_type);
-
-            $forms = $this->initCreationForms($new_type);
-
-            // copy form validation error: do not show other creation forms
-            if ($this->request_wrapper->has("cpfl") && isset($forms[self::CFORM_CLONE])) {
-                $forms = [self::CFORM_CLONE => $forms[self::CFORM_CLONE]];
+            if ($existing_exclusive) {
+                //if an exclusive template exists use the second template as default value
+                $keys = array_keys($options);
+                $didactic_templates_radio = $didactic_templates_radio->withValue($keys[1]);
+            } else {
+                $didactic_templates_radio = $didactic_templates_radio->withValue('dtpl_0');
             }
-            $this->tpl->setContent($this->getCreationFormsHTML($forms));
         }
+
+        return $didactic_templates_radio;
     }
 
     /**
-     * Init creation forms.
-     * This will create the default creation forms: new, import, clone
-     * @return array<int, ilPropertyFormGUI>
+     * @deprecated ILIAS 11 This will be removed with the next version
      */
-    protected function initCreationForms(string $new_type): array
+    protected function initDidacticTemplate(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
-        $forms = [
-            self::CFORM_NEW => $this->initCreateForm($new_type)
-        ];
+        list($existing_exclusive, $options) = $this->buildDidacticTemplateOptions();
 
-        return $forms;
-    }
-
-    /**
-     * Get HTML for creation forms (accordion)
-     * @param array<int, ilPropertyFormGUI> $forms
-     */
-    protected function getCreationFormsHTML(array $forms): string
-    {
-        // #13168- sanity check
-        foreach ($forms as $id => $form) {
-            if (!$form instanceof ilPropertyFormGUI) {
-                unset($forms[$id]);
-            }
+        if (sizeof($options) < 2) {
+            return $form;
         }
 
-        $acc = new ilAccordionGUI();
-        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
-        $cnt = 1;
-        foreach ($forms as $form_type => $cf) {
-            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/ILIASObject");
+        $type = new ilRadioGroupInputGUI(
+            $this->lng->txt('type'),
+            'didactic_type'
+        );
+        // workaround for containers in edit mode
+        if (!$this->getCreationMode()) {
+            $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
 
-            // using custom form titles (used for repository plugins)
-            $form_title = "";
-            if (method_exists($this, "getCreationFormTitle")) {
-                $form_title = $this->getCreationFormTitle($form_type);
+            $type->setValue($value);
+
+            if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
+                //add or rename actual value to not available
+                $options[$value] = [$this->lng->txt('not_available')];
             }
-            if (!$form_title) {
-                $form_title = $cf->getTitle();
+        } else {
+            if ($existing_exclusive) {
+                //if an exclusive template exists use the second template as default value - Whatever the f*** that means!
+                $keys = array_keys($options);
+                $type->setValue($keys[1]);
+            } else {
+                $type->setValue('dtpl_0');
             }
-
-            // move title from form to accordion
-            $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
-            $cf->setTitle('');
-            $cf->setTitleIcon('');
-            $cf->setTableWidth("100%");
-
-            $acc->addItem($htpl->get(), $cf->getHTML());
-
-            $cnt++;
         }
+        $form->addItem($type);
 
-        return "<div class='ilCreationFormSection'>" . $acc->getHTML() . "</div>";
-    }
+        foreach ($options as $id => $data) {
+            $option = new ilRadioOption($data[0] ?? '', (string) $id, $data[1] ?? '');
+            if ($existing_exclusive && $id == 'dtpl_0') {
+                //set default disabled if an exclusive template exists
+                $option->setDisabled(true);
+            }
 
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setTarget("_top");
-        $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->lng->txt($new_type . "_new"));
-
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
-
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setCols(40);
-        $ta->setRows(2);
-        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
-        $form->addItem($ta);
-
-        $form = $this->initDidacticTemplate($form);
-
-        $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
+            $type->addOption($option);
+        }
 
         return $form;
     }
 
-    protected function initDidacticTemplate(ilPropertyFormGUI $form): ilPropertyFormGUI
+    private function buildDidacticTemplateOptions(): array
     {
         $this->lng->loadLanguageModule('didactic');
         $existing_exclusive = false;
@@ -772,53 +823,15 @@ class ilObjectGUI implements ImplementsCreationCallback
             }
         }
 
-        $this->addDidacticTemplateOptions($options);
-
-        if (sizeof($options) > 1) {
-            $type = new ilRadioGroupInputGUI(
-                $this->lng->txt('type'),
-                'didactic_type'
-            );
-            // workaround for containers in edit mode
-            if (!$this->getCreationMode()) {
-                $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
-
-                $type->setValue($value);
-
-                if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
-                    //add or rename actual value to not available
-                    $options[$value] = [$this->lng->txt('not_available')];
-                }
-            } else {
-                if ($existing_exclusive) {
-                    //if an exclusive template exists use the second template as default value
-                    $keys = array_keys($options);
-                    $type->setValue($keys[1]);
-                } else {
-                    $type->setValue('dtpl_0');
-                }
-            }
-            $form->addItem($type);
-
-            foreach ($options as $id => $data) {
-                $option = new ilRadioOption($data[0] ?? '', (string) $id, $data[1] ?? '');
-                if ($existing_exclusive && $id == 'dtpl_0') {
-                    //set default disabled if an exclusive template exists
-                    $option->setDisabled(true);
-                }
-
-                $type->addOption($option);
-            }
-        }
-
-        return $form;
+        return [$existing_exclusive, array_merge($options, $this->retrieveAdditionalDidacticTemplateOptions())];
     }
 
     /**
-     * Add custom templates
+     * @return array<string>
      */
-    protected function addDidacticTemplateOptions(array &$a_options): void
+    protected function retrieveAdditionalDidacticTemplateOptions(): array
     {
+        return [];
     }
 
     protected function addAdoptContentLinkToToolbar(): void
@@ -909,25 +922,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
 
         $form = $this->initCreateForm($this->requested_new_type);
-        if ($form->checkInput()) {
-            $this->ctrl->setParameter($this, "new_type", "");
-
-            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
-            $newObj = new $class_name();
-            $newObj->setType($this->requested_new_type);
-            $newObj->setTitle($form->getInput("title"));
-            $newObj->setDescription($form->getInput("desc"));
-            $newObj->processAutoRating();
-            $newObj->create();
-
-            $this->putObjectInTree($newObj);
-
-            $dtpl = $this->getDidacticTemplateVar("dtpl");
-            if ($dtpl) {
-                $newObj->applyDidacticTemplate($dtpl);
-            }
-
-            $this->afterSave($newObj);
+        $data = $form->withRequest($this->request)->getData();
+        if ($data === null) {
+            $this->tpl->setContent($this->getCreationFormsHTML($form));
         }
 
         $this->ctrl->setParameter($this, 'new_type', '');
@@ -942,8 +939,6 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
             $data['title_and_description']
         );
-        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
-        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
 
         $this->putObjectInTree($new_obj);
 
@@ -966,11 +961,16 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
 
         $tpl = $this->post_wrapper->retrieve("didactic_type", $this->refinery->kindlyTo()->string());
-        if (substr($tpl, 0, strlen($type) + 1) != $type . "_") {
+        return $this->parseDidacticTemplateVar($tpl, $type);
+    }
+
+    private function parseDidacticTemplateVar(string $var, string $type): int
+    {
+        if (substr($var, 0, strlen($type) + 1) != $type . "_") {
             return 0;
         }
 
-        return (int) substr($tpl, strlen($type) + 1);
+        return (int) substr($var, strlen($type) + 1);
     }
 
     /**

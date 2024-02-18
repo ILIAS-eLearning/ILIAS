@@ -1759,7 +1759,7 @@ class ilObjectListGUI
             $this->obj_definition->allowCopy($this->type)) {
             if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
                 $this->ctrl->setParameterByClass('ilobjectcopygui', 'source_id', $this->getCommandId());
-                $cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui', 'initTargetSelection');
+                $cmd_copy = $this->ctrl->getLinkTargetByClass([get_class($this->container_obj), 'ilobjectcopygui'], 'initTargetSelection');
                 $this->insertCommand($cmd_copy, $this->lng->txt('copy'));
             } else {
                 $this->ctrl->setParameter(
