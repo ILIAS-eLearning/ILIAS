@@ -639,16 +639,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function importFileObject(int $parent_id = null): void
-    {
-        try {
-            parent::importFileObject();
-        } catch (ilManifestFileNotFoundImportException $e) {
-            // since there is no manifest xml we assume that this is an HTML export file
-            $this->createFromDirectory($e->getTmpDir());
-        }
-    }
-
     protected function afterImport(ilObject $new_object): void
     {
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
