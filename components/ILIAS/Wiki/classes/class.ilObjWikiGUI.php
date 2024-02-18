@@ -317,7 +317,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $cmd .= "Object";
                 if ($cmd !== "cancelObject") {
                     if ($cmd !== "infoScreenObject") {
-                        if (!in_array($cmd, array("createObject", "saveObject", "importFileObject"))) {
+                        if (!in_array($cmd, array("createObject", "saveObject", "routeImportCmdObject"))) {
                             $this->checkPermission("read");
                         }
                     } else {
