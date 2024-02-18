@@ -5474,6 +5474,7 @@ common#:#sahs_export_file_info#:#Use this option for a ZIP file that was exporte
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
+common#:#sahs_new#:#Create New Learning Module
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms
 common#:#salutation_m#:#Mr
