@@ -442,7 +442,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         if (empty($files)) {
             $form = $this->initUploadForm()->withRequest($this->request);
-            $this->tpl->setContent($this->ui->renderer()->render($form));
+            $this->tpl->setContent($this->getCreationFormsHTML($form));
             return;
         }
 
