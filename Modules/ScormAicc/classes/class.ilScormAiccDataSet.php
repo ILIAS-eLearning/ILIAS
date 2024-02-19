@@ -201,7 +201,7 @@ class ilScormAiccDataSet extends ilDataSet
         // build content zip file
         if (isset($this->_archive['files']['scormFile'])) {
             $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-            ilFileUtils::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['scormFile'], 0, -4), true);
+            ilFileUtils::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'], true);
         }
 
         // build property xml file

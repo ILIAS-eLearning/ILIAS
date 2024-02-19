@@ -607,6 +607,12 @@ class ilObjSurvey extends ilObject
     public function insertQuestionblock(
         int $questionblock_id
     ): void {
+
+        $sequence_manager = $this->survey_service->domain()->sequence(
+            $this->getSurveyId(),
+            $this
+        );
+
         $ilDB = $this->db;
         $result = $ilDB->queryF(
             "SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.show_blocktitle," .
@@ -623,7 +629,8 @@ class ilObjSurvey extends ilObject
         $show_blocktitle = false;
         $title = "";
         while ($row = $ilDB->fetchAssoc($result)) {
-            $duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            //$duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            $duplicate_id = $sequence_manager->appendQuestion($row["question_fi"], true);
             $questions[] = $duplicate_id;
             $title = (string) $row["title"];
             $show_questiontext = (bool) $row["show_questiontext"];

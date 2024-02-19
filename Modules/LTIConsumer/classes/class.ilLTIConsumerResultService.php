@@ -91,7 +91,8 @@ class ilLTIConsumerResultService
             // get the request as xml
             $xml = simplexml_load_file('php://input');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
-            $request = current($xml->imsx_POXBody->children());
+            //            $request = current($xml->imsx_POXBody->children());
+            $request = $xml->imsx_POXBody->children()[0];
             $this->operation = str_replace('Request', '', $request->getName());
 
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);

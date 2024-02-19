@@ -127,9 +127,18 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
         $this->session_limitation_initialised = true;
 
+
         $container = $this->container_obj;
+
+
         $mode_manager = $DIC->container()->internal()->domain()->content()->mode($container);
         $session_ref_ids = $this->item_presentation->getRefIdsOfType("sess");
+
+        // see #38780
+        if (!in_array($container->getType(), ["grp", "crs"])) {
+            $this->visible_sessions = $session_ref_ids;
+            return;
+        }
 
         $user = $DIC->user();
         $access = $DIC->access();

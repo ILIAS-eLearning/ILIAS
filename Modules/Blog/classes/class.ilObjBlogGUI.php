@@ -24,7 +24,7 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilObjBlogGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
@@ -603,7 +603,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $link = $ilCtrl->getLinkTargetByClass(["ilrepositorygui", "ilObjBlogGUI"], "preview");
             $ilNavigationHistory->addItem($this->node_id, $link, "blog");
         }
-
         switch ($next_class) {
             case 'ilblogpostinggui':
                 $this->ctrl->saveParameter($this, "user_page");
@@ -828,7 +827,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $settings_gui = $this->content_style_gui
                         ->objectSettingsGUIForObjId(
-                            0,
+                            null,
                             $this->object->getId()
                         );
                 }

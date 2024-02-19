@@ -693,8 +693,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         if (!$this->creation_mode) {
             $this->trackObjectReadEvent();
-
-            if ($this->object->getProvider()->hasProviderIcon()) {
+            if ($this->object instanceof ilObjLTIConsumer && $this->object->getProvider()->hasProviderIcon()) {
                 $DIC->ui()->mainTemplate()->setTitleIcon(
                     $this->object->getProvider()->getProviderIcon()->getAbsoluteFilePath(),
                     'Icon ' . $this->object->getProvider()->getTitle()
@@ -756,9 +755,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             case strtolower(ilLTIConsumerSettingsGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
-
-                $gui = new ilLTIConsumerSettingsGUI($obj, $this->ltiAccess);
-                $DIC->ctrl()->forwardCommand($gui);
+                if ($this->object instanceof ilObjLTIConsumer) {
+                    $gui = new ilLTIConsumerSettingsGUI($obj, $this->ltiAccess);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
                 break;
 
             case strtolower(ilLTIConsumerXapiStatementsGUI::class):
@@ -841,6 +841,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     {
         global $DIC;
 
+        if (!$this->object instanceof ilObjLTIConsumer) {
+            return;
+        }
         /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
 

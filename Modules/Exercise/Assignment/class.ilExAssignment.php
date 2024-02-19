@@ -1600,6 +1600,9 @@ class ilExAssignment
     {
         global $DIC;
 
+        $log = ilLoggerFactory::getLogger("exc");
+        $log->debug("Get feedback notifications.");
+
         $ilDB = $DIC->database();
 
         $res = array();
@@ -1620,13 +1623,16 @@ class ilExAssignment
 
 
         while ($row = $ilDB->fetchAssoc($set)) {
+            $log->debug("check assignment " . $row['id'] . ", fb_file " . $row["fb_file"]);
             if ($row['fb_date'] == self::FEEDBACK_DATE_DEADLINE) {
                 $max = max($row['time_stamp'], $row['deadline2']);
                 if (trim($row["fb_file"]) && $max <= time()) {
+                    $log->debug("...adding(1)");
                     $res[] = $row["id"];
                 }
             } elseif ($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM) {
                 if (trim($row["fb_file"] ?? "") && ($row['fb_date_custom'] ?? 0) <= time()) {
+                    $log->debug("...adding(2)");
                     $res[] = $row["id"];
                 }
             }
@@ -1645,11 +1651,13 @@ class ilExAssignment
         global $DIC;
 
         $ilDB = $DIC->database();
+        $log = ilLoggerFactory::getLogger("exc");
 
         $ass = new self($a_ass_id);
 
         // valid assignment?
         if (!$ass->hasFeedbackCron() || !$ass->getFeedbackFile()) {
+            $log->debug("return(1)");
             return false;
         }
 
@@ -1660,6 +1668,7 @@ class ilExAssignment
                 " WHERE id = " . $ilDB->quote($a_ass_id, "integer"));
             $row = $ilDB->fetchAssoc($set);
             if ($row["fb_cron_done"]) {
+                $log->debug("return(2)");
                 return false;
             }
         }
@@ -1674,13 +1683,15 @@ class ilExAssignment
         $ntf->setReasonLangId("exc_feedback_notification_reason");
 
         if (!$a_user_id) {
-            $ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
+            $log->debug("send to members, cnt: " . count(ilExerciseMembers::_getMembers($ass->getExerciseId())));
+            $ntf->sendMailAndReturnRecipients(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 
             $ilDB->manipulate("UPDATE exc_assignment" .
                 " SET fb_cron_done = " . $ilDB->quote(1, "integer") .
                 " WHERE id = " . $ilDB->quote($a_ass_id, "integer"));
         } else {
-            $ntf->sendMail(array($a_user_id));
+            $log->debug("send to user: " . $a_user_id);
+            $ntf->sendMailAndReturnRecipients(array($a_user_id));
         }
 
         return true;

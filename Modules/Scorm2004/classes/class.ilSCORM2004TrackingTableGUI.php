@@ -56,10 +56,6 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
     */
     protected function fillRow(array $a_set): void
     {
-        //        $lng = $this->lng;
-        //        $ilCtrl = $this->ctrl;
-        //        $ilAccess = $this->access;
-
         $this->tpl->setVariable("USER_NAME", $a_set["user_full_name"]);
         $this->tpl->setVariable("USER_ID", $a_set["user_id"]);
     }

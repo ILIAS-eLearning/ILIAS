@@ -334,7 +334,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
                         );
                         $builder->addAction(
                             $builder::SEC_SUBMISSION,
-                            $wiki_link
+                            $link
                         );
                     }
                 }
