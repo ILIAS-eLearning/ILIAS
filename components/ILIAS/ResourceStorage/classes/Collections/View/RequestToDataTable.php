@@ -44,6 +44,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     public const F_TYPE = 'type';
     public const F_CREATION_DATE = 'create_date';
     public const FIELD_TITLE = 'title';
+    public const F_FILENAME = 'filename';
     private \ILIAS\Data\Factory $data_factory;
     private \ILIAS\ResourceStorage\Services $irss;
 
@@ -78,7 +79,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     protected function buildTable(): \ILIAS\UI\Component\Table\Data
     {
         return $this->ui_factory->table()->data(
-            $this->request->getTitle(), // we already have the title in the panel
+            '', // $this->request->getTitle() we already have the title in the panel
             [
                 self::F_TITLE => $this->ui_factory->table()->column()->text(
                     $this->language->txt(self::F_TITLE)
@@ -129,7 +130,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
             );
 
             if (!in_array($mime_type, ['application/zip', 'application/x-zip-compressed'])) {
-                $data_row = $data_row->withDisabledAction('unzip');
+                $data_row = $data_row->withDisabledAction(ActionBuilder::ACTION_UNZIP);
             }
 
             yield $data_row;
