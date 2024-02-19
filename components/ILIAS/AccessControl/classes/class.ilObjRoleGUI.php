@@ -890,7 +890,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->object->getId(),
                 $assigned_global_roles
             )) {
-                $userObj = ilObjectFactory::getInstanceByObjId($user);
+                $userObj = new ilObjUser($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
             }
