@@ -213,7 +213,8 @@ final class ilSamlSettingsGUI
         } catch (Throwable $e) {
             if ('Database error: could not find driver' === $e->getMessage()) {
                 $this->tpl->setOnScreenMessage(
-                    self::MESSAGE_TYPE_FAILURE, $this->lng->txt('auth_saml_err_sqlite_driver')
+                    self::MESSAGE_TYPE_FAILURE,
+                    $this->lng->txt('auth_saml_err_sqlite_driver')
                 );
             } else {
                 $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $e->getMessage());
@@ -260,8 +261,9 @@ final class ilSamlSettingsGUI
         }
 
         $federationMdUrl = rtrim(
-                ILIAS_HTTP_PATH, '/'
-            ) . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+            ILIAS_HTTP_PATH,
+            '/'
+        ) . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
         $info = $this->ui_factory->messageBox()->info(
             sprintf(
                 $this->lng->txt('auth_saml_idps_info'),
@@ -293,12 +295,13 @@ final class ilSamlSettingsGUI
 
     private function handleTableActions(): void
     {
-        $query = $this->httpState->wrapper()->query();
-        if (!$query->has('saml_idps_table_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('saml_idps_table_action', $this->refinery->to()->string());
+        $action = $this->httpState->wrapper()->query()->retrieve(
+            'saml_idps_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
         switch ($action) {
             case 'showIdpSettings':
                 $this->showIdpSettings();
@@ -352,7 +355,8 @@ final class ilSamlSettingsGUI
                     'auth_saml_idps',
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
                     array_merge(
-                        self::GLOBAL_ENTITY_COMMANDS, [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]
+                        self::GLOBAL_ENTITY_COMMANDS,
+                        [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]
                     ),
                     self::class
                 );
@@ -682,7 +686,9 @@ final class ilSamlSettingsGUI
             $this->storeMetadata($idp, $form->getInput(self::METADATA_STORAGE_KEY));
 
             $this->tpl->setOnScreenMessage(
-                self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true
+                self::MESSAGE_TYPE_SUCCESS,
+                $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY),
+                true
             );
             $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $idp->getIdpId());
             $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
