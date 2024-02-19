@@ -35,7 +35,8 @@ public class ContentObjectTransformer implements ContentTransformer {
 			
 			reader.setContentHandler(handler);
 			reader.parse(new InputSource(stringReader));
-			
+
+			logger.debug("Extracted content: " + handler.getContent());
 			return handler.getContent();
 			
 		} 
