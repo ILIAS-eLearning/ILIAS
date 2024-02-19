@@ -877,7 +877,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->object->getId(),
                 $assigned_global_roles
             )) {
-                $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
+                $userObj = new ilObjUser($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
             }
