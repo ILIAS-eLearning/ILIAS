@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -59,7 +60,7 @@ trait HasAgent
         $agents = $this->agent_finder->getAgents();
         if ($input->hasOption("skip")) {
             foreach (($input->getOption("skip") ?? []) as $plugin_name) {
-                $agents = $agents->withRemovedAgent(strtolower($plugin_name));
+                $agents = $agents->withRemovedAgent($plugin_name);
             }
         }
 
