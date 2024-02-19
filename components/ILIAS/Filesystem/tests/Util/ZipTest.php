@@ -45,12 +45,15 @@ class ZipTest extends TestCase
         if (file_exists($this->unzips_dir . self::ZIPPED_ZIP)) {
             unlink($this->unzips_dir . self::ZIPPED_ZIP);
         }
+        if (!file_exists($this->unzips_dir)) {
+            mkdir($this->unzips_dir);
+        }
     }
 
     protected function tearDown(): void
     {
         if (file_exists($this->unzips_dir)) {
-            rmdir($this->unzips_dir);
+            $this->recurseRmdir($this->unzips_dir);
         }
     }
 
@@ -79,7 +82,6 @@ class ZipTest extends TestCase
         define('CLIENT_DATA_DIR', __DIR__);
         define('ILIAS_ABSOLUTE_PATH', __DIR__);
 
-        mkdir($this->unzips_dir);
         $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, false);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
