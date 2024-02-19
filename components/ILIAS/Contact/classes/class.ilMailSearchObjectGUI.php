@@ -69,7 +69,7 @@ abstract class ilMailSearchObjectGUI
         $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         $this->umail = new ilFormatMail($this->user->getId());
-        
+
         $this->lng->loadLanguageModule('mail');
     }
 
@@ -523,7 +523,8 @@ abstract class ilMailSearchObjectGUI
                     ilMailGlobalServices::getMailObjectRefId()
                 );
 
-                $exposes_members = $this->doesExposeMembers($object);;
+                $exposes_members = $this->doesExposeMembers($object);
+                ;
                 if ($has_untrashed_references && ($can_send_mails || $exposes_members)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();

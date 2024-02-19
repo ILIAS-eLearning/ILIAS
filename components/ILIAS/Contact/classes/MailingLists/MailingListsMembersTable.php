@@ -34,6 +34,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 {
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     private Data\Factory $data_factory;
+    /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
     public function __construct(
@@ -52,27 +53,31 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         $columns = $this->getColumns();
         $actions = $this->getActions();
 
-        return $this->ui_factory->table()
-                                ->data(
-                                    sprintf(
-                                        $this->lng->txt('mail_members_of_mailing_list'),
-                                        $this->mailing_list->getTitle()
-                                    ),
-                                    $columns,
-                                    $this
-                                )
-                                ->withActions($actions)
-                                ->withRequest($this->request);
+        return $this->ui_factory
+            ->table()
+            ->data(
+                sprintf(
+                    $this->lng->txt('mail_members_of_mailing_list'),
+                    $this->mailing_list->getTitle()
+                ),
+                $columns,
+                $this
+            )
+            ->withActions($actions)
+            ->withRequest($this->request);
     }
 
     /**
-     * @return array<string, \ILIAS\UI\Component\Table\Column\>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
      */
     private function getColumns(): array
     {
         return [
-            'login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
-                                        ->withIsSortable(true),
+            'login' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('login'))
+                ->withIsSortable(true),
         ];
     }
 
@@ -91,14 +96,15 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
-            $url_builder->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'user_ids'
-            );
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'entry_ids'
+        );
 
         return [
             'confirmDeleteMembers' => $this->ui_factory->table()->action()->multi(
@@ -116,11 +122,11 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
             $i = 0;
             $entries = $this->mailing_list->getAssignedEntries();
             if ($entries !== []) {
-                $usr_ids = array_map(static fn (array $entry): int => (int) $entry['usr_id'], $entries);
-
+                $usr_ids = array_map(static fn(array $entry): int => (int) $entry['usr_id'], $entries);
                 $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
                 foreach ($entries as $entry) {
+                    $this->records[$i]['a_id'] = $entry['a_id'];
                     $this->records[$i]['user_id'] = $entry['usr_id'];
                     $this->records[$i]['login'] = $names[$entry['usr_id']];
                     ++$i;
@@ -140,7 +146,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         $records = $this->getRecords($range, $order);
 
         foreach ($records as $record) {
-            $row_id = (string) $record['user_id'];
+            $row_id = (string) $record['a_id'];
             yield $row_builder->buildDataRow($row_id, $record);
         }
     }
@@ -154,6 +160,9 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return count($this->records);
     }
 
+    /**
+     * @return list<array<string, mixed>>array
+     */
     private function sortedRecords(Data\Order $order): array
     {
         $records = $this->records;
@@ -163,11 +172,11 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
-        $this->initRecords(); 
+        $this->initRecords();
 
         $records = $this->sortedRecords($order);
 
@@ -175,8 +184,8 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @param array<int, array<string, string>> $records
-     * @return array<int, array<string, string>>
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
      */
     private function limitRecords(array $records, Data\Range $range): array
     {

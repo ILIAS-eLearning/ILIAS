@@ -63,8 +63,7 @@ class ilMailingListsGUI
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
-        $ml_id = $this->getQueryMailingListId();
-        $this->mlists->setCurrentMailingList($ml_id);
+        $this->mlists->setCurrentMailingList($this->getQueryMailingListId());
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -74,16 +73,22 @@ class ilMailingListsGUI
 
     private function getQueryMailingListId(): int
     {
-        return ($this->http->wrapper()->query()->has('ml_id')
-            ? $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
-            : ($this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
-                ? (int) current(
-                    $this->http->wrapper()->query()->retrieve(
-                        'contact_mailinglist_list_ml_ids',
-                        $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-                    )
+        return $this->http->wrapper()->query()->retrieve(
+            'ml_id',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(
+                    current(
+                        $this->http->wrapper()->query()->retrieve(
+                            'contact_mailinglist_list_ml_ids',
+                            $this->refinery->byTrying([
+                                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                                $this->refinery->always([0])
+                            ])
+                        )
+                    ) ?: 0
                 )
-                : 0)
+            ])
         );
     }
 
@@ -110,13 +115,13 @@ class ilMailingListsGUI
 
     private function handleMailingListMemberActions(): void
     {
-        $query = $this->http->wrapper()->query();
-
-        if (!$query->has('contact_mailinglist_member_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('contact_mailinglist_member_action', $this->refinery->to()->string());
+        $action = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_members_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
         switch ($action) {
             case 'confirmDeleteMembers':
                 $this->confirmDeleteMembers();
@@ -130,17 +135,20 @@ class ilMailingListsGUI
 
     private function handleMailingListActions(): void
     {
-        $query = $this->http->wrapper()->query();
-
-        if (!$query->has('contact_mailinglist_list_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('contact_mailinglist_list_action', $this->refinery->to()->string());
-
+        $action = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_list_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
         switch ($action) {
             case 'mailToList':
                 $this->mailToList();
+                break;
+
+            case 'confirmDelete':
+                $this->confirmDelete();
                 break;
 
             case 'showMembersList':
@@ -174,12 +182,13 @@ class ilMailingListsGUI
                 )
             );
         } else {
-            $this->http->wrapper()->query()->has('contact_mailinglist_list_ml_ids')
-                ? $ml_ids = (array) $this->http->wrapper()->query()->retrieve(
+            $ml_ids = $this->http->wrapper()->query()->retrieve(
                 'contact_mailinglist_list_ml_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            )
-                : $ml_ids = [];
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ])
+            );
         }
 
         return array_filter($ml_ids);
@@ -508,7 +517,7 @@ class ilMailingListsGUI
             $this->ui_factory,
             $this->http
         );
-        $this->tpl->setVariable('MEMBERS_LIST',  $this->ui_renderer->render($tbl->getComponent()));
+        $this->tpl->setVariable('MEMBERS_LIST', $this->ui_renderer->render($tbl->getComponent()));
         $this->tpl->printToStdout();
 
         return true;
@@ -516,7 +525,15 @@ class ilMailingListsGUI
 
     public function confirmDeleteMembers(): bool
     {
-        if (!$this->http->wrapper()->post()->has('a_id')) {
+        $requested_record_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_members_entry_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+
+        if ($requested_record_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMembersList();
 
@@ -531,21 +548,11 @@ class ilMailingListsGUI
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteMembers');
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-
-        $usr_ids = [];
-        foreach ($assigned_entries as $entry) {
-            $usr_ids[] = $entry['usr_id'];
-        }
-
+        $usr_ids = array_map(static fn(array $entry): int => $entry['usr_id'], $assigned_entries);
         $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
-        $requested_entry_ids = $this->http->wrapper()->post()->retrieve(
-            'a_id',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
-
         foreach ($assigned_entries as $entry) {
-            if (in_array($entry['a_id'], $requested_entry_ids, true)) {
+            if (in_array($entry['a_id'], $requested_record_ids, true)) {
                 $c_gui->addItem('a_id[]', (string) $entry['a_id'], $names[$entry['usr_id']]);
             }
         }

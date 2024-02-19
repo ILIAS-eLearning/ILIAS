@@ -35,7 +35,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
-    /**  @var array<int, array<string, string>>|null */
+    /**  @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
     private function isMailingAllowed(): bool
@@ -64,33 +64,43 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         $columns = $this->getColumns();
         $actions = $this->getActions();
 
-        return $this->ui_factory->table()
-                                ->data(
-                                    $this->lng->txt('mail_mailing_lists'),
-                                    $columns,
-                                    $this
-                                )
-                                ->withActions($actions)
-                                ->withRequest($this->request);
+        return $this->ui_factory
+            ->table()
+            ->data(
+                $this->lng->txt('mail_mailing_lists'),
+                $columns,
+                $this
+            )
+            ->withActions($actions)
+            ->withRequest($this->request);
     }
 
     /**
-     * @return array<string, \ILIAS\UI\Component\Table\Column\>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
      */
     private function getColumns(): array
     {
         return [
-            'title' => $this->ui_factory->table()->column()->text($this->lng->txt('title'))
-                                        ->withIsSortable(true),
-            'description' => $this->ui_factory->table()->column()->text($this->lng->txt('description'))
-                                              ->withIsSortable(true),
-            'members' => $this->ui_factory->table()->column()->text($this->lng->txt('members'))
-                                          ->withIsSortable(true),
+            'title' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('title'))
+                ->withIsSortable(true),
+            'description' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('description'))
+                ->withIsSortable(true),
+            'members' => $this->ui_factory
+                ->table()
+                ->column()
+                ->text($this->lng->txt('members'))
+                ->withIsSortable(true),
         ];
     }
 
     /**
-     * @return array<string, \ILIAS\UI\Component\Table\Action\>
+     * @return array<string, \ILIAS\UI\Component\Table\Action\Action>
      */
     private function getActions(): array
     {
@@ -104,14 +114,15 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
-            $url_builder->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'ml_ids'
-            );
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'ml_ids'
+        );
 
         $actions = [
             'confirmDelete' => $this->ui_factory->table()->action()->multi(
@@ -190,7 +201,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function sortedRecords(Data\Order $order): array
     {
@@ -201,7 +212,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
@@ -212,8 +223,8 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @param array<int, array<string, string>> $records
-     * @return array<int, array<string, string>>
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
      */
     private function limitRecords(array $records, Data\Range $range): array
     {
