@@ -24,6 +24,7 @@
 class ilContainerRenderer
 {
     protected const UNIQUE_SEPARATOR = "-";
+    protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected \ILIAS\Containter\Content\ObjectiveRenderer $objective_renderer;
     protected \ILIAS\Containter\Content\ItemRenderer $item_renderer;
@@ -95,6 +96,7 @@ class ilContainerRenderer
         $this->container_gui = $obj;
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
+        $this->access = $DIC->access();
 
         $this->item_renderer = $DIC->container()
             ->internal()
@@ -874,6 +876,10 @@ class ilContainerRenderer
                 if ($this->isItemHidden($block_id, $ref_id)) {
                     continue;
                 }
+                if (!$this->access->checkAccess('visible', '', $ref_id)) {
+                    continue;
+                }
+
                 $item_data = $this->item_presentation->getRawDataByRefId($ref_id);
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
