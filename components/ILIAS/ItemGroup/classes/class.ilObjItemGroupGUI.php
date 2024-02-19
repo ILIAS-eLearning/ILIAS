@@ -180,14 +180,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $form->addItem($lpres);
     }
 
-    protected function afterSave(ilObject $new_object): void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
-        $ilCtrl->redirect($this, "listMaterials");
-    }
-
     public function edit(): void
     {
         if (!$this->checkPermissionBool("write")) {
@@ -258,7 +250,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
         $parent_gui = new $parent_gui_class($parent_ref_id, true, false);
         $types = $parent_gui->getCreatableObjectTypes();
-        foreach (array_merge(['itgr', 'sess' ], $this->objDefinition->getSideBlockTypes()) as $type_to_remove) {
+        foreach (array_merge(['itgr', 'sess' ], $this->obj_definition->getSideBlockTypes()) as $type_to_remove) {
             unset($types[$type_to_remove]);
         }
         return $types;
@@ -418,10 +410,63 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->object->setTileSize($form->getInput("tile_size"));
     }
 
-    protected function initCreateForm(string $new_type): ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $form = parent::initCreateForm($new_type);
-        $form->removeItemByPostVar("desc");
-        return $form;
+        $object = $this->getObject();
+        if ($object === null) {
+            $object = new ilObject();
+        }
+        $form_fields['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))
+            ->withMaxLength(ilObject::TITLE_LENGTH)
+            ->withRequired(true);
+
+        $didactic_templates = $this->didacticTemplatesToForm();
+
+        if ($didactic_templates !== null) {
+            $form_fields['didactic_templates'] = $didactic_templates;
+        }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'save'),
+            $form_fields
+        )->withSubmitLabel($this->lng->txt($new_type . '_add'));
+    }
+
+    public function save(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        $data = $form->withRequest($this->request)->getData();
+        if ($data === null) {
+            $this->tpl->setContent($this->getCreationFormsHTML($form));
+            return;
+        }
+
+        $this->ctrl->setParameter($this, 'new_type', '');
+
+        $new_obj = new ilObjItemGroup();
+        $new_obj->setType($this->requested_new_type);
+        $new_obj->processAutoRating();
+        $new_obj->setTitle($data['title']);
+        $new_obj->create();
+
+        $this->putObjectInTree($new_obj);
+
+        $dtpl = $data['didactic_templates'] ?? null;
+        if ($dtpl !== null) {
+            $dtpl_id = $this->parseDidacticTemplateVar($dtpl, 'dtpl');
+            $new_obj->applyDidacticTemplate($dtpl_id);
+        }
+
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_object->getRefId());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
+        $this->ctrl->redirectByClass(self::class, "listMaterials");
     }
 }
