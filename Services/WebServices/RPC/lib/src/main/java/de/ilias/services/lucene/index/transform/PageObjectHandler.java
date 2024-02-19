@@ -30,21 +30,14 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/**
- * 
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- */
 public class PageObjectHandler extends DefaultHandler {
 
 	protected Logger logger = LogManager.getLogger(PageObjectHandler.class);
 	
-	private final StringBuffer buffer = new StringBuffer();
+	private StringBuffer buffer = new StringBuffer();
 	private boolean isContent = false;
 	
 	public void endDocument() {
-		
 	}
     
 	/**
@@ -53,28 +46,9 @@ public class PageObjectHandler extends DefaultHandler {
     public void startElement (String uri, String localName, String qName, Attributes attributes)
 	throws SAXException
 	{
-    	if(localName.equalsIgnoreCase("Paragraph")) {
+    	if(qName.equalsIgnoreCase("Paragraph")) {
     		isContent = true;
     	}
-    	/*
-    	if(localName.equalsIgnoreCase("Strong")) {
-    	}
-    	if(localName.equalsIgnoreCase("Comment")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Emph")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Footnote")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Quotation")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Code")) {
-    		
-    	}
-    	*/
 	}
 
 	/**
@@ -83,7 +57,7 @@ public class PageObjectHandler extends DefaultHandler {
 	public void endElement (String uri, String localName, String qName)
 	throws SAXException
     {
-		if(localName.equalsIgnoreCase("Paragraph")) {
+		if(qName.equalsIgnoreCase("Paragraph")) {
 			isContent = false;
 		}
     }
@@ -97,30 +71,22 @@ public class PageObjectHandler extends DefaultHandler {
     	if(!isContent) {
     		return;
     	}
-    	
-    	for(int i = start; i < start + length; i++) {
-    		
-    		switch(ch[i]) {
-    		
-    		case '\\':
-    		case '"':
-    		case '\r':
-    		case '\n':
-    		case '\t':
-    			break;
-    		default:
-    			buffer.append(ch[i]);
-    		}
-    	}
+		for (int i = start; i < start + length; i++) {
+			switch (ch[i]) {
+				case '\\':
+				case '"':
+				case '\r':
+				case '\n':
+				case '\t':
+					break;
+				default:
+					buffer.append(ch[i]);
+			}
+		}
     	buffer.append(' ');
     }
 
-	/**
-	 * @return
-	 */
 	public String getContent() {
-
-		logger.debug("Parsed content:" + buffer.toString());
 		return buffer.toString();
 	}
 
