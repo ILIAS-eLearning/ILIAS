@@ -29,7 +29,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     public function getSupportedVersions(): array
     {
         return [
-            '5.4.0',
+            '5.4.0', '9.0.0',
         ];
     }
 
