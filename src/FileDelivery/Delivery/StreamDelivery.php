@@ -76,7 +76,7 @@ final class StreamDelivery extends BaseDelivery
             $stream,
             $download_file_name,
             $mime_type,
-            Disposition::ATTACHMENT
+            Disposition::INLINE
         );
     }
 
