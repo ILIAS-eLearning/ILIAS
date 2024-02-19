@@ -59,12 +59,13 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
     private function handleTableActions(): void
     {
-        $query = $this->http->wrapper()->query();
-        if (!$query->has('chat_ban_table_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('chat_ban_table_action', $this->refinery->to()->string());
+        $action = $this->http->wrapper()->query()->retrieve(
+            'chat_ban_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
         switch ($action) {
             case 'delete':
                 $this->delete();
