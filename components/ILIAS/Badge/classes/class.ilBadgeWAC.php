@@ -29,7 +29,7 @@ class ilBadgeWAC implements ilWACCheckingClass
             return false;
         }
 
-        if (!preg_match('@ilBadge\/badge(tmpl)?_(\d+)\/@ui', $ilWACPath->getPath())) {
+        if (!preg_match('@ilBadge\/(\d+\/)*?badge(tmpl)?_(\d+)\/@ui', $ilWACPath->getPath())) {
             return false;
         }
 
