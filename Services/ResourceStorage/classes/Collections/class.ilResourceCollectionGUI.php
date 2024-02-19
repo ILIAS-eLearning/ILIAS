@@ -32,6 +32,7 @@ use ILIAS\Services\ResourceStorage\Collections\View\UploadBuilder;
 use ILIAS\Services\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Services\ResourceStorage\Collections\View\EditForm;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -51,7 +52,9 @@ class ilResourceCollectionGUI implements UploadHandler
     public const CMD_DOWNLOAD = 'download';
 
     public const CMD_UNZIP = 'unzip';
+    public const CMD_EDIT = 'rename';
     public const CMD_RENDER_CONFIRM_REMOVE = 'renderConfirmRemove';
+    public const CMD_STORE = 'store';
     private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $main_tpl;
     private Request $view_request;
@@ -133,7 +136,7 @@ class ilResourceCollectionGUI implements UploadHandler
      */
     protected function checkResourceOrRedirect(): ResourceIdentification
     {
-        $rid = $this->getResourceIdsFromRequest()[0];
+        $rid = $this->getResourceIdsFromRequest()[0] ?? null;
         if ($rid === null || !$this->view_request->getCollection()->isIn($rid)) {
             $this->abortWithPermissionDenied();
         }
@@ -182,6 +185,12 @@ class ilResourceCollectionGUI implements UploadHandler
                 break;
             case self::CMD_RENDER_CONFIRM_REMOVE:
                 $this->renderConfirmRemove();
+                break;
+            case self::CMD_EDIT:
+                $this->edit();
+                break;
+            case self::CMD_STORE:
+                $this->store();
                 break;
         }
     }
@@ -289,6 +298,65 @@ class ilResourceCollectionGUI implements UploadHandler
         $this->postUpload();
     }
 
+    private function edit(): void
+    {
+        if (!$this->view_request->canUserAdministrate()) {
+            $this->abortWithPermissionDenied();
+            return;
+        }
+        $rid = $this->checkResourceOrRedirect();
+        $this->ctrl->setParameter(
+            $this,
+            self::P_RESOURCE_ID,
+            $this->hash($rid->serialize())
+        );
+
+        // build simple form
+        $form = new EditForm(
+            $this->view_request,
+            $rid
+        );
+
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->language->txt('edit'),
+            null,
+            $form->getFields(),
+            $this->ctrl->getLinkTarget($this, self::CMD_STORE)
+        );
+
+        $signal = $modal->getForm()->getSubmitSignal();
+
+        $stream = Streams::ofString(
+            $this->ui_renderer->renderAsync(
+                $modal
+            )
+        );
+
+        $this->http->saveResponse($this->http->response()->withBody($stream));
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
+    private function store(): void
+    {
+        if (!$this->view_request->canUserAdministrate()) {
+            $this->abortWithPermissionDenied();
+            return;
+        }
+        $rid = $this->checkResourceOrRedirect();
+        $form = (new EditForm(
+            $this->view_request,
+            $rid
+        ))->getAsForm($this->ctrl->getLinkTarget($this, self::CMD_STORE))
+          ->withRequest(
+              $this->http->request()
+          );
+        // Store the data
+        $form->getData();
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('rids_updated'), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
+    }
+
     private function renderConfirmRemove(): void
     {
         if (!$this->view_request->canUserAdministrate()) {
@@ -382,7 +450,14 @@ class ilResourceCollectionGUI implements UploadHandler
             );
         }
 
-        if($rid_strings[0] === 'ALL_OBJECTS') {
+        if(empty($rid_strings)) {
+            // try single resource
+            $rid_strings = $this->http->wrapper()->query()->has(self::P_RESOURCE_ID)
+                ? [$this->http->wrapper()->query()->retrieve(self::P_RESOURCE_ID, $this->refinery->kindlyTo()->string())]
+                : [];
+        }
+
+        if (isset($rid_strings[0]) && $rid_strings[0] === 'ALL_OBJECTS') {
             return $this->view_request->getCollection()->getResourceIdentifications();
         }
 

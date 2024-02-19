@@ -10452,6 +10452,7 @@ irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
 irss#:#rids_deleted#:#Resource(s) deleted
+irss#:#rids_updated#:#Ressource(n) updated
 irss#:#sorting#:#Default Ordering
 irss#:#sorting_1#:#By Title (Ascending)
 irss#:#sorting_2#:#By Title (Descending)

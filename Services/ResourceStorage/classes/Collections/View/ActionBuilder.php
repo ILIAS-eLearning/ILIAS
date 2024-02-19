@@ -28,7 +28,6 @@ use ILIAS\Services\ResourceStorage\BinToHexSerializer;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\URLBuilder;
-use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -37,9 +36,10 @@ final class ActionBuilder
 {
     use BinToHexSerializer;
 
-    private const ACTION_UNZIP = 'unzip';
+    public const ACTION_UNZIP = 'unzip';
     private const ACTION_DOWNLOAD = 'download';
     private const ACTION_REMOVE = 'remove';
+    private const ACTION_EDIT = 'edit';
     public const ACTION_NAMESPACE = 'rcgui';
     /**
      * @var Modal[]
@@ -93,29 +93,39 @@ final class ActionBuilder
     }
 
     /**
-     * @return Action[]
+     * @return ActionDecorator[]
      */
     public function getActions(): array
     {
         // we init the fixed actions here
-        $actions[self::ACTION_DOWNLOAD] = $this->ui_factory->table()->action()->single(
-            $this->language->txt(self::ACTION_DOWNLOAD),
-            $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_DOWNLOAD)),
-            $this->url_token
-        );
-
-        if ($this->request->canUserAdministrate()) {
-            $actions[self::ACTION_REMOVE] = $this->ui_factory->table()->action()->standard(
-                $this->language->txt(self::ACTION_REMOVE),
-                $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_RENDER_CONFIRM_REMOVE)),
-                $this->url_token
-            )->withAsync(true);
-
-            $actions[self::ACTION_UNZIP] = $this->ui_factory->table()->action()->single(
-                $this->language->txt(self::ACTION_UNZIP),
-                $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_UNZIP)),
+        $actions[self::ACTION_DOWNLOAD] =
+            $this->ui_factory->table()->action()->single(
+                $this->language->txt(self::ACTION_DOWNLOAD),
+                $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_DOWNLOAD)),
                 $this->url_token
             );
+
+        if ($this->request->canUserAdministrate()) {
+            $actions[self::ACTION_REMOVE] =
+                $this->ui_factory->table()->action()->standard(
+                    $this->language->txt(self::ACTION_REMOVE),
+                    $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_RENDER_CONFIRM_REMOVE)),
+                    $this->url_token
+                )->withAsync(true);
+
+            $actions[self::ACTION_UNZIP] =
+                $this->ui_factory->table()->action()->single(
+                    $this->language->txt(self::ACTION_UNZIP),
+                    $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_UNZIP)),
+                    $this->url_token
+                );
+
+            $actions[self::ACTION_EDIT] =
+                $this->ui_factory->table()->action()->single(
+                    $this->language->txt(self::ACTION_EDIT),
+                    $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_EDIT)),
+                    $this->url_token
+                )->withAsync(true);
         }
 
         return $actions;
