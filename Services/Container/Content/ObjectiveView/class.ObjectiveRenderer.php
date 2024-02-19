@@ -439,7 +439,12 @@ class ObjectiveRenderer
 
         $sort_content = array();
 
+        $access = $this->domain->access();
         foreach ($items as $item) {
+
+            if (!$access->checkAccess('visible', '', $item["ref_id"])) {
+                continue;
+            }
             /*
             if ($this->getDetailsLevel($a_objective_id) < self::DETAILS_ALL) {
                 continue;
@@ -733,6 +738,9 @@ class ObjectiveRenderer
         global $DIC;
 
         if ($a_lo_result === null) {
+            $a_lo_result["type"] = null;
+        }
+        if (!isset($a_lo_result["type"])) {
             $a_lo_result["type"] = null;
         }
 
