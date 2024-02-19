@@ -244,44 +244,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
     }
 
-    ////
-    //// CREATION
-    ////
-
-    /**
-     * no manual SCORM creation, only import at the time
-     * @return array|ilPropertyFormGUI[]
-     * @throws ilCtrlException
-     */
-    protected function initCreationForms(string $a_new_type): array
-    {
-        $forms = [];
-
-        $this->initUploadForm();
-        $forms[self::CFORM_IMPORT] = $this->form;
-
-        return $forms;
-    }
-
-    /**
-     * @throws ilCtrlException
-     */
-    public function initUploadForm(): void
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         global $DIC;
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        $this->form = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
 
         // type selection
         $options = array(
             "scorm2004" => $lng->txt("lm_type_scorm2004"),
-            "scorm" => $lng->txt("lm_type_scorm"),
-            "exportFile" => $lng->txt("sahs_export_file")
+            "scorm" => $lng->txt("lm_type_scorm")
         );
         $si = new ilSelectInputGUI($this->lng->txt("type"), "sub_type");
         $si->setOptions($options);
-        $this->form->addItem($si);
+        $form->addItem($si);
 
         $options = array();
         if (ilUploadFiles::_getUploadDirectory()) {
@@ -309,19 +286,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $si->setOptions($options);
             $op1->addSubItem($si);
 
-            $this->form->addItem($radg);
+            $form->addItem($radg);
         } else {
             $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
             $fi->setRequired(true);
-            $this->form->addItem($fi);
+            $form->addItem($fi);
         }
 
-        $this->form->addCommandButton("upload", $lng->txt("import"));
-        $this->form->addCommandButton("cancel", $lng->txt("cancel"));
+        $form->addCommandButton("upload", $lng->txt("create"));
+        $form->addCommandButton("cancel", $lng->txt("cancel"));
 
-        $this->form->setTitle($lng->txt("import_sahs"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this, "upload"));
-        $this->form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+        $form->setTitle($lng->txt("import_sahs"));
+        $form->setFormAction($ilCtrl->getFormAction($this, "upload"));
+        $form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
+        return $form;
     }
 
     /**

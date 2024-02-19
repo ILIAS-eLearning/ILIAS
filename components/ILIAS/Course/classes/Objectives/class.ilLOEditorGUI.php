@@ -475,9 +475,20 @@ class ilLOEditorGUI
     {
         $this->tabs->activateSubTab('materials');
 
-        $gui = new ilObjectAddNewItemGUI($this->getParentObject()->getRefId());
-        $gui->setDisabledObjectTypes(array("itgr"));
-        #$gui->setAfterCreationCallback($this->getParentObject()->getRefId());
+        $parent_ref_id = $this->getParentObject()->getRefId();
+        $parent_type = $this->getParentObject()->getType();
+        $parent_gui_class = 'ilObj' . $parent_type . 'GUI';
+        $parent_gui = new $parent_gui_class($parent_ref_id, true, false);
+
+        $createble_object_types = $parent_gui->getCreatableObjectTypes(
+            ilObjectDefinition::MODE_REPOSITORY,
+        );
+
+        unset($createble_object_types['itgr']);
+
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $parent_gui->buildAddNewItemElements($createble_object_types)
+        );
         $gui->render();
 
         $this->tpl->setOnScreenMessage(

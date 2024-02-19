@@ -520,9 +520,6 @@ class ilObject
 
         $this->log->write("ilObject::create(), start");
 
-        $this->title = ilStr::shortenTextExtended($this->getTitle(), $this->max_title, $this->add_dots);
-        $this->desc = ilStr::shortenTextExtended($this->getDescription(), $this->max_desc, $this->add_dots);
-
         // determine owner
         $owner = 0;
         if ($this->getOwner() > 0) {
@@ -550,6 +547,7 @@ class ilObject
             $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
         }
 
+        $this->object_properties = null;
 
         // Save long form of description if is rbac object
         if ($this->obj_definition->isRBACObject($this->getType())) {
@@ -580,12 +578,14 @@ class ilObject
         $this->setOwner($owner);
 
         // write log entry
-        $this->log->write(sprintf(
-            "ilObject::create(), finished, obj_id: %s, type: %s, title: %s",
-            $this->getId(),
-            $this->getType(),
-            $this->getTitle()
-        ));
+        $this->log->write(
+            sprintf(
+                "ilObject::create(), finished, obj_id: %s, type: %s, title: %s",
+                $this->getId(),
+                $this->getType(),
+                $this->getTitle()
+            )
+        );
 
         $this->app_event_handler->raise(
             'components/ILIAS/ILIASObject',

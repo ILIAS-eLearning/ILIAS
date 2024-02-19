@@ -118,11 +118,24 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     protected function showPossibleSubObjects(): void
     {
-        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
-        $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-        $gui->setCreationUrl($this->ctrl->getLinkTargetByClass(strtolower(ilObjTalkTemplateGUI::class), 'create'));
-        $gui->setDisabledObjectTypes([ilObjEmployeeTalkSeries::TYPE]);
+        $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
+            $this->buildAddNewItemElements(
+                $this->getCreatableObjectTypes(),
+                ilObjTalkTemplateGUI::class
+            )
+        );
         $gui->render();
+    }
+
+    public function getCreatableObjectTypes(): array
+    {
+        $subtypes = $this->obj_definition->getCreatableSubObjects(
+            $this->object->getType(),
+            ilObjectDefinition::MODE_ADMINISTRATION,
+            $this->object->getRefId()
+        );
+        unset($subtypes[ilObjEmployeeTalkSeries::TYPE]);
+        return $subtypes;
     }
 
     public function viewObject(): void

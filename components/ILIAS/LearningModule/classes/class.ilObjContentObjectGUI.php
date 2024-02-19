@@ -914,45 +914,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirectByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
     }
 
-    protected function initImportForm(string $new_type): ilPropertyFormGUI
-    {
-        $form = parent::initImportForm($new_type);
-
-        // validation
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
-        $cb->setInfo($this->lng->txt(""));
-        $form->addItem($cb);
-        return $form;
-    }
-
-    protected function importFileObject(int $parent_id = null): void
-    {
-        $tpl = $this->tpl;
-
-        $form = $this->initImportForm("lm");
-
-        try {
-            // the new import
-            parent::importFileObject(null);
-            return;
-        } catch (ilManifestFileNotFoundImportException $e) {
-            // we just run through in this case.
-            $no_manifest = true;
-        } catch (ilException $e) {
-            // display message and form again
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
-            $form->setValuesByPost();
-            $tpl->setContent($form->getHTML());
-            return;
-        }
-
-        if (!$no_manifest) {
-            return;			// something different has gone wrong, but we have a manifest, this is definitely not "the old" import
-        }
-
-        throw new ilLMOldExportFileException("This file seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
-    }
-
     /**
      * show chapters
      */
