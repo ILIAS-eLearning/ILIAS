@@ -1737,7 +1737,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameter($this, "bmn", $month);
                     $month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                 } else {
-                    $month_url = $this->buildExportLink($a_link_template, "list", $month);
+                    $month_url = $this->buildExportLink($a_link_template, "list", (string) $month);
                 }
 
                 // list postings for month
@@ -1765,7 +1765,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
                             $url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);
                         } else {
-                            $url = $this->buildExportLink($a_link_template, "posting", $id);
+                            $url = $this->buildExportLink($a_link_template, "posting", (string) $id);
                         }
 
                         if (!$posting["active"]) {
@@ -1833,7 +1833,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         $ilCtrl->setParameter($this, "bmn", $month);
                         $month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     } else {
-                        $month_url = $this->buildExportLink($a_link_template, "list", $month);
+                        $month_url = $this->buildExportLink($a_link_template, "list", (string) $month);
                     }
 
                     foreach ($postings as $id => $posting) {
@@ -1845,7 +1845,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
                             $url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);
                         } else {
-                            $url = $this->buildExportLink($a_link_template, "posting", $id);
+                            $url = $this->buildExportLink($a_link_template, "posting", (string) $id);
                         }
 
                         if (!$posting["active"]) {
@@ -1916,7 +1916,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     $ilCtrl->setParameter($this, "kwd", "");
                 } else {
-                    $url = $this->buildExportLink($a_link_template, "keyword", $keyword);
+                    $url = $this->buildExportLink($a_link_template, "keyword", (string) $keyword);
                 }
 
                 $wtpl->setVariable("TXT_KEYWORD", $keyword);
