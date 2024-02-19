@@ -231,9 +231,14 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
             }
 
             &.c-drilldown__menulevel--engaged {
+                overflow: visible;
+
                 > .c-drilldown__branch {
                     > .c-drilldown__menulevel--trigger {
                         background-color: $c-drilldown-selected-bg;
+                    }
+                    > ul {
+                        overflow: auto;
                     }
                     > ul > li {
                         > .c-drilldown__menulevel--trigger,
