@@ -885,7 +885,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         foreach ($user_ids as $id) {
-            $user = new ilObjUser($id);
+            $user = new ilObjUser((int) $id);
 
             $login = $user->getLastLogin();
             if (!$login) {
