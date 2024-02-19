@@ -354,7 +354,7 @@ class ilBlogDataSet extends ilDataSet
                     $newObj->setBlogId($blog_id);
                     $newObj->setTitle($a_rec["Title"] ?? "");
                     $newObj->setCreated(new ilDateTime($a_rec["Created"] ?? null, IL_CAL_DATETIME));
-                    $newObj->setApproved($a_rec["Approved"] ?? null);
+                    $newObj->setApproved((bool) ($a_rec["Approved"] ?? null));
                     $newObj->setWithdrawn(new ilDateTime($a_rec["LastWithdrawn"] ?? null, IL_CAL_DATETIME));
 
                     // parse export id into local id (if possible)

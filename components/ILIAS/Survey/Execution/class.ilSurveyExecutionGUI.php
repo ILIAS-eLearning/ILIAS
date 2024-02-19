@@ -611,7 +611,7 @@ class ilSurveyExecutionGUI
 
                 $this->gui->button(
                     $this->lng->txt("svy_mail_send_confirmation"),
-                    $this->ctrl->getLinkTarget($this, "mailUserResults")
+                    "mailUserResults"
                 )->submit()->toToolbar();
 
                 $has_button = true;

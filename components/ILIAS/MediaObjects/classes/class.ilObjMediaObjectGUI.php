@@ -1085,7 +1085,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $std_item->setParameters("");
                     }*/
                 } else {
-                    $std_item->setParameters(utf8_decode($form->getInput("standard_parameters")));
+                    $std_item->setParameters($form->getInput("standard_parameters"));
                 }
             }
 
@@ -1217,7 +1217,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                             $full_item->setParameters("");
                         }*/
                     } else {
-                        $full_item->setParameters(utf8_decode($form->getInput("full_parameters")));
+                        $full_item->setParameters($form->getInput("full_parameters"));
                     }
                 }
             }

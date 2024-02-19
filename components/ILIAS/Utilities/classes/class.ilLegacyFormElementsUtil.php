@@ -40,7 +40,7 @@ class ilLegacyFormElementsUtil
         if ($a_strip) {
             $a_str = ilUtil::stripSlashes($a_str);
         }
-        $a_str = htmlspecialchars($a_str);
+        $a_str = htmlspecialchars((string) $a_str);
         // Added replacement of curly brackets to prevent
         // problems with PEAR templates, because {xyz} will
         // be removed as unused template variable

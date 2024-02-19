@@ -141,8 +141,8 @@ class ModuleManager
         $lm_id = $this->repo->lookupModuleLmId($id);
 
         // delete learning module
-        if (\ilObject::_lookupType((int) $rec["lm_id"]) === "lm") {
-            $lm = new \ilObjLearningModule((int) $rec["lm_id"], false);
+        if (\ilObject::_lookupType($lm_id) === "lm") {
+            $lm = new \ilObjLearningModule($lm_id, false);
             $lm->delete();
         }
 

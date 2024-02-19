@@ -33,6 +33,12 @@ class ilSystemNotification extends ilMailNotification
     protected int $changed_by = 0;
     protected ?array $all_ref_ids = [];
 
+    public function __construct(protected bool $is_in_wsp = false)
+    {
+        parent::__construct($is_in_wsp);
+        $this->ref_id = 0;
+    }
+
     public function setSubjectLangId(string $a_lang_id): void
     {
         $this->subject_lang_id = $a_lang_id;
@@ -148,7 +154,6 @@ class ilSystemNotification extends ilMailNotification
         $find_ref_id = false;
         $this->initLanguage($a_user_id);
         $this->initMail();
-
         if ($this->subject_direct) {
             $this->setSubject($this->subject_direct);
         } else {

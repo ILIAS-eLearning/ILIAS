@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 class ilADTIntegerDefinition extends ilADTDefinition
 {
@@ -44,7 +43,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $this->min_value;
     }
 
-    public function setMin(int $a_value): void
+    public function setMin(?int $a_value): void
     {
         $this->min_value = $this->handleNumber($a_value);
     }
@@ -54,7 +53,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $this->max_value;
     }
 
-    public function setMax(int $a_value): void
+    public function setMax(?int $a_value): void
     {
         $this->max_value = $this->handleNumber($a_value);
     }
