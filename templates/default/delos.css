@@ -15390,6 +15390,16 @@ input[type=checkbox]:focus-visible::after {
 .form-control::-webkit-input-placeholder {
   color: #6f6f6f;
 }
+.form-control[required]::-moz-placeholder {
+  color: #161616;
+  opacity: 1;
+}
+.form-control[required]:-ms-input-placeholder {
+  color: #161616;
+}
+.form-control[required]::-webkit-input-placeholder {
+  color: #161616;
+}
 .form-control::-ms-expand {
   border: 0;
   background-color: transparent;
