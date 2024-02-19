@@ -113,6 +113,14 @@ input.btn {
   }
 }
 
+.ilTableNav > table > tbody > tr > td {
+  > .btn-group > .btn-link,
+  > .dropdown > .btn-default {
+    @extend .btn-ctrl;
+    margin-left: l.$il-margin-xs-horizontal;
+  }
+} 
+
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
 
 // Link buttons
