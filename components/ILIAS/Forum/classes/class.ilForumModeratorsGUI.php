@@ -134,7 +134,7 @@ class ilForumModeratorsGUI
         if ($this->http_wrapper->query()->has('frm_moderators_table_usr_ids')) {
             $usr_ids = $this->http_wrapper->query()->retrieve(
                 'frm_moderators_table_usr_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
 
@@ -202,12 +202,13 @@ class ilForumModeratorsGUI
 
     private function handleModeratorActions(): void
     {
-        $query = $this->http_wrapper->query();
-        if (!$query->has('frm_moderators_table_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('frm_moderators_table_action', $this->refinery->to()->string());
+        $action = $this->http_wrapper->query()->retrieve(
+            'frm_moderators_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
         switch ($action) {
             case 'detachModeratorRole':
                 $this->detachModeratorRole();
