@@ -335,15 +335,12 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->gotoStartPageObject();
     }
 
-    protected function initCreationForms(string $new_type): array
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $this->initSettingsForm("create");
         $this->getSettingsFormValues("create");
 
-        $forms = array(self::CFORM_NEW => $this->form_gui,
-                self::CFORM_IMPORT => $this->initImportForm($new_type));
-
-        return $forms;
+        return $this->form_gui;
     }
 
     public function saveObject(): void
@@ -361,21 +358,27 @@ class ilObjWikiGUI extends ilObjectGUI
                 $short_item = $this->form_gui->getItemByPostVar("shorttitle");
                 $short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
             } else {
-                parent::saveObject();
+                $new_obj = new ilObjWiki();
+                $new_obj->setType($this->requested_new_type);
+                $new_obj->processAutoRating();
+                $new_obj->setTitle($this->form_gui->getInput('title'));
+                $new_obj->setDescription($this->form_gui->getInput('description'));
+                $new_obj->create();
+
+                $this->putObjectInTree($new_obj);
+                $this->afterSave($new_obj);
                 return;
             }
         }
 
         $this->form_gui->setValuesByPost();
-        $tpl->setContent($this->form_gui->getHTML());
+        $tpl->setContent($this->getCreationFormsHTML($this->form_gui));
     }
 
     protected function afterSave(ilObject $new_object): void
     {
         $ilSetting = $this->settings;
 
-        $new_object->setTitle($this->form_gui->getInput("title"));
-        $new_object->setDescription($this->form_gui->getInput("description"));
         $new_object->setIntroduction($this->form_gui->getInput("intro"));
         $new_object->setStartPage($this->form_gui->getInput("startpage"));
         $new_object->setShortTitle((string) $this->form_gui->getInput("shorttitle"));
