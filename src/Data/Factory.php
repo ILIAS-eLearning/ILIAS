@@ -172,4 +172,13 @@ class Factory
     {
         return new Order($subject, $direction);
     }
+
+    /**
+     * @param string $version in the form \d+([.]\d+([.]\d+)?)?
+     * @throws  \InvalidArgumentException if version string does not match \d+([.]\d+([.]\d+)?)?
+     */
+    public function version(string $version): Version
+    {
+        return new Version($version);
+    }
 }

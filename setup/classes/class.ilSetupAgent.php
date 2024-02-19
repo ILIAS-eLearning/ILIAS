@@ -108,10 +108,23 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        $objectives = [
+            new Setup\Objective\ObjectiveWithPreconditions(
+                new ilVersionWrittenToSettingsObjective($this->data),
+                new ilNoMajorVersionSkippedConditionObjective($this->data),
+                new ilNoVersionDowngradeConditionObjective($this->data)
+            )
+        ];
+
         if ($config !== null) {
-            return new ilSetupConfigStoredObjective($config);
+            $objectives[] = new ilSetupConfigStoredObjective($config);
         }
-        return new Setup\Objective\NullObjective();
+
+        return new Setup\ObjectiveCollection(
+            "Complete common ILIAS objectives.",
+            false,
+            ...$objectives
+        );
     }
 
     /**
