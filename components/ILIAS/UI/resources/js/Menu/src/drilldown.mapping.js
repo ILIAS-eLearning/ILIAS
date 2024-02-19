@@ -298,7 +298,7 @@ export default class DropdownMapping {
    * @return {void
    */
   correctRightColumnPositionAndHeight(levelId) {
-    const elem = this.#elements.levels[levelId];
+    var elem = this.#elements.levels[levelId];
     const menu = this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
     const height = this.#elements.dd.querySelector(`.${this.#classes.MENU}`).offsetHeight;
     if (height === 0) {
@@ -318,6 +318,12 @@ export default class DropdownMapping {
         eRef.style.removeProperty('height');
       },
     );
+    if (levelId  === '0') {
+      elem = elem.querySelector(`:scope > .${this.#classes.MENU_BRANCH} > ul`);
+    }
+    if (elem.offsetHeight === 0) {
+      return;
+    }
     elem.style.top = `-${elem.offsetTop}px`;
     elem.style.height = height +'px';
   }

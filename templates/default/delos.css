@@ -7472,8 +7472,14 @@ button .minimize, button .close {
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent > li > hr {
     display: block;
   }
+  .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged {
+    overflow: visible;
+  }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > .c-drilldown__menulevel--trigger {
     background-color: #f9f9f9;
+  }
+  .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul {
+    overflow: auto;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .c-drilldown__menulevel--trigger,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .btn-bulky,
