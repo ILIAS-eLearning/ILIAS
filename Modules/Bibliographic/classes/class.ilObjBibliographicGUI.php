@@ -18,9 +18,8 @@
 
 use ILIAS\ResourceStorage\Services;
 use ILIAS\DI\Container;
-use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\ResourceStorage\Revision\RevisionCollection;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Class ilObjBibliographicGUI
@@ -67,6 +66,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     public const PROP_ONLINE_STATUS = 'online_status';
     public const SECTION_PRESENTATION = 'section_presentation';
     public const PROP_TILE_IMAGE = 'tile_image';
+    private UploadLimitResolver $upload_limit;
 
     public ?ilObject $object = null;
     protected ?\ilBiblFactoryFacade $facade = null;
@@ -93,6 +93,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->refinery = $DIC->refinery();
+        $this->upload_limit = $DIC["ui.upload_limit_resolver"];
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $DIC->language()->loadLanguageModule('bibl');
@@ -367,11 +368,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->tpl->setContent($this->ui()->renderer()->render($this->getSettingsForm()));
     }
 
-
     public function overwriteBibliographicFile(): void
     {
         $this->tabs()->clearTargets();
-        $this->tabs()->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
+        $this->tabs()->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
+        );
         $this->tpl->setContent($this->ui()->renderer()->render($this->getReplaceBibliographicFileForm()));
     }
 
@@ -380,7 +383,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $form = $this->getReplaceBibliographicFileForm();
         $form = $form->withRequest($this->http->request());
         $data = $form->getData();
-        if ($data !== null && $bibl_file_rid = $this->storage->manage()->find($data[self::SECTION_REPLACE_BIBLIOGRAPHIC_FILE][self::PROP_BIBLIOGRAPHIC_FILE][0])) {
+        if ($data !== null && $bibl_file_rid = $this->storage->manage()->find(
+            $data[self::SECTION_REPLACE_BIBLIOGRAPHIC_FILE][self::PROP_BIBLIOGRAPHIC_FILE][0]
+        )) {
             /**
              * @var $bibl_obj ilObjBibliographic
              */
@@ -403,35 +408,41 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         );
     }
 
-
     protected function getReplaceBibliographicFileForm(): Standard
     {
         /**
-        * @var $bibl_obj ilObjBibliographic
+         * @var $bibl_obj ilObjBibliographic
          */
         $bibl_obj = $this->getObject();
         $rid = $bibl_obj->getResourceId() ? $bibl_obj->getResourceId()->serialize() : "";
         $bibl_upload_handler = new ilObjBibliographicUploadHandlerGUI($rid);
 
-        $max_filesize_bytes = ilFileUtils::getUploadSizeLimitBytes();
+        $max_filesize_bytes = $this->upload_limit->getPhpUploadLimitInBytes();
         $max_filesize_mb = round($max_filesize_bytes / 1024 / 1024, 1);
         $info_file_limitations = $this->lng->txt('file_notice') . " " . number_format($max_filesize_mb, 1) . " MB <br>"
             . $this->lng->txt('file_allowed_suffixes') . " .bib, .bibtex, .ris";
-        $section_replace_bibliographic_file = $this->ui_factory->input()->field()->section(
-            [
-                self::PROP_BIBLIOGRAPHIC_FILE => $this->ui_factory->input()->field()->file(
-                    $bibl_upload_handler,
-                    $this->lng->txt('bibliography_file'),
-                    $info_file_limitations
-                )->withMaxFileSize($max_filesize_bytes)
-                 ->withRequired(true)
-                 ->withAdditionalTransformation(
-                     $this->getValidBiblFileSuffixConstraint()
-                 )
-            ],
-            $this->lng->txt('replace_bibliography_file'),
-            $this->lng->txt('replace_bibliography_file_info')
-        );
+        $section_replace_bibliographic_file = $this->ui_factory
+            ->input()
+            ->field()
+            ->section(
+                [
+                    self::PROP_BIBLIOGRAPHIC_FILE => $this->ui_factory
+                        ->input()
+                        ->field()
+                        ->file(
+                            $bibl_upload_handler,
+                            $this->lng->txt('bibliography_file'),
+                            $info_file_limitations
+                        )
+                        ->withMaxFileSize($max_filesize_bytes)
+                        ->withRequired(true)
+                        ->withAdditionalTransformation(
+                            $this->getValidBiblFileSuffixConstraint()
+                        )
+                ],
+                $this->lng->txt('replace_bibliography_file'),
+                $this->lng->txt('replace_bibliography_file_info')
+            );
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, self::CMD_REPLACE_BIBLIOGRAPHIC_FILE),
@@ -562,7 +573,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         $section_edit_bibliography = $field_factory->section(
             [
-                self::PROP_TITLE_AND_DESC => $this->object->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+                self::PROP_TITLE_AND_DESC => $this->object->getObjectProperties()->getPropertyTitleAndDescription(
+                )->toForm(
                     $this->lng,
                     $field_factory,
                     $this->refinery
@@ -643,11 +655,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());
         } else {
             $object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id));
-            $this->tpl->setOnScreenMessage('failure', sprintf(
-                $DIC->language()
-                    ->txt("msg_no_perm_read_item"),
-                $object_title
-            ), true);
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                sprintf(
+                    $DIC->language()
+                        ->txt("msg_no_perm_read_item"),
+                    $object_title
+                ),
+                true
+            );
             //redirect to repository without any parameters
             $this->handleNonAccess();
         }
@@ -707,7 +723,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $id = $DIC->http()->request()->getQueryParams()[self::P_ENTRY_ID];
             $entry = $this->facade->entryFactory()
                                   ->findByIdAndTypeString($id, $this->object->getFileTypeAsString());
-            $bibGUI = new ilBiblEntryDetailPresentationGUI($entry, $this->facade, $this->ctrl(), $this->help, $this->lng(), $this->tpl(), $this->tabs(), $this->ui());
+            $bibGUI = new ilBiblEntryDetailPresentationGUI(
+                $entry,
+                $this->facade,
+                $this->ctrl(),
+                $this->help,
+                $this->lng(),
+                $this->tpl(),
+                $this->tabs(),
+                $this->ui()
+            );
 
             $DIC->ui()->mainTemplate()->setContent($bibGUI->getHTML());
         } else {
