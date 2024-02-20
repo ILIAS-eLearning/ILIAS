@@ -103,7 +103,7 @@ class ilBibliographicDataSet extends ilDataSet
                     $new_obj->create();
                 }
                 $new_obj->getObjectProperties()->storePropertyIsOnline(
-                    new ilObjectPropertyIsOnline(true)
+                    new ilObjectPropertyIsOnline(false)
                 );
                 $this->import_bib_object = $new_obj;
                 $a_mapping->addMapping('Modules/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());
