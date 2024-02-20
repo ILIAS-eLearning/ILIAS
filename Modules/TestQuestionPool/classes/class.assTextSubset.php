@@ -541,7 +541,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -853,7 +853,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $this->dic->refinery()->kindlyTo()->string()
                 );
                 if ($value) {
-                    $value = trim($value);
+                    $value = $this->extendedTrim($value);
                     $value = $purifier->purify($value);
                     $solutionSubmit[] = $value;
                 }
@@ -865,7 +865,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     /**
      * @param $enteredTexts
-     * @return int
      */
     protected function calculateReachedPointsForSolution($enteredTexts): float
     {

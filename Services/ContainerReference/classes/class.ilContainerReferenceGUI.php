@@ -129,6 +129,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
         )) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
+        $this->ctrl->saveParameter($this, "crtptrefid");
+        $this->ctrl->saveParameter($this, "crtcb");
         $form = $this->initForm(self::MODE_CREATE);
         $this->tpl->setContent($form->getHTML());
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 /**
  * Table presentation for session overview
@@ -54,6 +54,8 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
         $this->setId('sessov');
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->setTitle($this->lng->txt('event_overview'));
 

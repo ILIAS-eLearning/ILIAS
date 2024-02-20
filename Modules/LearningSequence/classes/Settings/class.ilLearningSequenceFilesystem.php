@@ -69,7 +69,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
             $delete = $settings->getExtroImage();
             $settings = $settings->withExtroImage();
         }
-        if (!empty($delete)) {
+        if ($delete !== '' && str_starts_with($delete, $this->getStoragePath())) {
             $this->deleteFile($delete);
         }
         return $settings;

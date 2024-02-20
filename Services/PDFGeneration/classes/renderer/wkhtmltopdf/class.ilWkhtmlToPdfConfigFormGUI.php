@@ -441,23 +441,18 @@ class ilWkhtmlToPdfConfigFormGUI
     {
         $form->getItemByPostVar('path')->setValue($config->getWKHTMLToPdfDefaultPath());
         $form->getItemByPostVar('zoom')->setValue($config->getZoom());
-        $form->getItemByPostVar('external_links')->setValue("1");
-        $form->getItemByPostVar('external_links')->setChecked($config->getExternalLinks());
-        $form->getItemByPostVar('enable_forms')->setValue("1");
-        $form->getItemByPostVar('enable_forms')->setChecked($config->getEnabledForms());
+        $form->getItemByPostVar('external_links')->setChecked((bool) $config->getExternalLinks());
+        $form->getItemByPostVar('enable_forms')->setChecked((bool) $config->getEnabledForms());
         $form->getItemByPostVar('user_stylesheet')->setValue($config->getUserStylesheet());
-        $form->getItemByPostVar('low_quality')->setValue("1");
-        $form->getItemByPostVar('low_quality')->setChecked($config->getLowQuality());
-        $form->getItemByPostVar('greyscale')->setValue("1");
-        $form->getItemByPostVar('greyscale')->setChecked($config->getGreyscale());
+        $form->getItemByPostVar('low_quality')->setChecked((bool) $config->getLowQuality());
+        $form->getItemByPostVar('greyscale')->setChecked((bool) $config->getGreyscale());
         $form->getItemByPostVar('orientation')->setValue($config->getOrientation());
         $form->getItemByPostVar('page_size')->setValue($config->getPageSize());
         $form->getItemByPostVar('margin_left')->setValue($config->getMarginLeft());
         $form->getItemByPostVar('margin_right')->setValue($config->getMarginRight());
         $form->getItemByPostVar('margin_top')->setValue($config->getMarginTop());
         $form->getItemByPostVar('margin_bottom')->setValue($config->getMarginBottom());
-        $form->getItemByPostVar('print_media_type')->setValue("1");
-        $form->getItemByPostVar('print_media_type')->setChecked($config->getPrintMediaType());
+        $form->getItemByPostVar('print_media_type')->setChecked(( bool) $config->getPrintMediaType());
         $form->getItemByPostVar('javascript_delay')->setValue($config->getJavascriptDelay());
         $form->getItemByPostVar('checkbox_svg')->setValue($config->getCheckboxSvg());
         $form->getItemByPostVar('checkbox_checked_svg')->setValue($config->getCheckboxCheckedSvg());
@@ -468,10 +463,9 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->getItemByPostVar('head_text_center')->setValue($config->getHeaderTextCenter());
         $form->getItemByPostVar('head_text_right')->setValue($config->getHeaderTextRight());
         $form->getItemByPostVar('head_text_spacing')->setValue($config->getHeaderTextSpacing());
-        $form->getItemByPostVar('head_text_line')->setValue("1");
-        $form->getItemByPostVar('head_text_line')->setChecked($config->isHeaderTextLine());
-        $form->getItemByPostVar('head_html_line')->setValue("1");
-        $form->getItemByPostVar('head_html_line')->setChecked($config->isHeaderHtmlLine());
+
+        $form->getItemByPostVar('head_text_line')->setChecked((bool) $config->isHeaderTextLine());
+        $form->getItemByPostVar('head_html_line')->setChecked((bool) $config->isHeaderHtmlLine());
         $form->getItemByPostVar('head_html_spacing')->setValue($config->getHeaderHtmlSpacing());
         $form->getItemByPostVar('head_html')->setValue($config->getHeaderHtml());
         $form->getItemByPostVar('footer_select')->setValue((string) $config->getFooterType());
@@ -479,14 +473,11 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->getItemByPostVar('footer_text_center')->setValue($config->getFooterTextCenter());
         $form->getItemByPostVar('footer_text_right')->setValue($config->getFooterTextRight());
         $form->getItemByPostVar('footer_text_spacing')->setValue($config->getFooterTextSpacing());
-        $form->getItemByPostVar('footer_text_line')->setValue("1");
-        $form->getItemByPostVar('footer_text_line')->setChecked($config->isFooterTextLine());
-        $form->getItemByPostVar('footer_html_line')->setValue("1");
-        $form->getItemByPostVar('footer_html_line')->setChecked($config->isFooterHtmlLine());
+        $form->getItemByPostVar('footer_text_line')->setChecked((bool) $config->isFooterTextLine());
+        $form->getItemByPostVar('footer_html_line')->setChecked((bool) $config->isFooterHtmlLine());
         $form->getItemByPostVar('footer_html')->setValue($config->getFooterHtml());
         $form->getItemByPostVar('footer_html_spacing')->setValue($config->getFooterHtmlSpacing());
         $form->getItemByPostVar('overwrite_font')->setValue($config->getOverwriteDefaultFont(false));
 
-        ilPDFGeneratorUtils::setCheckedIfTrue($form);
     }
 }

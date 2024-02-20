@@ -22,6 +22,7 @@ namespace ILIAS\MediaCast;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\MediaCast\LearningProgress\LearningProgressManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -54,8 +55,13 @@ class InternalDomainService
         );
     }*/
 
-    public function mediaCast() : MediaCastManager
+    public function mediaCast(): MediaCastManager
     {
         return new MediaCastManager();
+    }
+
+    public function learningProgress(\ilObjMediaCast $cast): LearningProgressManager
+    {
+        return new LearningProgressManager($cast);
     }
 }

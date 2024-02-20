@@ -295,11 +295,9 @@ class ilAssOrderingElementList implements Iterator
     public function getElementByRandomIdentifier($randomIdentifier): ?ilAssOrderingElement
     {
         foreach ($this as $element) {
-            if ($element->getRandomIdentifier() != $randomIdentifier) {
-                continue;
+            if ($element->getRandomIdentifier() === intval($randomIdentifier)) {
+                return $element;
             }
-
-            return $element;
         }
 
         return null;
@@ -486,8 +484,10 @@ class ilAssOrderingElementList implements Iterator
     protected function populateIdentifier(ilAssOrderingElement $element, $identifierType, $identifier): void
     {
         switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: $element->setSolutionIdentifier($identifier); break;
-            case self::IDENTIFIER_TYPE_RANDOM: $element->setRandomIdentifier($identifier); break;
+            case self::IDENTIFIER_TYPE_SOLUTION: $element->setSolutionIdentifier($identifier);
+                break;
+            case self::IDENTIFIER_TYPE_RANDOM: $element->setRandomIdentifier($identifier);
+                break;
             default: $this->throwUnknownIdentifierTypeException($identifierType);
         }
     }

@@ -305,7 +305,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // do not grade or mark if no team yet
         if (!$has_no_team_yet) {
             // status
-            $this->tpl->setVariable("SEL_" . strtoupper($a_row["status"]), ' selected="selected" ');
+            $this->tpl->setVariable("SEL_" . strtoupper($a_row["status"] ?? ""), ' selected="selected" ');
             $this->tpl->setVariable("TXT_NOTGRADED", $this->lng->txt("exc_notgraded"));
             $this->tpl->setVariable("TXT_PASSED", $this->lng->txt("exc_passed"));
             $this->tpl->setVariable("TXT_FAILED", $this->lng->txt("exc_failed"));

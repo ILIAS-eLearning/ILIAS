@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#Clique no centro da área desejada.
 assessment#:#circle_click_circle#:#Clique num ponto circular da área desejada.
 assessment#:#clientip#:#IP do cliente
 assessment#:#close_text_hint#:#Para adicionar um novo espaço coloque o cursor na posição que quiser e use a caixa de seleção ‘Espaço de texto’. Aparecem em baixo correspondentes secções de edição. Também pode editar espaços se clicar nos espaços dentro do texto de espaços.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Comprimento do campo de texto
 assessment#:#cloze_fixed_textlength_description#:#Se introduzir um novo valor, todos os campos de espaços do texto que não impõem uma limitação máxima própria de caracteres, assim como todos os campos de espaços numéricos, serão criados com um comprimento fixo deste valor, não sendo assim possível introduzir mais do que os caracteres permitidos. Repare que para os espaços numéricos, o separador decimal conta como um caracter regular.
 assessment#:#cloze_gap_size_info#:#Se introduzir um valor superior a 0, este campo de texto de espaços será criado com o comprimento fixo deste valor. Se não introduzir um valor, o campo de texto de espaços será criado com o valor do comprimento global fixo.
@@ -606,9 +607,6 @@ assessment#:#cloze_text#:#Fechar texto
 assessment#:#cloze_textgap_case_insensitive#:#Caso insensível
 assessment#:#cloze_textgap_case_sensitive#:#Caso sensível
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distância de %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Múltiplos espaços em branco
-assessment#:#cloze_textgap_whitespace_after#:#Espaço branco depois do valor
-assessment#:#cloze_textgap_whitespace_before#:#Espaço branco antes do valor
 assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
@@ -913,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#O número de termos tem de ser superi
 assessment#:#msg_poly_added#:#Polígono adicionado
 assessment#:#msg_questions_moved#:#Pergunta(s) movida(s)
 assessment#:#msg_rect_added#:#Retângulo adicionado
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Pergunta(s) selecionada(s) para mover
 assessment#:#new_category#:#Nova unidade de categoria
 assessment#:#new_unit#:#Nova unidade
@@ -1434,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continuar seleção de pergu
 assessment#:#tst_gap_analysis#:#Análise de intervalo
 assessment#:#tst_general_properties#:#A sua resposta:
 assessment#:#tst_header_participant#:#Melhor solução:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Pontuação
 assessment#:#tst_heading_scoring#:#Ocultar lista de perguntas
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -1535,10 +1536,11 @@ assessment#:#tst_manscoring_question_section_header#:#Pergunta: %s
 assessment#:#tst_manscoring_user_notification#:#Enviar notificação
 assessment#:#tst_mark#:#A configuração para o conjunto aleatório de perguntas foi modificada com sucesso.
 assessment#:#tst_mark_create_new_mark_step#:#Não é possível um teste com um conjunto aleatório de perguntas sem uma quantidade de perguntas corretamente definida.
-assessment#:#tst_mark_create_simple_mark_schema#:#Não é possível um teste com um conjunto aleatório de perguntas sem selecionar pelo menos um banco de perguntas.
 assessment#:#tst_mark_minimum_level#:#<b>Não é possível um teste com um conjunto aleatório de perguntas com a seleção atual de bancos de perguntas e a quantidade de perguntas.</b><br />
 assessment#:#tst_mark_official_form#:#Date da última sincronização dos bancos de perguntas selecionados: <b>%s</b>
 assessment#:#tst_mark_passed#:#Os pontos de competência foram guardados.
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Não é possível um teste com um conjunto aleatório de perguntas sem selecionar pelo menos um banco de perguntas.
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#A regra foi removida com sucesso.
 assessment#:#tst_max_allowed_users_heading#:#Foi alcançado o número máximo de utilizadores simultâneos no teste
 assessment#:#tst_max_allowed_users_message#:#Foi alcançado o número máximo de utilizadores ativos simultâneos no teste. Tente novamente mais tarde reiniciar ou retomar o teste. Se um dos utilizadores ativos estiver inativo durante mais de %s segundos, pode introduzir este teste. Obrigado pela sua compreensão.
@@ -2447,6 +2449,7 @@ blog#:#blog_settings#:#Administração do blog
 blog#:#blog_settings_navigation#:#Coluna de navegação
 blog#:#blog_show_latest#:#Mostrar últimos postings/esboços
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Estilo do blog
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Precisa atualização.
@@ -3964,6 +3967,7 @@ common#:#err_auth_mode_inactive#:#O seu método de autenticação foi desativado
 common#:#err_auth_soap_no_ilias_user#:#Login falhou. A autenticação SOAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_check_input#:#Não foi possível guardar as definições. Verifique a sua entrada.
 common#:#err_count_param#:#Importante
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Importar categorias
 common#:#err_inactive#:#Esta conta não foi desativada. Entre em contacto com o administrador do sistema para efeitos de acesso.
 common#:#err_inactive_login_attempts#:#A conta de utilizador foi desativada devido a muitas tentativas de login falhadas. Clique em 'Contactar a Assistência Técnica' no rodapé desta página para notificar o administrador da necessidade de reativar a sua conta.
@@ -4821,11 +4825,11 @@ common#:#obj_cals#:#Calendário
 common#:#obj_cals_desc#:#Definições gerais de calendário.
 common#:#obj_cat#:#Informações pessoais adicionais:
 common#:#obj_cat_duplicate#:#Copiar categoria
-common#:#obj_catr#:#ILIAS eLearning - Os seus dados de acesso
+common#:#obj_catr#:#Os seus dados de acesso
 common#:#obj_cert#:#Certificados
 common#:#obj_cert_desc#:#Definições para certificados
 common#:#obj_chap#:#Capítulo
-common#:#obj_chta#:#ILIAS eLearning - O seu link de confirmação
+common#:#obj_chta#:#O seu link de confirmação
 common#:#obj_chtr#:#A sua palavra-passe será enviada para o seu endereço de e-mail em baixo.
 common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
 common#:#obj_cld#:#Objeto da cloud
@@ -5085,7 +5089,7 @@ common#:#objs_crsr#:#Per
 common#:#objs_dcl#:#Coleções de dados
 common#:#objs_etal#:#Employee Talks###31 03 2023 new variable
 common#:#objs_exc#:#Perfil
-common#:#objs_file#:#ILIAS eLearning - O seu perfil mudou
+common#:#objs_file#:#O seu perfil mudou
 common#:#objs_fold#:#O seu perfil está incompleto. Preencha todos os dados necessários.
 common#:#objs_frm#:#Perfil de
 common#:#objs_glo#:#Propriedades
@@ -5120,6 +5124,7 @@ common#:#objs_rtst#:#Testes ECS
 common#:#objs_rwik#:#Wikis ECS
 common#:#objs_sahs#:#Quantidade de acessos de leitura não-anónimos
 common#:#objs_sess#:#Destinatário
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Como ficou a saber do ILIAS?
 common#:#objs_st#:#Atualizar
 common#:#objs_svy#:#Atualizar todos os idiomas
@@ -7229,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#Reading Time###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
 copa#:#obj_copa_duplicate#:#Atribuição de materiais
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###30 04 2021 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###30 04 2021 new variable
 copg#:#copg_an_error_occured#:#An error occured.###30 04 2021 new variable
@@ -7239,18 +7245,24 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###30 04 2021 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#As perguntas não são suportadas neste contexto.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Se definir uma ligação em toda a secção, certifique-se que não está incluído nenhum outro elemento interativo dentro da secção. Caso contrário, o respetivo comportamento pode ser irregular.
 copg#:#copg_snippet_cannot_be_edited#:#Este é um fragmento conteúdo predefinido e não pode ser editado aqui.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###30 04 2021 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###30 04 2021 new variable
@@ -7574,6 +7586,7 @@ crs#:#crs_members_groups#:#Os utilizadores podem classificar entradas até cinco
 crs#:#crs_members_map#:#Mapa dos membros do curso
 crs#:#crs_members_print_title#:#Membros do curso
 crs#:#crs_min_one_admin#:#Tem de haver pelo menos um administrador atribuído a este curso.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#O seu novo estado é:
@@ -7901,6 +7914,7 @@ crs#:#events#:#Sessões
 crs#:#export_members#:#Exportar participantes
 crs#:#grouping_change_assignment#:#Mudar atribuição
 crs#:#grp_grp_already_assigned#:#Voltar a escrever a palavra-passe
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Os seguintes cursos e grupos não satisfazem o número mínimo de membros (ainda).
 crs#:#mem_cron_min_members_reason#:#Recebeu esta mensagem porque ativou a notificação no separador dos membros.
 crs#:#mem_cron_min_members_subject#:#Curso/Grupo: Controlo do mínimo de membros
@@ -8187,6 +8201,7 @@ dateplaner#:#cal_edit_category#:#Editar calendário
 dateplaner#:#cal_edit_milestone#:#Editar marco
 dateplaner#:#cal_edit_recurrences#:#Editar todas as marcações
 dateplaner#:#cal_edit_single#:#Editar esta marcação
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Ativar marcos
 dateplaner#:#cal_enable_group_milestones_desc#:#Esta opção ativa o planeamento dos marcos no calendário.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Criado a partir de
@@ -8217,6 +8232,7 @@ dateplaner#:#cal_grp_others#:#Outras
 dateplaner#:#cal_grp_personal#:#Pessoal
 dateplaner#:#cal_ical_infoscreen#:#Subscrever
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Marcações importadas
 dateplaner#:#cal_import_file#:#Importar ficheiro
 dateplaner#:#cal_import_file_info#:#Escolha o ficheiro que contém as suas marcações de calendário.
@@ -8347,6 +8363,7 @@ dateplaner#:#cal_weekly#:#Semanal
 dateplaner#:#cal_where#:#Localização
 dateplaner#:#cal_year_s#:#Ano(s)
 dateplaner#:#cal_yearly#:#Anual
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Nenhum fórum selecionado para mover os tópicos escolhidos
 dateplaner#:#crs_cal_activation_end#:#Antes de serem publicados, todos os postings têm de ser aprovados por um moderador.
 dateplaner#:#crs_cal_activation_start#:#Posting censurado, comentário por moderador
@@ -8994,6 +9011,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10328,7 +10346,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Títulos guardados.
 lng#:#language_detection#:#Language Detection###30 04 2021 new variable
 lng#:#lng_disable_language_detection#:#Desativar deteção de idioma
@@ -10373,6 +10393,8 @@ lso#:#abstract_img#:#Alemão
 lso#:#avail_time_period#:#Butanês
 lso#:#completed_steps#:#Grego
 lso#:#condition_always#:#Inglês
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Espanhol
 lso#:#delete_confirmation#:#Estoniano
 lso#:#entries_deleted#:#Basco
@@ -11304,6 +11326,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Adicionar predefinição de Copyright
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Editar predefinição de Copyright
 meta#:#md_copyright_enable_info#:#O utilizador pode editar definições da administração de teste e avaliação
 meta#:#md_copyright_enabled#:#Ativar seleção de Copyright
@@ -11941,6 +11964,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Defina os limites de acesso a funções para novos utilizadores registados
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Atribuição de funções
@@ -12219,6 +12243,7 @@ obj#:#obj_activation#:#Ativação
 obj#:#obj_activation_list_gui#:#Disponibilidade
 obj#:#obj_add_languages#:#Adicionar idiomas
 obj#:#obj_additional_langs#:#Idiomas adicionais
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#A tradução para edição de página foi desativada.
 obj#:#obj_copy_progress#:#Copiar progresso
 obj#:#obj_deactivate_content_lang#:#Desativar tradução para edição de página
@@ -12510,6 +12535,7 @@ poll#:#poll_activation_online_info#:#A transferir dados de rastreio para ILIAS. 
 poll#:#poll_add#:#Adicionar sondagem
 poll#:#poll_anonymous_warning#:#O seu nome não está visível nos resultados da sondagem.
 poll#:#poll_answer#:#Resposta
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Possíveis respostas
 poll#:#poll_barchart#:#Gráfico de barras
 poll#:#poll_block_message_already_voted#:#Já votou nesta sondagem.
@@ -13733,6 +13759,7 @@ rbac#:#rbac_create_role#:#Criar nova função
 rbac#:#rbac_create_rolt#:#Criar novo modelo de função
 rbac#:#rbac_create_sahs#:#Se quiser usar um portefólio como o seu perfil, vá para a secção de portefólio e defina ‘O meu perfil’ para esse portefólio.
 rbac#:#rbac_create_sess#:#Criar sessão
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Criar inquérito banco de perguntas
 rbac#:#rbac_create_svy#:#Criar sondagem
 rbac#:#rbac_create_tst#:#Criar teste
@@ -13908,6 +13935,17 @@ rbac#:#sess_read#:#Permissão de escrita concedida aos utilizadores.
 rbac#:#sess_read_learning_progress#:#O utilizador pode ver o progresso de aprendizagem dos outros utilizadores
 rbac#:#sess_visible#:#As sessões estão visíveis
 rbac#:#sess_write#:#Vista da impressão
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Rápida navegação wiki
 rbac#:#skmg_read#:#Classificar esta página wiki
 rbac#:#skmg_visible#:#Conceder acesso de escrita
@@ -16036,6 +16074,7 @@ survey#:#svy_mail_send_confirmation#:#Enviar confirmação de participação
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#As definições das colunas não totalizam 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score###30 04 2021 new variable
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
@@ -16116,6 +16155,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Overview###07 02 2020 new variable
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Remove all Participants###07 02 2020 new variable
 svy#:#svy_remove_participants#:#Remove Participants###07 02 2020 new variable
@@ -16723,6 +16763,7 @@ user#:#user_prompting_recurrence#:#Alertar para recorrência
 user#:#user_prompting_settings#:#Alertar para definições
 user#:#user_public_profile_info#:#Por favor selecionar que dados pessoais devem ser visíveis para outros usuários.
 user#:#user_publish_options#:#Publish Profile###07 02 2020 new variable
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Utilizador - ponto de início
 user#:#user_save_continue#:#Save and Continue###07 02 2020 new variable
 user#:#user_save_ordering_and_titles#:#Salvar pedidos e títulos

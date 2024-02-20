@@ -218,7 +218,7 @@ class ilWACSignedPath
         if ($path_to_file === '' || $path_to_file === '0') {
             return '';
         }
-        $ilWACPath = new ilWACPath($path_to_file);
+        $ilWACPath = new ilWACPath($path_to_file, false);
         if ($ilWACPath->getClient() === '' || $ilWACPath->getClient() === '0') {
             return $path_to_file;
         }

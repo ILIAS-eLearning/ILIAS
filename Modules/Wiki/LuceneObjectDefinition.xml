@@ -48,7 +48,7 @@
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT 'wiki' type,id,title,wiki_id,create_user,content,'wpg' metaSubType,id metaSubId
+				SELECT 'wiki' objType,id,title,wiki_id,wiki_id metaRbacId,create_user,content,'wpg' metaType,id metaObjId
 				FROM il_wiki_page wp
 				JOIN page_object po ON wp.id = po.page_id
 				WHERE wiki_id IN(?)
@@ -62,7 +62,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="create_user" type="integer" name="owner" />
 			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="wiki_id" type="integer" name="objId" />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="objType" type="text" name="type" />
 			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 		</DataSource>		
 	</Document>

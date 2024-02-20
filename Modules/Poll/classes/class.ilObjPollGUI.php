@@ -524,7 +524,7 @@ class ilObjPollGUI extends ilObject2GUI
         }
 
         $session_last_poll_vote = ilSession::get('last_poll_vote');
-        if ($valid) {
+        if ($valid && $this->user->getId() != ANONYMOUS_USER_ID) {
             unset($session_last_poll_vote[$this->object->getId()]);
             ilSession::set('last_poll_vote', $session_last_poll_vote);
             $this->object->saveVote($this->user->getId(), $aw);

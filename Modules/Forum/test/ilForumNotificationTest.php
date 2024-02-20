@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
@@ -333,6 +333,7 @@ class ilForumNotificationTest extends TestCase
             'admin_force_noti' => 20,
             'user_toggle_noti' => 90,
             'interested_events' => 8,
+            'user_id_noti' => 6,
         ];
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(

@@ -519,7 +519,11 @@ class ilCalendarAppointmentGUI
             }
         } else {
             $this->form->setValuesByPost();
-            $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+            if ($this->error->getMessage() !== '') {
+                $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
+            } else {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            }
             $this->add($this->form);
             return;
         }
@@ -650,7 +654,7 @@ class ilCalendarAppointmentGUI
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
 
         $confirm = new ilConfirmationGUI();
-        $confirm->setHeaderText($this->lng->txt('cal_delete_cal'));
+        $confirm->setHeaderText($this->lng->txt('cal_edit_single_or_all_info'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
         $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());

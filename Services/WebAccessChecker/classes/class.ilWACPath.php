@@ -84,8 +84,12 @@ class ilWACPath
     protected string $module_identifier = '';
     protected string $path_without_query = '';
 
-    public function __construct(string $path)
+    public function __construct(string $path, bool $normalize = true)
     {
+        if ($normalize) {
+            $path = $this->normalizePath($path);
+        }
+
         $this->setOriginalRequest($path);
         $re = '/' . self::REGEX . '/';
         preg_match($re, $path, $result);
@@ -226,6 +230,36 @@ class ilWACPath
     public static function setVideoSuffixes(array $video_suffixes): void
     {
         self::$video_suffixes = $video_suffixes;
+    }
+
+    protected function normalizePath(string $path): string
+    {
+        $path = ltrim($path, '.');
+        $path = urldecode($path);
+
+        // cut everything before "data/" (for installations using a subdirectory)
+        $path = strstr($path, '/' . self::DIR_DATA . '/');
+
+        $original_path = parse_url($path, PHP_URL_PATH);
+        $query = parse_url($path, PHP_URL_QUERY);
+
+        $real_data_dir = realpath("./" . self::DIR_DATA);
+        $realpath = realpath("." . $original_path);
+
+        if (strpos($realpath, $real_data_dir) !== 0) {
+            throw new ilWACException(ilWACException::ACCESS_DENIED, "Path is not in data directory");
+        }
+
+        $normalized_path = ltrim(
+            str_replace(
+                $real_data_dir,
+                '',
+                $realpath
+            ),
+            '/'
+        );
+
+        return "/" . self::DIR_DATA . '/' . $normalized_path . (!empty($query) ? '?' . $query : '');
     }
 
     public function getPrefix(): string

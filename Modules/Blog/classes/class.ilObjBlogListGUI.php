@@ -69,6 +69,13 @@ class ilObjBlogListGUI extends ilObjectListGUI
     ): void {
         $ctrl = $this->ctrl;
 
+        if ($cmd === "export"
+            && ilObjBlogAccess::isCommentsExportPossible($this->obj_id)
+            && (bool) $this->settings->get('item_cmd_asynch')) {
+            $href = $this->getCommandLink("forwardExport");
+            $cmd = "forwardExport";
+            $onclick = "";
+        }
         if ($cmd !== "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
             parent::insertCommand($href, $text, $frame, $img, $cmd, $onclick);
             return;

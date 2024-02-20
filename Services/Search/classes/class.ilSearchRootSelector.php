@@ -74,6 +74,15 @@ class ilSearchRootSelector extends ilExplorer
         $this->setTitleLength(ilObject::TITLE_LENGTH);
     }
 
+    public function setPathOpen(int $ref_id): void
+    {
+        if (count($this->expanded) <= 1) {
+            foreach ($this->tree->getPathId($ref_id) as $id) {
+                $this->setExpand($id);
+            }
+        }
+    }
+
     public function setClickableTypes(array $a_types): void
     {
         $this->clickable_types = $a_types;

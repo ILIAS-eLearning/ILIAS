@@ -34,12 +34,12 @@ class ilSCORM13Package
     public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
 
-//    private $packageFile;
+    //    private $packageFile;
     private string $packageFolder;
     private string $packagesFolder;
     private array $packageData = [];
-//    private $slm;
-//    private $slm_tree;
+    //    private $slm;
+    //    private $slm_tree;
 
     public \DOMDocument $imsmanifest;
     /**
@@ -47,13 +47,13 @@ class ilSCORM13Package
      */
     public $manifest;
     public array $diagnostic;
-//    public $status;
+    //    public $status;
     public int $packageId;
     public string $packageName = "";
     public string $packageHash = "";
     public int $userId;
 
-//    private $idmap = array();
+    //    private $idmap = array();
     private float $progress = 0.0;
 
     /**
@@ -226,7 +226,10 @@ class ilSCORM13Package
         $j['base'] = $packageFolder . '/';
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
-
+        $j['item']['title'] = ilUtil::stripSlashes($j['item']['title']);
+        for($i = 0; $i < count($j['item']['item']); $i++) {
+            $j['item']['item'][$i]['title'] = ilUtil::stripSlashes($j['item']['item'][$i]['title']);
+        }
 
         //last step - build ADL Activity tree
         $act = new SeqTreeBuilder();
@@ -352,35 +355,62 @@ class ilSCORM13Package
 
                 foreach ($node->attributes as $attr) {
                     switch (strtolower($attr->name)) {
-                        case 'completionsetbycontent': $names[] = 'completionbycontent';break;
-                        case 'objectivesetbycontent': $names[] = 'objectivebycontent';break;
-                        case 'type': $names[] = 'c_type';break;
-                        case 'mode': $names[] = 'c_mode';break;
-                        case 'language': $names[] = 'c_language';break;
-                        case 'condition': $names[] = 'c_condition';break;
-                        case 'operator': $names[] = 'c_operator';break;
-//                        case 'condition': $names[] = 'c_condition';break;
-                        case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';break;
-                        case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';break;
-                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
-                        case 'primary': $names[] = 'c_primary';break;
-//                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
-                        case 'persistpreviousattempts': $names[] = 'persistprevattempts';break;
-                        case 'identifier': $names[] = 'c_identifier';break;
-                        case 'settings': $names[] = 'c_settings';break;
-                        case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';break;
-                        case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';break;
-                        case 'attemptabsolutedurationlimit': $names[] = 'attemptabsdurlimit';break;
-                        case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';break;
-                        case 'objectivemeasureweight': $names[] = 'objectivemeasweight';break;
-                        case 'requiredforcompleted': $names[] = 'requiredcompleted';break;
-                        case 'requiredforincomplete': $names[] = 'requiredincomplete';break;
-                        case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';break;
-                        case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';break;
-                        case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';break;
-                        case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
-                        case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
-                        default: $names[] = strtolower($attr->name);break;
+                        case 'completionsetbycontent': $names[] = 'completionbycontent';
+                            break;
+                        case 'objectivesetbycontent': $names[] = 'objectivebycontent';
+                            break;
+                        case 'type': $names[] = 'c_type';
+                            break;
+                        case 'mode': $names[] = 'c_mode';
+                            break;
+                        case 'language': $names[] = 'c_language';
+                            break;
+                        case 'condition': $names[] = 'c_condition';
+                            break;
+                        case 'operator': $names[] = 'c_operator';
+                            break;
+                            //                        case 'condition': $names[] = 'c_condition';break;
+                        case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';
+                            break;
+                        case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
+                            break;
+                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
+                            break;
+                        case 'primary': $names[] = 'c_primary';
+                            break;
+                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
+                        case 'persistpreviousattempts': $names[] = 'persistprevattempts';
+                            break;
+                        case 'identifier': $names[] = 'c_identifier';
+                            break;
+                        case 'settings': $names[] = 'c_settings';
+                            break;
+                        case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';
+                            break;
+                        case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';
+                            break;
+                        case 'attemptabsolutedurationlimit': $names[] = 'attemptabsdurlimit';
+                            break;
+                        case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';
+                            break;
+                        case 'objectivemeasureweight': $names[] = 'objectivemeasweight';
+                            break;
+                        case 'requiredforcompleted': $names[] = 'requiredcompleted';
+                            break;
+                        case 'requiredforincomplete': $names[] = 'requiredincomplete';
+                            break;
+                        case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';
+                            break;
+                        case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';
+                            break;
+                        case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';
+                            break;
+                        case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';
+                            break;
+                        case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';
+                            break;
+                        default: $names[] = strtolower($attr->name);
+                            break;
                     }
 
                     if (in_array(

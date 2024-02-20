@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjLinkResource
  * @author  Stefan Meyer <meyer@leifos.com>
  */
 class ilObjLinkResource extends ilObject
 {
+    protected ilWebLinkDatabaseRepository $repo;
+
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "webr";
@@ -32,7 +34,10 @@ class ilObjLinkResource extends ilObject
 
     protected function getWebLinkRepo(): ilWebLinkRepository
     {
-        return new ilWebLinkDatabaseRepository($this->getId());
+        if (isset($this->repo)) {
+            return $this->repo;
+        }
+        return $this->repo = new ilWebLinkDatabaseRepository($this->getId());
     }
 
     /**
@@ -66,7 +71,11 @@ class ilObjLinkResource extends ilObject
             $description = $md_des->getDescription();
             break;
         }
-        if ($a_element === 'General' && $this->getWebLinkRepo()->doesOnlyOneItemExist(true)) {
+        if (
+            $a_element === 'General' &&
+            !$this->getWebLinkRepo()->doesListExist() &&
+            $this->getWebLinkRepo()->doesOnlyOneItemExist()
+        ) {
             $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
             $draft = new ilWebLinkDraftItem(
                 $item->isInternal(),
@@ -77,6 +86,17 @@ class ilObjLinkResource extends ilObject
                 $item->getParameters()
             );
             $this->getWebLinkRepo()->updateItem($item, $draft);
+        }
+        if (
+            $a_element === 'General' &&
+            $this->getWebLinkRepo()->doesListExist()
+        ) {
+            $list = $this->getWebLinkRepo()->getList();
+            $draft = new ilWebLinkDraftList(
+                $title,
+                $description
+            );
+            $this->getWebLinkRepo()->updateList($list, $draft);
         }
     }
 
@@ -146,7 +166,7 @@ class ilObjLinkResource extends ilObject
     public function toXML(ilXmlWriter $writer): void
     {
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
-            )
+        )
         );
 
         $writer->xmlStartTag('WebLinks', $attribs);
@@ -172,6 +192,13 @@ class ilObjLinkResource extends ilObject
                     array('type' => 'Title')
                 );
                 break;
+        }
+
+        if ($this->getWebLinkRepo()->doesListExist()) {
+            $writer->xmlStartTag('ListSettings');
+            $writer->xmlElement('ListTitle', [], $this->getTitle());
+            $writer->xmlElement('ListDescription', [], $this->getDescription());
+            $writer->xmlEndTag('ListSettings');
         }
 
         // All items

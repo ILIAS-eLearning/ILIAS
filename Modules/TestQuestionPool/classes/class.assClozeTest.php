@@ -593,7 +593,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getClozeTextForHTMLOutput(): string
     {
         $gaps = [];
-        preg_match_all('/\[gap\].*\[\/gap\]/', $this->getClozeText(), $gaps);
+        preg_match_all('/\[gap\].*?\[\/gap\]/', $this->getClozeText(), $gaps);
         $string_with_replaced_gaps = str_replace($gaps[0], '######GAP######', $this->getClozeText());
         $cleaned_text = $this->getHtmlQuestionContentPurifier()->purify(
             $string_with_replaced_gaps
@@ -775,7 +775,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 // only allow notation with "." for real numbers
                 $answer = str_replace(",", ".", $answer);
             }
-            $this->gaps[$gap_index]->addItem(new assAnswerCloze($answer, 0, $order));
+            $this->gaps[$gap_index]->addItem(new assAnswerCloze(trim($answer), 0, $order));
         }
     }
 
@@ -1211,26 +1211,19 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param string $a_original The original (correct) text
     * @param string $a_entered The text entered by the user
-    * @param integer $max_points The maximum number of points for the solution
+    * @param float $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): int
+    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): float
     {
-        // fau: fixGapFormula - check entered value by evalMath
-        //		if( ! $this->checkForValidFormula($a_entered) )
-        //		{
-        //			return 0;
-        //		}
-
         include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
-        $result = 0;
+        $result = 0.0;
 
         if ($eval->e($a_entered) === false) {
-            return 0;
+            return 0.0;
         } elseif (($eval->e($lowerBound) !== false) && ($eval->e($upperBound) !== false)) {
-            // fau.
             if (($eval->e($a_entered) >= $eval->e($lowerBound)) && ($eval->e($a_entered) <= $eval->e($upperBound))) {
                 $result = $max_points;
             }
@@ -1242,10 +1235,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             if (($eval->e($a_entered) >= $eval->e($a_original)) && ($eval->e($a_entered) <= $eval->e($upperBound))) {
                 $result = $max_points;
             }
-        } else {
-            if ($eval->e($a_entered) == $eval->e($a_original)) {
-                $result = $max_points;
-            }
+        } elseif ($eval->e($a_entered) == $eval->e($a_original)) {
+            $result = $max_points;
         }
         return $result;
     }
@@ -1336,11 +1327,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             if (!$post_wrapper->has("gap_$index")) {
                 continue;
             }
-            $value = $post_wrapper->retrieve(
+            $value = trim($post_wrapper->retrieve(
                 "gap_$index",
                 $this->dic->refinery()->kindlyTo()->string()
-            );
-            if ($value === "") {
+            ));
+            if ($value === '') {
                 continue;
             }
 
@@ -1409,13 +1400,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-            foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = trim($val2);
+            foreach ($this->getSolutionSubmit() as $key => $value) {
                 if ($value !== null && $value !== '') {
-                    $gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
+                    $gap = $this->getGap(trim(ilUtil::stripSlashes($key)));
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
-                            $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
+                            $this->saveCurrentSolution($active_id, $pass, $key, $value, $authorized);
                             $entered_values++;
                         }
                     }

@@ -26,6 +26,7 @@ use ILIAS\COPage\Editor\Server;
  */
 class SectionCommandActionHandler implements Server\CommandActionHandler
 {
+    protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;
     protected \ilPageObjectGUI $page_gui;
@@ -38,6 +39,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
 
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
 
@@ -80,9 +82,22 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
 
         // note: we  have everyting in _POST here, form works the usual way
         $updated = true;
-        if ($form->checkInput()) {
+        if ($sec_gui->checkInput($form)) {
             $sec_gui->setValuesFromForm($form);
             $updated = $page->update();
+        } else {
+            $html = $this->ctrl->getHTML(
+                $sec_gui,
+                [
+                    "form" => true,
+                    "ui_wrapper" => $this->ui_wrapper,
+                    "update_fail" => true,
+                    "insert" => true,
+                    "buttons" => [["Page", "component.save", $this->lng->txt("insert")],
+                                  ["Page", "component.cancel", $this->lng->txt("cancel")]]
+                ]
+            );
+            return $this->ui_wrapper->sendFormError($html);
         }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
@@ -95,15 +110,28 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $hier_id = $page->getHierIdForPcId($body["pcid"]);
         $sec = $page->getContentObjectForPcId($body["pcid"]);
         $sec_gui = new \ilPCSectionGUI($page, $sec, $hier_id, $body["pcid"]);
+        $sec_gui->setStyleId($this->page_gui->getStyleId());
         $sec_gui->setPageConfig($page->getPageConfig());
 
         $form = $sec_gui->initForm(false);
 
         // note: we  have everyting in _POST here, form works the usual way
         $updated = true;
-        if ($form->checkInput()) {
+        if ($sec_gui->checkInput($form)) {
             $sec_gui->setValuesFromForm($form);
             $updated = $page->update();
+        } else {
+            $html = $this->ctrl->getHTML(
+                $sec_gui,
+                [
+                    "form" => true,
+                    "ui_wrapper" => $this->ui_wrapper,
+                    "update_fail" => true,
+                    "buttons" => [["Page", "component.update", $this->lng->txt("save")],
+                                  ["Page", "component.cancel", $this->lng->txt("cancel")]]
+                ]
+            );
+            return $this->ui_wrapper->sendFormError($html);
         }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);

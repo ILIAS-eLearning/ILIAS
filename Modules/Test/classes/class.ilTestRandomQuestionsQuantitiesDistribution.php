@@ -140,14 +140,9 @@ class ilTestRandomQuestionsQuantitiesDistribution
         $this->questRelatedSrcPoolDefRegister = array();
     }
 
-    /**
-     * @param integer $questionId
-     * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
-     */
-    protected function registerQuestRelatedSrcPoolDef($questionId, ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    protected function registerQuestRelatedSrcPoolDef(int $questionId, ilTestRandomQuestionSetSourcePoolDefinition $definition): void
     {
-        if (!array_key_exists($questionId, $this->questRelatedSrcPoolDefRegister) ||
-            !is_numeric($this->questRelatedSrcPoolDefRegister[$questionId])) {
+        if (!array_key_exists($questionId, $this->questRelatedSrcPoolDefRegister)) {
             $this->questRelatedSrcPoolDefRegister[$questionId] = $this->buildSourcePoolDefinitionListInstance();
         }
 
@@ -218,10 +213,13 @@ class ilTestRandomQuestionsQuantitiesDistribution
                 $randomQuestion
             );
 
-            $this->registerQuestRelatedSrcPoolDef(
-                $randomQuestion->getQuestionId(),
-                $sourcePoolDefinition
-            );
+            if ($sourcePoolDefinition && $randomQuestion->getQuestionId()) {
+                $this->registerQuestRelatedSrcPoolDef(
+                    $randomQuestion->getQuestionId(),
+                    $sourcePoolDefinition
+                );
+            }
+
         }
     }
 

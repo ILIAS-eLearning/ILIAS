@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilAccountRegistrationGUI
@@ -481,7 +481,7 @@ class ilAccountRegistrationGUI
 
                         case "relative":
                             $rel = unserialize($code_data["alimitdt"], ['allowed_classes' => false]);
-                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time();
+                            $access_limit = (int) ($rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time());
                             break;
                     }
                 }

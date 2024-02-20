@@ -44,7 +44,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->getCharacteristicsOfCurrentStyle(["section"]);
 
         if ($params["form"] == true) {
-            $insert = !($this->content_obj);
+            $insert = $params["insert"] ?? false;
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 
@@ -75,6 +75,11 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $onload_code = array_merge($onload_code, $rep_sel->getOnloadCode());
             }
 
+            if (($params["update_fail"] ?? false) === true) {
+                $this->checkInput($form);
+                $form->setValuesByPost();
+            }
+
             $html = $params["ui_wrapper"]->getRenderedForm(
                 $form,
                 $params["buttons"]
@@ -87,6 +92,22 @@ class ilPCSectionGUI extends ilPageContentGUI
             return $html;
         }
         return "";
+    }
+
+    public function checkInput(ilPropertyFormGUI $form) : bool
+    {
+        $ret = $form->checkInput();
+        if ($ret) {
+            $from = $form->getItemByPostVar("active_from")->getDate();
+            $to = $form->getItemByPostVar("active_to")->getDate();
+            if ($from && $to && $from->get(IL_CAL_UNIX) > $to->get(IL_CAL_UNIX)) {
+                $form->getItemByPostVar("active_to")->setAlert(
+                    $this->lng->txt("copg_active_to_small")
+                );
+                $ret = false;
+            }
+        }
+        return $ret;
     }
 
     public static function _getStandardCharacteristics(): array

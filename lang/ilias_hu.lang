@@ -614,6 +614,7 @@ assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjá
 assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára.
 assessment#:#clientip#:#Kliens-IP
 assessment#:#close_text_hint#:#Új kitöltendő hely létrehozásához vigye a kurzort a kívánt helyre, majd használja a 'Szöveghely' legördülőt. A megfelelő szerkesztési szakaszok megjelennek alatta. A kitöltendő helyeket szerkesztheti úgy is, hogy kitöltendő részen belül a kitöltendő szövegre kattint.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Szövegmező hossza
 assessment#:#cloze_fixed_textlength_description#:#Ha megad egy értéket, akkor az összes szöveg- és szám mező evvel a rögzített hosszal kerül létrehozásra, így nincs lehetőség a több karakter bevitelére. Szövegmezőknek lehet saját korlátjuk a karakterszámra. Számmezők esetén a tizedesvessző is egy karakternek számít.
 assessment#:#cloze_gap_size_info#:#Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték.
@@ -621,9 +622,6 @@ assessment#:#cloze_text#:#Kiegészítendő szöveg
 assessment#:#cloze_textgap_case_insensitive#:#Kis-/nagybetűre nem érzékeny
 assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#'%s' Levenshtein-távolsága
-assessment#:#cloze_textgap_multiple_whitespace#:#Több nem látható karakter
-assessment#:#cloze_textgap_whitespace_after#:#Nem látható karakter az érték után
-assessment#:#cloze_textgap_whitespace_before#:#Nem látható karakter az érték előtt
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
@@ -928,6 +926,8 @@ assessment#:#msg_number_of_terms_too_low#:#A kifejezések száma nagyobb vagy eg
 assessment#:#msg_poly_added#:#Sokszög hozzáadva
 assessment#:#msg_questions_moved#:#Kérdés(ek) áthelyezve.
 assessment#:#msg_rect_added#:#Téglalap hozzáadva
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Kérdés(ek) kiválasztva áthelyezéshez.
 assessment#:#new_category#:#Új mértékegység-kategória
 assessment#:#new_unit#:#Új mértékegység
@@ -1449,6 +1449,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Folyamatos kérdéskiválasz
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
 assessment#:#tst_general_properties#:#Általános beállítások
 assessment#:#tst_header_participant#:#Az Ön válasza:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Legjobb megoldás:
 assessment#:#tst_heading_scoring#:#Pontozás
 assessment#:#tst_hide_pagecontents#:#Oldaltartalom elrejtése
@@ -1550,10 +1551,11 @@ assessment#:#tst_manscoring_question_section_header#:#Kérdés: <i>%s</i>
 assessment#:#tst_manscoring_user_notification#:#Értesítés küldése
 assessment#:#tst_mark#:#Jegy
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
-assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
 assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
 assessment#:#tst_mark_official_form#:#Hivatalos forma
 assessment#:#tst_mark_passed#:#Sikeres teljesítés-e
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Egyszerű (Teljesített/Nem teljesítette) értékelésséma visszaállítása
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Rövid forma
 assessment#:#tst_max_allowed_users_heading#:#Ebben a tesztben egyidejűleg jelen lévő felhasználók száma elérte a maximális számot
 assessment#:#tst_max_allowed_users_message#:#A tesztben egyidejűleg engedélyezett résztvevőszám elérte a maximumot. Próbálja később elkezdeni, illetve folytatni a tesztet. Ha egy jelenleg aktív felhasználó több mint %s másodpercig tétlen, Ön beléphet a tesztbe. Köszönjük megértését!
@@ -2462,6 +2464,7 @@ blog#:#blog_settings#:#Blog beállításainak kezelése
 blog#:#blog_settings_navigation#:#Navigáció oszlop
 blog#:#blog_show_latest#:#Utolsó bejegyzés/piszkozat megjelenítése
 blog#:#blog_show_print_view#:#Nyomtatási nézet megjelenítése
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Blog stílus
 blog#:#blog_task_publishing_draft_title#:#'%s' bejegyzéspiszkozat közzététele
 blog#:#blog_toggle_draft#:#Közzététel visszavonása
@@ -3979,6 +3982,7 @@ common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere ki van kapcsol
 common#:#err_auth_soap_no_ilias_user#:#Bejelentkezés sikertelen. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_check_input#:#Beállítások nem menthetők. Ellenőrizze a bemeneti értékeket.
 common#:#err_count_param#:#Ok: hibás paraméterszám
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Hiba a sorban.
 common#:#err_inactive#:#Ez az ILIAS-fiók még nincs aktiválva. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_inactive_login_attempts#:#Felhasználói fiókját túl sok sikertelen bejelentkezési kísérlet miatt letiltottuk. Kattintson a láblécben lévő 'Kapcsolat' lehetőségre, hogy az üzemeltetőt megkérje ILIAS-fiókjának újraaktiválására.
@@ -5135,6 +5139,7 @@ common#:#objs_rtst#:#ECS tesztek
 common#:#objs_rwik#:#ECS wikik
 common#:#objs_sahs#:#SCORM-tananyagok
 common#:#objs_sess#:#Események
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Kérdőívkérdés-gyűjtemény
 common#:#objs_st#:#Fejezetek
 common#:#objs_svy#:#Kérdőívek
@@ -7244,6 +7249,7 @@ copa#:#copa_prop_reading_time#:#Olvasási idő
 copa#:#copa_value_reading_time_f_p#:#%s perc
 copa#:#copa_value_reading_time_f_s#:#%s perc
 copa#:#obj_copa_duplicate#:#Tartalomlap duplikálása
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#HTML/Javascript bekapcsolása
 copg#:#copg_allow_html_info#:#HTML, illetve Javascript oldaltartalmakat használhat. Ez biztonsági rést okozhat, ezért ne kapcsolja be, ha lehet ártó szándékú felhasználója. Az ilyen módú HTML-tartalom hozzáadása várhatóan már nem lesz támogatott a későbbi verziókban.
 copg#:#copg_an_error_occured#:#Hiba történt.
@@ -7254,18 +7260,24 @@ copg#:#copg_cron_keep_entries#:#Minimálisan megtartandók
 copg#:#copg_cron_keep_entries_info#:#Legalább ennyi bejegyzést akkor is megtartunk, ha azok régebbiek a megadottnál.
 copg#:#copg_days#:#Napok
 copg#:#copg_details#:#Részletek
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Bejegyzések
 copg#:#copg_error#:#Hiba
 copg#:#copg_error_occured_modal#:#Hiba az oldal betöltése közben. Kattintson az oldal újratöltésére, így visszatér a korábban mentett állapothoz.
 copg#:#copg_est_reading_time#:#Becsült olvasási idő
 copg#:#copg_history_cleanup_cron#:#Oldalszerkesztőelőzmény-tisztítás
 copg#:#copg_history_cleanup_cron_info#:#Régi bejegyzések eltávolítása az oldalelőzményekből.
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Válassza ki a cél, amire a blokk mutat. Figyelem: A blokk nem tartalmazhat önmagára mutató linket!
 copg#:#copg_snippet_cannot_be_edited#:#Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s perc
 cpad#:#cpad_reading_time_status#:#Olvasási idő
 cpad#:#cpad_reading_time_status_desc#:#A tartalomlap becsült olvasási idejét megállapítjuk és megjelenítjük.
@@ -7589,6 +7601,7 @@ crs#:#crs_members_groups#:#Csoporttagságok
 crs#:#crs_members_map#:#Kurzustagok térképe
 crs#:#crs_members_print_title#:#Kurzustagok
 crs#:#crs_min_one_admin#:#Legalább egy vezetőt hozzá kell rendelni ehhez a kurzushoz.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Az Ön új állapota:
@@ -7916,6 +7929,7 @@ crs#:#events#:#Események
 crs#:#export_members#:#Résztvevők adatainak exportálása
 crs#:#grouping_change_assignment#:#Hozzárendelés változtatása
 crs#:#grp_grp_already_assigned#:#Már tagja ennek a csoportosításnak.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Ezúton értesítjük, hogy az alábbi kurzusok és csoportok esetén nincs meg a minimális taglétszám (még):
 crs#:#mem_cron_min_members_reason#:#Ezt a levelet azért kapta, mert a tagok fülön beállította, hogy kér értesítést.
 crs#:#mem_cron_min_members_subject#:#Kurzus/Csoport: Minimális taglétszám ellenőrzése
@@ -8202,6 +8216,7 @@ dateplaner#:#cal_edit_category#:#Naptár módosítása
 dateplaner#:#cal_edit_milestone#:#Mérföldkő módosítása
 dateplaner#:#cal_edit_recurrences#:#Összes esemény módosítása
 dateplaner#:#cal_edit_single#:#Esemény módosítása
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Mérföldkövek engedélyezése
 dateplaner#:#cal_enable_group_milestones_desc#:#Ez a beállítás engedélyezi a mérföldkőtervezést a naptárban.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Az értesítés címzettjeinek listája nem érvényes. Csak ILIAS felhasználóneveket vagy érvényes e-mail címet válasszon!
@@ -8232,6 +8247,7 @@ dateplaner#:#cal_grp_others#:#További
 dateplaner#:#cal_grp_personal#:#Személyes
 dateplaner#:#cal_ical_infoscreen#:#Feliratkozás
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Események importja
 dateplaner#:#cal_import_file#:#Fájl importja
 dateplaner#:#cal_import_file_info#:#Válassza ki a naptárjának eseményeit tartalmazó fájlt.
@@ -8362,6 +8378,7 @@ dateplaner#:#cal_weekly#:#Hetente
 dateplaner#:#cal_where#:#Hely
 dateplaner#:#cal_year_s#:#Év
 dateplaner#:#cal_yearly#:#Évente
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Létrehozva
 dateplaner#:#crs_cal_activation_end#:#Kurzus láthatóságának vége
 dateplaner#:#crs_cal_activation_start#:#Kurzus láthatóságának kezdete
@@ -9009,6 +9026,7 @@ etal#:#notification_talks_removed#:#Az alábbi találkozókat törölték.
 etal#:#notification_talks_subject#:#Meghívás: %s
 etal#:#notification_talks_subject_update#:#Módosítás: %s
 etal#:#notification_talks_updated#:#Az alábbi találkozókat módosították.
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Megbeszéléssorozat
 etal#:#tals_add#:#Megbeszélés hozzáadása
 etal#:#tals_new#:#Új Megbeszélés
@@ -10343,7 +10361,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Becsült olvasási idő
 lm#:#lm_est_reading_time_info#:#A tananyagokban a becsült olvasási idő megállapítható és megjeleníthető.
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#Tananyagoldal
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#A címeket sikeresen mentette.
 lng#:#language_detection#:#Nyelvfelismerés
 lng#:#lng_disable_language_detection#:#Nyelvfelismerés tiltása
@@ -10388,6 +10408,8 @@ lso#:#abstract_img#:#Absztrakt képe
 lso#:#avail_time_period#:#Időköz
 lso#:#completed_steps#:#Megtett lépések
 lso#:#condition_always#:#Mindig
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Tanterv
 lso#:#delete_confirmation#:#Biztos, hogy törli ezeket az objektumokat?
 lso#:#entries_deleted#:#Az objektumokat sikeresen törölte.
@@ -11319,6 +11341,7 @@ meta#:#md_copyright#:#Szerzői jog
 meta#:#md_copyright_add#:#Új szerzői jog hozzáadása
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Alapértelmezett szerzői jog módosítása
 meta#:#md_copyright_enable_info#:#Válassza ezt az opciót előre meghatározott szerzői jogok ajánlására.
 meta#:#md_copyright_enabled#:#Szerzői jog kiválasztásának engedélyezése
@@ -11956,6 +11979,7 @@ mme#:#move_to_top_item#:#Mozgatás a felső elemekhez
 mme#:#msg_languages_added#:#Hozzáadott nyelvek
 mme#:#msg_moved#:#Az elemet sikeresen mozgatta
 mme#:#msg_not_moved#:#Az elem mozgatása sikertelen, érvényes szülőt válasszon.
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#Az összes egyéni elembeállítást és fordítást töröl, és az összes standard elem visszaáll annak alapértékére. Az összes személyre szabás elveszik.
 mme#:#msg_restored#:#A Főmenüt alapértékeit sikeresen visszaállította
 mme#:#msg_subitem_deleted#:#Az elemet sikeresen törölte.
@@ -12234,6 +12258,7 @@ obj#:#obj_activation#:#Aktiválás
 obj#:#obj_activation_list_gui#:#Elérhetőség
 obj#:#obj_add_languages#:#Nyelvek hozzáadása
 obj#:#obj_additional_langs#:#További nyelvek
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Lapszerkesztés fordítása ki van kapcsolva van.
 obj#:#obj_copy_progress#:#Másolási folyamat
 obj#:#obj_deactivate_content_lang#:#Többnyelvűség kikapcsolása
@@ -12525,6 +12550,7 @@ poll#:#poll_activation_online_info#:#Kapcsolja be ezt a beállítást, hogy a sz
 poll#:#poll_add#:#Szavazás létrehozása
 poll#:#poll_anonymous_warning#:#Ez a szavazás névtelen.
 poll#:#poll_answer#:#Válasz
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Lehetséges válaszok
 poll#:#poll_barchart#:#Oszlopdiagram
 poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
@@ -13748,6 +13774,7 @@ rbac#:#rbac_create_role#:#Új szabály létrehozása
 rbac#:#rbac_create_rolt#:#Új szabály sablon létrehozása
 rbac#:#rbac_create_sahs#:#SCORM-tananyag létrehozása
 rbac#:#rbac_create_sess#:#Esemény létrehozása
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Kérdőívkérdés-gyűjtemény létrehozása
 rbac#:#rbac_create_svy#:#Kérdőív létrehozása
 rbac#:#rbac_create_tst#:#Teszt létrehozása
@@ -13923,6 +13950,17 @@ rbac#:#sess_read#:#A felhasználónak olvasási elérése van munkamenetekhez
 rbac#:#sess_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#sess_visible#:#Az események láthatók
 rbac#:#sess_write#:#A felhasználó eseménytartalmakat és -beállításokat szerkeszthet
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Kompetenciamenedzsment jogosultsági beállításait
 rbac#:#skmg_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kompetenciamenedzsment beállításaihoz
 rbac#:#skmg_visible#:#A felhasználó láthatja a Rendszerbeállítások » Kompetenciamenedzsment menüpontot
@@ -16051,6 +16089,7 @@ survey#:#svy_mail_send_confirmation#:#A kitöltésről e-mail küldése
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Az oszlopbeállítások összege nem 100%.
 survey#:#svy_max_sum_score#:#Összpontszám maximális értéke
 survey#:#svy_neutral_answer#:#Szöveg semleges válaszhoz ('Nem meghatározott', 'Nem tudom' stb.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#Egy e-mail a kérdőív eredményeivel
 survey#:#svy_notification_tutor_results_alert#:#Adjon meg záró dátumot.
 survey#:#svy_notification_tutor_results_info#:#A feladatütemező el fogja küldeni csatolmányként a kérdőív részletes eredményeit a záró dátumkor.
@@ -16131,6 +16170,7 @@ svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
 svy#:#svy_invite_participants#:#Résztvevők meghívása
 svy#:#svy_link_to_svy#:#Kérdőívre mutató link
 svy#:#svy_part_overview#:#Áttekintés
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Nyomtatási nézet választása
 svy#:#svy_remove_all_participants#:#Összes résztvevő eltávolítása
 svy#:#svy_remove_participants#:#Résztvevő eltávolítása
@@ -16738,6 +16778,7 @@ user#:#user_prompting_recurrence#:#Felkérés ismétlődése
 user#:#user_prompting_settings#:#Felkérés beállításai
 user#:#user_public_profile_info#:#Válassza ki, mely személyes adatai legyenek láthatóak profiljában, és hogy mely felhasználók lássák profilját.
 user#:#user_publish_options#:#Profil közzététele
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Felhasználó - Kiindulási pont
 user#:#user_save_continue#:#Mentés és folytatás
 user#:#user_save_ordering_and_titles#:#Sorrend és címek mentése

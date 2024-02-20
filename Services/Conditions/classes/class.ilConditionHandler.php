@@ -1114,7 +1114,7 @@ class ilConditionHandler
             ilObject::_lookupObjId($a_src_ref_id)
         );
         foreach ($conditions as $con) {
-            if ($mappings[$con['trigger_ref_id']]) {
+            if ($mappings[$con['trigger_ref_id']] ?? false) {
                 $newCondition = new ilConditionHandler();
 
                 $target_obj = ilObject::_lookupObjId($a_target_ref_id);

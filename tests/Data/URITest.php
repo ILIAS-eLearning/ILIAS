@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
@@ -90,6 +106,45 @@ class URITest extends TestCase
         $this->assertEquals('fragment', $uri->getFragment());
     }
 
+    /**
+     * @depends test_init
+     * @dataProvider provideIPv6addresses
+     */
+    public function testIPv6(string $host): void
+    {
+        $uri = new ILIAS\Data\URI('http://' . $host);
+        $this->assertEquals('http', $uri->getSchema());
+        $this->assertEquals($host, $uri->getAuthority());
+        $this->assertEquals($host, $uri->getHost());
+        $this->assertEquals(null, $uri->getPort());
+        $this->assertEquals(null, $uri->getPath());
+        $this->assertEquals(null, $uri->getQuery());
+        $this->assertEquals(null, $uri->getFragment());
+    }
+
+    public function provideIPv6addresses(): array
+    {
+        return [
+            // Long form.
+            ['[1234:5678:9ABC:DEF0:1234:5678:9ABC:DEF0]'],
+            ['[1:2:3:4:5:6:7:8]'],
+            // Short form.
+            ['[::1]'],
+            ['[::]'],
+            ['[::Ff00]'],
+            ['[1::]'],
+            ['[::3:4:5:6:7:8]'],
+            ['[3:4:5:6:7:8::]'],
+            ['[12::34]'],
+            // Embedded IPv4 (long).
+            ['[1234:5678:9ABC:DEF0:1234:5678:123.123.123.123]'],
+            // Embedded IPv4 (short).
+            ['[::123.123.123.123]'],
+            ['[1::123.123.123.123]'],
+            ['[1:3:4::123.123.123.123]'],
+            ['[::f:a:123.123.123.123]'],
+        ];
+    }
 
     /**
      * @depends test_init

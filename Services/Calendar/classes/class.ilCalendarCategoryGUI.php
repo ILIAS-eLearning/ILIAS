@@ -498,7 +498,6 @@ class ilCalendarCategoryGUI
             return;
         }
 
-        $this->getSearchToolbar();
         $res_sum = new ilSearchResult();
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($query));
@@ -553,6 +552,8 @@ class ilCalendarCategoryGUI
                 $this->showRoleList($res_sum->getResultIds());
                 break;
         }
+
+        $this->getSearchToolbar();
     }
 
     /**

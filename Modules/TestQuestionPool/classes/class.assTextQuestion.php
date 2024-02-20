@@ -1092,6 +1092,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function countWords($text): int
     {
+        if($text === '') {
+            return 0;
+        }
         $text = str_replace('&nbsp;', ' ', $text);
 
         $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
@@ -1103,10 +1106,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return count(explode(' ', $text));
     }
 
-    public function getLatestAutosaveContent($active_id)
+    public function getLatestAutosaveContent(int $active_id, int $pass): ?string
     {
-        $question_fi = $this->getId();
-
         // Do we have an unauthorized result?
         $cntresult = $this->db->query(
             '
@@ -1115,6 +1116,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
             AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
             AND authorized = ' . $this->db->quote(0, 'int')
+            . ' AND pass = ' . $this->db->quote($pass, 'int')
         );
         $row = $this->db->fetchAssoc($cntresult);
         if ($row['cnt'] > 0) {
@@ -1125,10 +1127,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
             AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
             AND authorized = ' . $this->db->quote(0, 'int')
+            . ' AND pass = ' . $this->db->quote($pass, 'int')
             );
             $trow = $this->db->fetchAssoc($tresult);
             return $trow['value1'];
         }
-        return '';
+        return null;
     }
 }

@@ -329,7 +329,7 @@ Target group: developer
 
 Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the following MUST be true:
 
-- **Dissmissable**: A mechanism is available to dismiss the additional content without moving pointer hover or keyboard focus, unless the additional content communicates an input error or does not obscure or replace other content;
+- **Dismissable**: A mechanism is available to dismiss the additional content without moving pointer hover or keyboard focus, unless the additional content communicates an input error or does not obscure or replace other content;
 
 - **Hoverable**: If pointer hover can trigger the additional content, then the pointer can be moved over the additional content without the additional content disappearing;
 
@@ -779,7 +779,7 @@ Target group: developer
 In content implemented using markup languages, status messages MUST be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
 
 # Accessibility Checklist 
-This list is prepared to be worked thorugh by developers implementing specific projects. Results from external compliance testing may lead to adapting these phrases. Changes will be subjected to the jour fixe if compliance testing indicates they are erroneous or lacking information. We still hope the following list is helpful in everyday work, please let us know if this is not the case. 
+This list is prepared to be worked through by developers implementing specific projects. Results from external compliance testing may lead to adapting these phrases. Changes will be subjected to the jour fixe if compliance testing indicates they are erroneous or lacking information. We still hope the following list is helpful in everyday work, please let us know if this is not the case. 
 ## Tabbing and Focus
 Please manually check your project for tabbing and focus quality: 
 1. All functionality must be operable by keyboard, mainly tab, arrow, space or return keys are used. (2.1.1) 

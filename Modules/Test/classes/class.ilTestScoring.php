@@ -199,6 +199,7 @@ class ilTestScoring
         foreach ($this->test->getAllQuestions() as $question) {
             /** @var AssQuestionGUI $question_gui */
             $question_gui = $this->test->createQuestionGUI("", $question['question_id']);
+            $solution .= '<h1>' . $question_gui->object->getTitle() . '</h1>';
             $solution .= $question_gui->getSolutionOutput(0, null, true, true, false, false, true, false);
         }
 
@@ -217,7 +218,7 @@ class ilTestScoring
 
     public function addRecalculatedPassByActive($activeId, $pass)
     {
-        if (! array_key_exists($activeId, $this->recalculatedPasses)
+        if (!array_key_exists($activeId, $this->recalculatedPasses)
             || !is_array($this->recalculatedPasses[$activeId])
         ) {
             $this->recalculatedPasses[$activeId] = array();

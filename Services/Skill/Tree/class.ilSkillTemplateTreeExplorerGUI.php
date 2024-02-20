@@ -157,7 +157,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
-                                                      "SkillTreeAdminGUI",
+                                                      "ilSkillTreeAdminGUI",
                                                       "ilObjSkillTreeGUI",
                                                       "ilskillrootgui"
                 ], "listTemplates");
@@ -169,7 +169,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
-                                                      "SkillTreeAdminGUI",
+                                                      "ilSkillTreeAdminGUI",
                                                       "ilObjSkillTreeGUI",
                                                       "ilbasicskilltemplategui"
                 ], "edit");
@@ -181,7 +181,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
-                                                      "SkillTreeAdminGUI",
+                                                      "ilSkillTreeAdminGUI",
                                                       "ilObjSkillTreeGUI",
                                                       "ilskilltemplatecategorygui"
                 ], "listItems");

@@ -337,8 +337,13 @@ export default class TinyWrapper {
         cb();
       });
 
-      const currentRng = tiny.selection.getRng();
+      if (ev.key === "Escape") {
+        wrapper.getCallbacks(CB.ESCAPE).forEach((cb) => {
+          cb();
+        });
+      }
 
+      const currentRng = tiny.selection.getRng();
       // down, right
       if ([39,40].includes(ev.keyCode)) {
         if (

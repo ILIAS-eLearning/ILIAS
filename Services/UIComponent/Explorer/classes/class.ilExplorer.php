@@ -1055,7 +1055,9 @@ class ilExplorer
         if ($a_node_id < 0) {
             $key = array_keys(ilSession::get($this->expand_variable), -(int) $a_node_id);
             $exp = ilSession::get($this->expand_variable);
-            unset($exp[$key[0]]);
+            if (isset($key[0]) && isset($exp[$key[0]])) {
+                unset($exp[$key[0]]);
+            }
             ilSession::set($this->expand_variable, $exp);
         }
         $this->expanded = (array) ilSession::get($this->expand_variable);

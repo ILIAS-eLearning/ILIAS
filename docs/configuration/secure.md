@@ -29,7 +29,7 @@
 
 This guideline is going to show you some best practice examples how to improve the security of your ILIAS installation, of the webserver and it's associated components.
 The ILIAS e.V. requested a documentation for a "Secure ILIAS" in march 2019.
-The section "Hardening and Security Guidance" should be removed and the security related instructions have to be mantained in a own document.
+The section "Hardening and Security Guidance" should be removed and the security related instructions have to be maintained in a own document.
 
 ## List of placeholder names
 
@@ -235,7 +235,7 @@ server {
 `ssl_dhparam /etc/ssl/private/dhparam.pem;`:
 
 This specifies a file with DH parameters for EDH (Ephemeral Diffie-Hellman) ciphers.
-By default, NGINX will use the default DHE paramaters provided by openssl. This uses a weak key that gets lower scores.
+By default, NGINX will use the default DHE parameters provided by openssl. This uses a weak key that gets lower scores.
 Run `openssl dhparam -out /etc/ssl/private/dhparam.pem 4096` in terminal to generate it.
 
 We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended to reach a "A" rating as minimum.
@@ -460,7 +460,7 @@ You can simply add for example `add_header Set-Cookie` in your `server` configur
 
 note:
 For nginx, you have to generate a specific cookie for your ILIAS client.
-This will overide the cookie deliverd by ILIAS, so it is necessary to generate the whole cookie.
+This will override the cookie delivered by ILIAS, so it is necessary to generate the whole cookie.
 
 ## Suppress server signature and PHP version information
 
@@ -570,7 +570,7 @@ Nginx:
 
 ### Prevent execution of PHP-Code in data-directory
 
-There may be situations where there is no oppurtunity to disallow uploading php-files e.g. in Computer Science courses. In this case you SHOULD disallow these uploaded code to be executed by the webserver.
+There may be situations where there is no opportunity to disallow uploading php-files e.g. in Computer Science courses. In this case you SHOULD disallow these uploaded code to be executed by the webserver.
 
 Apache2:
 
@@ -615,7 +615,7 @@ Nginx:
 Local changes of the code of ILIAS can indicate a potential intrusion.
 
 To determine local changes of the code of ILIAS use `git status` / `git diff`.
-This will show you the uncommited local changes.
+This will show you the uncommitted local changes.
 (Beware: Committed local changes remain undetected using this method.)
 (If you have conscious code local changes, this can lead to a false positive.)
 
@@ -665,9 +665,9 @@ to
 
 ## Use secure passwords
 
-Please keep in mind, that your plattform might me be accessible to the world wide web. To avoid unauthorized access to your Ilias-Installation, it his highly recommended to use secure passwords. Especially the root password and the Ilias-Master-Password are potentially endangered.
+Please keep in mind, that your platform might me be accessible to the world wide web. To avoid unauthorized access to your Ilias-Installation, it his highly recommended to use secure passwords. Especially the root password and the Ilias-Master-Password are potentially endangered.
 
-Your passwords should fullfil the following criterias:
+Your passwords should fulfil the following criterias:
 
 * at least 8 characters in length
 * lowercase and uppercase alphabetic characters [possible:  `a-z`, `A-Z`]

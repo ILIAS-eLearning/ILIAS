@@ -370,7 +370,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             "news_pd_period",
             $this->std_request->getDashboardPeriod(),
             $ilUser->getId(),
-            (int) $this->block_id
+            0
         );
 
         $cache = new ilNewsCache();

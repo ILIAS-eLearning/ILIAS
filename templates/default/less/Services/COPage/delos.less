@@ -78,9 +78,14 @@ button.copg-add.dropdown-toggle.btn:hover,
 	}
 }
 
-button.copg-add.dropdown-toggle.btn:hover {
+button.copg-add.dropdown-toggle.btn:hover, button.copg-add.dropdown-toggle.btn:focus-visible {
 	background-color: lighten(@il-btn-standard-bg, 50%);
 	color: @il-text-light-color;
+}
+
+button.copg-add.dropdown-toggle.btn:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: -@il-focus-outline-inner-width;
 }
 
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
@@ -186,7 +191,7 @@ div.il_editarea_disabled, div.copg-disabled-page {
 div.il_editarea_selected, div.copg-current-edit, #tinytarget_ifr {
 	border-style: solid;
 	border-width: 2px;
-	border-color: lighten(@il-secondary-color, 30%);
+	border-color: darken(@il-secondary-color, 10%);
 }
 
 div.il_editarea_selected:hover {
@@ -737,7 +742,7 @@ div.ilCOPGMediaPrint {
 		margin: 5px 0;
 	}
 
-	p.ilTinyInfo {
+	h3.ilTinyInfo {
 		padding: 4px;
 		width: 100%;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {

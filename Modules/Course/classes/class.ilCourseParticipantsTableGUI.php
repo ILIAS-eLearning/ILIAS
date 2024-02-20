@@ -161,7 +161,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         foreach ($this->getSelectedColumns() as $field) {
             switch ($field) {
                 case 'gender':
-                    $a_set['gender'] = $a_set['gender'] ? $this->lng->txt('gender_' . $a_set['gender']) : '';
+                    $a_set['gender'] = ($a_set['gender'] ?? '') ? $this->lng->txt('gender_' . $a_set['gender']) : '';
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();

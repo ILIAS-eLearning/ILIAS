@@ -61,6 +61,8 @@ abstract class assQuestion
     protected const DEFAULT_THUMB_SIZE = 150;
     protected const MINIMUM_THUMB_SIZE = 20;
 
+    public const TRIM_PATTERN = '/^[\p{C}\p{Z}]+|[\p{C}\p{Z}]+$/u';
+
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -125,7 +127,7 @@ abstract class assQuestion
      */
     protected array $suggested_solutions;
 
-    protected ?int $original_id;
+    protected ?int $original_id = null;
 
     /**
      * Page object
@@ -2608,7 +2610,7 @@ abstract class assQuestion
         $this->points = $points;
     }
 
-    public function getSolutionMaxPass(int $active_id): int
+    public function getSolutionMaxPass(int $active_id)
     {
         return self::_getSolutionMaxPass($this->getId(), $active_id);
     }
@@ -2616,7 +2618,7 @@ abstract class assQuestion
     /**
     * Returns the maximum pass a users question solution
     */
-    public static function _getSolutionMaxPass(int $question_id, int $active_id): int
+    public static function _getSolutionMaxPass(int $question_id, int $active_id)
     {
         /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
                 $pass = ilObjTest::_getPass($active_id);
@@ -2635,7 +2637,7 @@ abstract class assQuestion
         );
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
-            return (int) $row["maxpass"];
+            return $row["maxpass"];
         }
 
         return 0;
@@ -2966,13 +2968,18 @@ abstract class assQuestion
 
     public function getQuestionForHTMLOutput(): string
     {
-        $question_text = $this->getHtmlQuestionContentPurifier()->purify($this->question);
+        return $this->purifyAndPrepareTextAreaOutput($this->question);
+    }
+
+    protected function purifyAndPrepareTextAreaOutput(string $content) : string
+    {
+        $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
         if ($this->isAdditionalContentEditingModePageObject()
             || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
-            $question_text = nl2br($question_text);
+            $purified_content = nl2br($purified_content);
         }
         return $this->prepareTextareaOutput(
-            $question_text,
+            $purified_content,
             true,
             true
         );
@@ -4194,4 +4201,24 @@ abstract class assQuestion
         $res = $this->db->query($query);
         return $res->numRows() > 0;
     }
+
+    /**
+     * Trim non-printable characters from the beginning and end of a string.
+     *
+     * Note: The PHP trim() function is not fully Unicode-compatible and may not handle
+     * non-printable characters effectively. As a result, it may not trim certain Unicode
+     * characters, such as control characters, zero width characters or ideographic space as expected.
+     *
+     * This method provides a workaround for trimming non-printable characters until PHP 8.4,
+     * where the mb_trim() function is introduced. Users are encouraged to migrate to mb_trim()
+     * for proper Unicode and non-printable character handling.
+     *
+     * @param string $value The string to trim.
+     * @return string The trimmed string.
+     */
+    public static function extendedTrim(string $value): string
+    {
+        return preg_replace(self::TRIM_PATTERN, '', $value);
+    }
+
 }

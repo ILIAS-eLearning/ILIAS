@@ -12,7 +12,6 @@ on:
         type: choice
         options:
           - trunk
-          - release_8
 permissions:
   contents: read
   pull-requests: read
@@ -37,7 +36,7 @@ jobs:
           args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
 
       - name: 'PHStan Custom Rules'
-        run: CI/PHPStan/run_legacy_ui_report.sh
+        run: scripts/PHPStan/run_legacy_ui_report.sh
 
       - name: 'Store Report'
         uses: actions/upload-artifact@v3

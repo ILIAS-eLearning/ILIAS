@@ -86,7 +86,9 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
                     $title,
                     $this->ctrl->getLinkTarget($this, "preview")
                 );
-                return parent::executeCommand();
+                $ret = parent::executeCommand();
+                $this->tabs_gui->activateTab("pg");
+                return $ret;
         }
     }
 

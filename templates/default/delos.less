@@ -1,4 +1,4 @@
-//out: delos.css, sourcemap: true, compress: false
+//out: delos.css, sourceMap: true, compress: false
 
 @import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
@@ -491,8 +491,10 @@ a {
 		color: @link-hover-color;
 		text-decoration: underline;
 	}
-	
-	.il-focus();
+	&:focus:focus-visible {
+		outline: none;
+	}
+	.il-focus-border-only();
 }
 
 hr {

@@ -55,6 +55,8 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
         $exp->setTypeWhiteList($white);
         $subitems->setTitleModifier(function ($a_id): string {
+            $a_id = (int) $a_id;
+
             $obj_id = ilObject::_lookupObjId($a_id);
             $olp = ilObjectLP::getInstance($obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
@@ -147,7 +149,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $invalid = array();
         $invalid_modes = self::getInvalidLPModes();
         foreach ($a_form->getInput("subitems") as $ref_id) {
-            $obj_id = ilObject::_lookupObjId($ref_id);
+            $obj_id = ilObject::_lookupObjId((int) $ref_id);
             $olp = ilObjectLP::getInstance($obj_id);
             if (in_array($olp->getCurrentMode(), $invalid_modes)) {
                 $invalid[] = ilObject::_lookupTitle($obj_id);

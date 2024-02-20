@@ -261,7 +261,12 @@ class ilAdvancedMDValues
                 // record is optional, check activation for object
                 if ($item[1]) {
                     $found = false;
-                    foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject($a_type, $a_obj_id) as $record) {
+                    foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+                        $a_type,
+                        $a_obj_id,
+                        '',
+                        false
+                    ) as $record) {
                         if ($record->getRecordId() == $item[0]) {
                             $found = true;
                         }
@@ -357,7 +362,7 @@ class ilAdvancedMDValues
                 }
                 $target_sel[] = $record_id;
             }
-            ilAdvancedMDRecord::saveObjRecSelection($a_target_id, $a_sub_type, $target_sel);
+            ilAdvancedMDRecord::saveObjRecSelection($a_target_id, (string) $a_sub_type, $target_sel);
         }
 
         // clone values

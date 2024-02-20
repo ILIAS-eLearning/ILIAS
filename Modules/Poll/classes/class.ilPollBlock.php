@@ -68,7 +68,7 @@ class ilPollBlock extends ilCustomBlock
             return false;
         }
 
-        if (!$this->mayVote($a_user_id) &&
+        if (!$this->maySeeQuestion($a_user_id) &&
             !$this->maySeeResults($a_user_id)) {
             return false;
         }
@@ -76,13 +76,9 @@ class ilPollBlock extends ilCustomBlock
         return true;
     }
 
-    public function mayVote(int $a_user_id): bool
+    public function maySeeQuestion($a_user_id): bool
     {
         if (!$this->active) {
-            return false;
-        }
-
-        if ($a_user_id === ANONYMOUS_USER_ID) {
             return false;
         }
 
@@ -97,6 +93,11 @@ class ilPollBlock extends ilCustomBlock
         }
 
         return true;
+    }
+
+    public function mayVote($a_user_id): bool
+    {
+        return $this->maySeeQuestion($a_user_id) && $a_user_id != ANONYMOUS_USER_ID;
     }
 
     public function mayNotResultsYet(): bool
@@ -122,7 +123,7 @@ class ilPollBlock extends ilCustomBlock
             case ilObjPoll::VIEW_RESULTS_ALWAYS:
                 // fallthrough
 
-            // #12023 - see mayNotResultsYet()
+                // #12023 - see mayNotResultsYet()
             case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:
                 return true;
 

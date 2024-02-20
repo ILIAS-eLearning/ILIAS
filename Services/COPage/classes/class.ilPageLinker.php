@@ -121,8 +121,8 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "GlossaryItem":
-                        if ($targetframe == "None") {
-                            $targetframe = "Glossary";
+                        if ($targetframe == "Glossary") {
+                            $ltarget = "";
                         }
                         $href = "./goto.php?target=git_" . $target_id;
                         break;
@@ -146,7 +146,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                     case "WikiPage":
                         $wiki_anc = "";
                         if (($int_link["Anchor"] ?? "") != "") {
-                            $wiki_anc = "#" . rawurlencode($int_link["Anchor"]);
+                            $wiki_anc = "#" . rawurlencode("copganc_" . $int_link["Anchor"]);
                         }
                         $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         break;

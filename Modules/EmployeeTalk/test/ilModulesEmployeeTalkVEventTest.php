@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\EmployeeTalk\Service\VEvent;
 use ILIAS\EmployeeTalk\Service\VEventStatus;
@@ -29,8 +29,8 @@ class ilModulesEmployeeTalkVEventTest extends TestCase
         $expectedStart = "BEGIN:VEVENT\r\n";
         $expectedStart .= "UID: unique-id-of-some-sort\r\n";
         $expectedStart .= "DESCRIPTION:test description\r\n";
-        $expectedStart .= "DTSTART;TZID=Europe/Paris:19700101T000010\r\n";
-        $expectedStart .= "DTEND;TZID=Europe/Paris:19700101T000020\r\n";
+        $expectedStart .= "DTSTART;TZID=Europe/Paris:19700101T010010\r\n";
+        $expectedStart .= "DTEND;TZID=Europe/Paris:19700101T010020\r\n";
         // Timestamps in between which breaks the test because they are changing
         $expectedEnd = "ORGANIZER;CN=\"organiser-name\":MAILTO:org@anizer.local\r\n";
         $expectedEnd .= "ATTENDEE;CN=\"attendee-name\";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:at@tendee.local\r\n";

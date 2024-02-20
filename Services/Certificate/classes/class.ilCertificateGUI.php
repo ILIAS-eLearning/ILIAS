@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -64,6 +64,7 @@ class ilCertificateGUI
     private ilPageFormats $pageFormats;
     private Filesystem $tmp_file_system;
     private ilLogger $logger;
+    private ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -96,6 +97,8 @@ class ilCertificateGUI
         $this->tree = $DIC['tree'];
         $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
+
+        $this->global_certificate_settings = new ilObjCertificateSettings();
 
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('cert');
@@ -462,8 +465,8 @@ class ilCertificateGUI
                 }
                 if ($backgroundImagePath === '') {
                     if ($backgroundDelete || $previousCertificateTemplate->getBackgroundImagePath() === '') {
-                        $globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-                        $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
+                        $backgroundImagePath = $this->global_certificate_settings->getDefaultBackgroundImagePath(true);
+
                     } else {
                         $backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
                     }

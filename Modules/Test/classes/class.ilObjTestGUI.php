@@ -524,7 +524,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->getTestObject(),
                     $ilAccess,
                     $DIC->http(),
-                    $DIC->refinery()
+                    $DIC->refinery(),
+                    $DIC['ui.factory'],
+                    $DIC['ui.renderer']
                 );
                 $gui->setWriteAccess($ilAccess->checkAccess("write", "", $this->ref_id));
                 $gui->init();
@@ -957,32 +959,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->forwardToEvaluationGUI();
     }
 
-    private function testResultsGatewayObject()
+    private function testResultsGatewayObject(): void
     {
-        global $DIC;
-        $this->tabs_gui->clearTargets();
-
-        $this->prepareOutput();
-        $this->addHeaderAction();
-
-        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
-        $this->ctrl->setCmd('showParticipants');
-
-
-        $gui = new ilParticipantsTestResultsGUI();
-        $gui->setTestObj($this->object);
-
-        $factory = new ilTestQuestionSetConfigFactory(
-            $this->tree,
-            $DIC->database(),
-            $DIC['component.repository'],
-            $this->object
+        $this->ctrl->redirectByClass(
+            [
+                ilRepositoryGUI::class,
+                __CLASS__,
+                ilTestResultsGUI::class,
+                ilParticipantsTestResultsGUI::class
+            ],
+            'showParticipants'
         );
-        $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
-        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
-        $gui->setTestAccess($this->getTestAccess());
-        $this->tabs_gui->activateTab('results');
-        $this->ctrl->forwardCommand($gui);
     }
 
     /**
@@ -3446,7 +3433,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $score_settings = $object->getScoreSettings();
         foreach ($simpleSetters as $field => $setter) {
-            if (! array_key_exists($field, $templateData)) {
+            if (!array_key_exists($field, $templateData)) {
                 continue;
             }
 

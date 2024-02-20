@@ -91,7 +91,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         return $this->selfassessmentmode;
     }
 
-    public function setInsertTabs(bool $a_active): void
+    public function setInsertTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjStudyProgrammeListGUI extends ilObjectListGUI
 {
@@ -82,8 +82,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         int $context = self::CONTEXT_REPOSITORY
     ): string {
         $prg = new ilObjStudyProgramme($ref_id);
-        $assignments = $prg->getAssignments();
-        if ($this->getCheckboxStatus() && count($assignments) > 0) {
+        if ($this->getCheckboxStatus() && $prg->hasAssignments()) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
             $this->enableCheckbox(false);
         } else {

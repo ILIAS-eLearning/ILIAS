@@ -536,6 +536,7 @@ class ilBookingObjectGUI
         $lng = $this->lng;
 
         $obj = new ilBookingObject($this->object_id);
+        $obj->deleteReservationsAndCalEntries($this->object_id);
         $obj->delete();
 
         $this->tpl->setOnScreenMessage('success', $lng->txt('book_object_deleted'), true);

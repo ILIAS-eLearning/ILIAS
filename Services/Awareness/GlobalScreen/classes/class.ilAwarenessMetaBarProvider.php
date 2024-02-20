@@ -67,10 +67,13 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
 
         $counter = $manager->processMetaBar();
 
-        $content = function () use ($gui) {
-            $result = $gui->getAwarenessList(true);
-            return $this->dic->ui()->factory()->legacy($result["html"]);
-        };
+        $result = $gui->getAwarenessList(true);
+        $online = explode(":", $result["cnt"]);
+        $online = (int) $online[0];
+        $content = $this->dic->ui()->factory()->legacy($result["html"]);
+        if ($online === 0) {
+            $is_widget_visible = false;
+        }
 
         $mb = $this->globalScreen()->metaBar();
 
@@ -88,7 +91,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
                 }
                 return $c;
             })
-            ->withLegacyContent($content())
+            ->withLegacyContent($content)
             ->withSymbol(
                 $this->dic->ui()->factory()
                 ->symbol()

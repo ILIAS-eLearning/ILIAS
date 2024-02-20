@@ -25,6 +25,7 @@ use ILIAS\Survey\Mode\ModeFactory;
 use ILIAS\Survey\Code\CodeManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Survey\Editing\EditManager;
+use ILIAS\Survey\Sequence\SequenceManager;
 
 /**
  * Survey internal domain service
@@ -54,6 +55,11 @@ class InternalDomainService
         $this->data_service = $data_service;
 
         $this->mode_factory = $mode_factory;
+    }
+
+    public function log(): \ilLogger
+    {
+        return $this->logger()->svy();
     }
 
     public function modeFeatureConfig(int $mode): FeatureConfig
@@ -122,4 +128,15 @@ class InternalDomainService
             $this
         );
     }
+
+    public function sequence(int $survey_id, \ilObjSurvey $survey): SequenceManager
+    {
+        return new SequenceManager(
+            $this->repo_service,
+            $this,
+            $survey_id,
+            $survey
+        );
+    }
+
 }

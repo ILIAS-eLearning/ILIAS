@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * XML  parser for weblink xml
@@ -52,6 +52,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     private array $current_parameters = [];
     private ?string $current_description;
     private ?bool $current_internal;
+
+    private bool $is_list = false;
+    private string $list_title;
+    private string $list_description;
 
     public function __construct(ilObjLinkResource $webr, string $xml)
     {
@@ -212,10 +216,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'WebLinks':
                 $this->sorting_positions = array();
-            // no break
+                // no break
             case 'Title':
             case 'Description':
             case 'Target':
+            case 'ListTitle':
+            case 'ListDescription':
                 // Nothing to do
                 break;
 
@@ -258,6 +264,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 $this->current_parameters[] = $param;
 
                 break;
+
+            case 'ListSettings':
+                $this->is_list = true;
+                break;
         }
     }
 
@@ -274,6 +284,22 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 break;
 
             case 'WebLinks':
+                if ($this->is_list || !$this->web_link_repo->doesOnlyOneItemExist()) {
+                    $list_draft = new ilWebLinkDraftList(
+                        $this->list_title ?? $this->getWebLink()->getTitle(),
+                        $this->list_description ?? $this->getWebLink()->getDescription()
+                    );
+
+                    if (!$this->web_link_repo->doesListExist()) {
+                        $this->web_link_repo->createList($list_draft);
+                    } else {
+                        $this->web_link_repo->updateList(
+                            $this->web_link_repo->getList(),
+                            $list_draft
+                        );
+                    }
+                }
+
                 $this->getWebLink()->MDUpdateListener('General');
                 $this->getWebLink()->update();
 
@@ -344,6 +370,14 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'Target':
                 $this->current_target = trim($this->cdata);
+                break;
+
+            case 'ListTitle':
+                $this->list_title = trim($this->cdata);
+                break;
+
+            case 'ListDescription':
+                $this->list_description = trim($this->cdata);
                 break;
         }
 

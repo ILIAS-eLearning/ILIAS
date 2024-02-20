@@ -178,9 +178,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
 
-    public function saveToDb(): void
+    public function saveToDb(int $original_id = -1): void
     {
-        $this->saveQuestionDataToDb(-1);
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb();

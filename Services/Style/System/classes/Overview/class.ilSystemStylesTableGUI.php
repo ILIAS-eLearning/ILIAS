@@ -116,7 +116,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('STYLE_NAME', $a_set['style_name']);
         $this->tpl->setVariable('SKIN_NAME', $a_set['skin_name']);
-        $is_substyle = $a_set['substyle_of'] != '';
+        $is_substyle = isset($a_set['substyle_of']) && $a_set['substyle_of'] != '';
 
         if (!$is_substyle) {
             $this->tpl->setVariable('USERS', $a_set['users']);

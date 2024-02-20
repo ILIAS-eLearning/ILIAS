@@ -66,7 +66,7 @@ class ilMMItemInformation implements ItemInformation
         static $default_language;
 
         // see https://mantis.ilias.de/view.php?id=32276
-        if (!isset($usr_language_key) && $DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
+        if (!isset($usr_language_key) && ($DIC->user()->getId() === 0 || $DIC->user()->isAnonymous())) {
             $usr_language_key = $DIC->http()->wrapper()->query()->has('lang')
                 ? $DIC->http()->wrapper()->query()->retrieve('lang', $DIC->refinery()->to()->string())
                 : null;

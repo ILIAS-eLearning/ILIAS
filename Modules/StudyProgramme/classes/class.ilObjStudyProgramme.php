@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -1102,7 +1102,14 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasAssignments(): bool
     {
-        return count($this->getAssignments()) > 0;
+        $filter = new ilPRGAssignmentFilter($this->lng);
+        $count = $this->assignment_repository->countAllForNodeIsContained(
+            $this->getId(),
+            null,
+            $filter
+        );
+        return $count > 0;
+
     }
 
     /**
@@ -1146,12 +1153,16 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasRelevantProgresses(): bool
     {
-        $assignments = $this->getAssignments();
-        $relevant = array_filter(
-            $assignments,
-            fn ($ass) => $ass->getProgressForNode($this->getId())->isRelevant()
+        $filter = new ilPRGAssignmentFilter($this->lng);
+        $filter = $filter->withValues([
+            'prg_status_hide_irrelevant'=> true
+        ]);
+        $count = $this->assignment_repository->countAllForNodeIsContained(
+            $this->getId(),
+            null,
+            $filter
         );
-        return count($relevant) > 0;
+        return $count > 0;
     }
 
     public function getIdsOfUsersWithRelevantProgress(): array
@@ -1487,14 +1498,6 @@ class ilObjStudyProgramme extends ilContainer
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($obj_id);
         if ($type === "crsr") {
-            require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
-            $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($obj_id);
-            foreach ($crs_reference_obj_ids as $crs_reference_obj_id) {
-                foreach (ilObject::_getAllReferences($crs_reference_obj_id) as $ref_id) {
-                    self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $crs_reference_obj_id, $user_id);
-                }
-            }
-        } else {
             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
                 self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $obj_id, $user_id);
             }

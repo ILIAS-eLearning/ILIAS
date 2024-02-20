@@ -109,7 +109,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $item->setRequired(true);
         $types = ilCmiXapiLrsTypeList::getTypesData(false, ilCmiXapiLrsType::AVAILABILITY_CREATE);
         foreach ($types as $type) {
-            $option = new ilRadioOption($type['title'], $type['type_id'], $type['description']);
+            $option = new ilRadioOption((string) $type['title'], (string) $type['type_id'], (string) $type['description']);
             $item->addOption($option);
         }
         #$item->setValue($this->object->typedef->getTypeId());

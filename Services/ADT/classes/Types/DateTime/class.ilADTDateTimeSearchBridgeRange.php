@@ -171,11 +171,11 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         assert($a_adt instanceof ilADTDateTime);
 
         if (!$this->getLowerADT()->isNull() && !$this->getUpperADT()->isNull()) {
-            return $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
+            return (bool) $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
         } elseif (!$this->getLowerADT()->isNull()) {
-            return $a_adt->isLargerOrEqual($this->getLowerADT());
+            return (bool) $a_adt->isLargerOrEqual($this->getLowerADT());
         } else {
-            return $a_adt->isSmallerOrEqual($this->getUpperADT());
+            return (bool) $a_adt->isSmallerOrEqual($this->getUpperADT());
         }
     }
 

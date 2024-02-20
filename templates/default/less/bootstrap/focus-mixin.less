@@ -28,6 +28,21 @@
 	}
 }
 
+// ported from ILIAS 9
+.il-focus-border-only() {
+	&:focus-visible {
+		outline: none;
+		border: @il-focus-outline-inner;
+		box-shadow: inset 0px 0px 0px 2px @il-focus-protection-color, 0px 0px 0px 2px @il-focus-protection-color;
+		outline-offset: initial;
+	}
+	&::after,
+	&:focus:focus-visible::after {
+		content: none;
+	}
+}
+
+
 .il-focus-after() {
 	&::after {
 		content: " ";

@@ -27,6 +27,7 @@ declare(strict_types=1);
 *
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI, ilPropertyFormGUI
 *
 * @package ilias-search

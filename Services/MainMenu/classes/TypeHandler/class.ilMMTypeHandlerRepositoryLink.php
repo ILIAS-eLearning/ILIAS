@@ -49,9 +49,13 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
             $ref_id = (int) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
             $item = $item->withRefId($ref_id)
                 ->withVisibilityCallable(
-                    function () use ($DIC, $ref_id) {
-                        return $DIC->access()->checkAccess('join', '', $ref_id)
+                    function () use ($DIC, $ref_id, $item) {
+                        $is_visible_parent = $item->isVisible();
+                        $has_access = $DIC->access()->checkAccess('join', '', $ref_id)
                             || $DIC->access()->checkAccess('read', '', $ref_id);
+
+                        return $is_visible_parent
+                            && $has_access;
                     }
                 );
         }

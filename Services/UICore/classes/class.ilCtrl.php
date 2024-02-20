@@ -296,7 +296,11 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCmdClass(): ?string
     {
-        return $this->context->getCmdClass() ?? '';
+        if (null !== ($cmd_class = $this->context->getCmdClass())) {
+            return strtolower($this->structure->getObjNameByName($cmd_class));
+        }
+
+        return '';
     }
 
     /**
@@ -329,7 +333,7 @@ class ilCtrl implements ilCtrlInterface
         );
 
         if (null !== $next_cid) {
-            return $this->structure->getClassNameByCid($next_cid) ?? '';
+            return strtolower($this->structure->getObjNameByCid($next_cid) ?? '');
         }
 
         return '';
@@ -942,7 +946,7 @@ class ilCtrl implements ilCtrlInterface
         $target_url = $this->appendParameterString(
             $target_url,
             self::PARAM_BASE_CLASS,
-            $base_class,
+            urlencode($base_class), // encode in case of namespaced classes
             $is_escaped
         );
 
@@ -963,7 +967,7 @@ class ilCtrl implements ilCtrlInterface
             $target_url = $this->appendParameterString(
                 $target_url,
                 self::PARAM_CMD_CLASS,
-                $cmd_class,
+                urlencode($cmd_class), // encode in case of namespaced classes
                 $is_escaped
             );
         }

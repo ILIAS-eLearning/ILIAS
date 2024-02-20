@@ -41,16 +41,16 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        $this->copyright_id = $a_parent_obj->getEntryId();
+        $this->setId("mdcopusage" . $this->copyright_id);
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->db = $DIC->database();
-        $this->copyright_id = $a_parent_obj->getEntryId();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
-
-        $this->setId("mdcopusage" . $this->copyright_id);
     }
 
     public function init(): void
@@ -58,10 +58,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $md_entry = new ilMDCopyrightSelectionEntry($this->copyright_id);
         $this->setTitle($md_entry->getTitle());
 
-        $this->addColumn($this->lng->txt('object'), 'object');
-        $this->addColumn($this->lng->txt('meta_references'), 'references');
-        $this->addColumn($this->lng->txt('meta_copyright_sub_items'), 'subitems');
-        $this->addColumn($this->lng->txt('owner'), 'owner');
+        $this->addColumn($this->lng->txt('object'), 'title');
+        $this->addColumn($this->lng->txt('meta_references'));
+        $this->addColumn($this->lng->txt('meta_copyright_sub_items'), 'sub_items');
+        $this->addColumn($this->lng->txt('owner'), 'owner_name');
 
         $this->setRowTemplate("tpl.show_copyright_usages_row.html", "Services/MetaData");
         $this->setFormAction($this->ctrl->getFormAction(
@@ -97,6 +97,14 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
         $item->setOptions(array("" => "-") + $this->objects);
         $this->filter["object"] = $item->getValue();
+    }
+
+    public function numericOrdering(string $a_field): bool
+    {
+        if ($a_field === 'sub_items') {
+            return true;
+        }
+        return false;
     }
 
     /**

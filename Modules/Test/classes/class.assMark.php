@@ -60,6 +60,18 @@ class ASS_Mark
         $this->setPassed($passed);
     }
 
+    /**
+     * Stephan Kergomard, 2023-11-08: We need an explicit __unserialize function
+     * here because of changes to the corresponding classes with ILIAS 8.
+     */
+    public function __unserialize(array $data): void
+    {
+        $this->short_name = $data['short_name'];
+        $this->official_name = $data['short_name'];
+        $this->minimum_level = (float) $data['minimum_level'];
+        $this->passed = (int) $data['passed'];
+    }
+
     public function getShortName(): string
     {
         return $this->short_name;

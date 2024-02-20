@@ -81,6 +81,10 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $pc_media_gui->setStyleId($style_id);
         $pc_media_gui->getCharacteristicsOfCurrentStyle(["media_cont"]);
 
+        if (is_null($pc_media->getMediaObject())) {
+            return "<div id='copg-top-actions'>" . $ui_wrapper->getRenderedInfoBox($lng->txt("copg_pc_mob_does_not_exist")) .
+                $ui_wrapper->getRenderedButton($lng->txt("cancel"), "form-button", "component.cancel", null, "Page") . "</div>";
+        }
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");
 
         // title

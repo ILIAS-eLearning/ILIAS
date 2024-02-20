@@ -2605,14 +2605,22 @@ class ilObjStyleSheet extends ilObject
         $r["r"] = substr($a_rgb, 0, 2);
         $r["g"] = substr($a_rgb, 2, 2);
         $r["b"] = substr($a_rgb, 4, 2);
-
         if ($as_dec) {
-            $r["r"] = (int) hexdec($r["r"]);
-            $r["g"] = (int) hexdec($r["g"]);
-            $r["b"] = (int) hexdec($r["b"]);
+            $r["r"] = self::hexdec($r["r"]);
+            $r["g"] = self::hexdec($r["g"]);
+            $r["b"] = self::hexdec($r["b"]);
         }
 
         return $r;
+    }
+
+    protected static function hexdec(string $hex) : int
+    {
+        $hex = preg_replace("/[^a-fA-F0-9]+/", "", $hex);
+        if ($hex === "") {
+            $hex = "0";
+        }
+        return (int) hexdec($hex);
     }
 
     /**

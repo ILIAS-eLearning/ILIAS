@@ -2918,6 +2918,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this, 'showLMGlossarySelector'));
         $exp->setExpand($this->requested_search_root_expand ?: $tree->readRootId());
+        $exp->setPathOpen($this->object->getRefId());
         $exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showLMGlossarySelector'));
         $exp->setTargetClass(get_class($this));
         $exp->setCmd('confirmGlossarySelection');

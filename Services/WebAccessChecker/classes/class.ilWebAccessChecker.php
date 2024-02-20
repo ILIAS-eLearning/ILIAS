@@ -193,8 +193,7 @@ class ilWebAccessChecker
     protected function checkPublicSection(): void
     {
         global $DIC;
-        $on_login_page = !$this->isRequestNotFromLoginPage();
-        $is_anonymous = ($DIC->user()->getId() === ANONYMOUS_USER_ID);
+        $is_anonymous = ((int) $DIC->user()->getId() === (int) ANONYMOUS_USER_ID);
         $is_null_user = ($DIC->user()->getId() === 0);
         $pub_section_activated = (bool) $DIC['ilSetting']->get('pub_section');
         $isset = isset($DIC['ilSetting']);
@@ -202,11 +201,6 @@ class ilWebAccessChecker
 
         if (!$isset || !$instanceof) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
-        }
-
-        if ($on_login_page && ($is_null_user || $is_anonymous)) {
-            // Request is initiated from login page
-            return;
         }
 
         if ($pub_section_activated && ($is_null_user || $is_anonymous)) {
@@ -224,9 +218,8 @@ class ilWebAccessChecker
         global $DIC;
 
         $is_user = $DIC->user() instanceof ilObjUser;
-        $user_id_is_zero = ($DIC->user()->getId() === 0);
-        $not_on_login_page = $this->isRequestNotFromLoginPage();
-        if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
+        $user_id_is_zero = ((int) $DIC->user()->getId() === 0);
+        if (!$is_user || $user_id_is_zero) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
         }
     }
@@ -347,29 +340,5 @@ class ilWebAccessChecker
         $ilAuthSession->setUserId(ANONYMOUS_USER_ID);
         $ilAuthSession->setAuthenticated(false, ANONYMOUS_USER_ID);
         $DIC->user()->setId(ANONYMOUS_USER_ID);
-    }
-
-    protected function isRequestNotFromLoginPage(): bool
-    {
-        $referrer = $_SERVER['HTTP_REFERER'] ?? '';
-        $not_on_login_page = (strpos($referrer, 'login.php') === false
-            && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
-
-        if ($not_on_login_page && $referrer !== '') {
-            // In some scenarios (observed for content styles on login page, the HTTP_REFERER does not contain a PHP script
-            $referrer_url_parts = parse_url($referrer);
-            $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
-            if (
-                $ilias_url_parts['host'] === $referrer_url_parts['host'] &&
-                (
-                    !isset($referrer_url_parts['path']) ||
-                    strpos($referrer_url_parts['path'], '.php') === false
-                )
-            ) {
-                $not_on_login_page = false;
-            }
-        }
-
-        return $not_on_login_page;
     }
 }

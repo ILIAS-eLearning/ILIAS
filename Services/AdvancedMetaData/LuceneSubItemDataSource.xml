@@ -9,36 +9,34 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- enum global required -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type)
 			WHERE robj.optional = 0
 			AND rec.active = 1
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?)
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- enum global optional -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type)
@@ -48,26 +46,25 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?)
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
 			<!-- enum local -->
-			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value
+			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, vd.value, vd.idx
 			FROM adv_md_values_enum val
 			JOIN adv_mdf_enum vd ON (val.field_id = vd.field_id AND value_index = idx)
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type)
@@ -84,16 +81,16 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
-		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
+		<Field store="YES" index="ANALYZED" column="idx" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
 	<!--
 		record: active
 		field: searchable
-		container setting "cont_custom_md": on (for optional and local records)	
+		container setting "cont_custom_md": on (for optional and local records)
 		subtype and -id
 	-->
 	<DataSource type="JDBC" action="append">
@@ -101,23 +98,22 @@
 			<!-- text global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_ltext val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);			
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -126,7 +122,6 @@
 			<!-- text global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_ltext val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -136,16 +131,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -154,7 +149,6 @@
 			<!-- text local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_ltext val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -171,9 +165,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -182,23 +176,22 @@
 			<!-- date global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_date val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);					
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -207,7 +200,6 @@
 			<!-- date global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_date val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -217,16 +209,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);	
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -235,7 +227,6 @@
 			<!-- date local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_date val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -252,9 +243,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -263,23 +254,22 @@
 			<!-- datetime global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_datetime val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);					
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -288,7 +278,6 @@
 			<!-- datetime global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_datetime val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -298,16 +287,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);					
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -316,7 +305,6 @@
 			<!-- datetime local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_datetime val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -333,9 +321,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -344,23 +332,22 @@
 			<!-- float global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_float val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);		
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -369,7 +356,6 @@
 			<!-- float global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_float val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -379,16 +365,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);				
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -397,7 +383,6 @@
 			<!-- float local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_float val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -414,9 +399,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -425,23 +410,22 @@
 			<!-- int global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_int val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);		
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -450,7 +434,6 @@
 			<!-- int global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_int val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -460,16 +443,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);	
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -478,7 +461,6 @@
 			<!-- int local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_int val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -495,9 +477,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -506,23 +488,22 @@
 			<!-- extlink global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
 			FROM adv_md_values_extlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);			
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
@@ -533,7 +514,6 @@
 			<!-- text global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
 			FROM adv_md_values_extlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -543,16 +523,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
@@ -563,7 +543,6 @@
 			<!-- extlink local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value, val.title
 			FROM adv_md_values_extlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -580,9 +559,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 		<Field store="YES" index="ANALYZED" column="title" type="text" dynamicName="field_name" />
@@ -593,23 +572,22 @@
 			<!-- intlink global required -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_intlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
 			WHERE robj.optional = 0 
 			AND rec.active = 1 
 			AND def.searchable = 1
-			AND rec.parent_obj IS NULL 
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);			
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -618,7 +596,6 @@
 			<!-- intlink global optional -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_intlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -628,16 +605,16 @@
 			AND def.searchable = 1
 			AND cont.keyword = 'cont_custom_md'
 			AND cont.value = 1
-			AND rec.parent_obj IS NULL
+			AND IFNULL(rec.parent_obj, 0) = 0
 			AND robj.obj_type IN (?)
 			AND val.obj_id IN (?)
 			AND val.sub_type IN (?) 
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>
@@ -646,7 +623,6 @@
 			<!-- intlink local -->
 			SELECT concat('advancedMetaData_', val.field_id) field_name, val.field_id, val.value
 			FROM adv_md_values_intlink val
-			JOIN object_data obj ON (obj.obj_id = val.obj_id)
 			JOIN adv_mdf_definition def ON (def.field_id = val.field_id)
 			JOIN adv_md_record rec ON (rec.record_id = def.record_id)
 			JOIN adv_md_record_objs robj ON (robj.record_id = rec.record_id AND robj.sub_type = val.sub_type) 
@@ -663,9 +639,9 @@
 			AND val.sub_id IN (?);
 		</Query>
 		<Param format="list" type="string" value="objType" />
-		<Param format="list" type="int" value="objId" />
-		<Param format="list" type="string" value="metaSubType" />
-		<Param format="list" type="int" value="metaSubId" />
+		<Param format="list" type="int" value="metaRbacId" />
+		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaObjId" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" dynamicName="field_name" />
 		<Field store="YES" index="ANALYZED" column="value" type="text" name="metaData" />
 	</DataSource>      

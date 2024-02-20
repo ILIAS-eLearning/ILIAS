@@ -85,7 +85,8 @@ class ilLanguage
         $this->lang_path = ILIAS_ABSOLUTE_PATH . "/lang";
         $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/Customizing/global/lang";
 
-        $this->lang_default = $client_ini->readVariable("language", "default") ?: 'en';
+        $this->lang_default = $client_ini->readVariable("language", "default") ?? 'en';
+        $this->lang_user = $this->lang_default;
 
         if ($DIC->offsetExists("ilSetting")) {
             $ilSetting = $DIC->settings();
@@ -125,7 +126,7 @@ class ilLanguage
      */
     public function getDefaultLanguage(): string
     {
-        return $this->lang_default ?: "en";
+        return $this->lang_default ?? "en";
     }
 
     /**

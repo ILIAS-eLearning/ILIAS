@@ -821,6 +821,12 @@ abstract class ilBlockGUI
                     $lng->txt("delete")
                 );
 
+                $this->addBlockCommand(
+                    "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=link" .
+                    "&item_ref_id=" . $this->getRefId(),
+                    $lng->txt("link")
+                );
+
                 // see ilObjectListGUI::insertCutCommand();
                 $this->addBlockCommand(
                     "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=cut" .

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * SCORM Learning Modules
@@ -338,6 +338,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC->access();
         $ilErr = $DIC['ilErr'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $importFromXml = false;
 
@@ -384,6 +385,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $name = $this->lng->txt("no_title");
         }
 
+        $description = "";
+
         $subType = "scorm2004";
         if ($DIC->http()->wrapper()->post()->has('sub_type')) {
             $subType = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
@@ -398,9 +401,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         switch ($subType) {
             case "scorm2004":
                 $newObj = new ilObjSCORM2004LearningModule();
-                //            $newObj->setEditable(false);//$_POST["editable"] == 'y');
-                //            $newObj->setImportSequencing($_POST["import_sequencing"]);
-                //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                 break;
 
             case "scorm":
@@ -412,35 +412,35 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $fType = $sFile["type"];
                 $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
                 if (in_array($fType, $cFileTypes)) {
-                    $timeStamp = time();
                     $tempFile = $sFile["tmp_name"];
-                    $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
-                    $lmTempDir = $lmDir . $timeStamp;
-                    if (!file_exists($lmTempDir)) {
-                        if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
-                            throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
-                        }
-                    }
+                    $lmTempDir = ilFileUtils::ilTempnam();
+                    ilFileUtils::makeDir($lmTempDir);
                     $zar = new ZipArchive();
                     $zar->open($tempFile);
                     $zar->extractTo($lmTempDir);
                     $zar->close();
+                    ilFileUtils::renameExecutables($lmTempDir);
                     $importer = new ilScormAiccImporter();
                     $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
                     $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                    $import_result = $importer->getResult();
+
                     $importFromXml = true;
-                    //                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
-                    //                    $importFromXml = true;
-                    //                }
-                    $mprops = $importer->moduleProperties;
-                    $subType = (string) $mprops["SubType"];
-                    if ($subType === "scorm") {
-                        $newObj = new ilObjSCORMLearningModule();
+                    if ($import_result->isOK()) {
+                        $properties = $import_result->value();
+                        if (($subType = $properties['SubType']) === 'scorm') {
+                            $newObj = new ilObjSCORMLearningModule();
+                        } else {
+                            $newObj = new ilObjSCORM2004LearningModule();
+                        }
+                        $name = $properties['Title'];
+                        $description = $properties['Description'];
                     } else {
-                        $newObj = new ilObjSCORM2004LearningModule();
-                        // $newObj->setEditable($_POST["editable"]=='y');
-                        // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                        // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                        ilFileUtils::delDir($lmTempDir, false);
+                        $ilLog->error('SCORM import of ILIAS exportfile not possible because parsing error');
+                        $ilLog->error($import_result->error());
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_file_not_valid"), true);
+                        return;
                     }
                 }
                 break;
@@ -448,7 +448,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $newObj->setTitle($name);
         $newObj->setSubType($subType);
-        $newObj->setDescription("");
+        $newObj->setDescription($description);
         $newObj->setOfflineStatus(false);
         $newObj->create(true);
         $newObj->createReference();

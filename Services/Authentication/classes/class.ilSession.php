@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -226,9 +226,9 @@ class ilSession
     /**
     * Destroy session
     *
-    * @param	string|array		session id|s
-    * @param	int					closing context
-    * @param	int|bool			expired at timestamp
+    * @param	string|array $a_session_id      session id|s
+    * @param	int|null     $a_closing_context closing context
+    * @param	int|bool     $a_expired_at      expired at timestamp
     */
     public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null): bool
     {
@@ -257,6 +257,18 @@ class ilSession
         ilSessionIStorage::destroySession($a_session_id);
 
         $ilDB->manipulate($q);
+
+        try {
+            // only delete session cookie if it is set in the current request
+            if ($DIC->http()->wrapper()->cookie()->has(session_name()) &&
+                $DIC->http()->wrapper()->cookie()->retrieve(session_name(), $DIC->refinery()->kindlyTo()->string()) === $a_session_id) {
+                $cookieJar = $DIC->http()->cookieJar()->without(session_name());
+                $cookieJar->renderIntoResponseHeader($DIC->http()->response());
+            }
+        } catch (\Throwable $e) {
+            // ignore
+            // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
+        }
 
         return true;
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -164,6 +163,12 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->ctrl->setCmdClass(get_class($course_content_obj));
             $this->ctrl->forwardCommand($course_content_obj);
         }
+    }
+
+    public function deleteObject(bool $error = false): void
+    {
+        $this->tabs_gui->activateTab('view_content');
+        parent::deleteObject($error);
     }
 
     public function renderContainer(): void
@@ -828,6 +833,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->object->setWaitingListAutoFill(false);
                 break;
         }
+        $this->object->handleAutoFill();
 
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
@@ -908,6 +914,26 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->editObject($form);
             return;
         }
+
+        // 29589
+        if (
+            $sub_type === ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED &&
+            (
+                !is_null($sub_period->getStart()) ||
+                !is_null($sub_period->getEnd())
+            )
+        ) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('crs_msg_no_self_registration_period_if_self_enrolment_disabled'),
+                true
+            );
+            $form->setValuesByPost();
+            $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input'));
+            $this->editObject($form);
+            return;
+        }
+
         $this->afterUpdate();
     }
 
@@ -2179,6 +2205,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
                 $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,
@@ -2383,6 +2410,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
                     && $cmd != 'removeFromDesk'
+                    && $cmd !== 'leave'
                     && !$this->access->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {

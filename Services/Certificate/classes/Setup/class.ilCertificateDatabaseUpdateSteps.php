@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -58,6 +58,23 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     {
         if ($this->db->tableExists('il_cert_user_cert') && $this->db->tableColumnExists('il_cert_user_cert', 'user_id')) {
             $this->db->renameTableColumn('il_cert_user_cert', 'user_id', 'usr_id');
+        }
+    }
+
+    public function step_5(): void
+    {
+        if (
+            $this->db->tableExists('il_cert_template')
+            && !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
+        ) {
+            $this->db->addIndex('il_cert_template', ['background_image_path', 'currently_active'], 'i5');
+        }
+
+        if (
+            $this->db->tableExists('il_cert_user_cert')
+            && !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
+        ) {
+            $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
         }
     }
 }

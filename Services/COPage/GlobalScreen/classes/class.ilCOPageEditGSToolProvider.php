@@ -60,7 +60,9 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                             return "
                                  $('body').on('il-copg-editor-slate', function(){
-                                    il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                    if (!il.UI.page.isSmallScreen()) {
+                                        il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                    }
                                  });";
                         });
                     }

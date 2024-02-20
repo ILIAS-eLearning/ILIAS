@@ -38,7 +38,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.qpl_import_verification_row.html', 'Modules/TestQuestionPool');
         $this->addMultiCommand('importVerifiedFile', $this->lng->txt("import"));
         $this->addCommandButton('cancelImport', $this->lng->txt("cancel"));
-
+        $this->setShowRowsSelector(false); // Removed due to #38976 - losing upload file on roundtrip
         $this->initColumns();
     }
 

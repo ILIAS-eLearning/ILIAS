@@ -182,4 +182,18 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 
         $this->db->manipulate('TRUNCATE TABLE notification_osd');
     }
+
+    public function step_11(): void
+    {
+        $this->db->manipulateF(
+            'DELETE FROM settings WHERE module = %s AND keyword = %s',
+            ['text', 'text'],
+            ['notifications', 'enable_mail']
+        );
+        $this->db->insert('settings', [
+            'module' => ['text', 'notifications'],
+            'keyword' => ['text', 'enable_mail'],
+            'value' => ['text', '1']
+        ]);
+    }
 }

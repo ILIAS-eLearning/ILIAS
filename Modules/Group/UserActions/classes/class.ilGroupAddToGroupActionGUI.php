@@ -50,6 +50,18 @@ class ilGroupAddToGroupActionGUI
     protected function initGroupRefIdFromQuery(): int
     {
         $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('grp_act_ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'grp_act_ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $ref_id;
+    }
+
+    protected function initGroupParentRefIdFromQuery(): int
+    {
+        $ref_id = 0;
         if ($this->http->wrapper()->query()->has('grp_act_par_ref_id')) {
             $ref_id = $this->http->wrapper()->query()->retrieve(
                 'grp_act_par_ref_id',
@@ -190,7 +202,6 @@ class ilGroupAddToGroupActionGUI
 
         $ref_id = $this->initGroupRefIdFromQuery();
         $user_id = $this->initUserIdFromQuery();
-
         $participants = ilParticipants::getInstanceByObjId(ilObject::_lookupObjId($ref_id));
         if ($participants->isMember($user_id)) {
             $url = $ctrl->getLinkTarget($this, "selectGroup", "", true);
@@ -270,7 +281,7 @@ class ilGroupAddToGroupActionGUI
     {
         $lng = $this->lng;
 
-        $ref_id = $this->initGroupRefIdFromQuery();
+        $ref_id = $this->initGroupParentRefIdFromQuery();
 
         if ($form == null) {
             $form = $this->getGroupCreationForm();
@@ -344,7 +355,7 @@ class ilGroupAddToGroupActionGUI
         $lng = $this->lng;
 
         $user_id = $this->initUserIdFromQuery();
-        $ref_id = $this->initGroupRefIdFromQuery();
+        $ref_id = $this->initGroupParentRefIdFromQuery();
         $form = $this->getGroupCreationForm();
 
         $form->checkInput();

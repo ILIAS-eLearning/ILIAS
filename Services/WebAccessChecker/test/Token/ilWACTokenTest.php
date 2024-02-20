@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +14,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+// declare(strict_types=1);
+require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\HTTP\Cookies\Cookie;
 use ILIAS\HTTP\Cookies\CookieFactory;
@@ -34,7 +36,6 @@ use Dflydev\FigCookies\SetCookie;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
@@ -110,7 +111,7 @@ class ilWACTokenTest extends MockeryTestCase
 
         //setup container for HttpServiceAware classes
         $container = new \ILIAS\DI\Container();
-        $container['http'] = fn ($c) => Mockery::mock(GlobalHttpState::class);
+        $container['http'] = fn($c) => Mockery::mock(GlobalHttpState::class);
 
         $this->http = $container['http'];
 
@@ -128,7 +129,7 @@ class ilWACTokenTest extends MockeryTestCase
 
     public function testWithoutSigning(): void
     {
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url()), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_one->url(), false), $this->http, $this->cookieFactory);
 
         $cookieJar = Mockery::mock(CookieJar::class);
 
@@ -162,7 +163,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         $query = 'myparam=1234';
         $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->file_four->url() . '?'
-                                                             . $query), $this->http, $this->cookieFactory);
+                                                             . $query, false), $this->http, $this->cookieFactory);
 
         $this->assertEquals('dummy.jpg', $ilWACSignedPath->getPathObject()->getFileName());
         $this->assertEquals($query, $ilWACSignedPath->getPathObject()->getQuery());
@@ -176,7 +177,7 @@ class ilWACTokenTest extends MockeryTestCase
 
     public function testTokenGeneration(): void
     {
-        $ilWacPath = new ilWacPath($this->file_four->url());
+        $ilWacPath = new ilWacPath($this->file_four->url(), false);
         $ilWACToken = new ilWACToken($ilWacPath->getPath(), self::CLIENT_NAME, 123456, 20);
         $ilWACToken->generateToken();
         $this->assertEquals('SALT-client_name-123456-20', $ilWACToken->getRawToken());
@@ -244,7 +245,7 @@ class ilWACTokenTest extends MockeryTestCase
 
         // Request within lifetime
         $signed_path = ilWACSignedPath::signFile($this->file_one->url());
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path, false), $this->http, $this->cookieFactory);
 
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertTrue($ilWACSignedPath->isSignedPathValid());
@@ -259,7 +260,7 @@ class ilWACTokenTest extends MockeryTestCase
         // Request after lifetime
         $signed_path = ilWACSignedPath::signFile($this->file_four->url());
         sleep($lifetime + self::ADDITIONAL_TIME);
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($signed_path, false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }
@@ -273,7 +274,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         // self::markTestSkipped("WIP");
         // return;
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0)), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertTrue($ilWACSignedPath->isSignedPathValid());
     }
@@ -286,7 +287,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         // self::markTestSkipped("WIP");
         // return;
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME, 0)), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME, 0), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }
@@ -297,7 +298,7 @@ class ilWACTokenTest extends MockeryTestCase
         // self::markTestSkipped("WIP");
         // return;
         $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(self::ADDITIONAL_TIME
-                                                                                          * -1, 0)), $this->http, $this->cookieFactory);
+                                                                                          * -1, 0), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }
@@ -307,7 +308,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         // self::markTestSkipped("WIP");
         // return;
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 1)), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 1), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }
@@ -317,7 +318,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         // self::markTestSkipped("WIP");
         // return;
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(1, 1)), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(1, 1), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }
@@ -327,7 +328,7 @@ class ilWACTokenTest extends MockeryTestCase
     {
         // self::markTestSkipped("WIP");
         // return;
-        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0, md5('LOREM'))), $this->http, $this->cookieFactory);
+        $ilWACSignedPath = new ilWACSignedPath(new ilWACPath($this->getModifiedSignedPath(0, 0, md5('LOREM')), false), $this->http, $this->cookieFactory);
         $this->assertTrue($ilWACSignedPath->isSignedPath());
         $this->assertFalse($ilWACSignedPath->isSignedPathValid());
     }

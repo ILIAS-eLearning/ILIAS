@@ -414,6 +414,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         }
 
         $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
+        if ($this->getInfo() !== '') {
+            $tpl->setVariable('DESCRIBED_BY_FIELD_ID', $this->getFieldId());
+        }
 
         return $tpl->get();
     }

@@ -43,7 +43,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         $this->ass = $a_ass;
         $this->user_id = $a_user_id;
         $this->peer_data = $a_peer_data;
-
+        $this->setId("exc_peer_rv_fb");
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setLimit(9999);

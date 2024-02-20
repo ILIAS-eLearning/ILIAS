@@ -238,7 +238,7 @@ class ilExcCriteriaGUI
         $lng = $this->lng;
 
         $is_edit = (bool) $a_crit_obj->getId();
-
+        $ilCtrl->setParameter($this, "type", $this->request->getCriteriaType());
         $form = $this->initForm($a_crit_obj);
         if ($form->checkInput()) {
             $a_crit_obj->setTitle($form->getInput("title"));

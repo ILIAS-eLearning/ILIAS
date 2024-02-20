@@ -383,6 +383,8 @@ class ilObjSurvey extends ilObject
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForCompleteObject();
         }
+
+        $this->invitation_manager->removeAll($this->getSurveyId());
     }
 
     /**
@@ -596,6 +598,13 @@ class ilObjSurvey extends ilObject
     public function insertQuestionblock(
         int $questionblock_id
     ): void {
+
+        $sequence_manager = $this->survey_service->domain()->sequence(
+            $this->getSurveyId(),
+            $this
+        );
+
+
         $ilDB = $this->db;
         $result = $ilDB->queryF(
             "SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.show_blocktitle," .
@@ -608,15 +617,20 @@ class ilObjSurvey extends ilObject
             array($questionblock_id)
         );
         $questions = array();
-        $show_questiontext = 0;
-        $show_blocktitle = 0;
+        $show_questiontext = false;
+        $show_blocktitle = false;
         $title = "";
+        $this->svy_log->debug("insert block, original id: " . $questionblock_id);
         while ($row = $ilDB->fetchAssoc($result)) {
-            $duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            $this->svy_log->debug("question: " . $row["question_fi"]);
+            $duplicate_id = $sequence_manager->appendQuestion($row["question_fi"], true);
+            //$duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            $this->svy_log->debug("question copy: " . $duplicate_id);
             $questions[] = $duplicate_id;
-            $title = $row["title"];
-            $show_questiontext = $row["show_questiontext"];
-            $show_blocktitle = $row["show_blocktitle"];
+            $title = (string) $row["title"];
+            $this->svy_log->debug("title: " . $title);
+            $show_questiontext = (bool) $row["show_questiontext"];
+            $show_blocktitle = (bool) $row["show_blocktitle"];
         }
         $this->createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions);
     }
@@ -2457,6 +2471,11 @@ class ilObjSurvey extends ilObject
             $user_id = (int) ilObjUser::_lookupId($recipient);
             if ($user_id > 0) {
                 $ntf->sendMailAndReturnRecipients([$user_id]);
+            } else {
+                $user_ids = ilObjUser::getUserIdsByEmail($recipient);
+                if (count($user_ids) > 0) {
+                    $ntf->sendMailAndReturnRecipients([current($user_ids)]);
+                }
             }
             /*  note: this block is replace by the single line above
                 since the UI asks for account names and the "e-mail" fallback leads
@@ -2905,7 +2924,7 @@ class ilObjSurvey extends ilObject
                     $questions_array[$key] = "$counter. $value";
                     $counter++;
                 }
-                if (strlen($surveytitles[$row["obj_fi"]])) { // only questionpools which are not in trash
+                if (strlen($surveytitles[$row["obj_fi"]] ?? "")) { // only questionpools which are not in trash
                     $rows[$row["questionblock_id"]] = array(
                         "questionblock_id" => $row["questionblock_id"],
                         "title" => $row["title"],
@@ -3346,6 +3365,9 @@ class ilObjSurvey extends ilObject
                     $tgt_skills->addQuestionSkillAssignment($tgt_qst_id, $qst_skill["base_skill_id"], $qst_skill["tref_id"]);
                 }
             }
+
+            $thresholds = new ilSurveySkillThresholds($this);
+            $thresholds->cloneTo($newObj, $mapping);
         }
 
         // clone the questionblocks

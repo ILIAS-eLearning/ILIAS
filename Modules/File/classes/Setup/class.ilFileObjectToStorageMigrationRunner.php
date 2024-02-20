@@ -37,7 +37,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 class ilFileObjectToStorageMigrationRunner
 {
-    protected string $movement_implementation;
+    protected string $movement_implementation = '';
 
     protected ConsumerFactory $consumer_factory;
     protected Manager $storage_manager;

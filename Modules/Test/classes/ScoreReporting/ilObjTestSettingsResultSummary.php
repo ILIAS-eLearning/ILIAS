@@ -66,7 +66,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
         if ($reporting_date !== null) {
             $reporting_date = $reporting_date->setTimezone(
                 new DateTimeZone($environment['user_time_zone'])
-            )->format($environment['user_date_format']);
+            )->format($environment['user_date_format']->toString() . ' H:m');
         }
 
         $results_time_group = $f->switchableGroup(
@@ -79,6 +79,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
                     $f->dateTime($lng->txt('tst_reporting_date'), "")
                         ->withTimezone($environment['user_time_zone'])
                         ->withUseTime(true)
+                        ->withFormat($environment['user_date_format'])
                         ->withValue(
                             $reporting_date
                         )
@@ -97,7 +98,6 @@ class ilObjTestSettingsResultSummary extends TestSettings
         if ($this->getScoreReporting() > 0) {
             $results_time_group = $results_time_group->withValue($this->getScoreReporting());
         }
-
 
         $optional_group = $f->optionalGroup(
             [

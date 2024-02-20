@@ -68,20 +68,6 @@ class ilPDFGeneratorUtils
     }
 
     /**
-     * @param ilPropertyFormGUI $form
-     */
-    public static function setCheckedIfTrue(ilPropertyFormGUI $form): void
-    {
-        foreach ($form->getItems() as $item) {
-            if ($item instanceof ilCheckboxInputGUI) {
-                if ($item->getValue() || $item->getValue() === '1') {
-                    $item->setChecked(true);
-                }
-            }
-        }
-    }
-
-    /**
      * @return array<string, string[]>
      */
     public static function getPurposeMap(): array

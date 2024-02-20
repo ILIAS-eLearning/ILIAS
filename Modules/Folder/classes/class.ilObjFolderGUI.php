@@ -161,7 +161,7 @@ class ilObjFolderGUI extends ilContainerGUI
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
-                //$this->showContainerPageTabs();
+                $this->showContainerPageTabs();
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -599,5 +599,11 @@ class ilObjFolderGUI extends ilContainerGUI
 
         $ilTabs->activateSubTab($a_tab);
         $ilTabs->activateTab("settings");
+    }
+
+    public function deleteObject(bool $error = false): void
+    {
+        $this->tabs_gui->activateTab('view_content');
+        parent::deleteObject($error);
     }
 }

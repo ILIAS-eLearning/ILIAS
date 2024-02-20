@@ -261,7 +261,7 @@ var ilMultiFormValues = {
 
 		// try to set value 
 		if(preset != '') {
-			$(element).find('select[id*="' + group_id + '"] option[value="' + preset + '"]').attr('selected', true);
+			$(element).find('select[id*="' + group_id + '"] option[value="' + il.Form.escapeSelector(preset) + '"]').attr('selected', true);
 			$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
 		}
 		else {

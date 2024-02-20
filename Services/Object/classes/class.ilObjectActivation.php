@@ -42,15 +42,13 @@ class ilObjectActivation
     protected int $timing_type = 0;
     protected ?int $timing_start = null;
     protected ?int $timing_end = null;
-    protected int $suggestion_start = 0;
-    protected int $suggestion_end = 0;
-    protected int $visible = 0;
+    protected ?int $suggestion_start = null;
+    protected ?int $suggestion_end = null;
+    protected bool $visible = false;
     protected int $changeable = 0;
-    protected int $earliest_start_rel = 0;
-    protected int $earliest_start = 0;
 
-    protected int $suggestion_start_rel = 0;
-    protected int $suggestion_end_rel = 0;
+    protected ?int $suggestion_start_rel = null;
+    protected ?int $suggestion_end_rel = null;
 
     public function __construct()
     {
@@ -91,75 +89,46 @@ class ilObjectActivation
         return $this->timing_end;
     }
 
-    public function setSuggestionStart(int $start): void
+    public function setSuggestionStart(?int $start): void
     {
+        if ($start === 0) {
+            $start = null;
+        }
         $this->suggestion_start = $start;
     }
 
-    public function getSuggestionStart(): int
+    public function setSuggestionStartRelative(?int $start): void
     {
-        return $this->suggestion_start;
-    }
-
-    public function getSuggestionStartRelative(): int
-    {
-        return $this->suggestion_start_rel;
-    }
-
-    public function setSuggestionStartRelative(int $start): void
-    {
+        if ($start === 0) {
+            $start = null;
+        }
         $this->suggestion_start_rel = $start;
-    }
-
-    public function getSuggestionEndRelative(): int
-    {
-        return $this->suggestion_end_rel;
     }
 
     public function setSuggestionEndRelative(int $end): void
     {
+        if ($end === 0) {
+            $end = null;
+        }
         $this->suggestion_end_rel = $end;
     }
 
-    public function getEaliestStartRelative(): int
+    public function setSuggestionEnd(?int $end): void
     {
-        return $this->earliest_start_rel;
-    }
-
-    public function setEarliestStartRelative(int $start): void
-    {
-        $this->earliest_start_rel = $start;
-    }
-
-    public function setSuggestionEnd(int $end): void
-    {
+        if ($end === 0) {
+            $end = null;
+        }
         $this->suggestion_end = $end;
     }
 
-    public function getSuggestionEnd(): int
-    {
-        return $this->suggestion_end;
-    }
-
-    public function setEarliestStart(int $start): void
-    {
-        $this->earliest_start = $start;
-    }
-
-    public function getEarliestStart(): int
-    {
-        return $this->earliest_start;
-    }
-
-
     public function toggleVisible(bool $status): void
     {
-        $this->visible = (int) $status;
+        $this->visible = $status;
     }
 
     public function enabledVisible(): bool
     {
-        return (bool) $this->visible;
+        return $this->visible;
     }
 
     public function toggleChangeable(bool $status): void
@@ -172,57 +141,17 @@ class ilObjectActivation
         return (bool) $this->changeable;
     }
 
-    // Validate current properties
-    public function validateActivation(): bool
-    {
-        $ilErr = $this->error;
-        $lng = $this->lng;
-
-        $ilErr->setMessage('');
-
-        if ($this->getTimingType() == self::TIMINGS_ACTIVATION) {
-            if ($this->getTimingStart() > $this->getTimingEnd()) {
-                $ilErr->appendMessage($lng->txt("crs_activation_start_invalid"));
-            }
-        } elseif ($this->getTimingType() == self::TIMINGS_PRESETTING) {
-            if ($this->getSuggestionStart() > $this->getSuggestionEnd()) {
-                $ilErr->appendMessage($lng->txt('crs_timing_err_sug_start_end'));
-            }
-        }
-
-        if ($ilErr->getMessage()) {
-            return false;
-        }
-        return true;
-    }
-
-    // TODO: found no usages, can this be removed in the next iteration?
-    public function validateRelativePlaning(): array
-    {
-        $errors = array();
-
-        if ($this->getSuggestionStartRelative() >= $this->getSuggestionEndRelative()) {
-            $errors[] = self::ERR_SUG_START_END;
-        } elseif ($this->getSuggestionStartRelative() < 0) {
-            $errors[] = self::ERR_SUG_START_END;
-        }
-        return $errors;
-    }
-
     public function update(int $ref_id, ?int $parent_id = null): bool
     {
-        $db = $this->db;
-
-        // #10110
         $values = [
             "timing_type" => ["integer", $this->getTimingType()],
             "timing_start" => ["integer", $this->getTimingStart() ?? 0],
             "timing_end" => ["integer", $this->getTimingEnd() ?? 0],
-            "suggestion_start" => ["integer", $this->getSuggestionStart()],
-            "suggestion_end" => ["integer", $this->getSuggestionEnd()],
-            "changeable" => ["integer", $this->enabledChangeable()],
-            "suggestion_start_rel" => ["integer", $this->getSuggestionStartRelative()],
-            "suggestion_end_rel" => ["integer", $this->getSuggestionEndRelative()],
+            "suggestion_start" => ["integer", $this->suggestion_start ?? 0],
+            "suggestion_end" => ["integer", $this->suggestion_end ?? 0],
+            "changeable" => ["integer", (int) $this->enabledChangeable()],
+            "suggestion_start_rel" => ["integer", $this->suggestion_start_rel ?? 0],
+            "suggestion_end_rel" => ["integer", $this->suggestion_end_rel ?? 0],
             "visible" => ["integer", $this->enabledVisible()]
         ];
 
@@ -234,7 +163,7 @@ class ilObjectActivation
             "obj_id" => ["integer", $ref_id]
         ];
 
-        $db->update("crs_items", $values, $where);
+        $this->db->update("crs_items", $values, $where);
 
         unset(self::$preloaded_data[$ref_id]);
 
@@ -264,7 +193,6 @@ class ilObjectActivation
     public static function getItem(int $ref_id): array
     {
         global $DIC;
-
         $db = $DIC->database();
 
         if (isset(self::$preloaded_data[$ref_id])) {
@@ -527,8 +455,8 @@ class ilObjectActivation
             $new_item->toggleChangeable((bool) $item['changeable']);
             $new_item->toggleVisible((bool) $item['visible']);
             $new_item->update($new_item_id, $new_parent);
-            $new_item->setSuggestionStartRelative((int) $item['suggestion_start_rel']);
-            $new_item->setSuggestionEndRelative((int) $item['suggestion_end_rel']);
+            $new_item->setSuggestionStartRelative((int) ($item['suggestion_start_rel'] ?? 0));
+            $new_item->setSuggestionEndRelative((int) ($item['suggestion_end_rel'] ?? 0));
             $new_item->createDefaultEntry($new_item_id);
             $new_item->update($new_item_id);
         }

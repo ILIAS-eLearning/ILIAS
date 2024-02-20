@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
+use ILIAS\News\Access\NewsAccess;
 
 /**
  * User Interface for NewsItem entities.
@@ -29,6 +30,7 @@ class ilNewsItemGUI
     public const FORM_CREATE = 1;
     public const FORM_RE_EDIT = 2;
     public const FORM_RE_CREATE = 2;
+    protected NewsAccess $news_access;
     protected ?ilNewsItem $news_item;
 
     protected ilCtrl $ctrl;
@@ -67,6 +69,7 @@ class ilNewsItemGUI
         $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
         $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
         $this->add_mode = (string) ($params["add_mode"] ?? "");
+        $this->news_access = new NewsAccess($this->requested_ref_id);
 
         $this->std_request = new StandardGUIRequest(
             $DIC->http(),
@@ -289,7 +292,7 @@ class ilNewsItemGUI
     {
         $ilUser = $this->user;
 
-        if (!$this->getEnableEdit()) {
+        if (!$this->news_access->canAdd()) {
             return "";
         }
 
@@ -348,7 +351,7 @@ class ilNewsItemGUI
     {
         $ilUser = $this->user;
 
-        if (!$this->getEnableEdit()) {
+        if (!$this->news_access->canEdit($this->news_item)) {
             return "";
         }
 
@@ -427,15 +430,17 @@ class ilNewsItemGUI
         $ilCtrl = $this->ctrl;
 
         $this->setTabs();
-
-        $ilToolbar->addButton(
-            $lng->txt("news_add_news"),
-            $ilCtrl->getLinkTarget($this, "createNewsItem")
-        );
-
-        if (!$this->getEnableEdit()) {
+        if (!$this->news_access->canAccessManageOverview()) {
             return "";
         }
+
+        if ($this->news_access->canAdd()) {
+            $ilToolbar->addButton(
+                $lng->txt("news_add_news"),
+                $ilCtrl->getLinkTarget($this, "createNewsItem")
+            );
+        }
+
         return $this->getNewsForContextTable();
     }
 
@@ -450,7 +455,7 @@ class ilNewsItemGUI
         $lng = $this->lng;
         $ilTabs = $this->tabs;
 
-        if (!$this->getEnableEdit()) {
+        if (!$this->news_access->canAccessManageOverview()) {
             return "";
         }
 
@@ -473,7 +478,9 @@ class ilNewsItemGUI
         // add items to delete
         foreach ($this->std_request->getNewsIds() as $news_id) {
             $news = new ilNewsItem($news_id);
-            $c_gui->addItem("news_id[]", $news_id, $news->getTitle());
+            if ($this->news_access->canDelete($news)) {
+                $c_gui->addItem("news_id[]", $news_id, $news->getTitle());
+            }
         }
 
         return $c_gui->getHTML();
@@ -481,13 +488,15 @@ class ilNewsItemGUI
 
     public function deleteNewsItems(): string
     {
-        if (!$this->getEnableEdit()) {
+        if (!$this->news_access->canAccessManageOverview()) {
             return "";
         }
         // delete all selected news items
         foreach ($this->std_request->getNewsIds() as $news_id) {
             $news = new ilNewsItem($news_id);
-            $news->delete();
+            if ($this->news_access->canDelete($news)) {
+                $news->delete();
+            }
         }
 
         return $this->editNews();
@@ -588,9 +597,6 @@ class ilNewsItemGUI
 
     public static function isRteActivated(): bool
     {
-        if (ilObjAdvancedEditing::_getRichTextEditor() === "") {
-            return false;
-        }
-        return true;
+        return false;
     }
 }

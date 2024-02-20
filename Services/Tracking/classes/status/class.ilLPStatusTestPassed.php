@@ -77,10 +77,6 @@ class ilLPStatusTestPassed extends ilLPStatus
         int $a_usr_id,
         object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $old_status = ilLPStatus::_lookupStatus($a_obj_id, $a_usr_id, false);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
@@ -105,26 +101,27 @@ class ilLPStatusTestPassed extends ilLPStatus
 		"
         );
 
-        if ($rec = $this->db->fetchAssoc($res)) {
-            if ($rec['sequences'] > 0) {
-                $test_obj = new ilObjTest($a_obj_id, false);
-                $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
+        if (
+            ($rec = $this->db->fetchAssoc($res))
+            && $rec['sequences'] > 0
+        ) {
+            $test_obj = new ilObjTest($a_obj_id, false);
+            $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 
-                if ($test_obj->getPassScoring() == SCORE_LAST_PASS) {
-                    $is_finished = false;
-                    if ($rec['last_finished_pass'] != null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
-                        $is_finished = true;
-                    }
-                    $status = $this->determineStatusForScoreLastPassTests(
-                        $is_finished,
-                        $is_passed
-                    );
-                } elseif ($test_obj->getPassScoring() == SCORE_BEST_PASS) {
-                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
+            if ($test_obj->getPassScoring() === SCORE_LAST_PASS) {
+                $is_finished = false;
+                if ($rec['last_finished_pass'] !== null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
+                    $is_finished = true;
+                }
+                $status = $this->determineStatusForScoreLastPassTests(
+                    $is_finished,
+                    $is_passed
+                );
+            } elseif ($test_obj->getPassScoring() === SCORE_BEST_PASS) {
+                $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
-                    if ($rec['last_finished_pass'] != null) {
-                        $status = $this->determineLpStatus($is_passed);
-                    }
+                if ($rec['last_finished_pass'] !== null) {
+                    $status = $this->determineLpStatus($is_passed);
                 }
             }
         }
@@ -167,10 +164,6 @@ class ilLPStatusTestPassed extends ilLPStatus
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $set = $this->db->query(
             "SELECT tst_result_cache.*, tst_active.user_fi FROM " .
             "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .

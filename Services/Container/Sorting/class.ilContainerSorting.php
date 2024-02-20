@@ -101,12 +101,15 @@ class ilContainerSorting
         );
         if (($rec = $ilDB->fetchAssoc($set)) && $rec["block_ids"] != "") {
             $ilLog->debug("Got block sorting for obj_id = " . $this->obj_id . ": " . $rec["block_ids"]);
-            $new_ids = implode(";", array_map(static function ($block_id) use ($mappings) {
-                if (is_numeric($block_id)) {
-                    $block_id = $mappings[$block_id];
+            $new_block_ids = [];
+            foreach (explode(";", $rec["block_ids"]) as $block_id) {
+                if (is_numeric($block_id) && isset($mappings[$block_id])) {
+                    $new_block_ids[] = $mappings[$block_id];
+                } else {
+                    $new_block_ids[] = $block_id;
                 }
-                return $block_id;
-            }, explode(";", $rec["block_ids"])));
+            }
+            $new_ids = implode(";", $new_block_ids);
 
             $ilDB->replace(
                 "container_sorting_bl",

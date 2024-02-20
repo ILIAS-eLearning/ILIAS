@@ -173,12 +173,14 @@ class NotesManager
     public function getNrOfNotesForContext(
         Context $context,
         int $type = Note::PRIVATE,
-        bool $incl_sub = false
+        bool $incl_sub = false,
+        int $author = 0
     ): int {
         return $this->db_repo->getNrOfNotesForContext(
             $context,
             $type,
-            $incl_sub
+            $incl_sub,
+            $author
         );
     }
 

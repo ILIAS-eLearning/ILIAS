@@ -385,11 +385,12 @@ class assClozeGap
                     array_push($best_solutions[$combinations['points']], $combinations['answer']);
                 } else {
                     foreach ($this->getItems($shuffler) as $answer) {
-                        if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()])) {
-                            array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+                        $points_string_for_key = (string) $answer->getPoints();
+                        if (isset($best_solutions[$points_string_for_key]) && is_array($best_solutions[$points_string_for_key])) {
+                            array_push($best_solutions[$points_string_for_key], $answer->getAnswertext());
                         } else {
-                            $best_solutions[$answer->getPoints()] = [];
-                            array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+                            $best_solutions[$points_string_for_key] = [];
+                            array_push($best_solutions[$points_string_for_key], $answer->getAnswertext());
                         }
                     }
                 }

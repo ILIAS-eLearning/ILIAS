@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * General purpose update steps for weblinks
@@ -36,6 +36,18 @@ class ilWebResourceDBUpdateSteps implements ilDatabaseUpdateSteps
         // Add index
         if (!$this->db->indexExistsByFields('webr_items', ['webr_id'])) {
             $this->db->addIndex('webr_items', ['webr_id'], 'i3');
+        }
+    }
+
+    public function step_2(): void
+    {
+        // Add combined index
+        // 32201
+        if (
+            $this->db->tableExists('webr_items') &&
+            !$this->db->indexExistsByFields('webr_items', ['webr_id', 'active'])
+        ) {
+            $this->db->addIndex('webr_items', ['webr_id', 'active'], 'i4');
         }
     }
 }

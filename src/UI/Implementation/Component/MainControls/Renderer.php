@@ -103,7 +103,7 @@ class Renderer extends AbstractComponentRenderer
             $this->trigger_signals[] = $trigger_signal;
             $btn_removetool = $close_buttons[$entry_id]
                ->withAdditionalOnloadCode(
-                   fn($id) => "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);"
+                   fn ($id) => "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);"
                )
                 ->withOnClick($trigger_signal);
 
@@ -268,16 +268,13 @@ class Renderer extends AbstractComponentRenderer
                 $entry_signal = $signals['entry'];
                 $close_slates_signal = $signals['close_slates'];
                 return "
-					il.UI.maincontrols.metabar.init('$id');
-                    il.UI.maincontrols.metabar.get('$id').registerSignals(
+					il.UI.maincontrols.metabar.registerSignals(
+						'$id',
 						'$entry_signal',
 						'$close_slates_signal',
 					);
-                    il.UI.maincontrols.metabar.get('$id').init();
-                    window.addEventListener(
-                        'resize',
-                        ()=>{il.UI.maincontrols.metabar.get('$id').init()}
-                    );
+					il.UI.maincontrols.metabar.init();
+					$(window).resize(il.UI.maincontrols.metabar.init);
 				";
             }
         );
@@ -324,18 +321,18 @@ class Renderer extends AbstractComponentRenderer
             $close = $close->withOnClick($signal);
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
+            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
         $more = $this->getUIFactory()->symbol()->glyph()->more("#");
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 
-        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");
+        $component = $component->withAdditionalOnLoadCode(fn ($id) => "il.UI.maincontrols.system_info.init('$id')");
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
-        $tpl->setVariable('ID_HEADLINE', $id."_headline");
-        $tpl->setVariable('ID_DESCRIPTION', $id."_description");
+        $tpl->setVariable('ID_HEADLINE', $id . "_headline");
+        $tpl->setVariable('ID_DESCRIPTION', $id . "_description");
 
         return $tpl->get();
     }
@@ -457,7 +454,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/MainControls/dist/mainbar.js');
-        $registry->register('./src/UI/templates/js/MainControls/dist/maincontrols.min.js');
+        $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
         $registry->register('./src/UI/templates/js/MainControls/system_info.js');
     }

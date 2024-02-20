@@ -199,7 +199,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
-                //$this->showContainerPageTabs();
+                $this->showContainerPageTabs();
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForRefId(
                         null,
@@ -1069,7 +1069,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             );
             $f_result[$counter]['title'] = $role_obj->getTitle() ?: "";
             $f_result[$counter]['desc'] = $role_obj->getDescription() ?: "";
-            $f_result[$counter]['type'] = $role['role_type'] === 'global' ?
+            $f_result[$counter]['type'] = ($role['role_type'] ?? '') === 'global' ?
                 $this->lng->txt('global') :
                 $this->lng->txt('local');
 

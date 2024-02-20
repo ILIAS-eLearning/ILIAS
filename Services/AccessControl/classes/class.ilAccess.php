@@ -55,22 +55,20 @@ class ilAccess implements ilAccessHandler
     protected ilLogger $ac_logger;
     protected ilDBInterface $db;
     protected ilTree $repositoryTree;
-    protected ilLanguage $language;
     protected ilObjectDefinition $objDefinition;
+
+    protected ?ilLanguage $language = null;
 
     public function __construct()
     {
         global $DIC;
 
-        $rbacsystem = $DIC->rbac()->system();
-
         $this->user = $DIC->user();
         $this->db = $DIC->database();
-        $this->rbacsystem = $rbacsystem;
+        $this->rbacsystem = $DIC['rbacsystem'];
         $this->results = array();
         $this->current_info = new ilAccessInfo();
         $this->repositoryTree = $DIC->repositoryTree();
-        $this->language = $DIC->language();
         $this->objDefinition = $DIC['objDefinition'];
 
         // use function enable to switch on/off tests (only cache is used so far)
@@ -88,6 +86,16 @@ class ilAccess implements ilAccessHandler
         $this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess($this);
 
         $this->ac_logger = ilLoggerFactory::getLogger('ac');
+    }
+
+    private function getLanguage(): ilLanguage
+    {
+        if ($this->language === null) {
+            global $DIC;
+            $this->language = $DIC['lng'];
+        }
+
+        return $this->language;
     }
 
     /**
@@ -249,7 +257,6 @@ class ilAccess implements ilAccessHandler
         global $DIC;
 
         $ilBench = $DIC['ilBench'];
-        $lng = $DIC['lng'];
 
         $this->setPreventCachingLastResult(false);    // for external db based caches
 
@@ -262,7 +269,7 @@ class ilAccess implements ilAccessHandler
         if ($cached["hit"]) {
             // Store access result
             if (!$cached["granted"]) {
-                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             }
             if ($cached["prevent_db_cache"]) {
                 $this->setPreventCachingLastResult(true);    // should have been saved in previous call already
@@ -295,14 +302,14 @@ class ilAccess implements ilAccessHandler
         // check if object is in tree and not deleted
         if ($a_tree_id != 1 &&
             !$this->doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id)) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             return false;
         }
 
         // rbac check for current object
         if (!$this->doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type)) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             return false;
         }
@@ -318,7 +325,7 @@ class ilAccess implements ilAccessHandler
         );
 
         if (!$act_check) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt('status_no_permission'));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt('status_no_permission'));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             return false;
         }
@@ -326,14 +333,14 @@ class ilAccess implements ilAccessHandler
         // check read permission for all parents
         $par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
         if (!$par_check) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             return false;
         }
 
         // condition check (currently only implemented for read permission)
         if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             $this->setPreventCachingLastResult(true);        // do not store this in db, since condition updates are not monitored
             return false;
@@ -341,7 +348,7 @@ class ilAccess implements ilAccessHandler
 
         // object type specific check
         if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             $this->setPreventCachingLastResult(true);        // do not store this in db, since status updates are not monitored
             return false;
@@ -420,7 +427,7 @@ class ilAccess implements ilAccessHandler
             if (!$this->obj_tree_cache[$tree_cache_key]) {
                 $this->current_info->addInfoItem(
                     ilAccessInfo::IL_NO_PERMISSION,
-                    $this->language->txt("status_no_permission")
+                    $this->getLanguage()->txt("status_no_permission")
                 );
             }
             $this->storeAccessResult(
@@ -443,7 +450,7 @@ class ilAccess implements ilAccessHandler
             }
 
             // Store in result cache
-            $this->current_info->addInfoItem(ilAccessInfo::IL_DELETED, $this->language->txt("object_deleted"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_DELETED, $this->getLanguage()->txt("object_deleted"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
             return false;
         }
@@ -493,7 +500,7 @@ class ilAccess implements ilAccessHandler
         if (!$access) {
             $this->current_info->addInfoItem(
                 ilAccessInfo::IL_NO_PERMISSION,
-                $this->language->txt("status_no_permission")
+                $this->getLanguage()->txt("status_no_permission")
             );
         }
         if ($a_permission != "create") {
@@ -521,7 +528,7 @@ class ilAccess implements ilAccessHandler
             if ($access == false) {
                 $this->current_info->addInfoItem(
                     ilAccessInfo::IL_NO_PARENT_ACCESS,
-                    $this->language->txt("no_parent_access"),
+                    $this->getLanguage()->txt("no_parent_access"),
                     (string) $id
                 );
                 if ($a_all == false) {
@@ -543,7 +550,7 @@ class ilAccess implements ilAccessHandler
         int $a_obj_id,
         string $a_type
     ): bool {
-        $cache_perm = ($a_permission == "visible")
+        $cache_perm = ($a_permission === "visible" || $a_permission === 'leave')
             ? "visible"
             : "other";
 
@@ -552,7 +559,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // nothings needs to be done if current permission is write permission
-        if ($a_permission == 'write') {
+        if ($a_permission === 'write') {
             return true;
         }
 
@@ -600,8 +607,9 @@ class ilAccess implements ilAccessHandler
             return true;
         }
 
-        // if current permission is visible and visible is set in activation
-        if ($a_permission == 'visible' && $item_data['visible']) {
+        // if current permission is visible or leave and visible is set in activation
+        if (($a_permission === 'visible' || $a_permission === 'leave')
+            && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
@@ -637,9 +645,9 @@ class ilAccess implements ilAccessHandler
                     foreach ($conditions as $condition) {
                         $this->current_info->addInfoItem(
                             ilAccessInfo::IL_MISSING_PRECONDITION,
-                            $this->language->txt("missing_precondition") . ": " .
+                            $this->getLanguage()->txt("missing_precondition") . ": " .
                             ilObject::_lookupTitle($condition["trigger_obj_id"]) . " " .
-                            $this->language->txt("condition_" . $condition["operator"]) . " " .
+                            $this->getLanguage()->txt("condition_" . $condition["operator"]) . " " .
                             $condition["value"],
                             serialize($condition)
                         );
@@ -656,9 +664,9 @@ class ilAccess implements ilAccessHandler
                 foreach ($conditions as $condition) {
                     $this->current_info->addInfoItem(
                         ilAccessInfo::IL_MISSING_PRECONDITION,
-                        $this->language->txt("missing_precondition") . ": " .
+                        $this->getLanguage()->txt("missing_precondition") . ": " .
                         ilObject::_lookupTitle($condition["trigger_obj_id"]) . " " .
-                        $this->language->txt("condition_" . $condition["operator"]) . " " .
+                        $this->getLanguage()->txt("condition_" . $condition["operator"]) . " " .
                         $condition["value"],
                         serialize($condition)
                     );

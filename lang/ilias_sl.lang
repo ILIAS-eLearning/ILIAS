@@ -613,6 +613,7 @@ assessment#:#circle_click_center#:#Kliknite na sredino želenega območja.
 assessment#:#circle_click_circle#:#Kliknite na točko v okolici želenega območja.
 assessment#:#clientip#:#IP stranke
 assessment#:#close_text_hint#:#Če želite v besedilo vstaviti praznino, premaknite kurzor na želeni položaj in kliknite na gumb "praznina v besedilu". Spodaj bodo na voljo ustrezna področja za obdelavo. Prav tako lahko kliknete neposredno na praznine in jih obdelate v besedilu s prazninami.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Dolžina besedilnega polja
 assessment#:#cloze_fixed_textlength_description#:#Če tukaj vnesete vrednost, se v besedilu ustvarijo praznine, ki ne določajo lastne vrednosti za maksimalno dolžino, kot tudi praznine za številčni odgovor s to dolžino, zato ni mogoče vnesti več znakov, kot je dovoljeno. Pri prazninah za številčni odgovor je poleg tega treba upoštevati, da se pri štetju upoštevajo tudi decimalna ločila.
 assessment#:#cloze_gap_size_info#:#Če je vnesena vrednost večja od 0, se ta praznina ustvari z dolžino, ki je tukaj navedena. Če ni vnesena nobena vrednost, se ta praznina ustvari z globalno določeno dolžino besedilnega polja.
@@ -620,9 +621,6 @@ assessment#:#cloze_text#:#Vprašanje s praznino v besedilu
 assessment#:#cloze_textgap_case_insensitive#:#Ni razlikovanja med velikimi in malimi črkami
 assessment#:#cloze_textgap_case_sensitive#:#Upoštevaj razlikovanje velikih in malih črk
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshteinov razmik v %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Več zaporednih presledkov
-assessment#:#cloze_textgap_whitespace_after#:#Presledek za pojmom
-assessment#:#cloze_textgap_whitespace_before#:#Presledek pred pojmom
 assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
@@ -927,6 +925,8 @@ assessment#:#msg_number_of_terms_too_low#:#Število izrazov mora biti večje ali
 assessment#:#msg_poly_added#:#Dodan je poligon
 assessment#:#msg_questions_moved#:#Vprašanje/-a je/so premaknjeno/-a.
 assessment#:#msg_rect_added#:#Dodan je pravokotnik
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Izbrano vprašanje/-a za premik
 assessment#:#new_category#:#Nova kategorija enot
 assessment#:#new_unit#:#Nova enota
@@ -1448,6 +1448,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Zaporedni izbor vprašanj
 assessment#:#tst_gap_analysis#:#Analiza praznine
 assessment#:#tst_general_properties#:#Nastavitve testa
 assessment#:#tst_header_participant#:#Vaš odgovor:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Najboljša možna rešitev:
 assessment#:#tst_heading_scoring#:#Ocena
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -1549,10 +1550,11 @@ assessment#:#tst_manscoring_question_section_header#:#Vprašanje: %s
 assessment#:#tst_manscoring_user_notification#:#Pošlji obvestilo
 assessment#:#tst_mark#:#Ocena
 assessment#:#tst_mark_create_new_mark_step#:#Ustvarite novo stopnjo ocene
-assessment#:#tst_mark_create_simple_mark_schema#:#Vrnite se na preprosto ocenjevalno shemo
 assessment#:#tst_mark_minimum_level#:#Najnižji odstotek (v %)
 assessment#:#tst_mark_official_form#:#Uradno ime
 assessment#:#tst_mark_passed#:#Opravljeno
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vrnite se na preprosto ocenjevalno shemo
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Kratko ime
 assessment#:#tst_max_allowed_users_heading#:#Doseženo je bilo maksimalno število sočasnih uporabnikov za ta test
 assessment#:#tst_max_allowed_users_message#:#Doseženo je bilo maksimalno število sočasnih udeležencev za ta test Poskusite test ponovno odpreti ali nadaljevati nekoliko pozneje. Če so aktivni udeleženci neaktivni več kot %s sekund, imate možnost, da opravljate ta test. Hvala za razumevanje.
@@ -2461,6 +2463,7 @@ blog#:#blog_settings#:#Administracija bloga
 blog#:#blog_settings_navigation#:#Navigacija
 blog#:#blog_show_latest#:#Prikaži najnovejše objave/osnutke
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Slog bloga
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Razveljavi objavo
@@ -3031,7 +3034,7 @@ classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 classification#:#clsfct_content_title#:#Objects matching your selection
-classification#:#clsfct_selected_objects#:#Selected Objects
+classification#:#clsfct_selected_objects#:#Selected Objectsd
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3978,6 +3981,7 @@ common#:#err_auth_mode_inactive#:#Prijava trenutno ni mogoča.
 common#:#err_auth_soap_no_ilias_user#:#Prijava ni uspela! Avtentikacija SOAP je bila uspešna, vendar ne obstaja noben ustrezen uporabnik ILIAS. Obrnite se na sistemskega administratorja.
 common#:#err_check_input#:#Nastavitev ni bilo mogoče shraniti. Preverite svoje vnose.
 common#:#err_count_param#:#Razlog: Napačno število parametrov
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Napaka v vrstici
 common#:#err_inactive#:#Ta uporabniški račun ni aktiven oz. še ni bil aktiviran. Za nadaljnjo pomoč se obrnite na tehnično podporo (glej povezavo spodaj).
 common#:#err_inactive_login_attempts#:#Vaš račun je bil onemogočen zaradi neuspelih poskusov prijave. Kliknite na 'Obrnite se na tehnično podporo' na dnu te strani, da administratorja obvestite o potrebi po ponovni aktivaciji vašega uporabniškega računa.
@@ -5134,6 +5138,7 @@ common#:#objs_rtst#:#Testi ECS
 common#:#objs_rwik#:#Wiki ECS
 common#:#objs_sahs#:#Učni moduli SCORM
 common#:#objs_sess#:#Seje
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Skupine vprašanj za ankete
 common#:#objs_st#:#Poglavje
 common#:#objs_svy#:#Ankete
@@ -5294,7 +5299,7 @@ common#:#private_notes#:#Zasebne opombe
 common#:#pro#:#Pro
 common#:#proceed#:#Nadaljuj
 common#:#profile#:#Profile
-common#:#profile_changed#:#ILIAS eLearning - Vaši profilni podatki so bili spremenjeni
+common#:#profile_changed#:#Vaši profilni podatki so bili spremenjeni
 common#:#profile_incomplete#:#Vaš profil ni popoln. Vnesite vse zahtevane podatke
 common#:#profile_of#:#Profil od
 common#:#properties#:#Lastnosti
@@ -5353,8 +5358,8 @@ common#:#reg_mail_body_salutation#:#Pozdravljeni
 common#:#reg_mail_body_text1#:#Dobrodošli v eLearning platformi ILIAS!
 common#:#reg_mail_body_text2#:#Vaši dostopni podatki:
 common#:#reg_mail_body_text3#:#Nadaljnji osebni podatki:
-common#:#reg_mail_subject#:#ILIAS eLearning - Vaši dostopni podatki
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Vaša povezava za potrditev
+common#:#reg_mail_subject#:#Vaši dostopni podatki
+common#:#reg_mail_subject_confirmation#:#Vaša povezava za potrditev
 common#:#reg_passwd_via_mail#:#Geslo bo poslano na spodaj navedeni e-poštni naslov.
 common#:#register#:#Registriracija
 common#:#register_notification#:#"%s" has applied for session "%s".
@@ -7243,6 +7248,7 @@ copa#:#copa_prop_reading_time#:#Reading Time###19 08 2022 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###19 08 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###19 08 2022 new variable
 copa#:#obj_copa_duplicate#:#Podvoji stran z vsebino
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.###19 08 2022 new variable
@@ -7253,18 +7259,24 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###19 08 2022 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###19 08 2022 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###19 08 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###19 08 2022 new variable
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Vprašanja v tem kontekstu niso podprta.
 copg#:#copg_reload_page#:#Reload Page###19 08 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Če ustvarite povezavo do celotnega bloka, se prepričajte, da ta ne vsebuje nadaljnjih interaktivnih elementov (npr. drugih povezav). Njihovo delovanje ni zagotovljeno.
 copg#:#copg_snippet_cannot_be_edited#:#To je vnaprej določen sestavni del vsebine, ki ga na tem mestu ni mogoče urejati.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###19 08 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###19 08 2022 new variable
@@ -7588,6 +7600,7 @@ crs#:#crs_members_groups#:#Članstva v skupini
 crs#:#crs_members_map#:#Zemljevid članov tečaja
 crs#:#crs_members_print_title#:#Člani tečaja
 crs#:#crs_min_one_admin#:#Temu tečaju mora biti dodeljen vsaj en administrator.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Vaš status:
@@ -7915,6 +7928,7 @@ crs#:#events#:#Seje
 crs#:#export_members#:#Izvoz udeleženca
 crs#:#grouping_change_assignment#:#Spremeni dodelitve
 crs#:#grp_grp_already_assigned#:#Ker ste že član skupine, ne morete postati član nadaljnje skupine s seznama!
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#naslednji tečaji in skupine trenutno ne dosegajo minimalnega števila udeleženk in udeležencev.
 crs#:#mem_cron_min_members_reason#:#To e-pošto ste prejeli, ker ste aktivirali funkcijo obveščanja v posameznem zavihku člana.
 crs#:#mem_cron_min_members_subject#:#Tečaj/skupina: Preverjanje minimalnega števila udeležencev
@@ -8201,6 +8215,7 @@ dateplaner#:#cal_edit_category#:#Uredi koledar
 dateplaner#:#cal_edit_milestone#:#Uredi mejnik
 dateplaner#:#cal_edit_recurrences#:#Uredi vse termine
 dateplaner#:#cal_edit_single#:#Uredi ta termin
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Aktiviraj mejnike
 dateplaner#:#cal_enable_group_milestones_desc#:#Ta možnost aktivira upravljanje mejnikov v koledarju (tečaji in skupine).
 dateplaner#:#cal_err_invalid_notification_rcps#:#Prejemniki za obveščanje po e-pošti niso veljavni. Izberi izključno imena uporabniških računov ILIAS ali veljavne e-poštne naslove.
@@ -8231,6 +8246,7 @@ dateplaner#:#cal_grp_others#:#Drugi
 dateplaner#:#cal_grp_personal#:#Osebno
 dateplaner#:#cal_ical_infoscreen#:#Naroči se
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Uvozi termine
 dateplaner#:#cal_import_file#:#Datoteka za uvoz
 dateplaner#:#cal_import_file_info#:#Izberite datoteko, ki vsebuje vaše termine.
@@ -8361,6 +8377,7 @@ dateplaner#:#cal_weekly#:#Tedensko
 dateplaner#:#cal_where#:#Kraj
 dateplaner#:#cal_year_s#:#Leto/leta
 dateplaner#:#cal_yearly#:#Letno
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#ustvarjeno dne
 dateplaner#:#crs_cal_activation_end#:#Konec tečaja
 dateplaner#:#crs_cal_activation_start#:#Začetek tečaja
@@ -9008,6 +9025,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10342,7 +10360,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Naslovi so bili shranjeni.
 lng#:#language_detection#:#Language Detection###19 08 2022 new variable
 lng#:#lng_disable_language_detection#:#Onemogoči samodejno zaznavanje jezika
@@ -10387,6 +10407,8 @@ lso#:#abstract_img#:#Slika za uvodno stran
 lso#:#avail_time_period#:#Obdobje
 lso#:#completed_steps#:#Opravljeni koraki
 lso#:#condition_always#:#Vedno
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Kurikulum
 lso#:#delete_confirmation#:#Ali res želite izbrisati naslednje objekte?
 lso#:#entries_deleted#:#Vnosi so bili uspešno izbrisani.
@@ -11318,6 +11340,7 @@ meta#:#md_copyright#:#Avtorske pravice
 meta#:#md_copyright_add#:#Nova smernica
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Uredi smernico za avtorske pravice
 meta#:#md_copyright_enable_info#:#Aktivirajte to nastavitev, da ponudite vnaprej določene uporabniške licence.
 meta#:#md_copyright_enabled#:#Aktiviraj izbiro avtorskih pravic
@@ -11955,6 +11978,7 @@ mme#:#move_to_top_item#:#Move to Top Items###19 08 2022 new variable
 mme#:#msg_languages_added#:#Jeziki so dodani
 mme#:#msg_moved#:#Item successfully moved###19 08 2022 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###19 08 2022 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
 mme#:#msg_restored#:#Main Menu completely reset
 mme#:#msg_subitem_deleted#:#Vnos je izbrisan.
@@ -12233,6 +12257,7 @@ obj#:#obj_activation#:#Aktiviranje
 obj#:#obj_activation_list_gui#:#Razpoložljivost
 obj#:#obj_add_languages#:#Dodaj jezike
 obj#:#obj_additional_langs#:#Dodatni jeziki
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Podpora za večjezične vsebine v urejevalniku strani je bila onemogočena.
 obj#:#obj_copy_progress#:#Napredek kopiranja
 obj#:#obj_deactivate_content_lang#:#Onemogoči večjezičnost za urejevalnik strani.
@@ -12524,6 +12549,7 @@ poll#:#poll_activation_online_info#:#Izberite to nastavitev, da bo glasovanje na
 poll#:#poll_add#:#Ustvari glasovanje
 poll#:#poll_anonymous_warning#:#Vaše ime ne bo prikazano v rezultatih glasovanja.
 poll#:#poll_answer#:#Odgovor
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Možni odgovori
 poll#:#poll_barchart#:#Palični diagram
 poll#:#poll_block_message_already_voted#:#Svoj glas ste že oddali.
@@ -13747,6 +13773,7 @@ rbac#:#rbac_create_role#:#Ustvari vlogo
 rbac#:#rbac_create_rolt#:#Ustvari predlogo vloge
 rbac#:#rbac_create_sahs#:#Ustvari učni modul SCORM
 rbac#:#rbac_create_sess#:#Ustvari sejo
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Ustvari skupino vprašanj za ankete
 rbac#:#rbac_create_svy#:#Ustvari anketo
 rbac#:#rbac_create_tst#:#Ustvari test
@@ -13922,6 +13949,17 @@ rbac#:#sess_read#:#Bralni dostop do sej
 rbac#:#sess_read_learning_progress#:#Uporabnik lahko vidi učni napredek drugih uporabnikov
 rbac#:#sess_visible#:#Seje so vidne
 rbac#:#sess_write#:#Uredi seje
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Spremeni nastavitve pravic za upravljanje kompetenc
 rbac#:#skmg_read#:#Bralni dostop do upravljanja kompetenc
 rbac#:#skmg_visible#:#Upravljanje kompetenc je vidno
@@ -16050,6 +16088,7 @@ survey#:#svy_mail_send_confirmation#:#Pošlji potrdilo o udeležbi
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Vsota nastavitev stolpcev ne dosega 100%.
 survey#:#svy_max_sum_score#:#Maximum Sum Score###19 08 2022 new variable
 survey#:#svy_neutral_answer#:#Besedilo za nevtralni odgovor ("Ni določeno", "Ne vem", "Ni podatka" itd.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
@@ -16130,6 +16169,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Overview
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Remove all Participants
 svy#:#svy_remove_participants#:#Remove Participants
@@ -16737,6 +16777,7 @@ user#:#user_prompting_recurrence#:#Prompting Recurrence
 user#:#user_prompting_settings#:#Prompting Settings
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
 user#:#user_publish_options#:#Publish Profile
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#User - Starting Point
 user#:#user_save_continue#:#Save and Continue
 user#:#user_save_ordering_and_titles#:#Save ordering and titles

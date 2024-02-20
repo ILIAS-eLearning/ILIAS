@@ -45,11 +45,13 @@ class ilUserTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->getObject()->getRefId())) {
-            $this->with_write_access = true;
-        }
 
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
+
+        if ($DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
+            || $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
+            $this->with_write_access = true;
+        }
 
         $this->setMode($a_mode);
         $this->setId("user" . $this->getUserFolderId());
@@ -656,12 +658,11 @@ class ilUserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($a_set["usr_id"] != 6) {
-            if ($this->getMode() == self::MODE_USER_FOLDER or $a_set['time_limit_owner'] == $this->getUserFolderId()) {
-                $this->tpl->setCurrentBlock("checkb");
-                $this->tpl->setVariable("ID", $a_set["usr_id"]);
-                $this->tpl->parseCurrentBlock();
-            }
+        if ($a_set["usr_id"] != 6
+            && ($this->getMode() == self::MODE_USER_FOLDER || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
+            $this->tpl->setCurrentBlock("checkb");
+            $this->tpl->setVariable("ID", $a_set["usr_id"]);
+            $this->tpl->parseCurrentBlock();
         }
 
         if ($this->with_write_access

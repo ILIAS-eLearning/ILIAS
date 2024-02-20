@@ -268,7 +268,17 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 if (isset($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
                     foreach ($childs_by_type[$type] as $child) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $child["obj_id"], "small")));
+                        $tpl->setVariable("IMG",
+                            ilUtil::img(
+                                ilObject::_getIcon((int) $child["obj_id"], "small"),
+                                null,
+                                "",
+                                "",
+                                0,
+                                "",
+                                "ilListItemIcon"
+                            )
+                        );
                         $tpl->setVariable("TITLE", $child["title"]);
                         $tpl->parseCurrentBlock();
                         $cnt++;

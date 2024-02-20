@@ -1778,18 +1778,37 @@ class ilPageObjectGUI
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
 
+        $style_service = $DIC->contentStyle()->internal();
+        $style_access_manager = $style_service->domain()->access(
+            0,
+            $DIC->user()->getId()
+        );
+        $char_manager = $style_service->domain()->characteristic(
+            $a_style_id,
+            $style_access_manager
+        );
+
         $aset = new ilSetting("adve");
+
+        $f = static function (string $type, string $code) use ($char_manager, $lng): string {
+            $title = $char_manager->getPresentationTitle("text_inline", $type);
+            if ($title === $type) {
+                $title = $lng->txt("cont_char_style_" . $code);
+            }
+            return $title;
+        };
 
         // character styles
         $chars = array(
-            "Comment" => array("code" => "com", "txt" => $lng->txt("cont_char_style_com")),
-            "Quotation" => array("code" => "quot", "txt" => $lng->txt("cont_char_style_quot")),
-            "Accent" => array("code" => "acc", "txt" => $lng->txt("cont_char_style_acc")),
-            "Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
+            "Comment" => array("code" => "com", "txt" => $f("Comment", "com")),
+            "Quotation" => array("code" => "quot", "txt" => $f("Quotation", "quot")),
+            "Accent" => array("code" => "acc", "txt" => $f("Accent", "acc")),
+            "Code" => array("code" => "code", "txt" => $f("Code", "code"))
         );
         foreach (ilPCParagraphGUI::_getTextCharacteristics($a_style_id) as $c) {
             if (!isset($chars[$c])) {
-                $chars[$c] = array("code" => "", "txt" => $c);
+                $title = $char_manager->getPresentationTitle("text_inline", $c);
+                $chars[$c] = array("code" => "", "txt" => $title);
             }
         }
         $char_formats = [];
@@ -1838,50 +1857,77 @@ class ilPageObjectGUI
                     case "str":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Strong">' . $str . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Strong"]
+                                        "data" => ["format" => "Strong"],
+                                        "aria-label" => $lng->txt("cont_text_str")
                         ];
                         break;
                     case "emp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Emph">' . $emp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Emph"]
+                                        "data" => ["format" => "Emph"],
+                                        "aria-label" => $lng->txt("cont_text_emp")
                         ];
                         break;
                     case "imp":
                         $c_formats[] = ["text" => '<span class="ilc_text_inline_Important">' . $imp . '</span>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Important"]
+                                        "data" => ["format" => "Important"],
+                                        "aria-label" => $lng->txt("cont_text_imp")
                         ];
                         break;
                     case "sup":
                         $c_formats[] = ["text" => 'x<sup>2</sup>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sup"]
+                                        "data" => ["format" => "Sup"],
+                                        "aria-label" => $lng->txt("cont_text_sup")
                         ];
                         break;
                     case "sub":
                         $c_formats[] = ["text" => 'x<sub>2</sub>',
                                         "action" => "selection.format",
-                                        "data" => ["format" => "Sub"]
+                                        "data" => ["format" => "Sub"],
+                                        "aria-label" => $lng->txt("cont_text_sub")
                         ];
                         break;
                 }
             }
         }
         $c_formats[] = ["text" => "<i>A</i>",
-                        "action" => $char_formats
+                        "action" => $char_formats,
+                        "aria-label" => $lng->txt("copg_more_character_formats")
         ];
         $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
                         "action" => "selection.removeFormat",
-                        "data" => []
+                        "data" => [],
+                        "aria-label" => $lng->txt("copg_remove_formats")
         ];
         $menu = [
             "cont_char_format" => $c_formats,
             "cont_lists" => [
-                ["text" => $bullet_list, "action" => "list.bullet", "data" => []],
-                ["text" => $numbered_list, "action" => "list.number", "data" => []],
-                ["text" => $outdent, "action" => "list.outdent", "data" => []],
-                ["text" => $indent, "action" => "list.indent", "data" => []]
+                [
+                    "text" => $bullet_list,
+                    "action" => "list.bullet",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_bullet_list")
+                ],
+                [
+                    "text" => $numbered_list,
+                    "action" => "list.number",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_numbered_list")
+                ],
+                [
+                    "text" => $outdent,
+                    "action" => "list.outdent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_outdent")
+                ],
+                [
+                    "text" => $indent,
+                    "action" => "list.indent",
+                    "data" => [],
+                    "aria-label" => $lng->txt("cont_list_indent")
+                ]
             ]
         ];
 
@@ -1944,13 +1990,28 @@ class ilPageObjectGUI
                 if (is_array($item["action"])) {
                     $buttons = [];
                     foreach ($item["action"] as $i) {
-                        $buttons[] = $ui_wrapper->getButton($i["text"], "par-action", $i["action"], $i["data"]);
+                        $buttons[] = $ui_wrapper->getButton(
+                            $i["text"],
+                            "par-action",
+                            $i["action"],
+                            $i["data"],
+                            "",
+                            $i["aria-label"] ?? ""
+                        );
                     }
-                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"]);
+                    $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($item["text"])
+                        ->withAriaLabel($item["aria-label"] ?? "");
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $ui->renderer()->renderAsync($dd));
                 } else {
-                    $b = $ui_wrapper->getRenderedButton($item["text"], "par-action", $item["action"], $item["data"]);
+                    $b = $ui_wrapper->getRenderedButton(
+                        $item["text"],
+                        "par-action",
+                        $item["action"],
+                        $item["data"],
+                        "",
+                        $item["aria-label"] ?? ""
+                    );
                     $btpl->setCurrentBlock("button");
                     $btpl->setVariable("BUTTON", $b);
                 }
@@ -2388,6 +2449,8 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_item_up");
         $this->lng->toJS("cont_ed_item_down");
         $this->lng->toJS("cont_ed_delete_item");
+        $this->lng->toJS("copg_edit_iframe_title");
+        $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");

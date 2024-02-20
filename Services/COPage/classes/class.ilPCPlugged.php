@@ -167,32 +167,36 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            $plugin_info = $component_repository->getPluginByName($plugin_name);
-            if ($plugin_info->isActive()) {
-                /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
-                $plugin_obj->setPageObj($a_page);
+            try {
+                $plugin_info = $component_repository->getPluginByName($plugin_name);
+                if ($plugin_info->isActive()) {
+                    /** @var ilPageComponentPlugin $plugin_obj */
+                    $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
+                    $plugin_obj->setPageObj($a_page);
 
-                $properties = array();
-                /** @var DOMElement $child */
-                foreach ($node->childNodes as $child) {
-                    $properties[$child->getAttribute('Name')] = $child->nodeValue;
-                }
+                    $properties = array();
+                    /** @var DOMElement $child */
+                    foreach ($node->childNodes as $child) {
+                        $properties[$child->getAttribute('Name')] = $child->nodeValue;
+                    }
 
-                // let the plugin copy additional content
-                // and allow it to modify the saved parameters
-                $plugin_obj->onClone($properties, $plugin_version);
+                    // let the plugin copy additional content
+                    // and allow it to modify the saved parameters
+                    $plugin_obj->onClone($properties, $plugin_version);
 
-                foreach ($node->childNodes as $child) {
-                    $node->removeChild($child);
+                    foreach ($node->childNodes as $child) {
+                        $node->removeChild($child);
+                    }
+                    foreach ($properties as $name => $value) {
+                        $child = new DOMElement(
+                            'PluggedProperty',
+                            str_replace("&", "&amp;", $value)
+                        );
+                        $node->appendChild($child);
+                        $child->setAttribute('Name', $name);
+                    }
                 }
-                foreach ($properties as $name => $value) {
-                    $child = new DOMElement('PluggedProperty',
-                        str_replace("&", "&amp;", $value)
-                    );
-                    $node->appendChild($child);
-                    $child->setAttribute('Name', $name);
-                }
+            } catch (Exception $e) {
             }
         }
     }

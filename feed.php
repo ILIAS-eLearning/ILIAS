@@ -39,7 +39,7 @@ $getPar = static function (string $key, string $func) {
 $requested_user_id = $getPar("user_id", "int");
 $requested_ref_id = $getPar("ref_id", "int");
 $requested_purpose = $getPar("purpose", "string");
-$requested_blog_id = $getPar("blog_id", "int");
+$requested_blog_id = $getPar("blog_id", "string");
 $requested_hash = $getPar("hash", "string");
 
 if ($requested_user_id > 0) {

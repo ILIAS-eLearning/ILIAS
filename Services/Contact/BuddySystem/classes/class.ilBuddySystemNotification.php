@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 
 use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationConfig;
@@ -83,11 +84,6 @@ class ilBuddySystemNotification
                         $this->sender->getLogin()
                     ),
                     $personalProfileLink
-                );
-            } else {
-                $links[] = new ilNotificationLink(
-                    new ilNotificationParameter($recipientLanguage->txt('buddy_noti_cr_profile_not_published')),
-                    '#'
                 );
             }
             $links[] = new ilNotificationLink(

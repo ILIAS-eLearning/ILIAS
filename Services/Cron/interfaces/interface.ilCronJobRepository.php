@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 interface ilCronJobRepository
 {
@@ -53,6 +53,7 @@ interface ilCronJobRepository
 
     public function updateJobResult(
         ilCronJob $job,
+        DateTimeImmutable $when,
         ilObjUser $actor,
         ilCronJobResult $result,
         bool $wasManualExecution = false
@@ -62,9 +63,9 @@ interface ilCronJobRepository
 
     public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue): void;
 
-    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function activateJob(ilCronJob $job, DateTimeImmutable $when, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function deactivateJob(ilCronJob $job, DateTimeImmutable $when, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
     public function findAll(): ilCronJobCollection;
 }

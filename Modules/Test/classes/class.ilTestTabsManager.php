@@ -569,7 +569,7 @@ class ilTestTabsManager
         if ($this->isWriteAccessGranted()) {
             if (!$this->isHiddenTab('settings')) {
                 $settingsCommands = array(
-                    "marks", "showMarkSchema","addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema", "saveMarks",
+                    "marks", "showMarkSchema","addMarkStep", "deleteMarkSteps", "resetToSimpleMarkSchema", "saveMarks",
                     "certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
                     "certificatePreview", "certificateDelete", "certificateUpload", "certificateImport",
                     "scoring", "defaults", "addDefaults", "deleteDefaults", "applyDefaults",

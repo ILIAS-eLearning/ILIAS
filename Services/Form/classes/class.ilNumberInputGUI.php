@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a number property in a property form.
@@ -279,6 +279,35 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
+
+        if ($this->getInfo() !== '') {
+            $tpl->setCurrentBlock('described_by_description');
+            $tpl->setVariable('DESCRIBED_BY_DESCRIPTION_FIELD_ID', $this->getFieldId());
+            $tpl->parseCurrentBlock();
+        }
+
+        // constraints
+        $constraints = "";
+        $delim = "";
+        if ($this->areDecimalsAllowed() && $this->getDecimals() > 0) {
+            $constraints = $lng->txt("form_format") . ": ###." . str_repeat("#", $this->getDecimals());
+            $delim = ", ";
+        }
+        if ($this->getMinValue() !== null && $this->minvalue_visible) {
+            $constraints .= $delim . $lng->txt("form_min_value") . ": " . (($this->minvalueShouldBeGreater()) ? "&gt; " : "") . $this->getMinValue();
+            $delim = ", ";
+        }
+        if ($this->getMaxValue() !== null && $this->maxvalue_visible) {
+            $constraints .= $delim . $lng->txt("form_max_value") . ": " . (($this->maxvalueShouldBeLess()) ? "&lt; " : "") . $this->getMaxValue();
+            $delim = ", ";
+        }
+
+        if ($constraints !== "") {
+            $tpl->setCurrentBlock('described_by_constraint');
+            $tpl->setVariable('DESCRIBED_BY_CONSTRAINT_FIELD_ID', $this->getFieldId());
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setCurrentBlock("prop_number");
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -300,24 +329,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $tpl->setVariable("JS_ID", $this->getFieldId());
         }
 
-
-        // constraints
-        $constraints = "";
-        $delim = "";
-        if ($this->areDecimalsAllowed() && $this->getDecimals() > 0) {
-            $constraints = $lng->txt("form_format") . ": ###." . str_repeat("#", $this->getDecimals());
-            $delim = ", ";
-        }
-        if ($this->getMinValue() !== null && $this->minvalue_visible) {
-            $constraints .= $delim . $lng->txt("form_min_value") . ": " . (($this->minvalueShouldBeGreater()) ? "&gt; " : "") . $this->getMinValue();
-            $delim = ", ";
-        }
-        if ($this->getMaxValue() !== null && $this->maxvalue_visible) {
-            $constraints .= $delim . $lng->txt("form_max_value") . ": " . (($this->maxvalueShouldBeLess()) ? "&lt; " : "") . $this->getMaxValue();
-            $delim = ", ";
-        }
-        if ($constraints != "") {
+        if ($constraints !== '') {
             $tpl->setVariable("TXT_NUMBER_CONSTRAINTS", $constraints);
+            $tpl->setVariable(
+                "CONSTRAINT_FOR_ID",
+                $this->getFieldId()
+            );
         }
 
         if ($this->getRequired()) {

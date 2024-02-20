@@ -63,8 +63,8 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
         for ($loop = 0; $loop < 24; $loop += 2) {
             $this->addColumn(
-                str_pad($loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
-                str_pad((string) $loop, 2, "0", STR_PAD_LEFT) . ":00 ",
+                str_pad((string) $loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
+                str_pad((string) ($loop + 2), 2, "0", STR_PAD_LEFT) . ":00 ",
                 "hour" . $loop
             );
         }
@@ -139,7 +139,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $alphabetic_ordering = [
             'title'
         ];
-        if (in_array($a_field, $alphabetic_ordering)) {
+        if (!in_array($a_field, $alphabetic_ordering)) {
             return true;
         }
         return false;

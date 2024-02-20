@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +22,7 @@ declare(strict_types=1);
 use ILIAS\Data\Version;
 
 /**
- * Writeable part of repository interface to ilComponenDataDB.
+ * Writeable part of repository interface to ilComponentDataDB.
  */
 interface ilComponentRepositoryWrite extends ilComponentRepository
 {

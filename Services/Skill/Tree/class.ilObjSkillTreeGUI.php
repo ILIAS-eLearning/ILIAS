@@ -21,6 +21,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\Skill\Service;
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Access;
+use ILIAS\Skill\Profile;
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\GlobalScreen\ScreenContext;
 
@@ -42,6 +43,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Profile\SkillProfileCompletionManager $profile_completion_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
@@ -124,6 +127,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->skill_management_access_manager = $skill_manager->getManagementAccessManager(
             $this->skill_tree_manager->getSkillManagementRefId()
         );
+        $this->profile_manager = $skill_manager->getProfileManager();
+        $this->profile_completion_manager = $skill_manager->getProfileCompletionManager();
     }
 
     public function executeCommand(): void
@@ -393,7 +398,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if (is_array($data["props"])) {
+            if (isset($data["props"]) && is_array($data["props"])) {
                 $props = $data["props"];
                 $this->skill_tree_manager->createTree(
                     $props["title"],
@@ -423,7 +428,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if (is_array($data["props"])) {
+            if (isset($data["props"]) && is_array($data["props"])) {
                 $props = $data["props"];
                 /** @var ilObjSkillTree $obj */
                 $obj = $this->object;
@@ -600,7 +605,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilToolbar = $this->toolbar;
 
         if (empty($this->requested_node_ids)) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
+            $ilCtrl->redirectByClass("ilskilltreeadmingui", "listTrees");
         }
 
         $ilTabs->clearTargets();
@@ -620,7 +626,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             }
             if (in_array(ilSkillTreeNode::_lookupType($id), array("skll", "scat", "sktr"))) {
                 if ($mode == "templates") {
-                    $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
+                    $tpl->setOnScreenMessage("failure", "Skill Deletion - type mismatch.", true);
+                    $ilCtrl->redirectByClass("ilskilltreeadmingui", "listTrees");
                 }
                 $mode = "basic";
                 $skill_id = $id;
@@ -633,7 +640,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             }
             if (in_array(ilSkillTreeNode::_lookupType($id), array("sktp", "sctp"))) {
                 if ($mode == "basic") {
-                    $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
+                    $tpl->setOnScreenMessage("failure", "Skill Deletion - type mismatch.", true);
+                    $ilCtrl->redirectByClass("ilskilltreeadmingui", "listTrees");
                 }
                 $mode = "templates";
 
@@ -652,7 +660,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         } elseif ($mode == "basic" || $mode == "templates") {
             $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
         } else {
-            $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
+            $tpl->setOnScreenMessage("failure", "Skill Deletion - type mismatch.", true);
+            $ilCtrl->redirectByClass("ilskilltreeadmingui", "listTrees");
         }
 
         if (count($usages) > 0) {
@@ -695,7 +704,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                         : $node_obj->getTitle() .
                         " (" .
                         $this->lng->txt("skmg_count_references") . " " .
-                        count(ilSkillTemplateReference::_lookupTrefIdsForTemplateId($node_obj->getId())) .
+                        count(ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($node_obj->getId())) .
                         ")";
                 }
                 $confirmation_gui->addItem(
@@ -733,6 +742,14 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $tree = $this->skill_tree_repo->getTreeForNodeId($id);
                 $tree_obj = $this->skill_tree_manager->getTree($tree->getTreeId());
                 $node_data = $tree->getNodeData($id);
+
+                // delete competence profiles of tree
+                $tree_profiles = $this->profile_manager->getProfilesForSkillTree($tree->getTreeId());
+                foreach ($tree_profiles as $profile) {
+                    $this->profile_manager->delete((int) $profile["id"]);
+                    $this->profile_completion_manager->deleteEntriesForProfile((int) $profile["id"]);
+                }
+
                 if (is_object($obj)) {
                     $obj->delete();
                 }

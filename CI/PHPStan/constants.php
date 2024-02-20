@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * This file contains constants for PHPStan analyis, see: https://phpstan.org/config-reference#constants
  */
@@ -23,8 +25,8 @@
 // User an role specific constants
 const SYSTEM_USER_ID = 6;
 const ANONYMOUS_USER_ID = 13;
-const ANONYMOUS_ROLE_ID = 2;
-const SYSTEM_ROLE_ID = 14;
+const ANONYMOUS_ROLE_ID = 14;
+const SYSTEM_ROLE_ID = 2;
 
 // Folder specific constants
 const ROOT_FOLDER_ID = 1;

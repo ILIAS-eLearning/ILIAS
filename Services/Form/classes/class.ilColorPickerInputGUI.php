@@ -180,7 +180,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
 
-        if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors()) {
+        if (substr(trim($this->getValue() ?? ""), 0, 1) == "!" && $this->getAcceptNamedColors()) {
             $tpl->setVariable(
                 "PROPERTY_VALUE_COLOR",
                 ilLegacyFormElementsUtil::prepareFormOutput(trim($this->getValue()))

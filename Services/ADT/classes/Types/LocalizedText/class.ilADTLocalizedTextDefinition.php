@@ -14,14 +14,14 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
      */
     private array $active_languages = [];
     private string $default_language = '';
-    private int $max_length;
+    private ?int $max_length;
 
     public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
 
-    public function setMaxLength(int $max_length): void
+    public function setMaxLength(?int $max_length): void
     {
         $this->max_length = $max_length;
     }

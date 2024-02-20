@@ -680,6 +680,10 @@ class ilPropertyFormGUI extends ilFormGUI
                     "PROPERTY_DESCRIPTION",
                     $item->getInfo()
                 );
+                $this->tpl->setVariable(
+                    "DESCRIPTION_FOR_ID",
+                    $item->getFieldId()
+                );
                 $this->tpl->parseCurrentBlock();
             }
 

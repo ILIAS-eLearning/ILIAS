@@ -138,7 +138,8 @@ class FormAdapterGUI
         string $id_parameter,
         string $description = "",
         int $max_files = 1,
-        array $mime_types = []
+        array $mime_types = [],
+        bool $required = false
     ): self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
@@ -159,6 +160,9 @@ class FormAdapterGUI
             ->withMaxFiles($max_files);
         if (count($mime_types) > 0) {
             $field = $field->withAcceptedMimeTypes($mime_types);
+        }
+        if ($required) {
+            $field = $field->withRequired(true);
         }
 
         $this->addField(
@@ -249,5 +253,20 @@ class FormAdapterGUI
     public function render(): string
     {
         return $this->ui->renderer()->render($this->getForm());
+    }
+
+    protected function _getData(): void
+    {
+        if (is_null($this->raw_data)) {
+            $request = $this->http->request();
+            $this->form = $this->getForm()->withRequest($request);
+            $this->raw_data = $this->form->getData();
+        }
+    }
+
+    public function isValid(): bool
+    {
+        $this->_getData();
+        return !(is_null($this->raw_data));
     }
 }

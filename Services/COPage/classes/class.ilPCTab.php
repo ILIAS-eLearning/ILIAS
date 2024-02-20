@@ -88,20 +88,22 @@ class ilPCTab extends ilPageContent
         $storage = new ilAccordionPropertiesStorageGUI();
         $opened = $storage->getPropertyForIdStartsWith("ilc_accordion_" .
             $this->getPage()->getId() . "_", $this->user_id, "opened");
-
-        $script = "<script>";
-        foreach ($opened as $id => $open) {
-            $script .= <<<EOT
-        if (typeof ilAccordionsInits !== 'undefined') {
-            for (var i = 0; i < ilAccordionsInits.length; i++) {
-                if (ilAccordionsInits[i].id === '$id') {
-                    ilAccordionsInits[i].initial_opened = '$open';
+        $script = "";
+        if (!$a_abstract_only) {
+            $script = "<script>";
+            foreach ($opened as $id => $open) {
+                $script .= <<<EOT
+            if (typeof ilAccordionsInits !== 'undefined') {
+                for (var i = 0; i < ilAccordionsInits.length; i++) {
+                    if (ilAccordionsInits[i].id === '$id') {
+                        ilAccordionsInits[i].initial_opened = '$open';
+                    }
                 }
             }
-        }
 EOT;
+            }
+            $script .= "</script>";
         }
-        $script.= "</script>";
 
 
 

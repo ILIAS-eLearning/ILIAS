@@ -89,10 +89,11 @@ class ilCustomUserFieldsHelper
      */
     public function getFormPropertyForDefinition(
         array $definition,
-        bool $a_changeable = true,
+        bool $changeable = true,
         string $a_default_value = null
     ): ?ilFormPropertyGUI {
         $fprop = null;
+        $default_value = $a_default_value ?? '';
 
         switch ($definition['field_type']) {
             case UDF_TYPE_TEXT:
@@ -101,11 +102,11 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
 
-                $fprop->setValue((string) $a_default_value);
+                $fprop->setValue($default_value);
                 $fprop->setSize(40);
                 $fprop->setMaxLength(255);
                 $fprop->setRequired((bool) $definition['required']);
-                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                if (!$changeable && (!$definition['required'] || $default_value !== '')) {
                     $fprop->setDisabled(true);
                 }
                 break;
@@ -116,10 +117,10 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
 
-                $fprop->setValue((string) $a_default_value);
+                $fprop->setValue($default_value);
                 $fprop->setUseRte(true);
                 $fprop->setRequired((bool) $definition['required']);
-                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                if (!$changeable && (!$definition['required'] || $default_value !== '')) {
                     $fprop->setDisabled(true);
                 }
                 break;
@@ -133,9 +134,9 @@ class ilCustomUserFieldsHelper
                 $user_defined_fields = ilUserDefinedFields::_getInstance();
 
                 $fprop->setOptions($user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
-                $fprop->setValue($a_default_value);
+                $fprop->setValue($default_value);
                 $fprop->setRequired((bool) $definition['required']);
-                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                if (!$changeable && (!$definition['required'] || $default_value !== '')) {
                     $fprop->setDisabled(true);
                 }
                 break;
@@ -146,7 +147,7 @@ class ilCustomUserFieldsHelper
                     if ($plugin->getDefinitionType() == $definition['field_type']) {
                         $fprop = $plugin->getFormPropertyForDefinition(
                             $definition,
-                            $a_changeable,
+                            $changeable,
                             $a_default_value
                         );
                         break;

@@ -80,4 +80,12 @@ class InternalRepoService
     {
         return new Evaluation\EvaluationSessionRepo();
     }
+
+    public function sequence(): Sequence\SequenceDBRepository
+    {
+        return new Sequence\SequenceDBRepository(
+            $this->data,
+            $this->db
+        );
+    }
 }

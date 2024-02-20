@@ -160,11 +160,6 @@ class ilContainerXmlParser
                     $crs_item->setSuggestionEnd($dt->get(IL_CAL_UNIX));
                     break;
 
-                case 'EarliestStart':
-                    $dt = new ilDateTime((string) $sub, IL_CAL_DATETIME, ilTimeZone::UTC);
-                    $crs_item->setEarliestStart($dt->get(IL_CAL_UNIX));
-                    break;
-
                 case 'LatestEnd':
                     break;
             }

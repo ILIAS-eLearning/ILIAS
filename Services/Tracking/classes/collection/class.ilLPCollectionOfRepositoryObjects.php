@@ -431,7 +431,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             if (count((array) ($grouped_items['items'] ?? [])) > 1) {
                 foreach ($grouped_items['items'] as $grouped_item_id) {
                     if ($grouped_item_id == $item_id ||
-                        !is_array($items[$grouped_item_id])) { // #15498
+                        !is_array($items[$grouped_item_id] ?? false)) { // #15498
                         continue;
                     }
 

@@ -1285,7 +1285,8 @@ JS;
 
         foreach ($this->object->gaps as $gapIndex => $gap) {
             $answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
-            if ($answerValue === '') {
+            if ($gap->getType() !== assClozeGap::TYPE_TEXT
+                && $answerValue === '') {
                 continue;
             }
             $answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);

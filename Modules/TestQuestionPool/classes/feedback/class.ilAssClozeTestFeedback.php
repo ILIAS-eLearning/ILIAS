@@ -770,6 +770,28 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         return $feedbackIds;
     }
 
+    public function isSpecificAnswerFeedbackAvailable(int $question_id): bool
+    {
+        if ($this->questionOBJ->getFeedbackMode() === self::FB_MODE_GAP_QUESTION) {
+            $feedback_ids = $this->fetchFeedbackIdsForGapQuestionMode();
+        } else {
+            $feedback_ids = $this->fetchFeedbackIdsForGapAnswersMode();
+        }
+
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            $all_feedback_content = '';
+            foreach ($feedback_ids as $feedback_id) {
+                $all_feedback_content .= $this->getPageObjectXML(
+                    $this->getSpecificAnswerFeedbackPageObjectType(),
+                    $feedback_id
+                );
+            }
+            return trim(strip_tags($all_feedback_content)) !== '';
+        }
+
+        return implode('', $this->getSpecificFeedbackContentForFeedbackIds($feedback_ids)) !== '';
+    }
+
     /**
      * @param int[] $feedbackIds
      */

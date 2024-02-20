@@ -65,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
                     $triggerer = $triggerer
                         ->withOnClick($trigger_signal)
                         ->withAdditionalOnLoadCode(
-                            fn($id) => "
+                            fn ($id) => "
                                     il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');
                                     il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}');
                                 "
@@ -132,15 +132,9 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $component->withAdditionalOnLoadCode(
             function ($id) use ($slate_signals, $mb_id): string {
-                $js = "";
+                $js = "fn = il.UI.maincontrols.slate.onSignal;";
                 foreach ($slate_signals as $key => $signal) {
-                    $js .= "$(document).on('{$signal}', function(event, signalData) { 
-                        il.UI.maincontrols.slate.onSignal('{$key}', 
-                        event, 
-                        signalData, 
-                        '{$id}'
-                    ); 
-                    return false;});";
+                    $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
                 }
 
                 if ($mb_id) {
@@ -174,7 +168,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/MainControls/dist/maincontrols.min.js');
+        $registry->register('./src/UI/templates/js/MainControls/slate.js');
     }
 
     /**

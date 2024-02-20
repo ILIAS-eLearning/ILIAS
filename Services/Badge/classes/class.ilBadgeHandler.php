@@ -208,7 +208,7 @@ class ilBadgeHandler
      * Get badges types
      * @return array<string, ilBadgeType>
      */
-    public function getAvailableTypes(): array
+    public function getAvailableTypes(bool $exclude_inactive = true): array
     {
         $res = [];
 
@@ -218,7 +218,7 @@ class ilBadgeHandler
             if ($provider) {
                 foreach ($provider->getBadgeTypes() as $type) {
                     $id = $this->getUniqueTypeId($component_id, $type);
-                    if (!in_array($id, $inactive, true)) {
+                    if (!$exclude_inactive || !in_array($id, $inactive, true)) {
                         $res[$id] = $type;
                     }
                 }

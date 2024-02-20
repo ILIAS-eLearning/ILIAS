@@ -68,10 +68,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		var onClickEntry = function(event, signalData) {
 			var btn = signalData.triggerer;
 
-			if(btn.attr('id') === _getMoreButton().attr('id')) {
-				return;
-			}
-
 			if(_isEngaged(btn)) {
 				_disengageButton(btn);
 			} else {

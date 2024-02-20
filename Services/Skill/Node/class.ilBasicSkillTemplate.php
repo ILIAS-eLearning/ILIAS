@@ -57,7 +57,7 @@ class ilBasicSkillTemplate extends ilBasicSkill
     {
         $ilDB = $this->db;
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($this->getId()) as $tref_id) {
+        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTopTemplateId($this->getId()) as $tref_id) {
             $obj = ilSkillTreeNodeFactory::getInstance($tref_id);
             $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($tref_id);
             $node_data = $skill_tree->getNodeData($tref_id);

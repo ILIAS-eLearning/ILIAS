@@ -384,7 +384,8 @@ class ilMail
         }
 
         if (isset($row['attachments'])) {
-            $row['attachments'] = unserialize(stripslashes($row['attachments']), ['allowed_classes' => false]);
+            $unserialized = unserialize(stripslashes($row['attachments']), ['allowed_classes' => false]);
+            $row['attachments'] = is_array($unserialized) ? $unserialized : [];
         } else {
             $row['attachments'] = [];
         }
@@ -414,6 +415,13 @@ class ilMail
 
         if (isset($row['use_placeholders'])) {
             $row['use_placeholders'] = (bool) $row['use_placeholders'];
+        }
+
+        $null_to_string_properties = ['m_subject', 'm_message', 'rcp_to', 'rcp_cc', 'rcp_bcc'];
+        foreach ($null_to_string_properties as $null_to_string_property) {
+            if (!isset($row[$null_to_string_property])) {
+                $row[$null_to_string_property] = '';
+            }
         }
 
         return $row;
@@ -961,7 +969,7 @@ class ilMail
      * @param array|null $a_tpl_ctx_params
      * @return bool
      */
-    public function savePostData(
+    public function persistToStage(
         int $a_user_id,
         array $a_attachments,
         string $a_rcp_to,
@@ -991,12 +999,12 @@ class ilMail
             ]
         );
 
-        $this->getSavedData();
+        $this->retrieveFromStage();
 
         return true;
     }
 
-    public function getSavedData(): array
+    public function retrieveFromStage(): array
     {
         $res = $this->db->queryF(
             "SELECT * FROM $this->table_mail_saved WHERE user_id = %s",
@@ -1006,7 +1014,7 @@ class ilMail
 
         $this->mail_data = $this->fetchMailData($this->db->fetchAssoc($res));
         if (!is_array($this->mail_data)) {
-            $this->savePostData($this->user_id, [], '', '', '', '', '', false);
+            $this->persistToStage($this->user_id, [], '', '', '', '', '', false);
         }
 
         return $this->mail_data;

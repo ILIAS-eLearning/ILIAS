@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 abstract class ilCronJob
 {
@@ -89,8 +89,9 @@ abstract class ilCronJob
             return true;
         }
 
-        $now = new DateTimeImmutable('@' . time());
-        if ($this->date_time_provider !== null) {
+        if ($this->date_time_provider === null) {
+            $now = new DateTimeImmutable('@' . time(), new DateTimeZone(date_default_timezone_get()));
+        } else {
             $now = ($this->date_time_provider)();
         }
 
@@ -135,7 +136,7 @@ abstract class ilCronJob
     }
 
     /**
-     * @param Closure|null $date_time_provider
+     * @param Closure():DateTimeInterface|null $date_time_provider
      */
     public function setDateTimeProvider(?Closure $date_time_provider): void
     {

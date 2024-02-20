@@ -19,7 +19,6 @@ var ClozeGlobals = {
   form_error:                   'form_error',
   form_warning:                 'form_warning',
   best_combination:             '',
-  whitespace_cleaner:           false,
   best_possible_solution_error: false,
   debug:                        false,
   jour_fixe_incompatible:       false,
@@ -61,9 +60,12 @@ var ClozeQuestionGapBuilder = (function () {
         if (gap.type === 'text' || gap.type === 'select') {
           gap.values.forEach(
             (value) => {
-              value.answer = value.answer.replace('&#123;','{');
-              value.answer = value.answer.replace('&#125;','}');
-            }
+              if (value.answer === undefined) {
+                value.answer = '';
+              }
+              value.answer = value.answer.replace('&#123;', '{');
+              value.answer = value.answer.replace('&#125;', '}');
+            },
           );
         }
       }
@@ -863,8 +865,6 @@ var ClozeQuestionGapBuilder = (function () {
         $('#gap_error_' + gap_id).find('.value.form_error').addClass('prototype');
       }
     }
-    pro.checkInputTextForWhitespaces(gap_id, selector, selector.val());
-    ClozeGlobals.whitespace_cleaner = false;
   };
 
   pro.checkForm = function () {
@@ -935,9 +935,6 @@ var ClozeQuestionGapBuilder = (function () {
           }
           var failed = pro.checkInputElementNotEmpty($('#gap_' + row + '\\[answer\\]\\[' + counter + '\\]'), values.answer);
           input_failed += failed;
-          if (entry.type == 'text' && failed === 0) {
-            pro.checkInputTextForWhitespaces(row, $('#gap_' + row + '\\[answer\\]\\[' + counter + '\\]'), values.answer);
-          }
           counter++;
         });
         if (input_failed > 0) {
@@ -974,7 +971,6 @@ var ClozeQuestionGapBuilder = (function () {
         }
       }
       row++;
-      ClozeGlobals.whitespace_cleaner = false;
     });
     $('#gap_json_post').val(JSON.stringify(ClozeSettings.gaps_php));
     $('#gap_json_combination_post').val(JSON.stringify(ClozeSettings.gaps_combination));
@@ -1038,48 +1034,6 @@ var ClozeQuestionGapBuilder = (function () {
       pro.removeHighlight(selector);
       return 0;
     }
-  };
-
-  pro.checkInputTextForWhitespaces = function (id, selector, value) {
-    var error = false;
-    if (/^\s/.test(value)) {
-      pro.showHidePrototypes(id, 'wsB', true);
-      error = true;
-      ClozeGlobals.whitespace_cleaner = true;
-    }
-    else if (!error && !ClozeGlobals.whitespace_cleaner) {
-      pro.showHidePrototypes(id, 'wsB', false);
-    }
-    if (/\s$/.test(value)) {
-      pro.showHidePrototypes(id, 'wsA', true);
-      error = true;
-      ClozeGlobals.whitespace_cleaner = true;
-    }
-    else if (!error && !ClozeGlobals.whitespace_cleaner) {
-      pro.showHidePrototypes(id, 'wsA', false);
-    }
-    if (/\s{2,}/.test(value)) {
-      pro.showHidePrototypes(id, 'wsM', true);
-      error = true;
-      ClozeGlobals.whitespace_cleaner = true;
-    }
-    else if (!error && !ClozeGlobals.whitespace_cleaner) {
-      pro.showHidePrototypes(id, 'wsM', false);
-    }
-    if (error === true) {
-      pro.highlightYellow(selector);
-    }
-    else if (!error && !ClozeGlobals.whitespace_cleaner) {
-      pro.removeHighlightYellow(selector);
-    }
-
-  };
-
-  pro.clearInputTextWithWhitespaces = function (value) {
-    value = value.replace(/\s{2,}/g, '');
-    value = value.replace(/^\s/, '');
-    value = value.replace(/\s$/, '');
-    return value;
   };
 
   pro.focusOnFormular = function (pos) {

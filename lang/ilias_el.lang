@@ -600,6 +600,7 @@ assessment#:#circle_click_center#:#Παρακαλώ κάντε κλικ στο �
 assessment#:#circle_click_circle#:#Παρακαλώ κάντε κλικ στο κυκλικό σημείο της επιθυμητής περιοχής
 assessment#:#clientip#:#IP Πελάτη
 assessment#:#close_text_hint#:#Μπορείτε να ορίσετε ένα κενό εισάγοντας [gap][/gap] στη θέση κειμένου της επιλογής σας. Πατήστε στο κουμπί 'Δημιουργία κενών' για να προσθέσετε μια επεξεργάσιμη φόρμα για κάθε κενό.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_fixed_textlength_description#:#Εαν εισάγετε τιμή μεγαλύτερη του 0, όλα τα κείμενα και οι αριθμητικές τιμές θα δημιουργηθούν μέ αυτόν ώς μέγιστο αριθμό επιτρεπόμενο χαρακτήρων
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.###26 09 2014 new variable
@@ -607,9 +608,6 @@ assessment#:#cloze_text#:#Κείμενο με κενά
 assessment#:#cloze_textgap_case_insensitive#:#Χωρίς ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_case_sensitive#:#Με ταίριασμα πεζών-κεφαλαίων
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein απόσταση του %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Multiple Whitespaces###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_after#:#Whitespace behind the value###07 11 2014 new variable
-assessment#:#cloze_textgap_whitespace_before#:#Whitespace before the value###07 11 2014 new variable
 assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση
@@ -914,6 +912,8 @@ assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater o
 assessment#:#msg_poly_added#:#Polygon added###24 07 2009 new variable
 assessment#:#msg_questions_moved#:#Question(s) moved###06 08 2009 new variable
 assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 2009 new variable
 assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
@@ -1435,6 +1435,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable
 assessment#:#tst_general_properties#:#Γενικές ιδιότητες
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
 assessment#:#tst_heading_scoring#:#Βαθμολογία
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -1536,10 +1537,11 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 
 assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
 assessment#:#tst_mark#:#Βαθμός
 assessment#:#tst_mark_create_new_mark_step#:#Δημιουργία νέου βαθμολογικού βήματος
-assessment#:#tst_mark_create_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
 assessment#:#tst_mark_minimum_level#:#Ελάχιστο επίπεδο (σε %)
 assessment#:#tst_mark_official_form#:#Επίσημη μορφή
 assessment#:#tst_mark_passed#:#Πέρασε
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Δημιουργία απλού βαθμολογικού σχήματος
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Σύντομη μορφή
 assessment#:#tst_max_allowed_users_heading#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα
 assessment#:#tst_max_allowed_users_message#:#Έχετε φθάσει το μέγιστο αριθμό ταυτόχρονων χρηστών γι' αυτό το διαγώνισμα. Παρακαλώ ξαναπροσπαθήστε αργότερα να ξεκινήσετε ή να συνεχίσετε το διαγώνισμα. Αν κάποιος από τους ενεργούς χρήστες μείνει ανενεργός για περισσότερα από %s δευτερόλεπτα, ίσως να έχετε τη δυνατότητα να δώσετε το διαγώνισμα. Σας ευχαριστούμε για την κατανόηση.
@@ -2448,6 +2450,7 @@ blog#:#blog_settings#:#Blog Administration###06 08 2011 new variable
 blog#:#blog_settings_navigation#:#Navigation Column###26 09 2014 new variable
 blog#:#blog_show_latest#:#Show latest postings/drafts###25 10 2016 new variable
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Blog Style###24 10 2013 new variable
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
@@ -3965,6 +3968,7 @@ common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Αποτυχημένη Σύνδεση. Η επικύρωση SOAP ήταν επιτυχής, αλλά δεν υπάρχει αντίστοιχος χρήστης ILIAS. Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Αιτιολογία: λανθασμένος αριθμός παραμέτρων
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Σφάλμα στη γραμμή
 common#:#err_inactive#:#Ο λογαριασμός αυτός δεν έχει ενεργοποιηθεί. Παρακαλώ επικοινωνήστε με τον διαχειριστή συστήματος για πρόσβαση.
 common#:#err_inactive_login_attempts#:#Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. ###31 08 2017 new variable
@@ -5121,6 +5125,7 @@ common#:#objs_rtst#:#ECS Tests###28 08 2012 new variable
 common#:#objs_rwik#:#ECS Wikis###28 08 2012 new variable
 common#:#objs_sahs#:#Εκπαιδευτικές μονάδες SCORM/AICC
 common#:#objs_sess#:#Συνεδρίες
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Δεξαμενή ερωτήσεων για Έρευνα
 common#:#objs_st#:#Κεφάλαια
 common#:#objs_svy#:#Έρευνες
@@ -5281,7 +5286,7 @@ common#:#private_notes#:#Ιδιωτικές σημειώσεις
 common#:#pro#:#Προ
 common#:#proceed#:#Proceed
 common#:#profile#:#Προφίλ
-common#:#profile_changed#:#ILIAS eLearning - Το προφίλ σας έχει αλλάξει
+common#:#profile_changed#:#Το προφίλ σας έχει αλλάξει
 common#:#profile_incomplete#:#Το προφίλ σας είναι ελλειπές. Παρακαλώ συμπληρώστε όλα τ' απαραίτητα δεδομένα.
 common#:#profile_of#:#Προφίλ του
 common#:#properties#:#Ιδιότητες
@@ -5340,8 +5345,8 @@ common#:#reg_mail_body_salutation#:#Γεια
 common#:#reg_mail_body_text1#:#Καλως ήρθατε στο σύστημα τηλεκατάρτισης ILIAS!
 common#:#reg_mail_body_text2#:#Για να έχετε πρόσβαση στο ILIAS χρησιμοποιείστε τα ακόλουθα δεδομένα:
 common#:#reg_mail_body_text3#:#Περαιτέρω προσωπικές πληροφορίες:
-common#:#reg_mail_subject#:#ILIAS eLearning - Τα δεδομένα πρόσβασής σας
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_subject#:#Τα δεδομένα πρόσβασής σας
+common#:#reg_mail_subject_confirmation#:#Your Confirmationlink###24 07 2009 new variable
 common#:#reg_passwd_via_mail#:#Ο κωδικός θα σας αποσταλεί στην email διεύθυνση σας που δίνεται παρακάτω.
 common#:#register#:#Εγγραφή
 common#:#register_notification#:#"%s" has applied for session "%s".###07 02 2020 new variable
@@ -7230,6 +7235,7 @@ copa#:#copa_prop_reading_time#:#Reading Time###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
 copa#:#obj_copa_duplicate#:#Duplicate Content Page###10 11 2018 new variable
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###30 04 2021 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###30 04 2021 new variable
 copg#:#copg_an_error_occured#:#An error occured.###30 04 2021 new variable
@@ -7240,18 +7246,24 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###30 04 2021 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.###25 10 2016 new variable
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.###25 10 2016 new variable
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###30 04 2021 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###30 04 2021 new variable
@@ -7575,6 +7587,7 @@ crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Μέλη μαθήματος
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###12 08 2009 new variable
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
@@ -7902,6 +7915,7 @@ crs#:#events#:#Σύνοδοι
 crs#:#export_members#:#Export Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###07 02 2020 new variable
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###25 10 2015 new variable
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.###25 10 2015 new variable
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###25 10 2015 new variable
@@ -8188,6 +8202,7 @@ dateplaner#:#cal_edit_category#:#Edit Calendar
 dateplaner#:#cal_edit_milestone#:#Edit Milestone###26 06 2009 new variable
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments###24 10 2013 new variable
 dateplaner#:#cal_edit_single#:#Edit this Appointment###24 10 2013 new variable
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###26 06 2009 new variable
 dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###26 06 2009 new variable
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 10 2012 new variable
@@ -8218,6 +8233,7 @@ dateplaner#:#cal_grp_others#:#Others###31 08 2017 new variable
 dateplaner#:#cal_grp_personal#:#Personal###31 08 2017 new variable
 dateplaner#:#cal_ical_infoscreen#:#Subscribe###28 08 2012 new variable
 dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import Appointments###28 08 2012 new variable
 dateplaner#:#cal_import_file#:#Import File###28 08 2012 new variable
 dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.###28 08 2012 new variable
@@ -8348,6 +8364,7 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_year_s#:#Year(s)
 dateplaner#:#cal_yearly#:#Yearly
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Δημιουργήθηκε
 dateplaner#:#crs_cal_activation_end#:#Course End
 dateplaner#:#crs_cal_activation_start#:#Course Start
@@ -8995,6 +9012,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10329,7 +10347,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
 lng#:#language_detection#:#Language Detection###30 04 2021 new variable
 lng#:#lng_disable_language_detection#:#Disable Language Detection###30 08 2015 new variable
@@ -10374,6 +10394,8 @@ lso#:#abstract_img#:#Image for Abstract###10 11 2018 new variable
 lso#:#avail_time_period#:#Period###10 11 2018 new variable
 lso#:#completed_steps#:#Passed Steps###10 11 2018 new variable
 lso#:#condition_always#:#Always###10 11 2018 new variable
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?###10 11 2018 new variable
 lso#:#entries_deleted#:#Successfuly delete entries###10 11 2018 new variable
@@ -11305,6 +11327,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Edit Copyright Presetting
 meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
@@ -11942,6 +11965,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Added languages###10 11 2018 new variable
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Item deleted.###10 11 2018 new variable
@@ -12220,6 +12244,7 @@ obj#:#obj_activation#:#Activation###31 08 2017 new variable
 obj#:#obj_activation_list_gui#:#Availability###30 12 2013 new variable
 obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
 obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
 obj#:#obj_copy_progress#:#Copy Progress###30 08 2015 new variable
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing###22 01 2014 new variable
@@ -12511,6 +12536,7 @@ poll#:#poll_activation_online_info#:#If offline, only administrators can see and
 poll#:#poll_add#:#Add Poll###28 08 2012 new variable
 poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
 poll#:#poll_answer#:#Answer###28 08 2012 new variable
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Possible Answers###28 08 2012 new variable
 poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.###28 08 2012 new variable
@@ -13734,6 +13760,7 @@ rbac#:#rbac_create_role#:#Create new Role###30 12 2013 new variable
 rbac#:#rbac_create_rolt#:#Create new Role Template###30 12 2013 new variable
 rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module###16 09 2009 new variable
 rbac#:#rbac_create_sess#:#Create Session
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Create Question Pool Survey###16 09 2009 new variable
 rbac#:#rbac_create_svy#:#Create Survey###16 09 2009 new variable
 rbac#:#rbac_create_tst#:#Create Test###16 09 2009 new variable
@@ -13909,6 +13936,17 @@ rbac#:#sess_read#:#Read access to Sessions
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users###26 09 2014 new variable
 rbac#:#sess_visible#:#Sessions are visible
 rbac#:#sess_write#:#Edit Sessions
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Change permission settings###10 11 2011 new variable
 rbac#:#skmg_read#:#Read access to Skill Management###10 11 2011 new variable
 rbac#:#skmg_visible#:#Skill Management is visible###10 11 2011 new variable
@@ -16037,6 +16075,7 @@ survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation###25 10 20
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.###28 08 2012 new variable
 survey#:#svy_max_sum_score#:#Maximum Sum Score###30 04 2021 new variable
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)###28 08 2012 new variable
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
@@ -16117,6 +16156,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Overview###07 02 2020 new variable
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Remove all Participants###07 02 2020 new variable
 svy#:#svy_remove_participants#:#Remove Participants###07 02 2020 new variable
@@ -16724,6 +16764,7 @@ user#:#user_prompting_recurrence#:#Prompting Recurrence###10 11 2018 new variabl
 user#:#user_prompting_settings#:#Prompting Settings###10 11 2018 new variable
 user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.###30 04 2009 new variable
 user#:#user_publish_options#:#Publish Profile###07 02 2020 new variable
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#User - Starting Point###31 08 2017 new variable
 user#:#user_save_continue#:#Save and Continue###07 02 2020 new variable
 user#:#user_save_ordering_and_titles#:#Save ordering and titles###22 03 2011 new variable

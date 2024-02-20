@@ -268,6 +268,18 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $ilOrgUnitUserAssignmentGUI = new ilOrgUnitUserAssignmentGUI();
                 $this->ctrl->forwardCommand($ilOrgUnitUserAssignmentGUI);
                 break;
+            case strtolower(ilPropertyFormGUI::class):
+                /*
+                 * Only used for async loading of the repository tree in custom md
+                 * internal links (see #24875). This is necessary since OrgUnits don't
+                 * use ilObjectMetaDataGUI.
+                 */
+                $form = $this->initAdvancedSettingsForm();
+                $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
+                $gui->setPropertyForm($form);
+                $gui->parse();
+                $this->ctrl->forwardCommand($form);
+                break;
             default:
                 $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
                 switch ($cmd) {
@@ -352,8 +364,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     protected function afterSave(ilObject $new_object): void
     {
+        $new_object->writePath();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+
         ilUtil::redirect($this->getReturnLocation(
             "save",
             $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS, "")

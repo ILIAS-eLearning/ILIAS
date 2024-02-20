@@ -109,11 +109,38 @@ class ilMDCopyrightMigration implements Setup\Migration
             $full_name = strip_tags($copyright);
         }
 
+        $image_link = $this->translatePreInstalledLinksToSVG($image_link);
+
         return [
             'full_name' => [\ilDBConstants::T_TEXT, $full_name],
             'link' => [\ilDBConstants::T_TEXT, $link],
             'image_link' => [\ilDBConstants::T_TEXT, $image_link],
             'alt_text' => [\ilDBConstants::T_TEXT, $alt_text]
         ];
+    }
+
+    protected function translatePreInstalledLinksToSVG(string $image_link): string
+    {
+        $mapping = [
+            // 4.0
+            'https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.svg',
+            'https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg',
+            'https://i.creativecommons.org/l/by-nc/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg',
+            'https://i.creativecommons.org/l/by-nd/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nd.svg',
+            'https://i.creativecommons.org/l/by-sa/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg',
+            'https://i.creativecommons.org/l/by/4.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg',
+            // 3.0
+            'http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.svg',
+            'http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg',
+            'http://i.creativecommons.org/l/by-nc/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg',
+            'http://i.creativecommons.org/l/by-nd/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nd.svg',
+            'http://i.creativecommons.org/l/by-sa/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg',
+            'http://i.creativecommons.org/l/by/3.0/88x31.png' => 'https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg'
+        ];
+
+        if (key_exists($image_link, $mapping)) {
+            return $mapping[$image_link];
+        }
+        return $image_link;
     }
 }

@@ -28,8 +28,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public const XML_SEPARATOR_TRANSLATIONS = "~|~";
     public const XML_SEPARATOR_TRANSLATION = '~+~';
 
-    protected int $max_length = 0;
-    protected $multi = false;
+    protected ?int $max_length = null;
+    protected bool $multi = false;
 
     //
     // generic types
@@ -64,7 +64,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
 
         $definition = ilADTFactory::getInstance()->getDefinitionInstanceByType(ilADTFactory::TYPE_LOCALIZED_TEXT);
-        $definition->setMaxLength($this->getMaxLength() ?? 0);
+        $definition->setMaxLength($this->getMaxLength());
         $definition->setActiveLanguages($field_translations->getActivatedLanguages($this->getFieldId(), true));
         $definition->setDefaultLanguage($field_translations->getDefaultLanguage());
         return $definition;
@@ -75,23 +75,12 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     // properties
     //
 
-    /**
-     * Set max length
-     * @param int $a_value
-     */
-    public function setMaxLength($a_value)
+    public function setMaxLength(?int $max_length)
     {
-        if ($a_value !== null) {
-            $a_value = (int) $a_value;
-        }
-        $this->max_length = (int) $a_value;
+        $this->max_length = $max_length;
     }
 
-    /**
-     * Get max length
-     * @return int
-     */
-    public function getMaxLength()
+    public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
@@ -121,7 +110,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
 
     protected function importFieldDefinition(array $a_def): void
     {
-        $this->setMaxLength($a_def["max"] ?? null);
+        $this->setMaxLength(isset($a_def["max"]) ? (int) $a_def["max"] : null);
         $this->setMulti($a_def["multi"]);
     }
 
@@ -193,8 +182,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         $max = $a_form->getInput("max");
-        $this->setMaxLength(($max !== "") ? $max : null);
-
+        $this->setMaxLength(($max !== "" && $max !== null) ? (int) $max : null);
         $this->setMulti($a_form->getInput("multi"));
     }
 
@@ -211,7 +199,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public function importXMLProperty(string $a_key, string $a_value): void
     {
         if ($a_key == "max") {
-            $this->setMaxLength($a_value != "" ? $a_value : null);
+            $this->setMaxLength($a_value != "" ? (int) $a_value : null);
         }
         if ($a_key == "multi") {
             $this->setMulti($a_value != "" ? $a_value : null);

@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#Моля, кликнете в центъра 
 assessment#:#circle_click_circle#:#Моля, кликнете на точка от кръга на желаната област.
 assessment#:#clientip#:#Клиенски IP адрес
 assessment#:#close_text_hint#:#Можете да дефинирате празнина, като въведете <gap></gap> в избраната от вас позиция в текста. Натиснете бутона "Създаване на празнини", за да добавите форма за редактиране за всяка от празнините.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Дължина на текстовото поле
 assessment#:#cloze_fixed_textlength_description#:#Ако въведете стойност, по-голяма от 0, всички текстови полета и текстови полета с цифрова разлика ще бъдат създадени с фиксираната дължина на тази стойност.
 assessment#:#cloze_gap_size_info#:#Ако въведете стойност, по-голяма от 0, това текстово поле за празнина ще бъде създадено с фиксираната дължина на тази стойност. Ако не въведете стойност, текстовото поле за празнина ще бъде създадено със стойността на глобалната фиксирана дължина.
@@ -606,9 +607,6 @@ assessment#:#cloze_text#:#Затваряне на текста
 assessment#:#cloze_textgap_case_insensitive#:#Нечувствителност към големи букви
 assessment#:#cloze_textgap_case_sensitive#:#чувствителност към големи букви
 assessment#:#cloze_textgap_levenshtein_of#:#Разстояние на Левенщайн от %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Многобройни бели полета
-assessment#:#cloze_textgap_whitespace_after#:#Белият интервал зад стойността
-assessment#:#cloze_textgap_whitespace_before#:#Белият интервал преди стойността
 assessment#:#code#:#Код###22 06 2022 new variable
 assessment#:#codebase#:#Програмен код
 assessment#:#concatenation#:#Свързване
@@ -913,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#Броят на термините т
 assessment#:#msg_poly_added#:#Добавен полигон
 assessment#:#msg_questions_moved#:#Въпросите са преместени
 assessment#:#msg_rect_added#:# Добавен правоъгълник
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Въпроси, избрани за преместване
 assessment#:#new_category#:#Нова категория единици
 assessment#:#new_unit#:#Нова единица
@@ -1434,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Продължава изб�
 assessment#:#tst_gap_analysis#:#Анализ на пропуските
 assessment#:#tst_general_properties#:#Общи характеристики
 assessment#:#tst_header_participant#:#Резултат:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Правилно решение:
 assessment#:#tst_heading_scoring#:#Оценяване
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -1535,10 +1536,11 @@ assessment#:#tst_manscoring_question_section_header#:#Въпрос: %s
 assessment#:#tst_manscoring_user_notification#:#Изпращане на известие
 assessment#:#tst_mark#:#Оценка
 assessment#:#tst_mark_create_new_mark_step#:#Създаване на нова стъпка в оценките
-assessment#:#tst_mark_create_simple_mark_schema#:#Създаване на проста схема на оценките
 assessment#:#tst_mark_minimum_level#:#Минимално ниво (в %)
 assessment#:#tst_mark_official_form#:#Официална форма
 assessment#:#tst_mark_passed#:#Издържан
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Създаване на проста схема на оценките
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Кратка форма
 assessment#:#tst_max_allowed_users_heading#:#Максималният брой едновременни потребители в този тест е достигнат
 assessment#:#tst_max_allowed_users_message#:#Максималният брой едновременно активни потребители в теста е достигнат. Моля, опитайте отново по-късно, за да стартирате или възобновите теста. Ако един от активните потребители е неактивен за повече от %s секунди, може да успеете да въведете този тест. Благодарим ви за разбирането.
@@ -2447,6 +2449,7 @@ blog#:#blog_settings#:#Администрация на блога
 blog#:#blog_settings_navigation#:#Колона за навигиране
 blog#:#blog_show_latest#:#Показване на последните публикации/чертежи
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Стил на блога###22 06 2022 new variable
 blog#:#blog_task_publishing_draft_title#:#Публикуване на проект "%s"
 blog#:#blog_toggle_draft#:#Запазване като чернова
@@ -3964,6 +3967,7 @@ common#:#err_auth_mode_inactive#:#Вашият метод за удостове�
 common#:#err_auth_soap_no_ilias_user#:#Присъединяването е неуспешно. Удостоверяването по SOAP е успешно, но не съществува съответен потребител на ILIAS. Свържете се със системния си администратор.
 common#:#err_check_input#:#Настройките не могат да бъдат запазени. Моля, проверете въведените данни.
 common#:#err_count_param#:#Причина: Грешно изброяване на параметрите
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Грешка в реда
 common#:#err_inactive#:#Този акаунт не е бил активиран. Моля, свържете се със системния администратор за достъп.
 common#:#err_inactive_login_attempts#:#Потребителският ви акаунт е деактивиран поради твърде много неуспешни опити за влизане. Щракнете върху "Свържете се с техническата поддръжка" в долния колонтитул на тази страница, за да уведомите администратора за необходимостта от повторно активиране на акаунта ви.
@@ -5120,6 +5124,7 @@ common#:#objs_rtst#:#ECS тестове
 common#:#objs_rwik#:#ECS Уикита
 common#:#objs_sahs#:#SCORM/AICC модули за обучение
 common#:#objs_sess#:#Сесии
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Набори въпроси за проучванията
 common#:#objs_st#:#Глави
 common#:#objs_svy#:#Проучвания
@@ -5339,8 +5344,8 @@ common#:#reg_mail_body_salutation#:#Здравейте
 common#:#reg_mail_body_text1#:#Добре дошли в ILIAS eLearning!
 common#:#reg_mail_body_text2#:#За достъп в ILIAS използвайте следните данни:
 common#:#reg_mail_body_text3#:#Допълнителна лична информация:
-common#:#reg_mail_subject#:#ILIAS eLearning - Вашите данни за достъп
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Вашата връзка за потвърждение
+common#:#reg_mail_subject#:#Вашите данни за достъп
+common#:#reg_mail_subject_confirmation#:#Вашата връзка за потвърждение
 common#:#reg_passwd_via_mail#:#Вашата парола ще бъде изпратена на вашия имейл адрес, даден по-долу.
 common#:#register#:#Регистриране
 common#:#register_notification#:#"%s" е кандидатствал за сесия "%s".
@@ -7229,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#Време за четене###22 06 2022 new va
 copa#:#copa_value_reading_time_f_p#:#%s минути###22 06 2022 new variable
 copa#:#copa_value_reading_time_f_s#:#%s минута###22 06 2022 new variable
 copa#:#obj_copa_duplicate#:#Дублиране на страница със съдържание
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Активирайте HTML/Javascript
 copg#:#copg_allow_html_info#:#Потребителят може да използва HTML или Javascript съдържание на страницата. Това може да доведе до проблеми със сигурността. Не активирайте, ако функциите могат да се използват от потребители, които според вас не заслужават доверие. Поддръжката на добавянето на HTML съдържание по този начин може да бъде преустановена в бъдеща версия.
 copg#:#copg_an_error_occured#:#Възникна грешка.###22 06 2022 new variable
@@ -7239,18 +7245,24 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Детайли###22 06 2022 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Грешка###22 06 2022 new variable
 copg#:#copg_error_occured_modal#:#По време на обработката на страницата е възникнала грешка. Натиснете бутона "Презареждане на страницата", за да се върнете към предварително запазеното състояние.###22 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Елементът на страницата не е намерен.###22 06 2022 new variable
 copg#:#copg_page_type_stys#:#Страница за оформление
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#Въпросите не се поддържат в този контекст.
 copg#:#copg_reload_page#:#Презареждане на страницата###22 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Ако зададете връзка към целия раздел, моля, уверете се, че в раздела не са включени други интерактивни елементи. В противен случай поведението им може да бъде нестабилно.
 copg#:#copg_snippet_cannot_be_edited#:#Това е предварително дефиниран фрагмент от съдържанието и не може да се редактира тук.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Време за четене###22 06 2022 new variable
 cpad#:#cpad_reading_time_status_desc#:#Ако е разрешено, очакваното време за четене за обекти на страница със съдържание ще бъде определено и показано.###22 06 2022 new variable
@@ -7574,6 +7586,7 @@ crs#:#crs_members_groups#:#Групи на членовете на курса
 crs#:#crs_members_map#:#Карта на членовете на курса
 crs#:#crs_members_print_title#:#Членове на курса
 crs#:#crs_min_one_admin#:#За този курс трябва да има поне един администратор.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Новият ви статус е:
@@ -7901,6 +7914,7 @@ crs#:#events#:#Sessions
 crs#:#export_members#:#Експортиране на участници
 crs#:#grouping_change_assignment#:#Промяна на заданието
 crs#:#grp_grp_already_assigned#:#Вие вече сте член на тази група от групи.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Следващите курсове и групи не отговарят на изискванията за минимален брой членове (все още).
 crs#:#mem_cron_min_members_reason#:#Получавате това съобщение, защото сте активирали известието в раздела за членове.
 crs#:#mem_cron_min_members_subject#:#Курс/Група: Проверка на минималния брой членове
@@ -8187,6 +8201,7 @@ dateplaner#:#cal_edit_category#:#Редактиране на календар
 dateplaner#:#cal_edit_milestone#:#Редактиране на основни етапи
 dateplaner#:#cal_edit_recurrences#:#Редактиране на всички срещи
 dateplaner#:#cal_edit_single#:#Редактиране на тази среща
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Разрешаване на основни етапи
 dateplaner#:#cal_enable_group_milestones_desc#:#Тази опция активира планирането на етапи в календара.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Списъкът на получателите на уведомленията не е валиден. Моля, изберете само имена на потребителски акаунти в ILIAS или валидни имейл адреси.
@@ -8217,6 +8232,7 @@ dateplaner#:#cal_grp_others#:#Others
 dateplaner#:#cal_grp_personal#:#Personal
 dateplaner#:#cal_ical_infoscreen#:#Subscribe
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_file#:#Файл за импортиране
 dateplaner#:#cal_import_file_info#:#Изберете файла, който съдържа срещите от календара ви.
@@ -8347,6 +8363,7 @@ dateplaner#:#cal_weekly#:#Weekly
 dateplaner#:#cal_where#:#Местоположение
 dateplaner#:#cal_year_s#:#Година(и)
 dateplaner#:#cal_yearly#:#Годишно
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Създадено
 dateplaner#:#crs_cal_activation_end#:#Край на курса
 dateplaner#:#crs_cal_activation_start#:#Започване на курса
@@ -8994,6 +9011,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10328,7 +10346,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Записани заглавия.
 lng#:#language_detection#:#Разпознаване на езици###22 06 2022 new variable
 lng#:#lng_disable_language_detection#:# Деактивиране на откриването на езика
@@ -10373,6 +10393,8 @@ lso#:#abstract_img#:#Избор за реферат
 lso#:#avail_time_period#:#Период
 lso#:#completed_steps#:#Passed Steps
 lso#:#condition_always#:#Always
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Сигурни ли сте, че искате да изтриете този обект?
 lso#:#entries_deleted#:#Успешно изтриване на записи
@@ -11304,6 +11326,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:# Добавяне на предварително зададени авторски права
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Предварителна настройка на авторските права
 meta#:#md_copyright_enable_info#:#Изберете тази опция, за да предложите избор от предварително дефинирани авторски права
 meta#:#md_copyright_enabled#:#Активиране на избора на авторски права
@@ -11941,6 +11964,7 @@ mme#:#move_to_top_item#:#Преместване в основните елеме
 mme#:#msg_languages_added#:#Прибавени езици
 mme#:#msg_moved#:#Елементът е преместен успешно###22 06 2022 new variable
 mme#:#msg_not_moved#:#Елементът не можа да бъде преместен, моля, изберете валиден родител.###22 06 2022 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#Всички потребителски елементи и преводи ще бъдат изтрити, всички стандартни елементи ще бъдат възстановени до фабричните настройки по подразбиране. Всички персонализации ще бъдат загубени.
 mme#:#msg_restored#:#Пълно възстановяване на главното меню
 mme#:#msg_subitem_deleted#:#Изтрит елемент.
@@ -12219,6 +12243,7 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_languages#:#Добавяне на езици
 obj#:#obj_additional_langs#:#Допълнителни езици
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Преводът за редактиране на страница е деактивиран.
 obj#:#obj_copy_progress#:#Прогрес на копирането
 obj#:#obj_deactivate_content_lang#:# Деактивиране на превода за редактиране на страници
@@ -12510,6 +12535,7 @@ poll#:#poll_activation_online_info#:#Ако е офлайн, само админ
 poll#:#poll_add#:#Създаване на анкета
 poll#:#poll_anonymous_warning#:#Името ви не се вижда в резултатите от анкетата.
 poll#:#poll_answer#:#Отговор
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Възможни отговори
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#Вие вече сте гласували в тази анкета.
@@ -13733,6 +13759,7 @@ rbac#:#rbac_create_role#:#Създаване на нова роля
 rbac#:#rbac_create_rolt#:#Създаване на нов шаблон на роля
 rbac#:#rbac_create_sahs#:#Създаване на SCORM/AICC модул за обучение
 rbac#:#rbac_create_sess#:#Създаване на сесия
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Създаване на анкета с въпроси
 rbac#:#rbac_create_svy#:#Създаване на проучване
 rbac#:#rbac_create_tst#:#Създаване на тест
@@ -13908,6 +13935,17 @@ rbac#:#sess_read#:#Достъп за четене на сесии
 rbac#:#sess_read_learning_progress#:#Потребителят може да види напредъка в обучението на други потребители
 rbac#:#sess_visible#:#Сесиите са видими
 rbac#:#sess_write#:#Редактиране на сесии
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Промяна на настройките на разрешението
 rbac#:#skmg_read#:#Достъп до управлението на уменията за четене
 rbac#:#skmg_visible#:#Управлението на уменията е видимо
@@ -16036,6 +16074,7 @@ survey#:#svy_mail_send_confirmation#:#Изпращане на потвържде
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Настройките на колоните не се сумират до 100%.
 survey#:#svy_max_sum_score#:#Максимален общ резултат###22 06 2022 new variable
 survey#:#svy_neutral_answer#:#Текст за неутрален отговор ("Не е посочено", "Не знам" и т.н.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#Един имейл, включващ резултатите от проучването
 survey#:#svy_notification_tutor_results_alert#:#Това изисква крайна дата.
 survey#:#svy_notification_tutor_results_info#:#След достигане на крайните данни задача на cron ще изпрати имейл с прикрепени към него подробни резултати от проучването.
@@ -16116,6 +16155,7 @@ svy#:#svy_finish_survey#:#Завършване на проучването '%1'
 svy#:#svy_invite_participants#:#Привличане на участници
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Проучване
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Отстраняване на всички участници
 svy#:#svy_remove_participants#:#Отстраняване на участници
@@ -16723,6 +16763,7 @@ user#:#user_prompting_recurrence#:#Промотиране на повторен�
 user#:#user_prompting_settings#:#Настройки на подканянето
 user#:#user_public_profile_info#:#Моля, изберете кои лични данни да бъдат видими за други потребители.
 user#:#user_publish_options#:#Публикуване на профил
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Потребител - начална точка
 user#:#user_save_continue#:#Запазване и продължаване
 user#:#user_save_ordering_and_titles#:#Запазване на подредбата и заглавията

@@ -24,6 +24,7 @@
  */
 class McstPodcastGUI
 {
+    protected string $rss_link = "";
     protected ilMediaObjectsPlayerWrapperGUI $player_wrapper;
     protected ilCtrl $ctrl;
     protected \ilObjMediaCast $media_cast;
@@ -34,7 +35,8 @@ class McstPodcastGUI
 
     public function __construct(
         \ilObjMediaCast $obj,
-        ilGlobalTemplateInterface $tpl = null
+        ilGlobalTemplateInterface $tpl = null,
+        string $rss_link = ""
     ) {
         global $DIC;
 
@@ -44,6 +46,7 @@ class McstPodcastGUI
         $this->tpl = $tpl;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->rss_link = $rss_link;
         $this->player_wrapper = $DIC->mediaObjects()
             ->internal()
             ->gui()
@@ -125,6 +128,16 @@ class McstPodcastGUI
             $f->item()->group("", $items)
             ]
         );
+
+        if ($this->rss_link !== "") {
+            $actions = [
+                $f->link()->standard(
+                    $lng->txt("mcst_webfeed"),
+                    $this->rss_link
+                )->withOpenInNewViewport(true)
+            ];
+            $list = $list->withActions($f->dropdown()->standard($actions));
+        }
 
         return $renderer->render($list);
     }

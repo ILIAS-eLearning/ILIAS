@@ -36,6 +36,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPropertyFormGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
@@ -229,7 +230,24 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $output_gui = $guiFactory->create($this->object);
                 $this->ctrl->forwardCommand($output_gui);
                 break;
-
+            case strtolower(ilPropertyFormGUI::class):
+                /*
+                 * Only used for async loading of the repository tree in custom md
+                 * internal links (see #28060, #37974). This is necessary since StudyProgrammes don't
+                 * use ilObjectMetaDataGUI.
+                 */
+                $form = $this->initAdvancedSettingsForm();
+                $gui = new ilAdvancedMDRecordGUI(
+                    ilAdvancedMDRecordGUI::MODE_EDITOR,
+                    'prg',
+                    $this->object->getId(),
+                    'prg_type',
+                    $this->object->getSettings()->getTypeSettings()->getTypeId()
+                );
+                $gui->setPropertyForm($form);
+                $gui->parse();
+                $this->ctrl->forwardCommand($form);
+                break;
             case false:
                 $this->getSubTabs($cmd);
                 switch ($cmd) {

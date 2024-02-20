@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilPropertyFormGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+ * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjStudyProgrammeGUI
  * @ilCtrl_Calls      ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
  *
  * @ingroup           ServicesSearch
@@ -196,7 +197,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         if ($presentation->render()) {
             $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } elseif (strlen($this->search_cache->getQuery())) {
-            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('search_no_match_hint'), $qp->getQuery()));
+            $this->tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt('search_no_match_hint'),
+                    ilLegacyFormElementsUtil::prepareFormOutput($qp->getQuery())
+                )
+            );
         }
         return true;
     }
@@ -298,7 +305,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         if ($presentation->render()) {
             $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } else {
-            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('search_no_match_hint'), $this->search_cache->getQuery()));
+            $this->tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt('search_no_match_hint'),
+                    ilLegacyFormElementsUtil::prepareFormOutput($qp->getQuery())
+                )
+            );
         }
     }
 

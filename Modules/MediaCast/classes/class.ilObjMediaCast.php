@@ -34,6 +34,7 @@ class ilObjMediaCast extends ilObject
     public const AUTOPLAY_NO = 0;
     public const AUTOPLAY_ACT = 1;
     public const AUTOPLAY_INACT = 2;
+    protected \ILIAS\MediaCast\InternalDomainService $domain;
     protected \ILIAS\MediaObjects\Tracking\TrackingManager $mob_tracking;
 
     protected array $itemsarray;
@@ -65,6 +66,7 @@ class ilObjMediaCast extends ilObject
         $this->mob_tracking = $DIC->mediaObjects()->internal()
             ->domain()
             ->tracking();
+        $this->domain = $DIC->mediaCast()->internal()->domain();
         parent::__construct($a_id, $a_call_by_reference);
     }
 
@@ -389,6 +391,9 @@ class ilObjMediaCast extends ilObject
     ): void {
         $items = [];
         foreach ($this->readOrder() as $i) {
+            if (!array_key_exists($i, $mapping)) {
+                continue;
+            }
             $items[] = $mapping[$i];
         }
         $newObj->saveOrder($items);
@@ -517,22 +522,12 @@ class ilObjMediaCast extends ilObject
             $mc_item->setContent($long_desc);
         }
         $mc_item->setLimitation(false);
-        // @todo handle visibility
+        $mc_item->setVisibility($this->getDefaultAccess() == 0 ? "users" : "public");
         $mc_item->create();
 
-        $lp = ilObjectLP::getInstance($this->getId());
+        $lp = $this->domain->learningProgress($this);
+        $lp->addItemToLP($mob_id);
 
-        // see ilLPListOfSettingsGUI assign
-        $collection = $lp->getCollectionInstance();
-        if (
-            $collection &&
-            $collection->hasSelectableItems() &&
-            $this->getNewItemsInLearningProgress()
-        ) {
-            $collection->activateEntries([$mob_id]);
-            $lp->resetCaches();
-            ilLPStatusWrapper::_refreshStatus($this->getId());
-        }
         return $mc_item->getId();
     }
 

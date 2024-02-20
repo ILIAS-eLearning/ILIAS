@@ -193,16 +193,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         //check for SCORM 1.2
         $this->convert_1_2_to_2004($manifest_file);
 
-        // start SCORM 2004 package parser/importer
-        //        if ($this->getEditable()) {
-        //            return $newPack->il_importLM(
-        //                $this,
-        //                $this->getDataDirectory(),
-        //                $this->getImportSequencing()
-        //            );
-        //        } else {
         return (new ilSCORM13Package())->il_import($this->getDataDirectory(), $this->getId());
-        //        }
     }
 
 
@@ -218,14 +209,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     public function convert_1_2_to_2004(string $manifest): void
     {
-        $ilDB = $this->db;
         $ilLog = $this->log;
 
         ##check manifest-file for version. Check for schemaversion as this is a required element for SCORM 2004
         ##accept 2004 3rd Edition an CAM 1.3 as valid schemas
 
         //set variables
-        $this->packageFolder = $this->getDataDirectory();
+        $packageFolder = $this->getDataDirectory();
         $this->imsmanifestFile = $manifest;
         $doc = new DomDocument();
 
@@ -233,14 +223,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $this->fixReload();
         $doc->load($this->imsmanifestFile);
         $elements = $doc->getElementsByTagName("schemaversion");
-        $schema = $elements->item(0)->nodeValue;
+        $schema = "";
+        if (isset($elements->item(0)->nodeValue)) {
+            $schema = $elements->item(0)->nodeValue;
+        }
         if (strtolower(trim($schema)) === "cam 1.3" || strtolower(trim($schema)) === "2004 3rd edition" || strtolower(trim($schema)) === "2004 4th edition") {
             //no conversion
-            $this->converted = false;
             return;
         }
 
-        $this->converted = true;
         //convert to SCORM 2004
 
         //check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
@@ -264,7 +255,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 
         //first copy wrappers
-        $wrapperdir = $this->packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
+        $wrapperdir = $packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
         if (!mkdir($wrapperdir) && !is_dir($wrapperdir)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $wrapperdir));
         }
@@ -272,12 +263,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         copy(self::WRAPPER_JS, $wrapperdir . "/SCOPlayerWrapper.js");
 
         //backup manifestfile
-        $this->backupManifest = $this->packageFolder . "/imsmanifest.xml.back";
-        $ret = copy($this->imsmanifestFile, $this->backupManifest);
+        $backupManifest = $packageFolder . "/imsmanifest.xml.back";
+        $ret = copy($this->imsmanifestFile, $backupManifest);
 
         //transform manifest file
-        $this->totransform = $doc;
-        $ilLog->write("SCORM: about to transform to SCORM 2004");
+        $totransform = $doc;
+        $ilLog->debug("SCORM: about to transform to SCORM 2004");
 
         $xsl = new DOMDocument();
         $xsl->async = false;
@@ -285,9 +276,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $prc = new XSLTProcessor();
         $r = @$prc->importStyleSheet($xsl);
 
-        file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
+        file_put_contents($this->imsmanifestFile, $prc->transformToXML($totransform));
 
-        $ilLog->write("SCORM: Transformation completed");
+        $ilLog->debug("SCORM: Transformation completed");
     }
 
     /**

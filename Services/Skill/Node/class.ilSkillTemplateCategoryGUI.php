@@ -106,22 +106,43 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         // usage
         $this->addUsageTab($ilTabs);
 
+        $parent_node_id = $this->tree_repo->getParentNodeIdForNodeId($this->requested_node_id);
+        $parent_title = ilSkillTreeNode::_lookupTitle($parent_node_id);
+        $parent_type = ilSkillTreeNode::_lookupType($parent_node_id);
+
         // back link
         if ($this->tref_id == 0) {
-            $ilCtrl->setParameterByClass(
-                "ilskillrootgui",
-                "node_id",
-                $this->skill_tree_node_manager->getRootId()
-            );
-            $ilTabs->setBackTarget(
-                $lng->txt("skmg_skill_templates"),
-                $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates")
-            );
-            $ilCtrl->setParameterByClass(
-                "ilskillrootgui",
-                "node_id",
-                $this->requested_node_id
-            );
+            if ($parent_type === "sctp") {
+                $ilCtrl->setParameter(
+                    $this,
+                    "node_id",
+                    $parent_node_id
+                );
+                $ilTabs->setBackTarget(
+                    $parent_title,
+                    $ilCtrl->getLinkTarget($this, "listItems")
+                );
+                $ilCtrl->setParameter(
+                    $this,
+                    "node_id",
+                    $this->requested_node_id
+                );
+            } else {
+                $ilCtrl->setParameterByClass(
+                    "ilskillrootgui",
+                    "node_id",
+                    $this->skill_tree_node_manager->getRootId()
+                );
+                $ilTabs->setBackTarget(
+                    $lng->txt("skmg_skill_templates"),
+                    $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates")
+                );
+                $ilCtrl->setParameterByClass(
+                    "ilskillrootgui",
+                    "node_id",
+                    $this->requested_node_id
+                );
+            }
         }
 
         parent::setTitleIcon();
@@ -322,9 +343,6 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
     public function redirectToParent(bool $a_tmp_mode = false): void
     {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_node_id);
-        $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
+        parent::redirectToParent(true);
     }
 }

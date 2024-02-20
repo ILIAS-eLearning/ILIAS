@@ -22,13 +22,14 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilObjBlogGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected string $rendered_content = "";
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
@@ -489,6 +490,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilHelp->setScreenIdComponent("blog");
 
         if ($this->checkPermissionBool("read")) {
+            $this->ctrl->setParameterByClass(self::class, "bmn", null);
             $this->tabs_gui->addTab(
                 "content",
                 $lng->txt("content"),
@@ -583,9 +585,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $link = $ilCtrl->getLinkTargetByClass(["ilrepositorygui", "ilObjBlogGUI"], "preview");
             $ilNavigationHistory->addItem($this->node_id, $link, "blog");
         }
-
         switch ($next_class) {
             case 'ilblogpostinggui':
+                $this->ctrl->saveParameter($this, "user_page");
                 if (!$this->prtf_embed) {
                     $tpl->loadStandardTemplate();
                 }
@@ -691,7 +693,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
                             $nav = $this->renderNavigation("gethtml", $cmd);
-                            $this->buildEmbedded($ret, $nav);
+                            // this is important for embedded blog pages!
+                            $this->rendered_content = $this->buildEmbedded($ret, $nav);
                             return;
 
                         // ilias/editor
@@ -718,7 +721,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             if ($public_action) {
                                 $this->tpl->setOnScreenMessage('success', implode("<br />", $info));
                             } else {
-                                $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                if (count($info) > 0) {
+                                    $this->tpl->setOnScreenMessage('info', implode("<br />", $info));
+                                }
                             }
 
                             // revert to edit cmd to avoid confusion
@@ -805,7 +810,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $settings_gui = $this->content_style_gui
                         ->objectSettingsGUIForObjId(
-                            0,
+                            null,
                             $this->object->getId()
                         );
                 }
@@ -851,8 +856,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if (!$cmd) {
                     $cmd = "render";
                 }
-                $this->$cmd();
+                $this->rendered_content = (string) $this->$cmd();
         }
+    }
+
+    public function getRenderedContent(): string
+    {
+        return $this->rendered_content;
     }
 
     protected function triggerAssignmentTool(): void
@@ -1024,7 +1034,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $list = $nav = "";
         if ($list_items) {
             $list = $this->renderList($list_items, "preview", "", $is_owner);
-            $nav = $this->renderNavigation("render", "preview", "", $is_owner);
+            $nav = $this->renderNavigation("render", "edit", "", $is_owner);
         }
 
         $this->setContentStyleSheet();
@@ -1793,6 +1803,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->parseCurrentBlock();
             }
+
+            if (!$a_link_template) {
+                $this->ctrl->setParameterByClass(self::class, "bmn", null);
+                $url = $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd);
+            } else {
+                $url = "index.html";
+            }
+            $wtpl->setVariable(
+                "STARTING_PAGE",
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $this->lng->txt("blog_starting_page"),
+                        $url
+                    )
+                )
+            );
         }
         // single month
         else {
@@ -2057,9 +2083,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
-                if ($this->prtf_embed) {
+                /*if ($this->prtf_embed) {
                     $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
-                }
+                }*/
                 $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
@@ -2985,5 +3011,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     {
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();
+    }
+
+    protected function forwardExport(): void
+    {
+        $this->ctrl->redirectByClass(ilExportGUI::class);
     }
 }

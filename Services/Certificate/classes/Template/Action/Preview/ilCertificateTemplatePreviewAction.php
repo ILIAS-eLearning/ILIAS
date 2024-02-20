@@ -146,7 +146,7 @@ class ilCertificateTemplatePreviewAction
 
         $certificate_text = str_replace(
             '[CLIENT_WEB_DIR]',
-            $this->rootDirectory,
+            'file://' . $this->rootDirectory,
             $certificate_text
         );
 
@@ -154,7 +154,7 @@ class ilCertificateTemplatePreviewAction
 
         return str_replace(
             '[BACKGROUND_IMAGE]',
-            $this->rootDirectory . $backgroundImagePath,
+            'file://' . $this->rootDirectory . $backgroundImagePath,
             $certificate_text
         );
     }

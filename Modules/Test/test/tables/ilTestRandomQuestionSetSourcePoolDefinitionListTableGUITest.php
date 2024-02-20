@@ -31,6 +31,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
     {
         parent::setUp();
 
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+        $this->addGlobal_ilAccess();
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
@@ -54,7 +58,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
             $ctrl_mock,
             $lng_mock,
             $this->parentObj_mock,
-            ""
+            "",
+            $this->createMock(ilAccess::class),
+            $this->createMock(ILIAS\UI\Factory::class),
+            $this->createMock(ILIAS\UI\Renderer::class),
+            [],
+            []
         );
     }
 

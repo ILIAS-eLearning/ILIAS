@@ -141,7 +141,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     public function fillRow(array $a_set): void
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', ilLegacyFormElementsUtil::prepareFormOutput($a_set['answer']));
+        $this->tpl->setVariable('ANSWER', ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution')->purify($a_set['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
@@ -182,5 +182,19 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         $this->addAdditionalHtml($ui_renderer->render($modal));
 
         return $ui_renderer->render($show_modal_button);
+    }
+
+    protected function purifyAndPrepareTextAreaOutput(string $content): string
+    {
+        $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $purified_content = nl2br($purified_content);
+        }
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
+            $purified_content,
+            true,
+            true
+        );
     }
 }

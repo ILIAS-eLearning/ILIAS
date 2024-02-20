@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Data;
@@ -12,7 +28,8 @@ namespace ILIAS\Data;
  *  - We require a schema and an authority to be present.
  *  - If any part is located and it is invalid an exception will be thrown
  *    instead of just omiting it.
- *	- IPv6 is currently not supported.
+ *  - IPv6 is now supported.
+ *  - The IPv6 conforms to https://datatracker.ietf.org/doc/html/rfc4291#section-2.2.
  */
 class URI
 {
@@ -50,8 +67,35 @@ class URI
     private const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
     private const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
     private const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
-    private const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
-    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
+    private const HOST_IPV4_EMBEDDED = '(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}';
+    private const HOST_IPV4 = '^' . self::HOST_IPV4_EMBEDDED . '$';
+
+    private const IPV6_COUNT_COLONS = '(' . self::HEXDIG . '{1,4}:)';
+    private const IPV6_COLONS_BETWEEN = '(' . self::HEXDIG . '{0,4}:' . self::HEXDIG . '{0,4})';
+    private const IPV6_LEFT_SHORT = '(' . self::HEXDIG . '{1,4}|' . self::HEXDIG . '{1,4}(:' . self::HEXDIG . '{1,4})*)?'; // Left of :: are separated with one ":".
+
+    // As specified in RFC4291 Section 2.2 there are three different text forms of an IPv6 address.
+    // HOST_IPV6_LONG corresponds to the form defined in RFC4291 Section 2.2.1.
+    private const HOST_IPV6_LONG = '^\\[' . self::IPV6_COUNT_COLONS . '{7}' . self::HEXDIG . '{1,4}\\]$';
+    // HOST_IPV6_SHORT corresponds to the form defined in RFC4291 Section 2.2.2.
+    private const HOST_IPV6_SHORT = '^\\[(?=' . self::IPV6_COLONS_BETWEEN . '{2,7}\\]$)' . // Ensure whole string contains between 2-7 colons.
+                                  self::IPV6_LEFT_SHORT . '::' .
+                                  // Right of "::" are separated with one ":".
+                                  '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{1,4})?\\]$';
+
+    // HOST_IPV6_EMBEDDED_LONG corresponds to the form defined in RFC4291 Section 2.2.3 but not in a compressed form.
+    private const HOST_IPV6_EMBEDDED_IPV4_LONG = '^\\[' . self::IPV6_COUNT_COLONS. '{5}' . self::HEXDIG . '{1,4}:' . self::HOST_IPV4_EMBEDDED . '\\]$';
+    // HOST_IPV6_EMBEDDED_SHORT corresponds to the form defined in RFC4291 Section 2.2.3 in a compressed form.
+    private const HOST_IPV6_EMBEDDED_IPV4_SHORT = '^\\[(?=' . self::IPV6_COLONS_BETWEEN . '{2,6}' . self::HOST_IPV4_EMBEDDED . '\\]$)' . // Ensure whole string contains between 2-6 colons.
+                                                self::IPV6_LEFT_SHORT . '::' .
+                                                // Right of "::" are separated with one ":".
+                                                // The hexdig pair before the ipv4 is 0-4 to accommodate for both ::1.2.3.4 and ::2:1.2.3.4 colon usages.
+                                                '(' . self::HEXDIG . '{1,4}|(' . self::HEXDIG . '{1,4}:)*' . self::HEXDIG . '{0,4})?' . self::HOST_IPV4_EMBEDDED . '\\]$';
+
+    private const HOST_IPV6_EMBEDDED_IPV4 = self::HOST_IPV6_EMBEDDED_IPV4_SHORT . '|' . self::HOST_IPV6_EMBEDDED_IPV4_LONG;
+
+    private const HOST_IPV6 = self::HOST_IPV6_LONG . '|' . self::HOST_IPV6_SHORT . '|' . self::HOST_IPV6_EMBEDDED_IPV4;
+    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '|' . self::HOST_IPV6 . '#';
     private const PORT = '#^' . self::DIGIT . '+$#';
     private const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
     private const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';

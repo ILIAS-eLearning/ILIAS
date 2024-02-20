@@ -20,7 +20,7 @@
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title, obj_id, foreign_id AS metaObjId, mep_id, type AS metaType,0 AS metaRbacId, child FROM mep_tree 
+				SELECT title, obj_id, foreign_id AS metaObjId, mep_id, type AS metaType,0 AS metaRbacId, 'mep' as objType, child FROM mep_tree
 				JOIN mep_item ON child = obj_id
 				WHERE type = 'mob'
 				AND mep_id IN (?)
@@ -31,6 +31,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" /> 
 			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO" />
 			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT caption, location, text_representation FROM media_item
@@ -46,7 +47,7 @@
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title,content, obj_id AS metaObjId, mep_id, type AS metaType,0 AS metaRbacId, child, parent_type FROM mep_tree
+				SELECT title,content, obj_id AS metaObjId, mep_id, 'mpg' AS metaType, mep_id AS metaRbacId, child, parent_type FROM mep_tree
 				JOIN mep_item ON child = obj_id
 				JOIN page_object po ON obj_id = po.page_id
 				WHERE type = 'pg' AND parent_type = 'mep'
@@ -61,6 +62,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
 			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

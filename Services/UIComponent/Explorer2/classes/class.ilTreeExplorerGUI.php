@@ -224,7 +224,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         if (is_array($bl) && count($bl) > 0) {
             $bl_childs = array();
             foreach ($childs as $k => $c) {
-                if (!in_array($c["type"], $bl, true) && ($this->matches($c) || $this->requested_node_id !== $this->getDomNodeIdForNodeId($a_parent_node_id))) {
+                if (!in_array($c["type"], $bl, true) && ($this->matches($c) || !$this->isNodeRequested($a_parent_node_id))) {
                     $bl_childs[$k] = $c;
                 }
             }
@@ -233,7 +233,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
         $final_childs = [];
         foreach ($childs as $k => $c) {
-            if ($this->matches($c) || $this->requested_node_id !== $this->getDomNodeIdForNodeId($a_parent_node_id)) {
+            if ($this->matches($c) || !$this->isNodeRequested($a_parent_node_id)) {
                 $final_childs[$k] = $c;
             }
         }

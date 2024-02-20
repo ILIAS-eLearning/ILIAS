@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Certificate Settings.
@@ -112,6 +112,16 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $bgimage = new ilImageFileInputGUI($this->lng->txt('certificate_background_image'), 'background');
         $bgimage->setRequired(false);
 
+        if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
+            $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
+                'background_delete',
+                $this->refinery->kindlyTo()->bool()
+            );
+            if ($backgroundDelete) {
+                $this->object->deleteBackgroundImage();
+            }
+        }
+
         if (
             $this->upload->hasUploads() &&
             $this->httpState->request()->getMethod() === 'POST' &&
@@ -194,16 +204,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->addItem($persistentCertificateMode);
 
         $this->tpl->setContent($form->getHTML());
-
-        if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
-            $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
-                'background_delete',
-                $this->refinery->kindlyTo()->bool()
-            );
-            if ($backgroundDelete) {
-                $this->object->deleteBackgroundImage();
-            }
-        }
     }
 
     public function save(): void

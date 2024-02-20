@@ -94,7 +94,7 @@ class StandardGUIRequest
 
     public function getDashboardPeriod(): string
     {
-        return $this->str("news_pd_periods");
+        return $this->str("news_pd_period");
     }
 
     public function getNewsPer(): string

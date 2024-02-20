@@ -172,13 +172,13 @@ class ilBookingReservation
         if ($this->id) {
             $row = $this->repo->getForId($this->id);
             $this->setUserId($row['user_id']);
-            $this->setAssignerId($row['assigner_id']);
+            $this->setAssignerId((int) $row['assigner_id']);
             $this->setObjectId($row['object_id']);
             $this->setFrom($row['date_from']);
             $this->setTo($row['date_to']);
             $this->setStatus($row['status']);
-            $this->setGroupId($row['group_id']);
-            $this->setContextObjId($row['context_obj_id']);
+            $this->setGroupId((int) $row['group_id']);
+            $this->setContextObjId((int) $row['context_obj_id']);
         }
     }
 

@@ -19,6 +19,10 @@
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
  * Class ilMarkSchemaGUI
@@ -27,6 +31,7 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMarkSchemaGUI
 {
+    private const RESET_MARK_BUTTON_LABEL = 'tst_mark_reset_to_simple_mark_schema';
     private RequestWrapper $post_wrapper;
     private Request $request;
     private Refinery $refinery;
@@ -39,6 +44,9 @@ class ilMarkSchemaGUI
     protected ilCtrl $ctrl;
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     /**
      * @param ilMarkSchemaAware|ilEctsGradesEnabled $object
@@ -56,6 +64,8 @@ class ilMarkSchemaGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
     }
 
     public function executeCommand(): void
@@ -64,6 +74,9 @@ class ilMarkSchemaGUI
 
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
         $cmd = $this->ctrl->getCmd('showMarkSchema');
+        if ($cmd === self::RESET_MARK_BUTTON_LABEL) {
+            $cmd = 'resetToSimpleMarkSchema';
+        }
         $this->$cmd();
     }
 
@@ -127,7 +140,7 @@ class ilMarkSchemaGUI
         return $no_save_error;
     }
 
-    protected function addSimpleMarkSchema(): void
+    protected function resetToSimpleMarkSchema(): void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -231,34 +244,53 @@ class ilMarkSchemaGUI
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
         $mark_schema_table->setShowRowsSelector(false);
 
+        $rendered_modal = '';
         if ($this->object->canEditMarks()) {
-            require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
-            $create_simple_mark_schema_button = ilSubmitButton::getInstance();
-            $create_simple_mark_schema_button->setCaption($this->lng->txt('tst_mark_create_simple_mark_schema'), false);
-            $create_simple_mark_schema_button->setCommand('addSimpleMarkSchema');
-            $this->toolbar->addButtonInstance($create_simple_mark_schema_button);
-
-            require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
-            $create_new_mark_step_button = ilButton::getInstance();
-            $create_new_mark_step_button->setCaption($this->lng->txt('tst_mark_create_new_mark_step'), false);
-            $create_new_mark_step_button->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
-            $create_new_mark_step_button->setForm('form_' . $mark_schema_table->getId());
-            $create_new_mark_step_button->setName('addMarkStep');
-            $this->toolbar->addButtonInstance($create_new_mark_step_button);
+            $confirmation_modal = $this->ui_factory->modal()->interruptive(
+                $this->lng->txt(self::RESET_MARK_BUTTON_LABEL),
+                $this->lng->txt('tst_mark_reset_to_simple_mark_schema_confirmation'),
+                $this->ctrl->getFormAction($this, 'resetToSimpleMarkSchema')
+            )->withActionButtonLabel(self::RESET_MARK_BUTTON_LABEL);
+            $this->populateToolbar($confirmation_modal, $mark_schema_table->getId());
+            $rendered_modal = $this->ui_renderer->render($confirmation_modal);
         }
 
+        $this->tpl->setContent(
+            $mark_schema_table->getHTML() . $rendered_modal
+        );
+    }
 
-        $content_parts = array($mark_schema_table->getHTML());
+    private function populateToolbar(InterruptiveModal $confirmation_modal, string $mark_schema_id): void
+    {
+        $create_simple_schema_button = $this->ui_factory->button()->standard(
+            $this->lng->txt(self::RESET_MARK_BUTTON_LABEL),
+            $confirmation_modal->getShowSignal()
+        );
+        $this->toolbar->addComponent($create_simple_schema_button);
 
-        if ($this->objectSupportsEctsGrades() && $this->object->canShowEctsGrades()) {
-            if (!($ects_form instanceof ilPropertyFormGUI)) {
-                $ects_form = $this->getEctsForm();
-                $this->populateEctsForm($ects_form);
-            }
-            $content_parts[] = $ects_form->getHTML();
-        }
+        $create_step_button = $this->buildCreateStepButton($mark_schema_id);
+        $this->toolbar->addComponent($create_step_button);
+    }
 
-        $this->tpl->setContent(implode('<br />', $content_parts));
+    private function buildCreateStepButton(string $mark_schema_id): StandardButton
+    {
+        return $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_mark_create_new_mark_step'),
+            ''
+        )->withAdditionalOnLoadCode(
+            fn (string $id): string =>
+            "{$id}.addEventListener('click', "
+            . ' (e) => {'
+            . '     e.preventDefault();'
+            . '     e.target.name = "cmd[addMarkStep]";'
+            . "     let form = document.getElementById('form_{$mark_schema_id}');"
+            . '     let submitter = e.target.cloneNode();'
+            . '     submitter.style.visibility = "hidden";'
+            . '     form.appendChild(submitter);'
+            . '     form.requestSubmit(submitter);'
+            . ' }'
+            . ');'
+        );
     }
 
     protected function populateEctsForm(ilPropertyFormGUI $form): void

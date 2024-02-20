@@ -87,6 +87,11 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
                 $this->dispatchCall($res[0], $res[1]);
         }
+
+        if ($tabFactory->getActivatedTab() !== null &&
+            $this->tabs_gui->getActiveTab() !== $tabFactory->getActivatedTab()) {
+            $this->tabs_gui->activateTab($tabFactory->getActivatedTab());
+        }
     }
 
     public function getConnector(): ilChatroomServerConnector

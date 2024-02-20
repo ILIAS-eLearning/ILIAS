@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /** @noinspection ForgottenDebugOutputInspection */
 
@@ -363,6 +363,7 @@ class ilSCORM13PlayerGUI
 
         $initSuspendData = null;
         $initAdlactData = null;
+        $initGlobalobjData = null;
         if ($this->slm->getSequencing() == true) {
             $initSuspendData = json_decode($this->getSuspendDataInit());
             $initAdlactData = json_decode($this->getADLActDataInit());
@@ -1581,6 +1582,7 @@ class ilSCORM13PlayerGUI
     {
         global $DIC;
         $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
+        $filename = str_replace('/', '', $filename);
         //Header
         header('Content-Type: text/html; charset=UTF-8');
         echo file_get_contents($this->logDirectory() . "/" . $filename);
@@ -1842,6 +1844,7 @@ class ilSCORM13PlayerGUI
         //delete files
         if ($logdata->action === "DELETE") {
             $filename = $logdata->value;
+            $filename = str_replace('/', '', $filename);
             $path = $this->logDirectory() . "/" . $filename;
             unlink($path);
             return;

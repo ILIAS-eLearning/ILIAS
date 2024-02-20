@@ -509,7 +509,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $answers = [];
 
         foreach ($answers_by_active_and_pass as $answer) {
-            $error_text = $this->object->assembleErrorTextOutput($answer);
+            $error_text = '<div class="errortext">' . $this->object->assembleErrorTextOutput($answer) . '</div>';
             $error_text_hashed = md5($error_text);
 
             if (!isset($answers[$error_text_hashed])) {

@@ -433,7 +433,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
             $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
@@ -531,6 +531,9 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         $output = [];
         $parent_role_ids = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);
+
+        $this->tabs_gui->clearTargets();
+
         $ids = [];
         foreach (array_keys($parent_role_ids) as $id) {
             $ids[] = $id;
@@ -561,6 +564,8 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function confirmDeleteRoleObject(): void
     {
+        $this->tabs_gui->clearTargets();
+
         if (!$this->checkAccess('visible,write', 'edit_permission')) {
             $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass(ilRepositoryGUI::class);
@@ -872,7 +877,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->object->getId(),
                 $assigned_global_roles
             )) {
-                $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
+                $userObj = new ilObjUser($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
             }
@@ -1011,7 +1016,6 @@ class ilObjRoleGUI extends ilObjectGUI
     protected function getTabs(): void
     {
         $base_role_container = $this->rbac_review->getFoldersAssignedToRole($this->object->getId(), true);
-
         $activate_role_edit = false;
 
         // todo: activate the following (allow editing of local roles in

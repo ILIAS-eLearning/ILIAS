@@ -236,10 +236,10 @@ class ilWikiPage extends ilPageObject
         $rec = $ilDB->fetchAssoc($set);
 
         $this->setTitle($rec["title"]);
-        $this->setWikiId($rec["wiki_id"]);
-        $this->setBlocked($rec["blocked"]);
-        $this->setRating($rec["rating"]);
-        $this->hideAdvancedMetadata($rec["hide_adv_md"]);
+        $this->setWikiId((int) $rec["wiki_id"]);
+        $this->setBlocked((bool) $rec["blocked"]);
+        $this->setRating((bool) $rec["rating"]);
+        $this->hideAdvancedMetadata((bool) $rec["hide_adv_md"]);
 
         // get co page
         if (!$a_omit_page_read) {
@@ -539,6 +539,7 @@ class ilWikiPage extends ilPageObject
 
 
         // *** STEP 2: Other Pages -> This Page ***
+        $this->log->debug("this page <- other pages.");
 
         // Check, whether ANOTHER page links to this page as a "missing" page
         // (this is the case, when this page is created newly)
@@ -549,6 +550,8 @@ class ilWikiPage extends ilPageObject
             array($this->getWikiId(), ilWikiUtil::makeDbTitle($this->getTitle()))
         );
         while ($anmiss = $ilDB->fetchAssoc($set)) {	// insert internal links instead
+            $this->log->debug("link found, source: " . $anmiss["source_id"] . ", target" .
+                $this->getId());
             //echo "adding link";
             ilInternalLink::_saveLink(
                 "wpg:pg",
@@ -569,6 +572,7 @@ class ilWikiPage extends ilPageObject
 
 
         // *** STEP 3: This Page -> Other Pages ***
+        $this->log->debug("this page -> other pages.");
 
         // remove the exising "missing page" links for THIS page (they will be re-inserted below)
         $ilDB->manipulateF(
@@ -582,9 +586,11 @@ class ilWikiPage extends ilPageObject
         $xml = $a_domdoc->saveXML();
         $int_wiki_links = ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true);
         foreach ($int_wiki_links as $wlink) {
+            $this->log->debug("found link : " . $wlink);
             $page_id = self::_getPageIdForWikiTitle($this->getWikiId(), $wlink);
-
             if ($page_id > 0) {		// save internal link for existing page
+                $this->log->debug("save link " .
+                    $this->getId() . ", target " . $page_id);
                 ilInternalLink::_saveLink(
                     "wpg:pg",
                     $this->getId(),
@@ -599,6 +605,8 @@ class ilWikiPage extends ilPageObject
                     array("integer", "integer", "text"),
                     array($this->getWikiId(), $this->getId(), $wlink)
                 );
+                $this->log->debug("target does not exist, save missing page source" .
+                    $this->getId() . ", target " . $wlink);
                 $ilDB->manipulateF(
                     "INSERT INTO il_wiki_missing_page (wiki_id, source_id, target_name)" .
                     " VALUES (%s,%s,%s)",
@@ -738,16 +746,23 @@ class ilWikiPage extends ilPageObject
         if ($pg_id == 0 || $pg_id == $this->getId()) {
             $sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
 
+            $this->log->debug("nr of pages linking to renamed page: " . count($sources));
             foreach ($sources as $s) {
                 if ($s["type"] === "wpg:pg" && ilPageObject::_exists("wpg", $s["id"])) {
                     $wpage = new ilWikiPage($s["id"]);
-
+                    $wiki_id = ilWikiPage::lookupWikiId($s["id"]);
+                    $this->log->debug("Getting links of page " . $s["id"]);
                     $col = ilWikiUtil::collectInternalLinks(
                         $wpage->getXMLContent(),
-                        0
+                        $wiki_id,
+                        false,
+                        IL_WIKI_MODE_EXT_COLLECT
                     );
+                    $this->log->debug("nr internal links: " . count($col));
                     $new_content = $wpage->getXMLContent();
                     foreach ($col as $c) {
+
+                        $this->log->debug("found link " . print_r($c, true));
 
                         // this complicated procedure is needed due to the fact
                         // that depending on the collation e = é is true

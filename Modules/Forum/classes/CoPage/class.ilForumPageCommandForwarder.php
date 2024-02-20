@@ -37,6 +37,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    public const DEFAULT_LANGUAGE = '-';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
     protected ilCtrlInterface $ctrl;
@@ -195,14 +196,11 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI('');
+                $pageObjectGui = $this->buildEditingPageObjectGUI(self::DEFAULT_LANGUAGE);
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
-                $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
+                $pageObjectGUI = $this->buildPresentationPageObjectGUI(self::DEFAULT_LANGUAGE);
 
                 if (is_string($ctrlLink) && $ctrlLink !== '') {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
@@ -213,10 +211,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
                 return $this->ctrl->getHTML($pageObjectGUI);
 
             case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
-                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
+                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI(self::DEFAULT_LANGUAGE);
 
                 if (is_string($ctrlLink) && $ctrlLink !== '') {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);

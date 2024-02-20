@@ -674,7 +674,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -870,6 +870,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
+        global $DIC;
+        if($DIC->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+            return true;
+        }
+
         $entered_values = 0;
 
         if (is_null($pass)) {
@@ -1263,12 +1268,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         if ($this->postSolutionOrderingElementList === null) {
             $post_array = $_POST;
-            if (! is_array($post_array)) {
+            if (!is_array($post_array)) {
                 global $DIC;
                 $request = $DIC->http()->request();
                 $post_array = $request->getParsedBody();
             }
-
             $list = $this->fetchSolutionListFromFormSubmissionData($post_array);
             $this->postSolutionOrderingElementList = $list;
         }

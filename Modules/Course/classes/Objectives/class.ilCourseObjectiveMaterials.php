@@ -43,6 +43,7 @@ class ilCourseObjectiveMaterials
         $this->tree = $DIC->repositoryTree();
         $this->db = $DIC->database();
         $this->objective_id = $a_objective_id;
+        $this->logger = $DIC->logger()->crs();
         $this->__read();
     }
 

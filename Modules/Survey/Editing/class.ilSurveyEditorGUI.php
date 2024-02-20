@@ -29,6 +29,7 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  */
 class ilSurveyEditorGUI
 {
+    protected \ILIAS\Survey\Sequence\SequenceManager $sequence_manager;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
@@ -93,6 +94,10 @@ class ilSurveyEditorGUI
             ->internal()
             ->gui()
             ->print();
+        $this->sequence_manager = $DIC->survey()->internal()->domain()->sequence(
+            $this->object->getSurveyId(),
+            $this->object
+        );
     }
 
     public function setRequestedPgov(string $pgov): void

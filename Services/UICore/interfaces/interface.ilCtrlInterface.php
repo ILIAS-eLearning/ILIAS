@@ -111,7 +111,8 @@ interface ilCtrlInterface
     public function setCmd(?string $a_cmd): void;
 
     /**
-     * Returns the command class which should be executed next.
+     * Returns the fully-qualified classname of the requested command class.
+     * Note this will be lowercase for backwards compatibility.
      *
      * @return string|null
      */
@@ -128,7 +129,8 @@ interface ilCtrlInterface
     public function setCmdClass($a_cmd_class): void;
 
     /**
-     * Returns the classname of the next class in the control flow.
+     * Returns the fully-qualified classname of the next class in the control flow.
+     * Note this will be lowercase for backwards compatibility.
      *
      * @param object|string|null $a_gui_class
      * @return string|null

@@ -31,6 +31,8 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilAccess();
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())

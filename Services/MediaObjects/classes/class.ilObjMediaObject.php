@@ -355,32 +355,6 @@ class ilObjMediaObject extends ilObject
     protected static function handleQuotaUpdate(
         ilObjMediaObject $a_mob
     ): void {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // if neither workspace nor portfolios are activated, we skip
-        // the quota update here. this due to performance reasons on installations
-        // that do not use workspace/portfolios, but heavily copy content.
-        // in extreme cases (media object in pool and personal blog, deactivate workspace, change media object,
-        // this may lead to incorrect data in the quota calculation)
-        if ($ilSetting->get("disable_personal_workspace") && !$ilSetting->get('user_portfolios')) {
-            return;
-        }
-
-        $parent_obj_ids = array();
-        foreach ($a_mob->getUsages() as $item) {
-            $parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
-            if ($parent_obj_id &&
-                !in_array($parent_obj_id, $parent_obj_ids)) {
-                $parent_obj_ids[] = $parent_obj_id;
-            }
-        }
-
-        // we could suppress this if object is present in a (repository) media pool
-        // but this would lead to "quota-breaches" when the pool item is deleted
-        // and "suddenly" all workspace owners get filesize added to their
-        // respective quotas, regardless of current status
     }
 
     /**
@@ -559,7 +533,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
                     $xml .= "</MediaAliasItem>";
@@ -628,7 +602,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
 
@@ -800,7 +774,7 @@ class ilObjMediaObject extends ilObject
     public static function _deleteAllUsages(
         string $a_type,
         int $a_id,
-        int $a_usage_hist_nr = 0,
+        ?int $a_usage_hist_nr = 0,
         string $a_lang = "-"
     ): void {
         global $DIC;
@@ -808,7 +782,7 @@ class ilObjMediaObject extends ilObject
         $ilDB = $DIC->database();
 
         $and_hist = "";
-        if ($a_usage_hist_nr > 0) {
+        if (!is_null($a_usage_hist_nr)) {
             $and_hist = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 
@@ -885,7 +859,8 @@ class ilObjMediaObject extends ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-
+        $log = ilLoggerFactory::getLogger('mob');
+        $log->debug("save usage mob: " . $a_mob_id . ", type " . $a_type . " id: " . $a_id . ", hist: " . $a_usage_hist_nr . ", lang: " . $a_lang);
         $ilDB->replace(
             "mob_usage",
             array(
@@ -952,7 +927,6 @@ class ilObjMediaObject extends ilObject
         if ($a_include_history) {
             $hist_str = ", usage_hist_nr";
         }
-
         // get usages in pages
         $q = "SELECT DISTINCT usage_type, usage_id, usage_lang" . $hist_str . " FROM mob_usage WHERE id = " .
             $ilDB->quote($a_id, "integer");

@@ -215,10 +215,10 @@ class MyMigration implements Setup\Migration
 The `Migration`-interface makes it possible to break down a migration into distinct
 steps. This allows administrators to control and monitor the migrations, which
 potentially take a lot of time, closely. When the migration is executed, `prepare`
-will be called first and allows the migration to pull required ressources from the
+will be called first and allows the migration to pull required resources from the
 environment. Via `getPreconditions`, the migration can announce which other
 `Objective`s need to be achieved first to fill the environment with the required
-ressources. With `getRemainingAmountOfSteps` you can tell the setup, how many steps
+resources. With `getRemainingAmountOfSteps` you can tell the setup, how many steps
 still need to be performed to finish the migration. When the administrator requests
 migration steps to be performed, the `step` method will be called to perform the
 single steps.

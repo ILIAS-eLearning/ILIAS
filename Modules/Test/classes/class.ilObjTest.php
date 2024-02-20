@@ -7296,14 +7296,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
 
         $bestrow = null;
-        $bestfactor = 0;
+        $bestfactor = 0.0;
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($row["maxpoints"] > 0) {
-                $factor = $row["points"] / $row["maxpoints"];
+            if ($row["maxpoints"] > 0.0) {
+                $factor = (float) ($row["points"] / $row["maxpoints"]);
             } else {
-                $factor = 0;
+                $factor = 0.0;
             }
-            if ($factor === 0 && $bestfactor === 0
+            if ($factor === 0.0 && $bestfactor === 0.0
                 || $factor > $bestfactor) {
                 $bestrow = $row;
                 $bestfactor = $factor;
@@ -10556,6 +10556,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $scoring = new ilTestScoring($this);
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
+        ilLPStatusWrapper::_updateStatus($this->getId(), $this->user->getId());
     }
 
     public static function getTestObjIdsWithActiveForUserId($userId): array

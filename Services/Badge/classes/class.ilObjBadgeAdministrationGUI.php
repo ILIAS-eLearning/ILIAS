@@ -343,7 +343,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $types->setRequired(true);
         $type_spec->addSubItem($types);
 
-        foreach (ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type) {
+        foreach (ilBadgeHandler::getInstance()->getAvailableTypes(false) as $id => $type) {
             $types->addOption(new ilCheckboxOption($type->getCaption(), $id));
         }
 

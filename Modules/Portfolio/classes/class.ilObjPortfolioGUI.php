@@ -76,7 +76,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     public function executeCommand(): void
     {
         $this->checkPermission("read");
-
         $this->setTitleAndDescription();
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -96,7 +95,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         // trigger assignment tool
         $this->triggerAssignmentTool();
-
         switch ($next_class) {
             case "ilworkspaceaccessgui":
                 if ($this->checkPermissionBool("write")) {
@@ -608,6 +606,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             0,
             $this->object->hasPublicComments()
         );
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setAdditional($this->getAdditional());
         return $page_gui;
     }

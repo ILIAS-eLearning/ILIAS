@@ -163,7 +163,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                         $table_data[$id]["pool"] = $questionpools[$original_fi];
                     } else {
                         // #11186
-                        $table_data[$id]["pool"] = $this->lng->txt("status_no_permission");
+                        $table_data[$id]["pool"] = "-";
                     }
                 }
 

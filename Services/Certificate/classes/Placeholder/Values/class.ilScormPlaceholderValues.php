@@ -98,14 +98,15 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $points = $object->getPointsInPercent();
-        $txtPoints = number_format(
-            $points,
-            1,
-            $this->language->txt('lang_sep_decimal'),
-            $this->language->txt('lang_sep_thousand')
-        ) . ' %';
         if (is_null($points)) {
             $txtPoints = $this->language->txt('certificate_points_notavailable');
+        } else {
+            $txtPoints = number_format(
+                $points,
+                1,
+                $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand')
+            ) . ' %';
         }
 
         $max_points = $object->getMaxPoints();

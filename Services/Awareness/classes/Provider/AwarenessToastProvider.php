@@ -47,6 +47,7 @@ class AwarenessToastProvider extends AbstractToastProvider
 
         $toasts = [];
         if (
+            $settings->get('awrn_enabled', '0') !== '1' ||
             $settings->get('use_osd', '0') !== '1' ||
             0 === $this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous()

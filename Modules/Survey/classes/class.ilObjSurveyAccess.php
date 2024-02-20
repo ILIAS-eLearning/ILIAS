@@ -420,14 +420,23 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         $ilAccess = $DIC->access();
 
         $t_arr = explode("_", $target);
-
         if ($t_arr[0] !== "svy" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
         // 360° external raters
-        if ($request->getAccessCode()) {
-            if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $request->getAccessCode())) {
+        $access_code = ($request->getAccessCode() !== "")
+            ? $request->getAccessCode()
+            : ($t_arr[2] ?? "");
+        if ($access_code !== "") {
+            $survey = new ilObjSurvey((int) $t_arr[1]);
+            $run_manager = $DIC->survey()->internal()->domain()->execution()->run($survey, $DIC->user()->getId());
+            try {
+                $run_manager->initSession($access_code);
+            } catch (Exception $e) {
+                return false;
+            }
+            if (ilObjSurvey::validateExternalRaterCode((int) $t_arr[1], $access_code)) {
                 return true;
             }
         }

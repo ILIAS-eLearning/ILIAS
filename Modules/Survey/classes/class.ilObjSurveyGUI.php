@@ -813,28 +813,42 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $lng = $DIC->language();
         $ctrl = $DIC->ctrl();
 
+        $t_arr = explode("_", $a_target);
+        $ref_id = (int) $t_arr[0];
+        if ($a_access_code === "" && isset($t_arr[1])) {
+            $a_access_code = $t_arr[1];
+        }
+
         // see ilObjSurveyAccess::_checkGoto()
         if ($a_access_code !== '') {
             $sess = $DIC->survey()->internal()->repo()
                 ->execution()->runSession();
-            $sess->setCode(ilObject::_lookupObjId($a_target), $a_access_code);
-            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+            $sess->setCode(ilObject::_lookupObjId($ref_id), $a_access_code);
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
             $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
-        if ($ilAccess->checkAccess("visible", "", $a_target) ||
-            $ilAccess->checkAccess("read", "", $a_target)) {
-            $am = $DIC->survey()->internal()->domain()->access($a_target, $DIC->user()->getId());
+
+        // write permission -> info screen
+        if ($ilAccess->checkAccess("write", "", $ref_id)) {
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
+            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+        }
+
+        // read permission and evaluation access -> evaluation
+        if ($ilAccess->checkAccess("visible", "", $ref_id) ||
+            $ilAccess->checkAccess("read", "", $ref_id)) {
+            $am = $DIC->survey()->internal()->domain()->access($ref_id, $DIC->user()->getId());
             if (/*!$am->canStartSurvey() &&*/ $am->canAccessEvaluation()) {
-                $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+                $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
                 $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
             }
 
-            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $ref_id);
             $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }

@@ -599,6 +599,7 @@ assessment#:#circle_click_center#:#Klepněte prosím na střed požadované ploc
 assessment#:#circle_click_circle#:#Klepněte prosím na okraj požadované plochy.
 assessment#:#clientip#:#IP klienta
 assessment#:#close_text_hint#:#Můžete definovat mezeru vložením [gap][/gap] na Vámi vybranou další pozici. Stiskněte tlačítko 'Vytvořit mezery' k přidání editovatelného formuláře pro každou mezeru.
+assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.###28 11 2023 new variable
 assessment#:#cloze_fixed_textlength#:#Délka textového pole
 assessment#:#cloze_fixed_textlength_description#:#Pokud vložíte hodnotu větší než 0, všechna textová pole textových i numerických mezer budou vytvářeny s pevnou délkou rovnou této hodnotě.
 assessment#:#cloze_gap_size_info#:#Pokud zadáte hodnotu větší než 0, bude toto textové pole mezery vytvořeno s pevnou délkou této hodnoty. Pokud nezadáte hodnotu, bude textové pole mezery vytvořeno s hodnotou globální pevné délky.
@@ -606,9 +607,6 @@ assessment#:#cloze_text#:#Doplňovaný text
 assessment#:#cloze_textgap_case_insensitive#:#Nerozlišuje velká/malá písmena
 assessment#:#cloze_textgap_case_sensitive#:#Rozlišuje velká/malá písmena
 assessment#:#cloze_textgap_levenshtein_of#:#Vzdálenost Levenshtein %s
-assessment#:#cloze_textgap_multiple_whitespace#:#Více prázdných míst
-assessment#:#cloze_textgap_whitespace_after#:#Prázdné místo za hodnotou
-assessment#:#cloze_textgap_whitespace_before#:#Prázdné místo před hodnotou
 assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
@@ -913,6 +911,8 @@ assessment#:#msg_number_of_terms_too_low#:#Počet výrazů musí být větší, 
 assessment#:#msg_poly_added#:#Polygon přidán
 assessment#:#msg_questions_moved#:#Otázky přesunuty
 assessment#:#msg_rect_added#:#Obdélník přidán
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
 assessment#:#msg_selected_for_move#:#Otázky vybrány k přesunutí
 assessment#:#new_category#:#Nová kategorie jednotky
 assessment#:#new_unit#:#Nová jednotka
@@ -1434,6 +1434,7 @@ assessment#:#tst_form_dynamic_question_set_config#:#Pokračuje výběr otázek
 assessment#:#tst_gap_analysis#:#Analýza mezer
 assessment#:#tst_general_properties#:#Obecná nastavení
 assessment#:#tst_header_participant#:#Výsledek:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
 assessment#:#tst_header_solution#:#Správné řešení:
 assessment#:#tst_heading_scoring#:#Hodnocení
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
@@ -1535,10 +1536,11 @@ assessment#:#tst_manscoring_question_section_header#:#Otázka: %s
 assessment#:#tst_manscoring_user_notification#:#Zaslat upozornění
 assessment#:#tst_mark#:#Známka
 assessment#:#tst_mark_create_new_mark_step#:#Vytvořit nový známkovací stupeň
-assessment#:#tst_mark_create_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
 assessment#:#tst_mark_minimum_level#:#Minimální hladina (v %)
 assessment#:#tst_mark_official_form#:#Oficiální tvar
 assessment#:#tst_mark_passed#:#Prošel
+assessment#:#tst_mark_reset_to_simple_mark_schema#:#Vytvořit jednoduché schéma známkování
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
 assessment#:#tst_mark_short_form#:#Zkrácený tvar
 assessment#:#tst_max_allowed_users_heading#:#Dosažen maximální počet simultánních účastníků v tomto testu
 assessment#:#tst_max_allowed_users_message#:#Maximální počet simultánních účastníků v tomto testu byl dosažen. Zkuste začít nebo pokračovat znovu později. Pokud bude některý z aktivních účastníků nenaktivní déle než %s s., můžete namísto něj do testu vstoupit. Děkujeme za pochopení.
@@ -2447,6 +2449,7 @@ blog#:#blog_settings#:#Správa blogu
 blog#:#blog_settings_navigation#:#Sloupec navigace
 blog#:#blog_show_latest#:#Zobrazit nejnovější příspěvky/koncepty
 blog#:#blog_show_print_view#:#Show Print View###31 03 2023 new variable
+blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
 blog#:#blog_style#:#Styl blogu
 blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
 blog#:#blog_toggle_draft#:#Uložit jako Draft
@@ -3964,6 +3967,7 @@ common#:#err_auth_mode_inactive#:#Vaše metoda autentizace je deaktivována.
 common#:#err_auth_soap_no_ilias_user#:#Přihlášení selhalo. Autentizace SOAP úspěšná, avšak neodpovídá jméno uživatele ILIAS. Kontaktujte prosím svého systémového administrátora.
 common#:#err_check_input#:#Nastavení nelze uložit. Zkontrolujte prosím svůj vstup.
 common#:#err_count_param#:#Důvod: Chybný počet parametrů
+common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
 common#:#err_in_line#:#Chyba na řádce
 common#:#err_inactive#:#Tento účet nebyl aktivován. Kontaktujte prosím svého systémového administrátora.
 common#:#err_inactive_login_attempts#:#Váš uživatelský účet byl deaktivován z důvodu příliš mnoha neúspěšných pokusů o přihlášení. V zápatí této stránky klikněte na položku „Kontaktovat technickou podporu“ a informujte správce o nutnosti reaktivace účtu.
@@ -5120,6 +5124,7 @@ common#:#objs_rtst#:#ECS Testy
 common#:#objs_rwik#:#ECS Wiki
 common#:#objs_sahs#:#Výukové moduly SCORM/AICC
 common#:#objs_sess#:#Lekce
+common#:#objs_skee#:#Competence Trees###28 11 2023 new variable
 common#:#objs_spl#:#Zásobníky otázek (ankety)
 common#:#objs_st#:#Kapitoly
 common#:#objs_svy#:#Ankety
@@ -5280,7 +5285,7 @@ common#:#private_notes#:#Osobní poznámky
 common#:#pro#:#Pro
 common#:#proceed#:#Postoupit
 common#:#profile#:#Profil
-common#:#profile_changed#:#ILIAS eLearning - Váš profil byl změněn
+common#:#profile_changed#:#Váš profil byl změněn
 common#:#profile_incomplete#:#Váš profil není kompletní. Vyplňte prosím všechna požadovaná data.
 common#:#profile_of#:#Profil pro
 common#:#properties#:#Vlastnosti
@@ -7229,6 +7234,7 @@ copa#:#copa_prop_reading_time#:#Reading Time###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_p#:#%s Minutes###30 04 2021 new variable
 copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
 copa#:#obj_copa_duplicate#:#Duplikovat stránku obsahu
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###30 04 2021 new variable
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###30 04 2021 new variable
 copg#:#copg_an_error_occured#:#An error occured.###30 04 2021 new variable
@@ -7239,18 +7245,24 @@ copg#:#copg_cron_keep_entries#:#Keep Minimum###31 03 2023 new variable
 copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.###31 03 2023 new variable
 copg#:#copg_days#:#Days###31 03 2023 new variable
 copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
 copg#:#copg_entries#:#Entries###31 03 2023 new variable
 copg#:#copg_error#:#Error###30 04 2021 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
 copg#:#copg_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup###31 03 2023 new variable
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.###31 03 2023 new variable
+copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
 copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
+copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
 copg#:#copg_questions_not_supported_here#:#V tomto kontextu nejsou otázky podporovány.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
+copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
 copg#:#copg_sec_link_info#:#Pokud nastavíte odkaz na celou část, ujistěte se, že v této části nejsou obsaženy žádné další interaktivní prvky. Jinak může být jejich chování nevypočitatelné.
 copg#:#copg_snippet_cannot_be_edited#:#Jedná se o předem definovaný úryvek obsahu, který zde nelze upravovat.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
 copg#:#copg_x_minutes#:#%s minute(s)###31 03 2023 new variable
 cpad#:#cpad_reading_time_status#:#Reading Time###30 04 2021 new variable
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###30 04 2021 new variable
@@ -7574,6 +7586,7 @@ crs#:#crs_members_groups#:#Členství ve skupině
 crs#:#crs_members_map#:#Mapa členů kurzu
 crs#:#crs_members_print_title#:#Členové kurzu
 crs#:#crs_min_one_admin#:#K tomuto kurzu musí být přiřazen alespoň jeden správce.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
 crs#:#crs_new_status#:#Váš nový status je:
@@ -7901,6 +7914,7 @@ crs#:#events#:#Sezení
 crs#:#export_members#:#Export účastníků
 crs#:#grouping_change_assignment#:#Změnit přidělení
 crs#:#grp_grp_already_assigned#:#Již jste členem tohoto seskupení skupin.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
 crs#:#mem_cron_min_members_intro#:#Následující kurzy a skupiny (ještě) nesplňují minimální počet členů.
 crs#:#mem_cron_min_members_reason#:#Dostanete tuto zprávu, protože jste aktivovali oznámení v záložce členové.
 crs#:#mem_cron_min_members_subject#:#Kurz/skupina: Kontrola minimálního počtu členů
@@ -8187,6 +8201,7 @@ dateplaner#:#cal_edit_category#:#Upravit kalendář
 dateplaner#:#cal_edit_milestone#:#Upravit milník
 dateplaner#:#cal_edit_recurrences#:#Upravit všechny schůzky
 dateplaner#:#cal_edit_single#:#Upravit tuto schůzku
+dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
 dateplaner#:#cal_enable_group_milestones#:#Zapnout milníky
 dateplaner#:#cal_enable_group_milestones_desc#:#Tato volba zapíná v kalendáři plánovací milníky.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Tento seznam příjemců upozornění není platný. Vyberte prosím jen přihlašovací jména uživatelů ILIAS, nebo platné emailové adresy.
@@ -8217,6 +8232,7 @@ dateplaner#:#cal_grp_others#:#Ostatní
 dateplaner#:#cal_grp_personal#:#Osobní
 dateplaner#:#cal_ical_infoscreen#:#Předplatit si
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
 dateplaner#:#cal_import_appointments#:#Importovat schůzky
 dateplaner#:#cal_import_file#:#Importovat soubor
 dateplaner#:#cal_import_file_info#:#Vyberte tento soubor, který obsahuje Váš kalendář se schůzkami.
@@ -8347,6 +8363,7 @@ dateplaner#:#cal_weekly#:#Týdně
 dateplaner#:#cal_where#:#Místo
 dateplaner#:#cal_year_s#:#Rok(y)
 dateplaner#:#cal_yearly#:#Ročně
+dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
 dateplaner#:#created#:#Vytvořeno
 dateplaner#:#crs_cal_activation_end#:#Konec kurzu
 dateplaner#:#crs_cal_activation_start#:#Začátek kurzu
@@ -8994,6 +9011,7 @@ etal#:#notification_talks_removed#:#The following appointments have been cancele
 etal#:#notification_talks_subject#:#Invitation: %s###31 03 2023 new variable
 etal#:#notification_talks_subject_update#:#Update: %s###31 03 2023 new variable
 etal#:#notification_talks_updated#:#The following talk appointments have been changed.###31 03 2023 new variable
+etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
 etal#:#talk_serial#:#Talk Serial###31 03 2023 new variable
 etal#:#tals_add#:#Add Talks###31 03 2023 new variable
 etal#:#tals_new#:#New Talks###31 03 2023 new variable
@@ -10328,7 +10346,9 @@ lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
 lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
+lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
+lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
 lm#:#lm_save_titles#:#Titulky byly uloženy.
 lng#:#language_detection#:#Language Detection###30 04 2021 new variable
 lng#:#lng_disable_language_detection#:#Vypnout detekci jazyka
@@ -10373,6 +10393,8 @@ lso#:#abstract_img#:#Obrázek pro abstrakt
 lso#:#avail_time_period#:#Doba
 lso#:#completed_steps#:#Provedené kroky
 lso#:#condition_always#:#Vždy
+lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
+lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
 lso#:#curriculum#:#Učební plán
 lso#:#delete_confirmation#:#Opravdu chcete odstranit tyto objekty?
 lso#:#entries_deleted#:#Záznamy úspěšně smazány
@@ -11304,6 +11326,7 @@ meta#:#md_copyright#:#Autorská práva
 meta#:#md_copyright_add#:#Přidat přednastavení Copyrightu
 meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
+meta#:#md_copyright_default#:#Default###14 02 2024 new variable
 meta#:#md_copyright_edit#:#Upravit přednastavení Copyrightu
 meta#:#md_copyright_enable_info#:#Vyberte tuto volbu k nabídnutí výběru předdefinovaného Copyrightu
 meta#:#md_copyright_enabled#:#Zapnout výběr Copyrightu
@@ -11941,6 +11964,7 @@ mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
 mme#:#msg_languages_added#:#Přidané jazyky
 mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
 mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###07 02 2020 new variable
 mme#:#msg_restored#:#Main Menu completely reset###07 02 2020 new variable
 mme#:#msg_subitem_deleted#:#Položka byla smazána.
@@ -12219,6 +12243,7 @@ obj#:#obj_activation#:#Aktivace
 obj#:#obj_activation_list_gui#:#Dostupnost
 obj#:#obj_add_languages#:#Přidat jazyky
 obj#:#obj_additional_langs#:#Další jazyky
+obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
 obj#:#obj_cont_transl_deactivated#:#Překlad pro úpravy stránky byl deaktivován.
 obj#:#obj_copy_progress#:#Kopírovat postup
 obj#:#obj_deactivate_content_lang#:#Deaktivovat překlad pro úpravy stránky
@@ -12510,6 +12535,7 @@ poll#:#poll_activation_online_info#:#Aktivujte toto nastavení ke zpřístupněn
 poll#:#poll_add#:#Přidat anketu
 poll#:#poll_anonymous_warning#:#Vaše jméno není ve výsledcích ankety viditelné.
 poll#:#poll_answer#:#Odpověď
+poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
 poll#:#poll_answers#:#Možné odpovědi
 poll#:#poll_barchart#:#Sloupcový graf
 poll#:#poll_block_message_already_voted#:#V této anketě jste již hlasoval(a).
@@ -13733,6 +13759,7 @@ rbac#:#rbac_create_role#:#Vytvořit novou roli
 rbac#:#rbac_create_rolt#:#Vytvořit novou šablonu role
 rbac#:#rbac_create_sahs#:#Vytvořit výukový modul SCORM/AICC
 rbac#:#rbac_create_sess#:#Vytvořit lekci
+rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
 rbac#:#rbac_create_spl#:#Vytvořit zásobník otázek ankety
 rbac#:#rbac_create_svy#:#Vytvořit anketu
 rbac#:#rbac_create_tst#:#Vytvořit test
@@ -13908,6 +13935,17 @@ rbac#:#sess_read#:#Právo číst na nastavení lekce
 rbac#:#sess_read_learning_progress#:#Uživatel si může prohlédnout postup výuky ostatních uživatelů
 rbac#:#sess_visible#:#Lekce jsou viditelné
 rbac#:#sess_write#:#Upravit lekci
+rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
+rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
+rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
+rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
+rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
+rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
+rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
 rbac#:#skmg_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#skmg_read#:#Přístup číst na management odbornosti
 rbac#:#skmg_visible#:#Management odbornosti je viditelný
@@ -16036,6 +16074,7 @@ survey#:#svy_mail_send_confirmation#:#Poslat potvrzení účasti
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Nastavení sloupců neobsahuje 100 % součet.
 survey#:#svy_max_sum_score#:#Maximum Sum Score###30 04 2021 new variable
 survey#:#svy_neutral_answer#:#Text pro neutrální odpověď („Neurčeno“, „Nevím“ atd.)
+survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
 survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
@@ -16116,6 +16155,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 svy#:#svy_invite_participants#:#Invite Participants###07 02 2020 new variable
 svy#:#svy_link_to_svy#:#Link to Survey###31 03 2023 new variable
 svy#:#svy_part_overview#:#Overview###07 02 2020 new variable
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
 svy#:#svy_print_selection#:#Print View Selection###31 03 2023 new variable
 svy#:#svy_remove_all_participants#:#Remove all Participants###07 02 2020 new variable
 svy#:#svy_remove_participants#:#Remove Participants###07 02 2020 new variable
@@ -16723,6 +16763,7 @@ user#:#user_prompting_recurrence#:#Výzva k opakování
 user#:#user_prompting_settings#:#Výzva k nastavení
 user#:#user_public_profile_info#:#Vyberte prosím která osobní data by měla být viditelná jiným uživatelům.
 user#:#user_publish_options#:#Publish Profile###07 02 2020 new variable
+user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
 user#:#user_role_starting_point#:#Uživatel - Výchozí bod
 user#:#user_save_continue#:#Save and Continue###07 02 2020 new variable
 user#:#user_save_ordering_and_titles#:#Uložit řazení a názvy
