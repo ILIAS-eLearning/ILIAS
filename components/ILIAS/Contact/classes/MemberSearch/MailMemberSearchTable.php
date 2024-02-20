@@ -102,14 +102,15 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
-            $url_builder->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'user_ids'
-            );
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'user_ids'
+        );
 
         return [
             'sendMailToSelectedUsers' => $this->ui_factory->table()->action()->multi(
