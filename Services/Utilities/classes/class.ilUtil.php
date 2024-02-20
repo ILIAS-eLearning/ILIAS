@@ -1654,7 +1654,11 @@ class ilUtil
         // rename executables
         self::renameExecutables($unzippable_zip_directory);
 
-        // now we have to move the files to the original directory. if $a_flat is true, we move the files only without directories, otherwise we move the whole directory
+        // now we have to move the files to the original directory.
+        // if $a_flat is true, we move the files only without directories, otherwise we move the whole directory.
+        // since some provide a realtive path here, we have to get the absolute path first
+        $target_dir_name = $original_zip_path_info["dirname"];
+        $target_dir_name = realpath($target_dir_name);
         if ($unpack_flat) {
             $file_array = [];
             ilFileUtils::recursive_dirscan($temporary_unzip_directory, $file_array);
@@ -1666,13 +1670,17 @@ class ilUtil
                     ) {
                         copy(
                             $file_array["path"][$k] . $f,
-                            $original_zip_path_info["dirname"] . DIRECTORY_SEPARATOR . $f
+                            $target_dir_name . DIRECTORY_SEPARATOR . $f
                         );
                     }
                 }
             }
         } else {
-            self::rCopy($temporary_unzip_directory, $original_zip_path_info["dirname"]);
+            $target_directory = $target_dir_name;
+            self::rCopy(
+                $temporary_unzip_directory,
+                $target_directory
+            );
         }
 
         ilUtil::delDir($temporary_unzip_directory);
