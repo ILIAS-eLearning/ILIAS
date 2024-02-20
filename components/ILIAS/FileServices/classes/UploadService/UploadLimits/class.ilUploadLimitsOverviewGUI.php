@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -34,7 +35,8 @@ class ilUploadLimitsOverviewGUI
     public const CMD_EDIT_UPLOAD_POLICY = 'editUploadPolicy';
     public const CMD_SAVE_UPLOAD_POLICY = 'saveUploadPolicy';
     public const CMD_DELETE_UPLOAD_POLICY = 'deleteUploadPolicy';
-
+    protected int $ref_id;
+    protected ilAccessHandler $access;
     protected ilCtrlInterface $ctrl;
     protected ilObjUser $current_user;
     protected ilDBInterface $db;
@@ -60,11 +62,13 @@ class ilUploadLimitsOverviewGUI
         $this->language = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->rbac_review = $DIC->rbac()->review();
+        $this->access = $DIC->access();
         $this->refinery = $DIC->refinery();
         $this->toolbar = $DIC->toolbar();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->tabs = $DIC->tabs();
+        $this->ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
         $this->upload_policy_db_repository = new UploadPolicyDBRepository($this->db);
     }
@@ -73,15 +77,19 @@ class ilUploadLimitsOverviewGUI
     {
         switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
             case self::CMD_ADD_UPLOAD_POLICY:
+                $this->hasWriteAccessOrRedirect();
                 $this->gotoUploadPolicyForm();
                 break;
             case self::CMD_EDIT_UPLOAD_POLICY:
+                $this->hasWriteAccessOrRedirect();
                 $this->gotoUploadPolicyForm(true);
                 break;
             case self::CMD_SAVE_UPLOAD_POLICY:
+                $this->hasWriteAccessOrRedirect();
                 $this->saveUploadPolicy();
                 break;
             case self::CMD_DELETE_UPLOAD_POLICY:
+                $this->hasWriteAccessOrRedirect();
                 $this->deleteUploadPolicy();
                 break;
             case self::CMD_INDEX:
@@ -91,14 +99,33 @@ class ilUploadLimitsOverviewGUI
         }
     }
 
+    private function hasWriteAccessOrRedirect(): void
+    {
+        if (!$this->hasWriteAccess()) {
+            $this->main_tpl->setOnScreenMessage(
+                'failure',
+                $this->language->txt("permission_denied"),
+                true
+            );
+            $this->ctrl->redirect($this);
+        }
+    }
+
+    private function hasWriteAccess(): bool
+    {
+        return $this->access->checkAccess("write", "", $this->ref_id);
+    }
+
     protected function index(): void
     {
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->primary(
-                $this->language->txt("add_upload_policy"),
-                $this->ctrl->getLinkTargetByClass(self::class, self::CMD_ADD_UPLOAD_POLICY)
-            )
-        );
+        if ($this->hasWriteAccess()) {
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->primary(
+                    $this->language->txt("add_upload_policy"),
+                    $this->ctrl->getLinkTargetByClass(self::class, self::CMD_ADD_UPLOAD_POLICY)
+                )
+            );
+        }
 
         $policies_table = new UploadPoliciesTableUI(
             $this->upload_policy_db_repository,
@@ -110,6 +137,7 @@ class ilUploadLimitsOverviewGUI
             $this->refinery,
             $this->ui_factory,
             $this->ui_renderer,
+            $this->hasWriteAccess()
         );
         $this->main_tpl->setContent(
             $this->ui_renderer->render($policies_table->getComponents())

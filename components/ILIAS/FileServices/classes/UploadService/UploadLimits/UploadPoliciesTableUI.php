@@ -54,6 +54,7 @@ class UploadPoliciesTableUI
         protected RefineryFactory $refinery,
         protected UIFactory $ui_factory,
         protected Renderer $ui_renderer,
+        protected bool $write_access
     ) {
         $policies = $this->getPresentablePolicies();
         $actions = $this->buildPolicyActions($policies);
@@ -121,6 +122,9 @@ class UploadPoliciesTableUI
      */
     protected function buildPolicyActions(array $policies): array
     {
+        if(!$this->write_access) {
+            return [];
+        }
         $dropdowns = [];
         foreach ($policies as $policy) {
             // Store policy_id for later use when the table's actions (edit / delete) are used)
