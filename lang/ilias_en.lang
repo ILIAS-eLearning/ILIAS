@@ -705,7 +705,7 @@ assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_run#:#Scored test attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
+assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export#:#Export
 assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
