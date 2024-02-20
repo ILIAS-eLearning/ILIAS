@@ -3461,6 +3461,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         $metadata["entry"] !== null && $metadata["entry"] !== ''
                     )->withPassword($metadata["entry"]);
                     break;
+                case 'ip_range_from':
+                    $access_settings = $access_settings->withIpRangeFrom($metadata['entry']);
+                    break;
+                case 'ip_range_to':
+                    $access_settings = $access_settings->withIpRangeTo($metadata['entry']);
+                    break;
                 case "pass_scoring":
                     $scoring_settings = $scoring_settings->withPassScoring((int) $metadata["entry"]);
                     break;
@@ -3716,10 +3722,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             "title" => $this->getTitle()
         ];
         $a_xml_writer->xmlStartTag("assessment", $attrs);
-        // add qti comment
         $a_xml_writer->xmlElement("qticomment", null, $this->getDescription());
 
-        // add qti duration
         if ($main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled()) {
             $processing_time_array = $this->getProcessingTimeAsArray();
             $a_xml_writer->xmlElement(
@@ -3734,62 +3738,62 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             );
         }
 
-        // add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "ILIAS_VERSION");
         $a_xml_writer->xmlElement("fieldentry", null, ILIAS_VERSION);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // anonymity
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "anonymity");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getGeneralSettings()->getAnonymity()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // question set type (fixed, random, ...)
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "question_set_type");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getGeneralSettings()->getQuestionSetType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // sequence settings
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "sequence_settings");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // author
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "author");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // reset processing time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "reset_processing_time");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getResetProcessingTime());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // count system
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "count_system");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getCountSystem());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // multiple choice scoring
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_cutting");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getScoreCutting());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // multiple choice scoring
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "password");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getPassword() ?? '');
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // pass scoring
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "ip_range_from");
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getIpRangeFrom());
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "ip_range_to");
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getIpRangeTo());
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "pass_scoring");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getPassScoring());
@@ -3800,7 +3804,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement('fieldentry', null, (int) $this->isPassDeletionAllowed());
         $a_xml_writer->xmlEndTag('qtimetadatafield');
 
-        // score reporting date
         if ($this->getReportingDate()) {
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "reporting_date");
@@ -3810,80 +3813,67 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement("fieldentry", null, $reporting_date);
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
-        // number of tries
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "nr_of_tries");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getNumberOfTries()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // number of tries
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement('fieldlabel', null, 'block_after_passed');
         $a_xml_writer->xmlElement('fieldentry', null, (int) $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled());
         $a_xml_writer->xmlEndTag('qtimetadatafield');
 
-        // pass_waiting
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "pass_waiting");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getPassWaiting());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // kiosk
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "kiosk");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getKioskMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-
-        //redirection_mode
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement("fieldlabel", null, "redirection_mode");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionMode());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //redirection_url
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement("fieldlabel", null, "redirection_url");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionUrl());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // use previous answers
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "use_previous_answers");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // hide title points
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "title_output");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getQuestionBehaviourSettings()->getQuestionTitleOutputMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // results presentation
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "results_presentation");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultDetailsSettings()->getResultsPresentation()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // examid in test pass
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "examid_in_test_pass");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getExamIdInTestPassEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // examid in kiosk
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "examid_in_test_res");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "usr_pass_overview_mode");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_reporting");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()));
@@ -3894,50 +3884,41 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->score_settings->getResultDetailsSettings()->getShowSolutionListComparison());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_verification");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // generic feedback
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // answer specific feedback
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // answer specific feedback of reached points
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback_points");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackPointsEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // followup question previous answer freezing
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "follow_qst_answer_fixation");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // instant response answer freezing
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_answer_fixation");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // instant response forced
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "force_instant_feedback");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-
-        // highscore
         $highscore_metadata = [
             'highscore_enabled' => ['value' => $this->getHighscoreEnabled()],
             'highscore_anon' => ['value' => $this->getHighscoreAnon()],
@@ -3957,80 +3938,66 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
 
-        // show cancel
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "suspend_test_allowed");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // show marker
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_marker");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // fixed participants
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "fixed_participants");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getAccessSettings()->getFixedParticipants()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // show final statement
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_introduction");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // show final statement
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_concluding_remarks");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // mail notification
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "mailnotification");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getMailNotificationContentType());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // mail notification type
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "mailnottype");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // export settings
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "exportsettings");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getExportSettings());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // shuffle questions
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "shuffle_questions");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getShuffleQuestions()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // processing time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "processing_time");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getProcessingTime());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // enable_examview
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "enable_examview");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getShowAnswerOverview());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-
-        // skill_service
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "skill_service");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getAdditionalSettings()->getSkillsServiceEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // add qti assessmentcontrol
         if ($this->getInstantFeedbackSolution() == 1) {
             $attrs = [
                 "solutionswitch" => "Yes"
@@ -4040,20 +4007,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $a_xml_writer->xmlElement("assessmentcontrol", $attrs, null);
 
-        // show_grading_status
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_grading_status");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isShowGradingStatusEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // show_grading_mark
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_grading_mark");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isShowGradingMarkEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-
-        // starting time
         if ($this->getStartingTime()) {
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "starting_time");
@@ -4061,7 +4024,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement("fieldentry", null, $backward_compatibility_format);
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
-        // ending time
+
         if ($this->getEndingTime()) {
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "ending_time");
@@ -4070,75 +4033,62 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
 
-
-        //activation_limited
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "activation_limited");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isActivationLimited());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //activation_start_time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "activation_start_time");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationStartingTime());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //activation_end_time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "activation_end_time");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationEndingTime());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //activation_visibility
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "activation_visibility");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationVisibility());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // autosave
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "autosave");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // autosave_ival
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "autosave_ival");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getAutosaveInterval());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //offer_question_hints
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "offer_question_hints");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getQuestionHintsEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //instant_feedback_specific
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //instant_feedback_answer_fixation
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_answer_fixation");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //obligations_enabled
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "obligations_enabled");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getCompulsoryQuestionsEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        //enable_processing_time
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "enable_processing_time");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         foreach ($this->mark_schema->mark_steps as $index => $mark) {
-            // mark steps
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "mark_step_$index");
             $a_xml_writer->xmlElement("fieldentry", null, sprintf(
@@ -4157,12 +4107,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ? (new ilTestPage($page_id))->getXMLContent()
             : ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0);
 
-        // add qti objectives
         $a_xml_writer->xmlStartTag("objectives");
         $this->addQTIMaterial($a_xml_writer, $page_id, $introduction);
         $a_xml_writer->xmlEndTag("objectives");
 
-        // add qti assessmentcontrol
         if ($this->getInstantFeedbackSolution() == 1) {
             $attrs = [
                 "solutionswitch" => "Yes"
@@ -4196,11 +4144,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $xml;
     }
 
-    /**
-     * @param $unix_timestamp
-     * @return string
-     */
-    protected function buildIso8601PeriodFromUnixtimeForExportCompatibility($unix_timestamp): string
+    protected function buildIso8601PeriodFromUnixtimeForExportCompatibility(int $unix_timestamp): string
     {
         $date_time_unix = new ilDateTime($unix_timestamp, IL_CAL_UNIX);
         $date_time = $date_time_unix->get(IL_CAL_DATETIME);

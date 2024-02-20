@@ -788,6 +788,9 @@ assessment#:#insert_gap#:#Insert Gap
 assessment#:#internal_links#:#Internal Links
 assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#invalid_ip#:#Invalid IP
+assessment#:#ip_range_info#:#Only clients with an IP in the provided range will be able to access the test.
+assessment#:#ip_range_label#:#IP Range
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
 assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
@@ -882,12 +885,14 @@ assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)
 assessment#:#matching_type#:#Matching Question Subtype
 assessment#:#material#:#Material
 assessment#:#material_file#:#Material File
+assessment#:#max_ip_label#:#Highest IP With Access
 assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize#:#Maximum file upload size
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 assessment#:#min_auto_complete#:#Autocomplete
+assessment#:#min_ip_label#:#Lowest IP With Access
 assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
 assessment#:#msg_circle_added#:#Circle added
@@ -1998,6 +2003,7 @@ assessment#:#use_ects_fx#:#Use the ‘FX’ grade
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
+assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s

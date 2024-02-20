@@ -20,26 +20,45 @@ declare(strict_types=1);
 
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
-use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
-use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
-use ILIAS\Test\Setup\ilSeparateQuestionListSettingMigration;
 
 class ilTestSetupAgent extends NullAgent
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilTest9DBUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Test',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilTest9DBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilTest10DBUpdateSteps()
+            )
+        );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest9DBUpdateSteps());
+        return new ObjectiveCollection(
+            'Database is updated for component/ILIAS/Test',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilTest9DBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilTest10DBUpdateSteps()
+            )
+        );
     }
 
     public function hasConfig(): bool
@@ -54,20 +73,16 @@ class ilTestSetupAgent extends NullAgent
 
     public function getInstallObjective(Config $config = null): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     public function getBuildArtifactObjective(): Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     public function getMigrations(): array
     {
-        return [
-            new ilManScoringSettingsToOwnDbTableMigration(),
-            new ilRemoveDynamicTestsAndCorrespondingDataMigration(),
-            new ilSeparateQuestionListSettingMigration()
-        ];
+        return [];
     }
 }

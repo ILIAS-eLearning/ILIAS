@@ -32,7 +32,7 @@ class ilTestAccessTest extends ilTestBaseTestCase
 
         $this->addGlobal_ilAccess();
 
-        $this->testObj = new ilTestAccess(0, 0);
+        $this->testObj = new ilTestAccess(0);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -46,21 +46,5 @@ class ilTestAccessTest extends ilTestBaseTestCase
         $this->testObj->setAccess($accessHandler_mock);
 
         $this->assertEquals($accessHandler_mock, $this->testObj->getAccess());
-    }
-
-    public function testRefId(): void
-    {
-        $ref_id = 120;
-        $this->testObj->setRefId($ref_id);
-
-        $this->assertEquals($ref_id, $this->testObj->getRefId());
-    }
-
-    public function testTestId(): void
-    {
-        $test_id = 120;
-        $this->testObj->setTestId($test_id);
-
-        $this->assertEquals($test_id, $this->testObj->getTestId());
     }
 }

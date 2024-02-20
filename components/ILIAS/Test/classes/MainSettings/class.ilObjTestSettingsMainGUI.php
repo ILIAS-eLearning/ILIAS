@@ -366,6 +366,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         $settings = new ilObjTestMainSettings(
             $this->test_object->getTestId(),
+            $this->test_object->getId(),
             $general_settings,
             $introduction_settings,
             $access_settings,
@@ -587,6 +588,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withEndTime($section['access_window']['end_time'])
             ->withPasswordEnabled($section['test_password']['password_enabled'])
             ->withPassword($section['test_password']['password_value'])
+            ->withIpRangeFrom($section['ip_range']['ip_range_from'])
+            ->withIpRangeTo($section['ip_range']['ip_range_to'])
             ->withFixedParticipants($section['fixed_participants_enabled']);
 
         if ($this->test_object->participantDataExist()) {

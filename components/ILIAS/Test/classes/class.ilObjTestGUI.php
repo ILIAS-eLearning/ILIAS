@@ -160,7 +160,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             $this->test_player_factory = new ilTestPlayerFactory($this->object);
             $this->test_session_factory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-            $this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
+            $this->setTestAccess(new ilTestAccess($this->ref_id));
         } else {
             $this->setCreationMode(true); // I think?
         }
@@ -2966,30 +2966,33 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->toolbar->addButton($this->lng->txt("test_move_page"), $this->ctrl->getLinkTarget($this, "movePageForm"));
         }
 
-        $online_access = false;
-        if ($this->object->getFixedParticipants()) {
-            $online_access = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId()) === true;
+        $missing_participant_access = $this->test_access->isParticipantAllowed(
+            $this->getTestObject()->getId(),
+            $this->user->getId()
+        ) !== ParticipantAccess::ALLOWED;
+
+        if ($this->object->getOfflineStatus()
+            || !$this->object->isComplete($this->test_question_set_config_factory->getQuestionSetConfig())
+            || $missing_participant_access
+            || !$this->access->checkAccess("read", "", $this->ref_id)
+        ) {
+            return;
         }
 
-        if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->test_question_set_config_factory->getQuestionSetConfig())) {
-            if ((!$this->object->getFixedParticipants() || $online_access) && $this->access->checkAccess("read", "", $this->ref_id)) {
-                $testSession = $this->test_session_factory->getSession();
-
-                $executable = $this->object->isExecutable($testSession, $this->user->getId(), true);
-
-                if ($executable["executable"]) {
-                    $player_factory = new ilTestPlayerFactory($this->getTestObject());
-                    $player_instance = $player_factory->getPlayerGUI();
-
-                    $this->toolbar->addSeparator();
-                    if ($testSession->getActiveId() > 0) {
-                        $this->toolbar->addButton($this->lng->txt('tst_resume_test'), $this->ctrl->getLinkTarget($player_instance, 'resumePlayer'));
-                    } else {
-                        $this->toolbar->addButton($this->lng->txt('tst_start_test'), $this->ctrl->getLinkTarget($player_instance, 'startTest'));
-                    }
-                }
-            }
+        $testSession = $this->test_session_factory->getSession();
+        $executable = $this->object->isExecutable($testSession, $this->user->getId(), true);
+        if (!$executable["executable"]) {
+            return;
         }
+
+        $player_factory = new ilTestPlayerFactory($this->getTestObject());
+        $player_instance = $player_factory->getPlayerGUI();
+        $this->toolbar->addSeparator();
+        if ($testSession->getActiveId() > 0) {
+            $this->toolbar->addButton($this->lng->txt('tst_resume_test'), $this->ctrl->getLinkTarget($player_instance, 'resumePlayer'));
+            return;
+        }
+        $this->toolbar->addButton($this->lng->txt('tst_start_test'), $this->ctrl->getLinkTarget($player_instance, 'startTest'));
     }
 
     public function copyQuestionsToPoolObject()
@@ -3421,6 +3424,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->http,
             $this->tabs_gui,
             $this->access,
+            $this->test_access,
             $this->db,
         );
     }

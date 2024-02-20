@@ -522,57 +522,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     // fim.
 
     /**
-    * Checks if a user is allowd to run an online exam
-    *
-    * @return mixed true if the user is allowed to run the online exam or if the test isn't an online exam, an alert message if the test is an online exam and the user is not allowed to run it
-    * @access public
-    */
-    public static function _lookupOnlineTestAccess($a_test_id, $a_user_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
-            ['integer'],
-            [$a_test_id]
-        );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            if ($row["fixed_participants"]) {
-                $result = $ilDB->queryF(
-                    "SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-                    ['integer','integer'],
-                    [$row["test_id"], $a_user_id]
-                );
-                if ($result->numRows()) {
-                    $row = $ilDB->fetchAssoc($result);
-                    if ($row['clientip'] !== null && trim($row['clientip']) != "") {
-                        $row['clientip'] = preg_replace("/[^0-9.?*,:]+/", "", $row['clientip']);
-                        $row['clientip'] = str_replace(".", "\\.", $row['clientip']);
-                        $row['clientip'] = str_replace(["?","*",","], ["[0-9]","[0-9]*","|"], $row['clientip']);
-                        if (!preg_match("/^" . $row['clientip'] . "$/", $_SERVER["REMOTE_ADDR"])) {
-                            $lng->loadLanguageModule('assessment');
-                            return $lng->txt("user_wrong_clientip");
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        return true;
-                    }
-                } else {
-                    return $lng->txt("tst_user_not_invited");
-                }
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
     * Retrieves a participant name from active id
     *
     * @param integer $active_id Active ID of the participant
