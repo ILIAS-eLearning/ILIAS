@@ -43,10 +43,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     private const F_SOURCE_ID = 'f_sid';
     private const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
     private const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
-    // cat-tms-patch start #8290
     private const F_SEARCH_RECURSIVE = "f_search_recursive";
-    // cat-tms-patch end #8290
-
     private const CMD_VIEW = 'view';
     private const CMD_SAVE = 'save';
     private const CMD_DELETE = 'delete';
@@ -229,8 +226,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $post = $this->request->getParsedBody();
         $form->setValuesByArray($post);
         $src_type = $post[self::F_SOURCE_TYPE];
-        $src_id = $post[self::F_SOURCE_ID . $src_type];
-        $search_recursive = (bool) $post[self::F_SEARCH_RECURSIVE];
+        $src_id = $post[self::F_SOURCE_ID . $src_type] ?? null;
+        $search_recursive = (bool) ($post[self::F_SEARCH_RECURSIVE] ?? false);
 
         if (
             (is_null($src_type) || $src_type === "") ||
@@ -335,10 +332,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            // cat-tms-patch start #8290
             [$type, $id, $search_recursive] = explode('-', $get[$field]);
             $this->getObject()->enableAutomaticMembershipSource((string) $type, (int) $id, (bool) $search_recursive);
-            // cat-tms-patch end #8290
         }
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
@@ -418,16 +413,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $current_src_id = null;
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
-            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->to()->string());
+            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->kindlyTo()->int());
         }
 
-        $form = $this->getForm($current_src_type, $current_src_id);
         $search_recursive = false;
-        if (
-            array_key_exists(self::F_SEARCH_RECURSIVE, $_GET) &&
-            !is_null($_GET[self::F_SEARCH_RECURSIVE])
-        ) {
-            $search_recursive = (bool) $_GET[self::F_SEARCH_RECURSIVE];
+        if ($this->request_wrapper->has(self::F_SEARCH_RECURSIVE)) {
+            $search_recursive = $this->request_wrapper->retrieve(self::F_SEARCH_RECURSIVE, $this->refinery->kindlyTo()->bool());
         }
         $form = $this->getForm($current_src_type, $current_src_id, $search_recursive);
         $form_id = "form_" . $form->getId();
@@ -498,9 +489,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     protected function getForm(
         string $source_type = null,
         int $source_id = null,
-        // cat-tms-patch start #8290
         bool $search_recursive = false
-        // cat-tms-patch end #8290
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
 
@@ -565,12 +554,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $orgu->getExplorerGUI()->setAjax(false);
         $radio_orgu->addSubItem($orgu);
 
-        // cat-tms-patch start #8290
         $recurse = new ilCheckboxInputGUI($this->txt('search_for_orgu_members_recursive'), self::F_SEARCH_RECURSIVE);
-        $recurse->setValue(1);
+        $recurse->setValue('1');
         $recurse->setChecked($search_recursive);
         $radio_orgu->addSubItem($recurse);
-        // cat-tms-patch end #8290
         $rgroup->addOption($radio_orgu);
         if (
             !is_null($source_type) &&
@@ -600,7 +587,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->addItem($hi);
 
         $hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
-        $hi->setValue($source_id ?? '');
+        $hi->setValue((string)$source_id ?? '');
         $form->addItem($hi);
 
         return $form;

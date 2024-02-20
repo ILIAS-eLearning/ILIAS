@@ -1339,7 +1339,6 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Store a source to be monitored for automatic memberships.
      */
-    // cat-tms-patch start #8290
     public function storeAutomaticMembershipSource(string $type, int $src_id, bool $search_recursive): void
     {
         $ams = $this->auto_memberships_repository->create(
@@ -1353,7 +1352,6 @@ class ilObjStudyProgramme extends ilContainer
         );
         $this->auto_memberships_repository->update($ams);
     }
-    // cat-tms-patch end #8290
 
     /**
      * Delete a membership source.
@@ -1374,7 +1372,6 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Disable a membership source.
      */
-    // cat-tms-patch start #8290
     public function disableAutomaticMembershipSource(string $type, int $src_id, bool $search_recursive): void
     {
         $ams = $this->auto_memberships_repository->create(
@@ -1426,7 +1423,6 @@ class ilObjStudyProgramme extends ilContainer
         $source_reader = $this->membersourcereader_factory->getReaderFor($ams);
         return $source_reader->getMemberIds();
     }
-    // cat-tms-patch end #8290
 
     /**
      * Get all StudyProgrammes monitoring this membership-source.
