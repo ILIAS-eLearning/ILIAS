@@ -122,14 +122,6 @@ div.input:focus {
 	border-color: $il-focus-color;
 }
 
-// used where? Could it be adressed semantically?
-.ilWhiteSpaceNowrap.ilRight {
-	a, .btn-group {
-		padding-left: $il-padding-small-horizontal;
-		border: 1px solid transparent;
-	}
-}
-
 // needed? solve with tools?
 .registration {
     margin: 5px auto 0;

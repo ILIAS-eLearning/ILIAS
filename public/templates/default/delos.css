@@ -2697,7 +2697,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link,
 .il-viewcontrol-mode > .btn-default,
 .il-viewcontrol-mode > .btn-link, .il-viewcontrol-sortation .dropdown > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   display: inline-flex;
   vertical-align: middle;
   align-items: center;
@@ -3110,7 +3112,121 @@ input.btn, input.il-link.link-bulky,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element.il-viewcontrol-mode > .btn-link + .btn-default.btn,
 .il-viewcontrol-sortation .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element.dropdown > .btn-default.btn + .btn-default.btn,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .il-viewcontrol-sortation .l-bar__element.dropdown > .btn-default.btn + .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn + .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn + .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-ctrl, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-default, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-link, .il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.btn-group > .btn-link + .btn-default.btn,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-ctrl,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.dropdown > .btn-default + .btn-default.btn,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a + .btn-ctrl,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > a + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.navbar-form.dropdown > a + .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-ctrl + .btn-link, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-default + .btn-link, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-link, .il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-default.btn + .btn-link,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.btn-group > .btn-default.btn + .btn-link, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-ctrl + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default.btn + .btn-default,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.dropdown > .btn-default.btn + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > .btn-ctrl + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > .btn-default + a,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-default + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-link + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > .btn-default + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-default.btn + a,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.navbar-form.dropdown > .btn-default.btn + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown.btn-group > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a + a {
   margin-left: 3px;
 }
 .btn-ctrl:focus-visible, .il-viewcontrol-section > .btn-default:focus-visible, .il-viewcontrol-section > .btn-link:focus-visible,
@@ -3128,7 +3244,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:focus-visible,
 .il-viewcontrol-mode > .btn-default:focus-visible,
 .il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus-visible,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:focus-visible,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus-visible,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:focus-visible {
   outline: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
@@ -3147,7 +3265,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:hover,
 .il-viewcontrol-mode > .btn-default:hover,
 .il-viewcontrol-mode > .btn-link:hover, .il-viewcontrol-sortation .dropdown > .btn-default.btn:hover,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:hover {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:hover, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:hover,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:hover,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:hover {
   text-decoration: none;
   background-color: white;
   color: #4c6586;
@@ -3170,7 +3290,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:active,
 .il-viewcontrol-mode > .btn-default:active,
 .il-viewcontrol-mode > .btn-link:active, .il-viewcontrol-sortation .dropdown > .btn-default.btn:active,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:active {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:active, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:active,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:active,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:active {
   transform: none;
   background-color: white;
   color: #4c6586;
@@ -3193,7 +3315,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:focus,
 .il-viewcontrol-mode > .btn-default:focus,
 .il-viewcontrol-mode > .btn-link:focus, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:focus,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:focus {
   color: #4c6586;
   text-decoration: none;
 }
@@ -3212,7 +3336,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > [disabled].btn-link,
 .il-viewcontrol-mode > [disabled].btn-default,
 .il-viewcontrol-mode > [disabled].btn-link, .il-viewcontrol-sortation .dropdown > [disabled].btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > [disabled].btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > [disabled].btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > [disabled].btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > [disabled].btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a[disabled],
 .btn-ctrl fieldset[disabled],
 .il-viewcontrol-section > .btn-default fieldset[disabled],
 .il-viewcontrol-section > .btn-link fieldset[disabled],
@@ -3231,7 +3357,10 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-mode > .btn-default fieldset[disabled],
 .il-viewcontrol-mode > .btn-link fieldset[disabled],
 .il-viewcontrol-sortation .dropdown > .btn-default.btn fieldset[disabled],
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn fieldset[disabled] {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
   background-color: white;
   border-width: 1px;
   border-style: solid;
@@ -3255,7 +3384,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .engaged.btn-link,
 .il-viewcontrol-mode > .engaged.btn-default,
 .il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .dropdown > .engaged.btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .engaged.btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .engaged.btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a.engaged {
   background-color: white;
   border-width: 3px;
   border-style: solid;
@@ -3277,7 +3408,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .engaged.btn-link,
 .il-viewcontrol-mode > .engaged.btn-default,
 .il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .dropdown > .engaged.btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .engaged.btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .engaged.btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a.engaged, .open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
 .open .il-viewcontrol-section .btn-group > .btn-default,
 .il-viewcontrol-section .open .btn-group > .btn-default,
 .open .il-viewcontrol-section .btn-group > .btn-link,
@@ -3299,7 +3432,9 @@ input.btn, input.il-link.link-bulky,
 .open .il-viewcontrol-mode > .btn-default,
 .open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .dropdown > .btn-default.btn, .il-viewcontrol-sortation .open .dropdown > .btn-default.btn,
 .open .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn, .open .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.open .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.open .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   border: 1px solid #4c6586;
   background-color: white;
 }
@@ -3325,8 +3460,16 @@ input.btn, input.il-link.link-bulky,
 .open .il-viewcontrol-mode > .btn-default,
 .open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .dropdown > .btn-default.btn, .il-viewcontrol-sortation .open .dropdown > .btn-default.btn,
 .open .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn, .open .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.open .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.open .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   box-shadow: none;
+}
+
+.ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
+  margin-left: 3px;
 }
 
 .btn-link {
@@ -17348,6 +17491,7 @@ div.tblfooter {
 
 div.ilTableNav {
   font-weight: 400;
+  margin-bottom: 6px;
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
@@ -18969,11 +19113,6 @@ div.input {
 
 div.input:focus {
   border-color: #0078D7;
-}
-
-.ilWhiteSpaceNowrap.ilRight a, .ilWhiteSpaceNowrap.ilRight .btn-group {
-  padding-left: 6px;
-  border: 1px solid transparent;
 }
 
 .registration {
