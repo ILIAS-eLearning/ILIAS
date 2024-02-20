@@ -261,17 +261,13 @@ class ilMailMemberSearchGUI
 
     protected function sendMailToSelectedUsers(): void
     {
-        if (!$this->http->wrapper()->query()->has('contact_search_members_user_ids')) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
-            $this->showSelectableUsers();
-
-            return;
-        } else {
-            $selected_user_ids = (array) $this->http->wrapper()->query()->retrieve(
-                'contact_search_members_user_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            );
-        }
+        $selected_user_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_search_members_user_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         $rcps = [];
         foreach ($selected_user_ids as $usr_id) {
