@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Component;
 
 class Boolean extends Column implements C\Boolean
@@ -58,10 +59,10 @@ class Boolean extends Column implements C\Boolean
     {
         $column_value_true = $this->format(true);
         $column_value_false = $this->format(false);
-        if($column_value_true instanceof Component) {
+        if($column_value_true instanceof Symbol) {
             $column_value_true = $column_value_true->getLabel();
         }
-        if($column_value_false instanceof Component) {
+        if($column_value_false instanceof Symbol) {
             $column_value_false = $column_value_false->getLabel();
         }
         return [
