@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\Services as HttpServices;
-use ilCtrl;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\FileUpload\DTO\UploadResult;
 
@@ -34,6 +30,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploadHandler
 {
+    protected \ilFileServicesFilenameSanitizer $sanitizer;
     protected \ilLanguage $language;
     protected \ILIAS\ResourceStorage\Services $irss;
     protected ResourceStakeholder $stakeholder;
@@ -49,6 +46,9 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         $this->temp_filesystem = $DIC->filesystem()->temp();
         $this->class_path = $this->getClassPath();
         $this->language = $DIC->language();
+        $this->sanitizer = new \ilFileServicesFilenameSanitizer(
+            $DIC->fileServiceSettings()
+        );
 
         parent::__construct();
     }
@@ -75,7 +75,9 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
         } else {
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;
-            $message = $this->language->txt('msg_info_blacklisted'); // this is the most common reason for a failed upload
+            $message = $this->language->txt(
+                'msg_info_blacklisted'
+            ); // this is the most common reason for a failed upload
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
@@ -83,7 +85,7 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
 
     protected function processChunckedUpload(UploadResult $result): HandlerResult
     {
-        $temp_path = "$this->chunk_id/{$result->getName()}";
+        $temp_path = $this->sanitizer->sanitize("$this->chunk_id/{$result->getName()}");
 
         try {
             if ($this->temp_filesystem->has($temp_path)) {
@@ -92,7 +94,7 @@ abstract class AbstractCtrlAwareIRSSUploadHandler extends AbstractCtrlAwareUploa
             } else {
                 $this->temp_filesystem->write($temp_path, file_get_contents($result->getPath()));
             }
-        } catch (Throwable $t) {
+        } catch (\Throwable $t) {
             return new BasicHandlerResult(
                 $this->getFileIdentifierParameterName(),
                 HandlerResult::STATUS_FAILED,
