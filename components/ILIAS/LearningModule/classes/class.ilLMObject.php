@@ -463,7 +463,7 @@ class ilLMObject
         }
 
         // update structure entries: if at least one page of a chapter is public set chapter to public too
-        $lm_tree = new ilTree($a_cont_obj_id);
+        $lm_tree = new ilNestedSetTree($a_cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
         $lm_tree->readRootId();
@@ -739,7 +739,7 @@ class ilLMObject
             }
 
             if (count($childs) == 0) {
-                $target = ilTree::POS_FIRST_NODE;
+                $target = ilNestedSetTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -939,7 +939,7 @@ class ilLMObject
                 $a_target_lm,
                 $child["id"],
                 $target_item->getId(),
-                ilTree::POS_LAST_NODE,
+                ilNestedSetTree::POS_LAST_NODE,
                 $a_insert_time,
                 $a_copied_nodes,
                 $a_as_copy,
@@ -1230,7 +1230,7 @@ class ilLMObject
         int $a_chap_id
     ): array {
         // update structure entries: if at least one page of a chapter is public set chapter to public too
-        $lm_tree = new ilTree($a_lm_id);
+        $lm_tree = new ilNestedSetTree($a_lm_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
         $lm_tree->readRootId();

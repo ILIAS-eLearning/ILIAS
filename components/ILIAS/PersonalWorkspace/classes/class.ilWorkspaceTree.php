@@ -21,7 +21,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilWorkspaceTree extends ilTree
+class ilWorkspaceTree extends ilNestedSetTree
 {
     public function __construct(
         int $a_tree_id,

@@ -25,7 +25,7 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
 {
     protected ?int $default_width = null;
     protected ?int $default_height = null;
-    protected ilTree $mep_tree;
+    protected ilNestedSetTree $mep_tree;
     public bool $for_translation = false;
 
     public function __construct(
@@ -102,16 +102,16 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     /**
      * @param int $a_obj_id media pool id
      */
-    public static function _getPoolTree(int $a_obj_id): ilTree
+    public static function _getPoolTree(int $a_obj_id): ilNestedSetTree
     {
-        $tree = new ilTree($a_obj_id);
+        $tree = new ilNestedSetTree($a_obj_id);
         $tree->setTreeTablePK("mep_id");
         $tree->setTableNames("mep_tree", "mep_item");
 
         return $tree;
     }
 
-    public function getPoolTree(): ilTree
+    public function getPoolTree(): ilNestedSetTree
     {
         return self::_getPoolTree($this->getId());
     }
@@ -137,13 +137,13 @@ class ilObjMediaPool extends ilObject implements ilAdvancedMetaDataSubItems
     public function createMepTree(): void
     {
         // create media pool tree
-        $this->mep_tree = new ilTree($this->getId());
+        $this->mep_tree = new ilNestedSetTree($this->getId());
         $this->mep_tree->setTreeTablePK("mep_id");
         $this->mep_tree->setTableNames('mep_tree', 'mep_item');
         $this->mep_tree->addTree($this->getId(), 1);
     }
 
-    public function getTree(): ilTree
+    public function getTree(): ilNestedSetTree
     {
         return $this->mep_tree;
     }

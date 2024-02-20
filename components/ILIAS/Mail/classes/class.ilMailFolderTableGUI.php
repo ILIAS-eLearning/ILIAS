@@ -254,7 +254,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     final public function prepareHTML(): self
     {
-        $mtree = new ilTree($this->user->getId());
+        $mtree = new ilNestedSetTree($this->user->getId());
         $mtree->setTableNames('mail_tree', 'mail_obj_data');
         $this->_folderNode = $mtree->getNodeData($this->_currentFolderId);
 

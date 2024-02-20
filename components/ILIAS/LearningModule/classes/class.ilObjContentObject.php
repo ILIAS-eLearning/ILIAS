@@ -281,7 +281,7 @@ class ilObjContentObject extends ilObject
         $chap->setTitle($lng->txt("cont_new_chap"));
         $chap->setLMId($this->getId());
         $chap->create();
-        ilLMObject::putInTree($chap, $root_id, ilTree::POS_FIRST_NODE);
+        ilLMObject::putInTree($chap, $root_id, ilNestedSetTree::POS_FIRST_NODE);
 
         // page
         /** @var ilObjLearningModule $lm */
@@ -291,7 +291,7 @@ class ilObjContentObject extends ilObject
         $page->setTitle($lng->txt("cont_new_page"));
         $page->setLMId($this->getId());
         $page->create();
-        ilLMObject::putInTree($page, $chap->getId(), ilTree::POS_FIRST_NODE);
+        ilLMObject::putInTree($page, $chap->getId(), ilNestedSetTree::POS_FIRST_NODE);
     }
 
     /**
@@ -1030,7 +1030,7 @@ class ilObjContentObject extends ilObject
         int $cont_obj_id,
         int $page_id
     ): bool {
-        $lm_tree = new ilTree($cont_obj_id);
+        $lm_tree = new ilNestedSetTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
 
@@ -1056,7 +1056,7 @@ class ilObjContentObject extends ilObject
         int $cont_obj_id,
         int $page_id
     ): array {
-        $lm_tree = new ilTree($cont_obj_id);
+        $lm_tree = new ilNestedSetTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
 
@@ -1089,7 +1089,7 @@ class ilObjContentObject extends ilObject
         int $cont_obj_id,
         int $page_id
     ): int {
-        $lm_tree = new ilTree($cont_obj_id);
+        $lm_tree = new ilNestedSetTree($cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
 
@@ -1120,7 +1120,7 @@ class ilObjContentObject extends ilObject
         int $a_cont_obj_id,
         int $a_page_id
     ): bool {
-        $tree = new ilTree($a_cont_obj_id);
+        $tree = new ilNestedSetTree($a_cont_obj_id);
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
         if ($tree->isInTree($a_page_id)) {
@@ -1739,7 +1739,7 @@ class ilObjContentObject extends ilObject
         if ($source_id === $target_id) {
             return;
         }
-        $lmtree = new ilTree($this->getId());
+        $lmtree = new ilNestedSetTree($this->getId());
         $lmtree->setTableNames('lm_tree', 'lm_data');
         $lmtree->setTreeTablePK("lm_id");
         //echo "-".$source_id."-".$target_id."-".$first_child."-".$as_subitem."-";
@@ -1786,11 +1786,11 @@ class ilObjContentObject extends ilObject
                 // paste page
                 if (!$lmtree->isInTree($source_obj->getId())) {
                     if ($first_child) {			// as first child
-                        $target_pos = ilTree::POS_FIRST_NODE;
+                        $target_pos = ilNestedSetTree::POS_FIRST_NODE;
                         $parent = $target_id;
                     } elseif ($as_subitem) {		// as last child
                         $parent = $target_id;
-                        $target_pos = ilTree::POS_FIRST_NODE;
+                        $target_pos = ilNestedSetTree::POS_FIRST_NODE;
                         $pg_childs = $lmtree->getChildsByType($parent, "pg");
                         if (count($pg_childs) != 0) {
                             $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -1843,7 +1843,7 @@ class ilObjContentObject extends ilObject
             $target_pos = $target_id;
 
             if ($first_child) {		// as first subchapter
-                $target_pos = ilTree::POS_FIRST_NODE;
+                $target_pos = ilNestedSetTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
 
                 $pg_childs = $lmtree->getChildsByType($target_parent, "pg");
@@ -1852,7 +1852,7 @@ class ilObjContentObject extends ilObject
                 }
             } elseif ($as_subitem) {		// as last subchapter
                 $target_parent = $target_id;
-                $target_pos = ilTree::POS_FIRST_NODE;
+                $target_pos = ilNestedSetTree::POS_FIRST_NODE;
                 $childs = $lmtree->getChilds($target_parent);
                 if (count($childs) != 0) {
                     $target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -2033,7 +2033,7 @@ class ilObjContentObject extends ilObject
                 $a_target_obj,
                 $chap["child"],
                 $parent_id,
-                ilTree::POS_LAST_NODE,
+                ilNestedSetTree::POS_LAST_NODE,
                 (string) $time,
                 $copied_nodes,
                 true,

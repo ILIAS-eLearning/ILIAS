@@ -172,7 +172,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $ilCtrl->redirect($this, "showHierarchy");
         }
 
-        $todel = array();			// delete IDs < 0 (needed for non-js editing)
+        // delete IDs < 0 (needed for non-js editing)
+        $todel = array();
         foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
@@ -209,7 +210,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $ilCtrl->redirect($this, "showHierarchy");
         }
 
-        $todel = array();				// delete IDs < 0 (needed for non-js editing)
+        // delete IDs < 0 (needed for non-js editing)
+        $todel = array();
         foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
@@ -262,7 +264,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->ctrl->setParameter($this, "backcmd", "subchap");
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
-        $this->tpl->setVariable("CHECKBOX_TOP", ilTree::POS_FIRST_NODE);
+        $this->tpl->setVariable("CHECKBOX_TOP", ilNestedSetTree::POS_FIRST_NODE);
 
         $cnt = 0;
         $childs = $this->tree->getChilds($this->obj->getId());
@@ -363,8 +365,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         // chapters should be behind pages in the tree
         // so if target is first node, the target is substituted with
         // the last child of type pg
-        if ($target == ilTree::POS_FIRST_NODE) {
-            $tree = new ilTree($this->content_object->getId());
+        if ($target == ilNestedSetTree::POS_FIRST_NODE) {
+            $tree = new ilNestedSetTree($this->content_object->getId());
             $tree->setTableNames('lm_tree', 'lm_data');
             $tree->setTreeTablePK("lm_id");
 
@@ -379,7 +381,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         if ($target == "") {
-            $target = ilTree::POS_LAST_NODE;
+            $target = ilNestedSetTree::POS_LAST_NODE;
         }
 
         parent::putInTree($target);
@@ -611,21 +613,27 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 
-        if ($a_as_sub) {		// as subchapter
-            if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert under parent
+        if ($a_as_sub) {
+            // as subchapter
+            if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {
+                // insert under parent
                 $parent_id = $node_id;
                 $target = "";
-            } else {													// we shouldnt end up here
+            } else {
+                // we shouldnt end up here
                 $ilCtrl->redirect($this, "showHierarchy");
                 return;
             }
-        } else {				// as chapter
-            if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
+        } else {
+            // as chapter
+            if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {
+                // insert after node id
                 $parent_id = $this->tree->getParentId($node_id);
                 $target = $node_id;
-            } else {													// insert as first child
+            } else {
+                // insert as first child
                 $parent_id = $node_id;
-                $target = ilTree::POS_FIRST_NODE;
+                $target = ilNestedSetTree::POS_FIRST_NODE;
             }
         }
         for ($i = 1; $i <= $num; $i++) {
@@ -665,21 +673,27 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
-        if ($a_as_sub) {		// as subchapter
-            if (!$first_child) {	// insert under parent
+        if ($a_as_sub) {
+            // as subchapter
+            if (!$first_child) {
+                // insert under parent
                 $parent_id = $node_id;
                 $target = "";
-            } else {													// we shouldnt end up here
+            } else {
+                // we shouldnt end up here
                 $ilCtrl->redirect($this, "showHierarchy");
                 return;
             }
-        } else {	// as chapter
-            if (!$first_child) {	// insert after node id
+        } else {
+            // as chapter
+            if (!$first_child) {
+                // insert after node id
                 $parent_id = $this->tree->getParentId($node_id);
                 $target = $node_id;
-            } else {													// insert as first child
+            } else {
+                // insert as first child
                 $parent_id = $node_id;
-                $target = ilTree::POS_FIRST_NODE;
+                $target = ilNestedSetTree::POS_FIRST_NODE;
 
                 // do not move a chapter in front of a page
                 $childs = $this->tree->getChildsByType($parent_id, "pg");
@@ -737,7 +751,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
+            $target = ilNestedSetTree::POS_FIRST_NODE;
         }
 
         for ($i = 1; $i <= $num; $i++) {
@@ -766,12 +780,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
-        if (!$first_child) {	// insert after node id
+        if (!$first_child) {
+            // insert after node id
             $parent_id = $this->tree->getParentId($node_id);
             $target = $node_id;
-        } else {													// insert as first child
+        } else {
+            // insert as first child
             $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
+            $target = ilNestedSetTree::POS_FIRST_NODE;
         }
 
         // cut and paste

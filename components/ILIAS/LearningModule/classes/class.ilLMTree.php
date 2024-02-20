@@ -19,7 +19,7 @@
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLMTree extends ilTree
+class ilLMTree extends ilNestedSetTree
 {
     public static array $instances = [];
     protected ?array $complete_tree = null;

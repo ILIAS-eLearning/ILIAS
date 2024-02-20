@@ -1930,7 +1930,7 @@ class ilTrQuery
         );
 
         // repository
-        $tree = new ilTree(1);
+        $tree = new ilNestedSetTree(1);
         $sql = "SELECT " . $tree->getObjectDataTable(
         ) . ".obj_id," . $tree->getObjectDataTable() . ".type," .
             $tree->getTreeTable() . "." . $tree->getTreePk(

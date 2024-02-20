@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilSkillTree extends ilTree
+class ilSkillTree extends ilNestedSetTree
 {
     protected array $by_type_data = [];
 
