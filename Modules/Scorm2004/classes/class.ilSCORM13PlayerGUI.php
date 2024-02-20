@@ -462,6 +462,7 @@ class ilSCORM13PlayerGUI
             $this->tpl->setVariable($key, $value);
         }
         $this->tpl->setVariable('DOC_TITLE', 'ILIAS: ' . $this->slm->getTitle());
+	$this->tpl->setVariable("LOCATION_FAVICON", ilUtil::getImagePath("favicon.ico", ""));
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
         $this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
