@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilDBPdoReverse
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -217,8 +233,8 @@ class ilDBPdoReverse implements ilDBReverse
             $row = (array) $row;
             $row = array_change_key_case($row, CASE_LOWER);
             $key_name = $row['key_name'];
-            if ($this->db_instance->options['portability']) {
-                if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+            if ($this->db_instance->options['portability'] ?? false) {
+                if (($this->db_instance->options['field_case'] ?? null) == CASE_LOWER) {
                     $key_name = strtolower($key_name);
                 } else {
                     $key_name = strtolower($key_name);
@@ -229,14 +245,14 @@ class ilDBPdoReverse implements ilDBReverse
                 if ($row['non_unique']) {
                     throw new ilDatabaseException(' is not an existing table constraint');
                 }
-                if ($row['key_name'] == 'PRIMARY') {
+                if (($row['key_name'] ?? '') === 'PRIMARY') {
                     $definition['primary'] = true;
                 } else {
                     $definition['unique'] = true;
                 }
                 $column_name = $row['column_name'];
-                if ($this->db_instance->options['portability']) {
-                    if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+                if ($this->db_instance->options['portability'] ?? false) {
+                    if (($this->db_instance->options['field_case'] ?? null) == CASE_LOWER) {
                         $column_name = strtolower($column_name);
                     } else {
                         $column_name = strtoupper($column_name);

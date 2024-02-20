@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilDBPdoManager
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -377,8 +393,8 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $non_unique = 'Non_unique';
 
         $db = $this->getDBInstance();
-        if ($db->options['portability']) {
-            if ($db->options['field_case'] == CASE_LOWER) {
+        if ($db->options['portability'] ?? false) {
+            if (($db->options['field_case'] ?? null) == CASE_LOWER) {
                 $key_name = strtolower($key_name);
                 $non_unique = strtolower($non_unique);
             } else {
@@ -406,8 +422,8 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
 
-        if ($this->db_instance->options['portability']) {
-            $result = array_change_key_case($result, $this->db_instance->options['field_case']);
+        if ($this->db_instance->options['portability'] ?? false) {
+            $result = array_change_key_case($result, $this->db_instance->options['field_case'] ?? null);
         }
 
         return array_keys($result);
