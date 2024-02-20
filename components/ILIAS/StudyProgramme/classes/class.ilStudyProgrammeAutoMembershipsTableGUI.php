@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilStudyProgrammeAutoMembershipsTableGUI
@@ -49,6 +49,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('last_edited_by'), 'editor');
         $this->addColumn($this->lng->txt('last_edited'), 'last');
         $this->addColumn($this->lng->txt('status'), 'status');
+        $this->addColumn($this->lng->txt('search_for_orgu_members_recursive'), 'search_recursive');
         $this->addColumn($this->lng->txt('actions'), 'actions');
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoMembershipsGUI::CHECKBOX_SOURCE_IDS . '[]');
         $this->setEnableAllCommand(true);
@@ -63,12 +64,18 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $status = $ams->isEnabled() ? $this->lng->txt('active') : $this->lng->txt('inactive');
         $date = $this->getDatePresentation($ams->getLastEdited()->getTimestamp());
 
+        $search_recursive = $this->lng->txt("no");
+        if ($ams->isSearchRecursive()) {
+            $search_recursive = $this->lng->txt("yes");
+        }
+
         $this->tpl->setVariable("ID", $id);
         $this->tpl->setVariable("TYPE", $this->lng->txt($ams->getSourceType()));
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("EDITOR", $usr);
         $this->tpl->setVariable("LAST_EDITED", $date);
         $this->tpl->setVariable("STATUS", $status);
+        $this->tpl->setVariable("SEARCH_RECURSIVE", $search_recursive);
         $this->tpl->setVariable("ACTIONS", $actions);
     }
 

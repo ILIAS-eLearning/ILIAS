@@ -819,8 +819,8 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function nodeInserted($prg): void
     {
-        if (! $prg instanceof ilObjStudyProgrammeReference &&
-           ! $prg instanceof ilObjStudyProgramme
+        if (!$prg instanceof ilObjStudyProgrammeReference &&
+           !$prg instanceof ilObjStudyProgramme
         ) {
             throw new ilStudyProgrammeTreeException("Wrong type of node: " . get_class($prg));
         }
@@ -889,7 +889,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function canBeRemoved(): bool
     {
-        return ! $this->hasRelevantProgresses();
+        return !$this->hasRelevantProgresses();
     }
 
     /**
@@ -1339,7 +1339,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Store a source to be monitored for automatic memberships.
      */
-    public function storeAutomaticMembershipSource(string $type, int $src_id): void
+    public function storeAutomaticMembershipSource(string $type, int $src_id, bool $search_recursive): void
     {
         $ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
         $this->auto_memberships_repository->update($ams);
@@ -1364,7 +1364,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Disable a membership source.
      */
-    public function disableAutomaticMembershipSource(string $type, int $src_id): void
+    public function disableAutomaticMembershipSource(string $type, int $src_id, bool $search_recursive): void
     {
         $ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
         $this->auto_memberships_repository->update($ams);
@@ -1399,7 +1399,6 @@ class ilObjStudyProgramme extends ilContainer
         $source_reader = $this->membersourcereader_factory->getReaderFor($src_type, $src_id);
         return $source_reader->getMemberIds();
     }
-
 
     /**
      * Get all StudyProgrammes monitoring this membership-source.
