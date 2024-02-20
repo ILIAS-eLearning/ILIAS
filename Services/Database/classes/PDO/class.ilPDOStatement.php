@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilPDOStatement is a Wrapper Class for PDOStatement
@@ -88,7 +88,7 @@ class ilPDOStatement implements ilDBStatement
 
     public function fetchAssoc(): ?array
     {
-        return $this->fetch(ilDBConstants::FETCHMODE_ASSOC);
+        return $this->fetch(ilDBConstants::FETCHMODE_ASSOC) ?: null;
     }
 
 
@@ -98,9 +98,6 @@ class ilPDOStatement implements ilDBStatement
     }
 
 
-    /**
-     * @inheritdoc
-     */
     public function execute(array $a_data = null): ilDBStatement
     {
         $this->pdo_statement->execute($a_data);
