@@ -232,7 +232,7 @@ class FilterManager
                     break;
                 case "qpl":
                     foreach ($lobj_ids as $lid) {
-                        $status[$lid] = \ilObjQuestionPoolAccess::isOnline($lid);
+                        $status[$lid] = !\ilObjQuestionPoolAccess::_isOffline($lid);
                     }
                     break;
                 case "dcl":
