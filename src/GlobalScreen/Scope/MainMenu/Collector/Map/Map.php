@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
 use ArrayObject;
@@ -27,7 +28,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use Iterator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 
 /**
  * Class Map
@@ -44,18 +45,27 @@ class Map implements Filterable, Walkable
     private ArrayObject $filtered;
     private MainMenuItemFactory $factory;
 
-    /**
-     * Tree constructor.
-     */
+
     public function __construct(MainMenuItemFactory $factory)
     {
         $this->raw = new ArrayObject();
         $this->factory = $factory;
     }
 
-    private function getSorter(): Closure
+    private function getTitleSorter(): Closure
     {
-        return function (isItem $item_one, isItem $item_two): int {
+        return static function (isItem $item_one, isItem $item_two): int {
+            if (!$item_one instanceof hasTitle || !$item_two instanceof hasTitle) {
+                return 0;
+            }
+
+            return strnatcmp($item_one->getTitle(), $item_two->getTitle());
+        };
+    }
+
+    private function getPositionSorter(): Closure
+    {
+        return static function (isItem $item_one, isItem $item_two): int {
             return $item_one->getPosition() - $item_two->getPosition();
         };
     }
@@ -134,7 +144,6 @@ class Map implements Filterable, Walkable
         return $this->raw->count() > 0;
     }
 
-
     private function applyFilters(): void
     {
         if (!isset($this->filtered)) {
@@ -195,12 +204,13 @@ class Map implements Filterable, Walkable
     {
         $this->applyFilters();
 
-        $this->filtered->uasort($this->getSorter());
+        $this->filtered->uasort($this->getTitleSorter());
+        $this->filtered->uasort($this->getPositionSorter());
 
         $replace_children_sorted = function (isItem &$item) {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
-                uasort($children, $this->getSorter());
+                uasort($children, $this->getPositionSorter());
                 $item = $item->withChildren($children);
             }
         };
