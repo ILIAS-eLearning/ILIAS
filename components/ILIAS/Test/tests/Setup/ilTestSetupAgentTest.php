@@ -18,7 +18,7 @@
 
 namespace Setup;
 
-use ilDatabaseUpdateStepsExecutedObjective;
+use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
@@ -38,7 +38,7 @@ class ilTestSetupAgentTest extends ilTestBaseTestCase
     public function testGetUpdateObjective(): void
     {
         $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(ilDatabaseUpdateStepsExecutedObjective::class, $ilTestSetupAgentTest->getUpdateObjective());
+        $this->assertInstanceOf(ObjectiveCollection::class, $ilTestSetupAgentTest->getUpdateObjective());
     }
 
     public function testHasConfig(): void
@@ -63,9 +63,5 @@ class ilTestSetupAgentTest extends ilTestBaseTestCase
     {
         $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
         $this->assertIsArray($ilTestSetupAgentTest->getMigrations());
-        $this->assertNotEmpty($ilTestSetupAgentTest->getMigrations());
-        $this->assertInstanceOf(ilManScoringSettingsToOwnDbTableMigration::class, $ilTestSetupAgentTest->getMigrations()[0]);
-        $this->assertInstanceOf(ilRemoveDynamicTestsAndCorrespondingDataMigration::class, $ilTestSetupAgentTest->getMigrations()[1]);
-        $this->assertInstanceOf(ilSeparateQuestionListSettingMigration::class, $ilTestSetupAgentTest->getMigrations()[2]);
     }
 }

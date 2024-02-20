@@ -65,8 +65,8 @@ class AccessFileUploadAnswer implements SimpleAccess
         $this->references_of = Closure::fromCallable($references_of);
         $this->session = Closure::fromCallable($session);
         $checkResultsAccess = $checkResultsAccess ?? static function (int $reference, int $test_id, int $active_id): bool {
-            $access = new ilTestAccess($reference, $test_id);
-            return $access->checkResultsAccessForActiveId($active_id);
+            $access = new ilTestAccess($reference);
+            return $access->checkResultsAccessForActiveId($active_id, $test_id);
         };
         $this->checkResultsAccess = Closure::fromCallable($checkResultsAccess);
     }

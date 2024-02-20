@@ -25,6 +25,9 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
     public const TABLE_NAME = 'tst_tests';
     public const STORAGE_DATE_FORMAT = 'YmdHis';
 
+    private static array $instances_by_obj_fi = [];
+    private static array $instances_by_test_fi = [];
+
     protected ilDBInterface $db;
 
     public function __construct(ilDBInterface $db)
@@ -34,22 +37,33 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
 
     public function getForObjFi(int $obj_fi): ilObjTestMainSettings
     {
-        $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
-        return $this->doSelect($where_part);
+        if (!isset(self::$instances_by_obj_fi[$obj_fi])) {
+            $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
+            self::$instances_by_obj_fi[$obj_fi] = $this->doSelect($where_part);
+            $test_id = self::$instances_by_obj_fi[$obj_fi]->getTestId();
+            self::$instances_by_test_fi[$test_id] = self::$instances_by_obj_fi[$obj_fi];
+        }
+        return self::$instances_by_obj_fi[$obj_fi];
     }
 
     public function getFor(int $test_id): ilObjTestMainSettings
     {
-        $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
-        return $this->doSelect($where_part);
+        if (!isset(self::$instances[$test_id])) {
+            $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
+            self::$instances_by_test_fi[$test_id] = $this->doSelect($where_part);
+            $obj_id = self::$instances_by_test_fi[$test_id]->getObjId();
+            self::$instances_by_obj_fi[$obj_id] = self::$instances_by_test_fi[$test_id];
+        }
+        return self::$instances_by_test_fi[$test_id];
     }
 
     protected function doSelect(string $where_part): ilObjTestMainSettings
     {
         $query = 'SELECT ' . PHP_EOL
+            . 'test_id,' . PHP_EOL
+            . 'obj_fi,' . PHP_EOL
             . 'question_set_type,' . PHP_EOL
             . 'anonymity,' . PHP_EOL
-            . 'test_id,' . PHP_EOL
             . 'intro_enabled,' . PHP_EOL
             . 'hide_info_tab,' . PHP_EOL
             . 'conditions_checkbox_enabled,' . PHP_EOL
@@ -61,6 +75,8 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'ending_time,' . PHP_EOL
             . 'password_enabled,' . PHP_EOL
             . 'password,' . PHP_EOL
+            . 'ip_range_from,' . PHP_EOL
+            . 'ip_range_to,' . PHP_EOL
             . 'fixed_participants,' . PHP_EOL
             . 'nr_of_tries,' . PHP_EOL
             . 'block_after_passed,' . PHP_EOL
@@ -113,6 +129,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
 
         $settings = new ilObjTestMainSettings(
             $test_id,
+            (int) $row['obj_fi'],
             new ilObjTestSettingsGeneral(
                 $test_id,
                 $row['question_set_type'],
@@ -137,6 +154,8 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                     : null,
                 (bool) $row['password_enabled'],
                 $row['password'],
+                $row['ip_range_from'],
+                $row['ip_range_to'],
                 (bool) $row['fixed_participants'],
             ),
             new ilObjTestSettingsTestBehaviour(

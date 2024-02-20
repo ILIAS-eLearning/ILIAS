@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Access\ParticipantAccess;
+
 /**
  * Class ilObjTestListGUI
  *
@@ -32,6 +34,7 @@ declare(strict_types=1);
 class ilObjTestListGUI extends ilObjectListGUI
 {
     protected $command_link_params = [];
+    private ilTestAccess $test_access;
 
     /**
     * initialisation
@@ -67,6 +70,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         } catch (Exception $e) {
 
         }
+        $this->test_access = new ilTestAccess($ref_id);
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }
 
@@ -108,12 +112,17 @@ class ilObjTestListGUI extends ilObjectListGUI
     {
         $props = parent::getProperties();
 
-        // we cannot use ilObjTestAccess::_isOffline() because of text messages
-        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $this->user->getId());
-        if ($onlineaccess !== true) {
-            $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
-                "value" => $onlineaccess];
+        $participant_access = $this->test_access->isParticipantAllowed(
+            $this->obj_id,
+            $this->user->getId()
+        );
+
+        if ($participant_access === ParticipantAccess::ALLOWED) {
+            return $props;
         }
+
+        $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
+            "value" => $this->lng->txt($participant_access->value)];
 
         return $props;
     }

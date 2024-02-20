@@ -21,6 +21,7 @@ declare(strict_types=1);
 class ilObjTestMainSettings
 {
     protected int $test_id;
+    protected int $obj_id;
     protected ilObjTestSettingsIntroduction $settings_introduction;
     protected ilObjTestSettingsFinishing $settings_finishing;
     protected ilObjTestSettingsAccess $settings_access;
@@ -32,6 +33,7 @@ class ilObjTestMainSettings
 
     public function __construct(
         int $test_id,
+        int $obj_id,
         ilObjTestSettingsGeneral $settings_general,
         ilObjTestSettingsIntroduction $settings_introduction,
         ilObjTestSettingsAccess $settings_access,
@@ -42,6 +44,7 @@ class ilObjTestMainSettings
         ilObjTestSettingsAdditional $settings_additional
     ) {
         $this->test_id = $test_id;
+        $this->obj_id = $obj_id;
 
         foreach ([
             $settings_general,
@@ -81,7 +84,26 @@ class ilObjTestMainSettings
     {
         $clone = clone $this;
         $clone->test_id = $test_id;
+        $clone->settings_general = $clone->settings_general->withTestId($test_id);
         $clone->settings_introduction = $clone->settings_introduction->withTestId($test_id);
+        $clone->settings_access = $clone->settings_access->withTestId($test_id);
+        $clone->settings_test_behaviour = $clone->settings_test_behaviour->withTestId($test_id);
+        $clone->settings_question_behaviour = $clone->settings_question_behaviour->withTestId($test_id);
+        $clone->settings_participant_functionality = $clone->settings_participant_functionality->withTestId($test_id);
+        $clone->settings_finishing = $clone->settings_finishing->withTestId($test_id);
+        $clone->settings_additional = $clone->settings_additional->withTestId($test_id);
+        return $clone;
+    }
+
+    public function getObjId(): int
+    {
+        return $this->obj_id;
+    }
+
+    public function withObjId(int $obj_id): int
+    {
+        $clone = clone $this;
+        $clone->obj_id = $obj_id;
         return $clone;
     }
 

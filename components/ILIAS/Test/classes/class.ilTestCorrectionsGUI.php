@@ -58,7 +58,7 @@ class ilTestCorrectionsGUI
         protected ilObjTest $testOBJ,
         protected QuestionInfoService $questioninfo
     ) {
-        $this->testAccess = new ilTestAccess($testOBJ->getRefId(), $testOBJ->getTestId());
+        $this->testAccess = new ilTestAccess($testOBJ->getRefId());
     }
 
     public function executeCommand()
