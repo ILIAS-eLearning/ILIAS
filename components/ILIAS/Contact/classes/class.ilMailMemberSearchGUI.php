@@ -74,13 +74,13 @@ class ilMailMemberSearchGUI
 
     private function handleSearchMembersActions(): void
     {
-        $query = $this->http->wrapper()->query();
-
-        if (!$query->has('contact_search_members_action')) {
-            return;
-        }
-
-        $action = $query->retrieve('contact_search_members_action', $this->refinery->to()->string());
+        $action = $this->http->wrapper()->query()->retrieve(
+            'contact_search_members_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
 
         switch ($action) {
             case 'sendMailToSelectedUsers':
