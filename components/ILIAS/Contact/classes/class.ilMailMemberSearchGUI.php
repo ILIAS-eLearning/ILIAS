@@ -117,8 +117,8 @@ class ilMailMemberSearchGUI
                 break;
 
             default:
-                if (isset($this->httpRequest->getQueryParams()['returned_from_mail'])
-                    && $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
+                if (isset($this->httpRequest->getQueryParams()['returned_from_mail']) &&
+                    $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
                     $this->redirectToParentReferer();
                 }
                 $this->showSearchForm();
