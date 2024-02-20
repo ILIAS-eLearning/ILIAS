@@ -81,7 +81,14 @@ class ilObjTestMainSettings
     {
         $clone = clone $this;
         $clone->test_id = $test_id;
+        $clone->settings_general = $clone->settings_general->withTestId($test_id);
         $clone->settings_introduction = $clone->settings_introduction->withTestId($test_id);
+        $clone->settings_access = $clone->settings_access->withTestId($test_id);
+        $clone->settings_test_behaviour = $clone->settings_test_behaviour->withTestId($test_id);
+        $clone->settings_question_behaviour = $clone->settings_question_behaviour->withTestId($test_id);
+        $clone->settings_participant_functionality = $clone->settings_participant_functionality->withTestId($test_id);
+        $clone->settings_finishing = $clone->settings_finishing->withTestId($test_id);
+        $clone->settings_additional = $clone->settings_additional->withTestId($test_id);
         return $clone;
     }
 
