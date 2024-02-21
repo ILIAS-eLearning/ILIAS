@@ -1813,7 +1813,12 @@ class ilObjectGUI implements ImplementsCreationCallback
             ilObjectDefinition::MODE_REPOSITORY,
             $this->object->getRefId()
         );
-        return $subtypes;
+
+        return array_filter(
+            $subtypes,
+            fn($key) => $this->access->checkAccess('create_' . $key, '', $this->ref_id, $this->type),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     protected function buildAddNewItemElements(
