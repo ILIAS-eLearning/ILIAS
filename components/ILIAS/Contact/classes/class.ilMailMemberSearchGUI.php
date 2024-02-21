@@ -24,11 +24,6 @@ use ILIAS\Refinery\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\Services;
 
-/**
- * Class ilMailMemberSearchGUI
- * @author Nadia Matuschek <nmatuschek@databay.de>
- *
- **/
 class ilMailMemberSearchGUI
 {
     private readonly ServerRequestInterface $httpRequest;
@@ -45,7 +40,6 @@ class ilMailMemberSearchGUI
     private Factory $refinery;
 
     /**
-     * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
      * @param ilAbstractMailMemberRoles                    $objMailMemberRoles
      */
@@ -81,7 +75,6 @@ class ilMailMemberSearchGUI
                 $this->refinery->always('')
             ])
         );
-
         switch ($action) {
             case 'sendMailToSelectedUsers':
                 $this->sendMailToSelectedUsers();
@@ -142,8 +135,7 @@ class ilMailMemberSearchGUI
         if (isset($this->httpRequest->getServerParams()['HTTP_REFERER'])) {
             $referer = $this->httpRequest->getServerParams()['HTTP_REFERER'];
             $urlParts = parse_url($referer);
-
-            if (isset($urlParts['path'])) {
+            if (is_array($urlParts) && isset($urlParts['path'])) {
                 $url = ltrim(basename($urlParts['path']), '/');
                 if (isset($urlParts['query'])) {
                     $url .= '?' . $urlParts['query'];
