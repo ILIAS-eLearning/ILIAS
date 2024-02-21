@@ -700,7 +700,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $new_obj->setPermissions($this->qplrequest->getRefId());
 
         $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
-            $import_cmd,
+            'importVerifiedFile',
             $importdir,
             $qtifile
         );
