@@ -953,8 +953,9 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->lng->loadLanguageModule($this->requested_new_type);
         $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
 
-        $form = $this->initCreateForm($this->requested_new_type);
-        $data = $form->withRequest($this->request)->getData();
+        $form = $this->initCreateForm($this->requested_new_type)
+            ->withRequest($this->request);
+        $data = $form->getData();
         if ($data === null) {
             $this->tpl->setContent($this->getCreationFormsHTML($form));
             return;
