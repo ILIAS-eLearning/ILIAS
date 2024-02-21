@@ -1054,7 +1054,7 @@ class ilQTIParser extends ilSaxParser
                 $this->founditems[] = ["title" => "$title", "type" => "", "ident" => $a_attribs["ident"]];
                 break;
             case "response_lid":
-                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
+                if ($this->founditems[count($this->founditems) - 1]['type'] === '') {
                     // test for non ILIAS generated question types
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -1490,10 +1490,9 @@ class ilQTIParser extends ilSaxParser
                     );
                     if ($this->isIgnoreItemsEnabled()) {
                         $this->do_nothing = true;
-                    } elseif (count($this->import_idents) > 0) {
-                        if (!in_array($value, $this->import_idents)) {
-                            $this->do_nothing = true;
-                        }
+                    } elseif ($this->import_idents !== []
+                        && !in_array($value, $this->import_idents)) {
+                        $this->do_nothing = true;
                     }
                     break;
                 case "title":

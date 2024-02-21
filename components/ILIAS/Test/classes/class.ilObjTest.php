@@ -23,7 +23,8 @@ use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\MainSettingsRepository;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 /**
  * Class ilObjTest
@@ -37,7 +38,7 @@ use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
  */
 class ilObjTest extends ilObject implements ilMarkSchemaAware
 {
-    use BuildImportDirectoriesTrait;
+    use TestQuestionsImportTrait;
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
     public const INVITATION_OFF = 0;

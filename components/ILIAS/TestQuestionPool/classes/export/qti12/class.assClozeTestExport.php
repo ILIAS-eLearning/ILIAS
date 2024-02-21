@@ -16,7 +16,7 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for cloze question exports

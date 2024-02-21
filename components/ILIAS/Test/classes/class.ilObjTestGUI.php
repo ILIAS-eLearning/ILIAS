@@ -29,7 +29,7 @@ use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 /**
  * Class ilObjTestGUI
@@ -74,7 +74,7 @@ use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
-    use BuildImportDirectoriesTrait;
+    use TestQuestionsImportTrait;
     private static $infoScreenChildClasses = [
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     ];
@@ -1211,99 +1211,34 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        ilSession::set('path_to_import_file', $file_to_import);
-        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
-
         if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED) {
             $this->importVerifiedFileObject();
             return;
         }
 
-        $import_verification_tpl = new ilTemplate('tpl.tst_import_verification.html', true, true, 'components/ILIAS/Test');
+        ilSession::set('path_to_import_file', $file_to_import);
+        ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
 
-        $import_verification_tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-        $import_verification_tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
-        $import_verification_tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
-        $import_verification_tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
-        $import_verification_tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $import_verification_tpl->setVariable("ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
-        $import_verification_tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
-        $import_verification_tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+        $form = $this->buildImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile,
+            $file_to_import,
+            $path_to_uploaded_file_in_temp_dir
+        );
 
-        $row_class = ["tblrow1", "tblrow2"];
-        $counter = 0;
-        foreach ($founditems as $item) {
-            $import_verification_tpl->setCurrentBlock("verification_row");
-            $import_verification_tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
-            $import_verification_tpl->setVariable("QUESTION_TITLE", $item["title"]);
-            $import_verification_tpl->setVariable("QUESTION_IDENT", $item["ident"]);
-
-            switch ($item["type"]) {
-                case QuestionIdentifiers::MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MULTIPLE_CHOICE_MR:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
-                    break;
-                case QuestionIdentifiers::SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MULTIPLE_CHOICE_SR:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
-                    break;
-                case QuestionIdentifiers::KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_KPRIM_CHOICE:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
-                    break;
-                case QuestionIdentifiers::LONG_MENU_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_LONG_MENU:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
-                    break;
-                case QuestionIdentifiers::NUMERIC_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_NUMERIC:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
-                    break;
-                case QuestionIdentifiers::FORMULA_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_FORMULA:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
-                    break;
-                case QuestionIdentifiers::TEXTSUBSET_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_TEXTSUBSET:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
-                    break;
-                case QuestionIdentifiers::CLOZE_TEST_IDENTIFIER:
-                case ilQTIItem::QT_CLOZE:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
-                    break;
-                case QuestionIdentifiers::ERROR_TEXT_IDENTIFIER:
-                case ilQTIItem::QT_ERRORTEXT:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
-                    break;
-                case QuestionIdentifiers::IMAGEMAP_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_IMAGEMAP:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
-                    break;
-                case QuestionIdentifiers::MATCHING_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_MATCHING:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
-                    break;
-                case QuestionIdentifiers::ORDERING_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_ORDERING:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
-                    break;
-                case QuestionIdentifiers::ORDERING_HORIZONTAL_IDENTIFIER:
-                case ilQTIItem::QT_ORDERING_HORIZONTAL:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
-                    break;
-                case QuestionIdentifiers::TEXT_QUESTION_IDENTIFIER:
-                case ilQTIItem::QT_TEXT:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
-                    break;
-                case QuestionIdentifiers::FILE_UPLOAD_IDENTIFIER:
-                case ilQTIItem::QT_FILEUPLOAD:
-                    $import_verification_tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
-                    break;
-            }
-            $import_verification_tpl->parseCurrentBlock();
+        if ($form === null) {
+            return;
         }
 
-        $this->tpl->setContent($import_verification_tpl->get());
+        $panel = $this->ui_factory->panel()->standard(
+            $this->lng->txt('import_tst'),
+            [
+                $this->ui_factory->legacy($this->lng->txt('qpl_import_verify_found_questions')),
+                $form
+            ]
+        );
+        $this->tpl->setContent($this->ui_renderer->render($panel));
         $this->tpl->printToStdout();
         exit;
     }
@@ -1370,6 +1305,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function importVerifiedFileObject()
     {
         $file_to_import = ilSession::get('path_to_import_file');
+        $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
 
         $new_obj = new ilObjTest(0, true);
@@ -1381,12 +1317,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $new_obj->setPermissions($this->testrequest->getRefId());
         $new_obj->resetMarkSchema();
 
-        $idents = $this->testrequest->raw('ident') ?? [];
+        $selected_questions = $this->retrieveSelectedQuestionsFromImportQuestionsSelectionForm(
+            'importVerifiedFile',
+            $importdir,
+            $qtifile
+        );
 
         if (is_file($importdir . DIRECTORY_SEPARATOR . "/manifest.xml")) {
             $new_obj->saveToDb();
 
-            ilSession::set('tst_import_idents', $idents);
+            ilSession::set('tst_import_selected_questions', $selected_questions);
             ilSession::set('tst_import_qst_parent', $new_obj->getId());
 
             $imp = new ilImport($this->testrequest->getRefId());
@@ -1399,7 +1339,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $qtifile,
                 ilQTIParser::IL_MO_PARSE_QTI,
                 $new_obj->getId(),
-                $idents
+                $selected_questions
             );
             if ($idents === '') {
                 $qtiParser->setIgnoreItemsEnabled(true);
@@ -1434,7 +1374,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         // delete import directory
         ilFileUtils::delDir($importdir);
-        $this->deleteUploadedImportFile(ilSession::get('path_to_uploaded_file_in_temp_dir'));
+        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
         ilSession::clear('path_to_import_file');
         ilSession::clear('path_to_uploaded_file_in_temp_dir');
 
