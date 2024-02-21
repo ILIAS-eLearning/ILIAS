@@ -135,7 +135,12 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
             $this->object->getRefId()
         );
         unset($subtypes[ilObjEmployeeTalkSeries::TYPE]);
-        return $subtypes;
+
+        return array_filter(
+            $subtypes,
+            fn($key) => $this->access->checkAccess('create_' . $key, '', $this->ref_id, $this->type),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     public function viewObject(): void
