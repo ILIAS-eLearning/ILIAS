@@ -121,6 +121,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $data->getDescription()
         );
 
+        $list_item = $list_item->withProperties($list_item->getProperties() + $data->getAdditionalData());
+
         return $list_item;
     }
 
@@ -208,7 +210,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->addCommandActions();
         $this->setData($this->getItemGroups());
 
-        return parent::getHTML();
+        return parent::getHTMLNew();
     }
 
     /**
