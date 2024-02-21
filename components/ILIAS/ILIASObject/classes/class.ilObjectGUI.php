@@ -35,6 +35,7 @@ use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Class ilObjectGUI
@@ -65,7 +66,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     public const CFORM_NEW = 1;
     public const CFORM_IMPORT = 2;
     public const CFORM_CLONE = 3;
-    public const SUPPORTED_IMPORT_MIME_TYPES = [\ILIAS\FileUpload\MimeType::APPLICATION__ZIP];
+    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP];
     protected \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
@@ -687,11 +688,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
     protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI
     {
-        $object = $this->getObject();
-        if ($object === null) {
-            $object = new ilObject();
-        }
-        $form_fields['title_and_description'] = $object->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+        $form_fields['title_and_description'] = (new ilObject())->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
             $this->lng,
             $this->ui_factory->input()->field(),
             $this->refinery
