@@ -939,7 +939,7 @@ abstract class ilParticipants
                 $ilDB->quote($a_usr_id, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE blocked = VALUES(blocked)";
         }
         $res = $ilDB->manipulate($query);
         return true;
@@ -1021,7 +1021,7 @@ abstract class ilParticipants
                 $ilDB->quote($a_usr_id, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') . ", " .
                 $ilDB->quote(0, 'integer') .
-                ")";
+                ") ON DUPLICATE KEY UPDATE notification = VALUES(notification)";
         }
         $res = $ilDB->manipulate($query);
         return true;
