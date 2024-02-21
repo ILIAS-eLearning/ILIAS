@@ -54,6 +54,18 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
                 continue;
             }
 
+            $properties = [
+                $this->lng->txt('prg_dash_label_minimum') => $row->getPointsRequired(),
+                $this->lng->txt('prg_dash_label_gain') => $row->getPointsCurrent(),
+                $this->lng->txt('prg_dash_label_status') => $row->getStatus(),
+            ];
+
+            if ($row->getStatusRaw() === ilPRGProgress::STATUS_ACCREDITED || $row->getStatusRaw() === ilPRGProgress::STATUS_COMPLETED) {
+                $properties[$this->lng->txt('prg_dash_label_valid')] = $row->getExpiryDate() ?: $row->getValidity();
+            } else {
+                $properties[$this->lng->txt('prg_dash_label_finish_until')] = $row->getDeadline();
+            }
+
             $items[] = new BlockDTO(
                 $prg->getType(),
                 $prg->getRefId(),
@@ -62,6 +74,7 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
                 $prg->getDescription(),
                 null,
                 null,
+                $properties
             );
         }
 
