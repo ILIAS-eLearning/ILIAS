@@ -232,7 +232,7 @@ class ilWACSignedPath
     public static function signFolderOfStartFile(string $start_file_path): void
     {
         global $DIC;
-        $obj = new self(new ilWACPath($start_file_path), $DIC->http(), new CookieFactoryImpl());
+        $obj = new self(new ilWACPath($start_file_path, false), $DIC->http(), new CookieFactoryImpl());
         $obj->setType(PathType::FOLDER);
         $obj->buildAndSetTokenInstance(time(), self::getCookieMaxLifetimeInSeconds());
         $obj->saveFolderToken();
