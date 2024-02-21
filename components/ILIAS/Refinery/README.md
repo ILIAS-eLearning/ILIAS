@@ -187,6 +187,11 @@ transformation to create structures like `list`, `dictonary`,
                  parameters on the objects.
 * `data()`     - Returns a data factory to create a certain data type
 
+###### Other
+
+* `inArray()` - Returns an object that validates that a value is a member of the given array.
+                 E.g.: `$t = $refinery->to()->memberOf(['red', 'green', 'blue']); $t->transform('blue'); /* => 'blue' */ $t->transform('yellow'); /* => Exception */`
+
 ##### in
 
 The `in` group is a group with a dict of `Transformations`
@@ -352,7 +357,7 @@ Just the `applyTo` method needs to be created in the new transformation class.
 
 ##### Error Handling
 
-Exceptions thrown inside the `applyTo` method will be
+Exceptions thrown inside the `applyTo` method will
 **not be** caught.
 On return of an [error result object (`Result\Error`)](/src/Data/README.md#result)
 the `transform` method will throw an exception.
@@ -361,6 +366,15 @@ the `transform` method will throw an exception.
   thrown.
 * If the content of the error object is an string this string will be added
   to a an `Exception` which will be thrown.
+
+#### DeriveTransformWithProblem
+
+This trait is used to simplify the creation of new constraints and reduce duplicated code.
+For a constraint only the methods `accepts($value): bool` and `getError()` must be implemented.
+
+#### Other Transformations
+
+* `$refinery->executable()` Returns an object that validates that a given path designates an executable OS path.
 
 ## Libraries
 

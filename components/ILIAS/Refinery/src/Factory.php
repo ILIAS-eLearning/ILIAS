@@ -44,7 +44,7 @@ class Factory
      */
     public function to(): To\Group
     {
-        return new To\Group($this->dataFactory);
+        return new To\Group($this->dataFactory, $this->language);
     }
 
     /**
@@ -77,7 +77,7 @@ class Factory
      */
     public function int(): Integer\Group
     {
-        return new Integer\Group($this->dataFactory, $this->language);
+        return new Integer\Group($this->dataFactory, $this->language, $this->in());
     }
 
     /**
@@ -174,5 +174,10 @@ class Factory
     public function always($value): Transformation
     {
         return new ConstantTransformation($value);
+    }
+
+    public function executable(): Transformation
+    {
+        return new IsExecutableTransformation($this->language);
     }
 }

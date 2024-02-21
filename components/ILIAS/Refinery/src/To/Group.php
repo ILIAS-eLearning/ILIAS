@@ -31,17 +31,18 @@ use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
+use ILIAS\Refinery\To\DefaultToNull\Group as DefaultToNull;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Factory;
 use InvalidArgumentException;
+use ILIAS\Language\Language;
 
 class Group
 {
-    private Factory $dataFactory;
-
-    public function __construct(Factory $dataFactory)
-    {
-        $this->dataFactory = $dataFactory;
+    public function __construct(
+        private readonly Factory $dataFactory,
+        private readonly Language $language
+    ) {
     }
 
     /**
@@ -178,5 +179,17 @@ class Group
     public function dateTime(): Transformation
     {
         return new DateTimeTransformation();
+    }
+
+    /**
+     * Validates that the value to be transformed is in the set given to this transformation.
+     * There is no constraint on the type of the elements in the set.
+     *
+     * @template list<A>
+     * @return Transformation<A, A>
+     */
+    public function inArray(array $valid_members): Transformation
+    {
+        return new InArrayTransformation($valid_members, $this->language);
     }
 }

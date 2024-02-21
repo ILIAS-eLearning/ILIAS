@@ -30,9 +30,6 @@ trait ProblemBuilder
      */
     abstract protected function getError();
 
-    /**
-     * @inheritDoc
-     */
     final public function withProblemBuilder(callable $builder): self
     {
         $clone = clone $this;
@@ -40,11 +37,6 @@ trait ProblemBuilder
         return $clone;
     }
 
-    /**
-     * Get the problem message
-     * @param mixed $value
-     * @return string
-     */
     final public function getErrorMessage($value): string
     {
         $error = $this->getError();
@@ -52,42 +44,31 @@ trait ProblemBuilder
             return $error;
         }
         $lng_closure = $this->getLngClosure();
-        return call_user_func($this->error, $lng_closure, $value);
+        return $error($lng_closure, $value);
     }
 
     /**
      * Get the closure to be passed to the error-function that does i18n and sprintf.
-     * @return Closure
      */
     final protected function getLngClosure(): Closure
     {
-        return function () {
-            $args = func_get_args();
-            if (count($args) < 1) {
-                throw new InvalidArgumentException(
-                    "Expected an id of a lang var as first parameter"
-                );
+        return function (string $lang_var, ...$args): string {
+            $error = $this->lng->txt($lang_var);
+
+            if ($args === []) {
+                return $error;
             }
 
-            $error = $this->lng->txt($args[0]);
-            if (count($args) > 1) {
-                $args[0] = $error;
-                for ($i = 0, $numArgs = count($args); $i < $numArgs; $i++) {
-                    $v = $args[$i];
-                    if (is_array($v) || is_null($v) || (is_object($v) && !method_exists($v, "__toString"))) {
-                        if (is_array($v)) {
-                            $args[$i] = "array";
-                        } elseif (is_null($v)) {
-                            $args[$i] = "null";
-                        } else {
-                            $args[$i] = get_class($v);
-                        }
-                    }
+            return sprintf($error, ...array_map(function ($v) {
+                if (is_array($v)) {
+                    return "array";
+                } elseif (is_null($v)) {
+                    return "null";
+                } elseif (is_object($v) && !method_exists($v, "__toString")) {
+                    return get_class($v);
                 }
-                $error = sprintf(...$args);
-            }
-
-            return $error;
+                return $v;
+            }, $args));
         };
     }
 }
