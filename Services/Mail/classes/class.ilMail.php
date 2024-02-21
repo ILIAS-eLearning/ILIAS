@@ -687,7 +687,7 @@ class ilMail
             }
 
             $can_read_internal = $recipient->evaluateInternalMailReadability();
-            if (!$this->isSystemMail() && !$can_read_internal->isOk()) {
+            if ($this->isSystemMail() && !$can_read_internal->isOk()) {
                 $this->logger->debug(sprintf(
                     'Skipped recipient with id %s and reason: %s',
                     $recipient->getUserId(),
