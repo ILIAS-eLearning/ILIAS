@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 /**
  * Importer class for files
@@ -29,7 +29,7 @@ use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
  */
 class ilTestImporter extends ilXmlImporter
 {
-    use BuildImportDirectoriesTrait;
+    use TestQuestionsImportTrait;
     /**
      * @var array
      */
@@ -93,24 +93,31 @@ class ilTestImporter extends ilXmlImporter
         // this method from ilObjTestGUI and ilTestImporter
         $new_obj->getMarkSchema()->flush();
 
-        $idents = ilSession::get('tst_import_idents');
+        $selected_questions = ilSession::get('tst_import_selected_questions');
+        ilSession::clear('tst_import_selected_questions');
 
         // start parsing of QTI files
-        $qtiParser = new ilQTIParser($importdir, $qtifile, ilQTIParser::IL_MO_PARSE_QTI, $question_parent_obj_id, $idents);
-        $qtiParser->setTestObject($new_obj);
-        $qtiParser->startParsing();
-        $new_obj = $qtiParser->getTestObject();
+        $qti_parser = new ilQTIParser(
+            $importdir,
+            $qtifile,
+            ilQTIParser::IL_MO_PARSE_QTI,
+            $question_parent_obj_id,
+            $selected_questions
+        );
+        $qti_parser->setTestObject($new_obj);
+        $qti_parser->startParsing();
+        $new_obj = $qti_parser->getTestObject();
 
         // import page data
-        $questionPageParser = new ilQuestionPageParser(
+        $question_page_parser = new ilQuestionPageParser(
             $new_obj,
             $xmlfile,
             $importdir
         );
-        $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-        $questionPageParser->startParsing();
+        $question_page_parser->setQuestionMapping($qti_parser->getImportMapping());
+        $question_page_parser->startParsing();
 
-        foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
+        foreach ($qti_parser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
             $a_mapping->addMapping(
                 "components/ILIAS/Taxonomy",
                 "tax_item",

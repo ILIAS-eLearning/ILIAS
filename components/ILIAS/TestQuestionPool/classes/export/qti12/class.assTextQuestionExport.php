@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for essay question exports

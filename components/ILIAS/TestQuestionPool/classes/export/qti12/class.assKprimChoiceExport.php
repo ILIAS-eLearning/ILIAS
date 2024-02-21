@@ -15,7 +15,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>

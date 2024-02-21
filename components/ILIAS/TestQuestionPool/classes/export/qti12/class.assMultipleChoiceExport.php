@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for multiple choice question exports
