@@ -425,11 +425,14 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function showPossibleSubObjects(): void
     {
+        $subtypes = $this->getCreatableObjectTypes();
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
-            $this->buildAddNewItemElements(
-                $this->getCreatableObjectTypes(),
-                self::class
-            )
+            [$this->buildGroup(
+                self::class,
+                array_keys($subtypes),
+                $this->lng->txt('other'),
+                $subtypes
+            )]
         );
         $gui->render();
     }
