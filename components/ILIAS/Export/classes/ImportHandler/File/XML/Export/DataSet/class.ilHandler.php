@@ -79,11 +79,6 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
     public function buildValidationSets(): ilImportStatusCollectionInterface
     {
         $statuses = $this->status->collection();
-        $xml = $this->withAdditionalNamespace(
-            $this->namespace->handler()
-                ->withNamespace(\ilDataSet::DATASET_NS)
-                ->withPrefix(\ilDataSet::DATASET_NS_PREFIX)
-        );
         try {
             $sets = $this->set->collection();
             $path_to_export_node = $this->path->handler()
@@ -103,7 +98,7 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
             if (!is_null($structure_xsd)) {
                 $sets = $sets->withElement(
                     $this->set->handler()
-                        ->withXMLFileHandler($xml)
+                        ->withXMLFileHandler($this)
                         ->withXSDFileHanlder($structure_xsd)
                         ->withFilePathHandler($path_to_export_node)
                 );
@@ -117,7 +112,7 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
             }
             // Content validation set
             $node_info = null;
-            $node_info = $this->parser->DOM()->withFileHandler($xml)
+            $node_info = $this->parser->DOM()->withFileHandler($this)
                 ->getNodeInfoAt($path_to_export_node)
                 ->current();
             $type_str = $node_info->getValueOfAttribute('Entity');
@@ -126,7 +121,7 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
                 : [$type_str, ''];
             $version_str = $node_info->getValueOfAttribute('SchemaVersion');
             $version = new Version($version_str);
-            $nodes = $this->parser->DOM()->withFileHandler($xml)
+            $nodes = $this->parser->DOM()->withFileHandler($this)
                 ->getNodeInfoAt($path_to_dataset_child_nodes);
 
             for ($i = 0; $i < $nodes->count(); $i++) {
@@ -157,7 +152,7 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
                     ->withNode($this->path->node()->index()->withIndex($i + 1));
                 $sets = $sets->withElement(
                     $this->set->handler()
-                        ->withXMLFileHandler($xml)
+                        ->withXMLFileHandler($this)
                         ->withXSDFileHanlder($xsd_handler)
                         ->withFilePathHandler($path_to_rec)
                 );
