@@ -240,7 +240,12 @@ class ilChatroomSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilChatroomMetricsCollectedObjective($storage);
+        return new Setup\ObjectiveCollection(
+            'Component Chatroom',
+            true,
+            new ilChatroomMetricsCollectedObjective($storage),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new UpdateSteps())
+        );
     }
 
     public function getMigrations(): array

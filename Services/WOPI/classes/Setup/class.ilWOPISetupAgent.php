@@ -56,7 +56,7 @@ class ilWOPISetupAgent implements Agent
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new Objective\NullObjective();
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilWOPIDB90());
     }
 
     public function getMigrations(): array

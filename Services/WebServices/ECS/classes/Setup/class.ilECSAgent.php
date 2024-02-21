@@ -26,6 +26,11 @@ class ilECSAgent extends Setup\Agent\NullAgent
 
     public function getStatusObjective(\ILIAS\Setup\Metrics\Storage $storage): \ILIAS\Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Component WebServices',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSDBUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilECSUpdateSteps8())
+        );
     }
 }
