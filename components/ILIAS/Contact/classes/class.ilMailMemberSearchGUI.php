@@ -19,12 +19,16 @@
 declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Contact\MemberSearch\MailMemberSearchTable;
+use ILIAS\Refinery\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilMailMemberSearchGUI
  * @author Nadia Matuschek <nmatuschek@databay.de>
  *
-**/
+ **/
 class ilMailMemberSearchGUI
 {
     private readonly ServerRequestInterface $httpRequest;
@@ -35,14 +39,21 @@ class ilMailMemberSearchGUI
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
     private readonly ilAccessHandler $access;
+    private \ILIAS\UI\Factory $ui_factory;
+    private Services $http;
+    private Renderer $ui_renderer;
+    private Factory $refinery;
 
     /**
      * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
-     * @param ilAbstractMailMemberRoles $objMailMemberRoles
+     * @param ilAbstractMailMemberRoles                    $objMailMemberRoles
      */
-    public function __construct(private readonly object $gui, public int $ref_id, private readonly ilAbstractMailMemberRoles $objMailMemberRoles)
-    {
+    public function __construct(
+        private readonly object $gui,
+        public int $ref_id,
+        private readonly ilAbstractMailMemberRoles $objMailMemberRoles
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
@@ -51,11 +62,36 @@ class ilMailMemberSearchGUI
         $this->access = $DIC['ilAccess'];
         $this->httpRequest = $DIC->http()->request();
 
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
         $this->mail_roles = $objMailMemberRoles->getMailRoles($ref_id);
     }
 
+    private function handleSearchMembersActions(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            'contact_search_members_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+
+        switch ($action) {
+            case 'sendMailToSelectedUsers':
+                $this->sendMailToSelectedUsers();
+                break;
+
+            default:
+                $this->ctrl->redirect($this, 'showSelectableUsers');
+                break;
+        }
+    }
 
     public function executeCommand(): bool
     {
@@ -64,8 +100,8 @@ class ilMailMemberSearchGUI
         $this->ctrl->setReturn($this, '');
 
         switch ($cmd) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
+            case 'handleSearchMembersActions':
+                $this->handleSearchMembersActions();
                 break;
 
             case 'showSelectableUsers':
@@ -81,7 +117,8 @@ class ilMailMemberSearchGUI
                 break;
 
             default:
-                if (isset($this->httpRequest->getQueryParams()['returned_from_mail']) && $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
+                if (isset($this->httpRequest->getQueryParams()['returned_from_mail']) &&
+                    $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
                     $this->redirectToParentReferer();
                 }
                 $this->showSearchForm();
@@ -145,17 +182,19 @@ class ilMailMemberSearchGUI
 
                     ilSession::set('mail_roles', $role_mail_boxes);
 
-                    $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
-                        $this,
-                        'showSearchForm',
-                        ['type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE],
-                        [
-                            'type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE,
-                            'rcp_to' => implode(',', $role_mail_boxes),
-                            'sig' => $this->gui->createMailSignature()
-                        ],
-                        $this->generateContextArray()
-                    ));
+                    $this->ctrl->redirectToURL(
+                        ilMailFormCall::getRedirectTarget(
+                            $this,
+                            'showSearchForm',
+                            ['type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE],
+                            [
+                                'type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE,
+                                'rcp_to' => implode(',', $role_mail_boxes),
+                                'sig' => $this->gui->createMailSignature()
+                            ],
+                            $this->generateContextArray()
+                        )
+                    );
                 } else {
                     $form->setValuesByPost();
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
@@ -214,24 +253,24 @@ class ilMailMemberSearchGUI
     protected function showSelectableUsers(): void
     {
         $this->tpl->loadStandardTemplate();
-        $tbl = new ilMailMemberSearchTableGUI($this, 'showSelectableUsers');
         $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
-        $tbl->setData($provider->getData());
+        $tbl = new MailMemberSearchTable($provider, $this->ctrl, $this->lng, $this->ui_factory, $this->http);
 
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }
-
 
     protected function sendMailToSelectedUsers(): void
     {
-        if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || [] === $this->httpRequest->getParsedBody()['user_ids']) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
-            $this->showSelectableUsers();
-            return;
-        }
+        $selected_user_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_search_members_user_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         $rcps = [];
-        foreach ($this->httpRequest->getParsedBody()['user_ids'] as $usr_id) {
+        foreach ($selected_user_ids as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin((int) $usr_id);
         }
 
@@ -243,16 +282,18 @@ class ilMailMemberSearchGUI
 
         ilMailFormCall::setRecipients($rcps);
 
-        $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
-            $this,
-            'members',
-            [],
-            [
-                'type' => ilMailFormGUI::MAIL_FORM_TYPE_NEW,
-                'sig' => $this->gui->createMailSignature(),
-            ],
-            $this->generateContextArray()
-        ));
+        $this->ctrl->redirectToURL(
+            ilMailFormCall::getRedirectTarget(
+                $this,
+                'members',
+                [],
+                [
+                    'type' => ilMailFormGUI::MAIL_FORM_TYPE_NEW,
+                    'sig' => $this->gui->createMailSignature(),
+                ],
+                $this->generateContextArray()
+            )
+        );
     }
 
     protected function showSearchForm(): void
@@ -263,7 +304,6 @@ class ilMailMemberSearchGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     protected function getObjParticipants(): ?ilParticipants
     {
         return $this->objParticipants;
@@ -273,7 +313,6 @@ class ilMailMemberSearchGUI
     {
         $this->objParticipants = $objParticipants;
     }
-
 
     protected function initMailToMembersForm(): ilPropertyFormGUI
     {
@@ -300,7 +339,6 @@ class ilMailMemberSearchGUI
     {
         return $this->mail_roles;
     }
-
 
     protected function getMailRadioGroup(): ilRadioGroupInputGUI
     {
