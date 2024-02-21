@@ -96,7 +96,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
     private MultiObjectPropertiesManipulator $multi_object_manipulator;
-    private Filesystem $temp_file_system;
+    protected Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
     protected bool $creation_mode = false;
