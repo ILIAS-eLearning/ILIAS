@@ -16,7 +16,7 @@
  *********************************************************************/
 
 use ILIAS\TA\Questions\assQuestionSuggestedSolution;
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for question exports

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 /**
  * Importer class for question pools
@@ -30,7 +30,7 @@ use ILIAS\TestQuestionPool\Import\BuildImportDirectoriesTrait;
 
 class ilTestQuestionPoolImporter extends ilXmlImporter
 {
-    use BuildImportDirectoriesTrait;
+    use TestQuestionsImportTrait;
     /**
      * @var ilObjQuestionPool
      */
@@ -88,15 +88,15 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xmlfile . ", qti file:" . $qtifile);
 
-        $idents = ilSession::get('qpl_import_idents');
-        ilSession::clear('qpl_import_idents');
+        $selected_questions = ilSession::get('qpl_import_selected_questions');
+        ilSession::clear('qpl_import_selected_questions');
 
         $qtiParser = new ilQTIParser(
             $importdir,
             $qtifile,
             ilQTIParser::IL_MO_PARSE_QTI,
             $new_obj->getId(),
-            $idents
+            $selected_questions
         );
         $qtiParser->startParsing();
 

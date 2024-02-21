@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\QuestionIdentifiers;
+use ILIAS\TestQuestionPool\Questions\QuestionIdentifiers;
 
 /**
 * Class for matching question exports
