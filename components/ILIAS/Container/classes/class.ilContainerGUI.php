@@ -427,7 +427,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // we will create nested forms in case, e.g. a news/calendar item is added
         if ($is_container_cmd) {
             $this->showAdministrationPanel();
-            $this->showPossibleSubObjects();
+            if (!$this->edit_order) {
+                $this->showPossibleSubObjects();
+            }
 
             if (is_object($this->object) &&
                 $user->getId() !== ANONYMOUS_USER_ID &&

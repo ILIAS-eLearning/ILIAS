@@ -321,7 +321,6 @@ class ilObjectAddNewItemGUI
         } elseif (!$this->parseRepository()) {
             return;
         }
-
         $adv = new ilAdvancedSelectionListGUI();
         $adv->setPullRight(false);
         $adv->setListTitle($this->lng->txt("cntr_add_new_item"));
