@@ -48,6 +48,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $this->type = 'tala';
 
         $language->loadLanguageModule("tala");
+        $language->loadLanguageModule('etal');
     }
 
     protected function supportsPageEditor(): bool
@@ -118,11 +119,14 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     protected function showPossibleSubObjects(): void
     {
+        $subtypes = $this->getCreatableObjectTypes();
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
-            $this->buildAddNewItemElements(
-                $this->getCreatableObjectTypes(),
-                ilObjTalkTemplateGUI::class
-            )
+            [$this->buildGroup(
+                self::class,
+                array_keys($subtypes),
+                $this->lng->txt('other'),
+                $subtypes
+            )]
         );
         $gui->render();
     }
