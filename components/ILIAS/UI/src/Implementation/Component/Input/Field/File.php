@@ -29,6 +29,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use ilLanguage;
+use ILIAS\UI\NotImplementedException;
 
 /**
  * Class File
@@ -122,6 +123,16 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     public function getAcceptedMimeTypes(): array
     {
         return $this->accepted_mime_types;
+    }
+
+    public function withAcceptedExtensions(?array $extensions): FileUpload
+    {
+        throw new NotImplementedException();
+    }
+
+    public function getAcceptedExtensions(): array
+    {
+        throw new NotImplementedException();
     }
 
     // ===============================================

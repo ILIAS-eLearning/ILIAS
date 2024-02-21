@@ -43,12 +43,12 @@ interface FileUpload
     public function getMaxFiles(): int;
 
     /**
-     * @param string[] $mime_types
+     * @param string[] $extensions
      */
-    public function withAcceptedMimeTypes(array $mime_types): FileUpload;
+    public function withAcceptedExtensions(array $extensions): FileUpload;
 
     /**
      * @return string[]
      */
-    public function getAcceptedMimeTypes(): array;
+    public function getAcceptedExtensions(): array;
 }
