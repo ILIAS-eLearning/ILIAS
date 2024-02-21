@@ -13164,13 +13164,13 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
-prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
-prg#:#prg_dash_label_gain#:#Aktueller Stand:
-prg#:#prg_dash_label_minimum#:#Minimales Ziel:
-prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
-prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
+prg#:#prg_dash_label_gain#:#Aktueller Stand
+prg#:#prg_dash_label_minimum#:#Minimales Ziel
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab
+prg#:#prg_dash_label_status#:#Status
 prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
-prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_valid#:#Gültigkeit
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
