@@ -1905,7 +1905,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $add_new_item_elements;
     }
 
-    private function buildGroup(
+    protected function buildGroup(
         string $create_target_class,
         array $obj_types_in_group,
         string $title,
