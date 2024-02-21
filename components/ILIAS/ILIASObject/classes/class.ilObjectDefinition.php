@@ -768,7 +768,7 @@ class ilObjectDefinition
     {
         $types = [];
         foreach ($this->obj_data as $type => $object_info) {
-            if ($object_info['lti_provider']) {
+            if (array_key_exists('lti_provider', $object_info) && $object_info['lti_provider']) {
                 $types[] = $type;
             }
         }
