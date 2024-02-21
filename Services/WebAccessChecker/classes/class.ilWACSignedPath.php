@@ -296,7 +296,7 @@ class ilWACSignedPath
      */
     public static function signFolderOfStartFile($start_file_path)
     {
-        $obj = new self(new ilWACPath($start_file_path), self::http(), new CookieFactoryImpl());
+        $obj = new self(new ilWACPath($start_file_path, false), self::http(), new CookieFactoryImpl());
         $obj->setType(PathType::FOLDER);
         $obj->buildAndSetTokenInstance(time(), self::getCookieMaxLifetimeInSeconds());
         $obj->saveFolderToken();
