@@ -34,19 +34,21 @@ use ILIAS\Data\DataSize;
 class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
 {
     protected Filesystem $temp_system;
+    protected array $supported_mime_types;
 
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $this->temp_system = $DIC->filesystem()->temp();
+        $this->supported_mime_types = ilObjectGUI::SUPPORTED_IMPORT_MIME_TYPES;
         parent::__construct();
     }
 
     /**
      * @inheritDoc
      */
-    protected function getUploadResult(): HandlerResult
+    final protected function getUploadResult(): HandlerResult
     {
         $this->upload->process();
 
@@ -55,7 +57,7 @@ class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \
 
         $tempname = '';
         if ($result instanceof UploadResult
-            && in_array($result->getMimeType(), ilObjectGUI::SUPPORTED_IMPORT_MIME_TYPES)
+            && in_array($result->getMimeType(), $this->supported_mime_types)
             && $result->isOK()) {
             $status = HandlerResult::STATUS_OK;
             $message = 'Upload ok';
@@ -73,7 +75,7 @@ class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \
         );
     }
 
-    protected function getRemoveResult(string $filename): HandlerResult
+    final protected function getRemoveResult(string $filename): HandlerResult
     {
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
@@ -83,7 +85,7 @@ class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \
         );
     }
 
-    public function getInfoResult(string $file_name): ?FileInfoResult
+    final public function getInfoResult(string $file_name): ?FileInfoResult
     {
         if ($this->temp_system->hasDir($file_name)
             && ($files = $this->temp_system->listContents($file_name))) {
@@ -110,12 +112,12 @@ class ImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \
     /**
      * @return \ILIAS\FileUpload\Handler\BasicFileInfoResult[]
      */
-    public function getInfoForExistingFiles(array $file_names): array
+    final public function getInfoForExistingFiles(array $file_names): array
     {
         return [$this->getInfoResult($file_names[0])];
     }
 
-    protected function moveUploadedFileToTemp(UploadResult $result): string
+    final protected function moveUploadedFileToTemp(UploadResult $result): string
     {
         $tempfile_path = uniqid('tmp');
         $this->temp_system->createDir($tempfile_path);
