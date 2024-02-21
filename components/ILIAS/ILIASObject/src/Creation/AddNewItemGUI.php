@@ -71,7 +71,7 @@ class AddNewItemGUI
      */
     public function render(): void
     {
-        if ($this->elements === null) {
+        if ($this->elements === []) {
             return;
         }
         $content = $this->ui_factory->menu()->drilldown('', $this->buildAddNewItemsMenu($this->elements));
