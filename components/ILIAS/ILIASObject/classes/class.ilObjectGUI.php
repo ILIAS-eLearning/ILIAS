@@ -109,10 +109,6 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected string $requested_new_type = "";
     protected string $link_params;
     protected string $html = "";
-    /**
-     * @var array<ILIAS\UI\Component\Modal>
-     */
-    private array $object_modals;
 
     /**
      * @param mixed $data
@@ -840,8 +836,13 @@ class ilObjectGUI implements ImplementsCreationCallback
                 $modal->getShowSignal()
             )
         );
-        $this->object_modals[] = $modal;
-        $this->renderObjectModals();
+
+        $this->tpl->setVariable(
+            'IL_OBJECT_IMPORT_MODAL',
+            $this->ui_renderer->render(
+                $modal
+            )
+        );
     }
 
     private function buildImportModal(): RoundTrip
@@ -877,8 +878,13 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this
         );
         if ($availability_period_modal !== null) {
-            $this->object_modals[] = $availability_period_modal->withOnLoad(
-                $availability_period_modal->getShowSignal()
+            $this->tpl->setVariable(
+                'IL_OBJECT_EPHEMRAL_MODALS',
+                $this->ui_renderer->render(
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
+                    )
+                )
             );
         }
         $this->renderObject();
@@ -894,8 +900,13 @@ class ilObjectGUI implements ImplementsCreationCallback
         if ($availability_period_modal === null) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('availability_period_changed'));
         } else {
-            $this->object_modals[] = $availability_period_modal->withOnLoad(
-                $availability_period_modal->getShowSignal()
+            $this->tpl->setVariable(
+                'IL_OBJECT_EPHEMRAL_MODALS',
+                $this->ui_renderer->render(
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
+                    )
+                )
             );
         }
         $this->renderObject();
@@ -1219,7 +1230,12 @@ class ilObjectGUI implements ImplementsCreationCallback
         $data = $modal->getData();
 
         if ($data === null) {
-            $this->object_modals[] = $modal->withOnLoad($modal->getShowSignal());
+            $this->tpl->setVariable(
+                'IL_OBJECT_IMPORT_MODAL',
+                $this->ui_renderer->render(
+                    $modal->withOnLoad($modal->getShowSignal())
+                )
+            );
             $this->viewObject();
             return;
         }
@@ -1521,7 +1537,12 @@ class ilObjectGUI implements ImplementsCreationCallback
             $msg,
             $this->ctrl->getFormAction($this, 'confirmedDelete')
         )->withAffectedItems($items);
-        $this->object_modals[] = $modal->withOnLoad($modal->getShowSignal());
+        $this->tpl->setVariable(
+            'IL_OBJECT_EPHEMRAL_MODALS',
+            $this->ui_renderer->render(
+                $modal->withOnLoad($modal->getShowSignal())
+            )
+        );
         $this->renderObject();
     }
 
@@ -1926,16 +1947,6 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
         ksort($add_new_items_content_array);
         return $add_new_items_content_array;
-    }
-
-    private function renderObjectModals(): void
-    {
-        $this->tpl->setVariable(
-            'IL_OBJECT_MODALS',
-            $this->ui_renderer->render(
-                $this->object_modals
-            )
-        );
     }
 
     private function maskTemplateMarkers(string $string): string
