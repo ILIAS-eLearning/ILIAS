@@ -635,11 +635,16 @@ class ilImageMapEditorGUI
                 break;
 
             case "RepositoryItem":
-                $title = ilObject::_lookupTitle(
-                    ilObject::_lookupObjId($t_arr[count($t_arr) - 1])
-                );
-                $link_str = $lng->txt("obj_" . $t_arr[count($t_arr) - 2]) .
-                    ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                if (trim($a_target) !== "") {
+                    $title = ilObject::_lookupTitle(
+                        ilObject::_lookupObjId((int) $t_arr[count($t_arr) - 1])
+                    );
+                    $link_str = $lng->txt("obj_" . $t_arr[count($t_arr) - 2]) .
+                        ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
+                } else {
+                    $title = "";
+                    $link_str = "";
+                }
                 break;
         }
 
