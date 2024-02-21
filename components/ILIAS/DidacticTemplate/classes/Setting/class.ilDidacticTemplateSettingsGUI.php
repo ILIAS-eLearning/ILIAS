@@ -28,6 +28,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Export\ImportStatus\ilCollection as ilImportStatusCollection;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\StatusType as ImportStatusType;
 
 /**
  * Settings for a single didactic template
@@ -298,9 +299,9 @@ class ilDidacticTemplateSettingsGUI
         $import->setInputFile($tmp);
         $statuses = $import->validateImportFile();
 
-        if (!$statuses->hasStatusType(\ImportStatus\StatusType::FAILED)) {
+        if (!$statuses->hasStatusType(ImportStatusType::FAILED)) {
             $statuses = $statuses->withAddedStatus($status->handler()
-                ->withType(\ImportStatus\StatusType::SUCCESS)
+                ->withType(ImportStatusType::SUCCESS)
                 ->withContent($status->content()->builder()->string()->withString('')));
         }
         return $statuses;
@@ -322,11 +323,11 @@ class ilDidacticTemplateSettingsGUI
         $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
         $statuses = $this->checkInput($form, $import);
 
-        if (!$statuses->hasStatusType(\ImportStatus\StatusType::SUCCESS)) {
-            $error_msg = ($statuses->getCollectionOfAllByType(\ImportStatus\StatusType::FAILED)->count() > 0)
+        if (!$statuses->hasStatusType(ImportStatusType::SUCCESS)) {
+            $error_msg = ($statuses->getCollectionOfAllByType(ImportStatusType::FAILED)->count() > 0)
                 ? $statuses
                 ->withNumberingEnabled(true)
-                ->toString(\ImportStatus\StatusType::FAILED)
+                ->toString(ImportStatusType::FAILED)
                 : '';
             $this->tpl->setOnScreenMessage(
                 'failure',
