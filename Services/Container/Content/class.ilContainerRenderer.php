@@ -393,11 +393,11 @@ class ilContainerRenderer
         return "";
     }
 
-    public function renderSingleTypeBlock(string $a_type): string
+    public function renderSingleTypeBlock(string $a_type, bool $exhausted = false): string
     {
         $block_tpl = $this->initBlockTemplate();
 
-        if ($this->renderHelperTypeBlock($block_tpl, $a_type, true)) {
+        if ($this->renderHelperTypeBlock($block_tpl, $a_type, true, $exhausted)) {
             return $block_tpl->get();
         }
         return "";
