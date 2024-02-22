@@ -726,7 +726,7 @@ abstract class ilContainerContentGUI
             $this->getContainerGUI()->isActiveAdministrationPanel()
         );
 
-
+        $exhausted = false;
         $ref_ids = $this->request->getAlreadyRenderedRefIds();
 
         // iterate all types
@@ -742,11 +742,11 @@ abstract class ilContainerContentGUI
                 if (in_array($item_ref_id, $ref_ids)) {
                     continue;
                 }
-
                 if ($this->block_limit > 0 && $counter == $this->block_limit + 1) {
                     if ($counter == $this->block_limit + 1) {
                         // render more button
                         $this->renderer->addShowMoreButton($type);
+                        $exhausted = true;
                     }
                     continue;
                 }
@@ -761,7 +761,7 @@ abstract class ilContainerContentGUI
             }
         }
 
-        return $this->renderer->renderSingleTypeBlock($type);
+        return $this->renderer->renderSingleTypeBlock($type, $exhausted);
     }
 
     /**
