@@ -22,16 +22,24 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
     public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
-            return $this->decorate(nl2br($this->getADT()->getTextForLanguage($this->lng->getLangKey())));
+            return $this->decorate(nl2br($this->getTextForCurrentLanguageIfAvailable()));
         }
         return '';
     }
 
-    public function getSortable()
+    public function getSortable(): string
     {
         if (!$this->getADT()->isNull()) {
-            return strtolower($this->getADT()->getTextForLanguage($this->lng->getLangKey()));
+            return strtolower($this->getTextForCurrentLanguageIfAvailable());
         }
         return '';
+    }
+
+    private function getTextForCurrentLanguageIfAvailable(): string
+    {
+        if (!$this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport()) {
+            return $this->getADT()->getText();
+        }
+        return $this->getADT()->getTextForLanguage($this->lng->getLangKey());
     }
 }
