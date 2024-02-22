@@ -294,7 +294,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Container/dist/filter.js');
+        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Container/dist/filter.min.js');
         $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/input.js');
         $registry->register('./components/ILIAS/UI/src/templates/js/Input/Field/groups.js');
     }
