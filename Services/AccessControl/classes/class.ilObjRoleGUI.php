@@ -818,8 +818,12 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         // assign new users
-        foreach ($assigned_users_new as $user) {
-            $this->rbacadmin->assignUser($this->object->getId(), $user);
+        foreach ($assigned_users_new as $user_id) {
+            if ($user_id === ANONYMOUS_USER_ID) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_anonymous_cannot_be_assigned'), true);
+                return;
+            }
+            $this->rbacadmin->assignUser($this->object->getId(), $user_id, false);
         }
 
         // update object data entry (to update last modification date)
