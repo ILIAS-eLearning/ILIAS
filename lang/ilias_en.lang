@@ -3718,6 +3718,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_start_page#:#Start page
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
+common#:#cmix#:#Object xAPI/cmi5
 common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Collapse
 common#:#collapse_all#:#Collapse All
