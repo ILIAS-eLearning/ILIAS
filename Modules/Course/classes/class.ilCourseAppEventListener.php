@@ -126,10 +126,19 @@ class ilCourseAppEventListener
     {
         global $DIC;
 
-        $DIC->certificate()->userCertificates()->certificateCriteriaMet(
-            $a_usr_id,
-            $a_obj_id
-        );
+        $logger = $DIC->logger('crs');
+        if (!$DIC->certificate()->userCertificates()->isActiveCertificateTemplateAvailableFor($a_obj_id)) {
+            return;
+        }
+        try {
+            $DIC->certificate()->userCertificates()->certificateCriteriaMet(
+                $a_usr_id,
+                $a_obj_id
+            );
+        } catch (Exception $e) {
+            $logger->warning($e->getMessage());
+            $logger->logStack(ilLogLevel::DEBUG);
+        }
     }
 
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
