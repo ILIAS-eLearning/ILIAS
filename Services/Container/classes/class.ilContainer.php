@@ -1257,7 +1257,7 @@ class ilContainer extends ilObject
         array $objects,
         int $val
     ): array {
-        $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt"];
+        $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt", "mcst", "spl"];
         foreach ($legacy_types as $type) {
             $lobjects = array_filter($objects, static function (array $o) use ($type): bool {
                 return ($o["type"] === $type);
@@ -1291,6 +1291,15 @@ class ilContainer extends ilObject
                 case "prtt":
                     $status = ilObjPortfolioTemplateAccess::_lookupOnlineStatus($lobj_ids);
                     break;
+                case "mcst":
+                    foreach ($lobj_ids as $lid) {
+                        $status[$lid] = \ilObjMediaCastAccess::_lookupOnline($lid);
+                    }
+                    break;
+                case "spl":
+                    foreach ($lobj_ids as $lid) {
+                        $status[$lid] = \ilObjSurveyQuestionPool::_lookupOnline($lid);
+                    }
             }
             foreach ($status as $obj_id => $online) {
                 if (($val == 1 && !$online) || ($val == 2 && $online)) {
