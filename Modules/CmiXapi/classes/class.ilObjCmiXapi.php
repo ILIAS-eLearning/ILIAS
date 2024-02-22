@@ -694,22 +694,22 @@ class ilObjCmiXapi extends ilObject2
                 $this->initLrsType();
             }
 
-            $this->setContentType($row['content_type']);
-            $this->setSourceType($row['source_type']);
+            $this->setContentType((string) $row['content_type']);
+            $this->setSourceType((string) $row['source_type']);
 
-            $this->setActivityId($row['activity_id']);
-            $this->setPublisherId($row['publisher_id']);
-            $this->setInstructions($row['instructions']);
+            $this->setActivityId((string) $row['activity_id']);
+            $this->setPublisherId((string) $row['publisher_id']);
+            $this->setInstructions((string) $row['instructions']);
 
-            $this->setLaunchUrl($row['launch_url']);
-            $this->setLaunchParameters($row['launch_parameters']);
-            $this->setMoveOn($row['moveon']);
-            $this->setEntitlementKey($row['entitlement_key']);
+            $this->setLaunchUrl((string) $row['launch_url']);
+            $this->setLaunchParameters((string) $row['launch_parameters']);
+            $this->setMoveOn((string) $row['moveon']);
+            $this->setEntitlementKey((string) $row['entitlement_key']);
             $this->setAuthFetchUrlEnabled((bool) $row['auth_fetch_url']);
 
-            $this->setLaunchMethod($row['launch_method']);
+            $this->setLaunchMethod((string) $row['launch_method']);
 
-            $this->setLaunchMode($row['launch_mode']);
+            $this->setLaunchMode((string) $row['launch_mode']);
             $this->setSwitchToReviewEnabled((bool) $row['switch_to_review']);
             $this->setMasteryScore((float) $row['mastery_score']);
             $this->setKeepLpStatusEnabled((bool) $row['keep_lp']);
@@ -732,11 +732,11 @@ class ilObjCmiXapi extends ilObject2
             $this->setDuration((bool) $row['duration']);
             $this->setNoSubstatements((bool) $row['no_substatements']);
 
-            $this->setUserPrivacyComment($row['usr_privacy_comment']);
+            $this->setUserPrivacyComment((string) $row['usr_privacy_comment']);
 
             $this->setStatementsReportEnabled((bool) $row['show_statements']);
 
-            $this->setXmlManifest($row['xml_manifest']);
+            $this->setXmlManifest((string) $row['xml_manifest']);
             $this->setVersion((int) $row['version']);
 
             $this->setBypassProxyEnabled((bool) $row['bypass_proxy']);
@@ -1306,23 +1306,23 @@ class ilObjCmiXapi extends ilObject2
         // TODO check xapidel
     }
 
-//    /**
-//     * @return string[]
-//     */
-//    public function getRegistrations() : array
-//    {
-//        global $DIC;
-//        $res = $DIC->database()->queryF(
-//            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
-//            array('text'),
-//            array($this->getId())
-//        );
-//        $ret = [];
-//        while ($row = $DIC->database()->fetchAssoc($res)) {
-//            $ret[] = (string) $row['registration'];
-//        }
-//        return $ret;
-//    }
+    //    /**
+    //     * @return string[]
+    //     */
+    //    public function getRegistrations() : array
+    //    {
+    //        global $DIC;
+    //        $res = $DIC->database()->queryF(
+    //            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
+    //            array('text'),
+    //            array($this->getId())
+    //        );
+    //        $ret = [];
+    //        while ($row = $DIC->database()->fetchAssoc($res)) {
+    //            $ret[] = (string) $row['registration'];
+    //        }
+    //        return $ret;
+    //    }
 
     /**
      * @throws Exception
