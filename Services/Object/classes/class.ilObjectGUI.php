@@ -341,12 +341,12 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setDescription($this->object->getLongDescription());
 
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
-        if (strtolower($base_class) == "iladministrationgui") {
+        if (strtolower($base_class) === "iladministrationgui") {
             // alt text would be same as heading -> empty alt text
             $this->tpl->setTitleIcon(ilObject::_getIcon(0, "big", $this->object->getType()));
         } else {
             $this->tpl->setTitleIcon(
-                ilObject::_getIcon(0, "big", $this->object->getType()),
+                ilObject::_getIcon($this->object->getId(), "big", $this->object->getType()),
                 $this->lng->txt("obj_" . $this->object->getType())
             );
         }
