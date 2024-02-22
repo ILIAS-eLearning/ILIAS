@@ -3719,6 +3719,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
+common#:#cmix#:#Objekt xAPI/cmi5
 common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
 common#:#collapse_all#:#Alle zusammenklappen
