@@ -57,7 +57,7 @@ class ilTestVirtualSequenceRandomQuestionSet extends ilTestVirtualSequence imple
                 }
 
                 if ($this->wasAnsweredInThisPass($test_sequence, $question_id)) {
-                    $this->questions_pass_map[$questionId] = $pass;
+                    $this->questions_pass_map[$question_id] = $pass;
 
                     $this->questions_source_pool_definition_map[$question_id] = $definition_id;
                 }
