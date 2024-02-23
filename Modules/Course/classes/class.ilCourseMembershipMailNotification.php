@@ -134,8 +134,8 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-
-                    $this->sendMail(array($rcp));
+                    $rcp = ilObjUser::_lookupEmail($rcp);
+                    $this->sendMail(array($rcp), false);
                 }
                 break;
 
