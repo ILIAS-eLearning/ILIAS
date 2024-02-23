@@ -641,10 +641,10 @@ abstract class assQuestionGUI
         }
 
         if ($this->request->raw('test_express_mode')) {
-            ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
         }
 
-        ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function cancelSync(): void
@@ -656,12 +656,11 @@ abstract class assQuestionGUI
         }
         if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
-        } else {
-            if ($this->request->raw('test_express_mode')) {
-                ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-            }
-            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
         }
+        if ($this->request->raw('test_express_mode')) {
+            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+        }
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function saveEdit(): void
