@@ -24,6 +24,7 @@ use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\GUIRequest;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileManager;
 use ILIAS\Exercise\InternalGUIService;
+use ILIAS\Repository\Resources\ZipAdapter;
 
 /**
  * Class ilExerciseManagementGUI
@@ -49,6 +50,7 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected ZipAdapter $zip;
     protected ilGlobalTemplateInterface $tpl;
     protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\Notification\NotificationManager $notification;
@@ -154,6 +156,7 @@ class ilExerciseManagementGUI
         if ($this->ass_id > 0) {
             $this->tutor_feedback_file = $domain->assignment()->tutorFeedbackFile($this->ass_id);
         }
+        $this->zip = $domain->resources()->zip();
         $this->ctrl->saveParameter($this, array("part_id"));
     }
 
@@ -2248,7 +2251,8 @@ class ilExerciseManagementGUI
             $this->log->debug("file copied: " . $file_copied);
             // e.g. data/ilias/ilExercise/3/exc_327/subm_9/2/20231212085734_167.zip ?
             if ($file_copied) {
-                ilFileUtils::unzip($file_copied, true);
+                //ilFileUtils::unzip($file_copied, true);
+                $this->zip->unzipFile($file_copied);
                 $web_filesystem->delete($zip_internal_path);
                 $this->log->debug("deleting: " . $zip_internal_path);
 
