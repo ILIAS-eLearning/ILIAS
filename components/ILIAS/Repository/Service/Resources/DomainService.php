@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Resources;
 
-use ILIAS\DI\Container;
 use ILIAS\Filesystem\Util\Archive\Archives;
 
 class DomainService
