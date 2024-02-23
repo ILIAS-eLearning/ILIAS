@@ -273,7 +273,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 return $a[$aspect] <=> $b[$aspect];
             }
 
-            return strcmp($a[$aspect], $b[$aspect]);
+            return $a[$aspect] === $b[$aspect];
         });
 
         if ($direction === $order::DESC) {
