@@ -28,6 +28,7 @@ class ilDclFieldEditGUI
     protected ilPropertyFormGUI $form;
     protected ilDclBaseFieldModel $field_obj;
     private ilGlobalTemplateInterface $main_tpl;
+    private ilLanguage $lng;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected int $field_id;
@@ -45,6 +46,7 @@ class ilDclFieldEditGUI
         $this->parent_obj = $a_parent_obj;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->lng = $DIC->language();
 
         $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 
@@ -345,6 +347,12 @@ class ilDclFieldEditGUI
         $lng = $DIC['lng'];
         $return = $this->form->checkInput();
 
+        //mantis 30758, 36585, jour fixe decision:
+        //uniqueness shall be changeable for all types of fields
+        if ($a_mode === 'update' && !$this->checkUniqueness()) {
+            $return = false;
+        }
+
         // load specific model for input checking
         $datatype_id = $this->form->getInput('datatype');
         if ($datatype_id != null && is_numeric($datatype_id)) {
@@ -392,6 +400,47 @@ class ilDclFieldEditGUI
                 $this->table_id
             );
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function checkUniqueness(): bool
+    {
+        $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
+        if (!$this->field_obj->isUnique()) {
+            return true;
+        }
+
+        $txt = $this->lng->txt("dcl_duplicate_non_unique_entries_exist");
+
+        //check validity of all available records
+        foreach ($this->table->getRecords() as $record) {
+
+            //except of formula field
+            if ((int) ($this->field_obj->getDatatypeId()) !== ilDclDatatype::INPUTFORMAT_FORMULA) {
+                //get field value
+                $value = $record->getRecordFieldValue($this->field_obj->getId());
+
+                //special for rating field: only voting of the current user
+                if ((int) ($this->field_obj->getDatatypeId()) === ilDclDatatype::INPUTFORMAT_RATING) {
+                    $value = $record->getRecordFieldValueForUser($this->field_obj->getId());
+                    $txt = "";
+                }
+                //validity of field content
+                try {
+                    $this->field_obj->checkValidity($value, $record->getId());
+                } catch (ilDclInputException $e) {
+                    $item = $this->form->getItemByPostVar('unique');
+                    $item->setAlert($txt);
+
+                    //--sendFailure($lng->txt("form_input_not_valid"));
+                    //--$this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"));
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
