@@ -59,49 +59,25 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
     ];
 
-    public ilGlobalTemplateInterface $tpl;
-    public ilCtrl $ctrl;
-    public ilToolbarGUI $toolbar;
-    public ilLanguage $lng;
-    public ?int $prg_ref_id;
     public ?ilObjStudyProgramme $object = null;
-    public ILIAS\UI\Factory $ui_factory;
-    protected MessageBox\Factory $message_box_factory;
-    protected Button\Factory $button_factory;
-    public ILIAS\UI\Renderer $ui_renderer;
-    protected Psr\Http\Message\ServerRequestInterface $request;
-    protected ilTree $tree;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
+    public ?int $prg_ref_id;
     protected ilContainerGUI $parent_gui;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilLanguage $lng,
-        Factory $ui_factory,
-        MessageBox\Factory $message_box_factory,
-        Button\Factory $button_factory,
-        Renderer $ui_renderer,
-        Psr\Http\Message\ServerRequestInterface $request,
-        ilTree $tree,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        public ilGlobalTemplateInterface $tpl,
+        public ilCtrl $ctrl,
+        public ilToolbarGUI $toolbar,
+        public ilLanguage $lng,
+        public Factory $ui_factory,
+        protected MessageBox\Factory $message_box_factory,
+        protected Button\Factory $button_factory,
+        protected Renderer $ui_renderer,
+        protected Psr\Http\Message\ServerRequestInterface $request,
+        protected ilTree $tree,
+        protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ilRbacReview $rbac_review
     ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ui_factory = $ui_factory;
-        $this->message_box_factory = $message_box_factory;
-        $this->button_factory = $button_factory;
-        $this->ui_renderer = $ui_renderer;
-        $this->request = $request;
-        $this->tree = $tree;
-        $this->request_wrapper = $request_wrapper;
-        $this->refinery = $refinery;
-
         // Add this js manually here because the modal contains a form that is
         // loaded asynchronously later on, and this JS won't be pulled then for
         // some reason.
@@ -712,10 +688,24 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         switch ($ams->getSourceType()) {
             case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
                 $title = ilObjRole::_lookupTitle($src_id) ?? "-";
+
+                if($this->rbac_review->isGlobalRole($src_id)) {
+                    $parent_ref = self::ROLEFOLDER_REF_ID;
+                    $path = ['ilAdministrationGUI'];
+                    $this->ctrl->setParameterByClass('ilObjRoleGUI', 'admin_mode', 'settings');
+                } else {
+                    $parent_ref = $this->rbac_review->getObjectReferenceOfRole($src_id);
+                    $parent_type = ilObject::_lookupType($parent_ref, true);
+                    $path = ['ilRepositoryGUI','ilObjCategoryGUI'];
+                    if($parent_type == 'orgu') {
+                        $path = ['ilAdministrationGUI','ilObjOrgUnitGUI'];
+                    }
+                    $path[] = 'ilPermissionGUI';
+                }
+                $path[] = 'ilObjRoleGUI';
+                $this->ctrl->setParameterByClass('ilObjRoleGUI', 'ref_id', $parent_ref);
                 $this->ctrl->setParameterByClass('ilObjRoleGUI', 'obj_id', $src_id);
-                $this->ctrl->setParameterByClass('ilObjRoleGUI', 'ref_id', self::ROLEFOLDER_REF_ID);
-                $this->ctrl->setParameterByClass('ilObjRoleGUI', 'admin_mode', 'settings');
-                $url = $this->ctrl->getLinkTargetByClass(['ilAdministrationGUI', 'ilObjRoleGUI'], 'userassignment');
+                $url = $this->ctrl->getLinkTargetByClass($path, 'userassignment');
                 $this->ctrl->clearParametersByClass('ilObjRoleGUI');
                 break;
 
