@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Repository\Resources\ZipAdapter;
+
 /**
  * Handler class for multi srt upload
  *
@@ -23,6 +25,7 @@
  */
 class ilMobMultiSrtUpload
 {
+    protected ZipAdapter $zip;
     protected ilMobMultiSrtInt $multi_srt;
     protected ilLanguage $lng;
 
@@ -35,6 +38,7 @@ class ilMobMultiSrtUpload
         global $DIC;
 
         $lng = $DIC->language();
+        $this->zip = $DIC->mediaObjects()->internal()->domain()->resources()->zip();
 
         $this->lng = $lng;
         $this->multi_srt = $a_multi_srt;
@@ -67,7 +71,7 @@ class ilMobMultiSrtUpload
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
         ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        ilFileUtils::unzip($dir . "/multi_srt.zip", true);
+        $this->zip->unzipFile($dir . "/multi_srt.zip");
     }
 
     /**

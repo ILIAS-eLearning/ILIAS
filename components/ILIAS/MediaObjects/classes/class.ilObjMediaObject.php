@@ -22,6 +22,7 @@ use ILIAS\FileUpload\MimeType;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
+use ILIAS\MediaObjects\InternalDomainService;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -33,12 +34,13 @@ define("IL_MODE_FULL", 3);
 class ilObjMediaObject extends ilObject
 {
     private const DEFAULT_PREVIEW_SIZE = 80;
+    protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
     public string $origin_id;
     public array $media_items;
     public bool $contains_int_link;
-    private $image_converter;
+    private LegacyImages $image_converter;
 
     public function __construct(
         int $a_id = 0
@@ -54,6 +56,7 @@ class ilObjMediaObject extends ilObject
         $this->type = "mob";
         parent::__construct($a_id, false);
         $this->image_converter = $DIC->fileConverters()->legacyImages();
+        $this->domain = $DIC->mediaObjects()->internal()->domain();
     }
 
     public static function _exists(
@@ -1764,7 +1767,7 @@ class ilObjMediaObject extends ilObject
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
         ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        ilFileUtils::unzip($dir . "/multi_srt.zip", true);
+        $this->domain->resources()->zip()->unzipFile($dir . "/multi_srt.zip");
     }
 
     /**
