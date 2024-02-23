@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "dropzone": "^5.9.3",
   },
   "devDependencies": {
   },
