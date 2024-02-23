@@ -396,7 +396,6 @@ class ilContainerRenderer
     public function renderSingleTypeBlock(string $a_type, bool $exhausted = false): string
     {
         $block_tpl = $this->initBlockTemplate();
-
         if ($this->renderHelperTypeBlock($block_tpl, $a_type, true, $exhausted)) {
             return $block_tpl->get();
         }
@@ -619,7 +618,6 @@ class ilContainerRenderer
                     $a_block_tpl->setVariable("TILE_ROWS", $html);
                     $a_block_tpl->parseCurrentBlock();
                 }
-
                 // show more
                 if ($is_exhausted) {
                     $a_block_tpl->setCurrentBlock("show_more");
@@ -919,7 +917,7 @@ class ilContainerRenderer
                     $block->getBlock() instanceof \ILIAS\Container\Content\SessionBlock) {
                     $page_html = preg_replace(
                         '~\[list-' . $block->getId() . '\]~i',
-                        $this->renderSingleTypeBlock($block->getId()),
+                        $this->renderSingleTypeBlock($block->getId(), $block->getLimitExhausted()),
                         $page_html
                     );
                     $valid = true;
