@@ -926,7 +926,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     protected function handleTearsAndAngerNoObjectiveOrientedQuestion()
     {
         $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
-
         $this->ctrl->redirectByClass(ilObjTestGUI::class);
     }
 
