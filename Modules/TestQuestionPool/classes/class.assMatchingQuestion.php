@@ -1303,6 +1303,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->terms as $term) {
             if ($term->getPicture() !== '') {
                 $current_file_path = $this->getImagePath() . $term->getPicture();
+                if (!file_exists($current_file_path)) {
+                    $new_terms[] = $term;
+                    continue;
+                }
                 $new_file_name = $this->buildHashedImageFilename($term->getPicture(), true);
                 $new_file_path = $this->getImagePath() . $new_file_name;
                 rename($current_file_path, $new_file_path);
