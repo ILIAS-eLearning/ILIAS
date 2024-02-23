@@ -1433,9 +1433,7 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (!is_array($solution) ||
-                !array_key_exists("type", $solution) ||
-                strcmp($solution["type"], "file") !== 0) {
+            if (!$solution->isOfTypeFile()) {
                 continue;
             }
 
@@ -1527,24 +1525,21 @@ abstract class assQuestion
         return $resolved_link ?? '';
     }
 
-
-    //TODO: move this to import or suggested solutions repo.
-    //use in LearningModule and Survey as well ;(
-    public function _resolveIntLinks(int $question_id): void
+    public function resolveSuggestedSolutionLinks(): void
     {
         $resolvedlinks = 0;
         $result = $this->db->queryF(
             "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
             array('integer'),
-            array($question_id)
+            array($this->getId())
         );
         if ($this->db->numRows($result) > 0) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
                 $resolved_link = $this->resolveInternalLink($internal_link);
-                if (strcmp($internal_link, $resolved_link) != 0) {
+                if ($internal_link !== $resolved_link) {
                     // internal link was resolved successfully
-                    $affectedRows = $this->db->manipulateF(
+                    $this->db->manipulateF(
                         "UPDATE qpl_sol_sug SET internal_link = %s WHERE suggested_solution_id = %s",
                         array('text','integer'),
                         array($resolved_link, $row["suggested_solution_id"])
@@ -1556,17 +1551,17 @@ abstract class assQuestion
         if ($resolvedlinks) {
             // there are resolved links -> reenter theses links to the database
             // delete all internal links from the database
-            ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
+            ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 
             $result = $this->db->queryF(
                 "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
                 array('integer'),
-                array($question_id)
+                array($this->getId())
             );
             if ($this->db->numRows($result) > 0) {
                 while ($row = $this->db->fetchAssoc($result)) {
                     if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches)) {
-                        ilInternalLink::_saveLink("qst", $question_id, $matches[2], $matches[3], $matches[1]);
+                        ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
                     }
                 }
             }

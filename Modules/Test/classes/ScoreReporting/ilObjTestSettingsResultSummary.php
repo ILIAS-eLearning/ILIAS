@@ -74,6 +74,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
                     $f->dateTime($lng->txt('tst_reporting_date'), "")
                         ->withTimezone($environment['user_time_zone'])
                         ->withFormat($environment['user_date_format'])
+                        ->withUseTime(true)
                         ->withValue(
                             $this->getReportingDate()?->setTimezone(
                                 new DateTimeZone($environment['user_time_zone'])

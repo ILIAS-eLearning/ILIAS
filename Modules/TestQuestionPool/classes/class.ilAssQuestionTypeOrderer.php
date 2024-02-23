@@ -145,13 +145,13 @@ class ilAssQuestionTypeOrderer
      */
     public function fixQuestionTypeOrderSortCallback($a, $b): int
     {
-        if (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
+        if (!isset(self::$flippedQuestionTypeOrder[ $a['type_tag'] ])) {
             return 1;
-        } elseif (!isset(self::$flippedQuestionTypeOrder[ $a['type_tag'] ])) {
+        } elseif (!isset(self::$flippedQuestionTypeOrder[ $b['type_tag'] ])) {
+            return -1;
+        } elseif (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
             return 1;
         } elseif (self::$flippedQuestionTypeOrder[ $a['type_tag'] ] < self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) {
-            return -1;
-        } elseif (!isset(self::$flippedQuestionTypeOrder[ $b['type_tag'] ])) {
             return -1;
         }
 

@@ -278,7 +278,7 @@ class ilQuestionPageParser extends ilMDSaxParser
 
                 // eventually correct links in questions to learning modules
                 if ($type_arr[0] == "qst") {
-                    assQuestion::_resolveIntLinks($source["id"]);
+                    assQuestion::instantiateQuestion($source['id'])->resolveSuggestedSolutionLinks();
                 }
                 // eventually correct links in survey questions to learning modules
                 if ($type_arr[0] == "sqst") {
