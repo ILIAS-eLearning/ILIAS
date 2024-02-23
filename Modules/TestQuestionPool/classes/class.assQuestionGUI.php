@@ -626,14 +626,13 @@ abstract class assQuestionGUI
                 $ref_id = (int) $this->request->raw('calling_consumer');
                 $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
+                    $this->ctrl->redirectToURL($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
                 }
-
-                ilUtil::redirect(ilLink::_getLink($ref_id));
+                $this->ctrl->redirectToURL(ilLink::_getLink($ref_id));
             }
 
             if ($this->request->raw('test_express_mode')) {
-                ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+                $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
@@ -654,13 +653,13 @@ abstract class assQuestionGUI
                 $ref_id = (int) $this->request->raw('calling_consumer');
                 $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
+                    $this->ctrl->redirectToURL($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
                 }
-                ilUtil::redirect(ilLink::_getLink($ref_id));
+                $this->ctrl->redirectToURL(ilLink::_getLink($ref_id));
             }
 
             if ($this->request->raw('test_express_mode')) {
-                ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+                $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
