@@ -83,11 +83,7 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
     {
     }
 
-    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
-    {
-    }
-
-    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    protected function cloneSpecificFeedback(int $source_question_id, int $target_question_id): void
     {
     }
 

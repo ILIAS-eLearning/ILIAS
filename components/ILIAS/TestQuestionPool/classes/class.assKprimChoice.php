@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -30,7 +30,7 @@ use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
  */
 class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
-    use ManipulateThumbnailsInChoiceQuestionsTrait;
+    use ManipulateImagesInChoiceQuestionsTrait;
 
     public const NUM_REQUIRED_ANSWERS = 4;
 
@@ -614,7 +614,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return 0;
     }
 
-    public function removeAnswerImage($position): void
+    private function removeAnswerImage($position): void
     {
         $answer = $this->getAnswer($position);
 
@@ -682,94 +682,17 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return (float)$points;
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
-        $clone->cloneAnswerImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-        return $clone;
-    }
-
-    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-
-        $question = self::instantiateQuestion($origQuestionId);
-
-        foreach ($question->getAnswers() as $answer) {
-            $question->removeAnswerImage($answer->getPosition());
-        }
-    }
-
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-
-        $this->cloneAnswerImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
-    }
-
-    protected function cloneAnswerImages(
-        $source_question_id,
-        $source_parent_id,
-        $target_question_id,
-        $target_parent_id
-    ): void {
-        /** @var $ilLog ilLogger */
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
-        $source_path = $this->questionFilesService->buildImagePath($source_question_id, $source_parent_id);
-        $target_path = $this->questionFilesService->buildImagePath($target_question_id, $target_parent_id);
-
-        foreach ($this->getAnswers() as $answer) {
-            $filename = $answer->getImageFile();
-
-            if ($filename === null || $filename === '') {
-                continue;
-            }
-
-            if (!file_exists($target_path)) {
-                ilFileUtils::makeDirParents($target_path);
-            }
-
-            if (file_exists($source_path . $filename)) {
-                if (!copy($source_path . $filename, $target_path . $filename)) {
-                    $ilLog->warning(sprintf(
-                        "Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                        $source_path . $filename,
-                        $target_path . $filename,
-                        $source_question_id,
-                        $target_question_id,
-                        $source_parent_id,
-                        $target_parent_id
-                    ));
-                }
-            }
-
-            if (file_exists($source_path . $this->getThumbPrefix() . $filename)) {
-                if (!copy($source_path . $this->getThumbPrefix() . $filename, $target_path . $this->getThumbPrefix() . $filename)) {
-                    $ilLog->warning(sprintf(
-                        "Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                        $source_path . $this->getThumbPrefix() . $filename,
-                        $target_path . $this->getThumbPrefix() . $filename,
-                        $source_question_id,
-                        $target_question_id,
-                        $source_parent_id,
-                        $target_parent_id
-                    ));
-                }
-            }
-        }
+        $this->cloneImages(
+            $this->getId(),
+            $this->getObjId(),
+            $target->getId(),
+            $target->getObjId(),
+            $this->getAnswers()
+        );
+        return $target;
     }
 
     protected function getRTETextWithMediaObjects(): string

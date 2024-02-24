@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 
 /**
  * Class for multiple choice tests.
@@ -38,7 +38,7 @@ use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
  */
 class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
-    use ManipulateThumbnailsInChoiceQuestionsTrait;
+    use ManipulateImagesInChoiceQuestionsTrait;
 
     public const OUTPUT_ORDER = 0;
     public const OUTPUT_RANDOM = 1;
@@ -210,22 +210,17 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         parent::loadFromDb($question_id);
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $clone->duplicateImages($source_question_id, $source_parent_id);
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
-        $clone->copyImages($source_question_id, $source_parent_id);
-        return $clone;
+        $this->cloneImages(
+            $this->getId(),
+            $this->getObjId(),
+            $target->getId(),
+            $target->getObjId(),
+            $this->getAnswers()
+        );
+        return $target;
     }
 
     /**
@@ -643,14 +638,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
 
-    public function syncWithOriginal(): void
-    {
-        if ($this->questioninfo->getOriginalId($this->getId())) {
-            $this->syncImages();
-            parent::syncWithOriginal();
-        }
-    }
-
     /**
      * Returns the question type of the question
      *
@@ -720,6 +707,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
+<<<<<<< HEAD
      * Deletes an image file
      *
      * @param string $image_filename Name of the image file to delete
@@ -849,6 +837,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
+=======
+>>>>>>> fadf5e68cd2 (Test: Update Cloning, Updating & Syncing Questions)
      * Collects all text in the question which could contain media objects which were created with the Rich Text Editor.
      */
     public function getRTETextWithMediaObjects(): string

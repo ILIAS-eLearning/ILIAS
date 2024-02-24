@@ -20,8 +20,54 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
-trait ManipulateThumbnailsInChoiceQuestionsTrait
+trait ManipulateImagesInChoiceQuestionsTrait
 {
+    /**
+     * Deletes an image file
+     *
+     * @param string $image_filename Name of the image file to delete
+     */
+    protected function deleteImage($image_filename): void
+    {
+        $imagepath = $this->getImagePath();
+        @unlink($imagepath . $image_filename);
+        $thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
+        @unlink($thumbpath);
+    }
+
+    private function cloneImages(
+        int $source_question_id,
+        int $source_parent_id,
+        int $target_question_id,
+        int $target_parent_id,
+        array $answers
+    ): void {
+        $image_source_path = $this->getImagePath($source_question_id, $source_parent_id);
+        $image_target_path = $this->getImagePath($target_question_id, $target_parent_id);
+
+        if (!file_exists($image_target_path)) {
+            ilFileUtils::makeDirParents($image_target_path);
+        } else {
+            $this->removeAllImageFiles($image_target_path);
+        }
+
+        foreach ($answers as $answer) {
+            $filename = $answer->getImage();
+            if ($filename === '') {
+                continue;
+            }
+
+            if (!file_exists($image_source_path . $filename, $image_target_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('Image could not be cloned for object for question: ' . $target_question_id);
+            }
+            if (file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy($image_source_path . $this->getThumbPrefix() . $filename, $image_target_path . $this->getThumbPrefix() . $filename)) {
+                $this->log->root()->warning('Image thumbnail could not be cloned for object for question: ' . $target_question_id);
+            }
+        }
+    }
+
     public function rebuildThumbnails(
         bool $is_single_line,
         int $thumbnail_size,

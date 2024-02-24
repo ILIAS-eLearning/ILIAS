@@ -139,7 +139,7 @@ class SuggestedSolutionsDatabaseRepository
         $this->additionalOnDelete($question_id);
     }
 
-    public function syncForQuestion(int $source_question_id, int $target_question_id): void
+    public function clone(int $source_question_id, int $target_question_id): void
     {
         if ($source_question_id === $target_question_id) {
             throw new \LogicException('do not sync with same question');

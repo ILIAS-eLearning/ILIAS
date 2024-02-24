@@ -145,24 +145,18 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         );
     }
 
-    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    protected function cloneSpecificFeedback(int $source_question_id, int $target_question_id): void
     {
-        $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
-        parent::duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedbackSetting($source_question_id, $target_question_id);
+        parent::cloneSpecificFeedback($source_question_id, $target_question_id);
     }
 
-    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
-    {
-        $this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
-        parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
-    }
-
-    private function syncSpecificFeedbackSetting(int $sourceQuestionId, int $targetQuestionId): void
+    private function cloneSpecificFeedbackSetting(int $source_question_id, int $target_question_id): void
     {
         $res = $this->db->queryF(
             "SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
             array('integer'),
-            array($sourceQuestionId)
+            array($source_question_id)
         );
 
         $row = $this->db->fetchAssoc($res);
@@ -174,7 +168,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         $this->db->update(
             $this->getSpecificQuestionTableName(),
             array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),
-            array( 'question_fi' => array('integer', $targetQuestionId) )
+            array( 'question_fi' => array('integer', $target_question_id) )
         );
     }
 }

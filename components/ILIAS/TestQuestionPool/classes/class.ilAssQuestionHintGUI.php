@@ -85,9 +85,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      */
     private function showFormCmd(ilPropertyFormGUI $form = null): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-
         if ($form instanceof ilPropertyFormGUI) {
             $form->setValuesByPost();
         } elseif ($this->request->isset('hint_id') && (int) $this->request->raw('hint_id')) {
@@ -95,7 +92,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
             if (!$questionHint->load((int) $this->request->raw('hint_id'))) {
                 $this->main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $this->request->raw('hint_id'), true);
-                $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+                $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             }
 
             $form = $this->buildForm($questionHint);
@@ -137,11 +134,9 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             }
 
             $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
-            if (
-                $this->request->raw('calling_test')
+            if ($this->request->raw('calling_test')
                 && $originalexists
-                && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())
-            ) {
+                && $this->questionOBJ->isWriteable()) {
                 $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
 

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
+use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
 
 /**
  * Class for single choice questions
@@ -37,7 +37,7 @@ use ILIAS\TestQuestionPool\ManipulateThumbnailsInChoiceQuestionsTrait;
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, QuestionLMExportable, QuestionAutosaveable
 {
-    use ManipulateThumbnailsInChoiceQuestionsTrait;
+    use ManipulateImagesInChoiceQuestionsTrait;
 
     protected const OUTPUT_ORDER = 0;
     protected const OUTPUT_RANDOM = 1;
@@ -225,22 +225,17 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         parent::loadFromDb($question_id);
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $clone->duplicateImages($source_question_id, $source_parent_id);
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
-        $clone->copyImages($source_question_id, $source_parent_id);
-        return $clone;
+        $this->cloneImages(
+            $this->getId(),
+            $this->getObjId(),
+            $target->getId(),
+            $target->getObjId(),
+            $this->getAnswers()
+        );
+        return $target;
     }
 
     public function addAnswer(
@@ -722,138 +717,10 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return 0;
     }
 
-    /**
-    * Deletes an image file
-    *
-    * @param string $image_filename Name of the image file to delete
-    * @access private
-    */
-    public function deleteImage($image_filename): void
-    {
-        $imagepath = $this->getImagePath();
-        @unlink($imagepath . $image_filename);
-        $thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
-        @unlink($thumbpath);
-    }
-
-    public function duplicateImages($question_id, $objectId = null): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-
-        if ((int) $objectId > 0) {
-            $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
-        }
-
-        foreach ($this->answers as $answer) {
-            if ($answer->hasImage()) {
-                $filename = $answer->getImage();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-                    $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-                        $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
-                    }
-                }
-            }
-        }
-    }
-
-    public function copyImages($question_id, $source_questionpool): void
-    {
-        /** @var $ilLog ilLogger */
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-        foreach ($this->answers as $answer) {
-            if ($answer->hasImage()) {
-                $filename = $answer->getImage();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-
-                if (file_exists($imagepath_original . $filename)) {
-                    if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-                        $ilLog->warning(sprintf(
-                            "Could not clone source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                            $imagepath_original . $filename,
-                            $imagepath . $filename,
-                            $question_id,
-                            $this->id,
-                            $source_questionpool,
-                            $this->obj_id
-                        ));
-                    }
-                }
-
-                if (file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->warning(sprintf(
-                            "Could not clone thumbnail source image '%s' to '%s' (srcQuestionId: %s|tgtQuestionId: %s|srcParentObjId: %s|tgtParentObjId: %s)",
-                            $imagepath_original . $this->getThumbPrefix() . $filename,
-                            $imagepath . $this->getThumbPrefix() . $filename,
-                            $question_id,
-                            $this->id,
-                            $source_questionpool,
-                            $this->obj_id
-                        ));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-    * Sync images of a MC question on synchronisation with the original question
-    **/
-    protected function syncImages(): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $question_id = $this->questioninfo->getOriginalId();
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        ilFileUtils::delDir($imagepath_original);
-        foreach ($this->answers as $answer) {
-            if ($answer->hasImage()) {
-                $filename = $answer->getImage();
-                if (@file_exists($imagepath . $filename)) {
-                    if (!file_exists($imagepath)) {
-                        ilFileUtils::makeDirParents($imagepath);
-                    }
-                    if (!file_exists($imagepath_original)) {
-                        ilFileUtils::makeDirParents($imagepath_original);
-                    }
-                    if (!@copy($imagepath . $filename, $imagepath_original . $filename)) {
-                        $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
-                        $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
-                    }
-                }
-                if (@file_exists($imagepath . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath . $this->getThumbPrefix() . $filename, $imagepath_original . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
-                        $ilLog->write("object: " . print_r($this, true), $ilLog->ERROR);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-    * Collects all text in the question which could contain media objects
-    * which were created with the Rich Text Editor
-    */
+    /*
+     * Collects all text in the question which could contain media objects
+     * which were created with the Rich Text Editor
+     */
     public function getRTETextWithMediaObjects(): string
     {
         $text = parent::getRTETextWithMediaObjects();
@@ -1125,17 +992,21 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+    protected function afterSyncWithOriginal(
+        int $original_question_id,
+        int $clone_question_id,
+        int $original_parent_id,
+        int $clone_parent_id
+    ): void {
+        parent::afterSyncWithOriginal($original_question_id, $clone_question_id, $original_parent_id, $clone_parent_id);
 
-        $origImagePath = $this->questionFilesService->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath = $this->questionFilesService->buildImagePath($dupQuestionId, $dupParentObjId);
+        $original_image_path = $this->questionFilesService->buildImagePath($original_question_id, $original_parent_id);
+        $clone_image_path = $this->questionFilesService->buildImagePath($clone_question_id, $clone_parent_id);
 
-        ilFileUtils::delDir($origImagePath);
-        if (is_dir($dupImagePath)) {
-            ilFileUtils::makeDirParents($origImagePath);
-            ilFileUtils::rCopy($dupImagePath, $origImagePath);
+        ilFileUtils::delDir($original_image_path);
+        if (is_dir($clone_image_path)) {
+            ilFileUtils::makeDirParents($original_image_path);
+            ilFileUtils::rCopy($clone_image_path, $original_image_path);
         }
     }
 
