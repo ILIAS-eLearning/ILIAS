@@ -193,90 +193,49 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         parent::loadFromDb($question_id);
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $list = $this->getRepository()->getOrderingList($this->getId())
-            ->withQuestionId($clone->getId());
-        $list->distributeNewRandomIdentifiers();
-        $clone->setOrderingElementList($list);
-        $clone->duplicateImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
         $list = $this->getRepository()->getOrderingList($this->getId())
-            ->withQuestionId($clone->getId());
+            ->withQuestionId($target->getId());
         $list->distributeNewRandomIdentifiers();
-        $clone->setOrderingElementList($list);
-        $clone->duplicateImages($source_question_id, $source_parent_id, $clone->getId(), $clone->getObjId());
-        return $clone;
+        $target->setOrderingElementList($list);
+        $this->cloneImages($this->getId(), $this->getObjId(), $target->getId(), $target->getObjId());
+        return $target;
     }
 
-    public function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        if ($this->isImageOrderingType()) {
-            $imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
-            $imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
-
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
-            }
-            foreach ($this->getOrderingElementList() as $element) {
-                $filename = $element->getContent();
-
-                if ($filename === '') {
-                    continue;
-                }
-
-                if (!file_exists($imagepath_original . $filename)
-                    || !copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("image could not be duplicated!!!!");
-                    $ilLog->write($imagepath_original . $filename);
-                    $ilLog->write($imagepath . $filename);
-                }
-                if (file_exists($imagepath_original . $this->getThumbPrefix() . $filename)
-                    && !copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                    $ilLog->write("image thumbnail could not be duplicated!!!!");
-                }
-            }
+    public function cloneImages(
+        int $source_question_id,
+        int $source_parent_id,
+        int $target_question_id,
+        int $target_parent_id
+    ): void {
+        if (!$this->isImageOrderingType()) {
+            return;
         }
-    }
 
-    /**
-     * @deprecated (!)
-     * simply use the working method duplicateImages(), we do not search the difference here
-     * and we will delete this soon (!) currently no usage found, remove for il5.3
-     */
-    public function copyImages($question_id, $source_questionpool): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        if ($this->getOrderingType() == self::OQ_PICTURES) {
-            $imagepath = $this->getImagePath();
-            $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-            $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-            if (!file_exists($imagepath)) {
-                ilFileUtils::makeDirParents($imagepath);
+        $image_source_path = $this->getImagePath($source_question_id, $source_parent_id);
+        $image_target_path = $this->getImagePath($target_question_id, $target_parent_id);
+
+        if (!file_exists($image_target_path)) {
+            ilFileUtils::makeDirParents($image_target_path);
+        } else {
+            $this->removeAllImageFiles($image_target_path);
+        }
+        foreach ($this->getOrderingElementList() as $element) {
+            $filename = $element->getContent();
+
+            if ($filename === '') {
+                continue;
             }
-            foreach ($this->getOrderingElementList() as $element) {
-                $filename = $element->getContent();
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write('Ordering Question image could not be copied: ' . $imagepath_original . ${filename});
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write('Ordering Question image thumbnail could not be copied: ' . $imagepath_original . $this->getThumbPrefix() . $filename);
-                    }
-                }
+
+            if (!file_exists($image_source_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('Image could not be cloned for object for question: ' . $target_question_id);
+            }
+            if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy($image_source_path . $this->getThumbPrefix() . $filename, $image_target_path . $this->getThumbPrefix() . $filename)) {
+                $this->log->root()->warning('Image thumbnails could not be cloned for object for question: ' . $target_question_id);
             }
         }
     }
@@ -1331,15 +1290,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         return $this->getOrderingElementList()->getElements();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
-        $this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
     }
 
     // fau: testNav - new function getTestQuestionConfig()

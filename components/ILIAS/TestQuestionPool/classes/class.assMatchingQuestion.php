@@ -336,109 +336,67 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         parent::loadFromDb((int)$question_id);
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $clone->duplicateImages($source_question_id, $source_parent_id);
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
-        $clone->copyImages($source_question_id, $source_parent_id);
-        return $clone;
+        $target->cloneImages($this->getId(), $this->getObjId(), $target->getId(), $target->getObjId());
+        return $target;
     }
 
-    public function duplicateImages($question_id, $objectId = null): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+    private function cloneImages(
+        int $source_question_id,
+        int $source_parent_id,
+        int $target_question_id,
+        int $target_parent_id
+    ): void {
+        $image_source_path = $this->getImagePath($source_question_id, $source_parent_id);
+        $image_target_path = $this->getImagePath($target_question_id, $target_parent_id);
 
-        if ((int) $objectId > 0) {
-            $imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+        if (!file_exists($image_target_path)) {
+            ilFileUtils::makeDirParents($image_target_path);
+        } else {
+            $this->removeAllImageFiles($image_target_path);
         }
 
         foreach ($this->terms as $term) {
-            if (strlen($term->getPicture())) {
-                $filename = $term->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                    }
-                }
+            if ($term->getPicture() === '') {
+                continue;
+            }
+
+            $filename = $term->getPicture();
+            if (!file_exists($image_source_path . $filename, $image_target_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('matching question image could not be copied: '
+                    . $image_source_path . $filename);
+            }
+            if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy(
+                    $image_source_path . $this->getThumbPrefix() . $filename,
+                    $image_target_path . $this->getThumbPrefix() . $filename
+                )) {
+                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                    . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->getPicture())) {
-                $filename = $definition->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
-                }
-                if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                        $ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                    }
-                }
+            if ($definition->getPicture() === '') {
+                continue;
             }
-        }
-    }
+            $filename = $definition->getPicture();
 
-    public function copyImages($question_id, $source_questionpool): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
-        $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
-        foreach ($this->terms as $term) {
-            if (strlen($term->getPicture())) {
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
-                $filename = $term->getPicture();
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
-                    $ilLog->write("matching question image could not be copied: $imagepath_original$filename");
-                }
-                if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
-                    $ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                }
+            if (!file_exists($image_source_path . $filename)
+                || !copy($image_source_path . $filename, $image_target_path . $filename)) {
+                $this->log->root()->warning('matching question image could not be copied: '
+                    . $image_source_path . $filename);
             }
-        }
-        foreach ($this->definitions as $definition) {
-            if (strlen($definition->getPicture())) {
-                $filename = $definition->getPicture();
-                if (!file_exists($imagepath)) {
-                    ilFileUtils::makeDirParents($imagepath);
-                }
 
-                if (assQuestion::isFileAvailable($imagepath_original . $filename)) {
-                    copy($imagepath_original . $filename, $imagepath . $filename);
-                } else {
-                    $ilLog->write("matching question image could not be copied: $imagepath_original$filename");
-                }
-
-                if (assQuestion::isFileAvailable($imagepath_original . $this->getThumbPrefix() . $filename)) {
-                    copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename);
-                } else {
-                    $ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
-                }
+            if (!file_exists($image_source_path . $this->getThumbPrefix() . $filename)
+                || !copy(
+                    $image_source_path . $this->getThumbPrefix() . $filename,
+                    $image_target_path . $this->getThumbPrefix() . $filename
+                )) {
+                $this->log->root()->warning('matching question image thumbnail could not be copied: '
+                    . $image_source_path . $this->getThumbPrefix() . $filename);
             }
         }
     }
@@ -1455,17 +1413,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId): void
-    {
-        parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
+    protected function afterSyncWithOriginal(
+        int $original_question_id,
+        int $clone_question_id,
+        int $original_parent_id,
+        int $clone_parent_id
+    ): void {
+        parent::afterSyncWithOriginal($original_question_id, $clone_question_id, $original_parent_id, $clone_parent_id);
 
-        $origImagePath = $this->questionFilesService->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath = $this->questionFilesService->buildImagePath($dupQuestionId, $dupParentObjId);
+        $original_image_path = $this->questionFilesService->buildImagePath($original_question_id, $original_parent_id);
+        $clone_image_path = $this->questionFilesService->buildImagePath($clone_question_id, $clone_parent_id);
 
-        ilFileUtils::delDir($origImagePath);
-        if (is_dir($dupImagePath)) {
-            ilFileUtils::makeDirParents($origImagePath);
-            ilFileUtils::rCopy($dupImagePath, $origImagePath);
+        ilFileUtils::delDir($original_image_path);
+        if (is_dir($clone_image_path)) {
+            ilFileUtils::makeDirParents($original_image_path);
+            ilFileUtils::rCopy($clone_image_path, $original_image_path);
         }
     }
 

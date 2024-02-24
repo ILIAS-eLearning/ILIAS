@@ -398,7 +398,7 @@ abstract class ilAssQuestionFeedback
     final public function duplicateFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $this->duplicateGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
@@ -426,7 +426,7 @@ abstract class ilAssQuestionFeedback
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getGenericFeedbackPageObjectType();
-                $this->duplicatePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
+                $this->clonePageObject($page_object_type, $row['feedback_id'], $feedbackId, $duplicateQuestionId);
             }
         }
     }
@@ -435,21 +435,21 @@ abstract class ilAssQuestionFeedback
      * duplicates the SPECIFIC feedback relating to the given original question id
      * and saves it for the given duplicate question id
      */
-    abstract protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
+    abstract protected function cloneSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
 
     /**
      * syncs the feedback from a duplicated question back to the original question
      */
-    final public function syncFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    final public function cloneFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
-        $this->syncGenericFeedback($originalQuestionId, $duplicateQuestionId);
-        $this->syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneGenericFeedback($originalQuestionId, $duplicateQuestionId);
+        $this->cloneSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
     /**
      * syncs the GENERIC feedback from a duplicated question back to the original question
      */
-    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    private function cloneGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         // delete generic feedback of the original question
         $this->db->manipulateF(
@@ -526,11 +526,6 @@ abstract class ilAssQuestionFeedback
 
         return false;
     }
-
-    /**
-     * syncs the SPECIFIC feedback from a duplicated question back to the original question
-     */
-    abstract protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void;
 
     final protected function getGenericFeedbackTableName(): string
     {
@@ -636,16 +631,21 @@ abstract class ilAssQuestionFeedback
         $pageObject->createFromXML();
     }
 
-    final protected function duplicatePageObject(string $page_object_type, int $original_page_object_id, int $duplicate_page_object_id, int $duplicate_page_object_parent_id): void
-    {
-        $this->ensurePageObjectExists($page_object_type, $original_page_object_id);
+    final protected function clonePageObject(
+        string $page_object_type,
+        int $source_page_object_id,
+        int $target_page_object_id,
+        int $target_page_object_parent_id
+    ): void {
+        $this->ensurePageObjectExists($page_object_type, $source_page_object_id);
+        $this->ensurePageObjectExists($page_object_type, $target_page_object_id);
 
         $cl = $this->getClassNameByType($page_object_type);
 
-        $pageObject = new $cl($original_page_object_id);
-        $pageObject->setParentId($duplicate_page_object_parent_id);
-        $pageObject->setId($duplicate_page_object_id);
-        $pageObject->createFromXML();
+        $pageObject = new $cl($source_page_object_id);
+        $pageObject->setParentId($target_page_object_parent_id);
+        $pageObject->setId($target_page_object_id);
+        $pageObject->updateFromXML();
     }
 
     final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void

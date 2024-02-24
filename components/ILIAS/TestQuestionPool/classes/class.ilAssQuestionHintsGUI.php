@@ -237,23 +237,18 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
             return;
         }
 
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-
         $hintIds = self::fetchHintIdsParameter();
 
         if (!count($hintIds)) {
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
-            $ilCtrl->redirect($this);
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('tst_question_hints_delete_hints_missing_selection_msg'), true);
+            $this->ctrl->redirect($this);
         }
 
         $questionCompleteHintList = ilAssQuestionHintList::getListByQuestionId($this->questionOBJ->getId());
 
         $questionRemainingHintList = new ilAssQuestionHintList();
 
-        foreach ($questionCompleteHintList as $listKey => $questionHint) {
+        foreach ($questionCompleteHintList as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
 
             if (in_array($questionHint->getId(), $hintIds)) {
@@ -271,11 +266,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         if ($this->request->raw("calling_test")
             && $originalexists
-            && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())) {
-            $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+            && $this->questionOBJ->isWriteable()) {
+            $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
 
-        $ilCtrl->redirect($this);
+        $this->ctrl->redirect($this);
     }
 
     /**
@@ -328,8 +323,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         if ($this->request->raw("calling_test")
             && $originalexists
-            && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $this->questionOBJ->getCurrentUser()->getId())) {
-            $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
+            && $this->questionOBJ->isWritable()) {
+            $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
 
         $ilCtrl->redirect($this);

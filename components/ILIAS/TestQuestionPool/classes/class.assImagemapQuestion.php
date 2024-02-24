@@ -204,88 +204,49 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): \assQuestion {
-        $clone->duplicateImage($source_question_id, $source_parent_id);
-        return $clone;
-    }
-
     protected function cloneQuestionTypeSpecificProperties(
-        \assQuestion $clone,
-        int $source_question_id,
-        int $source_parent_id
+        \assQuestion $target
     ): \assQuestion {
-        $clone->copyImage($source_question_id, $source_parent_id);
-        return $clone;
+        $this->copyImagemapFiles($this->getId(), $this->getObjId(), $target->getId(), $target->getObjId());
+        return $target;
     }
 
-    public function duplicateImage($question_id, $objectId = null): void
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
+    public function copyImagemapFiles(
+        int $source_question_id,
+        int $source_parent_id,
+        int $target_question_id,
+        int $target_parent_id
+    ): void {
+        $image_source_path = $this->getImagePath($source_question_id, $source_parent_id);
+        $image_target_path = $this->getImagePath($target_question_id, $target_parent_id);
 
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace('/$this->id/images', '/$question_id/images', $imagepath);
-
-        if ((int) $objectId > 0) {
-            $imagepath_original = str_replace('/$this->obj_id/', '/$objectId/', $imagepath_original);
+        if (!file_exists($image_target_path)) {
+            ilFileUtils::makeDirParents($image_target_path);
+        } else {
+            $this->removeAllImageFiles($image_target_path);
         }
 
-        if (!file_exists($imagepath)) {
-            ilFileUtils::makeDirParents($imagepath);
-        }
-        $filename = $this->getImageFilename();
-
-        // #18755
-        if (!file_exists($imagepath_original . $filename)) {
-            $ilLog->write('Could not find an image map file when trying to duplicate image: ' . $imagepath_original . $filename);
-            $imagepath_original = str_replace('/$this->obj_id/', '/$objectId/', $imagepath_original);
-            $ilLog->write('Using fallback source directory:' . $imagepath_original);
-        }
-
-        if (!file_exists($imagepath_original . $filename) || !copy($imagepath_original . $filename, $imagepath . $filename)) {
-            $ilLog->write('Could not duplicate image for image map question: ' . $imagepath_original . $filename);
-        }
-    }
-
-    public function copyImage($question_id, $source_questionpool): void
-    {
-        $imagepath = $this->getImagePath();
-        $imagepath_original = str_replace('/$this->id/images', '/$question_id/images', $imagepath);
-        $imagepath_original = str_replace('/$this->obj_id/', '/$source_questionpool/', $imagepath_original);
-        if (!file_exists($imagepath)) {
-            ilFileUtils::makeDirParents($imagepath);
-        }
-        $filename = $this->getImageFilename();
-        if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-            print 'image could not be copied!!!! ';
+        $src = opendir($image_source_path);
+        while($src_file = readdir($src)) {
+            if ($src_file === '.' || $src_file === '..') {
+                continue;
+            }
+            copy(
+                $image_source_path . DIRECTORY_SEPARATOR . $src_file,
+                $image_target_path . DIRECTORY_SEPARATOR . $src_file
+            );
         }
     }
 
-    /**
-    * Loads a assImagemapQuestion object from a database
-    *
-    * Loads a assImagemapQuestion object from a database (experimental)
-    *
-    * @param object $db A pear DB object
-    * @param integer $question_id A unique key which defines the multiple choice test in the database
-    * @access public
-    */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             'SELECT qpl_questions.*, ' . $this->getAdditionalTableName() . '.* FROM qpl_questions LEFT JOIN ' . $this->getAdditionalTableName() . ' ON ' . $this->getAdditionalTableName() . '.question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s',
             ['integer'],
             [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data['obj_fi']);
             $this->setTitle((string) $data['title']);
@@ -310,13 +271,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } catch (ilTestQuestionPoolException $e) {
             }
 
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 'SELECT * FROM qpl_a_imagemap WHERE question_fi = %s ORDER BY aorder ASC',
                 ['integer'],
                 [$question_id]
             );
             if ($result->numRows() > 0) {
-                while ($data = $ilDB->fetchAssoc($result)) {
+                while ($data = $this->db->fetchAssoc($result)) {
                     $image_map_question = new ASS_AnswerImagemap($data['answertext'] ?? '', $data['points'], $data['aorder']);
                     $image_map_question->setCoords($data['coords']);
                     $image_map_question->setArea($data['area']);
@@ -375,9 +336,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
                 return;
             }
-            global $DIC;
-            $ilLog = $DIC['ilLog'];
-            $ilLog->write('gespeichert: ' . $imagepath . $image_filename);
+            $this->log->write('gespeichert: ' . $imagepath . $image_filename);
         }
     }
 
@@ -704,13 +663,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $previewSession->setParticipantsSolution($solution);
-    }
-
-    public function syncWithOriginal(): void
-    {
-        if ($this->questioninfo->getOriginalId()) {
-            parent::syncWithOriginal();
-        }
     }
 
     /**

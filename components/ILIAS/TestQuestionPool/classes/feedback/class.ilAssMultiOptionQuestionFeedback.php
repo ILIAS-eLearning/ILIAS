@@ -235,47 +235,20 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         );
     }
 
-    protected function duplicateSpecificFeedback(int $original_question_id, int $duplicate_question_id): void
-    {
-        $res = $this->db->queryF(
-            "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-            ['integer'],
-            [$original_question_id]
-        );
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            $next_id = $this->db->nextId($this->getSpecificFeedbackTableName());
-
-            $this->db->insert($this->getSpecificFeedbackTableName(), [
-                'feedback_id' => ['integer', $next_id],
-                'question_fi' => ['integer', $duplicate_question_id],
-                'question' => ['integer', $row['question']],
-                'answer' => ['integer', $row['answer']],
-                'feedback' => ['text', $row['feedback']],
-                'tstamp' => ['integer', time()]
-            ]);
-
-            if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-                $pageObjectType = $this->getSpecificAnswerFeedbackPageObjectType();
-                $this->duplicatePageObject($pageObjectType, $row['feedback_id'], $next_id, $duplicate_question_id);
-            }
-        }
-    }
-
-    protected function syncSpecificFeedback(int $original_question_id, int $duplicate_question_id): void
+    protected function cloneSpecificFeedback(int $source_question_id, int $target_question_id): void
     {
         // delete specific feedback of the original
         $this->db->manipulateF(
             "DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             ['integer'],
-            [$original_question_id]
+            [$source_question_id]
         );
 
         // get specific feedback of the actual question
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
             ['integer'],
-            [$duplicate_question_id]
+            [$target_question_id]
         );
 
         // save specific feedback to the original
@@ -284,12 +257,17 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
             $this->db->insert($this->getSpecificFeedbackTableName(), [
                 'feedback_id' => ['integer', $next_id],
-                'question_fi' => ['integer', $original_question_id],
+                'question_fi' => ['integer', $source_question_id],
                 'question' => ['integer', $row['question']],
                 'answer' => ['integer', $row['answer']],
                 'feedback' => ['text', $row['feedback']],
                 'tstamp' => ['integer', time()]
             ]);
+
+            if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+                $page_object_type = $this->getSpecificAnswerFeedbackPageObjectType();
+                $this->clonePageObject($page_object_type, $row['feedback_id'], $next_id, $target_question_id);
+            }
         }
     }
 

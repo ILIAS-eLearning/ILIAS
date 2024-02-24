@@ -25,6 +25,7 @@ use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabas
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\QuestionFilesService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\InternalRequestService;
 
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
@@ -61,6 +62,7 @@ abstract class assQuestion implements Question
 
 
     protected QuestionInfoService $questioninfo;
+    protected InternalRequestService $questionpool_request;
     protected TestParticipantInfoService $testParticipantInfo;
     protected QuestionFilesService $questionFilesService;
     protected \ilAssQuestionProcessLocker $processLocker;
@@ -75,7 +77,7 @@ abstract class assQuestion implements Question
     protected HTTPServices $http;
     protected Refinery $refinery;
     protected Transformation $shuffler;
-    protected LoggingServices $ilLog;
+    protected LoggingServices $log;
     protected Container $dic;
 
     protected \ilAssQuestionLifecycle $lifecycle;
@@ -118,6 +120,7 @@ abstract class assQuestion implements Question
         int $owner = -1,
         string $question = ""
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->dic = $DIC;
         $lng = $DIC['lng'];
@@ -125,13 +128,14 @@ abstract class assQuestion implements Question
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questionpool_request = $DIC->testQuestionPool()->internal()->request();
         $this->questionFilesService = $DIC->testQuestionPool()->questionFiles();
         $this->testParticipantInfo = $DIC->test()->testParticipantInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;
-        $this->ilLog = $ilLog;
+        $this->log = $ilLog;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
@@ -450,7 +454,7 @@ abstract class assQuestion implements Question
                 case SuggestedSolution::TYPE_LM_PAGE:
                 case SuggestedSolution::TYPE_GLOSARY_TERM:
                     $output[] = '<a href="'
-                        . assQuestion::_getInternalLinkHref($solution->getInternalLink())
+                        . $this->getInternalLinkHref($solution->getInternalLink())
                         . '">'
                         . $this->lng->txt("solution_hint")
                         . '</a>';
@@ -880,7 +884,7 @@ abstract class assQuestion implements Question
         try {
             $this->deletePageOfQuestion($question_id);
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Could not delete page of question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Could not delete page of question $question_id: $e");
             return;
         }
 
@@ -899,7 +903,7 @@ abstract class assQuestion implements Question
             $this->feedbackOBJ->deleteGenericFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
             $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Could not delete additional table data of question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Could not delete additional table data of question $question_id: $e");
             return;
         }
 
@@ -911,14 +915,14 @@ abstract class assQuestion implements Question
                 [$question_id]
             );
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Could not delete delete question $question_id from a test: $e");
+            $this - log->root()->error("EXCEPTION: Could not delete delete question $question_id from a test: $e");
             return;
         }
 
         try {
             $this->getSuggestedSolutionsRepo()->deleteForQuestion($question_id);
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
             return;
         }
 
@@ -928,7 +932,7 @@ abstract class assQuestion implements Question
                 ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
             return;
         }
 
@@ -946,7 +950,7 @@ abstract class assQuestion implements Question
                 }
             }
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Error deleting the media objects of question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Error deleting the media objects of question $question_id: $e");
             return;
         }
         ilAssQuestionHintTracking::deleteRequestsByQuestionIds([$question_id]);
@@ -975,7 +979,7 @@ abstract class assQuestion implements Question
         try {
             ilObjQuestionPool::_updateQuestionCount($this->getObjId());
         } catch (Exception $e) {
-            $this->ilLog->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
+            $this - log->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
             return;
         }
     }
@@ -1028,19 +1032,11 @@ abstract class assQuestion implements Question
         return true;
     }
 
-    public function copyXHTMLMediaObjectsOfQuestion(int $a_q_id): void
+    public function cloneXHTMLMediaObjectsOfQuestion(int $soruce_question_id, int $target_question_id): void
     {
-        $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $a_q_id);
+        $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $soruce_question_id);
         foreach ($mobs as $mob) {
-            ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->getId());
-        }
-    }
-
-    public function syncXHTMLMediaObjectsOfQuestion(): void
-    {
-        $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
-        foreach ($mobs as $mob) {
-            ilObjMediaObject::_saveUsage($mob, "qpl:html", $this->original_id);
+            ilObjMediaObject::_saveUsage($mob, "qpl:html", $target_question_id);
         }
     }
 
@@ -1056,7 +1052,7 @@ abstract class assQuestion implements Question
         $this->page->create(false);
     }
 
-    public function copyPageOfQuestion(int $a_q_id): void
+    public function clonePageOfQuestion(int $a_q_id): void
     {
         if ($a_q_id > 0) {
             $page = new ilAssQuestionPage($a_q_id);
@@ -1253,22 +1249,19 @@ abstract class assQuestion implements Question
         string $title = '',
         string $author = '',
         int $owner = -1,
-        $testObjId = null
+        $test_obj_id = null
     ): int {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return -1;
         }
-        // duplicate the question in database
-        $this_id = $this->getId();
-        $this_obj_id = $this->getObjId();
 
-        $clone = $this;
+        $clone = clone $this;
         $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
-        if ((int) $testObjId > 0) {
-            $clone->setObjId($testObjId);
+        if ((int) $test_obj_id > 0) {
+            $clone->setObjId($test_obj_id);
         }
 
         if ($title) {
@@ -1286,51 +1279,46 @@ abstract class assQuestion implements Question
             $clone->saveToDb();
         }
 
-        $clone->copyPageOfQuestion($this_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
+        $clone->clonePageOfQuestion($this->getId());
+        $clone->cloneXHTMLMediaObjectsOfQuestion($this->getId());
 
-        $clone->duplicateQuestionTypeSpecificProperties($clone, $this_id, $this_obj_id);
+        $clone = $this->cloneQuestionTypeSpecificProperties($clone);
 
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
     }
 
-    protected function duplicateQuestionTypeSpecificProperties(
-        self $clone,
-        int $source_question_id,
-        int $source_parent_id
-    ): self {
-        return $clone;
-    }
-
-    final public function copyObject($target_questionpool_id, $title = ""): int
-    {
+    final public function copyObject(
+        int $target_parent_id,
+        string $title = ''
+    ): int {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
-        $clone = $this;
+        $clone = clone $this;
         $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
-        $source_questionpool_id = $this->getObjId();
-        $clone->setObjId($target_questionpool_id);
+        $source_parent_id = $this->getObjId();
+        $clone->setObjId($target_parent_id);
         if ($title) {
             $clone->setTitle($title);
         }
         $clone->saveToDb();
-        $clone->copyPageOfQuestion($original_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
+        $clone->clonePageOfQuestion($original_id);
+        $clone->cloneXHTMLMediaObjectsOfQuestion($original_id);
+        $clone = $this->cloneQuestionTypeSpecificProperties($clone);
 
-        $clone = $this->cloneQuestionTypeSpecificProperties($clone, $target_parent_id, $source_parent_id);
-
-        $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
+        $clone->onCopy($source_parent_id, $original_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
     }
 
-    final public function createNewOriginalFromThisDuplicate(int $target_parent_id, string $target_question_title = ""): int
-    {
+    final public function createNewOriginalFromThisDuplicate(
+        int $target_parent_id,
+        string $target_question_title = ''
+    ): int {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
@@ -1339,7 +1327,7 @@ abstract class assQuestion implements Question
         $source_parent_id = $this->getObjId();
 
         // duplicate the question in database
-        $clone = $this;
+        $clone = clone $this;
         $clone->id = -1;
 
         $clone->setObjId($target_parent_id);
@@ -1349,10 +1337,10 @@ abstract class assQuestion implements Question
         }
 
         $clone->saveToDb();
-        $clone->copyPageOfQuestion($source_question_id);
-        $clone->copyXHTMLMediaObjectsOfQuestion($source_question_id);
+        $clone->clonePageOfQuestion($source_question_id);
+        $clone->cloneXHTMLMediaObjectsOfQuestion($source_question_id);
 
-        $clone = $this->cloneQuestionTypeSpecificProperties($clone, $target_parent_id, $source_parent_id);
+        $clone = $this->cloneQuestionTypeSpecificProperties($clone);
 
         $clone->onCopy($source_parent_id, $source_question_id, $clone->getObjId(), $clone->getId());
 
@@ -1360,11 +1348,9 @@ abstract class assQuestion implements Question
     }
 
     protected function cloneQuestionTypeSpecificProperties(
-        self $clone,
-        int $source_question_id,
-        int $source_parent_id
+        self $target
     ): self {
-        return $clone;
+        return $target;
     }
 
     public function saveToDb(): void
@@ -1391,6 +1377,20 @@ abstract class assQuestion implements Question
         );
 
         ilObjQuestionPool::_updateQuestionCount($this->getObjId());
+    }
+
+    protected function removeAllImageFiles(string $image_target_path): void
+    {
+        $target = opendir($image_target_path);
+        while($target_file = readdir($target)) {
+            if ($target_file === '.' || $target_file === '..') {
+                continue;
+            }
+            copy(
+                $image_target_path . DIRECTORY_SEPARATOR . $target_file,
+                $image_target_path . DIRECTORY_SEPARATOR . $target_file
+            );
+        }
     }
 
     public static function saveOriginalId(int $questionId, int $originalId): void
@@ -1422,25 +1422,26 @@ abstract class assQuestion implements Question
 
     protected function onDuplicate(int $originalParentId, int $originalQuestionId, int $duplicateParentId, int $duplicateQuestionId): void
     {
-        $this->duplicateSuggestedSolutionFiles($originalParentId, $originalQuestionId);
+        $this->cloneSuggestedSolutionFiles($originalParentId, $originalQuestionId);
         $this->feedbackOBJ->duplicateFeedback($originalQuestionId, $duplicateQuestionId);
         $this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
         $this->duplicateSkillAssignments($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId);
         $this->duplicateComments($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId);
     }
 
-    protected function beforeSyncWithOriginal(int $origQuestionId, int $dupQuestionId, int $origParentObjId, int $dupParentObjId): void
-    {
-    }
-
-    protected function afterSyncWithOriginal(int $origQuestionId, int $dupQuestionId, int $origParentObjId, int $dupParentObjId): void
-    {
-        $this->feedbackOBJ->syncFeedback($origQuestionId, $dupQuestionId);
+    protected function afterSyncWithOriginal(
+        int $original_question_id,
+        int $clone_question_id,
+        int $original_parent_id,
+        int $clone_parent_id
+    ): void {
+        $this->feedbackOBJ->syncFeedback($original_question_id, $clone_question_id);
     }
 
     protected function onCopy(int $sourceParentId, int $sourceQuestionId, int $targetParentId, int $targetQuestionId): void
     {
-        $this->copySuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
+        $this->duplicateSuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
+
         $this->feedbackOBJ->duplicateFeedback($sourceQuestionId, $targetQuestionId);
         $this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
         $this->duplicateSkillAssignments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
@@ -1531,12 +1532,12 @@ abstract class assQuestion implements Question
         return null;
     }
 
-    protected function syncSuggestedSolutions(
-        int $target_question_id,
-        int $target_obj_id
+    protected function cloneSuggestedSolutions(
+        int $source_question_id,
+        int $target_question_id
     ): void {
-        $this->getSuggestedSolutionsRepo()->syncForQuestion($this->getId(), $target_question_id);
-        $this->syncSuggestedSolutionFiles($target_question_id, $target_obj_id);
+        $this->getSuggestedSolutionsRepo()->clone($source_question_id, $target_question_id);
+        $this->cloneSuggestedSolutionFiles($source_question_id, $target_question_id);
     }
 
     /**
@@ -1544,34 +1545,32 @@ abstract class assQuestion implements Question
     */
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id): void
     {
-        foreach ($this->suggested_solutions as $index => $solution) {
-            if (!is_array($solution)
-                || !array_key_exists('type', $solution)
-                || $solution['type'] !== 'file') {
+        foreach ($this->suggested_solutions as $solution) {
+            if (!$solution->isOfTypeFile()
+                || $solution->getFilename() === '') {
                 continue;
             }
 
             $filepath = $this->getSuggestedSolutionPath();
             $filepath_original = str_replace(
                 "/{$this->obj_id}/{$this->id}/solution",
-                "/$parent_id/$question_id/solution",
+                "/{$parent_id}/{$question_id}/solution",
                 $filepath
             );
             if (!file_exists($filepath)) {
                 ilFileUtils::makeDirParents($filepath);
             }
-            $filename = $solution->getFilename();
-            if (strlen($filename) &&
-                !copy($filepath_original . $filename, $filepath . $filename)) {
-                $this->ilLog->root()->error("File could not be duplicated!!!!");
-                $this->ilLog->root()->error("object: " . print_r($this, true));
+            if (!is_file($filepath_original . $filename)
+                || !copy($filepath_original . $filename, $filepath . $filename)) {
+                $this - log->root()->error("File could not be duplicated!!!!");
+                $this - log->root()->error("object: " . print_r($this, true));
             }
         }
     }
 
-    protected function syncSuggestedSolutionFiles(
-        int $target_question_id,
-        int $target_obj_id
+    protected function cloneSuggestedSolutionFiles(
+        int $source_question_id,
+        int $target_question_id
     ): void {
         $filepath = $this->getSuggestedSolutionPath();
         $filepath_original = str_replace(
@@ -1580,120 +1579,105 @@ abstract class assQuestion implements Question
             $filepath
         );
         ilFileUtils::delDir($filepath_original);
-        foreach ($this->suggested_solutions as $index => $solution) {
-            if ($solution->isOfTypeFile()) {
-                if (!file_exists($filepath_original)) {
-                    ilFileUtils::makeDirParents($filepath_original);
-                }
-                $filename = $solution->getFilename();
-                if (strlen($filename)) {
-                    if (!@copy($filepath . $filename, $filepath_original . $filename)) {
-                        $this->ilLog->root()->error("File could not be duplicated!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
-                }
+        foreach ($this->suggested_solutions as $solution) {
+            if (!$solution->isOfTypeFile()
+                || $solution->getFilename() === '') {
+                continue;
             }
-        }
-    }
 
-    protected function copySuggestedSolutionFiles(int $source_questionpool_id, int $source_question_id): void
-    {
-        foreach ($this->suggested_solutions as $index => $solution) {
-            if ($solution->isOfTypeFile()) {
-                $filepath = $this->getSuggestedSolutionPath();
-                $filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
-                if (!file_exists($filepath)) {
-                    ilFileUtils::makeDirParents($filepath);
-                }
-                $filename = $solution->getFilename();
-                if ($filename !== '') {
-                    if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->root()->error("File could not be copied!!!!");
-                        $this->ilLog->root()->error("object: " . print_r($this, true));
-                    }
-                }
+            if (!file_exists($filepath_original)) {
+                ilFileUtils::makeDirParents($filepath_original);
+            }
+
+            if (!is_file($filepath_original . $filename)
+                || copy($filepath . $filename, $filepath_original . $filename)) {
+                $this - log->root()->error("File could not be duplicated!!!!");
+                $this - log->root()->error("object: " . print_r($this, true));
             }
         }
     }
 
     public function resolveInternalLink(string $internal_link): string
     {
-        if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches)) {
-            switch ($matches[2]) {
-                case "lm":
-                    $resolved_link = ilLMObject::_getIdForImportId($internal_link);
-                    break;
-                case "pg":
-                    $resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
-                    break;
-                case "st":
-                    $resolved_link = ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
-                    break;
-                case "git":
-                    $resolved_link = ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
-                    break;
-                case "mob":
-                    $resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
-                    break;
-            }
-            if ($resolved_link !== null) {
-                $resolved_link = $internal_link;
-            }
-        } else {
-            $resolved_link = $internal_link;
+        if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches) === false) {
+            return $internal_link;
         }
-        return $resolved_link ?? '';
+        switch ($matches[2]) {
+            case "lm":
+                $resolved_link = ilLMObject::_getIdForImportId($internal_link);
+                break;
+            case "pg":
+                $resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
+                break;
+            case "st":
+                $resolved_link = ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
+                break;
+            case "git":
+                $resolved_link = ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
+                break;
+            case "mob":
+                $resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
+                break;
+        }
+        if ($resolved_link !== null) {
+            return $resolved_link;
+        }
+        return $internal_link;
     }
 
 
     //TODO: move this to import or suggested solutions repo.
     //use in LearningModule and Survey as well ;(
-    public function _resolveIntLinks(int $question_id): void
+    public function resolveSuggestedSolutionLinks(): void
     {
         $resolvedlinks = 0;
-        $result = $this->db->queryF(
-            "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
+        $result_pre = $this->db->queryF(
+            "SELECT internal_link, suggested_solution_id FROM qpl_sol_sug WHERE question_fi = %s",
             ['integer'],
-            [$question_id]
+            [$this->getId()]
         );
-        if ($this->db->numRows($result) > 0) {
-            while ($row = $this->db->fetchAssoc($result)) {
-                $internal_link = $row["internal_link"];
-                $resolved_link = $this->resolveInternalLink($internal_link);
-                if ($internal_link !== $resolved_link) {
-                    // internal link was resolved successfully
-                    $affectedRows = $this->db->manipulateF(
-                        "UPDATE qpl_sol_sug SET internal_link = %s WHERE suggested_solution_id = %s",
-                        ['text','integer'],
-                        [$resolved_link, $row["suggested_solution_id"]]
-                    );
-                    $resolvedlinks++;
-                }
-            }
+        if ($this->db->numRows($result_pre) < 1) {
+            return;
         }
-        if ($resolvedlinks) {
-            // there are resolved links -> reenter theses links to the database
-            // delete all internal links from the database
-            ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
-            $result = $this->db->queryF(
-                "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
-                ['integer'],
-                [$question_id]
+        while ($row = $this->db->fetchAssoc($result_pre)) {
+            $internal_link = $row["internal_link"];
+            $resolved_link = $this->resolveInternalLink($internal_link);
+            if ($internal_link === $resolved_link) {
+                continue;
+            }
+            // internal link was resolved successfully
+            $this->db->manipulateF(
+                "UPDATE qpl_sol_sug SET internal_link = %s WHERE suggested_solution_id = %s",
+                ['text','integer'],
+                [$resolved_link, $row["suggested_solution_id"]]
             );
-            if ($this->db->numRows($result) > 0) {
-                while ($row = $this->db->fetchAssoc($result)) {
-                    if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches)) {
-                        ilInternalLink::_saveLink("qst", $question_id, $matches[2], $matches[3], $matches[1]);
-                    }
-                }
+            $resolvedlinks++;
+        }
+        if ($resolvedlinks === 0) {
+            return;
+        }
+
+        ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
+
+        $result_post = $this->db->queryF(
+            "SELECT internal_link FROM qpl_sol_sug WHERE question_fi = %s",
+            ['integer'],
+            [$this->getId()]
+        );
+        if ($this->db->numRows($result_post) < 1) {
+            return;
+        }
+
+        while ($row = $this->db->fetchAssoc($result_post)) {
+            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches)) {
+                ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
             }
         }
     }
 
-    public static function _getInternalLinkHref(string $target = ""): string
+    public function getInternalLinkHref(string $target): string
     {
-        global $DIC;
         $linktypes = [
             "lm" => "LearningModule",
             "pg" => "PageObject",
@@ -1708,7 +1692,7 @@ abstract class assQuestion implements Question
             switch ($linktypes[$matches[1]]) {
                 case "MediaObject":
                     $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type]
-                        . "&cmd=media&ref_id=" . $DIC->testQuestionPool()->internal()->request()->getRefId()
+                        . "&cmd=media&ref_id=" . $this->questionpool_request->getRefId()
                         . "&mob_id=" . $target_id;
                     break;
                 case "StructureObject":
@@ -1725,19 +1709,17 @@ abstract class assQuestion implements Question
 
     public function syncWithOriginal(): void
     {
-        $original_id = $this->getOriginalId();
-        if ($original_id === null) {
-            return; // No original -> no sync
+        if ($this->getOriginalId() === null) {
+            return;
         }
 
-        $original_obj_id = self::lookupParentObjId($this->getOriginalId());
+        $original_parent_id = self::lookupParentObjId($this->getOriginalId());
 
-        if (!$original_obj_id) {
-            return; // Original does not exist -> no sync
+        if ($original_parent_id === null) {
+            return;
         }
 
-        $this->beforeSyncWithOriginal($this->getOriginalId(), $this->getId(), $original_obj_id, $this->getObjId());
-
+        $this->cloneSuggestedSolutions($this->getId(), $this->getOriginalId());
         $original = clone $this;
         // Now we become the original
         $original->setId($this->getOriginalId());
@@ -1748,12 +1730,11 @@ abstract class assQuestion implements Question
 
         $original->deletePageOfQuestion($this->getOriginalId());
         $original->createPageObject();
-        $original->copyPageOfQuestion($this->getId());
-
-        $this->syncSuggestedSolutions($this->getOriginalId(), $original_obj_id);
-        $this->syncXHTMLMediaObjectsOfQuestion();
+        $original->clonePageOfQuestion($this->getId());
+        $original = $this->cloneQuestionTypeSpecificProperties($original);
+        $this->cloneXHTMLMediaObjectsOfQuestion();
         $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $original_obj_id);
-        $this->syncHints();
+        $this->cloneHints();
     }
 
     /**
@@ -1821,27 +1802,9 @@ abstract class assQuestion implements Question
         return null;
     }
 
-    public static function _isWriteable(int $question_id, int $user_id): bool
+    public function isWriteable(): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if (($question_id < 1) || ($user_id < 1)) {
-            return false;
-        }
-
-        $result = $ilDB->queryF(
-            "SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-            ['integer'],
-            [$question_id]
-        );
-        if ($ilDB->numRows($result) == 1) {
-            $row = $ilDB->fetchAssoc($result);
-            $qpl_object_id = (int) $row["obj_fi"];
-            return ilObjQuestionPool::_isWriteable($qpl_object_id, $user_id);
-        }
-
-        return false;
+        return ilObjQuestionPool::_isWriteable($this->getObjId(), $this->getCurrentUser()->getId());
     }
 
     /**
@@ -2060,37 +2023,41 @@ abstract class assQuestion implements Question
         return 0;
     }
 
-    public function syncHints(): void
-    {
+    public function cloneHints(
+        int $source_question_id,
+        int $target_question_id
+    ): void {
         // delete hints of the original
         $this->db->manipulateF(
             "DELETE FROM qpl_hints WHERE qht_question_fi = %s",
             ['integer'],
-            [$this->original_id]
+            [$target_question_id]
         );
 
         // get hints of the actual question
         $result = $this->db->queryF(
             "SELECT * FROM qpl_hints WHERE qht_question_fi = %s",
             ['integer'],
-            [$this->getId()]
+            [$source_question_id]
         );
 
         // save hints to the original
-        if ($this->db->numRows($result) > 0) {
-            while ($row = $this->db->fetchAssoc($result)) {
-                $next_id = $this->db->nextId('qpl_hints');
-                $this->db->insert(
-                    'qpl_hints',
-                    [
-                        'qht_hint_id' => ['integer', $next_id],
-                        'qht_question_fi' => ['integer', $this->original_id],
-                        'qht_hint_index' => ['integer', $row["qht_hint_index"]],
-                        'qht_hint_points' => ['float', $row["qht_hint_points"]],
-                        'qht_hint_text' => ['text', $row["qht_hint_text"]],
-                    ]
-                );
-            }
+        if ($this->db->numRows($result) < 1) {
+            return;
+        }
+
+        while ($row = $this->db->fetchAssoc($result)) {
+            $next_id = $this->db->nextId('qpl_hints');
+            $this->db->insert(
+                'qpl_hints',
+                [
+                    'qht_hint_id' => ['integer', $next_id],
+                    'qht_question_fi' => ['integer', $target_question_id],
+                    'qht_hint_index' => ['integer', $row["qht_hint_index"]],
+                    'qht_hint_points' => ['float', $row["qht_hint_points"]],
+                    'qht_hint_text' => ['text', $row["qht_hint_text"]],
+                ]
+            );
         }
     }
 
@@ -2340,17 +2307,17 @@ abstract class assQuestion implements Question
 
     // scorm2004-end ???
 
-    public static function lookupParentObjId(int $questionId): int
+    public static function lookupParentObjId(int $question_id): ?int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         $query = "SELECT obj_fi FROM qpl_questions WHERE question_id = %s";
 
-        $res = $ilDB->queryF($query, ['integer'], [$questionId]);
+        $res = $ilDB->queryF($query, ['integer'], [$question_id]);
         $row = $ilDB->fetchAssoc($res);
 
-        return $row['obj_fi'];
+        return $row['obj_fi'] ?? null;
     }
 
     protected function duplicateQuestionHints(int $originalQuestionId, int $duplicateQuestionId): void

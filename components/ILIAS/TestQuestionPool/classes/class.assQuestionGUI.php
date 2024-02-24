@@ -22,7 +22,10 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\TestQuestionPool\InternalRequestService;
+
+use ILIAS\Notes\GUIService;
 
 /**
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -30,22 +33,6 @@ use ILIAS\TestQuestionPool\InternalRequestService;
 */
 abstract class assQuestionGUI
 {
-    public const FORM_MODE_EDIT = 'edit';
-    public const FORM_MODE_ADJUST = 'adjust';
-
-    public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
-    public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
-
-    protected const SUGGESTED_SOLUTION_COMMANDS_CANCEL = 'cancelSuggestedSolution';
-    protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
-    protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
-
-    public const CORRECTNESS_NOT_OK = 0;
-    public const CORRECTNESS_MOSTLY_OK = 1;
-    public const CORRECTNESS_OK = 2;
-
-    protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
-
     /**
      * sk - 12.05.2023: This const is also used in ilKprimChoiceWizardInputGUI.
      * Don't ask, but I didn't find an easy fix without undoing two more
@@ -57,40 +44,64 @@ abstract class assQuestionGUI
     private const RETURN_AFTER_EXISTING_SAVE = 0;
 
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
+
+    public const FORM_MODE_EDIT = 'edit';
+    public const FORM_MODE_ADJUST = 'adjust';
+
+    public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
+    public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
+
+    public const CORRECTNESS_NOT_OK = 0;
+    public const CORRECTNESS_MOSTLY_OK = 1;
+    public const CORRECTNESS_OK = 2;
+
+    public const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
+    public const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
+    public const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview';
+    public const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
+    public const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
+
+    public const EDIT_CONTEXT_AUTHORING = 'authoring';
+    public const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
+
+    public const PRESENTATION_CONTEXT_TEST = 'pContextTest';
+    public const PRESENTATION_CONTEXT_RESULTS = 'pContextResults';
+
+    protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
+
+    protected const SUGGESTED_SOLUTION_COMMANDS_CANCEL = 'cancelSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_SAVE = 'saveSuggestedSolution';
+    protected const SUGGESTED_SOLUTION_COMMANDS_DEFAULT = 'suggestedsolution';
+
+
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
     private ilAccessHandler $access;
     private ilTabsGUI $tabs_gui;
     private ilRbacSystem $rbacsystem;
-
     private ilTree $tree;
     private ilDBInterface $db;
     protected ilLogger $logger;
     private ilComponentRepository $component_repository;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-
-    protected \ILIAS\Notes\GUIService $notes_gui;
-
+    protected QuestionInfoService $questioninfo;
+    protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
     private array $new_id_listeners = [];
     private int $new_id_listener_cnt = 0;
+    private ilAssQuestionPreviewSession $previewSession;
+    protected assQuestion $object;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilLanguage $lng;
 
-    /** @var ilAssQuestionPreviewSession  */
-    private $previewSession;
-
-    public assQuestion $object;
-    public ilGlobalPageTemplate $tpl;
-    public ilLanguage $lng;
-
-    public $error;
-    public string $errormessage;
+    protected $error;
+    protected string $errormessage;
 
     /** sequence number in test */
-    public int $sequence_no;
+    protected int $sequence_no;
 
     /** question count in test */
-    public int $question_count;
+    protected int $question_count;
 
     private $taxonomyIds = [];
 
@@ -102,21 +113,10 @@ abstract class assQuestionGUI
 
     private ?ilTestQuestionNavigationGUI $navigationGUI = null;
 
-    public const PRESENTATION_CONTEXT_TEST = 'pContextTest';
-    public const PRESENTATION_CONTEXT_RESULTS = 'pContextResults';
 
     private ?string $presentationContext = null;
 
-    public const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
-    public const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
-    public const RENDER_PURPOSE_PREVIEW = 'renderPurposePreview';
-    public const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
-    public const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
-
     private string $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
-
-    public const EDIT_CONTEXT_AUTHORING = 'authoring';
-    public const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
 
     private string $editContext = self::EDIT_CONTEXT_AUTHORING;
 
@@ -741,9 +741,10 @@ abstract class assQuestionGUI
             $this->object->saveToDb($old_id);
             $originalexists = !is_null($this->object->getOriginalId()) &&
                 $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
-            if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
-                        && (int) $this->request->raw('calling_consumer')))
-                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $this->object->getCurrentUser()->getId())) {
+            if (($this->request->raw("calling_test")
+                    || $this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer'))
+                && $originalexists
+                && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
                 $this->ctrl->redirect($this, "originalSyncForm");
@@ -1200,7 +1201,7 @@ abstract class assQuestionGUI
             $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "components/ILIAS/TestQuestionPool");
 
             if ($solution->isOfTypeLink()) {
-                $href = assQuestion::_getInternalLinkHref($solution->getInternalLink());
+                $href = $this->object->getInternalLinkHref($solution->getInternalLink());
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
                 $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("view") . "</a> ");
@@ -1265,7 +1266,7 @@ abstract class assQuestionGUI
                             $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                            && assQuestion::_isWriteable($this->object->getOriginalId(), $this->object->getCurrentUser()->getId())) {
+                            && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
                         } else {
@@ -1306,7 +1307,7 @@ abstract class assQuestionGUI
                         $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
-                        && assQuestion::_isWriteable($this->object->getOriginalId(), $this->object->getCurrentUser()->getId())) {
+                        && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
                         $this->originalSyncForm("suggestedsolution");
                         return;
                     } else {
