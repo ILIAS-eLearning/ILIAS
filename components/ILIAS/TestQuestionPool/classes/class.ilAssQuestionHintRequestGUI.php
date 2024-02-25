@@ -38,7 +38,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_BACK_TO_QUESTION = 'backToQuestion';
 
     public function __construct(
-        private ilTestOutputGUI|ilAssQuestionPreviewGUI $parent_gui,
+        private ilTestPlayerAbstractGUI|ilAssQuestionPreviewGUI $parent_gui,
         private string $parent_cmd,
         assQuestionGUI $question_gui,
         private $question_hint_tracking,

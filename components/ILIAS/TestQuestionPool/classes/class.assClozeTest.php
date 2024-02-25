@@ -1281,9 +1281,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @see $identical_scoring
     * @access public
     */
-    public function getIdenticalScoring()
+    public function getIdenticalScoring(): bool
     {
-        return ($this->identical_scoring) ? 1 : 0;
+        return $this->identical_scoring;
     }
 
     /**
@@ -1293,9 +1293,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @see $identical_scoring
     * @access public
     */
-    public function setIdenticalScoring($a_identical_scoring): void
+    public function setIdenticalScoring(bool $identical_scoring): void
     {
-        $this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
+        $this->identical_scoring = $identical_scoring;
     }
 
     /**

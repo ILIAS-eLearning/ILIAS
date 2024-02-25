@@ -42,7 +42,7 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
             $test_logger,
             $DIC['component.repository'],
             $this->createMock(ilObjTest::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
         );
     }
 

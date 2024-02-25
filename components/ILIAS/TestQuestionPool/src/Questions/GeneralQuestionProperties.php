@@ -96,6 +96,11 @@ class GeneralQuestionProperties
         return $this->class_name;
     }
 
+    public function getGuiClassName(): string
+    {
+        return $this->class_name . 'GUI';
+    }
+
     public function getTypeName(\ilLanguage $lng): string
     {
         if ($this->class_name === '') {

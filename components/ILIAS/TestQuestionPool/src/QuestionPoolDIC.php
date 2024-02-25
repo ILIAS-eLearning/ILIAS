@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
-use Pimple\Container;
+use Pimple\Container as PimpleContainer;
+use ILIAS\DI\Container as ILIASContainer;
 
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -28,27 +29,25 @@ use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 use ILIAS\Test\Participants\ParticipantRepository;
 
-class QuestionPoolDIC
+class QuestionPoolDIC extends PimpleContainer
 {
-    public static ?Container $dic = null;
+    public static ?self $dic = null;
 
-    public static function dic(): Container
+    public static function dic(): self
     {
         if (!self::$dic) {
-            self::$dic = self::buildDIC();
+            global $DIC;
+            self::$dic = self::buildDIC($DIC);
         }
         return self::$dic;
     }
 
-    protected static function buildDIC(): Container
+    protected static function buildDIC(ILIASContainer $DIC): self
     {
-        /** @var \ILIAS\DI\Container $DIC */
-        global $DIC;
-        $dic = $DIC;
-
-        $dic['request_data_collector'] = fn($c): RequestDataCollector =>
+        $dic = new self();
+        $dic['request_data_collector'] = static fn($c): RequestDataCollector =>
             new RequestDataCollector(
-                $DIC->http()->request(),
+                $DIC->http(),
                 $DIC['refinery'],
                 $DIC['upload']
             );

@@ -184,11 +184,11 @@ class ilObjTest extends ilObject implements MarkSchemaAware
             $this->logger,
             $this->component_repository,
             $this,
-            $this->questioninfo
+            $this->questionrepository
         );
     }
 
-    public function getLocalDIC(): ILIAS\DI\Container
+    public function getLocalDIC(): TestDIC
     {
         return TestDIC::dic();
     }
@@ -3024,17 +3024,17 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $question = new $question_type_gui();
 
         if ($question_id > 0) {
-            $question->object->loadFromDb($question_id);
+            $question->getObject()->loadFromDb($question_id);
 
             $feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
-            $question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $this->ctrl, $this->db, $this->lng);
+            $question->getObject()->feedbackOBJ = new $feedbackObjectClassname($question->getObject(), $this->ctrl, $this->db, $this->lng);
 
             $assSettings = new ilSetting('assessment');
             $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $this->db);
-            $processLockerFactory->setQuestionId($question->object->getId());
+            $processLockerFactory->setQuestionId($question->getObject()->getId());
             $processLockerFactory->setUserId($this->user->getId());
             $processLockerFactory->setAssessmentLogEnabled(ilObjTestFolder::_enabledAssessmentLogging());
-            $question->object->setProcessLocker($processLockerFactory->getLocker());
+            $question->getObject()->setProcessLocker($processLockerFactory->getLocker());
         }
 
         return $question;
@@ -7458,7 +7458,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public static function isQuestionObligationPossible(int $question_id): bool
     {
         global $DIC;
-        $class = $DIC->testQuestion()->getForQuestionId($question_id)->getTypeClassName();
+        $class = $DIC->testQuestion()->getGeneralQuestionProperties($question_id)->getClassName();
         return call_user_func([$class, 'isObligationPossible'], $question_id);
     }
 

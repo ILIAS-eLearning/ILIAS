@@ -109,7 +109,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      *
      * @return bool
      */
-    public function editQuestion($checkonly = false): bool
+    public function editQuestion(bool $checkonly = false): bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();

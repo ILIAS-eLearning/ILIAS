@@ -40,7 +40,7 @@ class ilTestExportRandomQuestionSetTest extends ilTestBaseTestCase
 
         $objTest = $this->createMock(ilObjTest::class);
         $test_logger = $this->createMock(ILIAS\Test\Logging\TestLogger::class);
-        $this->testObj = new ilTestExportRandomQuestionSet($objTest, $DIC['lng'], $test_logger, $DIC['tree'], $DIC['component.repository'], $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class));
+        $this->testObj = new ilTestExportRandomQuestionSet($objTest, $DIC['lng'], $test_logger, $DIC['tree'], $DIC['component.repository'], $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

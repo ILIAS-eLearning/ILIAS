@@ -152,9 +152,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $q_gui = assQuestionGUI::_getQuestionGUI('', (int) $this->testrequest->raw('q_id'));
 
-                if ($q_gui->object) {
+                if ($q_gui->getObject()) {
                     $obj = ilObjectFactory::getInstanceByRefId((int) $this->testrequest->getRefId());
-                    $q_gui->object->setObjId($obj->getId());
+                    $q_gui->getObject()->setObjId($obj->getId());
                 }
 
                 $cmds = [
@@ -169,7 +169,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 if (in_array($cmd, $cmds)) {
                     return $this->$cmd();
-                } elseif ($q_gui->object) {
+                } elseif ($q_gui->getObject()) {
                     $total = $this->test_object->evalTotalPersons();
 
                     $this->setOutputMode($total == 0 ? ilPageObjectGUI::EDIT : ilPageObjectGUI::PREVIEW);
@@ -215,9 +215,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $this->ctrl->setReturn($this, 'showQuestions');
 
                 $q_gui = assQuestionGUI::_getQuestionGUI($type, (int) $this->testrequest->raw('q_id'));
-                if ($q_gui->object) {
+                if ($q_gui->getObject()) {
                     $obj = ilObjectFactory::getInstanceByRefId((int) $this->testrequest->getRefId());
-                    $q_gui->object->setObjId($obj->getId());
+                    $q_gui->getObject()->setObjId($obj->getId());
                 }
 
                 $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_id');
@@ -244,7 +244,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $obj = ilObjectFactory::getInstanceByRefId($this->testrequest->getRefId());
 
-        $q_gui->object->setObjId($obj->getId());
+        $q_gui->getObject()->setObjId($obj->getId());
 
         return $q_gui;
     }
@@ -265,10 +265,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $q_gui = assQuestionGUI::_getQuestionGUI($questionType);
 
-        $q_gui->object->setObjId(ilObject::_lookupObjectId($this->testrequest->getRefId()));
-        $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
+        $q_gui->getObject()->setObjId(ilObject::_lookupObjectId($this->testrequest->getRefId()));
+        $q_gui->getObject()->setAdditionalContentEditingMode($addContEditMode);
 
-        $q_gui->object->createNewQuestion();
+        $q_gui->getObject()->createNewQuestion();
 
         $previousQuestionId = $this->testrequest->raw('position');
 
@@ -277,7 +277,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_qpl', $this->testrequest->raw('sel_qpl'));
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'question_type', $questionType);
-                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->getObject()->getId());
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
                 if ($this->testrequest->raw('test_express_mode')) {
@@ -305,7 +305,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'txt_qpl', $this->testrequest->raw('txt_qpl'));
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'question_type', $questionType);
-                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->getObject()->getId());
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
                 if ($this->testrequest->raw('test_express_mode')) {
@@ -331,7 +331,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case 1: // no pool
             default:
 
-                $this->redirectToQuestionEditPage($questionType, $q_gui->object->getId(), $previousQuestionId);
+                $this->redirectToQuestionEditPage($questionType, $q_gui->getObject()->getId(), $previousQuestionId);
 
                 break;
         }

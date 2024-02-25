@@ -35,17 +35,17 @@ class ilAssQuestionFeedbackEditingGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $assQuestionGUI = $this->createMock(assQuestionGUI::class);
         $assQuestion = $this->createMock(assQuestion::class);
         $assQuestion->feedbackOBJ = $this->createMock(ilAssQuestionFeedback::class);
-        $assQuestionGUI->object = $assQuestion;
+        $assQuestionGUI = $this->createStub(assQuestionGUI::class);
+        $assQuestionGUI->method('getObject')->willReturn($assQuestion);
         $ctrl = $this->createMock(ilCtrl::class);
         $access = $this->createMock(ilAccessHandler::class);
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $tabs = $this->createMock(ilTabsGUI::class);
         $lng = $this->createMock(ilLanguage::class);
-        $help = $this->createMock(ilHelp::class);
-        $qplrequest = $this->createMock(ILIAS\TestQuestionPool\InternalRequestService::class);
+        $help = $this->createMock(ilHelpGUI::class);
+        $request_data_collector = $this->createMock(ILIAS\TestQuestionPool\RequestDataCollector::class);
         $questionrepository = $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class);
 
 
@@ -57,7 +57,7 @@ class ilAssQuestionFeedbackEditingGUITest extends assBaseTestCase
             $tabs,
             $lng,
             $help,
-            $qplrequest,
+            $request_data_collector,
             $questionrepository
         );
     }

@@ -353,10 +353,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $tabs->setSubTabActive($active);
     }
 
-    public function editQuestion($checkonly = false): void
+    public function editQuestion(bool $checkonly = false): bool
     {
         $this->renderEditForm($this->buildEditForm());
         $this->addEditSubtabs(self::TAB_EDIT_QUESTION);
+        return false;
     }
 
     public function editNesting()

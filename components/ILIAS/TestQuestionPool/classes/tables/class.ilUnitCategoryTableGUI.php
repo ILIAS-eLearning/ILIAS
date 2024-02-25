@@ -58,7 +58,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('ASC');
 
         $local_dic = QuestionPoolDIC::dic();
-        $this->request = $local_dic['general_question_properties_repository'];
+        $this->request = $local_dic['request_data_collector'];
         $ref_id = $this->request->getRefId();
         $type = ilObject::_lookupType($ref_id, true);
         if ($type === 'assf') {

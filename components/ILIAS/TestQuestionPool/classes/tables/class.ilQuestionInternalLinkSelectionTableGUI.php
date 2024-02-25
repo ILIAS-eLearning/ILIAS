@@ -35,7 +35,7 @@ class ilQuestionInternalLinkSelectionTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->setId('qst_ils_' . $a_parent_obj->object->getId() . '_' . substr(md5($a_template_context), 0, 6));
+        $this->setId('qst_ils_' . $a_parent_obj->getObject()->getId() . '_' . substr(md5($a_template_context), 0, 6));
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
         $this->setRowTemplate('tpl.il_as_qpl_question_internal_link_selection_table_row.html', 'components/ILIAS/TestQuestionPool');

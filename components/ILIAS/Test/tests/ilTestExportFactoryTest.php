@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestExportFactoryTest
@@ -39,7 +39,7 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
             $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
-            $this->createMock(QuestionInfoService::class)
+            $this->createMock(GeneralQuestionPropertiesRepository::class)
         );
     }
 

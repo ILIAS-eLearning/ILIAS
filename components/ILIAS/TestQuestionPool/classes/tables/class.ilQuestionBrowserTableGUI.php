@@ -365,7 +365,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     public function fillRow(array $a_set): void
     {
-        $class = strtolower(assQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
+        $class = strtolower($this->questionrepository->getForQuestionId($a_set['question_id'])->getGuiClassName());
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $a_set["question_id"]);
         $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $a_set["question_id"]);
         $this->ctrl->setParameterByClass($class, "q_id", $a_set["question_id"]);

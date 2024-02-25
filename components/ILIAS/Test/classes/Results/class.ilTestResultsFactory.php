@@ -96,7 +96,7 @@ class ilTestResultsFactory
 
             $question_gui = $test_obj->createQuestionGUI("", $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $pass_id);
-            $question_gui->object->setShuffler($shuffle_trafo);
+            $question_gui->getObject()->setShuffler($shuffle_trafo);
 
             $graphical_output = true;
             $show_correct_solution = false;
@@ -156,7 +156,7 @@ class ilTestResultsFactory
 
             $recapitulation = null;
             if ($is_user_output && $settings->getShowRecapitulation()) {
-                $recapitulation = $question_gui->object->getSuggestedSolutionOutput();
+                $recapitulation = $question_gui->getObject()->getSuggestedSolutionOutput();
             }
 
             $question_results[] = new ilQuestionResult(

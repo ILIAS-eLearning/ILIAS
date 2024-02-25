@@ -21,11 +21,17 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-class ilQtiMatImageSecurityTest extends TestCase
+class ilQTIMatImageSecurityTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilQtiMatImageSecurity::class, new ilQtiMatImageSecurity($this->image(), $this->createMock(\ILIAS\TestQuestionPool\QuestionFilesService::class)));
+        $this->assertInstanceOf(
+            ilQtiMatImageSecurity::class,
+            new ilQtiMatImageSecurity(
+                $this->image(),
+                $this->createMock(\ILIAS\TestQuestionPool\Questions\Files\QuestionFiles::class)
+            )
+        );
     }
 
     private function image(): ilQTIMatimage

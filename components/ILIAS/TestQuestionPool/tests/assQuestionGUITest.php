@@ -37,7 +37,7 @@ class assQuestionGUITest extends assBaseTestCase
 
         $this->addGlobal_ilLog();
 
-        $this->object = new class extends assQuestionGUI{
+        $this->object = new class () extends assQuestionGUI {
             public function getSpecificFeedbackOutput(array $userSolution): string
             {
                 return '';
@@ -48,9 +48,17 @@ class assQuestionGUITest extends assBaseTestCase
                 return '';
             }
 
-            public function getPreview($show_question_only = false, $showInlineFeedback = false): void {}
+            public function editQuestion(bool $checkonly = false): bool
+            {
+            }
 
-            public function getTestOutput($active_id, $pass, $is_question_postponed, $user_post_solutions, $show_specific_inline_feedback): void {}
+            public function getPreview($show_question_only = false, $showInlineFeedback = false): void
+            {
+            }
+
+            public function getTestOutput($active_id, $pass, $is_question_postponed, $user_post_solutions, $show_specific_inline_feedback): void
+            {
+            }
         };
     }
 

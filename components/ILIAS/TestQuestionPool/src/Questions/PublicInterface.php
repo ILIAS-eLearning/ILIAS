@@ -41,7 +41,7 @@ class PublicInterface
      */
     public function getGeneralQuestionProperties(int $question_id): ?GeneralQuestionProperties
     {
-        return $this->general_questions_repository->getGeneralQuestionProperties($question_id);
+        return $this->general_questions_repository->getForQuestionId($question_id);
     }
 
     /**

@@ -18,20 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @ingroup components\ILIASTest
  */
 class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 {
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected GeneralQuestionPropertiesRepository $questionrepository;
 
     public function __construct(
         ilObjTestGUI|ilObjTestFolderGUI $parent_obj,
         string $parent_cmd
     ) {
-        global $DIC;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
 
         parent::__construct($parent_obj, $parent_cmd);
 
@@ -68,9 +70,9 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 
         $title = "";
         if ($a_set["question_fi"] || $a_set["original_fi"]) {
-            $title = $this->questioninfo->getQuestionTitle((int) $a_set["question_fi"]);
+            $title = $this->questionrepository->getForQuestionId((int) $a_set["question_fi"])->getTitle();
             if ($title === '') {
-                $title = $this->questioninfo->getQuestionTitle((int) $a_set["original_fi"]);
+                $title = $this->questionrepository->getForQuestionId((int) $a_set["original_fi"])->getTitle();
             }
             $title = $this->lng->txt("assessment_log_question") . ": " . $title;
         }

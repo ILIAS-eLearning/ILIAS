@@ -78,7 +78,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 
             $feedback = $this->convertFeedbackForMail($feedback);
 
-            $this->appendBody($this->getLanguageText('tst_question') . ': ' . $questionGui->object->getTitle());
+            $this->appendBody($this->getLanguageText('tst_question') . ': ' . $questionGui->getObject()->getTitle());
             $this->appendBody("\n");
             $this->appendBody($this->getLanguageText('tst_reached_points') . ': ' . $points);
             $this->appendBody("\n");

@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 /**
@@ -190,7 +189,7 @@ class ilQTIParser extends ilSaxParser
 
     protected ?string $questionSetType = null;
 
-    protected GeneralQuestionPropertiesRepository $questionfiles;
+    protected QuestionFiles $questionfiles;
 
     public function __construct(
         private readonly string $importdir,
@@ -204,7 +203,7 @@ class ilQTIParser extends ilSaxParser
         $this->user_id = $DIC['ilUser']->getId();
 
         $this->parser_mode = $a_mode;
-        $this->questionfiles = QuestionPoolDIC::dic()['question_files'];
+        $this->questionfiles = new QuestionFiles();
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;

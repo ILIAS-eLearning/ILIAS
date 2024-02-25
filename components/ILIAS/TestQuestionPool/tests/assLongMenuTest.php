@@ -222,13 +222,6 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals('dummy text', $obj->getLongMenuTextValue());
     } */
 
-    public function test_setJsonStructure_shouldReturnGetJsonStructure(): void
-    {
-        $obj = new assLongMenu();
-        $obj->setJsonStructure(json_encode([1 => 'bla']));
-        $this->assertEquals('{"1":"bla"}', $obj->getJsonStructure());
-    }
-
     public function test_isShuffleAnswersEnabled_shouldReturnFalse(): void
     {
         $obj = new assLongMenu();

@@ -40,7 +40,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      *
      * @param integer $id The database id of a single choice question object
      */
-    public function __construct($id = -1)
+    public function __construct(int $id = -1)
     {
         parent::__construct();
         $this->object = new assSingleChoice();
@@ -101,7 +101,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      * Creates an output of the edit form for the question
      *
      */
-    public function editQuestion($checkonly = false): bool
+    public function editQuestion(bool $checkonly = false): bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();

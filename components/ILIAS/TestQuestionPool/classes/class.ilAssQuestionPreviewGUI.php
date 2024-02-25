@@ -74,7 +74,7 @@ class ilAssQuestionPreviewGUI
     public function initQuestion(int $question_id, int $parent_obj_id): void
     {
         $this->question_gui = assQuestion::instantiateQuestionGUI($question_id);
-        $this->question_obj = $this->question_gui->object;
+        $this->question_obj = $this->question_gui->getObject();
 
         $this->question_obj->setObjId($parent_obj_id);
 
@@ -344,7 +344,7 @@ class ilAssQuestionPreviewGUI
         $pageGUI->setEnabledTabs(false);
 
         $this->question_gui->setPreviewSession($this->preview_session);
-        $this->question_gui->object->setShuffler($this->getQuestionAnswerShuffler());
+        $this->question_gui->getObject()->setShuffler($this->getQuestionAnswerShuffler());
 
         $questionHtml = $this->question_gui->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
         $this->question_gui->magicAfterTestOutput();

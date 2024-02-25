@@ -131,8 +131,8 @@ class TestScoring
         int $pass,
         array $questiondata
     ): void {
-        $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+        $reached = $question_gui->getObject()->calculateReachedPoints($active_id, $pass);
+        $actual_reached = $question_gui->getObject()->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
 
         if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
             // Do we need processing here?
@@ -143,7 +143,7 @@ class TestScoring
                 $active_id,
                 $questiondata['id'],
                 $actual_reached,
-                $question_gui->object->getMaximumPoints(),
+                $question_gui->getObject()->getMaximumPoints(),
                 $pass,
                 false,
                 true
@@ -162,7 +162,7 @@ class TestScoring
         foreach ($this->test->getAllQuestions() as $question) {
             /** @var AssQuestionGUI $question_gui */
             $question_gui = $this->test->createQuestionGUI("", $question['question_id']);
-            $solution .= '<h1>' . $question_gui->object->getTitle() . '</h1>';
+            $solution .= '<h1>' . $question_gui->getObject()->getTitle() . '</h1>';
             $solution .= $question_gui->getSolutionOutput(0, null, true, true, false, false, true, false);
         }
 

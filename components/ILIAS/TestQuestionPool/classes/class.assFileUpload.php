@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\Test\Participants\ParticipantRepository;
 
 use ILIAS\FileDelivery\Delivery\Disposition;
@@ -80,7 +80,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $this->file_delivery = $DIC->fileDelivery();
         $this->file_upload = $DIC->upload();
 
-        $local_dic = TestDIC::dic();
+        $local_dic = QuestionPoolDIC::dic();
         $this->participant_repository = $local_dic['participant_repository'];
     }
 

@@ -27,6 +27,7 @@
 class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
     private bool $rebuild_thumbnails = false;
+    private ?ilPropertyFormGUI $edit_form = null;
 
     /**
      * @param $qId
@@ -55,8 +56,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return ['uploadImage', 'removeImage'];
     }
 
-    public function editQuestion(ilPropertyFormGUI $form = null): void
+    public function editQuestion(bool $checkonly = false): bool
     {
+        $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();
         }
@@ -64,6 +66,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->getQuestionTemplate();
 
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
+        return false;
     }
 
     protected function uploadImage(): void
@@ -119,13 +122,15 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             if (!$answersInput->checkUploads($_POST[$answersInput->getPostVar()])) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
-                $this->editQuestion($form);
+                $this->edit_form = $form;
+                $this->editQuestion();
                 return 1;
             }
 
             $answersInput->collectValidFiles();
         } elseif (!$form->checkInput()) {
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
 

@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
-use Pimple\Container;
+use Pimple\Container as PimpleContainer;
+use ILIAS\DI\Container as ILIASContainer;
+
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -34,23 +36,24 @@ use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 
-class TestDIC extends Container
-{
-    protected static ?Container $dic = null;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
-    public static function dic(): Container
+class TestDIC extends PimpleContainer
+{
+    protected static ?self $dic = null;
+
+    public static function dic(): self
     {
         if (!self::$dic) {
-            self::$dic = self::buildDIC();
+            global $DIC;
+            self::$dic = self::buildDIC($DIC);
         }
         return self::$dic;
     }
 
-    protected static function buildDIC(): Container
+    protected static function buildDIC(ILIASContainer $DIC): self
     {
-        global $DIC;
-        $dic = $DIC;
-
+        $dic = new self();
         $dic['shuffler'] = static fn($c): \ilTestShuffler =>
             new \ilTestShuffler($DIC['refinery']);
 

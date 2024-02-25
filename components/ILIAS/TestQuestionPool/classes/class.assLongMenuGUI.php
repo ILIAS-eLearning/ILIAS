@@ -32,6 +32,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     private GlyphFactory $glyph_factory;
     private UIRenderer $renderer;
 
+    private ?ilPropertyFormGUI $edit_form = null;
+
     public function __construct($id = -1)
     {
         parent::__construct();
@@ -84,7 +86,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $check = $form->checkInput() && $this->verifyAnswerOptions();
 
         if (!$check) {
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
         $this->writeQuestionGenericPostData();
@@ -92,7 +95,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $custom_check = $this->object->checkQuestionCustomPart($form);
         if (!$custom_check) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
         $this->saveTaxonomyAssignments();
@@ -169,8 +173,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         );
     }
 
-    public function editQuestion(ilPropertyFormGUI $form = null): void
+    public function editQuestion(bool $checkonly = false): bool
     {
+        $form = $this->edit_form;
         if ($form === null) {
             $form = $this->buildEditForm();
         }
@@ -178,6 +183,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->getQuestionTemplate();
 
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
+        return false;
     }
     /**
      * @return ilPropertyFormGUI
