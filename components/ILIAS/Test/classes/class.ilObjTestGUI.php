@@ -18,11 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
-use ILIAS\GlobalScreen\Services as GlobalScreen;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\QuestionIdentifiers;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
@@ -40,7 +36,11 @@ use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\SwitchableGroup;
-use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\ResourceStorage\Services as IRSS;
 
@@ -121,7 +121,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected SkillService $skills_service;
     protected IRSS $irss;
     private Archives $archives;
-    protected InternalRequestService $testrequest;
+    protected RequestDataCollector $testrequest;
     protected ?QuestionsTableQuery $table_query = null;
 
     protected bool $create_question_mode;
@@ -148,9 +148,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->irss = $DIC['resource_storage'];
         $this->skills_service = $DIC->skills();
-        $this->type = 'tst';
         $this->archives = $DIC->archives();
-        $this->testrequest = $DIC->test()->internal()->request();
+        $this->type = 'tst';
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -171,6 +170,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $local_dic = $this->getTestObject()->getLocalDIC();
         $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->testrequest = $local_dic['request_data_collector'];
 
         $this->test_question_set_config_factory = new ilTestQuestionSetConfigFactory(
             $this->tree,

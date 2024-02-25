@@ -63,7 +63,6 @@ abstract class assQuestion implements Question
 
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected RequestDataCollector $questionpool_request;
-    protected TestParticipantInfoService $testParticipantInfo;
     protected QuestionFiles $questionFiles;
     protected \ilAssQuestionProcessLocker $processLocker;
     protected ilTestQuestionConfig $testQuestionConfig;
@@ -132,7 +131,6 @@ abstract class assQuestion implements Question
         $this->questionpool_request = $local_dic['request_data_collector'];
         $this->questionFilesService = $local_dic['question_files'];
         $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
-        $this->testParticipantInfo = $DIC->test()->testParticipantInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;

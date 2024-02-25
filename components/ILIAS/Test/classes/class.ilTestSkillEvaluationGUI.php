@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -58,7 +58,7 @@ class ilTestSkillEvaluationGUI
         private readonly ilDBInterface $db,
         private readonly TestLogger $logger,
         private readonly SkillService $skills_service,
-        private readonly InternalRequestService $testrequest
+        private readonly RequestDataCollector $testrequest
     ) {
     }
 

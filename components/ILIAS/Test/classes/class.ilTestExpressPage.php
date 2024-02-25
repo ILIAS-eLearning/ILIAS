@@ -18,28 +18,37 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\RequestDataCollector;
 
 class ilTestExpressPage
 {
-    private InternalRequestService $testrequest;
+    private RequestDataCollector $testrequest;
     public function __construct()
     {
-        global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
+        $local_dic = TestDIC::dic();
+        $this->testrequest = $local_dic['request_data_collector'];
     }
 
-    public static function getReturnToPageLink($q_id = null)
+    public static function getReturnToPageLink(?int $q_id = null)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $q_id = $q_id ?: $DIC->test()->internal()->request()->raw('q_id');
+        $request_data_collector = TestDIC::dic()['request_data_collector'];
+
+        if ($q_id === null
+            || $q_id === 0) {
+            $q_id = $request_data_collector->int('prev_qid');
+        }
+
+        if ($q_id === 0) {
+            $q_id = $request_data_collector->int('q_id');
+        }
+
         $refId = self::fetchTargetRefIdParameter();
 
-        if ($DIC->test()->internal()->request()->raw('q_id')) {
-            $q_id = $q_id ?: ($DIC->test()->internal()->request()->raw('prev_qid') ?? $DIC->test()->internal()->request()->raw('q_id'));
-
+        if ($request_data_collector->raw('q_id')) {
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'ref_id', $refId);
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $q_id);
@@ -65,13 +74,15 @@ class ilTestExpressPage
      */
     private static function fetchTargetRefIdParameter()
     {
-        global $DIC;
-        if ($DIC->test()->internal()->request()->raw('calling_test')) {
-            return $DIC->test()->internal()->request()->raw('calling_test');
-        } elseif ($DIC->test()->internal()->request()->raw('test_ref_id')) {
-            return $DIC->test()->internal()->request()->raw('test_ref_id');
+        $request_data_collector = TestDIC::dic()['request_data_collector'];
+        if ($request_data_collector->raw('calling_test')) {
+            return $request_data_collector->raw('calling_test');
         }
 
-        return $DIC->test()->internal()->request()->raw('ref_id');
+        if ($request_data_collector->raw('test_ref_id')) {
+            return $request_data_collector->raw('test_ref_id');
+        }
+
+        return $request_data_collector->raw('ref_id');
     }
 }

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILiAS\UI\Renderer as UIRenderer;
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestParticipantsGUI
@@ -61,7 +61,7 @@ class ilTestParticipantsGUI
         protected ilDBInterface $db,
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
-        protected InternalRequestService $testrequest
+        protected RequestDataCollector $testrequest
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }

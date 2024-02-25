@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 
@@ -45,7 +45,7 @@ class ilTestPasswordProtectionGUI
         private ilLanguage $lng,
         private ilTestPlayerAbstractGUI $parent_gui,
         private ilTestPasswordChecker $password_checker,
-        private InternalRequestService $testrequest,
+        private RequestDataCollector $testrequest,
         private GlobalScreen $global_screen
     ) {
     }

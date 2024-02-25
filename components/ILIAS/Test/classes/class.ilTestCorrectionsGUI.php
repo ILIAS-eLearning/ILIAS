@@ -23,7 +23,7 @@ use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -56,7 +56,7 @@ class ilTestCorrectionsGUI
         protected ilGlobalTemplateInterface $main_tpl,
         protected RefineryFactory $refinery,
         protected RequestInterface $request,
-        private InternalRequestService $testrequest,
+        private RequestDataCollector $testrequest,
         protected ilObjTest $testOBJ,
         protected GeneralQuestionPropertiesRepository $questionrepository,
         protected QuestionsTable $table

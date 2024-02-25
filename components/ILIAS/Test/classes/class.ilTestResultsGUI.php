@@ -23,7 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
@@ -71,7 +71,7 @@ class ilTestResultsGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly SkillService $skills_service,
-        private readonly InternalRequestService $testrequest,
+        private readonly RequestDataCollector $testrequest,
         private readonly QuestionInfoService $questioninfo,
         private readonly GlobalHttpState $http
     ) {

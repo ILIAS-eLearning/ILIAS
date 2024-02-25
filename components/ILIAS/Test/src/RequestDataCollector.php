@@ -22,7 +22,7 @@ namespace ILIAS\Test;
 
 use ILIAS\Repository\BaseGUIRequest;
 
-class InternalRequestService
+class RequestDataCollector
 {
     use BaseGUIRequest;
 

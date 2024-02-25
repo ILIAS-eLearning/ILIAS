@@ -21,9 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool;
 
 use Pimple\Container;
+
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
+
+use ILIAS\Test\Participants\ParticipantRepository;
 
 class QuestionPoolDIC
 {
@@ -60,7 +63,8 @@ class QuestionPoolDIC
         $dic['question_files'] = fn($c): QuestionFiles =>
             new QuestionFiles();
 
-
+        $dic['participant_repository'] = static fn($c): ParticipantRepository =>
+            new ParticipantRepository($DIC['ilDB']);
 
         return $dic;
     }

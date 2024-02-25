@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Test to lp connector
@@ -29,13 +30,12 @@ use ILIAS\Test\InternalRequestService;
  */
 class ilTestLP extends ilObjectLP
 {
-    private InternalRequestService $request;
+    private RequestDataCollector $request;
     protected ?ilObjTest $test_object = null;
 
     public function __construct(int $obj_id)
     {
-        global $DIC;
-        $this->request = $DIC->test()->internal()->request();
+        $this->request = TestDIC::dic()['request_data_collector'];
 
         parent::__construct($obj_id);
     }

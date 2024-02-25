@@ -23,7 +23,7 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 
 use ILIAS\Test\TestDIC;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
@@ -76,7 +76,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     private array $file_ids = [];
     private bool $online;
     protected GeneralQuestionPropertiesRepository $questionrepository;
-    private InternalRequestService $testrequest;
+    private RequestDataCollector $testrequest;
     private MarksRepository $marks_repository;
     private ?MarkSchema $mark_schema;
     public int $test_id = -1;
@@ -159,7 +159,6 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->refinery = $DIC['refinery'];
         $this->settings = $DIC['ilSetting'];
         $this->bench = $DIC['ilBench'];
-        $this->testrequest = $DIC->test()->internal()->request();
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
@@ -171,6 +170,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->log_viewer = $local_dic['test_log_viewer'];
         $this->marks_repository = $local_dic['marks_repository'];
         $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->testrequest = $local_dic['request_data_collector'];
 
         parent::__construct($id, $a_call_by_reference);
 

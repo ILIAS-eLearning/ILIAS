@@ -22,7 +22,7 @@ use ILIAS\Test\Logging\TestLogger;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -124,7 +124,7 @@ class ilTestArchiver
         private readonly RefineryFactory $refinery,
         private readonly ilAccess $access,
         private readonly IRSS $irss,
-        private readonly InternalRequestService $testrequest,
+        private readonly RequestDataCollector $testrequest,
         private readonly int $test_obj_id,
         private ?int $test_ref_id = null
     ) {

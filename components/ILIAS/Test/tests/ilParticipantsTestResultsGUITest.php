@@ -55,7 +55,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(ilTestParticipantAccessFilterFactory::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $DIC['http'],
             $DIC['refinery']
         );
