@@ -80,7 +80,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             ),
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $this->createMock(ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }

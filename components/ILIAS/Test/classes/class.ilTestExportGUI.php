@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Scoring\Manual\TestScoring;
@@ -56,7 +56,7 @@ class ilTestExportGUI extends ilExportGUI
         private readonly ilTestHTMLGenerator $html_generator,
         private readonly array $selected_files,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
-        private readonly InternalRequestService $testrequest
+        private readonly RequestDataCollector $testrequest
     ) {
         parent::__construct($parent_gui, null);
 

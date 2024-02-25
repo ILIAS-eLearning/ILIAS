@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -83,7 +83,7 @@ class ilTestRandomQuestionSetConfigGUI
         private readonly ilObjectDefinition $obj_definition,
         private readonly ilObjectDataCache $obj_cache,
         private ilTestProcessLockerFactory $processLockerFactory,
-        private readonly InternalRequestService $testrequest,
+        private readonly RequestDataCollector $testrequest,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->question_set_config = new ilTestRandomQuestionSetConfig(

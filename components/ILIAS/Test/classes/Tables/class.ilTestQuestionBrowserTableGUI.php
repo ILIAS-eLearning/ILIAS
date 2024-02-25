@@ -22,7 +22,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -66,7 +66,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private readonly Refinery $refinery,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly InternalRequestService $testrequest,
+        private readonly RequestDataCollector $testrequest,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());

@@ -55,7 +55,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
             $this->createMock(ilTestQuestionSetConfig::class),
-            $this->createMock(\ILIAS\Test\InternalRequestService::class)
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
     }
 

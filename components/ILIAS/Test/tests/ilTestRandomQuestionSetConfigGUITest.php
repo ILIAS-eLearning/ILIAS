@@ -60,7 +60,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
             $DIC['objDefinition'],
             $DIC['ilObjDataCache'],
             $this->getMockBuilder(ilTestProcessLockerFactory::class)->disableOriginalConstructor()->getMock(),
-            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }

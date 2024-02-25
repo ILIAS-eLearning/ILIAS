@@ -173,7 +173,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                     $this->lng,
                     $this,
                     $this->passwordChecker,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->global_screen
                 );
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;

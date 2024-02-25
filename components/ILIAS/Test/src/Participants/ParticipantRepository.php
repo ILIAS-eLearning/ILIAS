@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test;
-class TestParticipantInfoService
+namespace ILIAS\Test\Participants;
+
+class ParticipantRepository
 {
     private \ilDBInterface $database;
 

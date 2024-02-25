@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\TestDIC;
+use ILIAS\Test\Participants\ParticipantRepository;
+
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 
@@ -32,12 +37,12 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
  */
 class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjFileHandlingQuestionType
 {
-    // hey: prevPassSolutions - support reusing selected files
     public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
-    // hey.
 
     protected const HAS_SPECIFIC_FEEDBACK = false;
+
+    private ParticipantRepository $participant_repository;
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\FileDelivery\Services $file_delivery;
     private \ILIAS\FileUpload\FileUpload $file_upload;
@@ -74,6 +79,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $this->irss = $DIC->resourceStorage();
         $this->file_delivery = $DIC->fileDelivery();
         $this->file_upload = $DIC->upload();
+
+        $local_dic = TestDIC::dic();
+        $this->participant_repository = $local_dic['participant_repository'];
     }
 
     /**
@@ -562,7 +570,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $pass = \ilObjTest::_getPass($active_id);
         }
 
-        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
+        $test_id = $this->participant_repository->lookupTestIdByActiveId($active_id);
 
         try {
             $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
@@ -721,7 +729,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         parent::removeIntermediateSolution($active_id, $pass);
 
-        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
+        $test_id = $this->participant_repository->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
             // TODO: This can be removed with ILIAS 10
             $this->deleteUnusedFiles([], $test_id, $active_id, $pass);

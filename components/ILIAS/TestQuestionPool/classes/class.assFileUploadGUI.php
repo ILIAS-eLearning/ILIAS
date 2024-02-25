@@ -32,10 +32,8 @@
  */
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-    public const REUSE_FILES_TBL_POSTVAR = 'reusefiles';
     public const REUSE_FILES_LANGVAR = 'ass_file_upload_reuse_btn';
     public const REUSE_FILES_ACTION = 'reuse';
-    public const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     public const DELETE_FILES_LANGVAR = 'delete';
     public const DELETE_FILES_ACTION = 'delete';
     private const HANDLE_FILE_UPLOAD = 'handleFileUpload';

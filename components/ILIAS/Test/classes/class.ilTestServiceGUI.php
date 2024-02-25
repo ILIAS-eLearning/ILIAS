@@ -27,7 +27,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Skill\Service\SkillService;
 
 use ILIAS\Test\TestDIC;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
@@ -47,7 +47,7 @@ use ILIAS\Test\Logging\TestLogger;
 */
 class ilTestServiceGUI
 {
-    protected readonly InternalRequestService $testrequest;
+    protected readonly RequestDataCollector $testrequest;
     protected readonly GeneralQuestionPropertiesRepository $questionrepository;
     protected ?ilTestService $service = null;
     protected readonly ilDBInterface $db;

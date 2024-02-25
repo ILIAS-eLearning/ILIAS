@@ -30,10 +30,10 @@ use ILIAS\Test\TestDIC;
  */
 class ilAssQuestionPageCommandForwarder
 {
-    private \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $questioninfo;
+    private \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $questionrepository;
     protected ?ilObjTest $testObj;
 
-    protected \ILIAS\Test\InternalRequestService $testrequest;
+    protected \ILIAS\Test\RequestDataCollector $testrequest;
 
     public function getTestObj(): ?ilObjTest
     {
@@ -52,9 +52,10 @@ class ilAssQuestionPageCommandForwarder
         $ctrl = $DIC->ctrl();
         $main_template = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
-        $this->questioninfo = TestDIC::dic()['general_question_properties_repository'];
 
-        $this->testrequest = $DIC->test()->internal()->request();
+        $local_dic = TestDIC::dic();
+        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
+        $this->testrequest = $local_dic['request_data_collector'];
 
         //echo $_REQUEST['prev_qid'];
         if ($this->testrequest->raw('prev_qid')) {
@@ -83,7 +84,7 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->object->setObjId($this->getTestObj()->getId());
         $question = &$q_gui->object;
 
-        if ($ctrl->getCmd() === 'edit' && $this->questioninfo->isInActiveTest($this->testrequest->getQuestionId())) {
+        if ($ctrl->getCmd() === 'edit' && $this->questionrepository->isInActiveTest($this->testrequest->getQuestionId())) {
             $main_template->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
             $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
         }

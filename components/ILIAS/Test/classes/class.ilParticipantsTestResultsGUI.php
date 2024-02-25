@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
@@ -53,7 +53,7 @@ class ilParticipantsTestResultsGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
-        private InternalRequestService $testrequest,
+        private RequestDataCollector $testrequest,
         private \ILIAS\HTTP\GlobalHttpState $http,
         private \ILIAS\Refinery\Factory $refinery,
     ) {

@@ -707,7 +707,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-<<<<<<< HEAD
      * Deletes an image file
      *
      * @param string $image_filename Name of the image file to delete

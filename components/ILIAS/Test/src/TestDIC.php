@@ -83,8 +83,11 @@ class TestDIC extends Container
         $dic['marks_repository'] = static fn($c): MarksRepository =>
             new MarksDatabaseRepository($DIC['ilDB']);
 
-        $dic['request.internal'] = static fn($c): InternalRequestService =>
-            new InternalRequestService($DIC['http'], $DIC['refinery']);
+        $dic['request_data_collector'] = static fn($c): RequestDataCollector =>
+            new RequestDataCollector(
+                $DIC['http'],
+                $DIC['refinery']
+            );
 
         $dic['global_settings_repository'] = static fn($c): TestGlobalSettingsRepository =>
                 new TestGlobalSettingsRepository(new \ilSetting('assessment'));
@@ -96,7 +99,12 @@ class TestDIC extends Container
             new TestLoggingDatabaseRepository($DIC['ilDB']);
 
         $dic['test_logger'] = static fn($c): TestLogger =>
-            new TestLogger($c['logging_settings'], $c['test_logging_repository'], \ilLoggerFactory::getLogger('tst'), $DIC['lng']);
+            new TestLogger(
+                $c['logging_settings'],
+                $c['test_logging_repository'],
+                \ilLoggerFactory::getLogger('tst'),
+                $DIC['lng']
+            );
 
         $dic['test_log_viewer'] = static fn($c): TestLogViewer =>
             new TestLogViewer($c['test_logging_repository']);

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILiAS\UI\Renderer as UIRenderer;
 
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestDashboardGUI
@@ -53,7 +53,7 @@ class ilTestDashboardGUI
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
         protected ilTestQuestionSetConfig $question_set_config,
-        protected InternalRequestService $testrequest
+        protected RequestDataCollector $testrequest
     ) {
     }
 

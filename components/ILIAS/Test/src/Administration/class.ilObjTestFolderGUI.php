@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\Test\TestDIC;
-use ILIAS\Test\InternalRequestService;
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -30,7 +30,7 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 class ilObjTestFolderGUI extends ilObjectGUI
 {
     private GeneralQuestionPropertiesRepository $questionrepository;
-    private InternalRequestService $testrequest;
+    private RequestDataCollector $testrequest;
 
     public function __construct(
         $a_data,
@@ -40,9 +40,13 @@ class ilObjTestFolderGUI extends ilObjectGUI
     ) {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
-        $this->testrequest = $DIC->test()->internal()->request();
-        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
+
+        $local_dic = TestDIC::dic();
+        $this->testrequest = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+
         $this->type = "assf";
+
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         if (!$rbacsystem->checkAccess('read', $this->object->getRefId())) {
