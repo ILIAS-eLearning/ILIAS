@@ -95,6 +95,7 @@ class TutorFeedbackZipManager
         int $tutor_id,
         UploadResult $result
     ): string {
+        $this->repo->deleteCurrent($ass_id, $tutor_id, $this->stakeholder);
         return $this->repo->importFromUploadResult(
             $ass_id,
             $tutor_id,
