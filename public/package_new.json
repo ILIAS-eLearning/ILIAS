@@ -10,6 +10,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "jest": "^29.7.0",
   },
   "scripts": {
     "test": "mocha --recursive"
