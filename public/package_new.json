@@ -10,6 +10,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
   },
   "scripts": {
     "test": "mocha --recursive"
