@@ -10,6 +10,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
   },
   "scripts": {
     "test": "mocha --recursive"
