@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"celtic/lti": "^5.0"
 	},
 	"require-dev": {
 	},
