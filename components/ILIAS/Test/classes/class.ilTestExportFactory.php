@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -35,7 +35,7 @@ class ilTestExportFactory
         private readonly TestLogger $logger,
         private readonly ilTree $tree,
         private readonly ilComponentRepository $component_repository,
-        private readonly QuestionInfoService $questioninfo
+        private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -54,7 +54,7 @@ class ilTestExportFactory
             $this->logger,
             $this->tree,
             $this->component_repository,
-            $this->questioninfo,
+            $this->questionrepository,
             $mode
         );
     }

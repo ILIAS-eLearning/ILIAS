@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\TestManScoringDoneHelper;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Service class for tests.
@@ -37,7 +38,7 @@ class ilTestService
     public function __construct(
         protected ilObjTest $object,
         protected ilDBInterface $db,
-        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        protected GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -158,7 +159,7 @@ class ilTestService
 
     public function buildVirtualSequence(ilTestSession $testSession): ilTestVirtualSequence
     {
-        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
+        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
 
         if ($this->object->isRandomTest()) {
             $virtual_sequence = new ilTestVirtualSequenceRandomQuestionSet($this->db, $this->object, $test_sequence_factory);

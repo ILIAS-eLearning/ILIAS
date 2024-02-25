@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 
 /**
@@ -35,7 +37,7 @@ use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
  */
 class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable
 {
-    private \ILIAS\TestQuestionPool\InternalRequestService $request; // Hate it.
+    private RequestDataCollector $request; // Hate it.
 
     // hey: prevPassSolutions - wtf is imagemap ^^
     public $currentSolution = [];
@@ -90,8 +92,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->answers = [];
         $this->coords = [];
 
-        global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
     }
 
     /**

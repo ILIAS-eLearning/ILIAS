@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * abstract parent class that manages/holds the data for a question set configuration
@@ -35,7 +35,7 @@ abstract class ilTestQuestionSetConfig
         protected readonly TestLogger $logger,
         protected readonly ilComponentRepository $component_repository,
         protected readonly ilObjTest $test_obj,
-        protected readonly QuestionInfoService $questioninfo
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 

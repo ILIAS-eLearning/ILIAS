@@ -19,10 +19,9 @@
 namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Repository\BaseGUIRequest;
-
 use ILIAS\Refinery\ConstraintViolationException;
 
-class InternalRequestService
+class RequestDataCollector
 {
     use BaseGUIRequest;
 

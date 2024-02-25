@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 * Test sequence handler
@@ -67,7 +67,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         protected ilDBInterface $db,
         protected int $active_id,
         protected int $pass,
-        protected QuestionInfoService $questioninfo
+        protected GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->sequencedata = [
             "sequence" => [],
@@ -611,7 +611,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         foreach ($correctedsequence as $sequence) {
             $question = assQuestion::instantiateQuestion($this->getQuestionForSequence($sequence));
             if (is_object($question)) {
-                $worked_through = $this->questioninfo->lookupResultRecordExist($this->active_id, $question->getId(), $this->pass);
+                $worked_through = $this->questionrepository->lookupResultRecordExist($this->active_id, $question->getId(), $this->pass);
                 $solved = 0;
                 if (array_key_exists($question->getId(), $solved_questions)) {
                     $solved = $solved_questions[$question->getId()]["solved"];

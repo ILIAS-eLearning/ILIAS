@@ -57,8 +57,8 @@ class TestDIC extends Container
         $dic['factory.results'] = static fn($c): \ilTestResultsFactory =>
             new \ilTestResultsFactory(
                 $c['shuffler'],
-                $dic['ui.factory'],
-                $dic['ui.renderer']
+                $DIC['ui.factory'],
+                $DIC['ui.renderer']
             );
 
         $dic['factory.results_presentation'] = static fn($c): \ilTestResultsPresentationFactory =>
@@ -100,6 +100,13 @@ class TestDIC extends Container
 
         $dic['test_log_viewer'] = static fn($c): TestLogViewer =>
             new TestLogViewer($c['test_logging_repository']);
+
+        $dic['general_question_properties_repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
+            new GeneralQuestionPropertiesRepository(
+                $DIC['ilDB'],
+                $DIC['component.factory'],
+                $DIC['lng']
+            );
 
         return $dic;
     }

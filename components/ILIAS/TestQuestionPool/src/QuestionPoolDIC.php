@@ -22,6 +22,8 @@ namespace ILIAS\TestQuestionPool;
 
 use Pimple\Container;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 
 class QuestionPoolDIC
 {
@@ -37,12 +39,28 @@ class QuestionPoolDIC
 
     protected static function buildDIC(): Container
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $dic = $DIC;
 
-        $dic['question.repo.suggestedsolutions'] = function ($c) use ($dic): SuggestedSolutionsDatabaseRepository {
-            return new SuggestedSolutionsDatabaseRepository($dic['ilDB']);
-        };
+        $dic['request_data_collector'] = fn($c): RequestDataCollector =>
+            new RequestDataCollector(
+                $DIC->http()->request(),
+                $DIC['refinery'],
+                $DIC['upload']
+            );
+        $dic['question.repo.suggestedsolutions'] = static fn($c): SuggestedSolutionsDatabaseRepository =>
+            new SuggestedSolutionsDatabaseRepository($DIC['ilDB']);
+        $dic['general_question_properties_repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
+            new GeneralQuestionPropertiesRepository(
+                $DIC['ilDB'],
+                $DIC['component.factory'],
+                $DIC['lng']
+            );
+        $dic['question_files'] = fn($c): QuestionFiles =>
+            new QuestionFiles();
+
+
 
         return $dic;
     }

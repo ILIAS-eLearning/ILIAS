@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
+
 /**
  * Class ilTestCtrlForwarder
  *
@@ -28,7 +30,7 @@ declare(strict_types=1);
  */
 class ilAssQuestionPageCommandForwarder
 {
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    private \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $questioninfo;
     protected ?ilObjTest $testObj;
 
     protected \ILIAS\Test\InternalRequestService $testrequest;
@@ -50,7 +52,7 @@ class ilAssQuestionPageCommandForwarder
         $ctrl = $DIC->ctrl();
         $main_template = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = TestDIC::dic()['general_question_properties_repository'];
 
         $this->testrequest = $DIC->test()->internal()->request();
 

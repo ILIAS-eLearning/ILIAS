@@ -794,7 +794,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             return;
         }
 
-        $maxpoints = $this->questioninfo->getMaximumPoints($this->getId());
+        if ($this->isCompletionBySubmissionEnabled()) {
+            $maxpoints = $this->questionrepository->getForQuestionId($this->getId())
+                ->getMaximumPoints();
+        }
 
         $points = $maxpoints;
 

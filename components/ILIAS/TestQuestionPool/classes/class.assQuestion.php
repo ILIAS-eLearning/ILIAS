@@ -23,9 +23,9 @@ use ILIAS\TestQuestionPool\Questions\Question;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
-use ILIAS\TestQuestionPool\QuestionFilesService;
-use ILIAS\TestQuestionPool\QuestionInfoService;
-use ILIAS\TestQuestionPool\InternalRequestService;
+use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
@@ -61,10 +61,10 @@ abstract class assQuestion implements Question
     public const TRIM_PATTERN = '/^[\p{C}\p{Z}]+|[\p{C}\p{Z}]+$/u';
 
 
-    protected QuestionInfoService $questioninfo;
-    protected InternalRequestService $questionpool_request;
+    protected GeneralQuestionPropertiesRepository $questionrepository;
+    protected RequestDataCollector $questionpool_request;
     protected TestParticipantInfoService $testParticipantInfo;
-    protected QuestionFilesService $questionFilesService;
+    protected QuestionFiles $questionFiles;
     protected \ilAssQuestionProcessLocker $processLocker;
     protected ilTestQuestionConfig $testQuestionConfig;
 
@@ -127,9 +127,11 @@ abstract class assQuestion implements Question
         $tpl = $DIC['tpl'];
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $this->questionpool_request = $DIC->testQuestionPool()->internal()->request();
-        $this->questionFilesService = $DIC->testQuestionPool()->questionFiles();
+        $local_dic = QuestionPoolDIC::dic();
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionpool_request = $local_dic['request_data_collector'];
+        $this->questionFilesService = $local_dic['question_files'];
+        $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
         $this->testParticipantInfo = $DIC->test()->testParticipantInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
@@ -1161,41 +1163,50 @@ abstract class assQuestion implements Question
     */
     public function createNewQuestion(bool $a_create_page = true): int
     {
-        $complete = "0";
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($this->dic->testQuestionPool()->internal()->request()->getRefId())) ? $this->dic->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
-        if ($obj_id > 0) {
-            if ($a_create_page) {
-                $tstamp = 0;
-            } else {
-                // question pool must not try to purge
-                $tstamp = time();
-            }
+        $complete = '0';
+        $obj_id = $this->getObjId();
+        if ($obj_id <= 0
+            && $this->questionpool_request->hasRefId()) {
+            $obj_id = $this->questionpool_request->getRefId();
+        }
 
-            $next_id = $this->db->nextId('qpl_questions');
-            $this->db->insert("qpl_questions", [
-                "question_id" => ["integer", $next_id],
-                "question_type_fi" => ["integer", $this->getQuestionTypeID()],
-                "obj_fi" => ["integer", $obj_id],
-                "title" => ["text", ''],
-                "description" => ["text", ''],
-                "author" => ["text", $this->getAuthor()],
-                "owner" => ["integer", $this->current_user->getId()],
-                "question_text" => ["clob", ''],
-                "points" => ["float", "0.0"],
-                "nr_of_tries" => ["integer", $this->getDefaultNrOfTries()], // #10771
-                "complete" => ["text", $complete],
-                "created" => ["integer", time()],
-                "original_id" => ["integer", null],
-                "tstamp" => ["integer", $tstamp],
-                "external_id" => ["text", $this->getExternalId()],
-                'add_cont_edit_mode' => ['text', $this->getAdditionalContentEditingMode()]
-            ]);
-            $this->setId($next_id);
+        if ($obj_id <= 0) {
+            $obj_id = $this->questionpool_request->int('sel_qpl');
+        }
 
-            if ($a_create_page) {
-                // create page object of question
-                $this->createPageObject();
-            }
+        if ($obj_id <= 0) {
+            return $this->getId();
+        }
+
+        $tstamp = time();
+        if ($a_create_page) {
+            $tstamp = 0;
+        }
+
+        $next_id = $this->db->nextId('qpl_questions');
+        $this->db->insert("qpl_questions", [
+            "question_id" => ["integer", $next_id],
+            "question_type_fi" => ["integer", $this->getQuestionTypeID()],
+            "obj_fi" => ["integer", $obj_id],
+            "title" => ["text", null],
+            "description" => ["text", null],
+            "author" => ["text", $this->getAuthor()],
+            "owner" => ["integer", $this->current_user->getId()],
+            "question_text" => ["clob", null],
+            "points" => ["float", "0.0"],
+            "nr_of_tries" => ["integer", $this->getDefaultNrOfTries()], // #10771
+            "complete" => ["text", $complete],
+            "created" => ["integer", time()],
+            "original_id" => ["integer", null],
+            "tstamp" => ["integer", $tstamp],
+            "external_id" => ["text", $this->getExternalId()],
+            'add_cont_edit_mode' => ['text', $this->getAdditionalContentEditingMode()]
+        ]);
+        $this->setId($next_id);
+
+        if ($a_create_page) {
+            // create page object of question
+            $this->createPageObject();
         }
 
         return $this->getId();
@@ -1257,7 +1268,7 @@ abstract class assQuestion implements Question
         }
 
         $clone = clone $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
+        $original_id = $this->questionrepository->getForQuestionId($this->id)->getOriginalId();
         $clone->id = -1;
 
         if ((int) $test_obj_id > 0) {
@@ -1298,7 +1309,7 @@ abstract class assQuestion implements Question
         }
         // duplicate the question in database
         $clone = clone $this;
-        $original_id = $this->questioninfo->getOriginalId($this->id);
+        $original_id = $this->questionrepository->getForQuestionId($this->id)->getOriginalId();
         $clone->id = -1;
         $source_parent_id = $this->getObjId();
         $clone->setObjId($target_parent_id);
@@ -1748,8 +1759,8 @@ abstract class assQuestion implements Question
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $question_type = $questioninfo->getQuestionType($question_id);
+        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
+        $question_type = $questionrepository->getForQuestionId($question_id)->getClassName();
         if ($question_type === '') {
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
         }
@@ -2125,10 +2136,9 @@ abstract class assQuestion implements Question
 
     public static function _needsManualScoring(int $question_id): bool
     {
-        global $DIC;
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
+        $questiontype = $questionrepository->getForQuestionId($question_id)->getClassName();
         $scoring = ilObjTestFolder::_getManualScoringTypes();
-        $questiontype = $questioninfo->getQuestionType($question_id);
         if (in_array($questiontype, $scoring)) {
             return true;
         }
@@ -2178,9 +2188,9 @@ abstract class assQuestion implements Question
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
         if ($question_id > 0) {
-            $question_type = $questioninfo->getQuestionType($question_id);
+            $question_type = $questionrepository->getForQuestionId($question_id)->getClassName();
 
             $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();
@@ -3029,10 +3039,6 @@ abstract class assQuestion implements Question
     protected ?SuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
     protected function getSuggestedSolutionsRepo(): SuggestedSolutionsDatabaseRepository
     {
-        if (is_null($this->suggestedsolution_repo)) {
-            $dic = QuestionPoolDIC::dic();
-            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
-        }
         return $this->suggestedsolution_repo;
     }
 

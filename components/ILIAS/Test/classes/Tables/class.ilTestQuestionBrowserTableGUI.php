@@ -25,7 +25,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -67,7 +67,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly InternalRequestService $testrequest,
-        private readonly QuestionInfoService $questioninfo
+        private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
@@ -416,7 +416,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_ID", $a_set["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"]);
-        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set['question_id'])->getTypeName($this->lng));
         $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
         $this->tpl->setVariable("QUESTION_LIFECYCLE", $this->getTranslatedLifecycle($a_set['lifecycle']));
         $this->tpl->setVariable(
@@ -474,7 +474,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
 
         return $testQuestionSetConfigFactory->getQuestionSetConfig();

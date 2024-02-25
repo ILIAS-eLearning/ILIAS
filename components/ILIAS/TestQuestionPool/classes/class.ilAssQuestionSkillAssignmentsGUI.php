@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 use ILIAS\Skill\Service\SkillUsageService;
 
 /**
@@ -45,38 +48,18 @@ class ilAssQuestionSkillAssignmentsGUI
 
     public const PARAM_SKILL_SELECTION = 'skill_ids';
 
-    private ilCtrl $ctrl;
-    private ilAccessHandler $access;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilDBInterface $db;
-
-    /**
-     * @var ilAssQuestionList
-     */
-    private $questionList;
-
-    /**
-     * @var integer
-     */
-    private $questionContainerId;
-
-    /**
-     * @var bool
-     */
-    private $assignmentEditingEnabled;
+    private ilAssQuestionList $questionList;
+    private int $questionContainerId;
+    private bool $assignmentEditingEnabled;
+    private string $assignmentConfigurationHintMessage;
 
     /**
      * @var array
      */
     private $questionOrderSequence;
 
-    /**
-     * @var string
-     */
-    private $assignmentConfigurationHintMessage;
 
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    private RequestDataCollector $request;
 
     private SkillUsageService $skillUsageService;
 
@@ -87,15 +70,18 @@ class ilAssQuestionSkillAssignmentsGUI
      * @param ilLanguage $lng
      * @param ilDBInterface $db
      */
-    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db)
-    {
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->db = $db;
+    public function __construct(
+        private ilCtrl $ctrl,
+        private ilAccessHandler $access,
+        private ilGlobalTemplateInterface $tpl,
+        private ilLanguage $lng,
+        private ilDBInterface $db
+    ) {
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+
         global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->skillUsageService = $DIC->skills()->usage();
     }
 

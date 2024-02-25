@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -42,7 +42,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         private readonly TestLogger $logger,
         private readonly ilTree $tree,
         private readonly ilComponentRepository $component_repository,
-        private readonly QuestionInfoService $questioninfo,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
         string $mode = "xml"
     ) {
         parent::__construct($test_obj, $mode);
@@ -85,7 +85,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
         $question_set_config->loadFromDb();
 

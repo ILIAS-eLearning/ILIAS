@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilObjQuestionPool
@@ -35,7 +39,7 @@ class ilObjQuestionPool extends ilObject
     private array $file_ids;
     private ?bool $show_taxonomies = null;
     private bool $skill_service_enabled;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    private GeneralQuestionPropertiesRepository $questionrepository;
 
     /**
      * Constructor
@@ -48,8 +52,12 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $this->component_repository = $DIC['component.repository'];
         $this->benchmark = $DIC['ilBench'];
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+
         $this->type = 'qpl';
+
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->skill_service_enabled = false;
@@ -250,17 +258,9 @@ class ilObjQuestionPool extends ilObject
     public function duplicateQuestion(int $question_id): int
     {
         $question = $this->createQuestion('', $question_id);
-        $newtitle = $question->object->getTitle();
-        if ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question->object->getTitle())) {
-            $counter = 2;
-            while ($this->questioninfo->questionTitleExistsInPool(
-                $this->getId(),
-                $question->object->getTitle() . ' (' . $counter . ')'
-            )) {
-                $counter++;
-            }
-            $newtitle = $question->object->getTitle() . ' (' . $counter . ')';
-        }
+        $newtitle = $this->appendCounterToQuestionTitleIfNecessary(
+            $question->object->getTitle()
+        );
         $new_id = $question->object->duplicate(false, $newtitle);
         ilObjQuestionPool::_updateQuestionCount($new_id);
         return $new_id;
@@ -274,19 +274,27 @@ class ilObjQuestionPool extends ilObject
             return $this->duplicateQuestion($question_id);
         } else {
             // the question is copied into another question pool
-            $newtitle = $question_gui->object->getTitle();
-            if ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question_gui->object->getTitle())) {
-                $counter = 2;
-                while ($this->questioninfo->questionTitleExistsInPool(
-                    $this->getId(),
-                    $question_gui->object->getTitle() . ' (' . $counter . ')'
-                )) {
-                    $counter++;
-                }
-                $newtitle = $question_gui->object->getTitle() . ' (' . $counter . ')';
-            }
+            $newtitle = $this->appendCounterToQuestionTitleIfNecessary(
+                $question_gui->object->getTitle()
+            );
+
             return $question_gui->object->copyObject($this->getId(), $newtitle);
         }
+    }
+
+    public function appendCounterToQuestionTitleIfNecessary(string $title): string
+    {
+        $result = $this->db->queryF(
+            "SELECT COUNT(question_id) AS cnt FROM qpl_questions WHERE obj_fi = %s AND title like %s",
+            ['integer','text'],
+            [$this->getId(), "{$title}%"]
+        );
+
+        if ($this->db->numRows($result) === 0) {
+            return $title;
+        }
+        $counter_object = $this->db->fetchObject($result);
+        return "{$title} ({$counter_object->cnt})";
     }
 
     public function getPrintviewQuestions(): array
@@ -880,7 +888,7 @@ class ilObjQuestionPool extends ilObject
         );
         if ($query_result->numRows()) {
             while ($row = $this->db->fetchAssoc($query_result)) {
-                if (!$this->questioninfo->isUsedInRandomTest($row['question_id'])) {
+                if (!$this->questionrepository->isUsedInRandomTest($row['question_id'])) {
                     array_push($result, $row);
                 } else {
                     // the question was used in a random test prior to ILIAS 3.7 so it was inserted

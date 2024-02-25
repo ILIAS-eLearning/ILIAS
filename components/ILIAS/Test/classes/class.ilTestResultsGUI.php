@@ -27,6 +27,7 @@ use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestResultsGUI

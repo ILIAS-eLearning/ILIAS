@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Grégory Saive <gsaive@databay.de>
@@ -32,14 +35,16 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_SAVE_FORM = 'saveForm';
     public const CMD_CANCEL_FORM = 'cancelForm';
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    private GeneralQuestionPropertiesRepository $questionrepository;
 
     public function __construct(assQuestionGUI $questionGUI)
     {
         parent::__construct($questionGUI);
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
     }
 
     /**
@@ -133,7 +138,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->questionOBJ->updateTimestamp();
             }
 
-            $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+            $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
             if ($this->request->raw('calling_test')
                 && $originalexists
                 && $this->questionOBJ->isWriteable()) {

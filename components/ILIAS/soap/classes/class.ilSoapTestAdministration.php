@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Test & Assessment Soap functions
  * @author  Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -25,6 +28,12 @@
 
 class ilSoapTestAdministration extends ilSoapAdministration
 {
+    private GeneralQuestionPropertiesRepository $questionrepository;
+    public function __construct(bool $use_nusoap = true)
+    {
+        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
+        parent::__construct($use_nusoap);
+    }
     private function hasWritePermissionForTest(int $active_id): bool
     {
         global $DIC;
@@ -411,7 +420,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -424,7 +432,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         return $sequence->getSequenceForQuestion($question_id);
     }
 
@@ -447,7 +455,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -460,7 +467,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         $result = $ilDB->queryF(
             "SELECT question_fi, points FROM tst_test_result WHERE active_fi = %s AND pass = %s",
             array('integer', 'integer'),
@@ -504,7 +511,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
-        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -517,7 +523,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
         return $sequence->getUserQuestionCount();
     }
 

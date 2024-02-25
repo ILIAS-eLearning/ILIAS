@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 *
@@ -29,8 +33,8 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 */
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
-    private QuestionInfoService $questioninfo;
+    private RequestDataCollector $request;
+    private GeneralQuestionPropertiesRepository $questionrepository;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
@@ -47,8 +51,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
      */
     protected $questionCommentingEnabled = false;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_write_access = false,
+        $confirmdelete = false,
+        $taxIds = array(),
+        $enableCommenting = false
+    ) {
         $this->setQuestionCommentingEnabled($enableCommenting);
 
         // Bugfix: #0019539
@@ -61,15 +71,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $this->request = $DIC->testQuestionPool()->internal()->request();
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
 
         $this->confirmdelete = $confirmdelete;
         $this->setWriteAccess($a_write_access);
@@ -487,7 +496,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
+                $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set["question_id"])->getTypeName($this->lng));
                 $this->tpl->parseCurrentBlock();
             }
         }

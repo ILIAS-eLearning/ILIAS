@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -40,7 +40,7 @@ class ilTestQuestionSetConfigFactory
         protected readonly TestLogger $logger,
         protected readonly ilComponentRepository $component_repository,
         protected readonly ilObjTest $test_obj,
-        protected readonly QuestionInfoService $questioninfo
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
     }
 
@@ -59,7 +59,7 @@ class ilTestQuestionSetConfigFactory
                     $this->logger,
                     $this->component_repository,
                     $this->test_obj,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
             if ($this->test_obj->isRandomTest()) {
@@ -70,7 +70,7 @@ class ilTestQuestionSetConfigFactory
                     $this->logger,
                     $this->component_repository,
                     $this->test_obj,
-                    $this->questioninfo
+                    $this->questionrepository
                 );
             }
 

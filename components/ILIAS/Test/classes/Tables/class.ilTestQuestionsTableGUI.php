@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
@@ -72,7 +72,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         private ilAccessHandler $access,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private QuestionInfoService $questioninfo
+        private GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->setId('tst_qst_lst_' . $parent_ref_id);
 
@@ -208,7 +208,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
 
-        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set['question_id']));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set['question_id'])->getTypeName($this->lng));
         $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
 
         if ($this->isColumnSelected('author')) {

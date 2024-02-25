@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\TestDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * @author     Michael Jansen <mjansen@datababay.de>
  * @version    $Id $
@@ -33,7 +36,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
     public const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 
     private ?float $curQuestionMaxPoints = null;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected GeneralQuestionPropertiesRepository $questionrepository;
 
     protected bool $first_row_rendered = false;
 
@@ -42,8 +45,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
 
     public function __construct(TestScoringByQuestionGUI $parent_obj, private \ilAccess $access)
     {
-        global $DIC;
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
 
         $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
 
@@ -97,10 +99,10 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
         }
         $scoring = \ilObjTestFolder::_getManualScoring();
         foreach ($questions as $data) {
-            $info = $this->questioninfo->getQuestionInfo($data['question_id']);
-            $type = $info["question_type_fi"];
+            $info = $this->questionrepository->getForQuestionId($data['question_id']);
+            $type = $info->getTypeId();
             if (in_array($type, $scoring)) {
-                $maxpoints = $this->questioninfo->getMaximumPoints($data["question_id"]);
+                $maxpoints = $inf->getMaximumPoints();
                 if ($maxpoints == 1) {
                     $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
                 } else {

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\InternalRequestService;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -48,7 +48,7 @@ class ilAssQuestionFeedbackEditingGUI
         protected ilLanguage $lng,
         protected ilHelp $help,
         private InternalRequestService $qplrequest,
-        private QuestionInfoService $questioninfo
+        private GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->question_obj = $question_gui->object;
         $this->feedback_obj = $question_gui->object->feedbackOBJ;
@@ -222,11 +222,11 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        if (!$this->questioninfo->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
+        if (!$this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
             return false;
         }
 
-        if (!$this->questioninfo->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
+        if (!$this->questionrepository->questionExistsInPool((int) $this->question_obj->getOriginalId())) {
             return false;
         }
 

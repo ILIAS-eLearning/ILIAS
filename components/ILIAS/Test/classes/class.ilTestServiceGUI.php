@@ -28,7 +28,7 @@ use ILIAS\Skill\Service\SkillService;
 
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -48,7 +48,7 @@ use ILIAS\Test\Logging\TestLogger;
 class ilTestServiceGUI
 {
     protected readonly InternalRequestService $testrequest;
-    protected readonly QuestionInfoService $questioninfo;
+    protected readonly GeneralQuestionPropertiesRepository $questionrepository;
     protected ?ilTestService $service = null;
     protected readonly ilDBInterface $db;
     protected readonly ilLanguage $lng;
@@ -144,21 +144,21 @@ class ilTestServiceGUI
         $this->skills_service = $DIC->skills();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
 
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
-
-        $this->lng->loadLanguageModule('cert');
-        $this->ref_id = $this->object->getRefId();
-        $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
-        $this->objective_oriented_container = null;
-
         $local_dic = $object->getLocalDIC();
         $this->testrequest = $local_dic['request.internal'];
         $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
         $this->shuffler = $local_dic['shuffler'];
         $this->results_factory = $local_dic['factory.results'];
         $this->results_presentation_factory = $local_dic['factory.results_presentation'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+
+        $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
+
+        $this->lng->loadLanguageModule('cert');
+        $this->ref_id = $this->object->getRefId();
+        $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
+        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questionrepository);
+        $this->objective_oriented_container = null;
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void
