@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "moment": "^2.29.4"
   },
   "devDependencies": {
   },
