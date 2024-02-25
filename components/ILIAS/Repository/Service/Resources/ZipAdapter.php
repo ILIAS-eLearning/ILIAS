@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,27 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository\Resources;
 
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Export\ImportStatus\Exception\ilException;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 
 class ZipAdapter
 {
     protected Archives $archives;
+    protected LegacyArchives $legacy_archives;
 
     public function __construct(
-        Archives $archives
+        Archives $archives,
+        LegacyArchives $legacy_archives
     ) {
         $this->archives = $archives;
+        $this->legacy_archives = $legacy_archives;
     }
 
     public function unzipFile(string $filepath): void
@@ -48,5 +52,14 @@ class ZipAdapter
         if (!$unzip->extract()) {
             throw new ilException("Unzip failed.");
         }
+    }
+
+    public function zipDirectoryToFile(string $directory, string $zip_file): void
+    {
+        $this->legacy_archives->zip(
+            $directory,
+            $zip_file,
+            true
+        );
     }
 }

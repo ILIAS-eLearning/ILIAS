@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Style\Content\InternalDomainService;
+
 /**
  * Class ilObjStyleSheet
  *
@@ -25,6 +27,7 @@ declare(strict_types=1);
  */
 class ilObjStyleSheet extends ilObject
 {
+    protected InternalDomainService $domain;
     protected bool $is_3_10_skin = false;
     protected string $export_sub_dir = "";
     protected array $chars_by_type = [];
@@ -519,6 +522,7 @@ class ilObjStyleSheet extends ilObject
         $this->type = "sty";
         $this->style = array();
         $this->ilias = $DIC["ilias"];
+        $this->domain = $DIC->contentStyle()->internal()->domain();
 
         if ($a_call_by_reference) {
             $this->ilias->raiseError("Can't instantiate style object via reference id.", $this->ilias->error_obj->FATAL);
@@ -1908,7 +1912,7 @@ class ilObjStyleSheet extends ilObject
 
         // unzip file
         if (strtolower($file["extension"]) == "zip") {
-            ilFileUtils::unzip($im_dir . "/" . $file_name);
+            $this->domain->resources()->zip()->unzipFile($im_dir . "/" . $file_name);
             $subdir = basename($file["basename"], "." . $file["extension"]);
             if (!is_dir($im_dir . "/" . $subdir)) {
                 $subdir = "style";				// check style subdir

@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\SurveyQuestionPool\Editing\EditManager;
+use ILIAS\SurveyQuestionPool\InternalDomainService;
+
 /**
  * Class ilObjSurveyQuestionPool
  *
@@ -23,7 +26,8 @@
  */
 class ilObjSurveyQuestionPool extends ilObject
 {
-    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
+    protected InternalDomainService $domain;
+    protected EditManager $edit_manager;
     protected ilObjUser $user;
     public bool $online = false;
     protected ilComponentRepository $component_repository;
@@ -46,6 +50,7 @@ class ilObjSurveyQuestionPool extends ilObject
             ->internal()
             ->domain()
             ->editing();
+        $this->domain = $DIC->surveyQuestionPool()->internal()->domain();
     }
 
     public function create($a_upload = false): int
@@ -578,7 +583,7 @@ class ilObjSurveyQuestionPool extends ilObject
             $isZip = (strcmp(strtolower(substr($source, -3)), 'zip') === 0);
             if ($isZip) {
                 // unzip file
-                ilFileUtils::unzip($source);
+                $this->domain->resources()->zip()->unzipFile($source);
 
                 // determine filenames of xml files
                 $subdir = basename($source, ".zip");
