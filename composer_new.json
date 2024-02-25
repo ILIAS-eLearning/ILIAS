@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"filp/whoops": "^2.15.4",
 	},
 	"require-dev": {
 	},
