@@ -57,10 +57,10 @@ class GeneralQuestionPropertiesRepository
     private function retrieveGeneralProperties(int $question_id): GeneralQuestionProperties
     {
         $query_result = $this->database->queryF(
-            'SELECT q.*, qt.type_tag, rnd.test_random_question_id'
+            'SELECT q.*, qt.type_tag'
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ' q'
             . ' INNER JOIN ' . self::QUESTION_TYPES_TABLE . ' qt'
-            . ' ON qpl_questions.question_type_fi = qpl_qst_type.question_type_id'
+            . ' ON q.question_type_fi = qt.question_type_id'
             . ' WHERE question_id = %s',
             [\ilDBConstants::T_INTEGER],
             [$question_id]
@@ -89,7 +89,7 @@ class GeneralQuestionPropertiesRepository
             $question_info->author,
             $question_info->tstamp,
             $question_info->created,
-            $question_info->complete,
+            (bool) $question_info->complete,
             $question_info->add_cont_edit_mode
         );
     }
@@ -189,7 +189,7 @@ class GeneralQuestionPropertiesRepository
     public function usageCount(int $question_id = 0): int
     {
         $result_tests_fixed = $this->database->queryF(
-            'SELECT COUNT(qpl_questions.question_id) question_count'
+            'SELECT COUNT(' . self::MAIN_QUESTION_TABLE . '.question_id) question_count'
             . ' FROM ' . self::MAIN_QUESTION_TABLE . ', ' . self::TEST_FIXED_QUESTION_TABLE
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.question_id = ' . self::TEST_FIXED_QUESTION_TABLE . '.question_fi'
             . ' AND ' . self::MAIN_QUESTION_TABLE . '.original_id = %s',
@@ -200,18 +200,21 @@ class GeneralQuestionPropertiesRepository
         $count = $row_tests_fixed->question_count;
 
         $result_tests_random = $this->database->queryF(
-            'SELECT COUNT(' . self::TEST_RANDOM_QUESTION_TABLE . '.test_fi) question_count'
-            . ' FROM qpl_questions'
+            'SELECT COUNT(' . self::TEST_TO_ACTIVE_USER_TABLE . '.test_fi) question_count'
+            . ' FROM ' . self::MAIN_QUESTION_TABLE
             . ' INNER JOIN ' . self::TEST_RANDOM_QUESTION_TABLE
             . ' ON ' . self::TEST_RANDOM_QUESTION_TABLE . '.question_fi = ' . self::MAIN_QUESTION_TABLE . '.question_id'
-            . ' INNER JOIN ' . self::TEST_TO_ACTIVE_USER_TABLE . ' ON ' . self::TEST_TO_ACTIVE_USER_TABLE . '.active_id = ' . self::TEST_RANDOM_QUESTION_TABLE . '.active_fi'
+            . ' INNER JOIN ' . self::TEST_TO_ACTIVE_USER_TABLE
+            . ' ON ' . self::TEST_TO_ACTIVE_USER_TABLE . '.active_id = ' . self::TEST_RANDOM_QUESTION_TABLE . '.active_fi'
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.original_id = %s'
             . ' GROUP BY tst_active.test_fi',
             ['integer'],
             [$question_id]
         );
         $row_tests_random = $this->database->fetchObject($result_tests_random);
-        $count += $$row_tests_random->question_count;
+        if ($row_tests_random !== null) {
+            $count += $row_tests_random->question_count;
+        }
 
         return $count;
     }

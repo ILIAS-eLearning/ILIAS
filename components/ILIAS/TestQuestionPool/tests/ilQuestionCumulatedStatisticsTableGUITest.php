@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
 * Unit tests
@@ -42,7 +42,7 @@ class ilQuestionCumulatedStatisticsTableGUITest extends assBaseTestCase
             '',
             '',
             $this->createMock(assQuestion::class),
-            $this->createMock(QuestionInfoService::class)
+            $this->createMock(GeneralQuestionPropertiesRepository::class)
         );
     }
 

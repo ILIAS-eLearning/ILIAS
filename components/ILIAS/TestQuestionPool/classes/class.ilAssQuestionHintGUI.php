@@ -105,7 +105,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $form = $this->buildForm();
         }
 
-        $tpl->setContent($form->getHTML());
+        $this->main_tpl->setContent($form->getHTML());
     }
 
     private function saveFormCmd(): void

@@ -48,7 +48,7 @@ abstract class ilAssQuestionHintAbstractGUI
     public function __construct(assQuestionGUI $questionGUI)
     {
         $this->questionGUI = $questionGUI;
-        $this->questionOBJ = $questionGUI->object;
+        $this->questionOBJ = $questionGUI->getObject();
         global $DIC;
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC['lng'];

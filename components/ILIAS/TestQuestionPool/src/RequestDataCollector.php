@@ -20,18 +20,21 @@ namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\FileUpload;
 
 class RequestDataCollector
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected Services $http;
+    protected FileUpload $upload;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery,
-        \ILIAS\FileUpload\FileUpload $upload
+        Services $http,
+        Factory $refinery,
+        FileUpload $upload
     ) {
         $this->initRequest(
             $http,

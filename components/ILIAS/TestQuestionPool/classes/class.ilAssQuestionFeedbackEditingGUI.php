@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\InternalRequestService;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -46,12 +46,12 @@ class ilAssQuestionFeedbackEditingGUI
         protected ilGlobalTemplateInterface $tpl,
         protected ilTabsGUI $tabs,
         protected ilLanguage $lng,
-        protected ilHelp $help,
-        private InternalRequestService $qplrequest,
+        protected ilHelpGUI $help,
+        private RequestDataCollector $request_data_collector,
         private GeneralQuestionPropertiesRepository $questionrepository
     ) {
-        $this->question_obj = $question_gui->object;
-        $this->feedback_obj = $question_gui->object->feedbackOBJ;
+        $this->question_obj = $question_gui->getObject();
+        $this->feedback_obj = $question_gui->getObject()->feedbackOBJ;
     }
 
     /**
@@ -66,7 +66,7 @@ class ilAssQuestionFeedbackEditingGUI
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
 
-        $this->ctrl->setParameter($this, 'q_id', $this->qplrequest->getQuestionId());
+        $this->ctrl->setParameter($this, 'q_id', $this->request_data_collector->getQuestionId());
 
         $this->setContentStyle();
 
@@ -199,7 +199,7 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        $hasWriteAccess = $this->access->checkAccess("write", "", $this->qplrequest->getRefId());
+        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request_data_collector->getRefId());
         $isSelfAssessmentEditingMode = $this->question_obj->getSelfAssessmentEditingMode();
 
         return $hasWriteAccess || $isSelfAssessmentEditingMode;
@@ -214,7 +214,7 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function isSyncAfterSaveRequired(): bool
     {
-        if (!$this->qplrequest->isset("calling_test")) {
+        if (!$this->request_data_collector->isset("calling_test")) {
             return false;
         }
 

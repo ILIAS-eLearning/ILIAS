@@ -67,6 +67,11 @@ class assQuestionTest extends assBaseTestCase
             {
                 return 0;
             }
+
+            public function toLog(): array
+            {
+                return [];
+            }
         };
     }
 

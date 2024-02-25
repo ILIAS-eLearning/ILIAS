@@ -379,7 +379,7 @@ class ilAssQuestionSkillAssignmentsGUI
         }
 
         if ($form === null) {
-            $form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->object, $assignment);
+            $form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->getObject(), $assignment);
         }
 
         $questionPageHTML = $this->buildQuestionPage($questionGUI);
@@ -401,7 +401,7 @@ class ilAssQuestionSkillAssignmentsGUI
             );
 
             $this->keepAssignmentParameters();
-            $form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->object, $assignment);
+            $form = $this->buildSkillQuestionAssignmentPropertiesForm($questionGUI->getObject(), $assignment);
             if (!$form->checkInput()) {
                 $form->setValuesByPost();
                 $this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
@@ -418,7 +418,7 @@ class ilAssQuestionSkillAssignmentsGUI
             if ($assignment->hasEvalModeBySolution()) {
                 $solCmpExprInput = $form->getItemByPostVar('solution_compare_expressions');
 
-                if (!$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->object)) {
+                if (!$this->checkSolutionCompareExpressionInput($solCmpExprInput, $questionGUI->getObject())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
                     $this->showSkillQuestionAssignmentPropertiesFormCmd($questionGUI, $assignment, $form);
                     return;
@@ -604,16 +604,16 @@ class ilAssQuestionSkillAssignmentsGUI
     {
         $this->tpl->addCss('./assets/css/content.css');
 
-        $pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
+        $pageGUI = new ilAssQuestionPageGUI($questionGUI->getObject()->getId());
 
         $pageGUI->setOutputMode("presentation");
         $pageGUI->setRenderPageContainer(true);
 
-        $pageGUI->setPresentationTitle($questionGUI->object->getTitle());
+        $pageGUI->setPresentationTitle($questionGUI->getObject()->getTitle());
 
-        $questionGUI->object->setShuffle(false); // dirty, but works ^^
+        $questionGUI->getObject()->setShuffle(false); // dirty, but works ^^
         $questionHTML = $questionGUI->getSolutionOutput(0, 0, false, false, true, false, true, false, true);
-        $pageGUI->setQuestionHTML(array($questionGUI->object->getId() => $questionHTML));
+        $pageGUI->setQuestionHTML(array($questionGUI->getObject()->getId() => $questionHTML));
 
         $pageHTML = $pageGUI->presentation();
         $pageHTML = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $pageHTML);

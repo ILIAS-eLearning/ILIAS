@@ -145,7 +145,7 @@ class ilTestServiceGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
 
         $local_dic = $object->getLocalDIC();
-        $this->testrequest = $local_dic['request.internal'];
+        $this->testrequest = $local_dic['request_data_collector'];
         $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
         $this->shuffler = $local_dic['shuffler'];
         $this->results_factory = $local_dic['factory.results'];

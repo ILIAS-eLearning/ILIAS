@@ -246,7 +246,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function editQuestion($checkonly = false): bool
+    public function editQuestion(bool $checkonly = false): bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();

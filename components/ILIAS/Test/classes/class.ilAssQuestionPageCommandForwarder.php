@@ -81,8 +81,8 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
         $q_gui->setQuestionTabs();
         $q_gui->outAdditionalOutput();
-        $q_gui->object->setObjId($this->getTestObj()->getId());
-        $question = &$q_gui->object;
+        $q_gui->getObject()->setObjId($this->getTestObj()->getId());
+        $question = &$q_gui->getObject();
 
         if ($ctrl->getCmd() === 'edit' && $this->questionrepository->isInActiveTest($this->testrequest->getQuestionId())) {
             $main_template->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
@@ -101,7 +101,7 @@ class ilAssQuestionPageCommandForwarder
             // $ctrl->setCmdClass(get_class($page_gui));
             // $ctrl->setCmd("preview");
         }
-        $page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(true)));
+        $page_gui->setQuestionHTML(array($q_gui->getObject()->getId() => $q_gui->getPreview(true)));
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setOutputMode($this->getTestObj()->evalTotalPersons() == 0 ? "edit" : 'preview');
         $page_gui->setHeader($question->getTitle());

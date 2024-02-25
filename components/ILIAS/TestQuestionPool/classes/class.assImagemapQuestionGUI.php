@@ -32,7 +32,8 @@
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    private $linecolor;
+    private string $linecolor;
+    private ?ilPropertyFormGUI $edit_form = null;
 
     /**
      * assImagemapQuestionGUI constructor
@@ -81,7 +82,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setValuesByPost();
 
         if (!$always && !$form->checkInput()) {
-            $this->editQuestion($form);
+            $this->edit_form = $form;
+            $this->editQuestion();
             return 1;
         }
 
@@ -161,15 +163,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    public function editQuestion(ilPropertyFormGUI $form = null): void
+    public function editQuestion(bool $checkonly = false): bool
     {
-        if (null === $form) {
+        $form = $this->edit_form;
+        if ($form === null) {
             $form = $this->buildEditForm();
         }
 
         $this->getQuestionTemplate();
 
         $this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
+        return false;
     }
 
     public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI

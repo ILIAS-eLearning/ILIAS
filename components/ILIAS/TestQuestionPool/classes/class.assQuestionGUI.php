@@ -164,7 +164,7 @@ abstract class assQuestionGUI
         $this->notes_gui = $DIC->notes()->gui();
     }
 
-    abstract public function editQuestion();
+    abstract public function editQuestion(bool $checkonly = false): bool;
 
     /**
      * Returns the answer specific feedback for the question
@@ -196,6 +196,15 @@ abstract class assQuestionGUI
         $user_post_solutions,
         $show_specific_inline_feedback
     );
+
+    /**
+     * @deprecated sk 25 FEB 2024: I introduce this to not have to have the
+     * object public, but this should NEVER EVER be used and should go asap!
+     */
+    public function getObject(): assQuestion
+    {
+        return $this->object;
+    }
 
     public function setCopyToExistingPoolOnSave(?int $pool_ref_id): void
     {
@@ -540,26 +549,6 @@ abstract class assQuestionGUI
         }
 
         return $question;
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function _getGUIClassNameForId($a_q_id): string
-    {
-        global $DIC;
-        $q_type = QuestionPoolDIC::dic()['general_question_properties_repository']
-            ->getForQuestionId($question_id)->getClassName();
-        $class_name = assQuestionGUI::_getClassNameForQType($q_type);
-        return $class_name;
-    }
-
-    /**
-     * @deprecated
-     */
-    public static function _getClassNameForQType($q_type): string
-    {
-        return $q_type . "GUI";
     }
 
     public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl): void
@@ -1487,7 +1476,7 @@ abstract class assQuestionGUI
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
-        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->raw('source_id'), true);
+        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->int('source_id'), true);
         $cont_obj = $cont_obj_gui->getObject();
         $ctree = $cont_obj->getLMTree();
         $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));

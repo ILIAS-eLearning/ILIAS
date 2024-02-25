@@ -63,7 +63,7 @@ abstract class assQuestion implements Question
 
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected RequestDataCollector $questionpool_request;
-    protected QuestionFiles $questionFiles;
+    protected QuestionFiles $question_files;
     protected \ilAssQuestionProcessLocker $processLocker;
     protected ilTestQuestionConfig $testQuestionConfig;
 
@@ -129,7 +129,7 @@ abstract class assQuestion implements Question
         $local_dic = QuestionPoolDIC::dic();
         $this->questionrepository = $local_dic['general_question_properties_repository'];
         $this->questionpool_request = $local_dic['request_data_collector'];
-        $this->questionFilesService = $local_dic['question_files'];
+        $this->question_files = $local_dic['question_files'];
         $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
@@ -701,7 +701,7 @@ abstract class assQuestion implements Question
             $object_id = $this->obj_id;
         }
 
-        return $this->questionFilesService->buildImagePath($question_id, $object_id);
+        return $this->question_files->buildImagePath($question_id, $object_id);
     }
 
     public function getSuggestedSolutionPathWeb(): string
@@ -2191,18 +2191,17 @@ abstract class assQuestion implements Question
             $question_type = $questionrepository->getForQuestionId($question_id)->getClassName();
 
             $question_type_gui = $question_type . 'GUI';
-            $question_gui = new $question_type_gui();
-            $question_gui->object->loadFromDb($question_id);
+            $question_gui = new $question_type_gui($question_id);
 
             $feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
-            $question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
+            $question_gui->getObject()->feedbackOBJ = new $feedbackObjectClassname($question_gui->getObject(), $ilCtrl, $ilDB, $lng);
 
             $assSettings = new ilSetting('assessment');
             $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
-            $processLockerFactory->setQuestionId($question_gui->object->getId());
+            $processLockerFactory->setQuestionId($question_gui->getObject()->getId());
             $processLockerFactory->setUserId($ilUser->getId());
             $processLockerFactory->setAssessmentLogEnabled(ilObjTestFolder::_enabledAssessmentLogging());
-            $question_gui->object->setProcessLocker($processLockerFactory->getLocker());
+            $question_gui->getObject()->setProcessLocker($processLockerFactory->getLocker());
         } else {
             global $DIC;
             $ilLog = $DIC['ilLog'];

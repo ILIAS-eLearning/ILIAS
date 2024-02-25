@@ -49,7 +49,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_RESET_ORDERING_CLIPBOARD = 'resetOrderingClipboard';
     public const CMD_CONFIRM_SYNC = 'confirmSync';
 
-    private ?bool $hintOrderingClipboard = null;
+    private ?ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null;
     private GeneralQuestionPropertiesRepository $questionrepository;
     protected bool $editingEnabled = false;
     private \ilGlobalTemplateInterface $main_tpl;
@@ -65,7 +65,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         parent::__construct($questionGUI);
 
-        $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
+        $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->getObject());
     }
 
     /**
@@ -264,7 +264,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $questionRemainingHintList->reIndex();
 
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_question_hints_delete_success_msg'), true);
 
         $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 

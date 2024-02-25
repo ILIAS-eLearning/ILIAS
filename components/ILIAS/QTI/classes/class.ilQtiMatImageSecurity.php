@@ -19,6 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -27,16 +29,12 @@ declare(strict_types=1);
  */
 class ilQtiMatImageSecurity
 {
-    private \ILIAS\TestQuestionPool\QuestionFilesService $questionFilesService;
-    protected ilQTIMatimage $imageMaterial;
     protected string $detectedMimeType = "";
 
-    public function __construct(ilQTIMatimage $imageMaterial, \ILIAS\TestQuestionPool\QuestionFilesService $questionFilesService)
-    {
-        $this->questionFilesService = $questionFilesService;
-
-        $this->setImageMaterial($imageMaterial);
-
+    public function __construct(
+        protected ilQTIMatimage $image_material,
+        private QuestionFiles $question_files
+    ) {
         if (!strlen($this->getImageMaterial()->getRawContent())) {
             throw new ilQtiException('cannot import image without content');
         }
@@ -48,12 +46,12 @@ class ilQtiMatImageSecurity
 
     public function getImageMaterial(): ilQTIMatimage
     {
-        return $this->imageMaterial;
+        return $this->image_material;
     }
 
-    public function setImageMaterial(ilQTIMatimage $imageMaterial): void
+    public function setImageMaterial(ilQTIMatimage $image_material): void
     {
-        $this->imageMaterial = $imageMaterial;
+        $this->image_material = $image_material;
     }
 
     protected function getDetectedMimeType(): string
@@ -81,11 +79,11 @@ class ilQtiMatImageSecurity
 
     protected function validateContent(): bool
     {
-        if ($this->getImageMaterial()->getImagetype() && !$this->questionFilesService->isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
+        if ($this->getImageMaterial()->getImagetype() && !$this->question_files->isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
         }
 
-        if (!$this->questionFilesService->isAllowedImageMimeType($this->getDetectedMimeType())) {
+        if (!$this->question_files->isAllowedImageMimeType($this->getDetectedMimeType())) {
             return false;
         }
 
@@ -121,7 +119,7 @@ class ilQtiMatImageSecurity
             $extension = $this->determineFileExtension($this->getImageMaterial()->getLabel());
         }
 
-        return $this->questionFilesService->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
+        return $this->question_files->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
 
     public function sanitizeLabel(): void

@@ -177,8 +177,8 @@ class ilObjQuestionPool extends ilObject
         );
         if ($result->numRows() == 1) {
             $row = $this->db->fetchAssoc($result);
-            $this->setShowTaxonomies($row['show_taxonomies']);
-            $this->setSkillServiceEnabled($row['skill_service']);
+            $this->setShowTaxonomies((bool) $row['show_taxonomies']);
+            $this->setSkillServiceEnabled((bool) $row['skill_service']);
         }
     }
 
@@ -259,9 +259,9 @@ class ilObjQuestionPool extends ilObject
     {
         $question = $this->createQuestion('', $question_id);
         $newtitle = $this->appendCounterToQuestionTitleIfNecessary(
-            $question->object->getTitle()
+            $question->getObject()->getTitle()
         );
-        $new_id = $question->object->duplicate(false, $newtitle);
+        $new_id = $question->getObject()->duplicate(false, $newtitle);
         ilObjQuestionPool::_updateQuestionCount($new_id);
         return $new_id;
     }
@@ -269,16 +269,16 @@ class ilObjQuestionPool extends ilObject
     public function copyQuestion(int $question_id, int $questionpool_to): int
     {
         $question_gui = $this->createQuestion('', $question_id);
-        if ($question_gui->object->getObjId() == $questionpool_to) {
+        if ($question_gui->getObject()->getObjId() == $questionpool_to) {
             // the question is copied into the same question pool
             return $this->duplicateQuestion($question_id);
         } else {
             // the question is copied into another question pool
             $newtitle = $this->appendCounterToQuestionTitleIfNecessary(
-                $question_gui->object->getTitle()
+                $question_gui->getObject()->getTitle()
             );
 
-            return $question_gui->object->copyObject($this->getId(), $newtitle);
+            return $question_gui->getObject()->copyObject($this->getId(), $newtitle);
         }
     }
 
@@ -642,7 +642,7 @@ class ilObjQuestionPool extends ilObject
         if (count($questions) > 0) {
             foreach ($questions as $key => $value) {
                 $question = $this->createQuestion('', $value);
-                $xml .= $question->object->toXML();
+                $xml .= $question->getObject()->toXML();
             }
             if (count($questions) > 1) {
                 $xml = preg_replace('/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/', '', $xml);
@@ -669,7 +669,7 @@ class ilObjQuestionPool extends ilObject
         return $row['question_count'];
     }
 
-    public function setShowTaxonomies($show_taxonomies): void
+    public function setShowTaxonomies(bool $show_taxonomies): void
     {
         $this->show_taxonomies = $show_taxonomies;
     }
@@ -898,7 +898,7 @@ class ilObjQuestionPool extends ilObject
 
                     // 1. Create a copy of the original question
                     $question = $this->createQuestion('', $row['question_id']);
-                    $duplicate_id = $question->object->duplicate(true);
+                    $duplicate_id = $question->getObject()->duplicate(true);
                     if ($duplicate_id > 0) {
                         // 2. replace the question id in the solutions
                         $affectedRows = $this->db->manipulateF(

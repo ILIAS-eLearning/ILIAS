@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestCorrectionsGUITest
@@ -58,7 +58,7 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
             $DIC->http()->request(),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $this->createMock(ilObjTest::class),
-            $this->createMock(QuestionInfoService::class),
+            $this->createMock(GeneralQuestionPropertiesRepository::class),
             $this->createMock(QuestionsTable::class)
         );
     }

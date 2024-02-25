@@ -29,11 +29,11 @@ class ilTestQuestionPool10DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->manipulateF('UPDATE qpl_questions SET title=%s WHERE IS NULL title', [ilDBConstants::T_TEXT], ['']);
-        $this->db->manipulateF('UPDATE qpl_questions SET description=%s WHERE IS NULL description', [ilDBConstants::T_TEXT], ['']);
-        $this->db->manipulateF('UPDATE qpl_questions SET question_text=%s WHERE IS NULL question_text', [ilDBConstants::T_TEXT], ['']);
-        $this->db->manipulateF('UPDATE qpl_questions SET lifecycle=%s WHERE IS NULL lifecycle', [ilDBConstants::T_TEXT], ['draft']);
-        $this->db->manipulateF('UPDATE qpl_questions SET complete=%s WHERE IS NULL complete', [ilDBConstants::T_TEXT], ['1']);
+        $this->db->manipulateF('UPDATE qpl_questions SET title=%s WHERE ISNULL(title)', [ilDBConstants::T_TEXT], ['']);
+        $this->db->manipulateF('UPDATE qpl_questions SET description=%s WHERE ISNULL(description)', [ilDBConstants::T_TEXT], ['']);
+        $this->db->manipulateF('UPDATE qpl_questions SET question_text=%s WHERE ISNULL(question_text)', [ilDBConstants::T_TEXT], ['']);
+        $this->db->manipulateF('UPDATE qpl_questions SET lifecycle=%s WHERE ISNULL(lifecycle)', [ilDBConstants::T_TEXT], ['draft']);
+        $this->db->manipulateF('UPDATE qpl_questions SET complete=%s WHERE ISNULL(complete)', [ilDBConstants::T_TEXT], ['1']);
         $this->db->modifyTableColumn('qpl_questions', 'title', ['notnull' => 1, 'default' => '']);
         $this->db->modifyTableColumn('qpl_questions', 'description', ['notnull' => 1, 'default' => '']);
         $this->db->modifyTableColumn('qpl_questions', 'question_text', ['notnull' => 1, 'default' => '']);

@@ -133,20 +133,20 @@ class ilQuestionEditGUI
                     $this->getQuestionType() ?? '',
                     $this->getQuestionId()
                 );
-                $q_gui->object->setSelfAssessmentEditingMode(
+                $q_gui->getObject()->setSelfAssessmentEditingMode(
                     $this->getSelfAssessmentEditingMode()
                 );
                 if ($this->getDefaultNrOfTries() > 0) {
-                    $q_gui->object->setDefaultNrOfTries(
+                    $q_gui->getObject()->setDefaultNrOfTries(
                         $this->getDefaultNrOfTries()
                     );
                 }
 
                 if (is_object($this->page_config)) {
-                    $q_gui->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                    $q_gui->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
                     $q_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
                 }
-                $q_gui->object->setObjId((int) $this->getPoolObjId());
+                $q_gui->getObject()->setObjId((int) $this->getPoolObjId());
 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
                     $object = $this->new_id_listeners[$i]['object'];
@@ -159,7 +159,7 @@ class ilQuestionEditGUI
                     );
                 }
 
-                $count = $this->questionrepository->usageCount($q_gui->object->getId());
+                $count = $this->questionrepository->usageCount($q_gui->getObject()->getId());
                 if ($count > 0) {
                     if ($this->rbac_system->checkAccess('write', $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
