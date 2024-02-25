@@ -64,6 +64,15 @@ class TutorFeedbackZipRepository
         $this->wrapper->deliverFile($rid);
     }*/
 
+    public function deleteCurrent(
+        int $ass_id,
+        int $tutor_id,
+        ResourceStakeholder $stakeholder
+    ) {
+        $rid = $this->getIdStringForAssAndTutorId($ass_id, $tutor_id);
+        $this->wrapper->deleteResource($rid, $stakeholder);
+    }
+
     public function importFromUploadResult(
         int $ass_id,
         int $tutor_id,

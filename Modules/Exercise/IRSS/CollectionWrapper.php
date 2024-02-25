@@ -219,6 +219,16 @@ class CollectionWrapper
         return "";
     }
 
+    public function deleteResource(string $rid, ResourceStakeholder $stakeholder): void
+    {
+        if ($rid !== "") {
+            $res = $this->getResourceIdForIdString($rid);
+            if ($res) {
+                $this->irss->manage()->remove($this->getResourceIdForIdString($rid), $stakeholder);
+            }
+        }
+    }
+
     public function addEntryOfZipResourceToCollection(
         string $rid,
         string $entry,
