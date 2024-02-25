@@ -10,6 +10,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.3",
   },
   "scripts": {
     "test": "mocha --recursive"
