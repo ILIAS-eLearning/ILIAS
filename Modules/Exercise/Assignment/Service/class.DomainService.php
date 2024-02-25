@@ -26,6 +26,7 @@ use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\SampleSolution\SampleSolutionManager;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileManager;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipManager;
+use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileObserver;
 
 /**
  * Assignments domain service
@@ -120,12 +121,14 @@ class DomainService
     {
         $stakeholder = new \ilExcTutorFeedbackFileStakeholder();
         $team_stakeholder = new \ilExcTutorTeamFeedbackFileStakeholder();
+        $observer = new TutorFeedbackFileObserver($this->domain_service, $ass_id);
         return new TutorFeedbackFileManager(
             $ass_id,
             $this->repo_service,
             $this->domain_service,
             $stakeholder,
-            $team_stakeholder
+            $team_stakeholder,
+            $observer
         );
     }
 
