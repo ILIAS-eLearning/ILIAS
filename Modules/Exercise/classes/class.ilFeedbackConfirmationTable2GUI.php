@@ -23,6 +23,7 @@
  */
 class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
 {
+    protected \ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipManager $feedback_zip;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected ilExAssignment $ass;
@@ -37,9 +38,10 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->access = $DIC->access();
-        $this->user = $DIC->user();
-        $ilUser = $DIC->user();
+        $domain = $DIC->exercise()->internal()->domain();
+        $this->access = $domain->access();
+        $this->user = $domain->user();
+        $this->feedback_zip = $domain->assignment()->tutorFeedbackZip();
 
         $this->ass = $a_ass;
         $this->setId("exc_mdf_upload");
@@ -47,8 +49,11 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
+
+        $exc = new ilObjExercise($a_ass->getExerciseId(), false);
+        $this->setData($this->feedback_zip->getFiles($exc, $this->ass->getId(), $this->user->getId()));
+
         $this->setLimit(9999);
-        $this->setData($this->ass->getMultiFeedbackFiles($ilUser->getId()));
         $this->setTitle($lng->txt("exc_multi_feedback_files"));
         $this->setSelectAllCheckbox("file[]");
 
@@ -71,7 +76,10 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
         $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable("FILE", $a_set["file"]);
-        $this->tpl->setVariable("POST_FILE", md5($a_set["file"]));
+        $this->tpl->setVariable(
+            "POST_FILE",
+            $this->feedback_zip->getFileMd5((int) $a_set["user_id"], $a_set["file"])
+        );
         $this->tpl->setVariable("USER_ID", $a_set["user_id"]);
     }
 }

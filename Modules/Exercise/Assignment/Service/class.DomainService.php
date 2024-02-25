@@ -25,6 +25,7 @@ use ILIAS\Exercise\InternalDomainService;
 use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\SampleSolution\SampleSolutionManager;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileManager;
+use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipManager;
 
 /**
  * Assignments domain service
@@ -125,6 +126,18 @@ class DomainService
             $this->domain_service,
             $stakeholder,
             $team_stakeholder
+        );
+    }
+
+    public function tutorFeedbackZip(): TutorFeedbackZipManager
+    {
+        $stakeholder = new \ilExcTutorFeedbackZipStakeholder();
+        $user_stakeholder = new \ilExcTutorFeedbackFileStakeholder();
+        return new TutorFeedbackZipManager(
+            $this->repo_service,
+            $this->domain_service,
+            $stakeholder,
+            $user_stakeholder
         );
     }
 
