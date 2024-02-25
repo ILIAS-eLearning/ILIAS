@@ -44,4 +44,9 @@ interface TutorFeedbackFileRepositoryInterface
         int $user_id,
         ResourceStakeholder $stakeholder
     ): void;
+
+    public function getParticipantIdForRcid(int $ass_id, string $rcid): int;
+
+    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string;
+
 }

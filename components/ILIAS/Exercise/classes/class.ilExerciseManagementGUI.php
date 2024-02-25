@@ -180,6 +180,7 @@ class ilExerciseManagementGUI
                     $lng->txt("back"),
                     $ilCtrl->getLinkTarget($this, $this->getViewBack())
                 );
+                $this->domain->assignment()->tutorFeedbackFile($this->ass_id)->addObserver();
                 $this->tpl->setOnScreenMessage('info', $lng->txt("exc_fb_tutor_info"));
                 $gui = $this->gui->assignment()->getTutorFeedbackFileResourceCollectionGUI(
                     $this->exercise->getRefId(),
