@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"mustache/mustache": "^2.14",
 	},
 	"require-dev": {
 	},
