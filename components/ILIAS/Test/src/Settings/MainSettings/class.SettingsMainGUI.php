@@ -24,7 +24,7 @@ use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -95,7 +95,7 @@ class SettingsMainGUI extends TestSettingsGUI
         protected readonly \ilObjUser $active_user,
         protected readonly \ilObjTestGUI $test_gui,
         protected readonly TestLogger $logger,
-        protected readonly QuestionInfoService $questioninfo
+        protected readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->object_properties = $this->test_gui->getTestObject()->getObjectProperties();
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
@@ -107,7 +107,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $this->logger,
             $this->component_repository,
             $this->test_gui->getTestObject(),
-            $this->questioninfo
+            $this->questionrepository
         );
 
         $this->lng->loadLanguageModule('validation');

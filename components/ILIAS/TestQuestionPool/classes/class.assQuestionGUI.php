@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
-use ILIAS\TestQuestionPool\QuestionInfoService;
-use ILIAS\TestQuestionPool\InternalRequestService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Notes\GUIService;
 
@@ -84,7 +84,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     protected ilLogger $logger;
     private ilComponentRepository $component_repository;
-    protected QuestionInfoService $questioninfo;
+    protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
     private array $new_id_listeners = [];
@@ -123,7 +123,7 @@ abstract class assQuestionGUI
     private bool $previousSolutionPrefilled = false;
 
     protected ilPropertyFormGUI $editForm;
-    protected InternalRequestService $request;
+    protected RequestDataCollector $request;
     protected bool $parent_type_is_lm = false;
 
     private ?int $copy_to_existing_pool_on_save = null;
@@ -143,12 +143,15 @@ abstract class assQuestionGUI
         $this->ilHelp = $DIC['ilHelp'];
         $this->tabs_gui = $DIC['ilTabs'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tree = $DIC['tree'];
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->component_repository = $DIC['component.repository'];
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "calling_consumer");
         $this->ctrl->saveParameter($this, "consumer_context");
@@ -498,7 +501,7 @@ abstract class assQuestionGUI
 
     public function assessment(): void
     {
-        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object, $this->questioninfo);
+        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object, $this->questionrepository);
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $this->tpl->setContent(implode('<br />', [
@@ -518,7 +521,8 @@ abstract class assQuestionGUI
         $lng = $DIC['lng'];
 
         if (($question_type === '') && ($question_id > 0)) {
-            $question_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($question_id);
+            $question_type = QuestionPoolDIC::dic()['general_question_properties_repository']
+                ->getForQuestionId($question_id)->getClassName();
         }
 
         if ($question_type === '') {
@@ -544,7 +548,8 @@ abstract class assQuestionGUI
     public static function _getGUIClassNameForId($a_q_id): string
     {
         global $DIC;
-        $q_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($a_q_id);
+        $q_type = QuestionPoolDIC::dic()['general_question_properties_repository']
+            ->getForQuestionId($question_id)->getClassName();
         $class_name = assQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
@@ -740,7 +745,7 @@ abstract class assQuestionGUI
             $this->object->getCurrentUser()->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb($old_id);
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
             if (($this->request->raw("calling_test")
                     || $this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer'))
                 && $originalexists
@@ -1138,15 +1143,15 @@ abstract class assQuestionGUI
 
     public function outQuestionType(): string
     {
-        $count = $this->questioninfo->usageNumber($this->object->getId());
+        $count = $this->questionrepository->usageCount($this->object->getId());
 
-        if ($this->questioninfo->questionExistsInPool($this->object->getId()) && $count) {
+        if ($this->questionrepository->questionExistsInPool($this->object->getId()) && $count) {
             if ($this->rbacsystem->checkAccess("write", $this->request->getRefId())) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
             }
         }
 
-        return $this->questioninfo->getQuestionTypeName($this->object->getId());
+        return $this->questionrepository->getForQuestionId($this->object->getId())->getTypeName($this->lng);
     }
 
     protected function getTypeOptions(): array
@@ -1263,7 +1268,7 @@ abstract class assQuestionGUI
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
                         $originalexists = $this->object->getOriginalId() &&
-                            $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                            $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {
@@ -1304,7 +1309,7 @@ abstract class assQuestionGUI
                     }
 
                     $originalexists = !is_null($this->object->getOriginalId()) &&
-                        $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                        $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::instantiateQuestion($this->object->getOriginalId())->isWriteable()) {

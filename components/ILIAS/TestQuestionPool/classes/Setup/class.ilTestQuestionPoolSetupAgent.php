@@ -26,13 +26,13 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
     {
         return new ObjectiveCollection(
-            'Database is updated for Module/TestQuestionPool',
+            'Database is updated for component/ILIAS/TestQuestionPool',
             false,
             new ilDatabaseUpdateStepsExecutedObjective(
-                new ilTestQuestionPool80DBUpdateSteps()
+                new ilTestQuestionPool9DBUpdateSteps()
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
-                new ilTestQuestionPool9DBUpdateSteps()
+                new ilTestQuestionPool10DBUpdateSteps()
             )
         );
     }
@@ -40,15 +40,15 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ObjectiveCollection(
-            'Module/TestQuestionPool',
+            'component/ILIAS/TestQuestionPool',
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new ilTestQuestionPool80DBUpdateSteps()
+                new ilTestQuestionPool9DBUpdateSteps()
             ),
             new ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new ilTestQuestionPool9DBUpdateSteps()
+                new ilTestQuestionPool10DBUpdateSteps()
             )
         );
     }

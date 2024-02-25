@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\PublicInterface as QuestionInterface;
 
 /**
  * Table to select self assessment questions for copying into learning resources
@@ -24,7 +24,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  */
 class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 {
-    private QuestionInfoService $questioninfo;
+    private QuestionInterface $questioninfo;
     protected ilAccessHandler $access;
     protected int $pool_ref_id;
     protected int $pool_obj_id;
@@ -38,7 +38,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = $DIC->testQuestion();
 
         $this->setId("cont_qpl");
         $this->pool_ref_id = $a_pool_ref_id;
@@ -126,7 +126,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable(
             "TYPE",
-            $this->questioninfo->getQuestionType($a_set["question_id"])
+            $this->questioninfo->getGeneralQuestionProperties($a_set["question_id"])->getTypeName($lng)
         );
     }
 }

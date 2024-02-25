@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * Class ilUnitCategoryTableGUI
  * @abstract
@@ -24,6 +29,8 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
+
+    private RequestDataCollector $request;
 
     /**
      * @param ilUnitConfigurationGUI $controller
@@ -49,7 +56,10 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderDirection('category');
         $this->setDefaultOrderDirection('ASC');
-        $ref_id = $DIC->testQuestionPool()->internal()->request()->getRefId();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['general_question_properties_repository'];
+        $ref_id = $this->request->getRefId();
         $type = ilObject::_lookupType($ref_id, true);
         if ($type === 'assf') {
             $hasAccess = $DIC->rbac()->system()->checkAccess('edit', $ref_id);
@@ -78,19 +88,15 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
      */
     public function fillRow(array $row): void
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
 
         $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $actions = [];
 
-        $ilCtrl->setParameter($this->getParentObject(), 'category_id', $row['category_id']);
-        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('un_show_units'), $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
-        $ref_id = $DIC->testQuestionPool()->internal()->request()->getRefId();
+        $this->ctrl->setParameter($this->getParentObject(), 'category_id', $row['category_id']);
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('un_show_units'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
+        $ref_id = $this->request->getRefId();
         $type = ilObject::_lookupType($ref_id, true);
         if ($type === 'assf') {
             $hasAccess = $DIC->rbac()->system()->checkAccess('edit', $ref_id);
@@ -100,14 +106,14 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         }
         if ($this->getParentObject()->isCRUDContext()) {
             if ($hasAccess) {
-                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
-                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->ctrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
             }
         } else {
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('import'), $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('import'), $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
         }
-        $row['title_href'] = $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory');
-        $ilCtrl->setParameter($this->getParentObject(), 'category_id', '');
+        $row['title_href'] = $this->ctrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory');
+        $this->ctrl->setParameter($this->getParentObject(), 'category_id', '');
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         $row['actions'] = $this->ui_renderer->render($dropdown);
 

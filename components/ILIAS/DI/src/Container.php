@@ -200,11 +200,6 @@ class Container extends \Pimple\Container
         return $this['ilHelp'];
     }
 
-    public function question(): \ilAsqFactory
-    {
-        return new \ilAsqFactory();
-    }
-
     /**
      * Get conditions service
      */
@@ -332,14 +327,9 @@ class Container extends \Pimple\Container
         return new \ILIAS\SurveyQuestionPool\Service($this);
     }
 
-    public function test(): \ILIAS\Test\Service
+    public function testQuestion(): \ILIAS\TestQuestionPool\Questions\PublicInterface
     {
-        return new \ILIAS\Test\Service($this);
-    }
-
-    public function testQuestionPool(): \ILIAS\TestQuestionPool\Service
-    {
-        return new \ILIAS\TestQuestionPool\Service($this);
+        return new \ILIAS\TestQuestionPool\Questions\PublicInterface($this);
     }
 
     public function workflowEngine(): \ILIAS\WorkflowEngine\Service

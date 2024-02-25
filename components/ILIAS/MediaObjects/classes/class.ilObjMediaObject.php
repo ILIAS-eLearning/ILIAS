@@ -1044,8 +1044,8 @@ class ilObjMediaObject extends ilObject
                     case "qpl":
                         // Question Pool *Question* Text (Test)
                         global $DIC;
-                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
-                        if (isset($qinfo["original_id"]) && $qinfo["original_id"] > 0) {
+                        $qinfo = $DIC->testQuestion()->getGeneralQuestionProperties($id);
+                        if ($qinfo->getOriginalId() > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
                             $obj_id = (int) ($qinfo["obj_fi"] ?? 0);		// usage in pool
@@ -1135,8 +1135,8 @@ class ilObjMediaObject extends ilObject
 
                         // Question Pool Question Pages
                         global $DIC;
-                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
-                        if ($qinfo["original_id"] > 0) {
+                        $qinfo = $DIC->testQuestion()->getGeneralQuestionProperties($id);
+                        if ($qinfo->getOriginalId() > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
                             $obj_id = $qinfo["obj_fi"];		// usage in pool

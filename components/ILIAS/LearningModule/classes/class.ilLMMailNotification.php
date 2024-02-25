@@ -22,7 +22,7 @@
 class ilLMMailNotification extends ilMailNotification
 {
     public const TYPE_USER_BLOCKED = 10;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\Questions\PublicInterface $questioninfo;
     protected int $question_id = 0;
 
     protected ilObjUser $user;
@@ -33,7 +33,7 @@ class ilLMMailNotification extends ilMailNotification
         global $DIC;
         parent::__construct($a_is_personal_workspace);
         $this->user = $DIC->user();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questioninfo = $DIC->testQuestion();
     }
 
     public function setQuestionId(int $a_val): void
@@ -82,7 +82,7 @@ class ilLMMailNotification extends ilMailNotification
                     $this->appendBody("\n");
 
                     $this->appendBody(
-                        $this->getLanguageText('question') . ": " . $this->questioninfo->getQuestionTitle($this->getQuestionId())
+                        $this->getLanguageText('question') . ": " . $this->questioninfo->getGeneralQuestionProperties($this->getQuestionId())->getTitle()
                     );
                     $this->appendBody("\n");
                     $this->appendBody("\n\n");

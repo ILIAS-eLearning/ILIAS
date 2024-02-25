@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * abstract parent class for concrete question hint GUI classes
  *
@@ -27,7 +32,7 @@
  */
 abstract class ilAssQuestionHintAbstractGUI
 {
-    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected RequestDataCollector $request;
     protected ?assQuestionGUI $questionGUI = null;
     protected ?assQuestion $questionOBJ = null;
     protected ilTabsGUI $tabs;
@@ -45,9 +50,11 @@ abstract class ilAssQuestionHintAbstractGUI
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
         global $DIC;
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC['lng'];
         $this->ctrl = $DIC['ilCtrl'];
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
     }
 }

@@ -45,6 +45,8 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilObjTest
  *
@@ -73,7 +75,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     private array $mob_ids;
     private array $file_ids = [];
     private bool $online;
-    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected GeneralQuestionPropertiesRepository $questionrepository;
     private InternalRequestService $testrequest;
     private MarksRepository $marks_repository;
     private ?MarkSchema $mark_schema;
@@ -168,11 +170,11 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         $this->logger = $local_dic['test_logger'];
         $this->log_viewer = $local_dic['test_log_viewer'];
         $this->marks_repository = $local_dic['marks_repository'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
         $this->lng->loadLanguageModule("assessment");
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->score_settings = null;
 
         $this->question_set_config_factory = new ilTestQuestionSetConfigFactory(
@@ -7456,8 +7458,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
     public static function isQuestionObligationPossible(int $question_id): bool
     {
         global $DIC;
-        $question_info = $DIC->testQuestionPool()->questionInfo();
-        $class = $question_info->getQuestionType($question_id);
+        $class = $DIC->testQuestion()->getForQuestionId($question_id)->getTypeClassName();
         return call_user_func([$class, 'isObligationPossible'], $question_id);
     }
 
@@ -7893,7 +7894,7 @@ class ilObjTest extends ilObject implements MarkSchemaAware
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 
-        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $DIC->testQuestionPool()->questionInfo());
+        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $this->questionrepository);
 
         $test_session = $test_session_factory->getSession($active_id);
         $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $test_session->getPass());

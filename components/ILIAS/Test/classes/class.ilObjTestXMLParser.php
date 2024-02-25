@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\TestDIC;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 /**
@@ -30,7 +30,7 @@ use ILIAS\Test\Logging\TestLogger;
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
-    private readonly QuestionInfoService $questioninfo;
+    private readonly GeneralQuestionPropertiesRepository $questionrepository;
 
     private readonly ilDBInterface $db;
     private readonly TestLogger $logger;
@@ -56,10 +56,11 @@ class ilObjTestXMLParser extends ilSaxParser
     ) {
         global $DIC;
         $this->db = $DIC['ilDB'];
-        $this->logger = TestDIC::dic()['test_logger'];
+        $local_dic = TestDIC::dic();
+        $this->logger = $local_dic['test_logger'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($path_to_file, $throw_exception);
     }
 
@@ -232,7 +233,7 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
 
         if (!$question_set_config->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {

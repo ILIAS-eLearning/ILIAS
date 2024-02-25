@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintGUI
@@ -49,7 +50,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_CONFIRM_SYNC = 'confirmSync';
 
     private ?bool $hintOrderingClipboard = null;
-    private QuestionInfoService $questioninfo;
+    private GeneralQuestionPropertiesRepository $questionrepository;
     protected bool $editingEnabled = false;
     private \ilGlobalTemplateInterface $main_tpl;
 
@@ -58,7 +59,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
+
         parent::__construct($questionGUI);
 
         $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
@@ -262,7 +266,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
-        $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+        $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
         if ($this->request->raw("calling_test")
             && $originalexists
@@ -319,7 +323,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
-        $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+        $originalexists = $this->questionrepository->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
         if ($this->request->raw("calling_test")
             && $originalexists
@@ -594,8 +598,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      */
     private static function fetchHintIdsParameter(): array
     {
-        global $DIC;
-        $request = $DIC->testQuestionPool()->internal()->request();
+        $local_dic = QuestionPoolDIC::dic();
+        $request = $local_dic['request_data_collector'];
+
         $hintIds = array();
 
         if (isset($_POST['hint_ids']) && is_array($_POST['hint_ids'])) {

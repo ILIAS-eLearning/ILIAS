@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 
 use ILIAS\Refinery\Factory as Refinery;
@@ -46,7 +46,7 @@ class ilTestSkillAdministrationGUI
         private ilTree $tree,
         private ilComponentRepository $component_repository,
         private ilObjTest $test_obj,
-        private QuestionInfoService $questioninfo,
+        private GeneralQuestionPropertiesRepository $questionrepository,
         private int $ref_id
     ) {
     }
@@ -172,7 +172,7 @@ class ilTestSkillAdministrationGUI
             $this->logger,
             $this->component_repository,
             $this->test_obj,
-            $this->questioninfo
+            $this->questionrepository
         );
 
         $question_set_config = $question_set_config_factory->getQuestionSetConfig();

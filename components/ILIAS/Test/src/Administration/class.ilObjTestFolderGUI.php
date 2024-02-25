@@ -19,8 +19,9 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\Test\TestDIC;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * @author Helmut Schottmüller <hschottm@gmx.de>
@@ -28,7 +29,7 @@ use ILIAS\Test\InternalRequestService;
  */
 class ilObjTestFolderGUI extends ilObjectGUI
 {
-    private QuestionInfoService $questioninfo;
+    private GeneralQuestionPropertiesRepository $questionrepository;
     private InternalRequestService $testrequest;
 
     public function __construct(
@@ -40,7 +41,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -367,9 +368,9 @@ class ilObjTestFolderGUI extends ilObjectGUI
             }
             $title = "";
             if ($log["question_fi"] || $log["original_fi"]) {
-                $title = $this->questioninfo->getQuestionTitle((int) $log["question_fi"]);
+                $title = $this->questionrepository->getForQuestionId((int) $log["question_fi"])->getTitle();
                 if ($title === '') {
-                    $title = $this->questioninfo->getQuestionTitle((int) $log["original_fi"]);
+                    $title = $this->questionrepository->getForQuestionId((int) $log["original_fi"])->getTitle();
                 }
                 $title = $this->lng->txt("assessment_log_question") . ": " . $title;
             }

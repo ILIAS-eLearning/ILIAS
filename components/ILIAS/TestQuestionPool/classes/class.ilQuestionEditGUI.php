@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilQuestionEditGUI
  * @author		Alex Killing <alex.killing@gmx.de>
@@ -30,10 +36,13 @@
 class ilQuestionEditGUI
 {
     private \ilGlobalTemplateInterface $main_tpl;
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilRbacSystem $rbac_system;
+
+    private RequestDataCollector $request;
+    private GeneralQuestionPropertiesRepository $questionrepository;
+
     private ?int $questionid = null;
     private ?int $poolrefid = null;
     private ?int $poolobjid = null;
@@ -44,7 +53,6 @@ class ilQuestionEditGUI
     private bool $selfassessmenteditingmode = false;
     private ?int $defaultnroftries = null;
     private ?ilPageConfig $page_config = null;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     public function __construct()
     {
@@ -52,10 +60,12 @@ class ilQuestionEditGUI
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC['ilCtrl'];
-        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $DIC->language();
         $this->rbac_system = $DIC->rbac()->system();
-        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+
+        $local_dic = QuestionPoolDIC::dic();
+        $this->request = $local_dic['request_data_collector'];
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
 
         if ($this->request->raw('qpool_ref_id')) {
             $this->setPoolRefId($this->request->raw('qpool_ref_id'));
@@ -149,7 +159,7 @@ class ilQuestionEditGUI
                     );
                 }
 
-                $count = $this->questioninfo->usageNumber($q_gui->object->getId());
+                $count = $this->questionrepository->usageCount($q_gui->object->getId());
                 if ($count > 0) {
                     if ($this->rbac_system->checkAccess('write', $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
