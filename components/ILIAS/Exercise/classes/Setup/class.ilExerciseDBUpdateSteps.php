@@ -216,4 +216,32 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_17(): void
+    {
+        if (!$this->db->tableExists('exc_multi_feedback')) {
+            $this->db->createTable(
+                'exc_multi_feedback',
+                [
+                    "tutor_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4
+                    ],
+                    "ass_id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4
+                    ],
+                    "zip_rid" => [
+                        'type' => 'text',
+                        'notnull' => false,
+                        'length' => 64,
+                        'default' => ''
+                    ]
+                ]
+            );
+        }
+        $this->db->addPrimaryKey('exc_multi_feedback', ["tutor_id", "ass_id"]);
+    }
+
 }

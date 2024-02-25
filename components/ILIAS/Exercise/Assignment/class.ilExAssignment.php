@@ -1330,55 +1330,6 @@ class ilExAssignment
     ////
 
     /**
-     * Create member status record for a new assignment for all participants
-     */
-    public function sendMultiFeedbackStructureFile(ilObjExercise $exercise): void
-    {
-        $access = $this->access;
-
-        // send and delete the zip file
-        $deliverFilename = trim(str_replace(" ", "_", $this->getTitle() . "_" . $this->getId()));
-        $deliverFilename = ilFileUtils::getASCIIFilename($deliverFilename);
-        $deliverFilename = "multi_feedback_" . $deliverFilename;
-
-        $exc = new ilObjExercise($this->getExerciseId(), false);
-
-        $cdir = getcwd();
-
-        // create temporary directoy
-        $tmpdir = ilFileUtils::ilTempnam();
-        ilFileUtils::makeDir($tmpdir);
-        $mfdir = $tmpdir . "/" . $deliverFilename;
-        ilFileUtils::makeDir($mfdir);
-
-        // create subfolders <lastname>_<firstname>_<id> for each participant
-        $exmem = new ilExerciseMembers($exc);
-        $mems = $exmem->getMembers();
-
-        $mems = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'edit_submissions_grades',
-            'edit_submissions_grades',
-            $exercise->getRefId(),
-            $mems
-        );
-        foreach ($mems as $mem) {
-            $name = ilObjUser::_lookupName($mem);
-            $subdir = $name["lastname"] . "_" . $name["firstname"] . "_" . $name["login"] . "_" . $name["user_id"];
-            $subdir = ilFileUtils::getASCIIFilename($subdir);
-            ilFileUtils::makeDir($mfdir . "/" . $subdir);
-        }
-
-        // create the zip file
-        chdir($tmpdir);
-        $tmpzipfile = $tmpdir . "/multi_feedback.zip";
-        ilFileUtils::zip($tmpdir, $tmpzipfile, true);
-        chdir($cdir);
-
-
-        ilFileDelivery::deliverFileLegacy($tmpzipfile, $deliverFilename . ".zip", "", false, true);
-    }
-
-    /**
      * @throws ilException
      * @throws ilExerciseException
      */

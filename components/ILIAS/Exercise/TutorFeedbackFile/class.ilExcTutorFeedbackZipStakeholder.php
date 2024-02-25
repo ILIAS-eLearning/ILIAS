@@ -24,7 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
-class ilExcTutorTeamFeedbackFileStakeholder extends AbstractResourceStakeholder
+class ilExcTutorFeedbackZipStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
     private int $current_user;
@@ -41,7 +41,7 @@ class ilExcTutorTeamFeedbackFileStakeholder extends AbstractResourceStakeholder
 
     public function getId(): string
     {
-        return 'exc_tutor_team_feedback';
+        return 'exc_tutor_feedback_zip';
     }
 
     public function getOwnerOfNewResources(): int
@@ -54,19 +54,14 @@ class ilExcTutorTeamFeedbackFileStakeholder extends AbstractResourceStakeholder
         global $DIC;
 
         $object_id = $this->resolveObjectId($identification);
-        $is_recipient = $this->isRecipient($identification);
-
         if ($object_id === null) {
             return true;
         }
 
         $ref_ids = ilObject2::_getAllReferences($object_id);
         foreach ($ref_ids as $ref_id) {
+            // one must have read permissions on the exercise to see the instruction files
             if ($DIC->access()->checkAccessOfUser($this->current_user, 'write', '', $ref_id)) {
-                return true;
-            }
-            if ($is_recipient &&
-                $DIC->access()->checkAccessOfUser($this->current_user, 'read', '', $ref_id)) {
                 return true;
             }
         }
@@ -95,25 +90,11 @@ class ilExcTutorTeamFeedbackFileStakeholder extends AbstractResourceStakeholder
         return null;
     }
 
-    private function isRecipient(ResourceIdentification $identification): bool
-    {
-        $this->initDB();
-        $r = $this->database->queryF(
-            "SELECT te.usr_id FROM il_resource_rca JOIN exc_team_data ON exc_team_data.feedback_rcid = il_resource_rca.rcid JOIN il_exc_team te ON te.id = exc_team_data.id WHERE il_resource_rca.rid = %s AND te.usr_id = %s;",
-            ['text', 'integer'],
-            [$identification->serialize(), $this->current_user]
-        );
-        if ($this->database->fetchAssoc($r)) {
-            return true;
-        }
-        return false;
-    }
-
     private function resolveObjectId(ResourceIdentification $identification): ?int
     {
         $this->initDB();
         $r = $this->database->queryF(
-            "SELECT exc_id, rcid FROM il_resource_rca JOIN exc_team_data ON exc_team_data.feedback_rcid = il_resource_rca.rcid JOIN il_exc_team te ON te.id = exc_team_data.id JOIN exc_assignment ON (exc_assignment.id = exc_team_data.ass_id) WHERE il_resource_rca.rid = %s;",
+            "SELECT exc_id FROM exc_assignment ass, exc_multi_feedback mf ON (ass.id = mf.ass_id) WHERE mf.zip_rid = %s;",
             ['text'],
             [$identification->serialize()]
         );
