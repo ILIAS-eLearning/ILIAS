@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"symfony/console" : "^7.0",
 	},
 	"require-dev": {
 	},
