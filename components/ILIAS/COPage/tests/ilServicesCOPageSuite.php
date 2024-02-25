@@ -133,6 +133,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./components/ILIAS/COPage/tests/Link/LinkManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Link\LinkManagerTest::class);
 
+        require_once("./components/ILIAS/COPage/tests/Link/ExtLinkMapperTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Link\ExtLinkMapperTest::class);
+
         require_once("./components/ILIAS/COPage/tests/PC/FileList/FileListManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\FileList\FileListManagerTest::class);
 
