@@ -123,6 +123,7 @@ class TutorFeedbackZipManager
         int $tutor_id,
         array $file_md5s
     ) {
+        $notification = $this->domain->notification($exc->getRefId());
         foreach ($this->getFiles($exc, $ass_id, $tutor_id) as $file) {
             $user_id = (int) $file["user_id"];
             $md5 = $this->getFileMd5((int) $file["user_id"], $file["file"]);
@@ -136,6 +137,27 @@ class TutorFeedbackZipManager
                         $target_collection,
                         $this->user_feedback_stakeholder
                     );
+                }
+
+                $ass = new \ilExAssignment($ass_id);
+                $submission = new \ilExSubmission($ass, $user_id);
+                $feedback_id = $submission->getFeedbackId();
+                $noti_rec_ids = $submission->getUserIds();
+
+                if ($feedback_id) {
+                    if ($noti_rec_ids) {
+                        foreach ($noti_rec_ids as $user_id) {
+                            $member_status = $ass->getMemberStatus($user_id);
+                            $member_status->setFeedback(true);
+                            $member_status->update();
+                        }
+
+                        $notification->sendFeedbackNotification(
+                            $ass->getId(),
+                            $noti_rec_ids,
+                            $file["file"]
+                        );
+                    }
                 }
             }
         }

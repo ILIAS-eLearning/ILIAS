@@ -1909,7 +1909,6 @@ class ilExerciseManagementGUI
      */
     public function cancelMultiFeedbackObject(): void
     {
-        $this->assignment->clearMultiFeedbackDirectory();
         $this->ctrl->redirect($this, "members");
     }
 
@@ -2275,7 +2274,6 @@ class ilExerciseManagementGUI
             $this->log->debug("file copied: " . $file_copied);
             // e.g. data/ilias/ilExercise/3/exc_327/subm_9/2/20231212085734_167.zip ?
             if ($file_copied) {
-                //ilFileUtils::unzip($file_copied, true);
                 $this->zip->unzipFile($file_copied);
                 $web_filesystem->delete($zip_internal_path);
                 $this->log->debug("deleting: " . $zip_internal_path);

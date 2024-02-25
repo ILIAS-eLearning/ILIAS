@@ -20,6 +20,7 @@ namespace ILIAS\Portfolio\Export;
 
 use ILIAS\Blog\Export\BlogHtmlExport;
 use ilFileUtils;
+use ILIAS\Portfolio\InternalDomainService;
 
 /**
  * Portfolio HTML export
@@ -28,6 +29,7 @@ use ilFileUtils;
  */
 class PortfolioHtmlExport
 {
+    protected InternalDomainService $domain;
     protected \ilObjPortfolio $portfolio;
     protected \ilObjPortfolioBaseGUI $portfolio_gui;
     protected string $export_dir = "";
@@ -66,6 +68,7 @@ class PortfolioHtmlExport
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain()->styleForObjId($this->portfolio->getId());
+        $this->domain = $DIC->portfolio()->internal()->domain();
     }
 
     protected function init(): void
@@ -201,7 +204,7 @@ class PortfolioHtmlExport
         $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->portfolio->getType() . "_" . $this->portfolio->getId() . ".zip";
-        ilFileUtils::zip($this->target_dir, $zip_file);
+        $this->domain->resources()->zip()->zipDirectoryToFile($this->target_dir, $zip_file);
         ilFileUtils::delDir($this->target_dir);
 
         return $zip_file;

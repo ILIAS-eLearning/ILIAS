@@ -18,6 +18,7 @@
 
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalDomainService;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -60,7 +61,7 @@ class ilObjSurvey extends ilObject
     public const NOTIFICATION_APPRAISEES = 3;
     public const NOTIFICATION_RATERS = 4;
     public const NOTIFICATION_APPRAISEES_AND_RATERS = 5;
-
+    protected InternalDomainService $domain;
 
     protected ilLogger $svy_log;
     protected bool $activation_limited = false;
@@ -187,6 +188,7 @@ class ilObjSurvey extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
         $this->svy_log = ilLoggerFactory::getLogger("svy");
         $this->initServices();
+        $this->domain = $DIC->survey()->internal()->domain();
     }
 
     protected function initServices(): void
@@ -3225,7 +3227,7 @@ class ilObjSurvey extends ilObject
             if ($isZip) {
                 $importfile = $import_dir . "/" . $file_info["name"];
                 ilFileUtils::moveUploadedFile($source, $file_info["name"], $importfile);
-                ilFileUtils::unzip($importfile);
+                $this->domain->resources()->zip()->unzipFile($importfile);
                 $found = $this->locateImportFiles($import_dir);
                 if (!((strlen($found["dir"]) > 0) && (strlen($found["xml"]) > 0))) {
                     $error = $this->lng->txt("wrong_import_file_structure");

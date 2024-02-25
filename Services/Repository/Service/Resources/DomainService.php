@@ -22,19 +22,26 @@ namespace ILIAS\Repository\Resources;
 
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
 
 class DomainService
 {
+    protected LegacyArchives $legacy_archives;
     protected Archives $archives;
 
     public function __construct(
-        Archives $archives
+        Archives $archives,
+        LegacyArchives $legacy_archives
     ) {
         $this->archives = $archives;
+        $this->legacy_archives = $legacy_archives;
     }
 
     public function zip(): ZipAdapter
     {
-        return new ZipAdapter($this->archives);
+        return new ZipAdapter(
+            $this->archives,
+            $this->legacy_archives
+        );
     }
 }
