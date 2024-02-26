@@ -116,8 +116,8 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             'commented' => $field_factory->select(
                 $this->lng->txt("ass_comments"),
                 [
-                    ilAssQuestionList::QUESTION_COMMENTED_ONLY => $this->lng->txt('qpl_filter_commented_only'),
-                    ilAssQuestionList::QUESTION_COMMENTED_EXCLUDED => $this->lng->txt('qpl_filter_commented_exclude')
+                    \ilAssQuestionList::QUESTION_COMMENTED_ONLY => $this->lng->txt('qpl_filter_commented_only'),
+                    \ilAssQuestionList::QUESTION_COMMENTED_EXCLUDED => $this->lng->txt('qpl_filter_commented_exclude')
                 ]
             ),
             'taxonomies' => $field_factory->select($this->lng->txt("tax_filter"), $tax_filter_options),
@@ -142,8 +142,8 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
         $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
-        $icon_yes = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), 'yes');
-        $icon_no = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no');
+        $icon_yes = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath('standard/icon_checked.svg'), 'yes');
+        $icon_no = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no');
 
         return  [
             'title' => $f->link($this->lng->txt('title')),

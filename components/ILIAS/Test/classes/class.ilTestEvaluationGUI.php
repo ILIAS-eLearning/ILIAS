@@ -707,7 +707,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         $global_certificate_prerequisites = new ilCertificateActiveValidator();
         if (!$global_certificate_prerequisites->validate()) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $pathFactory = new ilCertificatePathFactory();
@@ -1804,11 +1804,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 
-        $question_list = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
+        $question_list = new ilAssQuestionList($ilDB, $this->lng, $this->refinery , $component_repository);
         $question_list->setParentObjId($this->object->getId());
         $question_list->setParentObjectType($this->object->getType());
         $question_list->setIncludeQuestionIdsFilter($question_ids);
-        $question_list->setQuestionInstanceTypeFilter(null);
 
         foreach ($table_gui->getFilterItems() as $item) {
             if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
