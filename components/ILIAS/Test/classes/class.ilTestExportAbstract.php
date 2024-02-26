@@ -125,7 +125,7 @@ abstract class ilTestExportAbstract
             )->getMaxpoints() * 100.0 : 0;
             $mark = $test_obj->getMarkSchema()->getMatchingMark($pct);
             $mark_short_name = "";
-            if (is_object($mark)) {
+            if ($mark !== null) {
                 $mark_short_name = $mark->getShortName();
             }
             $datarow2[] = $mark_short_name;

@@ -102,7 +102,7 @@ class SettingsScoringGUI extends TestSettingsGUI
             $this->ctrl->redirect($this->test_gui, 'infoScreen');
         }
 
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateSubTab(\ilTestTabsManager::SETTINGS_SUBTAB_ID_SCORING);
 
         $nextClass = $this->ctrl->getNextClass();
         switch ($nextClass) {

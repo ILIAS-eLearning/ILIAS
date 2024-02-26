@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
-use ILIAS\Test\Scoring\Marks\MarkSchemaAware;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
@@ -39,7 +38,7 @@ class MarkSchemaGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilTabs();
 
         $this->testObj = new MarkSchemaGUI(
-            $this->createMock(MarkSchemaAware::class),
+            $this->createMock(ilObjTest::class),
             $this->createMock(ilObjUser::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrl::class),

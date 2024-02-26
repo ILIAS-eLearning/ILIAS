@@ -29,10 +29,11 @@ use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -40,9 +41,15 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
  */
 class MarkSchemaGUI
 {
+    private const DEFAULT_CMD = 'showMarkSchema';
+    private MarkSchema $mark_schema;
+    private bool $editable;
     private URLBuilder $url_builder;
+    private URLBuilderToken $action_parameter_token;
+    private URLBuilderToken $row_id_token;
+
     public function __construct(
-        private MarkSchemaAware $object,
+        private \ilObjTest $test,
         private \ilObjUser $active_user,
         private \ilLanguage $lng,
         private \ilCtrl $ctrl,
@@ -57,88 +64,125 @@ class MarkSchemaGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer
     ) {
-        $this->url_builder = new URLBuilder(
-            (new DataFactory())->uri($this->request->getUri()->__toString())
+        $this->mark_schema = $test->getMarkSchema();
+        $this->editable = $test->marksEditable();
+
+        $url_builder = new URLBuilder(
+            (new DataFactory())->uri(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, self::class], self::DEFAULT_CMD))
+        );
+
+        list(
+            $this->url_builder,
+            $this->action_parameter_token,
+            $this->row_id_token
+        ) = $url_builder->acquireParameters(
+            ['marks', 'overview_table'],
+            'action', //this is the actions's parameter name
+            'step_id'   //this is the parameter name to be used for row-ids
         );
     }
 
     public function executeCommand(): void
     {
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
-        $cmd = $this->ctrl->getCmd('showMarkSchema');
+        $this->tabs->activateSubTab(\ilTestTabsManager::SETTINGS_SUBTAB_ID_MARK_SCHEMA);
+        $cmd = $this->ctrl->getCmd(self::DEFAULT_CMD);
         $this->$cmd();
     }
 
-    protected function ensureMarkSchemaCanBeEdited(): void
+    protected function showMarkSchema(?RoundTripModal $add_mark_modal = null): void
     {
-        if (!$this->object->canEditMarks()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'showMarkSchema');
-        }
-    }
-
-    protected function addMarkStep(): void
-    {
-        $this->ensureMarkSchemaCanBeEdited();
-
-        $this->populateMarkSchemaFormData();
-        $this->object->getMarkSchema()->addMarkStep();
-        $this->showMarkSchema();
-    }
-
-    protected function populateMarkSchemaFormData(): bool
-    {
-        $no_save_error = true;
-        $this->object->getMarkSchema()->flush();
-        $postdata = $this->request->getParsedBody();
-        foreach (array_keys($postdata) as $key) {
-            if (preg_match('/mark_short_(\d+)/', $key, $matches)) {
-                $passed = "0";
-                if (isset($postdata["passed_$matches[1]"])) {
-                    $passed = "1";
-                }
-
-                $percentage = str_replace(',', '.', \ilUtil::stripSlashes($postdata["mark_percentage_$matches[1]"]));
-                if (!is_numeric($percentage)
-                    || (float) $percentage < 0.0
-                    || (float) $percentage > 100.0) {
-                    $percentage = 0;
-                    $no_save_error = false;
-                }
-
-                $this->object->getMarkSchema()->addMarkStep(
-                    \ilUtil::stripSlashes($postdata["mark_short_$matches[1]"]),
-                    \ilUtil::stripSlashes($postdata["mark_official_$matches[1]"]),
-                    (float) $percentage,
-                    (int) \ilUtil::stripSlashes($passed)
-                );
-            }
+        if (!$this->editable) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
         }
 
-        return $no_save_error;
-    }
+        if ($this->runTableCommand()) {
+            return;
+        }
 
-    protected function resetToSimpleMarkSchema(): void
-    {
-        $this->ensureMarkSchemaCanBeEdited();
-
-        $mark_schema = $this->object->getMarkSchema();
-        $mark_schema->createSimpleSchema(
-            $this->lng->txt('failed_short'),
-            $this->lng->txt('failed_official'),
-            0,
-            0,
-            $this->lng->txt('passed_short'),
-            $this->lng->txt('passed_official'),
-            50,
-            1
+        $mark_schema_table = new MarkSchemaTable(
+            $this->mark_schema,
+            $this->editable,
+            $this->lng,
+            $this->url_builder,
+            $this->action_parameter_token,
+            $this->row_id_token,
+            $this->ui_factory
         );
-        $this->object->storeMarkSchema($mark_schema);
+
+        $confirmation_modal = $this->buildConfirmationModal();
+
+        if ($add_mark_modal === null) {
+            $add_mark_modal = $this->buildAddMarkModal();
+        }
+
+        $this->populateToolbar($confirmation_modal, $add_mark_modal);
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render([
+                $mark_schema_table->getTable()->withRequest($this->request),
+                $confirmation_modal,
+                $add_mark_modal
+            ])
+        );
+    }
+
+    protected function saveMark(): void
+    {
+        $this->redirectOnMarkSchemaNotEditable();
+
+        $modal = $this->buildAddMarkModal()->withRequest($this->request);
+        $data = $modal->getData();
+        if ($data === null) {
+            $this->showMarkSchema($modal->withOnLoad($modal->getShowSignal()));
+            return;
+        }
+
+        $mark_steps = $this->mark_schema->getMarkSteps();
+        $mark_steps[$data['index']] = $data['mark'];
+        $this->mark_schema = $this->mark_schema->withMarkSteps($mark_steps);
+
+        $this->test->storeMarkSchema(
+            $this->mark_schema
+        );
+        $this->test->onMarkSchemaSaved();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
-                    $this->object->getRefId(),
+                    $this->test->getRefId(),
+                    $this->active_user,
+                    TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
+                    time(),
+                    $this->mark_schema->toLog($this->lng)
+                )
+            );
+        }
+
+        $this->showMarkSchema();
+    }
+
+    protected function resetToSimpleMarkSchema(): void
+    {
+        $this->redirectOnMarkSchemaNotEditable();
+
+        $this->mark_schema = $this->mark_schema->createSimpleSchema(
+            $this->lng->txt('failed_short'),
+            $this->lng->txt('failed_official'),
+            0,
+            false,
+            $this->lng->txt('passed_short'),
+            $this->lng->txt('passed_official'),
+            50,
+            true
+        );
+        $this->test->storeMarkSchema($this->mark_schema);
+        if ($this->logger->isLoggingEnabled()) {
+            $this->logger->logTestAdministrationInteraction(
+                new TestAdministrationInteraction(
+                    $this->lng,
+                    $this->test->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_RESET,
                     time(),
@@ -151,53 +195,37 @@ class MarkSchemaGUI
 
     protected function deleteMarkSteps(): void
     {
-        $marks_trafo = $this->refinery->custom()->transformation(
-            function ($vs): ?array {
-                if ($vs === null || !is_array($vs)) {
-                    return null;
-                }
-                return $vs;
-            }
+        $this->redirectOnMarkSchemaNotEditable();
+
+        if (!$this->post_wrapper->has('interruptive_items')) {
+            $this->showMarkSchema();
+            return;
+        }
+
+        $marks_to_be_deleted = $this->post_wrapper->retrieve(
+            'interruptive_items',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
         );
-        $deleted_mark_steps = null;
-        if ($this->post_wrapper->has('marks')) {
-            $deleted_mark_steps = $this->post_wrapper->retrieve(
-                'marks',
-                $marks_trafo
-            );
-        }
 
-        $this->ensureMarkSchemaCanBeEdited();
-        if (!isset($deleted_mark_steps) || !is_array($deleted_mark_steps)) {
+        $new_schema = $this->buildAndCheckNewSchema($marks_to_be_deleted);
+
+        if ($new_schema === null) {
             $this->showMarkSchema();
             return;
         }
 
-        // test delete
-        $mark_schema = clone $this->object->getMarkSchema();
-        $mark_schema->deleteMarkSteps($deleted_mark_steps);
-        $check_result = $mark_schema->checkMarks();
-        if (is_string($check_result)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($check_result), true);
-            $this->showMarkSchema();
-            return;
-        }
-
-        //  actual delete
-        if (empty($deleted_mark_steps)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_delete_missing_mark'));
-        }
-        $this->object->storeMarkSchema($mark_schema);
+        $this->mark_schema = $new_schema;
+        $this->test->storeMarkSchema($new_schema);
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
                 new TestAdministrationInteraction(
                     $this->lng,
-                    $this->object->getRefId(),
+                    $this->test->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     time(),
-                    $this->object->getMarkSchema()->toLog()
+                    $this->mark_schema->toLog($this->lng)
                 )
             );
         }
@@ -205,69 +233,49 @@ class MarkSchemaGUI
         $this->showMarkSchema();
     }
 
-    protected function saveMarks(): void
+    private function buildConfirmationModal(): InterruptiveModal
     {
-        $this->ensureMarkSchemaCanBeEdited();
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
+            $this->lng->txt('tst_mark_reset_to_simple_mark_schema_confirmation'),
+            $this->ctrl->getFormActionByClass(MarkSchemaGUI::class, 'resetToSimpleMarkSchema')
+        )->withActionButtonLabel($this->lng->txt('tst_mark_reset_to_simple_mark_schema'));
+    }
 
-        $result = 'mark_schema_invalid';
-        if ($this->populateMarkSchemaFormData()) {
-            $result = $this->object->checkMarks();
+    private function buildAddMarkModal(Mark $mark = null, int $mark_index = -1): RoundTripModal
+    {
+        if ($mark === null) {
+            $mark = new Mark();
         }
-
-        if (is_string($result)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($result), true);
-            $this->showMarkSchema();
-            return;
-        }
-
-        $this->object->storeMarkSchema(
-            $this->object->getMarkSchema()
-        );
-        $this->object->onMarkSchemaSaved();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('edit'),
+            null,
+            [
+                'mark' => $mark->toForm(
                     $this->lng,
-                    $this->object->getRefId(),
-                    $this->active_user,
-                    TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    time(),
-                    $this->object->getMarkSchema()->toLog($this->lng)
-                )
-            );
-        }
-
-        $this->showMarkSchema();
+                    $this->ui_factory->input()->field(),
+                    $this->refinery,
+                    $this->mark_schema
+                ),
+                'index' => $this->ui_factory->input()->field()->hidden()
+                    ->withValue($mark_index)
+            ],
+            $this->ctrl->getFormActionByClass(MarkSchemaGUI::class, 'saveMark')
+        );
     }
 
-    protected function showMarkSchema(): void
+    private function editMark(array $affected_marks): void
     {
-        if (!$this->object->canEditMarks()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
-        }
+        $this->exitOnMarkSchemaNotEditable();
 
-        $mark_schema_table = new MarkSchemaTable(
-            $this->object->getMarkSchema(),
-            $this->object->canEditMarks(),
-            $this->lng,
-            $this->request_wrapper,
-            $this->url_builder,
-            $this->ui_factory,
-            $this->ui_renderer
-        );
-
-        if ($mark_schema_table->runTableCommand()) {
-            return;
-        }
-
-        $this->tpl->setContent(
-            $this->ui_renderer->render($mark_schema_table->getTable()->withRequest($this->request))
-        );
+        $affected_mark = current($affected_marks);
+        $mark_steps = $this->mark_schema->getMarkSteps();
+        $edit_modal = $this->buildAddMarkModal($mark_steps[$affected_mark], $affected_mark);
+        echo $this->ui_renderer->renderAsync($edit_modal);
+        exit;
     }
 
-    private function populateToolbar(InterruptiveModal $confirmation_modal, int $mark_schema_id): void
+    private function populateToolbar(InterruptiveModal $confirmation_modal, RoundTripModal $add_mark_modal): void
     {
         $create_simple_schema_button = $this->ui_factory->button()->standard(
             $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
@@ -275,28 +283,182 @@ class MarkSchemaGUI
         );
         $this->toolbar->addComponent($create_simple_schema_button);
 
-        $create_step_button = $this->buildCreateStepButton($mark_schema_id);
-        $this->toolbar->addComponent($create_step_button);
+        $add_mark_button = $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_mark_create_new_mark_step'),
+            $add_mark_modal->getShowSignal()
+        );
+        $this->toolbar->addComponent($add_mark_button);
     }
 
-    private function buildCreateStepButton(int $mark_schema_id): StandardButton
+    public function runTableCommand(): void
     {
-        return $this->ui_factory->button()->standard(
-            $this->lng->txt('tst_mark_create_new_mark_step'),
-            ''
-        )->withAdditionalOnLoadCode(
-            fn(string $id): string =>
-            "{$id}.addEventListener('click', "
-            . ' (e) => {'
-            . '     e.preventDefault();'
-            . '     e.target.name = "cmd[addMarkStep]";'
-            . "     let form = document.getElementById('form_{$mark_schema_id}');"
-            . '     let submitter = e.target.cloneNode();'
-            . '     submitter.style.visibility = "hidden";'
-            . '     form.appendChild(submitter);'
-            . '     form.requestSubmit(submitter);'
-            . ' }'
-            . ');'
+        $action = $this->getTableActionQueryString();
+        if ($action === null) {
+            return;
+        }
+
+        $affected_marks = $this->getTableAffectedItemsFromQuery();
+
+        if ($affected_marks === null) {
+            echo $this->ui_renderer->render(
+                $this->ui_factory->modal()->roundtrip(
+                    $this->lng->txt('error'),
+                    $this->ui_factory->messageBox()->failure($this->lng->txt('tst_delete_missing_mark'))
+                )
+            );
+            exit;
+        }
+
+        switch ($action) {
+            case MarkSchemaTable::EDIT_ACTION_NAME:
+                $this->editMark($affected_marks);
+                break;
+
+            case MarkSchemaTable::DELETE_ACTION_NAME:
+                $this->confirmMarkDeletion($affected_marks);
+                break;
+        }
+    }
+
+    private function confirmMarkDeletion(array $affected_marks): void
+    {
+        $this->exitOnMarkSchemaNotEditable();
+        $this->exitOnSchemaError($affected_marks);
+
+        $confirm_delete_modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('tst_mark_reset_to_simple_mark_schema_confirmation'),
+            $this->ctrl->getFormActionByClass(MarkSchemaGUI::class, 'deleteMarkSteps')
+        )->withActionButtonLabel($this->lng->txt('delete'))
+        ->withAffectedItems($this->buildInteruptiveItems($affected_marks));
+
+        echo $this->ui_renderer->renderAsync($confirm_delete_modal);
+        exit;
+    }
+
+    private function buildInteruptiveItems(array $affected_marks): array
+    {
+        $mark_steps = $this->mark_schema->getMarkSteps();
+        $marks_to_be_deleted = [];
+        foreach ($affected_marks as $affected_mark) {
+            $marks_to_be_deleted[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                (string) $affected_mark,
+                $mark_steps[$affected_mark]->getOfficialName()
+            );
+        }
+        return $marks_to_be_deleted;
+    }
+
+    private function getTableActionQueryString(): ?string
+    {
+        $param = $this->action_parameter_token->getName();
+        if (!$this->request_wrapper->has($param)) {
+            return null;
+        }
+        $trafo = $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->kindlyTo()->string()
+        ]);
+        return $this->request_wrapper->retrieve($param, $trafo);
+    }
+
+    private function getTableAffectedItemsFromQuery(): ?array
+    {
+        $affected_marks = $this->request_wrapper->retrieve(
+            $this->row_id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->int()
+                ),
+                $this->refinery->identity()
+            ])
         );
+
+        if (is_int($affected_marks)) {
+            $affected_marks = [$affected_marks];
+        }
+
+        return $affected_marks;
+    }
+
+    protected function redirectOnMarkSchemaNotEditable(): void
+    {
+        if ($this->editable) {
+            return;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+        $this->ctrl->redirect($this, 'showMarkSchema');
+    }
+
+    private function exitOnMarkSchemaNotEditable(): void
+    {
+        if ($this->editable) {
+            return;
+        }
+
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->modal()->roundtrip(
+                $this->lng->txt('error'),
+                $this->ui_factory->messageBox()->failure($this->lng->txt('permission_denied'))
+            )
+        );
+        exit;
+    }
+
+    private function buildAndCheckNewSchema(array $affected_marks): ?MarkSchema
+    {
+        $message = $this->checkSchemaForErrors($affected_marks);
+
+        if (!is_string($message)) {
+            return $message;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $message);
+        return null;
+    }
+
+    private function exitOnSchemaError(array $affected_marks): void
+    {
+        $message = $this->checkSchemaForErrors($affected_marks);
+
+        if (!is_string($message)) {
+            return;
+        }
+
+        echo $this->ui_renderer->render(
+            $this->ui_factory->modal()->roundtrip(
+                $this->lng->txt('error'),
+                $this->ui_factory->messageBox()->failure($message)
+            )
+        );
+        exit;
+    }
+
+    private function checkSchemaForErrors(array $affected_marks): MarkSchema|string
+    {
+        $new_marks = $this->mark_schema->getMarkSteps();
+        foreach($affected_marks as $mark) {
+            unset($new_marks[$mark]);
+        }
+        $local_schema = $this->mark_schema->withMarkSteps(array_values($new_marks));
+        $messages = [];
+        if ($local_schema->checkForMissingPassed()) {
+            $messages[] = $this->lng->txt('no_passed_mark');
+        }
+        if ($local_schema->checkForMissingZeroPercentage()) {
+            $messages[] = $this->lng->txt('min_percentage_ne_0');
+        }
+
+        if (isset($messages[1])) {
+            $messages[0] .= '<br>' . $messages[1];
+        }
+
+        if ($messages === []) {
+            return $local_schema;
+        }
+
+        return $messages[0];
     }
 }

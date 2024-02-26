@@ -32,6 +32,9 @@ namespace ILIAS\Test\Scoring\Marks;
  */
 class MarkSchema
 {
+    /**
+     * @var array<\ILIAS\Test\Scoring\Marks\Mark>
+     */
     public array $mark_steps;
 
     public function __construct(
@@ -71,146 +74,48 @@ class MarkSchema
         string $txt_failed_short = "failed",
         string $txt_failed_official = "failed",
         float $percentage_failed = 0,
-        int $failed_passed = 0,
+        bool $failed_passed = false,
         string $txt_passed_short = "passed",
         string $txt_passed_official = "passed",
         float $percentage_passed = 50,
-        int $passed_passed = 1
-    ): void {
-        $this->flush();
-        $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
-        $this->addMarkStep($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);
+        bool $passed_passed = true
+    ): self {
+        $mark_steps = [
+            new Mark($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed),
+            new Mark($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed)
+        ];
+        return $this->withMarkSteps($mark_steps);
     }
 
-    /**
-     * Adds a mark step to the mark schema. A new Mark object will be created and stored
-     * in the $mark_steps array.
-     *
-     * @see $mark_steps
-     *
-     * @param string  $txt_short    The short text of the mark.
-     * @param string  $txt_official The official text of the mark.
-     * @param float   $percentage   The minimum percentage level reaching the mark.
-     * @param integer $passed       The passed status of the mark (0 = failed, 1 = passed).
-     */
-    public function addMarkStep(string $txt_short = "", string $txt_official = "", float $percentage = 0, int $passed = 0): void
-    {
-        $mark = new Mark($txt_short, $txt_official, $percentage, $passed);
-        array_push($this->mark_steps, $mark);
-    }
-
-    public function flush(): void
-    {
-        $this->mark_steps = [];
-    }
-
-    /**
-     * Sorts the mark schema using the minimum level values.
-     *
-     * @see $mark_steps
-     */
-    public function sort(): void
-    {
-        usort(
-            $this->mark_steps,
-            function ($a, $b): int {
-                if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
-                    $res = strcmp($a->getShortName(), $b->getShortName());
-                    if ($res == 0) {
-                        return strcmp($a->getOfficialName(), $b->getOfficialName());
-                    } else {
-                        return $res;
-                    }
-                }
-                return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
-            }
-        );
-    }
-
-    /**
-     * Deletes the mark step with a given index.
-     *
-     * @see $mark_steps
-     *
-     * @param integer $index The index of the mark step to delete.
-     */
-    public function deleteMarkStep($index = 0): void
-    {
-        if ($index < 0) {
-            return;
-        }
-        if (count($this->mark_steps) < 1) {
-            return;
-        }
-        if ($index >= count($this->mark_steps)) {
-            return;
-        }
-        unset($this->mark_steps[$index]);
-        $this->mark_steps = array_values($this->mark_steps);
-    }
-
-    /**
-     * Deletes multiple mark steps using their index positions.
-     * @param array $indexes An array with all the index positions to delete.
-     */
-    public function deleteMarkSteps(array $indexes): void
-    {
-        foreach ($indexes as $key => $index) {
-            if (!(($index < 0) or (count($this->mark_steps) < 1))) {
-                unset($this->mark_steps[$index]);
-            }
-        }
-        $this->mark_steps = array_values($this->mark_steps);
-    }
-
-    /**
-     * Returns the matching mark for a given percentage.
-     *
-     * @see $mark_steps
-     *
-     * @param double $percentage A percentage value between 0 and 100.
-     *
-     * @return Mark|bool The mark object, if a matching mark was found, false otherwise.
-     */
-    public function getMatchingMark($percentage): Mark|bool
-    {
-        for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
-            $curMinLevel = $this->mark_steps[$i]->getMinimumLevel();
-            $reached = round($percentage, 2);
-            $level = round($curMinLevel, 2);
+    public function getMatchingMark(
+        float $percentage
+    ): ?Mark {
+        $reached = round($percentage, 2);
+        foreach ($this->mark_steps as $step) {
+            $level = round($step->getMinimumLevel(), 2);
             if ($reached >= $level) {
-                return $this->mark_steps[$i];
+                return $step;
             }
         }
-        return false;
+        return null;
     }
 
-    /**
-     * Check the marks for consistency.
-     *
-     * @see $mark_steps
-     *
-     * @return bool|string true if the check succeeds, als a text string containing a language string for an error message
-     */
-    public function checkMarks(): bool|string
+    public function checkForMissingZeroPercentage(): bool
     {
-        $minimum_percentage = 100;
-        $passed = 0;
-        for ($i = 0; $i < count($this->mark_steps); $i++) {
-            if ($this->mark_steps[$i]->getMinimumLevel() < $minimum_percentage) {
-                $minimum_percentage = $this->mark_steps[$i]->getMinimumLevel();
-            }
-            if ($this->mark_steps[$i]->getPassed()) {
-                $passed++;
+        foreach ($this->mark_steps as $step) {
+            if ($step->getMinimumLevel() === 0.0) {
+                return false;
             }
         }
+        return true;
+    }
 
-        if ($minimum_percentage != 0) {
-            return "min_percentage_ne_0";
-        }
-
-        if ($passed == 0) {
-            return "no_passed_mark";
+    public function checkForMissingPassed(): bool|string
+    {
+        foreach ($this->mark_steps as $step) {
+            if ($step->getPassed() === true) {
+                return false;
+            }
         }
         return true;
     }
@@ -224,11 +129,32 @@ class MarkSchema
     }
 
     /**
-     * @param Mark[] $mark_steps
+     * @param array<\ILIAS\Test\Scoring\Marks\Mark> $mark_steps
      */
-    public function setMarkSteps(array $mark_steps): void
+    public function withMarkSteps(array $mark_steps): self
     {
-        $this->mark_steps = $mark_steps;
+        $clone = clone $this;
+        $clone->mark_steps = $this->sort($mark_steps);
+        return $clone;
+    }
+
+    private function sort(array $mark_steps): array
+    {
+        usort(
+            $mark_steps,
+            function ($a, $b): int {
+                if ($a->getMinimumLevel() === $b->getMinimumLevel()) {
+                    $res = strcmp($a->getShortName(), $b->getShortName());
+                    if ($res == 0) {
+                        return strcmp($a->getOfficialName(), $b->getOfficialName());
+                    } else {
+                        return $res;
+                    }
+                }
+                return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
+            }
+        );
+        return $mark_steps;
     }
 
 

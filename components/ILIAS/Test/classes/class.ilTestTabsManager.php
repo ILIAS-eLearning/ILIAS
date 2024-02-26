@@ -68,8 +68,8 @@ class ilTestTabsManager
     public const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
 
     private const SETTINGS_SUBTAB_ID_GENERAL = 'general';
-    private const SETTINGS_SUBTAB_ID_MARK_SCHEMA = 'mark_schema';
-    private const SETTINGS_SUBTAB_ID_SCORING = 'scoring';
+    public const SETTINGS_SUBTAB_ID_MARK_SCHEMA = 'mark_schema';
+    public const SETTINGS_SUBTAB_ID_SCORING = 'scoring';
     public const SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE = 'edit_introduction';
     public const SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE = 'edit_concluding_remarks';
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';

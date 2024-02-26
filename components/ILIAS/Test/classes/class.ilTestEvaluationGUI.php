@@ -219,7 +219,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $evaluationrow['exam_id'] = $userdata->getExamIdFromScoredPass();
                     $percentage = $userdata->getReachedPointsInPercent();
                     $mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
-                    if (is_object($mark)) {
+                    if ($mark !== null) {
                         $evaluationrow['mark'] = $mark->getShortName();
                     }
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
@@ -391,7 +391,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $median = $data->getStatistics()->getStatistics()->median();
         $pct = $data->getParticipant($active_id)->getMaxpoints() ? ($median / $data->getParticipant($active_id)->getMaxpoints()) * 100.0 : 0;
         $mark = $this->object->getMarkSchema()->getMatchingMark($pct);
-        if (is_object($mark)) {
+        if ($mark !== null) {
             $markMedian = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_mark_median'));
             $markMedian->setValue($mark->getShortName());
             $form->addItem($markMedian);

@@ -44,7 +44,7 @@ class MarkTest extends TestCase
     /**
      * Basic Get/Set test on member short name using accessor methods.
      */
-    public function testGetSetShortName()
+    public function testGetWithShortName()
     {
         // Arrange
         $expected = "Esther";
@@ -64,7 +64,7 @@ class MarkTest extends TestCase
     /**
      * Basic Get/Set test on member passed using accessor methods.
      */
-    public function testGetSetPassed()
+    public function testGetWithPassed()
     {
         // Arrange
         $expected = 1;
@@ -84,7 +84,7 @@ class MarkTest extends TestCase
     /**
      * Basic Get/Set test on member officialName using accessor methods.
      */
-    public function testGetSetOfficialName()
+    public function testGetWithOfficialName()
     {
         // Arrange
         $expected = "Esther The Tester";
@@ -104,7 +104,7 @@ class MarkTest extends TestCase
     /**
      * Basic Get/Set test on member minimumLevel using accessor methods.
      */
-    public function testGetSetMinimumLevel()
+    public function testGetWithMinimumLevel()
     {
         // Arrange
         $expected = 50;
@@ -131,7 +131,7 @@ class MarkTest extends TestCase
      * @todo Enhance documentation of class.assMark.php::setMinimumLevel();
      * @todo Enhance documentation of class.assMark.php::getMinimumLevel();
      */
-    public function testSetMinimumLevel_High()
+    public function testWithMinimumLevel_High()
     {
         // Arrange
         $expected = 100;
@@ -153,7 +153,7 @@ class MarkTest extends TestCase
      * low level.
      * @see testSetMinimumLevel_High()
      */
-    public function testSetMinimumLevel_Low()
+    public function testWithMinimumLevel_Low()
     {
         // Arrange
         $expected = 1E-14;
@@ -175,7 +175,7 @@ class MarkTest extends TestCase
      * low level.
      * @see testSetMinimumLevel_High()
      */
-    public function testSetMinimumLevel_TooLow()
+    public function testWithMinimumLevel_TooLow()
     {
         $this->expectException(Exception::class);
 

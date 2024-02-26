@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\Group;
+
 /**
  * A class defining marks for assessment test objects
  *
@@ -30,36 +34,12 @@ namespace ILIAS\Test\Scoring\Marks;
  */
 class Mark
 {
-    /**
-    * The short name of the mark, e.g. F or 3 or 1,3
-    */
-    public string $short_name;
-
-    /**
-    * The official name of the mark, e.g. failed, passed, befriedigend
-    */
-    public string $official_name;
-
-    /**
-    * The minimum percentage level reaching the mark. A float value between 0 and 100
-    */
-    public float $minimum_level = 0;
-
-    /**
-     * The passed status of the mark. 0 indicates that the mark is failed, 1 indicates that the mark is passed
-    */
-    public int $passed;
-
     public function __construct(
-        string $short_name = "",
-        string $official_name = "",
-        float $minimum_level = 0,
-        int $passed = 0
+        private string $short_name = "",
+        private string $official_name = "",
+        private float $minimum_level = 0.0,
+        private bool $passed = false
     ) {
-        $this->setShortName($short_name);
-        $this->setOfficialName($official_name);
-        $this->setMinimumLevel($minimum_level);
-        $this->setPassed($passed);
     }
 
     /**
@@ -79,9 +59,11 @@ class Mark
         return $this->short_name;
     }
 
-    public function getPassed(): int
+    public function withShortName(string $short_name): self
     {
-        return $this->passed;
+        $clone = clone $this;
+        $clone->short_name = $short_name;
+        return $clone;
     }
 
     public function getOfficialName(): string
@@ -89,35 +71,117 @@ class Mark
         return $this->official_name;
     }
 
+    public function withOfficialName(string $official_name): self
+    {
+        $clone = clone $this;
+        $clone->official_name = $official_name;
+        return $clone;
+    }
+
     public function getMinimumLevel(): float
     {
         return $this->minimum_level;
     }
 
-    public function setShortName(string $short_name = ""): void
+    public function withMinimumLevel(float $minimum_level): self
     {
-        $this->short_name = $short_name;
-    }
-
-    public function setPassed($passed = 0): void
-    {
-        $this->passed = $passed;
-    }
-
-    public function setOfficialName(string $official_name = ""): void
-    {
-        $this->official_name = $official_name;
-    }
-
-    public function setMinimumLevel($minimum_level): void
-    {
-        $minimum_level = (float) $minimum_level;
-
-        if (($minimum_level >= 0) && ($minimum_level <= 100)) {
-            $this->minimum_level = $minimum_level;
+        if (($minimum_level >= 0.0) && ($minimum_level <= 100.0)) {
+            $clone = clone $this;
+            $clone->minimum_level = $minimum_level;
+            return $clone;
         } else {
             throw new \Exception('Markstep: minimum level must be between 0 and 100');
         }
+    }
+
+    public function getPassed(): bool
+    {
+        return $this->passed;
+    }
+
+    public function withPassed(bool $passed): self
+    {
+        $clone = clone $this;
+        $clone->passed = $passed;
+        return $clone;
+    }
+
+    /**
+     * @return array<\ILIAS\UI\Implementation\Component\Input\Input>
+     */
+    public function toForm(
+        \ilLanguage $lng,
+        FieldFactory $f,
+        Refinery $refinery,
+        MarkSchema $mark_schema
+    ): Group {
+        $percent_trafo = $refinery->kindlyTo()->float();
+        $percent_constraint = $refinery->custom()->constraint(
+            static function (float $v): bool {
+                if ($v > 100.0 || $v < 0.0) {
+                    return false;
+                }
+                return true;
+            },
+            $lng->txt('tst_mark_minimum_level_invalid')
+        );
+        $mark_trafo = $refinery->custom()->transformation(
+            static function (array $vs): Mark {
+                return new self(
+                    $vs['name'],
+                    $vs['official_name'],
+                    $vs['minimum_level'],
+                    $vs['passed']
+                );
+            }
+        );
+        $missing_passed_check = $refinery->custom()->constraint(
+            static function (Mark $v) use ($mark_schema) {
+                if ($v->getPassed() === true) {
+                    return true;
+                }
+                $mark_steps = $mark_schema->getMarkSteps();
+                $mark_steps[] = $v;
+                $local_schema = $mark_schema->withMarkSteps($mark_steps);
+                if ($local_schema->checkForMissingPassed()) {
+                    return false;
+                }
+                return true;
+            },
+            $lng->txt('no_passed_mark')
+        );
+        $missing_zero_check = $refinery->custom()->constraint(
+            static function (Mark $v) use ($mark_schema) {
+                if ($v->getMinimumLevel() > 0.0) {
+                    return true;
+                }
+                $mark_steps = $mark_schema->getMarkSteps();
+                $mark_steps[] = $v;
+                $local_schema = $mark_schema->withMarkSteps($mark_steps);
+                if ($local_schema->checkForMissingZeroPercentage()) {
+                    return false;
+                }
+                return true;
+            },
+            $lng->txt('no_passed_mark')
+        );
+        return $f->group([
+            'name' => $f->text($lng->txt('tst_mark_short_form'))
+                ->withValue($this->getShortName())
+                ->withRequired(true),
+            'official_name' => $f->text($lng->txt('tst_mark_official_form'))
+                ->withValue($this->getOfficialName())
+                ->withRequired(true),
+            'minimum_level' => $f->text($lng->txt('tst_mark_minimum_level'))
+                ->withAdditionalTransformation($percent_trafo)
+                ->withAdditionalTransformation($percent_constraint)
+                ->withValue((string) $this->getMinimumLevel())
+                ->withRequired(true),
+            'passed' => $f->checkbox($lng->txt('tst_mark_passed'))
+                ->withValue($this->getPassed())
+        ])->withAdditionalTransformation($mark_trafo)
+        ->withAdditionalTransformation($missing_passed_check)
+        ->withAdditionalTransformation($missing_zero_check);
     }
 
     public function toStorage(): array
@@ -126,7 +190,7 @@ class Mark
             'short_name' => ['text', mb_substr($this->getShortName(), 0, 15)],
             'official_name' => ['text', mb_substr($this->getOfficialName(), 0, 50)],
             'minimum_level' => ['float', $this->getMinimumLevel()],
-            'passed' => ['text', $this->getPassed()],
+            'passed' => ['text', (int) $this->getPassed()],
             'tstamp' => ['integer', time()]
         ];
     }
