@@ -179,7 +179,8 @@ class ilScormAiccImporter extends ilXmlImporter
                     $xml_directory,
                     $a_id,
                     $a_mapping,
-                    $new_object
+                    $new_object,
+                    $DIC
                 ): ?\ILIAS\Data\Result {
                     if ($a_id !== '' &&
                         $a_mapping !== null &&
@@ -203,7 +204,7 @@ class ilScormAiccImporter extends ilXmlImporter
                         $file_path = $targetPath;
 
                         ilFileUtils::rename($scormFilePath, $targetPath);
-                        ilFileUtils::unzip($file_path);
+                        $DIC->legacyArchives()->unzip($file_path);
                         unlink($file_path);
                         ilFileUtils::renameExecutables($new_object->getDataDirectory());
 

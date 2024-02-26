@@ -18,6 +18,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+
 /**
 * SCORM Learning Modules
 *
@@ -32,6 +36,7 @@ declare(strict_types=1);
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {
     private ilPropertyFormGUI $form;
+    private $archives;
 
     /**
     * Constructor
@@ -39,6 +44,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true)//missing typehint because mixed
     {
         global $DIC;
+        $this->archives = $DIC->legacyArchives();
         $lng = $DIC->language();
         $rbacsystem = $DIC->access();
         $lng->loadLanguageModule("content");
@@ -463,8 +469,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $scormFilePath = $import_dirname . "/" . $scormFile;
                 $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
                 ilFileUtils::rename($scormFilePath, $file_path);
-                $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
-                //                ilFileUtils::unzip($file_path);
+                $this->archives->unzip(
+                    $file_path,
+                    $newObj->getDataDirectory(),
+                    false,
+                    false,
+                    false
+                );
                 unlink($file_path);
                 ilFileUtils::delDir($lmTempDir, false);
             } else {
@@ -475,16 +486,26 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $_FILES["scormfile"]["name"],
                     $file_path
                 );
-                $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
-                //                ilFileUtils::unzip($file_path);
+                $this->archives->unzip(
+                    $file_path,
+                    $newObj->getDataDirectory(),
+                    false,
+                    false,
+                    false
+                );
             }
         } else {
             // copy uploaded file to data directory
             $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
             $file_path = $newObj->getDataDirectory() . "/" . $uploadedFile;
             ilUploadFiles::_copyUploadFile($uploadedFile, $file_path);
-            $DIC->legacyArchives()->unzip($file_path, $newObj->getDataDirectory(), false, false, false);
-            //            ilFileUtils::unzip($file_path);
+            $this->archives->unzip(
+                $file_path,
+                $newObj->getDataDirectory(),
+                false,
+                false,
+                ZipDirectoryHandling::KEEP_STRUCTURE
+            );
         }
         ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
