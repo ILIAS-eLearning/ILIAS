@@ -208,8 +208,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         ) {
             $this->navigation_history->addItem(
                 $this->testrequest->getRefId(),
-                'ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=' . $this->testrequest->getRefId(),
-                'tst'
+                ilLink::_getLink($this->testrequest->getRefId(), "tst"),
+                'tst',
             );
         }
 
