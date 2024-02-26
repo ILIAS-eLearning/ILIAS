@@ -48,11 +48,11 @@
 
     <xs:element name="actions">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="blockRoleAction" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="localRoleAction" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="localPolicyAction" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="blockRoleAction"/>
+                <xs:element ref="localRoleAction"/>
+                <xs:element ref="localPolicyAction"/>
+            </xs:choice>
         </xs:complexType>
     </xs:element>
 
