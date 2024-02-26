@@ -33,6 +33,7 @@ use ILIAS\Services\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Services\ResourceStorage\Collections\View\EditForm;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -275,7 +276,8 @@ class ilResourceCollectionGUI implements UploadHandler
 
         $collection = $this->view_request->getCollection();
 
-        $unzip_options = (new UnzipOptions())->withFlat(true);
+        $unzip_options = $this->archive->unzipOptions()
+                                       ->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE);
 
         foreach ($this->archive->unzip($zip_stream, $unzip_options)->getFileStreams() as $stream) {
             $rid = $this->irss->manage()->stream(
