@@ -94,12 +94,13 @@ class Unzip
     {
         $paths_to_stream_generator = $this->pathToStreamGenerator();
 
-        if ($this->options->isFlat()) {
+        if ($this->options->getDirectoryHandling() === ZipDirectoryHandling::FLAT_STRUCTURE) {
             yield from $paths_to_stream_generator($this->getFiles());
         } else {
             yield from $paths_to_stream_generator($this->getPaths());
         }
     }
+
     /**
      * @return \Generator|FileStream[]
      */
@@ -200,45 +201,49 @@ class Unzip
             return false;
         }
 
-        if ($this->options->ensureTopDirectory()) {
-            // top directory with same name as the ZIP without suffix
-            $zip_path = $this->stream->getMetadata(self::URI);
-            $sufix = '.' . pathinfo($zip_path, PATHINFO_EXTENSION);
-            $top_directory = basename($zip_path, $sufix);
+        switch ($this->options->getDirectoryHandling()) {
+            case ZipDirectoryHandling::KEEP_STRUCTURE:
+                break;
+            case ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR:
+                // top directory with same name as the ZIP without suffix
+                $zip_path = $this->stream->getMetadata(self::URI);
+                $sufix = '.' . pathinfo($zip_path, PATHINFO_EXTENSION);
+                $top_directory = basename($zip_path, $sufix);
 
-            // first we check if the ZIP contains the top directory
-            $has_top_directory = true;
-            foreach ($this->getPaths() as $path) {
-                $has_top_directory = str_starts_with($path, $top_directory) && $has_top_directory;
-            }
+                // first we check if the ZIP contains the top directory
+                $has_top_directory = true;
+                foreach ($this->getPaths() as $path) {
+                    $has_top_directory = str_starts_with($path, $top_directory) && $has_top_directory;
+                }
 
-            // if not, we prepend the top directory to the destination path
-            if(!$has_top_directory) {
-                $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
-            }
+                // if not, we prepend the top directory to the destination path
+                if (!$has_top_directory) {
+                    $destination_path .= self::DIRECTORY_SEPARATOR . $top_directory;
+                }
+                break;
+            case ZipDirectoryHandling::FLAT_STRUCTURE:
+                if (!is_dir($destination_path)) {
+                    if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
+                        throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
+                    }
+                }
+
+                foreach ($this->getStreams() as $stream) {
+                    $uri = $stream->getMetadata(self::URI);
+                    if (substr($uri, -1) === self::DIRECTORY_SEPARATOR) {
+                        continue; // Skip directories
+                    }
+                    $file_name = Util::sanitizeFileName($destination_path . self::DIRECTORY_SEPARATOR . basename($uri));
+                    file_put_contents(
+                        $file_name,
+                        $stream->getContents()
+                    );
+                }
+                return true; // Stop here
         }
 
-        if ($this->options->isFlat()) {
-            if (!is_dir($destination_path)) {
-                if (!mkdir($destination_path, 0777, true) && !is_dir($destination_path)) {
-                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $destination_path));
-                }
-            }
+        $this->zip->extractTo($destination_path, iterator_to_array($this->getPaths()));
 
-            foreach ($this->getStreams() as $stream) {
-                $uri = $stream->getMetadata(self::URI);
-                if (substr($uri, -1) === self::DIRECTORY_SEPARATOR) {
-                    continue; // Skip directories
-                }
-                $file_name = Util::sanitizeFileName($destination_path . self::DIRECTORY_SEPARATOR . basename($uri));
-                file_put_contents(
-                    $file_name,
-                    $stream->getContents()
-                );
-            }
-        } else {
-            $this->zip->extractTo($destination_path, iterator_to_array($this->getPaths()));
-        }
         return true;
     }
 

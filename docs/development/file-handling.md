@@ -306,6 +306,23 @@ The legacy varaints should no longer be used because they always presuppose that
 
 ```
 
+## Directory Handling
+The unzip implementation allows you to define how unzipping should proceed with directories in the ZIP. By default, the structure as it is in the ZIP is retained. there are also the following options:
+
+```\ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling::KEEP_STRUCTURE``` (default)
+
+As mentioned, the zip directory structure is retained when unpacking.
+
+```\ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR```
+
+When unzipping, a directory is always created first, which has the name of 
+the zip to be unzipped. the rest of the structure is created within this 
+directory. If the ZIP only contains exactly one directory on the first level, which already has the same name as the ZIP, no additional directory is created.
+
+```\ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling::FLAT_STRUCTURE```
+
+Directories within the zip are ignored and all files in the zip are recursively created as a flat structure directly in the target directory.
+
 
 # Contribute
 If there is anything wrong or missing here, or if there are any uncertainties, please open a ticket in Mantis (https://mantis.ilias.de). Errors or missing content in the documentation are treated as bugs.

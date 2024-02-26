@@ -36,7 +36,6 @@ final class LegacyArchives
 {
     use PathHelper;
 
-    private string $base_temp_path;
     private Archives $archives;
     private ZipOptions $zip_options;
     private UnzipOptions $unzip_options;
@@ -45,15 +44,15 @@ final class LegacyArchives
     {
         $this->archives = new Archives();
         if (defined('ILIAS_DATA_DIR') && defined('CLIENT_ID')) {
-            $this->base_temp_path = \ILIAS_DATA_DIR . '/' . \CLIENT_ID . '/temp';
+            $base_temp_path = \ILIAS_DATA_DIR . '/' . \CLIENT_ID . '/temp';
         } else {
-            $this->base_temp_path = sys_get_temp_dir();
+            $base_temp_path = sys_get_temp_dir();
         }
 
-        $this->zip_options = new ZipOptions();
+        $this->zip_options = $this->archives->zipOptions();
         $this->zip_options = $this->zip_options
-            ->withZipOutputPath($this->base_temp_path);
-        $this->unzip_options = new UnzipOptions();
+            ->withZipOutputPath($base_temp_path);
+        $this->unzip_options = $this->archives->unzipOptions();
     }
 
     /**
@@ -62,7 +61,7 @@ final class LegacyArchives
     public function zip(
         string $directory_to_zip,
         string $path_to_output_zip,
-        bool $ensure_top_directory = true
+        bool $ensure_top_directory = false
     ): bool {
         $directory_to_zip = $this->normalizePath($directory_to_zip);
         $path_to_output_zip = $this->normalizePath($path_to_output_zip);
@@ -72,7 +71,7 @@ final class LegacyArchives
             $this->zip_options
                 ->withZipOutputPath(dirname($path_to_output_zip))
                 ->withZipOutputName(basename($path_to_output_zip))
-                ->withEnsureTopDirectoy($ensure_top_directory)
+                ->withDirectoryHandling($ensure_top_directory ? ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR : ZipDirectoryHandling::KEEP_STRUCTURE)
         );
 
         $zip->addDirectory($directory_to_zip);
@@ -92,14 +91,18 @@ final class LegacyArchives
         bool $ensure_top_directory = false
     ): bool {
         $extract_to_path ??= dirname($path_to_zip);
+        if ($flat) {
+            $dir_handling = ZipDirectoryHandling::FLAT_STRUCTURE;
+        } else {
+            $dir_handling = $ensure_top_directory ? ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR : ZipDirectoryHandling::KEEP_STRUCTURE;
+        }
 
         $unzip = $this->archives->unzip(
             Streams::ofResource(fopen($path_to_zip, 'rb')),
             $this->unzip_options
                 ->withZipOutputPath($extract_to_path)
                 ->withOverwrite($overwrite)
-                ->withFlat($flat)
-                ->withEnsureTopDirectoy($ensure_top_directory)
+                ->withDirectoryHandling($dir_handling)
         );
         return $unzip->extract();
     }

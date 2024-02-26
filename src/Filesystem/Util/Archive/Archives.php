@@ -25,7 +25,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @author      Fabian Schmid <fabian@sr.solutions>
  *
  * @description This class is used to create a zip archive from a list of file-streams.
  * In most cases this will be used inside other Services such as the Filesystem Service or the IRSS.
@@ -33,15 +33,15 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 final class Archives
 {
     use PathHelper;
+
     private ZipOptions $zip_options;
     private UnzipOptions $unzip_options;
 
     public function __construct()
     {
-        $this->zip_options = new ZipOptions();
-        $this->unzip_options = new UnzipOptions();
+        $this->zip_options = $this->zipOptions();
+        $this->unzip_options = $this->unzipOptions();
     }
-
 
     public function zip(array $file_streams, ?ZipOptions $zip_options = null): Zip
     {
@@ -59,6 +59,15 @@ final class Archives
         );
     }
 
+    public function unzipOptions(): UnzipOptions
+    {
+        return new UnzipOptions();
+    }
+
+    public function zipOptions(): ZipOptions
+    {
+        return new ZipOptions();
+    }
 
     protected function mergeZipOptions(?ZipOptions $zip_options): ZipOptions
     {
@@ -68,7 +77,7 @@ final class Archives
         return $this->zip_options
             ->withZipOutputName($zip_options->getZipOutputName())
             ->withZipOutputPath($zip_options->getZipOutputPath())
-            ->withEnsureTopDirectoy($zip_options->ensureTopDirectory());
+            ->withDirectoryHandling($zip_options->getDirectoryHandling());
     }
 
     protected function mergeUnzipOptions(?UnzipOptions $unzip_options): UnzipOptions
@@ -82,7 +91,6 @@ final class Archives
 
         return $this->unzip_options
             ->withOverwrite($unzip_options->isOverwrite())
-            ->withFlat($unzip_options->isFlat())
-            ->withEnsureTopDirectoy($unzip_options->ensureTopDirectory());
+            ->withDirectoryHandling($unzip_options->getDirectoryHandling());
     }
 }
