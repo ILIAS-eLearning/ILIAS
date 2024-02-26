@@ -16,11 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Definitions\SuffixDefinitions;
-use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\Data\DataSize;
 
 /**
@@ -32,100 +29,6 @@ use ILIAS\Data\DataSize;
  */
 class ilFileUtils
 {
-    /**
-     * @deprecated Will be removed completely with ILIAS 9
-     */
-    public static function processZipFile(
-        string $a_directory,
-        string $a_file,
-        bool $structure
-    ): void {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $pathinfo = pathinfo($a_file);
-        $file = $pathinfo["basename"];
-
-        // see 22727
-        if ($pathinfo["extension"] ?? '' === '') {
-            $file .= ".zip";
-        }
-
-        // Copy zip-file to new directory, unzip and remove it
-        // TODO: check archive for broken file
-        //copy ($a_file, $a_directory . "/" . $file);
-        self::moveUploadedFile($a_file, $file, $a_directory . "/" . $file);
-        self::unzip($a_directory . "/" . $file);
-        unlink($a_directory . "/" . $file);
-        //echo "-".$a_directory . "/" . $file."-";
-        // Stores filename and paths into $filearray to check for viruses
-        // Checks if filenames can be read, else -> throw exception and leave
-        $filearray = [];
-        ilFileUtils::recursive_dirscan($a_directory, $filearray);
-
-        // if there are no files unziped (->broken file!)
-        if (empty($filearray)) {
-            throw new ilFileUtilsException(
-                $lng->txt("archive_broken"),
-                ilFileUtilsException::$BROKEN_FILE
-            );
-        }
-
-        // virus handling
-        foreach ($filearray["file"] as $key => $value) {
-            // remove "invisible" files
-            if (substr($value, 0, 1) == "." || stristr(
-                $filearray["path"][$key],
-                "/__MACOSX/"
-            )) {
-                unlink($filearray["path"][$key] . $value);
-                unset($filearray["path"][$key]);
-                unset($filearray["file"][$key]);
-                continue;
-            }
-
-            $vir = ilVirusScanner::virusHandling($filearray["path"][$key], $value);
-            if (!$vir[0]) {
-                // Unlink file and throw exception
-                unlink($filearray['path'][$key]);
-                throw new ilFileUtilsException(
-                    $lng->txt("file_is_infected") . "<br />" . $vir[1],
-                    ilFileUtilsException::$INFECTED_FILE
-                );
-            } elseif ($vir[1] != "") {
-                throw new ilFileUtilsException(
-                    $vir[1],
-                    ilFileUtilsException::$INFECTED_FILE
-                );
-            }
-        }
-
-        // If archive is to be used "flat"
-        $doublettes = '';
-        if (!$structure) {
-            foreach (array_count_values($filearray["file"]) as $key => $value) {
-                // Archive contains same filenames in different directories
-                if ($value != "1") {
-                    $doublettes .= " '" . ilFileUtils::utf8_encode($key) . "'";
-                }
-            }
-            if (strlen($doublettes) > 0) {
-                throw new ilFileUtilsException(
-                    $lng->txt("exc_upload_error") . "<br />" . $lng->txt(
-                        "zip_structure_error"
-                    ) . $doublettes,
-                    ilFileUtilsException::$DOUBLETTES_FOUND
-                );
-            }
-        } else {
-            $mac_dir = $a_directory . "/__MACOSX";
-            if (file_exists($mac_dir)) {
-                self::delDir($mac_dir);
-            }
-        }
-    }
-
     /**
      * Recursively scans a given directory and writes path and filename into referenced array
      *
@@ -555,10 +458,7 @@ class ilFileUtils
     }
 
     /**
-     *    zips given directory/file into given zip.file
-     *
-     * @static
-     *
+     * @deprecated Please refactor your code using $DIC->archives()->zip() (recommended) or $DIC->legacyArchives()->zip() instead.
      */
     public static function zip(
         string $a_dir,
@@ -566,7 +466,8 @@ class ilFileUtils
         bool $compress_content = false
     ): bool {
         global $DIC;
-        return $DIC->legacyArchives()->zip($a_dir, $a_file);
+        // ensure top directory should be the same behaviour as before, if you need it to be different, you should legacyArchives directly
+        return $DIC->legacyArchives()->zip($a_dir, $a_file, true);
     }
 
     /**
@@ -804,8 +705,18 @@ class ilFileUtils
      */
     public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false): bool
     {
+        if(defined('DEVMODE') && DEVMODE) {
+            trigger_error('Deprecated method called: ' . __METHOD__, E_USER_DEPRECATED);
+        }
+
         global $DIC;
-        return $DIC->legacyArchives()->unzip($a_file, null, $overwrite, $a_flat, true);
+        return $DIC->legacyArchives()->unzip(
+            $a_file,
+            null,
+            $overwrite,
+            $a_flat,
+            false
+        );
     }
 
     /**

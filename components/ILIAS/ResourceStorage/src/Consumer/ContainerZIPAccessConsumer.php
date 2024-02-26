@@ -23,6 +23,7 @@ use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamAccess;
 use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -57,6 +58,13 @@ class ContainerZIPAccessConsumer implements ContainerConsumer
         $zip = new \ZipArchive();
         $zip->open($zip_stream->getMetadata()['uri'], \ZipArchive::RDONLY);
 
-        return $this->archives->unzip($zip_stream, (new UnzipOptions())->withFlat(true));
+        $unzip_options = $this->archives
+            ->unzipOptions()
+            ->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE);
+
+        return $this->archives->unzip(
+            $zip_stream,
+            $unzip_options
+        );
     }
 }
