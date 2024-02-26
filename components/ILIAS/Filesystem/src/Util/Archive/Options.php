@@ -31,7 +31,7 @@ abstract class Options
         '__MACOSX',
     ];
 
-    protected bool $ensure_top_directory = false;
+    protected ZipDirectoryHandling $top_directory_handling = ZipDirectoryHandling::KEEP_STRUCTURE;
 
     /**
      * @description like __MACOSX, will filter out all paths which contain one of those snippets
@@ -41,15 +41,15 @@ abstract class Options
         return $this->ignore;
     }
 
-    public function withEnsureTopDirectoy(bool $ensure): self
+    public function withDirectoryHandling(ZipDirectoryHandling $top_dir_handling): self
     {
         $clone = clone $this;
-        $clone->ensure_top_directory = $ensure;
+        $clone->top_directory_handling = $top_dir_handling;
         return $clone;
     }
 
-    public function ensureTopDirectory(): bool
+    public function getDirectoryHandling(): ZipDirectoryHandling
     {
-        return $this->ensure_top_directory;
+        return $this->top_directory_handling;
     }
 }

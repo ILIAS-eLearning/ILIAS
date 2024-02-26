@@ -25,6 +25,7 @@ use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Stream\Stream;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * @author                      Fabian Schmid <fabian@sr.solutions>

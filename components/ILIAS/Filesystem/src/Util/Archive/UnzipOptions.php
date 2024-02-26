@@ -41,21 +41,9 @@ final class UnzipOptions extends Options
         return $clone;
     }
 
-    public function isFlat(): bool
-    {
-        return $this->flat;
-    }
-
     public function isOverwrite(): bool
     {
         return $this->overwrite;
-    }
-
-    public function withFlat(bool $flat): self
-    {
-        $clone = clone $this;
-        $clone->flat = $flat;
-        return $clone;
     }
 
     public function withOverwrite(bool $overwrite): self
@@ -64,6 +52,5 @@ final class UnzipOptions extends Options
         $clone->overwrite = $overwrite;
         return $clone;
     }
-
 
 }

@@ -33,7 +33,7 @@ trait PathHelper
     protected function isPathIgnored(string $path, Options $options): bool
     {
         $regex = '(' . implode('|', $options->getIgnoredPathSnippets()) . ')';
-        return preg_match($regex, $path) === 1;
+        return preg_match($regex, $path) > 0;
     }
 
     protected function ensureDirectorySeperator(string $path): string
