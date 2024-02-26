@@ -27,6 +27,8 @@ use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Standard as StandardButton;
@@ -38,6 +40,7 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
  */
 class MarkSchemaGUI
 {
+    private URLBuilder $url_builder;
     public function __construct(
         private MarkSchemaAware $object,
         private \ilObjUser $active_user,
@@ -48,11 +51,15 @@ class MarkSchemaGUI
         private \ilTabsGUI $tabs,
         private TestLogger $logger,
         private RequestWrapper $post_wrapper,
+        private RequestWrapper $request_wrapper,
         private Request $request,
         private Refinery $refinery,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer
     ) {
+        $this->url_builder = new URLBuilder(
+            (new DataFactory())->uri($this->request->getUri()->__toString())
+        );
     }
 
     public function executeCommand(): void
@@ -241,28 +248,26 @@ class MarkSchemaGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
         }
 
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
+        $mark_schema_table = new MarkSchemaTable(
+            $this->object->getMarkSchema(),
+            $this->object->canEditMarks(),
+            $this->lng,
+            $this->request_wrapper,
+            $this->url_builder,
+            $this->ui_factory,
+            $this->ui_renderer
+        );
 
-        $mark_schema_table = new MarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
-        $mark_schema_table->setShowRowsSelector(false);
-
-        $rendered_modal = '';
-        if ($this->object->canEditMarks()) {
-            $confirmation_modal = $this->ui_factory->modal()->interruptive(
-                $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
-                $this->lng->txt('tst_mark_reset_to_simple_mark_schema_confirmation'),
-                $this->ctrl->getFormAction($this, 'resetToSimpleMarkSchema')
-            )->withActionButtonLabel($this->lng->txt('tst_mark_reset_to_simple_mark_schema'));
-            $this->populateToolbar($confirmation_modal, $mark_schema_table->getId());
-            $rendered_modal = $this->ui_renderer->render($confirmation_modal);
+        if ($mark_schema_table->runTableCommand()) {
+            return;
         }
 
         $this->tpl->setContent(
-            $mark_schema_table->getHTML() . $rendered_modal
+            $this->ui_renderer->render($mark_schema_table->getTable()->withRequest($this->request))
         );
     }
 
-    private function populateToolbar(InterruptiveModal $confirmation_modal, string $mark_schema_id): void
+    private function populateToolbar(InterruptiveModal $confirmation_modal, int $mark_schema_id): void
     {
         $create_simple_schema_button = $this->ui_factory->button()->standard(
             $this->lng->txt('tst_mark_reset_to_simple_mark_schema'),
@@ -274,7 +279,7 @@ class MarkSchemaGUI
         $this->toolbar->addComponent($create_step_button);
     }
 
-    private function buildCreateStepButton(string $mark_schema_id): StandardButton
+    private function buildCreateStepButton(int $mark_schema_id): StandardButton
     {
         return $this->ui_factory->button()->standard(
             $this->lng->txt('tst_mark_create_new_mark_step'),
