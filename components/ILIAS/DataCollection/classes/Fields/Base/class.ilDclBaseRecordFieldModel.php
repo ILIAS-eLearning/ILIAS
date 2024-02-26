@@ -232,12 +232,11 @@ class ilDclBaseRecordFieldModel
     }
 
     /**
-     * @return int|string
+     * @return string
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $value = $excel->getCell($row, $col);
-        return $value;
+        return (string)$excel->getCell($row, $col);
     }
 
     /**

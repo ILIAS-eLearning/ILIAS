@@ -88,7 +88,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 //for text it has to be case insensitive.
                 $record_value = $record->getRecordFieldValue($this->getId());
 
-                if (strtolower($this->normalizeValue($record_value)) == strtolower($this->normalizeValue(nl2br($value)))
+                if (strtolower((string)$this->normalizeValue($record_value)) == strtolower((string)$this->normalizeValue(nl2br($value)))
                     && ($record->getId() != $record_id
                         || $record_id == 0)
                 ) {

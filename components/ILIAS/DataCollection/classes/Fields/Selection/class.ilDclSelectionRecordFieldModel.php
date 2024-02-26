@@ -51,7 +51,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $string = parent::getValueFromExcel($excel, $row, $col);
+        $string = (string)parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
         if ($this->getField()->isMulti()) {
             $string = $this->getMultipleValuesFromString($string);
