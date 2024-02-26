@@ -22,13 +22,13 @@ namespace ILIAS\Refinery\Password;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class HasSpecialChars extends Constraint
 {
     private const ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
 
-    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         parent::__construct(
             static function (Data\Password $value): bool {

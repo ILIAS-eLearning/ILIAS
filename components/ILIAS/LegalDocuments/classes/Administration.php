@@ -43,6 +43,7 @@ use DateTimeImmutable;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilObjUserFolderGUI;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 
 class Administration
 {
@@ -68,11 +69,11 @@ class Administration
     {
         $items = array_column(array_map(fn($x) => [$x->id(), $x->content()->title()], $documents), 1, 0);
 
-        return (($this->confirmation)($this->container->language()))->render(
+        return (($this->confirmation)())->render(
             $form_link,
             $submit_command,
             $cancel_command,
-            $this->ui->txt('sure_reset_tos'),
+            $this->ui->txt('sure_delete_documents_p'),
             $items
         );
     }
@@ -128,12 +129,12 @@ class Administration
     }
 
     /**
-     * @param Closure(Closure(string): string, DocumentId): void $then
+     * @param Closure(Closure(string): string, DocumentId, bool): void $then
      */
     public function idOrHash(object $gui, Closure $then): void
     {
-        $with_doc_id = fn($document) => $then($this->willLinkWith($gui, ['doc_id' => $document->id()]), $document->content()->title(), new NumberId($document));
-        $with_hash = fn(string $hash) => $then($this->willLinkWith($gui, ['hash' => $hash]), '', new HashId($hash));
+        $with_doc_id = fn($document) => $then($this->willLinkWith($gui, ['doc_id' => $document->id()]), $document->content()->title(), new NumberId($document), false);
+        $with_hash = fn(string $hash) => $then($this->willLinkWith($gui, ['hash' => $hash]), '', new HashId($hash), true);
         $try_hash = fn() => new Ok($with_hash($this->requireDocumentHash()));
 
         $this->currentDocument()
@@ -162,15 +163,18 @@ class Administration
     /**
      * @param array<string, string> $parameters
      */
-    public function willLinkWith(object $gui, array $parameters = []): Closure
+    public function willLinkWith($gui, array $parameters = []): Closure
     {
-        return function (string $cmd, string $method = 'getLinkTarget') use ($gui, $parameters): string {
+        $class = is_string($gui) ? $gui : get_class($gui);
+        return function (string $cmd, ?string $method = null) use ($gui, $class, $parameters): string {
+            $method ??= $class === $gui ? 'getLinkTargetByClass' : 'getLinkTarget';
+            $array = $this->container->ctrl()->getParameterArrayByClass($class);
             foreach ($parameters as $key => $value) {
-                $this->container->ctrl()->setParameter($gui, $key, $value);
+                $this->container->ctrl()->setParameterByClass($class, $key, $value);
             }
             $link = $this->container->ctrl()->$method($gui, $cmd);
             foreach ($parameters as $key => $_) {
-                $this->container->ctrl()->setParameter($gui, $key, '');
+                $this->container->ctrl()->setParameterByClass($class, $key, $array[$key] ?? '');
             }
 
             return $link;
@@ -223,7 +227,7 @@ class Administration
         return $this->container->refinery()->kindlyTo()->int()->applyTo(new Ok($doc_id))->then($repo->find(...));
     }
 
-    public function criterionForm(string $url, $criterion = null)
+    public function criterionForm(string $url, Document $document, $criterion = null)
     {
         $groups = $this->config->legalDocuments()->document()->conditionGroups($criterion);
         $group = $this->ui->create()->input()->field()->switchableGroup($groups->choices(), $this->ui->txt('form_criterion'));
@@ -232,9 +236,14 @@ class Administration
             $group = $group->withValue($value);
         }
 
-        return $this->ui->create()->input()->container()->form()->standard($url, [
+        $title = $this->ui->create()->input()->field()->text($this->ui->txt('form_document'))->withValue($document->content()->title())->withDisabled(true);
+
+        $section = $this->ui->create()->input()->field()->section([
+            $title,
             'content' => $group,
-        ]);
+        ], $this->ui->txt($criterion ? 'form_edit_criterion_head' : 'form_attach_criterion_head'));
+
+        return $this->ui->create()->input()->container()->form()->standard($url, [$section]);
     }
 
     public function requireDocumentHash(): string
@@ -337,17 +346,22 @@ class Administration
 
     /**
      * @param Closure(string): string $link
+     * @param Closure(): Result<DocumentContent> $document_content
      */
-    public function documentForm(Closure $link, string $title): Component
+    public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Component
     {
         $edit_link = $link('editDocument');
-        return $this->ui->create()->input()->container()->form()->standard($edit_link, [
-            'title' => $this->ui->create()->input()->field()->text('Title')->withRequired(true)->withValue($title),
-            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link), $this->ui->txt('form_document'))->withAcceptedMimeTypes([
+        $content_title = $may_be_new ? 'form_document' : 'form_document_new';
+
+        $section = $this->ui->create()->input()->field()->section([
+            'title' => $this->ui->create()->input()->field()->text($this->ui->txt('title'))->withRequired(true)->withValue($title),
+            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
                 'text/html',
                 'text/plain',
-            ]),
-        ]);
+            ])->withRequired($may_be_new),
+        ], $this->ui->txt($may_be_new ? 'form_new_doc_head' : 'form_edit_doc_head'));
+
+        return $this->ui->create()->input()->container()->form()->standard($edit_link, [$section]);
     }
 
     /**
@@ -428,7 +442,7 @@ class Administration
         )->withLinks([
             $this->ui->create()->link()->standard(
                 $this->ui->txt('adm_external_setting_edit'),
-                $this->container->ctrl()->getLinkTargetByClass(ilObjUserFolderGUI::class, 'generalSettings')
+                $this->willLinkWith(ilObjUserFolderGUI::class, ['ref_id' => USER_FOLDER_ID])('generalSettings')
             )
         ]);
     }

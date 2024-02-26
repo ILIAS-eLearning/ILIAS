@@ -26,14 +26,14 @@ use PHPUnit\Framework\TestCase;
 class HasMinLengthConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private ILIAS\Language\Language $lng;
     private int $min_length;
     private Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
 
         $this->min_length = 10;
 

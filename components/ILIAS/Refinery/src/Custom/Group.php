@@ -21,16 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
-use ilLanguage;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Constraint as ConstraintInterface;
 use ILIAS\Refinery\Transformation as TransformationInterface;
 
 class Group
 {
     private Factory $dataFactory;
-    private ilLanguage $language;
+    private \ILIAS\Language\Language $language;
 
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(Factory $dataFactory, \ILIAS\Language\Language $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

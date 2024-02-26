@@ -60,4 +60,10 @@ interface Data extends Table
     public function withRange(?Range $range): self;
     public function withFilter(?array $filter): self;
     public function withAdditionalParameters(?array $additional_parameters): self;
+
+    /**
+     * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.
+     * Set an Id to enable the storage and identify the distinct table.
+     */
+    public function withId(string $id): self;
 }

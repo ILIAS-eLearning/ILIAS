@@ -144,7 +144,7 @@ class ilRTE
     public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id): void
     {
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
-        while (preg_match("/public/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
+        while (preg_match("/public\/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
             $found_mob_id = (int) $found[1];
 

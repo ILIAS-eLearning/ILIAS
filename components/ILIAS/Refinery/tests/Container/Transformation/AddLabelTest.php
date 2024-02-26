@@ -38,7 +38,7 @@ class AddLabelTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
         $this->add_label = $this->f->container()->addLabels(self::$labels);

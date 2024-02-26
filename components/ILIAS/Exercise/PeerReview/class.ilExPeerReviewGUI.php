@@ -393,7 +393,7 @@ class ilExPeerReviewGUI
                     );
                 }
 
-                if (!$nr_missing_fb) {
+                if ($nr_missing_fb <= 0) {
                     // received any?
                     $received = (bool) sizeof($submission->getPeerReview()->getPeerReviewsByPeerId($submission->getUserId(), true));
                     if ($received) {
@@ -476,7 +476,7 @@ class ilExPeerReviewGUI
 
         $tpl->setTitle($this->ass->getTitle() . ": " . $lng->txt("exc_peer_review_given"));
 
-        $info_widget = new ilInfoScreenGUI($this);
+        $this->gui->permanentLink()->setGivenFeedbackPermanentLink();
 
         $panel = $this->getReceivedFeedbackPanel($peer_items);
 
@@ -873,14 +873,21 @@ class ilExPeerReviewGUI
         }
 
         $sep = $this->gui->ui()->renderer()->render($this->gui->ui()->factory()->divider()->horizontal());
-        $message_gui = $this->getMessagesGUI(
-            $this->user->getId(),
-            $this->requested_peer_id
-        );
+        $peer_state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $this->requested_peer_id);
+        $message_html = "";
+
+        // show only message gui, if peer is able to access received feedback
+        if ($peer_state->isReceivedFeedbackAccessible()) {
+            $message_gui = $this->getMessagesGUI(
+                $this->user->getId(),
+                $this->requested_peer_id
+            );
+            $message_html = $sep . $message_gui->getListHTML();
+        }
 
         $this->gui->permanentLink()->setGivenFeedbackPermanentLink();
 
-        $tpl->setContent($a_form->getHTML() . $sep . $message_gui->getListHTML());
+        $tpl->setContent($a_form->getHTML() . $message_html);
     }
 
     protected function getMessagesGUI(int $giver_id, int $peer_id): ilMessageGUI

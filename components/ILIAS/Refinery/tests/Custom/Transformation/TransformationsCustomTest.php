@@ -32,7 +32,7 @@ class TransformationsCustomTest extends TestCase
 
     protected function setUp(): void
     {
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         $this->f = new Refinery(new DataFactory(), $language);
 
         $this->custom = $this->f->custom()->transformation(

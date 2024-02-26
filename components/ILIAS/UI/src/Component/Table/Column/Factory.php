@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Column;
 
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+
 interface Factory
 {
     /**
@@ -81,11 +84,19 @@ interface Factory
      * description:
      *   purpose: >
      *      The Boolean Column is used to indicate a binary state, e.g. on/off.
+     *   composition: >
+     *      The two states could either be represented by two strings, two Icons
+     *      or two Glyphs.
      *
+     * rules:
+     *   composition:
+     *     1: >
+     *       If Glyps are used to indicate the state, they MUST NOT have an attached
+     *       action.
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Boolean
      */
-    public function boolean(string $title, string $true, string $false): Boolean;
+    public function boolean(string $title, string|Icon|Glyph $true, string|Icon|Glyph $false): Boolean;
 
     /**
      * ---

@@ -24,6 +24,9 @@ use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\UI\Component\Input\Field\UploadHandler as UploadHandlerInterface;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\FileUpload\UploadHandler;
+use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result\Error;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -33,17 +36,22 @@ class UploadHandlerTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UploadHandler::class, new UploadHandler($this->fail(...)));
+        $this->assertInstanceOf(UploadHandler::class, new UploadHandler($this->fail(...), $this->fail(...), $this->fail(...)));
     }
 
     public function testGetFileIdentifierParameterName(): void
     {
-        $this->assertSame(UploadHandlerInterface::DEFAULT_FILE_ID_PARAMETER, (new UploadHandler($this->fail(...)))->getFileIdentifierParameterName());
+        $instance = new UploadHandler($this->fail(...), $this->fail(...), $this->fail(...));
+        $this->assertSame(UploadHandlerInterface::DEFAULT_FILE_ID_PARAMETER, $instance->getFileIdentifierParameterName());
     }
 
     public function testLinks(): void
     {
-        $instance = new UploadHandler(static fn(string $to): string => 'Will link to: ' . $to);
+        $instance = new UploadHandler(
+            static fn(string $to): string => 'Will link to: ' . $to,
+            $this->fail(...),
+            $this->fail(...)
+        );
         $this->assertGetter($instance, [
             'getUploadURL' => 'Will link to: upload',
             'getFileRemovalURL' => 'Will link to: rm',
@@ -52,6 +60,29 @@ class UploadHandlerTest extends TestCase
         ]);
         $this->assertSame([], $instance->getInfoForExistingFiles([]));
         $this->assertSame([], $instance->getInfoForExistingFiles(['foo']));
+    }
+
+    public function testInfoResultWithResult(): void
+    {
+        $value = 'Lorem ipsum';
+        $document_content = $this->mockTree(DocumentContent::class, [
+            'value' => $value,
+            'type' => 'html',
+        ]);
+        $content = fn() => new Ok($document_content);
+        $instance = new UploadHandler($this->fail(...), $content, fn(string $s) => 'Translated ' . $s);
+        $info = $instance->getInfoResult('foo');
+        $this->assertSame(strlen($value), $info->getSize());
+        $this->assertSame('html', $info->getMimeType());
+        $this->assertSame('Translated updated_document', $info->getName());
+        $this->assertSame('foo', $info->getFileIdentifier());
+    }
+
+    public function testInfoResultWithoutResult(): void
+    {
+        $content = fn() => new Error('Nothing uploaded yet.');
+
+        $instance = new UploadHandler($this->fail(...), $content, $this->fail(...));
         $this->assertSame(null, $instance->getInfoResult('foo'));
     }
 }

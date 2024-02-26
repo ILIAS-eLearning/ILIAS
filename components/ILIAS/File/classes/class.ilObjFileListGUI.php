@@ -36,7 +36,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 {
     use ilObjFileSecureString;
 
-    private bool $use_flavor_for_cards = true;
     protected string $title;
     private IconDatabaseRepository $icon_repo;
     private ActionDBRepository $action_repo;
@@ -58,37 +57,6 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function insertCommands(): void
     {
     }
-
-    protected function getTileImagePath(): string
-    {
-        if (!$this->use_flavor_for_cards) {
-            return parent::getTileImagePath();
-        }
-        // First we use a configured Tile Image
-        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
-        if ($object === null) {
-            return '';
-        }
-
-        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
-        if ($img !== null && $img->exists()) {
-            return $img->getFullPath();
-        }
-        // Fallback to use a flavour as tile image
-        if (!$this->use_flavor_for_cards) {
-            // Fallback to use a default tile image
-            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-        }
-        if (($flavour_path = $this->getCardImageFallbackPath(
-            $this->obj_id,
-            $this->type
-        )) === '') {
-            // Fallback to use a default tile image
-            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
-        }
-        return $flavour_path;
-    }
-
     /**
      * initialisation
      */
@@ -257,6 +225,11 @@ class ilObjFileListGUI extends ilObjectListGUI
         string $type,
         ?int $obj_id = null
     ): bool {
+        // LP settings only in repository
+        if ($this->context !== self::CONTEXT_REPOSITORY && $permission === "edit_learning_progress") {
+            return false;
+        }
+
         $data = ilObjFileAccess::getListGUIData($this->obj_id);
 
         $additional_check = match ($cmd) {
@@ -276,32 +249,43 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
-        // only create permalink for repository
-        if ($cmd === "sendfile" && $this->context === self::CONTEXT_REPOSITORY) {
-            if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
-                // return the perma link for downloads
-                return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
-            }
-
+        $infoscreen = function (): string {
             $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
             return $this->ctrl->getLinkTargetByClass(
                 ilRepositoryGUI::class,
                 'infoScreen'
             );
-        }
+        };
 
-        if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-            $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
-            if (ilObjFileAccess::isZIP($file_data['mime'] ?? null)) {
-                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                $cmd_link = $this->ctrl->getLinkTargetByClass(
-                    ilRepositoryGUI::class,
-                    ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                );
-                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-            } else {
-                $access_granted = false;
-            }
+        switch ($this->context) {
+            case self::CONTEXT_REPOSITORY:
+                // only create permalink for repository
+                if ($cmd === "sendfile") {
+                    if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                        // return the perma link for downloads
+                        return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
+                    }
+
+                    return $infoscreen();
+                }
+                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
+                    $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+                    if (ilObjFileAccess::isZIP($file_data['mime'] ?? null)) {
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+                        $cmd_link = $this->ctrl->getLinkTargetByClass(
+                            ilRepositoryGUI::class,
+                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
+                        );
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
+                    } else {
+                        $access_granted = false;
+                    }
+                }
+                return parent::getCommandLink($cmd);
+            case self::CONTEXT_WORKSPACE:
+                if ($cmd === "sendfile" && !ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                    return $infoscreen();
+                }
         }
 
         return parent::getCommandLink($cmd);

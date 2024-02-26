@@ -290,7 +290,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
 
 
-            if ($show_inline_feedback) {
+            if (($show_feedback || !$this->isTestPresentationContext()) && $show_inline_feedback) {
                 if ($this->object->getSpecificFeedbackSetting() == 2) {
                     foreach ($user_solution as $mc_solution) {
                         if (strcmp($mc_solution, $answer_id) == 0) {

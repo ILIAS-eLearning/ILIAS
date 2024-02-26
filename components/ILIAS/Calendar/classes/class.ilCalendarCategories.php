@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\components\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 
 /**
  * class for calendar categories

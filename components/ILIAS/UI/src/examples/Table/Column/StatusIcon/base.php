@@ -19,7 +19,7 @@ function base()
 
     $columns = [
         'i1' => $f->table()->column()->statusIcon("icon"),
-        'i2' => $f->table()->column()->statusIcon("chart")
+        'i2' => $f->table()->column()->statusIcon("check")
     ];
 
     $data_retrieval = new class ($f, $r, $dummy_records) implements I\DataRetrieval {
@@ -40,11 +40,11 @@ function base()
         ): \Generator {
             foreach ($this->records as $number) {
                 $row_id = '';
-                $record['i1'] = $this->ui_renderer->render(
-                    $this->ui_factory->symbol()->icon()->standard('crs', '', 'small')
-                );
-                $record['i2'] = $this->ui_renderer->render(
-                    $this->ui_factory->chart()->progressMeter()->mini(80, $number)
+                $record['i1'] = $this->ui_factory->symbol()->icon()->standard('crs', '', 'small');
+                $record['i2'] = $this->ui_factory->symbol()->icon()->custom(
+                    'templates/default/images/standard/icon_checked.svg',
+                    '',
+                    'small'
                 );
                 yield $row_builder->buildDataRow($row_id, $record);
             }

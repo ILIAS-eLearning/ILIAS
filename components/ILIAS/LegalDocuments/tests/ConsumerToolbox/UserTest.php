@@ -21,9 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test\ConsumerToolbox;
 
 use ILIAS\Data\Result;
+use ILIAS\Data\Result\Error;
+use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Provide\ProvideHistory;
-use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\LegalDocuments\test\ContainerMock;
@@ -168,6 +169,60 @@ class UserTest extends TestCase
         $this->assertTrue($instance->didNotAcceptCurrentVersion());
     }
 
+    public function testNeedsToAcceptNewDocumentReturnsTrue(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $history = $this->mockMethod(ProvideHistory::class, 'currentDocumentOfAcceptedVersion', [$user], new Error('Not found.'));
+
+        $instance = new User(
+            $user,
+            $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
+            $this->mock(UserSettings::class),
+            $this->mockTree(Provide::class, ['history' => $history]),
+            $this->mock(Clock::class)
+        );
+
+        $this->assertTrue($instance->needsToAcceptNewDocument());
+    }
+
+    public function testNeedsToAcceptNewDocumentReturnsFalse(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $document = $this->mock(Document::class);
+        $history = $this->mockMethod(ProvideHistory::class, 'currentDocumentOfAcceptedVersion', [$user], new Ok($document));
+
+        $instance = new User(
+            $user,
+            $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
+            $this->mock(UserSettings::class),
+            $this->mockTree(Provide::class, [
+                'document' => $this->mockMethod(ProvideDocument::class, 'documentMatches', [$document, $user], true),
+                'history' => $history,
+            ]),
+            $this->mock(Clock::class)
+        );
+
+        $this->assertFalse($instance->needsToAcceptNewDocument());
+    }
+
+    public function testDoesntMatch(): void
+    {
+        $document = $this->mock(Document::class);
+        $user = $this->mock(ilObjUser::class);
+
+        $instance = new User(
+            $user,
+            $this->mock(Settings::class),
+            $this->mock(UserSettings::class),
+            $this->mockTree(Provide::class, [
+                'document' => $this->mockMethod(ProvideDocument::class, 'documentMatches', [$document, $user], true),
+            ]),
+            $this->mock(Clock::class)
+        );
+
+        $this->assertFalse($instance->doesntMatch($document, $user));
+    }
+
     public function testMatchingDocument(): void
     {
         $user = $this->mock(ilObjUser::class);
@@ -186,7 +241,7 @@ class UserTest extends TestCase
         $this->assertSame($result, $instance->matchingDocument());
     }
 
-    public function testAcceptedDocument(): void
+    public function testAcceptedVersion(): void
     {
         $this->ensureDefined('ANONYMOUS_USER_ID', 13);
         $this->ensureDefined('SYSTEM_USER_ID', 9);
@@ -199,14 +254,14 @@ class UserTest extends TestCase
             $user,
             $this->mock(Settings::class),
             $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
-            $this->mockTree(Provide::class, ['history' => $this->mockMethod(ProvideHistory::class, 'acceptedDocument', [$user], $result)]),
+            $this->mockTree(Provide::class, ['history' => $this->mockMethod(ProvideHistory::class, 'acceptedVersion', [$user], $result)]),
             $this->mock(Clock::class)
         );
 
-        $this->assertSame($result, $instance->acceptedDocument());
+        $this->assertSame($result, $instance->acceptedVersion());
     }
 
-    public function testAcceptDocumentError(): void
+    public function testAcceptVersionError(): void
     {
         $this->ensureDefined('ANONYMOUS_USER_ID', 13);
         $this->ensureDefined('SYSTEM_USER_ID', 9);
@@ -221,7 +276,7 @@ class UserTest extends TestCase
             $this->mock(Clock::class)
         );
 
-        $result = $instance->acceptedDocument();
+        $result = $instance->acceptedVersion();
         $this->assertFalse($result->isOk());
         $this->assertSame('User never agreed.', $result->error());
     }

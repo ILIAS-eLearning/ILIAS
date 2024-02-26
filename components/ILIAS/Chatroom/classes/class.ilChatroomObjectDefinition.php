@@ -62,7 +62,7 @@ class ilChatroomObjectDefinition
      */
     public static function getDefaultDefinition(string $moduleName): self
     {
-        return new self($moduleName, 'components/ILIAS/' . $moduleName . '/');
+        return new self($moduleName, '../components/ILIAS/' . $moduleName . '/');
     }
 
     /**
@@ -74,18 +74,17 @@ class ilChatroomObjectDefinition
     {
         return new self(
             $moduleName,
-            'components/ILIAS/' . $moduleName . '/',
+            '../components/ILIAS/' . $moduleName . '/',
             'classes',
             $guiScope
         );
     }
 
-    /**
-     * Returns true if file exists.
-     */
     public function hasGUI(string $gui): bool
     {
-        return is_file($this->getGUIPath($gui));
+        $path = $this->getGUIPath($gui);
+
+        return class_exists($this->getGUIClassName($gui)) && file_exists($path);
     }
 
     /**
@@ -106,15 +105,6 @@ class ilChatroomObjectDefinition
     public function getGUIClassName(string $gui): string
     {
         return 'il' . $this->moduleName . ucfirst($this->guiScope) . ucfirst($gui) . 'GUI';
-    }
-
-    /**
-     * Requires file, whereby given $gui is used as parameter in getGUIPath
-     * method to build the filename of the file to required.
-     */
-    public function loadGUI(string $gui): void
-    {
-        require_once $this->getGUIPath($gui);
     }
 
     /**

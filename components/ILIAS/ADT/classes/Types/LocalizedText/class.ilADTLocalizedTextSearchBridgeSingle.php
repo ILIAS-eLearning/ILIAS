@@ -119,7 +119,11 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
     public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
-            foreach ($a_adt->getTranslations() as $language => $txt) {
+            $relevant_translation = $a_adt->getCopyOfDefinition()->getMultilingualValueSupport() ?
+                $a_adt->getTranslations() :
+                [$a_adt->getText()];
+
+            foreach ($relevant_translation as $txt) {
                 if (str_contains(strtolower($txt), strtolower($this->getADT()->getText()))) {
                     return true;
                 }

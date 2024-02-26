@@ -56,7 +56,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $shuffle = 0;
         $foundimage = false;
         $answers = [];
-        $type = OQ_TERMS;
+        $type = assOrderingQuestion::OQ_TERMS;
 
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {

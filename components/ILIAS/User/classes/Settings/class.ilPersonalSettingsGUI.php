@@ -387,6 +387,7 @@ class ilPersonalSettingsGUI
             }
 
             $si = new ilSelectInputGUI($this->lng->txt('language'), 'language');
+            $si->setOptionsLangAttribute(fn($options, $key) => $key);
             $si->setOptions($options);
             $si->setValue($this->user->getLanguage());
             $si->setDisabled((bool) $this->settings->get('usr_settings_disable_language'));
@@ -768,7 +769,7 @@ class ilPersonalSettingsGUI
         $admin_mail = $this->settings->get('user_delete_own_account_email');
 
         $mmail = new ilMimeMail();
-        $mmail->From($this->sender_factory->system());
+        $mmail->From($this->mail_sender_factory->system());
 
         if ($user_email !== '') {
             $mmail->To($user_email);

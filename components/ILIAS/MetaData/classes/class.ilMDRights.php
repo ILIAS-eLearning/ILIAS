@@ -230,7 +230,7 @@ class ilMDRights extends ilMDBase
             [
                 'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ],
-            ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription())
+            ilMDCopyrightSelectionEntry::_lookupCopyright($this->getDescription(), true)
         );
         $writer->xmlEndTag('Rights');
     }

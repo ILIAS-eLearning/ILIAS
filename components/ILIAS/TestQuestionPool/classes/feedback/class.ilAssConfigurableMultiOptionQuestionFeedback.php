@@ -167,6 +167,10 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 
         $row = $this->db->fetchAssoc($res);
 
+        if ($this->db->numRows($res) < 1) {
+            return;
+        }
+
         $this->db->update(
             $this->getSpecificQuestionTableName(),
             array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),

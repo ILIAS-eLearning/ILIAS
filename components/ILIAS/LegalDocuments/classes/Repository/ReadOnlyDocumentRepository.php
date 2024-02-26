@@ -36,6 +36,7 @@ class ReadOnlyDocumentRepository implements DocumentRepository, DocumentReposito
             'countAll',
             'select',
             'find',
+            'findId',
             'documentFromRow',
             'documentTable',
             'exists',
@@ -77,6 +78,15 @@ class ReadOnlyDocumentRepository implements DocumentRepository, DocumentReposito
     {
         $this->checkAccess(__FUNCTION__);
         return $this->repository->find($id);
+    }
+
+    /**
+     * @return Result<Document>
+     */
+    public function findId(DocumentId $document_id): Result
+    {
+        $this->checkAccess(__FUNCTION__);
+        return $this->repository->findId($id);
     }
 
     public function createDocument(string $title, DocumentContent $content): void

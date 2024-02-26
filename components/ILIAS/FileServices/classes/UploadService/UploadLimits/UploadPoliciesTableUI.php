@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -53,6 +54,7 @@ class UploadPoliciesTableUI
         protected RefineryFactory $refinery,
         protected UIFactory $ui_factory,
         protected Renderer $ui_renderer,
+        protected bool $write_access
     ) {
         $policies = $this->getPresentablePolicies();
         $actions = $this->buildPolicyActions($policies);
@@ -78,19 +80,19 @@ class UploadPoliciesTableUI
                     ->withHeadline($record->getTitle())
                     ->withImportantFields(
                         [
-                            $this->language->txt('policy_upload_limit') . ": " => $upload_limit_text,
-                            $this->language->txt('policy_audience') . ": " => $audience_text,
-                            $this->language->txt('active') . ": " => $active_text
+                            $this->language->txt('policy_upload_limit') => $upload_limit_text,
+                            $this->language->txt('policy_audience') => $audience_text,
+                            $this->language->txt('active') => $active_text
                         ]
                     )
                     ->withContent(
                         $ui_factory->listing()->descriptive(
                             [
-                                $this->language->txt('policy_upload_limit') . ": " => $upload_limit_text,
-                                $this->language->txt('policy_audience') . ": " => $audience_text,
-                                $this->language->txt('active') . ": " => $active_text,
-                                $this->language->txt('policy_scope') . ": " => $scope_text,
-                                $this->language->txt('policy_valid_until') . ": " => $valid_until_text,
+                                $this->language->txt('policy_upload_limit') => $upload_limit_text,
+                                $this->language->txt('policy_audience') => $audience_text,
+                                $this->language->txt('active') => $active_text,
+                                $this->language->txt('policy_scope') => $scope_text,
+                                $this->language->txt('policy_valid_until') => $valid_until_text,
                             ]
                         )
                     );
@@ -120,6 +122,9 @@ class UploadPoliciesTableUI
      */
     protected function buildPolicyActions(array $policies): array
     {
+        if(!$this->write_access) {
+            return [];
+        }
         $dropdowns = [];
         foreach ($policies as $policy) {
             // Store policy_id for later use when the table's actions (edit / delete) are used)
@@ -241,12 +246,12 @@ class UploadPoliciesTableUI
             "policy_no_validity_limitation_set"
         );
 
-        $item_text = $this->language->txt('title') . ": " . $record->getTitle() . "<br/>"
-            . $this->language->txt('policy_upload_limit') . ": " . $upload_limit_text . "<br/>"
-            . $this->language->txt('policy_audience') . ": " . $audience_text . "<br/>"
-            . $this->language->txt('active') . ": " . $active_text . "<br/>"
-            . $this->language->txt('policy_scope') . ": " . $record->getScopeDefinition() . "<br/>"
-            . $this->language->txt('policy_valid_until') . ": " . $valid_until_text;
+        $item_text = $this->language->txt('title') . $record->getTitle() . "<br/>"
+            . $this->language->txt('policy_upload_limit') . $upload_limit_text . "<br/>"
+            . $this->language->txt('policy_audience') . $audience_text . "<br/>"
+            . $this->language->txt('active') . $active_text . "<br/>"
+            . $this->language->txt('policy_scope') . $record->getScopeDefinition() . "<br/>"
+            . $this->language->txt('policy_valid_until') . $valid_until_text;
 
         $deletion_item = $this->ui_factory->modal()->interruptiveItem()->standard(
             (string) $record->getPolicyId(),

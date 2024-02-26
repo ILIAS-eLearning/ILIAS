@@ -315,7 +315,8 @@ abstract class ilContainerContentGUI
             ,
             $sorting->getBlockPositions(),
             $this->container_gui,
-            $this->getViewMode()
+            $this->getViewMode(),
+            $this->getContainerGUI()->isActiveAdministrationPanel()
         );
 
         // all event items are included per session rendering
@@ -517,7 +518,6 @@ abstract class ilContainerContentGUI
                 ? self::VIEW_MODE_TILE
                 : self::VIEW_MODE_LIST;
         }
-
         if ($view_mode === self::VIEW_MODE_TILE) {
             return $this->renderCard($a_item_data, $a_position, $a_force_icon, $a_pos_prefix);
         }
@@ -726,7 +726,7 @@ abstract class ilContainerContentGUI
             $this->getContainerGUI()->isActiveAdministrationPanel()
         );
 
-
+        $exhausted = false;
         $ref_ids = $this->request->getAlreadyRenderedRefIds();
 
         // iterate all types
@@ -742,11 +742,11 @@ abstract class ilContainerContentGUI
                 if (in_array($item_ref_id, $ref_ids)) {
                     continue;
                 }
-
                 if ($this->block_limit > 0 && $counter == $this->block_limit + 1) {
                     if ($counter == $this->block_limit + 1) {
                         // render more button
                         $this->renderer->addShowMoreButton($type);
+                        $exhausted = true;
                     }
                     continue;
                 }
@@ -761,7 +761,7 @@ abstract class ilContainerContentGUI
             }
         }
 
-        return $this->renderer->renderSingleTypeBlock($type);
+        return $this->renderer->renderSingleTypeBlock($type, $exhausted);
     }
 
     /**
@@ -815,7 +815,6 @@ abstract class ilContainerContentGUI
     {
         $ilAccess = $this->access;
         $ilUser = $this->user;
-
         // #16493
         $perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
              $ilAccess->checkAccess("read", "", $a_itgr['ref_id']));
@@ -893,7 +892,14 @@ abstract class ilContainerContentGUI
         $position = 1;
         foreach ($items as $item) {
             // we are NOT using hasItem() here, because item might be in multiple item groups
-            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $item_group->getListPresentation());
+
+            $it_pres = $item_group->getListPresentation();
+            if ($this->getContainerGUI()->isActiveOrdering() ||
+                $this->getContainerGUI()->isActiveAdministrationPanel()) {
+                $it_pres = "list";
+            }
+
+            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $it_pres);
             if ($html2 != "") {
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);

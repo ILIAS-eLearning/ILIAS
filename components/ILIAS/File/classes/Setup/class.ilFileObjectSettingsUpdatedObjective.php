@@ -56,16 +56,6 @@ class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
-        $download_with_uploaded_filename = $client_ini->readVariable(
-            'file_access',
-            'download_with_uploaded_filename'
-        ) === '1';
-        $db->manipulateF(
-            "INSERT IGNORE settings (module, keyword, value) VALUES (%s, %s, %s)",
-            ['text', 'text', 'text'],
-            ['file_access', 'download_with_uploaded_filename', $download_with_uploaded_filename ? '1' : '0']
-        );
-
         $use_ascii_characters_only = $client_ini->readVariable(
             'file_access',
             'disable_ascii'

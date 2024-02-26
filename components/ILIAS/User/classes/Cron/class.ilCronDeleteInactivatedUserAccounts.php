@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\Refinery\ConstraintViolationException;
+declare(strict_types=1);
+
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
@@ -205,20 +204,22 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     {
         $roles = implode(',', $this->http->wrapper()->post()->retrieve(
             'cron_inactivated_user_delete_include_roles',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
         ));
 
-        $pertiod = null;
-        try {
-            $pertiod = $this->http->wrapper()->post()->retrieve(
-                'cron_inactivated_user_delete_period',
-                $this->refinery->kindlyTo()->int()
-            );
-        } catch (ConstraintViolationException $e) {
-        }
+        $period = $this->http->wrapper()->post()->retrieve(
+            'cron_inactivated_user_delete_period',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null)
+            ])
+        );
 
         $this->settings->set('cron_inactivated_user_delete_include_roles', $roles);
-        $this->settings->set('cron_inactivated_user_delete_period', (string) ($pertiod ?? self::DEFAULT_INACTIVITY_PERIOD));
+        $this->settings->set('cron_inactivated_user_delete_period', (string) ($period ?? self::DEFAULT_INACTIVITY_PERIOD));
 
         return true;
     }

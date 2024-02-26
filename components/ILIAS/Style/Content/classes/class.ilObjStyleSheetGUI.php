@@ -360,15 +360,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Switch media query
-     */
-    public function switchMQueryObject(): void
-    {
-        $ctrl = $this->gui_service->ctrl();
-        $ctrl->setParameter($this, "mq_id", $this->style_request->getMediaQueryId());
-        $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
-    }
 
     public function exportStyleObject(): void
     {
@@ -840,8 +831,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $this->initColorForm();
-        $this->form_gui->checkInput();
-
         if ($this->form_gui->checkInput()) {
             if ($this->color_manager->colorExists($this->form_gui->getInput("color_name"))) {
                 $col_input = $this->form_gui->getItemByPostVar("color_name");
@@ -867,9 +856,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
+        $c_name = $this->style_request->getColorName();
+        $ilCtrl->setParameter($this, "c_name", $c_name);
         $this->initColorForm("edit");
 
-        $c_name = $this->style_request->getColorName();
         if ($this->form_gui->checkInput()) {
             if ($this->color_manager->colorExists($this->form_gui->getInput("color_name")) &&
                 $this->form_gui->getInput("color_name") != $c_name) {
@@ -884,7 +874,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $ilCtrl->redirect($this, "listColors");
             }
         }
-        $ilCtrl->setParameter($this, "c_name", $c_name);
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
@@ -1086,7 +1075,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
             foreach ($mq_ids as $i) {
                 $mq = $this->object->getMediaQueryForId($i);
-                $cgui->addItem("mq_id[]", $i, $mq["mquery"]);
+                $cgui->addItem("mq_id[]", (string) $i, $mq["mquery"]);
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -1135,10 +1124,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ctype = $this->style_request->getTempType();
         if ($ctype == "") {
             $ctype = "table";
-            $ilCtrl->setParameter($this, "temp_type", $ctype);
         }
 
         $this->setTemplatesSubTabs();
+        $ilCtrl->setParameter($this, "temp_type", $ctype);
         $ilTabs->setSubTabActive("sty_" . $ctype . "_templates");
 
         // action commands
@@ -1345,6 +1334,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $scs = ilObjStyleSheet::_getTemplateClassTypes(
             $this->style_request->getTempType()
         );
+
         foreach ($scs as $sc => $st) {
             $sc_input = new ilSelectInputGUI($lng->txt("sty_" . $sc . "_class"), $sc . "_class");
             $chars = $this->object->getCharacteristics($st);

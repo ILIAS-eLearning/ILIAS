@@ -94,14 +94,9 @@ class DocumentTableTest extends TestCase
     {
         $ui = $this->mock(UI::class);
 
-        $select = $this->mockTree(TableSelection::class, [
-            'getLimit' => 7,
-            'getOffset' => 23,
-        ]);
-        $select->expects(self::once())->method('setMaxCount')->with(2);
+        $select = $this->mock(TableSelection::class);
 
-        $repository = $this->mockMethod(DocumentRepository::class, 'countAll', [], 2);
-        $repository->expects(self::once())->method('all')->with(23, 7)->willReturn([
+        $repository = $this->mockMethod(DocumentRepository::class, 'all', [], [
             $this->mock(Document::class),
             $this->mock(Document::class)
         ]);
@@ -136,14 +131,8 @@ class DocumentTableTest extends TestCase
             $this->mock(Document::class)
         ];
 
-        $select = $this->mockTree(TableSelection::class, [
-            'getLimit' => 7,
-            'getOffset' => 23,
-        ]);
-        $select->expects(self::once())->method('setMaxCount')->with(2);
-
-        $repository = $this->mockMethod(DocumentRepository::class, 'countAll', [], 2);
-        $repository->expects(self::once())->method('all')->with(23, 7)->willReturn($rows);
+        $select = $this->mock(TableSelection::class);
+        $repository = $this->mockMethod(DocumentRepository::class, 'all', [], $rows);
 
         $instance = new DocumentTable(
             $this->fail(...),
@@ -172,7 +161,7 @@ class DocumentTableTest extends TestCase
             'created',
             'change',
             'criteria',
-        ], array_keys($instance->row($this->mock(Document::class))));
+        ], array_keys($instance->row($this->mock(Document::class), 1)));
     }
 
     public function testShowEmptyCriteria(): void
@@ -285,7 +274,7 @@ class DocumentTableTest extends TestCase
             $create
         );
 
-        $result = $instance->orderInputGui($this->mock(Document::class));
+        $result = $instance->orderInputGui($this->mock(Document::class), 1);
         $this->assertSame($input, $result);
     }
 

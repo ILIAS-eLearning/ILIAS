@@ -24,7 +24,7 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilObjBlogGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
@@ -602,7 +602,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $link = $ilCtrl->getLinkTargetByClass(["ilrepositorygui", "ilObjBlogGUI"], "preview");
             $ilNavigationHistory->addItem($this->node_id, $link, "blog");
         }
-
         switch ($next_class) {
             case 'ilblogpostinggui':
                 $this->ctrl->saveParameter($this, "user_page");
@@ -827,7 +826,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $settings_gui = $this->content_style_gui
                         ->objectSettingsGUIForObjId(
-                            0,
+                            null,
                             $this->object->getId()
                         );
                 }
@@ -1734,12 +1733,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $mon_counter++;
 
                 $month_name = ilCalendarUtil::_numericMonthToString((int) substr($month, 5));
-
                 if (!$a_link_template) {
                     $ilCtrl->setParameter($this, "bmn", $month);
                     $month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                 } else {
-                    $month_url = $this->buildExportLink($a_link_template, "list", $month);
+                    $month_url = $this->buildExportLink($a_link_template, "list", (string) $month);
                 }
 
                 // list postings for month
@@ -1767,7 +1765,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
                             $url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);
                         } else {
-                            $url = $this->buildExportLink($a_link_template, "posting", $id);
+                            $url = $this->buildExportLink($a_link_template, "posting", (string) $id);
                         }
 
                         if (!$posting["active"]) {
@@ -1801,13 +1799,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->parseCurrentBlock();
             }
-            $this->ctrl->setParameterByClass(self::class, "bmn", null);
+            if (!$a_link_template) {
+                $this->ctrl->setParameterByClass(self::class, "bmn", null);
+                $url = $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd);
+            } else {
+                $url = "index.html";
+            }
+
             $wtpl->setVariable(
                 "STARTING_PAGE",
                 $this->ui->renderer()->render(
                     $this->ui->factory()->link()->standard(
                         $this->lng->txt("blog_starting_page"),
-                        $this->ctrl->getLinkTargetByClass(self::class, $a_list_cmd)
+                        $url
                     )
                 )
             );
@@ -1829,7 +1833,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         $ilCtrl->setParameter($this, "bmn", $month);
                         $month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     } else {
-                        $month_url = $this->buildExportLink($a_link_template, "list", $month);
+                        $month_url = $this->buildExportLink($a_link_template, "list", (string) $month);
                     }
 
                     foreach ($postings as $id => $posting) {
@@ -1841,7 +1845,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
                             $url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);
                         } else {
-                            $url = $this->buildExportLink($a_link_template, "posting", $id);
+                            $url = $this->buildExportLink($a_link_template, "posting", (string) $id);
                         }
 
                         if (!$posting["active"]) {
@@ -1912,7 +1916,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     $ilCtrl->setParameter($this, "kwd", "");
                 } else {
-                    $url = $this->buildExportLink($a_link_template, "keyword", $keyword);
+                    $url = $this->buildExportLink($a_link_template, "keyword", (string) $keyword);
                 }
 
                 $wtpl->setVariable("TXT_KEYWORD", $keyword);

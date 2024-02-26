@@ -22,7 +22,7 @@ namespace ILIAS\Tests\Refinery;
 
 use ILIAS\Refinery\KeyValueAccess;
 use ILIAS\Refinery\Factory as Refinery;
-use ilLanguage;
+use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -32,7 +32,7 @@ class KeyValueAccessTest extends PHPUnitTestCase
 
     protected function setUp(): void
     {
-        $this->refinery = new Refinery(new DataFactory(), $this->createMock(ilLanguage::class));
+        $this->refinery = new Refinery(new DataFactory(), $this->createMock(Language::class));
     }
 
     public function testAccess(): void

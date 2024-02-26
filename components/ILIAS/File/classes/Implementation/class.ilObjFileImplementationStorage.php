@@ -28,7 +28,6 @@ use ILIAS\ResourceStorage\Revision\RevisionStatus;
 class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract implements ilObjFileImplementationInterface
 {
     protected Services $storage;
-    protected bool $download_with_uploaded_filename;
 
     /**
      * ilObjFileImplementationStorage constructor.
@@ -38,7 +37,6 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         global $DIC;
         $settings = new General();
         $this->storage = $DIC->resourceStorage();
-        $this->download_with_uploaded_filename = $settings->isDownloadWithUploadedFileName();
     }
 
     public function handleChangedObjectTitle(string $new_title): void
@@ -103,12 +101,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         } else {
             $revision = $this->resource->getCurrentRevision();
         }
-
-        if ($this->download_with_uploaded_filename) {
-            $consumer->overrideFileName($revision->getInformation()->getTitle());
-        } else {
-            $consumer->overrideFileName($revision->getTitle());
-        }
+        $consumer->overrideFileName($revision->getTitle());
 
         $consumer->run();
     }
@@ -145,6 +138,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function getVersions(?array $version_ids = null): array
     {
         $versions = [];
+        $current_revision = $this->resource->getCurrentRevisionIncludingDraft();
         foreach ($this->resource->getAllRevisionsIncludingDraft() as $revision) {
             if (is_array($version_ids) && !in_array($revision->getVersionNumber(), $version_ids)) {
                 continue;
@@ -157,7 +151,18 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             if ($revision->getStatus() === RevisionStatus::DRAFT) {
                 $v->setAction('draft');
             } else {
-                $v->setAction($revision->getVersionNumber() === 1 ? 'create' : 'new_version');
+                $version_number = $revision->getVersionNumber();
+                switch ($version_number) {
+                    case 1:
+                        $v->setAction('create');
+                        break;
+                    case $current_revision->getVersionNumber():
+                        $v->setAction('published_version');
+                        break;
+                    default:
+                        $v->setAction('intermediate_version');
+                        break;
+                }
             }
             $v->setTitle($revision->getTitle());
             $v->setDate($information->getCreationDate()->format(DATE_ATOM));

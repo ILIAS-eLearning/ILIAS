@@ -1,26 +1,23 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- *
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilCSVReader
 {
-    public const AUTO_DETECT_LINE_ENDINGS = "auto_detect_line_endings";
     /**
      * @var resource
      */
@@ -62,9 +59,6 @@ class ilCSVReader
 
     public function open(string $path_to_file): bool
     {
-        $this->line_ends = ini_get(self::AUTO_DETECT_LINE_ENDINGS);
-        ini_set(self::AUTO_DETECT_LINE_ENDINGS, true);
-
         $this->file_resource = fopen(ilUtil::stripSlashes($path_to_file), "r");
 
         if (!is_resource($this->file_resource)) {
@@ -75,8 +69,6 @@ class ilCSVReader
 
     public function close(): bool
     {
-        ini_set(self::AUTO_DETECT_LINE_ENDINGS, $this->line_ends);
-
         return fclose($this->file_resource);
     }
 

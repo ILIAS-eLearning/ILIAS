@@ -448,10 +448,10 @@ class ilFileUtils
     protected static function sanitateTargetPath(string $a_target): array
     {
         switch (true) {
-            case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+            case strpos($a_target, 'public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
             case strpos(
                 $a_target,
-                './' . ILIAS_WEB_DIR . '/' . CLIENT_ID
+                './public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID
             ) === 0:
             case strpos($a_target, CLIENT_WEB_DIR) === 0:
                 $targetFilesystem = \ILIAS\FileUpload\Location::WEB;

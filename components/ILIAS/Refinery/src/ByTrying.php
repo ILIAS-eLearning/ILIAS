@@ -22,7 +22,7 @@ namespace ILIAS\Refinery;
 
 use Exception;
 use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Language;
 
 class ByTrying implements Transformation
 {
@@ -42,7 +42,7 @@ class ByTrying implements Transformation
         private  Data\Factory $data_factory,
         // $lng should not be null, however, there are circular dependencies.
         // see ILIAS\Cache\Container\ActiveContainer::buildFinalTransformation
-        protected ?ilLanguage $lng = null
+        protected ?Language\Language $lng = null
     ) {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;

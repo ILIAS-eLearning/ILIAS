@@ -453,6 +453,23 @@ class ilExcAssMemberState
         return false;
     }
 
+    public function isReceivedFeedbackAccessible(): bool
+    {
+        if (!$this->isPeerReviewAllowed()) {
+            return false;
+        }
+        $submission = new ilExSubmission($this->assignment, $this->user_id);
+        $nr_missing_fb = (int) $submission->getPeerReview()?->getNumberOfMissingFeedbacksForReceived();
+        if ((!$this->assignment->getPeerReviewDeadline() ||
+            $this->assignment->getPeerReviewDeadline() < time())) {
+
+            if ($nr_missing_fb <= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @param $a_timestamp
      * @return string

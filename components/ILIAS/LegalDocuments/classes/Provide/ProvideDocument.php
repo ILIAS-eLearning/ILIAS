@@ -25,9 +25,6 @@ use ILIAS\DI\Container;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
 use ILIAS\Data\Result\Ok;
-use ILIAS\LegalDocuments\ChangeSet;
-use ILIAS\LegalDocuments\Change\AcceptedDocument;
-use ILIAS\LegalDocuments\Change\AddDocument;
 use ILIAS\LegalDocuments\Condition;
 use ILIAS\LegalDocuments\Legacy\Table;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
@@ -94,12 +91,18 @@ class ProvideDocument
 
     public function chooseDocumentFor(ilObjUser $user): Result
     {
-        $document_matches = fn(Document $document): bool => $this->all(
+        return $this->find(
+            fn(Document $document): bool => $this->documentMatches($document, $user),
+            $this->document_repository->all()
+        );
+    }
+
+    public function documentMatches(Document $document, ilObjUser $user): bool
+    {
+        return $this->all(
             fn($c) => $this->toCondition($c->content())->eval($user),
             $document->criteria()
         );
-
-        return $this->find($document_matches, $this->document_repository->all());
     }
 
     public function repository(): DocumentRepository

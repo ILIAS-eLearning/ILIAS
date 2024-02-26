@@ -29,6 +29,7 @@ use ILIAS\LegalDocuments\TableSelection;
 use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
+use ILIAS\LegalDocuments\Legacy\ResettingDurationInputGUI;
 use ilLanguage;
 use ilTextInputGUI;
 use ilDateDurationInputGUI;
@@ -134,13 +135,14 @@ class HistoryTable implements Table
     private function time(): ilDateDurationInputGUI
     {
         class_exists(ilDateTime::class); // Trigger autoloader to ensure IL_CAL_UNIX is defined.
-        $duration = ($this->create)(ilDateDurationInputGUI::class, $this->ui->txt('period'), 'period');
+        $duration = ($this->create)(ResettingDurationInputGUI::class, $this->ui->txt('period'), 'period');
         $duration->setAllowOpenIntervals(true);
         $duration->setShowTime(true);
         $duration->setStartText($this->ui->txt('period_from'));
         $duration->setEndText($this->ui->txt('period_until'));
         $duration->setStart(($this->create)(ilDateTime::class, null, IL_CAL_UNIX));
         $duration->setEnd(($this->create)(ilDateTime::class, null, IL_CAL_UNIX));
+
         return $duration;
     }
 

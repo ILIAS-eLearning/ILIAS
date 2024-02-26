@@ -418,11 +418,10 @@ class ilRepositoryTrashGUI
                 } else {
                     $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
                 }
-            } catch (Exception $e) {
-                //$this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
-                // alex: I outcommented this, since it makes tracking down errors impossible
-                // we need a call stack at least in the logs
-                throw $e;
+            } catch (ilRepositoryException $e) {
+                // we catch ilRepositoryException, since this is usually permission related
+                // other exceptions are thrown to get call stacks
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             }
         }
     }

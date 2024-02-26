@@ -104,11 +104,15 @@ div.ilFrmPostHeader span.small {
 		height: 20px !important;
 	}
 
-	a {
+	a.il-link.link-bulky {
 		display: inline-block;
+		width: auto;
+		min-height: auto;
+		border: none;
+		background: inherit;
 	}
 
-	.il-link.link-bulky .bulky-label {
+	a.il-link.link-bulky .bulky-label {
 		display: none;
 	}
 }

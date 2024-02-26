@@ -18,10 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\GlobalScreen\Services as GSServices;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\DI\LoggingServices;
 
 /**
  * Output class for assessment test evaluation
@@ -94,8 +91,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $ret = $this->exportEvaluation($cmd);
                 } elseif (in_array($cmd, ['excel_all_test_runs_a', 'csv_a'])) {
                     $ret = $this->exportAggregatedResults($cmd);
-                } elseif ($cmd === 'certificate') {
-                    $ret = $this->exportCertificate();
                 } else {
                     $ret = $this->$cmd();
                 }
@@ -172,7 +167,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->ctrl->redirect($this, "outEvaluation");
     }
 
-    public function outEvaluation()
+    /**
+     * @param list<\ILIAS\UI\Component\Component>|null $prior_components And array of components to be rendered before the content
+     */
+    public function outEvaluation(?array $prior_components = null): void
     {
         $ilToolbar = $this->toolbar;
 
@@ -303,14 +301,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
                 $options = array(
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')', $this->ctrl->getLinkTarget($this, 'excel_scored_test_run')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             } else {
                 $options = array(
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
-                    $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')', $this->ctrl->getLinkTarget($this, 'excel_all_test_runs')),
+                    $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv'))
                 );
             }
 
@@ -318,7 +316,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 try {
                     $globalCertificatePrerequisites = new ilCertificateActiveValidator();
                     if ($globalCertificatePrerequisites->validate()) {
-                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'certificate'));
+                        $options[] = $this->ui_factory->button()->shy($this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_certificate'), $this->ctrl->getLinkTarget($this, 'exportCertificateArchive'));
                     }
                 } catch (ilException $e) {
                 }
@@ -329,7 +327,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $this->setCss();
-        $this->tpl->setContent($table_gui->getHTML());
+
+        $this->tpl->setContent($this->ui_renderer->render(
+            array_filter(array_merge(
+                $prior_components ?? [],
+                [$this->ui_factory->legacy($table_gui->getHTML())]
+            ))
+        ));
     }
 
     public function detailedEvaluation()
@@ -717,7 +721,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 if (strlen($filtertext)) {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
                 }
-                $this->ctrl->redirect($this, "exportCertificate");
+                $this->ctrl->redirect($this, "exportCertificateArchive");
                 break;
         }
     }
@@ -738,11 +742,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
     }
 
-    public function exportCertificate()
+    public function exportCertificateArchive(): void
     {
         $globalCertificatePrerequisites = new ilCertificateActiveValidator();
         if (!$globalCertificatePrerequisites->validate()) {
-            $this->er->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $database = $this->db;
@@ -765,38 +769,116 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $total_users = $this->object->evalTotalPersonsArray();
-        if (count($total_users)) {
-            $certValidator = new ilCertificateDownloadValidator();
+        if (count($total_users) === 0) {
+            $this->outEvaluation([
+                $this->ui_factory->messageBox()->info(
+                    $this->lng->txt('export_cert_no_users')
+                )
+            ]);
+            return;
+        }
 
-            foreach ($total_users as $active_id => $name) {
-                $user_id = $this->object->_getUserIdFromActiveId($active_id);
+        $certValidator = new ilCertificateDownloadValidator();
 
-                if (!$certValidator->isCertificateDownloadable($user_id, $objectId)) {
-                    continue;
-                }
+        $num_pdfs = 0;
+        $ignored_usr_ids = [];
+        $failed_pdf_generation_usr_ids = [];
+        foreach ($total_users as $active_id => $name) {
+            $user_id = ilObjTest::_getUserIdFromActiveId($active_id);
 
-                $pdfAction = new ilCertificatePdfAction(
-                    $pdfGenerator,
-                    new ilCertificateUtilHelper(),
-                    $this->lng->txt('error_creating_certificate_pdf')
+            if (!$certValidator->isCertificateDownloadable($user_id, $objectId)) {
+                $this->logging_services->root()->debug(
+                    sprintf(
+                        'No certificate available for user %s in test %s ' .
+                        '(Check if: ilServer is enabled / Certificates are enabled globally / ' .
+                        'A Certificate is issued for the user)',
+                        $user_id,
+                        $objectId
+                    )
                 );
-
-                $pdf = $pdfAction->createPDF($user_id, $objectId);
-                if (strlen($pdf)) {
-                    $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(
-                        " ",
-                        "_",
-                        ilFileUtils::getASCIIFilename($name)
-                    ) . ".pdf");
-                }
+                $ignored_usr_ids[] = $user_id;
+                continue;
             }
-            try {
-                $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
-            } catch(\ILIAS\Filesystem\Exception\IOException $e) {
-                $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('error_creating_certificate_zip_empty'), true);
-                $this->ctrl->redirect($this, 'outEvaluation');
+
+            $pdfAction = new ilCertificatePdfAction(
+                $pdfGenerator,
+                new ilCertificateUtilHelper(),
+                $this->lng->txt('error_creating_certificate_pdf')
+            );
+
+            $pdf = $pdfAction->createPDF($user_id, $objectId);
+            if ($pdf !== '') {
+                $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(
+                    " ",
+                    "_",
+                    ilFileUtils::getASCIIFilename($name)
+                ) . ".pdf");
+                ++$num_pdfs;
+            } else {
+                $this->logging_services->root()->error(
+                    sprintf(
+                        'The certificate service could not create a PDF for user %s and test %s',
+                        $user_id,
+                        $objectId
+                    )
+                );
+                $failed_pdf_generation_usr_ids[] = $user_id;
             }
         }
+
+        $components = [];
+
+        if ($num_pdfs > 0) {
+            try {
+                $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);
+            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
+                $this->logging_services->root()->error($e->getMessage());
+                $this->logging_services->root()->error($e->getTraceAsString());
+                $components[] = $this->ui_factory->messageBox()->failure(
+                    $this->lng->txt('error_creating_certificate_zip_empty')
+                );
+            }
+        }
+
+        if ($ignored_usr_ids !== []) {
+            $user_logins = array_map(
+                static fn ($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                $ignored_usr_ids
+            );
+            if (count($ignored_usr_ids) === 1) {
+                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                    $this->lng->txt('export_cert_ignored_for_users_s'),
+                    implode(', ', $user_logins)
+                ));
+            } else {
+                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                    $this->lng->txt('export_cert_ignored_for_users_p'),
+                    count($ignored_usr_ids),
+                    implode(', ', $user_logins)
+                ));
+            }
+        }
+
+        if ($failed_pdf_generation_usr_ids !== []) {
+            $user_logins = array_map(
+                static fn ($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                $failed_pdf_generation_usr_ids
+            );
+            if (count($failed_pdf_generation_usr_ids) === 1) {
+                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                    $this->lng->txt('export_cert_failed_for_users_s'),
+                    implode(', ', $user_logins)
+                ));
+            } else {
+                $components[] = $this->ui_factory->messageBox()->info(sprintf(
+                    $this->lng->txt('export_cert_failed_for_users_p'),
+                    count($ignored_usr_ids),
+                    implode(', ', $user_logins)
+                ));
+            }
+        }
+
+        $this->outEvaluation($components);
     }
 
     /**
@@ -1790,7 +1872,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $questionList->setParentObjId($this->object->getId());
         $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);
-        $questionList->setQuestionInstanceTypeFilter(null);
 
         foreach ($table_gui->getFilterItems() as $item) {
             if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {

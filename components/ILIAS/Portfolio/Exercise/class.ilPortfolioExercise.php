@@ -58,7 +58,7 @@ class ilPortfolioExercise
                 // #9988
                 $active_ref = false;
                 foreach (ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id) {
-                    if (!$tree->isSaved($ref_id)) {
+                    if (!$tree->isDeleted($ref_id)) {
                         $active_ref = true;
                         break;
                     }

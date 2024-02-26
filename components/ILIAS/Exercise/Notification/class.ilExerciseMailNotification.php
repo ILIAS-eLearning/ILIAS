@@ -288,7 +288,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         ),
                         $this->getLanguageText('exc_msg_new_message_from_pf_giver2') .
                         "\n\n" . $this->getAdditionalText(),
-                        $perma->getPermanentLink($this->ref_id, $this->getAssignmentId())
+                        $perma->getReceivedFeedbackLink($this->ref_id, $this->getAssignmentId())
                     );
                 }
                 break;

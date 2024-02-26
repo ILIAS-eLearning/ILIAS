@@ -23,6 +23,7 @@ use ILIAS\MetaData\Copyright\RepositoryInterface;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\MetaData\Copyright\Renderer;
 use ILIAS\MetaData\Copyright\DatabaseRepository;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * @deprecated use ILIAS/MetaData/Copyright/DatabaseRepository
@@ -98,8 +99,10 @@ class ilMDCopyrightSelectionEntry
         return $row->title ?? '';
     }
 
-    public static function _lookupCopyright(string $a_cp_string): string
-    {
+    public static function _lookupCopyright(
+        string $a_cp_string,
+        bool $for_export = false
+    ): string {
         global $DIC;
 
         $renderer = new Renderer(
@@ -114,10 +117,21 @@ class ilMDCopyrightSelectionEntry
         }
 
         $entry = $repository->getEntry($entry_id);
+        $components = $renderer->toUIComponents($entry->copyrightData());
 
-        return $ui_renderer->render(
-            $renderer->toUIComponents($entry->copyrightData())
-        );
+        /*
+         * Take icon out of the render if it comes from a file, to avoid
+         * file delivery links showing up in export files.
+         */
+        if ($for_export && !$entry->copyrightData()->isImageLink()) {
+            foreach ($components as $id => $component) {
+                if ($component instanceof Icon) {
+                    unset($components[$id]);
+                }
+            }
+        }
+
+        return $ui_renderer->render($components);
     }
 
     public static function lookupCopyrightByText(string $copyright_text): int
@@ -152,11 +166,21 @@ class ilMDCopyrightSelectionEntry
             $full_name = strip_tags($copyright_text);
         }
 
-        $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
-            'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
-            ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT) .
-            ' AND image_link = ' . $db->quote($image_link, ilDBConstants::T_TEXT) .
-            ' AND alt_text = ' . $db->quote($alt_text, ilDBConstants::T_TEXT);
+        /*
+         * Since the icon is not exported if it comes from a file, we have to be a bit
+         * more lenient with the matching if it's not there.
+         */
+        if ($image_link === '' && $alt_text === '') {
+            $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
+                'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
+                ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT);
+        } else {
+            $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
+                'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
+                ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT) .
+                ' AND image_link = ' . $db->quote($image_link, ilDBConstants::T_TEXT) .
+                ' AND alt_text = ' . $db->quote($alt_text, ilDBConstants::T_TEXT);
+        }
         $res = $db->query($query);
         while ($row = $db->fetchObject($res)) {
             return (int) $row->entry_id;

@@ -18,6 +18,7 @@
 
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalDomainService;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -60,7 +61,7 @@ class ilObjSurvey extends ilObject
     public const NOTIFICATION_APPRAISEES = 3;
     public const NOTIFICATION_RATERS = 4;
     public const NOTIFICATION_APPRAISEES_AND_RATERS = 5;
-
+    protected InternalDomainService $domain;
 
     protected ilLogger $svy_log;
     protected bool $activation_limited = false;
@@ -187,6 +188,7 @@ class ilObjSurvey extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
         $this->svy_log = ilLoggerFactory::getLogger("svy");
         $this->initServices();
+        $this->domain = $DIC->survey()->internal()->domain();
     }
 
     protected function initServices(): void
@@ -321,7 +323,9 @@ class ilObjSurvey extends ilObject
         );
         $this->deleteAllUserData(false);
 
-        $this->code_manager->deleteAll(true);
+        if (isset($this->code_manager)) {
+            $this->code_manager->deleteAll(true);
+        }
 
         // delete export files
         $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
@@ -385,6 +389,8 @@ class ilObjSurvey extends ilObject
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForCompleteObject();
         }
+
+        $this->invitation_manager->removeAll($this->getSurveyId());
     }
 
     /**
@@ -603,6 +609,12 @@ class ilObjSurvey extends ilObject
     public function insertQuestionblock(
         int $questionblock_id
     ): void {
+
+        $sequence_manager = $this->survey_service->domain()->sequence(
+            $this->getSurveyId(),
+            $this
+        );
+
         $ilDB = $this->db;
         $result = $ilDB->queryF(
             "SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.show_blocktitle," .
@@ -615,15 +627,16 @@ class ilObjSurvey extends ilObject
             array($questionblock_id)
         );
         $questions = array();
-        $show_questiontext = 0;
-        $show_blocktitle = 0;
+        $show_questiontext = false;
+        $show_blocktitle = false;
         $title = "";
         while ($row = $ilDB->fetchAssoc($result)) {
-            $duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            //$duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
+            $duplicate_id = $sequence_manager->appendQuestion($row["question_fi"], true);
             $questions[] = $duplicate_id;
-            $title = $row["title"];
-            $show_questiontext = $row["show_questiontext"];
-            $show_blocktitle = $row["show_blocktitle"];
+            $title = (string) $row["title"];
+            $show_questiontext = (bool) $row["show_questiontext"];
+            $show_blocktitle = (bool) $row["show_blocktitle"];
         }
         $this->createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions);
     }
@@ -2461,6 +2474,11 @@ class ilObjSurvey extends ilObject
             $user_id = (int) ilObjUser::_lookupId($recipient);
             if ($user_id > 0) {
                 $ntf->sendMailAndReturnRecipients([$user_id]);
+            } else {
+                $user_ids = ilObjUser::getUserIdsByEmail($recipient);
+                if (count($user_ids) > 0) {
+                    $ntf->sendMailAndReturnRecipients([current($user_ids)]);
+                }
             }
             /*  note: this block is replace by the single line above
                 since the UI asks for account names and the "e-mail" fallback leads
@@ -3209,7 +3227,7 @@ class ilObjSurvey extends ilObject
             if ($isZip) {
                 $importfile = $import_dir . "/" . $file_info["name"];
                 ilFileUtils::moveUploadedFile($source, $file_info["name"], $importfile);
-                ilFileUtils::unzip($importfile);
+                $this->domain->resources()->zip()->unzipFile($importfile);
                 $found = $this->locateImportFiles($import_dir);
                 if (!((strlen($found["dir"]) > 0) && (strlen($found["xml"]) > 0))) {
                     $error = $this->lng->txt("wrong_import_file_structure");
@@ -3371,11 +3389,11 @@ class ilObjSurvey extends ilObject
         foreach ($questionblocks as $key => $value) {
             $questionblock = self::_getQuestionblock($key);
             $questionblock_id = self::_addQuestionblock(
-                $questionblock["title"],
-                $questionblock["owner_fi"],
-                $questionblock["show_questiontext"],
-                $questionblock["show_blocktitle"],
-                $questionblock["compress_view"]
+                (string) $questionblock["title"],
+                (int) $questionblock["owner_fi"],
+                (bool) $questionblock["show_questiontext"],
+                (bool) $questionblock["show_blocktitle"],
+                (bool) $questionblock["compress_view"]
             );
             $questionblocks[$key] = $questionblock_id;
         }
@@ -4509,7 +4527,10 @@ class ilObjSurvey extends ilObject
 
             // send notification and add to desktop
             if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId())) {
-                $this->sendRaterNotification($a_user_id, $a_appraisee_id);
+                // out-commented, since adding raters will end in a mail
+                // form to send the mail "manually"
+                // otherwise two mails would be sent (tested in individual feedback)
+                //$this->sendRaterNotification($a_user_id, $a_appraisee_id);
             }
         }
     }

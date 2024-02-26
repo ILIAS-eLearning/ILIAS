@@ -40,12 +40,12 @@ class ilContextScorm implements ilContextTemplate
 
     public static function hasHTML(): bool
     {
-        return false;
+        return true;
     }
 
     public static function usesTemplate(): bool
     {
-        return false;
+        return true;
     }
 
     public static function initClient(): bool

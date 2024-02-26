@@ -197,16 +197,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         //check for SCORM 1.2
         $this->convert_1_2_to_2004($manifest_file);
 
-        // start SCORM 2004 package parser/importer
-        //        if ($this->getEditable()) {
-        //            return $newPack->il_importLM(
-        //                $this,
-        //                $this->getDataDirectory(),
-        //                $this->getImportSequencing()
-        //            );
-        //        } else {
         return (new ilSCORM13Package())->il_import($this->getDataDirectory(), $this->getId());
-        //        }
     }
 
 
@@ -237,7 +228,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $this->fixReload();
         $doc->load($this->imsmanifestFile);
         $elements = $doc->getElementsByTagName("schemaversion");
-        $schema = $elements->item(0)->nodeValue;
+        $schema = "";
+        if (isset($elements->item(0)->nodeValue)) {
+            $schema = $elements->item(0)->nodeValue;
+        }
         if (strtolower(trim($schema)) === "cam 1.3" || strtolower(trim($schema)) === "2004 3rd edition" || strtolower(trim($schema)) === "2004 4th edition") {
             //no conversion
             //            $this->converted = false;

@@ -137,8 +137,8 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
         $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
-        $icon_yes = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), 'yes'));
-        $icon_no = $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no'));
+        $icon_yes = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), 'yes');
+        $icon_no = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no');
 
         return  [
             'title' => $f->link($this->lng->txt('title')),
@@ -273,7 +273,16 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 return $a[$aspect] <=> $b[$aspect];
             }
 
-            return strcmp($a[$aspect], $b[$aspect]);
+            $aspect_a = '';
+            $aspect_b = '';
+            if ($a[$aspect] !== null) {
+                $aspect_a = $a[$aspect];
+            }
+            if ($b[$aspect] !== null) {
+                $aspect_b = $b[$aspect];
+            }
+
+            return strcmp($aspect_a, $aspect_b);
         });
 
         if ($direction === $order::DESC) {

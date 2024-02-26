@@ -26,9 +26,11 @@ use ILIAS\Exercise\InstructionFile\ilFSWebStorageExercise;
 use ILIAS\Exercise\InstructionFile\InstructionFileRepository;
 use ILIAS\Exercise\InternalRepoService;
 use ILIAS\Exercise\InternalDomainService;
+use ILIAS\ResourceStorage\Events\Event;
 
 class TutorFeedbackFileManager
 {
+    protected TutorFeedbackFileObserver $file_observer;
     protected int $ass_id;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected \ilExAssignmentTypeInterface $type;
@@ -41,12 +43,14 @@ class TutorFeedbackFileManager
         InternalRepoService $repo,
         InternalDomainService $domain,
         \ilExcTutorFeedbackFileStakeholder $stakeholder,
-        \ilExcTutorTeamFeedbackFileStakeholder $team_stakeholder
+        \ilExcTutorTeamFeedbackFileStakeholder $team_stakeholder,
+        TutorFeedbackFileObserver $file_observer
     ) {
         global $DIC;
 
         $this->upload = $DIC->upload();
 
+        $this->file_observer = $file_observer;
         $types = \ilExAssignmentTypes::getInstance();
         $this->type = $types->getById(\ilExAssignment::lookupType($ass_id));
         if ($this->type->usesTeams()) {
@@ -63,6 +67,58 @@ class TutorFeedbackFileManager
     public function getStakeholder(): ResourceStakeholder
     {
         return $this->stakeholder;
+    }
+
+    public function addObserver(): void
+    {
+        $this->domain->resourceStorage()->events()->attach(
+            $this->file_observer,
+            Event::COLLECTION_RESOURCE_ADDED
+        );
+    }
+
+    public function sendNotification(string $rcid, string $rid): void
+    {
+        $log = $this->domain->log();
+        $log->debug("Ass id: " . $this->ass_id);
+
+        $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
+        $ref_id = (int) current(\ilObject::_getAllReferences($exc_id));
+
+        $log->debug("Ref id: " . $ref_id);
+
+        if ($ref_id === 0) {
+            return;
+        }
+        $log->debug("Get notification");
+        $notification = $this->domain->notification($ref_id);
+        $log->debug("Get participant");
+        $part_id = $this->repo->getParticipantIdForRcid($this->ass_id, $rcid);
+        $log->debug("Get filename");
+        $filename = $this->repo->getFilenameForRid($this->ass_id, $part_id, $rid);
+        $log->debug("Get assignment");
+        $ass = new \ilExAssignment($this->ass_id);
+        $log->debug("Get submission");
+        $submission = new \ilExSubmission($ass, $part_id);
+        $feedback_id = $submission->getFeedbackId();
+        $noti_rec_ids = $submission->getUserIds();
+
+        $log->debug("Feedback id: " . $feedback_id);
+        if ($feedback_id) {
+            if ($noti_rec_ids) {
+                foreach ($noti_rec_ids as $user_id) {
+                    $member_status = $ass->getMemberStatus($user_id);
+                    $member_status->setFeedback(true);
+                    $member_status->update();
+                }
+
+                $notification->sendFeedbackNotification(
+                    $ass->getId(),
+                    $noti_rec_ids,
+                    $filename
+                );
+            }
+        }
     }
 
     public function hasCollection(int $participant_id): bool
@@ -91,8 +147,12 @@ class TutorFeedbackFileManager
         }
         // LEGACY
         $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-        $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
-        return $storage->countFeedbackFiles($this->getLegacyFeedbackId($participant_id));
+        try {
+            $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
+            return $storage->countFeedbackFiles($this->getLegacyFeedbackId($participant_id));
+        } catch (\ilExerciseException $e) {
+        }
+        return 0;
     }
 
     public function getFeedbackTitle(int $participant_id): string

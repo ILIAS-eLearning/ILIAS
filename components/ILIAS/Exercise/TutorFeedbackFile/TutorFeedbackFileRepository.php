@@ -106,6 +106,28 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
         throw new \ilExerciseException("Resource $file not found.");
     }
 
+    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string
+    {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $part_id) as $info) {
+            if ($rid === $info->getRid()) {
+                return $info->getTitle();
+            }
+        }
+        return "";
+    }
+
+    public function getParticipantIdForRcid(int $ass_id, string $rcid): int
+    {
+        $set = $this->db->queryF(
+            "SELECT usr_id FROM exc_mem_ass_status " .
+            " WHERE ass_id = %s AND feedback_rcid = %s",
+            ["integer", "text"],
+            [$ass_id, $rcid]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return (int) ($rec["usr_id"] ?? 0);
+    }
+
     /**
      * @return iterator<ResourceInformation>
      */

@@ -279,7 +279,7 @@ class ilLMNavigationStatus
                 $active = ilLMPage::_lookupActive(
                     $c_id,
                     $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
+                    (bool) $this->lm_set->get("time_scheduled_page_activation")
                 );
             }
             if (is_array($pre_node) && $pre_node["obj_id"] > 0 &&

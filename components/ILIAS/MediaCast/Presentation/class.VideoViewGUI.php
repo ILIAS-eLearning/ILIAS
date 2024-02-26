@@ -30,6 +30,7 @@ class VideoViewGUI
 {
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
+    protected string $rss_link;
     protected \ilToolbarGUI $toolbar;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected \ilObjMediaCast $media_cast;
@@ -42,11 +43,15 @@ class VideoViewGUI
     protected VideoSequence $video_sequence;
     protected string $video_wrapper_id = "mcst_video";
 
-    public function __construct(\ilObjMediaCast $obj, \ilGlobalTemplateInterface $tpl = null)
-    {
+    public function __construct(
+        \ilObjMediaCast $obj,
+        \ilGlobalTemplateInterface $tpl = null,
+        string $rss_link = ""
+    ) {
         global $DIC;
 
         $this->ui = $DIC->ui();
+        $this->rss_link = $rss_link;
         $this->lng = $DIC->language();
         $this->media_cast = $obj;
         $this->tpl = $tpl;
@@ -131,6 +136,17 @@ class VideoViewGUI
                 $(document).on('" . $autoplay_off . "', function (event, signalData) {
                     il.VideoPlaylist.autoplay('mcst_playlist', false);
                 });");
+        }
+
+        if ($this->rss_link !== "") {
+            $f = $this->ui->factory();
+            $actions = [
+                $f->link()->standard(
+                    $lng->txt("mcst_webfeed"),
+                    $this->rss_link
+                )->withOpenInNewViewport(true)
+            ];
+            $toolbar->addComponent($f->dropdown()->standard($actions));
         }
     }
 

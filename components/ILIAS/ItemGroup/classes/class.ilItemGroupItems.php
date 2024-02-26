@@ -155,11 +155,11 @@ class ilItemGroupItems
             // filter hidden files
             // see http://www.ilias.de/mantis/view.php?id=10269
             if ($node['type'] == "file" &&
-                ilObjFileAccess::_isFileHidden($node['title'])) {
+                ilObjFileAccess::_isFileHidden((string) $node['title'])) {
                 continue;
             }
 
-            if ($objDefinition->isInactivePlugin($node['type'])) {
+            if ($objDefinition->isInactivePlugin((string) $node['type'])) {
                 continue;
             }
 

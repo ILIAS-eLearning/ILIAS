@@ -62,11 +62,15 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     public function executeCommand(): void
     {
-        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(
-            INPUT_GET,
-            "ref_id",
-            FILTER_SANITIZE_NUMBER_INT
-        ))) {
+        if (
+            !ilObjOrgUnitAccess::_checkAccessPositions(
+                (int) filter_input(INPUT_GET, "ref_id", FILTER_SANITIZE_NUMBER_INT)
+            )
+            &&
+            !ilObjOrgUnitAccess::_checkAccessStaff(
+                (int) filter_input(INPUT_GET, "ref_id", FILTER_SANITIZE_NUMBER_INT)
+            )
+        ) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }

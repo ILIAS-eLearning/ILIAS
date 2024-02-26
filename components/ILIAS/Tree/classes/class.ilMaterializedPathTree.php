@@ -59,7 +59,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
     /**
      * Get tree object
      */
-    public function getTree(): \ilTree
+    protected function getTree(): \ilTree
     {
         return $this->tree;
     }

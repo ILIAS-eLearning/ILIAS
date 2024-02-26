@@ -69,6 +69,8 @@ abstract class ilMailSearchObjectGUI
         $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         $this->umail = new ilFormatMail($this->user->getId());
+
+        $this->lng->loadLanguageModule('mail');
     }
 
     private function isDefaultRequestContext(): bool
@@ -160,7 +162,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->addPermission($obj_ids);
             } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -216,7 +218,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->mailObjects();
             } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -390,7 +392,7 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($obj_ids === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
             $this->showMyObjects();
             return;
         }
@@ -398,7 +400,12 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             /** @var ilObjGroup|ilObjCourse $object */
             $object = ilObjectFactory::getInstanceByObjId($obj_id);
-            if (!$object->getShowMembers()) {
+
+            $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
+            $ref_id = $ref_ids[0];
+            $object->setRefId($ref_id);
+
+            if (!$this->doesExposeMembers($object)) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                 $this->showMyObjects();
                 return;
@@ -516,8 +523,9 @@ abstract class ilMailSearchObjectGUI
                     ilMailGlobalServices::getMailObjectRefId()
                 );
 
-                if ($has_untrashed_references && ($can_send_mails || $this->doesExposeMembers($object))) {
-                    $member_list_enabled = $object->getShowMembers();
+                $exposes_members = $this->doesExposeMembers($object);
+                ;
+                if ($has_untrashed_references && ($can_send_mails || $exposes_members)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
@@ -529,10 +537,8 @@ abstract class ilMailSearchObjectGUI
                     }
                     $usr_ids = array_values($usr_ids);
 
-                    $hiddenMembers = false;
-                    if (!$member_list_enabled) {
+                    if (!$exposes_members) {
                         ++$num_courses_hidden_members;
-                        $hiddenMembers = true;
                     }
 
                     $path_arr = $this->tree->getPathFull($object->getRefId(), $this->tree->getRootId());
@@ -565,27 +571,33 @@ abstract class ilMailSearchObjectGUI
                                 $this->ctrl->getLinkTarget($this, 'share')
                             );
                     }
-                    $buttons[] = $this->ui_factory
-                        ->button()
-                        ->shy(
-                            $this->lng->txt('mail_list_members'),
-                            $this->ctrl->getLinkTarget($this, 'showMembers')
-                        );
+
+                    if ($exposes_members) {
+                        $buttons[] = $this->ui_factory
+                            ->button()
+                            ->shy(
+                                $this->lng->txt('mail_list_members'),
+                                $this->ctrl->getLinkTarget($this, 'showMembers')
+                            );
+                    }
 
                     $this->ctrl->clearParameters($this);
 
-                    $drop_down = $this->ui_factory
-                        ->dropdown()
-                        ->standard($buttons)
-                        ->withLabel($this->lng->txt('actions'));
+                    $drop_down = null;
+                    if ($buttons !== []) {
+                        $drop_down = $this->ui_factory
+                            ->dropdown()
+                            ->standard($buttons)
+                            ->withLabel($this->lng->txt('actions'));
+                    }
 
                     $rowData = [
                         'OBJECT_ID' => $object->getId(),
                         'OBJECT_NAME' => $object->getTitle(),
                         'OBJECT_NO_MEMBERS' => count($usr_ids),
                         'OBJECT_PATH' => $path,
-                        'COMMAND_SELECTION_LIST' => $this->ui_renderer->render($drop_down),
-                        'hidden_members' => $hiddenMembers,
+                        'COMMAND_SELECTION_LIST' => $drop_down ? $this->ui_renderer->render($drop_down) : '',
+                        'hidden_members' => !$exposes_members,
                     ];
                     $counter++;
                     $tableData[] = $rowData;

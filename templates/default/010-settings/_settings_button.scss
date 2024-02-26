@@ -25,8 +25,8 @@ $il-btn-primary-bg: darken(s-color.$il-secondary-color, 10%) !default;
 $il-btn-primary-border: darken(s-color.$il-secondary-color, 10%) !default;
 
 //** Colors of engaged buttons
-$il-engaged-btn-color: s-color.$il-text-color;
-$il-engaged-btn-bg: white;
+$il-engaged-btn-color: s-color.$il-text-color !default;
+$il-engaged-btn-bg: white !default;
 
 //** Text color of the primary button (most important button on the screen)
 $il-btn-ctrl-color: s-color.$il-link-color !default;

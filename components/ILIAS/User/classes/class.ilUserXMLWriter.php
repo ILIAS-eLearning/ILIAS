@@ -115,7 +115,8 @@ class ilUserXMLWriter extends ilXmlWriter
 
         $prefs = ilObjUser::_getPreferences($row['usr_id']);
 
-        if (strlen($row['language']) == 0) {
+        if ($row['language'] === null
+            || $row['language'] === '') {
             $row['language'] = $this->lng->getDefaultLanguage();
         }
 
@@ -150,7 +151,7 @@ class ilUserXMLWriter extends ilXmlWriter
                 } else {
                     $type = 'Local';
                 }
-                if (strlen($type)) {
+                if ($type !== '') {
                     $this->xmlElement(
                         'Role',
                         ['Id' => 'il_' . IL_INST_ID . '_role_' . $rbacrow['rol_id'], 'Type' => $type],
@@ -206,11 +207,13 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement('ApproveDate', $row['approve_date'], null, 'approve_date');
         $this->__addElement('AgreeDate', $row['agree_date'], null, 'agree_date');
 
-        if (strlen($row['auth_mode']) > 0) {
+        if ($row['auth_mode'] !== null
+            && $row['auth_mode'] !== '') {
             $this->__addElement('AuthMode', null, ['type' => $row['auth_mode']], 'auth_mode', true);
         }
 
-        if (strlen($row['ext_account']) > 0) {
+        if ($row['ext_account'] !== null
+            && $row['ext_account'] !== '') {
             $this->__addElement('ExternalAccount', $row['ext_account'], null, 'ext_account', true);
         }
 

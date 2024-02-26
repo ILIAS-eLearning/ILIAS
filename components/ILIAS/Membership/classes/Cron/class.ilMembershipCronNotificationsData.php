@@ -37,22 +37,22 @@ class ilMembershipCronNotificationsData
     protected string $last_run_date;
     protected string $cron_id;
     protected ilLogger $log;
-    protected array $objects;
-    protected array $news = array();
+    protected array $objects = [];
+    protected array $news = [];
 
     /**
      * @var int[]
      */
-    protected array $news_per_user;
+    protected array $news_per_user = [];
 
     /**
      * news array (may include aggregated news which contains news as subitems)
      */
-    protected array $user_news_aggr = array();
-    protected array $likes = array();
-    protected array $comments = array();
-    protected array $missing_news_per_user = array();
-    protected array $missing_news = array();
+    protected array $user_news_aggr = [];
+    protected array $likes = [];
+    protected array $comments = [];
+    protected array $missing_news_per_user = [];
+    protected array $missing_news = [];
 
     protected ilAccessHandler $access;
 
@@ -240,8 +240,10 @@ class ilMembershipCronNotificationsData
             foreach ($r as $ref_id => $n) {
                 foreach ($n as $news_id) {
                     $this->log->debug("Load missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
-                    $this->user_news_aggr[$user_id][$ref_id][$news_id] = $this->news[$news_id];
-                    $this->news_per_user[$user_id][$ref_id][$news_id] = $news_id;
+                    if (isset($this->news[$news_id])) {
+                        $this->user_news_aggr[$user_id][$ref_id][$news_id] = $this->news[$news_id];
+                        $this->news_per_user[$user_id][$ref_id][$news_id] = $news_id;
+                    }
                 }
             }
         }

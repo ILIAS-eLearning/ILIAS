@@ -2,7 +2,7 @@
     let matchingquestion = () => {
         let init = () => {
             const add_links = document.getElementsByClassName('matchingwizard_add');
-            const remove_links = document.getElementsByClassName('matchingwizard_remove .glyph');
+            const remove_links = document.getElementsByClassName('matchingwizard_remove');
 
             for (const add_link of add_links) {
                 add_link.childNodes[0].addEventListener('click', (e) => {

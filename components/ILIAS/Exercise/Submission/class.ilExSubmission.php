@@ -29,6 +29,7 @@ class ilExSubmission
     public const TYPE_OBJECT = "Object";	// Blogs in WSP/Portfolio
     public const TYPE_TEXT = "Text";
     public const TYPE_REPO_OBJECT = "RepoObject";	// Wikis
+    protected \ILIAS\Exercise\InternalDomainService $domain;
 
     protected ilObjUser $user;
     protected ilDBInterface $db;
@@ -81,6 +82,7 @@ class ilExSubmission
         if ($this->assignment->getPeerReview()) {
             $this->peer_review = new ilExPeerReview($this->assignment);
         }
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     public function getSubmissionType(): string
@@ -531,7 +533,7 @@ class ilExSubmission
             }
 
             $row["timestamp"] = $row["ts"];
-            $row["filename"] = $path . "/" . $storage_id . "/" . basename($row["filename"]);
+            $row["filename"] = $path . "/" . $storage_id . "/" . basename($row["filename"] ?? "");
             $delivered[] = $row;
         }
 
@@ -1081,6 +1083,7 @@ class ilExSubmission
 
         $lng = $DIC->language();
         $log = ilLoggerFactory::getLogger("exc");
+        $domain = $DIC->exercise()->internal()->domain();
 
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $storage->create();
@@ -1226,7 +1229,7 @@ class ilExSubmission
                         $log->debug("Unzipping: " . $targetfile);
                         $log->debug("Current directory is: " . getcwd());
 
-                        ilFileUtils::unzip($targetfile);
+                        $domain->resources()->zip()->unzipFile($targetfile);
                         unlink($targetfile);
                     }
                 }
@@ -1245,9 +1248,7 @@ class ilExSubmission
 
             //unzip the submissions zip file.(decided to unzip to allow the excel link the files more obvious when blog/portfolio)
             chdir($to_path);
-            //TODO Bug in ilUtil -> if flat unzip fails. We can get rid of creating Submissions directory
-            //ilUtil::unzip($path_final_zip_file,FALSE, TRUE);
-            ilFileUtils::unzip($path_final_zip_file);
+            $domain->resources()->zip()->unzipFile($path_final_zip_file);
             unlink($path_final_zip_file);
         }
 

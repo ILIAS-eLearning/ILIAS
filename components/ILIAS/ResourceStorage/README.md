@@ -457,3 +457,17 @@ As I said, if you are a consumer of the IRSS, you use the Consumers approach any
 
 Please see the roapmap of the service in [README.md](ROADMAP.md)
 
+# Events
+The IRSS offers an interface for events, which follows the general observer pattern. To be informed about events, a separate class is implemented with the interface `\ILIAS\ResourceStorage\Events\Observer`. This can be registered via the IRSS service:
+
+```php
+global $DIC;
+$observer = new MyObserver(); // implements \ILIAS\ResourceStorage\Events\Observer
+$DIC->resourceStorage()->events()->attach(
+    $observer, 
+    \ILIAS\ResourceStorage\Events\Event::COLLECTION_RESOURCE_ADDED
+);
+```
+
+For the example of the event `\ILIAS\ResourceStorage\Events\Event::COLLECTION_RESOURCE_ADDED`, the data obtained is the class `\ILIAS\ResourceStorage\Events\CollectionData` with the ResourceIdentification and the ResourceCollectionIdentification each as a string.
+As soon as further events are available, these are described in the enum `\ILIAS\ResourceStorage\Events\Event` and here in the README.

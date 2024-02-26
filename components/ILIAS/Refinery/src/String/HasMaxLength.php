@@ -22,11 +22,11 @@ namespace ILIAS\Refinery\String;
 
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class HasMaxLength extends Constraint
 {
-    public function __construct(int $max_length, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(int $max_length, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         parent::__construct(
             static function ($value) use ($max_length): bool {

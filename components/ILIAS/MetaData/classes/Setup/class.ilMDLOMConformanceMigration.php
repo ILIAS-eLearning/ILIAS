@@ -22,6 +22,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
+use ILIAS\Setup\CLI\IOWrapper;
 
 class ilMDLOMConformanceMigration implements Setup\Migration
 {
@@ -29,6 +30,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
     protected const MAX_LOOPS = 10000;
 
     protected ilDBInterface $db;
+    protected IOWrapper $io;
 
     public function getLabel(): string
     {
@@ -52,10 +54,17 @@ class ilMDLOMConformanceMigration implements Setup\Migration
     public function prepare(Environment $environment): void
     {
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);
+
+        $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof IOWrapper) {
+            $this->io = $io;
+        }
     }
 
     public function step(Environment $environment): void
     {
+        $this->startLog();
+
         $this->migrateCoverage(); // general > coverage
         $this->setIndices('il_meta_coverage');
 
@@ -113,7 +122,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
     protected function setIndices(string $table): void
     {
         if (!$this->areIndicesSet($table)) {
-            $this->log('Set index for ' . $table);
+            $this->logDetailed('Set index for ' . $table);
             $this->db->addIndex($table, ['rbac_id', 'obj_id'], 'i1');
         }
     }
@@ -125,6 +134,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             $this->migrateSetOfCoverages(self::SELECT_LIMIT);
             $count++;
         }
+        $this->logSuccess('Migrated all coverages.');
     }
 
     protected function migrateSetOfCoverages(int $limit): void
@@ -137,7 +147,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
         );
 
         while ($coverage = $this->db->fetchAssoc($coverages)) {
-            $this->log('Insert coverage from meta_general_id ' . $coverage['meta_general_id']);
+            $this->logDetailed('Insert coverage from meta_general_id ' . $coverage['meta_general_id']);
             $next_id = $this->db->nextId('il_meta_coverage');
             $this->db->manipulate(
                 "INSERT INTO il_meta_coverage (meta_coverage_id, rbac_id, obj_id,
@@ -151,7 +161,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                 $this->db->quote($coverage['coverage'], ilDBConstants::T_TEXT) . ", " .
                 $this->db->quote($coverage['coverage_language'], ilDBConstants::T_TEXT) . ")"
             );
-            $this->log('Success, deleting old entry');
+            $this->logDetailed('Success, deleting old entry');
             $this->db->manipulate(
                 "UPDATE il_meta_general SET coverage = '', coverage_language = ''
                 WHERE meta_general_id = " . $this->db->quote($coverage['meta_general_id'], ilDBConstants::T_INTEGER)
@@ -178,6 +188,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             $this->migrateSetOfSchemas(self::SELECT_LIMIT);
             $count++;
         }
+        $this->logSuccess('Migrated all schemas.');
     }
 
     protected function migrateSetOfSchemas(int $limit): void
@@ -189,7 +200,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
         );
 
         while ($schema = $this->db->fetchAssoc($schemas)) {
-            $this->log('Insert schema from meta_meta_data_id ' . $schema['meta_meta_data_id']);
+            $this->logDetailed('Insert schema from meta_meta_data_id ' . $schema['meta_meta_data_id']);
             $next_id = $this->db->nextId('il_meta_meta_schema');
             $this->db->manipulate(
                 "INSERT INTO il_meta_meta_schema (meta_meta_schema_id, rbac_id, obj_id,
@@ -202,7 +213,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                 $this->db->quote($schema['meta_meta_data_id'], ilDBConstants::T_INTEGER) . ", " .
                 $this->db->quote('LOMv1.0', ilDBConstants::T_TEXT) . ")"
             );
-            $this->log('Success, deleting old entry');
+            $this->logDetailed('Success, deleting old entry');
             $this->db->manipulate(
                 "UPDATE il_meta_meta_data SET meta_data_scheme = '' WHERE meta_meta_data_id = " .
                 $this->db->quote($schema['meta_meta_data_id'], ilDBConstants::T_INTEGER)
@@ -228,6 +239,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             $this->migrateSetOfOrComposites(self::SELECT_LIMIT);
             $count++;
         }
+        $this->logSuccess('Migrated all orComposites.');
     }
 
     protected function migrateSetOfOrComposites(int $limit): void
@@ -254,7 +266,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                 ($or['browser_maximum_version'] ?? '') !== '';
 
             if ($has_os) {
-                $this->log('Insert orComposite (type os) from meta_requirement_id ' . $or['meta_requirement_id']);
+                $this->logDetailed('Insert orComposite (type os) from meta_requirement_id ' . $or['meta_requirement_id']);
                 $next_id = $this->db->nextId('il_meta_or_composite');
                 $name = $this->normalizeOrCompositeName($or['operating_system_name']);
                 $this->db->manipulate(
@@ -271,7 +283,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                     $this->db->quote($or['os_min_version'], ilDBConstants::T_TEXT) . ", " .
                     $this->db->quote($or['os_max_version'], ilDBConstants::T_TEXT) . ")"
                 );
-                $this->log('Success, deleting old entry');
+                $this->logDetailed('Success, deleting old entry');
                 $this->db->manipulate(
                     "UPDATE il_meta_requirement SET operating_system_name = '', os_min_version = '',
                     os_max_version = '' WHERE meta_requirement_id = " .
@@ -280,7 +292,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             }
 
             if ($has_browser) {
-                $this->log('Insert orComposite (type browser) from meta_requirement_id ' . $or['meta_requirement_id']);
+                $this->logDetailed('Insert orComposite (type browser) from meta_requirement_id ' . $or['meta_requirement_id']);
                 $next_id = $this->db->nextId('il_meta_or_composite');
                 $name = $this->normalizeOrCompositeName($or['browser_name']);
                 $this->db->manipulate(
@@ -297,7 +309,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                     $this->db->quote($or['browser_minimum_version'], ilDBConstants::T_TEXT) . ", " .
                     $this->db->quote($or['browser_maximum_version'], ilDBConstants::T_TEXT) . ")"
                 );
-                $this->log('Success, deleting old entry');
+                $this->logDetailed('Success, deleting old entry');
                 $this->db->manipulate(
                     "UPDATE il_meta_requirement SET browser_name = '', browser_minimum_version = '',
                     browser_maximum_version = '' WHERE meta_requirement_id = " .
@@ -350,6 +362,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             $this->migrateSetFromEducational(self::SELECT_LIMIT);
             $count++;
         }
+        $this->logSuccess('Migrated all learningResourceTypes, intendedEndUserRoles, and contexts.');
     }
 
     protected function migrateSetFromEducational(int $limit): void
@@ -368,7 +381,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             $has_context = ($educational['context'] ?? '') !== '';
 
             if ($has_type) {
-                $this->log('Insert learningResourceType from meta_educational_id ' . $educational['meta_educational_id']);
+                $this->logDetailed('Insert learningResourceType from meta_educational_id ' . $educational['meta_educational_id']);
                 $next_id = $this->db->nextId('il_meta_lr_type');
                 $type = $this->normalizeLearningResourceType($educational['learning_resource_type']);
                 $this->db->manipulate(
@@ -382,7 +395,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER) . ", " .
                     $this->db->quote($type, ilDBConstants::T_TEXT) . ")"
                 );
-                $this->log('Success, deleting old entry');
+                $this->logDetailed('Success, deleting old entry');
                 $this->db->manipulate(
                     "UPDATE il_meta_educational SET learning_resource_type = '' WHERE meta_educational_id = " .
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER)
@@ -390,7 +403,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             }
 
             if ($has_role) {
-                $this->log('Insert intendedEndUserRole from meta_educational_id ' . $educational['meta_educational_id']);
+                $this->logDetailed('Insert intendedEndUserRole from meta_educational_id ' . $educational['meta_educational_id']);
                 $next_id = $this->db->nextId('il_meta_end_usr_role');
                 $role = $this->normalizeIntendedEndUserRole($educational['intended_end_user_role']);
                 $this->db->manipulate(
@@ -404,7 +417,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER) . ", " .
                     $this->db->quote($role, ilDBConstants::T_TEXT) . ")"
                 );
-                $this->log('Success, deleting old entry');
+                $this->logDetailed('Success, deleting old entry');
                 $this->db->manipulate(
                     "UPDATE il_meta_educational SET intended_end_user_role = '' WHERE meta_educational_id = " .
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER)
@@ -412,7 +425,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
             }
 
             if ($has_context) {
-                $this->log('Insert context from meta_educational_id ' . $educational['meta_educational_id']);
+                $this->logDetailed('Insert context from meta_educational_id ' . $educational['meta_educational_id']);
                 $next_id = $this->db->nextId('il_meta_context');
                 $context = $this->normalizeContext($educational['context']);
                 $this->db->manipulate(
@@ -426,7 +439,7 @@ class ilMDLOMConformanceMigration implements Setup\Migration
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER) . ", " .
                     $this->db->quote($context, ilDBConstants::T_TEXT) . ")"
                 );
-                $this->log('Success, deleting old entry');
+                $this->logDetailed('Success, deleting old entry');
                 $this->db->manipulate(
                     "UPDATE il_meta_educational SET context = '' WHERE meta_educational_id = " .
                     $this->db->quote($educational['meta_educational_id'], ilDBConstants::T_INTEGER)
@@ -504,8 +517,27 @@ class ilMDLOMConformanceMigration implements Setup\Migration
         return $name;
     }
 
-    protected function log(string $str): void
+    protected function logDetailed(string $str): void
     {
-        echo "\n" . $str;
+        if (!isset($this->io) || !$this->io->isVerbose()) {
+            return;
+        }
+        $this->io->inform($str);
+    }
+
+    protected function logSuccess(string $str): void
+    {
+        if (!isset($this->io)) {
+            return;
+        }
+        $this->io->success($str);
+    }
+
+    protected function startLog(): void
+    {
+        if (!isset($this->io)) {
+            return;
+        }
+        $this->io->text('');
     }
 }

@@ -30,20 +30,20 @@ use ILIAS\Refinery\Logical\Parallel;
 use ILIAS\Refinery\Logical\Sequential;
 use ILIAS\Refinery\Logical\Group as LogicalGroup;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {
     private LogicalGroup $group;
     private DataFactory $dataFactory;
-    private ilLanguage $language;
+    private Language $language;
     private Constraint $greaterThanConstraint;
     private Constraint $lessThanConstaint;
 
     protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
-        $this->language = $this->getMockBuilder(ilLanguage::class)
+        $this->language = $this->getMockBuilder(Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

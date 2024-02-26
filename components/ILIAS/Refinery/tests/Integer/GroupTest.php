@@ -27,7 +27,7 @@ use ILIAS\Refinery\Integer\LessThan;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Integer\GreaterThanOrEqual;
 use ILIAS\Refinery\Integer\LessThanOrEqual;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {
@@ -36,7 +36,7 @@ class GroupTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new Factory();
-        $language = $this->getMockBuilder(ilLanguage::class)
+        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Tree class
@@ -240,7 +240,7 @@ class ilTree
     /**
      * Check if cache is active
      */
-    public function isCacheUsed(): bool
+    protected function isCacheUsed(): bool
     {
         return $this->__isMainTree() && $this->use_cache;
     }
@@ -259,11 +259,6 @@ class ilTree
     public function getParentCache(): array
     {
         return $this->parent_cache;
-    }
-
-    protected function getLangCode(): string
-    {
-        return $this->lang_code;
     }
 
     /**
@@ -327,7 +322,7 @@ class ilTree
     /**
      * reset in tree cache
      */
-    public function resetInTreeCache(): void
+    protected function resetInTreeCache(): void
     {
         $this->in_tree_cache = array();
     }
@@ -641,11 +636,7 @@ class ilTree
             throw new InvalidArgumentException('Node already in tree.');
         }
 
-        $query = 'DELETE from tree ' .
-            'WHERE tree = ' . $this->db->quote($a_tree_id, 'integer') . ' ' .
-            'AND child = ' . $this->db->quote($a_source_id, 'integer');
-        $this->db->manipulate($query);
-
+        ilTree::_removeEntry($a_tree_id, $a_source_id, 'tree');
         $this->insertNode($a_source_id, $a_target_id, self::POS_LAST_NODE, $a_reset_deleted_date);
     }
 
@@ -1254,18 +1245,10 @@ class ilTree
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-
-        if ($this->table_obj_reference) {
-            // Use inner join instead of left join to improve performance
-            $innerjoin = "JOIN " . $this->table_obj_reference . " ON v.child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
-                "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
-        } else {
-            // Use inner join instead of left join to improve performance
-            $innerjoin = "JOIN " . $this->table_obj_data . " ON v.child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
-        }
+        $join = $this->buildJoin();
 
         $query = 'SELECT * FROM ' . $this->table_tree . ' s, ' . $this->table_tree . ' v ' .
-            $innerjoin .
+            $join .
             'WHERE s.child = %s ' .
             'AND s.parent = v.child ' .
             'AND s.' . $this->tree_pk . ' = %s ' .
@@ -1395,17 +1378,9 @@ class ilTree
 
     /**
      * This is a wrapper for isSaved() with a more useful name
-     */
-    public function isDeleted(int $a_node_id): bool
-    {
-        return $this->isSaved($a_node_id);
-    }
-
-    /**
-     * Use method isDeleted
      * @deprecated since 4.4.0
      */
-    public function isSaved(int $a_node_id): bool
+    public function isDeleted(int $a_node_id): bool
     {
         if ($this->isCacheUsed() && isset($this->is_saved_cache[$a_node_id])) {
             return $this->is_saved_cache[$a_node_id];
@@ -1539,73 +1514,19 @@ class ilTree
     }
 
     /**
-     * get left value of given node
-     * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
-     */
-    public function getLeftValue(int $a_node_id): int
-    {
-        global $DIC;
-
-        if (!isset($a_node_id)) {
-            $message = "No node_id given!";
-            $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE child = %s ' .
-            'AND ' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-        $row = $this->db->fetchObject($res);
-        return (int) $row->lft;
-    }
-
-    /**
      * get sequence number of node in sibling sequence
-     * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
+     * @throws LogicException
      */
     public function getChildSequenceNumber(array $a_node, string $type = ""): int
     {
-        if (!isset($a_node)) {
-            $message = "No node_id given!";
-            $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        if ($type) {
-            $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft <= %s ' .
-                'AND type = %s ' .
-                'AND parent = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer', 'integer'), array(
-                $a_node['lft'],
-                $type,
-                $a_node['parent'],
-                $this->tree_id
-            ));
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->getChildSequenceNumber($a_node, $type);
         } else {
-            $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft <= %s ' .
-                'AND parent = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-
-            $res = $this->db->queryF($query, array('integer', 'integer', 'integer'), array(
-                $a_node['lft'],
-                $a_node['parent'],
-                $this->tree_id
-            ));
+            $message = "This tree is not part of ilNestedSetTree.";
+            $this->logger->error($message);
+            throw new LogicException($message);
         }
-        $row = $this->db->fetchAssoc($res);
-        return (int) $row["cnt"];
     }
 
     public function readRootId(): int
@@ -1639,119 +1560,35 @@ class ilTree
         return $this->tree_id;
     }
 
-    public function setTreeId(int $a_tree_id): void
-    {
-        $this->tree_id = $a_tree_id;
-    }
-
     /**
      * get node data of successor node
-     * @throws InvalidArgumentException
-     * @todo  move to tree implementation and throw NotImplementedException for materialized path implementation
-     * @fixme fix return false
+     * @throws LogicException
      */
     public function fetchSuccessorNode(int $a_node_id, string $a_type = ""): ?array
     {
-        // get lft value for current node
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE ' . $this->table_tree . '.child = %s ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-        $curr_node = $this->db->fetchAssoc($res);
-
-        if ($a_type) {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft > %s ' .
-                'AND ' . $this->table_obj_data . '.type = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft ';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
-                $curr_node['lft'],
-                $a_type,
-                $this->tree_id
-            ));
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->fetchSuccessorNode($a_node_id, $a_type);
         } else {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft > %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft ';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'integer'), array(
-                $curr_node['lft'],
-                $this->tree_id
-            ));
-        }
-
-        if ($res->numRows() < 1) {
-            return null;
-        } else {
-            $row = $this->db->fetchAssoc($res);
-            return $this->fetchNodeData($row);
+            $message = "This tree is not part of ilNestedSetTree.";
+            $this->logger->error($message);
+            throw new LogicException($message);
         }
     }
 
     /**
      * get node data of predecessor node
-     * @throws InvalidArgumentException
-     * @todo  move to tree implementation and throw NotImplementedException for materialized path implementation
-     * @fixme fix return false
+     * @throws LogicException
      */
     public function fetchPredecessorNode(int $a_node_id, string $a_type = ""): ?array
     {
-        if (!isset($a_node_id)) {
-            $message = "No node_id given!";
+        $tree_implementation = $this->getTreeImplementation();
+        if ($tree_implementation instanceof ilNestedSetTree) {
+            return $tree_implementation->fetchPredecessorNode($a_node_id, $a_type);
+        } else {
+            $message = "This tree is not part of ilNestedSetTree.";
             $this->logger->error($message);
-            throw new InvalidArgumentException($message);
-        }
-
-        // get lft value for current node
-        $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
-            'WHERE ' . $this->table_tree . '.child = %s ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer', 'integer'), array(
-            $a_node_id,
-            $this->tree_id
-        ));
-
-        $curr_node = $this->db->fetchAssoc($res);
-
-        if ($a_type) {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft < %s ' .
-                'AND ' . $this->table_obj_data . '.type = %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft DESC';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
-                $curr_node['lft'],
-                $a_type,
-                $this->tree_id
-            ));
-        } else {
-            $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                'WHERE lft < %s ' .
-                'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft DESC';
-            $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer', 'integer'), array(
-                $curr_node['lft'],
-                $this->tree_id
-            ));
-        }
-
-        if ($res->numRows() < 1) {
-            return null;
-        } else {
-            $row = $this->db->fetchAssoc($res);
-            return $this->fetchNodeData($row);
+            throw new LogicException($message);
         }
     }
 
@@ -1783,7 +1620,7 @@ class ilTree
      * renumber left/right values and close the gaps in numbers
      * (recursive)
      */
-    private function __renumber(int $node_id = 1, int $i = 1): int
+    protected function __renumber(int $node_id = 1, int $i = 1): int
     {
         if ($this->isRepositoryTree()) {
             $query = 'UPDATE ' . $this->table_tree . ' SET lft = %s WHERE child = %s';
@@ -1944,7 +1781,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __checkDelete(array $a_node): bool
+    protected function __checkDelete(array $a_node): bool
     {
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, [], false);
         $this->logger->debug($query);
@@ -1976,7 +1813,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __getSubTreeByParentRelation(int $a_node_id, array &$parent_childs): bool
+    protected function __getSubTreeByParentRelation(int $a_node_id, array &$parent_childs): bool
     {
         // GET PARENT ID
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
@@ -2019,7 +1856,7 @@ class ilTree
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
      */
-    public function __validateSubtrees(array &$lft_childs, array $parent_childs): bool
+    protected function __validateSubtrees(array &$lft_childs, array $parent_childs): bool
     {
         // SORT BY KEY
         ksort($lft_childs);
@@ -2193,7 +2030,7 @@ class ilTree
     /**
      * check if current tree instance operates on repository tree table
      */
-    public function isRepositoryTree(): bool
+    protected function isRepositoryTree(): bool
     {
         return $this->table_tree == 'tree';
     }

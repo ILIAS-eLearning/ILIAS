@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             return true;
         };
 
-        $($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
+        $(window).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
     });
     <!-- END js_remove_handler -->
 });

@@ -18,8 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\components\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 
 final class ilObjEmployeeTalkSeries extends ilContainer
 {

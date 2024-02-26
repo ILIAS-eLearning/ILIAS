@@ -212,6 +212,13 @@ class ilMailGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
+            case strtolower(ilMailAttachmentGUI::class):
+                $this->tpl->setTitle($this->lng->txt('mail'));
+                $gui = new ilMailAttachmentGUI();
+                $gui->manage();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilMailOptionsGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
@@ -299,6 +306,17 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         );
         $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
+        $this->ctrl->setParameterByClass(
+            ilMailAttachmentGUI::class,
+            'mobj_id',
+            $this->currentFolderId
+        );
+        $DIC->tabs()->addTarget(
+            'mail_manage_attachments',
+            $this->ctrl->getLinkTargetByClass([self::class, ilMailAttachmentGUI::class])
+        );
+        $this->ctrl->clearParametersByClass(ilMailAttachmentGUI::class);
+
         if ($DIC->settings()->get('show_mail_settings', '0')) {
             $this->ctrl->setParameterByClass(
                 ilMailOptionsGUI::class,
@@ -316,6 +334,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             strtolower(ilMailFormGUI::class) => $DIC->tabs()->setTabActive('compose'),
             strtolower(ilContactGUI::class) => $DIC->tabs()->setTabActive('mail_addressbook'),
             strtolower(ilMailOptionsGUI::class) => $DIC->tabs()->setTabActive('options'),
+            strtolower(ilMailAttachmentGUI::class) => $DIC->tabs()->setTabActive('mail_manage_attachments'),
             default => $DIC->tabs()->setTabActive('fold'),
         };
 

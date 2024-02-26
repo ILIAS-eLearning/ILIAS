@@ -16,17 +16,16 @@
  *
  *********************************************************************/
 
-/**
- * @author Helmut Schottmueller <helmut.schottmueller@mac.com>
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 {
     public static function _getCommands(): array
     {
         $commands = array(
-            array("permission" => "read", "cmd" => "questions", "lang_var" => "edit_questions",
-                "default" => true),
+            array("permission" => "read",
+                  "cmd" => "questions",
+                  "lang_var" => "edit_questions",
+                  "default" => true
+            ),
             array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
             array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
         );
@@ -47,5 +46,18 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
             return true;
         }
         return false;
+    }
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
+    {
+        global $DIC;
+        $ilAccess = $DIC->access();
+
+        if (in_array($permission, ["read", "visible"]) && !ilObjSurveyQuestionPool::_lookupOnline(ilObject::_lookupObjId($ref_id))) {
+            if (!$ilAccess->checkAccessOfUser($user_id, "write", "", $ref_id)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

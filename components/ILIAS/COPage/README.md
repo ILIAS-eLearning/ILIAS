@@ -18,6 +18,7 @@ During editing footnotes are not replaced with the numbering scheme, since this 
 ## Internal Links
 
 - Not all contexts support internal links. If the "More > Link" menu does not offer the menu item "Internal Link" while editing text paragraphs, the context does not support internal links. If the internal link format is used anyway in a paragraph, e.g. by copying it from other sources, the outcome (both in editing and presentation) is currently undefined.
+- If containers are copied and container page content links to sub-containers (e.g. folders), you need to use internal links and instance link areas for media objects to have them updated during the copy process.
 
 ## Anchors
 
@@ -36,7 +37,7 @@ During editing footnotes are not replaced with the numbering scheme, since this 
 ## Copying Content
 
 - Media objects are referenced when pages are copied. This behaviour is relevant for almost all copy processes that include COPage content.
-- If containers are copied and container page content links to sub-containers (e.g. folders), you need to use internal links and instance link areas for media objects to have them updated during the copy process.
+- For link behaviour during copy process see chapter "Internal Links".
 
 ## Media Editing
 

@@ -46,9 +46,9 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessMob(
         int $obj_id
     ): bool {
+
         foreach (ilObjMediaObject::lookupUsages($obj_id) as $usage) {
             $oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
-
             // for content snippets we must get their usages and check them
             switch ($usage["type"]) {
                 case "auth:pg":

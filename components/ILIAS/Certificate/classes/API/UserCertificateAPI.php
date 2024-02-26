@@ -120,6 +120,15 @@ class UserCertificateAPI implements UserCertificateApiInterface
         $this->certificateCriteriaMetForGivenTemplate($usr_id, $template);
     }
 
+    public function isActiveCertificateTemplateAvailableFor(int $obj_id): bool
+    {
+        try {
+            return $this->template_repository->fetchCurrentlyActiveCertificate($obj_id)->isCurrentlyActive();
+        } catch (ilCouldNotFindCertificateTemplate) {
+            return false;
+        }
+    }
+
     /**
      * @throws ilCertificateIssuingObjectNotFound
      * @throws ilCertificateOwnerNotFound

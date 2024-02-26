@@ -134,7 +134,7 @@ A components folder also contains this substructure:
 * `/src` for the code to be used for production
 * `/tests` for code that performs automated tests
 * `/resources` for auxiliary files like icons, endpoints
-* a `$COMPONENT.php` (e.g. AccessControl.php) that defines the binding of the
+* a `Component.php` that defines the binding of the
   component to the rest of the system
 * a `component.json` that contains component metadata, such as contact of
   maintainers
@@ -212,8 +212,8 @@ define the integration.
 
 The integrations are defined by implementing the interface `\ILIAS\Core\Component`
 for the class that has the same qualified name as the component it ought to describe.
-The component `Vendor\SomeComponent` should have file `SomeComponent.php` in its
-folder, containing a class `Vendor\SomeComponent`. The interface `\ILIAS\Core\Component`
+The component `Vendor\SomeComponent` should have file `Component.php` in its folder,
+containing a class `Vendor\SomeComponent`. The interface `\ILIAS\Core\Component`
 defines one method `init`, that describes the integration with other components:
 
 ```php
@@ -226,8 +226,8 @@ class SomeComponent implements Component
         array | \ArrayAccess &$define,
         array | \ArrayAccess &$implement,
         array | \ArrayAccess &$use,
-        array | \ArrayAccess &$seek,
         array | \ArrayAccess &$contribute,
+        array | \ArrayAccess &$seek,
         array | \ArrayAccess &$provide,
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
@@ -358,31 +358,11 @@ class Component implements \ILIAS\Core\Component
         array | \ArrayAccess &$define,
         // ...
     ) {
-        $define[Vendor\Component\Service::class] = null;
+        $define[] = Vendor\Component\Service::class];
     }
 ```
 
-This just announces the existence of the service to the system. The component might
-also provide a [Null-object](https://en.wikipedia.org/wiki/Null_object_pattern) or
-a minimal implementation for the service:
-
-```php
-namespace Vendor;
-
-use Vendor\Component\Service;
-
-class Component implements \ILIAS\Core\Component
-{
-    public function init(
-        array | \ArrayAccess &$define,
-        // ...
-    ) {
-        $define[Vendor\Component\Service::class] = fn () => new NullService();
-    }
-```
-
-The Null-object or minimal implementation may not depend on anything else and need
-to have an empty parameter list in its constructor.
+This just announces the existence of the service to the system.
 
 #### Why?
 
@@ -390,11 +370,6 @@ Before this proposal there is no unified way to speak about or announce services
 service interfaces in ILIAS. This proposal will allow to discover all services that
 are available in a given ILIAS codebase with a simple grep statement. More complex
 search or analysis can be build accordingly.
-
-The possibility to define a null object or minimal implementation will provide leafs
-in the dependency tree that we will need for initialisation. The future initialisation
-will use a heuristic with some possibility for configuration to define how dependencies
-are resolved. Minimal or null objects will provide options for that heuristic.
 
 
 ### Use Service

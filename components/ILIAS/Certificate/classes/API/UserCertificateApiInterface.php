@@ -55,4 +55,6 @@ interface UserCertificateApiInterface
      * @throws ilInvalidCertificateException
      */
     public function certificateCriteriaMet(int $usr_id, int $obj_id): void;
+
+    public function isActiveCertificateTemplateAvailableFor(int $obj_id): bool;
 }

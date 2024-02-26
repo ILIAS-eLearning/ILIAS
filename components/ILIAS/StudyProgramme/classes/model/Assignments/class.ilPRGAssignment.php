@@ -38,6 +38,7 @@ class ilPRGAssignment
     public const AUTO_ASSIGNED_BY_ORGU = -2;
     public const AUTO_ASSIGNED_BY_COURSE = -3;
     public const AUTO_ASSIGNED_BY_GROUP = -4;
+    public const AUTO_ASSIGNED_BY_RESTART = -5;
 
     protected int $id;
     protected int $usr_id;

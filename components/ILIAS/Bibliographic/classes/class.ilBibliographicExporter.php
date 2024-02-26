@@ -65,16 +65,16 @@ class ilBibliographicExporter extends ilXmlExporter
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
-    
+
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $res = [];
         if ($a_entity == "bibl") {
             $res[] = [
-                "component" => "components/ILIAS/Object",
+                "component" => "components/ILIAS/ILIASObject",
                 "entity" => "common",
                 "ids" => $a_ids
             ];

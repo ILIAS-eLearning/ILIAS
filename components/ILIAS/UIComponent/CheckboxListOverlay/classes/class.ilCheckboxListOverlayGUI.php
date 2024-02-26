@@ -135,7 +135,7 @@ class ilCheckboxListOverlayGUI
 			event.stopPropagation();
 		});");
 
-        $tpl->setCurrentBlock("top_img");
+        $tpl->touchBlock("top_img");
 
         // do not repeat title (accessibility) -> empty alt
         $tpl->setVariable("TXT_SEL_TOP", $this->getLinkTitle());

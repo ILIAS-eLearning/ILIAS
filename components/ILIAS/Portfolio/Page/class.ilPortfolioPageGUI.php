@@ -797,7 +797,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
                             $tpl->setCurrentBlock("objective_link_bl");
 
-                            if (trim($objtv["desc"])) {
+                            if (trim($objtv["desc"] ?? "") !== "") {
                                 $desc = nl2br($objtv["desc"]);
                                 $tt_id = "objtvtt_" . $objtv["id"] . "_" . (self::$initialized);
 
@@ -1190,7 +1190,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
     public function getCommentsHTMLExport(): string
     {
-        $notes_gui = new ilNoteGUI(
+        $notes_gui = new ilCommentGUI(
             $this->portfolio_id,
             $this->getPageObject()->getId(),
             "pfpg"
@@ -1198,7 +1198,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $notes_gui->enablePublicNotes(true);
         $notes_gui->setRepositoryMode(false);
         $notes_gui->setExportMode();
-        return  $notes_gui->getCommentsHTML();
+        return  $notes_gui->getListHTML();
     }
 
     public function finishEditing(): void

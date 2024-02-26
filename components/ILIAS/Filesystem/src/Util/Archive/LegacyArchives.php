@@ -59,8 +59,11 @@ final class LegacyArchives
     /**
      * @deprecated Use \ILIAS\Filesystem\Util\Archive\Archives::zip() instead. Will be removed in ILIAS 10.
      */
-    public function zip(string $directory_to_zip, string $path_to_output_zip): bool
-    {
+    public function zip(
+        string $directory_to_zip,
+        string $path_to_output_zip,
+        bool $ensure_top_directory = true
+    ): bool {
         $directory_to_zip = $this->normalizePath($directory_to_zip);
         $path_to_output_zip = $this->normalizePath($path_to_output_zip);
 
@@ -69,6 +72,7 @@ final class LegacyArchives
             $this->zip_options
                 ->withZipOutputPath(dirname($path_to_output_zip))
                 ->withZipOutputName(basename($path_to_output_zip))
+                ->withEnsureTopDirectoy($ensure_top_directory)
         );
 
         $zip->addDirectory($directory_to_zip);

@@ -24,10 +24,12 @@
 class ilContainerRenderer
 {
     protected const UNIQUE_SEPARATOR = "-";
+    protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected \ILIAS\Containter\Content\ObjectiveRenderer $objective_renderer;
     protected \ILIAS\Containter\Content\ItemRenderer $item_renderer;
     protected \ILIAS\Container\Content\ItemPresentationManager $item_presentation;
+    protected bool $admin_panel;
 
     protected ilLanguage $lng;
     protected ilSetting $settings;
@@ -73,11 +75,13 @@ class ilContainerRenderer
         bool $a_active_block_ordering = false,
         array $a_block_custom_positions = [],
         ?ilContainerGUI $container_gui_obj = null,
-        int $a_view_mode = ilContainerContentGUI::VIEW_MODE_LIST
+        int $a_view_mode = ilContainerContentGUI::VIEW_MODE_LIST,
+        bool $admin_panel = false
     ) {
         global $DIC;
 
         $this->item_presentation = $item_presentation;
+        $this->admin_panel = $admin_panel;
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $this->ui = $DIC->ui();
@@ -92,6 +96,7 @@ class ilContainerRenderer
         $this->container_gui = $obj;
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
+        $this->access = $DIC->access();
 
         $this->item_renderer = $DIC->container()
             ->internal()
@@ -388,11 +393,10 @@ class ilContainerRenderer
         return "";
     }
 
-    public function renderSingleTypeBlock(string $a_type): string
+    public function renderSingleTypeBlock(string $a_type, bool $exhausted = false): string
     {
         $block_tpl = $this->initBlockTemplate();
-
-        if ($this->renderHelperTypeBlock($block_tpl, $a_type, true)) {
+        if ($this->renderHelperTypeBlock($block_tpl, $a_type, true, $exhausted)) {
             return $block_tpl->get();
         }
         return "";
@@ -534,7 +538,7 @@ class ilContainerRenderer
             if (is_numeric($a_block_id)) {
                 $item_group = new ilObjItemGroup($a_block_id);
                 if ($item_group->getListPresentation() !== "") {
-                    $view_mode = ($item_group->getListPresentation() === "tile")
+                    $view_mode = ($item_group->getListPresentation() === "tile" && !$this->active_block_ordering && !$this->admin_panel)
                         ? ilContainerContentGUI::VIEW_MODE_TILE
                         : ilContainerContentGUI::VIEW_MODE_LIST;
                     $tile_size = $item_group->getTileSize();
@@ -614,7 +618,6 @@ class ilContainerRenderer
                     $a_block_tpl->setVariable("TILE_ROWS", $html);
                     $a_block_tpl->parseCurrentBlock();
                 }
-
                 // show more
                 if ($is_exhausted) {
                     $a_block_tpl->setCurrentBlock("show_more");
@@ -812,6 +815,13 @@ class ilContainerRenderer
         $page_html = $this->renderContainerPage();
         $block_tpl = $this->initBlockTemplate();
 
+        $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
+        foreach($this->item_presentation->getAllRefIds() as $ref_id) {
+            $rd = $this->item_presentation->getRawDataByRefId($ref_id);
+            $preloader->addItem($rd["obj_id"], $rd["type"], $ref_id);
+        }
+        $preloader->preload();
+
         $embedded_block_ids = $this->item_presentation->getPageEmbeddedBlockIds();
         foreach ($sequence->getBlocks() as $block) {
             $block_id = "";
@@ -864,6 +874,10 @@ class ilContainerRenderer
                 if ($this->isItemHidden($block_id, $ref_id)) {
                     continue;
                 }
+                if (!$this->access->checkAccess('visible', '', $ref_id)) {
+                    continue;
+                }
+
                 $item_data = $this->item_presentation->getRawDataByRefId($ref_id);
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
@@ -872,7 +886,9 @@ class ilContainerRenderer
                 $item_group_list_presentation = "";
                 if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
                     if ($this->getViewModeOfItemGroup((int) $block_id) === ilContainerContentGUI::VIEW_MODE_TILE) {
-                        $item_group_list_presentation = "tile";
+                        if (!$this->admin_panel && !$this->active_block_ordering) {
+                            $item_group_list_presentation = "tile";
+                        }
                     }
                 }
                 $html = $this->item_renderer->renderItem(
@@ -901,7 +917,7 @@ class ilContainerRenderer
                     $block->getBlock() instanceof \ILIAS\Container\Content\SessionBlock) {
                     $page_html = preg_replace(
                         '~\[list-' . $block->getId() . '\]~i',
-                        $this->renderSingleTypeBlock($block->getId()),
+                        $this->renderSingleTypeBlock($block->getId(), $block->getLimitExhausted()),
                         $page_html
                     );
                     $valid = true;

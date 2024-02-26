@@ -27,10 +27,12 @@ use ILIAS\Setup\ImplementationOfInterfaceFinder;
 
 class ConsumerObjective extends BuildArtifactObjective
 {
-    public function getArtifactPath(): string
+
+    public function getArtifactName(): string
     {
-        return Internal::path();
+        return "legal_documents_consumer";
     }
+
 
     public function build(): Artifact
     {

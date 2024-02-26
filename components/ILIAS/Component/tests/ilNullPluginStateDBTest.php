@@ -19,11 +19,12 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data;
 
-class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
+class ilNullPluginStateDBTest extends TestCase
 {
     protected function setUp(): void
     {
         $this->db = new \ilNullPluginStateDB();
+        $this->data_factory = new Data\Factory();
     }
 
     public function testIsPluginActivated(): void
@@ -60,8 +61,9 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
     public function testSetActivation(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
         $this->db->setActivation("SOME_ID", true);
+
+        $this->assertTrue(true); // Should simply work...
     }
 
 

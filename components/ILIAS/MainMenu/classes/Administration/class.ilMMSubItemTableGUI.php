@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
@@ -277,17 +277,21 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         });
 
         // filter active/inactive
-        array_filter($sub_items_for_table, function ($item_facade) {
+        $sub_items_for_table = array_filter($sub_items_for_table, function ($item_facade) {
+            /**
+             * @var $item_facade ilMMItemFacadeInterface
+             */
+            $item_facade = $item_facade['facade'];
             if (!isset($this->filter[self::F_TABLE_ENTRY_STATUS])) {
                 return true;
             }
-            if ($this->filter[self::F_TABLE_ENTRY_STATUS] !== self::F_TABLE_ALL_VALUE) {
+            if (((int)$this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ALL_VALUE) {
                 return true;
             }
-            if ($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_ACTIVE_VALUE && !$item_facade->isActivated()) {
+            if (((int) $this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ONLY_ACTIVE_VALUE && !($item_facade->isActivated() || $item_facade->isAlwaysAvailable())) {
                 return false;
             }
-            if ($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_INACTIVE_VALUE && $item_facade->isActivated()) {
+            if (((int)$this->filter[self::F_TABLE_ENTRY_STATUS]) === self::F_TABLE_ONLY_INACTIVE_VALUE && $item_facade->isActivated()) {
                 return false;
             }
             return true;

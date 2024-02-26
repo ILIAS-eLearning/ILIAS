@@ -88,6 +88,7 @@ This manager needs to be implemented by each container view that provides a sepa
 - uses ItemPresentationManager, ItemRenderer, ObjectiveRenderer
 - renderItemBlockSequence
   - initialises block template
+  - initialises object preloader
   - iterates over ItemBlockSequence::getBlocks()
     - determine block ID and position
     - adds block with ID

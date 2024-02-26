@@ -26,14 +26,14 @@ use PHPUnit\Framework\TestCase;
 class HasMaxLengthConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private ILIAS\Language\Language $lng;
     private int $max_length;
     private Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
 
         $this->max_length = 2;
 

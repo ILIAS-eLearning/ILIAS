@@ -22,11 +22,11 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class Not extends Constraint
 {
-    public function __construct(Constraint $constraint, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(Constraint $constraint, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         parent::__construct(
             static function ($value) use ($constraint) {

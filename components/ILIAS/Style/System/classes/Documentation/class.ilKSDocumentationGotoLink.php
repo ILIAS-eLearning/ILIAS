@@ -17,39 +17,87 @@
 
 declare(strict_types=1);
 
+use ILIAS\StaticURL\Handler\Handler;
+use ILIAS\StaticURL\Context;
+use ILIAS\StaticURL\Response\Response;
+use ILIAS\StaticURL\Request\Request;
+use ILIAS\StaticURL\Response\Factory;
+use ILIAS\StaticURL\Handler\BaseHandler;
+
 /**
  * Generatates and reads Goto Links
  */
-class ilKSDocumentationGotoLink
+class ilKSDocumentationGotoLink extends BaseHandler implements Handler
 {
-    public function generateGotoLink(string $node_id, string $skin_id, string $style_id): string
+    public function getNamespace(): string
     {
-        return '_' . $node_id . '_' . $skin_id . '_' . $style_id;
+        return 'stys';
     }
 
-    public function redirectWithGotoLink(string $ref_id, array $params, ilCtrl $ctrl): void
+    public function handle(Request $request, Context $context, Factory $response_factory): Response
     {
-        $node_id = $params[3];
-        $skin_id = $params[4];
-        $style_id = $params[5];
+        return $response_factory->can(
+            $this->generateRedirectURL(
+                $context->ctrl(),
+                $request->getReferenceId()?->toInt() ?? 0,
+                $request->getAdditionalParameters()[0] ?? '',
+                $request->getAdditionalParameters()[1] ?? '',
+                $request->getAdditionalParameters()[2] ?? ''
+            )
+        );
+    }
 
-        $ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $skin_id);
+    public function generateGotoLink(string $node_id, string $skin_id, string $style_id): string
+    {
+        return implode('/', [$node_id, $skin_id, $style_id]);
+    }
+
+    public function generateRedirectURL(
+        ilCtrl $ctrl,
+        int $ref_id,
+        string $node_id,
+        string $skin_id,
+        string $style_id,
+    ): string {
+        $ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
         $ctrl->setParameterByClass(
-            'ilSystemStyleDocumentationGUI',
+            ilSystemStyleDocumentationGUI::class,
             'style_id',
             $style_id
         );
-        $ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'node_id', $node_id);
-        $ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'ref_id', $ref_id);
+        $ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'node_id', $node_id);
+        $ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'ref_id', $ref_id);
 
         $cmd_classes = [
-            'ilAdministrationGUI',
-            'ilObjStyleSettingsGUI',
-            'ilSystemStyleMainGUI',
-            'ilSystemStyleDocumentationGUI'
+            ilAdministrationGUI::class,
+            ilObjStyleSettingsGUI::class,
+            ilSystemStyleMainGUI::class,
+            ilSystemStyleDocumentationGUI::class
         ];
 
         $ctrl->setTargetScript('ilias.php');
-        $ctrl->redirectByClass($cmd_classes, 'entries');
+
+        return $ctrl->getLinkTargetByClass($cmd_classes, 'entries');
+    }
+
+    /**
+     * @deprecated this is only present for backwards compatibility and the testcase.
+     */
+    public function redirectWithGotoLink(string $ref_id, array $params, ilCtrl $ctrl): void
+    {
+        $ref_id = (int) $ref_id;
+        $node_id = $params[2] ?? '';
+        $skin_id = $params[3] ?? '';
+        $style_id = $params[4] ?? '';
+
+        $ctrl->redirectToURL(
+            $this->generateRedirectURL(
+                $ctrl,
+                $ref_id,
+                $node_id,
+                $skin_id,
+                $style_id
+            )
+        );
     }
 }

@@ -155,9 +155,8 @@ public class JDBCDataSource extends DataSource {
 			
 			logger.debug(getStatement());
 			ResultSet res = getStatement().executeQuery();
-			
+
 			while(res.next()) {
-				
 				logger.debug("Found new result");
 				for(Object field : getFields()) {
 					((FieldDefinition) field).writeDocument(res);

@@ -36,7 +36,7 @@ class SplitStringTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         $this->f = new Refinery($dataFactory, $language);
         $this->split_string = $this->f->string()->splitString("#");
     }

@@ -27,6 +27,13 @@ a.mailunread, a.mailunread:visited {
 	min-width: 45px !important;
 	max-width: 45px !important;
 	height: auto;
+	padding-right:0;
+	padding-left:0;
+}
+
+.mailusername {
+	padding-right:0;
+	padding-left:0;
 }
 
 .pdMailRow {
@@ -36,5 +43,18 @@ a.mailunread, a.mailunread:visited {
 	> img {
 		margin: 2px 0;
 		max-width:30px;
+	}
+}
+
+#form_MailContent {
+	.form-group {
+		.col-lg-10.col-md-9.col-sm-8.row {
+			a {
+				padding-right: 0;
+				padding-left: 0;
+				display: contents;
+				width: auto;
+			}
+		}
 	}
 }

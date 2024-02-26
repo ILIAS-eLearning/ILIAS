@@ -105,14 +105,16 @@ interface ilCtrlInterface
     public function getCmd(string $fallback_command = null): ?string;
 
     /**
-     * Returns the command class which should be executed next.
+     * Returns the fully-qualified classname of the requested command class.
+     * Note this will be lowercase for backwards compatibility.
      *
      * @return string|null
      */
     public function getCmdClass(): ?string;
 
     /**
-     * Returns the classname of the next class in the control flow.
+     * Returns the fully-qualified classname of the next class in the control flow.
+     * Note this will be lowercase for backwards compatibility.
      *
      * @param object|string|null $a_gui_class
      * @return string|null

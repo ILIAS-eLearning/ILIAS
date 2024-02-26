@@ -1611,7 +1611,7 @@ class ilSurveyParticipantsGUI
             ],
             [
                 'type' => 'new',
-                'sig' => rawurlencode(base64_encode("\n\n" . $this->lng->txt("svy_link_to_svy") . ": [SURVEY_LINK]"))
+                'sig' => rawurlencode(base64_encode("\n\n" . $this->lng->txt("svy_link_to_svy") . ": {{SURVEY_LINK}}"))
             ],
             $contextParameters
         ));

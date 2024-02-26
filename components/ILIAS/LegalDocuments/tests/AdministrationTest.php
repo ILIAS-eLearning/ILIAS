@@ -58,7 +58,7 @@ class AdministrationTest extends TestCase
     {
         $config = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $ui = $this->mockMethod(UI::class, 'txt', ['sure_reset_tos'], 'translated');
+        $ui = $this->mockMethod(UI::class, 'txt', ['sure_delete_documents_p'], 'translated');
 
         $documents = [$this->doc(9, 'First title'), $this->doc(49, 'Second title')];
 

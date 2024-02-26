@@ -134,7 +134,7 @@ class ilLMNavigationRendererGUI
                     $pre_id,
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
-                    $this->lm_set->get("time_scheduled_page_activation"),
+                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                     false,
                     0,
                     $this->lang,
@@ -200,7 +200,7 @@ class ilLMNavigationRendererGUI
                     $succ_id,
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
-                    $this->lm_set->get("time_scheduled_page_activation"),
+                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                     false,
                     0,
                     $this->lang,
@@ -339,7 +339,7 @@ class ilLMNavigationRendererGUI
                             true
                         );
                     if ($this->user->getId() === ANONYMOUS_USER_ID &&
-                        $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
+                        $this->lm->getPublicAccessMode() === "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";

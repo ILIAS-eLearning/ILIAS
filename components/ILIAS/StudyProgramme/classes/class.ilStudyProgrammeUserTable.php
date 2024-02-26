@@ -291,7 +291,8 @@ class ilStudyProgrammeUserTable
     public function assignmentSourceToRepresent(bool $manually, int $assignment_src): string
     {
         $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
-        if ($manually || ! in_array($assignment_src, $srcs)) {
+        $srcs[ilPRGAssignment::AUTO_ASSIGNED_BY_RESTART] = 'restarted';
+        if ($manually || ! array_key_exists($assignment_src, $srcs)) {
             return $this::lookupTitle($assignment_src);
         }
         return implode(' ', [

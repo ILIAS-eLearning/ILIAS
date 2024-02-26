@@ -396,13 +396,33 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
                     if ($cnt < $max) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $data["obj_id"], "small")));
+                        $tpl->setVariable(
+                            "IMG",
+                            ilUtil::img(
+                                ilObject::_getIcon((int) $data["obj_id"], "small"),
+                                null,
+                                "",
+                                "",
+                                0,
+                                "",
+                                "ilListItemIcon"
+                            )
+                        );
+
                         $tpl->setVariable("TITLE", $data["title"]);
                         $tpl->parseCurrentBlock();
                     }
                     if ($cnt == $max) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $data["obj_id"], "small")));
+                        $tpl->setVariable("IMG", ilUtil::img(
+                            ilObject::_getIcon((int) $data["obj_id"], "small"),
+                            null,
+                            "",
+                            "",
+                            0,
+                            "",
+                            "ilListItemIcon"
+                        ));
                         $tpl->setVariable("TITLE", "...");
                         $tpl->parseCurrentBlock();
                     }
@@ -414,13 +434,29 @@ class ilPCResourcesGUI extends ilPageContentGUI
                     $title = \ilCourseObjective::lookupObjectiveTitle($objective_id);
                     if ($cnt < $max) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_lobj.svg")));
+                        $tpl->setVariable("IMG", ilUtil::img(
+                            ilUtil::getImagePath("icon_lobj.svg"),
+                            null,
+                            "",
+                            "",
+                            0,
+                            "",
+                            "ilListItemIcon"
+                        ));
                         $tpl->setVariable("TITLE", $title);
                         $tpl->parseCurrentBlock();
                     }
                     if ($cnt == $max) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_lobj.svg")));
+                        $tpl->setVariable("IMG", ilUtil::img(
+                            ilUtil::getImagePath("icon_lobj.svg"),
+                            null,
+                            "",
+                            "",
+                            0,
+                            "",
+                            "ilListItemIcon"
+                        ));
                         $tpl->setVariable("TITLE", "...");
                         $tpl->parseCurrentBlock();
                     }

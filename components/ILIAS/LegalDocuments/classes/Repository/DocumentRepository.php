@@ -46,6 +46,11 @@ interface DocumentRepository
      */
     public function find(int $id): Result;
 
+    /**
+     * @return Result<Document>
+     */
+    public function findId(DocumentId $document_id): Result;
+
     public function createDocument(string $title, DocumentContent $content): void;
     public function createCriterion(Document $document, CriterionContent $content): void;
     public function deleteDocument(Document $document): void;

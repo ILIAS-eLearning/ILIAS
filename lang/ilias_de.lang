@@ -699,15 +699,20 @@ assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer 
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_res_desc#:#In den Testergebnissen, der Statistik und dem Excel-Export wird die ILIAS-Prüfungsnummer dargestellt.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
-assessment#:#exp_best_pass#:#Bewerteter Durchlauf
-assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
+assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
-assessment#:#exp_scored_test_run#:#Bester Durchlauf
+assessment#:#exp_grammar_as#:#als
+assessment#:#exp_scored_test_run#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
+assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export#:#Export
+assessment#:#export_cert_failed_for_users_p#:#Für die folgenden %s Konten konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
+assessment#:#export_cert_failed_for_users_s#:#Für das folgende Konto konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
+assessment#:#export_cert_ignored_for_users_p#:#Für die folgenden %s Konten liegt kein Zertifikats-Dokument im generierten Archiv, da für diese noch kein Zertifikat ausgestellt wurde: %s
+assessment#:#export_cert_ignored_for_users_s#:#Für das folgende Konto liegt kein Zertifikats-Dokument im generierten Archiv, da für dieses noch kein Zertifikat ausgestellt wurde: %s
+assessment#:#export_cert_no_users#:#Ein Zertifikats-Archiv kann nicht generiert werden, da aktuell keine Teilnehmer existierten.
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#extratime#:#Zeitverlängerung
@@ -892,6 +897,8 @@ assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer od
 assessment#:#msg_poly_added#:#Polygon hinzugefügt
 assessment#:#msg_questions_moved#:#Fragen verschoben
 assessment#:#msg_rect_added#:#Rechteck hinzugefügt
+assessment#:#msg_score_settings_modified_and_recalc#:#Die Einstellungen wurden gespeichert und die Resultate neu berechnet.
+assessment#:#msg_score_settings_not_modified#:#Die Einstellungen wurden nicht gespeichert.
 assessment#:#msg_selected_for_move#:#Fragen zum Verschieben ausgewählt
 assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
@@ -1172,6 +1179,7 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
+assessment#:#select_at_least_one_feedback_type_and_trigger#:#Bitte mindestens eine Art der Rückmeldung und einen Auslöser auswählen.
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus!
@@ -1425,7 +1433,8 @@ assessment#:#tst_finished#:#Beendet
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
 assessment#:#tst_general_properties#:#Einstellungen des Tests
-assessment#:#tst_header_participant#:#Ihre Antwort:
+assessment#:#tst_header_participant#:#Frage und Ihre Antwort:
+assessment#:#tst_header_participant_no_answer#:#Frage - nicht beantwortet:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
@@ -1557,7 +1566,7 @@ assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Ein Test mit zufälliger Fr
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.</b><br />
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regel %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
-assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zu dem auch den folgenden Regeln zur Verfügung: %s
+assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Von den vorgesehenen Fragen stehen %s Fragen zudem auch den folgenden Regeln zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Für Regel %s werden %s Fragen benötigt und es sind %s Fragen vorgesehen.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Durch Überschneidungen mit den folgenden Regeln stehen aber nur %s Fragen garantiert zur Verfügung: %s
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: %s
@@ -1940,7 +1949,7 @@ assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
 assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
-assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Option muss vom Teilnehmer vor Beginn des Tests auf dem Reiter 'Info' per Checkbox aktiviert werden.
+assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Übernahme der Lösungen muss vom Teilnehmer vor Beginn des Testdurchlaufs in einem Modal per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
@@ -2249,7 +2258,7 @@ bgtask#:#bgtask_processing#:#Download erzeugen
 bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
 bgtask#:#bgtask_setting_limit#:#Globales Limit
-bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die maximale Summe der Dateigrössen den Wert nicht überschreitet.
+bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die Summe der Dateigrössen den angegebenen Megabyte-Wert nicht überschreitet.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
@@ -2313,6 +2322,7 @@ bibl#:#filter_type_3#:#Mehrfachauswahl
 bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
 bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
+bibl#:#msg_filter_info#:#Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen.
 bibl#:#news_title_created#:#Neue Literaturliste hinzugefügt
 bibl#:#news_title_updated#:#Literaturliste aktualisiert
 bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Bitte kontaktieren Sie Ihre technische Betreuung.
@@ -3709,6 +3719,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clipboard#:#Zwischenablage
 common#:#close#:#Schließen
+common#:#cmix#:#Objekt xAPI/cmi5
 common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
 common#:#collapse_all#:#Alle zusammenklappen
@@ -3753,6 +3764,7 @@ common#:#context#:#Kontext
 common#:#continue#:#Weiter
 common#:#continue_work#:#Fortsetzen
 common#:#contra#:#Contra
+common#:#copa#:#Inhaltsseite
 common#:#copy#:#Kopieren
 common#:#copyChapter#:#Kopieren
 common#:#copyPage#:#Kopieren
@@ -3903,12 +3915,11 @@ common#:#download_all_returned_files#:#Alle Abgaben herunterladen
 common#:#download_link#:#Download-Link
 common#:#download_multiple_objects#:#Mehrere Objekte herunterladen
 common#:#download_selected_items#:#Herunterladen
-common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
-common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschließlich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#downloading_settings#:#Einstellungen
 common#:#dpro_accept_usr_agreement#:#Datenschutzerklärung akzeptieren?
 common#:#dpro_accept_usr_agreement_intro#:#Es liegt eine neue Datenschutzerklärung vor. Sie müssen diese akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
 common#:#dpro_force_accept_usr_agreement#:#Sie müssen die Datenschutzerklärung akzeptieren!
+common#:#dpro_no_agreement_description#:#Aktuell wird in dieser Installation keine Datenschutzerklärung angeboten. Bitte kontaktieren Sie die <a href="%1$s">ILIAS-Administration</a>.
 common#:#dpro_refuse_acceptance#:#Wiederruf der Akzeptanz der Datenschutzerklärung
 common#:#dpro_usr_agreement#:#Datenschutzerklärung
 common#:#dpro_usr_agreement_footer_intro#:#Zu dieser Datenschutzerklärung haben Sie ihr Einverständnis erklärt.
@@ -4081,9 +4092,9 @@ common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wur
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 common#:#file_objects#:#Datei-Objekte
-common#:#file_rollback#:#Zur aktuellen Version machen
-common#:#file_rollback_done#:#Dateiversion %s ist nun die aktuelle Version.
-common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur aktuellen Version zu machen.
+common#:#file_rollback#:#Diese Version veröffentlichen
+common#:#file_rollback_done#:#Dateiversion %s ist nun die veröffentlichte Version.
+common#:#file_rollback_select_exact_one#:#Es darf nur eine Dateiversion ausgewählten werden, um sie zur veröffentlichten Version zu machen.
 common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erlaubt und wurden entfernt.
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_suffix_repl_info#:#Tragen Sie hier komma-separiert alle Dateitypen mit ihrer Dateiendung ein, die beim Upload als Dateiendung ".sec" erhalten sollen, wenn Sie in den Webspace hochgeladen werden. Dadurch wird ihre direkte Ausführung verhindert. Dies geschieht ohnehin automatisch für Dateien mit folgenden Endungen:
@@ -4094,7 +4105,9 @@ common#:#file_upload_pending#:#Hochgeladene Datei
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_version_create#:#Initiale Version
+common#:#file_version_intermediate_version#:#Zwischenversion
 common#:#file_version_new_version#:#Neue Version
+common#:#file_version_published_version#:#Veröffentlichte Version
 common#:#file_version_replace#:#Alle Versionen ersetzt
 common#:#file_version_rollback#:#Auf Version %s von %s zurückkehren
 common#:#file_versions_deleted#:#Die ausgewählten Dateiversionen wurden erfolgreich gelöscht.
@@ -4147,8 +4160,8 @@ common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Foru
 common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
-common#:#forums_last_posting_asc#:#Neuestes Thema zuerst
-common#:#forums_last_posting_dsc#:#Ältestes Thema zuerst
+common#:#forums_last_posting_asc#:#Letztes Posting aufsteigend
+common#:#forums_last_posting_dsc#:#Letztes Posting absteigend
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_rating_asc#:#Bewertung aufsteigend
 common#:#forums_rating_dsc#:#Bewertung absteigend
@@ -4164,6 +4177,7 @@ common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_import#:#Forum importieren
 common#:#frm_latest_postings#:#Letzte Beiträge
 common#:#frm_new#:#Neues Forum anlegen
+common#:#frm_no_threads#:#Aktuell ist kein Thema verfügbar.
 common#:#frm_statistics_ranking#:#Rangliste
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
@@ -4788,7 +4802,6 @@ common#:#no#:#Nein
 common#:#no_access_item#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
 common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
-common#:#no_agreement_description#:#Aktuell wird in dieser Installation keine Nutzungsvereinbarung angeboten. Bitte kontaktieren Sie die <a href="%1$s">ILIAS-Administration</a>.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen.
 common#:#no_condition_selected#:#Sie haben keine Vorbedingung ausgewählt.
 common#:#no_date#:#Kein Datum
@@ -5734,6 +5747,7 @@ common#:#top_of_page#:#Seitenanfang
 common#:#tos_accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#tos_accept_usr_agreement_intro#:#Es liegen neue Nutzungsbedingungen vor. Sie müssen sie akzeptieren, bevor Sie mit der Nutzung von ILIAS fortfahren können. Lesen Sie das folgende Dokument sorgfältig durch und geben Sie unten auf der Seite Ihre Zustimmung oder Ablehnung.
 common#:#tos_force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
+common#:#tos_no_agreement_description#:#Aktuell wird in dieser Installation keine Nutzungsvereinbarung angeboten. Bitte kontaktieren Sie die <a href="%1$s">ILIAS-Administration</a>.
 common#:#tos_refuse_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#tos_usr_agreement#:#Nutzungsvereinbarung
 common#:#tos_usr_agreement_footer_intro#:#Zu dieser Nutzungsvereinbarung haben Sie ihr Einverständnis erklärt.
@@ -6246,7 +6260,7 @@ content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bi
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
-content#:#cont_click_edit#:#<b>Klicken</b> Sie ein <b>Seitenelement</b>, um es zu <b>bearbeiten</b>.
+content#:#cont_click_edit#:#Um ein <b>Seitenelement zu bearbeiten</b>, <b>klicken</b> Sie es an.
 content#:#cont_click_multi_select#:#<b>Klicken</b> Sie Seitenelemente um diese <b>auszuwählen</b> oder die Auswahl wieder aufzuheben.
 content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des Polygons oder speichern Sie den gewünschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
@@ -6333,7 +6347,7 @@ content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Der Reiter „Download“ wird in der Präsentationsansicht angezeigt. Erzeugen Sie im Reiter „Export„ eine Exportdatei und geben Sie diese für den öffentlichen Zugriff frei. Dann können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für die Offline-Nutzung oder den Import in eine andere ILIAS-Installation.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
-content#:#cont_drag_and_drop_elements#:#<b>Ziehen</b> Sie ein Seitenelement mit der Maus auf einen Platzhalter um es zu <b>bewegen</b>.
+content#:#cont_drag_and_drop_elements#:#Um ein Seitenelement zu <b>verschieben</b>, <b>ziehen</b> Sie es mit der Maus auf den gewünschten Platzhalter.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -7040,7 +7054,7 @@ content#:#cont_set_styles#:#Styles bestimmen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
 content#:#cont_settings#:#Lernmoduleinstellungen
 content#:#cont_shape#:#Form
-content#:#cont_shift_click_to_select#:#Mit <b>Shift + Klick</b> <b>wählen</b> Sie ein Seitenelement <b>aus</b> und wechseln in den Auswahlmodus.
+content#:#cont_shift_click_to_select#:#Um Seitenelemente zum <b>Löschen, Kopieren usw.</b> auszuwählen, drücken Sie die <b>Umschalt-Taste</b> ⇧ und <b>klicken</b> auf die Seitenelemente.
 content#:#cont_short_title#:#Kurztitel
 content#:#cont_short_title_info#:#Kurztitel werden in der Baumdarstellung auf der linken Seite und für das Vor- und Zurück-Navigieren genutzt.
 content#:#cont_short_titles#:#Kurztitel
@@ -7322,6 +7336,7 @@ copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
+copg#:#copg_active_to_small#:#Dieses Datum muss größer als das "Aktiv ab" Datum sein.
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
@@ -7352,6 +7367,7 @@ copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_remove_formats#:#Zeichenformate entfernen
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+copg#:#copg_unsupported_media_type#:#Dieses Medienobjekt hat einen nicht unterstützen Medientyp.
 copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status#:#Lesezeit
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
@@ -7675,6 +7691,7 @@ crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Konto mit der Rolle „Kursadministration“ zugeordnet sein.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#Der Zeitraum für den zeitlich begrenzten Beitritt kann nicht bestimmt werden, wenn die Einstellung "Kein selbständiger Beitritt" aktiviert ist.
 crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
 crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
@@ -7786,6 +7803,7 @@ crs#:#crs_reg_code_link#:#Link für direkten Beitritt
 crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 crs#:#crs_reg_no_selfreg#:#Kein selbstständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
+crs#:#crs_reg_selfreg#:#Selbständiger Beitritt
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
@@ -8000,6 +8018,7 @@ crs#:#events#:#Sitzungen
 crs#:#export_members#:#Export der Teilnehmendendaten
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
+crs#:#grp_not_all_users_assigned_msg#:#%s Teilnehmende wurde(n) in die Gruppe aufgenommen, %s Teilnehmende waren bereits in der Gruppe.
 crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die Mindestanzahl an Mitgliedern:
 crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
@@ -8833,17 +8852,17 @@ didactic#:#sess_closed_info#:#Die Sitzung ist für Nicht-Teilnehmer unsichtbar.
 dpro#:#dpro_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Datenschutzerklärung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 dpro#:#dpro_agree_date#:#Datenschutzerklärung zugestimmt am
 dpro#:#dpro_last_reset_date#:#Die Datenschutzerklärung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Datenschutzerklärung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-dpro#:#dpro_mode#:#Modus
+dpro#:#dpro_mode#:#Zustimmungsmodus
 dpro#:#dpro_mode_desc#:#Stellen Sie hier ein wann und wie die Datenschutzerklärung akzeptiert werden muss.
-dpro#:#dpro_no_acceptance#:#Nie aktzeptieren, nur anzeigen
+dpro#:#dpro_no_acceptance#:#Bereitstellung der Dokumente ohne Zustimmung
 dpro#:#dpro_no_documents_exist#:#Aktuell liegen keine Dokumente der Datenschutzerklärung vor.
 dpro#:#dpro_no_documents_exist_cant_save#:#Aktuell liegen keine Dokumente der Datenschutzerklärung vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
-dpro#:#dpro_once#:#Einmalig akzeptieren
+dpro#:#dpro_once#:#Einmaliges Akzeptieren des Dokumentes
 dpro#:#dpro_reset_for_all_users#:#Datenschutzerklärung zurücksetzen
 dpro#:#dpro_status_enable#:#Datenschutzerklärung aktivieren
 dpro#:#dpro_status_enable_desc#:#Benutzer werden zum Unterzeichnen der Datenschutzerklärung aufgefordert, bevor sie ILIAS nutzen können.
 dpro#:#dpro_sure_reset_tos#:#Sind Sie sicher, dass die Datenschutzerklärung für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
-dpro#:#dpro_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf Datenschutzerklärung
+dpro#:#dpro_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der Datenschutzerklärung
 dpro#:#dpro_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Datenschutzerklärung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
@@ -9100,6 +9119,7 @@ etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
 etal#:#etal_create_invalid_template_ref#:#Ungültige Gesprächsvorlagen-ID
 etal#:#etal_date_appointment_edit#:#Gesprächsdatum
 etal#:#etal_date_series_edit#:#Gesprächsserie
+etal#:#etal_delete_confirmation_msg#:#Sind Sie sicher, dass das folgende Gespräch gelöscht werden soll?
 etal#:#etal_edit#:#Allgemein
 etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
 etal#:#etal_new#:#Neues Gespräch
@@ -9333,6 +9353,7 @@ exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_num_teams#:#Anzahl
 exc#:#exc_ongoing#:#Laufende
+exc#:#exc_optional#:#Optional
 exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
@@ -9677,7 +9698,7 @@ file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_publish#:#Entwurf veröffentlichen
 file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
-file#:#file_rollback_same_version#:#Dies ist bereits die aktuelle Version
+file#:#file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
@@ -9687,6 +9708,7 @@ file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#important_info#:#Wichtige Informationen
+file#:#important_info_byline#:#Die Angaben werden im Reiter "Info" angezeigt.
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -10422,7 +10444,7 @@ irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#file_size#:#Dateigrösse (Diese Revision)
-irss#:#file_size_bigger_than#:#Dateigrösse grösser als (MB)
+irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
@@ -10437,6 +10459,7 @@ irss#:#revisions#:#Verfügbare Revisionen
 irss#:#rid_deleted#:#Datei entfernt
 irss#:#rids_appended#:#Ressource(n) hinzugefügt
 irss#:#rids_deleted#:#Ressource(n) gelöscht
+irss#:#rids_updated#:#Ressource(n) aktualisiert
 irss#:#sorting#:#Sortierung
 irss#:#sorting_1#:#Titel (aufsteigend)
 irss#:#sorting_2#:#Titel (absteigend)
@@ -10444,7 +10467,7 @@ irss#:#sorting_3#:#Dateigrösse (aufsteigend)
 irss#:#sorting_4#:#Dateigrösse (absteigend)
 irss#:#sorting_5#:#Erstellungsdatum (aufsteigend)
 irss#:#sorting_6#:#Erstellungsdatum (absteigend)
-irss#:#stakeholders#:#Stakeholders
+irss#:#stakeholders#:#Ursprung
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#Dateityp
@@ -10698,7 +10721,7 @@ ldoc#:#ldoc_ldoc_settings#:#Einstellungen
 ldoc#:#ldoc_period#:#Zeitraum
 ldoc#:#ldoc_period_from#:#Von
 ldoc#:#ldoc_period_until#:#Bis
-ldoc#:#ldoc_reevaluate_on_login#:#Erneut prüfen beim Login
+ldoc#:#ldoc_reevaluate_on_login#:#Erneutes Prüfen der Vorlagekriterien beim Login
 ldoc#:#ldoc_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren.
 ldoc#:#ldoc_saved_sorting#:#Die Sortierung wurde gespeichert.
 ldoc#:#ldoc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
@@ -10718,6 +10741,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Dokument
 ldoc#:#ldoc_tbl_hist_head_firstname#:#Vorname
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Nachname
 ldoc#:#ldoc_tbl_hist_head_login#:#Anmeldename
+ldoc#:#ldoc_updated_document#:#Dokument hochgeladen
 lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
 lhist#:#lhist_all#:#All
@@ -11206,6 +11230,7 @@ mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler "%s"
+mail#:#mail_assign_to_mailing_list#:#Zuweisen
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
@@ -11295,6 +11320,9 @@ mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_manage_attachments#:#Anhänge Verwalten
+mail#:#mail_manage_attachments_back_to_compose#:#Zurück zum Erstellen
+mail#:#mail_manage_attachments_drop_files_msg#:#Datei zum Hinzufügen hier ablegen
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_max_size_attachments_total#:#Bitte geben Sie die maximal zulässige Gesamtgröße aller Anhänge pro E-Mail an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Gesamtdatenmenge der als Anhang einer Mail ausgewählten Dateien.
@@ -11330,6 +11358,9 @@ mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Kurs" für ein Kursob
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
+mail#:#mail_nacc_user_fullname#:#Vollständiger Benutzername
+mail#:#mail_nacc_user_login#:#Anmeldename
+mail#:#mail_nacc_user_name#:#Benutzername
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_no_subject#:#Kein Betreff vorhanden
@@ -11357,8 +11388,8 @@ mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_sel_label#:#Mail senden an###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_sel_users#:#Ausgewählte Personen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
-mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
-mail#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
+mail#:#mail_select_crs#:#Bitte mindestens einen Kurs auswählen.
+mail#:#mail_select_grp#:#Bitte mindestens eine Gruppe auswählen.
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_send_html#:#HTML-Rahmen
@@ -11394,14 +11425,15 @@ mail#:#mail_system_sys_env_from_addr_info#:#Tragen Sie hier die technische Absen
 mail#:#mail_system_sys_from_addr#:#„FROM”-Adresse für automatisch versendete E-Mails
 mail#:#mail_system_sys_from_addr_info#:#Damit die automatisch aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_from_name#:#„FROM”-Name###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_sys_general_signature#:#Signatur
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
-mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_system_usr_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_addr#:#„FROM”-Adresse für manuell versendete E-Mails###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem ILIAS-Konto gehörige Adresse als Antwortadresse (technisch: „REPLY-TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; und &lbrace;&lbrace;LASTNAME&rbrace;&rbrace; genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_general_signature#:#User Signatur
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage wird der Inhalt dieser Nachricht ersetzt und etwaige Änderungen die schon vorgenommen wurden, gehen verloren. Der Betreff ändert sich nicht und muss manuell angepasst werden.
@@ -11722,6 +11754,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
 meta#:#md_copyright_alt_text#:#Alternativtext
 meta#:#md_copyright_alt_text_info#:#Wird für das ‘alt’ Attribut des Bildes verwendet
+meta#:#md_copyright_default#:#Standard
 meta#:#md_copyright_edit#:#Copyright-Vorgabe bearbeiten
 meta#:#md_copyright_enable_info#:#Aktivieren Sie diese Einstellung, um vordefinierte Nutzungslizenzen anzubieten.
 meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren
@@ -13132,13 +13165,13 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
-prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
-prg#:#prg_dash_label_gain#:#Aktueller Stand:
-prg#:#prg_dash_label_minimum#:#Minimales Ziel:
-prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
-prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
+prg#:#prg_dash_label_gain#:#Aktueller Stand
+prg#:#prg_dash_label_minimum#:#Minimales Ziel
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab
+prg#:#prg_dash_label_status#:#Status
 prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
-prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_valid#:#Gültigkeit
 prg#:#prg_deadline#:#Stichtag
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
@@ -13300,6 +13333,7 @@ prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifika
 prg#:#restart_period_label#:#Tage vor Ablauf der Qualifikation
 prg#:#restart_recheck_desc#:#Bei Zuweisungen, die über einen Automatismus vorgenommen wurden, wird erneut geprüft, ob Kriterien für die Zuweisung vorliegen.
 prg#:#restart_recheck_label#:#Voraussetzungen erneut prüfen
+prg#:#restarted#:#Wiederaufnahme
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
@@ -14059,6 +14093,7 @@ rbac#:#mobs_visible#:#Administration für Medienobjekte und -pools ist sichtbar
 rbac#:#mobs_write#:#Einstellungen für Medienobjekte und -pools bearbeiten
 rbac#:#moderate#:#Moderieren
 rbac#:#moderate_frm#:#Moderieren
+rbac#:#msg_anonymous_cannot_be_assigned#:#Der anonyme Benutzer darf keiner Rolle zugewiesen werden.
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
 rbac#:#news_add_news#:#Neuigkeiten erstellen
 rbac#:#nots_edit_permissions#:#Rechteeinstellungen der Administration für Notizen ändern
@@ -14353,8 +14388,8 @@ rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobje
 rbac#:#role_blocked#:#: <i>Rolle wird gesperrt</i>
 rbac#:#role_confirm_block_role#:#Rollen-Status speichern
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der ausgewählten Rollen ändern?
-rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
-rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
+rbac#:#role_confirm_block_role_info#:#Für die Aktion „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Bei allen blockierten Rollen werden die für dieses Objekt und die darin enthaltenen Unterobjekte entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem „Rolle sperren“ wieder aufgehoben wird.
+rbac#:#role_confirm_unblock_role_info#:#Beim Aufheben von „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Die lokale Zugriffsregelung wird wieder aufgeboben.<br />• Die Rechte der entsperrten Rollen werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rollen neu gesetzt. Dies gilt für das aktuelle Objekt und alle enthaltenen Unterobjekte.
 rbac#:#role_unblocked#:#: <i>Sperrung der Rolle wird aufgehoben</i>
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
@@ -15186,6 +15221,7 @@ sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 sess#:#sess_mem_contacts#:#Kontaktperson
+sess#:#sess_mem_send_mail#:#Mail verschicken
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#sess_member_administration#:#Teilnehmerverwaltung
 sess#:#sess_members#:#Teilnehmer
@@ -16396,7 +16432,7 @@ survey#:#survey_not_available#:#n.a.
 survey#:#survey_notification_finished_introduction#:#ein Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den Persönlichen Schreibtisch gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage per Einladung als To-Do auf das Dashboard gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
 survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
@@ -16630,6 +16666,7 @@ svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 svy#:#svy_invite_participants#:#Teilnehmer einladen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Auswahl Druckansicht
 svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
 svy#:#svy_remove_participants#:#Teilnehmer entfernen
@@ -16770,7 +16807,7 @@ tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurü
 tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
 tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
-tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der ToS
+tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der Nutzungsvereinbarung
 tos#:#tos_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.

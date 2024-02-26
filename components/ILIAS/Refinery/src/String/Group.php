@@ -21,16 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-use ilLanguage;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 
 class Group
 {
     private Factory $dataFactory;
-    private ilLanguage $language;
+    private \ILIAS\Language\Language $language;
 
-    public function __construct(Factory $dataFactory, ilLanguage $language)
+    public function __construct(Factory $dataFactory, \ILIAS\Language\Language $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;
@@ -141,8 +141,8 @@ class Group
      * This method returns an instance of the MarkdownFormattingToHTML class which can be used to tranform a markdown
      * formatted string to HTML.
      */
-    public function markdown(): MarkdownFormattingToHTML
+    public function markdown(bool $escape = true): MarkdownFormattingToHTML
     {
-        return new MarkdownFormattingToHTML();
+        return new MarkdownFormattingToHTML($escape);
     }
 }

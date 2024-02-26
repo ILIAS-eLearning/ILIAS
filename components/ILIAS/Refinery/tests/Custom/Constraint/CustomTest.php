@@ -25,7 +25,7 @@ use ILIAS\Data\Factory as DataFactory;
 class CustomTest extends TestCase
 {
     private string $txt_id = '';
-    private ilLanguage $lng;
+    private ILIAS\Language\Language $lng;
     private CustomConstraint $constraint;
 
     protected function setUp(): void
@@ -37,7 +37,7 @@ class CustomTest extends TestCase
         $error = function (callable $txt, $value): string {
             return $txt($this->txt_id, $value);
         };
-        $this->lng = $this->createMock(ilLanguage::class);
+        $this->lng = $this->createMock(ILIAS\Language\Language::class);
         $this->constraint = new class ($is_ok, $error, new DataFactory(), $this->lng) extends CustomConstraint {
             public function _getLngClosure(): Closure
             {

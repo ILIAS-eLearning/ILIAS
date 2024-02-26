@@ -885,7 +885,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         foreach ($user_ids as $id) {
-            $user = new ilObjUser($id);
+            $user = new ilObjUser((int) $id);
 
             $login = $user->getLastLogin();
             if (!$login) {
@@ -3808,7 +3808,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         // after list has been saved...
         foreach ($user_ids as $user_id) {
-            $list->assignUser($user_id);
+            $list->assignUser((int) $user_id);
         }
 
         $umail = new ilFormatMail($this->user->getId());

@@ -157,7 +157,7 @@ class BlocksTest extends TestCase
         $date = new DateTimeImmutable();
         $ldoc_user = $this->mockTree(User::class, [
             'agreeDate' => ['value' => $date],
-            'acceptedDocument' => $result,
+            'acceptedVersion' => $result,
         ]);
 
         $language = $this->mock(ilLanguage::class);

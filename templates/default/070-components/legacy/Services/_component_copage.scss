@@ -279,13 +279,6 @@ div.ilTinyMenuSection, .il-copg-button-group {
 		padding: 2px 5px;
 		background-color: darken($il-main-dark-bg, 4%);
 	}
-
-	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		height: 28px;
-		margin: 3px 3px 3px 0px;
-		padding: 0 10px 0 0;
-		border-right: 0 none;
-	}
 }
 
 div.ilTinyMenuSection button.btn {
@@ -307,12 +300,6 @@ div.il-copg-button-group-wide {
 #ilTinyMenuButtons {
 	padding-bottom: 15px;
 	zoom:1;
-	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
-		height: 28px;
-		margin: 3px 3px 3px 0;
-		padding: 0 10px 0 0;
-		border-right: 0 none;
-	}
 }
 
 #iltinymenu .bd div.last {
@@ -737,6 +724,12 @@ div.ilCOPGMediaPrint {
 		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			display: none;
 		}
+	}
+
+	h3.ilTinyInfo {
+		font-size: $il-font-size-large;
+		margin-top: $il-margin-xxxlarge-vertical;
+		margin-bottom: $il-margin-large-vertical;
 	}
 
 	div.alert {

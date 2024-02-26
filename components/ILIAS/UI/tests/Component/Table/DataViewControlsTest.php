@@ -51,12 +51,12 @@ class DataViewControlsTest extends TableTestBase
             ): \Generator {
                 yield $row_builder->buildStandardRow('', []);
             }
-             public function getTotalRowCount(
-                 ?array $filter_data,
-                 ?array $additional_parameters
-             ): ?int {
-                 return $this->total_count;
-             }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return $this->total_count;
+            }
         };
     }
 
@@ -149,5 +149,71 @@ class DataViewControlsTest extends TableTestBase
             ],
             array_keys($view_controls->getInputs())
         );
+    }
+
+
+    private function getRequestMock(array $returns): ServerRequestInterface
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method("getUri")
+            ->willReturn(new class () {
+                public function __toString()
+                {
+                    return 'http://localhost:80';
+                }
+            });
+        $request
+            ->method("getQueryParams")
+            ->willReturn($returns);
+        return $request;
+    }
+
+    public function testDataTableViewControlStorage(): void
+    {
+        $factory = $this->getTableFactory();
+        $columns = [
+            'f1' => $factory->column()->text('f1')->withIsOptional(true),
+            'f2' => $factory->column()->text('f2')->withIsOptional(true),
+            'f3' => $factory->column()->text('f3')->withIsOptional(true),
+        ];
+        $total_count = 12;
+        list($base_table, $view_controls) = $this->getTable($total_count, $columns);
+
+        $table_id = 'testing_data_table';
+        $table = $base_table
+            ->withId($table_id)
+            ->withRequest(
+                $this->getRequestMock([
+                    'view_control/input_0/input_1' => 0,
+                    'view_control/input_0/input_2' => 10,
+                    'view_control/input_3/input_4' => 'f2',
+                    'view_control/input_3/input_5' => 'DESC',
+                    'view_control/input_6' => ['f2']
+                ])
+            );
+        list($table, $view_controls) = $table->applyViewControls([], []);
+        //applied values from viewcontrols
+        $this->assertEquals(new Range(0, 10), $table->getRange());
+        $this->assertEquals(new Order('f2', Order::DESC), $table->getOrder());
+        $this->assertEquals(1, count($table->getSelectedOptionalColumns()));
+
+        //default_values for different id
+        $table = $base_table
+            ->withId('other id')
+            ->withRequest($this->getRequestMock([]));
+        list($table, $view_controls) = $table->applyViewControls([], []);
+        $this->assertEquals(new Range(0, 12), $table->getRange());
+        $this->assertEquals(new Order('f1', Order::ASC), $table->getOrder());
+        $this->assertEquals(3, count($table->getSelectedOptionalColumns()));
+
+        //applied values from session with empty request
+        $table = $base_table
+            ->withId($table_id)
+            ->withRequest($this->getRequestMock([]));
+        list($table, $view_controls) = $table->applyViewControls([], []);
+        $this->assertEquals(new Range(0, 10), $table->getRange());
+        $this->assertEquals(new Order('f2', Order::DESC), $table->getOrder());
+        $this->assertEquals(1, count($table->getSelectedOptionalColumns()));
     }
 }

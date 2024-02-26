@@ -83,7 +83,7 @@ a {
     text-decoration: $il-link-hover-decoration;
   }
 
-  @include t-focus.il-focus();
+  @include t-focus.il-focus-border-only;
 }
 
 // Emphasis & misc

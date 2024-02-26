@@ -52,18 +52,18 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         return new ilUserProfileBadgeGUI();
     }
 
-    public function evaluate(int $a_user_id, array $a_params, ?array $a_config): bool // Missing array type.
+    public function evaluate(int $user_id, array $params, ?array $config): bool // Missing array type.
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
 
-        $user = new ilObjUser($a_user_id);
+        $user = new ilObjUser($user_id);
 
         // active profile portfolio?
         $has_prtf = false;
         if ($ilSetting->get('user_portfolios')) {
-            $has_prtf = ilObjPortfolio::getDefaultPortfolio($a_user_id);
+            $has_prtf = ilObjPortfolio::getDefaultPortfolio($user_id);
         }
 
         if (!$has_prtf) {
@@ -79,8 +79,8 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 
         // check for value AND publication status
 
-        if ($a_config !== null && isset($a_config['profile'])) {
-            foreach ($a_config['profile'] as $field) {
+        if ($config !== null && isset($config['profile'])) {
+            foreach ($config['profile'] as $field) {
                 $field = substr($field, 4);
 
                 if (substr($field, 0, 4) === 'udf_') {
@@ -98,7 +98,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
                     }
 
                     if ($field === 'upload') {
-                        if (!ilObjUser::_getPersonalPicturePath($a_user_id, 'xsmall', true, true)) {
+                        if (!$user->hasProfilePicture()) {
                             return false;
                         }
                     } elseif (isset($pfields[$field]['method'])) {

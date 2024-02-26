@@ -115,7 +115,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The data table lists records in a complete and clear manner; the fields
+     *       The Data Table lists records in a complete and clear manner; the fields
      *       of a record are always of the same nature as their counterparts in all other
      *       records, i.e. a column has a dedicated shape.
      *       Each record is mapped to one row, while the number of visible columns is
@@ -134,7 +134,9 @@ interface Factory
      *       The ordering among the records in the table, the visibility of columns as well as
      *       the number of simultaneously displayed rows are controlled by the Table's View Controls.
      *       Operating the order-glyphs in the column title will change the records' order.
-     *       This will also reflect in the aria-sort attribute of  the columns' headers.
+     *       This will also reflect in the aria-sort attribute of the columns' headers.
+     *       If the Data Table is provided with an id, the values from its View Controls are
+     *       stored in the session and re-applied on concecutive calls.
      *
      *   rivals:
      *     Presentation Table: >

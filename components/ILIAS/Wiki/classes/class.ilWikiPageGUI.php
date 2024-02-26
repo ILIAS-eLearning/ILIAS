@@ -70,7 +70,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->wiki_request = $gui->request();
         $this->notes = $DIC->notes();
         $this->wiki_gui = $gui;
-        $this->ot = $gui->wiki()->translation();
+        $this->ot = $gui->wiki()->translation($a_wiki_ref_id);
         $this->wiki_pm = $this->domain->page()->page($this->getWikiRefId());
     }
 

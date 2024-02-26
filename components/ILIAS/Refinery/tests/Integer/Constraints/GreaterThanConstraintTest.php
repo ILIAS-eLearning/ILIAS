@@ -24,19 +24,19 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Integer\GreaterThan;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class GreaterThanConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ilLanguage $lng;
+    private Language $lng;
     private int $greater_than;
     private Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->getMockBuilder(ilLanguage::class)
+        $this->lng = $this->getMockBuilder(Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

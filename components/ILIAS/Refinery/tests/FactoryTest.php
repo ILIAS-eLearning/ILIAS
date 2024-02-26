@@ -35,7 +35,7 @@ use ILIAS\Refinery\Password\Group as PasswordGroup;
 use ILIAS\Refinery\String\Group as StringGroup;
 use ILIAS\Refinery\To\Group as ToGroup;
 use ILIAS\Refinery\URI\Group as URIGroup;
-use ilLanguage;
+use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
@@ -44,7 +44,7 @@ class FactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $language = $this->getMockBuilder(ilLanguage::class)
+        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

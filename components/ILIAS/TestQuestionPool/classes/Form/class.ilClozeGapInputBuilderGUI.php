@@ -181,6 +181,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     $points_sum = 0;
                     if (array_key_exists('points', $gapText)) {
                         foreach ($gapText['points'] as $row => $points) {
+                            $points = str_replace(',', '.', $points);
                             if (isset($points) && $points != '' && is_numeric($points)) {
                                 $points_sum += $points;
                                 if ($points > 0) {
@@ -211,7 +212,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                     'lower' => '_numeric_lower',
                                     'upper' => '_numeric_upper',
                                     'points' => '_numeric_points') as $part => $suffix) {
-                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix), false);
+                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix) ?? '', false);
                         $val = str_replace(',', '.', $val);
                         if ($eval->e($val) === false) {
                             $mark_errors[$part] = true;
@@ -257,11 +258,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $renderer = $DIC->ui()->renderer();
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($lng->txt(''));
-        $modal->setId("ilGapModal");
-        $modal->setBody('');
-
         $cloze_settings_js = 'ClozeSettings = {'
             . ' gaps_php             : ' . json_encode(array($this->getValue()))
             . ',gaps_combination     : ' . json_encode($this->getValueCombination())
@@ -285,9 +281,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             './components/ILIAS/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
         );
 
-
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $custom_template->setVariable("MY_MODAL", $modal->getHTML());
         $custom_template->setVariable('GAP_JSON', json_encode(array($this->getValue())));
         $custom_template->setVariable('GAP', $lng->txt('gap'));
         $custom_template->setVariable('GAP_COMBINATION_JSON', json_encode($this->getValueCombination()));

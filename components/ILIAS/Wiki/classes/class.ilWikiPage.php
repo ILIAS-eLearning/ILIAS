@@ -127,7 +127,7 @@ class ilWikiPage extends ilPageObject
         $set = $ilDB->query(
             "SELECT id FROM il_wiki_page " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
-            " AND lang = " . $ilDB->quote($this->getLanguage(), "integer")
+            " AND lang = " . $ilDB->quote($this->getLanguage(), "text")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->read(true);

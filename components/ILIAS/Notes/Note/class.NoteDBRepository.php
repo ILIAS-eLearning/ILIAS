@@ -262,7 +262,8 @@ class NoteDBRepository
     public function getNrOfNotesForContext(
         Context $context,
         int $type = Note::PRIVATE,
-        bool $incl_sub = false
+        bool $incl_sub = false,
+        int $author = 0
     ): int {
         $db = $this->db;
 
@@ -270,7 +271,7 @@ class NoteDBRepository
             $context,
             $type,
             $incl_sub,
-            0,
+            $author,
             false,
             true
         );

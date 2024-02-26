@@ -23,9 +23,15 @@
 	overflow: visible;
 	pointer-events: none;
 	z-index: 1039;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
 
-	.iosOnScreenChat{
+	.iosOnScreenChat {
 		margin-right: -3px;
+		margin-left: -15px;
+		position: relative;
 	}
 
 	.popover {
@@ -45,10 +51,6 @@
 				max-height: 19px;
 			}
 		}
-	}
-
-	.row{
-		position: relative;
 	}
 
 	.chat-window-wrapper {
@@ -151,12 +153,25 @@
 			li {
 				padding-bottom: 5px;
 
+				&:before {
+					display: table;
+					content: " ";
+				}
+
+				&:after {
+					display: table;
+					content: " ";
+					clear: both;
+				}
+
 				&.separator {
 					text-align: center;
 					background-color: $il-main-dark-bg;
 
 					p {
 						font-size: $il-font-size-small;
+						margin-top: 8px;
+						margin-bottom: 8px;
 					}
 				}
 
@@ -241,6 +256,7 @@
 				padding-left: 0;
 				padding-right: 0;
 				padding-bottom: 0;
+				width: 100%;
 
 				.fader {
 					position: -webkit-sticky;

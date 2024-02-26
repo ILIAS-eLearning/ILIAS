@@ -26,6 +26,9 @@ use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\ShowOnLoginPage;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Factory as UIFactory;
+use ilTemplate;
 
 require_once __DIR__ . '/../../ContainerMock.php';
 
@@ -35,27 +38,39 @@ class ShowOnLoginPageTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ShowOnLoginPage::class, new ShowOnLoginPage($this->mock(Provide::class), $this->mock(UI::class)));
+        $this->assertInstanceOf(ShowOnLoginPage::class, new ShowOnLoginPage($this->mock(Provide::class), $this->mock(UI::class), $this->fail(...)));
     }
 
     public function testInvokeWithoutDocuments(): void
     {
         $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [
             'document' => ['repository' => ['countAll' => 0]],
-        ]), $this->mock(UI::class));
+        ]), $this->mock(UI::class), $this->fail(...));
 
         $this->assertSame([], $instance());
     }
 
     public function testInvoke(): void
     {
+        $translated = 'Translated<br/>';
+        $url = 'Dummy URL';
+        $legacy = $this->mock(Legacy::class);
+
+        $template = $this->mock(ilTemplate::class);
+        $template->expects(self::exactly(2))->method('setVariable')->withConsecutive(['LABEL', htmlentities($translated)], ['HREF', $url]);
+        $template->expects(self::once())->method('get')->willReturn('Rendered');
+
         $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [
-            'document' => ['repository' => ['countAll' => 8]],
-        ]), $this->mock(UI::class));
+            'document' => ['repository' => ['countAll' => 1]],
+            'publicPage' => ['url' => $url],
+        ]), $this->mockTree(UI::class, [
+            'txt' => $translated,
+            'create' => $this->mockMethod(UIFactory::class, 'legacy', ['Rendered'], $legacy),
+        ]), fn() => $template);
 
         $array = $instance();
 
         $this->assertSame(1, count($array));
-        $this->assertInstanceOf(Component::class, $array[0]);
+        $this->assertSame($legacy, $array[0]);
     }
 }

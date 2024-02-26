@@ -27,6 +27,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\Data\Factory;
 use Exception;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Render a TopItem as Drilldown (DD in Slate)
@@ -62,6 +63,7 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         $type = get_class($item);
 
         switch ($type) {
+            case RepositoryLink::class:
             case Link::class:
                 $act = $this->getDataFactory()->uri(
                     $this->getBaseURL()

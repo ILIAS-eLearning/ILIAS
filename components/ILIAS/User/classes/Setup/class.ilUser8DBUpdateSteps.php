@@ -107,4 +107,15 @@ class ilUser8DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_4(): void
+    {
+        if ($this->db->tableColumnExists('usr_data', 'street')) {
+            $this->db->modifyTableColumn('usr_data', 'street', [
+                'type' => \ilDBConstants::T_TEXT,
+                'length' => 512,
+                'notnull' => false
+            ]);
+        }
+    }
 }

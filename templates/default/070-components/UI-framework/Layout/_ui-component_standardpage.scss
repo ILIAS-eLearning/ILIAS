@@ -104,7 +104,7 @@ div.il-system-infos {
     display: flex;
     flex-direction: row;
     height: $il-standard-page-header-height;
-    padding: 0 15px;
+    padding: 0 $il-padding-xlarge-horizontal;
     position: fixed;
     width: 100%;
     justify-content: space-between;
@@ -324,7 +324,6 @@ footer {
 	.header-inner {
 		position: relative;
 	    height: $il-standard-page-small-header-height;
-	    padding: 0;
 	    width: 100%;
 		box-shadow: $il-standard-page-header-shadow-bottom;
 	}

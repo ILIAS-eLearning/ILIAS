@@ -25,6 +25,7 @@ namespace ILIAS\COPage\Link;
  */
 class LinkManager
 {
+    protected ?\ilLogger $log;
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ilObjectDefinition $obj_definition;
 
@@ -34,6 +35,7 @@ class LinkManager
 
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
         $this->obj_definition = $DIC["objDefinition"];
+        $this->log = $DIC->copage()->internal()->domain()->log();
     }
 
     protected function getDefaultMediaCollector(): \Closure
@@ -344,6 +346,12 @@ class LinkManager
     ): void {
         $type = "";
         $objDefinition = $this->obj_definition;
+        $ext_link_mapper = new ExtLinkMapper(
+            $this->obj_definition,
+            ILIAS_HTTP_PATH,
+            $a_mapping
+        );
+
 
         // resolve normal internal links
         $path = "//IntLink";
@@ -388,69 +396,16 @@ class LinkManager
         $nodes = $this->dom_util->path($dom, $path);
         foreach ($nodes as $node) {
             $href = $node->getAttribute("Href");
-            //$this->log->debug("Href: " . $href);
 
-            $url = parse_url($href);
+            $this->log->debug("Href: " . $href);
+            $ref_id = $ext_link_mapper->getRefId($href);
+            $this->log->debug("Ref Id: " . $ref_id);
 
-            // only handle links on same host
-            //$this->log->debug("Host: " . ($url["host"] ?? ""));
-            if (($url["host"] ?? "") !== "" && $url["host"] !== $ilias_url["host"]) {
-                continue;
-            }
-
-            // get parameters
-            $par = [];
-            if (substr($href, strlen($href) - 5) === ".html") {
-                $parts = explode(
-                    "_",
-                    basename(
-                        substr($url["path"], 0, strlen($url["path"]) - 5)
-                    )
-                );
-                if (array_shift($parts) !== "goto") {
-                    continue;
-                }
-                $par["client_id"] = array_shift($parts);
-                $par["target"] = implode("_", $parts);
-            } else {
-                foreach (explode("&", ($url["query"] ?? "")) as $p) {
-                    $p = explode("=", $p);
-                    if (isset($p[0]) && isset($p[1])) {
-                        $par[$p[0]] = $p[1];
-                    }
-                }
-            }
-
-            $target_client_id = $par["client_id"] ?? "";
-            if ($target_client_id != "" && $target_client_id != CLIENT_ID) {
-                continue;
-            }
-
-            // get ref id
-            $ref_id = 0;
-            if (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) ($par["ref_id"] ?? 0);
-            } elseif (isset($par["target"]) && $par["target"] !== "") {
-                $t = explode("_", $par["target"]);
-                if ($objDefinition->isRBACObject($t[0] ?? "")) {
-                    $ref_id = (int) ($t[1] ?? 0);
-                    $type = $t[0] ?? "";
-                }
-            }
             if ($ref_id > 0) {
-                if (isset($a_mapping[$ref_id])) {
-                    $new_ref_id = $a_mapping[$ref_id];
-                    // we have a mapping -> replace the ID
-                    if (is_int(strpos($href, "ilias.php"))) {
-                        $new_href = str_replace("ref_id=" . ($par["ref_id"] ?? ""), "ref_id=" . $new_ref_id, $href);
-                    } else {
-                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
-                        $new_href = str_replace($par["target"], $nt, $href);
-                    }
-                    if ($new_href != "") {
-                        //$this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
-                        $node->set_attribute("Href", $new_href);
-                    }
+                $new_href = $ext_link_mapper->getNewHref($ref_id);
+                $this->log->debug("New ref id: " . $new_href);
+                if ($new_href !== "") {
+                    $node->setAttribute("Href", $new_href);
                 } elseif ($tree->isGrandChild($a_source_ref_id, $ref_id)) {
                     // we have no mapping, but the linked object is child of the original node -> remove link
                     //$this->log->debug("... remove ext links.");

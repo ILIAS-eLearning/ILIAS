@@ -23,14 +23,14 @@ namespace ILIAS\Refinery;
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
 use ILIAS\Refinery\Random\Group as RandomGroup;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class Factory
 {
     private \ILIAS\Data\Factory $dataFactory;
-    private ilLanguage $language;
+    private \ILIAS\Language\Language $language;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory, ilLanguage $language)
+    public function __construct(\ILIAS\Data\Factory $dataFactory, \ILIAS\Language\Language $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

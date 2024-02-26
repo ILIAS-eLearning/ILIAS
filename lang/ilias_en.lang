@@ -698,16 +698,21 @@ assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#The ILIAS Test ID will be included in the test results.
-assessment#:#exp_all_test_runs#:#All test runs
-assessment#:#exp_best_pass#:#Scored test run
-assessment#:#exp_eval_data#:#Export evaluation data as
+assessment#:#exp_all_test_runs#:#All test attempts
+assessment#:#exp_eval_data#:#Export data
 assessment#:#exp_file_created#:#Export file created.
-assessment#:#exp_scored_test_run#:#Scored test run
+assessment#:#exp_grammar_as#:#as
+assessment#:#exp_scored_test_run#:#Scored test attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export#:#Export
+assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
+assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
+assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s
+assessment#:#export_cert_ignored_for_users_s#:#The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s
+assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#extratime#:#Extra Time
@@ -892,6 +897,8 @@ assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater o
 assessment#:#msg_poly_added#:#Polygon added
 assessment#:#msg_questions_moved#:#Question(s) moved
 assessment#:#msg_rect_added#:#Rectangle added
+assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.
+assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
@@ -1172,6 +1179,7 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
+assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
@@ -1425,7 +1433,8 @@ assessment#:#tst_finished#:#Finished
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis
 assessment#:#tst_general_properties#:#General Settings
-assessment#:#tst_header_participant#:#Your Answer:
+assessment#:#tst_header_participant#:#Question and your answer:
+assessment#:#tst_header_participant_no_answer#:#Question - not answered
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_info_tab#:#Hide Info Tab
@@ -1614,7 +1623,7 @@ assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
-assessment#:#tst_pass_best_pass#:#Score the Best Pass
+assessment#:#tst_pass_best_pass#:#Score the Best Attempt
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
@@ -1764,11 +1773,11 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
-assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
-assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
-assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
-assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
-assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
+assessment#:#tst_res_tab_msg_res_after_date#:#Your test results will be shown here after: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Once you have taken the test your results will be shown here after: %s
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be shown here.
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be shown here.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be shown here.
 assessment#:#tst_reset_processing_time#:#Reset duration for every test attempt
 assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test attempt. This setting requires multiple test attempts to become effective.
 assessment#:#tst_result#:#Test Result
@@ -1940,7 +1949,7 @@ assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants on the Info-tab before starting a test attempt.
+assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants on a modal before starting a test attempt.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
@@ -2249,7 +2258,7 @@ bgtask#:#bgtask_processing#:#Creating download
 bgtask#:#bgtask_setting#:#'Background Download' enabled
 bgtask#:#bgtask_setting_info#:#The creation of the ZIP archive is done asynchronously and can be cancelled anytime.
 bgtask#:#bgtask_setting_limit#:#Global Limit
-bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value.
+bgtask#:#bgtask_setting_limit_info#:#A download is only possible if the sum of the file sizes is below this value in MB.
 bgtask#:#bgtask_setting_threshold_count#:#Minimum Number
 bgtask#:#bgtask_setting_threshold_count_info#:#If the number of files exceeds this value the download will be asynchronously.
 bgtask#:#bgtask_setting_threshold_size#:#Minimum Size
@@ -2313,6 +2322,7 @@ bibl#:#filter_type_3#:#Multi-Selectinput
 bibl#:#filter_type_info#:#Please choose a filter type for the field.
 bibl#:#identifier#:#Identifier
 bibl#:#msg_confirm_delete_filter#:#Do you like to delete the following filter?
+bibl#:#msg_filter_info#:#Create a filter here that can be used in the "Contents" tab to limit the display of entries.
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
@@ -3706,6 +3716,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_start_page#:#Start page
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
+common#:#cmix#:#Object xAPI/cmi5
 common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Collapse
 common#:#collapse_all#:#Collapse All
@@ -3750,6 +3761,7 @@ common#:#context#:#Context
 common#:#continue#:#Continue
 common#:#continue_work#:#Continue
 common#:#contra#:#Contra
+common#:#copa#:#Content Page
 common#:#copy#:#Copy
 common#:#copyChapter#:#Copy
 common#:#copyPage#:#Copy
@@ -3900,21 +3912,20 @@ common#:#download_all_returned_files#:#Download all Submissions
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
-common#:#download_with_uploaded_filename#:#Download With Uploaded Filename
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file will be the same as the original filename that was used when the file was uploaded to ILIAS. If this option is not selected, the filename of a downloaded file will be the same as the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV, the filename of a downloaded file is always the same as the title of the file object.
 common#:#downloading_settings#:#Download Settings
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?
-common#:#dpro_accept_usr_agreement_intro#:#There is a new data protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
-common#:#dpro_force_accept_usr_agreement#:#You must accept the Data Protection!
-common#:#dpro_refuse_acceptance#:#Refuse to Accept Data Protection
-common#:#dpro_usr_agreement#:#Data Protection
+common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
+common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!
+common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection
+common#:#dpro_usr_agreement#:#Declaration of Data Protection
 common#:#dpro_usr_agreement_footer_intro#:#You have declared your consent to this Declaration of Data Protection.
 common#:#dpro_withdraw_consent_description#:#Withdraw your consent to our Declaration of Data Protection here.
-common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Data Protection.
-common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Data Protection.
+common#:#dpro_withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.
+common#:#dpro_withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection.
 common#:#dpro_withdraw_consent_header#:#Withdraw to Consent of Declaration of Data Protection
-common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Data Protection.
-common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Data Protection.
+common#:#dpro_withdraw_consent_info#:#Withdraw your consent to our Declaration of Data Protection.
+common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection.
 common#:#drafts#:#Drafts
 common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#drag_files_here#:#Drag-and-drop your files here
@@ -4076,9 +4087,9 @@ common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blo
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 common#:#file_objects#:#File Objects
-common#:#file_rollback#:#Make this the current version
-common#:#file_rollback_done#:#File version %s is now the current version.
-common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the current version.
+common#:#file_rollback#:#Publish this version
+common#:#file_rollback_done#:#File version %s is now the published version.
+common#:#file_rollback_select_exact_one#:#Only one file version can be selected to make it the published version.
 common#:#file_some_invalid_file_types_removed#:#Some file types are not allowed and have been removed.
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Enter file types with suffix (separated by comma) that shall be be renamed with a ‘.sec’ when uploaded into webspace to prevent execution of this file. This is done per default for these suffixes:
@@ -4089,7 +4100,9 @@ common#:#file_upload_pending#:#Pending file
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
 common#:#file_version_create#:#Initial version
+common#:#file_version_intermediate_version#:#Intermediate Version
 common#:#file_version_new_version#:#New version
+common#:#file_version_published_version#:#Published Version
 common#:#file_version_replace#:#All versions replaced
 common#:#file_version_rollback#:#Rollback to version %s from %s
 common#:#file_versions_deleted#:#The selected file versions were successfully deleted.
@@ -4159,6 +4172,7 @@ common#:#frm_edit#:#Edit Forum
 common#:#frm_import#:#Import Forum
 common#:#frm_latest_postings#:#Latest Articles
 common#:#frm_new#:#New Forum
+common#:#frm_no_threads#:#There are no threads available at the moment.
 common#:#frm_statistics_ranking#:#Number of Public Postings
 common#:#from#:#From
 common#:#fullname#:#Full name
@@ -4781,7 +4795,6 @@ common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility document available for this installation. Please contact your <a href="%1$s">Contact Point for Accessibility Issues</a>.
-common#:#no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
@@ -4874,8 +4887,8 @@ common#:#obj_crsv#:#Course Certificate
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_dcl#:#Data Collection
 common#:#obj_dcl_duplicate#:#Copy Data Collection
-common#:#obj_dpro#:#Data Protection
-common#:#obj_dpro_desc#:#Data Protection Settings
+common#:#obj_dpro#:#Declaration of Data Protection
+common#:#obj_dpro_desc#:#Declaration of Data Protection Settings
 common#:#obj_dshs#:#Dashboard
 common#:#obj_dshs_desc#:#Dashboard settings
 common#:#obj_ecss#:#ECS
@@ -5727,6 +5740,7 @@ common#:#top_of_page#:#Top of page
 common#:#tos_accept_usr_agreement#:#Accept Terms of Service?
 common#:#tos_accept_usr_agreement_intro#:#There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.
 common#:#tos_force_accept_usr_agreement#:#You must accept the Terms of Service!
+common#:#tos_no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#tos_refuse_acceptance#:#Refuse to Accept Terms of Service
 common#:#tos_usr_agreement#:#Terms of Service
 common#:#tos_usr_agreement_footer_intro#:#You have declared your consent to these terms of service.
@@ -6130,7 +6144,8 @@ content#:#cont_active_to#:#Activation End
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
-content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
+content#:#cont_add_definition#:#Add Definition
+content#:#cont_add_elements#:#<b>Click</b> on a plus symbol to <b>add</b> a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
 content#:#cont_add_popup#:#Add Popup
@@ -6238,8 +6253,8 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
 content#:#cont_click_circle#:#Please click on a circle point of the desired area.
-content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.
-content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
+content#:#cont_click_edit#:#To <b>edit</b> a page element, <b>click</b> on it.
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> them.
 content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
@@ -6325,7 +6340,7 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Enable Download
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_drag_and_drop_elements#:#To <b>move</b> an element, <b>Drag and drop</b> it to a placeholder.
+content#:#cont_drag_and_drop_elements#:#To <b>move</b> a page element, <b>drag</b> it with the mouse to the intended location and <b/>drop<b> it.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left#:#Align: Left
@@ -7032,7 +7047,7 @@ content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
 content#:#cont_settings#:#Settings for learning modules
 content#:#cont_shape#:#Shape
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode.
+content#:#cont_shift_click_to_select#:#To select page elements for <b>deleting, copying etc</b>, press <b>Shift</b> ⇧ and <b>click</b> on the respective page elements.
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
 content#:#cont_short_titles#:#Short Titles
@@ -7314,6 +7329,7 @@ copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
+copg#:#copg_active_to_small#:#This date must be higher than the starting date.
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.
@@ -7344,6 +7360,7 @@ copg#:#copg_reload_page#:#Reload Page
 copg#:#copg_remove_formats#:#Remove Formatting
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.
 copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status#:#Reading Time
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
@@ -7667,6 +7684,7 @@ crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Course Members
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
 crs#:#crs_new_status#:#Your new status is:
@@ -7778,6 +7796,7 @@ crs#:#crs_reg_code_link#:#Link for Direct Admission
 crs#:#crs_reg_max_info#:#Set the maximum number of users that can join this course.
 crs#:#crs_reg_no_selfreg#:#No Self-Enrolment
 crs#:#crs_reg_password_info#:#Users need to type in this password in order to join the course.
+crs#:#crs_reg_selfreg#:#Self-Enrolment
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
@@ -7992,6 +8011,7 @@ crs#:#events#:#Sessions
 crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
+crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
@@ -8823,21 +8843,21 @@ didactic#:#grp_closed_info#:#Group is not visible for non-members.
 didactic#:#more_translations#:#More Translations
 didactic#:#sess_closed#:#Closed Session
 didactic#:#sess_closed_info#:#Session is not visible for non-participants.
-dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
-dpro#:#dpro_agree_date#:#Data Protection agreed on
-dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
-dpro#:#dpro_mode#:#Mode
-dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.
+dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
+dpro#:#dpro_agree_date#:#Declaration of Data Protection agreed on
+dpro#:#dpro_last_reset_date#:#The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.
+dpro#:#dpro_mode#:#Agreement Mode
+dpro#:#dpro_mode_desc#:#Please configure when and how the Declaration of Data Protection should be accepted.
 dpro#:#dpro_no_acceptance#:#Never, only informative
 dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.
 dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.
 dpro#:#dpro_once#:#Accept once
-dpro#:#dpro_reset_for_all_users#:#Reset Data Protection
-dpro#:#dpro_status_enable#:#Enable Data Protection
-dpro#:#dpro_status_enable_desc#:#Display relevant language-based Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Data Protection before they can enter ILIAS.
-dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
-dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Data Protection withdrawal
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Data Protection document, this will result in the deletion of the user’s account.
+dpro#:#dpro_reset_for_all_users#:#Reset the Declaration of Data Protection
+dpro#:#dpro_status_enable#:#Enable the Declaration of Data Protection
+dpro#:#dpro_status_enable_desc#:#Display relevant language-based Declaration of Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Declaration of Data Protection before they can enter ILIAS.
+dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.
+dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Declaration of Data Protection withdrawal
+dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account.
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration#:#Activation Period Extension
@@ -9093,6 +9113,7 @@ etal#:#etal_add_new_item#:#Add new Talk
 etal#:#etal_create_invalid_template_ref#:#Invalid Talk Template ID
 etal#:#etal_date_appointment_edit#:#Date of Talk
 etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
 etal#:#etal_new#:#New Talk
@@ -9326,6 +9347,7 @@ exc#:#exc_notification#:#Personal Notification
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
 exc#:#exc_num_teams#:#Number
 exc#:#exc_ongoing#:#Ongoing
+exc#:#exc_optional#:#Optional
 exc#:#exc_order_by_deadline#:#Order by Deadline
 exc#:#exc_overview#:#Overview
 exc#:#exc_participant#:#Participant
@@ -9670,7 +9692,7 @@ file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_publish#:#Publish Draft
 file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
-file#:#file_rollback_same_version#:#This is already the current version
+file#:#file_rollback_same_version#:#This is already the published version
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version Uploaded By
@@ -9680,6 +9702,7 @@ file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occurred during upload.
 file#:#important_info#:#Important Information
+file#:#important_info_byline#:#The information is displayed in the "Info" tab.
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image to be used as the icon for files with the specified suffixes.
@@ -10415,7 +10438,7 @@ irss#:#by_title_asc#:#By Title (Ascending)
 irss#:#by_title_desc#:#By Title (Descending)
 irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#file_size#:#File Size (This Revision)
-irss#:#file_size_bigger_than#:#File Size greater than (MB)
+irss#:#file_size_bigger_than#:#File Size > MB
 irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_upload#:#Drop Files to upload
@@ -10430,6 +10453,7 @@ irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
 irss#:#rids_deleted#:#Resource(s) deleted
+irss#:#rids_updated#:#Ressource(n) updated
 irss#:#sorting#:#Default Ordering
 irss#:#sorting_1#:#By Title (Ascending)
 irss#:#sorting_2#:#By Title (Descending)
@@ -10437,7 +10461,7 @@ irss#:#sorting_3#:#By File Size (Ascending)
 irss#:#sorting_4#:#By File Size (Descending)
 irss#:#sorting_5#:#By Creation Date (Ascending)
 irss#:#sorting_6#:#By Creation Date (Descending)
-irss#:#stakeholders#:#Stakeholders
+irss#:#stakeholders#:#Origin
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
 irss#:#type#:#File Type
@@ -10671,7 +10695,7 @@ ldoc#:#ldoc_doc_crit_changed#:#The criterion for displaying your document has be
 ldoc#:#ldoc_doc_crit_detached#:#The criterion has been removed.
 ldoc#:#ldoc_doc_delete#:#Delete Document
 ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Remove Criterion
-ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?
+ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your document?
 ldoc#:#ldoc_document#:#Document
 ldoc#:#ldoc_enabled#:#Enabled
 ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document
@@ -10711,6 +10735,7 @@ ldoc#:#ldoc_tbl_hist_head_document#:#Document
 ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name
 ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name
 ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)
+ldoc#:#ldoc_updated_document#:#Document uploaded
 lhist#:#cont_create_lhist#:#Create Learning History Element
 lhist#:#cont_update_lhist#:#Edit Learning History Element
 lhist#:#lhist_all#:#All
@@ -11199,6 +11224,7 @@ mail#:#mail_add_subject#:#Please enter a subject.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
 mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
+mail#:#mail_assign_to_mailing_list#:#Assign
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -11288,6 +11314,9 @@ mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already added all of your contacts to this mailing list.
 mail#:#mail_mailing_lists_no_contact_entries#:#You don’t have any entries in your contacts to add to a mailing list.
+mail#:#mail_manage_attachments#:#Manage Attachments
+mail#:#mail_manage_attachments_back_to_compose#:#Back to Compose
+mail#:#mail_manage_attachments_drop_files_msg#:#Drop file to upload
 mail#:#mail_mark_read#:#Mark as Read
 mail#:#mail_mark_unread#:#Mark as Unread
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum combined size of all attachments allowed per mail. This setting is not related to other resource limits, e.g. server limits such as ‘upload_max_filesize’, as you can attach multiple files to a single mail.
@@ -11323,6 +11352,9 @@ mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a cour
 mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
+mail#:#mail_nacc_user_fullname#:#User Full Name
+mail#:#mail_nacc_user_login#:#User Login
+mail#:#mail_nacc_user_name#:#User Name
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_subject#:#No subject available
@@ -11350,8 +11382,8 @@ mail#:#mail_second_email#:#Second E-Mail Address
 mail#:#mail_sel_label#:#Send mail to
 mail#:#mail_sel_users#:#Selected users
 mail#:#mail_select_attachment#:#Please select an attachment to download.
-mail#:#mail_select_course#:#Please select at least one course.
-mail#:#mail_select_group#:#Please select at least one group.
+mail#:#mail_select_crs#:#Please select at least one course.
+mail#:#mail_select_grp#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select at least one entry.
 mail#:#mail_select_one_file#:#You must select at least one file.
 mail#:#mail_send_html#:#HTML Frame
@@ -11387,14 +11419,15 @@ mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the s
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_sys_from_name#:#Name of Sender (From)
+mail#:#mail_system_sys_general_signature#:#Signature
 mail#:#mail_system_sys_reply_to_addr#:#Reply-To
-mail#:#mail_system_sys_signature#:#Signature
 mail#:#mail_system_usr_env_from_addr#:#Technical Sender
 mail#:#mail_system_usr_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_usr_from_addr#:#Sender E-Mail (From)
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client and helps prevent mails being rejected as spam. When a user manually sends an e-mail via ILIAS, the e-mail address associated with that user’s account will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>
 mail#:#mail_system_usr_from_name#:#Name of Sender (From)
 mail#:#mail_system_usr_from_name_info#:#The name of the sender is normally displayed in e-mail clients in the ‘From’ line. You can use the placeholders &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; and &lbrace;&lbrace;LASTNAME&rbrace;&rbrace;. These will then be replaced by the relevant data of the user who manually sent the mail.
+mail#:#mail_system_usr_general_signature#:#User Signature
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and, if required, make use of its placeholders. Switching to a different text template will change the message content of your mail and lose any changes you may have made. The subject line of your mail will not change and needs to be altered manually.
@@ -11715,6 +11748,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
 meta#:#md_copyright_alt_text#:#Text Representation
 meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
+meta#:#md_copyright_default#:#Default
 meta#:#md_copyright_edit#:#Edit Copyright
 meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
@@ -13128,13 +13162,13 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
-prg#:#prg_dash_label_finish_until#:#Finish until:
-prg#:#prg_dash_label_gain#:#Current Completion:
-prg#:#prg_dash_label_minimum#:#Minimum Completion:
-prg#:#prg_dash_label_restart_from#:#Restart from:
-prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Finish until
+prg#:#prg_dash_label_gain#:#Current Completion
+prg#:#prg_dash_label_minimum#:#Minimum Completion
+prg#:#prg_dash_label_restart_from#:#Restart from
+prg#:#prg_dash_label_status#:#Status
 prg#:#prg_dash_label_unreachable#:#- cannot be achieved
-prg#:#prg_dash_label_valid#:#Valid:
+prg#:#prg_dash_label_valid#:#Valid
 prg#:#prg_deadline#:#Deadline
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
@@ -13295,6 +13329,7 @@ prg#:#restart_period_info#:#Days before qualification expiration to restart qual
 prg#:#restart_period_label#:#Days before expiry
 prg#:#restart_recheck_desc#:#For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist.
 prg#:#restart_recheck_label#:#Check prerequisites again
+prg#:#restarted#:#restarted
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role
@@ -14054,6 +14089,7 @@ rbac#:#mobs_visible#:#Media Objects/Pools administration is visible
 rbac#:#mobs_write#:#User can edit settings in Media Objects/Pools administration
 rbac#:#moderate#:#Moderate
 rbac#:#moderate_frm#:#Moderate
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
 rbac#:#news_add_news#:#Add News
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
@@ -15184,6 +15220,7 @@ sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
 sess#:#sess_mem_contacts#:#Tutorial Support
+sess#:#sess_mem_send_mail#:#Send Mail
 sess#:#sess_mem_tbl_header#:#Session Participants
 sess#:#sess_member_administration#:#Edit Participants
 sess#:#sess_members#:#Participants
@@ -16394,7 +16431,7 @@ survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the survey.
 survey#:#survey_notification_finished_reason#:#You are receiving this e-mail because you activated notifications for the survey mentioned above.
 survey#:#survey_notification_target_group#:#Target Group
-survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop
+survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Dashboard as tasks (invitation)
 survey#:#survey_notification_target_group_invited_info#:#Number of current recipients: %s
 survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
@@ -16628,6 +16665,7 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
+svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Print View Selection
 svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants

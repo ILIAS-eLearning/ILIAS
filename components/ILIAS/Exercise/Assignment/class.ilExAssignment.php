@@ -23,7 +23,7 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\components\ResourceStorage_\Collections\View\PreviewDefinition;
+use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
@@ -1325,221 +1325,6 @@ class ilExAssignment
         }
     }
 
-    ////
-    //// Multi-Feedback
-    ////
-
-    /**
-     * Create member status record for a new assignment for all participants
-     */
-    public function sendMultiFeedbackStructureFile(ilObjExercise $exercise): void
-    {
-        $access = $this->access;
-
-        // send and delete the zip file
-        $deliverFilename = trim(str_replace(" ", "_", $this->getTitle() . "_" . $this->getId()));
-        $deliverFilename = ilFileUtils::getASCIIFilename($deliverFilename);
-        $deliverFilename = "multi_feedback_" . $deliverFilename;
-
-        $exc = new ilObjExercise($this->getExerciseId(), false);
-
-        $cdir = getcwd();
-
-        // create temporary directoy
-        $tmpdir = ilFileUtils::ilTempnam();
-        ilFileUtils::makeDir($tmpdir);
-        $mfdir = $tmpdir . "/" . $deliverFilename;
-        ilFileUtils::makeDir($mfdir);
-
-        // create subfolders <lastname>_<firstname>_<id> for each participant
-        $exmem = new ilExerciseMembers($exc);
-        $mems = $exmem->getMembers();
-
-        $mems = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'edit_submissions_grades',
-            'edit_submissions_grades',
-            $exercise->getRefId(),
-            $mems
-        );
-        foreach ($mems as $mem) {
-            $name = ilObjUser::_lookupName($mem);
-            $subdir = $name["lastname"] . "_" . $name["firstname"] . "_" . $name["login"] . "_" . $name["user_id"];
-            $subdir = ilFileUtils::getASCIIFilename($subdir);
-            ilFileUtils::makeDir($mfdir . "/" . $subdir);
-        }
-
-        // create the zip file
-        chdir($tmpdir);
-        $tmpzipfile = $tmpdir . "/multi_feedback.zip";
-        ilFileUtils::zip($tmpdir, $tmpzipfile, true);
-        chdir($cdir);
-
-
-        ilFileDelivery::deliverFileLegacy($tmpzipfile, $deliverFilename . ".zip", "", false, true);
-    }
-
-    /**
-     * @throws ilException
-     * @throws ilExerciseException
-     */
-    public function uploadMultiFeedbackFile(array $a_file): void
-    {
-        $lng = $this->lng;
-        $ilUser = $this->user;
-
-        if (!is_file($a_file["tmp_name"])) {
-            throw new ilExerciseException($lng->txt("exc_feedback_file_could_not_be_uploaded"));
-        }
-
-        $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-        $mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
-        ilFileUtils::delDir($mfu, true);
-        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_feedback.zip", $mfu . "/" . "multi_feedback.zip");
-        ilFileUtils::unzip($mfu . "/multi_feedback.zip", true);
-        $subdirs = ilFileUtils::getDir($mfu);
-        $subdir = "notfound";
-        foreach ($subdirs as $s => $j) {
-            if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback") {
-                $subdir = $s;
-            }
-        }
-
-        if (!is_dir($mfu . "/" . $subdir)) {
-            throw new ilExerciseException($lng->txt("exc_no_feedback_dir_found_in_zip"));
-        }
-    }
-
-    /**
-     * Get multi feedback files (of uploader)
-     *
-     * @param int $a_user_id user id of uploader
-     * @return array array of user files (keys: lastname, firstname, user_id, login, file)
-     */
-    public function getMultiFeedbackFiles(int $a_user_id = 0): array
-    {
-        $ilUser = $this->user;
-
-        if ($a_user_id == 0) {
-            $a_user_id = $ilUser->getId();
-        }
-
-        $mf_files = array();
-
-        // get members
-        $exc = new ilObjExercise($this->getExerciseId(), false);
-        $exmem = new ilExerciseMembers($exc);
-        $mems = $exmem->getMembers();
-
-        // read mf directory
-        $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-        $mfu = $storage->getMultiFeedbackUploadPath($a_user_id);
-
-        // get subdir that starts with multi_feedback
-        $subdirs = ilFileUtils::getDir($mfu);
-        $subdir = "notfound";
-        foreach ($subdirs as $s => $j) {
-            if ($j["type"] == "dir" && substr($s, 0, 14) == "multi_feedback") {
-                $subdir = $s;
-            }
-        }
-
-        $items = ilFileUtils::getDir($mfu . "/" . $subdir);
-        foreach ($items as $k => $i) {
-            // check directory
-            if ($i["type"] == "dir" && !in_array($k, array(".", ".."))) {
-                // check if valid member id is given
-                $parts = explode("_", $i["entry"]);
-                $user_id = (int) $parts[count($parts) - 1];
-                if (in_array($user_id, $mems)) {
-                    // read dir of user
-                    $name = ilObjUser::_lookupName($user_id);
-                    $files = ilFileUtils::getDir($mfu . "/" . $subdir . "/" . $k);
-                    foreach ($files as $k2 => $f) {
-                        // append files to array
-                        if ($f["type"] == "file" && substr($k2, 0, 1) != ".") {
-                            $mf_files[] = array(
-                                "lastname" => $name["lastname"],
-                                "firstname" => $name["firstname"],
-                                "login" => $name["login"],
-                                "user_id" => $name["user_id"],
-                                "full_path" => $mfu . "/" . $subdir . "/" . $k . "/" . $k2,
-                                "file" => $k2);
-                        }
-                    }
-                }
-            }
-        }
-        return $mf_files;
-    }
-
-    /**
-     * Clear multi feedback directory
-     */
-    public function clearMultiFeedbackDirectory(): void
-    {
-        $ilUser = $this->user;
-
-        $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-        $mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
-        ilFileUtils::delDir($mfu);
-    }
-
-    /**
-     * @param array<int, list<string>> $a_files
-     */
-    public function saveMultiFeedbackFiles(
-        array $a_files,
-        ilObjExercise $a_exc
-    ): void {
-        if ($this->getExerciseId() != $a_exc->getId()) {
-            return;
-        }
-
-        $notification = $this->domain->notification($a_exc->getRefId());
-
-        $fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-        $fstorage->create();
-
-        $mf_files = $this->getMultiFeedbackFiles();
-        foreach ($mf_files as $f) {
-            $user_id = $f["user_id"];
-            $file_path = $f["full_path"];
-            $file_name = $f["file"];
-
-            // if checked in confirmation gui
-            if (is_array($a_files[$user_id]) && in_array(md5($file_name), $a_files[$user_id])) {
-                $submission = new ilExSubmission($this, $user_id);
-                $feedback_id = $submission->getFeedbackId();
-                $noti_rec_ids = $submission->getUserIds();
-
-                if ($feedback_id) {
-                    $fb_path = $fstorage->getFeedbackPath($feedback_id);
-                    $target = $fb_path . "/" . $file_name;
-                    if (is_file($target)) {
-                        unlink($target);
-                    }
-                    // rename file
-                    ilFileUtils::rename($file_path, $target);
-
-                    if ($noti_rec_ids) {
-                        foreach ($noti_rec_ids as $user_id) {
-                            $member_status = $this->getMemberStatus($user_id);
-                            $member_status->setFeedback(true);
-                            $member_status->update();
-                        }
-
-                        $notification->sendFeedbackNotification(
-                            $this->getId(),
-                            $noti_rec_ids,
-                            $file_name
-                        );
-                    }
-                }
-            }
-        }
-
-        $this->clearMultiFeedbackDirectory();
-    }
 
     /**
      * Handle calendar entries for deadline(s)
@@ -1600,6 +1385,9 @@ class ilExAssignment
     {
         global $DIC;
 
+        $log = ilLoggerFactory::getLogger("exc");
+        $log->debug("Get feedback notifications.");
+
         $ilDB = $DIC->database();
 
         $res = array();
@@ -1620,13 +1408,16 @@ class ilExAssignment
 
 
         while ($row = $ilDB->fetchAssoc($set)) {
+            $log->debug("check assignment " . $row['id'] . ", fb_file " . $row["fb_file"]);
             if ($row['fb_date'] == self::FEEDBACK_DATE_DEADLINE) {
                 $max = max($row['time_stamp'], $row['deadline2']);
                 if (trim($row["fb_file"]) && $max <= time()) {
+                    $log->debug("...adding(1)");
                     $res[] = $row["id"];
                 }
             } elseif ($row['fb_date'] == self::FEEDBACK_DATE_CUSTOM) {
                 if (trim($row["fb_file"] ?? "") && ($row['fb_date_custom'] ?? 0) <= time()) {
+                    $log->debug("...adding(2)");
                     $res[] = $row["id"];
                 }
             }
@@ -1645,11 +1436,13 @@ class ilExAssignment
         global $DIC;
 
         $ilDB = $DIC->database();
+        $log = ilLoggerFactory::getLogger("exc");
 
         $ass = new self($a_ass_id);
 
         // valid assignment?
         if (!$ass->hasFeedbackCron() || !$ass->getFeedbackFile()) {
+            $log->debug("return(1)");
             return false;
         }
 
@@ -1660,6 +1453,7 @@ class ilExAssignment
                 " WHERE id = " . $ilDB->quote($a_ass_id, "integer"));
             $row = $ilDB->fetchAssoc($set);
             if ($row["fb_cron_done"]) {
+                $log->debug("return(2)");
                 return false;
             }
         }
@@ -1674,13 +1468,15 @@ class ilExAssignment
         $ntf->setReasonLangId("exc_feedback_notification_reason");
 
         if (!$a_user_id) {
-            $ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
+            $log->debug("send to members, cnt: " . count(ilExerciseMembers::_getMembers($ass->getExerciseId())));
+            $ntf->sendMailAndReturnRecipients(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 
             $ilDB->manipulate("UPDATE exc_assignment" .
                 " SET fb_cron_done = " . $ilDB->quote(1, "integer") .
                 " WHERE id = " . $ilDB->quote($a_ass_id, "integer"));
         } else {
-            $ntf->sendMail(array($a_user_id));
+            $log->debug("send to user: " . $a_user_id);
+            $ntf->sendMailAndReturnRecipients(array($a_user_id));
         }
 
         return true;

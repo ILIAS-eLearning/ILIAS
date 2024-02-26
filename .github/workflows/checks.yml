@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.1, 8.2]
+        php: [8.2]
         nodejs: [ 20.x ]
     steps:
       - name: Checkout code

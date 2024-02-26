@@ -27,6 +27,7 @@ use ILIAS\Exercise\Team\TeamDBRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepositoryInterface;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileRepository;
 use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileTeamRepository;
+use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackZipRepository;
 
 /**
  * Internal repo factory
@@ -87,6 +88,14 @@ class InternalRepoService
     public function tutorFeedbackFileTeam(): TutorFeedbackFileTeamRepository
     {
         return new TutorFeedbackFileTeamRepository(
+            $this->collection_wrapper,
+            $this->db
+        );
+    }
+
+    public function tutorFeedbackZip(): TutorFeedbackZipRepository
+    {
+        return new TutorFeedbackZipRepository(
             $this->collection_wrapper,
             $this->db
         );

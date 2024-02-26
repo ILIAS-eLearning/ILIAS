@@ -183,20 +183,11 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             }
         }
 
-        // #8701 - infoscreen actions
-        if ($this->ctrl->getCmd() !== 'info' && strtolower($next_class) === strtolower(ilInfoScreenGUI::class)) {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmd('info-' . $this->ctrl->getCmd());
-        }
-
-        // repository info call
-        if ($this->ctrl->getCmd() === 'infoScreen') {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
-            // $this->ctrl->setCmd('info');
-        }
-
         switch (strtolower($next_class)) {
+            case strtolower(ilInfoScreenGUI::class):
+                $this->infoScreen();
+                break;
+
             case strtolower(ilPropertyFormGUI::class):
                 $factory = new ilChatroomFormFactory();
                 $form = $factory->getClientSettingsForm();
@@ -282,6 +273,30 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             $this->ref_id,
             $this->object->getId()
         );
+    }
+
+    protected function infoScreen(): void
+    {
+        $this->prepareOutput();
+
+        $info = new ilInfoScreenGUI($this);
+
+        $info->enablePrivateNotes();
+
+        $refId = $this->request_wrapper->retrieve(
+            'ref_id',
+            $this->refinery->kindlyTo()->int()
+        );
+        if (ilChatroom::checkUserPermissions('read', $refId, false)) {
+            $info->enableNews();
+        }
+
+        $info->addMetaDataSections(
+            $this->getObject()->getId(),
+            0,
+            $this->getObject()->getType()
+        );
+        $this->ctrl->forwardCommand($info);
     }
 
     public function getConnector(): ilChatroomServerConnector

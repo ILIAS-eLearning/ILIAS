@@ -84,16 +84,30 @@ class User
         return $this->settings->validateOnLogin()->value() && $this->matchingDocument()->map($this->didNotAccept(...))->except($false)->value();
     }
 
+    public function needsToAcceptNewDocument(): bool
+    {
+        $true = fn() => new Ok(true);
+        $db = $this->legal_documents->history();
+
+        return $this->settings->validateOnLogin()->value()
+            && $db->currentDocumentOfAcceptedVersion($this->user)->map($this->doesntMatch(...))->except($true)->value();
+    }
+
+    public function doesntMatch(Document $document): bool
+    {
+        return !$this->legal_documents->document()->documentMatches($document, $this->user);
+    }
+
     public function matchingDocument(): Result
     {
         return ($this->matching_document)();
     }
 
-    public function acceptedDocument(): Result
+    public function acceptedVersion(): Result
     {
         return $this->cannotAgree() || $this->neverAgreed() ?
             new Error('User never agreed.') :
-            $this->legal_documents->history()->acceptedDocument($this->user);
+            $this->legal_documents->history()->acceptedVersion($this->user);
     }
 
     public function acceptMatchingDocument(): void

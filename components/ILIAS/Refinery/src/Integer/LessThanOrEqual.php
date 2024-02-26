@@ -22,11 +22,11 @@ namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class LessThanOrEqual extends Constraint
 {
-    public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(int $max, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         parent::__construct(
             static function ($value) use ($max): bool {

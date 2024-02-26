@@ -86,7 +86,7 @@ class RoundTripTest extends ModalBase
    <div class="modal-dialog" role="document" data-replace-marker="component">
       <div class="modal-content">
          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true"></span></button><span class="modal-title">Title</span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true"></span></button><h1 class="modal-title">Title</h1>
          </div>
          <div class="modal-body">Content</div>
          <div class="modal-footer">

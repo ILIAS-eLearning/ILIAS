@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -376,10 +379,6 @@
   display: inline-block;
 }
 
-.dropdown-toggle:focus {
-  outline: 0;
-}
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -683,8 +682,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -892,9 +892,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2005,6 +2002,9 @@ th {
     display: none !important;
   }
 }
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2226,24 +2226,10 @@ a:hover, a:focus {
   color: #3a4c65;
   text-decoration: underline;
 }
-a:focus {
-  outline: none;
-  outline-offset: 0px;
-}
 a:focus-visible {
-  position: relative;
-  outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
-}
-a:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
 small,
@@ -2380,8 +2366,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -2479,12 +2466,27 @@ code {
 .breadcrumb_wrapper .breadcrumb span.crumb a:hover {
   color: #3a4c65;
 }
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus::after {
+  content: none;
+}
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible::after {
   content: none;
+}
+.breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
   content: " \e606";
@@ -2553,6 +2555,11 @@ ol.breadcrumb > li + li:before {
 .il-drilldown .navbar-form > .menulevel + a, .navbar-form > a + a {
   margin-left: 3px;
 }
+.btn:focus-visible, .il-link.link-bulky:focus-visible,
+.il-drilldown .menulevel:focus-visible, .navbar-form > a:focus-visible {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
+}
 
 a.btn.disabled, a.disabled.il-link.link-bulky,
 .il-drilldown a.disabled.menulevel, .navbar-form > a.disabled, fieldset[disabled] a.btn, fieldset[disabled] a.il-link.link-bulky,
@@ -2593,10 +2600,6 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #3a4c65;
 }
-.btn-default:focus-visible, .navbar-form > a:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .btn-default:active, .navbar-form > a:active {
   transform: none;
   background-color: #273445;
@@ -2604,6 +2607,10 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #273445;
+}
+.btn-default:focus, .navbar-form > a:focus {
+  color: white;
+  text-decoration: none;
 }
 .btn-default[disabled], .navbar-form > a[disabled],
 .btn-default fieldset[disabled],
@@ -2645,10 +2652,6 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #3b5620;
 }
-.btn-primary:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .btn-primary:active {
   transform: none;
   background-color: #223112;
@@ -2656,6 +2659,10 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #223112;
+}
+.btn-primary:focus {
+  color: white;
+  text-decoration: none;
 }
 .btn-primary[disabled],
 .btn-primary fieldset[disabled] {
@@ -2690,7 +2697,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link,
 .il-viewcontrol-mode > .btn-default,
 .il-viewcontrol-mode > .btn-link, .il-viewcontrol-sortation .dropdown > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   display: inline-flex;
   vertical-align: middle;
   align-items: center;
@@ -3103,31 +3112,122 @@ input.btn, input.il-link.link-bulky,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element.il-viewcontrol-mode > .btn-link + .btn-default.btn,
 .il-viewcontrol-sortation .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element.dropdown > .btn-default.btn + .btn-default.btn,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .il-viewcontrol-sortation .l-bar__element.dropdown > .btn-default.btn + .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn + .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn + .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-ctrl, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-default, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-link, .il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.btn-group > .btn-link + .btn-default.btn,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-ctrl,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.dropdown > .btn-default + .btn-default.btn,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a + .btn-ctrl,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > a + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > a + .btn-link,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.navbar-form.dropdown > a + .btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-ctrl + .btn-link, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-default + .btn-link, .ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.btn-group > .btn-link + .btn-link, .il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-default.btn + .btn-link,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.btn-group > .btn-default.btn + .btn-link, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link + .btn-link,
+.ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-link,
+.ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > a + .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-ctrl + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.dropdown > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default.btn + .btn-default,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.dropdown > .btn-default.btn + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown.btn-group > .btn-link + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default + .btn-default,
+.ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a + .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > .btn-ctrl + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-section.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > .btn-default + a,
+.il-viewcontrol-section .ilTableNav > table > tbody > tr > td > .btn-group.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__sectioncontrol.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination__num-of-items.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-pagination.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-default + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-link + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > .btn-default + a,
+.il-viewcontrol-pagination .ilTableNav > table > tbody > tr > td > .last.navbar-form.dropdown > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .il-viewcontrol-mode.navbar-form.dropdown > .btn-link + a,
+.il-viewcontrol-sortation .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > .btn-default.btn + a,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .ilTableNav > table > tbody > tr > td > .l-bar__element.navbar-form.dropdown > .btn-default.btn + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown.btn-group > .btn-link + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > .btn-default + a,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a + a {
   margin-left: 3px;
-}
-.btn-ctrl:hover, .il-viewcontrol-section > .btn-default:hover, .il-viewcontrol-section > .btn-link:hover,
-.il-viewcontrol-section .btn-group > .btn-default:hover,
-.il-viewcontrol-section .btn-group > .btn-link:hover,
-.il-viewcontrol-pagination__sectioncontrol > .btn-default:hover,
-.il-viewcontrol-pagination__sectioncontrol > .btn-link:hover,
-.il-viewcontrol-pagination__num-of-items > .btn-default:hover,
-.il-viewcontrol-pagination__num-of-items > .btn-link:hover,
-.il-viewcontrol-pagination > .btn-default:hover,
-.il-viewcontrol-pagination > .btn-link:hover,
-.il-viewcontrol-pagination .dropdown > .btn-default:hover,
-.il-viewcontrol-pagination .dropdown > .btn-link:hover,
-.il-viewcontrol-pagination .last > .btn-default:hover,
-.il-viewcontrol-pagination .last > .btn-link:hover,
-.il-viewcontrol-mode > .btn-default:hover,
-.il-viewcontrol-mode > .btn-link:hover, .il-viewcontrol-sortation .dropdown > .btn-default.btn:hover,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:hover {
-  text-decoration: none;
-  background-color: white;
-  color: #4c6586;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #4c6586;
 }
 .btn-ctrl:focus-visible, .il-viewcontrol-section > .btn-default:focus-visible, .il-viewcontrol-section > .btn-link:focus-visible,
 .il-viewcontrol-section .btn-group > .btn-default:focus-visible,
@@ -3144,9 +3244,36 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:focus-visible,
 .il-viewcontrol-mode > .btn-default:focus-visible,
 .il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus-visible,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus-visible, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:focus-visible,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus-visible,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
+}
+.btn-ctrl:hover, .il-viewcontrol-section > .btn-default:hover, .il-viewcontrol-section > .btn-link:hover,
+.il-viewcontrol-section .btn-group > .btn-default:hover,
+.il-viewcontrol-section .btn-group > .btn-link:hover,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:hover,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:hover,
+.il-viewcontrol-pagination__num-of-items > .btn-default:hover,
+.il-viewcontrol-pagination__num-of-items > .btn-link:hover,
+.il-viewcontrol-pagination > .btn-default:hover,
+.il-viewcontrol-pagination > .btn-link:hover,
+.il-viewcontrol-pagination .dropdown > .btn-default:hover,
+.il-viewcontrol-pagination .dropdown > .btn-link:hover,
+.il-viewcontrol-pagination .last > .btn-default:hover,
+.il-viewcontrol-pagination .last > .btn-link:hover,
+.il-viewcontrol-mode > .btn-default:hover,
+.il-viewcontrol-mode > .btn-link:hover, .il-viewcontrol-sortation .dropdown > .btn-default.btn:hover,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:hover, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:hover,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:hover,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #4c6586;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
 }
 .btn-ctrl:active, .il-viewcontrol-section > .btn-default:active, .il-viewcontrol-section > .btn-link:active,
 .il-viewcontrol-section .btn-group > .btn-default:active,
@@ -3163,13 +3290,36 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:active,
 .il-viewcontrol-mode > .btn-default:active,
 .il-viewcontrol-mode > .btn-link:active, .il-viewcontrol-sortation .dropdown > .btn-default.btn:active,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:active {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:active, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:active,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:active,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:active {
   transform: none;
   background-color: white;
   color: #4c6586;
   border-width: 1px;
   border-style: solid;
   border-color: white;
+}
+.btn-ctrl:focus, .il-viewcontrol-section > .btn-default:focus, .il-viewcontrol-section > .btn-link:focus,
+.il-viewcontrol-section .btn-group > .btn-default:focus,
+.il-viewcontrol-section .btn-group > .btn-link:focus,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus,
+.il-viewcontrol-pagination__num-of-items > .btn-default:focus,
+.il-viewcontrol-pagination__num-of-items > .btn-link:focus,
+.il-viewcontrol-pagination > .btn-default:focus,
+.il-viewcontrol-pagination > .btn-link:focus,
+.il-viewcontrol-pagination .dropdown > .btn-default:focus,
+.il-viewcontrol-pagination .dropdown > .btn-link:focus,
+.il-viewcontrol-pagination .last > .btn-default:focus,
+.il-viewcontrol-pagination .last > .btn-link:focus,
+.il-viewcontrol-mode > .btn-default:focus,
+.il-viewcontrol-mode > .btn-link:focus, .il-viewcontrol-sortation .dropdown > .btn-default.btn:focus,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn:focus, .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link:focus,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a:focus {
+  color: #4c6586;
+  text-decoration: none;
 }
 .btn-ctrl[disabled], .il-viewcontrol-section > [disabled].btn-default, .il-viewcontrol-section > [disabled].btn-link,
 .il-viewcontrol-section .btn-group > [disabled].btn-default,
@@ -3186,7 +3336,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > [disabled].btn-link,
 .il-viewcontrol-mode > [disabled].btn-default,
 .il-viewcontrol-mode > [disabled].btn-link, .il-viewcontrol-sortation .dropdown > [disabled].btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > [disabled].btn-default.btn,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > [disabled].btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > [disabled].btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > [disabled].btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a[disabled],
 .btn-ctrl fieldset[disabled],
 .il-viewcontrol-section > .btn-default fieldset[disabled],
 .il-viewcontrol-section > .btn-link fieldset[disabled],
@@ -3205,7 +3357,10 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-mode > .btn-default fieldset[disabled],
 .il-viewcontrol-mode > .btn-link fieldset[disabled],
 .il-viewcontrol-sortation .dropdown > .btn-default.btn fieldset[disabled],
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn fieldset[disabled] {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
   background-color: white;
   border-width: 1px;
   border-style: solid;
@@ -3229,7 +3384,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .engaged.btn-link,
 .il-viewcontrol-mode > .engaged.btn-default,
 .il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .dropdown > .engaged.btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .engaged.btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .engaged.btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a.engaged {
   background-color: white;
   border-width: 3px;
   border-style: solid;
@@ -3251,7 +3408,9 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .engaged.btn-link,
 .il-viewcontrol-mode > .engaged.btn-default,
 .il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .dropdown > .engaged.btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .engaged.btn-default.btn, .ilTableNav > table > tbody > tr > td > .btn-group > .engaged.btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .engaged.btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a.engaged, .open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
 .open .il-viewcontrol-section .btn-group > .btn-default,
 .il-viewcontrol-section .open .btn-group > .btn-default,
 .open .il-viewcontrol-section .btn-group > .btn-link,
@@ -3273,7 +3432,9 @@ input.btn, input.il-link.link-bulky,
 .open .il-viewcontrol-mode > .btn-default,
 .open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .dropdown > .btn-default.btn, .il-viewcontrol-sortation .open .dropdown > .btn-default.btn,
 .open .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn, .open .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.open .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.open .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   border: 1px solid #4c6586;
   background-color: white;
 }
@@ -3299,8 +3460,16 @@ input.btn, input.il-link.link-bulky,
 .open .il-viewcontrol-mode > .btn-default,
 .open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .dropdown > .btn-default.btn, .il-viewcontrol-sortation .open .dropdown > .btn-default.btn,
 .open .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element > .btn-default.btn,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn {
+.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .open .l-bar__element > .btn-default.btn, .open .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.open .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.open .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
   box-shadow: none;
+}
+
+.ilTableNav > table > tbody > tr > td > .btn-group > .btn-link,
+.ilTableNav > table > tbody > tr > td > .dropdown > .btn-default,
+.ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a {
+  margin-left: 3px;
 }
 
 .btn-link {
@@ -3361,11 +3530,6 @@ input.btn, input.il-link.link-bulky,
   border-style: solid;
   border-color: #e2e8ef;
 }
-.btn-bulky:focus-visible, .il-link.link-bulky:focus-visible,
-.il-drilldown .menulevel:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .btn-bulky:active, .il-link.link-bulky:active,
 .il-drilldown .menulevel:active {
   background-color: #bdbdbd;
@@ -3373,6 +3537,11 @@ input.btn, input.il-link.link-bulky,
   border-width: 1px;
   border-style: solid;
   border-color: #bdbdbd;
+}
+.btn-bulky:focus, .il-link.link-bulky:focus,
+.il-drilldown .menulevel:focus {
+  color: #161616;
+  text-decoration: none;
 }
 .btn-bulky[disabled], [disabled].il-link.link-bulky,
 .il-drilldown [disabled].menulevel,
@@ -3541,10 +3710,6 @@ button .minimize, button .close {
   border-style: solid;
   border-color: #3a4c65;
 }
-.btn-tag:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .btn-tag:active {
   transform: none;
   background-color: #273445;
@@ -3552,6 +3717,10 @@ button .minimize, button .close {
   border-width: 1px;
   border-style: solid;
   border-color: #273445;
+}
+.btn-tag:focus {
+  color: white;
+  text-decoration: none;
 }
 .btn-tag[disabled],
 .btn-tag fieldset[disabled] {
@@ -3725,6 +3894,8 @@ button .minimize, button .close {
   padding: 9px 6px;
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown > .dropdown > button {
+  position: relative;
+  z-index: 1;
   background-color: inherit;
   border: #dddddd 1px solid;
   width: 29px;
@@ -4351,22 +4522,6 @@ hr.il-divider-with-label {
   text-overflow: ellipsis;
 }
 
-@media (max-width: 768px) {
-  .il-filter .webui-popover {
-    position: static;
-    max-width: none;
-  }
-  .il-filter .webui-popover.bottom > .webui-arrow, .il-filter .webui-popover.bottom-right > .webui-arrow, .il-filter .webui-popover.bottom-left > .webui-arrow {
-    display: none;
-  }
-  .il-filter .webui-popover.bottom, .il-filter .webui-popover.bottom-left, .il-filter .webui-popover.bottom-right {
-    padding: 4px;
-    margin-top: 0;
-    border: 0;
-    box-shadow: none;
-    background-color: #f9f9f9;
-  }
-}
 .il-filter.disabled .il-filter-inputs-active span {
   color: #6f6f6f;
 }
@@ -4671,6 +4826,9 @@ td.form-inline > div.form-group {
 .il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
   display: block;
 }
+.il-item h4.il-item-title {
+  margin: 0;
+}
 .il-item .il-item-actions {
   float: right;
 }
@@ -4866,10 +5024,6 @@ td.form-inline > div.form-group {
   border-style: solid;
   border-color: #3b5620;
 }
-.c-launcher .btn-bulky:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
-}
 .c-launcher .btn-bulky:active {
   transform: none;
   background-color: #223112;
@@ -4877,6 +5031,10 @@ td.form-inline > div.form-group {
   border-width: 1px;
   border-style: solid;
   border-color: #223112;
+}
+.c-launcher .btn-bulky:focus {
+  color: white;
+  text-decoration: none;
 }
 .c-launcher .btn-bulky[disabled],
 .c-launcher .btn-bulky fieldset[disabled] {
@@ -5199,7 +5357,6 @@ footer {
   .header-inner {
     position: relative;
     height: 45px;
-    padding: 0;
     width: 100%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
@@ -5477,19 +5634,19 @@ footer {
 }
 .il-workflow-container .il-workflow-step:before {
   background-color: white;
-  border: 1.05px solid #4c6586;
+  border: 2px solid #4c6586;
   border-radius: 50%;
   color: white;
   content: "";
   font-family: Glyphicons Halflings;
   font-size: 11px;
-  height: 21px;
-  line-height: 19px;
+  height: 22px;
+  line-height: 22px;
   margin-left: 5px;
-  padding-left: 1px;
+  padding-left: 0px;
   position: absolute;
   text-align: center;
-  width: 21px;
+  width: 22px;
 }
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
@@ -5501,31 +5658,31 @@ footer {
 .il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
   content: "\e033";
-  color: #dddddd;
-  background-color: #f9f9f9;
-  border: none;
+  background-color: white;
+  border: 2px solid #737373;
 }
 .il-workflow-container .not-available.in-progress:before,
 .il-workflow-container .no-longer-available.in-progress:before {
-  background-color: #a1b3ca;
-  color: white;
+  background-color: #737373;
 }
 .il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
-  color: #2c2c2c;
-  opacity: 0.5;
+  color: #5c5c5c;
+}
+.il-workflow-container .not-available.not-started::before,
+.il-workflow-container .no-longer-available.not-started::before {
+  color: #5c5c5c;
 }
 .il-workflow-container .not-available .text,
 .il-workflow-container .no-longer-available .text {
-  color: #dddddd;
+  color: #5c5c5c;
 }
 .il-workflow-container .no-longer-available:before {
   content: "\e023";
 }
 .il-workflow-container .completed-successfully:before,
 .il-workflow-container .completed-unsuccessfully:before {
-  background-color: #dddddd;
-  color: white;
+  background-color: #737373;
 }
 .il-workflow-container .completed-successfully:before {
   content: "\e013";
@@ -5540,12 +5697,12 @@ footer {
 }
 .il-workflow-container .active:before {
   margin: 0;
-  width: 31.5px;
-  height: 31.5px;
+  width: 33px;
+  height: 33px;
   font-size: 1.115rem;
 }
 .il-workflow-container .active.completed-successfully:before, .il-workflow-container .active.completed-unsuccessfully:before {
-  line-height: 31.5px;
+  line-height: 33px;
   background-color: #4c6586;
 }
 .il-workflow-container .active .text .il-workflow-step-label,
@@ -5556,9 +5713,9 @@ footer {
 }
 .il-workflow-container .text {
   border-left: 1px dashed #2c2c2c;
-  font-size: 14.7px;
-  margin-left: 15px;
-  padding: 0 0 31.5px 21px;
+  font-size: 15.4px;
+  margin-left: 17px;
+  padding: 0 0 33px 22px;
 }
 .il-workflow-container .text .il-workflow-step-label {
   display: block;
@@ -5789,29 +5946,29 @@ footer {
 .il-maincontrols-metabar .il-counter {
   font-size: 1.4375rem;
 }
-.il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > .il-link.link-bulky {
+.il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
   border: none;
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
 @media only screen and (max-width: 991px) {
-  .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > .il-link.link-bulky {
+  .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
     height: 45px;
     min-width: 45px;
   }
 }
-.il-maincontrols-metabar > li > .btn.btn-bulky:focus, .il-maincontrols-metabar > li > .btn.btn-bulky:active, .il-maincontrols-metabar > li > .il-link.link-bulky:focus, .il-maincontrols-metabar > li > .il-link.link-bulky:active {
+.il-maincontrols-metabar > li > .btn.btn-bulky:focus, .il-maincontrols-metabar > li > .btn.btn-bulky:active, .il-maincontrols-metabar > li > a.il-link.link-bulky:focus, .il-maincontrols-metabar > li > a.il-link.link-bulky:active {
   box-shadow: none;
 }
-.il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > .il-link.link-bulky.engaged {
+.il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > .il-link.link-bulky .glyphicon {
+.il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > a.il-link.link-bulky .glyphicon {
   color: #737373;
   font-size: 1.4375rem;
 }
@@ -5864,14 +6021,6 @@ footer {
     color: #737373;
     font-size: 1.25rem;
   }
-  .il-metabar-slates .il-counter-status,
-  .il-metabar-slates .il-counter-novelty {
-    margin-top: 0;
-    top: 6px;
-  }
-  .il-metabar-slates .bulky-label {
-    margin-left: 10px;
-  }
   .il-metabar-slates .il-counter-spacer {
     margin-left: -18px;
   }
@@ -5886,6 +6035,9 @@ footer {
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
+  }
+  .il-metabar-slates .il-maincontrols-slate-content > .btn + .btn {
+    margin-left: 0;
   }
 }
 
@@ -6707,6 +6859,11 @@ footer {
   background-color: transparent;
   border: none;
 }
+.il-drilldown header .backnav .btn-bulky:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+}
 .il-drilldown header.show-backnav {
   padding-left: 38px;
 }
@@ -7199,7 +7356,7 @@ div.alert ul > li:before {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 997;
   display: none;
   min-width: 50px;
   min-height: 32px;
@@ -7465,7 +7622,7 @@ div.alert ul > li:before {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9998;
+  z-index: 996;
 }
 
 .webui-popover .dropdown-menu {
@@ -7511,17 +7668,10 @@ div.alert ul > li:before {
   text-transform: none;
   color: #161616;
 }
-.il-popover.webui-popover-fixed {
+.il-popover.webui-popover {
   position: fixed;
 }
 
-@media (max-width: 768px) {
-  .il-popover.webui-popover-fixed {
-    position: absolute;
-    left: 0 !important;
-    width: 100%;
-  }
-}
 .icon {
   display: inline-block;
   text-align: center;
@@ -8865,13 +9015,13 @@ div.alert ul > li:before {
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-3 {
-  background-color: #aa890a;
-  border-color: #f8e188;
+  background-color: #896F06;
+  border-color: #f8db63;
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-4 {
-  background-color: #c87e0a;
-  border-color: #fad9a4;
+  background-color: #A06608;
+  border-color: #f8c97c;
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-5 {
@@ -8885,8 +9035,8 @@ div.alert ul > li:before {
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-7 {
-  background-color: #bf6516;
-  border-color: #f5ceac;
+  background-color: #B25E15;
+  border-color: #f4c79f;
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-8 {
@@ -8925,8 +9075,8 @@ div.alert ul > li:before {
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-15 {
-  background-color: #78848c;
-  border-color: #e6e8ea;
+  background-color: #6A747C;
+  border-color: #d6d9dc;
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-16 {
@@ -8980,8 +9130,8 @@ div.alert ul > li:before {
   color: white;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-26 {
-  background-color: #e74c3c;
-  border-color: #a82315;
+  background-color: #DE2F1B;
+  border-color: #f9d1cc;
   color: white;
 }
 
@@ -9128,6 +9278,9 @@ th.c-table-data__cell {
     z-index: 4;
     background: rgb(255, 255, 255);
     background: linear-gradient(90deg, rgb(255, 255, 255) 85%, rgba(255, 255, 255, 0) 100%);
+  }
+  th.c-table-data__cell.c-table-data__header__rowaction {
+    padding: 12px 12px;
   }
 }
 
@@ -9700,6 +9853,7 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10392,6 +10546,7 @@ div.il_info {
   border-color: #dddddd;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10511,9 +10666,15 @@ tbody.collapse.in {
   border-bottom-left-radius: 0;
 }
 
-.btn-group .dropdown-toggle:active,
-.btn-group.open .dropdown-toggle {
+.btn-group .dropdown-toggle:active:not(:focus-visible),
+.btn-group.open .dropdown-toggle:not(:focus-visible) {
   outline: 0;
+}
+.btn-group .dropdown-toggle:active:focus-visible:focus-visible,
+.btn-group.open .dropdown-toggle:focus-visible:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
 .btn-group > .btn + .dropdown-toggle {
@@ -10797,17 +10958,16 @@ tbody.collapse.in {
   height: 10px;
   margin: 1px;
   text-indent: -999px;
-  border: 1px solid white;
+  border: 1px solid #4c6586;
   border-radius: 10px;
   cursor: pointer;
-  background-color: #000 \9 ;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #4c6586;
 }
 .carousel-indicators .active {
   margin: 0;
   width: 12px;
   height: 12px;
-  background-color: white;
+  background-color: #3a4c65;
 }
 
 .carousel-caption {
@@ -10818,7 +10978,7 @@ tbody.collapse.in {
   z-index: 10;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: white;
+  color: #4c6586;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
@@ -11019,6 +11179,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -11754,10 +11915,14 @@ div.ilFrmPostHeader span.small {
 .ilFrmTargetImage img {
   height: 20px !important;
 }
-.ilFrmTargetImage a {
+.ilFrmTargetImage a.il-link.link-bulky {
   display: inline-block;
+  width: auto;
+  min-height: auto;
+  border: none;
+  background: inherit;
 }
-.ilFrmTargetImage .il-link.link-bulky .bulky-label {
+.ilFrmTargetImage a.il-link.link-bulky .bulky-label {
   display: none;
 }
 
@@ -13086,6 +13251,12 @@ div.ilc_Page.readonly textarea[disabled] {
   vertical-align: top;
 }
 
+.ilc_question_MatchingQuestion #sourceArea {
+  height: fit-content;
+  position: sticky;
+  top: 40px;
+}
+
 #tst_output {
   display: flex;
 }
@@ -13417,7 +13588,7 @@ div.ilc_va_icont_VAccordICont {
 .ilAwarenessItem > div[role=button]:focus-visible:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 .ilAwarenessItem > div[role=button]:focus-visible:focus-visible::after {
   content: " ";
@@ -14677,14 +14848,6 @@ div.ilTinyMenuSection p, .il-copg-button-group p {
   padding: 2px 5px;
   background-color: #efefef;
 }
-@media only screen and (max-width: 991px) {
-  div.ilTinyMenuSection, .il-copg-button-group {
-    height: 28px;
-    margin: 3px 3px 3px 0px;
-    padding: 0 10px 0 0;
-    border-right: 0 none;
-  }
-}
 
 div.ilTinyMenuSection button.btn {
   display: inline-block;
@@ -14705,14 +14868,6 @@ div.il-copg-button-group-wide {
 #ilTinyMenuButtons {
   padding-bottom: 15px;
   zoom: 1;
-}
-@media only screen and (max-width: 991px) {
-  #ilTinyMenuButtons {
-    height: 28px;
-    margin: 3px 3px 3px 0;
-    padding: 0 10px 0 0;
-    border-right: 0 none;
-  }
 }
 
 #iltinymenu .bd div.last {
@@ -15118,6 +15273,11 @@ div.ilCOPGMediaPrint {
     display: none;
   }
 }
+#copg-editor-slate-content h3.ilTinyInfo {
+  font-size: 1rem;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
 #copg-editor-slate-content div.alert {
   margin: 10px 0;
 }
@@ -15263,7 +15423,7 @@ p#copg-auto-save {
 .ilPageVideo button:focus-visible, .ilPageAudio button:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 .ilPageVideo button:focus-visible::after, .ilPageAudio button:focus-visible::after {
   content: " ";
@@ -15350,7 +15510,7 @@ input[type=radio]:focus-visible,
 input[type=checkbox]:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 input[type=file]:focus-visible::after,
 input[type=radio]:focus-visible::after,
@@ -15385,7 +15545,7 @@ input[type=checkbox]:focus-visible::after {
 }
 .form-control:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .form-control::-moz-placeholder {
   color: #6f6f6f;
@@ -15396,6 +15556,16 @@ input[type=checkbox]:focus-visible::after {
 }
 .form-control::-webkit-input-placeholder {
   color: #6f6f6f;
+}
+.form-control[required]::-moz-placeholder {
+  color: #161616;
+  opacity: 1;
+}
+.form-control[required]:-ms-input-placeholder {
+  color: #161616;
+}
+.form-control[required]::-webkit-input-placeholder {
+  color: #161616;
 }
 .form-control::-ms-expand {
   border: 0;
@@ -15541,11 +15711,7 @@ fieldset[disabled] .checkbox label {
   margin: 2px 0 10px;
 }
 .help-block.alert-danger {
-  margin: 3px 0 0;
-  padding: 0 3px 0 3px;
-  color: #161616;
-  background-color: #ffd7d7;
-  border-color: #ffd7d7;
+  margin-bottom: 3px;
 }
 
 @media (min-width: 768px) {
@@ -15621,6 +15787,13 @@ fieldset[disabled] .checkbox label {
 }
 .form-horizontal .row > input.form-control, .form-horizontal .row > textarea.form-control, .form-horizontal .row > select.form-control {
   margin-left: 15px;
+}
+.form-horizontal .row > .btn, .form-horizontal .row > input.btn, .form-horizontal .row > .tox-tinymce, .form-horizontal .row > div.input {
+  margin-left: 15px;
+}
+.form-horizontal .row > .tox-tinymce {
+  padding-left: 0;
+  padding-right: 0;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox,
@@ -15793,6 +15966,10 @@ div.ilHFormFooter .ilFormCmds {
   position: relative;
   overflow: hidden;
 }
+.btn-file:focus-within {
+  outline: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
+}
 
 .btn-file input[type=file] {
   position: absolute;
@@ -15895,6 +16072,11 @@ a#ilHelpClose {
 
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
+}
+.il_InfoScreenPropertyValue .breadcrumb {
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
 }
 
 /* Services/Init */
@@ -16049,6 +16231,13 @@ a.mailunread, a.mailunread:visited {
   min-width: 45px !important;
   max-width: 45px !important;
   height: auto;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.mailusername {
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .pdMailRow .imageSpace {
@@ -16057,6 +16246,13 @@ a.mailunread, a.mailunread:visited {
 .pdMailRow > img {
   margin: 2px 0;
   max-width: 30px;
+}
+
+#form_MailContent .form-group .col-lg-10.col-md-9.col-sm-8.row a {
+  padding-right: 0;
+  padding-left: 0;
+  display: contents;
+  width: auto;
 }
 
 /* Services/MediaObjects */
@@ -16633,9 +16829,15 @@ div.ilCreationFormSection .form-horizontal {
   overflow: visible;
   pointer-events: none;
   z-index: 1039;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 #onscreenchat-container .iosOnScreenChat {
   margin-right: -3px;
+  margin-left: -15px;
+  position: relative;
 }
 #onscreenchat-container .popover {
   max-width: 200px;
@@ -16652,9 +16854,6 @@ div.ilCreationFormSection .form-horizontal {
 #onscreenchat-container .popover a img {
   max-width: 19px;
   max-height: 19px;
-}
-#onscreenchat-container .row {
-  position: relative;
 }
 #onscreenchat-container .chat-window-wrapper {
   bottom: 0;
@@ -16745,12 +16944,23 @@ div.ilCreationFormSection .form-horizontal {
 #onscreenchat-container .chat-window-wrapper .chat li {
   padding-bottom: 5px;
 }
+#onscreenchat-container .chat-window-wrapper .chat li:before {
+  display: table;
+  content: " ";
+}
+#onscreenchat-container .chat-window-wrapper .chat li:after {
+  display: table;
+  content: " ";
+  clear: both;
+}
 #onscreenchat-container .chat-window-wrapper .chat li.separator {
   text-align: center;
   background-color: #f9f9f9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator p {
   font-size: 0.75rem;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.header, #onscreenchat-container .chat-window-wrapper .chat li.message {
   padding-left: 15px;
@@ -16812,6 +17022,7 @@ div.ilCreationFormSection .form-horizontal {
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
+  width: 100%;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-body .fader {
   position: -webkit-sticky;
@@ -17280,6 +17491,7 @@ div.tblfooter {
 
 div.ilTableNav {
   font-weight: 400;
+  margin-bottom: 6px;
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
@@ -18067,6 +18279,43 @@ a.ilMediaLightboxClose:hover {
 #ilTab > li > a:hover {
   border-color: white white white;
 }
+#ilTab > li > a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus::after {
+  content: none;
+}
+#ilTab > li > a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus-visible::after {
+  content: none;
+}
+#ilTab > li > a:focus {
+  outline: none;
+  outline-offset: 0px;
+}
+#ilTab > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+#ilTab > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
 #ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus {
   color: white;
   cursor: default;
@@ -18098,6 +18347,43 @@ a.ilMediaLightboxClose:hover {
 #ilSubTab > li > a:hover {
   text-decoration: underline;
   background-color: transparent;
+}
+#ilSubTab > li > a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus::after {
+  content: none;
+}
+#ilSubTab > li > a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus-visible::after {
+  content: none;
+}
+#ilSubTab > li > a:focus {
+  outline: none;
+  outline-offset: 0px;
+}
+#ilSubTab > li > a:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 5px;
+}
+#ilSubTab > li > a:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
 }
 #ilSubTab > li.active > a, #ilSubTab > li.active > a:hover, #ilSubTab > li.active > a:focus {
   color: #4c6586;
@@ -18176,7 +18462,7 @@ a.ilMediaLightboxClose:hover {
 .ilToolbar .navbar-toggle:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 .ilToolbar .navbar-toggle:focus-visible::after {
   content: " ";
@@ -18514,7 +18800,7 @@ a.ilMediaLightboxClose:hover {
 
 @media (min-width: 768px) {
   .navbar-text {
-    float: left;
+    text-align: left;
     margin-left: 9px;
     margin-right: 9px;
   }
@@ -18691,7 +18977,7 @@ img.ilUserXXSmall {
 .webdav-view-control:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
+  outline-offset: 5px;
 }
 .webdav-view-control:focus-visible::after {
   content: " ";
@@ -18704,13 +18990,6 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
-/*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
@@ -18834,11 +19113,6 @@ div.input {
 
 div.input:focus {
   border-color: #0078D7;
-}
-
-.ilWhiteSpaceNowrap.ilRight a, .ilWhiteSpaceNowrap.ilRight .btn-group {
-  padding-left: 6px;
-  border: 1px solid transparent;
 }
 
 .registration {

@@ -263,6 +263,8 @@ class ilNewsTimelineGUI
         $this->lng->toJS("save");
 
         $this->tpl->addJavaScript("./components/ILIAS/News/js/News.js");
+        $this->notes->gui()->initJavascript();
+
         return $html;
     }
 

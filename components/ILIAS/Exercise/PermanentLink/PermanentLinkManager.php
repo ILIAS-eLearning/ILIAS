@@ -271,6 +271,11 @@ class PermanentLinkManager
         );
     }
 
+    public function getReceivedFeedbackLink(int $ref_id, int $ass_id): string
+    {
+        return $this->_getPermanentLink($ref_id, [$ass_id, "received"]);
+    }
+
     public function getReceivedFeedbackAppend(int $ass_id): array
     {
         return [$ass_id, "received"];

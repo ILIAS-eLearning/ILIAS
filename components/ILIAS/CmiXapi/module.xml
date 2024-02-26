@@ -27,7 +27,7 @@
 	</objects>
 	<events>
 		<event type="listen" id="components/ILIAS/User" />
-		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ILIASObject" />
 		<event type="listen" id="components/ILIAS/Course" />
 		<event type="listen" id="components/ILIAS/Group" />
 	</events>

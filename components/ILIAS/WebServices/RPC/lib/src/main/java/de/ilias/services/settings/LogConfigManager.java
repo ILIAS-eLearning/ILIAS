@@ -125,7 +125,7 @@ public class LogConfigManager {
 		RollingFileAppender file = RollingFileAppender.newBuilder()
 				.setName("RollingFile")
 				.withFileName(getLogFile().getAbsolutePath())
-				.withFilePattern(getLogFile().getName() + "%d")
+				.withFilePattern(getLogFile().getAbsolutePath() + ".%i")
 				.withStrategy(strategy)
 				.withPolicy(SizeBasedTriggeringPolicy.createPolicy("100MB"))
 				.setConfiguration(config)
@@ -133,7 +133,6 @@ public class LogConfigManager {
 				.build();
 		file.start();
 		config.addAppender(file);
-
 
 		rootConfig.addAppender(
 				file,

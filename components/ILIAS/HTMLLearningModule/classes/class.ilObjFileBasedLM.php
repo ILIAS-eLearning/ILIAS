@@ -83,10 +83,7 @@ class ilObjFileBasedLM extends ilObject
 
     public function getDataDirectory(string $mode = "filesystem"): string
     {
-        $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
-        $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
-
-        return $lm_dir;
+        return CLIENT_WEB_DIR. "/lm_data". "/lm_" . $this->getId();
     }
 
     public function createDataDirectory(): void

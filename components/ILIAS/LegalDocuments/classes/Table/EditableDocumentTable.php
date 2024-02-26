@@ -55,17 +55,17 @@ class EditableDocumentTable implements Table
 
     public function rows(TableSelection $select): array
     {
-        return array_map($this->row(...), $this->table->select($select));
+        return $this->table->mapSelection($this->row(...), $select);
     }
 
-    public function row(Document $document): array
+    public function row(Document $document, int $sorting): array
     {
         $link = $this->table->ui()->create()->link()->standard(...);
 
         return [
             'delete' => fn() => ilLegacyFormElementsUtil::formCheckbox(false, 'ids[]', (string) $document->id()),
-            'order' => $this->orderInputGui($document),
-            ...array_slice($this->table->row($document), 1),
+            'order' => $this->orderInputGui($document, $sorting),
+            ...array_slice($this->table->row($document, $sorting), 1),
             'criteria' => $this->table->showCriteria($document, $this->willShowCriterion($document)),
             'actions' => $this->table->ui()->create()->dropdown()->standard([
                 $link($this->table->ui()->txt('edit'), $this->edit_links->editDocument($document)),
@@ -82,25 +82,32 @@ class EditableDocumentTable implements Table
 
     private function willShowCriterion($document): Closure
     {
-        $link = $this->table->ui()->create()->link()->standard(...);
+        return function (Criterion $criterion) use ($document) {
+            $modal = $this->table->ui()->create()->modal()->interruptive(
+                $this->table->ui()->txt('doc_detach_crit_confirm_title'),
+                $this->table->ui()->txt('doc_sure_detach_crit'),
+                $this->edit_links->deleteCriterion($document, $criterion)
+            );
 
-        return fn(Criterion $criterion) => [
-            $this->table->ui()->create()->legacy('<div style="display: flex">'),
-            $this->table->criterionName($criterion),
-            $this->table->ui()->create()->legacy('&nbsp;'),
-            $this->table->ui()->create()->dropdown()->standard([
-                $link($this->table->ui()->txt('edit'), $this->edit_links->editCriterion($document, $criterion)),
-                $link($this->table->ui()->txt('delete'), $this->edit_links->deleteCriterion($document, $criterion)),
-            ]),
-            $this->table->ui()->create()->legacy('</div>'),
-        ];
+            return [
+                $this->table->ui()->create()->legacy('<div style="display: flex">'),
+                $this->table->criterionName($criterion),
+                $this->table->ui()->create()->legacy('&nbsp;'),
+                $modal,
+                $this->table->ui()->create()->dropdown()->standard([
+                    $this->table->ui()->create()->link()->standard($this->table->ui()->txt('edit'), $this->edit_links->editCriterion($document, $criterion)),
+                    $this->table->ui()->create()->button()->shy($this->table->ui()->txt('delete'), '')->withOnClick($modal->getShowSignal()),
+                ]),
+                $this->table->ui()->create()->legacy('</div>'),
+            ];
+        };
     }
 
-    private function orderInputGui($document): Closure
+    private function orderInputGui($document, $step): Closure
     {
-        $input = $this->table->orderInputGui($document);
+        $input = $this->table->orderInputGui($document, $step);
         $input->setDisabled(false);
 
-        return fn() => $input->render();
+        return $input->render(...);
     }
 }

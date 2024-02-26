@@ -615,9 +615,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function infoScreenObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd('showSummary');
-        // $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
         $this->infoScreen();
     }
 
@@ -822,8 +819,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 }
             }
         }
-        $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
-        $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
+
+        $found_threads = false;
+        if(count($top_group) > 0) {
+            $top_threads = $this->factory->item()->group($this->lng->txt('top_thema'), $top_group);
+            $found_threads = true;
+        } else {
+            $top_threads = $this->factory->item()->group('', $top_group);
+        }
+
+        if(count($thread_group) > 0) {
+            $normal_threads = $this->factory->item()->group($this->lng->txt('thema'), $thread_group);
+            $found_threads = true;
+        } else {
+            $normal_threads = $this->factory->item()->group('', $thread_group);
+        }
+
+
         $url = $this->http->request()->getRequestTarget();
         $current_page = 0;
         if ($this->http->wrapper()->query()->has(ilForumProperties::PAGE_NAME_THREAD_OVERVIEW)) {
@@ -840,10 +852,19 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                                         ->withPageSize(ilForumProperties::PAGE_SIZE_THREAD_OVERVIEW)
                                         ->withCurrentPage($current_page);
 
-        $vc_container = $this->factory->panel()->standard(
-            $this->lng->txt('thread_overview'),
-            [$top_threads, $normal_threads]
-        )->withViewControls($view_control);
+        if ($found_threads === false) {
+            $vc_container = $this->factory->panel()->listing()->standard(
+                $this->lng->txt('thread_overview'),
+                [$this->factory->item()->group($this->lng->txt('frm_no_threads'), [])]
+            );
+        } else {
+            $vc_container = $this->factory->panel()->listing()->standard(
+                $this->lng->txt('thread_overview'),
+                [$top_threads, $normal_threads]
+            )->withViewControls($view_control);
+        }
+
+
 
         $default_html = $this->renderer->render($vc_container);
         $modals = $this->renderer->render($this->modal_collection);
@@ -858,6 +879,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
         $this->initStyleSheets();
+
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 
@@ -1798,40 +1820,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->object->Forum->setForumId($this->object->getId());
 
-        $tbl = new ilForumStatisticsTableGUI(
-            $this,
-            'showStatistics',
+        $tbl = new \ILIAS\Forum\Statistics\ForumStatisticsTable(
             $this->object,
-            $this->user,
+            $this->objProperties,
             ilLearningProgressAccess::checkAccess($this->object->getRefId()),
             $this->access->checkRbacOrPositionPermissionAccess(
                 'read_learning_progress',
                 'read_learning_progress',
                 $this->object->getRefId()
-            )
+            ),
+            $this->user,
+            $this->ui_factory,
+            $this->request,
+            $this->lng
         );
-        $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
-        $tbl->setTitle(
-            $this->lng->txt('statistic'),
-            'standard/icon_usr.svg',
-            $this->lng->txt('obj_' . $this->object->getType())
-        );
-
-        $data = $this->object->Forum->getUserStatistics($this->objProperties->isPostActivationEnabled());
-        $result = [];
-        $counter = 0;
-        foreach ($data as $row) {
-            $result[$counter]['usr_id'] = $row['usr_id'];
-            $result[$counter]['ranking'] = $row['num_postings'];
-            $result[$counter]['login'] = $row['login'];
-            $result[$counter]['lastname'] = $row['lastname'];
-            $result[$counter]['firstname'] = $row['firstname'];
-
-            ++$counter;
-        }
-        $tbl->setData($result);
-
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
 
     public static function _goto($a_target, $a_thread = 0, $a_posting = 0): void
@@ -2027,11 +2030,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->tpl->setTitleIcon(ilObject::_getIcon(0, "big", "frm"));
 
-        $ref_id = $this->retrieveRefId();
-
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('frm_all_threads'),
-            'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id
+            $this->ctrl->getLinkTarget(
+                $this,
+                'showThreads'
+            )
         );
 
         /** @var ilForum $frm */
@@ -3895,11 +3899,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 }
 
                 $this->ctrl->redirect($this, 'showThreads');
-            } elseif ($cmd === 'html') {
-                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                // $this->ctrl->setCmd('exportHTML');
-                // $this->ctrl->setCmdClass(ilForumExportGUI::class);
-                $this->executeCommand();
             } elseif ($cmd === 'confirmDeleteThreads') {
                 $this->confirmDeleteThreadsObject();
             } elseif ($cmd === 'mergeThreads') {

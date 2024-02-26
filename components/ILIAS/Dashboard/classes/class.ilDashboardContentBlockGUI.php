@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * BlockGUI class for (centered) Content on Personal Desktop
@@ -60,12 +65,12 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         return false;
     }
 
-    public function getHTML(): string
+    public function getContent(): string
     {
-        return parent::getHTML();
+        return $this->content;
     }
 
-    public function getContent(): string
+    protected function getLegacyContent(): string
     {
         return $this->content;
     }
@@ -73,34 +78,5 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     public function setContent(string $a_content): void
     {
         $this->content = $a_content;
-    }
-
-    public function fillDataSection(): void
-    {
-        $this->tpl->setVariable("BLOCK_ROW", $this->getContent());
-    }
-
-    public function fillFooter(): void
-    {
-        //$this->fillFooterLinks();
-        $lng = $this->lng;
-
-        if (is_array($this->data)) {
-            $this->max_count = count($this->data);
-        }
-
-        // table footer numinfo
-        if ($this->getEnableNumInfo()) {
-            $numinfo = "(" . $this->getCurrentItemNumber() . " " .
-                strtolower($lng->txt("of")) . " " . $this->max_count . ")";
-
-            if ($this->max_count > 0) {
-                $this->tpl->setVariable("NUMINFO", $numinfo);
-            }
-        }
-    }
-
-    public function fillPreviousNext(): void
-    {
     }
 }

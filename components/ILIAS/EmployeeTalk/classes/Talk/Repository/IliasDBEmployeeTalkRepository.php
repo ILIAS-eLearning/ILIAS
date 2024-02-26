@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\EmployeeTalk\Talk\Repository;
+namespace ILIAS\EmployeeTalk\Talk\Repository;
 
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
 use ilDBInterface;
 use ilDateTime;
 use ilDate;

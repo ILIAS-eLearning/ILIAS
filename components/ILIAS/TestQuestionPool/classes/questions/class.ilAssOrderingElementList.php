@@ -295,11 +295,9 @@ class ilAssOrderingElementList implements Iterator
     public function getElementByRandomIdentifier($randomIdentifier): ?ilAssOrderingElement
     {
         foreach ($this as $element) {
-            if ($element->getRandomIdentifier() != $randomIdentifier) {
-                continue;
+            if ($element->getRandomIdentifier() === intval($randomIdentifier)) {
+                return $element;
             }
-
-            return $element;
         }
 
         return null;

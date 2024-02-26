@@ -25,18 +25,18 @@ use ILIAS\Refinery\Custom\Group as CustomGroup;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {
     private CustomGroup $group;
     private DataFactory $dataFactory;
-    private ilLanguage $language;
+    private Language $language;
 
     protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
-        $this->language = $this->getMockBuilder(ilLanguage::class)
+        $this->language = $this->getMockBuilder(Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

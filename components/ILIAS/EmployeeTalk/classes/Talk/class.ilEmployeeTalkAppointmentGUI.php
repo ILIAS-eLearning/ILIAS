@@ -22,9 +22,9 @@ use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
-use ILIAS\components\EmployeeTalk\Talk\EmployeeTalkPeriod;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
+use ILIAS\EmployeeTalk\Talk\EmployeeTalkPeriod;
 use ILIAS\EmployeeTalk\Notification\NotificationHandlerInterface;
 use ILIAS\EmployeeTalk\Notification\NotificationType;
 

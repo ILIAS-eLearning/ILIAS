@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
@@ -86,14 +86,24 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
     public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
-        foreach ($this->assignment_repo->getExpiredAndNotInvalidated() as $assignment) {
+        $expired = $this->assignment_repo->getExpiredAndNotInvalidated();
+
+        if ($expired === []) {
+            $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+            return $result;
+        }
+
+        foreach ($expired as $assignment) {
             try {
                 $assignment = $assignment->invalidate($this->settings_repo);
                 $this->assignment_repo->store($assignment);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
+                $result->setStatus(ilCronJobResult::STATUS_FAIL);
+                return $result;
             }
         }
+
         $result->setStatus(ilCronJobResult::STATUS_OK);
         return $result;
     }

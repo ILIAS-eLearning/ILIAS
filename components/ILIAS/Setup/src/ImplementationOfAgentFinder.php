@@ -25,28 +25,16 @@ use ILIAS\Data;
 
 class ImplementationOfAgentFinder implements AgentFinder
 {
-    protected Refinery $refinery;
-    protected Data\Factory $data_factory;
-    protected \ilSetupLanguage $lng;
-    protected ImplementationOfInterfaceFinder $interface_finder;
-
-    protected array $predefined_agents;
-
     /**
      * @var array<string, Agent> $predefined_agents
      */
     public function __construct(
-        Refinery $refinery,
-        Data\Factory $data_factory,
-        \ilSetupLanguage $lng,
-        ImplementationOfInterfaceFinder $interface_finder,
-        array $predefined_agents = []
+        protected Refinery $refinery,
+        protected Data\Factory $data_factory,
+        protected \ILIAS\Language\Language $lng,
+        protected ImplementationOfInterfaceFinder $interface_finder,
+        protected array $predefined_agents = []
     ) {
-        $this->refinery = $refinery;
-        $this->data_factory = $data_factory;
-        $this->lng = $lng;
-        $this->interface_finder = $interface_finder;
-        $this->predefined_agents = $predefined_agents;
     }
 
     /**

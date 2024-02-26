@@ -67,7 +67,8 @@ final class Archives
         }
         return $this->zip_options
             ->withZipOutputName($zip_options->getZipOutputName())
-            ->withZipOutputPath($zip_options->getZipOutputPath());
+            ->withZipOutputPath($zip_options->getZipOutputPath())
+            ->withEnsureTopDirectoy($zip_options->ensureTopDirectory());
     }
 
     protected function mergeUnzipOptions(?UnzipOptions $unzip_options): UnzipOptions

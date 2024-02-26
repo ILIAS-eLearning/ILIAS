@@ -55,6 +55,12 @@ class InvitationsManager
         $this->repo->remove($survey_id, $user_id);
     }
 
+    public function removeAll(
+        int $survey_id
+    ): void {
+        $this->repo->removeAll($survey_id);
+    }
+
 
     /**
      * Add invitation

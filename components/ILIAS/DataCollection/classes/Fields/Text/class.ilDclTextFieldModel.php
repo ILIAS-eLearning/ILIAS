@@ -223,8 +223,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     public function checkTitlesForImport(array &$titles, array &$import_fields): void
     {
         foreach ($titles as $k => $title) {
-            if (!ilStr::isUtf8($title)) {
-                $title = utf8_encode($title);
+            if (!mb_detect_encoding($title, "UTF-8", true) == "UTF-8") {
+                $title = mb_convert_encoding($title, 'UTF-8', 'ISO-8859-1');
             }
             if ($title == $this->getTitle()) {
                 $import_fields[$k] = $this;

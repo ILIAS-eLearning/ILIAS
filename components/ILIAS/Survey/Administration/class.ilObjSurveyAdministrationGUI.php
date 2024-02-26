@@ -161,7 +161,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             $surveySetting->set("anonymous_participants", $form->getInput("anon_part") ? "1" : "0");
             $surveySetting->set(
                 "anonymous_participants_min",
-                (trim($form->getInput("anon_part_min")))
+                (trim($form->getInput("anon_part_min") ?? ""))
                     ? (string) (int) $form->getInput("anon_part_min")
                     : ""
             );

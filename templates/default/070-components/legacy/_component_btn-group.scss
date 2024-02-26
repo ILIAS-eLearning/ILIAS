@@ -4,6 +4,7 @@
 @use "../../030-tools/_tool_browser-prefixes" as *;
 @use "../../030-tools/_tool_border-radius" as *;
 @use "../../070-components/UI-framework/Button/ui-component_button" as c-btns;
+@use "../../030-tools/tool_focus-outline" as f;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 
@@ -94,7 +95,12 @@
 // On active and open, don't show outline
 .btn-group .dropdown-toggle:active,
 .btn-group.open .dropdown-toggle {
-  outline: 0;
+  &:not(:focus-visible){
+    outline: 0;
+  }
+  &:focus-visible {
+    @include f.il-focus-border-only();
+  }
 }
 
 

@@ -71,6 +71,19 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         // Keep
     }
 
+    public function step_3(): void
+    {
+        $this->ensureColumn('ldoc_versions', 'provider', [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => true,
+            'default' => '',
+            'length' => 255,
+        ]);
+
+        $select_provider = '(SELECT d.provider FROM ldoc_documents AS d WHERE v.doc_id = d.id)';
+        $this->database->manipulate("UPDATE ldoc_versions AS v SET provider = $select_provider WHERE provider = '' AND EXISTS $select_provider");
+    }
+
     /**
      * @param array<string, mixed> $attributes
      */

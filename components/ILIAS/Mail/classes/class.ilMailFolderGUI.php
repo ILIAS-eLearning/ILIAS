@@ -24,9 +24,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
- * @author       Jens Conze
- * @version      $Id$
- * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
  */
 class ilMailFolderGUI
@@ -616,6 +613,7 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
 
         $form = new ilPropertyFormGUI();
+        $form->setId('MailContent');
         $form->setPreventDoubleSubmission(false);
         $form->setTableWidth('100%');
         $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
@@ -677,7 +675,7 @@ class ilMailFolderGUI
                 $this->ctrl->setParameter($this, 'mail_id', $mailId);
                 $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
                 $this->ctrl->setParameter($this, 'user', $sender->getId());
-                $linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget(
+                $linked_fullname = '<br /><a class="mailusername" href="' . $this->ctrl->getLinkTarget(
                     $this,
                     'showUser'
                 ) . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
@@ -1070,7 +1068,6 @@ class ilMailFolderGUI
             $this->currentFolderId === $this->mbox->getSentFolder(),
             $this->currentFolderId === $this->mbox->getDraftsFolder()
         );
-        $table->initFilter();
 
         return $table;
     }

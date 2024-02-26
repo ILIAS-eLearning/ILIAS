@@ -18,186 +18,58 @@
 
 declare(strict_types=1);
 
-use ILIAS\EmployeeTalk\UI\ControlFlowCommandHandler;
-use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\components\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
-use ILIAS\components\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\components\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\DI\UIServices;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
 
 /**
- * Class ilEmployeeTalkMyStaffListGUI
- *
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffListGUI: ilMyStaffGUI
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffListGUI: ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkGUI
  * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkSeriesGUI
  */
-final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
+final class ilEmployeeTalkMyStaffListGUI extends ilEmployeeTalkMyStaffBaseGUI
 {
-    private UIServices $ui;
-    private ilLanguage $language;
-    private ilTabsGUI $tabs;
-    private ilMyStaffAccess $access;
-    private ilCtrl $controlFlow;
-    private ilObjUser $currentUser;
-    private EmployeeTalkRepository $repository;
-    private ilObjEmployeeTalkAccess $talkAccess;
-
-    public function __construct()
+    public function getClassPath(): array
     {
-        global $DIC;
-
-        $DIC->language()->loadLanguageModule('etal');
-        $DIC->language()->loadLanguageModule('orgu');
-        $this->language = $DIC->language();
-        $this->talkAccess = new ilObjEmployeeTalkAccess();
-        $this->access = ilMyStaffAccess::getInstance();
-
-        $this->tabs = $DIC->tabs();
-        $this->ui = $DIC->ui();
-        $this->controlFlow = $DIC->ctrl();
-        $this->currentUser = $DIC->user();
-        $this->repository = new IliasDBEmployeeTalkRepository($DIC->database());
+        return [
+            strtolower(ilDashboardGUI::class),
+            strtolower(ilMyStaffGUI::class),
+            strtolower(ilEmployeeTalkMyStaffListGUI::class)
+        ];
     }
 
-    public function executeCommand(): void
+    protected function hasCurrentUserAccess(): bool
     {
-        $nextClass = $this->controlFlow->getNextClass();
-        $command = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
-        switch ($nextClass) {
-            case strtolower(ilObjEmployeeTalkSeriesGUI::class):
-                $gui = new ilObjEmployeeTalkSeriesGUI();
-                $this->controlFlow->forwardCommand($gui);
-                break;
-            case strtolower(ilObjEmployeeTalkGUI::class):
-                $gui = new ilObjEmployeeTalkGUI();
-                if ($this->access->hasCurrentUserAccessToTalks()) {
-                    $this->tabs->setBackTarget(
-                        $this->language->txt('etal_talks'),
-                        $this->controlFlow->getLinkTarget($this, ControlFlowCommand::INDEX)
-                    );
-                }
-                $this->controlFlow->forwardCommand($gui);
-                break;
-            case strtolower(ilFormPropertyDispatchGUI::class):
-                $this->controlFlow->setReturn($this, ControlFlowCommand::INDEX);
-                $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::INDEX);
-                $table->executeCommand();
-                break;
-            default:
-                switch ($command) {
-                    case ControlFlowCommand::APPLY_FILTER:
-                        $this->applyFilter();
-                        break;
-                    case ControlFlowCommand::RESET_FILTER:
-                        $this->resetFilter();
-                        break;
-                    default:
-                        $this->view();
-                }
-        }
+        return $this->access->hasCurrentUserAccessToTalks();
     }
 
-    private function applyFilter(): void
+    protected function loadHeader(): void
     {
-        $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::APPLY_FILTER);
-        $table->writeFilterToSession();
-        $table->resetOffset();
-        $this->view();
-    }
-
-    private function resetFilter(): void
-    {
-        $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::RESET_FILTER);
-        $table->resetOffset();
-        $table->resetFilter();
-        $this->view();
-    }
-
-    private function view(): void
-    {
-        $this->loadActionBar();
-        $this->loadTabs();
         $this->ui->mainTemplate()->setTitle($this->language->txt('mm_org_etal'));
         $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('standard/icon_etal.svg'));
-        $this->ui->mainTemplate()->setContent($this->loadTable()->getHTML());
     }
 
-    private function loadTabs(): void
+    protected function loadTabs(): void
     {
         $this->tabs->addTab("view_content", "Content", "#");
         $this->tabs->activateTab("view_content");
-        //$this->tabs->addTab("placeholder", "", "#");
         $this->tabs->setForcePresentationOfSingleTab(true);
     }
 
-    private function loadActionBar(): void
+    protected function loadTalkData(): array
     {
-        if (!$this->talkAccess->canCreate()) {
-            return;
-        }
-
-        $templates = new CallbackFilterIterator(
-            new ArrayIterator(ilObject::_getObjectsByType("talt")),
-            function (array $item) {
-                return
-                    (
-                        $item['offline'] === "0" ||
-                        $item['offline'] === 0 ||
-                        $item['offline'] === null
-                    ) && ilObjTalkTemplate::_hasUntrashedReference(intval($item['obj_id']));
-            }
-        );
-
-        $buttons = [];
-        $talk_class = strtolower(ilObjEmployeeTalkSeriesGUI::class);
-        foreach ($templates as $item) {
-            $objId = intval($item['obj_id']);
-            $refId = ilObject::_getAllReferences($objId);
-
-            // Templates only have one ref id
-            $this->controlFlow->setParameterByClass($talk_class, 'new_type', ilObjEmployeeTalkSeries::TYPE);
-            $this->controlFlow->setParameterByClass($talk_class, 'template', array_pop($refId));
-            $this->controlFlow->setParameterByClass($talk_class, 'ref_id', ilObjTalkTemplateAdministration::getRootRefId());
-            $url = $this->controlFlow->getLinkTargetByClass($talk_class, ControlFlowCommand::CREATE);
-            $this->controlFlow->clearParametersByClass($talk_class);
-
-            $buttons[] = $this->ui->factory()->link()->standard(
-                (string) $item["title"],
-                $url
-            );
-        }
-
-        $dropdown = $this->ui->factory()->dropdown()->standard($buttons)->withLabel(
-            $this->language->txt('etal_add_new_item')
-        );
-        $this->ui->mainTemplate()->setVariable(
-            'SELECT_OBJTYPE_REPOS',
-            $this->ui->renderer()->render($dropdown)
-        );
-    }
-
-    private function loadTable(): ilEmployeeTalkTableGUI
-    {
-        $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::DEFAULT);
-
         /**
          * @var EmployeeTalk[] $talks
          */
         $talks = [];
-        if ($this->currentUser->getId() === 6) {
+        if ($this->current_user->getId() === 6) {
             $talks = $this->repository->findAll();
         } else {
-            $users = $this->getEmployeeIdsWithValidPermissionRights($this->currentUser->getId());
-            $talks = $this->repository->findByUserOrTheirEmployees($this->currentUser->getId(), $users);
+            $users = $this->getEmployeeIdsWithValidPermissionRights($this->current_user->getId());
+            $talks = $this->repository->findByUserOrTheirEmployees($this->current_user->getId(), $users);
         }
-        $table->setTalkData($talks);
-
-        return $table;
+        return $talks;
     }
 
     private function getEmployeeIdsWithValidPermissionRights(int $userId): array

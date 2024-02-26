@@ -136,6 +136,10 @@ input[type="checkbox"] {
 
 	// Placeholder
 	@include placeholder;
+	
+	&[required] {
+		@include placeholder($il-input-color);
+	}
 
 	// Unstyle the caret on `<select>`s in IE10+.
 	&::-ms-expand {
@@ -349,12 +353,7 @@ input[type="checkbox"] {
 	}
 
 	&.alert-danger {
-		margin: $il-margin-small-vertical 0 0;
-		padding: 0 $il-padding-small-vertical 0 $il-padding-small-vertical;
-
-		color: $il-alert-danger-text;
-		background-color: $il-alert-danger-bg;
-		border-color: $il-alert-danger-border;
+		margin-bottom: $il-margin-small-vertical;
 	}
 }
 
@@ -472,6 +471,16 @@ input[type="checkbox"] {
 				margin-left: $il-padding-xxlarge-horizontal;
 			}
 		}
+
+		.btn, input.btn, .tox-tinymce, div.input {
+			margin-left: $il-padding-xxlarge-horizontal;
+		}
+
+		.tox-tinymce {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
 	}
 
 	// Consistent vertical alignment of radios and checkboxes
@@ -681,6 +690,8 @@ div.ilHFormFooter .ilFormCmds {
 .btn-file {
 	position: relative;
 	overflow: hidden;
+
+	@include il-focus-within-outline-only();
 }
 
 .btn-file input[type=file] {

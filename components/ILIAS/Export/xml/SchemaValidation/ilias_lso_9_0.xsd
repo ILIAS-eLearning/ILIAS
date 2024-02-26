@@ -7,7 +7,10 @@
   <xs:element name="LearningSequence">
     <xs:complexType>
       <xs:sequence>
+        <xs:element type="xs:string" name="title" minOccurs="1" maxOccurs="1"/>
+        <xs:element type="xs:string" name="description" minOccurs="0" maxOccurs="1"/>
         <xs:element type="LPSetting" name="LPSetting" minOccurs="1" maxOccurs="1"/>
+        <xs:element type="ContainerSettings" name="ContainerSettings" minOccurs="1" maxOccurs="1"/>
         <xs:element type="LSItems" name="LSItems" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
       <xs:attribute name="ref_id"  type="xs:string"  use="required" />
@@ -44,6 +47,20 @@
         <xs:attribute name="type" type="xs:string" use="required"/>
       </xs:extension>
     </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="ContainerSettings">
+      <xs:sequence>
+        <xs:element type="ContainerSetting" name="ContainerSetting" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ContainerSetting">
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="id" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
   </xs:complexType>
 
 </xs:schema>

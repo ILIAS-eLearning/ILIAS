@@ -222,7 +222,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 );
                 if (!ilObjOrgUnitAccess::_checkAccessToUserLearningProgress(
                     $this->object->getRefid(),
-                    $_GET['obj_id']
+                    (int)$_GET['obj_id']
                 )) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirectByClass("ilOrgUnitUserAssignmentGUI", "index");
@@ -232,7 +232,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT,
                     $this->ref_id,
-                    $_GET['obj_id']
+                    (int)$_GET['obj_id']
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
@@ -393,13 +393,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $container_view->setOutput();
 
-
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
         if (! $this->ctrl->isAsynch()) {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
         }
+
+        $container_view->setOutput();
+
         $this->showPermanentLink();
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
@@ -484,7 +486,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function getTabs(): void
     {
-        $read_access_ref_id = $this->rbacsystem->checkAccess('visible, read', $this->object->getRefId());
+        $read_access_ref_id = $this->rbacsystem->checkAccess('visible', $this->object->getRefId())
+            && $this->rbacsystem->checkAccess('read', $this->object->getRefId());
         if ($read_access_ref_id) {
             $this->tabs_gui->addTab(
                 self::TAB_VIEW_CONTENT,

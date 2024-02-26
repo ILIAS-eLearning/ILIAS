@@ -28,10 +28,8 @@ use ILIAS\Refinery;
 use ILIAS\Repository\Object\ObjectAdapterInterface;
 use ILIAS\Repository\Object\ObjectAdapter;
 use ILIAS\Repository\Profile\ProfileAdapter;
+use ILIAS\Repository\Resources\DomainService;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 trait GlobalDICDomainServices
 {
     private \ILIAS\DI\Container $DIC;
@@ -123,4 +121,11 @@ trait GlobalDICDomainServices
         return $this->DIC->backgroundTasks();
     }
 
+    public function resources(): DomainService
+    {
+        return new DomainService(
+            $this->DIC->archives(),
+            $this->DIC->legacyArchives()
+        );
+    }
 }

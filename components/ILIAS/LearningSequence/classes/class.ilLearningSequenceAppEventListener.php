@@ -83,13 +83,14 @@ class ilLearningSequenceAppEventListener
             && $parameter['old_status'] !== $parameter['status']
             && ilObject::_lookupType($parameter['obj_id']) === 'lso'
         ) {
+            $lng = self::getIlLanguage();
             $lso_title = ilObject::_lookupTitle($parameter['obj_id']);
             $notification = new ilNotificationConfig(ilLSCompletionNotificationProvider::NOTIFICATION_TYPE);
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-            $notification->setTitleVar($lso_title);
-            $notification->setShortDescriptionVar('lso_completion_short');
-            $notification->setLongDescriptionVar('lso_completion_long');
+            $notification->setTitleVar($lng->txt('lso_toast_completed_title'));
+            $notification->setShortDescriptionVar($lng->txt('lso_toast_completed_desc'));
+            $notification->setLongDescriptionVar($lng->txt('lso_toast_completed_desc'));
             $notification->setIconPath('templates/default/images/standard/icon_lso.svg');
             $notification->notifyByUsers([$parameter['usr_id']]);
         }
@@ -131,6 +132,12 @@ class ilLearningSequenceAppEventListener
     {
         global $DIC;
         return $DIC['tree'];
+    }
+
+    protected static function getIlLanguage(): illanguage
+    {
+        global $DIC;
+        return $DIC['lng'];
     }
 
     protected static function getIlLPStatusWrapper(): ilLPStatusWrapper

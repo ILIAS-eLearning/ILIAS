@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\ZipOptions;
+use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+
 /**
  * Factory to create Skin classes holds an manages the basic data of a skin as provide by the template of the skin.
  */
@@ -43,6 +48,10 @@ class ilSkinFactory
      */
     public function skinFromXML(string $path = ''): ilSkin
     {
+        if (strpos($path, '../') === 0) { // we must resolve relative paths here
+            $path = realpath(__DIR__ . '/../../../../../../templates/' . $path);
+        }
+
         try {
             $xml = new SimpleXMLElement(file_get_contents($path));
         } catch (Exception $e) {
@@ -118,20 +127,26 @@ class ilSkinFactory
     ): ilSkinStyleContainer {
         $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
 
+        var_dump($import_zip_path);
+
         while (ilStyleDefinition::skinExists($skin_id, $this->config)) {
             $skin_id .= 'Copy';
         }
 
         $skin_path = $this->config->getCustomizingSkinPath() . $skin_id;
+        $zip_path = $skin_path.".zip";
+        rename($import_zip_path, $zip_path);
+        $zip = new Archives();
+        $zip->unzip(
+            Streams::ofResource(fopen($zip_path, 'rb')),
+            (new UnzipOptions())
+             ->withZipOutputPath($skin_path)
+             ->withOverwrite(false)
+             ->withFlat(false)
+             ->withEnsureTopDirectoy(false)
+        )->extract();
 
-        mkdir($skin_path, 0775, true);
-
-        $temp_zip_path = $skin_path . '/' . $name;
-        rename($import_zip_path, $temp_zip_path);
-
-        ilFileUtils::unzip($temp_zip_path);
-        unlink($temp_zip_path);
-
+        unlink($zip_path);
         return $this->skinStyleContainerFromId($skin_id, $message_stack);
     }
 

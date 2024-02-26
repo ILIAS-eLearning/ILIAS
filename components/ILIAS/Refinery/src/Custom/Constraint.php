@@ -26,7 +26,7 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\ProblemBuilder;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class Constraint implements ConstraintInterface
 {
@@ -35,7 +35,7 @@ class Constraint implements ConstraintInterface
     use ProblemBuilder;
 
     protected Data\Factory $data_factory;
-    protected ilLanguage $lng;
+    protected \ILIAS\Language\Language $lng;
     /** @var callable */
     protected $is_ok;
     /** @var callable|string */
@@ -51,9 +51,9 @@ class Constraint implements ConstraintInterface
      * @param callable $is_ok
      * @param string|callable $error
      * @param Data\Factory $data_factory
-     * @param ilLanguage $lng
+     * @param \ILIAS\Language\Language $lng
      */
-    public function __construct(callable $is_ok, $error, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
         $this->is_ok = $is_ok;
         $this->error = $error;

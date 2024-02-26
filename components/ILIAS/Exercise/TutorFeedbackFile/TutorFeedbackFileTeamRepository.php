@@ -72,6 +72,19 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
         );
     }
 
+    public function getParticipantIdForRcid(int $ass_id, string $rcid): int
+    {
+        $set = $this->db->queryF(
+            "SELECT id FROM exc_team_data " .
+            " WHERE feedback_rcid = %s",
+            ["text"],
+            [$rcid]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return (int) ($rec["id"] ?? 0);
+    }
+
+
     public function getIdStringForAssIdAndUserId(int $ass_id, int $user_id): string
     {
         $team_id = $this->getTeamId($ass_id, $user_id);
@@ -120,6 +133,17 @@ class TutorFeedbackFileTeamRepository implements TutorFeedbackFileRepositoryInte
             }
         }
         throw new \ilExerciseException("Resource $file not found.");
+    }
+
+    public function getFilenameForRid(int $ass_id, int $part_id, string $rid): string
+    {
+        foreach ($this->getCollectionResourcesInfo($ass_id, $part_id) as $info) {
+            if ($rid === $info->getRid()) {
+                $this->wrapper->deliverFile($info->getRid());
+                return $info->getTitle();
+            }
+        }
+        return "";
     }
 
     public function getCollectionResourcesInfo(

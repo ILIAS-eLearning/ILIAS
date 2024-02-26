@@ -27,8 +27,5 @@ use ILIAS\Filesystem\Util\Archive\Unzip;
  */
 interface ContainerConsumer
 {
-    /**
-     * @description Currently we allow a Read-Only Unzip of the Container. This Consumers will provide a FileSystem later
-     */
-    public function getZIP(): Unzip;
+
 }

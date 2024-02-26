@@ -42,4 +42,65 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_2(): void
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT * FROM settings " .
+            " WHERE module = %s AND keyword = %s ",
+            ["text", "text"],
+            ["mobs", "black_list_file_types"]
+        );
+        $black_list_str = "";
+        while ($rec = $db->fetchAssoc($set)) {
+            $black_list_str = $rec["value"] ?? "";
+        }
+        $black_list = explode(",", $black_list_str);
+        $new_black_list = [];
+        foreach ($black_list as $type) {
+            $type = strtolower(trim($type));
+            switch ($type) {
+                case "html": $type = "text/html";
+                    break;
+                case "mp4": $type = "video/mp4";
+                    break;
+                case "webm": $type = "video/webm";
+                    break;
+                case "mp3": $type = "audio/mpeg";
+                    break;
+                case "png": $type = "image/png";
+                    break;
+                case "jpeg":
+                case "jpg": $type = "image/jpeg";
+                    break;
+                case "gif": $type = "image/gif";
+                    break;
+                case "webp": $type = "image/webp";
+                    break;
+                case "svg": $type = "image/svg+xml";
+                    break;
+                case "pdf": $type = "application/pdf";
+                    break;
+            }
+            if (in_array($type, ["video/vimeo", "video/youtube", "video/mp4", "video/webm", "audio/mpeg",
+                                 "image/png", "image/jpeg", "image/gif", "image/webp", "image/svg+xml",
+                                 "text/html", "application/pdf"])) {
+                if (!in_array($type, $new_black_list)) {
+                    $new_black_list[] = $type;
+                }
+            }
+        }
+        $db->update(
+            "settings",
+            [
+            "value" => ["text", implode(",", $new_black_list)]
+        ],
+            [    // where
+                "module" => ["text", "mobs"],
+                "keyword" => ["text", "black_list_file_types"]
+            ]
+        );
+    }
+
 }

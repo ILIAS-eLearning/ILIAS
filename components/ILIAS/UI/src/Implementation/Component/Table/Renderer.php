@@ -298,12 +298,12 @@ class Renderer extends AbstractComponentRenderer
             $col_title = $col->getTitle();
             if ($col_id === $sort_col) {
                 if ($sort_direction === Order::ASC) {
-                    $sortation = 'ascending';
+                    $sortation = $this->txt('order_option_generic_ascending');
                     $sortation_glyph = $glyph_factory->sortAscending("#");
                     $param_sort_direction = Order::DESC;
                 }
                 if ($sort_direction === Order::DESC) {
-                    $sortation = 'decending';
+                    $sortation = $this->txt('order_option_generic_descending');
                     $sortation_glyph = $glyph_factory->sortDescending("#");
                 }
             }
@@ -331,8 +331,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->hasSingleActions()) {
-            $tpl->touchBlock('header_action_cell');
+            $tpl->setVariable('COL_INDEX_ACTION', (string) count($columns));
+            $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
+
         }
+
         if ($component->hasMultiActions()) {
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;

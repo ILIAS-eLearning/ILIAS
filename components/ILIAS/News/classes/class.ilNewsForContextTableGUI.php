@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Access\NewsAccess;
+
 /**
  * TableGUI class for table NewsForContext
  *
@@ -23,6 +25,7 @@
  */
 class ilNewsForContextTableGUI extends ilTable2GUI
 {
+    protected NewsAccess $news_access;
     protected int $perm_ref_id = 0;
     protected ilAccessHandler $access;
 
@@ -42,6 +45,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->perm_ref_id = $a_perm_ref_id;
+        $this->news_access = new NewsAccess($this->perm_ref_id);
 
         $this->addColumn("", "f", "1");
         $this->addColumn($lng->txt("news_news_item_content"));
@@ -134,7 +138,8 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             ? $this->perm_ref_id
             : $a_set["ref_id"];
 
-        if ($ilAccess->checkAccess("write", "", $perm_ref_id)) {
+        $news_item = new ilNewsItem($a_set["id"]);
+        if ($this->news_access->canEdit($news_item)) {
             $this->tpl->setCurrentBlock("edit");
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);
@@ -145,13 +150,17 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
+        if ($this->news_access->canDelete($news_item)) {
+            $this->tpl->setCurrentBlock("cb");
+            $this->tpl->setVariable("VAL_ID", $a_set["id"]);
+            $this->tpl->parseCurrentBlock();
+        }
+
         // context
         $this->tpl->setVariable(
             "CONTEXT",
             $lng->txt("obj_" . $a_set["context_obj_type"]) . ":<br />" .
             ilObject::_lookupTitle($a_set["context_obj_id"])
         );
-
-        $this->tpl->setVariable("VAL_ID", $a_set["id"]);
     }
 }

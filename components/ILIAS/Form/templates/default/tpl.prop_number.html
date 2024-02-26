@@ -1,7 +1,10 @@
 <!-- BEGIN prop_number -->
 <div class="form-inline">
-		<input style="text-align:right;" class="form-control" type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_number_propval -->value="{PROPERTY_VALUE}" <!-- END prop_number_propval -->{DISABLED} {REQUIRED} /> {INPUT_SUFFIX}
-		<div class="help-block">{TXT_NUMBER_CONSTRAINTS}</div>
+		<input 
+			style="text-align:right;" class="form-control" type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}"
+			<!-- BEGIN described_by -->aria-describedby="<!-- BEGIN described_by_description -->desc_{DESCRIBED_BY_DESCRIPTION_FIELD_ID}<!-- END described_by_description --><!-- BEGIN described_by_constraint --> con_{DESCRIBED_BY_CONSTRAINT_FIELD_ID}<!-- END described_by_constraint -->" <!-- END described_by -->
+			<!-- BEGIN prop_number_propval -->value="{PROPERTY_VALUE}" <!-- END prop_number_propval -->{DISABLED} {REQUIRED} /> {INPUT_SUFFIX}
+		<!-- BEGIN constraint --><div id="con_{CONSTRAINT_FOR_ID}" class="help-block">{TXT_NUMBER_CONSTRAINTS}</div><!-- END constraint -->
 </div>
 <!-- END prop_number -->
 

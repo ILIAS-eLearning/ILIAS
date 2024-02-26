@@ -51,11 +51,14 @@ class GUIService
         );
     }
 
-    public function translation(): \ilObjectTranslation
+    public function translation(int $wiki_ref_id = 0): \ilObjectTranslation
     {
+        if ($wiki_ref_id === 0) {
+            $wiki_ref_id = $this->gui_service->request()->getRefId();
+        }
         return $this->domain_service->wiki()->translation(
             $this->domain_service->wiki()->getObjId(
-                $this->gui_service->request()->getRefId()
+                $wiki_ref_id
             )
         );
     }

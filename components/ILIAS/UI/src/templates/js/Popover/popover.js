@@ -82,8 +82,8 @@ il.UI = il.UI || {};
             // If given we use this element as a container for the popover
             var container;
             if (container = $('#' + $triggerer.attr('id')).parents(".il-popover-container")[0]) {
-                container = 'body';
                 options = $.extend({}, {container: container}, options);
+
             }
             options = $.extend({}, {onShow: function($el) {
                     $el.trigger("il.ui.popover.show");}}, options);

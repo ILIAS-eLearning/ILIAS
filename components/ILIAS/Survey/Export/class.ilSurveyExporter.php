@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Survey\InternalDomainService;
+
 /**
  * Used for container export with tests
  *
@@ -24,9 +26,13 @@
 class ilSurveyExporter extends ilXmlExporter
 {
     private ilSurveyDataSet $ds;
+    protected InternalDomainService $domain;
 
     public function init(): void
     {
+        global $DIC;
+
+        $this->domain = $DIC->survey()->internal()->domain();
         $this->ds = new ilSurveyDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -45,7 +51,7 @@ class ilSurveyExporter extends ilXmlExporter
             $zip = $svy_exp->buildExportFile();
 
             // Unzip, since survey deletes this dir
-            ilFileUtils::unzip($zip);
+            $this->domain->resources()->zip()->unzipFile($zip);
 
             // unzip does not extract the included directory
             // Modules/Survey/set_1 anymore (since 7/2023)

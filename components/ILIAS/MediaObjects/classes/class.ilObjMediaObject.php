@@ -22,6 +22,7 @@ use ILIAS\FileUpload\MimeType;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
+use ILIAS\MediaObjects\InternalDomainService;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -33,12 +34,13 @@ define("IL_MODE_FULL", 3);
 class ilObjMediaObject extends ilObject
 {
     private const DEFAULT_PREVIEW_SIZE = 80;
+    protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
     public string $origin_id;
     public array $media_items;
     public bool $contains_int_link;
-    private $image_converter;
+    private LegacyImages $image_converter;
 
     public function __construct(
         int $a_id = 0
@@ -54,6 +56,7 @@ class ilObjMediaObject extends ilObject
         $this->type = "mob";
         parent::__construct($a_id, false);
         $this->image_converter = $DIC->fileConverters()->legacyImages();
+        $this->domain = $DIC->mediaObjects()->internal()->domain();
     }
 
     public static function _exists(
@@ -363,32 +366,6 @@ class ilObjMediaObject extends ilObject
     protected static function handleQuotaUpdate(
         ilObjMediaObject $a_mob
     ): void {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // if neither workspace nor portfolios are activated, we skip
-        // the quota update here. this due to performance reasons on installations
-        // that do not use workspace/portfolios, but heavily copy content.
-        // in extreme cases (media object in pool and personal blog, deactivate workspace, change media object,
-        // this may lead to incorrect data in the quota calculation)
-        if ($ilSetting->get("disable_personal_workspace") && !$ilSetting->get('user_portfolios')) {
-            return;
-        }
-
-        $parent_obj_ids = array();
-        foreach ($a_mob->getUsages() as $item) {
-            $parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
-            if ($parent_obj_id &&
-                !in_array($parent_obj_id, $parent_obj_ids)) {
-                $parent_obj_ids[] = $parent_obj_id;
-            }
-        }
-
-        // we could suppress this if object is present in a (repository) media pool
-        // but this would lead to "quota-breaches" when the pool item is deleted
-        // and "suddenly" all workspace owners get filesize added to their
-        // respective quotas, regardless of current status
     }
 
     /**
@@ -567,7 +544,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
                     $xml .= "</MediaAliasItem>";
@@ -636,7 +613,7 @@ class ilObjMediaObject extends ilObject
                     // Parameter
                     $parameters = $item->getParameters();
                     foreach ($parameters as $name => $value) {
-                        $xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>";
+                        $xml .= "<Parameter Name=\"$name\" Value=\"" . $this->escapeProperty($value) . "\"/>";
                     }
                     $xml .= $item->getMapAreasXML();
 
@@ -1222,6 +1199,10 @@ class ilObjMediaObject extends ilObject
                     case "cstr":
                         // repository pages
                         $obj_id = $id;
+                        // see #39159
+                        if ($obj_id < 0 && ilObject::_lookupType(-$obj_id) === "lso") {
+                            $obj_id = -$obj_id;
+                        }
                         break;
                 }
                 break;
@@ -1786,7 +1767,7 @@ class ilObjMediaObject extends ilObject
         ilFileUtils::delDir($dir, true);
         ilFileUtils::makeDirParents($dir);
         ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        ilFileUtils::unzip($dir . "/multi_srt.zip", true);
+        $this->domain->resources()->zip()->unzipFile($dir . "/multi_srt.zip");
     }
 
     /**

@@ -44,23 +44,23 @@ class ilMailTemplateContextAdapter
         $this->recipient = $recipient;
     }
 
-    public function withContext(ilMailTemplateContext $context): ilMailTemplateContextAdapter
+    public function withContext(ilMailTemplateContext $context): self
     {
         $clone = clone $this;
         $clone->contexts[] = $context;
         return $clone;
     }
 
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         foreach ($this->contexts as $context) {
             $possible_placeholder = array_map(
-                function ($placeholder) {
+                static function ($placeholder): string {
                     return strtoupper($placeholder);
                 },
                 array_keys($context->getPlaceholders())
             );
-            if (in_array($name, $possible_placeholder)) {
+            if (in_array($name, $possible_placeholder, true)) {
                 return true;
             }
         }
@@ -68,14 +68,15 @@ class ilMailTemplateContextAdapter
         return false;
     }
 
-    public function __get($name)
+    public function __get(string $name): string
     {
         foreach ($this->contexts as $context) {
             $ret = $context->resolvePlaceholder($name, $this->context_parameter, $this->recipient);
-            if ($ret !== "") {
+            if ($ret !== '') {
                 return $ret;
             }
         }
+
         return '';
     }
 }

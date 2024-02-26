@@ -25,6 +25,9 @@ use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Exercise\InternalDataService;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Stream\Streams;
 
 class CollectionWrapper
 {
@@ -143,12 +146,38 @@ class CollectionWrapper
         return "";
     }
 
+    public function importFileFromUploadResult(
+        UploadResult $result,
+        ResourceStakeholder $stakeholder
+    ): string {
+        // if the result is not OK, we skip it
+        if (!$result->isOK()) {
+            return "";
+        }
+
+        // we store the file in the IRSS
+        $rid = $this->irss->manage()->upload(
+            $result,
+            $stakeholder
+        );
+        return $rid->serialize();
+    }
+
     public function deliverFile(string $rid): void
     {
         $id = $this->getResourceIdForIdString($rid);
         if ($id) {
             $this->irss->consume()->download($id)->run();
         }
+    }
+
+    public function stream(string $rid): ?FileStream
+    {
+        $id = $this->getResourceIdForIdString($rid);
+        if ($id) {
+            return $this->irss->consume()->stream($id)->getStream();
+        }
+        return null;
     }
 
     public function getCollectionResourcesInfo(
@@ -190,4 +219,32 @@ class CollectionWrapper
         return "";
     }
 
+    public function deleteResource(string $rid, ResourceStakeholder $stakeholder): void
+    {
+        if ($rid !== "") {
+            $res = $this->getResourceIdForIdString($rid);
+            if ($res) {
+                $this->irss->manage()->remove($this->getResourceIdForIdString($rid), $stakeholder);
+            }
+        }
+    }
+
+    public function addEntryOfZipResourceToCollection(
+        string $rid,
+        string $entry,
+        ResourceCollection $target_collection,
+        ResourceStakeholder $target_stakeholder
+    ) {
+        $entry_parts = explode("/", $entry);
+        $zip = new \ZipArchive();
+        if ($zip->open($this->stream($rid)->getMetadata()['uri'], \ZipArchive::RDONLY)) {
+            $feedback_rid = $this->irss->manage()->stream(
+                Streams::ofResource($zip->getStream($entry)),
+                $target_stakeholder,
+                $entry_parts[2]
+            );
+            $target_collection->add($feedback_rid);
+            $this->irss->collection()->store($target_collection);
+        }
+    }
 }

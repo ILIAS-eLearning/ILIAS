@@ -34,6 +34,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 {
     private string $content;
     private ilRbacSystem $rbacsystem;
+    private string $parent;
     protected ilFavouritesManager $favourites_manager;
     protected int $requested_item_ref_id;
     private mixed $object_cache;
@@ -61,6 +62,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
+        $this->parent = $this->ctrl->getCurrentClassPath()[0] ?? '';
         $this->init();
     }
 
@@ -119,6 +121,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $data->getDescription()
         );
 
+        $list_item = $list_item->withProperties($list_item->getProperties() + $data->getAdditionalData());
+
         return $list_item;
     }
 
@@ -161,6 +165,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('components/ILIAS/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
@@ -175,8 +180,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
     }
 
-    #[NoReturn]
-    protected function initAndShow(): void
+    protected function initAndShow(): string
     {
         $this->init();
         if ($this->ctrl->isAsynch()) {
@@ -186,7 +190,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $this->http->sendResponse();
             $this->http->close();
         }
-        $this->returnToContext();
+        if ($this->parent === ilDashboardGUI::class) {
+            $this->returnToContext();
+        }
+
+        return $this->getHTML();
     }
 
     public function getHTML(): string
@@ -202,7 +210,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->addCommandActions();
         $this->setData($this->getItemGroups());
 
-        return parent::getHTML();
+        return parent::getHTMLNew();
     }
 
     /**
@@ -436,29 +444,26 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return "";
     }
 
-    #[NoReturn]
     public function viewDashboardObject(): void
     {
         $this->initAndShow();
     }
 
-    #[NoReturn]
-    public function changePDItemSortingObject(): void
+    public function changePDItemSortingObject(): string
     {
         $this->viewSettings->storeActorSortingMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
         );
 
-        $this->initAndShow();
+        return $this->initAndShow();
     }
 
-    #[NoReturn]
-    public function changePDItemPresentationObject(): void
+    public function changePDItemPresentationObject(): string
     {
         $this->viewSettings->storeActorPresentationMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
-        $this->initAndShow();
+        return $this->initAndShow();
     }
 
     protected function cancel(): void
@@ -531,7 +536,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                     $this->getRemoveMultipleActionText(),
                     $this->ui->factory()->legacy($this->manage($replace_signal ?? null))
                 );
-                $modal = $modal->withAdditionalOnLoadCode(function ($id) {
+                $content = $modal->withAdditionalOnLoadCode(function ($id) {
                     return "
                     $('#$id').attr('data-modal-name', 'remove_modal_view_" . $this->viewSettings->getCurrentView() . "');
                     ";
@@ -539,9 +544,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 break;
             case 'confirm':
             default:
-                $modal = $this->ui->factory()->legacy($this->confirmRemoveObject());
+                if ($this->viewSettings->isSelectedItemsViewActive()) {
+                    $question = $this->lng->txt('dash_info_sure_remove_from_favs');
+                } else {
+                    $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
+                }
+                $content = [
+                    $this->ui->factory()->messageBox()->confirmation($question),
+                    $this->ui->factory()->legacy($this->confirmRemoveObject())
+                ];
         }
-        $responseStream = Streams::ofString($this->ui->renderer()->renderAsync($modal));
+        $responseStream = Streams::ofString($this->ui->renderer()->renderAsync($content));
         $this->http->saveResponse(
             $this->http->response()
                        ->withBody($responseStream)

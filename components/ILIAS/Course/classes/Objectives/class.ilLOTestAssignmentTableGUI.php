@@ -240,7 +240,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                 $list->loadDefinitions();
 
                 // tax translations
-                $translater = new ilTestTaxonomyFilterLabelTranslater($this->db);
+                $translater = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
                 $translater->loadLabels($list);
 
                 $tst_data['qst_info'] = $this->lng->txt('crs_loc_tst_qpls');

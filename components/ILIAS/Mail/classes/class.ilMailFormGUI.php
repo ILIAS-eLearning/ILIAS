@@ -26,8 +26,6 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Factory;
 
 /**
- * @author Jens Conze
- * @ingroup ServicesMail
  * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
  */
 class ilMailFormGUI
@@ -126,7 +124,9 @@ class ilMailFormGUI
         switch (strtolower($forward_class)) {
             case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, 'returnFromAttachments');
-                $this->ctrl->forwardCommand(new ilMailAttachmentGUI());
+                $gui = new ilMailAttachmentGUI();
+                $gui->consume();
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case strtolower(ilMailSearchGUI::class):
@@ -825,7 +825,8 @@ class ilMailFormGUI
                 isset($mailData['attachments']) && is_array($mailData['attachments']) ?
                 'edit' :
                 'add'
-            )
+            ),
+            'm_attachment'
         );
         if (isset($mailData['attachments']) && is_array($mailData['attachments'])) {
             foreach ($mailData['attachments'] as $data) {
@@ -904,7 +905,11 @@ class ilMailFormGUI
         $chb->setValue('1');
         $chb->setChecked(isset($mailData['use_placeholders']) && $mailData['use_placeholders']);
 
-        $placeholders = new ilManualPlaceholderInputGUI($this->lng->txt('mail_form_placeholders_label'), 'm_message');
+        $placeholders = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'm_placeholders',
+            'm_message'
+        );
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         try {
             $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));

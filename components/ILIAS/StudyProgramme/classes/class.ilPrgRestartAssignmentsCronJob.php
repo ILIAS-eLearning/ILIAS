@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Pimple\Container;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
@@ -28,7 +28,7 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
     private const ID = 'prg_restart_assignments_temporal_progress';
-    private const ACTING_USR_ID = -1;
+    private const ACTING_USR_ID = ilPRGAssignment::AUTO_ASSIGNED_BY_RESTART;
 
     protected ilComponentLogger $log;
     protected ilLanguage $lng;

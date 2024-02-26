@@ -62,8 +62,18 @@ final class SelfRegistration implements SelfRegistrationInterface
 
     public function saveLegacyForm(ilPropertyFormGUI $form): bool
     {
-        if (!$form->getInput($this->checkboxVariableName())) {
-            $form->getItemByPostVar($this->checkboxVariableName())->setAlert($this->ui->txt('force_accept_usr_agreement'));
+        if ($this->user->matchingDocument()->isError()) {
+            $this->ui->loadLanguageModule($this->id);
+            $this->ui->loadLanguageModule('ldoc');
+            $this->ui->mainTemplate()->setOnScreenMessage('failure', sprintf(
+                $this->ui->txt('account_reg_not_possible'),
+                'mailto:' . \ilLegacyFormElementsUtil::prepareFormOutput(\ilSystemSupportContacts::getMailsToAddress())
+            ), true);
+            return false;
+        }
+        $input = $form->getItemByPostVar($this->checkboxVariableName());
+        if ($input && !$form->getInput($this->checkboxVariableName())) {
+            $input->setAlert($this->ui->txt('force_accept_usr_agreement'));
             return false;
         }
 

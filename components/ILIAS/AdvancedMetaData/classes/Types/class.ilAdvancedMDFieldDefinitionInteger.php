@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * AMD field type integer
@@ -66,8 +66,8 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     protected function initADTDefinition(): ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
-        $def->setMin((int) $this->getMin());
-        $def->setMax((int) $this->getMax());
+        $def->setMin($this->getMin());
+        $def->setMax($this->getMax());
         $def->setSuffix((string) ($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix()));
         return $def;
     }
@@ -113,8 +113,8 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 
     protected function importFieldDefinition(array $a_def): void
     {
-        $this->setMin($a_def["min"]);
-        $this->setMax($a_def["max"]);
+        $this->setMin(isset($a_def["min"]) ? (int) $a_def["min"] : null);
+        $this->setMax(isset($a_def["max"]) ? (int) $a_def["max"] : null);
         $this->setSuffix($a_def["suffix"]);
         $this->setSuffixTranslations($a_def['suffix_translations'] ?? []);
     }
@@ -188,10 +188,10 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         $min = $a_form->getInput("min");
-        $this->setMin(($min !== "") ? (int) $min : null);
+        $this->setMin(($min !== "" && !is_null($min)) ? (int) $min : null);
 
         $max = $a_form->getInput("max");
-        $this->setMax(($max !== "") ? (int) $max : null);
+        $this->setMax(($max !== "" && !is_null($max)) ? (int) $max : null);
 
         if ($this->useDefaultLanguageMode($language)) {
             $suffix = $a_form->getInput("suffix");

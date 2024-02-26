@@ -119,7 +119,7 @@ class LogicalOrTest extends TestCase
      */
     public function constraintsProvider(): array
     {
-        $mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder(\ILIAS\Language\Language::class)->disableOriginalConstructor()->getMock();
         $data_factory = new DataFactory();
 
         $refinery = new Refinery($data_factory, $mock);

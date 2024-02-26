@@ -30,6 +30,7 @@
 class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
+    protected const DEFAULT_TEXT_SIZE = 100;
 
     protected $ordertext;
     protected $textsize;
@@ -575,11 +576,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @param double $a_value Text size in percent
     */
-    public function setTextSize($a_value): void
+    public function setTextSize(?float $textsize): void
     {
-        if ($a_value >= 10) {
-            $this->textsize = $a_value;
+        if ($textsize === null || $textsize === 0.0) {
+            $textsize = self::DEFAULT_TEXT_SIZE;
         }
+        $this->textsize = $textsize;
     }
 
     /**
@@ -617,7 +619,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $result['points'] = (bool) $this->getPoints();
         $result['textsize'] = ((int) $this->getTextSize()) // #10923
             ? (int) $this->getTextSize()
-            : 100;
+            : self::DEFAULT_TEXT_SIZE;
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))

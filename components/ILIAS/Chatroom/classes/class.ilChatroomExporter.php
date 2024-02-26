@@ -49,7 +49,7 @@ class ilChatroomExporter extends ilXmlExporter
 
         if ('chtr' === $a_entity) {
             $deps[] = [
-                'component' => 'components/ILIAS/Object',
+                'component' => 'components/ILIAS/ILIASObject',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

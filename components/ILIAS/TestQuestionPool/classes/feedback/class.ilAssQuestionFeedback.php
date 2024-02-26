@@ -91,21 +91,12 @@ abstract class ilAssQuestionFeedback
             return "";
         }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $generic_feedback_test_presentation_html = $this->getPageObjectContent(
+            $generic_feedback = $this->getPageObjectContent(
                 $this->getGenericFeedbackPageObjectType(),
                 $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
             );
 
-            $doc = new DOMDocument('1.0', 'UTF-8');
-            if (@$doc->loadHTML('<html><body>' . $generic_feedback_test_presentation_html . '</body></html>')) {
-                $xpath = new DOMXPath($doc);
-                $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
-                foreach ($nodes_after_comments as $node_after_comments) {
-                    if (trim($node_after_comments->nodeValue) === '') {
-                        return '';
-                    }
-                }
-            }
+            $generic_feedback_test_presentation_html = $this->cleanupPageContent($generic_feedback);
         } else {
             $generic_feedback_test_presentation_html = $this->getGenericFeedbackContent($question_id, $solution_completed);
         }
@@ -743,5 +734,20 @@ abstract class ilAssQuestionFeedback
         $this->saveGenericFeedbackContent($question_id, false, $migrator->migrateToLmContent(
             $this->getGenericFeedbackContent($question_id, false)
         ));
+    }
+
+    protected function cleanupPageContent(string $content): string
+    {
+        $doc = new DOMDocument('1.0', 'UTF-8');
+        if (@$doc->loadHTML('<html><body>' . $content . '</body></html>')) {
+            $xpath = new DOMXPath($doc);
+            $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
+            foreach ($nodes_after_comments as $node_after_comments) {
+                if (trim($node_after_comments->nodeValue) === '') {
+                    return '';
+                }
+            }
+        }
+        return $content;
     }
 }

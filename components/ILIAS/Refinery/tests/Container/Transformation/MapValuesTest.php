@@ -43,10 +43,10 @@ class MapValuesTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
-        $this->map_values = $this->f->container()->mapValues($this->f->custom()->transformation(fn ($v) => $v * 2));
+        $this->map_values = $this->f->container()->mapValues($this->f->custom()->transformation(fn($v) => $v * 2));
     }
 
     public function testTransform(): void

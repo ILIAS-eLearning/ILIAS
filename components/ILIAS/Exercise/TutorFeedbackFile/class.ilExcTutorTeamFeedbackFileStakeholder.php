@@ -41,7 +41,7 @@ class ilExcTutorTeamFeedbackFileStakeholder extends AbstractResourceStakeholder
 
     public function getId(): string
     {
-        return 'exc_tutor_feedback';
+        return 'exc_tutor_team_feedback';
     }
 
     public function getOwnerOfNewResources(): int

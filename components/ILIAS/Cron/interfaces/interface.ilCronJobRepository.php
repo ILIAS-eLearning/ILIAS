@@ -53,6 +53,7 @@ interface ilCronJobRepository
 
     public function updateJobResult(
         ilCronJob $job,
+        DateTimeImmutable $when,
         ilObjUser $actor,
         ilCronJobResult $result,
         bool $wasManualExecution = false
@@ -62,9 +63,9 @@ interface ilCronJobRepository
 
     public function updateJobSchedule(ilCronJob $job, ?CronJobScheduleType $scheduleType, ?int $scheduleValue): void;
 
-    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function activateJob(ilCronJob $job, DateTimeImmutable $when, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
+    public function deactivateJob(ilCronJob $job, DateTimeImmutable $when, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
     public function findAll(): ilCronJobCollection;
 }

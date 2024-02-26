@@ -71,7 +71,7 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return list<\ILIAS\UI\Component\Table\Column\Column>
+     * @return array<string, \ILIAS\UI\Component\Table\Column\Column>
      */
     private function getColumnDefinition(): array
     {
@@ -130,11 +130,11 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         $records = $this->idps;
 
         if ($order) {
-            [$order_field, $order_direction] = $order->join([], static function($ret, $key, $value) {
+            [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
                 return [$key, $value];
             });
 
-            usort($records, static function(ilSamlIdp $left, ilSamlIdp $right) use($order_field): int {
+            usort($records, static function (ilSamlIdp $left, ilSamlIdp $right) use ($order_field): int {
                 if ($order_field === 'title') {
                     return ilStr::strCmp($left->getEntityId(), $right->getEntityId());
                 }

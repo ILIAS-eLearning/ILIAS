@@ -44,5 +44,10 @@ interface HistoryRepository
     /**
      * @return Result<DocumentContent>
      */
-    public function acceptedDocument(ilObjUser $user): Result;
+    public function acceptedVersion(ilObjUser $user): Result;
+
+    /**
+     * @return Result<Document>
+     */
+    public function currentDocumentOfAcceptedVersion(ilObjUser $user): Result;
 }

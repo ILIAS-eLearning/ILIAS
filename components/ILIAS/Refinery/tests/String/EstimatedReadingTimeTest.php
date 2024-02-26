@@ -24,7 +24,7 @@ require_once 'vendor/composer/vendor/autoload.php';
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ilLanguage;
+use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use InvalidArgumentException;
@@ -48,7 +48,7 @@ EOT;
     {
         $this->refinery = new Refinery(
             $this->createMock(DataFactory::class),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(Language::class)
         );
 
         parent::setUp();

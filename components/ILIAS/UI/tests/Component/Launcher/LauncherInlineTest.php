@@ -220,7 +220,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
-                        <span class="modal-title">different label</span>
+                        <h1 class="modal-title">different label</h1>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-info" role="status">

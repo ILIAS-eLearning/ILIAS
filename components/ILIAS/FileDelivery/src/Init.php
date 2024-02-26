@@ -39,7 +39,7 @@ class Init
     public static function init(Container $c): void
     {
         $c['file_delivery.response_builder'] = static function (): ResponseBuilder {
-            $settings = (require DeliveryMethodObjective::ARTIFACT) ?? [];
+            $settings = (require DeliveryMethodObjective::PATH()) ?? [];
 
             switch ($settings[DeliveryMethodObjective::SETTINGS] ?? null) {
                 case DeliveryMethodObjective::XSENDFILE:
@@ -53,7 +53,7 @@ class Init
         $c['file_delivery.data_signer'] = static function (): DataSigner {
             $keys = array_map(static function (string $key): SecretKey {
                 return new SecretKey($key);
-            }, (require KeyRotationObjective::KEY_ROTATION) ?? []);
+            }, (require KeyRotationObjective::PATH()) ?? []);
 
             $current_key = array_shift($keys);
 

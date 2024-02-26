@@ -56,6 +56,9 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
 
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
+
         if ($component->hasOverlay()) {
             $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
         }

@@ -123,12 +123,27 @@ class ConsumerFactory
         );
     }
 
-    public function container(
+    public function containerZIP(
         StorableContainerResource $resource,
     ): ContainerConsumer {
         return new ContainerZIPAccessConsumer(
             $resource,
             $this->stream_access
+        );
+    }
+
+    public function containerURI(
+        StorableContainerResource $resource,
+        SrcBuilder $src_builder,
+        string $start_file = 'index.html',
+        float $valid_for_at_least_minutes = 60.0
+    ): ContainerConsumer {
+        return new ContainerURIConsumer(
+            $src_builder,
+            $resource,
+            $this->stream_access,
+            $start_file,
+            $valid_for_at_least_minutes
         );
     }
 }

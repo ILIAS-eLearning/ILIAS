@@ -25,6 +25,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Mail\Service\MailSignatureService;
 
 /**
  * Class ilMailMimeTest
@@ -48,6 +49,15 @@ class ilMailTest extends ilMailBaseTest
 
         $legal_documents = $this->createMock(Conductor::class);
         $this->setGlobalVariable('legalDocuments', $legal_documents);
+
+        $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+        $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
+        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
+        $this->setGlobalVariable('ilCtrl', $this->createMock(ilCtrl::class));
+
+        $webDir = 'public/data';
+        define("ILIAS_WEB_DIR", $webDir);
 
         $senderUsrId = 666;
         $loginToIdMap = [
@@ -144,6 +154,7 @@ class ilMailTest extends ilMailBaseTest
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $settings->method('get')->willReturn('');
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mailFileData = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock();
@@ -588,7 +599,10 @@ class ilMailTest extends ilMailBaseTest
             0,
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
+            null,
+            null,
+            $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );
     }
 }

@@ -734,7 +734,11 @@ abstract class assQuestionGUI
                 $this->ctrl->redirect($this, "originalSyncForm");
             }
 
-            $this->ctrl->setParameter($this, 'q_id', $q_id);
+            $this->ctrl->setParameter(
+                $this,
+                'q_id',
+                $q_id === self::RETURN_AFTER_EXISTING_SAVE ? $this->object->getId() : $q_id
+            );
             $this->ctrl->setParameter($this, 'ref_id', $this->request->raw('calling_test'));
             $this->ctrl->setParameter($this, 'calling_test', $this->request->raw('calling_test'));
         }

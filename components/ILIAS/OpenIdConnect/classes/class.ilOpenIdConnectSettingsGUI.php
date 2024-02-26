@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\FileUpload\FileUpload;
 
@@ -622,11 +622,15 @@ class ilOpenIdConnectSettingsGUI
             $role_settings = [];
             $role_valid = true;
             foreach ($this->prepareRoleSelection(false) as $role_id => $role_title) {
-                if (trim($form->getInput('role_map_' . $role_id)) === '') {
+                $role_settings[(int) $role_id]['update'] = !$form->getInput('role_map_update_' . $role_id);
+                $role_settings[(int) $role_id]['value'] = '';
+
+                $input_role = trim($form->getInput('role_map_' . $role_id));
+                if ($input_role === '') {
                     continue;
                 }
 
-                $role_params = explode('::', $form->getInput('role_map_' . $role_id));
+                $role_params = explode('::', $input_role);
                 $this->logger->dump($role_params, ilLogLevel::DEBUG);
 
                 if (count($role_params) !== 2) {
@@ -636,8 +640,7 @@ class ilOpenIdConnectSettingsGUI
                     $role_valid = false;
                     continue;
                 }
-                $role_settings[(int) $role_id]['update'] = !$form->getInput('role_map_update_' . $role_id);
-                $role_settings[(int) $role_id]['value'] = (string) $form->getInput('role_map_' . $role_id);
+                $role_settings[(int) $role_id]['value'] = $input_role;
             }
 
             if (!$role_valid) {

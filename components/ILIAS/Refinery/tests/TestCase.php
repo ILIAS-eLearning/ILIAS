@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Refinery;
 
 use ilGlobalTemplateInterface;
-use ilLanguage;
+use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class ilLanguageMock extends ilLanguage
+class ilLanguageMock implements Language
 {
     /** @var string[] */
     public array $requested = [];
@@ -51,7 +51,7 @@ class ilLanguageMock extends ilLanguage
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    public function getLanguage(): ilLanguageMock
+    public function getLanguage(): Language
     {
         return new ilLanguageMock();
     }

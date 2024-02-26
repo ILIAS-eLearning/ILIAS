@@ -129,4 +129,15 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_9(): void
+    {
+        $this->db->manipulate(
+            "UPDATE il_dcl_field_prop, il_dcl_field 
+	                    SET name='link_detail_page_text'
+                    WHERE name='link_detail_page'
+	                AND il_dcl_field_prop.field_id=il_dcl_field.id
+	                AND il_dcl_field.datatype_id=2"
+        );
+    }
 }

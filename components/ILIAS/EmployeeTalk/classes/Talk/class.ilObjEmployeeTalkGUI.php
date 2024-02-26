@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
-use ILIAS\components\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\components\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
@@ -54,6 +54,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     protected IliasDBEmployeeTalkSeriesRepository $repository;
     protected MetadataHandlerInterface $md_handler;
     protected NotificationHandlerInterface $notif_handler;
+    private string $link_to_parent;
 
     public function __construct()
     {
@@ -76,8 +77,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $this->type = 'etal';
 
-        $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
-
         $this->omitLocator();
         $DIC->ui()->mainTemplate()->setTitle($this->lng->txt('mst_my_staff'));
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
@@ -92,6 +91,19 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
+    }
+
+    public function setLinkToParentGUI(string $link): void
+    {
+        $this->link_to_parent = $link;
+    }
+
+    public function redirectToParentGUI(): void
+    {
+        if (isset($this->link_to_parent)) {
+            $this->ctrl->redirectToURL($this->link_to_parent);
+        }
+        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class));
     }
 
     public function executeCommand(): void
@@ -200,17 +212,17 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         if (!$this->talkAccess->canDelete($this->ref_id)) {
             ilSession::clear("saved_post");
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
+            $this->redirectToParentGUI();
 
             return;
         }
 
-        if ($this->post_wrapper->has("mref_id")) {
-            $mref_id = $this->post_wrapper->retrieve(
-                "mref_id",
+        if ($this->post_wrapper->has("interruptive_items")) {
+            $ref_id = $this->post_wrapper->retrieve(
+                "interruptive_items",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post') ?? [], $ref_id));
             ilSession::set('saved_post', $saved_post);
         }
 
@@ -233,7 +245,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         ilSession::clear("saved_post");
 
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
+        $this->redirectToParentGUI();
     }
 
     private function sendNotification(ilObjEmployeeTalk ...$talks): void
@@ -244,13 +256,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     private function sendUpdateNotification(ilObjEmployeeTalk ...$talks): void
     {
         $this->notif_handler->send(NotificationType::UPDATE, ...$talks);
-    }
-
-    public function cancelDeleteObject(): void
-    {
-        ilSession::clear("saved_post");
-
-        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
     protected function initEditForm(): ilPropertyFormGUI

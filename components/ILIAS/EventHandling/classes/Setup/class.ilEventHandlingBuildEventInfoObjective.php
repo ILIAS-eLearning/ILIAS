@@ -20,12 +20,13 @@ use ILIAS\Setup;
 
 class ilEventHandlingBuildEventInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    private ?ilComponentRepository $component_repository = null;
-
-    public function getArtifactPath(): string
+    public function getArtifactName(): string
     {
-        return \ilArtifactEventHandlingData::EVENT_HANDLING_DATA_PATH;
+        return "event_handling_data";
     }
+
+
+    private ?ilComponentRepository $component_repository = null;
 
     public function getPreconditions(Setup\Environment $environment): array
     {

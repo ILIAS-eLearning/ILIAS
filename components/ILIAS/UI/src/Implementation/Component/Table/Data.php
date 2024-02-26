@@ -34,6 +34,7 @@ use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 
 class Data extends Table implements T\Data, JSBindable
 {
@@ -43,26 +44,27 @@ class Data extends Table implements T\Data, JSBindable
     public const VIEWCONTROL_KEY_ORDERING = 'order';
     public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
 
+    public const STORAGE_ID_PREFIX = self::class . '_';
 
     /**
      * @var array<string, Column>
      */
-    protected $columns = [];
+    protected array $columns = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_single = [];
+    protected array $actions_single = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_multi = [];
+    protected array $actions_multi = [];
 
     /**
      * @var array<string, Action>
      */
-    protected $actions_std = [];
+    protected array $actions_std = [];
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
@@ -77,6 +79,7 @@ class Data extends Table implements T\Data, JSBindable
     protected ?Order $order = null;
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
+    protected ?string $id = null;
 
     /**
      * @param array<string, Column> $columns
@@ -89,7 +92,8 @@ class Data extends Table implements T\Data, JSBindable
         protected DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
-        protected T\DataRetrieval $data_retrieval
+        protected T\DataRetrieval $data_retrieval,
+        protected \ArrayAccess $storage,
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -358,6 +362,33 @@ class Data extends Table implements T\Data, JSBindable
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
+    protected function getStorageData(): ?array
+    {
+        if (null !== ($storage_id = $this->getStorageId())) {
+            return $this->storage[$storage_id] ?? null;
+        }
+        return null;
+    }
+
+    protected function setStorageData(array $data): void
+    {
+        if (null !== ($storage_id = $this->getStorageId())) {
+            $this->storage[$storage_id] = $data;
+        }
+    }
+
+    protected function applyValuesToViewcontrols(
+        ViewControlContainer\ViewControl $view_controls,
+        ServerRequestInterface $request
+    ): ViewControlContainer\ViewControl {
+        $stored_values = new ArrayInputData($this->getStorageData() ?? []);
+        $view_controls = $view_controls
+            ->withStoredInput($stored_values)
+            ->withRequest($request);
+        $this->setStorageData($view_controls->getComponentInternalValues());
+        return $view_controls;
+    }
+
     /**
      * @return array<self, ViewControlContainer\ViewControl>
      */
@@ -370,7 +401,7 @@ class Data extends Table implements T\Data, JSBindable
         $view_controls = $this->getViewControls($total_count);
 
         if ($request = $this->getRequest()) {
-            $view_controls = $view_controls->withRequest($request);
+            $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
             $data = $view_controls->getData();
             $table = $table
                 ->withRange(($data[self::VIEWCONTROL_KEY_PAGINATION] ?? null)?->croppedTo($total_count ?? PHP_INT_MAX))
@@ -444,5 +475,25 @@ class Data extends Table implements T\Data, JSBindable
                 $optional_cols
             ))
             ->withValue($this->getSelectedOptionalColumns());
+    }
+
+    public function withId(string $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
+    }
+
+    protected function getStorageId(): ?string
+    {
+        if (null !== ($id = $this->getId())) {
+            return self::STORAGE_ID_PREFIX . $id;
+        }
+        return null;
+    }
+
+    protected function getId(): ?string
+    {
+        return $this->id;
     }
 }

@@ -270,7 +270,7 @@ class DataRendererTest extends TableTestBase
         <table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
             <thead>
                 <tr class="c-table-data__header c-table-data__row" role="rowgroup">
-                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="ascending">
+                    <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" role="columnheader" tabindex="-1" aria-colindex="0" aria-sort="order_option_generic_ascending">
                         <div class="c-table-data__header__resize-wrapper">
                             <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
                             <button class="btn btn-link" id="id_1">Field 1</button>
@@ -382,7 +382,53 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
+    public function testDataTableRenderHeaderWithActions(): void
+    {
+        $renderer = $this->getRenderer();
+        $data_factory = new \ILIAS\Data\Factory();
+        $tpl = $this->getTemplateFactory()->getTemplate("components/ILIAS/UI/src/templates/default/Table/tpl.datatable.html", true, true);
+        $f = $this->getColumnFactory();
 
+        $url = $data_factory->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
+        $actions = [
+            'a2' => $this->getActionFactory()->standard('some action', $builder, $token)
+        ];
+
+        $data = new class () implements ILIAS\UI\Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                yield $row_builder->buldDataRow('', []);
+            }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
+        };
+        $columns = [
+            'f1' => $f->text("Field 1")->withIsSortable(false),
+        ];
+
+        $sortation_signal = null;
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+            ->withActions($actions)
+            ->withRequest($this->getDummyRequest());
+        $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
+        $actual = $this->brutallyTrimHTML($tpl->get());
+
+        $expected = '<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="1">actions</th>';
+        $this->assertStringContainsString($expected, $actual);
+    }
 
     public function testDataTableRowBuilder()
     {

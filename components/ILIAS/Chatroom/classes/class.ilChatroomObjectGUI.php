@@ -37,15 +37,10 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-
-    /**
-     * @return bool A boolean flag whether or not the request could be dispatched
-     */
     protected function dispatchCall(string $gui, string $method): bool
     {
         $definition = $this->getObjectDefinition();
         if ($definition->hasGUI($gui)) {
-            $definition->loadGUI($gui);
             $guiHandler = $definition->buildGUI($gui, $this);
             $guiHandler->execute($method);
             return true;

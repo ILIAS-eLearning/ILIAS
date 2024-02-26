@@ -49,7 +49,7 @@
 <input type="submit" class="btn btn-default" name="cmd[{CMD_RESET}]" value="{TXT_RESET}" /></span>
 <!-- END filter_buttons -->
 <!-- BEGIN filter_deactivation --><div class="ilFloatRight">
-<button href="#" class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button></div>
+<button class="ilTableFilterDeactivator btn btn-link" id = "dtfil_{FILD_ID}" onclick="return ilHideTableFilter('tfil_{FILD_ID}', '{SAVE_URL}');">{TXT_HIDE}</button></div>
 <!-- END filter_deactivation -->
 </fieldset>
 </div>
@@ -67,7 +67,7 @@
 	</td>
 	<td class="ilWhiteSpaceNowrap ilRight">
 	<!-- BEGIN filter_activation -->
-		<div class="btn-group"><button class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button></div>
+		<div class="btn-group"><button class="btn btn-ctrl ilTableFilterActivator" id = "atfil_{FILA_ID}" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</button></div>
 	<!-- END filter_activation -->
 
 	{COLUMN_SELECTOR} {ROW_SELECTOR} {TEMPLATE_SELECTOR} {EXPORT_SELECTOR}

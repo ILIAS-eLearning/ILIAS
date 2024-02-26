@@ -28,18 +28,18 @@ use ILIAS\Refinery\Password\HasSpecialChars;
 use ILIAS\Refinery\Password\HasUpperChars;
 use ILIAS\Refinery\Password\Group as PasswordGroup;
 use PHPUnit\Framework\TestCase;
-use ilLanguage;
+use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {
     private PasswordGroup $group;
     private DataFactory $dataFactory;
-    private ilLanguage $language;
+    private Language $language;
 
     protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
-        $this->language = $this->getMockBuilder(ilLanguage::class)
+        $this->language = $this->getMockBuilder(Language::class)
             ->disableOriginalConstructor()
             ->getMock();
 

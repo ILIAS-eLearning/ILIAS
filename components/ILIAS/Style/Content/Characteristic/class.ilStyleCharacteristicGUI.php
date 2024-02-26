@@ -118,7 +118,7 @@ class ilStyleCharacteristicGUI
                     "pasteCharacteristicsWithinStyle", "pasteCharacteristicsFromOtherStyle",
                     "saveStatus", "setOutdated", "removeOutdated",
                     "editTagStyle", "refreshTagStyle", "updateTagStyle",
-                    "editTagTitles", "saveTagTitles"])) {
+                    "editTagTitles", "saveTagTitles", "switchMQuery"])) {
                     $this->$cmd();
                 }
         }
@@ -1041,7 +1041,6 @@ class ilStyleCharacteristicGUI
         $lng = $this->domain_service->lng();
 
         $chars = $this->request->getCharacteristics();
-
         if (count($chars) == 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
@@ -1209,10 +1208,9 @@ class ilStyleCharacteristicGUI
                     }
                     $new_char = $d["char_" . $char];
                     $char_parts = explode(".", $char);
-
                     $manager->copyCharacteristicFromSource(
                         $this->manager->getCopyCharacteristicStyleId(),
-                        $this->manager->getCopyCharacteristicStyleType(),
+                        $char_parts[0],
                         $char_parts[2],
                         $new_char,
                         $titles
@@ -1258,7 +1256,7 @@ class ilStyleCharacteristicGUI
                     if (isset($d["overwrite_class"])) {
                         $manager->copyCharacteristicFromSource(
                             $manager->getCopyCharacteristicStyleId(),
-                            $manager->getCopyCharacteristicStyleType(),
+                            $char_parts[0],
                             $char_parts[2],
                             $d["overwrite_class"],
                             []
@@ -1271,7 +1269,7 @@ class ilStyleCharacteristicGUI
                         $new_char = $d["char_" . $char];
                         $manager->copyCharacteristicFromSource(
                             $manager->getCopyCharacteristicStyleId(),
-                            $manager->getCopyCharacteristicStyleType(),
+                            $char_parts[0],
                             $char_parts[2],
                             $new_char,
                             $titles
@@ -1314,4 +1312,15 @@ class ilStyleCharacteristicGUI
 
         $ilCtrl->redirect($this, "listCharacteristics");
     }
+
+    /**
+     * Switch media query
+     */
+    public function switchMQuery(): void
+    {
+        $ctrl = $this->gui_service->ctrl();
+        $ctrl->setParameter($this, "mq_id", $this->request->getMediaQueryId());
+        $ctrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
+    }
+
 }

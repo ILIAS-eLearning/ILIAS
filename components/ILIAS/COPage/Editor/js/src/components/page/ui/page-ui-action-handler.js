@@ -464,7 +464,7 @@ export default class PageUIActionHandler {
     update_action = af.page().command().update(
       params.pcid,
       params.component,
-      params.data,
+      params.data
     );
 
     this.client.sendCommand(update_action).then((result) => {
