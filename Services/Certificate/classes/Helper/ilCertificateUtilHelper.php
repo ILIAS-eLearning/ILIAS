@@ -90,7 +90,11 @@ class ilCertificateUtilHelper
 
     public function unzip(string $file, bool $overwrite): void
     {
-        ilFileUtils::unzip($file, $overwrite);
+        $this->archives->unzip(
+            $file,
+            $this->archives->unzipOptions()
+                           ->withOverwrite($overwrite)
+        )->extract();
     }
 
     public function delDir(string $path): void
