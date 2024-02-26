@@ -24,6 +24,7 @@
 class ilContainerRenderer
 {
     protected const UNIQUE_SEPARATOR = "-";
+    protected \ILIAS\Container\Content\ItemManager $item_manager;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected \ILIAS\Containter\Content\ObjectiveRenderer $objective_renderer;
@@ -121,6 +122,12 @@ class ilContainerRenderer
             ->repo()
             ->content()
             ->block();
+        $this->item_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->items($this->container_gui->getObject());
     }
 
     public function setBlockPrefixClosure(Closure $f): void
@@ -807,6 +814,20 @@ class ilContainerRenderer
         return $this->container_gui->getContainerPageHTML();
     }
 
+    protected function getDetailsLevel(int $a_item_id): int
+    {
+        if ($this->container_gui->isActiveAdministrationPanel()) {
+            return ilContainerContentGUI::DETAILS_DEACTIVATED;
+        }
+        if ($this->item_manager->getExpanded($a_item_id) !== null) {
+            return $this->item_manager->getExpanded($a_item_id);
+        }
+        /*if ($a_item_id === $this->force_details) {
+            return ilContainerContentGUI::DETAILS_ALL;
+        }*/
+        return ilContainerContentGUI::DETAILS_TITLE;
+    }
+
     public function renderItemBlockSequence(
         \ILIAS\Container\Content\ItemBlock\ItemBlockSequence $sequence
     ): string {
@@ -898,7 +919,8 @@ class ilContainerRenderer
                     $pos_prefix,
                     $item_group_list_presentation,
                     $checkbox,
-                    $this->item_presentation->isActiveItemOrdering()
+                    $this->item_presentation->isActiveItemOrdering(),
+                    $this->getDetailsLevel($item_data["obj_id"])
                 );
                 if ($html != "") {
                     $this->addItemToBlock(

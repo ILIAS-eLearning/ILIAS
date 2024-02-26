@@ -129,19 +129,6 @@ abstract class ilContainerContentGUI
         return $this->view_mode;
     }
 
-    protected function getDetailsLevel(int $a_item_id): int
-    {
-        if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
-            return self::DETAILS_DEACTIVATED;
-        }
-        if ($this->item_manager->getExpanded($a_item_id) !== null) {
-            return $this->item_manager->getExpanded($a_item_id);
-        }
-        if ($a_item_id === $this->force_details) {
-            return self::DETAILS_ALL;
-        }
-        return self::DETAILS_TITLE;
-    }
 
     public function getContainerObject(): ilContainer
     {
