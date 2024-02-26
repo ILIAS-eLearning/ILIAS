@@ -29,6 +29,7 @@ use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
 use ILIAS\Export\ImportStatus\StatusType;
 use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * Import class
@@ -156,11 +157,9 @@ class ilImport
         /** @var Unzip $unzip **/
         $unzip = $this->archives->unzip(
             Streams::ofResource(fopen($target_file_path_str, 'rb')),
-            (new UnzipOptions())
+            $this->archives->unzipOptions()
                 ->withZipOutputPath($tmp_dir_info->getRealPath())
-                ->withOverwrite(false)
-                ->withFlat(false)
-                ->withEnsureTopDirectoy(true)
+                ->withDirectoryHandling(ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR)
         );
         return $unzip->extract()
             ? $import_status_collection->withAddedStatus(
