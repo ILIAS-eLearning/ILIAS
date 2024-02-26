@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory;
 
 class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
 {
@@ -30,7 +31,7 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
-    /** @var array<int, array<string, string>>|null */
+    /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
 
     private function getCurrentObject(int $obj_id): ilObjCourse|ilObjGroup
@@ -74,7 +75,7 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
         private readonly string $context,
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
-        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly Factory $ui_factory,
         \ILIAS\HTTP\GlobalHttpState $http,
         private readonly ilTree $tree,
         private readonly ilRbacSystem $rbac_system
@@ -125,11 +126,17 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     private function getColumns(): array
     {
         return [
-            'obj_title' => $this->ui_factory->table()->column()->text($this->mode['lng_mail'])
+            'obj_title' => $this->ui_factory->table()
+                                            ->column()
+                                            ->text($this->mode['lng_mail'])
                                             ->withIsSortable(true),
-            'obj_path' => $this->ui_factory->table()->column()->text($this->lng->txt('path'))
+            'obj_path' => $this->ui_factory->table()
+                                           ->column()
+                                           ->text($this->lng->txt('path'))
                                            ->withIsSortable(true),
-            'obj_cnt_members' => $this->ui_factory->table()->column()->number($this->lng->txt('obj_count_members'))
+            'obj_cnt_members' => $this->ui_factory->table()
+                                                  ->column()
+                                                  ->number($this->lng->txt('obj_count_members'))
                                                   ->withIsSortable(true),
         ];
     }
@@ -150,9 +157,11 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] =
             $url_builder->acquireParameters(
                 $query_params_namespace,
                 'action',
@@ -286,7 +295,7 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return list<array<string, mixed>>array
      */
     private function sortedRecords(Data\Order $order): array
     {
@@ -298,7 +307,7 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return list<array<string, mixed>>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
@@ -310,8 +319,8 @@ class MailSearchObjectsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @param array<int, array<string, mixed>> $records
-     * @return array<int, array<string, mixed>>
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
      */
     private function limitRecords(array $records, Data\Range $range): array
     {

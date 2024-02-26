@@ -23,6 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 
 abstract class ilMailSearchObjectGUI
 {
+    private ilTabsGUI $tabs;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ?string $view = null;
@@ -139,11 +140,13 @@ abstract class ilMailSearchObjectGUI
 
     private function shareObjects(): void
     {
-        $obj_ids = $this->http->wrapper()->query()->has('contact_mailinglist_search_obj_ids')
-            ? $this->http->wrapper()->query()->retrieve(
-                'contact_mailinglist_search_obj_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            ) : [];
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         if ($obj_ids !== []) {
             $this->addPermission($obj_ids);
@@ -155,11 +158,13 @@ abstract class ilMailSearchObjectGUI
 
     private function shareMembers(): void
     {
-        $usr_ids = $this->http->wrapper()->query()->has('contact_mailinglist_search_members_ids')
-            ? $this->http->wrapper()->query()->retrieve(
-                'contact_mailinglist_search_members_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            ) : [];
+        $usr_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_members_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         if ($usr_ids !== []) {
             $this->addPermission(array_unique($usr_ids));
@@ -174,11 +179,13 @@ abstract class ilMailSearchObjectGUI
         $members = [];
         $mail_data = $this->umail->retrieveFromStage();
 
-        $obj_ids = $this->http->wrapper()->query()->has('contact_mailinglist_search_obj_ids')
-            ? $this->http->wrapper()->query()->retrieve(
-                'contact_mailinglist_search_obj_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            ) : [];
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         foreach ($obj_ids as $obj_id) {
             $ref_ids = ilObject::_getAllReferences($obj_id);
@@ -230,11 +237,13 @@ abstract class ilMailSearchObjectGUI
     {
         $members = [];
 
-        $usr_ids = $this->http->wrapper()->query()->has('contact_mailinglist_search_members_ids')
-            ? $this->http->wrapper()->query()->retrieve(
-                'contact_mailinglist_search_members_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            ) : [];
+        $usr_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_members_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         $mail_data = $this->umail->retrieveFromStage();
         foreach ($usr_ids as $usr_id) {
@@ -284,11 +293,13 @@ abstract class ilMailSearchObjectGUI
             $this->ctrl->getLinkTarget($this, 'showMyObjects')
         );
 
-        $obj_ids = $this->http->wrapper()->query()->has('contact_mailinglist_search_obj_ids')
-            ? $this->http->wrapper()->query()->retrieve(
-                'contact_mailinglist_search_obj_ids',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            ) : [];
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         if ($obj_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));

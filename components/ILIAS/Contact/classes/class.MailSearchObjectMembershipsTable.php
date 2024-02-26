@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory;
 
 class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetrieval
 {
@@ -28,7 +29,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     private readonly array $mode;
     private readonly Data\Factory $data_factory;
     private ServerRequestInterface|\Psr\Http\Message\RequestInterface $request;
-    /** @var array<int, array<string, string>>|null */
+    /** @var list<array<string, mixed>>|null */
     private ?array $records = null;
     private bool $buddysystem_enabled;
     private bool $mailing_allowed = false;
@@ -48,6 +49,9 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
         return $this->buddysystem_enabled;
     }
 
+    /**
+     * @param int[] $obj_ids
+     */
     public function __construct(
         private readonly array $obj_ids,
         private readonly string $type,
@@ -55,7 +59,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
         private readonly int $current_user_id,
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
-        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly Factory $ui_factory,
         \ILIAS\HTTP\GlobalHttpState $http,
         private readonly ilObjectDataCache $object_data_cache
     ) {
@@ -106,16 +110,24 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     private function getColumns(): array
     {
         $columns = [
-            'members_login' => $this->ui_factory->table()->column()->text($this->lng->txt('login'))
+            'members_login' => $this->ui_factory->table()
+                                                ->column()
+                                                ->text($this->lng->txt('login'))
                                                 ->withIsSortable(true),
-            'members_name' => $this->ui_factory->table()->column()->text($this->lng->txt('name'))
+            'members_name' => $this->ui_factory->table()
+                                               ->column()
+                                               ->text($this->lng->txt('name'))
                                                ->withIsSortable(true),
-            'members_crs_grp' => $this->ui_factory->table()->column()->text($this->lng->txt($this->mode['long']))
+            'members_crs_grp' => $this->ui_factory->table()
+                                                  ->column()
+                                                  ->text($this->lng->txt($this->mode['long']))
                                                   ->withIsSortable(true)
         ];
 
         if ($this->isBuddysystemEnabled()) {
-            $columns['status'] = $this->ui_factory->table()->column()->text($this->lng->txt('buddy_tbl_filter_state'))
+            $columns['status'] = $this->ui_factory->table()
+                                                  ->column()
+                                                  ->text($this->lng->txt('buddy_tbl_filter_state'))
                                                   ->withIsSortable(true);
         }
 
@@ -138,14 +150,15 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
         );
 
         $url_builder = new UI\URLBuilder($uri);
-        list(
-            $url_builder, $action_parameter_token_copy, $row_id_token
-            ) =
-            $url_builder->acquireParameters(
-                $query_params_namespace,
-                'action',
-                'members_ids'
-            );
+        [
+            $url_builder,
+            $action_parameter_token_copy,
+            $row_id_token
+        ] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'members_ids'
+        );
 
         $actions = [];
         if ($this->context === 'mail') {
@@ -245,7 +258,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>array
      */
     private function sortedRecords(Data\Order $order): array
     {
@@ -256,7 +269,7 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array<string, mixed>>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
@@ -267,8 +280,8 @@ class MailSearchObjectMembershipsTable implements UI\Component\Table\DataRetriev
     }
 
     /**
-     * @param array<int, array<string, string>> $records
-     * @return array<int, array<string, string>>
+     * @param list<array<string, mixed>> $records
+     * @return list<array<string, mixed>>
      */
     private function limitRecords(array $records, Data\Range $range): array
     {
