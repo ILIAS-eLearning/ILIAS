@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilCmiXapiImporter
  *
@@ -30,6 +30,7 @@ declare(strict_types=1);
 class ilCmiXapiImporter extends ilXmlImporter
 {
     private array $_moduleProperties = [];
+    private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;
 
     public array $manifest = [];
 
@@ -64,6 +65,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->dic = $DIC;
         $this->filesystemWeb = $DIC->filesystem()->web();
         $this->filesystemTemp = $DIC->filesystem()->temp();
+        $this->archives = $DIC->legacyArchives();
         $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->_cmixSettingsProperties['Title'] = '';
         $this->_dataset->_cmixSettingsProperties['Description'] = '';
@@ -150,7 +152,7 @@ class ilCmiXapiImporter extends ilXmlImporter
                 $this->filesystemWeb->createDir($this->_relWebDir);
                 $this->filesystemWeb->put($this->_relWebDir . '/content.zip', $this->filesystemTemp->read($this->_relImportDir . '/content.zip'));
                 $webDataDir = ilFileUtils::getWebspaceDir();
-                ilFileUtils::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
+                $this->archives->unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
                 $this->filesystemWeb->delete($this->_relWebDir . '/content.zip');
             }
         }
