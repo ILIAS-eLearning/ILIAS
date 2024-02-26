@@ -40,14 +40,19 @@ class MarksDatabaseRepository implements MarksRepository
             [$test_id]
         );
         if ($this->db->numRows($result) > 0) {
+            $mark_steps = [];
             while ($data = $this->db->fetchAssoc($result)) {
-                $schema->addMarkStep($data['short_name'], $data['official_name'], (float) $data['minimum_level'], (int) $data['passed']);
+                $mark_steps[] = new Mark(
+                    $data['short_name'],
+                    $data['official_name'],
+                    (float) $data['minimum_level'],
+                    (bool) $data['passed']
+                );
             }
-            return $schema;
+            return $schema->withMarkSteps($mark_steps);
         }
 
-        $schema->createSimpleSchema();
-        return $schema;
+        return $schema->createSimpleSchema();
     }
 
     public function storeMarkSchema(MarkSchema $mark_schema): void

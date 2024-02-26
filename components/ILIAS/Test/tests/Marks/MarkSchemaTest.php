@@ -68,15 +68,15 @@ class MarkSchemaTest extends ilTestBaseTestCase
         $txt_failed_short = "failed";
         $txt_failed_official = "failed";
         $percentage_failed = 0;
-        $failed_passed = 0;
+        $failed_passed = false;
         $txt_passed_short = "passed";
         $txt_passed_official = "passed";
         $percentage_passed = 50;
-        $passed_passed = 1;
+        $passed_passed = true;
 
         // Act
-        $this->ass_mark_schema->createSimpleSchema();
-        $marks = $this->ass_mark_schema->mark_steps;
+        $mark_schema = $this->ass_mark_schema->createSimpleSchema();
+        $marks = $mark_schema->mark_steps;
 
         $failed = $marks[0];
         $passed = $marks[1];
@@ -134,14 +134,14 @@ class MarkSchemaTest extends ilTestBaseTestCase
         $txt_failed_short = "failed";
         $txt_failed_official = "failed";
         $percentage_failed = 0;
-        $failed_passed = 0;
+        $failed_passed = false;
         $txt_passed_short = "passed";
         $txt_passed_official = "passed";
         $percentage_passed = 50;
-        $passed_passed = 1;
+        $passed_passed = true;
 
         // Act
-        $this->ass_mark_schema->createSimpleSchema(
+        $mark_schema = $this->ass_mark_schema->createSimpleSchema(
             $txt_failed_short,
             $txt_failed_official,
             $percentage_failed,
@@ -152,7 +152,7 @@ class MarkSchemaTest extends ilTestBaseTestCase
             $passed_passed
         );
 
-        $marks = $this->ass_mark_schema->mark_steps;
+        $marks = $mark_schema->mark_steps;
 
         $failed = $marks[0];
         $passed = $marks[1];
@@ -198,68 +198,6 @@ class MarkSchemaTest extends ilTestBaseTestCase
             $passed->getPassed(),
             $passed_passed,
             'Failed on $passed_passed'
-        );
-    }
-
-    /**
-     * Test for flush()
-     */
-    public function testFlush()
-    {
-        // Arrange
-        $expected = is_array(array());
-        $this->ass_mark_schema->mark_steps = array("a string");
-        $this->assertEquals(array("a string"), $this->ass_mark_schema->mark_steps);
-        $this->ass_mark_schema->flush();
-
-        // Act
-        $actual = is_array($this->ass_mark_schema->mark_steps);
-
-        // Assert
-        $this->assertEquals(
-            $actual,
-            $expected,
-            "Method failed, mark_steps not an array."
-        );
-    }
-
-    /**
-     * Test for addMarkStep()
-     */
-    public function testAddMarkStep()
-    {
-        // Arrange
-        $this->ass_mark_schema->flush();
-        $txt_short = "";
-        $txt_official = "";
-        $percentage = 0;
-        $passed = 0;
-
-        // Act
-        $this->ass_mark_schema->addMarkStep();
-        $mark_schema = $this->ass_mark_schema->mark_steps;
-        $mark_step = $mark_schema[0];
-
-        // Assert
-        $this->assertEquals(
-            $mark_step->getShortName(),
-            $txt_short,
-            'Failed on $txt_failed_short'
-        );
-        $this->assertEquals(
-            $mark_step->getOfficialName(),
-            $txt_official,
-            'Failed on $txt_failed_official'
-        );
-        $this->assertEquals(
-            $mark_step->getMinimumLevel(),
-            $percentage,
-            'Failed on $percentage_failed'
-        );
-        $this->assertEquals(
-            $mark_step->getPassed(),
-            $passed,
-            'Failed on $failed_passed'
         );
     }
 

@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\Test\Scoring\Marks\MarkSchemaTableGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
-use ILIAS\Test\Scoring\Marks\MarkSchemaAware;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
@@ -60,7 +59,7 @@ class MarkSchemaTableGUITest extends ilTestBaseTestCase
                       ->method("getMarkSteps")
                       ->willReturn([]);
 
-        $markSchemaAware_mock = $this->createMock(MarkSchemaAware::class);
+        $markSchemaAware_mock = $this->createMock(ilObjTest::class);
         $markSchemaAware_mock
             ->expects($this->any())
             ->method("getMarkSchema")
