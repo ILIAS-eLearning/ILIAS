@@ -63,7 +63,6 @@ il.Group = il.Group || {};
 			$(id).find("[data-grp-action-add-to='1']").each(function () {
 				$(this).on("click", function(e) {
 					var url;
-
 					e.preventDefault();
 					if (il.Awareness) {
 						il.Awareness.close();
@@ -79,7 +78,7 @@ il.Group = il.Group || {};
 						const modalContent = document.getElementById('il_grp_action_modal_content');
 						if (modalContent) {
 							il.repository.core.setInnerHTML(modalContent, html);
-							$(modal_content).closest('.il-modal-roundtrip').modal().show();
+							$(modalContent).closest('.il-modal-roundtrip').modal().show();
 						} else {
 							$("body").append(html);
 						}
@@ -91,7 +90,10 @@ il.Group = il.Group || {};
 		$(document).on('il.user.actions.updated', function(ev, id) {
 			initEvents("#" + id);
 		});
-		initEvents("body");
+		// otherwise data attributes might not have been set yet
+		setTimeout(() => {
+			initEvents("body");
+		}, 500);
 	});
 
 
