@@ -55,6 +55,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     private ilObjectCommonSettings $common_settings;
     private HttpRequest $http_request;
     private QuestionInfoService $questioninfo;
+    private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;
     protected Service $taxonomy;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
@@ -90,6 +91,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->taxonomy = $DIC->taxonomy();
         $this->http_request = $DIC->http()->request();
         $this->data_factory = new DataFactory();
+        $this->archives = $DIC->legacyArchives();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
 
         $this->ctrl->saveParameter($this, [
@@ -715,7 +717,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $qti_file = $full_path;
             ilObjTest::_setImportDirectory($basedir);
         } else {
-            ilFileUtils::unzip($full_path);
+            $this->archives->unzip($full_path);
 
             $subdir = basename($file['basename'], '.' . $file['extension']);
             ilObjQuestionPool::_setImportDirectory($basedir);
