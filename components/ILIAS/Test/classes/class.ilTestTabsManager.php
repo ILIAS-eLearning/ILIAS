@@ -801,36 +801,36 @@ class ilTestTabsManager
     {
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_GENERAL,
-            $this->ctrl->getLinkTargetByClass(SettingsMainGUI::class),
-            '',											// auto activation regardless from cmd
-            [SettingsMainGUI::class]			// auto activation for ilObjTestSettingsGeneralGUI
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsMainGUI::class]),
+            '',
+            [SettingsMainGUI::class]
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_MARK_SCHEMA,
-            $this->ctrl->getLinkTargetByClass(MarkSchemaGUI::class, 'showMarkSchema'),
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, MarkSchemaGUI::class], 'showMarkSchema'),
             '',
             [MarkSchemaGUI::class]
         );
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_SCORING,
-            $this->ctrl->getLinkTargetByClass(SettingsScoringGUI::class),
-            '',                                             // auto activation regardless from cmd
-            [SettingsScoringGUI::class]     // auto activation for SettingsScoringGUI
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, SettingsScoringGUI::class]),
+            '',
+            [SettingsScoringGUI::class]
         );
 
         $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'introductionpage');
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE,
-            $this->ctrl->getLinkTargetByClass(ilTestPageGUI::class, 'preview'),
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestPageGUI::class], 'preview'),
             ['iltestpagegui']
         );
 
         $this->ctrl->setParameterByClass(ilTestPageGUI::class, 'page_type', 'concludingremarkspage');
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE,
-            $this->ctrl->getLinkTargetByClass(ilTestPageGUI::class, 'preview'),
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilTestPageGUI::class], 'preview'),
             ['iltestpagegui']
         );
         $this->ctrl->clearParameterByClass(ilTestPageGUI::class, 'page_type');

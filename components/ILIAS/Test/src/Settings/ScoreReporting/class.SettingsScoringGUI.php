@@ -285,8 +285,8 @@ class SettingsScoringGUI extends TestSettingsGUI
     }
 
     protected function isScoreRecalculationRequired(
-        ilObjTestSettingsScoring $new_settings,
-        ilObjTestSettingsScoring $old_settings
+        SettingsScoring $new_settings,
+        SettingsScoring $old_settings
     ): bool {
         $settings_changed = (
             $new_settings->getCountSystem() !== $old_settings->getCountSystem() ||

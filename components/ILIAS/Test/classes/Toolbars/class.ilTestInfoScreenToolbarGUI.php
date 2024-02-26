@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -262,7 +264,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
                 $links[] = $this->ui_factory->link()->standard(
                     $this->lng->txt('test_edit_settings'),
-                    $this->buildLinkTarget('ilobjtestsettingsmaingui')
+                    $this->buildLinkTarget(SettingsMainGUI::class)
                 );
             }
 
