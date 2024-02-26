@@ -1472,7 +1472,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // Workaround: unzip function needs full path to file. Should be replaced once Filesystem has own unzip implementation
                 $full_path = ilFileUtils::getDataDir() . '/user_import/usr_'
                     . $this->user->getId() . '_' . session_id() . '/' . $file_name;
-                ilFileUtils::unzip($full_path);
+                $this->dic->legacyArchives()->unzip($full_path);
 
                 $xml_file = null;
                 $file_list = $this->filesystem->listContents($import_dir);
