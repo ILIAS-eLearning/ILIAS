@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+
 /**
  * Export Container
  * @author    Stefan Meyer <meyer@leifos.com>
@@ -27,6 +29,7 @@ class ilExportContainer extends ilExport
     private string $cont_export_dir = '';
     private ?ilXmlWriter $cont_manifest_writer = null;
     private ilExportOptions $eo;
+    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
 
     /**
      * Constructor
@@ -36,6 +39,8 @@ class ilExportContainer extends ilExport
     {
         $this->eo = $eo;
         parent::__construct();
+        global $DIC;
+        $this->archives = $DIC->archives();
     }
 
     /**
@@ -112,7 +117,13 @@ class ilExportContainer extends ilExport
             $this->log->debug('Zip path ' . $exp_full);
 
             // Unzip
-            ilFileUtils::unzip($exp_full, true, false);
+            $this->archives->unzip(
+                $exp_full,
+                $this->archives
+                    ->unzipOptions()
+                    ->withOverwrite(true)
+                    ->getDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
+            )->extract();
 
             // create set directory
             ilFileUtils::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
