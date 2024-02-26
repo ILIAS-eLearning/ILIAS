@@ -25,6 +25,7 @@ use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Export\ImportStatus\Exception\ilException;
 use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 class ZipAdapter
 {
@@ -43,11 +44,10 @@ class ZipAdapter
     {
         $unzip = $this->archives->unzip(
             Streams::ofResource(fopen($filepath, 'rb')),
-            (new UnzipOptions())
+            $this->archives->unzipOptions()
                 ->withZipOutputPath(dirname($filepath))
                 ->withOverwrite(false)
-                ->withFlat(false)
-                ->withEnsureTopDirectoy(false)
+                ->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
         );
         if (!$unzip->extract()) {
             throw new ilException("Unzip failed.");
