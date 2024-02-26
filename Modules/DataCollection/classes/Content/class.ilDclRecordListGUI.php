@@ -250,7 +250,7 @@ class ilDclRecordListGUI
             $file = $form->getInput("import_file");
             $file_location = $file["tmp_name"];
             $simulate = $form->getInput("simulate");
-            $this->importRecords($file_location, $simulate);
+            $this->importRecords($file_location, (bool)$simulate);
         } else {
             $this->showImportExcel($form);
         }
