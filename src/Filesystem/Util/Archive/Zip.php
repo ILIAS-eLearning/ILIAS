@@ -192,12 +192,19 @@ class Zip
             new \RecursiveDirectoryIterator($directory_to_zip),
             \RecursiveIteratorIterator::SELF_FIRST
         );
-        $pattern = null;
-        $prefix = '';
-        if ($this->options->ensureTopDirectory()) {
-            $prefix = basename($directory_to_zip) . '/';
-            $pattern = '/^' . preg_quote($prefix, '/') . '/';
+
+
+        switch ($this->options->getDirectoryHandling()) {
+            case ZipDirectoryHandling::KEEP_STRUCTURE:
+                $pattern = null;
+                $prefix = '';
+                break;
+            case ZipDirectoryHandling::ENSURE_SINGLE_TOP_DIR:
+                $prefix = basename($directory_to_zip) . '/';
+                $pattern = '/^' . preg_quote($prefix, '/') . '/';
+                break;
         }
+
 
         foreach ($files as $file) {
             $pathname = $file->getPathname();
