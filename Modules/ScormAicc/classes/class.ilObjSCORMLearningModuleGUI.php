@@ -555,7 +555,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
 
             //unzip and replace old extracted files
-            ilFileUtils::unzip($file_path, true);
+            $DIC->legacyArchives()->unzip($file_path, null, true);
             ilFileUtils::renameExecutables($this->object->getDataDirectory()); //(security)
 
             //increase module version
