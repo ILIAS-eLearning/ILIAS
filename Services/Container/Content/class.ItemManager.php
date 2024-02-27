@@ -42,6 +42,7 @@ class ItemManager
         $this->container = $container;
         $this->mode_manager = $mode_manager;
         $this->request = $request;
+        $this->init();
     }
 
     /**

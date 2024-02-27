@@ -509,7 +509,7 @@ class ilDataCollectionDataSet extends ilDataSet
     {
         foreach ($this->import_temp_new_mob_ids as $new_mob_id) {
             if ($new_mob_id) {
-                ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $a_mapping->getTargetId());
+                ilObjMediaObject::_saveUsage((int)$new_mob_id, "dcl:html", $a_mapping->getTargetId());
             }
         }
         foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
