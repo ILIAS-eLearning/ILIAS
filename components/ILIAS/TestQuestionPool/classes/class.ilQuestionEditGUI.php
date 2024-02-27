@@ -133,26 +133,28 @@ class ilQuestionEditGUI
                     $this->getQuestionType() ?? '',
                     $this->getQuestionId()
                 );
-                $q_gui->getObject()->setSelfAssessmentEditingMode(
+                $question = $q_gui->getObject();
+                $question->setSelfAssessmentEditingMode(
                     $this->getSelfAssessmentEditingMode()
                 );
                 if ($this->getDefaultNrOfTries() > 0) {
-                    $q_gui->getObject()->setDefaultNrOfTries(
+                    $question->setDefaultNrOfTries(
                         $this->getDefaultNrOfTries()
                     );
                 }
 
                 if (is_object($this->page_config)) {
-                    $q_gui->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+                    $question->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
                     $q_gui->setInLearningModuleContext(get_class($this->page_config) === ilLMPageConfig::class);
                 }
-                $q_gui->getObject()->setObjId((int) $this->getPoolObjId());
+                $question->setObjId((int) $this->getPoolObjId());
+                $q_gui->setObject($question);
 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
                     $object = $this->new_id_listeners[$i]['object'];
                     $method = $this->new_id_listeners[$i]['method'];
                     $parameters = $this->new_id_listeners[$i]['parameters'];
-                    $q_gui->addNewIdListener(
+                    $question_gui->addNewIdListener(
                         $object,
                         $method,
                         $parameters

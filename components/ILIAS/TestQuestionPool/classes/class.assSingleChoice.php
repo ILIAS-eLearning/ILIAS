@@ -55,38 +55,18 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     public int $output_type;
     protected int $feedback_setting = self::FEEDBACK_MODE_SELECTED_ANSWERS;
 
-    /**
-     * assSingleChoice constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assSingleChoice object.
-     *
-     * @param string     $title       A title string to describe the question
-     * @param string     $comment     A comment string to describe the question
-     * @param string     $author      A string containing the name of the questions author
-     * @param integer    $owner       A numerical ID to identify the owner/creator
-     * @param string     $question    The question string of the single choice question
-     * @param int|string $output_type The output order of the single choice answers
-     *
-     * @see    assQuestion:assQuestion()
-     */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = "",
-        $output_type = self::OUTPUT_ORDER
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = "",
+        int $output_type = self::OUTPUT_ORDER
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->output_type = $output_type;
     }
 
-    /**
-    * Returns true, if a single choice question is complete for use
-    *
-    * @return boolean True, if the single choice question is complete for use, otherwise false
-    * @access public
-    */
     public function isComplete(): bool
     {
         if (
@@ -106,65 +86,23 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return false;
     }
 
-    /**
-     * Saves a assSingleChoice object to a database
-     *
-     * @param string $original_id
-     *
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if ($original_id == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-        // kann das weg?
-        $oldthumbsize = 0;
-        if ($this->isSingleline && ($this->getThumbSize())) {
-            // get old thumbnail size
-            $result = $ilDB->queryF(
-                "SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-                ["integer"],
-                [$this->getId()]
-            );
-            if ($result->numRows() == 1) {
-                $data = $ilDB->fetchAssoc($result);
-                $oldthumbsize = $data['thumb_size'];
-            }
-        }
-
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
-
         $this->saveAnswerSpecificDataToDb();
-
         parent::saveToDb($original_id);
     }
 
-    /**
-    * Loads a assSingleChoice object from a database
-    *
-    * @param object $db A pear DB object
-    * @param integer $question_id A unique key which defines the multiple choice test in the database
-    * @access public
-    */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             ["integer"],
             [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -196,14 +134,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             }
         }
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_sc WHERE question_fi = %s ORDER BY aorder ASC",
             ['integer'],
             [$question_id]
         );
 
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $imagefilename = $this->getImagePath() . $data["imagefile"];
                 if (!file_exists($imagefilename)) {
                     $data["imagefile"] = null;
@@ -369,106 +307,86 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $points;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        while ($data = $ilDB->fetchAssoc($result)) {
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
+        while ($data = $this->db->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 array_push($found_values, $data["value1"]);
             }
         }
-        $points = 0;
+        $points = 0.0;
         foreach ($this->answers as $key => $answer) {
-            if (count($found_values) > 0) {
-                if (in_array($key, $found_values)) {
-                    $points += $answer->getPoints();
-                }
+            if ($found_values !== []
+                && in_array($key, $found_values)) {
+                $points += $answer->getPoints();
             }
         }
 
-        return (float)$points;
+        return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session): float
     {
-        $participantSolution = $previewSession->getParticipantsSolution();
+        $participant_solution = $preview_session->getParticipantsSolution();
 
-        $points = 0;
-
+        $points = 0.0;
         foreach ($this->answers as $key => $answer) {
-            if (is_numeric($participantSolution) && $key == $participantSolution) {
+            if (is_numeric($participant_solution)
+                && $key === $participant_solution) {
                 $points = $answer->getPoints();
             }
         }
-
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-
-        return $this->ensureNonNegativePoints($reachedPoints);
+        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $points);
+        return $this->ensureNonNegativePoints($reached_points);
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass      Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
-    {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($active_id, $pass, $authorized) {
+                $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-
-            $update = -1;
-            if ($this->db->numRows($result)) {
-                $row = $this->db->fetchAssoc($result);
-                $update = $row["solution_id"];
-            }
-
-            $multiple_choice_result = $this->http->wrapper()->post()->has('multiple_choice_result') ?
-                $this->http->wrapper()->post()->retrieve('multiple_choice_result', $this->refinery->kindlyTo()->string()) :
-                '';
-
-            if ($update != -1) {
-                if ($multiple_choice_result !== '') {
-                    $this->updateCurrentSolution($update, $multiple_choice_result, null, $authorized);
-                    $entered_values++;
-                } else {
-                    $this->removeSolutionRecordById($update);
+                $update = -1;
+                if ($this->db->numRows($result)) {
+                    $row = $this->db->fetchAssoc($result);
+                    $update = $row["solution_id"];
                 }
-            } else {
+
+                $multiple_choice_result = $this->http->wrapper()->post()->has('multiple_choice_result') ?
+                    $this->http->wrapper()->post()->retrieve('multiple_choice_result', $this->refinery->kindlyTo()->string()) :
+                    '';
+
+                if ($update !== -1
+                    && $multiple_choice_result === '') {
+                    $this->removeSolutionRecordById($update);
+                    return;
+                }
+
+                if ($update !== -1) {
+                    $this->updateCurrentSolution($update, $multiple_choice_result, null, $authorized);
+                    return;
+                }
+
                 if ($multiple_choice_result !== '') {
                     $this->saveCurrentSolution($active_id, $pass, $multiple_choice_result, null, $authorized);
-                    $entered_values++;
                 }
             }
-        });
+        );
 
         return true;
     }
@@ -488,18 +406,14 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function saveAdditionalQuestionDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             [ "integer" ],
             [ $this->getId() ]
         );
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
             [ "integer", "text", "text", "integer" ],
@@ -519,30 +433,26 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      */
     public function saveAnswerSpecificDataToDb()
     {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->isSingleline) {
             ilFileUtils::delDir($this->getImagePath());
         }
         // Get all feedback entries
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_fb_specific WHERE question_fi = %s",
             ['integer'],
             [$this->getId()]
         );
-        $db_feedback = $ilDB->fetchAll($result);
+        $db_feedback = $this->db->fetchAll($result);
 
         // Check if feedback exists and the regular editor is used and not the page editor
         if (sizeof($db_feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default') {
             // Get all existing answer data for question
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 "SELECT answer_id, aorder  FROM qpl_a_sc WHERE question_fi = %s",
                 ['integer'],
                 [$this->getId()]
             );
-            $db_answers = $ilDB->fetchAll($result);
+            $db_answers = $this->db->fetchAll($result);
 
             // Collect old and new order entries by ids and order to calculate a diff/intersection and remove/update feedback
             $post_answer_order_for_id = [];
@@ -597,8 +507,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $feedback_option['answer'] = $feedback_order_post;
 
                     // Recreate remaining feedback in database
-                    $next_id = $ilDB->nextId('qpl_fb_specific');
-                    $ilDB->manipulateF(
+                    $next_id = $this->db->nextId('qpl_fb_specific');
+                    $this->db->manipulateF(
                         "INSERT INTO qpl_fb_specific (feedback_id, question_fi, answer, tstamp, feedback, question)
                             VALUES (%s, %s, %s, %s, %s, %s)",
                         ['integer', 'integer', 'integer', 'integer', 'text', 'integer'],
@@ -616,7 +526,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         // Delete all entries in qpl_a_sc for question
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_sc WHERE question_fi = %s",
             ['integer'],
             [$this->getId()]
@@ -626,8 +536,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         foreach ($this->answers as $key => $value) {
             /** @var ASS_AnswerMultipleResponseImage $answer_obj */
             $answer_obj = $this->answers[$key];
-            $next_id = $ilDB->nextId('qpl_a_sc');
-            $ilDB->manipulateF(
+            $next_id = $this->db->nextId('qpl_a_sc');
+            $this->db->manipulateF(
                 "INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 ['integer', 'integer', 'text', 'float', 'integer', 'text', 'integer'],
                 [
@@ -887,38 +797,16 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return 'feedback_correct_sc_mc';
     }
 
-    /**
-     * returns boolean wether it is possible to set
-     * this question type as obligatory or not
-     * considering the current question configuration
-     *
-     * (overwrites method in class assQuestion)
-     *
-     * @param integer $questionId
-     * @return boolean $obligationPossible
-     */
-    public static function isObligationPossible(int $questionId): bool
+    public static function isObligationPossible(int $question_id): bool
     {
         return true;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param string $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -928,38 +816,28 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         ];
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-
         if ($maxStep > 0) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 ["integer", "integer", "integer","integer"],
                 [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
                 ["integer", "integer", "integer"],
                 [$active_id, $pass, $this->getId()]
             );
         }
 
-        $row = $ilDB->fetchAssoc($data);
+        $row = $this->db->fetchAssoc($data);
 
         if ($row != null) {
             ++$row["value1"];

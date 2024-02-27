@@ -363,13 +363,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @return string
      */
     public function getTestOutput(
-        $active_id,
-        // hey: prevPassSolutions - will be always available from now on
-        $pass,
-        // hey.
-        $is_postponed = false,
-        $use_post_solutions = false,
-        $showInlineFeedback = false
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
     ): string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
@@ -421,7 +419,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 }
             }
 
-            if ($showInlineFeedback) {
+            if ($show_specific_inline_feedback) {
                 $this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
             }
 
@@ -456,16 +454,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         ));
 
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $showInlineFeedback);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput, $show_specific_inline_feedback);
         return $pageoutput;
     }
 
-    /**
-     * @param bool $show_question_only
-     * @param bool $showInlineFeedback
-     */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
@@ -507,7 +503,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 }
             }
 
-            if ($showInlineFeedback) {
+            if ($show_inline_feedback) {
                 $this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
             }
 
@@ -525,7 +521,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestionForHTMLOutput();
-        if ($showInlineFeedback && $this->hasInlineFeedback()) {
+        if ($show_inline_feedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
         $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
@@ -553,27 +549,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return $questionoutput;
     }
 
-    /**
-     * @param $active_id
-     * @param null $pass
-     * @param bool $graphicalOutput
-     * @param bool $result_output
-     * @param bool $show_question_only
-     * @param bool $show_feedback
-     * @param bool $show_correct_solution
-     * @param bool $show_manual_scoring
-     * @param bool $show_question_text
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
@@ -600,7 +586,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             if (($active_id > 0) &&
                 !$show_correct_solution &&
-                $graphicalOutput) {
+                $graphical_output) {
                 $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
                 if (isset($user_solution[$answer->getPosition()]) && $user_solution[$answer->getPosition()] == $answer->getCorrectness()) {
                     $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK);

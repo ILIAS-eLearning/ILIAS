@@ -29,33 +29,18 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     public const MIN_LENGTH_AUTOCOMPLETE = 3;
     public const MAX_INPUT_FIELDS = 500;
 
+    protected const HAS_SPECIFIC_FEEDBACK = false;
+
     private ?array $answerType = null;
     private string $long_menu_text = '';
     private string $json_structure = '';
-    private ilDBInterface $ilDB;
     private int $specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
     private int $minAutoComplete = self::MIN_LENGTH_AUTOCOMPLETE;
     private bool $identical_scoring = true;
 
-    protected const HAS_SPECIFIC_FEEDBACK = false;
+    private array $correct_answers = [];
+    private array $answers = [];
 
-    /** @var array */
-    private $correct_answers = [];
-
-    /** @var array */
-    private $answers = [];
-
-    public function __construct(
-        string $title = "",
-        string $comment = "",
-        string $author = "",
-        int $owner = -1,
-        string $question = ""
-    ) {
-        global $DIC;
-        parent::__construct($title, $comment, $author, $owner, $question);
-        $this->ilDB = $DIC->database();
-    }
 
     public function getAnswerType(): ?array
     {
@@ -171,7 +156,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return false;
     }
 
-    public function saveToDb(int $original_id = -1): void
+    public function saveToDb(?int $original_id = null): void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -254,12 +239,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     public function saveAdditionalQuestionDataToDb()
     {
         // save additional data
-        $this->ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             array( "integer" ),
             array( $this->getId() )
         );
-        $this->ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, long_menu_text, feedback_setting, min_auto_complete, identical_scoring) VALUES (%s, %s, %s, %s, %s)",
             array( "integer", "text", "integer", "integer", "integer"),
@@ -370,13 +355,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     public function loadFromDb($question_id): void
     {
-        $result = $this->ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             array("integer"),
             array($question_id)
         );
         if ($result->numRows() == 1) {
-            $data = $this->ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setNrOfTries($data['nr_of_tries']);
@@ -385,7 +370,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
-            $this->setIdenticalScoring($data["identical_scoring"]);
+            $this->setIdenticalScoring((bool) $data["identical_scoring"]);
             $this->setOwner($data["owner"]);
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
             $this->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc((string) $data['long_menu_text'], 1));
@@ -421,7 +406,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         );
 
         $correct_answers = array();
-        while ($data = $this->ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             $correct_answers[$data['gap_number']][0][$data['position']] = rtrim($data['answer_text']);
             $correct_answers[$data['gap_number']][1] = $data['points'];
             $correct_answers[$data['gap_number']][2] = $data['type'];
@@ -438,7 +423,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             array('integer'),
             array($question_id)
         );
-        while ($data = $this->ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             if (array_key_exists($data['gap_number'], $correct_answers)) {
                 $correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
                 $correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
@@ -457,7 +442,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             array('integer', 'integer'),
             array($question_id, $gap_id)
         );
-        while ($data = $this->ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             $correct_answers[] = rtrim($data['answer_text']);
         }
         return $correct_answers;
@@ -471,7 +456,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             array('integer', 'integer'),
             array($question_id, $gap_id)
         );
-        while ($data = $this->ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             $points = (float) $data['points'];
         }
         return $points;
@@ -489,29 +474,17 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return $this->getJsonStructure();
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     *
-     * @throws ilTestException
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = array();
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        while ($data = $this->ilDB->fetchAssoc($result)) {
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
+        while ($data = $this->db->fetchAssoc($result)) {
             $found_values[(int) $data['value1']] = $data['value2'];
         }
 
@@ -524,45 +497,53 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
             $found_values = [];
         }
         $points = 0.0;
-        $solution_values_text = array();
+        $solution_values_text = [];
         foreach ($found_values as $key => $answer) {
-            if ($answer != '') {
-                $correct_answers = $this->getCorrectAnswersForGap($this->id, $key);
-                if (in_array($answer, $correct_answers)) {
-                    $points_gap = $this->getPointsForGap($this->id, $key);
-                    if (!$this->getIdenticalScoring()) {
-                        // check if the same solution text was already entered
-                        if ((in_array($answer, $solution_values_text)) && ($points > 0)) {
-                            $points_gap = 0;
-                        }
-                    }
-                    $points += $points_gap;
-                    array_push($solution_values_text, $answer);
-                }
+            if ($answer === '') {
+                continue;
             }
+
+            $correct_answers = $this->getCorrectAnswersForGap($this->id, $key);
+            if (!in_array($answer, $correct_answers)) {
+                continue;
+            }
+
+            $points_gap = $this->getPointsForGap($this->id, $key);
+            if (!$this->getIdenticalScoring()
+                && in_array($answer, $solution_values_text)
+                && ($points > 0)) {
+                $points_gap = 0;
+            }
+
+            $points += $points_gap;
+            array_push($solution_values_text, $answer);
         }
+
         return $points;
     }
 
-    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
-    {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = ilUtil::stripSlashes(trim($val2), false);
-                if (strlen($value)) {
-                    $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);
-                    $entered_values++;
+                foreach ($answer as $key => $value) {
+                    if ($value === '') {
+                        continue;
+                    }
+                    $this->saveCurrentSolution($active_id, $pass, $key, $value, $authorized);
                 }
             }
-        });
+        );
 
         return true;
     }
@@ -574,9 +555,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
      */
     public function lookupForExistingSolutions(int $activeId, int $pass): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $return = array(
             'authorized' => false,
             'intermediate' => false
@@ -585,23 +563,23 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $query = "
 			SELECT authorized, COUNT(*) cnt
 			FROM tst_solutions
-			WHERE active_fi = " . $ilDB->quote($activeId, 'integer') . "
-			AND question_fi = " . $ilDB->quote($this->getId(), 'integer') . "
-			AND pass = " . $ilDB->quote($pass, 'integer') . "
+			WHERE active_fi = " . $this->db->quote($activeId, 'integer') . "
+			AND question_fi = " . $this->db->quote($this->getId(), 'integer') . "
+			AND pass = " . $this->db->quote($pass, 'integer') . "
 			AND value2 <> '-1'
 		";
 
         if ($this->getStep() !== null) {
-            $query .= " AND step = " . $ilDB->quote((int) $this->getStep(), 'integer') . " ";
+            $query .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
         }
 
         $query .= "
 			GROUP BY authorized
 		";
 
-        $result = $ilDB->query($query);
+        $result = $this->db->query($query);
 
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             if ($row['authorized']) {
                 $return['authorized'] = $row['cnt'] > 0;
             } else {
@@ -615,8 +593,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
 
     public function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
-        $answer = ilArrayUtil::stripSlashesRecursive($_POST['answer']);
+        $answer = $this->questionpool_request->getStringArrayAnswer('answer');
 
         foreach ($answer as $key => $value) {
             $solutionSubmit[$key] = $value;
@@ -733,9 +710,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return false;
     }
 
-    public function clearAnswerSpecificDataFromDb($question_id): void
+    public function clearAnswerSpecificDataFromDb(int $question_id): void
     {
-        $this->ilDB->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM ' . $this->getAnswerTableName() . ' WHERE question_fi = %s',
             array( 'integer' ),
             array( $question_id )
@@ -782,17 +759,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         return json_encode($result);
     }
 
-    public function getIdenticalScoring(): int
+    public function getIdenticalScoring(): bool
     {
-        return ($this->identical_scoring) ? 1 : 0;
+        return $this->identical_scoring;
     }
 
-    /**
-     * @param $a_identical_scoring
-     */
-    public function setIdenticalScoring($a_identical_scoring): void
+    public function setIdenticalScoring(bool $identical_scoring): void
     {
-        $this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
+        $this->identical_scoring = $identical_scoring;
     }
 
     public function toLog(): array

@@ -35,8 +35,14 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilassquestionpagegui':
-                $forwarder = new ilAssQuestionPageCommandForwarder();
-                $forwarder->setTestObj($this->object);
+                $forwarder = new ilAssQuestionPageCommandForwarder(
+                    $this->object,
+                    $this->lng,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $forwarder->forward();
                 break;
 

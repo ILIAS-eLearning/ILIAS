@@ -39,37 +39,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 {
     protected $lower_limit;
     protected $upper_limit;
+    public $maxchars = 6;
 
-    /** @var $maxchars integer The maximum number of characters for the numeric input field. */
-    public $maxchars;
-
-    /**
-     * assNumeric constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assNumeric object.
-     *
-     * @param string $title A title string to describe the question
-     * @param string $comment A comment string to describe the question
-     * @param string $author A string containing the name of the questions author
-     * @param integer $owner A numerical ID to identify the owner/creator
-     * @param string $question The question string of the numeric question
-     */
-    public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
-    ) {
-        parent::__construct($title, $comment, $author, $owner, $question);
-        $this->maxchars = 6;
-    }
-
-    /**
-     * Returns true, if a numeric question is complete for use
-     *
-     * @return boolean True, if the numeric question is complete for use, otherwise false
-     */
     public function isComplete(): bool
     {
         if (
@@ -83,42 +54,23 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return false;
     }
 
-    /**
-     * Saves a assNumeric object to a database
-     *
-     * @param string $original_id
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == "") {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb($original_id);
     }
 
-    /**
-     * Loads a assNumeric object from a database
-     *
-     * @param integer $question_id A unique key which defines the multiple choice test in the database
-     */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             array("integer"),
             array($question_id)
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -143,7 +95,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             }
         }
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_num_range WHERE question_fi = %s ORDER BY aorder ASC",
             array('integer'),
             array($question_id)
@@ -151,7 +103,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         if ($result->numRows() > 0) {
             /** @noinspection PhpAssignmentInConditionInspection */
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $this->setPoints($data['points']);
                 $this->setLowerLimit($data['lowerlimit']);
                 $this->setUpperLimit($data['upperlimit']);
@@ -171,29 +123,22 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $this->upper_limit;
     }
 
-    public function setLowerLimit($a_limit): void
+    public function setLowerLimit(string $limit): void
     {
-        $a_limit = str_replace(',', '.', $a_limit);
-        $this->lower_limit = $a_limit;
+        $this->lower_limit = str_replace(',', '.', $limit);
     }
 
-    public function setUpperLimit($a_limit): void
+    public function setUpperLimit(string $limit): void
     {
-        $a_limit = str_replace(',', '.', $a_limit);
-        $this->upper_limit = $a_limit;
+        $this->upper_limit = str_replace(',', '.', $limit);
     }
 
-    /**
-     * Returns the maximum points, a learner can reach answering the question
-     *
-     * @see $points
-     */
     public function getMaximumPoints(): float
     {
         return $this->getPoints();
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession): float
     {
         $points = 0;
         if ($this->contains($previewSession->getParticipantsSolution())) {
@@ -205,45 +150,27 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     *
-     * @throws ilTestException
-     *
-     * @return integer|array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $found_values = array();
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        $data = $ilDB->fetchAssoc($result);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
+        $data = $this->db->fetchAssoc($result);
         $enteredvalue = '';
         if (is_array($data) && array_key_exists('value1', $data)) {
             $enteredvalue = $data["value1"];
         }
 
-        $points = 0;
+        $points = 0.0;
         if ($this->contains($enteredvalue)) {
             $points = $this->getPoints();
         }
 
-        return (float)$points;
+        return $points;
     }
 
     /**
@@ -296,7 +223,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function getSolutionSubmit(): string
     {
-        return trim(str_replace(",", ".", $_POST["numeric_result"]));
+        return $this->questionpool_request->getNumericAnswer('numeric_result');
     }
 
     public function isValidSolutionSubmit($numeric_solution): bool
@@ -310,55 +237,42 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         );
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     *
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
+                $update = -1;
+                if ($this->db->numRows($result) !== 0) {
+                    $row = $this->db->fetchAssoc($result);
+                    $update = $row['solution_id'];
+                }
 
-        $returnvalue = true;
-
-        $numeric_result = $this->getSolutionSubmit();
-
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $numeric_result, $ilDB, $active_id, $pass, $authorized) {
-            $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-
-            $update = -1;
-            if ($ilDB->numRows($result) != 0) {
-                $row = $ilDB->fetchAssoc($result);
-                $update = $row["solution_id"];
-            }
-
-            if ($update != -1) {
-                if (strlen($numeric_result)) {
-                    $this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
-                    $entered_values++;
-                } else {
+                if ($update !== -1
+                    && $answer === '') {
                     $this->removeSolutionRecordById($update);
+                    return;
                 }
-            } else {
-                if (strlen($numeric_result)) {
-                    $this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null, $authorized);
-                    $entered_values++;
+                if ($update !== -1) {
+                    $this->updateCurrentSolution($update, $answer, null, $authorized);
+                    return;
+                }
+
+                if ($answer !== '') {
+                    $this->saveCurrentSolution($active_id, $pass, $answer, null, $authorized);
                 }
             }
-        });
+        );
 
-        return $returnvalue;
+        return true;
     }
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
@@ -369,18 +283,14 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function saveAdditionalQuestionDataToDb()
     {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             array( "integer" ),
             array( $this->getId() )
         );
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
             array( "integer", "integer" ),
@@ -393,19 +303,15 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
     public function saveAnswerSpecificDataToDb()
     {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // Write range to the database
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_num_range WHERE question_fi = %s",
             array( 'integer' ),
             array( $this->getId() )
         );
 
-        $next_id = $ilDB->nextId('qpl_num_range');
-        $ilDB->manipulateF(
+        $next_id = $this->db->nextId('qpl_num_range');
+        $this->db->manipulateF(
             "INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp)
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
@@ -487,23 +393,11 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $startrow + $i + 1;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return array(
@@ -513,38 +407,28 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         );
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-
         if ($maxStep > 0) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 array("integer", "integer", "integer","integer"),
                 array($active_id, $pass, $this->getId(), $maxStep)
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
                 array("integer", "integer", "integer"),
                 array($active_id, $pass, $this->getId())
             );
         }
 
-        while ($row = $ilDB->fetchAssoc($data)) {
+        while ($row = $this->db->fetchAssoc($data)) {
             $result->addKeyValue(1, $row["value1"]);
         }
 
@@ -556,15 +440,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $result;
     }
 
-    /**
-     * If index is null, the function returns an array with all anwser options
-     * Else it returns the specific answer option
-     *
-     * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
-     */
-    public function getAvailableAnswerOptions($index = null)
+    public function getAvailableAnswerOptions(int $index = null): array
     {
         return array(
             "lower" => $this->getLowerLimit(),
@@ -572,7 +448,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         );
     }
 
-    public function getAnswerTableName()
+    public function getAnswerTableName(): string
     {
         return '';
     }

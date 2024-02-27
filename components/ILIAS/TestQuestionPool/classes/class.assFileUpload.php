@@ -105,28 +105,21 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * Saves a assFileUpload object to a database
      */
-    public function saveToDb($original_id = ''): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
     }
 
     public function saveAdditionalQuestionDataToDb()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM ' . $this->getAdditionalTableName() . ' WHERE question_fi = %s',
             ['integer'],
             [$this->getId()]
         );
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             'INSERT INTO ' . $this->getAdditionalTableName(
             ) . ' (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)',
             ['integer', 'float', 'text', 'integer' ],
@@ -139,16 +132,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         );
     }
 
-    /**
-     * Loads a assFileUpload object from a database
-     *
-     * @param integer $question_id A unique key which defines the question in the database
-     */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
+
+        $result = $this->db->queryF(
             'SELECT qpl_questions.*, ' . $this->getAdditionalTableName()
             . '.* FROM qpl_questions LEFT JOIN ' . $this->getAdditionalTableName()
             . ' ON ' . $this->getAdditionalTableName()
@@ -157,7 +144,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setTitle((string) $data['title']);
             $this->setComment((string) $data['description']);
@@ -187,62 +174,44 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         parent::loadFromDb($question_id);
     }
 
-    /**
-    * Returns the maximum points, a learner can reach answering the question
-    *
-    * @see $points
-    */
     public function getMaximumPoints(): float
     {
         return $this->getPoints();
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if (!$this->isCompletionBySubmissionEnabled()) {
+            return 0.0;
         }
 
-        if ($this->isCompletionBySubmissionEnabled()) {
-            if (is_null($pass)) {
-                $pass = $this->getSolutionMaxPass($active_id);
-            }
-
-            global $DIC;
-
-            $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-
-            while ($data = $DIC->database()->fetchAssoc($result)) {
-                if ($this->isDummySolutionRecord($data)) {
-                    continue;
-                }
-
-                return $this->getPoints();
-            }
+        if ($pass === null) {
+            $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        return 0.0;
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
+
+        while ($data = $this->db->fetchAssoc($result)) {
+            if ($this->isDummySolutionRecord($data)) {
+                continue;
+            }
+
+            return $this->getPoints();
+        }
     }
 
-    protected function calculateReachedPointsForSolution($userSolution)
+    protected function calculateReachedPointsForSolution(?array $user_solution): float
     {
-        if ($this->isCompletionBySubmissionEnabled() &&
-            is_array($userSolution) &&
-            count($userSolution)) {
+        if ($this->isCompletionBySubmissionEnabled()
+            && is_array($user_solution)
+            && $user_solution !== []) {
             return $this->getPoints();
         }
 
-        return 0;
+        return 0.0;
     }
 
     /**
@@ -327,13 +296,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         );
     }
 
-    /**
-     * Returns the filesystem path for file uploads
-     */
-    protected function getPreviewFileUploadPathWeb($userId)
+    protected function getPreviewFileUploadPathWeb(int $user_id): string
     {
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR)
-            . "/assessment/qst_preview/{$userId}/{$this->getId()}/fileuploads/";
+            . "/assessment/qst_preview/{$user_id}/{$this->getId()}/fileuploads/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
             ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
@@ -341,21 +307,16 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         );
     }
 
-    /**
-    * Returns the uploaded files for an active user in a given pass
-    *
-    * @return array Results
-    */
-    public function getUploadedFiles($active_id, $pass = null, $authorized = true): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function getUploadedFiles(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): array {
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
         // fau: testNav - check existing value1 because the intermediate solution will have a dummy entry
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             'SELECT * FROM tst_solutions WHERE active_fi = %s '
             . 'AND question_fi = %s AND pass = %s AND authorized = %s '
             . 'AND value1 IS NOT NULL ORDER BY tstamp',
@@ -365,7 +326,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         // fau.
         $found = [];
 
-        while ($data = $ilDB->fetchAssoc($result)) {
+        while ($data = $this->db->fetchAssoc($result)) {
             array_push($found, $data);
         }
 
@@ -559,13 +520,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $max_filesize;
     }
 
-    /**
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if ($pass === null || $pass < 0) {
             $pass = \ilObjTest::_getPass($active_id);
         }
@@ -591,25 +550,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             );
         }
 
-        $entered_values = false;
-
         // RIDS to delete
         // Unfortunately, at the moment it is not possible to delete the files from the IRSS, because the process takes
         // place within the ProcessLocker and the IRSS tables cannot be used. we have to remove them after the lock.
         // therefore we store the rids to delete in an array for later deletion.
-
         $rids_to_delete = $this->resolveRIDStoDelete();
 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
-            function () use (
-                &$entered_values,
-                $upload_handling_required,
-                $test_id,
-                $active_id,
-                $pass,
-                $authorized,
-                $rid
-            ) {
+            function () use ($upload_handling_required, $active_id, $pass, $authorized, $rid) {
                 if ($authorized === false) {
                     $this->forceExistingIntermediateSolution($active_id, $pass, true);
                 }
@@ -639,9 +587,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     }
 
                     if ($upload_handling_required && $rid !== null) {
-
                         $revision = $this->irss->manage()->getCurrentRevision($rid);
-
                         $this->saveCurrentSolution(
                             $active_id,
                             $pass,
@@ -650,8 +596,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                             false,
                             time()
                         );
-
-                        $entered_values = true;
                     }
                 }
 
@@ -701,12 +645,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return parent::removeSolutionRecordById($solution_id);
     }
 
-    /**
-     * @param int		$active_id
-     * @param int|null 	$pass
-     */
-    public function getUserSolutionPreferingIntermediate($active_id, $pass = null): array
-    {
+    public function getUserSolutionPreferingIntermediate(
+        int $active_id,
+        ?int $pass = null
+    ): array {
         $solution = $this->getSolutionValues($active_id, $pass, false);
 
         if (!count($solution)) {
@@ -723,7 +665,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         return $solution;
     }
-    // fau.
 
     public function removeIntermediateSolution(int $active_id, int $pass): void
     {

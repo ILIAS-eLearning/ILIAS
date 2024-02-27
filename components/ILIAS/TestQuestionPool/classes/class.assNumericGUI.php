@@ -129,14 +129,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $errors;
     }
 
-    /**
-    * Checks the range limits
-    *
-    * Checks the Range limits Upper and Lower for their correctness
-    *
-    * @return boolean
-    */
-    public function checkRange($lower, $upper): bool
+    public function checkRange(float $lower, float $upper): bool
     {
         $eval = new EvalMath();
         $eval->suppress_errors = true;
@@ -150,29 +143,17 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return false;
     }
 
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @param bool    $show_question_text
-     * @return string The solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $solutions = array();
@@ -187,7 +168,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if (is_array($solutions)) {
             if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphicalOutput) {
+                if ($graphical_output) {
                     if ($this->object->getStep() === null) {
                         $reached_points = $this->object->getReachedPoints($active_id, $pass);
                     } else {
@@ -237,13 +218,10 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $solutionoutput;
     }
 
-    /**
-     * @param bool $show_question_only
-     *
-     * @return string
-     */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", true, true, "components/ILIAS/TestQuestionPool");
         if (is_object($this->getPreviewSession())) {
@@ -259,21 +237,16 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $questionoutput;
     }
 
-    /**
-     * @param integer		$active_id
-     * @param integer|null	$pass
-     * @param bool			$is_postponed
-     * @param bool			$use_post_solutions
-     *
-     * @return string
-     */
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false): string
-    // hey.
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         $solutions = null;
         // get the solution of the user for the active pass or from the last pass if allowed
-        if ($use_post_solutions !== false) {
+        if ($user_post_solutions !== false) {
             /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
             $solutions = array(
                 array('value1' => $use_post_solutions['numeric_result'])
@@ -292,7 +265,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 

@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\RequestDataCollector;
+
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\RequestDataCollector;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -124,6 +125,7 @@ class ilTestArchiver
         private readonly RefineryFactory $refinery,
         private readonly ilAccess $access,
         private readonly IRSS $irss,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest,
         private readonly int $test_obj_id,
         private ?int $test_ref_id = null
@@ -429,6 +431,7 @@ class ilTestArchiver
             $this->ui_factory,
             $this->ui_renderer,
             new ilTestParticipantAccessFilterFactory($this->access),
+            $this->questionrepository,
             $this->testrequest,
             $this->http,
             $this->refinery

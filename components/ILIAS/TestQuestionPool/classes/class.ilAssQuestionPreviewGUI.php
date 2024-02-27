@@ -105,17 +105,16 @@ class ilAssQuestionPreviewGUI
         $this->question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_DEMOPLAY);
     }
 
-    public function initPreviewSettings($parentRefId): void
+    public function initPreviewSettings(int $parent_ref_id): void
     {
-        $this->preview_settings = new ilAssQuestionPreviewSettings($parentRefId);
+        $this->preview_settings = new ilAssQuestionPreviewSettings($parent_ref_id);
 
         $this->preview_settings->init();
     }
 
-    public function initPreviewSession($userId, $questionId): void
+    public function initPreviewSession(int $user_id, int $question_id): void
     {
-        $this->preview_session = new ilAssQuestionPreviewSession($userId, $questionId);
-
+        $this->preview_session = new ilAssQuestionPreviewSession($user_id, $question_id);
         $this->preview_session->init();
     }
 
@@ -178,9 +177,6 @@ class ilAssQuestionPreviewGUI
         }
     }
 
-    /**
-     * @return string
-     */
     protected function buildPreviewFormAction(): string
     {
         return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
@@ -195,7 +191,7 @@ class ilAssQuestionPreviewGUI
         return (bool) $this->rbac_system->checkAccess('write', (int) $_GET['ref_id']);
     }
 
-    private function showCmd(string $commands_panel_html = ''): void
+    public function showCmd(string $commands_panel_html = ''): void
     {
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'components/ILIAS/TestQuestionPool');
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
@@ -211,13 +207,13 @@ class ilAssQuestionPreviewGUI
         $this->tpl->setContent($tpl->get());
     }
 
-    private function assessmentCmd()
+    public function assessmentCmd()
     {
         $this->tabs->activateTab('statistics');
         $this->question_gui->assessment();
     }
 
-    protected function handleInstantResponseRendering(ilTemplate $tpl): void
+    public function handleInstantResponseRendering(ilTemplate $tpl): void
     {
         $response_required = false;
         $response_available = false;
@@ -277,7 +273,7 @@ class ilAssQuestionPreviewGUI
         }
     }
 
-    private function resetCmd(): void
+    public function resetCmd(): void
     {
         $this->preview_session->setRandomizerSeed(null);
         $this->preview_session->setParticipantsSolution(null);
@@ -289,7 +285,7 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
-    private function instantResponseCmd(): void
+    public function instantResponseCmd(): void
     {
         if ($this->saveQuestionSolution()) {
             $this->preview_session->setInstantResponseActive(true);
@@ -300,7 +296,7 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
-    private function handleQuestionActionCmd(): void
+    public function handleQuestionActionCmd(): void
     {
         $this->question_obj->persistPreviewState($this->preview_session);
         $this->ctrl->redirect($this, self::CMD_SHOW);
@@ -344,7 +340,9 @@ class ilAssQuestionPreviewGUI
         $pageGUI->setEnabledTabs(false);
 
         $this->question_gui->setPreviewSession($this->preview_session);
-        $this->question_gui->getObject()->setShuffler($this->getQuestionAnswerShuffler());
+        $question = $this->question_gui->getObject();
+        $question->setShuffler($this->getQuestionAnswerShuffler());
+        $this->question_gui->setObject($question);
 
         $questionHtml = $this->question_gui->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
         $this->question_gui->magicAfterTestOutput();

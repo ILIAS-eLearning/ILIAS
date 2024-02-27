@@ -89,7 +89,7 @@ abstract class assQuestionGUI
     protected ilCtrl $ctrl;
     private array $new_id_listeners = [];
     private int $new_id_listener_cnt = 0;
-    private ilAssQuestionPreviewSession $previewSession;
+    private ?ilAssQuestionPreviewSession $preview_session = null;
     protected assQuestion $object;
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
@@ -172,30 +172,31 @@ abstract class assQuestionGUI
      */
     abstract public function getSpecificFeedbackOutput(array $userSolution): string;
 
-    // TODO: OWN "PASS" IN THE REFACTORING getSolutionOutput
     abstract public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphicalOutput = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string;
 
-    // TODO: OWN "PASS" IN THE REFACTORING getPreview
-    abstract public function getPreview($show_question_only = false, $showInlineFeedback = false);
+    abstract public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string;
 
-    // TODO: OWN "PASS" IN THE REFACTORING getPreview
     abstract public function getTestOutput(
-        $active_id,
-        $pass,
-        $is_question_postponed,
-        $user_post_solutions,
-        $show_specific_inline_feedback
-    );
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string;
 
     /**
      * @deprecated sk 25 FEB 2024: I introduce this to not have to have the
@@ -204,6 +205,15 @@ abstract class assQuestionGUI
     public function getObject(): assQuestion
     {
         return $this->object;
+    }
+
+    /**
+     * @deprecated sk 25 FEB 2024: I introduce this to not have to have the
+     * object public, but this should NEVER EVER be used and should go asap!
+     */
+    public function setObject(assQuestion $question): void
+    {
+        $this->object = $question;
     }
 
     public function setCopyToExistingPoolOnSave(?int $pool_ref_id): void
@@ -1755,7 +1765,7 @@ abstract class assQuestionGUI
         int $active_id,
         ?int $pass,
         bool $is_question_postponed = false,
-        $user_post_solutions = false,
+        array|bool $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
     ): void {
         $formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
@@ -1820,9 +1830,9 @@ abstract class assQuestionGUI
         return;
     }
 
-    public function setPreviewSession(ilAssQuestionPreviewSession $previewSession): void
+    public function setPreviewSession(ilAssQuestionPreviewSession $preview_session): void
     {
-        $this->previewSession = $previewSession;
+        $this->preview_session = $preview_session;
     }
 
     /**
@@ -1830,7 +1840,7 @@ abstract class assQuestionGUI
      */
     public function getPreviewSession(): ?ilAssQuestionPreviewSession
     {
-        return $this->previewSession;
+        return $this->preview_session;
     }
 
     protected function buildBasicEditFormObject(): ilPropertyFormGUI

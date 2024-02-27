@@ -71,8 +71,8 @@ class ilTestResultsGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly SkillService $skills_service,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest,
-        private readonly QuestionInfoService $questioninfo,
         private readonly GlobalHttpState $http
     ) {
     }
@@ -173,6 +173,7 @@ class ilTestResultsGUI
                     $this->ui_factory,
                     $this->ui_renderer,
                     new ilTestParticipantAccessFilterFactory($this->access),
+                    $this->questionrepository,
                     $this->testrequest,
                     $this->http,
                     $this->refinery
@@ -191,7 +192,17 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_RESULTS);
 
-                $gui = new ilMyTestResultsGUI();
+                $gui = new ilMyTestResultsGUI(
+                    $this->getTestObj(),
+                    $this->access,
+                    $this->testSession,
+                    $this->objectiveParent,
+                    $this->lng,
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $gui->setTestObj($this->getTestObj());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setTestSession($this->getTestSession());
@@ -218,7 +229,16 @@ class ilTestResultsGUI
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_MY_SOLUTIONS);
 
-                $gui = new ilMyTestSolutionsGUI();
+                $gui = new ilMyTestSolutionsGUI(
+                    $this->getTestObj(),
+                    $this->access,
+                    $this->objectiveParent,
+                    $this->lng,
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $gui->setTestObj($this->getTestObj());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());

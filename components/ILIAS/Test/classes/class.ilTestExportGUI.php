@@ -225,6 +225,7 @@ class ilTestExportGUI extends ilExportGUI
             $this->refinery,
             $this->access,
             $this->irss,
+            $this->questionrepository,
             $this->testrequest,
             $this->getParentGUI()->getTestObject()->getId()
         );
@@ -328,6 +329,7 @@ class ilTestExportGUI extends ilExportGUI
             $this->refinery,
             $this->access,
             $this->irss,
+            $this->questionrepository,
             $this->testrequest,
             $this->getParentGUI()->getTestObject()->getId()
         );
@@ -362,6 +364,7 @@ class ilTestExportGUI extends ilExportGUI
             $this->refinery,
             $this->access,
             $this->irss,
+            $this->questionrepository,
             $this->testrequest,
             $this->getParentGUI()->getTestObject()->getId()
         );

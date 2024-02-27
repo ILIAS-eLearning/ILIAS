@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Matching question GUI representation
@@ -31,16 +36,12 @@
  */
 class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
-    /**
-     * assMatchingQuestionGUI constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assMatchingQuestionGUI object.
-     *
-     * @param integer $id The database id of a image map question object
-     * @param integer $id The database id of a image map question object
-     */
+    private HTTPServices $http;
     public function __construct($id = -1)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->http = $DIC['http'];
         parent::__construct();
         $this->object = new assMatchingQuestion();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
@@ -437,28 +438,17 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
@@ -560,7 +550,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $i++;
             }
             if (($active_id > 0) && (!$show_correct_solution)) {
-                if ($graphicalOutput) {
+                if ($graphical_output) {
                     // output of ok/not ok icons for user entered solutions
                     $ok = false;
                     foreach ($this->object->getMatchingPairs() as $pair) {
@@ -627,8 +617,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -796,12 +788,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $files;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $user_post_solution = false, $inlineFeedback = false): string
-    // hey.
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
+        if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
@@ -814,8 +808,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $solutions = array();
         if ($active_id) {
-            if (is_array($user_post_solution)) {
-                foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term) {
+            if (is_array($user_post_solutions)) {
+                foreach ($user_post_solutions['matching'][$this->object->getId()] as $definition => $term) {
                     array_push($solutions, array("value1" => $term, "value2" => $definition));
                 }
             } else {
@@ -825,7 +819,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
 
             $counter = 0;
-            foreach ($solutions as $idx => $solution_value) {
+            foreach ($solutions as $solution_value) {
                 if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1)) {
                     $template->setCurrentBlock("matching_data");
                     $template->setVariable("TERM_ID", $solution_value["value1"]);
@@ -936,7 +930,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
 
-        return $this->outQuestionPage("", $is_postponed, $active_id, $template->get());
+        return $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
     }
 
     /**

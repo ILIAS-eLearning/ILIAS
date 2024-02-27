@@ -60,8 +60,8 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
             $DIC['http']
         );
     }

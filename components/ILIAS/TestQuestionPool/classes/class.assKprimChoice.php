@@ -278,18 +278,15 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         parent::loadFromDb($questionId);
     }
 
-    private function loadAnswerData($questionId): void
+    private function loadAnswerData(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY position ASC",
             ['integer'],
-            [$questionId]
+            [$question_id]
         );
 
-        while ($data = $ilDB->fetchAssoc($res)) {
+        while ($data = $this->db->fetchAssoc($res)) {
             $answer = new ilAssKprimChoiceAnswer();
 
             $answer->setPosition($data['position']);
@@ -315,18 +312,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    public function saveToDb($originalId = ''): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($originalId == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($originalId);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
-        parent::saveToDb($originalId);
+        parent::saveToDb();
     }
 
     public function saveAdditionalQuestionDataToDb()
@@ -397,68 +389,43 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return true;
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        /** @var ilDBInterface $ilDB */
-        $ilDB = $GLOBALS['DIC']['ilDB'];
-
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
-
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            $solutionSubmit = $this->getSolutionSubmit();
-
-            foreach ($solutionSubmit as $answerIndex => $answerValue) {
-                if ($answerValue !== null) {
-                    $this->saveCurrentSolution($active_id, $pass, (int) $answerIndex, (int) $answerValue, $authorized);
-                    $entered_values++;
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
+                foreach ($answer as $index => $value) {
+                    if ($value !== null) {
+                        $this->saveCurrentSolution($active_id, $pass, (int) $index, (int) $value, $authorized);
+                    }
                 }
             }
-        });
+        );
 
         return true;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return float/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
 
-        while ($data = $ilDB->fetchAssoc($result)) {
+        while ($data = $this->db->fetchAssoc($result)) {
             $found_values[(int) $data['value1']] = (int) $data['value2'];
         }
 
@@ -650,13 +617,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $solutionSubmit;
     }
 
-    protected function calculateReachedPointsForSolution($found_values, $active_id = 0): float
+    protected function calculateReachedPointsForSolution(?array $found_values, int $active_id = 0): float
     {
         $numCorrect = 0;
-        if ($found_values == null) {
+        if ($found_values === null) {
             $found_values = [];
         }
-        foreach ($this->getAnswers() as $key => $answer) {
+        foreach ($this->getAnswers() as $answer) {
             if (!isset($found_values[$answer->getPosition()])) {
                 continue;
             }

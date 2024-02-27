@@ -266,11 +266,7 @@ class ilAssOrderingElementList implements Iterator
         $this->elements[] = $element;
     }
 
-    /**
-     * @param $randomIdentifier
-     * @return ilAssOrderingElement
-     */
-    public function getElementByPosition($position): ?ilAssOrderingElement
+    public function getElementByPosition(int $position): ?ilAssOrderingElement
     {
         if (isset($this->elements[$position])) {
             return $this->elements[$position];
@@ -279,23 +275,15 @@ class ilAssOrderingElementList implements Iterator
         return null;
     }
 
-    /**
-     * @param $position
-     * @return bool
-     */
-    public function elementExistByPosition($position): bool
+    public function elementExistByPosition(int $position): bool
     {
         return ($this->getElementByPosition($position) !== null);
     }
 
-    /**
-     * @param $randomIdentifier
-     * @return ilAssOrderingElement
-     */
-    public function getElementByRandomIdentifier($randomIdentifier): ?ilAssOrderingElement
+    public function getElementByRandomIdentifier(int $random_identifier): ?ilAssOrderingElement
     {
         foreach ($this as $element) {
-            if ($element->getRandomIdentifier() === intval($randomIdentifier)) {
+            if ($element->getRandomIdentifier() === intval($random_identifier)) {
                 return $element;
             }
         }

@@ -98,10 +98,10 @@ class SettingsGeneral extends TestSettings
     public function toLog(): array
     {
         switch ($this->getQuestionSetType()) {
-            case  ilObjTest::QUESTION_SET_TYPE_FIXED:
+            case  \ilObjTest::QUESTION_SET_TYPE_FIXED:
                 $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}';
                 break;
-            case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+            case \ilObjTest::QUESTION_SET_TYPE_RANDOM:
                 $log_array['test_question_set_type'] = '{{ test_question_set_type_fixed }}' ;
                 break;
         }

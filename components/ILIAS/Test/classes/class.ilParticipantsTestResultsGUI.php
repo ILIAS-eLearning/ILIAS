@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\RequestDataCollector;
 
 /**
@@ -53,6 +54,7 @@ class ilParticipantsTestResultsGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private GeneralQuestionPropertiesRepository $questionrepository,
         private RequestDataCollector $testrequest,
         private \ILIAS\HTTP\GlobalHttpState $http,
         private \ILIAS\Refinery\Factory $refinery,
@@ -112,8 +114,14 @@ class ilParticipantsTestResultsGUI
                 break;
 
             case 'ilassquestionpagegui':
-                $forwarder = new ilAssQuestionPageCommandForwarder();
-                $forwarder->setTestObj($this->getTestObj());
+                $forwarder = new ilAssQuestionPageCommandForwarder(
+                    $this->getTestObj(),
+                    $this->lng,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->questionrepository,
+                    $this->testrequest
+                );
                 $forwarder->forward();
                 break;
 
