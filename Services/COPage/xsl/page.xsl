@@ -2751,11 +2751,12 @@
 			</embed>
 		</xsl:when>
 
-		<!-- 36216 -->
-		<xsl:when test = "$type='application/octet-stream'">
-			{{{{{Unsupported Media Type}}}}}
+
+		<xsl:when test = "$type=''">
+			{{{{{No Media Type}}}}}
 		</xsl:when>
 
+		<!-- 36216 -->
 		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
 			{{{{{Unsupported Media Type}}}}}
