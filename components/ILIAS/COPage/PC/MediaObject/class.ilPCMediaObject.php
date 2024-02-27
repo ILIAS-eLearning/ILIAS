@@ -428,6 +428,15 @@ class ilPCMediaObject extends ilPageContent
                 ),
                 $a_output
             );
+            // currently media objects, when in translation mode
+            $a_output = str_replace(
+                "{{{{{No Media Type}}}}}",
+                '<div class="copg-new-content-placeholder">' .
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->symbol()->icon()->standard("pemed", "pemed", 'medium')
+                ) . "</div>",
+                $a_output
+            );
         } else {
             $a_output = str_replace(
                 "{{{{{Unsupported Media Type}}}}}",
