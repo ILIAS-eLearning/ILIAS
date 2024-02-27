@@ -465,7 +465,7 @@ class ilCalendarSchedule
                 $start_info = $this->start->get(IL_CAL_FKT_GETDATE, '', 'UTC');
                 $day_diff = $this->weekstart - $start_info['isoday'];
 
-                if ($day_diff == 7) {
+                if (abs($day_diff) === 7) {
                     $day_diff = 0;
                 }
 
