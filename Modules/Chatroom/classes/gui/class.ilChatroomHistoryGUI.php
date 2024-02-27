@@ -160,9 +160,9 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $time_format = $this->ilUser->getTimeFormat();
 
-        $prevDate = '';
         $messagesShown = 0;
-        $lastDateTime = null;
+        $prev_date_time_presentation = null;
+        $prev_date_time = null;
         foreach ($messages as $message) {
             switch ($message['message']->type) {
                 case 'message':
