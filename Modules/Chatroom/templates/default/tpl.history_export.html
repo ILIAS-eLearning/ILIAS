@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>{ROOM_TITLE}</title>
+<head>
+    <meta charset="UTF-8">
+    <title>{ROOM_TITLE}</title>
 
-		<style type="text/css">
-			* {
-				font-family: sans-serif;
-			}
-			.chat.username {
-			    font-weight: bold;
-			    color: blue;
-			}
-			.chat.date {
-			    color: green;
-			}
-		</style>
-	</head>
-	<body>
+    <style type="text/css">
+        * {
+            font-family: sans-serif;
+        }
+
+        .chat.username {
+            font-weight: bold;
+            color: blue;
+        }
+
+        .chat.date {
+            color: green;
+        }
+    </style>
+</head>
+<body>
 <!-- BEGIN PERIOD_FORM -->
 <div class="ilFloatLeft">
-{PERIOD_FORM}
+    {PERIOD_FORM}
 </div>
 <!-- END PERIOD_FORM -->
-<div class="ilFloatLeft" style="margin: 0 10px;">
-	<!-- BEGIN HISTORY_TITLE --><br /><h2 class="ilHeader">{ROOM_TITLE}</h2><br /><!-- END HISTORY_TITLE -->
-<!-- BEGIN MESSAGELINE -->
-<div class="messageLine chat {MESSAGECLASS} small">
-	<!-- BEGIN MESSAGE_DATE -->
-		<p><span class="chat content date">{MESSAGEDATE} </span></p>
-	<!-- END MESSAGE_DATE -->
-	&nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span>
-	<span class="chat content messageseparator">:</span>
-	<span class="chat content message">{MESSAGECONTENT}</span>
+<div class="ilFloatLeft">
+    <!-- BEGIN HISTORY_TITLE -->
+    <h2 class="ilHeader">{ROOM_TITLE}</h2><br/><!-- END HISTORY_TITLE -->
+    <!-- BEGIN row -->
+    <!-- BEGIN datetime_line -->
+    <div class="messageLine chat dateline small noPreLine">
+        <span class="chat content date"><!-- BEGIN msgdate -->{MESSAGEDATE}, <!-- END msgdate -->{MESSAGETIME}</span>
+    </div>
+    <!-- END datetime_line -->
+    <!-- BEGIN message_line -->
+    <div class="messageLine chat public small noPreLine">
+        &nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span><span class="chat content messageseparator">:</span><span class="chat content message">{MESSAGECONTENT}</span>
+    </div>
+    <!-- END message_line -->
+    <!-- END row -->
+    <!-- BEGIN no_messages -->
+    <p>{LBL_NO_MESSAGES}</p>
+    <!-- END no_messages -->
 </div>
-<!-- END MESSAGELINE -->
-<!-- BEGIN NO_MESSAGES -->
-<p>{LBL_NO_MESSAGES}</p>
-<!-- END NO_MESSAGES -->
-</div>
-	</body>
+</body>
 </html>
