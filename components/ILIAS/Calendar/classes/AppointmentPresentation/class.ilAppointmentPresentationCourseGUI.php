@@ -151,7 +151,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
             if ($crs->getContactPhone()) {
                 $contact_info[] = [
                     'name' => $this->lng->txt('crs_contact_phone'),
-                    'value' => $crs->getContactEmail()
+                    'value' => $crs->getContactPhone()
                 ];
             }
             if ($crs->getContactResponsibility()) {
@@ -173,7 +173,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
                         $info['name'],
                         $info['value']
                     );
-            }
+                }
             }
             $this->addMetaData('crs', $cat_info['obj_id']);
 
