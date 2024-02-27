@@ -121,7 +121,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getReferenceFromValue($value): int
     {
-        $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+        $field = ilDclCache::getFieldCache((int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
         $record_id = 0;
         foreach ($table->getRecords() as $record) {

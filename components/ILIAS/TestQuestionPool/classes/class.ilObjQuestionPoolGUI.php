@@ -171,8 +171,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             if ('qpl' === $this->object->getType()) {
                 $ilNavigationHistory->addItem(
                     $this->qplrequest->getRefId(),
-                    'ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=' . $this->qplrequest->getRefId(),
-                    'qpl'
+                    ilLink::_getLink($this->qplrequest->getRefId(), "qpl"),
+                    'qpl',
                 );
             }
         }
