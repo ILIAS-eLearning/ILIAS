@@ -40,6 +40,9 @@ class ilCertificatePdfFileNameFactory
         if ('sahs' === $objectType) {
             $generator = new ilCertificateScormPdfFilename($generator, $this->lng, new ilSetting('scorm'));
         }
+        if ('crs' === $objectType) {
+            $generator = new ilCertificateCoursePdfFilename($generator, $this->lng, new ilSetting('crs'));
+        }
 
         return $generator;
     }

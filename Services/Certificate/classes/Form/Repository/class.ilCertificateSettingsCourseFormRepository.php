@@ -112,6 +112,15 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             $subitems->setRequired(true);
             $form->addItem($subitems);
         }
+        $short_name = new ilTextInputGUI($this->language->txt('certificate_short_name'), 'short_name');
+        $short_name->setRequired(false);
+        $short_name->setValue(ilStr::subStr($this->object->getTitle(), 0, 30));
+        $short_name->setSize(30);
+
+        $infoText = $this->language->txt('certificate_short_name_description');
+        $short_name->setInfo($infoText);
+
+        $form->addItem($short_name);
 
         return $form;
     }
@@ -147,6 +156,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             'cert_subitems_' . $this->object->getId(),
             json_encode($formFields['subitems'] ?? [], JSON_THROW_ON_ERROR)
         );
+        $this->setting->set(
+            'certificate_short_name_' . $this->object->getId(),
+            $formFields['short_name'] ?? ''
+        );
     }
 
     /**
@@ -163,6 +176,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
             $formFields['subitems'] = [];
         }
+        $formFields['short_name'] = $this->setting->get('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
         return $formFields;
     }
 
