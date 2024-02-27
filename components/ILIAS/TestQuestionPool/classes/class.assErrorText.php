@@ -51,36 +51,22 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected string $errortext = '';
     protected array $parsed_errortext = [];
-    /** @var list<assAnswerErrorText> $errordata */
+    /** @var array<assAnswerErrorText> $errordata */
     protected array $errordata = [];
     protected float $textsize;
     protected ?float $points_wrong;
 
-    /**
-     * assErorText constructor
-     *
-     * @param string 	$title 		A title string to describe the question.
-     * @param string 	$comment 	A comment string to describe the question.
-     * @param string 	$author 	A string containing the name of the questions author.
-     * @param integer 	$owner 		A numerical ID to identify the owner/creator.
-     * @param string 	$question 	The question string of the single choice question.
-    */
     public function __construct(
-        $title = '',
-        $comment = '',
-        $author = '',
-        $owner = -1,
-        $question = ''
+        string $title = '',
+        string $comment = '',
+        string $author = '',
+        int $owner = -1,
+        string $question = ''
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->textsize = self::DEFAULT_TEXT_SIZE;
     }
 
-    /**
-    * Returns true, if a single choice question is complete for use
-    *
-    * @return boolean True, if the single choice question is complete for use, otherwise false
-    */
     public function isComplete(): bool
     {
         if (mb_strlen($this->title)
@@ -93,18 +79,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
     }
 
-    /**
-    * Saves a the object to the database
-    *
-    */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb();
@@ -268,29 +245,17 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $maxpoints;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        /* First get the positions which were selected by the user. */
-        $positions = [];
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
 
+        $positions = [];
         while ($row = $this->db->fetchAssoc($result)) {
             $positions[] = $row['value1'];
         }
@@ -305,25 +270,19 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->ensureNonNegativePoints($reached_points);
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $selected = $this->getAnswersFromRequest();
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
-            function () use ($selected, $active_id, $pass, $authorized) {
+            function () use ($active_id, $pass, $authorized) {
+                $selected = $this->getAnswersFromRequest();
                 $this->removeCurrentSolution($active_id, $pass, $authorized);
-
                 foreach ($selected as $position) {
                     $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
                 }
@@ -813,23 +772,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return json_encode($result);
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param string $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -840,14 +787,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         ];
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $data = $this->db->queryF(

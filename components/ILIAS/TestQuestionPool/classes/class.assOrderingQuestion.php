@@ -59,24 +59,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public ?int $element_height = null;
     public $old_ordering_depth = [];
     public $leveled_ordering = [];
+    protected ?OQRepository $oq_repository = null;
 
-    /**
-     * @var OQRepository
-     */
-    protected $oq_repository = null;
-
-    /**
-     * assOrderingQuestion constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assOrderingQuestion object.
-     *
-     * @param string  $title    A title string to describe the question
-     * @param string  $comment  A comment string to describe the question
-     * @param string  $author   A string containing the name of the questions author
-     * @param integer $owner    A numerical ID to identify the owner/creator
-     * @param string  $question The question string of the ordering test
-     * @param int     $ordering_type
-     */
     public function __construct(
         string $title = "",
         string $comment = "",
@@ -90,11 +74,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->ordering_type = $ordering_type;
     }
 
-    /**
-    * Returns true, if a ordering question is complete for use
-    *
-    * @return boolean True, if the ordering question is complete for use, otherwise false
-    */
     public function isComplete(): bool
     {
         $elements = array_filter(
@@ -112,33 +91,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $complete;
     }
 
-
-
     protected function getRepository(): OQRepository
     {
         if (is_null($this->oq_repository)) {
-            global $DIC;
-            $ilDB = $DIC['ilDB'];
-            $this->oq_repository = new OQRepository($ilDB);
+            $this->oq_repository = new OQRepository($this->db);
         }
         return $this->oq_repository;
     }
 
-
-    /**
-     * Saves a assOrderingQuestion object to a database
-     *
-     * @param string $original_id
-     *
-     * @internal param object $db A pear DB object
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb((int) $original_id);
-        }
+        $this->saveQuestionDataToDb((int) $original_id);
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
     }
@@ -152,16 +115,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function loadFromDb($question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             ["integer"],
             [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -490,7 +450,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param int $position
      * @return ilAssOrderingElement|null
      */
-    public function getAnswer($index = 0): ?ilAssOrderingElement
+    public function getAnswer(int $index = 0): ?ilAssOrderingElement
     {
         if (!$this->getOrderingElementList()->elementExistByPosition($index)) {
             return null;
@@ -499,89 +459,60 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->getOrderingElementList()->getElementByPosition($index);
     }
 
-    /**
-    * Deletes an answer with a given index. The index of the first
-    * answer is 0, the index of the second answer is 1 and so on.
-    *
-    * @param integer $index A nonnegative index of the n-th answer
-    * @access public
-    * @see $answers
-    */
-    public function deleteAnswer($randomIdentifier): void
+    public function deleteAnswer(int $random_identifier): void
     {
         $this->getOrderingElementList()->removeElement(
-            $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier)
+            $this->getOrderingElementList()->getElementByRandomIdentifier($random_identifier)
         );
         $this->getOrderingElementList()->saveToDb();
     }
 
-    /**
-    * Returns the number of answers
-    *
-    * @return integer The number of answers of the ordering question
-    * @access public
-    * @see $answers
-    */
     public function getAnswerCount(): int
     {
         return $this->getOrderingElementList()->countElements();
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $solutionValuePairs = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
+        $solution_value_pairs = $this->getSolutionValues($active_id, $pass, $authorized_solution);
 
-        if (!count($solutionValuePairs)) {
-            return (float) 0;
+        if ($solution_value_pairs === []) {
+            return 0.0;
         }
 
-        $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs($solutionValuePairs);
-        $solutionOrderingElementList = $this->getSolutionOrderingElementList($indexedSolutionValues);
-
-        return $this->calculateReachedPointsForSolution($solutionOrderingElementList);
-    }
-
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
-    {
-        if (!$previewSession->hasParticipantSolution()) {
-            return 0;
-        }
-
-        $solutionOrderingElementList = unserialize(
-            $previewSession->getParticipantsSolution(),
-            ["allowed_classes" => true]
+        $solution_ordering_element_list = $this->getSolutionOrderingElementList(
+            $this->fetchIndexedValuesFromValuePairs($solution_value_pairs)
         );
 
-        $reachedPoints = $this->calculateReachedPointsForSolution($solutionOrderingElementList);
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
-
-        return $this->ensureNonNegativePoints($reachedPoints);
+        return $this->calculateReachedPointsForSolution($solution_ordering_element_list);
     }
 
-    /**
-    * Returns the maximum points, a learner can reach answering the question
-    *
-    * @return double Points
-    * @see $points
-    */
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session): float
+    {
+        if (!$preview_session->hasParticipantSolution()) {
+            return 0.0;
+        }
+
+        $solution_ordering_element_list = unserialize(
+            $preview_session->getParticipantsSolution(),
+            ['allowed_classes' => true]
+        );
+
+        $reached_points = $this->deductHintPointsFromReachedPoints(
+            $preview_session,
+            $this->calculateReachedPointsForSolution($solution_ordering_element_list)
+        );
+
+        return $this->ensureNonNegativePoints($reached_points);
+    }
+
     public function getMaximumPoints(): float
     {
         return $this->getPoints();
@@ -728,28 +659,21 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($submittedSolutionList);
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        if($this->dic->testQuestionPool()->internal()->request()->raw('test_answer_changed') === null) {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if($this->questionpool_request->raw('test_answer_changed') === null) {
             return true;
         }
-
-        $entered_values = 0;
 
         if (is_null($pass)) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
-            function () use (&$entered_values, $active_id, $pass, $authorized) {
+            function () use ($active_id, $pass, $authorized) {
                 $this->removeCurrentSolution($active_id, $pass, $authorized);
 
                 foreach ($this->getSolutionListFromPostSubmit() as $orderingElement) {
@@ -757,8 +681,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $value2 = $orderingElement->getStorageValue2($this->getOrderingType());
 
                     $this->saveCurrentSolution($active_id, $pass, $value1, trim($value2), $authorized);
-
-                    $entered_values++;
                 }
             }
         );
@@ -775,18 +697,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function saveAdditionalQuestionDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             ["integer"],
             [$this->getId()]
         );
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height)
                             VALUES (%s, %s, %s, %s)",
             ["integer", "text", "integer", "integer"],
@@ -802,9 +720,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     protected function getQuestionRepository(): OQRepository
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        return new OQRepository($ilDB);
+        return new OQRepository($this->db);
     }
 
     public function saveAnswerSpecificDataToDb()
@@ -1142,12 +1058,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getSolutionListFromPostSubmit(): ilAssOrderingElementList
     {
         if ($this->postSolutionOrderingElementList === null) {
-            $post_array = $_POST;
-            if (! is_array($post_array)) {
-                global $DIC;
-                $request = $DIC->http()->request();
-                $post_array = $request->getParsedBody();
-            }
+            $post_array = $this->http->request()->getParsedBody();
             $list = $this->fetchSolutionListFromFormSubmissionData($post_array);
             $this->postSolutionOrderingElementList = $list;
         }
@@ -1184,23 +1095,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $reachedPoints;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param string $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -1211,31 +1110,21 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         ];
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-
         if ($maxStep > 0) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s ORDER BY value1 ASC ",
                 ["integer", "integer", "integer","integer"],
                 [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s ORDER BY value1 ASC ",
                 ["integer", "integer", "integer"],
                 [$active_id, $pass, $this->getId()]
@@ -1243,7 +1132,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         $elements = [];
-        while ($row = $ilDB->fetchAssoc($data)) {
+        while ($row = $this->db->fetchAssoc($data)) {
             $newKey = explode(":", $row["value2"]);
 
             foreach ($this->getOrderingElementList() as $answer) {

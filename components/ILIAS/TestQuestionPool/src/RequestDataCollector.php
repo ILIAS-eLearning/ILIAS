@@ -155,7 +155,7 @@ class RequestDataCollector
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getUnitIds(): array
     {
@@ -163,10 +163,71 @@ class RequestDataCollector
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     public function getUnitCategoryIds(): array
     {
         return $this->intArray("category_ids");
+    }
+
+    /*"
+     * @return array<int, string>
+     */
+    public function getStringArrayArray(string $key): ?array
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->container()->mapValues(
+                $r->in()->series(
+                    [
+                        $r->kindlyTo()->string(),
+                        $r->custom()->transformation(
+                            fn($v) => trim($v)
+                        )
+                    ]
+                )
+            )
+        );
+    }
+
+    public function getStringAnswer(string $key): ?string
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->in()->series(
+                [
+                    $r->kindlyTo()->string(),
+                    $r->custom()->transformation(
+                        fn($v) => trim($v)
+                    )
+                ]
+            )
+        );
+    }
+
+    public function getNumericAnswer(string $key): ?int
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->kindlyTo()->float()
+        );
     }
 }

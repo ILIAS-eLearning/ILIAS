@@ -94,11 +94,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->matchcondition = $matchcondition;
     }
 
-    /**
-    * Returns true, if a multiple choice question is complete for use
-    *
-    * @return boolean True, if the multiple choice question is complete for use, otherwise false
-    */
     public function isComplete(): bool
     {
         if (strlen($this->title)
@@ -111,43 +106,23 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return false;
     }
 
-    /**
-     * Saves a assTextQuestion object to a database
-     *
-     * @param string $original_id
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == '') {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb();
     }
 
-    /**
-    * Loads a assTextQuestion object from a database
-    *
-    * @param object $db A pear DB object
-    * @param integer $question_id A unique key which defines the text question in the database
-    * @access public
-    */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             ["integer"],
             [$question_id]
         );
-        if ($ilDB->numRows($result) == 1) {
-            $data = $ilDB->fetchAssoc($result);
+        if ($this->db->numRows($result) == 1) {
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
@@ -177,14 +152,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             }
         }
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_essay WHERE question_fi = %s",
             ['integer'],
             [$this->getId()]
         );
 
         $this->flushAnswers();
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $this->addAnswer($row['answertext'], $row['points']);
         }
 
@@ -332,9 +307,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return $result;
     }
 
-    protected function calculateReachedPointsForSolution($solution): float
+    protected function calculateReachedPointsForSolution(string $solution): float
     {
-        $solution = html_entity_decode($solution);
+        $decoded_solution = html_entity_decode($solution);
         // Return min points when keyword relation is NON KEYWORDS
         if ($this->getKeywordRelation() === self::SCORING_MODE_KEYWORD_RELATION_NONE) {
             return $this->getMinimumPoints();
@@ -343,114 +318,89 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         // Return min points if there are no answers present.
         $answers = $this->getAnswers();
 
-        if (count($answers) == 0) {
+        if ($answers === []) {
             return $this->getMinimumPoints();
         }
 
         switch ($this->getKeywordRelation()) {
             case 'any':
-                $points = 0;
+                $points = 0.0;
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
-                    $user_answer = '  ' . $solution;
+                    $user_answer = '  ' . $decoded_solution;
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
                         $points += $answer->getPoints();
                     }
                 }
-                break;
+                return $points;
 
             case 'all':
-                $points = $this->getMaximumPoints();
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
-                    $user_answer = '  ' . $solution;
+                    $user_answer = '  ' . $decoded_solution;
                     if (!$this->isKeywordMatching($user_answer, $qst_answer)) {
-                        $points = 0;
-                        break;
+                        return 0.0;
                     }
                 }
-                break;
+                return $this->getMaximumPoints();
 
             case 'one':
-                $points = 0;
                 foreach ($answers as $answer) {
                     $qst_answer = $answer->getAnswertext();
-                    $user_answer = '  ' . $solution;
+                    $user_answer = '  ' . $decoded_solution;
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
-                        $points = $this->getMaximumPoints();
-                        break;
+                        return $this->getMaximumPoints();
                     }
                 }
-                break;
         }
 
-        return (float)$points;
+        return 0.0;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
 
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
 
         // Return min points when no answer was given.
-        if ($ilDB->numRows($result) == 0) {
+        if ($this->db->numRows($result) === 0) {
             return $this->getMinimumPoints();
         }
 
         // Return points of points are already on the row.
-        $row = $ilDB->fetchAssoc($result);
-        if ($row["points"] != null) {
-            return (float)$row["points"];
+        $row = $this->db->fetchAssoc($result);
+        if ($row['points'] !== null) {
+            return (float) $row["points"];
         }
 
         return $this->calculateReachedPointsForSolution($row['value1']);
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
-    {
-        if (is_null($pass)) {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
-        $text = $this->getSolutionSubmit();
+        $answer = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($answer, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $active_id, $pass, $authorized, $text) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            if (strlen($text)) {
-                $this->saveCurrentSolution($active_id, $pass, trim($text), null, $authorized);
-                $entered_values++;
+                if ($text !== '') {
+                    $this->saveCurrentSolution($active_id, $pass, $answer, null, $authorized);
+                }
             }
-        });
+        );
 
         return true;
     }
@@ -475,10 +425,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function saveAdditionalQuestionDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             ['integer'],
             [$this->getId()]
@@ -494,16 +441,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             'keyword_relation' => ['text', $this->getKeywordRelation()]
         ];
 
-        $ilDB->insert($this->getAdditionalTableName(), $fields);
+        $this->db->insert($this->getAdditionalTableName(), $fields);
     }
 
     public function saveAnswerSpecificDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_essay WHERE question_fi = %s",
             ['integer'],
             [$this->getId()]
@@ -511,8 +454,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         foreach ($this->answers as $answer) {
             /** @var $answer ASS_AnswerMultipleResponseImage */
-            $nextID = $ilDB->nextId('qpl_a_essay');
-            $ilDB->manipulateF(
+            $nextID = $this->db->nextId('qpl_a_essay');
+            $this->db->manipulateF(
                 "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
                 ['integer', 'integer', 'text', 'float'],
                 [
@@ -751,18 +694,15 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function duplicateAnswers($original_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_essay WHERE question_fi = %s",
             ['integer'],
             [$original_id]
         );
         if ($result->numRows()) {
-            while ($row = $ilDB->fetchAssoc($result)) {
-                $next_id = $ilDB->nextId('qpl_a_essay');
-                $affectedRows = $ilDB->manipulateF(
+            while ($row = $this->db->fetchAssoc($result)) {
+                $next_id = $this->db->nextId('qpl_a_essay');
+                $affectedRows = $this->db->manipulateF(
                     "INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points)
 					 VALUES (%s, %s, %s, %s)",
                     ['integer','integer','text','float'],

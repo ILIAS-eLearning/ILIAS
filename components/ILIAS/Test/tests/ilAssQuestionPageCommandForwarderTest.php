@@ -25,12 +25,20 @@ declare(strict_types=1);
 class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
 {
     private ilAssQuestionPageCommandForwarder $testObj;
+    private ilObjTest $test;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilAssQuestionPageCommandForwarder();
+        $this->test = $this->createMock(ilObjTest::class);
+        $this->testObj = new ilAssQuestionPageCommandForwarder(
+            $this->test,
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilCtrlInterface::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
+            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -40,9 +48,6 @@ class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
 
     public function testTestObj(): void
     {
-        $testObj = $this->createMock(ilObjTest::class);
-        $this->testObj->setTestObj($testObj);
-
-        $this->assertEquals($testObj, $this->testObj->getTestObj());
+        $this->assertEquals($this->test, $this->testObj->getTestObj());
     }
 }

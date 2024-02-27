@@ -38,23 +38,10 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
  */
 class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, QuestionLMExportable, QuestionAutosaveable
 {
-    /**
-    * @var array
-    */
     public array $answers = [];
-
-    /**
-    * The number of correct answers to solve the question
-    */
     public int $correctanswers = 0;
     public string $text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
 
-    /**
-    * Returns true, if a TextSubset question is complete for use
-    *
-    * @return boolean True, if the TextSubset question is complete for use, otherwise false
-    * @access public
-    */
     public function isComplete(): bool
     {
         if (
@@ -69,45 +56,24 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return false;
     }
 
-    /**
-     * Saves a assTextSubset object to a database
-     *
-     * @param string $original_id
-     *
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == "") {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
         parent::saveToDb();
     }
 
-    /**
-    * Loads a assTextSubset object from a database
-    *
-    * @param object $db A pear DB object
-    * @param integer $question_id A unique key which defines the multiple choice test in the database
-    * @access public
-    */
-    public function loadFromDb($question_id): void
+    public function loadFromDb(int $question_id): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             ["integer"],
             [$question_id]
         );
         if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
+            $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setNrOfTries($data['nr_of_tries']);
@@ -134,13 +100,13 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
 
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM qpl_a_textsubset WHERE question_fi = %s ORDER BY aorder ASC",
             ['integer'],
             [$question_id]
         );
         if ($result->numRows() > 0) {
-            while ($data = $ilDB->fetchAssoc($result)) {
+            while ($data = $this->db->fetchAssoc($result)) {
                 $this->answers[] = new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"]);
             }
         }
@@ -361,7 +327,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN3:
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4:
             case assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5:
-                $this->text_rating = $a_text_rating;
+                $this->text_rating = $text_rating;
                 break;
             default:
                 $this->text_rating = assClozeGap::TEXTGAP_RATING_CASEINSENSITIVE;
@@ -369,34 +335,19 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-
-        if (is_null($pass)) {
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
+        if ($pass === null) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized_solution);
 
         $enteredTexts = [];
-        while ($data = $ilDB->fetchAssoc($result)) {
-            $enteredTexts[] = $data["value1"];
+        while ($data = $this->db->fetchAssoc($result)) {
+            $enteredTexts[] = $data['value1'];
         }
 
         return $this->calculateReachedPointsForSolution($enteredTexts);
@@ -424,51 +375,41 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $this->correctanswers;
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true): bool
-    {
-        if (is_null($pass)) {
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if ($pass === null) {
             $pass = ilObjTest::_getPass($active_id);
         }
 
-        $entered_values = 0;
-        $solutionSubmit = $this->getSolutionSubmit();
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($active_id, $pass, $authorized) {
+                $solution_submit = $this->getSolutionSubmit();
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $solutionSubmit, $active_id, $pass, $authorized) {
-            $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-            foreach ($solutionSubmit as $value) {
-                if (strlen($value)) {
-                    $this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
-                    $entered_values++;
+                foreach ($solution_submit as $value) {
+                    if ($value !== '') {
+                        $this->saveCurrentSolution($active_id, $pass, $value, null, $authorized);
+                    }
                 }
             }
-        });
+        );
 
         return true;
     }
 
     public function saveAdditionalQuestionDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // save additional data
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
             [ "integer" ],
             [ $this->getId() ]
         );
 
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
             ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
             [ "integer", "text", "integer" ],
@@ -482,10 +423,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function saveAnswerSpecificDataToDb()
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
             [ 'integer' ],
             [ $this->getId() ]
@@ -493,8 +431,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         foreach ($this->answers as $key => $value) {
             $answer_obj = $this->answers[$key];
-            $next_id = $ilDB->nextId('qpl_a_textsubset');
-            $ilDB->manipulateF(
+            $next_id = $this->db->nextId('qpl_a_textsubset');
+            $this->db->manipulateF(
                 "INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
                 [ 'integer', 'integer', 'text', 'float', 'integer', 'integer' ],
                 [
@@ -679,15 +617,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $solutionSubmit;
     }
 
-    /**
-     * @param $enteredTexts
-     * @return int
-     */
-    protected function calculateReachedPointsForSolution($enteredTexts): float
+    protected function calculateReachedPointsForSolution(?array $enteredTexts): float
     {
         $enteredTexts ??= [];
         $available_answers = $this->getAvailableAnswers();
-        $points = 0;
+        $points = 0.0;
         foreach ($enteredTexts as $enteredtext) {
             $index = $this->isAnswerCorrect($available_answers, html_entity_decode($enteredtext));
             if ($index !== false) {
@@ -698,23 +632,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $points;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -725,39 +647,29 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         ];
     }
 
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
-
         if ($maxStep > 0) {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s ORDER BY solution_id",
                 ["integer", "integer", "integer","integer"],
                 [$active_id, $pass, $this->getId(), $maxStep]
             );
         } else {
-            $data = $ilDB->queryF(
+            $data = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s ORDER BY solution_id",
                 ["integer", "integer", "integer"],
                 [$active_id, $pass, $this->getId()]
             );
         }
 
-        for ($index = 1; $index <= $ilDB->numRows($data); ++$index) {
-            $row = $ilDB->fetchAssoc($data);
+        for ($index = 1; $index <= $this->db->numRows($data); ++$index) {
+            $row = $this->db->fetchAssoc($data);
             $result->addKeyValue($index, $row["value1"]);
         }
 

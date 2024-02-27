@@ -755,28 +755,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return true;
     }
 
-    /**
-     * Get the question solution output
-     * @param integer $active_id             The active user id
-     * @param integer $pass                  The test pass
-     * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-     * @param boolean $result_output         Show the reached points for parts of the question
-     * @param boolean $show_question_only    Show the question without the ILIAS content around
-     * @param boolean $show_feedback         Show the question feedback
-     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-     * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @return string The solution output of the question as HTML code
-     */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         $user_solution = [];
         if ($pass !== null) {
@@ -822,7 +811,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             'correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK),
             'not_correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK)
         ];
-        $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, true, $result_output, $correctness_icons);
+        $questiontext = $this->object->substituteVariables($user_solution, $graphical_output, true, $result_output, $correctness_icons);
 
         $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
@@ -847,8 +836,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $user_solution = array();
 
         if (is_object($this->getPreviewSession())) {
@@ -898,10 +889,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return $questionoutput;
     }
 
-    // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-    // hey.
-    {
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('enter_valid_values'));
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
@@ -957,7 +951,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
 
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 

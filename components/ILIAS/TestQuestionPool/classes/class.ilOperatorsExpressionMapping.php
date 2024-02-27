@@ -39,12 +39,7 @@ abstract class ilOperatorsExpressionMapping
         iQuestionCondition::EmptyAnswerExpression => array("=", "<>")
     );
 
-    /**
-     * @param string $expression
-     *
-     * @return array
-     */
-    public static function getOperatorsByExpression($expression): array
+    public static function getOperatorsByExpression(string $expression): array
     {
         return self::$mappings[$expression];
     }

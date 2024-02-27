@@ -112,11 +112,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->shufflemode = $shuffle;
     }
 
-    /**
-    * Returns true, if a matching question is complete for use
-    *
-    * @return boolean True, if the matching question is complete for use, otherwise false
-    */
     public function isComplete(): bool
     {
         if (strlen($this->title)
@@ -130,20 +125,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return false;
     }
 
-    /**
-     * Saves a assMatchingQuestion object to a database
-     *
-     * @param string $original_id
-     *
-     */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb(?int $original_id = null): void
     {
-        if ($original_id == "") {
-            $this->saveQuestionDataToDb();
-        } else {
-            $this->saveQuestionDataToDb($original_id);
-        }
-
+        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
@@ -696,35 +680,26 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms[$index] = $term;
     }
 
-    /**
-     * Returns the points, a learner has reached answering the question.
-     * The points are calculated from the given answers.
-     *
-     * @access public
-     * @param integer $active_id
-     * @param integer $pass
-     * @param boolean $returndetails (deprecated !!)
-     * @return integer/array $points/$details (array $details is deprecated !!)
-     */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
-    {
-        if ($returndetails) {
-            throw new ilTestException('return details not implemented for ' . __METHOD__);
-        }
-
+    public function calculateReachedPoints(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized_solution = true
+    ): float {
         $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorized_solution);
         while ($data = $this->db->fetchAssoc($result)) {
-            if (strcmp($data["value1"], "") != 0) {
-                if (!isset($found_values[$data['value2']])) {
-                    $found_values[$data['value2']] = [];
-                }
-
-                $found_values[$data['value2']][] = $data['value1'];
+            if ($data['value1'] === '') {
+                continue;
             }
+
+            if (!isset($found_values[$data['value2']])) {
+                $found_values[$data['value2']] = [];
+            }
+
+            $found_values[$data['value2']][] = $data['value1'];
         }
 
         $points = $this->calculateReachedPointsForSolution($found_values);
@@ -900,8 +875,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     private function fetchSubmittedMatchingsFromPost(): array
     {
-        $request = $this->dic->testQuestionPool()->internal()->request();
-        $post = $request->getParsedBody();
+        $post = $this->questionpool_request->getParsedBody();
 
         $matchings = [];
         if (array_key_exists('matching', $post)) {
@@ -923,7 +897,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $matchings;
     }
 
-    private function checkSubmittedMatchings($submittedMatchings): bool
+    private function checkSubmittedMatchings(array $submitted_matchings): bool
     {
         if ($this->getMatchingMode() == self::MATCHING_MODE_N_ON_N) {
             return true;
@@ -931,7 +905,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $handledTerms = [];
 
-        foreach ($submittedMatchings as $definition => $terms) {
+        foreach ($submitted_matchings as $terms) {
             if (count($terms) > 1) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("multiple_matching_values_selected"), true);
                 return false;
@@ -950,51 +924,40 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
 
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
-    {
-        $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
-        $submittedMatchingsValid = $this->checkSubmittedMatchings($submittedMatchings);
-
-        $matchingsExist = false;
-
-        if ($submittedMatchingsValid) {
-            if (is_null($pass)) {
-                $pass = ilObjTest::_getPass($active_id);
-            }
-
-            $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$matchingsExist, $submittedMatchings, $active_id, $pass, $authorized) {
-                $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-                foreach ($submittedMatchings as $definition => $terms) {
-                    foreach ($terms as $i => $term) {
-                        $this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
-                        $matchingsExist = true;
-                    }
-                }
-            });
-
-            $saveWorkingDataResult = true;
-        } else {
-            $saveWorkingDataResult = false;
+    public function saveWorkingData(
+        int $active_id,
+        ?int $pass = null,
+        bool $authorized = true
+    ): bool {
+        if ($pass === null) {
+            $pass = ilObjTest::_getPass($active_id);
         }
 
-        return $saveWorkingDataResult;
+        $submitted_matchings = $this->fetchSubmittedMatchingsFromPost();
+        if (!$this->checkSubmittedMatchings($submitted_matchings)) {
+            return false;
+        }
+
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use ($submitted_matchings, $active_id, $pass, $authorized) {
+                $this->removeCurrentSolution($active_id, $pass, $authorized);
+                foreach ($submitted_matchings as $definition => $terms) {
+                    foreach ($terms as $i => $term) {
+                        $this->saveCurrentSolution($active_id, $pass, $term, $definition, $authorized);
+                    }
+                }
+            }
+        );
+
+        return true;
     }
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
-        $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
+        $submitted_matchings = $this->fetchSubmittedMatchingsFromPost();
 
-        if ($this->checkSubmittedMatchings($submittedMatchings)) {
-            $previewSession->setParticipantsSolution($submittedMatchings);
+        if ($this->checkSubmittedMatchings($submitted_matchings)) {
+            $previewSession->setParticipantsSolution($submitted_matchings);
         }
     }
 
@@ -1278,14 +1241,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->matchingMode;
     }
 
-    /**
-     * @param $found_values
-     * @return float
-     */
-    protected function calculateReachedPointsForSolution($found_values): float
+    protected function calculateReachedPointsForSolution(?array $found_values): float
     {
-        $points = 0;
-        if (! is_array($found_values)) {
+        $points = 0.0;
+        if (!is_array($found_values)) {
             return $points;
         }
         foreach ($found_values as $definition => $terms) {
@@ -1294,7 +1253,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($terms as $term) {
                 foreach ($this->matchingpairs as $pair) {
-                    if ($pair->getDefinition()->getIdentifier() == $definition && $pair->getTerm()->getIdentifier() == $term) {
+                    if ($pair->getDefinition()->getIdentifier() == $definition
+                        && $pair->getTerm()->getIdentifier() == $term) {
                         $points += $pair->getPoints();
                     }
                 }
@@ -1303,23 +1263,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $points;
     }
 
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression): array
+    public function getOperators(string $expression): array
     {
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
     }
 
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
     public function getExpressionTypes(): array
     {
         return [
@@ -1329,16 +1277,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             iQuestionCondition::EmptyAnswerExpression,
         ];
     }
-    /**
-    * Get the user solution for a question by active_id and the test pass
-    *
-    * @param int $active_id
-    * @param int $pass
-    *
-    * @return ilUserQuestionResult
-    */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
-    {
+
+    public function getUserQuestionResult(
+        int $active_id,
+        int $pass
+    ): ilUserQuestionResult {
         $result = new ilUserQuestionResult($this, $active_id, $pass);
 
         $data = $this->db->queryF(

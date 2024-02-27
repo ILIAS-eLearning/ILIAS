@@ -41,7 +41,7 @@ interface iQuestionCondition
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression): array;
+    public function getOperators(string $expression): array;
 
     /**
      * Get all available expression types for a specific question
@@ -52,19 +52,12 @@ interface iQuestionCondition
 
     /**
      * Get the user solution for a question by active_id and the test pass
-     *
-     * @param int $active_id
-     * @param int $pass
-     *
-     * @return ilUserQuestionResult
      */
-    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult;
+    public function getUserQuestionResult(int $active_id, int $pass): ilUserQuestionResult;
 
     /**
      * If index is null, the function returns an array with all anwser options
-     * Else it returns the specific answer option
-     *
-     * @param null|int $index
+     * else it returns the specific answer option
      */
-    public function getAvailableAnswerOptions($index = null);
+    public function getAvailableAnswerOptions(?int $index = null);
 }

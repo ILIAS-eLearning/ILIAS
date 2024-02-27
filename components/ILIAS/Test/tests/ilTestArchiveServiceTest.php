@@ -32,6 +32,7 @@ class ilTestArchiveServiceTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestArchiveService(
             $this->createMock(ilObjTest::class),
+            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilCtrl::class),

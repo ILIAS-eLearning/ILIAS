@@ -63,20 +63,12 @@ abstract class ilAssQuestionProcessLocker
     {
         $this->onBeforeExecutingUserSolutionUpdateOperation();
         $this->executeOperation($operation);
-        $this->onAfterExecutingUserSolutionUpdateOperation();
     }
 
     /**
      *
      */
     protected function onBeforeExecutingUserSolutionUpdateOperation(): void
-    {
-    }
-
-    /**
-     *
-     */
-    protected function onAfterExecutingUserSolutionUpdateOperation(): void
     {
     }
 

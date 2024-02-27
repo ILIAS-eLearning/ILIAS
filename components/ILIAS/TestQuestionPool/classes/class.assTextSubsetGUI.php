@@ -113,9 +113,6 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $errors;
     }
 
-    /**
-    * Add a new answer
-    */
     public function addanswers(): void
     {
         $this->writePostData(true);
@@ -124,9 +121,6 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->editQuestion();
     }
 
-    /**
-    * Remove an answer
-    */
     public function removeanswers(): void
     {
         $this->writePostData(true);
@@ -135,28 +129,17 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->editQuestion();
     }
 
-    /**
-    * Get the question solution output
-    * @param integer $active_id             The active user id
-    * @param integer $pass                  The test pass
-    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
-    * @param boolean $result_output         Show the reached points for parts of the question
-    * @param boolean $show_question_only    Show the question without the ILIAS content around
-    * @param boolean $show_feedback         Show the question feedback
-    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-    * @return string The solution output of the question as HTML code
-    */
     public function getSolutionOutput(
-        $active_id,
-        $pass = null,
-        $graphicalOutput = false,
-        $result_output = false,
-        $show_question_only = true,
-        $show_feedback = false,
-        $show_correct_solution = false,
-        $show_manual_scoring = false,
-        $show_question_text = true
+        int $active_id,
+        ?int $pass = null,
+        bool $graphical_output = false,
+        bool $result_output = false,
+        bool $show_question_only = true,
+        bool $show_feedback = false,
+        bool $show_correct_solution = false,
+        bool $show_manual_scoring = false,
+        bool $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $solutions = [];
@@ -186,7 +169,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             if (!array_key_exists($i, $solutions) || (strcmp($solutions[$i]["value1"], "") == 0)) {
             } else {
                 if (($active_id > 0) && (!$show_correct_solution)) {
-                    if ($graphicalOutput) {
+                    if ($graphical_output) {
                         // output of ok/not ok icons for user entered solutions
                         $index = $this->object->isAnswerCorrect($available_answers, $solutions[$i]["value1"]);
                         $correct = false;
@@ -239,8 +222,10 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
-    {
+    public function getPreview(
+        bool $show_question_only = false,
+        bool $show_inline_feedback = false
+    ): string {
         $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
         $template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", true, true, "components/ILIAS/TestQuestionPool");
         $width = $this->object->getMaxTextboxWidth();
@@ -267,10 +252,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $questionoutput;
     }
 
-    public function getTestOutput($active_id, $pass = null, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false): string
-    {
-        // get the solution of the user for the active pass or from the last pass if allowed
-        $user_solution = "";
+    public function getTestOutput(
+        int $active_id,
+        int $pass,
+        bool $is_question_postponed = false,
+        array|bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ): string {
         if ($active_id) {
             $solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
         }
@@ -293,11 +281,11 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
         $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 
-    public function getSpecificFeedbackOutput(array $userSolution): string
+    public function getSpecificFeedbackOutput(array $user_solution): string
     {
         $output = "";
         return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);

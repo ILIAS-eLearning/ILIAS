@@ -115,10 +115,7 @@ class assClozeGap
     }
 
     /**
-     * Gets the items of a cloze gap
-     *
-     * @param Transformation $shuffler
-     * @return assAnswerCloze[] The list of items
+     * @return array<assAnswerCloze>
      */
     public function getItems(Transformation $shuffler, ?int $gap_index = null): array
     {
@@ -387,7 +384,7 @@ class assClozeGap
             case self::TYPE_TEXT:
             case self::TYPE_SELECT:
                 $best_solutions = [];
-                if ($combinations !== null && $combinations['best_solution'] == 1) {
+                if ($combinations !== null && $combinations['best_solution'] === 1) {
                     $points_string_for_key = (string) $combinations['points'];
                     $best_solutions[$points_string_for_key] = [];
                     array_push($best_solutions[$points_string_for_key], $combinations['answer']);

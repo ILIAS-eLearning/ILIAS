@@ -341,7 +341,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $this->test_object->getQuestionSetTypeTranslation($this->lng, $new_question_set_type)
         );
 
-        if ($current_question_set_type === ilObjTest::QUESTION_SET_TYPE_FIXED
+        if ($current_question_set_type === \ilObjTest::QUESTION_SET_TYPE_FIXED
             && $this->test_object->hasQuestionsWithoutQuestionpool()) {
             $message .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
         }
