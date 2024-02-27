@@ -8,6 +8,10 @@
 	white-space: pre-line;
 }
 
+.chat.messageLine.noPreLine {
+	white-space: inherit;
+}
+
 .chat.messageLine.private {
     background-color: #FAD8CF;
 }

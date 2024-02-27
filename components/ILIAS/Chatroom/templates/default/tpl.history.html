@@ -1,21 +1,25 @@
 <!-- BEGIN PERIOD_FORM -->
 <div>
-{PERIOD_FORM}
+    {PERIOD_FORM}
 </div>
 <!-- END PERIOD_FORM -->
 <div>
-	<!-- BEGIN HISTORY_TITLE --><br /><h2 class="ilHeader">{ROOM_TITLE}</h2><!-- END HISTORY_TITLE -->
-<!-- BEGIN MESSAGELINE -->
-<div class="messageLine chat {MESSAGECLASS} small">
-	<!-- BEGIN MESSAGE_TIME -->
-	<p class="noMargin"><span class="chat content date"><!-- BEGIN msgdate -->{MESSAGEDATE}, <!-- END msgdate -->{MESSAGETIME} </span></p>
-	<!-- END MESSAGE_TIME -->
-	&nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span>
-	<span class="chat content messageseparator">:</span>
-	<span class="chat content message">{MESSAGECONTENT}</span>
-</div>
-<!-- END MESSAGELINE -->
-<!-- BEGIN NO_MESSAGES -->
-<p>{LBL_NO_MESSAGES}</p>
-<!-- END NO_MESSAGES -->
+    <!-- BEGIN HISTORY_TITLE -->
+    <h2 class="ilHeader">{ROOM_TITLE}</h2><!-- END HISTORY_TITLE -->
+
+    <!-- BEGIN row -->
+    <!-- BEGIN datetime_line -->
+    <div class="messageLine chat dateline small noPreLine">
+        <span class="chat content date"><!-- BEGIN msgdate -->{MESSAGEDATE}, <!-- END msgdate -->{MESSAGETIME}</span>
+    </div>
+    <!-- END datetime_line -->
+    <!-- BEGIN message_line -->
+    <div class="messageLine chat public small noPreLine">
+        &nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span><span class="chat content messageseparator">:</span><span class="chat content message">{MESSAGECONTENT}</span>
+    </div>
+    <!-- END message_line -->
+    <!-- END row -->
+    <!-- BEGIN no_messages -->
+    <p>{LBL_NO_MESSAGES}</p>
+    <!-- END no_messages -->
 </div>
