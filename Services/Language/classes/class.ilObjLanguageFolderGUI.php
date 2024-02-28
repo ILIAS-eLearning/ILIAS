@@ -84,15 +84,27 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         if ($this->checkPermissionBool("write")) {
-            if (!$this->settings->get("lang_detection")) {
-                // Toggle Button for auto language detection (toggle off)
-                $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), false)
-                    ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_enable_language_detection"));
-            } else {
-                // Toggle Button for auto language detection (toggle on)
-                $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), true)
-                    ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_disable_language_detection"));
-            }
+            $modal_on = $this->ui->factory()->modal()->interruptive(
+                'ON',
+                $this->lng->txt("lng_enable_language_detection"),
+                $this->ctrl->getFormActionByClass(self::class, "enableLanguageDetection")
+            )
+                                 ->withActionButtonLabel($this->lng->txt('ok'));
+            $modal_off = $this->ui->factory()->modal()->interruptive(
+                'OFF',
+                $this->lng->txt("lng_disable_language_detection"),
+                $this->ctrl->getFormActionByClass(self::class, "disableLanguageDetection")
+            )
+                                  ->withActionButtonLabel($this->lng->txt('ok'));
+            $toggleButton = $this->ui->factory()->button()->toggle(
+                $this->lng->txt("language_detection"),
+                $modal_on->getShowSignal(),
+                $modal_off->getShowSignal(),
+                (bool)($this->settings->get("lang_detection"))
+            )
+                                     ->withAriaLabel($this->lng->txt("lng_switch_language_detection"));
+            $this->toolbar->addComponent($modal_on);
+            $this->toolbar->addComponent($modal_off);
             $this->toolbar->addComponent($toggleButton);
         }
 
