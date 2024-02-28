@@ -129,19 +129,19 @@ class ilCourseObjective
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $new_objective = new ilCourseObjective($new_course);
-            $new_objective->setTitle($row->title);
-            $new_objective->setDescription($row->description);
-            $new_objective->setActive($row->active);
+            $new_objective->setTitle((string) $row->title);
+            $new_objective->setDescription((string) $row->description);
+            $new_objective->setActive((bool) $row->active);
             $objective_id = $new_objective->add();
             $this->logger->debug('Added new objective nr: ' . $objective_id);
 
             // Clone crs_objective_tst entries
-            $objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
+            $objective_qst = new ilCourseObjectiveQuestion((int) $row->objective_id);
             $objective_qst->cloneDependencies($objective_id, $a_copy_id);
 
             $random_i = new ilLORandomTestQuestionPools(
                 $this->getCourse()->getId(),
-                $row->objective_id,
+                (int) $row->objective_id,
                 ilLOSettings::TYPE_TEST_INITIAL,
                 0
             );
@@ -149,7 +149,7 @@ class ilCourseObjective
 
             $random_q = new ilLORandomTestQuestionPools(
                 $this->getCourse()->getId(),
-                $row->objective_id,
+                (int) $row->objective_id,
                 ilLOSettings::TYPE_TEST_QUALIFIED,
                 0
             );
@@ -157,7 +157,7 @@ class ilCourseObjective
 
             $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
             $assignment_it = $assignments->getAssignmentByObjective(
-                $row->objective_id,
+                (int) $row->objective_id,
                 ilLOSettings::TYPE_TEST_INITIAL
             );
             if ($assignment_it) {
@@ -165,7 +165,7 @@ class ilCourseObjective
             }
 
             $assignment_qt = $assignments->getAssignmentByObjective(
-                $row->objective_id,
+                (int) $row->objective_id,
                 ilLOSettings::TYPE_TEST_QUALIFIED
             );
             if ($assignment_qt) {
@@ -175,7 +175,7 @@ class ilCourseObjective
             $this->logger->debug('Finished copying question dependencies');
 
             // Clone crs_objective_lm entries (assigned course materials)
-            $objective_material = new ilCourseObjectiveMaterials($row->objective_id);
+            $objective_material = new ilCourseObjectiveMaterials((int) $row->objective_id);
             $objective_material->cloneDependencies($objective_id, $a_copy_id);
         }
         $this->logger->debug('Finished copying objectives');
