@@ -106,6 +106,10 @@ class ilContSkillAdminGUI
                 $this->ctrl->setReturn($this, "listProfiles");
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
+            case "ilskillprofileuploadhandlergui":
+                $skprof_upl_gui = new ilSkillProfileUploadHandlerGUI();
+                $ret = $this->ctrl->forwardCommand($skprof_upl_gui);
+                break;
             default:
                 if (
                     ($this->access->checkAccess("write", "", $this->ref_id) &&
