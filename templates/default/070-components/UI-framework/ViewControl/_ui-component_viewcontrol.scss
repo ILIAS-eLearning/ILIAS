@@ -57,7 +57,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 // viewcontrols as single buttons
 // should in the future be done by using btn-ctrl class on these buttons
 .il-viewcontrol-sortation .dropdown,
-.il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element {
+.il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element {
 	> .btn-default.btn {
 		@extend .btn-ctrl;
 		border-radius: $il-border-radius-secondary-large;

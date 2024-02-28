@@ -220,7 +220,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <h4 class="il-item-title">Item Title</h4>
-			<div class="il-item-actions l-bar__container"><div class="l-bar__element"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+			<div class="il-item-actions l-bar__space-keeper"><div class="l-bar__element"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
                     </li>
@@ -669,7 +669,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <h4 class="il-item-title">Title</h4>
-            <div class="il-item-actions l-bar__container">
+            <div class="il-item-actions l-bar__space-keeper">
                 <div class="l-bar__element">$expected_button_html
             </div>
             </div>
@@ -698,7 +698,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <h4 class="il-item-title">Title</h4>
-            <div class="il-item-actions l-bar__container">
+            <div class="il-item-actions l-bar__space-keeper">
                 <div class="l-bar__element">$expected_link_html</div>
             </div>
         </div>

@@ -138,7 +138,7 @@ class PresentationTest extends TableTestBase
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <div class="l-bar__container l-bar__container--space-between">
+        <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
             <div class="l-bar__group">
                 <div class="l-bar__element">
                     <button class="btn btn-default" id="id_1">presentation_table_expand</button>
@@ -170,7 +170,7 @@ class PresentationTest extends TableTestBase
                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                        </h4>
                        <div class="il-table-presentation-row-header-fields">
-                          <div class="l-bar__container">
+                          <div class="l-bar__space-keeper">
                               <div class="l-bar__group">
                                   <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
                               </div>
@@ -238,7 +238,7 @@ EXP;
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
 
-        <div class="l-bar__container l-bar__container--space-between">
+        <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
             <div class="l-bar__group">
                 <div class="l-bar__element">
 
@@ -270,7 +270,7 @@ EXP;
                     <div class="il-table-presentation-row-header col-lg col-sm-12">
                         <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
                         <div class="il-table-presentation-row-header-fields">
-                            <div class="l-bar__container"></div>
+                            <div class="l-bar__space-keeper"></div>
                             <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>
                     </div>
