@@ -686,6 +686,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if ($error !== true) {
                     $this->tpl->setOnScreenMessage('failure', $this->error->getMessage());
                 }
+                $form->setValuesByPost();
                 $this->editInfoObject($form);
                 return;
             }
