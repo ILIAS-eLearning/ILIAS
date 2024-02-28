@@ -1302,17 +1302,6 @@ file containes the following fields:
 
 [//]: # (END Wiki)
 
-[//]: # (BEGIN WorkflowEngine)
-
-* **Workflow Engine**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-	* Tester: [richtera](https://docu.ilias.de/goto_docu_usr_41247.html)
-
-[//]: # (END WorkflowEngine)
-
 [//]: # (BEGIN xAPIAndcmi5)
 
 * **xAPI/cmi5**
