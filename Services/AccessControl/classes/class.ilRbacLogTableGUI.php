@@ -163,7 +163,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         if (isset($raw["inht"])) {
             foreach ($raw["inht"] as $action => $role_ids) {
                 foreach ((array) $role_ids as $role_id) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))));
+                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action), ilObjRole::_getTranslation(ilObject::_lookupTitle((int) $role_id))));
                 }
             }
         }
