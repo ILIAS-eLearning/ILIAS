@@ -69,6 +69,6 @@ class ilCountPDFPages
         $arg = "-q -dNODISPLAY -dNOSAFER -c \"($path_to_pdf) (r) file runpdfbegin pdfpagecount = quit\";";
         $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
 
-        return (int) $return[0] ?? null;
+        return isset($return[0]) ? (int) $return[0] : 0;
     }
 }
