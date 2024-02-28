@@ -187,6 +187,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         $options[$last_idx] = $this->lng->txt('meta_advmd_select_new_option');
 
+        $disabled_checkbox_overwrites = [];
+
         foreach ($options as $idx => $option) {
             $radio = new ilRadioOption($option, (string) $idx);
 
@@ -218,6 +220,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 );
                 $delete->setDisabled($a_disabled);
                 $radio->addSubItem($delete);
+
+                /*
+                 * If disabled, checkboxes don't come with a hidden input to write to post,
+                 * this is a workaround.
+                 */
+                if ($a_disabled) {
+                    $hidden = new ilHiddenInputGUI('delete_me_' . $idx);
+                    $hidden->setValue("1");
+                    $disabled_checkbox_overwrites[] = $hidden;
+                }
             }
 
             $radio->setDisabled($a_disabled);
@@ -226,6 +238,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         $entries->setDisabled($a_disabled);
         $a_form->addItem($entries);
+
+        foreach ($disabled_checkbox_overwrites as $input) {
+            $a_form->addItem($input);
+        }
     }
 
     protected function addCustomFieldToDefinitionFormInTranslationMode(
@@ -346,6 +362,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         if($edited_idx === '' || is_null($edited_idx)) {
             return;
         }
+        $edited_idx = (int) $edited_idx;
 
         $new_value = (string) $a_form->getInput('value_' . $edited_idx);
         $new_position = (int) $a_form->getInput('position_' . $edited_idx);
@@ -357,14 +374,27 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $new = [];
         $index_map = [];
         $new_idx = 0;
+
+        /*
+         * If an entry is is moved down, shift new position to reflect entry not
+         * being in its old position anymore.
+         */
+        if ($new_position > $edited_idx) {
+            $new_position -= 1;
+        }
+
         foreach ($old as $old_idx => $old_value) {
-            if ($new_idx === $edited_idx) {
+            if ($old_idx === $edited_idx) {
                 continue;
             }
 
             if (!$delete && $new_idx === $new_position) {
                 $new[$new_idx] = $new_value;
-                if ($edited_idx !== $new_idx) {
+                /*
+                 * Newly added indices must not be used as 'old indices' in the index map,
+                 * otherwise the search doesn't work.
+                 */
+                if ($edited_idx !== $new_idx && array_key_exists($edited_idx, $old)) {
                     $index_map[$edited_idx] = $new_idx;
                 }
                 $new_idx++;
@@ -375,6 +405,16 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 $index_map[$old_idx] = $new_idx;
             }
             $new_idx++;
+        }
+
+        /*
+         * If an entry is moved to or added at the end, append it.
+         */
+        if (!$delete && $new_idx === $new_position) {
+            $new[$new_idx] = $new_value;
+            if ($edited_idx !== $new_idx) {
+                $index_map[$edited_idx] = $new_idx;
+            }
         }
 
         /*
@@ -497,6 +537,15 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $custom_field->setDisabled(true);
         foreach ($custom_field->getSubInputItemsRecursive() as $sub_input) {
             $sub_input->setDisabled(true);
+            /*
+             * If disabled, checkboxes don't come with a hidden input to write to post,
+             * this is a workaround.
+             */
+            if ($sub_input instanceof ilCheckboxInputGUI) {
+                $hidden = new ilHiddenInputGUI($sub_input->getPostVar());
+                $hidden->setValue($sub_input->getValue());
+                $a_form->addItem($hidden);
+            }
         }
 
         if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
@@ -532,9 +581,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                 );
                 foreach ($this->getOptions() as $new_option_index => $new_option) {
-                    if ($new_option_index === $old_option_index) {
-                        continue;
-                    }
                     $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
                 }
                 $sel->setOptions($options);
@@ -594,9 +640,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                     );
                     foreach ($this->getOptions() as $new_option_index => $new_option) {
-                        if ($new_option_index === $old_option_index) {
-                            continue;
-                        }
                         $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
                     }
                     $sel->setOptions($options);
