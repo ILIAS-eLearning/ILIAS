@@ -85,8 +85,9 @@ class ilUserActionGUI
                         return $js;
                     }
                 );
-                $actions[] = $action_link;
             }
+
+            $actions[] = $action_link;
         }
         $action_list = $this->ui_factory->dropdown()->standard($actions)
             ->withAriaLabel($this->lng->txt('user_actions'));
