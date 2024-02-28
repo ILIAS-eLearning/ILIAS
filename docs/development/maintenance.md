@@ -1173,7 +1173,7 @@ file containes the following fields:
 
 * **Tree**
 	* Maintenance Model: Classic
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
