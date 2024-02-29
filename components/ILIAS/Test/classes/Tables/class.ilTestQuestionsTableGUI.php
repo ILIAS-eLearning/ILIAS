@@ -34,32 +34,12 @@ use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
     use QuestionPoolLinkedTitleBuilder;
-    private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
 
-    /**
-     * @var bool
-     */
-    protected $questionRemoveRowButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected $questionManagingEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected $positionInsertCommandsEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected $questionPositioningEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected $obligatoryQuestionsHandlingEnabled = false;
+    protected bool $questionRemoveRowButtonEnabled = false;
+    protected bool $questionManagingEnabled = false;
+    protected bool $positionInsertCommandsEnabled = false;
+    protected bool $questionPositioningEnabled = false;
+    protected bool $obligatoryQuestionsHandlingEnabled = false;
 
     protected float $totalPoints = 0;
     protected string $totalWorkingTime = '';
@@ -68,13 +48,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function __construct(
         ilObjTestGUI|ilTestCorrectionsGUI $parent_obj,
         string $parent_cmd,
-        private int $parent_ref_id,
+        private string $child_cmd,
         private ilAccessHandler $access,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private GeneralQuestionPropertiesRepository $questionrepository
     ) {
-        $this->setId('tst_qst_lst_' . $parent_ref_id);
+        $this->setId('tst_qst_lst_' . $parent_obj->getRefId());
 
         parent::__construct($parent_obj, $parent_cmd);
 
@@ -302,21 +282,22 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function getPreviewLink(array $row_data): string
     {
+        $target_class = get_class($this->getParentObject());
         $this->ctrl->setParameterByClass(
-            ilAssQuestionPreviewGUI::class,
+            $target_class,
             'ref_id',
             current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
-            ilAssQuestionPreviewGUI::class,
+            $target_class,
             'q_id',
             $row_data['question_id']
         );
 
         $question_href = $this->ctrl->getLinkTargetByClass(
-            ilAssQuestionPreviewGUI::class,
-            'show'
+            $target_class,
+            $this->child_cmd
         );
         $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', '');
 
