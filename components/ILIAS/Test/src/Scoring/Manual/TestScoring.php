@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Logging\TestScoringInteractionTypes;
+
 /**
  * Class ilTestScoring
  *
@@ -47,7 +49,8 @@ class TestScoring
 
     public function __construct(
         private \ilObjTest $test,
-        private \ilDBInterface $db
+        private \ilDBInterface $db,
+        private \ilObjUser $scorer
     ) {
     }
 
@@ -101,7 +104,7 @@ class TestScoring
         $passes = $userdata->getPasses();
         foreach ($passes as $pass => $passdata) {
             if (is_object($passdata)) {
-                $this->recalculatePass($passdata, $active_id, $pass);
+                $this->recalculatePass($passdata, $userdata->getUserID(), $active_id, $pass);
                 $this->addRecalculatedPassByActive($active_id, $pass);
             }
         }
@@ -109,6 +112,7 @@ class TestScoring
 
     public function recalculatePass(
         \ilTestEvaluationPassData $passdata,
+        int $user_id,
         int $active_id,
         int $pass
     ) {
@@ -120,36 +124,52 @@ class TestScoring
                 }
 
                 $question_gui = $this->test->createQuestionGUI('', $questiondata['id']);
-                $this->recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata);
+                $this->recalculateQuestionScore($question_gui, $user_id, $active_id, $pass, $questiondata);
             }
         }
     }
 
     public function recalculateQuestionScore(
         \assQuestionGUI $question_gui,
+        int $user_id,
         int $active_id,
         int $pass,
         array $questiondata
     ): void {
-        $reached = $question_gui->getObject()->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question_gui->getObject()->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+        $question = $question_gui->getObject();
+        $reached = $question->calculateReachedPoints($active_id, $pass);
+        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
 
-        if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
-            // Do we need processing here?
-        } else {
-            assQuestion::setForcePassResultUpdateEnabled(true);
+        if ($this->preserve_manual_scores === true && $questiondata['manual'] === '1') {
+            return;
+        }
 
-            assQuestion::_setReachedPoints(
-                $active_id,
-                $questiondata['id'],
-                $actual_reached,
-                $question_gui->getObject()->getMaximumPoints(),
-                $pass,
-                false,
-                true
+        assQuestion::setForcePassResultUpdateEnabled(true);
+        assQuestion::_setReachedPoints(
+            $active_id,
+            $questiondata['id'],
+            $actual_reached,
+            $question->getMaximumPoints(),
+            $pass,
+            false,
+            true
+        );
+        assQuestion::setForcePassResultUpdateEnabled(false);
+
+        $logger = $this->test->getTestLogger();
+        if ($logger->isLoggingEnabled()) {
+            $logger->logScoringInteraction(
+                new ILIAS\Test\Logging\TestScoringInteraction(
+                    $this->language,
+                    $this->test_obj->getRefId(),
+                    $questiondata['id'],
+                    $this->scorer,
+                    new \ilObjUser($user_id),
+                    TestScoringInteractionTypes::QUESTION_GRADING_RESET,
+                    time(),
+                    []
+                )
             );
-
-            assQuestion::setForcePassResultUpdateEnabled(false);
         }
     }
 
