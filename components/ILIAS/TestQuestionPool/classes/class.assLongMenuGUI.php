@@ -677,68 +677,63 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $correctAnswers = $this->object->getCorrectAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
 
-        foreach ($this->object->getAnswers() as $lmIndex => $lm) {
-            $lmValues = array(
+        foreach ($this->object->getAnswers() as $lm_index => $lm) {
+            $lm_values = array(
                 'answers_all' => array(0 => $lm),
                 'answers_all_count' => count($lm),
-                'answers_correct' => $correctAnswers[$lmIndex][0]
+                'answers_correct' => $correct_answers[$lm_index][0]
             );
 
-            $lmPoints = $correctAnswers[$lmIndex][1];
+            $lmPoints = $correct_answers[$lm_index][1];
 
             $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lmIndex + 1));
+            $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lm_index + 1));
             $form->addItem($section);
 
-            $lmInput = new ilAssLongmenuCorrectionsInputGUI(
+            $lm_input = new ilAssLongmenuCorrectionsInputGUI(
                 $this->lng->txt('answers'),
-                'longmenu_' . $lmIndex
+                'longmenu_' . $lm_index
             );
 
-            $lmInput->setRequired(true);
+            $lm_input->setRequired(true);
 
-            $lmInput->setValues($lmValues);
+            $lm_input->setValues($lm_values);
 
-            $form->addItem($lmInput);
+            $form->addItem($lm_input);
 
-            $pointsInp = new ilNumberInputGUI($this->lng->txt("points"), 'points_' . $lmIndex);
-            $pointsInp->setRequired(true);
-            $pointsInp->allowDecimals(true);
-            $pointsInp->setSize(4);
-            $pointsInp->setMinValue(0);
-            $pointsInp->setMinvalueShouldBeGreater(false);
-            $pointsInp->setValue($lmPoints);
-            $form->addItem($pointsInp);
+            $points_inp = new ilNumberInputGUI($this->lng->txt("points"), 'points_' . $lm_index);
+            $points_inp->setRequired(true);
+            $points_inp->allowDecimals(true);
+            $points_inp->setSize(4);
+            $points_inp->setMinValue(0);
+            $points_inp->setMinvalueShouldBeGreater(false);
+            $points_inp->setValue($lmPoints);
+            $form->addItem($points_inp);
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $correctAnswers = $this->object->getCorrectAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
 
-        foreach ($this->object->getAnswers() as $lmIndex => $lm) {
-            $pointsInput = (float) str_replace(',', '.', $form->getInput('points_' . $lmIndex));
-            $correctAnswersInput = (array) $form->getInput('longmenu_' . $lmIndex . '_tags');
+        foreach ($this->object->getAnswers() as $lm_index => $lm) {
+            $points_input = (float) str_replace(',', '.', $form->getInput('points_' . $lm_index));
+            $correct_answers_input = (array) $form->getInput('longmenu_' . $lm_index . '_tags');
 
-            foreach ($correctAnswersInput as $idx => $answer) {
+            foreach ($correct_answers_input as $idx => $answer) {
                 if (in_array($answer, $lm)) {
                     continue;
                 }
 
-                unset($correctAnswersInput[$idx]);
+                unset($correct_answers_input[$idx]);
             }
 
-            $correctAnswersInput = array_values($correctAnswersInput);
-
-            $correctAnswers[$lmIndex][0] = $correctAnswersInput;
-            $correctAnswers[$lmIndex][1] = $pointsInput;
+            $correct_answers[$lm_index][0] = array_values($correct_answers_input);
+            $correct_answers[$lm_index][1] = $points_input;
         }
 
-        $this->object->setCorrectAnswers($correctAnswers);
+        $this->object->setCorrectAnswers($correct_answers);
     }
 }

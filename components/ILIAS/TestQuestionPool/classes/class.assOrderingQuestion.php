@@ -1338,16 +1338,16 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         ];
     }
 
-    private function getOrderingTypeLangVars(string $ordering_type): array
+    private function getOrderingTypeLangVars(int $ordering_type): array
     {
         switch($ordering_type) {
-            case self::QQ_PICTURES:
+            case self::OQ_PICTURES:
                 return ['qst_nested_nested_answers_off', 'oq_btn_use_order_pictures'];
             case self::OQ_TERMS:
                 return ['qst_nested_nested_answers_off', 'oq_btn_use_order_terms'];
-            case self::QQ_NESTED_PICTURES:
+            case self::OQ_NESTED_PICTURES:
                 return ['qst_nested_nested_answers_on', 'oq_btn_use_order_pictures'];
-            case self::QQ_NESTED_TERMS:
+            case self::OQ_NESTED_TERMS:
                 return ['qst_nested_nested_answers_on', 'oq_btn_use_order_terms'];
             default:
                 return ['', ''];
