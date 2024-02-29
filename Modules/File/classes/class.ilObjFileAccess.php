@@ -211,15 +211,26 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
     /**
      * Returns true, if the specified file shall be displayed inline in the browser.
+     * @internal Do not use this method directly from outside the FileObject.
      */
     public static function _isFileInline(string $a_file_name): bool
+    {
+        return self::_isFileSuffixInline(
+            self::_getFileExtension($a_file_name)
+        );
+    }
+
+    /**
+     * Returns true, if the specified suffix shall be displayed inline in the browser.
+     * @internal Do not use this method directly from outside the FileObject.
+     */
+    public static function _isFileSuffixInline(string $suffix): bool
     {
         if (self::$inline_file_extensions === []) {
             self::$inline_file_extensions = (new General())->getInlineFileExtensions();
         }
-        $extension = self::_getFileExtension($a_file_name);
 
-        return in_array($extension, self::$inline_file_extensions);
+        return in_array($suffix, self::$inline_file_extensions, true);
     }
 
     /**
@@ -372,9 +383,9 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         );
         while ($row = $DIC->database()->fetchAssoc($set)) {
             self::$preload_list_gui_data[(int) $row["file_id"]]["size"] = $row["file_size"] ?? 0;
-            self::$preload_list_gui_data[(int) $row["file_id"]]["version"] = $row["version"];
-            self::$preload_list_gui_data[(int) $row["file_id"]]["page_count"] = $row["page_count"];
-            self::$preload_list_gui_data[(int) $row["file_id"]]["rid"] = $row["rid"];
+            self::$preload_list_gui_data[(int) $row["file_id"]]["version"] = $row["version"] ?? 1;
+            self::$preload_list_gui_data[(int) $row["file_id"]]["page_count"] = $row["page_count"] ?? null;
+            self::$preload_list_gui_data[(int) $row["file_id"]]["rid"] = $row["rid"] ?? null;
         }
 
         $res = $DIC->database()->query(

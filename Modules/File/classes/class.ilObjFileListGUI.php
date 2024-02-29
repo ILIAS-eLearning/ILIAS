@@ -81,8 +81,10 @@ class ilObjFileListGUI extends ilObjectListGUI
         $frame = "";
         switch ($cmd) {
             case 'sendfile':
+                $data = ilObjFileAccess::getListGUIData($this->obj_id);
+
                 if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id) &&
-                    ilObjFileAccess::_isFileInline($this->title)
+                    ilObjFileAccess::_isFileSuffixInline($data['suffix'] ?? '')
                 ) {
                     $frame = '_blank';
                 }
