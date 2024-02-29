@@ -1309,16 +1309,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $previousPass = $questionGui->object->getSolutionMaxPass(
                     $this->testSession->getActiveId()
                 );
-                if (!is_null($previousPass)){
-                    $previousSolutionAvailable = $questionGui->object->authorizedSolutionExists(
-                        $this->testSession->getActiveId(),
-                        $previousPass
-                    );
 
-                    if ($previousSolutionAvailable) {
-                        return $previousPass;
-                    }
+                $previousSolutionAvailable = $questionGui->object->authorizedSolutionExists(
+                    $this->testSession->getActiveId(),
+                    $previousPass
+                );
+
+                if ($previousSolutionAvailable) {
+                    return $previousPass;
                 }
+
             }
         }
 

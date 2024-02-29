@@ -3899,8 +3899,11 @@ abstract class assQuestion
         return (bool) $solutionAvailability['intermediate'];
     }
 
-    public function authorizedSolutionExists(int $active_id, int $pass): bool
+    public function authorizedSolutionExists(int $active_id, ?int $pass): bool
     {
+        if (is_null($pass)) {
+            return false;
+        }
         $solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
         return (bool) $solutionAvailability['authorized'];
     }
