@@ -137,11 +137,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->showServerInfoObject();
     }
 
-    public function viewScanLogObject(): void
-    {
-        $this->viewScanLog();
-    }
-
     /**
     * Set sub tabs for general settings
     */
@@ -165,223 +160,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilTabs->setTabActive("system_check");
     }
 
-    /**
-    * displays system check menu
-    *
-    * @access	public
-    */
-    public function checkObject(): void
-    {
-        $rbacsystem = $this->rbacsystem;
-        $ilUser = $this->user;
-        $objDefinition = $this->obj_definition;
-        $ilSetting = $this->settings;
-        $ilErr = $this->error;
-
-        $this->setSystemCheckSubTabs("system_check_sub");
-
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
-        }
-
-        if ($_POST['count_limit'] !== null || $_POST['age_limit'] !== null || $_POST['type_limit'] !== null) {
-            $ilUser->writePref(
-                'systemcheck_count_limit',
-                (is_numeric($_POST['count_limit']) && $_POST['count_limit'] > 0) ? $_POST['count_limit'] : ''
-            );
-            $ilUser->writePref(
-                'systemcheck_age_limit',
-                (is_numeric($_POST['age_limit']) && $_POST['age_limit'] > 0) ? $_POST['age_limit'] : ''
-            );
-            $ilUser->writePref('systemcheck_type_limit', trim($_POST['type_limit']));
-        }
-
-        if ($_POST["mode"]) {
-            $this->writeCheckParams();
-            $this->startValidator($_POST["mode"], $_POST["log_scan"]);
-        } else {
-            $validator = new ilValidator();
-            $hasScanLog = $validator->hasScanLog();
-
-            $this->tpl->addBlockFile(
-                "ADM_CONTENT",
-                "adm_content",
-                "tpl.adm_check.html",
-                "components/ILIAS/SystemFolder"
-            );
-
-            if ($hasScanLog) {
-                $this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
-            }
-
-            $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-            $this->tpl->setVariable("TXT_TITLE", $this->lng->txt("systemcheck"));
-            $this->tpl->setVariable("COLSPAN", 3);
-            $this->tpl->setVariable("TXT_ANALYZE_TITLE", $this->lng->txt("analyze_data"));
-            $this->tpl->setVariable("TXT_ANALYSIS_OPTIONS", $this->lng->txt("analysis_options"));
-            $this->tpl->setVariable("TXT_REPAIR_OPTIONS", $this->lng->txt("repair_options"));
-            $this->tpl->setVariable("TXT_OUTPUT_OPTIONS", $this->lng->txt("output_options"));
-            $this->tpl->setVariable("TXT_SCAN", $this->lng->txt("scan"));
-            $this->tpl->setVariable("TXT_SCAN_DESC", $this->lng->txt("scan_desc"));
-            $this->tpl->setVariable("TXT_DUMP_TREE", $this->lng->txt("dump_tree"));
-            $this->tpl->setVariable("TXT_DUMP_TREE_DESC", $this->lng->txt("dump_tree_desc"));
-            $this->tpl->setVariable("TXT_CLEAN", $this->lng->txt("clean"));
-            $this->tpl->setVariable("TXT_CLEAN_DESC", $this->lng->txt("clean_desc"));
-            $this->tpl->setVariable("TXT_RESTORE", $this->lng->txt("restore_missing"));
-            $this->tpl->setVariable("TXT_RESTORE_DESC", $this->lng->txt("restore_missing_desc"));
-            $this->tpl->setVariable("TXT_PURGE", $this->lng->txt("purge_missing"));
-            $this->tpl->setVariable("TXT_PURGE_DESC", $this->lng->txt("purge_missing_desc"));
-            $this->tpl->setVariable("TXT_RESTORE_TRASH", $this->lng->txt("restore_trash"));
-            $this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", $this->lng->txt("restore_trash_desc"));
-            $this->tpl->setVariable("TXT_PURGE_TRASH", $this->lng->txt("purge_trash"));
-            $this->tpl->setVariable("TXT_PURGE_TRASH_DESC", $this->lng->txt("purge_trash_desc"));
-            $this->tpl->setVariable("TXT_COUNT_LIMIT", $this->lng->txt("purge_count_limit"));
-            $this->tpl->setVariable("TXT_COUNT_LIMIT_DESC", $this->lng->txt("purge_count_limit_desc"));
-            $this->tpl->setVariable("COUNT_LIMIT_VALUE", $ilUser->getPref("systemcheck_count_limit"));
-            $this->tpl->setVariable("TXT_AGE_LIMIT", $this->lng->txt("purge_age_limit"));
-            $this->tpl->setVariable("TXT_AGE_LIMIT_DESC", $this->lng->txt("purge_age_limit_desc"));
-            $this->tpl->setVariable("AGE_LIMIT_VALUE", $ilUser->getPref("systemcheck_age_limit"));
-            $this->tpl->setVariable("TXT_TYPE_LIMIT", $this->lng->txt("purge_type_limit"));
-            $this->tpl->setVariable("TXT_TYPE_LIMIT_DESC", $this->lng->txt("purge_type_limit_desc"));
-
-            if ($ilUser->getPref('systemcheck_mode_scan')) {
-                $this->tpl->touchBlock('mode_scan_checked');
-            }
-            if ($ilUser->getPref('systemcheck_mode_dump_tree')) {
-                $this->tpl->touchBlock('mode_dump_tree_checked');
-            }
-            if ($ilUser->getPref('systemcheck_mode_clean')) {
-                $this->tpl->touchBlock('mode_clean_checked');
-            }
-            if ($ilUser->getPref('systemcheck_mode_restore')) {
-                $this->tpl->touchBlock('mode_restore_checked');
-                $this->tpl->touchBlock('mode_purge_disabled');
-            } elseif ($ilUser->getPref('systemcheck_mode_purge')) {
-                $this->tpl->touchBlock('mode_purge_checked');
-                $this->tpl->touchBlock('mode_restore_disabled');
-            }
-            if ($ilUser->getPref('systemcheck_mode_restore_trash')) {
-                $this->tpl->touchBlock('mode_restore_trash_checked');
-                $this->tpl->touchBlock('mode_purge_trash_disabled');
-            } elseif ($ilUser->getPref('systemcheck_mode_purge_trash')) {
-                $this->tpl->touchBlock('mode_purge_trash_checked');
-                $this->tpl->touchBlock('mode_restore_trash_disabled');
-            }
-            if ($ilUser->getPref('systemcheck_log_scan')) {
-                $this->tpl->touchBlock('log_scan_checked');
-            }
-
-
-            // #9520 - restrict to types which can be found in tree
-
-            $obj_types_in_tree = [];
-
-            $ilDB = $this->db;
-            $set = $ilDB->query('SELECT type FROM object_data od' .
-                ' JOIN object_reference ref ON (od.obj_id = ref.obj_id)' .
-                ' JOIN tree ON (tree.child = ref.ref_id)' .
-                ' WHERE tree.tree < 1' .
-                ' GROUP BY type');
-            while ($row = $ilDB->fetchAssoc($set)) {
-                $obj_types_in_tree[] = $row['type'];
-            }
-
-            $types = $objDefinition->getAllObjects();
-            $ts = ["" => ""];
-            foreach ($types as $t) {
-                if ($t != "" && !$objDefinition->isSystemObject($t) && $t != "root" &&
-                    in_array($t, $obj_types_in_tree)) {
-                    if ($objDefinition->isPlugin($t)) {
-                        $pl = ilObjectPlugin::getPluginObjectByType($t);
-                        $ts[$t] = $pl->txt("obj_" . $t);
-                    } else {
-                        $ts[$t] = $this->lng->txt("obj_" . $t);
-                    }
-                }
-            }
-            asort($ts);
-            $this->tpl->setVariable(
-                "TYPE_LIMIT_CHOICE",
-                ilLegacyFormElementsUtil::formSelect(
-                    $ilUser->getPref("systemcheck_type_limit"),
-                    'type_limit',
-                    $ts,
-                    false,
-                    true
-                )
-            );
-            $this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
-            $this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));
-            $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
-
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_params_for_cron"));
-
-            $cron_form = new ilPropertyFormGUI();
-            $cron_form->setFormAction($this->ctrl->getFormAction($this));
-            $cron_form->setTitle($this->lng->txt('systemcheck_cronform'));
-
-            $radio_group = new ilRadioGroupInputGUI($this->lng->txt('systemcheck_cron'), 'cronjob');
-            $radio_group->setValue($ilSetting->get('systemcheck_cron'));
-
-            $radio_opt = new ilRadioOption($this->lng->txt('disabled'), 0);
-            $radio_group->addOption($radio_opt);
-
-            $radio_opt = new ilRadioOption($this->lng->txt('enabled'), 1);
-            $radio_group->addOption($radio_opt);
-
-            $cron_form->addItem($radio_group);
-
-            $cron_form->addCommandButton('saveCheckCron', $this->lng->txt('save'));
-
-            $this->tpl->setVariable('CRON_FORM', $cron_form->getHTML());
-        }
-    }
-
-    private function saveCheckParamsObject(): void
-    {
-        $this->writeCheckParams();
-        unset($_POST['mode']);
-        $this->checkObject();
-    }
-
-    private function writeCheckParams(): void
-    {
-        $validator = new ilValidator();
-        $modes = $validator->getPossibleModes();
-
-        $prefs = array();
-        foreach ($modes as $mode) {
-            if (isset($_POST['mode'][$mode])) {
-                $value = (int) $_POST['mode'][$mode];
-            } else {
-                $value = 0;
-            }
-            $prefs[ 'systemcheck_mode_' . $mode ] = $value;
-        }
-
-        if (isset($_POST['log_scan'])) {
-            $value = (int) $_POST['log_scan'];
-        } else {
-            $value = 0;
-        }
-        $prefs['systemcheck_log_scan'] = $value;
-
-        $ilUser = $this->user;
-        foreach ($prefs as $key => $val) {
-            $ilUser->writePref($key, $val);
-        }
-    }
-
-    private function saveCheckCronObject(): void
-    {
-        $ilSetting = $this->settings;
-
-        $systemcheck_cron = ($_POST['cronjob'] ? 1 : 0);
-        $ilSetting->set('systemcheck_cron', $systemcheck_cron);
-
-        unset($_POST['mode']);
-        $this->checkObject();
-    }
 
     /**
     * edit header title form
@@ -644,32 +422,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $validator->writeScanLogLine($mode);
     }
 
-    public function viewScanLog(): void
-    {
-        $validator = new ilValidator();
-        $scan_log = $validator->readScanLog();
-
-        if (is_array($scan_log)) {
-            $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
-            $this->tpl->setVariable("ADM_CONTENT", $scan_log);
-        } else {
-            $scan_log = "no scanlog found.";
-        }
-
-        // output
-        $this->tpl->addBlockFile(
-            "ADM_CONTENT",
-            "adm_content",
-            "tpl.adm_scan.html",
-            "components/ILIAS/SystemFolder"
-        );
-        $this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scan_details"));
-        $this->tpl->setVariable("COLSPAN", 3);
-        $this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
-        $this->tpl->setVariable("TXT_DONE", $this->lng->txt("done"));
-    }
-
-
     /**
      * Benchmark settings
      */
@@ -893,9 +645,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 "",
                 get_class($this)
             );
-
-            //			$tabs_gui->addTarget("system_check",
-            //				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
             $this->tabs_gui->addTarget(
                 "benchmarks",
