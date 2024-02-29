@@ -686,7 +686,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 'answers_correct' => $correct_answers[$lm_index][0]
             );
 
-            $lmPoints = $correct_answers[$lm_index][1];
+            $lm_points = $correct_answers[$lm_index][1];
 
             $section = new ilFormSectionHeaderGUI();
             $section->setTitle($this->lng->txt('longmenu') . ' ' . ($lm_index + 1));
@@ -709,7 +709,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $points_inp->setSize(4);
             $points_inp->setMinValue(0);
             $points_inp->setMinvalueShouldBeGreater(false);
-            $points_inp->setValue($lmPoints);
+            $points_inp->setValue($lm_points);
             $form->addItem($points_inp);
         }
     }
