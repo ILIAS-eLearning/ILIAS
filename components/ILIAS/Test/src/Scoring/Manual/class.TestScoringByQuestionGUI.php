@@ -20,14 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Logging\TestScoringInteractionTypes;
+
 class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 {
     public const ONLY_FINALIZED = 1;
     public const EXCEPT_FINALIZED = 2;
 
-    public function __construct(\ilObjTest $a_object)
+    public function __construct(\ilObjTest $object)
     {
-        parent::__construct($a_object);
+        parent::__construct($object);
     }
 
     protected function getDefaultCommand(): string
@@ -66,16 +68,16 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         $table = new TestScoringByQuestionTableGUI($this, $this->access);
 
-        $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
+        $question_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $pass_nr = $table->getFilterItemByPostVar('pass')->getValue();
         $finalized_filter = (int) $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_question_data = null;
-        $complete_feedback = $this->object->getCompleteManualFeedback($qst_id);
+        $complete_feedback = $this->object->getCompleteManualFeedback($question_id);
 
-        if (is_numeric($qst_id)) {
-            $selected_question_data = $this->questionrepository->getForQuestionId($qst_id);
+        if (is_numeric($question_id)) {
+            $selected_question_data = $this->questionrepository->getForQuestionId($question_id);
         }
 
         if ($selected_question_data !== null && is_numeric($pass_nr)) {
@@ -97,8 +99,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     $is_answered = (bool) ($question_data['answered'] ?? false);
                     $finalized_evaluation = (bool) ($question_data['finalized_evaluation'] ?? false);
 
-                    if (isset($complete_feedback[$active_id][$pass_nr - 1][$qst_id])) {
-                        $feedback = $complete_feedback[$active_id][$pass_nr - 1][$qst_id];
+                    if (isset($complete_feedback[$active_id][$pass_nr - 1][$question_id])) {
+                        $feedback = $complete_feedback[$active_id][$pass_nr - 1][$question_id];
                     }
 
                     $check_filter =
@@ -196,9 +198,9 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             }
 
             $update_participant = false;
-            $qst_id = null;
+            $question_id = null;
 
-            foreach ($questions as $qst_id => $reached_points) {
+            foreach ($questions as $question_id => $reached_points) {
                 if (!isset($man_points_post[$pass])) {
                     $man_points_post[$pass] = [];
                 }
@@ -206,7 +208,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     $man_points_post[$pass][$active_id] = [];
                 }
 
-                $feedback_text = $this->retrieveFeedback($active_id, $qst_id, $pass);
+                $feedback_text = $this->retrieveFeedback($active_id, $question_id, $pass);
 
                 /**
                  * 26.09.23 sk: Ok, this is a hack, but to do this right we need
@@ -214,28 +216,39 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                  * I'm unsure what would happen if I would really change something.
                  * This feature is in urgent need of refactoring and a repo.
                  */
-                $current_feedback_info = \ilObjTest::getSingleManualFeedback($active_id, $qst_id, $pass);
+                $current_feedback_info = \ilObjTest::getSingleManualFeedback($active_id, $question_id, $pass);
                 if (isset($current_feedback_info['finalized_evaluation']) && $current_feedback_info['finalized_evaluation'] === 1) {
-                    $reached_points = \assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+                    $reached_points = \assQuestion::_getReachedPoints($active_id, $question_id, $pass);
                     $feedback_text = $current_feedback_info['feedback'];
                 }
 
-                $max_points_by_question_id[$qst_id] = $this->questionrepository->getForQuestionId($qst_id)->getMaximumPoints();
-                $man_points_post[$pass][$active_id][$qst_id] = (float) $reached_points;
-                if ($reached_points > $max_points_by_question_id[$qst_id]) {
+                $max_points_by_question_id[$question_id] = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
+                $man_points_post[$pass][$active_id][$question_id] = (float) $reached_points;
+                if ($reached_points > $max_points_by_question_id[$question_id]) {
                     $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);
                     $this->showManScoringByQuestionParticipantsTable($man_points_post);
                     return;
                 }
 
-                $this->saveFinalization($active_id, $qst_id, $pass, $feedback_text, $ajax);
-                $old_points = \assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+                $eval_array = $this->testrequest->raw('evaluated');
+                $finalized = (bool) ($eval_array[$pass][$active_id][$question_id] ?? false);
+
+                $this->object->saveManualFeedback(
+                    $active_id,
+                    $question_id,
+                    $pass,
+                    $feedback_text,
+                    $finalized,
+                    $ajax
+                );
+
+                $old_points = \assQuestion::_getReachedPoints($active_id, $question_id, $pass);
                 if ($reached_points !== $old_points) {
                     $update_participant = \assQuestion::_setReachedPoints(
                         $active_id,
-                        $qst_id,
+                        $question_id,
                         (float) $reached_points,
-                        $max_points_by_question_id[$qst_id],
+                        $max_points_by_question_id[$question_id],
                         $pass,
                         true,
                         $this->object->areObligationsEnabled()
@@ -250,8 +263,27 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                 );
             }
 
+            if ($this->logger->isLoggingEnabled()) {
+                $this->logger->logScoringInteraction(
+                    new \ILIAS\Test\Logging\TestScoringInteraction(
+                        $this->lng,
+                        $this->getObject()->getRefId(),
+                        $question_id,
+                        $this->user,
+                        \ilObjTestAccess::_getParticipantId($active_id),
+                        TestScoringInteractionTypes::QUESTION_GRADED,
+                        time(),
+                        [
+                            'points' => $reached_points,
+                            'feedback' => $feedback_text,
+                            'finalized' => $finalized
+                        ]
+                    )
+                );
+            }
+
             $changed_one = true;
-            $last_and_hopefully_current_question_id = $qst_id;
+            $last_and_hopefully_current_question_id = $question_id;
         }
 
         $correction_feedback = [];
@@ -587,7 +619,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         );
     }
 
-    protected function retrieveFeedback(int $active_id, int $qst_id, int $pass): ?string
+    protected function retrieveFeedback(int $active_id, int $question_id, int $pass): ?string
     {
         $feedback = $this->testrequest->raw('feedback');
         if ($feedback === null || $feedback === '') {
@@ -599,36 +631,9 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         }
 
         return \ilUtil::stripSlashes(
-            $feedback[$pass][$active_id][$qst_id],
+            $feedback[$pass][$active_id][$question_id],
             false,
             \ilObjAdvancedEditing::_getUsedHTMLTagsAsString('assessment')
-        );
-    }
-
-    /**
-     * @param array<numeric-string|int, array<numeric-string|int, array<numeric-string|int, bool>>> $finalization
-     */
-    private function saveFinalization(
-        array $finalization,
-        int $active_id,
-        int $qst_id,
-        int $pass,
-        ?string $feedback,
-        bool $is_single_feedback
-    ): void {
-        $finalized = false;
-        $eval_array = $this->testrequest->raw('evaluated');
-        if ($eval_array !== null) {
-            $finalized = (bool) ($eval_array[$pass][$active_id][$qst_id] ?? false);
-        }
-
-        $this->object->saveManualFeedback(
-            $active_id,
-            $qst_id,
-            $pass,
-            $feedback,
-            $finalized,
-            $is_single_feedback
         );
     }
 }
