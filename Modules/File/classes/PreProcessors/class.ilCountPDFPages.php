@@ -33,17 +33,19 @@ class ilCountPDFPages
 {
     private \ILIAS\ResourceStorage\Services $irss;
     private bool $postscript_available = false;
+    private bool $imagick_available = false;
 
     public function __construct()
     {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
         $this->postscript_available = (defined('PATH_TO_GHOSTSCRIPT') && PATH_TO_GHOSTSCRIPT !== "");
+        $this->imagick_available = class_exists('Imagick');
     }
 
     public function isAvailable(): bool
     {
-        return $this->postscript_available;
+        return $this->postscript_available || $this->imagick_available;
     }
 
     public function extractAmountOfPagesByRID(ResourceIdentification $rid): ?int
@@ -63,12 +65,33 @@ class ilCountPDFPages
 
     public function extractAmountOfPagesByPath(string $path_to_pdf): ?int
     {
-        if (!$this->postscript_available) {
+        if (!$this->postscript_available && !$this->imagick_available) {
             return null;
         }
-        $arg = "-q -dNODISPLAY -dNOSAFER -c \"($path_to_pdf) (r) file runpdfbegin pdfpagecount = quit\";";
-        $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
 
-        return (int) $return[0] ?? null;
+        // first we try using Imagick
+        if ($this->imagick_available) {
+            $pages = null;
+            try {
+                $imagick = new Imagick($path_to_pdf);
+                $pages = $imagick->getNumberImages();
+
+                return $pages;
+            } catch (Throwable $e) {
+                // Imagick is not available or another error occured
+            }
+        }
+
+        if ($this->postscript_available) {
+            $arg = "-q -dNODISPLAY -dNOSAFER -c \"($path_to_pdf) (r) file runpdfbegin pdfpagecount = quit\";";
+            $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
+            if (!isset($return[0]) || ($pages = (int) $return[0]) === 0) {
+                return null;
+            }
+
+            return $pages;
+        }
+
+        return null;
     }
 }
