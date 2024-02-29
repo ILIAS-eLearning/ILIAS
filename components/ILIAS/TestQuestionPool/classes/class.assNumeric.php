@@ -198,22 +198,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return false;
     }
 
-    protected function isValidNumericSubmitValue($submittedValue): bool
-    {
-        if (is_numeric($submittedValue)) {
-            return true;
-        }
-
-        if (preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue)) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function validateSolutionSubmit(): bool
     {
-        if (strlen($this->getSolutionSubmit()) && !$this->isValidNumericSubmitValue($this->getSolutionSubmit())) {
+        if ($this->getSolutionSubmit() === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
             return false;
         }
@@ -221,7 +208,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return true;
     }
 
-    public function getSolutionSubmit(): string
+    public function getSolutionSubmit(): ?float
     {
         return $this->questionpool_request->getNumericAnswer('numeric_result');
     }

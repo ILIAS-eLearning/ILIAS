@@ -173,7 +173,7 @@ class RequestDataCollector
     /*"
      * @return array<int, string>
      */
-    public function getStringArrayArray(string $key): ?array
+    public function getStringArrayAnswer(string $key): ?array
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;
@@ -217,7 +217,7 @@ class RequestDataCollector
         );
     }
 
-    public function getNumericAnswer(string $key): ?int
+    public function getNumericAnswer(string $key): ?float
     {
         $p = $this->http->wrapper()->post();
         $r = $this->refinery;

@@ -1786,11 +1786,12 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("FORM_TIMESTAMP", (string) time());
     }
 
-    // hey: prevPassSolutions - $pass will be passed always from now on
-    protected function completeTestOutputFormAction($formAction, $active_id, $pass)
-    // hey.
-    {
-        return $formAction;
+    protected function completeTestOutputFormAction(
+        string $form_action,
+        int $active_id,
+        int $pass
+    ): string {
+        return $form_action;
     }
 
     public function magicAfterTestOutput(): void

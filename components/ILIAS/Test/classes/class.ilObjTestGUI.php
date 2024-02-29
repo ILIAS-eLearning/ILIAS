@@ -27,6 +27,9 @@ use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
+use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Refinery\ConstraintViolationException;
@@ -67,8 +70,8 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilTestScreenGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI, TestScoringByParticipantGUI
+ * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assNumericGUI, assErrorTextGUI
+ * @ilCtrl_Calls ilObjTestGUI: ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI, ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
@@ -496,19 +499,30 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
-                $guiFactory = new ilCertificateGUIFactory();
-                $output_gui = $guiFactory->create($this->getTestObject());
+                $gui_factory = new ilCertificateGUIFactory();
+                $output_gui = $gui_factory->create($this->getTestObject());
 
                 $this->ctrl->forwardCommand($output_gui);
                 break;
 
-            case "iltestscoringbyparticipantgui":
+            case strtolower(TestScoringByQuestionGUI::class):
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $output_gui = new ilTestScoringByParticipantGUI($this->getTestObject());
+                $output_gui = new TestScoringByQuestionGUI($this->getTestObject());
+                $output_gui->setTestAccess($this->getTestAccess());
+                $this->ctrl->forwardCommand($output_gui);
+                break;
+
+            case strtolower(TestScoringByParticipantGUI::class):
+                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingRead();
+                }
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $output_gui = new TestScoringByParticipantGUI($this->getTestObject());
                 $output_gui->setTestAccess($this->getTestAccess());
                 $this->ctrl->forwardCommand($output_gui);
                 break;
@@ -538,17 +552,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer
                 );
                 $this->ctrl->forwardCommand($mark_schema_gui);
-                break;
-
-            case 'iltestscoringbyquestionsgui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $output_gui = new TestScoringByQuestionsGUI($this->getTestObject());
-                $output_gui->setTestAccess($this->getTestAccess());
-                $this->ctrl->forwardCommand($output_gui);
                 break;
 
             case strtolower(SettingsMainGUI::class):
@@ -2111,18 +2114,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
     }
 
-    public function takenObject()
+    public function takenObject(): void
     {
     }
 
-    /**
-    * Creates the change history for a test
-    *
-    * Creates the change history for a test
-    *
-    * @access	public
-    */
-    public function historyObject()
+    public function historyObject(): void
     {
         if ($this->getTestObject()->getTestLogger() === null) {
             return;
@@ -2134,10 +2130,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     /**
        * Evaluates the actions on the participants page
-       *
-       * @access	public
        */
-    public function participantsActionObject()
+    public function participantsActionObject(): void
     {
         $command = $_POST["command"];
         if (strlen($command)) {

@@ -193,7 +193,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function getSolutionOutput(
         int $active_id,
         ?int $pass = null,
-        bool $graphicalOutput = false,
+        bool $graphical_output = false,
         bool $result_output = false,
         bool $show_question_only = true,
         bool $show_feedback = false,

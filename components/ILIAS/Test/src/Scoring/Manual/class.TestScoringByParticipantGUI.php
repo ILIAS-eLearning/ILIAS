@@ -59,10 +59,18 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     /**
      * @param string $active_sub_tab
      */
-    protected function buildSubTabs($active_sub_tab = 'man_scoring_by_qst')
+    protected function buildSubTabs(string $active_sub_tab = 'man_scoring_by_qst'): void
     {
-        $this->tabs->addSubTab('man_scoring_by_qst', $this->lng->txt('tst_man_scoring_by_qst'), $this->ctrl->getLinkTargetByClass('TestScoringByQuestionGUI', 'showManScoringByQuestionParticipantsTable'));
-        $this->tabs->addSubTab('man_scoring', $this->lng->txt('tst_man_scoring_by_part'), $this->ctrl->getLinkTargetByClass('TestScoringByParticipantGUI', 'showManScoringParticipantsTable'));
+        $this->tabs->addSubTab(
+            'man_scoring_by_qst',
+            $this->lng->txt('tst_man_scoring_by_qst'),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, TestScoringByQuestionGUI::class], 'showManScoringByQuestionParticipantsTable')
+        );
+        $this->tabs->addSubTab(
+            'man_scoring',
+            $this->lng->txt('tst_man_scoring_by_part'),
+            $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, self::class], 'showManScoringParticipantsTable')
+        );
         $this->tabs->setSubTabActive($active_sub_tab);
     }
 
@@ -203,8 +211,8 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $pass = $this->fetchPassParameter($active_id);
 
-        $questionGuiList = $this->service->getManScoringQuestionGuiList($active_id, $pass);
-        $form = $this->buildManScoringParticipantForm($questionGuiList, $active_id, $pass, false);
+        $question_gui_list = $this->service->getManScoringQuestionGuiList($active_id, $pass);
+        $form = $this->buildManScoringParticipantForm($question_gui_list, $active_id, $pass, false);
 
         $form->setValuesByPost();
 
@@ -216,20 +224,20 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $maxPointsByQuestionId = [];
         $maxPointsExceeded = false;
-        foreach ($questionGuiList as $questionId => $questionGui) {
-            $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
-            $maxPoints = $this->questioninfo->getMaximumPoints($questionId);
+        foreach ($question_gui_list as $question_id => $questionGui) {
+            $reachedPoints = $form->getItemByPostVar("question__{$question_id}__points")->getValue();
+            $maxPoints = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
 
             if ($reachedPoints > $maxPoints) {
                 $maxPointsExceeded = true;
 
-                $form->getItemByPostVar("question__{$questionId}__points")->setAlert(sprintf(
+                $form->getItemByPostVar("question__{$question_id}__points")->setAlert(sprintf(
                     $this->lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'),
                     $maxPoints
                 ));
             }
 
-            $maxPointsByQuestionId[$questionId] = $maxPoints;
+            $maxPointsByQuestionId[$question_id] = $maxPoints;
         }
 
         if ($maxPointsExceeded) {
@@ -238,20 +246,20 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             return false;
         }
 
-        foreach ($questionGuiList as $questionId => $questionGui) {
-            $reachedPoints = (float) $form->getItemByPostVar("question__{$questionId}__points")->getValue();
+        foreach ($question_gui_list as $question_id => $questionGui) {
+            $reachedPoints = (float) $form->getItemByPostVar("question__{$question_id}__points")->getValue();
 
-            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
+            $finalized = (bool) $form->getItemByPostVar("{$question_id}__evaluated")->getchecked();
 
             // fix #35543: save manual points only if they differ from the existing points
             // this prevents a question being set to "answered" if only feedback is entered
-            $oldPoints = assQuestion::_getReachedPoints($active_id, $questionId, $pass);
+            $oldPoints = \assQuestion::_getReachedPoints($active_id, $question_id, $pass);
             if ($reachedPoints != $oldPoints) {
-                assQuestion::_setReachedPoints(
+                \assQuestion::_setReachedPoints(
                     $active_id,
-                    $questionId,
+                    $question_id,
                     $reachedPoints,
-                    $maxPointsByQuestionId[$questionId],
+                    $maxPointsByQuestionId[$question_id],
                     $pass,
                     true,
                     $this->object->areObligationsEnabled()
@@ -259,14 +267,14 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             }
 
             $feedback = \ilUtil::stripSlashes(
-                (string) $form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
+                (string) $form->getItemByPostVar("question__{$question_id}__feedback")->getValue(),
                 false,
                 \ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
 
-            $this->object->saveManualFeedback($active_id, (int) $questionId, (int) $pass, $feedback, $finalized, true);
+            $this->object->saveManualFeedback($active_id, (int) $question_id, (int) $pass, $feedback, $finalized, true);
 
-            $notificationData[$questionId] = [
+            $notificationData[$question_id] = [
                 'points' => $reachedPoints, 'feedback' => $feedback
             ];
         }
@@ -289,7 +297,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $notification->setAdditionalInformation([
                 'test_title' => $this->object->getTitle(),
                 'test_pass' => $pass + 1,
-                'questions_gui_list' => $questionGuiList,
+                'questions_gui_list' => $question_gui_list,
                 'questions_scoring_data' => $notificationData
             ]);
 
@@ -345,7 +353,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     }
 
     private function buildManScoringParticipantForm(
-        array $questionGuiList,
+        array $question_gui_list,
         int $active_id,
         int $pass,
         bool $initValues = false
@@ -359,12 +367,12 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $form->setTitle(sprintf($this->lng->txt('manscoring_results_pass'), $pass + 1));
         $form->setTableWidth('100%');
 
-        foreach ($questionGuiList as $questionId => $questionGUI) {
-            $questionHeader = sprintf($this->lng->txt('tst_manscoring_question_section_header'), $questionGUI->object->getTitle());
-            $questionSolution = $questionGUI->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
-            $bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
+        foreach ($question_gui_list as $question_id => $question_gui) {
+            $question_header = sprintf($this->lng->txt('tst_manscoring_question_section_header'), $question_gui->getObject()->getTitle());
+            $question_solution = $question_gui->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
+            $best_solution = $question_gui->getObject()->getSuggestedSolutionOutput();
 
-            $feedback = $this->object->getSingleManualFeedback($active_id, $questionId, $pass);
+            $feedback = $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
 
             $disabled = false;
             if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
@@ -372,47 +380,47 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             }
 
             $sect = new \ilFormSectionHeaderGUI();
-            $sect->setTitle($questionHeader . ' [' . $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId() . ']');
+            $sect->setTitle($question_header . ' [' . $this->lng->txt('question_id_short') . ': ' . $question_gui->getObject()->getId() . ']');
             $form->addItem($sect);
 
             $cust = new \ilCustomInputGUI($this->lng->txt('tst_manscoring_input_question_and_user_solution'));
-            $cust->setHtml($questionSolution);
+            $cust->setHtml($question_solution);
             $form->addItem($cust);
 
-            $text = new \ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
+            $text = new \ilTextInputGUI($this->lng->txt('tst_change_points_for_question'), "question__{$question_id}__points");
             if ($initValues) {
-                $text->setValue((string) assQuestion::_getReachedPoints($active_id, $questionId, $pass));
+                $text->setValue((string) \assQuestion::_getReachedPoints($active_id, $question_id, $pass));
             }
             if ($disabled) {
                 $text->setDisabled($disabled);
             }
             $form->addItem($text);
 
-            $nonedit = new \ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$questionId}__maxpoints");
+            $nonedit = new \ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$question_id}__maxpoints");
             if ($initValues) {
-                $nonedit->setValue($this->questioninfo->getMaximumPoints($questionId));
+                $nonedit->setValue($this->questionrepository->getForQuestionId($question_id)->getMaximumPoints());
             }
             $form->addItem($nonedit);
 
-            $area = new \ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
+            $area = new \ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), "question__{$question_id}__feedback");
             $area->setUseRTE(true);
             if ($initValues) {
-                $area->setValue(\ilObjTest::getSingleManualFeedback((int) $active_id, (int) $questionId, (int) $pass)['feedback'] ?? '');
+                $area->setValue(\ilObjTest::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass)['feedback'] ?? '');
             }
             if ($disabled) {
                 $area->setDisabled($disabled);
             }
             $form->addItem($area);
 
-            $check = new \ilCheckboxInputGUI($this->lng->txt('finalized_evaluation'), "{$questionId}__evaluated");
+            $check = new \ilCheckboxInputGUI($this->lng->txt('finalized_evaluation'), "{$question_id}__evaluated");
             if ($disabled) {
                 $check->setChecked(true);
             }
             $form->addItem($check);
 
-            if (strlen(trim($bestSolution))) {
+            if (strlen(trim($best_solution))) {
                 $cust = new \ilCustomInputGUI($this->lng->txt('tst_show_solution_suggested'));
-                $cust->setHtml($bestSolution);
+                $cust->setHtml($best_solution);
                 $form->addItem($cust);
             }
         }

@@ -135,13 +135,13 @@ class ilTestService
                 throw new ilTestException('no question type given!');
             }
 
-            $questionGUI = $this->object->createQuestionGUI("", $questionData['qid']);
+            $question_gui = $this->object->createQuestionGUI("", $questionData['qid']);
 
-            if (!in_array($questionGUI->object->getQuestionTypeID(), $manScoringQuestionTypes)) {
+            if (!in_array($question_gui->getObject()->getQuestionTypeID(), $manScoringQuestionTypes)) {
                 continue;
             }
 
-            $manScoringQuestionGuiList[ $questionData['qid'] ] = $questionGUI;
+            $manScoringQuestionGuiList[ $questionData['qid'] ] = $question_gui;
         }
 
         return $manScoringQuestionGuiList;
