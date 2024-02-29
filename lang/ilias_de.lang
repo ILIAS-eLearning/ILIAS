@@ -10779,6 +10779,7 @@ lng#:#language_detection#:#Automatische Spracherkennung
 lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 lng#:#lng_download_deprecated#:#Veraltete Einträge herunterladen
 lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
+lng#:#lng_switch_language_detection#:#Automatische Spracherkennung umschalten
 log#:#log_browser#:#Browser Konsolen-Log
 log#:#log_browser_users#:#Aktivierte Benutzer für Browser-Log
 log#:#log_cache_#:#Caching
