@@ -982,10 +982,6 @@ class ilImageMapEditorGUI
         if ($a_handle) {
             $this->handleMapParameters();
         }
-        /* this seems to be obsolete
-        if ($_POST["areatype2"] != "") {
-            $this->map->setAreaType($_POST["areatype2"]);
-        }*/
         if ($this->map->getAreaNr() > 0) {
             $area_nr = $this->map->getAreaNr();
         } else {

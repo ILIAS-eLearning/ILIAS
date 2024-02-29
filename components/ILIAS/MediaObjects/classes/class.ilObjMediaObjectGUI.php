@@ -245,12 +245,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
             default:
-                /*
-                if (isset($_POST["editImagemapForward"]) ||
-                    isset($_POST["editImagemapForward_x"]) ||
-                    isset($_POST["editImagemapForward_y"])) {
-                    $cmd = "editImagemapForward";
-                }*/
                 $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
@@ -1074,17 +1068,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // set parameters
             if ($this->media_type->usesParameterProperty($std_item->getFormat())) {
-                if ($this->media_type->usesAutoStartParameterOnly(
+                if (!$this->media_type->usesAutoStartParameterOnly(
                     $std_item->getLocation(),
                     $std_item->getFormat()
                 )) {
-                    /*
-                    if ($_POST["standard_autostart"]) {	// save only autostart flag
-                        $std_item->setParameters('autostart="true"');
-                    } else {
-                        $std_item->setParameters("");
-                    }*/
-                } else {
                     $std_item->setParameters($form->getInput("standard_parameters"));
                 }
             }
@@ -1163,7 +1150,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $type = "File";
                     }
                     // resize image
-                    //echo "-".$_POST["full_size"]."-".is_int(strpos($format, "image"))."-".$full_item->getLocationType()."-";
                     if ($form->getInput("full_size") != "original" &&
                         is_int(strpos($format, "image")) &&
                         $full_item->getLocationType() == "LocalFile") {
@@ -1206,17 +1192,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 // set parameters
                 if ($this->media_type->usesParameterProperty($std_item->getFormat())) {
-                    if ($this->media_type->usesAutoStartParameterOnly(
+                    if (!$this->media_type->usesAutoStartParameterOnly(
                         $std_item->getLocation(),
                         $std_item->getFormat()
                     )) {
-                        /*
-                        if ($_POST["full_autostart"]) {	// save only autostart flag
-                            $full_item->setParameters('autostart="true"');
-                        } else {
-                            $full_item->setParameters("");
-                        }*/
-                    } else {
                         $full_item->setParameters($form->getInput("full_parameters"));
                     }
                 }
