@@ -55,9 +55,10 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
             $DIC['ui.renderer'],
             $DIC['tpl'],
             $DIC['refinery'],
-            $DIC->http()->request(),
+            $this->createMock(ILIAS\Test\Logging\TestLogger::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $this->createMock(ilObjTest::class),
+            $this->createMock(ilObjUser::class),
             $this->createMock(GeneralQuestionPropertiesRepository::class),
             $this->createMock(QuestionsTable::class)
         );

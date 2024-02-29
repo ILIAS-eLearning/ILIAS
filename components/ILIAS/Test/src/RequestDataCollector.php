@@ -20,23 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Repository\BaseGUIRequest;
 
 class RequestDataCollector
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery
+        HTTPServices $http,
+        Refinery $refinery
     ) {
         $this->initRequest(
             $http,
             $refinery
         );
+    }
+
+    public function getRequest(): RequestInterface
+    {
+        return $this->http->request();
     }
 
     public function isset(string $key): bool

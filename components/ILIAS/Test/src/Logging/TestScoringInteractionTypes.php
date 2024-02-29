@@ -23,4 +23,5 @@ namespace ILIAS\Test\Logging;
 enum TestScoringInteractionTypes: string
 {
     case QUESTION_GRADED = 'question_graded';
+    case QUESTION_GRADING_RESET = 'question_grading_reset';
 }

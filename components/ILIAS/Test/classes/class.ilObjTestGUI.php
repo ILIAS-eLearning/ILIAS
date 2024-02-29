@@ -866,9 +866,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_renderer,
                     $this->tpl,
                     $this->refinery,
-                    $this->request,
+                    $this->getTestObject()->getTestLogger(),
                     $this->testrequest,
                     $this->getTestObject(),
+                    $this->user,
                     $this->questionrepository,
                     $this->getTable()
                         ->withContextCorrections()
@@ -1007,7 +1008,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $question_gui->setTargetGuiClass(null);
         $question_gui->setQuestionActionCmd('');
 
-        $this->ctrl->saveParameter($this, "q_id");
+        $this->ctrl->saveParameter($this, 'q_id');
 
         #$this->lng->loadLanguageModule("content");
         $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
