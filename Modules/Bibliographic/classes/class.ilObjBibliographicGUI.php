@@ -368,18 +368,31 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->tpl->setContent($this->ui()->renderer()->render($this->getSettingsForm()));
     }
 
-    public function overwriteBibliographicFile(): void
+    private function replaceBibliograficFileInit(): void
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
             $this->lng->txt('back'),
             $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
         );
+
+        $this->tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt('replace_bibliography_file_info')
+        );
+    }
+
+    public function overwriteBibliographicFile(): void
+    {
+        $this->replaceBibliograficFileInit();
+
         $this->tpl->setContent($this->ui()->renderer()->render($this->getReplaceBibliographicFileForm()));
     }
 
     public function replaceBibliographicFile(): void
     {
+        $this->replaceBibliograficFileInit();
+
         $form = $this->getReplaceBibliographicFileForm();
         $form = $form->withRequest($this->http->request());
         $data = $form->getData();
@@ -413,6 +426,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         /**
          * @var $bibl_obj ilObjBibliographic
          */
+
         $bibl_obj = $this->getObject();
         $rid = $bibl_obj->getResourceId() ? $bibl_obj->getResourceId()->serialize() : "";
         $bibl_upload_handler = new ilObjBibliographicUploadHandlerGUI($rid);
@@ -440,8 +454,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                             $this->getValidBiblFileSuffixConstraint()
                         )
                 ],
-                $this->lng->txt('replace_bibliography_file'),
-                $this->lng->txt('replace_bibliography_file_info')
+                $this->lng->txt('replace_bibliography_file')
             );
 
         return $this->ui_factory->input()->container()->form()->standard(
