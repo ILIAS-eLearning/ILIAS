@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Collection\Collections;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\DataContainer;
 
 /**
  * Class CollectionBuilderTest

@@ -22,6 +22,7 @@ namespace ILIAS\ResourceStorage\Events;
 
 /**
  * @author       Fabian Schmid <fabian@sr.solutions>
+ * @internal
  */
 class Data extends \ArrayObject
 {
