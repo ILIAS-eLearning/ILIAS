@@ -54,7 +54,7 @@ class GeneralQuestionPropertiesRepository
         return self::$general_properties_cache[$question_id];
     }
 
-    private function retrieveGeneralProperties(int $question_id): GeneralQuestionProperties
+    private function retrieveGeneralProperties(int $question_id): ?GeneralQuestionProperties
     {
         $query_result = $this->database->queryF(
             'SELECT q.*, qt.type_tag'
