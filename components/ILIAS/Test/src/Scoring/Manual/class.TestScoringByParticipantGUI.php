@@ -35,9 +35,9 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
     protected \ilTestAccess $test_access;
 
-    public function __construct(\ilObjTest $a_object)
+    public function __construct(\ilObjTest $object)
     {
-        parent::__construct($a_object);
+        parent::__construct($object);
     }
 
     /**
@@ -247,7 +247,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         }
 
         foreach ($question_gui_list as $question_id => $questionGui) {
-            $reachedPoints = (float) $form->getItemByPostVar("question__{$question_id}__points")->getValue();
+            $reached_points = (float) $form->getItemByPostVar("question__{$question_id}__points")->getValue();
 
             $finalized = (bool) $form->getItemByPostVar("{$question_id}__evaluated")->getchecked();
 
@@ -258,7 +258,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 \assQuestion::_setReachedPoints(
                     $active_id,
                     $question_id,
-                    $reachedPoints,
+                    $reached_points,
                     $maxPointsByQuestionId[$question_id],
                     $pass,
                     true,
@@ -266,16 +266,42 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 );
             }
 
-            $feedback = \ilUtil::stripSlashes(
+            $feedback_text = \ilUtil::stripSlashes(
                 (string) $form->getItemByPostVar("question__{$question_id}__feedback")->getValue(),
                 false,
                 \ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
 
-            $this->object->saveManualFeedback($active_id, (int) $question_id, (int) $pass, $feedback, $finalized, true);
+            $this->object->saveManualFeedback(
+                $active_id,
+                $question_id,
+                $pass,
+                $feedback_text,
+                $finalized,
+                true
+            );
+
+            if ($this->logger->isLoggingEnabled()) {
+                $this->logger->logScoringInteraction(
+                    new \ILIAS\Test\Logging\TestScoringInteraction(
+                        $this->lng,
+                        $this->getObject()->getRefId(),
+                        $question_id,
+                        $this->user,
+                        \ilObjTestAccess::_getParticipantId($active_id),
+                        TestScoringInteractionTypes::QUESTION_GRADED,
+                        time(),
+                        [
+                            'points' => $reached_points,
+                            'feedback' => $feedback_text,
+                            'finalized' => true
+                        ]
+                    )
+                );
+            }
 
             $notificationData[$question_id] = [
-                'points' => $reachedPoints, 'feedback' => $feedback
+                'points' => $reached_points, 'feedback' => $feedback_text
             ];
         }
 
