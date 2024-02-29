@@ -333,7 +333,6 @@ class ilRegistrationSettingsGUI
 
     public function editRoles()
     {
-
         global $DIC;
 
         $ilAccess = $DIC->access();
@@ -515,20 +514,18 @@ class ilRegistrationSettingsGUI
 
     public function initRoleAccessForm() : ilPropertyFormGUI
     {
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('reg_role_access_limitations'));
             
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
-            
             $role_access = new ilRadioGroupInputGUI($role['title'], "role_access_" . $role['id']);
             
             $op_unlimited = new ilRadioOption($this->lng->txt('reg_access_limitation_mode_unlimited'), "unlimited");
             
-            $op_absolute   = new ilRadioOption($this->lng->txt('reg_access_limitation_mode_absolute'), "absolute");
-            $absolute_date = new ilDateTime(date("d.m.Y",$this->access_limitations_obj->getAbsolute($role['id'])), IL_CAL_DATE);
-            $date          = new ilDateTimeInputGUI("", "absolute_date_" . $role['id']);
+            $op_absolute = new ilRadioOption($this->lng->txt('reg_access_limitation_mode_absolute'), "absolute");
+            $absolute_date = new ilDateTime(date("d.m.Y", $this->access_limitations_obj->getAbsolute($role['id'])), IL_CAL_DATE);
+            $date = new ilDateTimeInputGUI("", "absolute_date_" . $role['id']);
             $date->setDate($absolute_date);
             $op_absolute->addSubItem($date);
 
@@ -553,7 +550,6 @@ class ilRegistrationSettingsGUI
         $form->addCommandButton("view", $this->lng->txt("cancel"));
 
         return $form;
-
     }
 
     public function saveAssignment()
@@ -571,8 +567,55 @@ class ilRegistrationSettingsGUI
         $this->__initRoleAssignments();
 
         $form = $this->initEmailAssignmentForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        $is_valid = $form->checkInput();
+        $form->setValuesByPost();
+        if (!$is_valid) {
+            $this->editEmailAssignments($form);
+            return false;
+        }
+
+        $assignments_by_domain = [];
+        $problems_domains_by_field_id = [];
+        foreach ($rbacreview->getGlobalRoles() as $role_id) {
+            if ($role_id == ANONYMOUS_ROLE_ID) {
+                continue;
+            }
+
+            $role_assigned_input = $form->getInput("role_assigned_$role_id");
+            if (!$role_assigned_input) {
+                continue;
+            }
+
+            $domain_input = $form->getInput("domain_$role_id");
+            foreach ($domain_input as $domain) {
+                if (!is_string($domain) || $domain === '') {
+                    continue;
+                }
+
+                if (isset($assignments_by_domain[$domain])) {
+                    if (!isset($problems_domains_by_field_id["role_assigned_$role_id"])) {
+                        $problems_domains_by_field_id["role_assigned_$role_id"] = [];
+                    }
+
+                    $problems_domains_by_field_id["domain_$role_id"][$domain] = $domain;
+                    continue;
+                }
+
+                $assignments_by_domain[$domain] = $role_id;
+            }
+        }
+
+        if ($problems_domains_by_field_id !== []) {
+            foreach ($problems_domains_by_field_id as $field_id => $domains) {
+                $domain_string = implode(', ', $domains);
+                $alert = sprintf($this->lng->txt('reg_domain_already_assigned_p'), $domain_string);
+                if (count($domains) === 1) {
+                    $alert = sprintf($this->lng->txt('reg_domain_already_assigned_s'), $domain_string);
+                }
+                $form->getItemByPostVar($field_id)->setAlert($alert);
+            }
+
+            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
             $this->editEmailAssignments($form);
             return false;
         }
@@ -580,24 +623,10 @@ class ilRegistrationSettingsGUI
         $this->assignments_obj->deleteAll();
 
         $counter = 0;
-        foreach ($rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
-                continue;
-            }
-
-            $domain_input = $form->getInput("domain_$role_id");
-            $role_assigned_input = $form->getInput("role_assigned_$role_id");
-
-
-            if (!empty($role_assigned_input)) {
-                foreach ($domain_input as $domain) {
-                    if (!empty($domain)) {
-                        $this->assignments_obj->setDomain($counter, ilUtil::stripSlashes($domain));
-                        $this->assignments_obj->setRole($counter, ilUtil::stripSlashes($role_id));
-                        $counter++;
-                    }
-                }
-            }
+        foreach ($assignments_by_domain as $domain => $role_id) {
+            $this->assignments_obj->setDomain($counter, ilUtil::stripSlashes($domain));
+            $this->assignments_obj->setRole($counter, ilUtil::stripSlashes($role_id));
+            $counter++;
         }
 
         $default_role = $form->getInput("default_role");
@@ -623,7 +652,7 @@ class ilRegistrationSettingsGUI
         $this->__initRoleAccessLimitations();
         
         $form = $this->initRoleAccessForm();
-        if(!$form->checkInput()) {
+        if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->editRoleAccessLimitations($form);
             return false;
@@ -679,7 +708,6 @@ class ilRegistrationSettingsGUI
 
     public function __prepareRoleList()
     {
-        
         $all = array();
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
             $all[] = $role['title'];
@@ -730,11 +758,11 @@ class ilRegistrationSettingsGUI
                             if ($days) {
                                 $txt_access_value .= ", ";
                             } else {
-                            $txt_access_value .= " " . $this->lng->txt('and') . " ";
+                                $txt_access_value .= " " . $this->lng->txt('and') . " ";
                             }
                         } elseif ($days) {
-                        $txt_access_value .= " " . $this->lng->txt('and') . " ";
-                    }
+                            $txt_access_value .= " " . $this->lng->txt('and') . " ";
+                        }
                     
                     if ($months) {
                         $txt_access_value .= $months . " ";
@@ -826,14 +854,14 @@ class ilRegistrationSettingsGUI
                 $this->lng->txt('registration_codes_type_reg'),
                 self::CODE_TYPE_REGISTRATION,
                 $this->lng->txt('registration_codes_type_reg_info')
-                )
+            )
         );
         $code_type->addOption(
             new ilCheckboxOption(
                 $this->lng->txt('registration_codes_type_ext'),
                 self::CODE_TYPE_EXTENSION,
                 $this->lng->txt('registration_codes_type_ext_info')
-                )
+            )
         );
         $this->form_gui->addItem($code_type);
 
@@ -994,7 +1022,6 @@ class ilRegistrationSettingsGUI
         }
         
         if ($valid) {
-            
             $stamp = time();
             for ($loop = 1; $loop <= $number; $loop++) {
                 $code_types = (array) $this->form_gui->getInput('code_type');
