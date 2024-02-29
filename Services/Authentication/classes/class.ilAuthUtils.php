@@ -204,7 +204,7 @@ class ilAuthUtils
      */
     public static function _getAuthModeName($a_auth_key): string
     {
-        switch ($a_auth_key) {
+        switch ((int) $a_auth_key) {
             case self::AUTH_LOCAL:
                 return "local";
                 break;
