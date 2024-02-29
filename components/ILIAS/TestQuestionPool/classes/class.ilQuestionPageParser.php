@@ -85,8 +85,6 @@ class ilQuestionPageParser extends ilMDSaxParser
         private readonly string $importdir
     ) {
         global $DIC;
-
-        $this->log = $DIC['ilLog'];
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
 

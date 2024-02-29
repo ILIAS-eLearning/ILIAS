@@ -411,8 +411,6 @@ class assFormulaQuestionResult
 
     public function getReachedPoints($variables, $results, $value, $unit, $units)
     {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
         if ($this->getRatingSimple()) {
             if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
                 return $this->getPoints();

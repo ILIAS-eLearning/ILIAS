@@ -51,8 +51,8 @@ class ilAssQuestionPreviewGUI
 
     public const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
-    private assQuestionGUI $question_gui;
-    private assQuestion $question_obj;
+    private ?assQuestionGUI $question_gui = null;
+    private ?assQuestion $question_obj = null;
     private ?ilAssQuestionPreviewSettings $preview_settings = null;
     private ?ilAssQuestionPreviewSession $preview_session = null;
     private ?ilAssQuestionPreviewHintTracking $hint_tracking = null;
@@ -69,6 +69,11 @@ class ilAssQuestionPreviewGUI
     ) {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+    }
+
+    public function getQuestion(): assQuestion
+    {
+        return $this->question_obj;
     }
 
     public function initQuestion(int $question_id, int $parent_obj_id): void

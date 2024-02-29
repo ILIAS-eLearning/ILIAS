@@ -2137,7 +2137,7 @@ abstract class assQuestion implements Question
 
     public static function instantiateQuestionGUI(int $question_id): assQuestionGUI
     {
-        //Shouldn't you live in assQuestionGUI, Mister?
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
@@ -2146,7 +2146,7 @@ abstract class assQuestion implements Question
         $ilLog = $DIC['ilLog'];
 
         if ($question_id <= 0) {
-            $ilLog->write('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)', $ilLog->WARNING);
+            $ilLog->warning('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)');
             throw new InvalidArgumentException('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)');
         }
 
