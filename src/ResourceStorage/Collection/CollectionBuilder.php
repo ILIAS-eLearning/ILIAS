@@ -26,6 +26,8 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\UniqueIDCollectionIdentificationGenerator;
 use ILIAS\ResourceStorage\Preloader\SecureString;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\DataContainer;
+use ILIAS\ResourceStorage\Events\Event;
 
 /**
  * Class CollectionBuilder
@@ -105,16 +107,22 @@ class CollectionBuilder
 
     public function store(ResourceCollection $collection): bool
     {
+        $event_data_container = new DataContainer();
         if ($this->lock_handler !== null) {
             $result = $this->lock_handler->lockTables(
                 $this->collection_repository->getNamesForLocking(),
-                function () use ($collection): void {
-                    $this->collection_repository->update($collection, $this->events);
+                function () use ($collection, $event_data_container): void {
+                    $this->collection_repository->update($collection, $event_data_container);
                 }
             );
             $result->runAndUnlock();
         } else {
-            $this->collection_repository->update($collection, $this->events);
+            $this->collection_repository->update($collection, $event_data_container);
+        }
+
+        // notify about the change. we must do this after the lock is released
+        foreach($event_data_container->get() as $event_data) {
+            $this->events->notify(Event::COLLECTION_RESOURCE_ADDED, $event_data);
         }
 
         return true;

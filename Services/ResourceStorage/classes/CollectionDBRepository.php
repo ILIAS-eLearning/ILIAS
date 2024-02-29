@@ -25,6 +25,8 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\ResourceStorage\Events\Event;
 use ILIAS\ResourceStorage\Events\Data;
+use ILIAS\ResourceStorage\Events\DataContainer;
+use ILIAS\ResourceStorage\Events\CollectionData;
 
 /**
  * Class CollectionDBRepository
@@ -103,7 +105,7 @@ class CollectionDBRepository implements CollectionRepository
         $r = $this->db->manipulateF($q, ['text'], [$identification->serialize()]);
     }
 
-    public function update(ResourceCollection $collection, Subject $events): void
+    public function update(ResourceCollection $collection, DataContainer $event_data_container): void
     {
         $identification = $collection->getIdentification();
         $resource_identifications = $collection->getResourceIdentifications();
@@ -129,9 +131,8 @@ class CollectionDBRepository implements CollectionRepository
                 self::R_IDENTIFICATION => ['text', $resource_identification_string],
                 'position' => ['integer', (int)$position + 1],
             ]);
-            $events->notify(
-                Event::COLLECTION_RESOURCE_ADDED,
-                new Data(['rid' => $resource_identification_string, 'rcid' => $identification->serialize()])
+            $event_data_container->append(
+                new CollectionData(['rid' => $resource_identification_string, 'rcid' => $identification->serialize()])
             );
         }
         foreach ($resource_identification_strings as $position => $resource_identification_string) {

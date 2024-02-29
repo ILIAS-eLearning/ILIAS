@@ -25,6 +25,8 @@ use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 use ILIAS\ResourceStorage\DummyIDGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\DataContainer;
+use ILIAS\ResourceStorage\Events\CollectionData;
 
 /**
  * Class CollectionTest
@@ -48,12 +50,15 @@ class CollectionRepositoryTest extends TestCase
         $collection = $this->repo->blank($this->rcid_generator->getUniqueResourceCollectionIdentification());
         $this->assertEquals(0, $collection->count());
 
-        $collection->add(new ResourceIdentification('rid_one'));
-        $collection->add(new ResourceIdentification('rid_two'));
+        $rid_one = 'rid_one';
+        $collection->add(new ResourceIdentification($rid_one));
+        $rid_two = 'rid_two';
+        $collection->add(new ResourceIdentification($rid_two));
 
+        $rids_given = [$rid_one, $rid_two];
         $this->db_mock->expects($this->once())
                       ->method('in')
-                      ->with('rid', ['rid_one', 'rid_two'], true, 'text')
+                      ->with('rid', $rids_given, true, 'text')
                       ->willReturn('rid NOT IN("rid_one", "rid_one")');
 
         $this->db_mock->expects($this->once())
@@ -83,7 +88,16 @@ class CollectionRepositoryTest extends TestCase
                           )
                       );
 
-        $this->repo->update($collection, new Subject());
+        $event_data_container = new DataContainer();
+        $this->repo->update($collection, $event_data_container);
+
+        $rids = [];
+        $this->assertCount(2, $event_data_container->get());
+        foreach ($event_data_container->get() as $event_data) {
+            $this->assertInstanceOf(CollectionData::class, $event_data);
+            $this->assertContains($event_data->getRid(), $rids_given);
+            $this->assertEquals(self::TEST_RCID, $event_data->getRcid());
+        }
     }
 
 }

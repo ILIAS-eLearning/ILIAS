@@ -34,4 +34,10 @@ interface Observer
      * Recieves an event and handles it appropriately.
      */
     public function update(Event $event, ?Data $data): void;
+
+    /**
+     * Is called if your update method failed (Exception, Throwable). We suggest you log the error or something like this.
+     * You cannot throw an exception here, since this is catched again to ensure the other observers are called.
+     */
+    public function updateFailed(\Throwable $e, Event $event, ?Data $data): void;
 }

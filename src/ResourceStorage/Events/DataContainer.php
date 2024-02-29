@@ -24,25 +24,29 @@ namespace ILIAS\ResourceStorage\Events;
  * @author       Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-class CollectionData extends Data
+final class DataContainer
 {
-    public function __construct(array $data = [])
-    {
-        // check fopr array to have two keys: rcid and rid
-        if (!array_key_exists('rcid', $data) || !array_key_exists('rid', $data)) {
-            throw new \InvalidArgumentException('CollectionData must contain rcid and rid');
-        }
+    /**
+     * @var Data[]
+     */
+    private array $data;
 
-        parent::__construct($data, \ArrayObject::ARRAY_AS_PROPS);
+    public function __construct(Data ...$data)
+    {
+        $this->data = $data;
     }
 
-    public function getRcid(): string
+    public function append(Data $data): void
     {
-        return $this['rcid'];
+        $this->data[] = $data;
     }
 
-    public function getRid(): string
+    /**
+     * @return Data[]
+     */
+    public function get(): array
     {
-        return $this['rid'];
+        return $this->data;
     }
+
 }
