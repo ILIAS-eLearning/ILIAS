@@ -272,9 +272,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $tpl = new ilTemplate($this->getTemplate(), true, true, "components/ILIAS/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -359,9 +356,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         }
 
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-        $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($lng));
-        $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($lng));
-        $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+        $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($this->lng));
+        $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($this->lng));
+        $tpl->setVariable("COMMANDS_TEXT", $this->lng->txt('actions'));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
