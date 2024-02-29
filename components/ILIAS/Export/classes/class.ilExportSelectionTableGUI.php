@@ -34,8 +34,6 @@ class ilExportSelectionTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        //TODO PHP8-Review: please check the usage of $_POST
-        /** @var ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $_POST */
         $this->post_data = ($DIC->http()->request()->getParsedBody() ?? []);
 
         $this->tree = $DIC->repositoryTree();
