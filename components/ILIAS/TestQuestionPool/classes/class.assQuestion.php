@@ -2135,7 +2135,7 @@ abstract class assQuestion implements Question
 
 
 
-    public static function instantiateQuestionGUI(int $question_id): assQuestionGUI
+    public static function instantiateQuestionGUI(int $question_id): ?assQuestionGUI
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -2151,7 +2151,11 @@ abstract class assQuestion implements Question
         }
 
         $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
-        $question_type = $questionrepository->getForQuestionId($question_id)->getClassName();
+        $question_type = $questionrepository->getForQuestionId($question_id)?->getClassName();
+
+        if ($question_type === null) {
+            return null;
+        }
 
         $question_type_gui = $question_type . 'GUI';
         $question_gui = new $question_type_gui($question_id);
