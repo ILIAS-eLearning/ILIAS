@@ -26,7 +26,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
     * @param array<string label_lang_var => mixed value> $additional_data
     */
     public function __construct(
-        private ilLanguage $lng,
+        private \ilLanguage $lng,
         private int $test_ref_id,
         private int $question_id,
         private \ilObjUser $administrator,
