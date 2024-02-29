@@ -36,6 +36,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
     public const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 
     private ?float $curQuestionMaxPoints = null;
+    protected RequestDataCollector $testrequest;
     protected GeneralQuestionPropertiesRepository $questionrepository;
 
     protected bool $first_row_rendered = false;
@@ -45,7 +46,8 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
 
     public function __construct(TestScoringByQuestionGUI $parent_obj, private \ilAccess $access)
     {
-        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
+        $local_dic = TestDIC::dic();
+        $this->questionrepository = $local_dic['general_question_properties_repository'];
 
         $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
 
@@ -102,7 +104,7 @@ class TestScoringByQuestionTableGUI extends \ilTable2GUI
             $info = $this->questionrepository->getForQuestionId($data['question_id']);
             $type = $info->getTypeId();
             if (in_array($type, $scoring)) {
-                $maxpoints = $inf->getMaximumPoints();
+                $maxpoints = $info->getMaximumPoints();
                 if ($maxpoints == 1) {
                     $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
                 } else {

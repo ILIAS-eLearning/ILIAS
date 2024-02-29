@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+
 use ILIAS\Filesystem\Stream\Streams;
 
 /**

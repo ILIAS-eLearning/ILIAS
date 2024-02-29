@@ -396,12 +396,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         string $form_action,
         int $active_id,
         int $pass
-    ) {
+    ): string {
         $info = $this->object->getTestOutputSolutions($active_id, $pass);
 
-        if (count($info)) {
-            if ($info[0]["value1"] !== "") {
-                $form_action .= "&selImage=" . $info[0]["value1"];
+        if ($info !== []) {
+            if ($info[0]['value1'] !== '') {
+                $form_action .= '&selImage=' . $info[0]['value1'];
             }
         }
 

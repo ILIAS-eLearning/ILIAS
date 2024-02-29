@@ -62,17 +62,6 @@ class ilTestPassFinishTasks
             $this->obj_id,
             ilObjTestAccess::_getParticipantId($this->test_session->getActiveId())
         );
-
-        $caller = $this->getCaller();
-        $lp = ilLPStatus::_lookupStatus($this->obj_id, $this->test_session->getUserId());
-        $debug = "finPass={$this->test_session->getLastFinishedPass()} / Lp={$lp}";
-
-        ilObjTestFolder::_addLog(
-            $this->test_session->getUserId(),
-            $this->obj_id,
-            "updateLearningProgressAfterPassFinishedIsWritten has been called from {$caller} ({$debug})",
-            true
-        );
     }
 
     protected function getCaller()

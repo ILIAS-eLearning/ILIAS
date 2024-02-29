@@ -44,7 +44,7 @@ class GeneralQuestionPropertiesRepository
     public function getForQuestionId(int $question_id): ?GeneralQuestionProperties
     {
         if ($question_id < 1) {
-            return new GeneralQuestionProperties($question_id);
+            return new GeneralQuestionProperties($this->component_factory, $question_id);
         }
 
         if (!isset(self::$general_properties_cache[$question_id])) {

@@ -113,4 +113,20 @@ class RequestDataCollector
     {
         return $this->http->request()->getParsedBody();
     }
+
+    public function getArrayOfIntsFromPost(string $key): ?array
+    {
+        $p = $this->http->wrapper()->post();
+        $r = $this->refinery;
+        if (!$p->has($key)) {
+            return null;
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->container()->mapValues(
+                $r->kindlyTo()->int()
+            )
+        );
+    }
 }
