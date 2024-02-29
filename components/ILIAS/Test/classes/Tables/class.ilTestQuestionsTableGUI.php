@@ -299,7 +299,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $target_class,
             $this->child_cmd
         );
-        $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', '');
+        $this->ctrl->clearParameterByClass($target_class, 'q_id');
 
         return $question_href;
     }
@@ -325,8 +325,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
 
-        $this->ctrl->setParameterByClass($target_class, 'ref_id', '');
-        $this->ctrl->setParameterByClass($target_class, 'q_id', '');
+        $this->ctrl->clearParameterByClass($target_class, 'ref_id');
+        $this->ctrl->clearParameterByClass($target_class, 'q_id');
         return $link;
     }
 
