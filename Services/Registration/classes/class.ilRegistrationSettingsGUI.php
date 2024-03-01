@@ -517,9 +517,12 @@ class ilRegistrationSettingsGUI
             $role_access->addOption($op_unlimited);
             $role_access->addOption($op_absolute);
             $role_access->addOption($op_relative);
-            $role_access->setValue($this->access_limitations_obj->getMode($role['id']));
+            $role_access->setValue(
+                $this->access_limitations_obj->getMode(
+                    $role['id']
+                ) === 'null' ? 'unlimited' : $this->access_limitations_obj->getMode($role['id'])
+            );
 
-            $role_access->setValue('unlimited');
             $form->addItem($role_access);
         }
 
