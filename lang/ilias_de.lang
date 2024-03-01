@@ -2387,7 +2387,7 @@ blog#:#blog_change_notification_body_new#:#der folgende Beitrag wurde neu angele
 blog#:#blog_change_notification_body_update#:#der folgende Beitrag wurde geändert:
 blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
-blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
+blog#:#blog_change_notification_subject#:#Neuigkeiten im Blog "%s"
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_contribute_other_roles#:#Zusätzlich zu den Mitwirkenden können auch Personen mit der Rolle %s Beiträge in diesem Blog verfassen. Sie werden nicht in der Tabelle aufgeführt, denn sie erhalten das entsprechende Recht durch ein übergeordnetes Objekt.###Modified as part of gender mainstreaming activities for ILIAS 8
