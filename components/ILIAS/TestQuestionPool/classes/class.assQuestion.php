@@ -1912,7 +1912,7 @@ abstract class assQuestion implements Question
             if ($rowsnum > 0) {
                 $row = $ilDB->fetchAssoc($result);
                 $old_points = $row["points"];
-                if ($old_points != $points) {
+                if ($old_points !== $points) {
                     $affectedRows = $ilDB->manipulateF(
                         "UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                         ['float', 'integer', 'integer', 'integer', 'integer', 'integer'],
