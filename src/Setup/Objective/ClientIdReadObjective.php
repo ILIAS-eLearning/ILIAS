@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\Objective;
 
@@ -76,21 +76,21 @@ class ClientIdReadObjective implements Setup\Objective
         $candidates = array_filter(
             $this->scanDirectory($dir),
             function ($c) use ($dir): bool {
-                if ($c == "." || $c == "..") {
+                if ($c === "." || $c === "..") {
                     return false;
                 }
                 return $this->isDirectory($dir . "/" . $c);
             }
         );
 
-        if (count($candidates) == 0) {
+        if (count($candidates) === 0) {
             throw new Setup\UnachievableException(
                 "There are no directories in the webdata-dir at '$dir'. " .
                 "Probably ILIAS is not installed."
             );
         }
 
-        if (count($candidates) != 1) {
+        if (count($candidates) !== 1) {
             $ilias_version = ILIAS_VERSION_NUMERIC;
 
             throw new Setup\UnachievableException(
@@ -112,6 +112,10 @@ class ClientIdReadObjective implements Setup\Objective
 
     protected function scanDirectory(string $path): array
     {
+        if (!$this->isDirectory($path)) {
+            return [];
+        }
+
         return scandir($path);
     }
 
