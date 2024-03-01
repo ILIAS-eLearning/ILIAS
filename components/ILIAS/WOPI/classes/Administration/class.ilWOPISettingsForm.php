@@ -68,6 +68,11 @@ class ilWOPISettingsForm
         $wopi_url = $this->ui_factory->input()->field()->text(
             $this->lng->txt("wopi_url"),
             $this->lng->txt("wopi_url_byline")
+            /*. $this->renderLink(
+                " ➜︎ Wikipedia",
+                "https://en.wikipedia.org/wiki/Web_Application_Open_Platform_Interface",
+                true
+            )*/
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($v) {
                 return $v === '' ? null : $v;
@@ -122,5 +127,14 @@ class ilWOPISettingsForm
     public function getHTML(): string
     {
         return $this->ui_renderer->render($this->form);
+    }
+
+    private function renderLink(string $translation, string $url, bool $new_tab = true): string
+    {
+        $link = $this->ui_factory->link()->standard(
+            $translation,
+            $url
+        )->withOpenInNewViewport($new_tab);
+        return $this->ui_renderer->render($link);
     }
 }

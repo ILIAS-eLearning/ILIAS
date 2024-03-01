@@ -33,5 +33,6 @@ interface AppRepository
     public function storeCollection(Apps $apps, ActionRepository $action_repository): void;
 
     public function store(App $app, ActionRepository $action_repository): void;
+
     public function clear(ActionRepository $action_repository): void;
 }

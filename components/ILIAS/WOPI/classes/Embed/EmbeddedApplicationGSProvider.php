@@ -27,16 +27,12 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\UI\Component\MainControls\MetaBar;
-use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\DI\Container;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
-use ILIAS\GlobalScreen\Scope\Layout\Builder\PageBuilder;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\DecoratedPagePartProvider;
 use ILIAS\Data\URI;
 
 /**
