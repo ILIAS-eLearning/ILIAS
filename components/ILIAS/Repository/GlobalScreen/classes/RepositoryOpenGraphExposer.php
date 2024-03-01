@@ -39,12 +39,13 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         // will be handled differently.
         return $this->context_collection
             ->internal()
-            ->external();
+            ->external()
+            ->repository();
     }
 
     public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
-        $current_context = $screen_context_stack->current();
+        $current_context = $this->ensureRepoContext($screen_context_stack)->current();
         $ref_id = $current_context->getReferenceId()->toInt();
 
         if (
@@ -79,14 +80,29 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         }
 
         $uri = $this->data->uri(\ilLink::_getStaticLink($object->getRefId(), $object->getType()));
+        $image = $this->getDefaultImage();
+        try {
+            // Use the tile image if available
+            $tile_image = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
+            if ($tile_image !== null && $tile_image->getRid() !== null) {
+                $uri_string = $tile_image->getImage()->getAdditionalHighResSources()['960']
+                    ?? $tile_image->getImage()->getSource();
+
+                $image = $this->data->openGraphMetadata()->image(
+                    $this->data->uri($uri_string),
+                    'image/jpg'
+                );
+            }
+        } catch (\Throwable $e) {
+        }
 
         $this->globalScreen()->layout()->meta()->addOpenGraphMetaDatum(
             $this->data->openGraphMetadata()->website(
                 $uri,
-                $this->getDefaultImage(),
+                $image,
                 $object->getPresentationTitle(),
                 $uri->getHost(),
-                $object->getLongDescription(),
+                $object->getLongDescription() . ' ', // we add a space to ensure the description is not cut off
                 $object_translation->getDefaultLanguage(),
                 (1 < $additional_locale_count) ? array_slice($additional_locales, 1) : []
             )
@@ -149,5 +165,18 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         }
 
         return null;
+    }
+
+    protected function ensureRepoContext(CalledContexts $screen_context_stack): CalledContexts
+    {
+        $collection = new ContextCollection(
+            $this->dic->globalScreen()->tool()->context()->availableContexts()
+        );
+        $collection = $collection->repository();
+
+        if (!$screen_context_stack->hasMatch($collection)) {
+            $screen_context_stack = $screen_context_stack->repository();
+        }
+        return $screen_context_stack;
     }
 }

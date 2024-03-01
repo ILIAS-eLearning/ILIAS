@@ -25,8 +25,7 @@ use LogicException;
 use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 
 /**
- * Class CalledContexts
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 final class CalledContexts extends ContextCollection
 {
@@ -65,10 +64,6 @@ final class CalledContexts extends ContextCollection
         if (!$silent && in_array($context, $this->stack)) {
             throw new LogicException("A context can only be claimed once");
         }
-        if (end($this->stack) instanceof ScreenContext) {
-            $context = $context->withAdditionalData($this->getLast()->getAdditionalData());
-        }
-
         parent::push($context);
     }
 
