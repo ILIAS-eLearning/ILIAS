@@ -73,6 +73,16 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
+    public function getTitle(): string
+    {
+        return $this->stripTitleOfFileExtension(parent::getTitle());
+    }
+
+    public function stripTitleOfFileExtension(string $a_title): string
+    {
+        return $this->secure(preg_replace('/\.[^.]*$/', '', $a_title));
+    }
+
     /**
      * Get command target frame
      */
