@@ -5953,7 +5953,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     IL_CAL_DATETIME
                 ));
                 $this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
-                $header = $history_date.': '. $history_instance->getPostSubject();
+                $header = $history_date . ': ' . $history_instance->getPostSubject();
 
                 $accordion_tpl = new ilTemplate(
                     'tpl.restore_thread_draft_accordion_content.html',
