@@ -488,7 +488,7 @@ class ilMailingListsGUI
                 ++$counter;
             }
 
-            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('delete'));
+            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('remove'));
         } else {
             $tbl->disable('header');
             $tbl->disable('footer');
@@ -570,7 +570,7 @@ class ilMailingListsGUI
                     $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_success_removed_user'));
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
         }
