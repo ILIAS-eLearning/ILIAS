@@ -74,4 +74,9 @@ final class Context
     {
         return !$this->container->user()->isAnonymous() && $this->container->user()->getId() !== 0;
     }
+
+    public function isPublicSectionActive(): bool
+    {
+        return (bool) ($this->container->settings()->get('pub_section') ?? false);
+    }
 }

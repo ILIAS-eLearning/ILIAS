@@ -74,7 +74,7 @@ class HandlerService
         }
 
         // Check access to target
-        if (!$this->context->isUserLoggedIn()) {
+        if (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive()) {
             $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
             $target = $uri_builder->buildTarget(
                 $request->getNamespace(),
