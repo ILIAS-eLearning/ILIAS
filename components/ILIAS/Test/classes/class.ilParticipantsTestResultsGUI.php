@@ -169,7 +169,7 @@ class ilParticipantsTestResultsGUI
 
     private function showParticipantsCmd(): void
     {
-        ilSession::clear("show_user_results");
+        ilSession::clear('show_user_results');
 
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
             $this->main_tpl->setOnScreenMessage(
@@ -241,9 +241,9 @@ class ilParticipantsTestResultsGUI
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("delete_all_user_data_confirmation"));
-        $cgui->setCancel($this->lng->txt("cancel"), self::CMD_SHOW_PARTICIPANTS);
-        $cgui->setConfirm($this->lng->txt("proceed"), self::CMD_PERFORM_DELETE_ALL_USER_RESULTS);
+        $cgui->setHeaderText($this->lng->txt('delete_all_user_data_confirmation'));
+        $cgui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PARTICIPANTS);
+        $cgui->setConfirm($this->lng->txt('proceed'), self::CMD_PERFORM_DELETE_ALL_USER_RESULTS);
 
         $this->main_tpl->setContent($cgui->getHTML());
     }
@@ -263,7 +263,7 @@ class ilParticipantsTestResultsGUI
 
         $this->getTestObj()->removeTestResults($participant_data);
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_all_user_data_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_all_user_data_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
@@ -279,11 +279,11 @@ class ilParticipantsTestResultsGUI
         }
 
         $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($this->lng->txt("confirm_delete_single_user_data"));
+        $cgui->setHeaderText($this->lng->txt('confirm_delete_single_user_data'));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($this->lng->txt("cancel"), self::CMD_SHOW_PARTICIPANTS);
-        $cgui->setConfirm($this->lng->txt("confirm"), self::CMD_PERFORM_DELETE_SELECTED_USER_RESULTS);
+        $cgui->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_PARTICIPANTS);
+        $cgui->setConfirm($this->lng->txt('confirm'), self::CMD_PERFORM_DELETE_SELECTED_USER_RESULTS);
 
         $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 
@@ -302,11 +302,11 @@ class ilParticipantsTestResultsGUI
             }
 
             $cgui->addItem(
-                "chbUser[]",
+                'chbUser[]',
                 (string) $active_id,
                 $username,
-                ilUtil::getImagePath("standard/icon_usr.svg"),
-                $this->lng->txt("usr")
+                ilUtil::getImagePath('standard/icon_usr.svg'),
+                $this->lng->txt('usr')
             );
         }
 
@@ -334,7 +334,7 @@ class ilParticipantsTestResultsGUI
 
         $this->getTestObj()->removeTestResults($participant_data);
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_selected_user_data_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_selected_user_data_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
