@@ -17500,6 +17500,7 @@ wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#activate_wopi#:#Activate WOPI
 wopi#:#close_wopi_editor#:#Close Editor
+wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
 wopi#:#msg_wopi_settings_modified#:#Settings stored
 wopi#:#open_external_editor#:#Open in external Editor

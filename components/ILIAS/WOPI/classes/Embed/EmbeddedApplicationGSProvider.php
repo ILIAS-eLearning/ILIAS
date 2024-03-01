@@ -93,11 +93,17 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
                 $builder = new StandardPageBuilder();
                 $page_part_provider = new EmbeddedApplicationPagePartProvider($page_part_provider);
 
+                $back_to = $this->dic->ctrl()->getLinkTargetByClass(
+                    \ilWOPIEmbeddedApplicationGUI::class,
+                    \ilWOPIEmbeddedApplicationGUI::CMD_RETURN
+                );
+                $back_to = new URI(rtrim(ILIAS_HTTP_PATH, '/') . '/' . ltrim($back_to, './'));
+
                 return $builder->build($page_part_provider)
                                ->withModeInfo(
                                    $uif->mainControls()->modeInfo(
                                        $this->dic->language()->txt('close_wopi_editor'),
-                                       new URI($_SERVER['HTTP_REFERER'])
+                                       $back_to
                                    )
                                );
             }
