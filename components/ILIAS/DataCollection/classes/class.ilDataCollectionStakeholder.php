@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder
@@ -26,8 +25,9 @@ class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\Abs
     public function __construct()
     {
         global $DIC;
-
-        $this->owner = $DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : 6;
+        $this->owner = $DIC->isDependencyAvailable('user')
+            ? $DIC->user()->getId()
+            : (defined('SYSTEM_USER_ID') ? (int) SYSTEM_USER_ID : 6);
     }
 
     public function getId(): string

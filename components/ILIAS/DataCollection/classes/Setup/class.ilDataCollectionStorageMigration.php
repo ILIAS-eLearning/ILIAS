@@ -99,9 +99,12 @@ class ilDataCollectionStorageMigration implements \ILIAS\Setup\Migration
                     [$record->id]
                 )
             );
-
+            if ($legacy_file_record === null) {
+                continue;
+            }
             // Store RID as new value in string storage.
-            $rid = $legacy_file_record->rid;
+            $rid = $legacy_file_record->rid ?? null;
+
             $db->insert($string_storage, [
                 'id' => ['integer', $db->nextId($string_storage)],
                 'record_field_id' => ['integer', (int) $legacy_file_record->record_field_id],
