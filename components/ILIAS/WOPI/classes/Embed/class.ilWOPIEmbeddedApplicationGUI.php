@@ -28,7 +28,7 @@ use ILIAS\components\WOPI\Embed\EmbeddedApplicationGSProvider;
  */
 class ilWOPIEmbeddedApplicationGUI
 {
-    public const CMD_INDEX = 'index';
+    public const CMD_EDIT = 'edit';
     public const CMD_RETURN = 'return';
     public const P_RETURN_TO = 'return_to';
     private ilGlobalTemplateInterface $main_tpl;
@@ -68,18 +68,15 @@ class ilWOPIEmbeddedApplicationGUI
         );
         $a_value = bin2hex((string) $this->application->getBackTarget());
         $this->ctrl->setParameter($this, self::P_RETURN_TO, $a_value);
-        switch ($this->ctrl->getCmd()) {
-            case self::CMD_INDEX:
-            default:
-                $this->index();
-                break;
-            case self::CMD_RETURN:
-                $this->return();
-                break;
-        }
+
+        match ($this->ctrl->getCmd()) {
+            default => $this->edit(),
+            self::CMD_EDIT => $this->edit(),
+            self::CMD_RETURN => $this->return(),
+        };
     }
 
-    private function index(): void
+    private function edit(): void
     {
         $this->main_tpl->setContent(
             $this->ui_renderer->render($this->renderer->getComponent())

@@ -122,54 +122,23 @@ class ilFileVersionsGUI
      */
     protected function performCommand(): void
     {
-        $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
-        switch ($cmd) {
-            case self::CMD_DEFAULT:
-                $this->index();
-                break;
-            case self::CMD_DOWNLOAD_VERSION:
-                $this->downloadVersion();
-                break;
-            case self::CMD_DELETE_VERSIONS:
-                $this->deleteVersions();
-                break;
-            case self::CMD_ROLLBACK_VERSION:
-                $this->rollbackVersion();
-                break;
-            case self::CMD_ADD_NEW_VERSION:
-                $this->addVersion(ilFileVersionFormGUI::MODE_ADD);
-                break;
-            case self::CMD_ADD_REPLACING_VERSION:
-                $this->addVersion(ilFileVersionFormGUI::MODE_REPLACE);
-                break;
-            case self::CMD_CREATE_NEW_VERSION:
-                $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-                // no break
-            case self::CMD_CREATE_REPLACING_VERSION:
-                $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
-                break;
-            case self::CMD_CONFIRMED_DELETE_VERSIONS:
-                $this->confirmDeleteVersions();
-                break;
-            case self::CMD_CONFIRMED_DELETE_FILE:
-                $this->confirmDeleteFile();
-                break;
-            case self::CMD_UNZIP_CURRENT_REVISION:
-                $this->unzipCurrentRevision();
-                break;
-            case self::CMD_PROCESS_UNZIP:
-                $this->processUnzip();
-                break;
-            case self::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL:
-                $this->renderDeleteSelectedVersionsModal();
-                break;
-            case self::CMD_PUBLISH:
-                $this->publish();
-                break;
-            case self::CMD_UNPUBLISH:
-                $this->unpublish();
-                break;
-        }
+        match ($this->ctrl->getCmd(self::CMD_DEFAULT)) {
+            self::CMD_DEFAULT => $this->index(),
+            self::CMD_DOWNLOAD_VERSION => $this->downloadVersion(),
+            self::CMD_DELETE_VERSIONS => $this->deleteVersions(),
+            self::CMD_ROLLBACK_VERSION => $this->rollbackVersion(),
+            self::CMD_ADD_NEW_VERSION => $this->addVersion(ilFileVersionFormGUI::MODE_ADD),
+            self::CMD_ADD_REPLACING_VERSION => $this->addVersion(ilFileVersionFormGUI::MODE_REPLACE),
+            self::CMD_CREATE_NEW_VERSION => $this->saveVersion(ilFileVersionFormGUI::MODE_ADD),
+            self::CMD_CREATE_REPLACING_VERSION => $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE),
+            self::CMD_CONFIRMED_DELETE_VERSIONS => $this->confirmDeleteVersions(),
+            self::CMD_CONFIRMED_DELETE_FILE => $this->confirmDeleteFile(),
+            self::CMD_UNZIP_CURRENT_REVISION => $this->unzipCurrentRevision(),
+            self::CMD_PROCESS_UNZIP => $this->processUnzip(),
+            self::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL => $this->renderDeleteSelectedVersionsModal(),
+            self::CMD_PUBLISH => $this->publish(),
+            self::CMD_UNPUBLISH => $this->unpublish()
+        };
     }
 
     /**
@@ -340,7 +309,7 @@ class ilFileVersionsGUI
                                             $this->lng->txt('open_external_editor'),
                                             $this->ctrl->getLinkTargetByClass(
                                                 [self::class, ilWOPIEmbeddedApplicationGUI::class],
-                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_EDIT
                                             )
                                         );
             $this->toolbar->addComponent($external_editor);

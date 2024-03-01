@@ -94,12 +94,12 @@ final class RequestHandler
 
             // check resource_id
             if ($this->token_resource_id !== $resource_id) {
-                exit;
+                $this->http->close();
             }
 
             $resource_id = $this->irss->manage()->find($resource_id);
             if (!$resource_id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
-                exit;
+                $this->http->close();
             }
             $resource = $this->irss->manage()->getResource($resource_id);
             $current_revision = $resource->getCurrentRevisionIncludingDraft();

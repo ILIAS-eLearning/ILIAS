@@ -244,6 +244,9 @@ class ilObjFileGUI extends ilObject2GUI
                 $action = $this->action_repo->getActionForSuffix(
                     $this->object->getFileExtension(),
                     ActionTarget::EDIT
+                ) ?? $this->action_repo->getActionForSuffix(
+                    $this->object->getFileExtension(),
+                    ActionTarget::VIEW
                 );
                 if (null === $action) {
                     $this->error->raiseError($this->lng->txt("no_action_avaliable"), $this->error->MESSAGE);
@@ -765,7 +768,7 @@ class ilObjFileGUI extends ilObject2GUI
 
     protected function editExternal(): void
     {
-        $this->ctrl->redirectByClass(ilWOPIEmbeddedApplicationGUI::class, ilWOPIEmbeddedApplicationGUI::CMD_INDEX);
+        $this->ctrl->redirectByClass(ilWOPIEmbeddedApplicationGUI::class, ilWOPIEmbeddedApplicationGUI::CMD_EDIT);
     }
 
     /**
@@ -820,7 +823,7 @@ class ilObjFileGUI extends ilObject2GUI
                                             $this->lng->txt('open_external_editor'),
                                             $this->ctrl->getLinkTargetByClass(
                                                 \ilWOPIEmbeddedApplicationGUI::class,
-                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_EDIT
                                             )
                                         );
             $this->toolbar->addComponent($external_editor);
