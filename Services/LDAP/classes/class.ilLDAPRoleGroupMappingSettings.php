@@ -95,6 +95,7 @@ class ilLDAPRoleGroupMappingSettings
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        /** @var ilRbacReview $rbacreview */
         $rbacreview = $DIC['rbacreview'];
 
         $query = "SELECT rgm.* FROM ldap_rg_mapping rgm JOIN ldap_server_settings lss " .
@@ -113,7 +114,7 @@ class ilLDAPRoleGroupMappingSettings
             $data['info'] = $row->mapping_info;
             $data['info_type'] = $row->mapping_info_type;
             // read assigned object
-            $data['object_id'] = $rbacreview->getObjectOfRole($row->role);
+            $data['object_id'] = $rbacreview->getObjectOfRole((int) $row->role);
 
             $active[$row->role][] = $data;
         }
