@@ -28,6 +28,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public const MESSAGE_INPUT = 'message';
     public const FILE_UPLOAD_INPUT = 'file_upload';
     public const ALLOW_NOTIFICATION_INPUT = 'allow_notification';
+    public const AUTOSAVE_INFO = 'autosave_info';
 
     /** @var string[] */
     private array $input_items = [];
@@ -100,6 +101,20 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $this->addItem($message);
     }
 
+    private function addAutosaveInfo(): void
+    {
+        if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
+            $draftInfoGUI = new ilNonEditableValueGUI('', 'autosave_info', true);
+            $draftInfoGUI->setValue(
+                sprintf(
+                    $this->lng->txt('autosave_draft_info'),
+                    ilForumPostDraft::lookupAutosaveInterval()
+                )
+            );
+            $this->addItem($draftInfoGUI);
+        }
+    }
+
     private function addFileUploadInput(): void
     {
         if ($this->properties->isFileUploadAllowed()) {
@@ -165,6 +180,10 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
 
                 case self::ALLOW_NOTIFICATION_INPUT:
                     $this->addAllowNotificationInput();
+                    break;
+
+                case self::AUTOSAVE_INFO:
+                    $this->addAutosaveInfo();
                     break;
             }
         }

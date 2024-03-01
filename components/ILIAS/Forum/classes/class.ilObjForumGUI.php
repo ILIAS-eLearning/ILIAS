@@ -5934,10 +5934,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
             $modal->setId('frm_autosave_restore');
             $form_tpl = new ilTemplate('tpl.restore_thread_draft.html', true, true, 'components/ILIAS/Forum');
+            $first_open = null;
 
             foreach ($draftsFromHistory as $history_instance) {
                 $accordion = new ilAccordionGUI();
                 $accordion->setId('acc_' . $history_instance->getHistoryId());
+                $accordion->setBehaviour(ilAccordionGUI::ALL_CLOSED);
+                if ($first_open === null) {
+                    $first_open = $history_instance->getHistoryId();
+                    $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+                }
 
                 $form_tpl->setCurrentBlock('list_item');
                 $message = ilRTE::_replaceMediaObjectImageSrc($history_instance->getPostMessage(), 1);
@@ -5947,7 +5953,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     IL_CAL_DATETIME
                 ));
                 $this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
-                $header = $history_date;
+                $header = $history_date . ': ' . $history_instance->getPostSubject();
 
                 $accordion_tpl = new ilTemplate(
                     'tpl.restore_thread_draft_accordion_content.html',
@@ -5955,7 +5961,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     true,
                     'components/ILIAS/Forum'
                 );
-                $accordion_tpl->setVariable('HEADER', $history_instance->getPostSubject());
                 $accordion_tpl->setVariable('MESSAGE', $message);
                 $accordion_tpl->setVariable(
                     'BUTTON',
