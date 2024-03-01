@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Logging\TestScoringInteraction;
+use ILIAS\Test\Logging\TestScoringInteractionTypes;
+
 /**
 * Scoring class for tests
 *
@@ -123,14 +126,8 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_MANUAL_SCORING);
         $this->buildSubTabs($this->getActiveSubTabId());
 
-        $nextClass = $this->ctrl->getNextClass($this);
         $command = $this->ctrl->getCmd($this->getDefaultCommand());
-
-        switch ($nextClass) {
-            default:
-                $this->$command();
-                break;
-        }
+        $this->$command();
     }
 
     protected function getDefaultCommand(): string
@@ -223,38 +220,40 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         }
 
         $maxPointsByQuestionId = [];
-        $maxPointsExceeded = false;
-        foreach ($question_gui_list as $question_id => $questionGui) {
-            $reachedPoints = $form->getItemByPostVar("question__{$question_id}__points")->getValue();
-            $maxPoints = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
+        $max_points_exceeded = false;
+        foreach (array_keys($question_gui_list) as $question_id) {
+            $reached_points = $form->getItemByPostVar("question__{$question_id}__points")->getValue();
+            $max_points = $this->questionrepository->getForQuestionId($question_id)->getMaximumPoints();
 
-            if ($reachedPoints > $maxPoints) {
-                $maxPointsExceeded = true;
+            if ($reached_points > $max_points) {
+                $max_points_exceeded = true;
 
                 $form->getItemByPostVar("question__{$question_id}__points")->setAlert(sprintf(
                     $this->lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'),
-                    $maxPoints
+                    $max_points
                 ));
             }
 
-            $maxPointsByQuestionId[$question_id] = $maxPoints;
+            $maxPointsByQuestionId[$question_id] = $max_points;
         }
 
-        if ($maxPointsExceeded) {
+        if ($max_points_exceeded) {
             $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringParticipantScreen($form);
             return false;
         }
 
-        foreach ($question_gui_list as $question_id => $questionGui) {
-            $reached_points = (float) $form->getItemByPostVar("question__{$question_id}__points")->getValue();
+        foreach (array_keys($question_gui_list) as $question_id) {
+            $reached_points = $this->refinery->kindlyTo()->float()->transform(
+                $form->getItemByPostVar("question__{$question_id}__points")->getValue()
+            );
 
             $finalized = (bool) $form->getItemByPostVar("{$question_id}__evaluated")->getchecked();
 
             // fix #35543: save manual points only if they differ from the existing points
             // this prevents a question being set to "answered" if only feedback is entered
-            $oldPoints = \assQuestion::_getReachedPoints($active_id, $question_id, $pass);
-            if ($reachedPoints != $oldPoints) {
+            $old_points = \assQuestion::_getReachedPoints($active_id, $question_id, $pass);
+            if ($reached_points != $old_points) {
                 \assQuestion::_setReachedPoints(
                     $active_id,
                     $question_id,
@@ -283,12 +282,12 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
             if ($this->logger->isLoggingEnabled()) {
                 $this->logger->logScoringInteraction(
-                    new \ILIAS\Test\Logging\TestScoringInteraction(
+                    new TestScoringInteraction(
                         $this->lng,
                         $this->getObject()->getRefId(),
                         $question_id,
                         $this->user,
-                        \ilObjTestAccess::_getParticipantId($active_id),
+                        new \ilObjUser(\ilObjTestAccess::_getParticipantId($active_id)),
                         TestScoringInteractionTypes::QUESTION_GRADED,
                         time(),
                         [
@@ -330,7 +329,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $notification->send();
         }
 
-        $scorer = new TestScoring($this->object, $this->db);
+        $scorer = new TestScoring($this->object, $this->user, $this->db, $this->lng);
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolutions();
 

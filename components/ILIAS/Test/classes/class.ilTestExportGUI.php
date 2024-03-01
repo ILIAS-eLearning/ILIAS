@@ -172,7 +172,7 @@ class ilTestExportGUI extends ilExportGUI
                 $test_ref
             );
 
-            $scoring = new TestScoring($this->obj, $this->db, $this->user);
+            $scoring = new TestScoring($this->obj, $this->user, $this->db, $this->lng);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
             $tmpFileName = ilFileUtils::ilTempnam();

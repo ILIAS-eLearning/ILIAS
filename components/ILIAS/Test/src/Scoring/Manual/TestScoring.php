@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 
 /**
@@ -49,8 +50,9 @@ class TestScoring
 
     public function __construct(
         private \ilObjTest $test,
+        private \ilObjUser $scorer,
         private \ilDBInterface $db,
-        private \ilObjUser $scorer
+        private \ilLanguage $lng
     ) {
     }
 
@@ -140,12 +142,12 @@ class TestScoring
         $reached = $question->calculateReachedPoints($active_id, $pass);
         $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
 
-        if ($this->preserve_manual_scores === true && $questiondata['manual'] === '1') {
+        if ($this->preserve_manual_scores === true && $questiondata['manual'] === 1) {
             return;
         }
 
-        assQuestion::setForcePassResultUpdateEnabled(true);
-        assQuestion::_setReachedPoints(
+        \assQuestion::setForcePassResultUpdateEnabled(true);
+        \assQuestion::_setReachedPoints(
             $active_id,
             $questiondata['id'],
             $actual_reached,
@@ -154,14 +156,14 @@ class TestScoring
             false,
             true
         );
-        assQuestion::setForcePassResultUpdateEnabled(false);
+        \assQuestion::setForcePassResultUpdateEnabled(false);
 
         $logger = $this->test->getTestLogger();
         if ($logger->isLoggingEnabled()) {
             $logger->logScoringInteraction(
-                new ILIAS\Test\Logging\TestScoringInteraction(
-                    $this->language,
-                    $this->test_obj->getRefId(),
+                new TestScoringInteraction(
+                    $this->lng,
+                    $this->test->getRefId(),
                     $questiondata['id'],
                     $this->scorer,
                     new \ilObjUser($user_id),
@@ -238,13 +240,11 @@ class TestScoring
     {
         $query = "
 			SELECT COUNT(*) num_manual_scorings
-			FROM tst_test_result tres
-
+                FROM tst_test_result tres
 			INNER JOIN tst_active tact
-			ON tact.active_id = tres.active_fi
-			AND tact.test_fi = %s
-
-			WHERE tres.manual = 1
+                ON tact.active_id = tres.active_fi
+			WHERE tact.test_fi = %s
+			AND tres.manual = 1
 		";
 
         $types = ['integer'];

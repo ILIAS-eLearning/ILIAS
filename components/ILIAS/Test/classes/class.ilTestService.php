@@ -61,31 +61,31 @@ class ilTestService
             }
 
             if (!$short) {
-                $resultData = &$this->object->getTestResult($active_id, $pass);
+                $result_data = $this->object->getTestResult($active_id, $pass);
 
-                if (!$resultData["pass"]["total_max_points"]) {
+                if (!$result_data["pass"]["total_max_points"]) {
                     $passPercentage = 0;
                 } else {
-                    $passPercentage = ($resultData["pass"]["total_reached_points"] / $resultData["pass"]["total_max_points"]) * 100;
+                    $passPercentage = ($result_data["pass"]["total_reached_points"] / $result_data["pass"]["total_max_points"]) * 100;
                 }
 
-                $passMaxPoints = $resultData["pass"]["total_max_points"];
-                $passReachedPoints = $resultData["pass"]["total_reached_points"];
+                $passMaxPoints = $result_data["pass"]["total_max_points"];
+                $passReachedPoints = $result_data["pass"]["total_reached_points"];
 
                 $passAnsweredQuestions = $this->object->getAnsweredQuestionCount($active_id, $pass);
-                $passTotalQuestions = count($resultData) - 2;
+                $passTotalQuestions = count($result_data) - 2;
 
                 if ($pass == $scoredPass) {
                     $isScoredPass = true;
 
-                    if (!$resultData["test"]["total_max_points"]) {
+                    if (!$result_data["test"]["total_max_points"]) {
                         $testPercentage = 0;
                     } else {
-                        $testPercentage = ($resultData["test"]["total_reached_points"] / $resultData["test"]["total_max_points"]) * 100;
+                        $testPercentage = ($result_data["test"]["total_reached_points"] / $result_data["test"]["total_max_points"]) * 100;
                     }
 
-                    $testMaxPoints = $resultData["test"]["total_max_points"];
-                    $testReachedPoints = $resultData["test"]["total_reached_points"];
+                    $testMaxPoints = $result_data["test"]["total_max_points"];
+                    $testReachedPoints = $result_data["test"]["total_reached_points"];
 
                     $passOverwiewData['test'] = array(
                         'active_id' => $active_id,
@@ -120,31 +120,31 @@ class ilTestService
      */
     public function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
-        $manScoringQuestionTypes = ilObjTestFolder::_getManualScoring();
+        $man_scoring_question_types = ilObjTestFolder::_getManualScoring();
 
-        $testResultData = $this->object->getTestResult($active_id, $pass);
+        $test_result_data = $this->object->getTestResult($active_id, $pass);
 
-        $manScoringQuestionGuiList = [];
+        $man_scoring_question_gui_list = [];
 
-        foreach ($testResultData as $questionData) {
-            if (!isset($questionData['qid'])) {
+        foreach ($test_result_data as $question_data) {
+            if (!isset($question_data['qid'])) {
                 continue;
             }
 
-            if (!isset($questionData['type'])) {
+            if (!isset($question_data['type'])) {
                 throw new ilTestException('no question type given!');
             }
 
-            $question_gui = $this->object->createQuestionGUI("", $questionData['qid']);
+            $question_gui = $this->object->createQuestionGUI("", $question_data['qid']);
 
-            if (!in_array($question_gui->getObject()->getQuestionTypeID(), $manScoringQuestionTypes)) {
+            if (!in_array($question_gui->getObject()->getQuestionTypeID(), $man_scoring_question_types)) {
                 continue;
             }
 
-            $manScoringQuestionGuiList[ $questionData['qid'] ] = $question_gui;
+            $man_scoring_question_gui_list[ $question_data['qid'] ] = $question_gui;
         }
 
-        return $manScoringQuestionGuiList;
+        return $man_scoring_question_gui_list;
     }
 
     public static function isManScoringDone(int $active_id): bool
