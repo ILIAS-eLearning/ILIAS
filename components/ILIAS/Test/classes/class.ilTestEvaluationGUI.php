@@ -909,7 +909,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilSession::clear('tst_results_show_best_solutions');
         }
 
-        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "components/ILIAS/Test");
         $this->populateExamId($template, $active_id, (int) $pass);
         $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
@@ -994,7 +994,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $active_id = (int) $selected_user;
             $pass = ilObjTest::_getResultPass($active_id);
 
-            $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+            $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "components/ILIAS/Test");
             $this->populateExamId($template, $active_id, (int) $pass);
             $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
@@ -1017,7 +1017,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $toolbar->setParticipantSelectorOptions($anchors);
         $toolbar->build();
-        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "components/ILIAS/Test");
         $template->setVariable('RESULTS_TOOLBAR', $toolbar->getHTML());
         array_unshift($content, $template->get());
 
