@@ -11411,6 +11411,7 @@ mail#:#mail_sure_delete#:#Are you sure you want to delete the selected mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file(s)?
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be irrevocably deleted.
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
