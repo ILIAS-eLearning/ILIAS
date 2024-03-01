@@ -2827,7 +2827,6 @@ JS;
         $process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $this->db);
         $process_locker_factory->setQuestionId($question->getId());
         $process_locker_factory->setUserId($this->user->getId());
-        $process_locker_factory->setAssessmentLogEnabled(ilObjTestFolder::_enabledAssessmentLogging());
         $question->setProcessLocker($process_locker_factory->getLocker());
 
         $question->setObligationsToBeConsidered($this->object->areObligationsEnabled());

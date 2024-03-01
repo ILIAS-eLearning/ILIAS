@@ -90,13 +90,6 @@ class ilObjTestFolder extends ilObject
         $setting->set('assessment_log_language', $a_language);
     }
 
-    public static function _enabledAssessmentLogging(): bool
-    {
-        $setting = new \ilSetting('assessment');
-
-        return (bool) $setting->get('assessment_logging', '0');
-    }
-
     /**
      * Returns the forbidden questiontypes for ILIAS
      * @return int[]
