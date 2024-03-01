@@ -35,6 +35,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     public const ENCODING_ISO_8859_1 = 'ISO-8859-1';
     protected string $file_content = '';
     protected string $path_to_file = '';
+    private \ILIAS\Refinery\Factory $refinery;
     protected \ilBiblEntryFactoryInterface $entry_factory;
     protected \ilBiblFieldFactoryInterface $field_factory;
     protected \ilBiblAttributeFactoryInterface $attribute_factory;
@@ -53,6 +54,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         global $DIC;
 
         $this->entry_factory = $entry_factory;
+        $this->refinery = $DIC->refinery();
         $this->field_factory = $field_factory;
         $this->attribute_factory = $attribute_factory;
         $this->storage = $DIC["resource_storage"];
@@ -69,28 +71,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
     protected function convertStringToUTF8(string $string): string
     {
-        if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
-            || !function_exists("mb_convert_encoding")
-        ) {
-            return $string;
-        }
-
-        ob_end_clean();
-
-        $mb_detect_encoding = mb_detect_encoding($string);
-        mb_detect_order(array(self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1));
-        switch ($mb_detect_encoding) {
-            case self::ENCODING_UTF_8:
-                break;
-            case self::ENCODING_ASCII:
-                $string = utf8_encode(iconv(self::ENCODING_ASCII, 'UTF-8//IGNORE', $string));
-                break;
-            default:
-                $string = mb_convert_encoding($string, self::ENCODING_UTF_8, $mb_detect_encoding);
-                break;
-        }
-
-        return $string;
+        return $this->refinery->string()->utf8()->transform($string);
     }
 
     public function getFileContent(): string
