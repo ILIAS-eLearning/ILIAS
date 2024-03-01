@@ -295,9 +295,15 @@ class ilObjFileListGUI extends ilObjectListGUI
                 }
                 return parent::getCommandLink($cmd);
             case self::CONTEXT_WORKSPACE:
+                $this->ctrl->setParameterByClass(ilObjFileGUI::class, 'wsp_id', $this->ref_id);
                 if ($cmd === "sendfile" && !ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
-                    return $infoscreen();
+                    return $this->ctrl->getLinkTargetByClass(
+                        ilObjFileGUI::class,
+                        'infoScreen'
+                    );
                 }
+                break;
+
         }
 
         return parent::getCommandLink($cmd);
