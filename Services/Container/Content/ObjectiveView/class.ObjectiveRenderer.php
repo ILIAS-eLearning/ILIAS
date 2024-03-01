@@ -754,8 +754,7 @@ class ObjectiveRenderer
                 $a_lo_result['type'] == \ilLOUserResults::TYPE_INITIAL &&
                 \ilLOSettings::getInstanceByObjId($a_lo_result['course_id'] ?? 0)->isInitialTestQualifying()
             );
-        $has_completed =
-            ($a_lo_result["status"] ?? 0 == \ilLOUserResults::STATUS_COMPLETED);
+        $has_completed = (int) ($a_lo_result["status"] ?? 0) === \ilLOUserResults::STATUS_COMPLETED;
 
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
 
