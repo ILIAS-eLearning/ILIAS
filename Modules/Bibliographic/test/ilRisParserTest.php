@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\Refinery\Factory;
 
 class ilRisParserTest extends TestCase
 {
@@ -34,6 +35,10 @@ class ilRisParserTest extends TestCase
         $DIC = new Container();
         $DIC['resource_storage'] = $this->createMock(Services::class);
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
+        $DIC['refinery'] = new Factory(
+            new ILIAS\Data\Factory(),
+            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
+        );
     }
 
     protected function tearDown(): void
