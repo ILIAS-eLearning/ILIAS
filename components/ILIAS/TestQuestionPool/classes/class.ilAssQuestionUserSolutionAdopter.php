@@ -45,11 +45,9 @@ class ilAssQuestionUserSolutionAdopter
 
     public function __construct(
         private ilDBInterface $db,
-        ilSetting $ass_settings,
-        bool $is_assessment_log_enabled
+        ilSetting $ass_settings
     ) {
         $this->process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $db);
-        $this->process_locker_factory->setAssessmentLogEnabled($is_assessment_log_enabled);
     }
 
     public function getUserId(): ?int

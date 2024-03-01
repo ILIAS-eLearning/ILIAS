@@ -3208,10 +3208,7 @@ JS;
     {
         $ass_settings = new ilSetting('assessment');
 
-        $isAssessmentLogEnabled = ilObjTestFolder::_enabledAssessmentLogging();
-
-        $userSolutionAdopter = new ilAssQuestionUserSolutionAdopter($this->db, $ass_settings, $isAssessmentLogEnabled);
-
+        $userSolutionAdopter = new ilAssQuestionUserSolutionAdopter($this->db, $ass_settings);
         $userSolutionAdopter->setUserId($this->user->getId());
         $userSolutionAdopter->setActiveId($this->test_session->getActiveId());
         $userSolutionAdopter->setTargetPass($this->test_sequence->getPass());

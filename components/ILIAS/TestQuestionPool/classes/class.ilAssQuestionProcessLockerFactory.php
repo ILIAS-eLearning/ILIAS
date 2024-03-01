@@ -60,7 +60,6 @@ class ilAssQuestionProcessLockerFactory
 
         $this->questionId = null;
         $this->userId = null;
-        $this->assessmentLogEnabled = false;
     }
 
     /**
@@ -95,22 +94,6 @@ class ilAssQuestionProcessLockerFactory
         return $this->userId;
     }
 
-    /**
-     * @param bool $assessmentLogEnabled
-     */
-    public function setAssessmentLogEnabled($assessmentLogEnabled): void
-    {
-        $this->assessmentLogEnabled = $assessmentLogEnabled;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAssessmentLogEnabled(): bool
-    {
-        return $this->assessmentLogEnabled;
-    }
-
     private function getLockModeSettingValue(): ?string
     {
         return $this->settings->get('ass_process_lock_mode', ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
@@ -137,7 +120,6 @@ class ilAssQuestionProcessLockerFactory
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_DB:
 
                 $locker = new ilAssQuestionProcessLockerDb($this->db);
-                $locker->setAssessmentLogEnabled($this->isAssessmentLogEnabled());
                 break;
         }
 
