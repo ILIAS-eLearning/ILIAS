@@ -2168,7 +2168,6 @@ abstract class assQuestion implements Question
         $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
         $processLockerFactory->setQuestionId($question_gui->getObject()->getId());
         $processLockerFactory->setUserId($ilUser->getId());
-        $processLockerFactory->setAssessmentLogEnabled(ilObjTestFolder::_enabledAssessmentLogging());
         $question->setProcessLocker($processLockerFactory->getLocker());
         $question_gui->setObject($question);
 
