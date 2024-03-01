@@ -56,12 +56,12 @@ class ilWACException extends ilException
      * @param int $code
      * @param string $additional_message
      */
-    public function __construct($code, $additional_message = '')
+    public function __construct($code, $additional_message = '', Throwable $previous = null)
     {
         $message = self::$messages[$code] ?? 'Unknown error';
         if (!empty($additional_message)) {
             $message .= ': ' . $additional_message;
         }
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
     }
 }
