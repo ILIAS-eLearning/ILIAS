@@ -115,18 +115,13 @@ class ilSession
         return 0;
     }
 
-
-    /**
-    * Write session data
-    *
-    * @param	string		session id
-    * @param	string		session data
-    */
     public static function _writeData(string $a_session_id, string $a_data): bool
     {
         global $DIC;
 
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
+        /** @var ilIniFile $ilClientIniFile */
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
         if (self::isWebAccessWithoutSessionEnabled()) {
@@ -143,54 +138,86 @@ class ilSession
         $now = time();
 
         // prepare session data
-        $fields = array(
-            "user_id" => array("integer", (int) (self::get('_authsession_user_id') ?? 0)),
-            "expires" => array("integer", self::getExpireValue()),
-            "data" => array("clob", $a_data),
-            "ctime" => array("integer", $now),
-            "type" => array("integer", (int) (self::get("SessionType") ?? 0))
-            );
-        if ($ilClientIniFile->readVariable("session", "save_ip")) {
-            $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
+        $fields = [
+            'user_id' => [ilDBConstants::T_INTEGER, (int) (self::get('_authsession_user_id') ?? 0)],
+            'expires' => [ilDBConstants::T_INTEGER, self::getExpireValue()],
+            'data' => [ilDBConstants::T_CLOB, $a_data],
+            'ctime' => [ilDBConstants::T_INTEGER, $now],
+            'type' => [ilDBConstants::T_INTEGER, (int) (self::get('SessionType') ?? 0)]
+        ];
+        if ($ilClientIniFile->readVariable('session', 'save_ip')) {
+            $fields['remote_addr'] = [ilDBConstants::T_TEXT, $_SERVER['REMOTE_ADDR'] ?? ''];
         }
 
         if (self::_exists($a_session_id)) {
             // note that we do this only when inserting the new record
             // updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
-            if (class_exists("ilContext") && ilContext::isSessionMainContext()) {
-                $fields["context"] = array("text", ilContext::getType());
+            if (class_exists('ilContext') && ilContext::isSessionMainContext()) {
+                $fields['context'] = [ilDBConstants::T_TEXT, ilContext::getType()];
             }
             $ilDB->update(
-                "usr_session",
+                'usr_session',
                 $fields,
-                array("session_id" => array("text", $a_session_id))
+                ['session_id' => [ilDBConstants::T_TEXT, $a_session_id]]
             );
         } else {
-            $fields["session_id"] = array("text", $a_session_id);
-            $fields["createtime"] = array("integer", $now);
+            $fields['session_id'] = [ilDBConstants::T_TEXT, $a_session_id];
+            $fields['createtime'] = [ilDBConstants::T_INTEGER, $now];
 
             // note that we do this only when inserting the new record
             // updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
-            if (class_exists("ilContext")) {
-                $fields["context"] = array("text", ilContext::getType());
+            if (class_exists('ilContext')) {
+                $fields['context'] = [ilDBConstants::T_TEXT, ilContext::getType()];
             }
 
-            $ilDB->insert("usr_session", $fields);
+            $insert_fields = implode(', ', array_keys($fields));
+            $insert_values = implode(
+                ', ',
+                array_map(
+                    static fn (string $type, $value): string => $ilDB->quote($value, $type),
+                    array_column($fields, 0),
+                    array_column($fields, 1)
+                )
+            );
+
+            $update_fields = array_filter(
+                $fields,
+                static fn (string $field): bool => !in_array($field, ['session_id', 'user_id', 'createtime'], true),
+                ARRAY_FILTER_USE_KEY
+            );
+            $update_values = implode(
+                ', ',
+                array_map(
+                    static fn (string $field, string $type, $value): string => $field . ' = ' . $ilDB->quote(
+                        $value,
+                        $type
+                    ),
+                    array_keys($update_fields),
+                    array_column($update_fields, 0),
+                    array_column($update_fields, 1)
+                )
+            );
+
+            $ilDB->manipulate(
+                'INSERT INTO usr_session (' . $insert_fields . ') '
+                . 'VALUES (' . $insert_values . ') '
+                . 'ON DUPLICATE KEY UPDATE ' . $update_values
+            );
 
             // check type against session control
-            $type = (int) $fields["type"][1];
+            $type = (int) $fields['type'][1];
             if (in_array($type, ilSessionControl::$session_types_controlled, true)) {
                 ilSessionStatistics::createRawEntry(
-                    $fields["session_id"][1],
+                    $fields['session_id'][1],
                     $type,
-                    $fields["createtime"][1],
-                    $fields["user_id"][1]
+                    $fields['createtime'][1],
+                    $fields['user_id'][1]
                 );
             }
         }
 
         // finally delete deprecated sessions
-        $random = new \ilRandom();
+        $random = new ilRandom();
         if ($random->int(0, 50) === 2) {
             // get time _before_ destroying expired sessions
             self::_destroyExpiredSessions();
