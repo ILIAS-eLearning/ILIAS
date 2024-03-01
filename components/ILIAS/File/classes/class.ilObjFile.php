@@ -403,12 +403,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->implementation->handleChangedObjectTitle($new_title);
     }
 
+    public function getTitle(): string
+    {
+        return $this->stripTitleOfFileExtension(parent::getTitle());
+    }
+
     protected function doCreate(bool $clone_mode = false): void
     {
-        if (!$clone_mode) {
-            $this->setTitle($this->stripTitleOfFileExtension($this->getTitle()));
-            $this->update();
-        }
         $this->createProperties(true);
         $this->updateCopyright();
         $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
