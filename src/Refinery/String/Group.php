@@ -145,4 +145,12 @@ class Group
     {
         return new MarkdownFormattingToHTML($escape);
     }
+
+    /**
+     * Creates a transformation to convert a string to UTF8 encoding.
+     */
+    public function utf8(): UTF8
+    {
+        return new UTF8();
+    }
 }
