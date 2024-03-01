@@ -23,13 +23,13 @@
  */
 class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
 {
-    private $subPath;
+    private string $sub_path;
 
-    public function __construct(int $questionId, $userId)
+    public function __construct(int $question_id, int $user_id)
     {
-        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $questionId);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $question_id);
 
-        $this->initSubPath($userId);
+        $this->initSubPath($user_id);
     }
 
     /**
@@ -61,7 +61,7 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
 
     public function getPath(): string
     {
-        return parent::getPath() . '/' . $this->subPath;
+        return parent::getPath() . '/' . $this->sub_path;
     }
 
     public function create(): void
@@ -82,16 +82,16 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
         }
     }
 
-    private function initSubPath($userId): void
+    private function initSubPath(int $user_id): void
     {
-        $userId = (string) $userId;
+        $user_id = (string) $user_id;
 
         $path = array();
 
-        for ($i = 0, $max = strlen($userId); $i < $max; $i++) {
-            $path[] = substr($userId, $i, 1);
+        for ($i = 0, $max = strlen($user_id); $i < $max; $i++) {
+            $path[] = substr($user_id, $i, 1);
         }
 
-        $this->subPath = implode('/', $path);
+        $this->sub_path = implode('/', $path);
     }
 }
