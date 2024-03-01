@@ -251,7 +251,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
 
         foreach ($questionGuiList as $questionId => $questionGui) {
-            $reachedPoints = (float) $form->getItemByPostVar("question__{$questionId}__points")->getValue();
+            $reachedPoints = $reached_points = $this->refinery->kindlyTo()->float()->transform(
+                $form->getItemByPostVar("question__{$questionId}__points")->getValue()
+            );
+            ;
 
             $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
 

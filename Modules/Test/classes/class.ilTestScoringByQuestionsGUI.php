@@ -218,7 +218,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $update_participant = false;
             $qst_id = null;
 
-            foreach ($questions as $qst_id => $reached_points) {
+            foreach ($questions as $qst_id => $reached_points_string) {
+                $reached_points = $this->refinery->kindlyTo()->float()
+                    ->transform($reached_points_string);
                 if (!isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
@@ -241,7 +243,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 }
 
                 $maxPointsByQuestionId[$qst_id] = $this->questioninfo->getMaximumPoints($qst_id);
-                $manPointsPost[$pass][$active_id][$qst_id] = (float) $reached_points;
+                $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
                     $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);
                     $this->showManScoringByQuestionParticipantsTable($manPointsPost);
@@ -256,7 +258,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                     $update_participant = assQuestion::_setReachedPoints(
                         $active_id,
                         $qst_id,
-                        (float) $reached_points,
+                        $reached_points,
                         $maxPointsByQuestionId[$qst_id],
                         $pass,
                         true,
