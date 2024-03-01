@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,248 +26,193 @@
  */
 class ilAssQuestionUserSolutionAdopter
 {
-    protected static $preparedDeleteSolutionRecordsStatement = null;
+    protected static ?ilDBStatement $prepared_delete_solution_records_statement = null;
+    protected static ?ilDBStatement $prepared_select_solution_records_statement = null;
+    protected static ?ilDBStatement $prepared_insert_solution_record_statement = null;
+    protected static ?ilDBStatement $prepared_delete_result_record_statement = null;
+    protected static ?ilDBStatement $prepared_select_result_record_statement = null;
+    protected static ?ilDBStatement $prepared_insert_result_record_statement = null;
 
-    protected static $preparedSelectSolutionRecordsStatement = null;
-
-    protected static $preparedInsertSolutionRecordStatement = null;
-
-    protected static $preparedDeleteResultRecordStatement = null;
-
-    protected static $preparedSelectResultRecordStatement = null;
-
-    protected static $preparedInsertResultRecordStatement = null;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    private ilAssQuestionProcessLockerFactory $process_locker_factory;
+    private ?int $user_id = null;
+    protected ?int $active_id = null;
+    protected ?int $target_pass = null;
 
     /**
-     * @var ilAssQuestionProcessLockerFactory
+     * @var array<int>
      */
-    protected $processLockerFactory;
+    protected array $question_ids = [];
 
-    /**
-     * @var integer
-     */
-    protected $userId;
-
-    /**
-     * @var integer
-     */
-    protected $activeId;
-
-    /**
-     * @var integer
-     */
-    protected $targetPass;
-
-    /**
-     * @var array
-     */
-    protected $questionIds;
-
-    /**
-     * @param ilDBInterface $db
-     * @param ilSetting $assSettings
-     * @param bool $isAssessmentLogEnabled
-     */
-    public function __construct(ilDBInterface $db, ilSetting $assSettings, $isAssessmentLogEnabled)
-    {
-        $this->db = $db;
-
-        $this->userId = null;
-        $this->activeId = null;
-        $this->targetPass = null;
-        $this->questionIds = array();
-
-        $this->processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $db);
-        $this->processLockerFactory->setAssessmentLogEnabled($isAssessmentLogEnabled);
+    public function __construct(
+        private ilDBInterface $db,
+        ilSetting $ass_settings,
+        bool $is_assessment_log_enabled
+    ) {
+        $this->process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $db);
+        $this->process_locker_factory->setAssessmentLogEnabled($is_assessment_log_enabled);
     }
 
-    /**
-     * @return int
-     */
     public function getUserId(): ?int
     {
-        return $this->userId;
+        return $this->user_id;
     }
 
-    /**
-     * @param int $userId
-     */
-    public function setUserId($userId): void
+    public function setUserId(int $user_id): void
     {
-        $this->userId = $userId;
+        $this->user_id = $user_id;
     }
 
-    /**
-     * @return int
-     */
     public function getActiveId(): ?int
     {
-        return $this->activeId;
+        return $this->active_id;
     }
 
-    /**
-     * @param int $activeId
-     */
-    public function setActiveId($activeId): void
+    public function setActiveId(int $active_id): void
     {
-        $this->activeId = $activeId;
+        $this->active_id = $active_id;
     }
 
-    /**
-     * @return int
-     */
     public function getTargetPass(): ?int
     {
-        return $this->targetPass;
+        return $this->target_pass;
     }
 
-    /**
-     * @param int $targetPass
-     */
-    public function setTargetPass($targetPass): void
+    public function setTargetPass(int $target_pass): void
     {
-        $this->targetPass = $targetPass;
+        $this->target_pass = $target_pass;
     }
 
-    /**
-     * @return array
-     */
     public function getQuestionIds(): array
     {
-        return $this->questionIds;
+        return $this->question_ids;
     }
 
     /**
-     * @param array $questionIds
+     * @param array<int> $question_ids
      */
-    public function setQuestionIds($questionIds): void
+    public function setQuestionIds(array $question_ids): void
     {
-        $this->questionIds = $questionIds;
+        $this->question_ids = $question_ids;
     }
 
     public function perform(): void
     {
-        $this->processLockerFactory->setUserId($this->getUserId());
+        $this->process_locker_factory->setUserId($this->getUserId());
 
-        foreach ($this->getQuestionIds() as $questionId) {
-            $this->processLockerFactory->setQuestionId($questionId);
-            $processLocker = $this->processLockerFactory->getLocker();
+        foreach ($this->getQuestionIds() as $question_id) {
+            $this->process_locker_factory->setQuestionId($question_id);
+            $processLocker = $this->process_locker_factory->getLocker();
 
-            $processLocker->executeUserTestResultUpdateLockOperation(function () use ($questionId) {
-                $this->adoptQuestionAnswer($questionId);
+            $processLocker->executeUserTestResultUpdateLockOperation(function () use ($question_id) {
+                $this->adoptQuestionAnswer($question_id);
             });
         }
     }
 
-    protected function adoptQuestionAnswer($questionId): void
+    protected function adoptQuestionAnswer(int $question_id): void
     {
-        $this->resetTargetSolution($questionId);
-        $this->resetTargetResult($questionId);
+        $this->resetTargetSolution($question_id);
+        $this->resetTargetResult($question_id);
 
-        $sourcePass = $this->adoptSourceSolution($questionId);
+        $source_pass = $this->adoptSourceSolution($question_id);
 
-        if ($sourcePass !== null) {
-            $this->adoptSourceResult($questionId, $sourcePass);
+        if ($source_pass !== null) {
+            $this->adoptSourceResult($question_id, $source_pass);
         }
     }
 
-    protected function resetTargetSolution($questionId): void
+    protected function resetTargetSolution(int $question_id): void
     {
         $this->db->execute(
             $this->getPreparedDeleteSolutionRecordsStatement(),
-            array($this->getActiveId(), $questionId, $this->getTargetPass())
+            [$this->getActiveId(), $question_id, $this->getTargetPass()]
         );
     }
 
-    protected function resetTargetResult($questionId): void
+    protected function resetTargetResult(int $question_id): void
     {
         $this->db->execute(
             $this->getPreparedDeleteResultRecordStatement(),
-            array($this->getActiveId(), $questionId, $this->getTargetPass())
+            [$this->getActiveId(), $question_id, $this->getTargetPass()]
         );
     }
 
-    protected function adoptSourceSolution($questionId)
+    protected function adoptSourceSolution(int $question_id): ?int
     {
         $res = $this->db->execute(
             $this->getPreparedSelectSolutionRecordsStatement(),
-            array($this->getActiveId(), $questionId, $this->getTargetPass())
+            [$this->getActiveId(), $question_id, $this->getTargetPass()]
         );
 
-        $sourcePass = null;
+        $source_pass = null;
 
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($sourcePass === null) {
-                $sourcePass = $row['pass'];
-            } elseif ($row['pass'] < $sourcePass) {
+            if ($source_pass === null) {
+                $source_pass = $row['pass'];
+            } elseif ($row['pass'] < $source_pass) {
                 break;
             }
 
-            $solutionId = $this->db->nextId('tst_solutions');
+            $solution_id = $this->db->nextId('tst_solutions');
 
-            $this->db->execute($this->getPreparedInsertSolutionRecordStatement(), array(
-                $solutionId, $this->getActiveId(), $questionId, $this->getTargetPass(), time(),
+            $this->db->execute($this->getPreparedInsertSolutionRecordStatement(), [
+                $solution_id, $this->getActiveId(), $question_id, $this->getTargetPass(), time(),
                 $row['points'], $row['value1'], $row['value2']
-            ));
+            ]);
         }
 
-        return $sourcePass;
+        return $source_pass;
     }
 
-    protected function adoptSourceResult($questionId, $sourcePass): void
+    protected function adoptSourceResult(int $question_id, int $source_pass): void
     {
         $res = $this->db->execute(
             $this->getPreparedSelectResultRecordStatement(),
-            array($this->getActiveId(), $questionId, $sourcePass)
+            [$this->getActiveId(), $question_id, $source_pass]
         );
 
         $row = $this->db->fetchAssoc($res);
 
-        $resultId = $this->db->nextId('tst_test_result');
+        $result_id = $this->db->nextId('tst_test_result');
 
-        $this->db->execute($this->getPreparedInsertResultRecordStatement(), array(
-            $resultId, $this->getActiveId(), $questionId, $this->getTargetPass(), time(),
+        $this->db->execute($this->getPreparedInsertResultRecordStatement(), [
+            $result_id, $this->getActiveId(), $question_id, $this->getTargetPass(), time(),
             $row['points'], $row['manual'], $row['hint_count'], $row['hint_points'], $row['answered']
-        ));
+        ]);
     }
 
     protected function getPreparedDeleteSolutionRecordsStatement(): ilDBStatement
     {
-        if (self::$preparedDeleteSolutionRecordsStatement === null) {
-            self::$preparedDeleteSolutionRecordsStatement = $this->db->prepareManip(
+        if (self::$prepared_delete_solution_records_statement === null) {
+            self::$prepared_delete_solution_records_statement = $this->db->prepareManip(
                 "DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-                array('integer', 'integer', 'integer')
+                ['integer', 'integer', 'integer']
             );
         }
 
-        return self::$preparedDeleteSolutionRecordsStatement;
+        return self::$prepared_delete_solution_records_statement;
     }
 
     protected function getPreparedSelectSolutionRecordsStatement(): ilDBStatement
     {
-        if (self::$preparedSelectSolutionRecordsStatement === null) {
+        if (self::$prepared_select_solution_records_statement === null) {
             $query = "
 				SELECT pass, points, value1, value2 FROM tst_solutions
 				WHERE active_fi = ? AND question_fi = ? AND pass < ? ORDER BY pass DESC
 			";
 
-            self::$preparedSelectSolutionRecordsStatement = $this->db->prepare(
+            self::$prepared_select_solution_records_statement = $this->db->prepare(
                 $query,
-                array('integer', 'integer', 'integer')
+                ['integer', 'integer', 'integer']
             );
         }
 
-        return self::$preparedSelectSolutionRecordsStatement;
+        return self::$prepared_select_solution_records_statement;
     }
 
     protected function getPreparedInsertSolutionRecordStatement(): ilDBStatement
     {
-        if (self::$preparedInsertSolutionRecordStatement === null) {
+        if (self::$prepared_insert_solution_record_statement === null) {
             $query = "
 				INSERT INTO tst_solutions (
 					solution_id, active_fi, question_fi, pass, tstamp, points, value1, value2
@@ -274,47 +221,47 @@ class ilAssQuestionUserSolutionAdopter
 				)
 			";
 
-            self::$preparedInsertSolutionRecordStatement = $this->db->prepareManip(
+            self::$prepared_insert_solution_record_statement = $this->db->prepareManip(
                 $query,
-                array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'text', 'text')
+                ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'text', 'text']
             );
         }
 
-        return self::$preparedInsertSolutionRecordStatement;
+        return self::$prepared_insert_solution_record_statement;
     }
 
     protected function getPreparedDeleteResultRecordStatement(): ilDBStatement
     {
-        if (self::$preparedDeleteResultRecordStatement === null) {
-            self::$preparedDeleteResultRecordStatement = $this->db->prepareManip(
+        if (self::$prepared_delete_result_record_statement === null) {
+            self::$prepared_delete_result_record_statement = $this->db->prepareManip(
                 "DELETE FROM tst_test_result WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-                array('integer', 'integer', 'integer')
+                ['integer', 'integer', 'integer']
             );
         }
 
-        return self::$preparedDeleteResultRecordStatement;
+        return self::$prepared_delete_result_record_statement;
     }
 
     protected function getPreparedSelectResultRecordStatement(): ilDBStatement
     {
-        if (self::$preparedSelectResultRecordStatement === null) {
+        if (self::$prepared_select_result_record_statement === null) {
             $query = "
 				SELECT points, manual, hint_count, hint_points, answered FROM tst_test_result
 				WHERE active_fi = ? AND question_fi = ? AND pass = ?
 			";
 
-            self::$preparedSelectResultRecordStatement = $this->db->prepare(
+            self::$prepared_select_result_record_statement = $this->db->prepare(
                 $query,
-                array('integer', 'integer', 'integer')
+                ['integer', 'integer', 'integer']
             );
         }
 
-        return self::$preparedSelectResultRecordStatement;
+        return self::$prepared_select_result_record_statement;
     }
 
     protected function getPreparedInsertResultRecordStatement(): ilDBStatement
     {
-        if (self::$preparedInsertResultRecordStatement === null) {
+        if (self::$prepared_insert_result_record_statement === null) {
             $query = "
 				INSERT INTO tst_test_result (
 					test_result_id, active_fi, question_fi, pass, tstamp,
@@ -324,12 +271,12 @@ class ilAssQuestionUserSolutionAdopter
 				)
 			";
 
-            self::$preparedInsertResultRecordStatement = $this->db->prepareManip(
+            self::$prepared_insert_result_record_statement = $this->db->prepareManip(
                 $query,
-                array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer')
+                ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer']
             );
         }
 
-        return self::$preparedInsertResultRecordStatement;
+        return self::$prepared_insert_result_record_statement;
     }
 }
