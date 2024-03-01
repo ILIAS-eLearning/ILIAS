@@ -29,11 +29,17 @@ use ILIAS\Services\WOPI\Embed\EmbeddedApplicationGSProvider;
 class ilWOPIEmbeddedApplicationGUI
 {
     public const CMD_INDEX = 'index';
+    public const CMD_RETURN = 'return';
+    public const P_RETURN_TO = 'return_to';
     private ilGlobalTemplateInterface $main_tpl;
     private ilTabsGUI $tabs;
     private \ILIAS\GlobalScreen\Services $global_screen;
     private Renderer $renderer;
     private \ILIAS\UI\Renderer $ui_renderer;
+    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $http;
+    private \ILIAS\Refinery\Factory $refinery;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
 
     public function __construct(
         private EmbeddedApplication $application,
@@ -46,6 +52,11 @@ class ilWOPIEmbeddedApplicationGUI
         $this->global_screen->layout()->meta()->addOnloadCode('il.WOPI.init();');
         $this->renderer = new Renderer($this->application);
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('wopi');
     }
 
     public function executeCommand(): void
@@ -55,11 +66,42 @@ class ilWOPIEmbeddedApplicationGUI
             EmbeddedApplicationGSProvider::EMBEDDED_APPLICATION,
             $this->application
         );
-        $this->index();
+        $a_value = bin2hex((string) $this->application->getBackTarget());
+        $this->ctrl->setParameter($this, self::P_RETURN_TO, $a_value);
+        switch ($this->ctrl->getCmd()) {
+            case self::CMD_INDEX:
+            default:
+                $this->index();
+                break;
+            case self::CMD_RETURN:
+                $this->return();
+                break;
+        }
     }
 
     private function index(): void
     {
-        $this->main_tpl->setContent($this->ui_renderer->render($this->renderer->getComponent()));
+        $this->main_tpl->setContent(
+            $this->ui_renderer->render($this->renderer->getComponent())
+        );
+    }
+
+    private function return(): void
+    {
+        $return_to = $this->http->has(self::P_RETURN_TO)
+            ? hex2bin($this->http->retrieve(self::P_RETURN_TO, $this->refinery->kindlyTo()->string()))
+            : null;
+
+        if ($return_to === null) {
+            $return_to = (string) $this->application->getBackTarget();
+        }
+
+        $this->main_tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt('close_wopi_editor_info'),
+            true
+        );
+
+        $this->ctrl->redirectToURL($return_to);
     }
 }
