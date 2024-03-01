@@ -68,6 +68,28 @@ class ActionDBRepository implements ActionRepository
         return $actions;
     }
 
+    public function getActionsForTarget(ActionTarget $action_target): array
+    {
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE name = %s';
+        $result = $this->db->queryF($query, ['text'], [$action_target->value]);
+        $actions = [];
+        while ($row = $this->db->fetchAssoc($result)) {
+            $actions[] = $this->fromDBRow($row);
+        }
+        return $actions;
+    }
+
+    public function getSupportedSuffixes(ActionTarget $action_target): array
+    {
+        $query = 'SELECT ext FROM ' . self::TABLE_NAME . ' WHERE name = %s';
+        $result = $this->db->queryF($query, ['text'], [$action_target->value]);
+        $suffixes = [];
+        while ($row = $this->db->fetchAssoc($result)) {
+            $suffixes[] = $row['ext'];
+        }
+        return $suffixes;
+    }
+
     public function getActionsForApp(App $app): array
     {
         $actions = [];

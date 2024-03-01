@@ -22,6 +22,10 @@ use ILIAS\Services\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
 use ILIAS\Services\WOPI\Discovery\AppDBRepository;
 use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Discovery\ActionRepository;
+use ILIAS\Services\WOPI\Discovery\AppRepository;
+use ILIAS\Services\WOPI\Discovery\ActionTarget;
+use ILIAS\Services\WOPI\Discovery\Action;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
@@ -32,6 +36,7 @@ class ilWOPIAdministrationGUI
 {
     public const CMD_DEFAULT = "index";
     public const CMD_STORE = "store";
+    public const CMD_SHOW = 'show';
     private ilCtrlInterface $ctrl;
     private ilAccessHandler $access;
     private \ILIAS\HTTP\Services $http;
@@ -40,6 +45,10 @@ class ilWOPIAdministrationGUI
     private ilSetting $settings;
     private Crawler $crawler;
     private ?int $ref_id = null;
+    private ActionRepository $action_repo;
+    private AppRepository $app_repo;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -58,6 +67,11 @@ class ilWOPIAdministrationGUI
             )
             : null;
         $this->crawler = new Crawler();
+        $this->action_repo = new ActionDBRepository($DIC->database());
+        $this->app_repo = new AppDBRepository($DIC->database());
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     public function executeCommand(): void
@@ -70,6 +84,7 @@ class ilWOPIAdministrationGUI
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
         match ($cmd) {
             self::CMD_DEFAULT => $this->index(),
+            self::CMD_SHOW => $this->show(),
             self::CMD_STORE => $this->store(),
             default => throw new ilException("command not found: " . $cmd),
         };
@@ -77,9 +92,53 @@ class ilWOPIAdministrationGUI
 
     private function index(): void
     {
+        $supported_suffixes = $this->getSupportedSuffixes();
+        if (!empty($supported_suffixes)) {
+            $this->maint_tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt("currently_supported"),
+                    implode(", ", $supported_suffixes)
+                )
+            );
+        }
+
         $form = new ilWOPISettingsForm($this->settings);
 
-        $this->maint_tpl->setContent($form->getHTML());
+        $this->maint_tpl->setContent(
+            $form->getHTML()
+        );
+    }
+
+    private function getSupportedSuffixes(): array
+    {
+        $wopi_activated = (bool) $this->settings->get("wopi_activated", '0');
+        if (!$wopi_activated) {
+            return [];
+        }
+        return $this->action_repo->getSupportedSuffixes(ActionTarget::EDIT);
+    }
+
+    private function show(): void
+    {
+        $actions = array_map(
+            function (Action $action) {
+                return $this->ui_factory->item()->standard($action->getExtension())->withProperties([
+                    $this->lng->txt('launcher_url') => (string) $action->getLauncherUrl(),
+                    $this->lng->txt('action') => $action->getName()
+                ]);
+            },
+            $this->action_repo->getActionsForTarget(ActionTarget::EDIT)
+        );
+
+        $this->maint_tpl->setContent(
+            $this->ui_renderer->render(
+                $this->ui_factory->item()->group(
+                    $this->lng->txt('actions'),
+                    $actions
+                )
+            )
+        );
     }
 
     private function store(): void
@@ -92,20 +151,16 @@ class ilWOPIAdministrationGUI
             $this->maint_tpl->setOnScreenMessage('success', $this->lng->txt("msg_wopi_settings_modified"), true);
 
             // Crawl
-            $action_repo = new ActionDBRepository($DIC->database());
-            $app_repo = new AppDBRepository($DIC->database());
-
             $discovery_url = $this->settings->get("wopi_discovery_url");
             if ($discovery_url === null) {
-                $app_repo->clear($action_repo);
+                $this->app_repo->clear($this->action_repo);
             } else {
                 $apps = $this->crawler->crawl(new URI($discovery_url));
                 if ($apps !== null) {
-                    $app_repo->clear($action_repo);
-                    $app_repo->storeCollection($apps, $action_repo);
+                    $this->app_repo->clear($this->action_repo);
+                    $this->app_repo->storeCollection($apps, $this->action_repo);
                 }
             }
-
 
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }

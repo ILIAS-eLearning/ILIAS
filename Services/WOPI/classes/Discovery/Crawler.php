@@ -28,8 +28,7 @@ use ILIAS\Data\URI;
 class Crawler
 {
     private const XPATH = '/wopi-discovery/net-zone/app';
-    private array $crawl_actions = []
-    ;
+    private array $crawl_actions = [];
     private ?string $content = null;
     private ?\SimpleXMLElement $discovery = null;
     /**

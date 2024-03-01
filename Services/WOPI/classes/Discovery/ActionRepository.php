@@ -35,7 +35,17 @@ interface ActionRepository
         ActionTarget $action_target
     ): ?Action;
 
+    /**
+     * @return Action[]
+     */
     public function getActions(): array;
+
+    /**
+     * @return Action[]
+     */
+    public function getActionsForTarget(ActionTarget $action_target): array;
+
+    public function getSupportedSuffixes(ActionTarget $action_target): array;
 
     public function store(Action $action, App $for_app): void;
 
