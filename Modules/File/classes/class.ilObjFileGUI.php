@@ -682,7 +682,7 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        $enable_rating = null;
+        $additional_features_section = null;
         if ($this->id_type === self::REPOSITORY_NODE_ID) {
             $this->lng->loadLanguageModule('rating');
 
@@ -692,11 +692,12 @@ class ilObjFileGUI extends ilObject2GUI
             )->withValue(
                 $this->object->hasRating()
             );
+            $additional_features_section = $this->inputs->field()->section(
+                ["rating" => $enable_rating],
+                $this->lng->txt('obj_features')
+            );
         }
-        $additional_features_section = $this->inputs->field()->section(
-            ["rating" => $enable_rating],
-            $this->lng->txt('obj_features')
-        );
+
 
         $inputs = array_filter([
             "file_info" => $file_info_section,
