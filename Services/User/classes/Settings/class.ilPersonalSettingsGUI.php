@@ -784,7 +784,7 @@ class ilPersonalSettingsGUI
             $mmail->Send();
         }
 
-        $this->log->root()->log('Account deleted: ' . $ilUser->getLogin() . ' (' . $ilUser->getId() . ')');
+        $this->log->root()->log('Account deleted: ' . $this->user->getLogin() . ' (' . $this->user->getId() . ')');
 
         $this->user->delete();
 
