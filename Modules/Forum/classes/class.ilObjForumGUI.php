@@ -4162,6 +4162,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $default_form->addInputItem(ilForumThreadFormGUI::MESSAGE_INPUT);
         $default_form->addInputItem(ilForumThreadFormGUI::FILE_UPLOAD_INPUT);
         $default_form->addInputItem(ilForumThreadFormGUI::ALLOW_NOTIFICATION_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::AUTOSAVE_INFO);
 
         $default_form->generateDefaultForm();
 
@@ -5958,10 +5959,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $modal->setHeading($this->lng->txt('restore_draft_from_autosave'));
             $modal->setId('frm_autosave_restore');
             $form_tpl = new ilTemplate('tpl.restore_thread_draft.html', true, true, 'Modules/Forum');
+            $first_open = null;
 
             foreach ($draftsFromHistory as $history_instance) {
                 $accordion = new ilAccordionGUI();
                 $accordion->setId('acc_' . $history_instance->getHistoryId());
+                $accordion->setBehaviour(ilAccordionGUI::ALL_CLOSED);
+                if ($first_open === null) {
+                    $first_open = $history_instance->getHistoryId();
+                    $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+                }
 
                 $form_tpl->setCurrentBlock('list_item');
                 $message = ilRTE::_replaceMediaObjectImageSrc($history_instance->getPostMessage(), 1);
@@ -5971,7 +5978,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     IL_CAL_DATETIME
                 ));
                 $this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
-                $header = $history_date;
+                $header = $history_date.': '. $history_instance->getPostSubject();
 
                 $accordion_tpl = new ilTemplate(
                     'tpl.restore_thread_draft_accordion_content.html',
@@ -5979,7 +5986,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     true,
                     'Modules/Forum'
                 );
-                $accordion_tpl->setVariable('HEADER', $history_instance->getPostSubject());
                 $accordion_tpl->setVariable('MESSAGE', $message);
                 $accordion_tpl->setVariable(
                     'BUTTON',
