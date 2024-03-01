@@ -343,7 +343,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                     isset($userdata[$result]) &&
                     isset($userdata[$result]["value"])) {
 
-                    $input = $this->generateResultInputHTML($result, $userdata[$result]["value"], $forsolution);
+                    $input = $this->generateResultInputHTML($result, (string) $userdata[$result]["value"], $forsolution);
                 } elseif ($forsolution) {
                     $value = '';
                     if (!is_array($userdata)) {
@@ -1138,7 +1138,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                     $user_solution[$result->getResult()]["frac_helper"] = null;
                 }
             } else {
-                $user_solution[$result->getResult()]["value"] = round($user_solution[$result->getResult()]["value"], $result->getPrecision());
+                $user_solution[$result->getResult()]["value"] = round((float) $user_solution[$result->getResult()]["value"], $result->getPrecision());
             }
         }
         return $user_solution;
