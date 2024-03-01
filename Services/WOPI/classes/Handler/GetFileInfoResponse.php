@@ -36,8 +36,11 @@ class GetFileInfoResponse extends Response
         $origin = $URI->getSchema() . '://' . $URI->getHost();
         $lookup_name = \ilObjUser::_lookupName($current_user_id);
 
+        $title = preg_replace('/\.[^.]*$/', '', $revision->getTitle())
+            . '.' . $revision->getInformation()->getSuffix();
+
         parent::__construct([
-            self::BASE_FILE_NAME => $revision->getTitle(),
+            self::BASE_FILE_NAME => $title,
             self::VERSION => $revision->getVersionNumber(),
             self::OWNER_ID => $revision->getOwnerId(),
             self::USER_ID => $current_user_id,
