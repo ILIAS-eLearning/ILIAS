@@ -53,6 +53,7 @@ class ilLPStatusManual extends ilLPStatus
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'lm':
             case 'copa':
+            case 'file':
             case 'htlm':
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
