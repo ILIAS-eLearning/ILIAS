@@ -288,23 +288,12 @@ class ilTestServiceGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
         switch ($next_class) {
             default:
                 $ret = &$this->$cmd();
                 break;
         }
         return $ret;
-    }
-
-    /**
-     * Retrieves the ilCtrl command
-     *
-     * @access public
-     */
-    public function getCommand($cmd)
-    {
-        return $cmd;
     }
 
     public function buildPassOverviewTableGUI(ilTestEvaluationGUI $target_gui): ilTestPassOverviewTableGUI
