@@ -509,7 +509,7 @@ class ilNoteGUI
                 $title = "";
             }
             $panel = $f->panel()->listing()->standard($title, $item_groups);
-            if (!is_array($this->rep_obj_id)) {
+            if (!is_array($this->rep_obj_id) && !$this->no_actions) {
                 $panel = $panel->withActions($this->getSortationControl());
             }
             $html = $this->renderComponents([$panel]);
