@@ -150,7 +150,7 @@ abstract class assQuestionGUI
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "calling_consumer");
@@ -540,7 +540,7 @@ abstract class assQuestionGUI
         $lng = $DIC['lng'];
 
         if (($question_type === '') && ($question_id > 0)) {
-            $question_type = QuestionPoolDIC::dic()['general_question_properties_repository']
+            $question_type = QuestionPoolDIC::dic()['question.general_properties.repository']
                 ->getForQuestionId($question_id)->getClassName();
         }
 

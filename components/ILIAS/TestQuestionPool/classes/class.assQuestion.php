@@ -129,7 +129,7 @@ abstract class assQuestion implements Question
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
         $local_dic = QuestionPoolDIC::dic();
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->questionpool_request = $local_dic['request_data_collector'];
         $this->question_files = $local_dic['question_files'];
         $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
@@ -1735,7 +1735,7 @@ abstract class assQuestion implements Question
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
+        $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
         $question_type = $questionrepository->getForQuestionId($question_id)->getClassName();
         if ($question_type === '') {
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
@@ -2092,7 +2092,7 @@ abstract class assQuestion implements Question
 
     public static function _needsManualScoring(int $question_id): bool
     {
-        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
+        $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
         $questiontype = $questionrepository->getForQuestionId($question_id)->getClassName();
         $scoring = ilObjTestFolder::_getManualScoringTypes();
         if (in_array($questiontype, $scoring)) {
@@ -2150,7 +2150,7 @@ abstract class assQuestion implements Question
             throw new InvalidArgumentException('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)');
         }
 
-        $questionrepository = QuestionPoolDIC::dic()['general_question_properties_repository'];
+        $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
         $question_type = $questionrepository->getForQuestionId($question_id)?->getClassName();
 
         if ($question_type === null) {

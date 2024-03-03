@@ -164,12 +164,12 @@ class ilObjTest extends ilObject
         $this->filesystem_web = $DIC->filesystem()->web();
 
         $local_dic = $this->getLocalDIC();
-        $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
-        $this->test_man_scoring_done_helper = $local_dic['man_scoring_done_helper'];
-        $this->logger = $local_dic['test_logger'];
-        $this->log_viewer = $local_dic['test_log_viewer'];
-        $this->marks_repository = $local_dic['marks_repository'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
+        $this->test_man_scoring_done_helper = $local_dic['scoring.manual.done_helper'];
+        $this->logger = $local_dic['logging.logger'];
+        $this->log_viewer = $local_dic['logging.viewer'];
+        $this->marks_repository = $local_dic['marks.repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
 
         parent::__construct($id, $a_call_by_reference);

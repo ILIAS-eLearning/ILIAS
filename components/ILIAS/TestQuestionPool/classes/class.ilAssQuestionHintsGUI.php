@@ -61,7 +61,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $this->ctrl = $DIC->ctrl();
 
         $local_dic = QuestionPoolDIC::dic();
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         parent::__construct($questionGUI);
 

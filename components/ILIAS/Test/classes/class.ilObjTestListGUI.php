@@ -64,7 +64,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         string $description = ''
     ): void {
         try {
-            if (TestDIC::dic()['main_settings_repository']->getForObjFi($obj_id)
+            if (TestDIC::dic()['settings.main.repository']->getForObjFi($obj_id)
                 ->getAdditionalSettings()->getHideInfoTab()) {
                 $this->enableInfoScreen(false);
             }

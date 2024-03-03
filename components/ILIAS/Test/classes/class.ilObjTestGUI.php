@@ -156,9 +156,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->skills_service = $DIC->skills();
         $this->archives = $DIC->archives();
         $this->type = 'tst';
+        $this->data_factory = new DataFactory();
 
         $local_dic = TestDIC::dic();
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
 
         $ref_id = 0;

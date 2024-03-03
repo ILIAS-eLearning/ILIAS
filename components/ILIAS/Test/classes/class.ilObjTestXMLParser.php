@@ -57,8 +57,8 @@ class ilObjTestXMLParser extends ilSaxParser
         global $DIC;
         $this->db = $DIC['ilDB'];
         $local_dic = TestDIC::dic();
-        $this->logger = $local_dic['test_logger'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->logger = $local_dic['logging.logger'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
         parent::__construct($path_to_file, $throw_exception);

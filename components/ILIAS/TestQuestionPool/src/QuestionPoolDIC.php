@@ -53,7 +53,7 @@ class QuestionPoolDIC extends PimpleContainer
             );
         $dic['question.repo.suggestedsolutions'] = static fn($c): SuggestedSolutionsDatabaseRepository =>
             new SuggestedSolutionsDatabaseRepository($DIC['ilDB']);
-        $dic['general_question_properties_repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
+        $dic['question.general_properties.repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
             new GeneralQuestionPropertiesRepository(
                 $DIC['ilDB'],
                 $DIC['component.factory'],
