@@ -443,7 +443,7 @@ const ClozeQuestionGapBuilder = (function () {
     let stringBuild = '';
     ClozeSettings.gaps_php[0][gap_count - 1].values.forEach((entry) => {
       if (entry.answer !== undefined) {
-        stringBuild += `${entry.answer.replace(/\[/g, '[&hairsp;')},`;
+        stringBuild += `${entry.answer.toString().replace(/\[/g, '[&hairsp;')},`;
       }
     });
     stringBuild = stringBuild.replace(/,+$/, '');
