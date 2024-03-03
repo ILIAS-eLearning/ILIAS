@@ -170,12 +170,10 @@ class SettingsScoringGUI extends TestSettingsGUI
         $this->storeScoreSettings($settings);
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_gui->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::SCORING_SETTINGS_MODIFIED,
-                    time(),
                     $settings->getArrayForLog($this->lng)
                 )
             );

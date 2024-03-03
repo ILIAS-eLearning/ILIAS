@@ -22,6 +22,10 @@ namespace ILIAS\Test\Logging;
 
 class TestError implements TestUserInteraction
 {
+    public const IDENTIFIER = 'te';
+
+    private int $unique_id;
+
     public function __construct(
         private readonly \ilLanguage $lng,
         private readonly int $test_ref_id,
@@ -33,6 +37,18 @@ class TestError implements TestUserInteraction
         private readonly string $error_message
     ) {
 
+    }
+
+    public function getUniqueIdentifier(): ?string
+    {
+        return self::TEXTUAL_REPRESENATION . '_' . $this->unique_id;
+    }
+
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getTestRefId(): int

@@ -25,6 +25,8 @@ namespace ILIAS\Test\Logging;
 interface TestUserInteraction
 {
     public function getTestRefId(): int;
+    public function getUniqueIdentifier(): ?string;
+    public function withId(int $id): self;
     public function getModificationTimestamp(): int;
     public function getLogEntryAsDataTableRow(): array;
     public function getLogEntryAsCsvRow(): string;

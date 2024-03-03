@@ -240,12 +240,10 @@ class SettingsMainGUI extends TestSettingsGUI
         $additional_information = $this->getObjectDataArrayForLog() + $this->main_settings->getArrayForLog();
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_object->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MAIN_SETTINGS_MODIFIED,
-                    time(),
                     $additional_information
                 )
             );

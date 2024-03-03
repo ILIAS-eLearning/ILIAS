@@ -323,12 +323,10 @@ class ilTestRandomQuestionSetConfigGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
-                    time(),
                     $log_array
                 )
             );
@@ -605,12 +603,10 @@ class ilTestRandomQuestionSetConfigGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
-                    time(),
                     $log_array
                 )
             );
@@ -690,12 +686,10 @@ class ilTestRandomQuestionSetConfigGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
-                    time(),
                     $log_array
                 )
             );
@@ -922,12 +916,10 @@ class ilTestRandomQuestionSetConfigGUI
         $this->question_set_config->saveToDb();
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
-                    time(),
                     []
                 )
             );

@@ -26,45 +26,74 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     public const TEST_ADMINISTRATION_LOG_TABLE = 'tst_tst_admin_log';
     public const QUESTION_ADMINISTRATION_LOG_TABLE = 'tst_qst_admin_log';
     public const PARTICIPANT_LOG_TABLE = 'tst_pax_log';
-    public const MARKING_LOG_TABLE = 'tst_mark_log';
+    public const SCORING_LOG_TABLE = 'tst_mark_log';
     public const ERROR_LOG_TABLE = 'tst_error_log';
 
-
     public function __construct(
+        private readonly Factory $factory,
         private readonly \ilDBInterface $db
     ) {
     }
 
     public function storeTestAdministrationInteraction(TestAdministrationInteraction $interaction): void
     {
-        $this->db->insert(self::TEST_ADMINISTRATION_LOG_TABLE, $interaction->toStorage());
+        $storage_array = $interaction->toStorage();
+        $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::TEST_ADMINISTRATION_LOG_TABLE)];
+        $this->db->insert(self::TEST_ADMINISTRATION_LOG_TABLE, $storage_array);
     }
 
     public function storeQuestionAdministrationInteraction(TestQuestionAdministrationInteraction $interaction): void
     {
-        $this->db->insert(self::QUESTION_ADMINISTRATION_LOG_TABLE, $interaction->toStorage());
+        $storage_array = $interaction->toStorage();
+        $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::QUESTION_ADMINISTRATION_LOG_TABLE)];
+        $this->db->insert(self::QUESTION_ADMINISTRATION_LOG_TABLE, $storage_array);
     }
 
     public function storeParticipantInteraction(TestParticipantInteraction $interaction): void
     {
-        $this->db->insert(self::PARTICIPANT_LOG_TABLE, $interaction->toStorage());
+        $storage_array = $interaction->toStorage();
+        $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::PARTICIPANT_LOG_TABLE)];
+        $this->db->insert(self::PARTICIPANT_LOG_TABLE, $storage_array);
     }
 
     public function storeScoringInteraction(TestScoringInteraction $interaction): void
     {
-        $this->db->insert(self::MARKING_LOG_TABLE, $interaction->toStorage());
+        $storage_array = $interaction->toStorage();
+        $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::SCORING_LOG_TABLE)];
+        $this->db->insert(self::SCOPRING_LOG_TABLE, $storage_array);
     }
 
     public function storeError(TestError $interaction): void
     {
-        $this->db->insert(self::ERROR_LOG_TABLE, $interaction->toStorage());
+        $storage_array = $interaction->toStorage();
+        $storage_array['id'] = [\ilDBConstants::T_INTEGER, $this->db->nextId(self::ERROR_LOG_TABLE)];
+        $this->db->insert(self::ERROR_LOG_TABLE, $storage_array);
     }
 
     /**
-     * @return array<ILIAS\Test\Logging\TestUserInteraction>
+     * @return array<\ILIAS\Test\Logging\TestUserInteraction>
      */
-    public function getLogsForRefId(int $ref_id = null): array
-    {
+    public function getLogs(
+        \ILIAS\Data\Range $range,
+        \ILIAS\Data\Order $order,
+        array $filter_data,
+        ?int $ref_id
+    ): \Generator {
+        yield ;
+    }
+
+    public function getLog(
+        string $unique_identifier
+    ): TestUserInteraction {
+        return $this->buildUserInteractionForUniqueIdentifier($unique_identifier);
+    }
+
+    /**
+     * @param array<string> $unique_identifiers
+     */
+    public function deleteLogs(
+        array $unique_identifiers
+    ): void {
 
     }
 
@@ -106,5 +135,90 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             }
         }
         return $log_array;
+    }
+
+    private function buildUserInteractionForUniqueIdentifier(string $unique_identifier): ?TestUserInteraction
+    {
+        $unique_identifier_array = explode('_', $unique_identifier);
+        if (count($unique_identifier_array) !== 2
+            || !is_numeric($unique_identifier_array[1])) {
+            return null;
+        }
+
+        switch ($unique_identifier_array[0]) {
+            case TestAdministrationInteraction::IDENTIFIER:
+                return $this->buildTestAdministrationInteractionFromId($unique_identifier_array[1]);
+
+            case TestQuestionAdministrationInteraction::IDENTIFIER:
+                return $this->buildQuestionTestAdministrationInteractionFromId($unique_identifier_array[1]);
+
+            case TestParticipantInteraction::IDENTIFIER:
+                return $this->buildParticipantInteractionFromId($unique_identifier_array[1]);
+
+            case TestScoringInteraction::IDENTIFIER:
+                return $this->buildScoringInteractionFromId($unique_identifier_array[1]);
+
+            case TestError::IDENTIFIER:
+                return $this->buildErrorFromId($unique_identifier_array[1]);
+        }
+    }
+
+    private function buildTestAdministrationInteractionFromId(int $id): ?TestAdministrationInteraction
+    {
+        $query = $this->buildSelectByIdQuery($id, self::TEST_ADMINISTRATION_LOG_TABLE);
+        if ($this->db->numRows($query) !== 0) {
+            return null;
+        }
+
+        return $this->factory->buildTestAdministrationInteractionFromDBValues($this->db->fetchObject($query));
+    }
+
+    private function buildQuestionAdministrationInteractionFromId(int $id): ?TestQuestionAdministrationInteraction
+    {
+        $query = $this->buildSelectByIdQuery($id, self::QUESTION_ADMINISTRATION_LOG_TABLE);
+        if ($this->db->numRows($query) !== 0) {
+            return null;
+        }
+
+        return $this->factory->buildQuestionAdministrationInteractionFromDBValues($this->db->fetchObject($query));
+    }
+
+    private function buildParticipantInteractionFromId(int $id): ?TestParticipantInteraction
+    {
+        $query = $this->buildSelectByIdQuery($id, self::PARTICIPANT_LOG_TABLE);
+        if ($this->db->numRows($query) !== 0) {
+            return null;
+        }
+
+        return $this->factory->buildParticipantInteractionFromDBValues($this->db->fetchObject($query));
+    }
+
+    private function buildScoringInteractionFromId(int $id): ?TestScoringInteraction
+    {
+        $query = $this->buildSelectByIdQuery($id, self::SCORING_LOG_TABLE);
+        if ($this->db->numRows($query) !== 0) {
+            return null;
+        }
+
+        return $this->factory->buildScoringInteractionFromDBValues($this->db->fetchObject($query));
+    }
+
+    private function buildErrorFromId(int $id): ?TestError
+    {
+        $query = $this->buildSelectByIdQuery($id, self::ERROR_LOG_TABLE);
+        if ($this->db->numRows($query) !== 0) {
+            return null;
+        }
+
+        return $this->factory->buildErrorFromDBValues($this->db->fetchObject($query));
+    }
+
+    private function buildSelectByIdQuery(int $id, string $table_name): \ilDBStatement
+    {
+        return $this->db->queryF(
+            'SELECT * FROM ' . $table_name . ' WHERE id=%s',
+            [\ilDBConstants::T_INTEGER],
+            [$id]
+        );
     }
 }

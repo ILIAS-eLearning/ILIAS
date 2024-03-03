@@ -35,6 +35,7 @@ use ILIAS\Test\Logging\TestLoggingRepository;
 use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
+use ILIAS\Test\Logging\Factory as InteractionFactory;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 

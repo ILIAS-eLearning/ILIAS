@@ -34,9 +34,11 @@ use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Input\Field\Select;
@@ -116,7 +118,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilNavigationHistory $navigation_history;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
-    private LegacyArchives $archives;
     protected ilDBInterface $db;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
@@ -129,6 +130,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private Archives $archives;
     protected RequestDataCollector $testrequest;
     protected ?QuestionsTableQuery $table_query = null;
+    protected DataFactory $data_factory;
 
     protected bool $create_question_mode;
 
@@ -2137,8 +2139,20 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
         $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
-        $table_gui = $this->getTestObject()->getTestLogViewer()->getLegacyLogTableForObjId($this, $this->getTestObject()->getId());
-        $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
+        $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
+        $url_builder = new URLBuilder($here_uri);
+        $query_params_namespace = ['test', 'logging'];
+        list($url_builder, $action_parameter_token, $row_id_token) = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'log_entry'
+        );
+        $table_gui = $this->getTestObject()->getTestLogViewer()->getLogTable(
+            $url_builder,
+            $action_parameter_token,
+            $row_id_token
+        );
+        $this->tpl->setVariable('ADM_CONTENT', $this->ui_renderer->render($table_gui));
     }
 
     /**

@@ -232,12 +232,10 @@ class ilObjTest extends ilObject
         $this->createMetaData();
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::NEW_TEST_CREATED,
-                    time(),
                     []
                 )
             );
@@ -1084,12 +1082,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_REMOVED,
-                    time(),
                     [
                         'questions' => $remove_question_ids
                     ]
@@ -1147,12 +1143,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
-                    time(),
                     [
                         'users' => $participant_data->getUserIds(),
                         'anonymous' => $participant_data->getAnonymousActiveIds()
@@ -1181,12 +1175,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::PARTICIPANT_DATA_REMOVED,
-                    time(),
                     [
                         'users' => $participantData->getUserIds()
                     ]
@@ -1364,12 +1356,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_ADDED,
-                    time(),
                     [
                         'question' => (assQuestion::instantiateQuestion($question_id))->toLog(),
                         'order' => $this->questions
@@ -3063,12 +3053,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_MOVED,
-                    time(),
                     [
                         'order' => $this->questions
                     ]
@@ -6669,14 +6657,12 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logScoringInteraction(
-                new TestScoringInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildScoringInteraction(
                     $this->getRefId(),
                     $question_id,
                     $this->user,
                     new \ilObjUser(self::_getUserIdFromActiveId($active_id)),
                     TestScoringInteractionTypes::QUESTION_GRADED,
-                    time(),
                     [
                         'finalized_evaluation' => $finalized ? '{{ true }}' : '{{ false }}',
                         'feedback' => $feedback ? ilRTE::_replaceMediaObjectImageSrc($feedback, 0) : ''
@@ -7107,12 +7093,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::QUESTION_MOVED,
-                    time(),
                     [
                         'order' => $orders,
                         'obligations' => $obligations
@@ -7605,12 +7589,10 @@ class ilObjTest extends ilObject
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
-                    time(),
                     [
                         'users' => $participantData->getUserIds()
                     ]

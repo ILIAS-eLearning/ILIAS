@@ -35,6 +35,11 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
     {
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, [
+                'id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
                 'ref_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -59,11 +64,18 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addIndex(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'id');
+            $this->db->createSequence(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::TEST_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'rid');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, [
+                'id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
                 'ref_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -92,11 +104,18 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addIndex(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'id');
+            $this->db->createSequence(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::QUESTION_ADMINISTRATION_LOG_TABLE, ['ref_id'], 'rid');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, [
+                'id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
                 'ref_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -105,7 +124,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                 'qst_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
-                    'notnull' => true
+                    'notnull' => false
                 ],
                 'pax_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
@@ -131,11 +150,18 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addIndex(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['ref_id'], 'id');
+            $this->db->createSequence(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::PARTICIPANT_LOG_TABLE, ['ref_id'], 'rid');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::MARKING_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, [
+                'id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
                 'ref_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -170,11 +196,18 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'type' => \ilDBConstants::T_CLOB
                 ]
             ]);
-            $this->db->addIndex(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['ref_id'], 'id');
+            $this->db->createSequence(TestLoggingDatabaseRepository::MARKING_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::MARKING_LOG_TABLE, ['ref_id'], 'rid');
         }
 
         if (!$this->db->tableExists(TestLoggingDatabaseRepository::ERROR_LOG_TABLE)) {
             $this->db->createTable(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, [
+                'id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ],
                 'ref_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 8,
@@ -209,7 +242,9 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
                     'default' => ''
                 ]
             ]);
-            $this->db->addIndex(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['ref_id'], 'id');
+            $this->db->createSequence(TestLoggingDatabaseRepository::ERROR_LOG_TABLE);
+            $this->db->addPrimaryKey(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['id']);
+            $this->db->addIndex(TestLoggingDatabaseRepository::ERROR_LOG_TABLE, ['ref_id'], 'rid');
         }
     }
 }
