@@ -634,7 +634,7 @@ abstract class assQuestionGUI
             if ($this->request->raw('test_express_mode')) {
                 $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
     }
@@ -661,7 +661,7 @@ abstract class assQuestionGUI
             if ($this->request->raw('test_express_mode')) {
                 $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
     }
