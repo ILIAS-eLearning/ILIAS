@@ -33,7 +33,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         ilObjTestGUI|ilObjTestFolderGUI $parent_obj,
         string $parent_cmd
     ) {
-        $this->questionrepository = TestDIC::dic()['general_question_properties_repository'];
+        $this->questionrepository = TestDIC::dic()['question.general_properties.repository'];
 
         parent::__construct($parent_obj, $parent_cmd);
 

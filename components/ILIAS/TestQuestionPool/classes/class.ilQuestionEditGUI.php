@@ -65,7 +65,7 @@ class ilQuestionEditGUI
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         if ($this->request->raw('qpool_ref_id')) {
             $this->setPoolRefId($this->request->raw('qpool_ref_id'));

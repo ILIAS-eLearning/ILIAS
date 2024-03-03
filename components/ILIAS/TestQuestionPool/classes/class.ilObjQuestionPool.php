@@ -54,7 +54,7 @@ class ilObjQuestionPool extends ilObject
         $this->benchmark = $DIC['ilBench'];
 
         $local_dic = QuestionPoolDIC::dic();
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->type = 'qpl';
 

@@ -24,7 +24,7 @@
  */
 class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 {
-    protected ilAtomQuery $atom_query;
+    protected ?ilAtomQuery $atom_query = null;
 
     public function __construct(private ilDBInterface $db)
     {
@@ -85,7 +85,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 
     protected function executeOperation(callable $operation): void
     {
-        if ($this->atom_query) {
+        if ($this->atom_query !== null) {
             $this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {
                 $operation();
             });

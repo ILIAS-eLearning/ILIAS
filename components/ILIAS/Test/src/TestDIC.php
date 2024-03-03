@@ -57,14 +57,14 @@ class TestDIC extends PimpleContainer
         $dic['shuffler'] = static fn($c): \ilTestShuffler =>
             new \ilTestShuffler($DIC['refinery']);
 
-        $dic['factory.results'] = static fn($c): \ilTestResultsFactory =>
+        $dic['results.factory'] = static fn($c): \ilTestResultsFactory =>
             new \ilTestResultsFactory(
                 $c['shuffler'],
                 $DIC['ui.factory'],
                 $DIC['ui.renderer']
             );
 
-        $dic['factory.results_presentation'] = static fn($c): \ilTestResultsPresentationFactory =>
+        $dic['results.presentation.factory'] = static fn($c): \ilTestResultsPresentationFactory =>
            new \ilTestResultsPresentationFactory(
                $DIC['ui.factory'],
                $DIC['ui.renderer'],
@@ -74,16 +74,16 @@ class TestDIC extends PimpleContainer
                $DIC['lng']
            );
 
-        $dic['main_settings_repository'] = static fn($c): MainSettingsRepository =>
+        $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);
 
-        $dic['participant_access_filter_factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
+        $dic['participant.access_filter.factory'] = static fn($c): \ilTestParticipantAccessFilterFactory =>
             new \ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
 
-        $dic['man_scoring_done_helper'] = static fn($c): TestManScoringDoneHelper =>
+        $dic['scoring.manual.done_helper'] = static fn($c): TestManScoringDoneHelper =>
             new TestManScoringDoneHelper();
 
-        $dic['marks_repository'] = static fn($c): MarksRepository =>
+        $dic['marks.repository'] = static fn($c): MarksRepository =>
             new MarksDatabaseRepository($DIC['ilDB']);
 
         $dic['request_data_collector'] = static fn($c): RequestDataCollector =>
@@ -92,27 +92,43 @@ class TestDIC extends PimpleContainer
                 $DIC['refinery']
             );
 
-        $dic['global_settings_repository'] = static fn($c): TestGlobalSettingsRepository =>
+        $dic['settings.global.repository'] = static fn($c): TestGlobalSettingsRepository =>
                 new TestGlobalSettingsRepository(new \ilSetting('assessment'));
 
-        $dic['logging_settings'] = static fn($c): TestLoggingSettings =>
-            $c['global_settings_repository']->getLoggingSettings();
+        $dic['logging.settings'] = static fn($c): TestLoggingSettings =>
+            $c['settings.global.repository']->getLoggingSettings();
 
-        $dic['test_logging_repository'] = static fn($c): TestLoggingRepository =>
-            new TestLoggingDatabaseRepository($DIC['ilDB']);
+        $dic['logging.factory'] = static fn($c): InteractionFactory =>
+            new InteractionFactory(
+                $DIC['lng']
+            );
 
-        $dic['test_logger'] = static fn($c): TestLogger =>
+        $dic['logging.repository'] = static fn($c): TestLoggingRepository =>
+            new TestLoggingDatabaseRepository(
+                $c['logging.factory'],
+                $DIC['ilDB']
+            );
+
+        $dic['logging.logger'] = static fn($c): TestLogger =>
             new TestLogger(
-                $c['logging_settings'],
-                $c['test_logging_repository'],
+                $c['logging.settings'],
+                $c['logging.repository'],
+                $c['logging.factory'],
                 \ilLoggerFactory::getLogger('tst'),
                 $DIC['lng']
             );
 
-        $dic['test_log_viewer'] = static fn($c): TestLogViewer =>
-            new TestLogViewer($c['test_logging_repository']);
+        $dic['logging.viewer'] = static fn($c): TestLogViewer =>
+            new TestLogViewer(
+                $c['logging.repository'],
+                $c['logging.logger'],
+                $DIC->http()->request(),
+                $DIC->uiService(),
+                $DIC['ui.factory'],
+                $DIC['lng']
+            );
 
-        $dic['general_question_properties_repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
+        $dic['question.general_properties.repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
             new GeneralQuestionPropertiesRepository(
                 $DIC['ilDB'],
                 $DIC['component.factory'],

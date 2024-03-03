@@ -50,8 +50,8 @@ class ilObjTestFolder extends ilObject
         $this->setting = new \ilSetting('assessment');
         $this->type = 'assf';
         $local_dic = TestDIC::dic();
-        $this->global_settings_repository = $local_dic['global_settings_repository'];
-        $this->test_log_viewer = $local_dic['test_log_viewer'];
+        $this->global_settings_repository = $local_dic['settings.global.repository'];
+        $this->test_log_viewer = $local_dic['logging.viewer'];
 
         parent::__construct($a_id, $a_call_by_reference);
     }

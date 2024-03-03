@@ -45,7 +45,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->logger = TestDIC::dic()['test_logger'];
+        $this->logger = TestDIC::dic()['logging.logger'];
         $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
         $this->lng->loadLanguageModule('assessment');

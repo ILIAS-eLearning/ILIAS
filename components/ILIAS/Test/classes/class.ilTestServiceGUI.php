@@ -134,7 +134,7 @@ class ilTestServiceGUI
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
-        $this->logger = TestDIC::dic()['test_logger'];
+        $this->logger = TestDIC::dic()['logging.logger'];
         $this->help = $DIC['ilHelp'];
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC['ui.factory'];
@@ -146,11 +146,11 @@ class ilTestServiceGUI
 
         $local_dic = $object->getLocalDIC();
         $this->testrequest = $local_dic['request_data_collector'];
-        $this->participant_access_filter = $local_dic['participant_access_filter_factory'];
+        $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
         $this->shuffler = $local_dic['shuffler'];
-        $this->results_factory = $local_dic['factory.results'];
-        $this->results_presentation_factory = $local_dic['factory.results_presentation'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->results_factory = $local_dic['results.factory'];
+        $this->results_presentation_factory = $local_dic['results.presentation.factory'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 

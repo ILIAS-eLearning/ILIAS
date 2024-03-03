@@ -78,7 +78,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->confirmdelete = $confirmdelete;
         $this->setWriteAccess($a_write_access);

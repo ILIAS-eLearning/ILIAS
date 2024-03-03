@@ -43,7 +43,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         $local_dic = TestDIC::dic();
         $this->testrequest = $local_dic['request_data_collector'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->type = "assf";
 

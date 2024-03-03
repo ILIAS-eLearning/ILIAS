@@ -43,7 +43,7 @@ class ilTestImporter extends ilXmlImporter
     public function __construct()
     {
         global $DIC;
-        $this->logger = TestDIC::dic()['test_logger'];
+        $this->logger = TestDIC::dic()['logging.logger'];
         $this->db = $DIC['ilDB'];
 
         parent::__construct();

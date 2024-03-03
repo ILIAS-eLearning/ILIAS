@@ -116,7 +116,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $local_dic = QuestionPoolDIC::dic();
         $this->qplrequest = $local_dic['request_data_collector'];
-        $this->questionrepository = $local_dic['general_question_properties_repository'];
+        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         parent::__construct('', $this->qplrequest->getRefId(), true, false);
 
