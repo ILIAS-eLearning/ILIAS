@@ -1159,6 +1159,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $pairs->setTerms($this->object->getTerms());
         $pairs->setDefinitions($this->object->getDefinitions());
         $pairs->setPairs($this->object->getMatchingPairs());
+        $pairs->setThumbsWebPathWithPrefix($this->object->getImagePathWeb() . $this->object->getThumbPrefix());
         $form->addItem($pairs);
     }
 
