@@ -637,7 +637,7 @@ abstract class assQuestionGUI
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
         if ($this->request->raw("return_to_fb") !== null) {
-            $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
+            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
         }
 
         if ($this->request->raw('test_express_mode')) {
@@ -655,7 +655,7 @@ abstract class assQuestionGUI
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
         if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
-            $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
+            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
         }
         if ($this->request->raw('test_express_mode')) {
             $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
@@ -701,8 +701,8 @@ abstract class assQuestionGUI
                 $this->ctrl->setParameter($this, "q_id", $this->object->getId());
                 $this->editQuestion();
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), false);
-                $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->object->getId());
-                $this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
+                $this->ctrl->setParameterByClass(ilAssQuestionPageGUI::class, "q_id", $this->object->getId());
+                $this->ctrl->redirectByClass(ilAssQuestionPageGUI::class, "edit");
             }
         }
     }
