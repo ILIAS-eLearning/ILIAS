@@ -22,6 +22,7 @@ namespace ILIAS\Exercise\InstructionFile;
 
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Exercise\IRSS\ResourceInformation;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 class InstructionFileManager
 {
@@ -68,12 +69,26 @@ class InstructionFileManager
         );
     }
 
+    public function importFromDirectory(string $dir): void
+    {
+        $this->repo->importFromDirectory(
+            $this->ass_id,
+            $dir,
+            $this->stakeholder
+        );
+    }
+
     public function deleteCollection(): void
     {
         $this->repo->deleteCollection(
             $this->ass_id,
             $this->stakeholder
         );
+    }
+
+    public function getCollection(): ?ResourceCollection
+    {
+        return $this->repo->getCollection($this->ass_id);
     }
 
     public function getFiles(): array
