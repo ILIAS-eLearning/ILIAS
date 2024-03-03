@@ -118,6 +118,11 @@ class StartUpSequenceDispatcher
             $step = $this->sequence->shift();
 
             if ($step->isInFulfillment()) {
+                $this->dic->globalScreen()->tool()->context()->current()->addAdditionalData(
+                    \ILIAS\Init\StartupSequence\StartUpSequenceLayoutProvider::FORCED_STARTUP_STEP,
+                    true
+                );
+                
                 $this->dic->logger()->init()->debug('Step is in fulfillment:' . get_class($step));
                 return false;
             }
