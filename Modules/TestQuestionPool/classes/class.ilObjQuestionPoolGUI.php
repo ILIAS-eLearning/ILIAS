@@ -551,6 +551,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             );
                             echo ''
                                 . '<script>'
+                                . ' event = new Event("click");'
                                 . ilCommentGUI::getListCommentsJSCall($ajax_hash)
                                 . '</script>'
                             ;
