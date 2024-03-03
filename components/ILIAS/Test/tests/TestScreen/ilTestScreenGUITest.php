@@ -31,6 +31,7 @@ use ilTestScreenGUI;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilTestScreenGUITest extends ilTestBaseTestCase
 {
@@ -42,6 +43,7 @@ class ilTestScreenGUITest extends ilTestBaseTestCase
             $this->createMock(UIFactory::class),
             $this->createMock(UIRenderer::class),
             $this->createMock(ilLanguage::class),
+            $this->createMock(Refinery::class),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilGlobalTemplateInterface::class),
             $this->createMock(HTTPServices::class),
