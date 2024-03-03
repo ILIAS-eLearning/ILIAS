@@ -20,11 +20,51 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+
 class TestLogViewer
 {
+    private DataFactory $data_factory;
+
     public function __construct(
-        private readonly TestLoggingRepository $logging_repository
+        private readonly TestLoggingRepository $logging_repository,
+        private readonly TestLogger $logger,
+        private readonly ServerRequestInterface $request,
+        private readonly \ilUIService $ui_service,
+        private readonly UIFactory $ui_factory,
+        private readonly \ilLanguage $lng
     ) {
+        $this->data_factory = new DataFactory();
+    }
+
+    public function getLogTable(
+        URLBuilder $url_builder,
+        URLBuilderToken $action_parameter_token,
+        URLBuilderToken $row_id_token,
+        int $ref_id = null
+    ): array {
+        $log_table = new LogTable(
+            $this->logging_repository,
+            $this->logger,
+            $this->ui_factory,
+            $this->data_factory,
+            $this->lng,
+            $url_builder,
+            $action_parameter_token,
+            $row_id_token,
+            $ref_id
+        );
+
+        $filter = $log_table->getFilter($this->ui_service);
+        $filter_data = $this->ui_service->filter()->getData($filter);
+        return [
+            $filter,
+            $log_table->getTable()->withRequest($this->request)->withFilter($filter_data)
+        ];
     }
 
     public function getLegacyLogTableForObjId(\ilObjectGUI $parent_gui, int $obj_id): \ilAssessmentFolderLogTableGUI

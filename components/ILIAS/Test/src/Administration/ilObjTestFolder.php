@@ -342,8 +342,8 @@ class ilObjTestFolder extends ilObject
             $question_object instanceof ilGuiQuestionScoringAdjustable ||
             $question_object instanceof ilGuiAnswerScoringAdjustable
         ) && (
-            $question_object->object instanceof ilObjQuestionScoringAdjustable ||
-            $question_object->object instanceof ilObjAnswerScoringAdjustable
+            $question_object->getObject() instanceof ilObjQuestionScoringAdjustable ||
+            $question_object->getObject() instanceof ilObjAnswerScoringAdjustable
         );
     }
 }

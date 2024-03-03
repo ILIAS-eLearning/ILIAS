@@ -30,6 +30,22 @@ interface TestLoggingRepository
     public function storeScoringInteraction(TestScoringInteraction $interaction): void;
     public function storeError(TestError $interaction): void;
 
-    public function getLogsForRefId(int $ref_id = null): array;
+    /**
+     * @return array<\ILIAS\Test\Logging\TestUserInteraction>
+     */
+    public function getLogs(
+        \ILIAS\Data\Range $range,
+        \ILIAS\Data\Order $order,
+        array $filter_data,
+        ?int $ref_id
+    ): array;
+
+    public function getLog(string $unique_identifier): TestUserInteraction;
+
+    /**
+     * @param array<string> $unique_identifiers
+     */
+    public function deleteLogs(array $unique_identifiers): void;
+
     public function getLegacyLogsForObjId(int $obj_id = null, bool $without_student_interactions = false): array;
 }

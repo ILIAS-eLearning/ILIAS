@@ -149,12 +149,10 @@ class MarkSchemaGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    time(),
                     $this->mark_schema->toLog($this->lng)
                 )
             );
@@ -180,12 +178,10 @@ class MarkSchemaGUI
         $this->test->storeMarkSchema($this->mark_schema);
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_RESET,
-                    time(),
                     []
                 )
             );
@@ -219,12 +215,10 @@ class MarkSchemaGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
                     $this->active_user,
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
-                    time(),
                     $this->mark_schema->toLog($this->lng)
                 )
             );

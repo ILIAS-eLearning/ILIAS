@@ -396,7 +396,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()
             && ($interaction = $question_obj->answerToParticipantInteraction(
-                $this->getObject()->getTestId(),
+                $this->getObject()->getRefId(),
                 $active_id,
                 $pass,
                 $_SERVER['REMOTE_ADDR'],
@@ -1436,14 +1436,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                 if ($this->logger->isLoggingEnabled()) {
                     $this->logger->logParticipantInteraction(
-                        new TestParticipantInteraction(
-                            $this->lng,
-                            $this->object->getTestId(),
+                        $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                            $this->object->getRefId(),
                             $question_id,
                             $this->user,
-                            $_SERVER['REMOTE_ADDR'],
                             TestParticipantInteractionTypes::TEST_RUN_STARTED,
-                            time(),
                             []
                         )
                     );
@@ -1585,14 +1582,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logParticipantInteraction(
-                new TestParticipantInteraction(
-                    $this->lng,
-                    $this->object->getTestId(),
+                $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                    $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($sequence),
                     $this->user,
-                    $_SERVER['REMOTE_ADDR'],
                     TestParticipantInteractionTypes::QUESTION_SKIPPED,
-                    time(),
                     []
                 )
             );
@@ -1681,14 +1675,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logParticipantInteraction(
-                new TestParticipantInteraction(
-                    $this->lng,
-                    $this->object->getTestId(),
+                $this->logger->getInteractionFactory()->buildParticipantInteraction(
+                    $this->object->getRefId(),
                     null,
                     $this->user,
-                    $_SERVER['REMOTE_ADDR'],
                     TestParticipantInteractionTypes::TEST_RUN_STARTED,
-                    time(),
                     []
                 )
             );

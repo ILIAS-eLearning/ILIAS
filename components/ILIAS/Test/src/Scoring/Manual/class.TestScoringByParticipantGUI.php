@@ -281,15 +281,13 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             );
 
             if ($this->logger->isLoggingEnabled()) {
-                $this->logger->logScoringInteraction(
+                $this->logger->getInteractionFactory()->buildScoringInteraction(
                     new TestScoringInteraction(
-                        $this->lng,
                         $this->getObject()->getRefId(),
                         $question_id,
                         $this->user,
                         new \ilObjUser(\ilObjTestAccess::_getParticipantId($active_id)),
                         TestScoringInteractionTypes::QUESTION_GRADED,
-                        time(),
                         [
                             'points' => $reached_points,
                             'feedback' => $feedback_text,

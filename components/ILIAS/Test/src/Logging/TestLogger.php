@@ -26,9 +26,17 @@ use ILIAS\Test\Administration\TestLoggingSettings;
 
 class TestLogger implements LoggerInterface
 {
+    private const LOG_ENTRY_TYPES = [
+        'test_administration_interaction' => TestAdministrationInteractionTypes::class,
+        'question_administration_interaction' => TestQuestionAdministrationInteractionTypes::class,
+        'participant_interaction' => TestParticipantInteractionTypes::class,
+        'scoring_interaction' => TestScoringInteractionTypes::class,
+        'test_error' => TestErrorTypes::class
+    ];
     public function __construct(
         private readonly TestLoggingSettings $logging_settings,
         private readonly TestLoggingRepository $logging_repository,
+        private readonly Factory $interaction_factory,
         private readonly \ilComponentLogger $component_logger,
         private readonly \ilLanguage $lng
     ) {
@@ -151,6 +159,28 @@ class TestLogger implements LoggerInterface
     public function getComponentLogger(): \ilComponentLogger
     {
         $this->component_logger;
+    }
+
+    public function getInteractionFactory(): Factory
+    {
+        return $this->interaction_factory;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getLogEntryTypes(): array
+    {
+        return array_keys(self::LOG_ENTRY_TYPES);
+    }
+
+    public function getInteractionTypes(): array
+    {
+        $interaction_types = [];
+        foreach (self::LOG_ENTRY_TYPES as $entry_type) {
+            $interaction_types += array_column($entry_type::cases(), 'value');
+        }
+        return $interaction_types;
     }
 
     private function createTestErrorFromContext(array $context, string $message): TestError

@@ -22,6 +22,10 @@ namespace ILIAS\Test\Logging;
 
 class TestScoringInteraction implements TestUserInteraction
 {
+    public const IDENTIFIER = 'si';
+
+    private int $unique_id;
+
     /**
     * @param array<string label_lang_var => mixed value> $additional_data
     */
@@ -36,6 +40,18 @@ class TestScoringInteraction implements TestUserInteraction
         private readonly array $additional_data
     ) {
 
+    }
+
+    public function getUniqueIdentifier(): ?string
+    {
+        return self::TEXTUAL_REPRESENATION . '_' . $this->unique_id;
+    }
+
+    public function withId(int $id): self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getTestRefId(): int

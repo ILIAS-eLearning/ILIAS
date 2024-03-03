@@ -2014,12 +2014,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logTestAdministrationInteraction(
-                new TestAdministrationInteraction(
-                    $this->lng,
+                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->object->getRefId(),
                     $this->user,
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
-                    time(),
                     [
                         'user' => $user_id
                     ]
