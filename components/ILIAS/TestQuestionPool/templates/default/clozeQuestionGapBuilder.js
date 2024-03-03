@@ -960,7 +960,7 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.checkInputIsNumeric = function (number, row, field) {
-    if (isNaN(number) || number === '') {
+    if (isNaN(number.toString().replace(',', '.')) || number === '') {
       pro.highlightRed($(`.gap_${row}_numeric${field}`));
       return 1;
     }
