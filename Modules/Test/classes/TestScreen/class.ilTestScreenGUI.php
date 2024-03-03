@@ -27,6 +27,7 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilTestScreenGUI
@@ -47,6 +48,7 @@ class ilTestScreenGUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly ilLanguage $lng,
+        private readonly Refinery $refinery,
         private readonly ilCtrl $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly HTTPServices $http,
@@ -305,10 +307,18 @@ class ilTestScreenGUI
         }
 
         if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
-            $modal_inputs['exam_password'] = $this->ui_factory->input()->field()->text(
+            $modal_inputs['exam_password'] = $this->ui_factory->input()->field()->password(
                 $this->lng->txt('tst_exam_password'),
                 $this->lng->txt('tst_exam_password_label')
-            )->withRequired(true);
+            )->withRevelation(true)
+            ->withRequired(true)
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    static function (ILIAS\Data\Password $value): string {
+                        return $value->toString();
+                    }
+                )
+            );
         }
 
         if ($this->user->isAnonymous()) {
