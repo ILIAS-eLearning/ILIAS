@@ -53,6 +53,12 @@ class ilExerciseExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "9.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/9",
+                "xsd_file" => "ilias_exc_9.xsd",
+                "uses_dataset" => true,
+                "min" => "9.0",
+                "max" => "9.99"),
             "4.1.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/Exercise/exc/4_1",
                 "xsd_file" => "ilias_exc_4_1.xsd",

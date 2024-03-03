@@ -28,6 +28,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 class CollectionWrapper
 {
@@ -76,6 +77,21 @@ class CollectionWrapper
         $this->irss->collection()->remove($id, $stakeholder, true);
     }
 
+    public function copyResourcesToDir(
+        string $rcid,
+        ResourceStakeholder $stakeholder,
+        string $dir
+    ) {
+        $collection = $this->irss->collection()->get($this->irss->collection()->id($rcid));
+        foreach ($collection->getResourceIdentifications() as $rid) {
+            $info = $this->irss->manage()->getResource($rid)
+                               ->getCurrentRevision()
+                               ->getInformation();
+            $stream = $this->irss->consume()->stream($rid);
+            $stream->getContents();
+        }
+    }
+
     public function importFilesFromLegacyUploadToCollection(
         ResourceCollection $collection,
         array $file_input,
@@ -108,6 +124,38 @@ class CollectionWrapper
             // we store the collection after all files have been added
             $this->irss->collection()->store($collection);
         }
+    }
+
+    public function importFilesFromDirectoryToCollection(
+        ResourceCollection $collection,
+        string $directory,
+        ResourceStakeholder $stakeholder
+    ): void {
+        $sourceFS = LegacyPathHelper::deriveFilesystemFrom($directory);
+        $sourceDir = LegacyPathHelper::createRelativePath($directory);
+
+        // check if arguments are directories
+        if (!$sourceFS->hasDir($sourceDir)) {
+            return;
+        }
+
+        $sourceList = $sourceFS->listContents($sourceDir, false);
+
+        foreach ($sourceList as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+            try {
+                $stream = $sourceFS->readStream($item->getPath());
+                $rid = $this->irss->manage()->stream(
+                    $stream,
+                    $stakeholder
+                );
+                $collection->add($rid);
+            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            }
+        }
+        $this->irss->collection()->store($collection);
     }
 
     protected function getResourceIdForIdString(string $rid): ?ResourceIdentification
