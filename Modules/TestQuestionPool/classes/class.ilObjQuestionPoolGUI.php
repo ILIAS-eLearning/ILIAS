@@ -730,18 +730,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         }
         $table->setData($rows);
 
-        $this->tpl->setCurrentBlock("import_qpl");
-        if (is_file($xml_file)) {
+        if (is_file($xml_file)
+            && !$questions_only) {
+            $this->tpl->setCurrentBlock("import_qpl");
             // read file into a string
-            $fh = @fopen($xml_file, "r") or die("");
+            $fh = @fopen($xml_file, "r");
             $xml = @fread($fh, filesize($xml_file));
             @fclose($fh);
             if (preg_match("/<ContentObject.*?MetaData.*?General.*?Title[^>]*?>([^<]*?)</", $xml, $matches)) {
                 $this->tpl->setVariable("VALUE_NEW_QUESTIONPOOL", $matches[1]);
             }
+
+            $this->tpl->setVariable("TEXT_CREATE_NEW_QUESTIONPOOL", $this->lng->txt("qpl_import_create_new_qpl"));
+            $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("TEXT_CREATE_NEW_QUESTIONPOOL", $this->lng->txt("qpl_import_create_new_qpl"));
-        $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
@@ -773,26 +775,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     */
     public function importVerifiedFileObject()
     {
-        if ($_POST["questions_only"] == 1) {
-            $newObj = &$this->object;
+        $title = '';
+        $description = null;
+        if ($_POST['questions_only'] == 1) {
+            $newObj = $this->object;
+            $title = $this->object->getTitle();
+            $description = $this->object->getDescription();
         } else {
             include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-            // create new questionpool object
             $newObj = new ilObjQuestionPool(0, true);
-            // set type of questionpool object
             $newObj->setType($_GET["new_type"]);
-            // set title of questionpool object to "dummy"
             $newObj->setTitle("dummy");
-            // set description of questionpool object
             $newObj->setDescription("questionpool import");
-            // create the questionpool class in the ILIAS database (object_data table)
             $newObj->create(true);
-            // create a reference for the questionpool object in the ILIAS database (object_reference table)
             $newObj->createReference();
-            // put the questionpool object in the administration tree
             $newObj->putInTree($_GET["ref_id"]);
-            // get default permissions and set the permissions for the questionpool object
             $newObj->setPermissions($_GET["ref_id"]);
+
+            $title = $_POST['qpl_new'] ?? '';
         }
 
         if (is_file($_SESSION["qpl_import_dir"] . '/' . $_SESSION["qpl_import_subdir"] . "/manifest.xml")) {
@@ -821,8 +821,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             }
 
             // set another question pool name (if possible)
-            if (isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"])) {
-                $newObj->setTitle($_POST["qpl_new"]);
+            if ($title !== '') {
+                $newObj->setTitle($title);
+            }
+
+            if ($description !== null) {
+                $newObj->setDescription($description);
             }
 
             $newObj->update();
