@@ -120,8 +120,8 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
 
         return $field_factory->optionalGroup(
             $inputs,
-            $language->txt('rep_visibility'),
-            $language->txt('rep_visibility_info')
+            $language->txt('rep_time_based_availability'),
+            $language->txt('rep_time_based_availability_info')
         )->withAdditionalTransformation($constraint)
             ->withAdditionalTransformation($trafo)
             ->withValue($value);

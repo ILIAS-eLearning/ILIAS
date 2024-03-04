@@ -13900,6 +13900,7 @@ rep#:#rep_remove_rec_content#:#Biztos, hogy eltávolítja az alábbi ajánlott t
 rep#:#rep_removed_from_favourites#:#Az objektumot sikeresen eltávolította a kedvencei közül.
 rep#:#rep_target_location#:#Célhely
 rep#:#rep_target_location_info#:#Kérem, válassza ki a helyet, ahová a kiválasztott objektumokat visszaállítja.
+rep#:#rep_time_based_availability#:#Elérhetőség időbeli korlátozása
 rep#:#rep_time_period#:#Időszak
 rep#:#rep_trash_deleted_by_unknown#:#Ismeretlen
 rep#:#rep_trash_table_col_deleted_by#:#Törölte
@@ -13910,7 +13911,6 @@ rep#:#rep_tree_limit#:#Elemek számának korlátozás a Tartalomtárban
 rep#:#rep_tree_limit_info#:#A teljesítmény növelése érdekében korlátozható a Tartalomtár faszerkezetében megjelenő objektumok száma.
 rep#:#rep_tree_limit_number#:#Maximális szám
 rep#:#rep_tree_limit_number_info#:#A csomópont kibontásakor megjelenő gyermekelemek maximális száma. Amennyiben ennél több gyermekelem létezik, egy beviteli mező jelenik meg, mely segítségével cím alapján szűrhetünk a gyermekelemekre.
-rep#:#rep_visibility_until#:#Elérhetőség időbeli korlátozása
 rfil#:#rfil_call#:#ECS fájl hívása
 rfil#:#rfil_version_tstamp#:#Adatok feltöltése
 rglo#:#rglo_call#:#ECS fogalomtár hívása

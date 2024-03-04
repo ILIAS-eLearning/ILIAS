@@ -13898,6 +13898,7 @@ rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following rec
 rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
+rep#:#rep_time_based_availability#:#Temporarily Available
 rep#:#rep_time_period#:#Período
 rep#:#rep_trash_deleted_by_unknown#:#Unknown###07 02 2020 new variable
 rep#:#rep_trash_table_col_deleted_by#:#Deleted by###07 02 2020 new variable
@@ -13908,7 +13909,6 @@ rep#:#rep_tree_limit#:#Limitar itens na árvore
 rep#:#rep_tree_limit_info#:#O número de objetos na árvore do repositório será limitada para melhorar o desempenho.
 rep#:#rep_tree_limit_number#:#Número máximo
 rep#:#rep_tree_limit_number_info#:#Número máximo de elementos de crianças que são inicialmente apresentados para um nó expandido. Se forem apresentados mais elementos de criança, aparece um campo de entrada de pesquisa para filtrar os elementos de crianças por título.
-rep#:#rep_visibility_until#:#Temporarily Available
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Carregar data
 rglo#:#rglo_call#:#Aceder ao glossário ECS

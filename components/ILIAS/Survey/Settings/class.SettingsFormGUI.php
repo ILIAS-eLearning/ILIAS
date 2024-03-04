@@ -265,7 +265,7 @@ class SettingsFormGUI
         $online->setChecked(!$survey->getOfflineStatus());
         $form->addItem($online);
 
-        $dur = new \ilDateDurationInputGUI($lng->txt('rep_visibility_until'), "access_period");
+        $dur = new \ilDateDurationInputGUI($lng->txt('rep_time_based_availability'), "access_period");
         $dur->setShowTime(true);
         $date = $survey->getActivationStartDate();
         $dur->setStart($date

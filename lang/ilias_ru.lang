@@ -13899,6 +13899,7 @@ rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following rec
 rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
+rep#:#rep_time_based_availability#:#Временно доступен
 rep#:#rep_time_period#:#Period
 rep#:#rep_trash_deleted_by_unknown#:#Unknown###07 02 2020 new variable
 rep#:#rep_trash_table_col_deleted_by#:#Deleted by###07 02 2020 new variable
@@ -13909,7 +13910,6 @@ rep#:#rep_tree_limit#:#Limit Items in Tree###10 11 2018 new variable
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.###10 11 2018 new variable
 rep#:#rep_tree_limit_number#:#Maximum Number###10 11 2018 new variable
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.###10 11 2018 new variable
-rep#:#rep_visibility_until#:#Временно доступен
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary
