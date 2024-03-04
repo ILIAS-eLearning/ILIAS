@@ -31,8 +31,11 @@ use ILIAS\Data\Meta\Html\OpenGraph\Image as OGImage;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class RepositoryOpenGraphExposer extends AbstractModificationProvider
+final class RepositoryOpenGraphExposer extends AbstractModificationProvider
 {
+    private bool $fetch_tile_image = false;
+
+
     public function isInterestedInContexts(): ContextCollection
     {
         // the exposer is interested in any context, BUT the repository context
@@ -61,7 +64,7 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         return null;
     }
 
-    protected function exposeObjectOpenGraphMetaData(\ilObject $object): void
+    private function exposeObjectOpenGraphMetaData(\ilObject $object): void
     {
         $object_translation = \ilObjectTranslation::getInstance($object->getId());
         $general_meta_data = $this->getGeneralObjectMeta($object->getId());
@@ -80,21 +83,8 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         }
 
         $uri = $this->data->uri(\ilLink::_getStaticLink($object->getRefId(), $object->getType()));
-        $image = $this->getDefaultImage();
-        try {
-            // Use the tile image if available
-            $tile_image = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
-            if ($tile_image !== null && $tile_image->getRid() !== null) {
-                $uri_string = $tile_image->getImage()->getAdditionalHighResSources()['960']
-                    ?? $tile_image->getImage()->getSource();
 
-                $image = $this->data->openGraphMetadata()->image(
-                    $this->data->uri($uri_string),
-                    'image/jpg'
-                );
-            }
-        } catch (\Throwable $e) {
-        }
+        $image = $this->getPresentationImage($object);
 
         $this->globalScreen()->layout()->meta()->addOpenGraphMetaDatum(
             $this->data->openGraphMetadata()->website(
@@ -109,7 +99,7 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
         );
     }
 
-    protected function exposeDefaultOpenGraphMetaData(): void
+    private function exposeDefaultOpenGraphMetaData(): void
     {
         $uri = $this->data->uri(ILIAS_HTTP_PATH);
 
@@ -178,5 +168,28 @@ class RepositoryOpenGraphExposer extends AbstractModificationProvider
             $screen_context_stack = $screen_context_stack->repository();
         }
         return $screen_context_stack;
+    }
+
+    protected function getPresentationImage(\ilObject $object): OGImage
+    {
+        $image = $this->getDefaultImage();
+        if (!$this->fetch_tile_image) {
+            return $image;
+        }
+        try {
+            // Use the tile image if available
+            $tile_image = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
+            if ($tile_image !== null && $tile_image->getRid() !== null) {
+                $uri_string = $tile_image->getImage()->getAdditionalHighResSources()['960']
+                    ?? $tile_image->getImage()->getSource();
+
+                $image = $this->data->openGraphMetadata()->image(
+                    $this->data->uri($uri_string),
+                    'image/jpg'
+                );
+            }
+        } catch (\Throwable $e) {
+        }
+        return $image;
     }
 }
