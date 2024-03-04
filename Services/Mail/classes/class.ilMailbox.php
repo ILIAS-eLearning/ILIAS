@@ -144,13 +144,6 @@ class ilMailbox
      */
     public function getActions(int $folderId): array
     {
-        if ($folderId) {
-            $folder_data = $this->getFolderData($folderId);
-            if ($folder_data['type'] === 'user_folder' || $folder_data['type'] === 'local') {
-                return $this->actions;
-            }
-        }
-
         return $this->actions;
     }
 
@@ -269,10 +262,9 @@ class ilMailbox
     }
 
     /**
-     * @param int $folderId
-     * @return array{obj_id: int, title: string, type: string}
+     * @return array{obj_id: int, title: string, type: string}|null
      */
-    public function getFolderData(int $folderId): array
+    public function getFolderData(int $folderId): ?array
     {
         $res = $this->db->queryF(
             'SELECT * FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND obj_id = %s',
@@ -281,11 +273,15 @@ class ilMailbox
         );
         $row = $this->db->fetchAssoc($res);
 
-        return [
-            'obj_id' => (int) $row['obj_id'],
-            'title' => (string) $row['title'],
-            'type' => (string) $row['m_type'],
-        ];
+        if (is_array($row)) {
+            return [
+                'obj_id' => (int) $row['obj_id'],
+                'title' => (string) $row['title'],
+                'type' => (string) $row['m_type'],
+            ];
+        }
+
+        return null;
     }
 
     public function getParentFolderId(int $folderId): int
@@ -408,6 +404,6 @@ class ilMailbox
     {
         $folderData = $this->getFolderData($folderId);
 
-        return (int) $folderData['obj_id'] === $folderId;
+        return $folderData !== null && (int) $folderData['obj_id'] === $folderId;
     }
 }
