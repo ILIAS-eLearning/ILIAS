@@ -446,8 +446,8 @@ class ilTestTopList
         $minutes = floor($seconds / 60);
         $seconds -= $minutes * 60;
 
-        return str_pad($hours, 2, "0", STR_PAD_LEFT) . ":"
-            . str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":"
-            . str_pad($seconds, 2, "0", STR_PAD_LEFT);
+        return str_pad(number_format($hours, 0, '.', ''), 2, '0', STR_PAD_LEFT) . ":"
+            . str_pad(number_format($minutes, 0, '.', ''), 2, '0', STR_PAD_LEFT) . ":"
+            . str_pad(number_format($seconds, 0, '.', ''), 2, '0', STR_PAD_LEFT);
     }
 }
