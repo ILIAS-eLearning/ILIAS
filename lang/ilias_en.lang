@@ -12732,7 +12732,7 @@ notifications_adm#:#osd_settings#:#On-Screen Notifications
 notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#activation_visible_when_disabled#:#Visibility
-obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.
+obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
@@ -14666,8 +14666,8 @@ rep#:#btn_undelete_origin_location#:#Restore (same location)
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
 rep#:#rep_activation_availability#:#Availability
-rep#:#rep_activation_limited_end#:#Finish Time
-rep#:#rep_activation_limited_start#:#Start Time
+rep#:#rep_activation_limited_end#:#End
+rep#:#rep_activation_limited_start#:#Start
 rep#:#rep_activation_limited_visibility#:#Always Visible
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
@@ -14749,7 +14749,8 @@ rep#:#rep_tree_limit#:#Limit Items in Tree
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.
 rep#:#rep_tree_limit_number#:#Maximum Number
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.
-rep#:#rep_visibility_until#:#Limited Availability Period
+rep#:#rep_visibility#:#Limited Availability Period
+rep#:#rep_visibility_info#:#The selected items will only be visible between the start and end date.
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary
