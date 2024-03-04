@@ -1,6 +1,21 @@
 <?php
-// declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+// declare(strict_types=1);
 require_once('./Services/WebAccessChecker/classes/class.ilWebAccessChecker.php');
 require_once('./Services/FileDelivery/classes/Delivery.php');
 require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
@@ -82,7 +97,9 @@ class ilWebAccessCheckerDelivery
             }
         } catch (ilWACException $e) {
             switch ($e->getCode()) {
-                case ilWACException::ACCESS_DENIED:
+                case ilWACException::NOT_FOUND:
+                    $this->handleNotFoundError($e);
+                    break;
                 case ilWACException::ACCESS_DENIED_NO_PUB:
                 case ilWACException::ACCESS_DENIED_NO_LOGIN:
                     $this->handleAccessErrors($e);
@@ -122,6 +139,14 @@ class ilWebAccessCheckerDelivery
         $ilFileDelivery->stream();
     }
 
+    protected function handleNotFoundError(ilWACException $e) : void
+    {
+        $response = $this->http
+            ->response()
+            ->withStatus(404);
+
+        $this->http->saveResponse($response);
+    }
 
     /**
      * @param ilWACException $e

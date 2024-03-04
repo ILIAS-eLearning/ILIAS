@@ -35,58 +35,29 @@ require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
  */
 class ilWebAccessChecker
 {
-    const DISPOSITION = 'disposition';
-    const STATUS_CODE = 'status_code';
-    const REVALIDATE = 'revalidate';
-    const CM_FILE_TOKEN = 1;
-    const CM_FOLDER_TOKEN = 2;
-    const CM_CHECKINGINSTANCE = 3;
-    const CM_SECFOLDER = 4;
+    public const DISPOSITION = 'disposition';
+    public const STATUS_CODE = 'status_code';
+    public const REVALIDATE = 'revalidate';
+    public const CM_FILE_TOKEN = 1;
+    public const CM_FOLDER_TOKEN = 2;
+    public const CM_CHECKINGINSTANCE = 3;
+    public const CM_SECFOLDER = 4;
     /**
      * @var ilWACPath
      */
-    protected $path_object = null;
+    protected $applied_checking_methods = [];
     /**
-     * @var bool
-     */
-    protected $checked = false;
-    /**
-     * @var string
-     */
-    protected $disposition = ilFileDelivery::DISP_INLINE;
-    /**
-     * @var string
-     */
-    protected $override_mimetype = '';
-    /**
-     * @var bool
-     */
-    protected $send_status_code = false;
-    /**
-     * @var bool
-     */
-    protected $initialized = false;
-    /**
-     * @var bool
-     */
-    protected $revalidate_folder_tokens = true;
-    /**
-     * @var bool
-     */
-    protected static $use_seperate_logfile = false;
-    /**
-     * @var array
-     */
-    protected $applied_checking_methods = array();
-    /**
-     * @var \ILIAS\DI\HTTPServices $http
+     * @var \Services
      */
     private $http;
     /**
-     * @var CookieFactory $cookieFactory
+     * @var \ILIAS\HTTP\Cookies\CookieFactory
      */
     private $cookieFactory;
-
+    /**
+     * @var \ilWACException|null
+     */
+    private $ressource_not_found;
 
     /**
      * ilWebAccessChecker constructor.
@@ -96,7 +67,15 @@ class ilWebAccessChecker
      */
     public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory)
     {
-        $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
+        try {
+            $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
+        } catch (ilWACException $e) {
+            if ($e->getCode() !== ilWACException::NOT_FOUND) {
+                throw $e;
+            }
+            $this->ressource_not_found = $e;
+        }
+
         $this->http = $httpState;
         $this->cookieFactory = $cookieFactory;
     }
@@ -108,7 +87,11 @@ class ilWebAccessChecker
      */
     public function check()
     {
-        if (!$this->getPathObject()) {
+        if ($this->getPathObject() === null) {
+            if ($this->ressource_not_found !== null) {
+                throw new ilWACException(ilWACException::NOT_FOUND, '', $this->ressource_not_found);
+            }
+
             throw new ilWACException(ilWACException::CODE_NO_PATH);
         }
 
@@ -146,7 +129,7 @@ class ilWebAccessChecker
             $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
             $path = realpath($clean_path);
             $data_dir = realpath(CLIENT_WEB_DIR);
-            if (strpos($path, $data_dir) !== 0) {
+            if (strpos($path, (string) $data_dir) !== 0) {
                 return false;
             }
             if (dirname($path) === $data_dir && is_file($path)) {

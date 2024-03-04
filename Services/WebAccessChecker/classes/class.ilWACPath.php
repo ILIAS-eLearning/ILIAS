@@ -25,42 +25,24 @@ use ILIAS\Data\URI;
  */
 class ilWACPath
 {
-    const DIR_DATA = "data";
-    const DIR_SEC = "sec";
+    public const DIR_DATA = "data";
+    public const DIR_SEC = "sec";
     /**
      * Copy this without to regex101.com and test with some URL of files
      */
-    const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w\-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
+    public const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w\-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
     /**
      * @var string[]
      */
-    protected static $image_suffixes = array(
-        'png',
-        'jpg',
-        'jpeg',
-        'gif',
-        'svg',
-    );
+    protected static $image_suffixes = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
     /**
      * @var string[]
      */
-    protected static $video_suffixes = array(
-        'mp4',
-        'm4v',
-        'mov',
-        'wmv',
-        'webm',
-    );
+    protected static $video_suffixes = ['mp4', 'm4v', 'mov', 'wmv', 'webm'];
     /**
      * @var string[]
      */
-    protected static $audio_suffixes = array(
-        'mp3',
-        'aiff',
-        'aif',
-        'm4a',
-        'wav',
-    );
+    protected static $audio_suffixes = ['mp3', 'aiff', 'aif', 'm4a', 'wav'];
     /**
      * @var string
      */
@@ -68,7 +50,7 @@ class ilWACPath
     /**
      * @var array
      */
-    protected $parameters = array();
+    protected $parameters = [];
     /**
      * @var bool
      */
@@ -289,7 +271,7 @@ class ilWACPath
     protected function normalizePath(string $path) : string
     {
         $path = ltrim($path, '.');
-        $path = urldecode($path);
+        $path = rawurldecode($path);
 
         // cut everything before "data/" (for installations using a subdirectory)
         $path = strstr($path, '/' . self::DIR_DATA . '/');
@@ -300,8 +282,8 @@ class ilWACPath
         $real_data_dir = realpath("./" . self::DIR_DATA);
         $realpath = realpath("." . $original_path);
 
-        if (strpos($realpath, $real_data_dir) !== 0) {
-            throw new ilWACException(ilWACException::ACCESS_DENIED, "Path is not in data directory");
+        if (strpos($realpath, (string) $real_data_dir) !== 0) {
+            throw new ilWACException(ilWACException::NOT_FOUND, "Path is not in data directory");
         }
 
         $normalized_path = ltrim(
