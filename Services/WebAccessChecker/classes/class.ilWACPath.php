@@ -235,7 +235,7 @@ class ilWACPath
     protected function normalizePath(string $path): string
     {
         $path = ltrim($path, '.');
-        $path = urldecode($path);
+        $path = rawurldecode($path);
 
         // cut everything before "data/" (for installations using a subdirectory)
         $path = strstr($path, '/' . self::DIR_DATA . '/');
@@ -247,7 +247,7 @@ class ilWACPath
         $realpath = realpath("." . $original_path);
 
         if (strpos($realpath, $real_data_dir) !== 0) {
-            throw new ilWACException(ilWACException::ACCESS_DENIED, "Path is not in data directory");
+            throw new ilWACException(ilWACException::NOT_FOUND, "Path is not in data directory");
         }
 
         $normalized_path = ltrim(

@@ -34,6 +34,7 @@ class ilWACException extends ilException
     public const ACCESS_DENIED_NO_PUB = 9011;
     public const ACCESS_DENIED_NO_LOGIN = 9012;
     public const MAX_LIFETIME = 9013;
+    public const NOT_FOUND = 9014;
     /**
      * @var array
      */
@@ -49,6 +50,7 @@ class ilWACException extends ilException
         self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
         self::MAX_LIFETIME => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
         self::ACCESS_DENIED_NO_LOGIN => 'No Login found',
+        self::NOT_FOUND => 'Resource not Found',
     ];
 
 
@@ -56,12 +58,12 @@ class ilWACException extends ilException
      * @param int $code
      * @param string $additional_message
      */
-    public function __construct($code, $additional_message = '')
+    public function __construct($code, $additional_message = '', Throwable $previous = null)
     {
         $message = self::$messages[$code] ?? 'Unknown error';
         if (!empty($additional_message)) {
             $message .= ': ' . $additional_message;
         }
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
     }
 }

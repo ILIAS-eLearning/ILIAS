@@ -27,8 +27,8 @@ class ilException extends Exception
     /**
      * A code isn't optional as in build in class Exception
      */
-    public function __construct($a_message, $a_code = 0)
+    public function __construct($a_message, $a_code = 0, Throwable $previous = null)
     {
-        parent::__construct($a_message, $a_code);
+        parent::__construct($a_message, $a_code, $previous);
     }
 }
