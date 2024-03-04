@@ -374,10 +374,11 @@ class ilInfoScreenGUI
         // output
 
         // description
+        /* see https://mantis.ilias.de/view.php?id=39079
         if ($description != "") {
             $this->addSection($lng->txt("description"));
             $this->addProperty("", nl2br($description));
-        }
+        }*/
 
         // general section
         $this->addSection($lng->txt("meta_general"));
