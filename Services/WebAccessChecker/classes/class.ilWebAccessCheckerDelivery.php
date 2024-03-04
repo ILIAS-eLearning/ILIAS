@@ -76,19 +76,11 @@ class ilWebAccessCheckerDelivery
                 $this->deny();
             }
         } catch (ilWACException $e) {
-            switch ($e->getCode()) {
-                case ilWACException::ACCESS_DENIED:
-                case ilWACException::ACCESS_DENIED_NO_PUB:
-                case ilWACException::ACCESS_DENIED_NO_LOGIN:
-                    $this->handleAccessErrors($e);
-                    break;
-                case ilWACException::ACCESS_WITHOUT_CHECK:
-                case ilWACException::INITIALISATION_FAILED:
-                case ilWACException::NO_CHECKING_INSTANCE:
-                default:
-                    $this->handleErrors($e);
-                    break;
-            }
+            match ($e->getCode()) {
+                ilWACException::NOT_FOUND => $this->handleNotFoundError($e),
+                ilWACException::ACCESS_DENIED_NO_PUB, ilWACException::ACCESS_DENIED_NO_LOGIN => $this->handleAccessErrors($e),
+                default => $this->handleErrors($e),
+            };
         }
     }
 
@@ -119,6 +111,14 @@ class ilWebAccessCheckerDelivery
         $ilFileDelivery->stream();
     }
 
+    protected function handleNotFoundError(ilWACException $e): void
+    {
+        $response = $this->http
+            ->response()
+            ->withStatus(404);
+
+        $this->http->saveResponse($response);
+    }
 
     protected function handleAccessErrors(ilWACException $e): void
     {
