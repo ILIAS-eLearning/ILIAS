@@ -13074,7 +13074,7 @@ prg#:#header_remove_certificate#:#Do you really want to remove the certificate f
 prg#:#header_update_certificate#:#Do you really want to update the certificate?
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
 prg#:#inactive_only#:#inactive users only
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%s' will soon expire. Please sign in again.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
 prg#:#invalidated#:#validity
 prg#:#label_crs#:#Course Name
