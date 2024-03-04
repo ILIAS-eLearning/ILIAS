@@ -62,7 +62,7 @@ class Agent implements AgentInterface
 
     public function getStatusObjective(Storage $storage): Objective
     {
-        return new NullObjective();
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new UpdateSteps());
     }
 
     public function getMigrations(): array
