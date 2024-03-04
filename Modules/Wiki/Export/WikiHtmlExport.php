@@ -253,7 +253,7 @@ class WikiHtmlExport
         int $a_cnt
     ): void {
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            $this->user_html_exp->updateStatus(50 + (50 / $a_total * $a_cnt), \ilWikiUserHTMLExport::RUNNING);
+            $this->user_html_exp->updateStatus((int) (50 + (50 / $a_total * $a_cnt)), \ilWikiUserHTMLExport::RUNNING);
         }
     }
 

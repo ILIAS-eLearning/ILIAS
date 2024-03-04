@@ -80,7 +80,12 @@ class ilMediaObjectSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilMediaObjectMetricsCollectedObjective($storage);
+        return new Setup\ObjectiveCollection(
+            'Component MediaObjects',
+            true,
+            new ilMediaObjectMetricsCollectedObjective($storage),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new \ILIAS\MediaObjects\Setup\ilMediaObjectsDBUpdateSteps())
+        );
     }
 
     public function getMigrations(): array

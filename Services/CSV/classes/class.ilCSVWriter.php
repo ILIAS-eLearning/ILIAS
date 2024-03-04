@@ -1,19 +1,20 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
 
 class ilCSVWriter
 {
@@ -21,7 +22,6 @@ class ilCSVWriter
     private string $separator = ',';
     private string $delimiter = '"';
     private string $new_line = "\n";
-    private bool $do_utf8_decoding = false;
     private bool $first_entry = true;
 
     public function setSeparator(string $a_sep): void
@@ -38,11 +38,6 @@ class ilCSVWriter
     {
         $this->csv .= $this->new_line;
         $this->first_entry = true;
-    }
-
-    public function setDoUTF8Decoding($do_utf8_decoding): void
-    {
-        $this->do_utf8_decoding = (bool) $do_utf8_decoding;
     }
 
     public function addColumn(string $a_col): void
@@ -66,7 +61,7 @@ class ilCSVWriter
         return str_replace(
             $this->delimiter,
             $this->delimiter . $this->delimiter,
-            ($this->do_utf8_decoding) ? utf8_decode($a_str) : $a_str
+            $a_str
         );
     }
 }

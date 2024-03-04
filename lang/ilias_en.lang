@@ -707,10 +707,10 @@ assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_run#:#Scored test attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
+assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export#:#Export
-assessment#:#export_cert_failed_for_users_p#:#No certificate file be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
+assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_ignored_for_users_p#:#The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s
 assessment#:#export_cert_ignored_for_users_s#:#The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s
@@ -860,6 +860,7 @@ assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
+assessment#:#longmenu_points_non_numeric_msg#:#Inputs for points only accept numeric values.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
@@ -3119,6 +3120,13 @@ cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
 cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress
 cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.
+cmix#:#conf_delete_data#:#Delete Data in LRS
+cmix#:#conf_delete_data_info#:#Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS.
+cmix#:#conf_delete_data_opt0#:#never
+cmix#:#conf_delete_data_opt1#:#never - but if users are deleted and if xAPI/cmi objects are moved to the trash or deleted, data will no longer be assignable for ILIAS by deleting the - user identification
+cmix#:#conf_delete_data_opt11#:#when users are deleted and when xAPI/cmi objects are moved to the trash or deleted
+cmix#:#conf_delete_data_opt12#:#additionally when users are removed from courses or groups
+cmix#:#conf_delete_data_opt2#:#never - but additionally when users are removed from courses or groups, data will no longer be assignable for ILIAS by deleting the user identification
 cmix#:#conf_description#:#Description
 cmix#:#conf_external_lrs#:#External LRS
 cmix#:#conf_keep_lp#:#Keep Learning Progress
@@ -3147,6 +3155,10 @@ cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILI
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
 cmix#:#conf_privacy_ident_info#:#Standard is frequently the E-Mail address. The unique ILIAS platform id is:
@@ -3773,6 +3785,8 @@ common#:#copy_of#:#Copy of
 common#:#copy_of_suffix#:#- Copy
 common#:#copy_selected_items#:#Copy
 common#:#count#:#Count
+common#:#counter_novelty#:#News
+common#:#counter_status#:#Status
 common#:#country#:#Country
 common#:#country_free_text#:#Country (Free Text Input)
 common#:#country_selection#:#Country (Drop Down Selection)
@@ -11360,6 +11374,7 @@ mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
+mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.
 mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).
@@ -12721,7 +12736,7 @@ notifications_adm#:#osd_settings#:#On-Screen Notifications
 notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#activation_visible_when_disabled#:#Visibility
-obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.
+obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
@@ -13065,7 +13080,7 @@ prg#:#header_remove_certificate#:#Do you really want to remove the certificate f
 prg#:#header_update_certificate#:#Do you really want to update the certificate?
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?
 prg#:#inactive_only#:#inactive users only
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%s' will soon expire. Please sign in again.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
 prg#:#invalidated#:#validity
 prg#:#label_crs#:#Course Name
@@ -14655,8 +14670,8 @@ rep#:#btn_undelete_origin_location#:#Restore (same location)
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
 rep#:#rep_activation_availability#:#Availability
-rep#:#rep_activation_limited_end#:#Finish Time
-rep#:#rep_activation_limited_start#:#Start Time
+rep#:#rep_activation_limited_end#:#End
+rep#:#rep_activation_limited_start#:#Start
 rep#:#rep_activation_limited_visibility#:#Always Visible
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
@@ -14738,7 +14753,8 @@ rep#:#rep_tree_limit#:#Limit Items in Tree
 rep#:#rep_tree_limit_info#:#The number of objects in the repository tree will be limited to enhance performance.
 rep#:#rep_tree_limit_number#:#Maximum Number
 rep#:#rep_tree_limit_number_info#:#Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title.
-rep#:#rep_visibility_until#:#Limited Availability Period
+rep#:#rep_visibility#:#Limited Availability Period
+rep#:#rep_visibility_info#:#The selected items will only be visible between the start and end date.
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary

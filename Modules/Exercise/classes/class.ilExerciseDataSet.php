@@ -19,6 +19,8 @@
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\Exercise\Assignment\DomainService;
 
 /**
  * Exercise data set class
@@ -36,11 +38,21 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilExerciseDataSet extends ilDataSet
 {
+    protected DomainService $ass_domain;
     protected ilObjExercise $current_exc;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->ass_domain = $DIC->exercise()->internal()->domain()->assignment();
+    }
+
 
     public function getSupportedVersions(): array
     {
-        return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0");
+        return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0", "9.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -77,6 +89,7 @@ class ilExerciseDataSet extends ilDataSet
 
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     return array(
                         "Id" => "integer",
                         "Title" => "text",
@@ -221,6 +234,44 @@ class ilExerciseDataSet extends ilDataSet
                         ,"RelativeDeadline" => "integer"
                         ,"RelDeadlineLastSubm" => "integer"
                     );
+                case "9.0":
+                    return array(
+                        "Id" => "integer",
+                        "ExerciseId" => "integer",
+                        "Type" => "integer",
+                        "Deadline" => "integer",
+                        "Deadline2" => "integer",
+                        "Instruction" => "text",
+                        "Title" => "text",
+                        "Mandatory" => "integer",
+                        "OrderNr" => "integer",
+                        "TeamTutor" => "integer",
+                        "MaxFile" => "integer",
+                        "InstructionCollection" => "rscollection",
+                        //web data directory
+                        "WebDataDir" => "directory"
+                        // peer
+                        ,"Peer" => "integer"
+                        ,"PeerMin" => "integer"
+                        ,"PeerDeadline" => "integer"
+                        ,"PeerFile" => "integer"
+                        ,"PeerPersonal" => "integer"
+                        ,"PeerChar" => "integer"
+                        ,"PeerUnlock" => "integer"
+                        ,"PeerValid" => "integer"
+                        ,"PeerText" => "integer"
+                        ,"PeerRating" => "integer"
+                        ,"PeerCritCat" => "integer"
+                        // global feedback
+                        ,"FeedbackFile" => "integer"
+                        ,"FeedbackCron" => "integer"
+                        ,"FeedbackDate" => "integer"
+                        ,"FeedbackDir" => "directory"
+                        ,"FbDateCustom" => "integer"
+                        ,"DeadlineMode" => "integer"
+                        ,"RelativeDeadline" => "integer"
+                        ,"RelDeadlineLastSubm" => "integer"
+                    );
             }
         }
 
@@ -229,6 +280,7 @@ class ilExerciseDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     return array(
                         "Id" => "integer"
                         ,"Parent" => "integer"
@@ -243,6 +295,7 @@ class ilExerciseDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     return array(
                         "Id" => "integer"
                         ,"Parent" => "integer"
@@ -260,6 +313,7 @@ class ilExerciseDataSet extends ilDataSet
         if ($a_entity == "exc_ass_file_order") {
             switch ($a_version) {
                 case "5.3.0":
+                case "9.0":
                     return array(
                     "Id" => "integer"
                     , "AssignmentId" => "integer"
@@ -272,6 +326,7 @@ class ilExerciseDataSet extends ilDataSet
         if ($a_entity == "exc_ass_reminders") {
             switch ($a_version) {
                 case "5.3.0":
+                case "9.0":
                     return array(
                         "Type" => "text",
                         "AssignmentId" => "integer",
@@ -316,6 +371,7 @@ class ilExerciseDataSet extends ilDataSet
 
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description," .
                         " pass_mode, pass_nr, show_submissions, compl_by_submission, tfeedback,nr_mandatory_random" .
                         " FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)" .
@@ -352,6 +408,7 @@ class ilExerciseDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT id, exc_id exercise_id, type, time_stamp deadline, deadline2," .
                         " instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min," .
                         " peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid," .
@@ -368,6 +425,7 @@ class ilExerciseDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT id, parent, title, pos" .
                         " FROM exc_crit_cat" .
                         " WHERE " . $ilDB->in("parent", $a_ids, false, "integer"));
@@ -380,6 +438,7 @@ class ilExerciseDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT id, parent, type, title" .
                         ", descr, pos, required, def" .
                         " FROM exc_crit" .
@@ -397,6 +456,7 @@ class ilExerciseDataSet extends ilDataSet
         if ($a_entity == "exc_ass_file_order") {
             switch ($a_version) {
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT id, assignment_id, filename, order_nr" .
                         " FROM exc_ass_file_order" .
                         " WHERE " . $ilDB->in("assignment_id", $a_ids, false, "integer"));
@@ -407,6 +467,7 @@ class ilExerciseDataSet extends ilDataSet
         if ($a_entity == "exc_ass_reminders") {
             switch ($a_version) {
                 case "5.3.0":
+                case "9.0":
                     $this->getDirectDataFromQuery("SELECT type, ass_id, exc_id, status, start, end, freq, last_send, template_id" .
                         " FROM exc_ass_reminders" .
                         " WHERE " . $ilDB->in("ass_id", $a_ids, false, "integer"));
@@ -435,8 +496,9 @@ class ilExerciseDataSet extends ilDataSet
                 $a_set["Deadline2"] = $deadline->get(IL_CAL_DATETIME, '', 'UTC');
             }
 
-            $fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
-            $a_set["Dir"] = $fstorage->getAbsolutePath();
+            $if = $this->ass_domain->instructionFiles((int) $a_set["Id"]);
+            $a_set["InstructionCollection"] = $if->getCollectionIdString();
+
 
             $fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
             $a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
@@ -480,6 +542,7 @@ class ilExerciseDataSet extends ilDataSet
                     case "5.1.0":
                     case "5.2.0":
                     case "5.3.0":
+                    case "9.0":
                         return array(
                             "exc_crit_cat" => array("ids" => $a_rec["Id"] ?? null),
                             "exc_assignment" => array("ids" => $a_rec["Id"] ?? null)
@@ -495,6 +558,7 @@ class ilExerciseDataSet extends ilDataSet
             case "exc_assignment":
                 switch ($a_version) {
                     case "5.3.0":
+                    case "9.0":
                         return array(
                             "exc_ass_file_order" => array("ids" => $a_rec["Id"] ?? null),
                             "exc_ass_reminders" => array("ids" => $a_rec["Id"] ?? null)
@@ -628,12 +692,22 @@ class ilExerciseDataSet extends ilDataSet
                     $fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
                     $fstorage->create();
 
-                    // assignment files
-                    $dir = str_replace("..", "", $a_rec["Dir"]);
+                    // instruction files
+                    $dir = str_replace("..", "", ($a_rec["InstructionCollection"] ?? ""));
                     if ($dir != "" && $this->getImportDirectory() != "") {
-                        $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = $fstorage->getAbsolutePath();
-                        ilFileUtils::rCopy($source_dir, $target_dir);
+                        $if = $this->ass_domain->instructionFiles($ass->getId());
+                        $if->importFromDirectory($this->getImportDirectory() . "/" . $dir);
+                    } else {
+                        $dir = str_replace("..", "", ($a_rec["Dir"] ?? ""));    // legacy Dir
+                        if ($dir != "" && $this->getImportDirectory() != "") {
+                            $if = $this->ass_domain->instructionFiles($ass->getId());
+                            $if->importFromDirectory($this->getImportDirectory() . "/" . $dir);
+                        }
+                        $dir = str_replace("..", "", ($a_rec["WebDataDir"] ?? ""));    // legacy WebDataDir
+                        if ($dir != "" && $this->getImportDirectory() != "") {
+                            $if = $this->ass_domain->instructionFiles($ass->getId());
+                            $if->importFromDirectory($this->getImportDirectory() . "/" . $dir);
+                        }
                     }
 
                     // (4.4) global feedback file
@@ -641,16 +715,6 @@ class ilExerciseDataSet extends ilDataSet
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = $fstorage->getGlobalFeedbackPath();
-                        ilFileUtils::rCopy($source_dir, $target_dir);
-                    }
-
-                    // (5.3) assignment files inside ILIAS
-                    $fwebstorage = new ilFSWebStorageExercise($exc_id, $ass->getId());
-                    $fwebstorage->create();
-                    $dir = str_replace("..", "", $a_rec["WebDataDir"]);
-                    if ($dir != "" && $this->getImportDirectory() != "") {
-                        $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = $fwebstorage->getAbsolutePath();
                         ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
@@ -719,4 +783,18 @@ class ilExerciseDataSet extends ilDataSet
                 $rmd->save();
         }
     }
+
+    public function getCollection(
+        array $record,
+        string $entity,
+        string $schema_version,
+        string $field,
+        string $value
+    ): ?ResourceCollection {
+        if ($entity === "exc_assignment" && $field === "InstructionCollection") {
+            return $this->ass_domain->instructionFiles((int) $record["Id"])->getCollection();
+        }
+        return null;
+    }
+
 }

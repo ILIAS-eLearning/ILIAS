@@ -95,6 +95,21 @@ class InstructionFileRepository
         }
     }
 
+    public function importFromDirectory(
+        int $ass_id,
+        string $dir,
+        ResourceStakeholder $stakeholder
+    ): void {
+        $collection = $this->getCollection($ass_id);
+        if ($collection) {
+            $this->wrapper->importFilesFromDirectoryToCollection(
+                $collection,
+                $dir,
+                $stakeholder
+            );
+        }
+    }
+
     public function deliverFile($ass_id, $file): void
     {
         /** @var ResourceInformation $info */

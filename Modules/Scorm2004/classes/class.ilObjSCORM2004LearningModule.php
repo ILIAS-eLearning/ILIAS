@@ -151,7 +151,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 while (!feof($f_read_handler)) {
                     $zeile = fgets($f_read_handler);
                     //echo mb_detect_encoding($zeile);
-                    fwrite($f_write_handler, utf8_encode($zeile));
+                    fwrite($f_write_handler, mb_convert_encoding($zeile, "UTF-8", mb_detect_encoding($zeile)));
                 }
                 fclose($f_read_handler);
                 fclose($f_write_handler);

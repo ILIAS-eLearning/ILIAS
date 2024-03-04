@@ -10,8 +10,18 @@
         <tbody class="mpwzd">
         <!-- BEGIN row -->
         <tr class="mpwzd">
-            <td>{DEFINITION}</td>
-            <td>{TERM}</td>
+            <td>
+                {DEFINITION}
+                <!-- BEGIN definition_image -->
+                <img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+                <!-- END definition_image -->
+            </td>
+            <td>
+                {TERM}
+                <!-- BEGIN term_image -->
+                <img class="ilc_qimg_QuestionImage" border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+                <!-- END term_image -->
+            </td>
             <td>
                 <input class="form-control text-right" type="text" size="5" name="{POST_VAR}[points][{ROW_NUMBER}]" value="{POINTS_VALUE}" />
             </td>

@@ -72,25 +72,6 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 		display: inline-block;
 	}
 }
-.il-viewcontrol-section {
-	.glyphicon {
-		vertical-align: middle;
-		&::before {
-			top: 0;
-			vertical-align: middle;
-		}
-	}
-}
-.il-viewcontrol-pagination {
-	.glyph {
-		.glyphicon {
-			vertical-align: middle;
-			&::before {
-				top: 0;
-			}
-		}
-	}
-}
 
 .il-viewcontrol-fieldselection .dropdown-menu {
 	padding: $il-padding-xlarge-horizontal $il-padding-xlarge-vertical;

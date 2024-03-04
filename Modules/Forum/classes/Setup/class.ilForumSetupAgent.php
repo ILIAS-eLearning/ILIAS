@@ -64,7 +64,12 @@ class ilForumSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Setup\ObjectiveCollection(
+            'Component Forum',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps9())
+        );
     }
 
     public function getMigrations(): array

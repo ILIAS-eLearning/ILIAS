@@ -69,7 +69,7 @@ class AgentTest extends TestCase
 
     public function testGetStatusObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, (new Agent($this->mock(Refinery::class)))->getStatusObjective($this->mock(Storage::class)));
+        $this->assertInstanceOf(\ilDatabaseUpdateStepsMetricsCollectedObjective::class, (new Agent($this->mock(Refinery::class)))->getStatusObjective($this->mock(Storage::class)));
     }
 
     public function testGetMigrations(): void

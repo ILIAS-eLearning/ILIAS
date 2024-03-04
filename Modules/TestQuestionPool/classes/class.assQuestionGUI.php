@@ -637,14 +637,14 @@ abstract class assQuestionGUI
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
         if ($this->request->raw("return_to_fb") !== null) {
-            $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
+            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
         }
 
         if ($this->request->raw('test_express_mode')) {
-            ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
         }
 
-        ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function cancelSync(): void
@@ -655,13 +655,12 @@ abstract class assQuestionGUI
             $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
         if ($this->request->raw('return_to_fb') !== '' && $this->request->raw('return_to_fb') !== null) {
-            $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
-        } else {
-            if ($this->request->raw('test_express_mode')) {
-                ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
-            }
-            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
+            $this->ctrl->redirectByClass(ilAssQuestionFeedbackEditingGUI::class, 'showFeedbackForm');
         }
+        if ($this->request->raw('test_express_mode')) {
+            $this->ctrl->redirectToURL(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+        }
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function saveEdit(): void
@@ -702,8 +701,8 @@ abstract class assQuestionGUI
                 $this->ctrl->setParameter($this, "q_id", $this->object->getId());
                 $this->editQuestion();
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), false);
-                $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->object->getId());
-                $this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
+                $this->ctrl->setParameterByClass(ilAssQuestionPageGUI::class, "q_id", $this->object->getId());
+                $this->ctrl->redirectByClass(ilAssQuestionPageGUI::class, "edit");
             }
         }
     }

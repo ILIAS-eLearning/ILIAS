@@ -551,6 +551,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                             );
                             echo ''
                                 . '<script>'
+                                . ' event = new Event("click");'
                                 . ilCommentGUI::getListCommentsJSCall($ajax_hash)
                                 . '</script>'
                             ;
@@ -839,8 +840,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $table->setData($rows);
 
-        $this->tpl->setCurrentBlock('import_qpl');
-        if (is_file($xml_file)) {
+        if (is_file($xml_file)
+            && !$questions_only) {
+            $this->tpl->setCurrentBlock("import_qpl");
             try {
                 $fh = fopen($xml_file, 'r');
                 $xml = fread($fh, filesize($xml_file));
@@ -851,9 +853,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             if (preg_match('/<ContentObject.*?MetaData.*?General.*?Title[^>]*?>([^<]*?)</', $xml, $matches)) {
                 $this->tpl->setVariable('VALUE_NEW_QUESTIONPOOL', $matches[1]);
             }
+
+            $this->tpl->setVariable("TEXT_CREATE_NEW_QUESTIONPOOL", $this->lng->txt("qpl_import_create_new_qpl"));
+            $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable('TEXT_CREATE_NEW_QUESTIONPOOL', $this->lng->txt('qpl_import_create_new_qpl'));
-        $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('adm_content');
         $this->tpl->setVariable('FOUND_QUESTIONS_INTRODUCTION', $this->lng->txt('qpl_import_verify_found_questions'));
@@ -903,8 +906,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
-        if ($_POST['questions_only'] == 1) {
-            $newObj = &$this->object;
+        $title = '';
+        $description = null;
+        if ($this->qplrequest->int('questions_only') === 1) {
+            $newObj = $this->object;
+            $title = $this->object->getTitle();
+            $description = $this->object->getDescription();
         } else {
             $newObj = new ilObjQuestionPool(0, true);
             $newObj->setType($this->qplrequest->raw('new_type'));
@@ -914,6 +921,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $newObj->createReference();
             $newObj->putInTree($this->qplrequest->getRefId());
             $newObj->setPermissions($this->qplrequest->getRefId());
+
+            $title = $this->qplrequest->raw('qpl_new');
         }
 
         if (is_string(ilSession::get("qpl_import_dir")) && is_string(ilSession::get("qpl_import_subdir")) && is_file(
@@ -948,9 +957,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $newObj->fromXML(ilSession::get('qpl_import_xml_file'));
             }
 
-            // set another question pool name (if possible)
-            if (isset($_POST['qpl_new']) && strlen($_POST['qpl_new'])) {
-                $newObj->setTitle($_POST['qpl_new']);
+            if ($title !== '') {
+                $newObj->setTitle($title);
+            }
+
+            if ($description !== null) {
+                $newObj->setDescription($description);
             }
 
             $newObj->update();

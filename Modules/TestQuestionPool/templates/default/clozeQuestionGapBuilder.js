@@ -443,7 +443,7 @@ const ClozeQuestionGapBuilder = (function () {
     let stringBuild = '';
     ClozeSettings.gaps_php[0][gap_count - 1].values.forEach((entry) => {
       if (entry.answer !== undefined) {
-        stringBuild += `${entry.answer.replace(/\[/g, '[&hairsp;')},`;
+        stringBuild += `${entry.answer.toString().replace(/\[/g, '[&hairsp;')},`;
       }
     });
     stringBuild = stringBuild.replace(/,+$/, '');
@@ -960,7 +960,7 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.checkInputIsNumeric = function (number, row, field) {
-    if (isNaN(number) || number === '') {
+    if (isNaN(number.toString().replace(',', '.')) || number === '') {
       pro.highlightRed($(`.gap_${row}_numeric${field}`));
       return 1;
     }

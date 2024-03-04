@@ -82,7 +82,12 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Setup\ObjectiveCollection(
+            'Component LearningSequence',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilLearningSequenceRegisterNotificationType())
+        );
     }
 
     /**

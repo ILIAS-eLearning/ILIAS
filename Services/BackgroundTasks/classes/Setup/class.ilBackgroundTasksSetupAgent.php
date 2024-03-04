@@ -46,7 +46,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
+        return $this->refinery->custom()->transformation(fn($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
             $data["type"] ?? \ilBackgroundTasksSetupConfig::TYPE_SYNCHRONOUS,
             $data["max_number_of_concurrent_tasks"] ?? 1
         ));
@@ -86,7 +86,12 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilBackgroundTasksMetricsCollectedObjective($storage);
+        return new Setup\ObjectiveCollection(
+            'Component BackgroundTasks',
+            true,
+            new ilBackgroundTasksMetricsCollectedObjective($storage),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBackgroundTasksDB80())
+        );
     }
 
     /**

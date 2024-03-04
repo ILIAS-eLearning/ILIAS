@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -37,6 +37,17 @@ class ButtonContextRenderer extends Renderer
 
     protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
+        $aria_label = "";
+        foreach ($component->getCounters() as $counter) {
+            if($counter->getNumber() > 0) {
+                $aria_label .= $this->txt("counter_".$counter->getType()). " ".$counter->getNumber(). "; ";
+            }
+        }
+
+        if($aria_label != "") {
+            $tpl->setVariable("LABEL", $aria_label);
+        }
+
         return $tpl;
     }
 }

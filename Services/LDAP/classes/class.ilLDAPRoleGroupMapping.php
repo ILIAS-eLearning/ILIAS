@@ -216,14 +216,14 @@ class ilLDAPRoleGroupMapping
     }
 
     /**
-     * Check if a role is handled or not
-     *
-     * @param int role_id
-     * @return bool server id or 0 if mapping exists
-     *
+     * @param int|string|null $a_role_id
      */
     private function isHandledRole($a_role_id): bool
     {
+        if (!is_string($a_role_id) || !is_int($a_role_id)) {
+            return false;
+        }
+
         return array_key_exists($a_role_id, $this->mappings);
     }
 

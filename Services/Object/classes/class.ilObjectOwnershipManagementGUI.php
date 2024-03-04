@@ -117,6 +117,7 @@ class ilObjectOwnershipManagementGUI
 
         $tbl->setTitle($this->getLabelForObjectType($selected_type));
         $tbl->initItems($objects[$selected_type]);
+        $this->ctrl->setParameterByClass(self::class, 'type', $selected_type);
         $this->tpl->setContent($tbl->getHTML());
     }
 

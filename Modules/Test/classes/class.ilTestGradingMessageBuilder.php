@@ -103,7 +103,7 @@ class ilTestGradingMessageBuilder
         } elseif ($this->isPassed()) {
             $this->main_tpl->setOnScreenMessage('success', $this->getFullMessage());
         } else {
-            $this->main_tpl->setOnScreenMessage('failure', $this->getFullMessage());
+            $this->main_tpl->setOnScreenMessage('info', $this->getFullMessage());
         }
     }
 
