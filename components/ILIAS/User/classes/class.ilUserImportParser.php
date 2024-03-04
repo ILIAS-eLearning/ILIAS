@@ -60,7 +60,7 @@ class ilUserImportParser extends ilSaxParser
     protected array $prefs; // Missing array type.
     protected string $current_role_action;
     protected string $current_role_type;
-    protected int $current_role_id = 0;
+    protected string $current_role_id = '0';
     protected string $cdata;
     protected array $role_assign; // Missing array type.
     protected string $req_send_mail;
@@ -391,7 +391,7 @@ class ilUserImportParser extends ilSaxParser
                 if (($internal_id = ilUtil::__extractId($current_role_id, (int) IL_INST_ID)) > 0) {
                     $current_role_id = $internal_id;
                 }
-                $this->current_role_id = (int) $current_role_id;
+                $this->current_role_id = $current_role_id;
                 $this->current_role_type = $a_attribs["Type"];
                 break;
         }
@@ -411,7 +411,7 @@ class ilUserImportParser extends ilSaxParser
                 if (($internal_id = ilUtil::__extractId($current_role_id, (int) IL_INST_ID)) > 0) {
                     $current_role_id = $internal_id;
                 }
-                $this->current_role_id = (int) $current_role_id;
+                $this->current_role_id = $current_role_id;
                 $this->current_role_type = $a_attribs["Type"];
                 $this->current_role_action = (!isset($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
                 break;
@@ -561,7 +561,7 @@ class ilUserImportParser extends ilSaxParser
                 if ($a_attribs['Id'] == "") {
                     $this->logFailure($this->userObj->getLogin(), sprintf($this->lng->txt("usrimport_xml_attribute_missing"), "Role", "Id"));
                 }
-                $this->current_role_id = (int) $a_attribs["Id"];
+                $this->current_role_id = $a_attribs["Id"];
                 $this->current_role_type = $a_attribs["Type"];
                 if ($this->current_role_type !== 'Global'
                 && $this->current_role_type !== 'Local') {
