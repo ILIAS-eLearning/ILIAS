@@ -124,8 +124,6 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];
-        foreach (iterator_to_array($component_factory->getActivePluginsInSlot("udfc")) as $plugin) {
-            yield $plugin;
-        }
+        yield from $component_factory->getActivePluginsInSlot("udfc");
     }
 }

@@ -318,9 +318,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         global $DIC;
 
         $component_factory = $DIC['component.factory'];
-        foreach ($component_factory->getActivePluginsInSlot("amdc") as $plugin) {
-            yield $plugin;
-        }
+        yield from $component_factory->getActivePluginsInSlot("amdc");
     }
 
     protected function checkPermission(
