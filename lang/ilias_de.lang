@@ -858,7 +858,6 @@ assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwor
 assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht richtig, denn sie hat nicht die gleiche Anzahl Lücken im Text wie in den Antwortoptionen.
-assessment#:#longmenu_points_non_numeric_msg#:#Punkt-Eingabefelder müssen numerische Werte enthalten.
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
@@ -974,6 +973,7 @@ assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#point#:#Punkt
 assessment#:#points#:#Punkte
 assessment#:#points_checked#:#Punkte (ausgewählt)
+assessment#:#points_non_numeric_or_negative_msg#:#Die Punkt-Eingabefelder müssen positive numerische Werte enthalten.
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Punkte (nicht ausgewählt)
 assessment#:#points_wrong#:#Falsche Selektionen

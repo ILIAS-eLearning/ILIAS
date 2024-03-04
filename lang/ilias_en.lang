@@ -858,7 +858,6 @@ assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
-assessment#:#longmenu_points_non_numeric_msg#:#Inputs for points only accept numeric values.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
@@ -974,6 +973,7 @@ assessment#:#please_select#:#-- please select --
 assessment#:#point#:#Point
 assessment#:#points#:#Points
 assessment#:#points_checked#:#Points when Checked
+assessment#:#points_non_numeric_or_negative_msg#:#Inputs for points only accept positive numeric values.
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Points when Unchecked
 assessment#:#points_wrong#:#Wrong Selections
