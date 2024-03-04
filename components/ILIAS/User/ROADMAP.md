@@ -7,9 +7,10 @@ refactoring.
 - There are no short-term plans
 
 ## Mid Term
+- Refactor User Actions
 - Apply Sustainability Package from PHP8-Refactoring
 
 ## Long Term
-In the Long Term Services\AccessControl will be moved to a more collaborative
+In the Long Term Services\User will be moved to a more collaborative
 maintenance model. A more encompasing refactoring aims to facilitate this and
 provide an easy to understand Service.
