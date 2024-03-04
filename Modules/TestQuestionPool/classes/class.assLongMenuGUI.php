@@ -132,7 +132,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     private function stripSlashesRecursive(array $data): array
     {
         return array_map(
-            function (string|array $v): string|array {
+            function ($v) {
                 if (is_array($v)) {
                     return $this->stripSlashesRecursive($v);
                 }
@@ -145,7 +145,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     private function trimArrayRecursive(array $data): array
     {
         return array_map(
-            function (string|array $v): string|array {
+            function ($v) {
                 if (is_array($v)) {
                     return $this->trimArrayRecursive($v);
                 }
