@@ -893,9 +893,10 @@ class ilLOEditorGUI
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
-                $tst->setQuestionSetType($form->getInput('qtype'));
-
-                $tst->saveToDb();
+                $general_settings = $tst->getMainSettings()->getGeneralSettings()->withQuestionSetType($form->getInput('qtype'));
+                $tst->getMainSettingsRepository()->store(
+                    $tst->getMainSettings()->withGeneralSettings($general_settings)
+                );
 
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getParentObject()->getId());
@@ -966,9 +967,10 @@ class ilLOEditorGUI
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
-                $tst->setQuestionSetType($form->getInput('qtype'));
-
-                $tst->saveToDb();
+                $general_settings = $tst->getMainSettings()->getGeneralSettings()->withQuestionSetType($form->getInput('qtype'));
+                $tst->getMainSettingsRepository()->store(
+                    $tst->getMainSettings()->withGeneralSettings($general_settings)
+                );
 
                 if ($this->getTestType() == self::TEST_TYPE_IT) {
                     $this->getSettings()->setInitialTest($tst->getRefId());
