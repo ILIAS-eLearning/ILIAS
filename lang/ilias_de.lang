@@ -3352,8 +3352,8 @@ cmps#:#cmps_service#:#Dienst
 cmps#:#cmps_show_details#:#Details anzeigen
 cmps#:#cmps_slots#:#Slots
 cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
-cmps#:#cmps_supports_export#:#Unterstüzt Export
+cmps#:#cmps_supports_cli_setup#:#Unterstützt CLI-Setup
+cmps#:#cmps_supports_export#:#Unterstützt Export
 cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
 cmps#:#cmps_uninstall#:#Deinstallieren
 cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren und alle zugehörigen Datenbankeinträge löschen?
