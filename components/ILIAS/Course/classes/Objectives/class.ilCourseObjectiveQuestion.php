@@ -191,12 +191,18 @@ class ilCourseObjectiveQuestion
         $query = "SELECT tst_limit_p FROM crs_objective_tst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
             "AND tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . " ";
-
         $res = $this->db->query($query);
-
-        $limit = 100;
+        $limit_in_db = null;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $limit = (int) $row->tst_limit_p;
+            $limit_in_db = (int) $row->tst_limit_p;
+        }
+        // Select correct limit
+        $limit = 100;
+        if (is_null($limit_in_db) && $this->tst_limit > 0 && $this->tst_limit <= 100) {
+            $limit = $this->tst_limit;
+        }
+        if (!is_null($limit_in_db)) {
+            $limit = $limit_in_db;
         }
 
         $next_id = $this->db->nextId('crs_objective_tst');
