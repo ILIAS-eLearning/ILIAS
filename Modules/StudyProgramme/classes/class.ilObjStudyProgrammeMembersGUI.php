@@ -977,7 +977,7 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateCertificate');
         $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
 
-        foreach ($this->getGetPrgsIds() as $progress_id) {
+        foreach ($this->getPostPrgsIds() as $progress_id) {
             $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
@@ -991,7 +991,7 @@ class ilObjStudyProgrammeMembersGUI
     public function confirmedUpdateCertificate(): void
     {
         $msgs = $this->getMessageCollection('msg_update_certificate');
-        foreach ($this->getGetPrgsIds() as $idx => $prgs_id) {
+        foreach ($this->getPostPrgsIds() as $idx => $prgs_id) {
             if (!$this->mayCurrentUserEditProgressForUser($prgs_id->getUsrId())) {
                 $this->showInfoMessage("no_permission_to_update_certificate");
             } else {
