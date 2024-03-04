@@ -451,6 +451,8 @@ class ilAccountRegistrationGUI
 
         $this->code_was_used = false;
         $code_has_access_limit = false;
+        
+        /** @var list<int>|null $code_local_roles */
         $code_local_roles = [];
         if ($this->code_enabled) {
             $code_local_roles = $code_has_access_limit = null;
@@ -465,9 +467,12 @@ class ilAccountRegistrationGUI
 
                 // handle code attached local role(s) and access limitation
                 $code_data = ilRegistrationCode::getCodeData($code);
-                if ($code_data["role_local"]) {
+                if (isset($code_data['role_local']) && is_string($code_data['role_local'])) {
                     // need user id before we can assign role(s)
-                    $code_local_roles = explode(";", $code_data["role_local"]);
+                    $code_local_roles = array_filter(array_map(
+                        static fn (string $value): int => (int) $value,
+                        explode(';', $code_data['role_local'])
+                    ));
                 }
                 if ($code_data["alimit"]) {
                     // see below
@@ -575,7 +580,7 @@ class ilAccountRegistrationGUI
         // local roles from code
         if ($this->code_was_used && is_array($code_local_roles)) {
             foreach (array_unique($code_local_roles) as $local_role_obj_id) {
-                $local_role_obj_id = (int) $local_role_obj_id;   // bugfix  https://mantis.ilias.de/view.php?id=39505
+                $local_role_obj_id = $local_role_obj_id;
                 // is given role (still) valid?
                 if (ilObject::_lookupType($local_role_obj_id) === "role") {
                     $this->rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
