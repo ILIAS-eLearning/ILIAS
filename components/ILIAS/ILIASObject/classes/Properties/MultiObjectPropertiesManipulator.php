@@ -138,12 +138,13 @@ class MultiObjectPropertiesManipulator
         ];
 
         $input_fields = [];
-        $input_fields['enable_availability_period'] = $this->object_reference_properties_repo->getFor($ref_id_for_values)->getPropertyAvailabilityPeriod()->toForm(
-            $this->language,
-            $this->ui_factory->input()->field(),
-            $this->refinery,
-            $environment
-        );
+        $input_fields['enable_availability_period'] = $this->object_reference_properties_repo
+            ->getFor($ref_id_for_values)->getPropertyAvailabilityPeriod()->toForm(
+                $this->language,
+                $this->ui_factory->input()->field(),
+                $this->refinery,
+                $environment
+            );
         $input_fields['affected_items'] = $this->ui_factory->input()->field()->hidden();
 
         return $input_fields;

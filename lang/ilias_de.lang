@@ -12734,7 +12734,7 @@ notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
 notifications_adm#:#osd_vanish#:#Anzeigedauer
 notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
-obj#:#activation_visible_when_disabled_info#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
+obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
@@ -14665,7 +14665,7 @@ rep#:#rep_activation_access#:#Zugriff
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 rep#:#rep_activation_availability#:#Verfügbarkeit
 rep#:#rep_activation_limited_end#:#Ende
-rep#:#rep_activation_limited_start#:#Anfang
+rep#:#rep_activation_limited_start#:#Start
 rep#:#rep_activation_limited_visibility#:#Immer sichtbar
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Magazin aus.
@@ -14744,7 +14744,8 @@ rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
 rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
-rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
+rep#:#rep_visibility#:#Zeitlich begrenzte Verfügbarkeit
+rep#:#rep_visibility_info#:#Die gewählten Objekte sind nur im gewählten Zeitraum verfügbar.
 rfil#:#rfil_call#:#ECS-Datei aufrufen
 rfil#:#rfil_version_tstamp#:#Upload Datum
 rglo#:#rglo_call#:#ECS-Glossar aufrufen
