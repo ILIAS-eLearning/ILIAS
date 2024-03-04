@@ -352,6 +352,11 @@ trait ilPRGAssignmentActions
                     $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
                 }
+                if ($pgs->isSuccessful()) {
+                    $err_collection->add(false, 'will_not_modify_successful_progress', $this->getProgressIdString($pgs->getNodeId()));
+                    return $pgs;
+                }
+
                 $pgs = $pgs->markNotRelevant($this->getNow(), $acting_usr_id);
                 $err_collection->add(true, 'set_to_irrelevant', $this->getProgressIdString($pgs->getNodeId()));
                 return $pgs;
