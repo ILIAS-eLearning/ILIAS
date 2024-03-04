@@ -1318,6 +1318,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 if ($previousSolutionAvailable) {
                     return $previousPass;
                 }
+
             }
         }
 

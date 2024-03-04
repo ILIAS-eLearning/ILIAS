@@ -116,7 +116,7 @@ class ilTestGradingMessageBuilder
         } elseif ($this->isPassed()) {
             $this->container->ui()->mainTemplate()->setOnScreenMessage('success', $this->getFullMessage());
         } else {
-            $this->container->ui()->mainTemplate()->setOnScreenMessage('failure', $this->getFullMessage());
+            $this->container->ui()->mainTemplate()->setOnScreenMessage('info', $this->getFullMessage());
         }
     }
 

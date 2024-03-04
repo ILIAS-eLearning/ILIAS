@@ -4948,7 +4948,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     }
                     break;
                 case "sequence_settings":
-                    $this->setSequenceSettings($metadata["entry"]);
+                    $this->setSequenceSettings((int) $metadata["entry"]);
                     break;
                 case "solution_details":
                     $result_details_settings = $result_details_settings->withShowSolutionDetails((bool) $metadata["entry"]);
