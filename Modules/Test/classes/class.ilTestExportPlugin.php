@@ -41,15 +41,13 @@ abstract class ilTestExportPlugin extends ilPlugin
         'xml',
         'csv'
     );
-    private \ilGlobalTemplateInterface $main_tpl;
+
     public function __construct(
         \ilDBInterface $db,
         \ilComponentRepositoryWrite $component_repository,
         string $id
     ) {
         parent::__construct($db, $component_repository, $id);
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
     /**
@@ -116,13 +114,11 @@ abstract class ilTestExportPlugin extends ilPlugin
      */
     final public function export()
     {
-        /**
-         * @var $lng;
-         * @var $ilCtrl ilCtrl
-         */
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+        $main_tpl = $DIC['tpl'];
 
         if (!$this->getTest() instanceof ilObjTest) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
@@ -132,14 +128,14 @@ abstract class ilTestExportPlugin extends ilPlugin
             $this->buildExportFile(new ilTestExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
-                $this->main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
+                $main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
             $ilCtrl->redirectByClass('iltestexportgui');
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
+        $main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 
