@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -82,7 +83,7 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilIntroduceComponentArtifactDBUpdateSteps());
     }
 
     /**

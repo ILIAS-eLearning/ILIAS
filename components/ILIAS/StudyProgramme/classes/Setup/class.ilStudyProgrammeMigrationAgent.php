@@ -31,7 +31,7 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
     {
         $this->refinery = $refinery;
     }
-     public function hasConfig(): bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -58,7 +58,7 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilScormAiccDatabaseUpdateSteps());
     }
 
     public function getMigrations(): array

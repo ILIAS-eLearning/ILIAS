@@ -35,7 +35,12 @@ class ilMDSetupAgent extends Setup\Agent\NullAgent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Setup\ObjectiveCollection(
+            'Component MetaData',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDCopyrightUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMDLOMUpdateSteps())
+        );
     }
 
     public function getMigrations(): array
