@@ -14713,6 +14713,7 @@ rep#:#rep_remove_rec_content#:#本当に次の推奨コンテンツを削除し�
 rep#:#rep_removed_from_favourites#:#お気に入りからアイテムは削除されました。
 rep#:#rep_target_location#:#ターゲットロケーション
 rep#:#rep_target_location_info#:#選択したオブジェクトの復元先を選択してください。
+rep#:#rep_time_based_availability#:#限定利用期間
 rep#:#rep_time_period#:#期間
 rep#:#rep_trash_deleted_by_unknown#:#Unknown
 rep#:#rep_trash_table_col_deleted_by#:#削除者
@@ -14723,7 +14724,6 @@ rep#:#rep_tree_limit#:#ツリーでアイテムを制限
 rep#:#rep_tree_limit_info#:#リポジトリーツリーのオブジェクト数は拡張機能へ制限されます。
 rep#:#rep_tree_limit_number#:#最大数
 rep#:#rep_tree_limit_number_info#:#子要素の最大数は展開ノードへ最初に表示されます。さらに子要素が存在する場合は、検索入力フィールドがタイトルで子要素フィルターへ表示されます。
-rep#:#rep_visibility_until#:#限定利用期間
 rfil#:#rfil_call#:#ECSファイルをコール
 rfil#:#rfil_version_tstamp#:#日付をアップロード
 rglo#:#rglo_call#:#ECS索引をコール

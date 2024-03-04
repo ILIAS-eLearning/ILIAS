@@ -14742,6 +14742,8 @@ rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfer
 rep#:#rep_removed_from_favourites#:#Das Objekt wurde aus den Favoriten entfernt.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_time_based_availability#:#Zeitlich begrenzte Verfügbarkeit
+rep#:#rep_time_based_availability_info#:#Die gewählten Objekte sind nur im gewählten Zeitraum verfügbar.
 rep#:#rep_time_period#:#Zeitraum
 rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
 rep#:#rep_trash_table_col_deleted_by#:#Gelöscht von
@@ -14752,8 +14754,6 @@ rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
 rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
-rep#:#rep_visibility#:#Zeitlich begrenzte Verfügbarkeit
-rep#:#rep_visibility_info#:#Die gewählten Objekte sind nur im gewählten Zeitraum verfügbar.
 rfil#:#rfil_call#:#ECS-Datei aufrufen
 rfil#:#rfil_version_tstamp#:#Upload Datum
 rglo#:#rglo_call#:#ECS-Glossar aufrufen

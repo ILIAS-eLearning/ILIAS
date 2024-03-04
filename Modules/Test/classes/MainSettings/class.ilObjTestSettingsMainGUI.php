@@ -482,7 +482,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
         return $field_factory->optionalGroup(
             $inputs,
-            $this->lng->txt('rep_visibility_until')
+            $this->lng->txt('rep_time_based_availability')
         )->withAdditionalTransformation($trafo)
             ->withValue($value);
     }
