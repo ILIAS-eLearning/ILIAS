@@ -197,7 +197,7 @@ class ilObjStudyProgrammeMembersGUI
                         $this->mailToSelectedUsers();
                         break;
                     case "markNotRelevant":
-                        $this->markRelevant();
+                        $this->markNotRelevant();
                         break;
                     case "confirmedUpdateCertificate":
                         $this->confirmedUpdateCertificate();
