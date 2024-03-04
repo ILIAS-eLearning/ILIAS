@@ -132,6 +132,14 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
             return false;
         }
+
+        $correct_answers = json_decode(ilUtil::stripSlashes($this->request->raw('hidden_correct_answers')));
+        foreach($correct_answers as $answer) {
+            if (!is_numeric(str_replace(',', '.', $answer[1]))) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_points_non_numeric_msg'));
+                return false;
+            }
+        }
         return true;
     }
 
