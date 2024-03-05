@@ -71,7 +71,10 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
     protected function convertStringToUTF8(string $string): string
     {
-        return $this->refinery->string()->utf8()->transform($string);
+        return $this->refinery->string()
+                              ->encoding()
+                              ->latin1ToUtf8()
+                              ->transform($string);
     }
 
     public function getFileContent(): string

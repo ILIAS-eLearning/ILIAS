@@ -68,12 +68,12 @@ class ilFileUtils
     }
 
     /**
-     * @deprecated in ILIAS 9 for ILIAS 10: Use Refinery\String\UTF8 instead
+     * @deprecated in ILIAS 9 for ILIAS 10: Use Refinery\String\Encoding instead
      */
     public static function utf8_encode(string $string): string
     {
         global $DIC;
-        return $DIC->refinery()->string()->utf8()->transform($string);
+        return $DIC->refinery()->string()->encoding()->latin1ToUtf8()->transform($string);
     }
 
     /**
