@@ -117,7 +117,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter): void
     {
-        $this->questionInstanceTypeFilter = $questionInstanceTypeFilter;
+        $this->questionInstanceTypeFilter = (string)$questionInstanceTypeFilter;
     }
 
     public function getQuestionInstanceTypeFilter()

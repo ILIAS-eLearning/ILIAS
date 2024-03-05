@@ -48,12 +48,12 @@ class ilTestSkillPointAccount
         $this->numBookings++;
     }
 
-    public function getTotalMaxSkillPoints(): int
+    public function getTotalMaxSkillPoints(): float
     {
         return $this->totalMaxSkillPoints;
     }
 
-    public function getTotalReachedSkillPoints(): int
+    public function getTotalReachedSkillPoints(): float
     {
         return $this->totalReachedSkillPoints;
     }
