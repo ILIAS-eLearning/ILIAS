@@ -96,7 +96,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 break;
 
             case 'leave':
-
                 // Regular member
                 if ($permission == 'leave') {
                     $limit = null;
@@ -115,6 +114,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                         return false;
                     }
                 }
+                break;
+
+            case 'leaveWaitList':
                 // Waiting list
                 if ($permission == 'join') {
                     if (!ilCourseWaitingList::_isOnList($user_id, $obj_id)) {
@@ -191,7 +193,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 
         // on waiting list
-        $commands[] = array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
+        $commands[] = array('permission' => "join", "cmd" => "leaveWaitList", "lang_var" => "leave_waiting_list");
 
         // regualar users
         $commands[] = array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
