@@ -107,7 +107,7 @@ class ilFileUtils
             foreach (array_count_values($filearray["file"]) as $key => $value) {
                 // Archive contains same filenames in different directories
                 if ($value != "1") {
-                    $doublettes .= " '" . $DIC->refinery()->string()->utf8()->transform($key) . "'";
+                    $doublettes .= " '" . $DIC->refinery()->string()->encoding()->latin1ToUtf8()->transform($key) . "'";
                 }
             }
             if (strlen($doublettes) > 0) {
@@ -165,12 +165,12 @@ class ilFileUtils
     }
 
     /**
-     * @deprecated in ILIAS 9 for ILIAS 10: Use Refinery\String\UTF8 instead
+     * @deprecated in ILIAS 9 for ILIAS 10: Use Refinery\String\Encoding instead
      */
     public static function utf8_encode(string $string): string
     {
         global $DIC;
-        return $DIC->refinery()->string()->utf8()->transform($string);
+        return $DIC->refinery()->string()->encoding()->latin1ToUtf8()->transform($string);
     }
 
     /**

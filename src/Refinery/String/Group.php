@@ -24,6 +24,7 @@ use ILIAS\Data\Factory;
 use ilLanguage;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\String\Encoding\Group as EncodingGroup;
 
 class Group
 {
@@ -70,7 +71,6 @@ class Group
     {
         return new SplitString($delimiter, $this->dataFactory);
     }
-
 
     /**
      * Creates a transformation that strips tags from a string.
@@ -147,10 +147,10 @@ class Group
     }
 
     /**
-     * Creates a transformation to convert a string to UTF8 encoding.
+     * This method returns a group of string encoding transformations.
      */
-    public function utf8(): UTF8
+    public function encoding(): EncodingGroup
     {
-        return new UTF8();
+        return new EncodingGroup();
     }
 }

@@ -18,22 +18,31 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Refinery\String;
+namespace ILIAS\Refinery\String\Encoding;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\String\InvalidArgumentException;
 
-class UTF8 implements Transformation
+class Encoding implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private const UTF_8 = 'UTF-8';
-    private const ISO_8859_1 = 'ISO-8859-1';
+    public const UTF_8 = 'UTF-8';
+    public const ISO_8859_1 = 'ISO-8859-1';
+    public const US_ASCII = 'US-ASCII';
 
-    private bool $detect_encoding = false;
-    private bool $check_existing_encoding = false;
+    // More common names for the encodings
+    public const ASCII = self::US_ASCII;
+    public const LATIN_1 = self::ISO_8859_1;
+
+    public function __construct(
+        private string $from_encoding,
+        private string $to_encoding
+    ) {
+    }
 
     public function transform($from): string
     {
@@ -41,15 +50,10 @@ class UTF8 implements Transformation
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
-        if ($this->check_existing_encoding && mb_check_encoding($from, self::UTF_8)) {
-            return $from;
-        }
-
-        if ($this->detect_encoding) {
-            $from_encoding = mb_detect_encoding($from);
-        } else {
-            $from_encoding = self::ISO_8859_1;
-        }
-        return mb_convert_encoding($from, self::UTF_8, $from_encoding);
+        return mb_convert_encoding(
+            $from,
+            $this->to_encoding,
+            $this->from_encoding
+        );
     }
 }
