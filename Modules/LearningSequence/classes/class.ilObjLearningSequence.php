@@ -21,6 +21,9 @@ declare(strict_types=1);
 class ilObjLearningSequence extends ilContainer
 {
     public const OBJ_TYPE = 'lso';
+    public const CP_TYPE = 'lso';
+    public const CP_INTRO = 1;
+    public const CP_EXTRO = -1;
 
     public const E_CREATE = 'create';
     public const E_UPDATE = 'update';
@@ -589,10 +592,6 @@ class ilObjLearningSequence extends ilContainer
         ];
     }
 
-    public const CP_INTRO = -1;
-    public const CP_EXTRO = -2;
-    public const CP_TYPE = 'cont';
-
     public function getContentPageId(int $factor): int
     {
         if (!in_array($factor, [self::CP_INTRO, self::CP_EXTRO])) {
@@ -613,7 +612,7 @@ class ilObjLearningSequence extends ilContainer
             throw new \LogicException('will not create content page - it already exists.');
         }
         $page_id = $this->getContentPageId($factor);
-        $new_page_object = new \ilContainerPage();
+        $new_page_object = new ilLSOPage();
         $new_page_object->setId($page_id);
         $new_page_object->setParentId($this->getId());
         $new_page_object->createFromXML();
