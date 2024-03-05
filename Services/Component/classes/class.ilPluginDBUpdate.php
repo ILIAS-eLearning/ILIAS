@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,6 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data\Version;
 
@@ -86,6 +89,11 @@ class ilPluginDBUpdate extends ilDBUpdate
     public function getCurrentVersion(): int
     {
         return $this->current_version;
+    }
+
+    protected function setCurrentVersion(?int $a_version): void
+    {
+        $this->current_version = $a_version;
     }
 
     protected function checkQuery(string $q): bool
