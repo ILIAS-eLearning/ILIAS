@@ -408,7 +408,10 @@ class ResourceBuilder
      */
     public function storeRevision(Revision $revision): void
     {
-        $storage_handler = $this->storage_handler_factory->getHandlerForRevision($revision);
+        $storage_handler = empty($revision->getStorageID())
+            ? $this->primary_storage_handler
+            : $this->storage_handler_factory->getHandlerForRevision($revision);
+
         if ($revision instanceof UploadedFileRevision) {
             // check policies
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
