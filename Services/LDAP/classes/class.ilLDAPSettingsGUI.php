@@ -505,7 +505,7 @@ class ilLDAPSettingsGUI
             return false;
         }
 
-        $this->loadRoleAssignmentRule($this->rule_id, false);
+        $this->loadRoleAssignmentRule($this->rule_id ?? 0, false);
         $this->rule->setRoleId($this->role_id);
 
         if ($this->rule_id) {
@@ -558,7 +558,6 @@ class ilLDAPSettingsGUI
 
         $this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
 
-
         if ($load_from_form) {
             if ($this->form->getInput('role_name') === '0') {
                 $this->rule->setRoleId((int) $this->form->getInput('role_id'));
@@ -599,15 +598,18 @@ class ilLDAPSettingsGUI
         // LOAD from session
         $this->rule->setServerId($this->getServer()->getServerId());
         $rule = unserialize(ilSession::get('ldap_role_ass'), ["allowed_classes" => false]);
-        $this->rule->enableAddOnUpdate((bool) $rule['add_on_update']);
-        $this->rule->enableRemoveOnUpdate((bool) $rule['remove_on_update']);
-        $this->rule->setType((int) ilUtil::stripSlashes($rule['type']));
-        $this->rule->setDN(ilUtil::stripSlashes($rule['dn']));
-        $this->rule->setMemberAttribute(ilUtil::stripSlashes($rule['at']));
-        $this->rule->setMemberIsDN((bool) ilUtil::stripSlashes($rule['isdn']));
-        $this->rule->setAttributeName(ilUtil::stripSlashes($rule['name']));
-        $this->rule->setAttributeValue(ilUtil::stripSlashes($rule['value']));
-        $this->rule->setPluginId((int) ilUtil::stripSlashes($rule['plugin']));
+
+        $this->rule->enableAddOnUpdate((bool) ($rule['add_on_update'] ?? false));
+        $this->rule->enableRemoveOnUpdate((bool) ($rule['remove_on_update'] ?? false));
+        $this->rule->setType((int) ilUtil::stripSlashes(
+            $rule['type'] ?? (string) ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE
+        ));
+        $this->rule->setDN(ilUtil::stripSlashes($rule['dn'] ?? ''));
+        $this->rule->setMemberAttribute(ilUtil::stripSlashes($rule['at'] ?? ''));
+        $this->rule->setMemberIsDN((bool) (ilUtil::stripSlashes($rule['isdn'] ?? false)));
+        $this->rule->setAttributeName(ilUtil::stripSlashes($rule['name'] ?? ''));
+        $this->rule->setAttributeValue(ilUtil::stripSlashes($rule['value'] ?? ''));
+        $this->rule->setPluginId((int) ilUtil::stripSlashes($rule['plugin'] ?? '0'));
     }
 
     public function deleteRoleMapping(): bool
