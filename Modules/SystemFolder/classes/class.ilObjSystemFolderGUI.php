@@ -886,21 +886,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                "cron_jobs",
-                $this->ctrl->getLinkTargetByClass("ilCronManagerGUI", ""),
-                "",
+                'cron_jobs',
+                $this->ctrl->getLinkTargetByClass('ilCronManagerGUI', ''),
+                '',
                 get_class($this)
             );
 
-            //			$tabs_gui->addTarget("system_check",
-            //				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
-
             $this->tabs_gui->addTarget(
-                "benchmarks",
-                $this->ctrl->getLinkTarget($this, "benchmark"),
-                "benchmark",
+                'benchmarks',
+                $this->ctrl->getLinkTarget($this, 'benchmark'),
+                'benchmark',
                 get_class($this)
             );
         }
