@@ -155,7 +155,7 @@ class ilObjectPermissionStatusGUI
      * Available Roles Table
      * @return string HTML
      */
-    public function availableRolesTable(): string
+    private function availableRolesTable(): string
     {
         $table = new ilAvailableRolesStatusTableGUI($this, "perminfo");
 
@@ -415,7 +415,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Available Roles Table Data
      */
-    public function getAvailableRolesTableData(): array
+    private function getAvailableRolesTableData(): array
     {
         global $DIC;
 
@@ -471,7 +471,7 @@ class ilObjectPermissionStatusGUI
             } else {
                 $rolf = $this->rbacreview->getFoldersAssignedToRole($role_id, true);
                 $parent_node = $tree->getNodeData($rolf[0]);
-                $result_set[$counter]["original_position"] = $parent_node["title"];
+                $result_set[$counter]["original_position"] = $parent_node['title'] ?? '';
                 $result_set[$counter]["original_position_ref_id"] = $parent_node["ref_id"];
             }
 
