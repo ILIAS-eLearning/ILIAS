@@ -186,7 +186,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         ?int $obj_id = null
     ): bool {
         // Only check cmd access for cmd 'register' and 'unregister'
-        if ($cmd != 'view' && $cmd != 'leave' && $cmd != 'join') {
+        if ($cmd != 'view' && $cmd != 'leave' && $cmd != 'join' && $cmd !== 'leaveWaitList') {
             $cmd = '';
         }
 
