@@ -32,7 +32,7 @@ jobs:
       - name: 'Install Dependencies'
         uses: php-actions/composer@v6
         with:
-          php_version: 8.1
+          php_version: 8.0
           args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
 
       - name: 'PHStan Custom Rules'
