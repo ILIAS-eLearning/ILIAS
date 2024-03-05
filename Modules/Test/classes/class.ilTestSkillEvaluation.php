@@ -297,19 +297,19 @@ class ilTestSkillEvaluation
     public function handleSkillTriggering()
     {
         foreach ($this->getReachedSkillLevels() as $reachedSkillLevel) {
-            $this->invokeSkillLevelTrigger($reachedSkillLevel['sklLevelId'], $reachedSkillLevel['sklTrefId']);
+            $this->invokeSkillLevelTrigger((int) $reachedSkillLevel['sklLevelId'], (int) $reachedSkillLevel['sklTrefId']);
 
             if ($reachedSkillLevel['sklTrefId'] > 0) {
-                $this->skill_personal_service->addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklTrefId']);
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reachedSkillLevel['sklTrefId']);
             } else {
-                $this->skill_personal_service->addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklBaseId']);
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reachedSkillLevel['sklBaseId']);
             }
         }
         //write profile completion entries if fulfilment status has changed
         $this->skill_profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
     }
 
-    private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
+    private function invokeSkillLevelTrigger(int $skillLevelId, int $skillTrefId)
     {
         ilBasicSkill::writeUserSkillLevelStatus(
             $skillLevelId,
