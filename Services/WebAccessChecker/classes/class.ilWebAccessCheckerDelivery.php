@@ -77,6 +77,7 @@ class ilWebAccessCheckerDelivery
                 case ilWACException::NOT_FOUND:
                     $this->handleNotFoundError($e);
                     break;
+                case ilWACException::ACCESS_DENIED:
                 case ilWACException::ACCESS_DENIED_NO_PUB:
                 case ilWACException::ACCESS_DENIED_NO_LOGIN:
                     $this->handleAccessErrors($e);
@@ -88,6 +89,7 @@ class ilWebAccessCheckerDelivery
                     $this->handleErrors($e);
                     break;
             }
+
         }
     }
 
@@ -154,8 +156,7 @@ class ilWebAccessCheckerDelivery
     protected function handleErrors(ilWACException $e): void
     {
         $response = $this->http->response()
-            ->withStatus(500);
-
+                               ->withStatus(500);
 
         /**
          * @var \Psr\Http\Message\StreamInterface $stream
