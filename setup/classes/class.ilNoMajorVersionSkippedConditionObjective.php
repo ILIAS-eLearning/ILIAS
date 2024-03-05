@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Data;
@@ -60,15 +60,7 @@ class ilNoMajorVersionSkippedConditionObjective implements Setup\Objective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
 
-        // TODO ILIAS 9: This special case can vanish with ILIAS 9. It exists to make sure that
-        // installations on version 7.0 or greater can update to ILIAS 8. This is checked by
-        // looking into the version string (which is only updated starting with 8 and had a
-        // very old value previously) and the db_version (which is 5751 with ILIAS 7.0).
         $current_version_string = $settings->get(ilVersionWrittenToSettingsObjective::ILIAS_VERSION_KEY);
-        if ($current_version_string === "3.2.3 2004-11-22" && (int) $settings->get("db_version") >= 5751) {
-            return $environment;
-        }
-
         $current_version = $this->data_factory->version($current_version_string);
         $target_version = $this->data_factory->version(ILIAS_VERSION_NUMERIC);
 
