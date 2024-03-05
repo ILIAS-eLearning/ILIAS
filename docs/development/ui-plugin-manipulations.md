@@ -22,7 +22,7 @@ developers to perform major interventions in the build and rendering process. Fo
 
 - prohibit certain plugins from doing changes
 - remove entire components from the ILIAS structure
-- introduce entirely components
+- introduce completely new components
 - create a lot of workload with loops or non-breakable recursions
 - ...
 
@@ -35,7 +35,7 @@ The first step on the way to make a UI change is to ask the following question:
 
 **Is the desired change structural or visual?**
 
-Structural changes affect the UI by restructuring component without affecting the inner HTMl of the components
+Structural changes affect the UI by restructuring component without affecting the inner HTML of the components
 themselves. These kinds of changes should be made inside the `ilPlugin::exchangeUIFactoryAfterInitialization()`
 function. Proper examples are:
 
