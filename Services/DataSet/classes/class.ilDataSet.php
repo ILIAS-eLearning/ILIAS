@@ -43,7 +43,12 @@ abstract class ilDataSet
      * @var ilLogger
      */
     protected $ds_log;
-    
+
+    /**
+     * @var string
+     */
+    protected $ds_namespace = 'ds';
+
     /**
      * Constructor
      */
@@ -144,7 +149,7 @@ abstract class ilDataSet
      */
     public function setDSPrefix($a_val)
     {
-        $this->var = $a_val;
+        $this->ds_namespace = $a_val;
     }
 
     /**
@@ -154,7 +159,7 @@ abstract class ilDataSet
      */
     public function getDSPrefix()
     {
-        return $this->var;
+        return $this->ds_namespace;
     }
 
     public function getDSPrefixString()
