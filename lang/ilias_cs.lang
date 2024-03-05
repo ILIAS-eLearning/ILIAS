@@ -14713,6 +14713,7 @@ rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following rec
 rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###07 02 2020 new variable
 rep#:#rep_target_location#:#Target Location###07 02 2020 new variable
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.###07 02 2020 new variable
+rep#:#rep_time_based_availability#:#Dočasně k dispozici
 rep#:#rep_time_period#:#Doba
 rep#:#rep_trash_deleted_by_unknown#:#Unknown###07 02 2020 new variable
 rep#:#rep_trash_table_col_deleted_by#:#Deleted by###07 02 2020 new variable
@@ -14723,7 +14724,6 @@ rep#:#rep_tree_limit#:#Omezit položky ve stromu
 rep#:#rep_tree_limit_info#:#Počet objektů ve stromu úložiště bude omezen, aby se zvýšila výkonnost.
 rep#:#rep_tree_limit_number#:#Maximální počet
 rep#:#rep_tree_limit_number_info#:#Maximální počet prvků stromu, které jsou zpočátku zobrazeny pro rozšířený uzel. Pokud je k dispozici více prvků stromu, zobrazí se vstupní vyhledávací pole pro filtrování prvků stromu podle názvu.
-rep#:#rep_visibility_until#:#Dočasně k dispozici
 rfil#:#rfil_call#:#Vyvolat soubor ECS
 rfil#:#rfil_version_tstamp#:#Nahrát datum
 rglo#:#rglo_call#:#Vyvolat glosář ECS

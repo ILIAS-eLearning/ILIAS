@@ -272,7 +272,8 @@ var longMenuQuestion = (function () {
 	pro.displayErrors = function(index)
 	{
 		var value_error = false;
-		if(parseFloat(pub.questionParts.list[index][1]) <= 0)
+    let points = parseFloat(pub.questionParts.list[index][1]);
+		if( isNaN(points) || points <= 0)
 		{
 			$('#' +'error_answer_' + index).find('.points_error').removeClass('prototype_long_menu');
 		}

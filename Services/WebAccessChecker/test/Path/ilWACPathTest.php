@@ -17,31 +17,16 @@
  *********************************************************************/
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
- * TestCase for the ilWACCheckingInstanceTest
- *
- * @author                 Fabian Schmid <fs@studer-raimann.ch>
- * @version                1.0.0
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilWACPathTest //extends MockeryTestCase
+class ilWACPathTest extends TestCase
 {
-    /**
-     * Setup
-     */
-    protected function setUp(): void
-    {
-    }
-
-
     public function testMobs(): void
     {
-        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/mobs/mm_270/Koeniz_Komturei1.jpg');
+        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/mobs/mm_270/Koeniz_Komturei1.jpg', false);
         $this->assertEquals('mobs', $ilWacPath->getModuleType());
         $this->assertEquals('mm_270', $ilWacPath->getModuleIdentifier());
         $this->assertEquals('Koeniz_Komturei1.jpg', $ilWacPath->getAppendix());
@@ -52,10 +37,9 @@ class ilWACPathTest //extends MockeryTestCase
         $this->assertFalse($ilWacPath->isAudio());
     }
 
-
     public function testUserImage(): void
     {
-        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/usr_images/usr_6_small.jpg?t=63944');
+        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/usr_images/usr_6_small.jpg?t=63944', false);
         $this->assertEquals('usr_images', $ilWacPath->getModuleType());
         $this->assertEquals('./data/trunk/usr_images/', $ilWacPath->getModulePath());
         $this->assertEquals(null, $ilWacPath->getModuleIdentifier());
@@ -67,10 +51,9 @@ class ilWACPathTest //extends MockeryTestCase
         $this->assertFalse($ilWacPath->isAudio());
     }
 
-
     public function testBlogInSec(): void
     {
-        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/sec/ilBlog/blog_123/Header.mp4');
+        $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/sec/ilBlog/blog_123/Header.mp4', false);
         $this->assertEquals('ilBlog', $ilWacPath->getModuleType());
         $this->assertEquals('./data/trunk/sec/ilBlog/', $ilWacPath->getModulePath());
         $this->assertEquals('blog_123', $ilWacPath->getModuleIdentifier());
@@ -82,11 +65,10 @@ class ilWACPathTest //extends MockeryTestCase
         $this->assertFalse($ilWacPath->isAudio());
     }
 
-
     public function testSubfolders(): void
     {
-        $ilWacPathBase = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/start.html');
-        $ilWacPathSub = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/subfolder/image.png');
+        $ilWacPathBase = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/start.html', false);
+        $ilWacPathSub = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/subfolder/image.png', false);
         $this->assertEquals($ilWacPathBase->getModulePath(), $ilWacPathSub->getModulePath());
     }
 }

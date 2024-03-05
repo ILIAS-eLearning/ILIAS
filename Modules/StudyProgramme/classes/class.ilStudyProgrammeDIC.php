@@ -242,7 +242,8 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC['tree'],
                 $DIC->http()->wrapper()->query(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['rbacreview']
             );
         $dic['ilObjStudyProgrammeTreeGUI'] = static fn($dic) =>
             new ilObjStudyProgrammeTreeGUI(

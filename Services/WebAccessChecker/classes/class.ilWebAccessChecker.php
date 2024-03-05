@@ -50,16 +50,23 @@ class ilWebAccessChecker
      */
     protected array $applied_checking_methods = [];
     private Services $http;
-    private CookieFactory $cookieFactory;
+    private ?ilWACException $ressource_not_found = null;
 
     /**
      * ilWebAccessChecker constructor.
      */
-    public function __construct(Services $httpState, CookieFactory $cookieFactory)
+    public function __construct(Services $httpState, private CookieFactory $cookieFactory)
     {
-        $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
+        try {
+            $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
+        } catch (ilWACException $e) {
+            if ($e->getCode() !== ilWACException::NOT_FOUND) {
+                throw $e;
+            }
+            $this->ressource_not_found = $e;
+        }
+
         $this->http = $httpState;
-        $this->cookieFactory = $cookieFactory;
     }
 
     /**
@@ -67,7 +74,11 @@ class ilWebAccessChecker
      */
     public function check(): bool
     {
-        if ($this->getPathObject() === null) {
+        if (!$this->getPathObject() instanceof \ilWACPath) {
+            if ($this->ressource_not_found instanceof \ilWACException) {
+                throw new ilWACException(ilWACException::NOT_FOUND, '', $this->ressource_not_found);
+            }
+
             throw new ilWACException(ilWACException::CODE_NO_PATH);
         }
 
@@ -105,7 +116,7 @@ class ilWebAccessChecker
             $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
             $path = realpath($clean_path);
             $data_dir = realpath(CLIENT_WEB_DIR);
-            if (strpos($path, $data_dir) !== 0) {
+            if (!str_starts_with($path, $data_dir)) {
                 return false;
             }
             if (dirname($path) === $data_dir && is_file($path)) {

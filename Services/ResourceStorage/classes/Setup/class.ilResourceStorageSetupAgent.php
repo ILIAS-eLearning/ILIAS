@@ -77,7 +77,12 @@ class ilResourceStorageSetupAgent implements Agent
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new Objective\NullObjective();
+        return new ObjectiveCollection(
+            'Component ResourceStorage',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilResourceStorageDB80()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilResourceStorageDB90())
+        );
     }
 
     /**
