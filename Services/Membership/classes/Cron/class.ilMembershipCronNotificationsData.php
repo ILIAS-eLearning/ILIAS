@@ -219,7 +219,7 @@ class ilMembershipCronNotificationsData
     protected function checkMissingNews(int $user_id, int $ref_id, int $news_id): void
     {
         $this->log->debug("Check missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
-        if (!is_array($this->news_per_user[$user_id][$ref_id]) ||
+        if (!is_array($this->news_per_user[$user_id][$ref_id] ?? null) ||
             !in_array($news_id, $this->news_per_user[$user_id][$ref_id])) {
             $this->log->debug("Add missing news: " . $news_id);
             $this->missing_news[$news_id] = $news_id;
