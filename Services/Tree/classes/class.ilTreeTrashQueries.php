@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -215,7 +216,7 @@ class ilTreeTrashQueries
             $query .= 'and ' . $this->db->like(
                 'type',
                 \ilDBConstants::T_TEXT,
-                $filter['type'] . '%'
+                $filter['type']
             ) . ' ';
         }
         if (isset($filter['title'])) {
@@ -247,6 +248,8 @@ class ilTreeTrashQueries
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
                 $query .= 'AND deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
+            } else {
+                $query .= '1=2';
             }
         }
 
