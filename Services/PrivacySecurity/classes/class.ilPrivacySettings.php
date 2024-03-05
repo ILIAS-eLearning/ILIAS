@@ -127,24 +127,24 @@ class ilPrivacySettings
     public function checkExportAccess(int $a_ref_id, int $a_user_id = 0): bool
     {
         $user_id = $a_user_id ?: $this->user->getId();
-        if (!(
-            $this->rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId())
-            &&
-            $this->access->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id)
-        )) {
-            return false;
-        }
-
         $object_type = ilObject::_lookupType($a_ref_id, true);
+
+        $permission_export_member_data = $this->rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId());
+        $permission_manage_member = $this->access->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id);
+
         switch($object_type) {
             case 'crs':
-                return $this->enabledCourseExport();
+                return $this->enabledCourseExport()
+                    && $permission_export_member_data && $permission_manage_member;
             case 'grp':
-                return $this->enabledGroupExport();
+                return $this->enabledGroupExport()
+                    && $permission_export_member_data && $permission_manage_member;
             case 'lso':
-                return $this->enabledLearningSequenceExport();
+                return $this->enabledLearningSequenceExport()
+                    && $permission_export_member_data && $permission_manage_member;
             case 'prg':
-                return $this->enabledPRGUserExport();
+                return $this->enabledPRGUserExport()
+                    && $permission_manage_member;
         }
         return false;
     }
