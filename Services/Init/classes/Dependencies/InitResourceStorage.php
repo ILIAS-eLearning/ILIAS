@@ -39,6 +39,7 @@ use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemSto
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Flavour\Machine\Factory;
+use ILIAS\ResourceStorage\StorageHandler\Migrator;
 
 /**
  * Responsible for loading the Resource Storage into the dependency injection container of ILIAS
@@ -57,6 +58,7 @@ class InitResourceStorage
     public const D_STREAM_ACCESS = self::D_SERVICE . '.stream_access';
     public const D_ARTIFACTS = self::D_SERVICE . '.artifacts';
     public const D_MACHINE_FACTORY = self::D_SERVICE . '.machine_factory';
+    public const D_MIGRATOR = self::D_SERVICE . '.migrator';
 
     private bool $init = false;
 
@@ -198,6 +200,16 @@ class InitResourceStorage
                 $c[self::D_REPOSITORY_PRELOADER],
             );
         };
+
+        $c[self::D_MIGRATOR] = function (Container $c) use ($base_dir): Migrator {
+            return new Migrator(
+                $c[self::D_STORAGE_HANDLERS],
+                $this->getResourceBuilder($c),
+                $c->database(),
+                $base_dir
+            );
+        };
+
         $this->init = true;
     }
 
