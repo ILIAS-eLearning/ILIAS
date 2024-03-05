@@ -14676,6 +14676,7 @@ rep#:#rep_remove_rec_content#:#Bör följande rekommendationer verkligen tas bor
 rep#:#rep_removed_from_favourites#:#Objektet har tagits bort från favoriterna.
 rep#:#rep_target_location#:#Destination
 rep#:#rep_target_location_info#:#Vänligen välj den destination där de utvalda objekten ska återställas.
+rep#:#rep_time_based_availability#:#Tidsbegränsad tillgänglighet
 rep#:#rep_time_period#:#Tidsperiod
 rep#:#rep_trash_deleted_by_unknown#:#Okänd
 rep#:#rep_trash_table_col_deleted_by#:#Borttagen av
@@ -14686,7 +14687,6 @@ rep#:#rep_tree_limit#:#Begränsning av antalet poster i trädet
 rep#:#rep_tree_limit_info#:#Visar endast ett begränsat antal element i trädet för att öka prestandan.
 rep#:#rep_tree_limit_number#:#Maximalt antal
 rep#:#rep_tree_limit_number_info#:#Maximalt antal underordnade element som initialt visas för en nod. Om det finns fler underordnade element visas ett inmatningsfält för sökning där de underordnade elementen kan filtreras efter titel.
-rep#:#rep_visibility_until#:#Tidsbegränsad tillgänglighet
 rfil#:#rfil_call#:#Ring ECS-fil
 rfil#:#rfil_version_tstamp#:#Datum för uppladdning
 rglo#:#rglo_call#:#Hämta ECS ordlista

@@ -41,6 +41,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
 use ILIAS\ResourceStorage\Revision\StreamReplacementRevision;
+use ILIAS\ResourceStorage\StorageHandler\Migrator;
 
 /**
  * Class ResourceBuilder
@@ -77,6 +78,7 @@ class ResourceBuilder
     private StorageHandlerFactory $storage_handler_factory;
     private LockHandler $lock_handler;
     private StreamAccess $stream_access;
+    private bool $auto_migrate = true;
 
     /**
      * ResourceBuilder constructor.
@@ -406,19 +408,23 @@ class ResourceBuilder
      */
     public function storeRevision(Revision $revision): void
     {
+        $storage_handler = empty($revision->getStorageID())
+            ? $this->primary_storage_handler
+            : $this->storage_handler_factory->getHandlerForRevision($revision);
+
         if ($revision instanceof UploadedFileRevision) {
             // check policies
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
-            $this->primary_storage_handler->storeUpload($revision);
+            $storage_handler->storeUpload($revision);
         }
         if ($revision instanceof FileStreamRevision) {
-            $this->primary_storage_handler->storeStream($revision);
+            $storage_handler->storeStream($revision);
         }
         if ($revision instanceof CloneRevision) {
-            $this->primary_storage_handler->cloneRevision($revision);
+            $storage_handler->cloneRevision($revision);
         }
         if ($revision instanceof StreamReplacementRevision) {
-            $this->primary_storage_handler->streamReplacement($revision);
+            $storage_handler->streamReplacement($revision);
         }
         $this->revision_repository->store($revision);
         $this->information_repository->store($revision->getInformation(), $revision);
@@ -434,6 +440,14 @@ class ResourceBuilder
             return $this->resource_cache[$identification->serialize()];
         }
         $resource = $this->resource_repository->get($identification);
+
+        if ($this->auto_migrate && $resource->getStorageID() !== $this->primary_storage_handler->getID()) {
+            global $DIC;
+            /** @var Migrator $migrator */
+            $migrator = $DIC[\InitResourceStorage::D_MIGRATOR];
+            $migrator->migrate($resource, $this->primary_storage_handler->getID());
+            $resource->setStorageID($this->primary_storage_handler->getID());
+        }
 
         $this->resource_cache[$identification->serialize()] = $this->populateNakedResourceWithRevisionsAndStakeholders(
             $resource

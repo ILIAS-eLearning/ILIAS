@@ -72,9 +72,16 @@ class Migrator
         if (!is_dir(dirname($destination_path)) && !mkdir(dirname($destination_path), 0777, true)) {
             return false;
         }
-        if (rename($existing_path, $destination_path)) {
+        if (file_exists($destination_path)) {
+            // target exists, we have to merge the folders.
+            $result = $this->mergeDirectories($existing_path, $destination_path);
+        } else {
+            $result = rename($existing_path, $destination_path);
+        }
+
+        if ($result) {
             $this->database->manipulateF(
-                "UPDATE il_resource SET storage_id = %s WHERE identification = %s LIMIT 1",
+                "UPDATE il_resource SET storage_id = %s WHERE rid = %s LIMIT 1",
                 ['text', 'text'],
                 [$to_handler_id, $resource->getIdentification()->serialize()]
             );
@@ -96,5 +103,35 @@ class Migrator
             $empty &= is_dir($file) && $this->removeEmptySubFolders($file);
         }
         return $empty && rmdir($path);
+    }
+
+    private function mergeDirectories(string $path_to_source_dir, string $path_to_destination_dir): bool
+    {
+        $dir = opendir($path_to_source_dir);
+
+        while (($name = readdir($dir)) !== false) {
+            if ($name === '.' || $name === '..') {
+                continue;
+            }
+
+            $src_path = $path_to_source_dir . '/' . $name;
+            $dest_path = $path_to_destination_dir . '/' . $name;
+
+            if (is_dir($src_path)) {
+                // If it's a directory, create destination and then recurse
+                if (!file_exists($dest_path)) {
+                    mkdir($dest_path, 0777, true);
+                }
+                $this->mergeDirectories($src_path, $dest_path);
+            } elseif (file_exists($dest_path)) {
+                unlink($dest_path);
+                rename($src_path, $dest_path);
+            } elseif (!file_exists($dest_path)) {
+                rename($src_path, $dest_path);
+            }
+        }
+        closedir($dir);
+
+        return true;
     }
 }

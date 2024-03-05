@@ -397,6 +397,12 @@ class ilMailFolderGUI
         }
 
         $folderData = $this->mbox->getFolderData($this->currentFolderId);
+        if ($folderData === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_operation_on_invalid_folder'), true);
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'mobj_id', $this->mbox->getInboxFolder());
+            $this->ctrl->redirectByClass(ilMailGUI::class);
+        }
+
         if ($folderData['title'] === $form->getInput('subfolder_title')) {
             $this->showFolder();
             return;
@@ -417,7 +423,7 @@ class ilMailFolderGUI
         if (null === $form) {
             $form = $this->getSubFolderForm('edit');
             $form->setValuesByArray(
-                ['subfolder_title' => $this->mbox->getFolderData($this->currentFolderId)['title']]
+                ['subfolder_title' => $this->mbox->getFolderData($this->currentFolderId)['title'] ?? '']
             );
         }
 
@@ -762,6 +768,12 @@ class ilMailFolderGUI
         }
 
         $currentFolderData = $this->mbox->getFolderData((int) $mailData['folder_id']);
+        if ($currentFolderData === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_operation_on_invalid_folder'), true);
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'mobj_id', $this->mbox->getInboxFolder());
+            $this->ctrl->redirectByClass(ilMailGUI::class);
+        }
+
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
         $this->tabs->addTab(
             'current_folder',

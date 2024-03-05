@@ -90,7 +90,7 @@ class ilObjPollGUI extends ilObject2GUI
         $online->setInfo($this->lng->txt('poll_activation_online_info') . $act_obj_info);
         $a_form->addItem($online);
 
-        $dur = new ilDateDurationInputGUI($this->lng->txt('rep_visibility_until'), "access_period");
+        $dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_based_availability'), "access_period");
         $dur->setShowTime(true);
         $a_form->addItem($dur);
 

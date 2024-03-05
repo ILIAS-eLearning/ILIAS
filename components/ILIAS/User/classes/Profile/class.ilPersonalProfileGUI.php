@@ -814,16 +814,20 @@ class ilPersonalProfileGUI
             // #11773
             if ($this->settings->get('user_portfolios')) {
                 // #10826
+                $href = $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToPortfolio');
                 $prtf = '<br />' . $this->lng->txt('user_profile_portfolio');
-                $prtf .= '<br /><a href="ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio">&raquo; ' .
+                $prtf .= '<br /><a href="' . $href . '">&raquo; ' .
                     $this->lng->txt('user_portfolios') . '</a>';
                 $info .= $prtf;
             }
 
             $radg->setInfo($info);
         } else {
+            $this->ctrl->setParameterByClass(ilDashboardGUI::class, 'prt_id', $portfolio_id);
+            $href = $this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToPortfolio');
+            $this->ctrl->clearParameterByClass(ilDashboardGUI::class, 'prt_id');
             $prtf = $this->lng->txt('user_profile_portfolio_selected');
-            $prtf .= '<br /><a href="ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio&prt_id=' . $portfolio_id . '">&raquo; ' .
+            $prtf .= '<br /><a href="' . $href . '">&raquo; ' .
                 $this->lng->txt('portfolio') . '</a>';
 
             $info = new ilCustomInputGUI($this->lng->txt('user_activate_public_profile'));
@@ -867,7 +871,7 @@ class ilPersonalProfileGUI
         // profile picture
         $pic = ilObjUser::_getPersonalPicturePath($this->user->getId(), 'xsmall', true, true);
         if ($pic) {
-            $pic = '<img src="' . $pic . '" />';
+            $pic = "<img src='{$pic}' alt='{$this->lng->txt('user_avatar')}' />";
         }
 
         // personal data
