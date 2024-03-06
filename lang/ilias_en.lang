@@ -14689,6 +14689,7 @@ rep#:#rep_configure#:#Configure
 rep#:#rep_crs_default_shortened#:#Default: Breadcrumbs Shortened
 rep#:#rep_custom_icons#:#Custom Icons
 rep#:#rep_default#:#Default
+rep#:#rep_deleted_account#:#Deleted Account
 rep#:#rep_dependencies#:#Dependencies
 rep#:#rep_dependency#:#Dependency
 rep#:#rep_dependent_object#:#Resource with dependence

@@ -28,6 +28,7 @@ class ProfileAdapter
         \ilLanguage $lng
     ) {
         $this->lng = $lng;
+        $this->lng->loadLanguageModule("rep");
     }
 
     public function exists(int $user_id): bool
@@ -42,6 +43,6 @@ class ProfileAdapter
 
     public function getDeletedUserNamePresentation(): string
     {
-        return $this->lng->txt("deleted_user");
+        return $this->lng->txt("rep_deleted_account");
     }
 }
