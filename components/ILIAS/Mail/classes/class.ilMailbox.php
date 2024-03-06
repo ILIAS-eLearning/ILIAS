@@ -49,19 +49,21 @@ class ilMailbox
     protected string $table_mail_obj_data;
     protected string $table_tree;
 
-    public function __construct(protected int $usrId = 0)
+    public function __construct(protected int $usrId)
     {
         global $DIC;
 
+        if ($a_user_id < 1) {
+            throw new InvalidArgumentException("Cannot create mailbox without user id");
+        }
+        
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->table_mail_obj_data = 'mail_obj_data';
         $this->table_tree = 'mail_tree';
 
-        if ($this->usrId !== 0) {
-            $this->mtree = new ilTree($this->usrId);
-            $this->mtree->setTableNames($this->table_tree, $this->table_mail_obj_data);
-        }
+        $this->mtree = new ilTree($this->usrId);
+        $this->mtree->setTableNames($this->table_tree, $this->table_mail_obj_data);
 
         // i added this, becaus if i create a new user automatically during
         // CAS authentication, we have no $lng variable (alex, 16.6.2006)
@@ -76,6 +78,19 @@ class ilMailbox
                 'deleteMails' => $this->lng->txt('delete'),
             ];
         }
+    }
+
+    public function getRooFolder(): int
+    {
+        $res = $this->db->queryF(
+            'SELECT obj_id FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND m_type = %s',
+            ['integer', 'text'],
+            [$this->usrId, 'root']
+        );
+
+        $row = $this->db->fetchAssoc($res);
+
+        return (int) $row['obj_id'];
     }
 
     public function getInboxFolder(): int
