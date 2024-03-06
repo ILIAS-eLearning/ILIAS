@@ -417,7 +417,10 @@ class ilPersonalSettingsGUI
             $si = new ilSelectInputGUI($this->lng->txt("language"), "language");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());
-            $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_language"));
+            $si->setDisabled(
+                $ilSetting->get("usr_settings_disable_language") === '1'
+                || count($options) <= 1
+            );
             $this->form->addItem($si);
         }
 

@@ -1382,18 +1382,21 @@ class ilObjUserGUI extends ilObjectGUI
 
         // language
         if ($this->isSettingChangeable('language')) {
-            $lang = new ilSelectInputGUI(
-                $lng->txt("language"),
-                'language'
-            );
-            $languages = $lng->getInstalledLanguages();
-            $lng->loadLanguageModule("meta");
-            $options = array();
+            $languages = $this->lng->getInstalledLanguages();
+            $this->lng->loadLanguageModule('meta');
+            $options = [];
             foreach ($languages as $l) {
                 $options[$l] = $lng->txt("meta_l_" . $l);
             }
+            $lang = new ilSelectInputGUI(
+                $this->lng->txt('language'),
+                'language'
+            );
             $lang->setOptions($options);
             $lang->setValue($ilSetting->get("language"));
+            if (count($options) <= 1) {
+                $lang->setDisabled(true);
+            }
             $this->form_gui->addItem($lang);
         }
 

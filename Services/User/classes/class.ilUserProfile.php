@@ -759,7 +759,10 @@ class ilUserProfile
                         $ta->setOptions($options);
                         $ta->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ta->getRequired() || $ta->getValue()) {
-                            $ta->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
+                            $ta->setDisabled(
+                                $ilSetting->get("usr_settings_disable_" . $f) === '1'
+                                || count($options) <= 1
+                            );
                         }
                         $a_form->addItem($ta);
                     }
