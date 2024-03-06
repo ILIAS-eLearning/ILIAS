@@ -47,7 +47,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         if ($this->root_folder_id !== $this->root_node_id) {
             $DIC->logger()->mail()->error(
-                "Root folder id $this->root_folder_id does not match root node id $this->root_node_id for user $userId"
+                'Root folder id {root_folder_id} does not match root node id {root_node_id} for user {usr_id}',
+                [
+                    'root_folder_id' => $this->root_folder_id,
+                    'root_node_id' => $this->root_node_id,
+                    'usr_id' => $userId,
+                ]
             );
         }
 
