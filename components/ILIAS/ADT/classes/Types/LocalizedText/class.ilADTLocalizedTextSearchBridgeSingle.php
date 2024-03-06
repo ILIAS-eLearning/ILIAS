@@ -121,7 +121,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             $relevant_translation = $a_adt->getCopyOfDefinition()->getMultilingualValueSupport() ?
                 $a_adt->getTranslations() :
-                [$a_adt->getText()];
+                [$a_adt->getTextForLanguage($a_adt->getCopyOfDefinition()->getDefaultLanguage())];
 
             foreach ($relevant_translation as $txt) {
                 if (str_contains(strtolower($txt), strtolower($this->getADT()->getText()))) {
