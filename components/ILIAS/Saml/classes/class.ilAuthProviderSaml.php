@@ -383,7 +383,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
             $this->idp->getDefaultRoleId() => $this->idp->getDefaultRoleId(),
         ]);
         $importParser->setFolderId(USER_FOLDER_ID);
-        $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
+        $importParser->setUserMappingMode(ilUserImportParser::IL_USER_MAPPING_ID);
         $importParser->startParsing();
 
         return $login;
