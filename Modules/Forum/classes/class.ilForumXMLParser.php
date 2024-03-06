@@ -289,25 +289,24 @@ class ilForumXMLParser extends ilSaxParser
                     // Manipulate user object
                     // changed smeyer 28.7.16: the session id is not manipulated
                     // anymore. Instead the user is passwd ilObjForum::update()
-                    $this->forum->setTitle($this->forumArray["Title"]);
-                    $this->forum->setDescription($this->forumArray["Description"]);
+                    $this->forum->setTitle(ilUtil::stripSlashes((string) ($this->forumArray["Title"] ?? '')));
+                    $this->forum->setDescription(ilUtil::stripSlashes((string) ($this->forumArray["Description"] ?? '')));
                     $this->forum->update($update_forum_array['usr_id']);
 
-                    // create frm_settings
                     $newObjProp = ilForumProperties::getInstance($this->forum->getId());
-                    $newObjProp->setDefaultView((int) $this->forumArray['DefaultView']);
-                    $newObjProp->setAnonymisation((int) $this->forumArray['Pseudonyms']);
-                    $newObjProp->setStatisticsStatus((int) $this->forumArray['Statistics']);
-                    $newObjProp->setIsThreadRatingEnabled((int) $this->forumArray['ThreadRatings']);
-                    $newObjProp->setPostActivation((int) $this->forumArray['PostingActivation']);
-                    $newObjProp->setPresetSubject((int) $this->forumArray['PresetSubject']);
-                    $newObjProp->setAddReSubject((int) $this->forumArray['PresetRe']);
-                    $newObjProp->setNotificationType($this->forumArray['NotificationType'] ? $this->forumArray['NotificationType'] : 'all_users');
-                    $newObjProp->setAdminForceNoti((int) $this->forumArray['ForceNotification']);
-                    $newObjProp->setUserToggleNoti((int) $this->forumArray['ToggleNotification']);
-                    $newObjProp->setFileUploadAllowed((int) $this->forumArray['FileUpload']);
-                    $newObjProp->setThreadSorting((int) $this->forumArray['Sorting']);
-                    $newObjProp->setMarkModeratorPosts((int) $this->forumArray['MarkModeratorPosts']);
+                    $newObjProp->setDefaultView((int) ($this->forumArray['DefaultView'] ?? ilForumProperties::VIEW_TREE));
+                    $newObjProp->setAnonymisation((bool) ($this->forumArray['Pseudonyms'] ?? false));
+                    $newObjProp->setStatisticsStatus((bool) ($this->forumArray['Statistics'] ?? false));
+                    $newObjProp->setIsThreadRatingEnabled((bool) ($this->forumArray['ThreadRatings'] ?? false));
+                    $newObjProp->setPostActivation((bool) ($this->forumArray['PostingActivation'] ?? false));
+                    $newObjProp->setPresetSubject((bool) ($this->forumArray['PresetSubject'] ?? false));
+                    $newObjProp->setAddReSubject((bool) ($this->forumArray['PresetRe'] ?? false));
+                    $newObjProp->setNotificationType((string) ($this->forumArray['NotificationType'] ?: 'all_users'));
+                    $newObjProp->setAdminForceNoti((bool) ($this->forumArray['ForceNotification'] ?? false));
+                    $newObjProp->setUserToggleNoti((bool) ($this->forumArray['ToggleNotification'] ?? false));
+                    $newObjProp->setFileUploadAllowed((bool) ($this->forumArray['FileUpload'] ?? false));
+                    $newObjProp->setThreadSorting((int) ($this->forumArray['Sorting'] ?? 0));
+                    $newObjProp->setMarkModeratorPosts((bool) ($this->forumArray['MarkModeratorPosts'] ?? false));
                     $newObjProp->update();
 
                     $id = $this->getNewForumPk();
@@ -356,18 +355,22 @@ class ilForumXMLParser extends ilSaxParser
 
                 if ($this->entity == 'thread' && $this->threadArray) {
                     $this->forumThread = new ilForumTopic();
-                    $this->forumThread->setId($this->threadArray['Id']);
+                    $this->forumThread->setId((int) ($this->threadArray['Id'] ?? 0));
                     $this->forumThread->setForumId($this->lastHandledForumId);
-                    $this->forumThread->setSubject($this->threadArray['Subject']);
-                    $this->forumThread->setSticky($this->threadArray['Sticky']);
-                    $this->forumThread->setClosed($this->threadArray['Closed']);
+                    $this->forumThread->setSubject(ilUtil::stripSlashes((string) ($this->threadArray['Subject'] ?? '')));
+                    $this->forumThread->setSticky((bool) ($this->threadArray['Sticky'] ?? false));
+                    $this->forumThread->setClosed((bool) ($this->threadArray['Closed'] ?? false));
+                    $this->forumThread->setImportName(
+                        isset($this->threadArray['ImportName']) ?
+                            ilUtil::stripSlashes($this->threadArray['ImportName']) :
+                            null
+                    );
                     $this->forumThread->setCreateDate($this->threadArray['CreateDate']);
                     $this->forumThread->setChangeDate($this->threadArray['UpdateDate']);
-                    $this->forumThread->setImportName($this->threadArray['ImportName']);
-                    
+
                     $usr_data = $this->getUserIdAndAlias(
-                        $this->threadArray['UserId'],
-                        $this->threadArray['Alias']
+                        (int) ($this->threadArray['UserId'] ?? 0),
+                        ilUtil::stripSlashes((string) ($this->threadArray['Alias'] ?? ''))
                     );
 
                     $this->forumThread->setDisplayUserId($usr_data['usr_id']);
@@ -378,10 +381,10 @@ class ilForumXMLParser extends ilSaxParser
                     }
 
                     $author_id_data = $this->getUserIdAndAlias(
-                        $this->threadArray['AuthorId']
+                        (int) ($this->threadArray['AuthorId'] ?? 0)
                     );
-                    $this->forumThread->setThrAuthorId((int) $author_id_data['usr_id']);
-                
+                    $this->forumThread->setThrAuthorId($author_id_data['usr_id']);
+
                     $this->forumThread->insert();
 
                     $this->mapping['thr'][$this->threadArray['Id']] = $this->forumThread->getId();
@@ -436,30 +439,38 @@ class ilForumXMLParser extends ilSaxParser
 
                 if ($this->entity == 'post' && $this->postArray) {
                     $this->forumPost = new ilForumPost();
-                    $this->forumPost->setId($this->postArray['Id']);
-                    $this->forumPost->setCensorship($this->postArray['Censorship']);
-                    $this->forumPost->setCensorshipComment($this->postArray['CensorshipMessage']);
-                    $this->forumPost->setNotification($this->postArray['Notification']);
-                    $this->forumPost->setImportName($this->postArray['ImportName']);
-                    $this->forumPost->setStatus($this->postArray['Status']);
-                    $this->forumPost->setMessage($this->postArray['Message']);
-                    $this->forumPost->setSubject($this->postArray['Subject']);
-                    $this->forumPost->setLft($this->postArray['Lft']);
-                    $this->forumPost->setRgt($this->postArray['Rgt']);
-                    $this->forumPost->setDepth($this->postArray['Depth']);
-                    $this->forumPost->setParentId($this->postArray['ParentId']);
                     $this->forumPost->setThread($this->forumThread);
+                    $this->forumPost->setId((int) $this->postArray['Id']);
+                    $this->forumPost->setCensorship((bool) ($this->postArray['Censorship'] ?? false));
+                    $this->forumPost->setCensorshipComment(
+                        ilUtil::stripSlashes((string) ($this->postArray['CensorshipMessage'] ?? ''))
+                    );
+                    $this->forumPost->setNotification((bool) ($this->postArray['Notification'] ?? false));
+                    $this->forumPost->setStatus((bool) ($this->postArray['Status'] ?? false));
+                    $purifier = ilHtmlPurifierFactory::_getInstanceByType('frm_post');
+                    $this->forumPost->setMessage($purifier->purify((string) ($this->postArray['Message'] ?? '')));
+                    $this->forumPost->setSubject(ilUtil::stripSlashes((string) ($this->postArray['Subject'] ?? '')));
+                    $this->forumPost->setLft((int) $this->postArray['Lft']);
+                    $this->forumPost->setRgt((int) $this->postArray['Rgt']);
+                    $this->forumPost->setDepth((int) $this->postArray['Depth']);
+                    $this->forumPost->setParentId((int) $this->postArray['ParentId']);
                     $this->forumPost->setThreadId($this->lastHandledThreadId);
                     $this->forumPost->setForumId($this->lastHandledForumId);
+
+                    $this->forumPost->setImportName(
+                        isset($this->postArray['ImportName']) ?
+                            ilUtil::stripSlashes($this->postArray['ImportName']) :
+                            null
+                    );
                     $this->forumPost->setCreateDate($this->postArray['CreateDate']);
                     $this->forumPost->setChangeDate($this->postArray['UpdateDate']);
 
                     $usr_data = $this->getUserIdAndAlias(
-                        $this->postArray['UserId'],
-                        $this->postArray['Alias']
+                        (int) ($this->postArray['UserId'] ?? 0),
+                        ilUtil::stripSlashes((string) ($this->postArray['Alias'] ?? ''))
                     );
                     $update_usr_data = $this->getUserIdAndAlias(
-                        $this->postArray['UpdateUserId']
+                        (int) ($this->postArray['UpdateUserId'] ?? 0)
                     );
                     $this->forumPost->setDisplayUserId($usr_data['usr_id']);
                     $this->forumPost->setUserAlias($usr_data['usr_alias']);
@@ -469,7 +480,7 @@ class ilForumXMLParser extends ilSaxParser
                         $this->postArray['AuthorId'] = $this->postArray['UserId'];
                     }
                     $author_id_data = $this->getUserIdAndAlias(
-                        $this->postArray['AuthorId']
+                        (int) ($this->postArray['AuthorId'] ?? 0)
                     );
                     $this->forumPost->setPosAuthorId((int) $author_id_data['usr_id']);
                     
@@ -481,8 +492,8 @@ class ilForumXMLParser extends ilSaxParser
                     
                     $this->forumPost->insert();
 
-                    if ($this->mapping['pos'][$this->postArray['ParentId']]) {
-                        $parentId = $this->mapping['pos'][$this->postArray['ParentId']];
+                    if (isset($this->postArray['ParentId'], $this->mapping['pos'][$this->postArray['ParentId']])) {
+                        $parentId = (int) $this->mapping['pos'][$this->postArray['ParentId']];
                     } else {
                         $parentId = 0;
                     }
