@@ -488,7 +488,7 @@ class ilMailingListsGUI
                 ++$counter;
             }
 
-            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('delete'));
+            $tbl->addMultiCommand('confirmDeleteMembers', $this->lng->txt('remove'));
         } else {
             $tbl->disable('header');
             $tbl->disable('footer');
@@ -514,7 +514,7 @@ class ilMailingListsGUI
         $c_gui = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteMembers'));
-        $c_gui->setHeaderText($this->lng->txt('mail_sure_delete_entry'));
+        $c_gui->setHeaderText($this->lng->txt('mail_sure_remove_user'));
         $c_gui->setCancel($this->lng->txt('cancel'), 'showMembersList');
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteMembers');
 
@@ -570,7 +570,7 @@ class ilMailingListsGUI
                     $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_success_removed_user'));
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
         }
