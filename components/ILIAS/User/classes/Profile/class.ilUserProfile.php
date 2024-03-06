@@ -323,17 +323,18 @@ class ilUserProfile
                 break;
 
             case 'language':
-                if (!$this->userSettingVisible($field_id)
-                    || ($lang_field = $this->getLanguageInput(
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getLanguageInput(
                         $field_id,
                         $method,
                         $lang_var,
                         $user
-                    )) === null) {
-                    break;
-                }
-
-                $form->addItem($lang_field);
+                    )
+                );
                 break;
 
             case 'noneditable':
@@ -613,14 +614,11 @@ class ilUserProfile
         string $method,
         string $lang_var,
         ?ilObjUser $user
-    ): ?ilFormPropertyGUI {
+    ): ilFormPropertyGUI {
         $options = [];
         $this->lng->loadLanguageModule('meta');
         foreach ($this->lng->getInstalledLanguages() as $lang_key) {
             $options[$lang_key] = $this->lng->txt('meta_l_' . $lang_key);
-        }
-        if (count($options) <= 1) {
-            return null;
         }
 
         asort($options);
@@ -632,7 +630,10 @@ class ilUserProfile
         $language_input->setOptions($options);
         $language_input->setRequired((bool) $this->settings->get('require_' . $field_id));
         if (!$language_input->getRequired() || $language_input->getValue()) {
-            $language_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+            $language_input->setDisabled(
+                $this->settings->get('usr_settings_disable_' . $field_id) === '1'
+                || count($options) <= 1
+            );
         }
         return $language_input;
     }
