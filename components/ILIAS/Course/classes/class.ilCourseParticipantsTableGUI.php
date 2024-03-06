@@ -180,7 +180,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 case 'consultation_hour':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $dts = array();
-                    foreach ((array) $a_set['consultation_hours'] as $ch) {
+                    foreach ((array) ($a_set['consultation_hours'] ?? []) as $ch) {
                         $tmp = ilDatePresentation::formatPeriod(
                             new ilDateTime($ch['dt'], IL_CAL_UNIX),
                             new ilDateTime($ch['dtend'], IL_CAL_UNIX)
