@@ -188,7 +188,7 @@ EOT;
 <div class="panel panel-secondary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-viewcontrols l-bar__container">
+        <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-sortation l-bar__element" id="id_1">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_4" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">
@@ -230,7 +230,7 @@ EOT;
 <div class="panel panel-secondary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-viewcontrols l-bar__container">
+        <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-pagination l-bar__element">
                 <span class="btn btn-ctrl browse previous">
                     <a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
@@ -277,7 +277,7 @@ EOT;
 <div class="panel panel-secondary panel-flex">
     <div class="panel-heading ilHeader">
         <div class="panel-title"><h2>Title</h2></div>
-        <div class="panel-viewcontrols l-bar__container">
+        <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-section l-bar__element">
                 <a class="btn btn-ctrl browse previous" href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1">
                     <span class="glyphicon glyphicon-chevron-left"></span>

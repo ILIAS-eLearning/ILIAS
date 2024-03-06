@@ -1,27 +1,21 @@
 <!-- todo: proper id support, spacer?, separator?, emph classes -->
 
 <!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm<!-- BEGIN form_class --> {FORM_CLASS}<!-- END form_class -->"><!-- END form_open -->
-<h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
-<nav class="ilToolbar navbar navbar-default {HIDDEN_CLASS}" {ID}>
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<!-- BEGIN lead_image --><span style="margin-left:0px;" class="navbar-brand"><img src="{IMG_SRC}" alt="{IMG_ALT}" /></span><!-- END lead_image -->
+<h3 class="hidden">{TXT_FUNCTIONS}</h3>
+<div class="c-toolbar l-bar__container" {ID}>
+	<div class="l-bar__space-keeper">
+		<!-- BEGIN lead -->
+		<div class="l-bar__group c-toolbar__lead-items">
+			<!-- BEGIN lead_image --><div class="l-bar__element"><img src="{IMG_SRC}" alt="{IMG_ALT}" /></div><!-- END lead_image -->
 			<!-- BEGIN sticky_items -->
 			{STICKY_ITEMS}
 			<!-- END sticky_items -->
-			<button type="button" class="navbar-toggle{HIDE_TOGGLE_CLASS}" data-toggle="collapse" data-target="#tb-collapse-{TOOLBAR_ID}">
-				<span class="sr-only">{MORE_LABEL}</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
 		</div>
-		<div class="collapse navbar-collapse" id="tb-collapse-{TOOLBAR_ID}">
-			<ul class="ilToolbarItems nav navbar-nav">
-				{ITEMS}
-			</ul>
+		<!-- END lead -->
+		<div class="l-bar__group c-toolbar__main-body">
+			{ITEMS}
 		</div>
 	</div>
-</nav>
+</div>
+
 <!-- BEGIN form_close --></form><!-- END form_close -->

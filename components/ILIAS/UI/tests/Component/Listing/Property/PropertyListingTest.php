@@ -71,7 +71,7 @@ class PropertyListingTest extends ILIAS_UI_TestBase
             ->withItems($props);
 
         $expected = $this->brutallyTrimHTML('
-<div class="l-bar__container c-listing-property">
+<div class="l-bar__space-keeper c-listing-property">
     <div class="l-bar__group c-listing-property__property">
         <span class="l-bar__element c-listing-property__propertylabel">label1</span>
         <span class="l-bar__element c-listing-property__propertyvalue">value1</span>
