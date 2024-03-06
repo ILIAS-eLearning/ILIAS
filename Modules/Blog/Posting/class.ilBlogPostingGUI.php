@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Blog\StandardGUIRequest;
+use ILIAS\Repository\Profile\ProfileGUI;
 
 /**
  * Class ilBlogPosting GUI class
@@ -28,6 +29,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected ProfileGUI $profile_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
@@ -107,6 +109,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
+        $this->profile_gui = $DIC->blog()->internal()->gui()->profile();
     }
 
     public function executeCommand(): string
@@ -314,12 +317,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $authors = array();
             $author_id = $this->getBlogPosting()->getAuthor();
             if ($author_id) {
-                $authors[] = ilUserUtil::getNamePresentation($author_id);
+                $authors[] = $this->profile_gui->getNamePresentation($author_id);
             }
 
             foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
                 if ($editor["user_id"] != $author_id) {
-                    $authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
+                    $authors[] = $this->profile_gui->getNamePresentation($editor["user_id"]);
                 }
             }
 

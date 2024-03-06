@@ -31,6 +31,8 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Repository\Profile\ProfileGUI $profile_gui;
+    protected \ILIAS\Repository\Profile\ProfileAdapter $profile;
     protected \ILIAS\Blog\Access\BlogAccess $blog_access;
     protected \ILIAS\Blog\InternalDomainService $domain;
     protected \ILIAS\Blog\InternalGUIService $gui;
@@ -172,6 +174,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->user->getId(),
             $owner
         );
+        $this->profile = $domain->profile();
+        $this->profile_gui = $gui->profile();
     }
 
     public function getType(): string
@@ -1317,10 +1321,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $post = new ilBlogPosting($this->blpg);
                     $author_id = $post->getAuthor();
                     if ($author_id) {
-                        $ppic = ilObjUser::_getPersonalPicturePath($author_id, "xsmall", true, true);
-
-                        $name = ilObjUser::_lookupName($author_id);
-                        $name = $name["lastname"] . ", " . $name["firstname"];
+                        $ppic = $this->profile_gui->getPicturePath($author_id);
+                        $name = $this->profile_gui->getNamePresentation($author_id);
+                        //$name = $name["lastname"] . ", " . $name["firstname"];
                     }
                 }
             }
@@ -1351,7 +1354,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         foreach (ilBlogPosting::getAllPostings($a_obj_id) as $posting) {
             if ($this->author &&
                 ($posting["author"] == $this->author ||
-                (is_array($posting["editors"]) && in_array($this->author, $posting["editors"])))) {
+                (is_array($posting["editors"] ?? false) && in_array($this->author, $posting["editors"])))) {
                 $author_found = true;
             }
 
@@ -1426,7 +1429,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if ($this->keyword) {
                     $title = $lng->txt("blog_keyword") . ": " . $this->keyword;
                 } elseif ($this->author) {
-                    $title = $lng->txt("blog_author") . ": " . ilUserUtil::getNamePresentation($this->author);
+                    $title = $lng->txt("blog_author") . ": " . $this->profile_gui->getNamePresentation($this->author);
                 } else {
                     $title = $this->gui->presentation()->util()->getMonthPresentation($month);
                     $last_month = $month;
@@ -1614,12 +1617,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
                 $author_id = $item["author"];
                 if ($author_id) {
-                    $authors[] = ilUserUtil::getNamePresentation($author_id);
+                    $authors[] = $this->profile_gui->getNamePresentation($author_id);
                 }
 
                 if (isset($item["editors"])) {
                     foreach ($item["editors"] as $editor_id) {
-                        $authors[] = ilUserUtil::getNamePresentation($editor_id);
+                        $authors[] = $this->profile_gui->getNamePresentation($editor_id);
                     }
                 }
 
@@ -2592,7 +2595,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $confirm->addItem(
                 'id[]',
                 (string) $user_id,
-                ilUserUtil::getNamePresentation($user_id, false, false, "", true)
+                $this->profile_gui->getNamePresentation($user_id, false, false, "", true)
             );
         }
 
