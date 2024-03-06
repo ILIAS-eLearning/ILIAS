@@ -37,9 +37,10 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
 
     private function getTextForCurrentLanguageIfAvailable(): string
     {
+        $language = $this->lng->getLangKey();
         if (!$this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport()) {
-            return $this->getADT()->getText();
+            $language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
         }
-        return $this->getADT()->getTextForLanguage($this->lng->getLangKey());
+        return $this->getADT()->getTextForLanguage($language);
     }
 }
