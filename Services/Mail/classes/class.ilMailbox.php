@@ -53,7 +53,7 @@ class ilMailbox
     {
         global $DIC;
 
-        if ($a_user_id < 1) {
+        if ($usrId < 1) {
             throw new InvalidArgumentException("Cannot create mailbox without user id");
         }
         
