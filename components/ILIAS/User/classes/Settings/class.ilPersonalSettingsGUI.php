@@ -386,12 +386,14 @@ class ilPersonalSettingsGUI
                 $options[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
             }
 
-            $si = new ilSelectInputGUI($this->lng->txt('language'), 'language');
-            $si->setOptionsLangAttribute(fn($options, $key) => $key);
-            $si->setOptions($options);
-            $si->setValue($this->user->getLanguage());
-            $si->setDisabled((bool) $this->settings->get('usr_settings_disable_language'));
-            $this->form->addItem($si);
+            $lang = new ilSelectInputGUI($this->lng->txt('language'), 'language');
+            $lang->setOptionsLangAttribute(fn($options, $key) => $key);
+            $lang->setOptions($options);
+            $lang->setValue($this->user->getLanguage());
+            if (count($options) <= 1 || $this->settings->get('usr_settings_disable_language') === '1') {
+                $lang->setDisabled(true);
+            }
+            $this->form->addItem($lang);
         }
 
         // skin/style
