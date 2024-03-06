@@ -243,4 +243,12 @@ class Factory implements I\Factory
     {
         return new Rating($this->data_factory, $this->refinery, $label, $byline);
     }
+
+    public function resourceSelector(
+        I\ResourceRetrieval $resource_retrieval,
+        string $label,
+        ?string $byline = null
+    ): I\ResourceSelector {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
