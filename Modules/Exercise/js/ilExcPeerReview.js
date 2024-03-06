@@ -34,6 +34,10 @@ il.ExcPeerReview = {
     }).done(function (data) {
       const cl = document.querySelector("div.crit_widget[data-crit-id='" + rating_crit_id + "']");
       $(cl).html(data);
+      document.querySelectorAll(".webui-popover").forEach((el) => {
+        el.style.display = 'none';
+      });
+
     });
   }
 };
