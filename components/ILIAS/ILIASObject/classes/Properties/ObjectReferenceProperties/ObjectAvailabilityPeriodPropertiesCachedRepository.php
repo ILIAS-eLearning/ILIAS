@@ -75,6 +75,10 @@ class ObjectAvailabilityPeriodPropertiesCachedRepository
             throw new \Exception('The current configuration cannot be saved.');
         }
 
+        $timings_data = $this->retrieveTimingsStorageArrayForWhereClause(
+            'WHERE obj_id=' . $this->database->quote($property->getObjectReferenceId(), \ilDBConstants::T_INTEGER)
+        );
+
         $primary = [
             'parent_id' => [\ilDBConstants::T_INTEGER, $this->tree->getParentId($property->getObjectReferenceId())],
             'obj_id' => [\ilDBConstants::T_INTEGER, $object_reference_id]
@@ -85,7 +89,7 @@ class ObjectAvailabilityPeriodPropertiesCachedRepository
             'timing_start' => [\ilDBConstants::T_INTEGER, $property->getAvailabilityPeriodStart()?->getTimestamp() ?? 0],
             'timing_end' => [\ilDBConstants::T_INTEGER, $property->getAvailabilityPeriodEnd()?->getTimestamp() ?? 0],
             'visible' => [\ilDBConstants::T_INTEGER, $property->getVisibleWhenDisabled() ? 1 : 0]
-        ];
+        ] + $timings_data;
         $this->database->replace(self::TIMINGS_PROPERTIES_TABLE, $primary, $storage_array);
         $this->data_cache[$object_reference_id] = $this->retrieveDataForObjectReferenceId($object_reference_id);
     }
@@ -144,10 +148,33 @@ class ObjectAvailabilityPeriodPropertiesCachedRepository
                 'timing_end' => $row['timing_end'] !== 0
                     ? \DateTimeImmutable::createFromFormat('U', (string) $row['timing_end'])
                     : null,
-                'visible' => $row['visible'] === 1 ? true : false
+                'visible' => $row['visible'] === 1
             ];
         }
 
         return $data;
+    }
+
+    protected function retrieveTimingsStorageArrayForWhereClause(string $where): array
+    {
+        $query = 'SELECT '
+            . 'changeable, position, suggestion_start, suggestion_end' . PHP_EOL
+            . 'FROM ' . self::TIMINGS_PROPERTIES_TABLE . PHP_EOL
+            . $where;
+
+        $statement = $this->database->query($query);
+        $num_rows = $this->database->numRows($statement);
+
+        if ($num_rows === 0) {
+            return [];
+        }
+
+        $data = $this->database->fetchAssoc($statement);
+        return [
+            'changeable' => [\ilDBConstants::T_INTEGER, $data['changeable']],
+            'position' => [\ilDBConstants::T_INTEGER, $data['position']],
+            'suggestion_start' => [\ilDBConstants::T_INTEGER, $data['suggestion_start']],
+            'suggestion_end' => [\ilDBConstants::T_INTEGER, $data['suggestion_end']]
+        ];
     }
 }

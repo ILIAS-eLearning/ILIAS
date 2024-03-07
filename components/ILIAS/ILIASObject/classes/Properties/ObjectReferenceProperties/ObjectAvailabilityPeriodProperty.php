@@ -22,7 +22,6 @@ namespace ILIAS\Object\Properties\ObjectReferenceProperties;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
