@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery\Factory as Refinery;
-
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -33,7 +31,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
-    protected Refinery $refinery;
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
@@ -63,7 +60,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $this->request = $DIC->testQuestionPool()->internal()->request();
-        $this->refinery = $DIC['refinery'];
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
 

@@ -652,7 +652,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             }
 
             $row['title'] = $tags_trafo->transform($row['title']);
-            $row['description'] = $tags_trafo->transform($row['description'] !== '' ? $row['description'] : '&nbsp;');
+            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
             $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
