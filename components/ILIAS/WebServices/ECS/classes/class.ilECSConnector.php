@@ -90,12 +90,13 @@ class ilECSConnector
     /**
      * Add auth resource
      *
-     * @param string post data
+     * @param string $a_post post data
+     * @param int $a_target_mid the membership id of target server
      * @return string the new hash for this authentication
      * @throws ilECSConnectorException
      *
      */
-    public function addAuth($a_post, $a_target_mid): string
+    public function addAuth(string $a_post, int $a_target_mid): string
     {
         $this->logger->info(__METHOD__ . ': Add new Auth resource...');
 
@@ -106,7 +107,7 @@ class ilECSConnector
 
             $this->addHeader('Content-Type', 'application/json');
             $this->addHeader('Accept', 'application/json');
-            $this->addHeader(self::HEADER_MEMBERSHIPS, $a_target_mid);
+            $this->addHeader(self::HEADER_MEMBERSHIPS, (string) $a_target_mid);
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_POST, true);
@@ -457,7 +458,7 @@ class ilECSConnector
 
             return new ilECSResult($res);
         } catch (ilCurlConnectionException $exc) {
-            throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
+            throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage() . $exc->getTraceAsString(), 0, $exc);
         }
     }
 

@@ -671,7 +671,7 @@ abstract class ilRemoteObjectBase extends ilObject2
                 return $list->getResult()->getLinkIds();
             }
         } catch (ilECSConnectorException $exc) {
-            $this->logger->error(__METHOD__ . ': Error getting resource list. ' . $exc->getMessage());
+            $this->logger->error(__METHOD__ . ': Error getting resource list for type . ' . $this->getECSObjectType() . ' with message: ' . $exc->getMessage());
         }
 
         return [];
