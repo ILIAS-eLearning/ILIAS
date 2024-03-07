@@ -1088,7 +1088,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $reg_proc->setValue(
             ($this->object->getSubscriptionLimitationType() != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED)
                 ? (string) $this->object->getSubscriptionType()
-                : (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+                : (string) ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT
         );
 
         $opt = new ilRadioOption(
