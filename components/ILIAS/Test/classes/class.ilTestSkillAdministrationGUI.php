@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionInfoService;
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -37,6 +39,7 @@ class ilTestSkillAdministrationGUI
         private ilTabsGUI $tabs,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
+        private Refinery $refinery,
         private ilDBInterface $db,
         private ilLogger $log,
         private ilTree $tree,
@@ -64,7 +67,7 @@ class ilTestSkillAdministrationGUI
 
                 $questionContainerId = $this->test_obj->getId();
 
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();

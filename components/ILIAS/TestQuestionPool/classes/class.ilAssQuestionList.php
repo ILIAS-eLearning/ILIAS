@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Notes\Service as NotesService;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Handles a list of questions
@@ -77,6 +78,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     public function __construct(
         private ilDBInterface $db,
         private ilLanguage $lng,
+        private Refinery $refinery,
         private ilComponentRepository $component_repository,
         private ?NotesService $notes_service = null
     ) {
@@ -564,6 +566,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $this->checkFilters();
 
+        $tags_trafo = $this->refinery->string()->stripTags();
+
         $query = $this->buildQuery();
         $res = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($res)) {
@@ -573,6 +577,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 continue;
             }
 
+            $row['title'] = $tags_trafo->transform($row['title']);
+            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
+            $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
             $row['feedback'] = $this->hasGenericFeedback((int)$row['question_id']);
