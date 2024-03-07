@@ -52,7 +52,6 @@ class ilObjStudyProgrammeMembersGUI
     public const F_COMMAND_OPTION_ALL = 'select_cmd_all';
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
-    public const F_SELECTED_PROGRESS_ID = 'prgs_id';
     public const F_SELECTED_USER_IDS = 'usrids';
 
     protected ?ilObjStudyProgramme $object;
@@ -960,11 +959,11 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateCertificate');
         $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
 
-        $prg_id = $this->getPrgrsId();
-        $user_name = ilObjUser::_lookupFullname($prg_id->getUsrId());
+        $prgs_id = $this->getPrgrsId();
+        $user_name = ilObjUser::_lookupFullname($prgs_id->getUsrId());
         $this->confirmation_gui->addItem(
-            self::F_SELECTED_PROGRESS_ID,
-            (string) $prg_id,
+            self::F_SELECTED_PROGRESS_IDS,
+            (string) $prgs_id,
             $user_name
         );
         return $this->confirmation_gui->getHTML();
@@ -977,7 +976,7 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateCertificate');
         $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
 
-        foreach ($this->getGetPrgsIds() as $progress_id) {
+        foreach ($this->getPostPrgsIds() as $progress_id) {
             $user_name = ilObjUser::_lookupFullname($progress_id->getUsrId());
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
@@ -991,17 +990,29 @@ class ilObjStudyProgrammeMembersGUI
     public function confirmedUpdateCertificate(): void
     {
         $msgs = $this->getMessageCollection('msg_update_certificate');
-        foreach ($this->getGetPrgsIds() as $idx => $prgs_id) {
+        foreach ($this->getPostPrgsIds() as $idx => $prgs_id) {
             if (!$this->mayCurrentUserEditProgressForUser($prgs_id->getUsrId())) {
                 $this->showInfoMessage("no_permission_to_update_certificate");
             } else {
-                $this->updateCertificateForPrg(
-                    $prgs_id->getAssignmentId(),
-                    $this->user->getId()
-                );
+
+                $assignment = $this->assignment_db->get($prgs_id->getAssignmentId());
+                $progress = $assignment->getProgressForNode($prgs_id->getNodeId());
+                if(!$progress->isSuccessful()) {
+                    $msgs->add(false, 'will_not_update_cert_for_unsuccessful_progress', (string)$prgs_id);
+                    continue;
+                }
+
+                if ($this->updateCertificateForPrg(
+                    $prgs_id->getNodeId(),
+                    $prgs_id->getUsrId()
+                )) {
+                    $msgs->add(true, '', (string)$prgs_id);
+                } else {
+                    $msgs->add(false, 'error_updating_certificate', (string)$prgs_id);
+                }
             }
         }
-        $this->showSuccessMessage("successfully_updated_certificate");
+        $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
 
@@ -1012,11 +1023,11 @@ class ilObjStudyProgrammeMembersGUI
         $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedRemovalOfCertificate');
         $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
 
-        $prg_id = $this->getPrgrsId();
-        $user_name = ilObjUser::_lookupFullname($prg_id->getUsrId());
+        $prgs_id = $this->getPrgrsId();
+        $user_name = ilObjUser::_lookupFullname($prgs_id->getUsrId());
         $this->confirmation_gui->addItem(
-            self::F_SELECTED_PROGRESS_ID,
-            (string) $prg_id,
+            self::F_SELECTED_PROGRESS_IDS,
+            (string) $prgs_id,
             $user_name
         );
         return $this->confirmation_gui->getHTML();
@@ -1051,9 +1062,7 @@ class ilObjStudyProgrammeMembersGUI
             } else {
                 $this->removeCertificateForUser(
                     $prgs_id->getNodeId(),
-                    $prgs_id->getAssignmentId(),
                     $prgs_id->getUsrId(),
-                    $this->user->getId()
                 );
             }
         }
