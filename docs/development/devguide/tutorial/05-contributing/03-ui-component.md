@@ -52,7 +52,7 @@ be covered in the next section.
 
 A full step-by-step guide on how to implement and/or extend an UI component with the most relevant implementation
 details can be found
-in [the frameworks README file](../../../components/ILIAS/UI/README.md#Implementing-Elements-in-the-Framework).
+in [the frameworks README file](../../../../../components/ILIAS/UI/README.md#Implementing-Elements-in-the-Framework).
 
 ## What do I Need to Watch Out For? (Dos & Dont's)
 
