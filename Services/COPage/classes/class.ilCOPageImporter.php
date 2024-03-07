@@ -147,8 +147,6 @@ class ilCOPageImporter extends ilXmlImporter
 
         $ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');
 
-        //if (count($media_objects) > 0 || count($file_objects) > 0)
-        //{
         foreach ($pages as $p) {
             $id = explode(":", $p);
             if (count($id) == 3) {
@@ -171,8 +169,12 @@ class ilCOPageImporter extends ilXmlImporter
                 }
             }
         }
-        //}
         $this->log->debug("end");
+    }
+
+    public function afterContainerImportProcessing(
+        ilImportMapping $a_mapping
+    ): void {
     }
 
     /**
