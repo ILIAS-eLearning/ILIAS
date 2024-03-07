@@ -35,6 +35,18 @@ class ilObjectGUI implements ImplementsCreationCallback
 {
     use CreationCallbackTrait;
 
+    protected const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
+        '<b>',
+        '<i>',
+        '<strong>',
+        '<em>',
+        '<sub>',
+        '<sup>',
+        '<pre>',
+        '<strike>',
+        '<bdo>'
+    ];
+
     public const ADMIN_MODE_NONE = "";
     public const ADMIN_MODE_SETTINGS = "settings";
     public const ADMIN_MODE_REPOSITORY = "repository";
@@ -320,13 +332,28 @@ class ilObjectGUI implements ImplementsCreationCallback
         if (!is_object($this->object)) {
             if ($this->requested_crtptrefid > 0) {
                 $cr_obj_id = ilObject::_lookupObjId($this->requested_crtcb);
-                $this->tpl->setTitle(ilObject::_lookupTitle($cr_obj_id));
+                $this->tpl->setTitle(
+                    strip_tags(
+                        ilObject::_lookupTitle($cr_obj_id),
+                        self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                    )
+                );
                 $this->tpl->setTitleIcon(ilObject::_getIcon($cr_obj_id));
             }
             return;
         }
-        $this->tpl->setTitle($this->object->getPresentationTitle());
-        $this->tpl->setDescription($this->object->getLongDescription());
+        $this->tpl->setTitle(
+            strip_tags(
+                $this->object->getPresentationTitle(),
+                self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            )
+        );
+        $this->tpl->setDescription(
+            strip_tags(
+                $this->object->getLongDescription(),
+                self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            )
+        );
 
         $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
         if (strtolower($base_class) == "iladministrationgui") {
