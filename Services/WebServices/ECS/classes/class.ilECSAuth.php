@@ -20,7 +20,7 @@ declare(strict_types=1);
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 */
-class ilECSAuth
+class ilECSAuth implements JsonSerializable
 {
     protected ilLogger $log;
     protected array $mids = array();
@@ -64,5 +64,12 @@ class ilECSAuth
     public function getRealm(): string
     {
         return $this->realm;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "realm" => $this->realm
+        ];
     }
 }

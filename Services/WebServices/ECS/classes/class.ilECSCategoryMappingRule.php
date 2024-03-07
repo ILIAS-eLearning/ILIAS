@@ -357,9 +357,7 @@ class ilECSCategoryMappingRule
     }
 
     /**
-     * get strong presentation of participants
-     * @param
-     * @return
+     * get string presentation of participants
      */
     public function participantsToString(): string
     {
@@ -373,8 +371,8 @@ class ilECSCategoryMappingRule
             $part_string .= '"';
 
             $part_id_arr = explode('_', $part_id);
-            $name = ilECSCommunityReader::getInstanceByServerId($part_id_arr[0])
-                ->getParticipantNameByMid($part_id_arr[1]);
+            $name = ilECSCommunityReader::getInstanceByServerId((int) $part_id_arr[0])
+                ->getParticipantNameByMid((int) $part_id_arr[1]);
             if ($name) {
                 $part_string .= $name;
             } else {
@@ -415,14 +413,13 @@ class ilECSCategoryMappingRule
             case self::ATTR_INT:
                 $this->logger->info(__METHOD__ . ': Checking for value: ' . $a_value);
                 $this->logger->info(__METHOD__ . ': Checking against attribute values: ' . $this->getMappingValue());
-                $values = array($a_value);
+                $values = array((string)$a_value);
                 break;
 
             case self::ATTR_STRING:
                 $values = array($a_value);
                 break;
         }
-        $values = explode(',', $a_value);
 
         foreach ($values as $value) {
             $value = trim($value);

@@ -99,10 +99,10 @@ class ilECSParticipantSetting
      */
     public static function getInstance(int $a_server_id, int $mid): ilECSParticipantSetting
     {
-        if (self::$instances[$a_server_id . '_' . $mid]) {
-            return self::$instances[$a_server_id . '_' . $mid];
+        if (!isset(self::$instances[$a_server_id . '_' . $mid])) {
+            return self::$instances[$a_server_id . '_' . $mid] = new self($a_server_id, $mid);
         }
-        return self::$instances[$a_server_id . '_' . $mid] = new self($a_server_id, $mid);
+        return self::$instances[$a_server_id . '_' . $mid];
     }
 
 
