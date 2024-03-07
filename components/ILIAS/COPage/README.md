@@ -19,6 +19,7 @@ During editing footnotes are not replaced with the numbering scheme, since this 
 
 - Not all contexts support internal links. If the "More > Link" menu does not offer the menu item "Internal Link" while editing text paragraphs, the context does not support internal links. If the internal link format is used anyway in a paragraph, e.g. by copying it from other sources, the outcome (both in editing and presentation) is currently undefined.
 - If containers are copied and container page content links to sub-containers (e.g. folders), you need to use internal links and instance link areas for media objects to have them updated during the copy process.
+- If containers are exported/imported, ILIAS will update the internal links to repository objects by searching for to repository objects having the target object id set as their import id. More than one object may have this ID (imported multiple times). ILIAS will choose the latest imported object and re-reference the link accordingly (ilPageObject->resolveIntLinks()).
 
 ## Anchors
 
