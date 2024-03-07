@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
@@ -53,6 +54,8 @@ class ilTestServiceGUI
      * @var ilDBInterface
      */
     protected $db;
+
+    protected Refinery $refinery;
 
     public $lng;
     /** @var ilGlobalTemplateInterface */
@@ -131,6 +134,7 @@ class ilTestServiceGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilias = $DIC['ilias'];
@@ -144,6 +148,7 @@ class ilTestServiceGUI
 
         $this->db = $ilDB;
         $this->lng = &$lng;
+        $this->refinery = &$refinery;
         $this->tpl = &$tpl;
         $this->ctrl = &$ilCtrl;
         $this->tabs = $ilTabs;
@@ -157,7 +162,7 @@ class ilTestServiceGUI
         $this->testrequest = $DIC->test()->internal()->request();
         $this->testSessionFactory = new ilTestSessionFactory($this->object);
 
-        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
+        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $component_repository, $this->object);
         $this->randomGroup = $DIC->refinery()->random();
         $this->objectiveOrientedContainer = null;
     }
@@ -1159,7 +1164,7 @@ class ilTestServiceGUI
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
         $table_gui->initFilter();
 
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
+        $questionList = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
 
         $questionList->setParentObjIdsFilter(array($this->object->getId()));
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);

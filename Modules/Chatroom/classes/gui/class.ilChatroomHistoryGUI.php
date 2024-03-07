@@ -27,6 +27,53 @@ declare(strict_types=1);
  */
 class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
+    /**
+     * @param ilTemplate|ilGlobalTemplate $room_tpl
+     */
+    private function renderDateTimeInformation(
+        $room_tpl,
+        ?ilDateTime &$prev_date_time,
+        ilDateTime $message_date_time,
+        ilDate $message_date,
+        ?string &$prev_date_time_presentation,
+        string $message_date_time_presentation,
+        string $time_format
+    ): void {
+        $render_parts = [];
+
+        if (null === $prev_date_time ||
+            date('d', $prev_date_time->get(IL_CAL_UNIX)) !== date('d', $message_date_time->get(IL_CAL_UNIX)) ||
+            date('m', $prev_date_time->get(IL_CAL_UNIX)) !== date('m', $message_date_time->get(IL_CAL_UNIX)) ||
+            date('Y', $prev_date_time->get(IL_CAL_UNIX)) !== date('Y', $message_date_time->get(IL_CAL_UNIX))
+        ) {
+            $render_parts['MESSAGEDATE'] = ilDatePresentation::formatDate($message_date);
+            $prev_date_time = $message_date_time;
+        }
+
+        if ($prev_date_time_presentation !== $message_date_time_presentation) {
+            switch ($time_format) {
+                case ilCalendarSettings::TIME_FORMAT_24:
+                    $date_string = $message_date_time->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone());
+                    break;
+                case ilCalendarSettings::TIME_FORMAT_12:
+                default:
+                    $date_string = $message_date_time->get(IL_CAL_FKT_DATE, 'g:ia', $this->ilUser->getTimeZone());
+                    break;
+            }
+
+            $render_parts['MESSAGETIME'] = $date_string;
+            $prev_date_time_presentation = $message_date_time_presentation;
+        }
+
+        if ($render_parts !== []) {
+            $room_tpl->setCurrentBlock('datetime_line');
+            foreach ($render_parts as $key => $value) {
+                $room_tpl->setVariable($key, $value);
+            }
+            $room_tpl->parseCurrentBlock();
+        }
+    }
+
     public function byDayExport(): void
     {
         $this->tabs->activateSubTab('byday');
@@ -113,9 +160,9 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $time_format = $this->ilUser->getTimeFormat();
 
-        $prevDate = '';
         $messagesShown = 0;
-        $lastDateTime = null;
+        $prev_date_time_presentation = null;
+        $prev_date_time = null;
         foreach ($messages as $message) {
             switch ($message['message']->type) {
                 case 'message':
@@ -130,35 +177,23 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                         $dateTime = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
                         $currentDate = ilDatePresentation::formatDate($dateTime);
 
-                        $roomTpl->setCurrentBlock('MESSAGELINE');
+                        $this->renderDateTimeInformation(
+                            $roomTpl,
+                            $prev_date_time,
+                            $dateTime,
+                            $date,
+                            $prev_date_time_presentation,
+                            $currentDate,
+                            $time_format
+                        );
+
+                        $roomTpl->setCurrentBlock('message_line');
                         $roomTpl->setVariable('MESSAGECONTENT', $message['message']->content); // oops... it is a message? ^^
                         $roomTpl->setVariable('MESSAGESENDER', $message['message']->from->username);
-                        if (null === $lastDateTime ||
-                            date('d', $lastDateTime->get(IL_CAL_UNIX)) !== date('d', $dateTime->get(IL_CAL_UNIX)) ||
-                            date('m', $lastDateTime->get(IL_CAL_UNIX)) !== date('m', $dateTime->get(IL_CAL_UNIX)) ||
-                            date('Y', $lastDateTime->get(IL_CAL_UNIX)) !== date('Y', $dateTime->get(IL_CAL_UNIX))
-                        ) {
-                            $roomTpl->setVariable('MESSAGEDATE', ilDatePresentation::formatDate($date));
-                        }
-
-                        if ($prevDate !== $currentDate) {
-                            switch ($time_format) {
-                                case ilCalendarSettings::TIME_FORMAT_24:
-                                    $date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone());
-                                    break;
-                                case ilCalendarSettings::TIME_FORMAT_12:
-                                default:
-                                    $date_string = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $this->ilUser->getTimeZone());
-                                    break;
-                            }
-
-                            $roomTpl->setVariable('MESSAGETIME', $date_string);
-                            $prevDate = $currentDate;
-                        }
-
                         $roomTpl->parseCurrentBlock();
 
-                        $lastDateTime = $dateTime;
+                        $roomTpl->setCurrentBlock('row');
+                        $roomTpl->parseCurrentBlock();
 
                         ++$messagesShown;
                     }

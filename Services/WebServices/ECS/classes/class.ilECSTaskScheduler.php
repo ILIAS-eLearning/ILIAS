@@ -223,7 +223,7 @@ class ilECSTaskScheduler
             "AND (time_limit_until - time_limit_from) < 7200";
         $res = $this->db->query($query);
         if (($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) &&
-            $user_obj = ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
+            $user_obj = ilObjectFactory::getInstanceByObjId((int) $row->usr_id, false)) {
             $this->log->info(__METHOD__ . ': Deleting deprecated ECS user account ' . $user_obj->getLogin());
             $user_obj->delete();
         }

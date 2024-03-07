@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Factory for test sequence
  * @author		Björn Heyser <bheyser@databay.de>
@@ -27,17 +29,20 @@ class ilTestSequenceFactory
     private array $testSequences = [];
     private ilDBInterface $db;
     private ilLanguage $lng;
+    private Refinery $refinery;
     private ilComponentRepository $component_repository;
     private ilObjTest $testOBJ;
 
     public function __construct(
         ilDBInterface $db,
         ilLanguage $lng,
+        Refinery $refinery,
         ilComponentRepository $component_repository,
         ilObjTest $testOBJ
     ) {
         $this->db = $db;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
@@ -85,6 +90,7 @@ class ilTestSequenceFactory
                 $questionSet = new ilTestDynamicQuestionSet(
                     $this->db,
                     $this->lng,
+                    $this->refinery,
                     $this->component_repository,
                     $this->testOBJ
                 );

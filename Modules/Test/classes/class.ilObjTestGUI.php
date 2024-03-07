@@ -539,7 +539,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $tree, $component_repository, $this->getTestObject(), $this->ref_id);
+                $gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $this->refinery, $ilDB, $tree, $component_repository, $this->getTestObject(), $this->ref_id);
                 $this->ctrl->forwardCommand($gui);
                 break;
 

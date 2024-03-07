@@ -100,8 +100,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $hidden_correct_answers = $this->request->raw('hidden_correct_answers') ?? [];
         $long_menu_type = $this->request->raw('long_menu_type') ?? '';
         $this->object->setLongMenuTextValue(ilUtil::stripSlashes($longmenu_text));
-        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_text_files))));
-        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_correct_answers))));
+        $this->object->setAnswers($this->trimArrayRecursive($this->stripSlashesRecursive(json_decode($hidden_text_files))));
+        $this->object->setCorrectAnswers($this->trimArrayRecursive($this->stripSlashesRecursive(json_decode($hidden_correct_answers))));
         $this->object->setAnswerType(ilArrayUtil::stripSlashesRecursive($long_menu_type));
         $this->object->setQuestion($this->request->raw('question'));
         $this->object->setLongMenuTextValue($this->request->raw('longmenu_text'));
@@ -119,24 +119,40 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             "/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/",
             $longmenu_text
         );
-        $answer_options_from_files = json_decode(ilUtil::stripSlashes($hidden_text_files));
+
+        $answer_options_from_files = $this->stripSlashesRecursive(json_decode($hidden_text_files));
         if (count($answer_options_from_text) - 1 !== count($answer_options_from_files)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
             return false;
         }
+
         return true;
     }
 
-    protected function trimArrayRecursive(array $data)
+    private function stripSlashesRecursive(array $data): array
     {
-        foreach ($data as $k => $v) {
-            if (is_array($v)) {
-                $data[$k] = $this->trimArrayRecursive($v);
-            } else {
-                $data[$k] = trim($v);
-            }
-        }
-        return $data;
+        return array_map(
+            function ($v) {
+                if (is_array($v)) {
+                    return $this->stripSlashesRecursive($v);
+                }
+                return ilUtil::stripSlashes($v);
+            },
+            $data
+        );
+    }
+
+    private function trimArrayRecursive(array $data): array
+    {
+        return array_map(
+            function ($v) {
+                if (is_array($v)) {
+                    return $this->trimArrayRecursive($v);
+                }
+                return trim($v);
+            },
+            $data
+        );
     }
 
     protected function editQuestion(ilPropertyFormGUI $form = null): void

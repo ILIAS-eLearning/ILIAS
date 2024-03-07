@@ -37,6 +37,7 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
+            $this->createMock(ILIAS\Refinery\Factory::class),
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),

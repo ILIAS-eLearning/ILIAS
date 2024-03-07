@@ -240,11 +240,10 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
 
     /**
      * Change case similar to array_change_key_case, to avoid further encoding problems.
-     * @param string $a_string
-     * @return string
+     * @return string|int
      */
-    protected function changeKeyCase(string $a_string): string
+    protected function changeKeyCase(string $a_string)
     {
-        return array_key_first(array_change_key_case(array($a_string => $a_string)));
+        return array_key_first(array_change_key_case([$a_string => $a_string]));
     }
 }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Handles a list of questions
  * @author		Björn Heyser <bheyser@databay.de>
@@ -26,6 +28,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 {
     private ilDBInterface $db;
     private ilLanguage $lng;
+    private Refinery $refinery;
     private ilComponentRepository $component_repository;
 
     /**
@@ -144,10 +147,15 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      */
     protected $questions = array();
 
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilComponentRepository $component_repository)
-    {
+    public function __construct(
+        ilDBInterface $db,
+        ilLanguage $lng,
+        Refinery $refinery,
+        ilComponentRepository $component_repository
+    ) {
         $this->db = $db;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->component_repository = $component_repository;
     }
 
@@ -630,6 +638,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $this->checkFilters();
 
+        $tags_trafo = $this->refinery->string()->stripTags();
+
         $query = $this->buildQuery();
 
         $res = $this->db->query($query);
@@ -641,8 +651,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 continue;
             }
 
+            $row['title'] = $tags_trafo->transform($row['title']);
+            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
+            $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-
             $row['ttype'] = $this->lng->txt($row['type_tag']);
 
             $this->questions[ $row['question_id'] ] = $row;

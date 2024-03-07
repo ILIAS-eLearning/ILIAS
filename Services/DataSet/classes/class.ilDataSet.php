@@ -53,7 +53,7 @@ abstract class ilDataSet
     protected string $schema_version = "";
     protected string $relative_export_dir = "";
     protected string $absolute_export_dir = "";
-    protected string $ds_prefix = "";
+    protected string $ds_prefix = "ds";
     protected string $version = "";
     protected ilSurveyImporter $import;
 

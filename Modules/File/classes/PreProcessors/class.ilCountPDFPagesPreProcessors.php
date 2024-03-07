@@ -41,7 +41,7 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
     {
         if (
             $this->page_counter->isAvailable()
-            && $metadata->getMimeType() == MimeType::APPLICATION__PDF
+            && $metadata->getMimeType() === MimeType::APPLICATION__PDF
         ) {
             $path_to_pdf = $stream->getMetadata('uri');
             $metadata->additionalMetaData()->put(

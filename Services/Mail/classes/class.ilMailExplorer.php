@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,32 +16,40 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Tree\Node\Factory;
 use ILIAS\UI\Component\Tree\Node\Node;
 use ILIAS\UI\Component\Tree\Tree;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * Class Mail Explorer
- * class for explorer view for mailboxes
- * @author  Stefan Meyer <meyer@leifos.com>
- * @author  Michael Jansen <mjansen@databay.de>
- */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $currentFolderId = 0;
+    private int $root_folder_id;
+    private int $root_node_id;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         global $DIC;
+
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
+
+        $this->root_folder_id = (new ilMailbox($userId))->getRooFolder();
+        $this->root_node_id = $this->tree->readRootId();
+
+        if ($this->root_folder_id !== $this->root_node_id) {
+            $DIC->logger()->mail()->error(
+                "Root folder id $this->root_folder_id does not match root node id $this->root_node_id for user $userId"
+            );
+        }
 
         parent::__construct('mail_exp', $parentObject, '', $this->tree);
 
@@ -70,6 +76,28 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->currentFolderId = $folderId;
     }
 
+    /**
+     * Workaround for: https://mantis.ilias.de/view.php?id=40716
+     * @param array<string, mixed> $root
+     * @return array<string, mixed>
+     */
+    private function repairRootNode(array $root): array
+    {
+        if (!isset($root['child']) && $this->root_node_id !== $this->root_folder_id) {
+            $root['child'] = $this->root_node_id;
+            $root['obj_id'] = $this->root_node_id;
+            $root['parent'] = 0;
+            $root['depth'] = 1;
+            $root['title'] = 'a_root';
+            $root['m_type'] = 'root';
+            $root['lft'] = 1;
+            $root['rgt'] = PHP_INT_MAX;
+            $root['user_id'] = $this->tree->getTreeId();
+        }
+
+        return $root;
+    }
+
     public function getTreeLabel(): string
     {
         return $this->lng->txt("mail_folders");
@@ -80,9 +108,9 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $f = $this->ui->factory();
 
         return $f->tree()
-            ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds($this->tree->readRootId()))
-            ->withHighlightOnNodeClick(false);
+                 ->expandable($this->getTreeLabel(), $this)
+                 ->withData($this->tree->getChilds($this->root_node_id))
+                 ->withHighlightOnNodeClick(false);
     }
 
     public function build(
@@ -90,7 +118,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $record,
         $environment = null
     ): Node {
-        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)
+                     ->withHighlighted(
+                         $this->currentFolderId === (int) $record['child']
+                     );
     }
 
     protected function getNodeStateToggleCmdClasses($record): array
@@ -98,6 +129,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return [
             ilMailGUI::class,
         ];
+    }
+
+    public function getRootNode(): array
+    {
+        return $this->repairRootNode(parent::getRootNode());
     }
 
     public function getNodeContent($a_node): string

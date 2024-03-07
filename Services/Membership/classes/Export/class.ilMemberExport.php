@@ -385,7 +385,7 @@ class ilMemberExport
                                 $this->agreement[$usr_id]['accepted'])
                         ) {
                             #$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
-                            $this->addCol($this->user_profile_data[$usr_id][$field], $row, $col++);
+                            $this->addCol($this->user_profile_data[$usr_id][$field] ?? '', $row, $col++);
                         } else {
                             #$this->csv->addColumn('');
                             $this->addCol('', $row, $col++);
@@ -472,7 +472,7 @@ class ilMemberExport
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1] ?? 0;
             $value = '';
-            if (isset($this->user_course_fields[$a_usr_id][$a_field])) {
+            if (isset($this->user_course_fields[$a_usr_id][$field_id])) {
                 $value = $this->user_course_fields[$a_usr_id][$field_id];
             }
             $this->addCol((string) $value, $row, $col);

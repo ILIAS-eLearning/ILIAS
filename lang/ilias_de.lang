@@ -10959,6 +10959,7 @@ mail#:#mail_notification_membership_section#:#Mitgliedschaften
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an den Benutzer bevor eine interne Mail gelöscht wird. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
+mail#:#mail_operation_on_invalid_folder#:#Die Aktion konnte nicht ausgeführt werden, der aus der Serveranfrage bestimmte Ordner ist ungültig. Bitte wenden Sie sich an die Administration.
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
 mail#:#mail_orphaned_mails_desc#:#Löschen alter oder verwaister Mails

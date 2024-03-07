@@ -174,7 +174,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    protected function getCloneRecordId(string $clone_reference): ?string
+    protected function getCloneRecordId(?string $clone_reference): ?string
     {
         $reference_record = ilDclCache::getCloneOf((int)$clone_reference, ilDclCache::TYPE_RECORD);
         if ($reference_record) {

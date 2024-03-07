@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -34,6 +36,7 @@ class ilTestSkillAdministrationGUI
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilDBInterface $db;
+    private Refinery $refinery;
     private ilTree $tree;
     private ilComponentRepository $component_repository;
     private ilObjTest $testOBJ;
@@ -46,6 +49,7 @@ class ilTestSkillAdministrationGUI
         ilTabsGUI $tabs,
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng,
+        Refinery $refinery,
         ilDBInterface $db,
         ilTree $tree,
         ilComponentRepository $component_repository,
@@ -58,6 +62,7 @@ class ilTestSkillAdministrationGUI
         $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->db = $db;
         $this->tree = $tree;
         $this->component_repository = $component_repository;
@@ -80,7 +85,7 @@ class ilTestSkillAdministrationGUI
 
                 $questionContainerId = $this->getQuestionContainerId();
 
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();
