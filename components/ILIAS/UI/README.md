@@ -97,34 +97,8 @@ component to other code without being concerned if the other code modifies it.
 
 ## Implementing Elements in the Framework
 
-As an implementor of components in the ILIAS UI-Framework you need to stick to
-some [rules](docu/rules.md), to make sure the framework behaves in a uniform and
-predictable way accross all components. Since a lot of code will rely on the
-framework and the Kitchen Sink is coupled to the framework, there also are processes
-to introduce new components in the framework and modify existing components.
-
-### How to Introduce a New Component?
-
-New components are introduced in the UI-Framework and the Kitchen Sink in
-parallel to maintain the correspondence between the KS and the UI-Framework.
-
-An entry in the Kitchen Sink passes through three states:
-
-* **To be revised**: The entry is still being worked on. Just use a local copy
-  or a fork of the ILIAS repository and try out what ever you want.
-* **Proposed**: The entry has been revised and is proposed to the Jour Fixe,
-  but has not yet been decided upon. To enter this state, create a pull request
-  against  the ILIAS trunk containing your proposed component and take it to the
-  Jour Fixe. You need to provide a (mostly) complete definition of the component
-  but an implementation is not required at this point. Your will have better
-  chances if you also bring some visual representation of your new component,
-  you may use the ILIAS edge branch for that.
-* **Accepted**: The entry has been accepted by the JF. This, as always, might
-  need some iterations on the component.
-
-These states are represented by using functionality of git and GitHub. After
-acceptance, the new entry is part of the Kitchen Sink as well as part of the
-source code in the trunk.
+To get a brief overview on how to proceed before starting to implement elements in the UI framework, we recommend to
+read our [DevGuide](../../../docs/development/devguide/tutorial/05-contributing/03-ui-component.md) about this topic.
 
 ### How to Implement a Component?
 
@@ -133,7 +107,7 @@ If you would like to implement a new component for the framework, you should per
 1. Add your new component into the respective factory interface. E.g. if you introduce a component of a completely new type, you MUST add the description to the main factory (components/ILIAS/UI/src/Factory.php). If you add a new type of button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
 2. The description MUST use the following template:
 
-    ``` php
+    ```php
     /**
     * ---
     * description:
@@ -175,8 +149,8 @@ If you would like to implement a new component for the framework, you should per
 3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
  of the factory (located at src/UI/Implementation/Factory.php) does not implement that function yet. For
  the moment, implement it as follows:
- 
-    ``` php
+
+    ```php
     /**
     * @inheritdoc
     */
@@ -200,7 +174,7 @@ If you would like to implement a new component for the framework, you should per
  invariants defined in your rules when mutators will be used.
  Take care to keep it as minimal as possible. Add a description for each function.
  For the demo component, this interface could look as follows (located at (src/UI/Component/Demo/Demo.php):
-    ``` php
+    ```php
     <?php declare(strict_types=1)
     namespace ILIAS\UI\Component\Demo;
 
@@ -219,7 +193,7 @@ If you would like to implement a new component for the framework, you should per
     ```
 5. Make sure all tests are passing by executing '''phpunit tests/UI'''. For the demo component
   this means we have to add the following line to NoUIFactory in UI/test/Base.php:
-    ``` php
+    ```php
     public function demo($demo){}
     ```
 
@@ -230,14 +204,14 @@ If you would like to implement a new component for the framework, you should per
  with a little mockup. This makes it much easier to discuss the new component at the
  JF. So best create such an example and also link it in your comment, e.g. at
  src/UI/examples/Demo/mockup.php:
-    ``` php
+    ```php
     <?php declare(strict_types=1)
     function mockup() {
         return "<h1>Hello Demo!</h1>";
     }
     ```
    If needed, you can also add JS-logic (e.g. src/UI/examples/Demo/mockup.php):
-    ``` php
+    ```php
     <?php declare(strict_types=1)
     function script() {
         return "<script>console.log('Hello Demo');</script>Open your JS console!";
@@ -245,7 +219,7 @@ If you would like to implement a new component for the framework, you should per
     ```
    However best might be to just provide a screenshot showing what the component will
    look like:
-    ``` php
+    ```php
     function mockup() {
 	    global $DIC;
  	    $f = $DIC->ui()->factory();
@@ -259,7 +233,7 @@ If you would like to implement a new component for the framework, you should per
 7. Next you should create the necessary tests for the new component. At least provide tests
   for all interface methods and the rendering.
   For the demo component this looks as follows (located at UI/test/Component/Demo/DemoTest.php):
-   ``` php
+   ```php
     <?php declare(strict_types=1)
 
     require_once(__DIR__."/../../../../vendor/composer/vendor/autoload.php");
@@ -304,7 +278,7 @@ If you would like to implement a new component for the framework, you should per
 
 8. Currently you will only get the NotImplementedException you threw previously. That needs to be changed.
   First, add an implementation for the new interface (add it at src/UI/Implementation/Component/Demo/Demo.php):
-    ``` php
+    ```php
     <?php declare(strict_types=1)
     namespace ILIAS\UI\Implementation\Component\Demo;
 
@@ -338,12 +312,12 @@ If you would like to implement a new component for the framework, you should per
     ```
 9. Next, make the factory return the new component (change demo() of src/UI/Implementation/Factory.php):
 
-    ``` php
+    ```php
     return new Component\Demo\Demo($content);
     ```
 
 10. Then, implement the renderer at src/UI/Implementation/Component/Demo/Demo.php:
-    ``` php
+    ```php
     <?php declare(strict_types=1)
 
     /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
@@ -374,7 +348,7 @@ If you would like to implement a new component for the framework, you should per
     }
     ```
 11. Finally you need the template used to render your component. Create it at src/UI/templates/default/Demo/tpl.demo.html:
-     ``` php
+     ```html
     <h1 class="il-demo">{CONTENT}</h1>
      ```
 12. Execute the UI tests again. At this point, everything should pass. Thanks, you just made ILIAS more powerful!
@@ -383,7 +357,7 @@ If you would like to implement a new component for the framework, you should per
     Note that they will be used as basis for the test cases in testrail (see
     next point). The example for the demo looks as follows (located at
     src/UI/examples/Demo/render.php):
-    ``` php
+    ```php
       <?php declare(strict_types=1)
       function render() {
           //Init Factory and Renderer
@@ -505,7 +479,8 @@ Each signal has a unique alphanumeric ID. The triggerer uses this ID to trigger 
 **Renderer of button**  
 The renderer of the button generates the HTML for the button AND registers the event handler for the button click.
 This event handler triggers a custom Javascript event with the same name as the ID of show signal of the modal:
- ```
+
+ ```html
  <button id="button1">Open Modal</button>
  <script>
  $('#button1').on('click', function() {
@@ -526,7 +501,8 @@ event handler of the modal to identify the triggerer.
 **Renderer of modal**  
 The renderer of the modal generates the HTML for the modal AND registers an event handler on the ID of the show signal.
 The event handler calls some Javascript logic to show the modal.
-```
+
+```html
 <div class="modal" id="modal1"> ... </div>
 <script>
 $(document).on('id_of_signal_to_open_the_modal', function(event, signalData) { 
@@ -612,5 +588,5 @@ component.
 
 ### I don't understand that stuff, is there anyone who can explain it to me?
 
-Yes. Ask Richard Klees <richard.klees@concepts-and-training.de> or Timon Amstutz
- <timon.amstutz@ilub.unibe.ch>.
+Yes. Ask Richard Klees <richard.klees@concepts-and-training.de>, Timon Amstutz
+ <timon.amstutz@ilub.unibe.ch> or Thibeau Fuhrer <thibeau@sr.solutions>.
