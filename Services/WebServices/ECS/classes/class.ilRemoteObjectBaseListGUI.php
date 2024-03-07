@@ -53,9 +53,11 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
             $this->getGUIClassname(),
             'call'
         );
+        $classname = $this->getGUIClassname();
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $this->ref_id
+            $this->ref_id,
+            new $classname()
         );
 
         $shy_modal = $consent_gui->getTitleLink();
@@ -76,9 +78,11 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         string $title,
         string $description
     ): ?RepositoryObject {
+        $classname = $this->getGUIClassname();
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $ref_id
+            $ref_id,
+            new $classname()
         );
         if ($consent_gui->hasConsented()) {
             return parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
@@ -97,9 +101,11 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
 
     public function createDefaultCommand(array $command): array
     {
+        $classname = $this->getGUIClassname();
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $this->ref_id
+            $this->ref_id,
+            new $classname()
         );
         $command = parent::createDefaultCommand($command);
         if ($consent_gui->hasConsented()) {

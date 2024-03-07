@@ -48,7 +48,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         $a_info->addProperty($this->lng->txt('grp_visibility'), $this->availabilityToString());
     }
 
-    protected function availabilityToString()
+    protected function availabilityToString(): string
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteGroup::ACTIVATION_OFFLINE:
@@ -72,14 +72,14 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         $radio_grp->setValue($this->object->getAvailabilityType());
         $radio_grp->setDisabled(true);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_unvisible'), ilObjRemoteGroup::ACTIVATION_OFFLINE);
+        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_unvisible'), (string)ilObjRemoteGroup::ACTIVATION_OFFLINE);
         $radio_grp->addOption($radio_opt);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_limitless'), ilObjRemoteGroup::ACTIVATION_UNLIMITED);
+        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_limitless'), (string)ilObjRemoteGroup::ACTIVATION_UNLIMITED);
         $radio_grp->addOption($radio_opt);
 
         // :TODO: not supported in ECS yet
-        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_until'), ilObjRemoteGroup::ACTIVATION_LIMITED);
+        $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_until'), (string)ilObjRemoteGroup::ACTIVATION_LIMITED);
 
         $start = new ilDateTimeInputGUI($this->lng->txt('grp_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));

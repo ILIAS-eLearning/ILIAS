@@ -1138,7 +1138,7 @@ class ilECSSettingsGUI
             return false;
         }
         foreach ($_POST['rules'] as $rule_id) {
-            $rule = new ilECSCategoryMappingRule($rule_id);
+            $rule = new ilECSCategoryMappingRule((int) $rule_id);
             $rule->delete();
         }
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
