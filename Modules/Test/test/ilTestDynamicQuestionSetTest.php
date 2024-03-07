@@ -33,6 +33,7 @@ class ilTestDynamicQuestionSetTest extends ilTestBaseTestCase
         $this->testObj = new ilTestDynamicQuestionSet(
             $this->createMock(ilDBInterface::class),
             $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(ILIAS\Refinery\Factory::class),
             $this->createMock(ilComponentRepository::class),
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );

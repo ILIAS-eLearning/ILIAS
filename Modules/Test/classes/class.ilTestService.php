@@ -196,9 +196,10 @@ class ilTestService
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
         $component_repository = $DIC['component.repository'];
 
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $component_repository, $this->object);
 
         if ($this->object->isRandomTest()) {
             $virtualSequence = new ilTestVirtualSequenceRandomQuestionSet($ilDB, $this->object, $testSequenceFactory);

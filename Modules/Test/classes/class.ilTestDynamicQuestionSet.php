@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Class manages access to the dynamic question set
  * provided for the current test
@@ -26,6 +28,7 @@ class ilTestDynamicQuestionSet
 {
     private ilDBInterface $db;
     private ilLanguage $lng;
+    private Refinery $refinery;
     private ilComponentRepository $component_repository;
     private ilObjTest $testOBJ;
     private ?ilAssQuestionList $completeQuestionList = null;
@@ -33,10 +36,11 @@ class ilTestDynamicQuestionSet
     private ?ilAssQuestionList $filteredQuestionList = null;
     private array $actualQuestionSequence = [];
 
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilComponentRepository $component_repository, ilObjTest $testOBJ)
+    public function __construct(ilDBInterface $db, ilLanguage $lng, Refinery $refinery, ilComponentRepository $component_repository, ilObjTest $testOBJ)
     {
         $this->db = $db;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
@@ -289,7 +293,7 @@ class ilTestDynamicQuestionSet
      */
     private function buildQuestionList($sourceQuestionPoolId, $answerStatusActiveId): ilAssQuestionList
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $questionList->setParentObjId($sourceQuestionPoolId);
         $questionList->setAnswerStatusActiveId($answerStatusActiveId);
         return $questionList;

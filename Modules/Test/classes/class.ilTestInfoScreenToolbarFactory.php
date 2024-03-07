@@ -105,6 +105,7 @@ class ilTestInfoScreenToolbarFactory
         $this->testSequenceFactory = new ilTestSequenceFactory(
             $d['ilDB'],
             $d['lng'],
+            $d['refinery'],
             $d['component.repository'],
             $this->getTestOBJ()
         );

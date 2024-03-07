@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -36,6 +38,8 @@ class ilQuestionPoolSkillAdministrationGUI
      * @var ilCtrl
      */
     private $ctrl;
+
+    private Refinery $refinery;
 
     /**
      * @var ilAccessHandler
@@ -75,6 +79,7 @@ class ilQuestionPoolSkillAdministrationGUI
     public function __construct(
         ILIAS $ilias,
         ilCtrl $ctrl,
+        Refinery $refinery,
         ilAccessHandler $access,
         ilTabsGUI $tabs,
         ilGlobalTemplateInterface $tpl,
@@ -86,6 +91,7 @@ class ilQuestionPoolSkillAdministrationGUI
     ) {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;
+        $this->refinery = $refinery;
         $this->access = $access;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
@@ -151,7 +157,12 @@ class ilQuestionPoolSkillAdministrationGUI
 
         switch ($nextClass) {
             case 'ilassquestionskillassignmentsgui':
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+                $questionList = new ilAssQuestionList(
+                    $this->db,
+                    $this->lng,
+                    $this->refinery,
+                    $this->component_repository
+                );
                 $questionList->setParentObjId($this->poolOBJ->getId());
                 $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
                 $questionList->load();

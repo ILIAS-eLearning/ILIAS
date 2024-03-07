@@ -36,7 +36,7 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
         global $DIC;
         $component_repository = $DIC['component.repository'];
 
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $component_repository);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $component_repository);
 
         $questionList->setParentObjId($this->object->getId());
 

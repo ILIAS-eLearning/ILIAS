@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
@@ -73,7 +74,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         ilObjTest $testOBJ,
         ilAccessHandler $access,
         ILIAS\HTTP\GlobalHttpState $httpState,
-        ILIAS\Refinery\Factory $refinery,
+        Refinery $refinery,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer
     ) {
@@ -504,7 +505,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionsData(): array
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
 
         $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
         $questionList->setExcludeQuestionIdsFilter($this->testOBJ->getExistingQuestions());

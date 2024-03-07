@@ -270,11 +270,11 @@ class ilTestResultsGUI
                         $this->getTestObj()
                     );
                     $dynamicQuestionSetConfig->loadFromDb();
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
+                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['refinery'], $DIC['component.repository']);
                     $questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
                     $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
                 } else {
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
+                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['refinery'], $DIC['component.repository']);
                     $questionList->setParentObjId($this->getTestObj()->getId());
                     $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
                 }

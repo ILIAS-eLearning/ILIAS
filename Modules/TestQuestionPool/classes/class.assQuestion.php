@@ -514,6 +514,11 @@ abstract class assQuestion
         return $this->title;
     }
 
+    public function getTitleForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->title);
+    }
+
     public function getTitleFilenameCompliant(): string
     {
         return ilFileUtils::getASCIIFilename($this->getTitle());
@@ -537,6 +542,11 @@ abstract class assQuestion
     public function getComment(): string
     {
         return $this->comment;
+    }
+
+    public function getDescriptionForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->comment);
     }
 
     public function getThumbSize(): int
@@ -581,6 +591,11 @@ abstract class assQuestion
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    public function getAuthorForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->author);
     }
 
     public function getOwner(): int
@@ -2971,7 +2986,7 @@ abstract class assQuestion
         return $this->purifyAndPrepareTextAreaOutput($this->question);
     }
 
-    protected function purifyAndPrepareTextAreaOutput(string $content) : string
+    protected function purifyAndPrepareTextAreaOutput(string $content): string
     {
         $purified_content = $this->getHtmlQuestionContentPurifier()->purify($content);
         if ($this->isAdditionalContentEditingModePageObject()
