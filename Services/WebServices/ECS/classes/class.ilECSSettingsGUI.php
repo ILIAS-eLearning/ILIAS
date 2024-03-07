@@ -775,11 +775,6 @@ class ilECSSettingsGUI
         $settings = ilECSServerSettings::getInstance();
 
         $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
-        if (!$sel_srv) {
-            $sel_srv = $_SESSION["ecs_sel_srv"];
-        } else {
-            $_SESSION["ecs_sel_srv"] = $sel_srv;
-        }
 
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
@@ -821,11 +816,6 @@ class ilECSSettingsGUI
         $settings = ilECSServerSettings::getInstance();
 
         $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
-        if (!$sel_srv) {
-            $sel_srv = $_SESSION["ecs_sel_srv"];
-        } else {
-            $_SESSION["ecs_sel_srv"] = $sel_srv;
-        }
 
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
@@ -863,7 +853,7 @@ class ilECSSettingsGUI
                     (int) $mtype,
                     $ecs_field
                 );
-                $map->setAdvMDId($advmd_id);
+                $map->setAdvMDId((int)$advmd_id);
                 $map->save();
             }
         }
@@ -885,7 +875,7 @@ class ilECSSettingsGUI
                     (int) $mtype,
                     $ecs_field
                 );
-                $map->setAdvMDId($advmd_id);
+                $map->setAdvMDId((int) $advmd_id);
                 $map->save();
             }
         }
@@ -947,7 +937,7 @@ class ilECSSettingsGUI
                     'mapping' . '[' . ilECSDataMappingSetting::MAPPING_EXPORT . '][' . $field_name . ']'
                 );
                 $select->setValue(
-                    $mapping_settings->getMappingByECSName(
+                    (string) $mapping_settings->getMappingByECSName(
                         ilECSDataMappingSetting::MAPPING_EXPORT,
                         $field_name
                     )

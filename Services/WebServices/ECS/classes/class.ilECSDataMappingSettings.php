@@ -107,7 +107,7 @@ class ilECSDataMappingSettings
             'WHERE sid = ' . $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ';
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->mappings[$row->mapping_type][$row->ecs_field] = $row->advmd_id;
+            $this->mappings[$row->mapping_type][$row->ecs_field] = (int) $row->advmd_id;
         }
     }
 }
