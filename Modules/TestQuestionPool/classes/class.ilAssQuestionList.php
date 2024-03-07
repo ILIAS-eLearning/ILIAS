@@ -4,6 +4,8 @@
 require_once 'Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php';
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Handles a list of questions
  *
@@ -35,6 +37,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      * @var ilPluginAdmin
      */
     private $pluginAdmin = null;
+
+    /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
 
     /**
      * object ids of parent question containers
@@ -153,17 +160,15 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      */
     protected $questions = array();
 
-    /**
-     * Constructor
-     *
-     * @param ilDBInterface $db
-     * @param ilLanguage $lng
-     * @param ilPluginAdmin $pluginAdmin
-     */
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
-    {
+    public function __construct(
+        ilDBInterface $db,
+        ilLanguage $lng,
+        ILIAS\Refinery\Factory $refinery,
+        ilPluginAdmin $pluginAdmin
+    ) {
         $this->db = $db;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->pluginAdmin = $pluginAdmin;
     }
 
@@ -646,6 +651,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $this->checkFilters();
 
+        $tags_trafo = $this->refinery->string()->stripTags();
+
         $query = $this->buildQuery();
 
         $res = $this->db->query($query);
@@ -657,8 +664,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 continue;
             }
 
+            $row['title'] = $tags_trafo->transform($row['title']);
+            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null  ? $row['description'] : '&nbsp;');
+            $row['author'] = $tags_trafo->transform($row['author']);
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
-
             $row['ttype'] = $this->lng->txt($row['type_tag']);
 
             $this->questions[ $row['question_id'] ] = $row;

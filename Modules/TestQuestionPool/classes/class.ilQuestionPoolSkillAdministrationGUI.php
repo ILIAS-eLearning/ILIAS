@@ -4,6 +4,8 @@
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php';
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,6 +26,11 @@ class ilQuestionPoolSkillAdministrationGUI
      * @var ilCtrl
      */
     private $ctrl;
+
+    /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
 
     /**
      * @var ilAccessHandler
@@ -59,12 +66,13 @@ class ilQuestionPoolSkillAdministrationGUI
      * @var ilObjQuestionPool
      */
     private $poolOBJ;
-    
-    
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
+
+
+    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ILIAS\Refinery\Factory $refinery, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
     {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;
+        $this->refinery = $refinery;
         $this->access = $access;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
@@ -102,9 +110,8 @@ class ilQuestionPoolSkillAdministrationGUI
             'ilassquestionskillassignmentsgui',
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
-
         );
-        
+
         $link = $this->ctrl->getLinkTargetByClass(
             'ilAssQuestionSkillUsagesTableGUI',
             ilAssQuestionSkillUsagesTableGUI::CMD_SHOW
@@ -113,7 +120,6 @@ class ilQuestionPoolSkillAdministrationGUI
             'ilassquestionskillusagestablegui',
             $this->lng->txt('qpl_skl_sub_tab_usages'),
             $link
-
         );
 
         $this->tabs->activateTab('qpl_tab_competences');
@@ -132,9 +138,8 @@ class ilQuestionPoolSkillAdministrationGUI
 
         switch ($nextClass) {
             case 'ilassquestionskillassignmentsgui':
-
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->pluginAdmin);
                 $questionList->setParentObjId($this->poolOBJ->getId());
                 $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
                 $questionList->load();

@@ -4,6 +4,8 @@
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -51,6 +53,11 @@ class ilTestSkillAdministrationGUI
     private $db;
 
     /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
+    /**
      * @var ilTree
      */
     private $tree;
@@ -65,7 +72,7 @@ class ilTestSkillAdministrationGUI
      */
     private $testOBJ;
 
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
+    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, \ILIAS\Refinery\Factory $refinery, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
     {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;
@@ -73,6 +80,7 @@ class ilTestSkillAdministrationGUI
         $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->db = $db;
         $this->tree = $tree;
         $this->pluginAdmin = $pluginAdmin;
@@ -94,9 +102,9 @@ class ilTestSkillAdministrationGUI
             case 'ilassquestionskillassignmentsgui':
 
                 $questionContainerId = $this->getQuestionContainerId();
-                
+
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->pluginAdmin);
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();
@@ -105,7 +113,7 @@ class ilTestSkillAdministrationGUI
                 $gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
                 $gui->setQuestionContainerId($questionContainerId);
                 $gui->setQuestionList($questionList);
-                
+
                 if ($this->testOBJ->isFixedTest()) {
                     $gui->setQuestionOrderSequence($this->testOBJ->getQuestions());
                 } else {
@@ -113,7 +121,7 @@ class ilTestSkillAdministrationGUI
                 }
 
                 $this->ctrl->forwardCommand($gui);
-                
+
                 break;
 
             case 'iltestskilllevelthresholdsgui':
@@ -125,17 +133,17 @@ class ilTestSkillAdministrationGUI
                 break;
         }
     }
-    
+
     private function isAssignmentEditingRequired()
     {
         if (!$this->testOBJ->isFixedTest()) {
             return false;
         }
-        
+
         if ($this->testOBJ->participantDataExist()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -149,7 +157,6 @@ class ilTestSkillAdministrationGUI
             'ilassquestionskillassignmentsgui',
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
-
         );
 
         $link = $this->ctrl->getLinkTargetByClass(
@@ -182,7 +189,7 @@ class ilTestSkillAdministrationGUI
 
         return false;
     }
-    
+
     private function getQuestionContainerId()
     {
         if ($this->testOBJ->isDynamicTest()) {
@@ -200,20 +207,20 @@ class ilTestSkillAdministrationGUI
 
         return $this->testOBJ->getId();
     }
-    
+
     private function getRequiredQuestionInstanceTypeFilter()
     {
         if ($this->testOBJ->isDynamicTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
         }
-        
+
         if ($this->testOBJ->isRandomTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
         }
-        
+
         return null;
     }
-    
+
     private function buildAssignmentConfigurationInPoolHintMessage()
     {
         $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -222,9 +229,9 @@ class ilTestSkillAdministrationGUI
             $this->pluginAdmin,
             $this->testOBJ
         );
-        
+
         $questionSetConfig = $questionSetConfigFactory->getQuestionSetConfig();
-        
+
         if ($this->testOBJ->isRandomTest()) {
             $testMode = $this->lng->txt('tst_question_set_type_random');
             $poolLinks = $questionSetConfig->getCommaSeparatedSourceQuestionPoolLinks();
@@ -233,7 +240,7 @@ class ilTestSkillAdministrationGUI
         } elseif ($this->testOBJ->isDynamicTest()) {
             $testMode = $this->lng->txt('tst_question_set_type_dynamic');
             $poolLink = $questionSetConfig->getSourceQuestionPoolLink($questionSetConfig->getSourceQuestionPoolId());
-            
+
             return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_dynquestset'), $testMode, $poolLink);
         }
 

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Factory for test sequence
  *
@@ -17,48 +19,54 @@ class ilTestSequenceFactory
      * @var array
      */
     private $testSequences = array();
-    
+
     /**
      * global ilDBInterface object instance
      *
      * @var ilDBInterface
      */
     private $db = null;
-    
+
     /**
      * global ilLanguage object instance
      *
      * @var ilLanguage
      */
     private $lng = null;
-    
+
+    /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
     /**
      * global ilPluginAdmin object instance
      *
      * @var ilPluginAdmin
      */
     private $pluginAdmin = null;
-    
+
     /**
      * object instance of current test
      *
      * @var ilObjTest
      */
     private $testOBJ = null;
-    
+
     /**
      * constructor
      *
      * @param ilObjTest $testOBJ
      */
-    public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+    public function __construct(ilDBInterface $db, ilLanguage $lng, \ILIAS\Refinery\Factory $refinery, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
     {
         $this->db = $db;
         $this->lng = $lng;
+        $this->refinery = $refinery;
         $this->pluginAdmin = $pluginAdmin;
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * creates and returns an instance of a test sequence
      * that corresponds to the current test mode and the pass stored in test session
@@ -70,7 +78,7 @@ class ilTestSequenceFactory
     {
         return $this->getSequenceByActiveIdAndPass($testSession->getActiveId(), $testSession->getPass());
     }
-    
+
     /**
      * creates and returns an instance of a test sequence
      * that corresponds to the current test mode and given active/pass
@@ -110,6 +118,7 @@ class ilTestSequenceFactory
                     $questionSet = new ilTestDynamicQuestionSet(
                         $this->db,
                         $this->lng,
+                        $this->refinery,
                         $this->pluginAdmin,
                         $this->testOBJ
                     );
@@ -118,11 +127,11 @@ class ilTestSequenceFactory
                         $questionSet,
                         $activeId
                     );
-                    
+
                     #$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
                     #	$this->testOBJ->isInstantFeedbackAnswerFixationEnabled()
                     #); // checked questions now has to come up any time, so they can be set to unchecked right at this moment
-                    
+
                     break;
             }
         }

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * class can be used as forwarder for taxonomy editing context
  *
@@ -17,21 +19,27 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
      * @var ilObjQuestionPool
      */
     protected $poolOBJ = null;
-    
+
     /**
      * global $db
      *
      * @var ilDBInterface
      */
     protected $db = null;
-    
+
+
+    /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
     /**
      * global $pluginAdmin
      *
      * @var ilPluginAdmin
      */
     protected $pluginAdmin = null;
-    
+
     /**
      * global $ilCtrl
      *
@@ -52,7 +60,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
      * @var ilCtrl
      */
     protected $lng = null;
-    
+
     /**
      * Constructor
      *
@@ -63,16 +71,17 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
      * @param ilTabsGUI $tabs
      * @param ilLanguage $lng
      */
-    public function __construct(ilObjQuestionPool $poolOBJ, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
+    public function __construct(ilObjQuestionPool $poolOBJ, ilDBInterface $db, ILIAS\Refinery\Factory $refinery, ilPluginAdmin $pluginAdmin, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
         $this->poolOBJ = $poolOBJ;
         $this->db = $db;
+        $this->refinery = $refinery;
         $this->pluginAdmin = $pluginAdmin;
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
     }
-    
+
     /**
      * forward method
      */
@@ -82,7 +91,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         $this->lng->loadLanguageModule('tax');
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->pluginAdmin);
 
         $questionList->setParentObjId($this->poolOBJ->getId());
 
@@ -90,10 +99,10 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php';
         $taxGUI = new ilObjTaxonomyGUI();
-        
+
         $taxGUI->setAssignedObject($this->poolOBJ->getId());
         $taxGUI->setMultiple(true);
-            
+
         $taxGUI->activateAssignedItemSorting($questionList, 'qpl', $this->poolOBJ->getId(), 'quest');
 
         $this->ctrl->forwardCommand($taxGUI);

@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once 'Modules/Test/classes/class.ilTestService.php';
@@ -36,6 +53,11 @@ class ilTestServiceGUI
      * @var ilDBInterface
      */
     protected $db;
+
+    /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
 
     public $lng;
     /** @var ilGlobalTemplateInterface */
@@ -112,6 +134,7 @@ class ilTestServiceGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilias = $DIC['ilias'];
@@ -125,6 +148,7 @@ class ilTestServiceGUI
 
         $this->db = $ilDB;
         $this->lng = &$lng;
+        $this->refinery = &$refinery;
         $this->tpl = &$tpl;
         $this->ctrl = &$ilCtrl;
         $this->tabs = $ilTabs;
@@ -140,8 +164,7 @@ class ilTestServiceGUI
         $this->testSessionFactory = new ilTestSessionFactory($this->object);
 
         require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
-
+        $this->testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $ilPluginAdmin, $this->object);
         $this->objectiveOrientedContainer = null;
     }
 
@@ -1086,7 +1109,7 @@ class ilTestServiceGUI
         $table_gui->initFilter();
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $ilPluginAdmin);
+        $questionList = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $ilPluginAdmin);
 
         $questionList->setParentObjIdsFilter(array($this->object->getId()));
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);

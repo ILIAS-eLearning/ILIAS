@@ -33,6 +33,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $ilDB = $DIC['ilDB'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
         $ilTabs = $DIC['ilTabs'];
 
         $this->checkReadAccess();
@@ -73,7 +74,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->initProcessLocker($this->testSession->getActiveId());
 
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $ilPluginAdmin, $this->object);
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
         $this->testSequence->loadQuestions();

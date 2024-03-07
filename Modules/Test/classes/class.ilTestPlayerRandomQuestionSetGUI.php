@@ -27,8 +27,8 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
-        
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $ilPluginAdmin);
+
         $questionList->setParentObjId($this->object->getId());
 
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);

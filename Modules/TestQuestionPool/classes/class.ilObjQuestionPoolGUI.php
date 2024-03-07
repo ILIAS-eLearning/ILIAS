@@ -57,6 +57,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     private $error;
 
     /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
+    /**
     * Constructor
     * @access public
     */
@@ -70,6 +75,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $this->type = "qpl";
         $this->error = $DIC['ilErr'];
         $this->ctrl = &$ilCtrl;
+        $this->refinery = $DIC['refinery'];
 
         $this->ctrl->saveParameter($this, array(
             "ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id", 'tax_node', 'calling_consumer', 'consumer_context'

@@ -6,6 +6,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Modules\Test\QuestionPoolLinkedTitleBuilder;
 
 /**
@@ -87,6 +88,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     protected $access;
 
     /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
+    /**
      * ilTestQuestionBrowserTableGUI constructor.
      * @param ilCtrl           $ctrl
      * @param ilGlobalTemplateInterface $mainTpl
@@ -108,6 +114,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         ilPluginAdmin $pluginAdmin,
         ilObjTest $testOBJ,
         ilAccessHandler $access,
+        Refinery $refinery,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer
     ) {
@@ -120,6 +127,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->pluginAdmin = $pluginAdmin;
         $this->testOBJ = $testOBJ;
         $this->access = $access;
+        $this->refinery = $refinery;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
 
@@ -545,7 +553,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
      */
     private function getQuestionsData()
     {
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->pluginAdmin);
 
         $questionList->setQuestionInstanceTypeFilter($this->getQuestionInstanceTypeFilter());
         $questionList->setExcludeQuestionIdsFilter($this->testOBJ->getExistingQuestions());

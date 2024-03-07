@@ -16,7 +16,7 @@ class ilTestService
      * @var ilObjTest
      */
     protected $object = null;
-    
+
     /**
      * @access public
      * @param	ilObjTest $a_object
@@ -36,7 +36,7 @@ class ilTestService
     public function getPassOverviewData($active_id, $short = false)
     {
         $passOverwiewData = array();
-        
+
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
@@ -49,7 +49,7 @@ class ilTestService
 
         for ($pass = 0; $pass <= $lastPass; $pass++) {
             $passFinishDate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
-            
+
             if ($passFinishDate <= 0) {
                 continue;
             }
@@ -65,22 +65,22 @@ class ilTestService
 
                 $passMaxPoints = $resultData["pass"]["total_max_points"];
                 $passReachedPoints = $resultData["pass"]["total_reached_points"];
-                
+
                 $passAnsweredQuestions = $this->object->getAnsweredQuestionCount($active_id, $pass);
                 $passTotalQuestions = count($resultData) - 2;
 
                 if ($pass == $scoredPass) {
                     $isScoredPass = true;
-                    
+
                     if (!$resultData["test"]["total_max_points"]) {
                         $testPercentage = 0;
                     } else {
                         $testPercentage = ($resultData["test"]["total_reached_points"] / $resultData["test"]["total_max_points"]) * 100;
                     }
-                    
+
                     $testMaxPoints = $resultData["test"]["total_max_points"];
                     $testReachedPoints = $resultData["test"]["total_reached_points"];
-                    
+
                     $passOverwiewData['test'] = array(
                         'active_id' => $active_id,
                         'scored_pass' => $scoredPass,
@@ -91,7 +91,7 @@ class ilTestService
                 } else {
                     $isScoredPass = false;
                 }
-                
+
                 $passOverwiewData['passes'][] = array(
                     'active_id' => $active_id,
                     'pass' => $pass,
@@ -108,7 +108,7 @@ class ilTestService
 
         return $passOverwiewData;
     }
-    
+
     /**
      * Returns the list of answers of a users test pass and offers a scoring option
      *
@@ -123,30 +123,30 @@ class ilTestService
         $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
 
         $testResultData = $this->object->getTestResult($activeId, $pass);
-        
+
         $manScoringQuestionGuiList = array();
-        
+
         foreach ($testResultData as $questionData) {
             if (!isset($questionData['qid'])) {
                 continue;
             }
-            
+
             if (!isset($questionData['type'])) {
                 throw new ilTestException('no question type given!');
             }
 
             $questionGUI = $this->object->createQuestionGUI("", $questionData['qid']);
-            
+
             if (!in_array($questionGUI->object->getQuestionTypeID(), $manScoringQuestionTypes)) {
                 continue;
             }
-            
+
             $manScoringQuestionGuiList[ $questionData['qid'] ] = $questionGUI;
         }
-        
+
         return $manScoringQuestionGuiList;
     }
-    
+
     /**
      * reads the flag wether manscoring is done for the given test active or not
      * from the global settings (scope: assessment / key: manscoring_done_<activeId>)
@@ -161,7 +161,7 @@ class ilTestService
         $assessmentSetting = new ilSetting("assessment");
         return $assessmentSetting->get("manscoring_done_" . $activeId, false);
     }
-    
+
     /**
      * stores the flag wether manscoring is done for the given test active or not
      * within the global settings (scope: assessment / key: manscoring_done_<activeId>)
@@ -176,16 +176,17 @@ class ilTestService
         $assessmentSetting = new ilSetting("assessment");
         $assessmentSetting->set("manscoring_done_" . $activeId, (bool) $manScoringDone);
     }
-    
+
     public function buildVirtualSequence(ilTestSession $testSession)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
+        $refinery = $DIC['refinery'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         require_once 'Modules/Test/classes/class.ilTestVirtualSequence.php';
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $ilPluginAdmin, $this->object);
 
         if ($this->object->isRandomTest()) {
             require_once 'Modules/Test/classes/class.ilTestVirtualSequenceRandomQuestionSet.php';
@@ -198,14 +199,14 @@ class ilTestService
         $virtualSequence->setActiveId($testSession->getActiveId());
 
         $virtualSequence->init();
-        
+
         return $virtualSequence;
     }
-    
+
     public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence)
     {
         $resultsByPass = array();
-        
+
         foreach ($virtualSequence->getUniquePasses() as $pass) {
             $results = $this->object->getTestResult(
                 $virtualSequence->getActiveId(),
@@ -217,15 +218,15 @@ class ilTestService
 
             $resultsByPass[$pass] = $results;
         }
-        
+
         $virtualPassResults = array();
-        
+
         foreach ($virtualSequence->getQuestionsPassMap() as $questionId => $pass) {
             foreach ($resultsByPass[$pass] as $key => $questionResult) {
                 if ($key === 'test' || $key === 'pass') {
                     continue;
                 }
-                
+
                 if ($questionResult['qid'] == $questionId) {
                     $questionResult['pass'] = $pass;
                     $virtualPassResults[$questionId] = $questionResult;
@@ -233,7 +234,7 @@ class ilTestService
                 }
             }
         }
-        
+
         return $virtualPassResults;
     }
 
@@ -261,7 +262,7 @@ class ilTestService
                 $this->object->isFollowupQuestionAnswerFixationEnabled()
                 && !$value['presented'] && !$firstQuestion
             );
-            
+
             $description = "";
             if ($this->object->getListOfQuestionsDescription()) {
                 $description = $value["description"];
@@ -296,7 +297,7 @@ class ilTestService
                 'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
             );
-            
+
             $firstQuestion = false;
             // fau.
         }
