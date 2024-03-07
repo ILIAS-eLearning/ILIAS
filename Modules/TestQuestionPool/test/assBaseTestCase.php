@@ -18,6 +18,8 @@ abstract class assBaseTestCase extends TestCase
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
         parent::setUp();
+
+        $this->setGlobalVariable('refinery', $this->createMock(ILIAS\Refinery\Factory::class));
     }
 
     /**
