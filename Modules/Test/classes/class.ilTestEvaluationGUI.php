@@ -842,7 +842,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($ignored_usr_ids !== []) {
             $user_logins = array_map(
-                static fn ($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                static fn($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
                 $ignored_usr_ids
             );
             if (count($ignored_usr_ids) === 1) {
@@ -861,7 +861,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($failed_pdf_generation_usr_ids !== []) {
             $user_logins = array_map(
-                static fn ($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
+                static fn($usr_id): string => ilObjUser::_lookupLogin((int) $usr_id),
                 $failed_pdf_generation_usr_ids
             );
             if (count($failed_pdf_generation_usr_ids) === 1) {
@@ -1868,7 +1868,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
 
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
+        $questionList = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
         $questionList->setParentObjId($this->object->getId());
         $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);

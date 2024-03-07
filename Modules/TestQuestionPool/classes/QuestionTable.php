@@ -23,6 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
@@ -36,6 +37,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
         protected DataFactory $data_factory,
+        protected Refinery $refinery,
         protected URLBuilder $url_builder,
         protected URLBuilderToken $action_parameter_token,
         protected URLBuilderToken $row_id_token,
@@ -49,7 +51,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected int $request_ref_id
     ) {
         $lng->loadLanguageModule('qpl');
-        parent::__construct($db, $lng, $component_repository, $notes_service);
+        parent::__construct($db, $lng, $refinery, $component_repository, $notes_service);
         $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
     }
 

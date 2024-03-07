@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Taxonomy\Service;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * class can be used as forwarder for taxonomy editing context
@@ -28,6 +29,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
     protected Service $taxonomy;
     protected ilObjQuestionPool $poolOBJ;
     protected ilDBInterface $db;
+    protected Refinery $refinery;
     protected ilComponentRepository $component_repository;
     protected ilCtrlInterface $ctrl;
     protected ilTabsGUI $tabs ;
@@ -36,6 +38,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
     public function __construct(
         ilObjQuestionPool $poolOBJ,
         ilDBInterface $db,
+        Refinery $refinery,
         ilComponentRepository $component_repository,
         ilCtrl $ctrl,
         ilTabsGUI $tabs,
@@ -44,6 +47,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
     ) {
         $this->poolOBJ = $poolOBJ;
         $this->db = $db;
+        $this->refinery = $refinery;
         $this->component_repository = $component_repository;
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
@@ -56,7 +60,12 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         $this->tabs->setTabActive('settings');
         $this->lng->loadLanguageModule('tax');
 
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+        $questionList = new ilAssQuestionList(
+            $this->db,
+            $this->lng,
+            $this->refinery,
+            $this->component_repository
+        );
 
         $questionList->setParentObjId($this->poolOBJ->getId());
 

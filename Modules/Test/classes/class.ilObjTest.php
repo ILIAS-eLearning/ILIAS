@@ -26,6 +26,8 @@ use ILIAS\Filesystem\Stream\Streams;
 
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Class ilObjTest
  *
@@ -99,6 +101,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     private TestManScoringDoneHelper $testManScoringDoneHelper;
     protected ilCtrlInterface $ctrl;
+    protected Refinery $refinery;
     protected ilSetting $settings;
     protected ilBenchmark $bench;
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
@@ -128,6 +131,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
+        $this->refinery = $DIC['refinery'];
         $this->settings = $DIC['ilSetting'];
         $this->bench = $DIC['ilBench'];
         $this->testrequest = $DIC->test()->internal()->request();
@@ -5763,6 +5767,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function &getTestQuestions(): array
     {
+        $tags_trafo = $this->refinery->string()->stripTags();
+
         $query = "
 			SELECT		questions.*,
 						questtypes.type_tag,
@@ -5795,11 +5801,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $questions = [];
 
         while ($row = $this->db->fetchAssoc($query_result)) {
-            $question = $row;
+            $row['title'] = $tags_trafo->transform($row['title']);
+            $row['description'] = $tags_trafo->transform($row['description'] !== '' && $row['description'] !== null ? $row['description'] : '&nbsp;');
+            $row['author'] = $tags_trafo->transform($row['author']);
+            $row['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
 
-            $question['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
-
-            $questions[] = $question;
+            $questions[] = $row;
         }
 
         return $questions;
@@ -8077,6 +8084,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $active_id = $test_obj->getActiveIdOfUser($user_id);
 
         $test_session_factory = new ilTestSessionFactory($test_obj, $ilDB, $ilUser);
+
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 

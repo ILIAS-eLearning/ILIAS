@@ -1878,6 +1878,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $f,
             $r,
             $this->data_factory,
+            $this->refinery,
             $this->url_builder,
             $this->action_parameter_token,
             $this->row_id_token,

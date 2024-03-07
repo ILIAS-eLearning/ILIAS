@@ -376,6 +376,11 @@ abstract class assQuestion
         return $this->title;
     }
 
+    public function getTitleForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->title);
+    }
+
     public function getTitleFilenameCompliant(): string
     {
         return ilFileUtils::getASCIIFilename($this->getTitle());
@@ -401,6 +406,11 @@ abstract class assQuestion
         return $this->comment;
     }
 
+    public function getDescriptionForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->comment);
+    }
+
     public function getThumbSize(): int
     {
         return $this->thumb_size;
@@ -423,6 +433,11 @@ abstract class assQuestion
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    public function getAuthorForHTMLOutput(): string
+    {
+        return $this->refinery->string()->stripTags()->transform($this->author);
     }
 
     public function getOwner(): int
