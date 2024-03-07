@@ -92,6 +92,7 @@ class ItemSetManager
         $this->applyUserFilter();
         $this->getCompleteDescriptions();
         $this->applyClassificationFilter();
+        $this->getAdditionalSubItemInformation();
         $this->applySorting();
         $this->groupItems();
         $this->sortSessions();
@@ -184,9 +185,6 @@ class ItemSetManager
                 $type = $object["type"];
             }
 
-            // this will add activation properties
-            $this->addAdditionalSubItemInformation($object);
-
             $new_key = (int) $object["child"];
             $this->rendered[$new_key] = false;
             $this->raw_by_type[$type][$new_key] = $object;
@@ -205,7 +203,14 @@ class ItemSetManager
         }
     }
 
-    protected function addAdditionalSubItemInformation(array &$object): void
+    protected function getAdditionalSubItemInformation(): void
+    {
+        foreach ($this->raw as $key => $object) {
+            $this->addAdditionalSubItemInformationToObject($this->raw[$key]);
+        }
+    }
+
+    protected function addAdditionalSubItemInformationToObject(array &$object): void
     {
         \ilObjectActivation::addAdditionalSubItemInformation($object);
     }
