@@ -398,6 +398,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
                     $this->object,
                     $ilDB,
+                    $this->refinery,
                     $ilPluginAdmin,
                     $ilCtrl,
                     $ilTabs,
@@ -1550,8 +1551,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
                 }
-                $this->tpl->setTitle($title);
-                $this->tpl->setDescription($q_gui->object->getComment());
+                $this->tpl->setTitle(
+                    strip_tags(
+                        $title,
+                        self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                    )
+                );
+                $this->tpl->setDescription(
+                    $q_gui->object->getDescriptionForHTMLOutput()
+                );
                 $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
             } else {
                 // Workaround for context issues: If no object was found, redirect without q_id parameter
@@ -1559,8 +1567,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $this->ctrl->redirect($this);
             }
         } else {
-            $this->tpl->setTitle($this->object->getTitle());
-            $this->tpl->setDescription($this->object->getLongDescription());
+            $this->tpl->setTitle(
+                strip_tags(
+                    $this->object->getTitle(),
+                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                )
+            );
+            $this->tpl->setDescription(
+                strip_tags(
+                    $this->object->getLongDescription(),
+                    self::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                )
+            );
             $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
         }
     }
@@ -1860,9 +1878,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             $this->isCommentingEnabled()
         );
         $table_gui->setEditable($writeAccess);
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-        $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+        $questionList = new ilAssQuestionList(
+            $ilDB,
+            $lng,
+            $this->refinery,
+            $ilPluginAdmin
+        );
         $questionList->setParentObjId($this->object->getId());
 
         foreach ($table_gui->getFilterItems() as $item) {
