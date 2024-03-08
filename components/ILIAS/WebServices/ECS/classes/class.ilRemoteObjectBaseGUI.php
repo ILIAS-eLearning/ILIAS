@@ -62,7 +62,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
             case strtolower(ilECSUserConsentModalGUI::class):
                 $consent_gui = new ilECSUserConsentModalGUI(
                     $this->user->getId(),
-                    $this->ref_id
+                    $this->ref_id,
+                    $this
                 );
                 $this->ctrl->setReturn($this, 'call');
                 $this->ctrl->forwardCommand($consent_gui);

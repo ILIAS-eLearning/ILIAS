@@ -66,7 +66,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ilias->raiseError($this->lng->txt('cannot_execute_test'), $this->ilias->error_obj->MESSAGE);
         }
 
-        if (ilObjTestAccess::_lookupOnlineTestAccess($this->getObject()->getId(), $this->user->getId()) !== true) {
+        if (ilObjTestAccess::_lookupOnlineTestAccess($this->getObject()->getId(), $this->user->getId()) !== true
+            || $this->object->isIpAllowedToAccessTest($_SERVER['REMOTE_ADDR']) !== true) {
             $this->ilias->raiseError($this->lng->txt('user_wrong_clientip'), $this->ilias->error_obj->MESSAGE);
         }
     }
@@ -1043,23 +1044,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     abstract protected function skipQuestionCmd();
 
     abstract protected function startTestCmd();
-
-    public function checkOnlineTestAccess()
-    {
-        $user_filtered_for_invitation = $this->object->getInvitedUsers($this->user->getId());
-        if ($user_filtered_for_invitation === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_not_invited'), true);
-            $this->ctrl->redirectByClass('ilobjtestgui', 'backToRepository');
-        }
-
-        $client_ip = $user_filtered_for_invitation['client_ip'];
-        if ($client_ip !== ''
-            && $client_ip !== $_SERVER['REMOTE_ADDR']) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('user_wrong_clientip'), true);
-            $this->ctrl->redirectByClass('ilobjtestgui', 'backToRepository');
-        }
-    }
-
 
     /**
      * test accessible returns true if the user can perform the test

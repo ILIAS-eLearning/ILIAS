@@ -257,7 +257,7 @@ class ilECSUserConsentModalGUI
     protected function initConsentForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setId(uniqid('form', true));
+        $form->setId(uniqid('form', false));
         $form->setFormAction('#');
 
         $title = new ilNonEditableValueGUI(

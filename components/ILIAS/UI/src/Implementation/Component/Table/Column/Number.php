@@ -84,4 +84,15 @@ class Number extends Column implements C\Number
         }
         return $value;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_numerical_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_numerical_descending')
+        ];
+    }
 }

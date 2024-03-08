@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Access\ParticipantAccess;
+
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
 use ILIAS\Data\Result;
@@ -54,7 +56,8 @@ class ilTestScreenGUI
         private readonly HTTPServices $http,
         private readonly ilTabsGUI $tabs,
         private readonly ilAccessHandler $access,
-        private readonly ilDBInterface $database,
+        private readonly ilTestAccess $test_access,
+        private readonly ilDBInterface $database
     ) {
         $this->ref_id = $this->object->getRefId();
         $this->main_settings = $this->object->getMainSettings();
@@ -220,10 +223,14 @@ class ilTestScreenGUI
             ;
         }
 
-        if (ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $this->user->getId()) !== true) {
+        $participant_access = $this->test_access->isParticipantAllowed(
+            $this->object->getId(),
+            $this->user->getId()
+        );
+        if ($participant_access !== ParticipantAccess::ALLOWED) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('user_wrong_clientip'), false)
+                ->withButtonLabel($this->lng->txt($participant_access->value), false)
             ;
         }
 

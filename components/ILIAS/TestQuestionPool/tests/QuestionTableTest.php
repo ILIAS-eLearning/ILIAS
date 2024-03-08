@@ -45,6 +45,7 @@ class QuestionTableTest extends assBaseTestCase
         $ui_factory = $this->createMock(UIFactory::class);
         $ui_renderer = $this->createMock(UIRenderer::class);
         $data_factory = $this->createMock(DataFactory::class);
+        $refinery = $this->createMock(ILIAS\Refinery\Factory::class);
         $url_builder = $this->createMock(URLBuilder::class);
         $action_parameter_token = $this->createMock(URLBuilderToken::class);
         $row_id_token = $this->createMock(URLBuilderToken::class);
@@ -61,6 +62,7 @@ class QuestionTableTest extends assBaseTestCase
             $ui_factory,
             $ui_renderer,
             $data_factory,
+            $refinery,
             $url_builder,
             $action_parameter_token,
             $row_id_token,

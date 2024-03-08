@@ -154,7 +154,7 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
 
     protected function doUpdateCustomFields(array &$a_fields): void
     {
-        $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
+        $a_fields["availability_type"] = array("integer", (int) $this->getAvailabilityType());
         $a_fields["availability_start"] = array("integer", (int) $this->getStartingTime());
         $a_fields["availability_end"] = array("integer", (int) $this->getEndingTime());
     }

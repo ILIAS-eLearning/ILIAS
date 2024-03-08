@@ -38,6 +38,7 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
         $this->object = new ilQuestionPoolSkillAdministrationGUI(
             $this->createMock(ILIAS::class),
             $this->createMock(ilCtrl::class),
+            $this->createMock(ILIAS\Refinery\Factory::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalTemplateInterface::class),
@@ -45,7 +46,7 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
             $this->createMock(ilObjQuestionPool::class),
-        0
+            0
         );
     }
 

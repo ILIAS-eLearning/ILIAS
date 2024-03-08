@@ -95,9 +95,9 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
     {
         switch ($cmd) {
             case 'show':
-                if (ilECSExportManager::_isRemote(
-                    ilECSImport::lookupServerId($this->obj_id),
-                    ilECSImport::_lookupEContentId($this->obj_id)
+                if (ilECSExportManager::getInstance()->_isRemote(
+                    ilECSImportManager::getInstance()->lookupServerId($this->obj_id),
+                    (int) ilECSImportManager::getInstance()->_lookupEContentId($this->obj_id)
                 )) {
                     return '_blank';
                 }

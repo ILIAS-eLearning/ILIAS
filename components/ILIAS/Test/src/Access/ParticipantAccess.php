@@ -18,20 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table\Column;
+namespace ILIAS\Test\Access;
 
-use ILIAS\UI\Component\Table\Column as C;
-
-class EMail extends Column implements C\EMail
+enum ParticipantAccess: string
 {
-    /**
-     * @return string[]
-     */
-    public function getOrderingLabels(): array
-    {
-        return [
-            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_ascending'),
-            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_descending')
-        ];
-    }
+    case ALLOWED = 'access_granted';
+    case NOT_INVITED = 'tst_user_not_invited';
+    case INDIVIDUAL_CLIENT_IP_MISMATCH = 'user_wrong_clientip';
+    case TEST_LEVEL_CLIENT_IP_MISMATCH = 'user_ip_outside_range';
 }

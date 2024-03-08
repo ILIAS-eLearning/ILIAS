@@ -34,7 +34,7 @@ class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
-        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $question_list->setParentObjId($this->object->getId());
         $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
         $question_list->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
