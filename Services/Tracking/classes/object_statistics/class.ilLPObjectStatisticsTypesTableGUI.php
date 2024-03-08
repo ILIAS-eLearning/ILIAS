@@ -138,9 +138,12 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
         // year/month
         $si = new ilSelectInputGUI($this->lng->txt("year"), "year");
-        $options = array();
-        for ($loop = 0; $loop < 4; $loop++) {
-            $year = date("Y") - $loop;
+
+        $options = [];
+        $min_year = ilTrQuery::getObjectTypeStatisticsMinYear();
+        $max_year = date('Y');
+        for ($loop = $min_year; $loop <= $max_year; $loop++) {
+            $year = $loop;
             $options[$year] = $year;
         }
         $si->setOptions($options);
