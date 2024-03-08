@@ -93,7 +93,7 @@ class ilDclFieldFactory
     public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field): ilDclBaseFieldRepresentation
     {
         // when the datatype overview is generated no field-models are available, so an empty instance is used => no caching there
-        if ($field->getId() != null && !empty(self::$field_representation_cache[$field->getId()])) {
+        if (!empty($field->getId()) && !empty(self::$field_representation_cache[$field->getId()])) {
             return self::$field_representation_cache[$field->getId()];
         }
 
