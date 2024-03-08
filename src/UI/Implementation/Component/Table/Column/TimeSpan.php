@@ -27,9 +27,13 @@ class TimeSpan extends Column implements C\TimeSpan
 {
     protected DateFormat $format;
 
-    public function __construct(string $title, DateFormat $format)
+    public function __construct(
+        \ilLanguage $lng,
+        string $title,
+        DateFormat $format
+    )
     {
-        parent::__construct($title);
+        parent::__construct($lng, $title);
         $this->format = $format;
     }
 
@@ -45,5 +49,16 @@ class TimeSpan extends Column implements C\TimeSpan
             $value[0]->format($this->getFormat()->toString())
             . ' - ' .
             $value[1]->format($this->getFormat()->toString());
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_descending')
+        ];
     }
 }

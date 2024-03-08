@@ -42,8 +42,13 @@ class ColumnFactoryTest extends AbstractFactoryTest
 
     protected function buildFactories()
     {
+        $lng = $this->getMockBuilder(\ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $lng->method('txt')->willReturnCallback(fn($v) => $v);
+
         return [
-            new \ILIAS\UI\Implementation\Component\Table\Column\Factory(),
+            new \ILIAS\UI\Implementation\Component\Table\Column\Factory($lng),
             new Data\Factory()
         ];
     }

@@ -28,16 +28,22 @@ abstract class Column implements C\Column
 {
     use ComponentHelper;
 
+    protected const SEPERATOR = ', ';
+
     protected bool $sortable = true;
     protected bool $optional = false;
     protected bool $initially_visible = true;
     protected bool $highlighted = false;
     protected int $index;
     protected string $title;
+    protected \ilLanguage $lng;
 
-    public function __construct(string $title)
-    {
+    public function __construct(
+        \ilLanguage $lng,
+        string $title
+    ) {
         $this->title = $title;
+        $this->lng = $lng;
     }
 
     public function getTitle(): string
@@ -51,8 +57,9 @@ abstract class Column implements C\Column
         return array_pop($class);
     }
 
-    public function withIsSortable(bool $flag): self
-    {
+    public function withIsSortable(
+        bool $flag
+    ): self {
         $clone = clone $this;
         $clone->sortable = $flag;
         return $clone;
@@ -61,6 +68,27 @@ abstract class Column implements C\Column
     public function isSortable(): bool
     {
         return $this->sortable;
+    }
+
+    public function withOrderingLabels(
+        string $asc_label = null,
+        string $desc_label = null
+    ): self {
+        $clone = clone $this;
+        $clone->asc_label = $asc_label;
+        $clone->desc_label = $desc_label;
+        return $clone;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_generic_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_generic_descending')
+        ];
     }
 
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self

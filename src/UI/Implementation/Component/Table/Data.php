@@ -466,16 +466,22 @@ class Data extends Table implements T\Data, JSBindable
             $this->getVisibleColumns(),
             static fn ($c): bool => $c->isSortable()
         );
-        $sort_options = [];
-        foreach ($sortable_visible_cols as $id => $col) {
-            $sort_options[$col->getTitle() . ', ' . 'ascending'] = $this->data_factory->order($id, 'ASC');
-            $sort_options[$col->getTitle() . ', ' . 'decending'] = $this->data_factory->order($id, 'DESC');
+
+        if ($sortable_visible_cols === []) {
+            return null;
         }
 
-        if ($sort_options !== []) {
-            return $this->view_control_factory->sortation($sort_options);
+        $sort_options = [];
+        foreach ($sortable_visible_cols as $col_id => $col) {
+
+            $order_asc = $this->data_factory->order($col_id, Order::ASC);
+            $order_desc = $this->data_factory->order($col_id, Order::DESC);
+
+            $labels = $col->getOrderingLabels();
+            $sort_options[$labels[0]] = $order_asc;
+            $sort_options[$labels[1]] = $order_desc;
         }
-        return null;
+        return $this->view_control_factory->sortation($sort_options);
     }
 
     protected function getViewControlFieldSelection(): ?ViewControl\FieldSelection

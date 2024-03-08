@@ -16597,6 +16597,22 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
+ui#:#order_option_alphabetical_ascending#:#A to Z
+ui#:#order_option_alphabetical_descending#:#Z to A
+ui#:#order_option_chronological_ascending#:#Earliest first
+ui#:#order_option_chronological_descending#:#Most Recent first
+ui#:#order_option_first#:#first
+ui#:#order_option_generic_ascending#:#ascending
+ui#:#order_option_generic_descending#:#descending
+ui#:#order_option_numerical_ascending#:#0 to 9
+ui#:#order_option_numerical_descending#:#9 to 0
+ui#:#presentation_table_collapse#:#collapse all
+ui#:#presentation_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

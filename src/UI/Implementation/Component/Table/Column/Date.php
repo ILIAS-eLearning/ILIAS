@@ -27,9 +27,12 @@ class Date extends Column implements C\Date
 {
     protected DateFormat $format;
 
-    public function __construct(string $title, DateFormat $format)
-    {
-        parent::__construct($title);
+    public function __construct(
+        \ilLanguage $lng,
+        string $title,
+        DateFormat $format
+    ) {
+        parent::__construct($lng, $title);
         $this->format = $format;
     }
 
@@ -42,5 +45,16 @@ class Date extends Column implements C\Date
     {
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
         return $value->format($this->getFormat()->toString());
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_descending')
+        ];
     }
 }
