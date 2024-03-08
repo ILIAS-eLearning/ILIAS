@@ -1952,7 +1952,7 @@ class ilTrQuery
             if ($row[$tree->getTreePk()] < 0) {
                 $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0) + 1;
             } else {
-                $res[$row['type']]['deleted'] = 0;
+                $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0);
             }
         }
 
