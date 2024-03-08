@@ -26,29 +26,35 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Factory implements I\Factory
 {
-    public function text(string $title): I\Text
-    {
-        return new Text($title);
+    public function __construct(
+        protected \ilLanguage $lng
+    ) {
     }
 
-    public function number(string $title): I\Number
+    public function text(string $title): I\Text
     {
-        return new Number($title);
+        return new Text($this->lng, $title);
+    }
+
+    public function number(
+        string $title
+    ): I\Number {
+        return new Number($this->lng, $title);
     }
 
     public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\Date
     {
-        return new Date($title, $format);
+        return new Date($this->lng, $title, $format);
     }
 
     public function status(string $title): I\Status
     {
-        return new Status($title);
+        return new Status($this->lng, $title);
     }
 
     public function statusIcon(string $title): I\StatusIcon
     {
-        return new StatusIcon($title);
+        return new StatusIcon($this->lng, $title);
     }
 
     public function boolean(
@@ -56,26 +62,26 @@ class Factory implements I\Factory
         string|Icon|Glyph $true,
         string|Icon|Glyph $false
     ): I\Boolean {
-        return new Boolean($title, $true, $false);
+        return new Boolean($this->lng, $title, $true, $false);
     }
 
     public function eMail(string $title): I\EMail
     {
-        return new EMail($title);
+        return new EMail($this->lng, $title);
     }
 
     public function timeSpan(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\TimeSpan
     {
-        return new TimeSpan($title, $format);
+        return new TimeSpan($this->lng, $title, $format);
     }
 
     public function link(string $title): I\Link
     {
-        return new Link($title);
+        return new Link($this->lng, $title);
     }
 
     public function linkListing(string $title): I\LinkListing
     {
-        return new LinkListing($title);
+        return new LinkListing($this->lng, $title);
     }
 }

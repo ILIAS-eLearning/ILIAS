@@ -94,7 +94,9 @@ class DataRendererTest extends TableTestBase
 
     private function getColumnFactory()
     {
-        return new I\Table\Column\Factory();
+        return new I\Table\Column\Factory(
+            $this->getLanguage()
+        );
     }
 
     private function getDummyRequest()
