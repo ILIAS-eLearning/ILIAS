@@ -583,7 +583,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $this->submission->addResourceObject($portfolio->getId());
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_created"), true);
-        $this->returnToParentObject();
+        $this->ctrl->setParameterByClass(ilObjPortfolioGUI::class, "prt_id", $portfolio->getId());
+        $this->ctrl->redirectByClass(array("ildashboardgui", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "view");
     }
 
     /**
