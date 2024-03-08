@@ -64,7 +64,11 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
      */
     public function checkValidity($value, ?int $record_id = null): bool
     {
-        $valid = parent::checkValidity($value, $record_id);
+        //mantis 30758, 36585: uniqueness for all types of fields
+
+        //dcl currently only works with integer type, when
+        //field is of type number (see ilDcldatatype::INPUTFORMAT_NUMBER)
+        $valid = parent::checkValidity((int)$value, $record_id);
 
         if (!is_numeric($value) && $value != '') {
             throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);
