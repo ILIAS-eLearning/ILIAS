@@ -23,6 +23,7 @@ namespace ILIAS\MediaPool;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaPool\Clipboard;
+use ILIAS\MediaPool\Tree\MediaPoolTree;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -61,4 +62,18 @@ class InternalDomainService
             $this->repo_service->clipboard()
         );
     }
+
+    public function mediapool(int $obj_id): MediaPoolManager
+    {
+        return new MediaPoolManager(
+            $this,
+            $obj_id
+        );
+    }
+
+    public function tree(int $mep_obj_id): MediaPoolTree
+    {
+        return new MediaPoolTree($mep_obj_id);
+    }
+
 }

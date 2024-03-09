@@ -37,6 +37,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
+    protected \ILIAS\MediaPool\InternalDomainService $domain;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ?FormAdapterGUI $bulk_upload_form = null;
     protected InternalGUIService $gui;
@@ -81,6 +82,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             ? $this->mep_request->getMode()
             : "listMedia";
         $this->gui = $DIC->mediaPool()->internal()->gui();
+        $this->domain = $DIC->mediaPool()->internal()->domain();
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
@@ -1007,59 +1009,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     {
         $this->checkPermission("write");
 
-        $ids = ilEditClipboardGUI::_getSelectedIDs();
-        $not_inserted = array();
-        foreach ($ids as $id2) {
-            $id = explode(":", $id2);
-            $type = $id[0];
-            $id = $id[1];
+        $this->domain->mediapool($this->object->getId())
+            ->copySelectedFromEditClipboard($this->mep_item_id);
 
-            if ($type === "mob") {		// media object
-                if (ilObjMediaPool::isForeignIdInTree($this->object->getId(), $id)) {
-                    $not_inserted[] = ilObject::_lookupTitle($id) . " [" .
-                        $id . "]";
-                } else {
-                    $item = new ilMediaPoolItem();
-                    $item->setType("mob");
-                    $item->setForeignId($id);
-                    $item->setTitle(ilObject::_lookupTitle($id));
-                    $item->create();
-                    if ($item->getId() > 0) {
-                        $this->object->insertInTree($item->getId(), $this->mep_item_id);
-                    }
-                }
-            }
-            if ($type === "incl") {		// content snippet
-                if (ilObjMediaPool::isItemIdInTree($this->object->getId(), $id)) {
-                    $not_inserted[] = ilMediaPoolPage::lookupTitle($id) . " [" .
-                        $id . "]";
-                } else {
-                    $original = new ilMediaPoolPage($id);
-
-                    // copy the page into the pool
-                    $item = new ilMediaPoolItem();
-                    $item->setType("pg");
-                    $item->setTitle(ilMediaPoolItem::lookupTitle($id));
-                    $item->create();
-                    if ($item->getId() > 0) {
-                        $this->object->insertInTree($item->getId(), $this->mep_item_id);
-
-                        // create page
-                        $page = new ilMediaPoolPage();
-                        $page->setId($item->getId());
-                        $page->setParentId($this->object->getId());
-                        $page->create(false);
-
-                        // copy content
-                        $original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
-                    }
-                }
-            }
-        }
+        /*
         if (count($not_inserted) > 0) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("mep_not_insert_already_exist") . "<br>" .
                 implode("<br>", $not_inserted), true);
-        }
+        }*/
         $this->ctrl->redirect($this, $this->mode);
     }
 
@@ -1924,53 +1881,22 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
     protected function paste(): void
     {
-        /** @var ilTree $target_tree */
-        $target_tree = $this->object->getTree();
-
-        // sanity check
-        $move_ids = ilSession::get("mep_move_ids");
-        if (is_array($move_ids)) {
-            foreach ($move_ids as $id) {
-                $pool_ids = ilMediaPoolItem::getPoolForItemId($id);
-
-                $parent_id = $this->mep_request->getItemId();
-                if (ilMediaPoolItem::lookupType($parent_id) !== "fold") {
-                    $parent_id = $target_tree->readRootId();
-                }
-
-                $subnodes = [];
-                foreach ($pool_ids as $pool_id) {
-                    $pool = new ilObjMediaPool($pool_id, false);
-                    $source_tree = $pool->getTree();
-
-                    // if source tree == target tree, check if target is within source tree
-                    $subnodes = $source_tree->getSubtree($source_tree->getNodeData($id));
-                    if ($pool_id == $target_tree->getTreeId()) {
-                        // check, if target is within subtree
-                        foreach ($subnodes as $subnode) {
-                            if ($subnode["child"] == $parent_id) {
-                                $this->main_tpl->setOnScreenMessage(
-                                    'failure',
-                                    $this->lng->txt("mep_target_in_source_not_allowed"),
-                                    true
-                                );
-
-                                $this->ctrl->redirect($this, "listMedia");
-                            }
-                        }
-                    }
-                    $source_tree->deleteTree($source_tree->getNodeData($id));
-                }
-
-                $target_tree->insertNode($id, $parent_id);
-                foreach ($subnodes as $node) {
-                    if ($node["child"] != $id) {
-                        $target_tree->insertNode($node["child"], $node["parent"]);
-                    }
-                }
-            }
+        $target_folder_id = $this->mep_request->getItemId();
+        $target_tree = $this->domain->tree($this->object->getId());
+        if (ilMediaPoolItem::lookupType($target_folder_id) !== "fold") {
+            $target_folder_id = $target_tree->readRootId();
         }
-        ilSession::clear("mep_move_ids");
+
+        try {
+            $this->domain->mediapool($this->object->getId())->pasteFromClipboard($target_folder_id);
+        } catch (Exception $e) {
+            $this->main_tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("mep_target_in_source_not_allowed") . " " . $e->getMessage(),
+                true
+            );
+        }
+
         $this->ctrl->redirect($this, "listMedia");
     }
 
