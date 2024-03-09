@@ -134,7 +134,7 @@ Examples:
     ...
     "chatroom": {
         ...
-        "https:" : {
+        "https" : {
             "cert" : "/etc/ssl/certs/server.pem",
             "key" : "/etc/ssl/private/server.key",
             "dhparam" : "/etc/ssl/private/dhparam.pem"
