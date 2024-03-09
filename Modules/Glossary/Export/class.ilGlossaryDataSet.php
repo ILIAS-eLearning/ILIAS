@@ -310,8 +310,8 @@ class ilGlossaryDataSet extends ilDataSet
                 $term->setGlossaryId($glo_id);
                 $term->setTerm($a_rec["Term"]);
                 $term->setLanguage($a_rec["Language"]);
-                $term->setShortText($a_rec["ShortText"]);
-                $term->setShortTextDirty($a_rec["ShortTextDirty"]);
+                $term->setShortText($a_rec["ShortText"] ?? "");
+                $term->setShortTextDirty($a_rec["ShortTextDirty"] ?? true);
                 if ($this->getCurrentInstallationId() > 0) {
                     $term->setImportId("il_" . $this->getCurrentInstallationId() . "_git_" . $a_rec["Id"]);
                 }
