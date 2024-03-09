@@ -142,11 +142,13 @@ class ilLMPresentationStatus
 
     public function getLMPresentationTitle(): string
     {
-        if ($this->offline() && $this->lang != "" && $this->lang != "-") {
+        if ($this->lang != "" && $this->lang != "-") {
             $ltitle = "";
             $ot = $this->ot;
             $data = $ot->getLanguages();
-            $ltitle = $data[$this->lang]->getTitle();
+            if (isset($data[$this->lang])) {
+                $ltitle = $data[$this->lang]->getTitle();
+            }
             if ($ltitle !== "") {
                 return $ltitle;
             }
