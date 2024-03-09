@@ -790,7 +790,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $mob_ids = $this->obj->collectMediaObjects();
         if ($mob_ids) {
             foreach ($mob_ids as $mob_id) {
-                $mob_obj = new ilObjMediaObject($mob_id);
+                $mob_obj = new ilObjMediaObject((int) $mob_id);
                 $mob_item = $mob_obj->getMediaItem("Standard");
                 if (stripos($mob_item->getFormat(), "image") !== false) {
                     $mob_size = $mob_item->getOriginalSize();
