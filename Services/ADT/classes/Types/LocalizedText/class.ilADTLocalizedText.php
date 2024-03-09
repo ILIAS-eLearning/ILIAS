@@ -55,6 +55,12 @@ class ilADTLocalizedText extends ilADTText
         return $a_def instanceof ilADTLocalizedTextDefinition;
     }
 
+    public function reset(): void
+    {
+        parent::reset();
+        $this->translations = [];
+    }
+
     /**
      * @inheritDoc
      */

@@ -34,14 +34,27 @@ use ILIAS\UI\Component\Symbol\Glyph\Glyph as GlyphInterface;
  */
 class ColumnTest extends ILIAS_UI_TestBase
 {
+    public function setUp(): void
+    {
+        $lng = $this->getMockBuilder(\ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $lng->method('txt')->willReturnCallback(fn($v) => $v);
+        $this->lng = $lng;
+    }
+
     public function testDataTableColumnsAttributes(): void
     {
-        $col = new Column\Text('col');
+        $col = new Column\Text($this->lng, 'col');
         $this->assertEquals('col', $col->getTitle());
 
         $this->assertTrue($col->isSortable());
         $this->assertFalse($col->withIsSortable(false)->isSortable());
         $this->assertTrue($col->withIsSortable(true)->isSortable());
+        $this->assertEquals([
+            'col, order_option_alphabetical_ascending',
+            'col, order_option_alphabetical_descending',
+        ], $col->getOrderingLabels());
 
         $this->assertFalse($col->isOptional());
         $this->assertTrue($col->withIsOptional(true)->isOptional());
@@ -60,7 +73,7 @@ class ColumnTest extends ILIAS_UI_TestBase
 
     public function testDataTableColumnBoolFormat(): void
     {
-        $col = new Column\Boolean('col', 'TRUE', 'FALSE');
+        $col = new Column\Boolean($this->lng, 'col', 'TRUE', 'FALSE');
         $this->assertEquals('TRUE', $col->format(true));
         $this->assertEquals('FALSE', $col->format(false));
     }
@@ -69,7 +82,7 @@ class ColumnTest extends ILIAS_UI_TestBase
     {
         $ok = new StandardIcon('', 'ok', 'small', false);
         $no = new StandardIcon('', 'notok', 'small', false);
-        $col = new Column\Boolean('col', $ok, $no);
+        $col = new Column\Boolean($this->lng, 'col', $ok, $no);
         $this->assertEquals($ok, $col->format(true));
         $this->assertEquals($no, $col->format(false));
     }
@@ -78,7 +91,7 @@ class ColumnTest extends ILIAS_UI_TestBase
     {
         $ok = new Glyph(GlyphInterface::LIKE, '');
         $no = new Glyph(GlyphInterface::DISLIKE, '');
-        $col = new Column\Boolean('col', $ok, $no);
+        $col = new Column\Boolean($this->lng, 'col', $ok, $no);
         $this->assertEquals($ok, $col->format(true));
         $this->assertEquals($no, $col->format(false));
     }
@@ -88,7 +101,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         $df = new \ILIAS\Data\Factory();
         $format = $df->dateFormat()->germanShort();
         $dat = new \DateTimeImmutable();
-        $col = new Column\Date('col', $format);
+        $col = new Column\Date($this->lng, 'col', $format);
         $this->assertEquals($dat->format($format->toString()), $col->format($dat));
     }
 
@@ -97,7 +110,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         $df = new \ILIAS\Data\Factory();
         $format = $df->dateFormat()->germanShort();
         $dat = new \DateTimeImmutable();
-        $col = new Column\Timespan('col', $format);
+        $col = new Column\Timespan($this->lng, 'col', $format);
         $this->assertEquals(
             $dat->format($format->toString()) . ' - ' . $dat->format($format->toString()),
             $col->format([$dat, $dat])
@@ -108,7 +121,7 @@ class ColumnTest extends ILIAS_UI_TestBase
     {
         $df = new \ILIAS\Data\Factory();
         $dat = new \DateTimeImmutable();
-        $col = new Column\Number('col');
+        $col = new Column\Number($this->lng, 'col');
         $this->assertEquals('1', $col->format(1));
         $col = $col->withDecimals(3);
         $this->assertEquals('1,000', $col->format(1));
@@ -120,44 +133,49 @@ class ColumnTest extends ILIAS_UI_TestBase
 
     public static function provideColumnFormats(): array
     {
+        $lng = new class () extends \ilLanguage {
+            public function __construct()
+            {
+            }
+        };
         return [
             [
-                'column' => new Column\LinkListing(''),
+                'column' => new Column\LinkListing($lng, ''),
                 'value' => new Listing\Unordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
                 'ok' => true
             ],
             [
-                'column' => new Column\LinkListing(''),
+                'column' => new Column\LinkListing($lng, ''),
                 'value' => new Listing\Unordered(['string', 'string']),
                 'ok' => false
             ],
             [
-                'column' => new Column\LinkListing(''),
+                'column' => new Column\LinkListing($lng, ''),
                 'value' => new Listing\Ordered([(new Link\Standard('label', '#')),(new Link\Standard('label', '#'))]),
                 'ok' => true
             ],
             [
-                'column' => new Column\LinkListing(''),
+                'column' => new Column\LinkListing($lng, ''),
                 'value' => 123,
                 'ok' => false
             ],
             [
-                'column' => new Column\Link(''),
+                'column' => new Column\Link($lng, ''),
                 'value' => new Link\Standard('label', '#'),
                 'ok' => true
             ],
             [
-                'column' => new Column\Link(''),
+                'column' => new Column\Link($lng, ''),
                 'value' => 'some string',
                 'ok' => false
             ],
             [
-                'column' => new Column\StatusIcon(''),
+                'column' => new Column\StatusIcon($lng, ''),
                 'value' => new StandardIcon('', '', 'small', false),
                 'ok' => true
             ],
             [
-                'column' => new Column\StatusIcon(''),
+                'column' => new Column\StatusIcon($lng, ''),
                 'value' => 'some string',
                 'ok' => false
             ],
@@ -176,6 +194,49 @@ class ColumnTest extends ILIAS_UI_TestBase
             $this->expectException(\InvalidArgumentException::class);
         }
         $this->assertEquals($value, $column->format($value));
+    }
+
+
+    public function testDataTableColumnLinkListingFormat(): void
+    {
+        $col = new Column\LinkListing($this->lng, 'col');
+        $link = new Link\Standard('label', '#');
+        $linklisting = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting, $col->format($linklisting));
+    }
+
+    public function testDataTableColumnLinkListingFormatAcceptsOnlyLinkListings(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing($this->lng, 'col');
+        $linklisting_invalid = new Link\Standard('label', '#');
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnLinkListingItemsFormatAcceptsOnlyLinks(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $col = new Column\LinkListing($this->lng, 'col');
+        $link = 'some string';
+        $linklisting_invalid = new Listing\Unordered([$link, $link, $link]);
+        $this->assertEquals($linklisting_invalid, $col->format($linklisting_invalid));
+    }
+
+    public function testDataTableColumnCustomOrderingLabels(): void
+    {
+        $col = (new Column\LinkListing($this->lng, 'col'))
+            ->withIsSortable(true)
+            ->withOrderingLabels(
+                'custom label ASC',
+                'custom label DESC',
+            );
+        $this->assertEquals(
+            [
+                'custom label ASC',
+                'custom label DESC'
+            ],
+            $col->getOrderingLabels()
+        );
     }
 
 }

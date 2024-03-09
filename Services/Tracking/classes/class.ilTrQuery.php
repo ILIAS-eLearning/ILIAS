@@ -1952,7 +1952,7 @@ class ilTrQuery
             if ($row[$tree->getTreePk()] < 0) {
                 $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0) + 1;
             } else {
-                $res[$row['type']]['deleted'] = 0;
+                $res[$row["type"]]["deleted"] = ($res[$row["type"]]["deleted"] ?? 0);
             }
         }
 
@@ -2292,5 +2292,18 @@ class ilTrQuery
         }
 
         return $res;
+    }
+
+    public static function getObjectTypeStatisticsMinYear()
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'select min(yyyy) min from obj_type_stat';
+        $res = $db->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return $row->min;
+        }
+        return date('Y');
     }
 }

@@ -78,7 +78,7 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
             $this->getViewControlFactory(),
             $this->getViewControlContainerFactory(),
             new \ILIAS\Data\Factory(),
-            new C\Table\Column\Factory(),
+            new C\Table\Column\Factory($this->getLanguage()),
             new C\Table\Action\Factory(),
             new C\Table\DataRowBuilder(),
             $this->getMockStorage()

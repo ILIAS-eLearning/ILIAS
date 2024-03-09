@@ -25,9 +25,12 @@ use ILIAS\Data\DateFormat\DateFormat;
 
 class Date extends Column implements C\Date
 {
-    public function __construct(string $title, protected DateFormat $format)
-    {
-        parent::__construct($title);
+    public function __construct(
+        \ilLanguage $lng,
+        string $title,
+        protected DateFormat $format
+    ) {
+        parent::__construct($lng, $title);
     }
 
     public function getFormat(): DateFormat
@@ -39,5 +42,16 @@ class Date extends Column implements C\Date
     {
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
         return $value->format($this->getFormat()->toString());
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOrderingLabels(): array
+    {
+        return [
+            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_ascending'),
+            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_chronological_descending')
+        ];
     }
 }
