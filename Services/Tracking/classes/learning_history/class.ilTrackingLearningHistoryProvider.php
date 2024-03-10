@@ -38,9 +38,12 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
         $entries = [];
         foreach ($completions as $c) {
             $ts = new ilDateTime($c["status_changed"], IL_CAL_DATETIME);
+            $in_txt = ilObject::_lookupType((int) $c["obj_id"]) === "crs"
+                ? $this->lng->txt("trac_lhist_obj_completed")
+                : $this->lng->txt("trac_lhist_obj_completed_in");
             $entries[] = $this->getFactory()->entry(
                 $this->lng->txt("trac_lhist_obj_completed"),
-                $this->lng->txt("trac_lhist_obj_completed_in"),
+                $in_txt,
                 ilObject::_getIcon((int) $c["obj_id"]),
                 $ts->get(IL_CAL_UNIX),
                 $c["obj_id"]
