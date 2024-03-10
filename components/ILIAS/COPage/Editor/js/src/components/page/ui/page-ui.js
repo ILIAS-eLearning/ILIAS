@@ -415,6 +415,9 @@ export default class PageUI {
         }
         event.stopPropagation();
 
+        if (this.isProtectedElement(area)) {
+          return;
+        }
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
           area.dispatchEvent(new Event('areaCmdClick'));
         } else {

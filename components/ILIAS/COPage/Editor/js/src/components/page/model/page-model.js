@@ -215,9 +215,28 @@ export default class PageModel {
     this.model.selectedItems.clear();
   }
 
+
+  isProtectedElement(curElement) {
+    do {
+      if (curElement && curElement.dataset.cname == 'Section') {
+        const secModel = this.getPCModel(curElement.dataset.pcid);
+        if (secModel && secModel.protected) {
+          return true;
+        }
+        curElement = curElement.parentNode;
+      }
+    } while (curElement && (curElement = curElement.closest("[data-cname='Section']")));
+    return false;
+  }
+
   selectAll() {
     let key;
     this.dom.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(pc_area => {
+
+      if (this.isProtectedElement(pc_area)) {
+        return;
+      }
+
       key = pc_area.dataset.hierid + ":" + pc_area.dataset.pcid;
       this.model.selectedItems.add(key);
     });
