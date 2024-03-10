@@ -103,7 +103,7 @@ class ItemPresentationManager
             if ($user->getId() !== ANONYMOUS_USER_ID &&
                 is_object($this->container) &&
                 $rbacsystem->checkAccess("write", $this->container->getRefId())) {
-                $this->can_order = true;
+                $this->can_order = (\ilContainerSortingSettings::_lookupSortMode($this->container->getId()) === \ilContainer::SORT_MANUAL);
             }
         }
         return $this->can_order;
