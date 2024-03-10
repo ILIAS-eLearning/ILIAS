@@ -130,7 +130,7 @@ class BookingProcessManager
             $check_slot_from = $this->addDaysStamp($from, $cycle * $cut);
             $check_slot_to = $this->addDaysStamp($to, $cycle * $cut);
             $available = \ilBookingReservation::getAvailableObject(array($obj_id), $check_slot_from, $check_slot_to, false, true);
-            $available = $available[$obj_id];
+            $available = $available[$obj_id] ?? 0;
             $book_nr = min($nr, $available);
             for ($loop = 0; $loop < $book_nr; $loop++) {
                 $rsv_ids[] = $this->bookSingle(
