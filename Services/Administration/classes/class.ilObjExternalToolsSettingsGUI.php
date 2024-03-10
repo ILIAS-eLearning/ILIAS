@@ -170,7 +170,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $form = $this->getMapsForm();
         if ($form->checkInput()) {
             if ($form->getInput("type") === 'openlayers' && 'openlayers' === ilMapUtil::getType()) {
-                ilMapUtil::setStdTileServers($form->getInput("title"));
+                ilMapUtil::setStdTileServers($form->getInput("tile"));
                 ilMapUtil::setStdGeolocationServer(
                     $form->getInput("geolocation")
                 );
