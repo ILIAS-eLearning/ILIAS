@@ -237,7 +237,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
         $url = $this->ctrl->getLinkTargetByClass([ilAdministrationGUI::class, ilObjSystemFolderGUI::class], 'jumpToCronJobs');
 
-        return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withButtons([
+        return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withLinks([
             $this->ui->factory()->link()->standard($this->lng->txt('adm_external_setting_edit'), $url)
         ]);
     }
