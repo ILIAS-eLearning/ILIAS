@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -26,6 +26,8 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -82,10 +84,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $component->getLabel());
+        $tpl->setVariable("LABEL", $component->getLabel());
+        if($symbol = $component->getSymbol()) {
+            if($symbol instanceof Glyph && $symbol->getAction() !== null) {
+                $symbol = $symbol->withAction('#');
+            }
+            $default_renderer = $default_renderer->withAdditionalContext($component);
+            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
+
         if ($component->isActive()) {
             // The actions might also be a list of signals, these will be appended by
             // bindJavascript in maybeRenderId.
@@ -94,14 +101,14 @@ class Renderer extends AbstractComponentRenderer
                     $action = str_replace("&amp;", "&", $action);
 
                     return "$('#$id').on('click', function(event) {
-							window.location = '$action';
-							return false;
-					});";
+                            window.location = '$action';
+                            return false;
+                    });";
                 });
             }
 
             if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()) {
-                $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
+                $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
             }
         } else {
             $tpl->touchBlock("disabled");
@@ -221,10 +228,10 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
-						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
-						return false; // stop event propagation
-				});");
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+                        il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
+                        return false; // stop event propagation
+                });");
             $tpl->setCurrentBlock("with_on_off_label");
             $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
             $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
@@ -298,7 +305,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("LANG", $lang_key);
 
-        $component = $component->withAdditionalOnLoadCode(fn ($id) => "il.UI.button.initMonth('$id');");
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable("ID", $id);

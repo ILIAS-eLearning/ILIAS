@@ -27,8 +27,12 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
     public const USE_BUTTON_CONTEXT_FOR = [
+        'StandardButton',
+        'PrimaryButton',
         'BulkyButton',
-        'BulkyLink'
+        'ShyButton',
+        'BulkyLink',
+        'ShyLink',
     ];
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer

@@ -89,6 +89,7 @@ interface Glyph extends Symbol, Clickable
 
     /**
      * Get the action on the glyph.
+     * @deprecated with 10 - use a Button with a Glyph as label
      */
     public function getAction(): ?string;
 
@@ -119,6 +120,7 @@ interface Glyph extends Symbol, Clickable
 
     /**
      * Get to know if the glyph is activated.
+     * @deprecated with 10 - use a Button with a Glyph as label
      */
     public function isActive(): bool;
 
@@ -127,11 +129,13 @@ interface Glyph extends Symbol, Clickable
      *
      * The glyph will still have an action afterwards, this might be useful
      * at some point where we want to reactivate the glyph client side.
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withUnavailableAction(): Glyph;
 
     /**
-    * Get a Glyph like this with an action.
-    */
+     * Get a Glyph like this with an action.
+     * @deprecated with 10; use a Button with a Glyph as label
+     */
     public function withAction(string $action): Glyph;
 }

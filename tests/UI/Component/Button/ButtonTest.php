@@ -25,6 +25,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\Button\Factory;
 use ILIAS\UI\Help;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 
 /**
  * Test on button implementation.
@@ -111,6 +112,18 @@ class ButtonTest extends ILIAS_UI_TestBase
 
         $this->assertEquals("label", $b->getLabel());
         $this->assertEquals("label2", $b2->getLabel());
+    }
+
+    /**
+     * @dataProvider getButtonTypeProvider
+     */
+    public function testButtonWithGlyphLabel(string $factory_method): void
+    {
+        $f = $this->getButtonFactory();
+        $glyph = new Glyph(C\Symbol\Glyph\Glyph::LIKE, '');
+        $b = $f->$factory_method('', '')
+            ->withSymbol($glyph);
+        $this->assertEquals($glyph, $b->getSymbol());
     }
 
     /**
