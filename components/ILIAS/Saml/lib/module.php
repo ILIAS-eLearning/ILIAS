@@ -18,18 +18,23 @@
 
 declare(strict_types=1);
 
-chdir(__DIR__);
+$cookie_path = dirname(str_replace($_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF']));
 
+chdir(__DIR__);
 while (!is_file('ilias.ini.php')) {
     chdir('..');
+    $cookie_path = dirname($cookie_path);
     if (getcwd() === '/') {
         die('Please ensure ILIAS is installed!');
     }
 }
+
+$cookie_path .= preg_match('@/$@', $cookie_path) ? '' : '/';
+define('IL_COOKIE_PATH', $cookie_path);
 
 require_once('libs/composer/vendor/autoload.php');
 
 ilContext::init(ilContext::CONTEXT_SAML);
 ilInitialisation::initILIAS();
 
-\ILIAS\Saml\Module::metadata();
+\ILIAS\Saml\Module::run();

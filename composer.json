@@ -514,9 +514,6 @@
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./vendor/composer/patches/phpmailer.patch"
 			},
-			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "./vendor/composer/patches/simplesamlphp.patch"
-			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./vendor/composer/patches/lti.patch"
 			}

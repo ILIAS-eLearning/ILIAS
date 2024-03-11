@@ -23,7 +23,6 @@ use ILIAS\Data\Result;
 
 final class ilSamlIdpXmlMetadataParser
 {
-    private Result $result;
     private bool $xmlErrorState = false;
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
@@ -32,7 +31,6 @@ final class ilSamlIdpXmlMetadataParser
         private readonly DataTypeFactory $dataFactory,
         private readonly ilSamlIdpXmlMetadataErrorFormatter $errorFormatter
     ) {
-        $this->result = new Result\Error('No metadata parsed, yet');
     }
 
     private function beginLogging(): void
@@ -72,7 +70,10 @@ final class ilSamlIdpXmlMetadataParser
         return $errors;
     }
 
-    public function parse(string $xmlString): void
+    /**
+     * @return Result<non-empty-string>
+     */
+    public function parse(string $xmlString): Result
     {
         try {
             $this->beginLogging();
@@ -83,19 +84,12 @@ final class ilSamlIdpXmlMetadataParser
             $xml->registerXPathNamespace('mdui', 'urn:oasis:names:tc:SAML:metadata:ui');
 
             $idps = $xml->xpath('//md:EntityDescriptor[//md:IDPSSODescriptor]');
-            $entityId = null;
-            if ($idps && is_array($idps) && isset($idps[0]) && $idps[0] instanceof SimpleXMLElement) {
-                $attributes = $idps[0]->attributes('', true);
-                if ($attributes && isset($attributes['entityID'])) {
-                    $entityId = (string) ($attributes->entityID[0] ?? '');
-                }
-            }
 
-            $errors = $this->endLogging();
+            $entity_id = ($idps[0] ?? null)?->attributes('', true)['entityID'][0] ?? '';
+            $entity_id = (string) $entity_id;
 
-            if ($entityId) {
-                $this->result = $this->dataFactory->ok($entityId);
-                return;
+            if ($entity_id !== '') {
+                return $this->ok($entity_id);
             }
 
             $error = new LibXMLError();
@@ -105,16 +99,24 @@ final class ilSamlIdpXmlMetadataParser
             $error->line = 1;
             $error->column = 0;
 
-            $errors[] = $error;
-
-            $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$errors));
+            return $this->error([$error]);
         } catch (Exception) {
-            $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging()));
+            return $this->error();
         }
     }
 
-    public function result(): Result
+    private function ok(string $entity_id): Result
     {
-        return $this->result;
+        $this->endLogging();
+
+        return $this->dataFactory->ok($entity_id);
+    }
+
+    /**
+     * @param list<LibXMLError> $additional_errors
+     */
+    private function error($additional_errors = []): Result
+    {
+        return $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging(), ...$additional_errors));
     }
 }
