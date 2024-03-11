@@ -236,7 +236,9 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = (string) $latest->getProgressTree()->getCurrentAmountOfPoints();
                 break;
             case self::DEADLINE:
-                $string = $this->date2String($latest->getProgressTree()->getDeadline());
+                $string = $latest->getProgressTree()->isInProgress() ?
+                    $this->date2String($latest->getProgressTree()->getDeadline()) : '';
+
                 break;
             case self::VALIDITY:
                 $string = '-';
