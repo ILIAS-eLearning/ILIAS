@@ -73,10 +73,10 @@ class ilUserActionGUI
         $action_collection = $this->user_action_collector->getActionsForTargetUser($target_user_id);
         $actions = [];
         foreach ($action_collection->getActions() as $action) {
-            $action_button = $this->ui_factory->button()->shy($action->getText(), $action->getHref());
+            $action_link = $this->ui_factory->link()->standard($action->getText(), $action->getHref());
             if ($action->getData() !== []) {
                 $data = $action->getData();
-                $action_button = $action_button->withAdditionalOnLoadCode(
+                $action_link = $action_link->withAdditionalOnLoadCode(
                     static function ($id) use ($data): string {
                         $js = '';
                         foreach($data as $key => $datum) {
@@ -87,7 +87,7 @@ class ilUserActionGUI
                 );
             }
 
-            $actions[] = $action_button;
+            $actions[] = $action_link;
         }
         $action_list = $this->ui_factory->dropdown()->standard($actions)
             ->withAriaLabel($this->lng->txt('user_actions'));
