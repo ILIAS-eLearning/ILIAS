@@ -263,7 +263,7 @@ final class ilSamlSettingsGUI
         $federationMdUrl = rtrim(
             ILIAS_HTTP_PATH,
             '/'
-        ) . '/components/ILIAS/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+        ) . '/metadata.php?client_id=' . CLIENT_ID;
         $info = $this->ui_factory->messageBox()->info(
             sprintf(
                 $this->lng->txt('auth_saml_idps_info'),

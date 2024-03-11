@@ -37,18 +37,13 @@ final class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         try {
             $httpValue = $this->raw($this->getPostVar());
 
-            $this->idpMetadataParser->parse($httpValue);
-            if ($this->idpMetadataParser->result()->isError()) {
-                $this->setAlert(implode(' ', [$this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR), $this->idpMetadataParser->result()->error()]));
+            $result = $this->idpMetadataParser->parse($httpValue);
+            if ($result->isError()) {
+                $this->setAlert(implode(' ', [$this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR), $result->error()]));
                 return false;
             }
 
-            if (!$this->idpMetadataParser->result()->value()) {
-                $this->setAlert($this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR));
-                return false;
-            }
-
-            $this->value = $this->stripSlashesAddSpaceFallback($this->idpMetadataParser->result()->value());
+            $this->value = $this->stripSlashesAddSpaceFallback($result->value());
         } catch (Exception) {
             $this->setAlert($this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR));
             return false;
