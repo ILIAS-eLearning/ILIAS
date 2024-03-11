@@ -1861,6 +1861,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         if ($target) {
             $credentials->setReturnTo($target);
+        } else {
+            $target = $credentials->getReturnTo();
         }
 
         $status = ilAuthStatus::getInstance();

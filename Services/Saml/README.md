@@ -78,3 +78,65 @@ See:
 
 Please change your ILIAS configuration according to the `Superglobal` behaviour described in
 the [`HTTP README`](../../src/HTTP/README.md#dropinreplacements)
+
+## Config Changes in ILIAS 9
+
+This chapter list the differences to ILIAS versions prior to ILIAS 9 for the SAML configuration files.
+Please read this chapter if you are migrating to ILIAS 9.
+
+ILIAS 9 uses simplesamlphp v2.0 (prior v1.9). For a complete list of all changes please see https://simplesamlphp.org/docs/stable/simplesamlphp-upgrade-notes-2.0.html
+
+### config.php
+
+The following changes must be made in the `$ILI_DATA/auth/saml/config/config.php`:
+
+The key `debug` is now not a boolean but an array value instead. New installations will have this value as default.
+```diff
+-    'debug' => true,
++    'debug' => [
++        'saml' => false,
++        'backtraces' => true,
++        'validatexml' => false,
++    ],
+```
+
+The key `baseurlpath` must be changed to the following. New installations will have this value as default.
+```diff
+- 'baseurlpath' => 'simplesaml/',
++ 'baseurlpath' => 'Services/saml/lib/',
+```
+
+If it does not already exist the key `module.enable` must be added with the following content. New installations will have this value as default.
+Please note that `exampleauth` and `admin` must always be `false`, as ILIAS doesn't use the admin GUI of the simplesamlphp project.
+```diff
++    'module.enable' => [
++        'exampleauth' => false,
++        'core' => true,
++        'admin' => false,
++        'saml' => true,
++    ],
+```
+
+### authsources.php
+
+The following changes must be made in the `$ILI_DATA/auth/saml/config/authsources.php`:
+
+The certificate keys `privatekey` and `certificate` are not considered *disabled* when they are set to an empty string. If they are not used, they must not be present.
+Prior to ILIAS 9 these keys where added by default as an empty string, for new installations they are now removed.
+Please also note, that one should not use SAML unencrypted in production.
+```diff
+- 'privatekey'  => '',
+- 'certificate' => '',
+```
+
+The key `NameIDPolicy` cannot be a boolean option. If it should be disabled, an empty array must be used instead. This key is not present in new installations.
+```diff
+- 'NameIDPolicy' => false,
++ 'NameIDPolicy' => [],
+```
+
+The key `NameIDPolicy` cannot be a string. It must be an array of the following format:
+```diff
+- 'NameIDPolicy' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
++ 'NameIDPolicy' => ['Format' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified'],
+```

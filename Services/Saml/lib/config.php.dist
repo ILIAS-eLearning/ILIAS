@@ -31,7 +31,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath'           => 'simplesaml/',
+    'baseurlpath'           => 'Services/saml/lib/',
     'certdir' => 'cert/',
     'loggingdir'            => '[[LOG_DIRECTORY]]',
     'datadir' => 'data/',
@@ -53,7 +53,11 @@ $config = array(
      * Note: The messages are logged with the DEBUG log level, so you also need to set
      * the 'logging.level' option to LOG_DEBUG.
      */
-    'debug' => true,
+    'debug' => [
+        'saml' => false,
+        'backtraces' => true,
+        'validatexml' => false,
+    ],
 
     /*
      * When showerrors is enabled, all error messages and stack traces will be output
@@ -238,7 +242,12 @@ $config = array(
      * ),
      *
      */
-
+    'module.enable' => [
+        'exampleauth' => false,
+        'core' => true,
+        'admin' => false,
+        'saml' => true,
+    ],
 
     /*
      * This value is the duration of the session in seconds. Make sure that the time duration of
