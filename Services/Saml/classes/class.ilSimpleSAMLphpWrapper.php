@@ -36,13 +36,9 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
         SimpleSAML\Configuration::setConfigDir($configurationPath);
         $this->config = SimpleSAML\Configuration::getInstance();
 
-        $sessionHandler = $this->config->getString('session.handler', false);
-        $storageType = $this->config->getString('store.type', false);
+        $storageType = $this->config->getString('store.type');
 
-        if (
-            $storageType === 'phpsession' || $sessionHandler === 'phpsession' ||
-            (empty($storageType) && empty($sessionHandler))
-        ) {
+        if (in_array($storageType, ['phpsession', ''], true)) {
             throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession or empty');
         }
 
