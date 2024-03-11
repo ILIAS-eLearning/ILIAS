@@ -50,8 +50,8 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_LINK', ilLink::_getLink($a_set['ref_id'], 'rcrs'));
         $this->tpl->setVariable('VAL_DESC', $a_set['desc']);
-        $this->tpl->setVariable('VAL_REMOTE', $a_set['from']);
-        $this->tpl->setVariable('VAL_REMOTE_INFO', $a_set['from_info']);
+        $this->tpl->setVariable('VAL_REMOTE', $a_set['from'] ?? '');
+        $this->tpl->setVariable('VAL_REMOTE_INFO', $a_set['from_info'] ?? '');
         $this->tpl->setVariable('TXT_EMAIL', $this->lng->txt('ecs_email'));
         $this->tpl->setVariable('TXT_DNS', $this->lng->txt('ecs_dns'));
         $this->tpl->setVariable('TXT_ABR', $this->lng->txt('ecs_abr'));
