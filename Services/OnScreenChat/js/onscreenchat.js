@@ -1395,7 +1395,7 @@
 			let i = 1;
 
 			return _participants.map(function(elm) {
-				return "&raquo; " + (i++ + ". ") + elm
+				return (i++ + ". ") + elm
 			}).join(" / ");
 		};
 	};
