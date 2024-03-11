@@ -87,13 +87,6 @@ class ilObjectCoreProperties
         return $this->update_date;
     }
 
-    public function withLastUpdateDate(DateTimeImmutable $update_date): self
-    {
-        $clone = clone $this;
-        $clone->update_date = $update_date;
-        return $clone;
-    }
-
     public function getImportId(): string
     {
         return $this->import_id ?? '';

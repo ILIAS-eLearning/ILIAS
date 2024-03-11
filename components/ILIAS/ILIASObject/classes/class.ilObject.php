@@ -601,54 +601,7 @@ class ilObject
 
     public function update(): bool
     {
-        $values = [
-            "title" => ["text", $this->getTitle()],
-            "description" => ["text", ilStr::subStr($this->getDescription(), 0, 128)],
-            "last_update" => ["date", $this->db->now()],
-            "import_id" => ["text", $this->getImportId()],
-            "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
-        ];
-
-        $where = [
-            "obj_id" => ["integer", $this->getId()]
-        ];
-
-        $this->db->update(self::TABLE_OBJECT_DATA, $values, $where);
-
-        $sql =
-            "SELECT last_update" . PHP_EOL
-            . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
-            . "WHERE obj_id = " . $this->db->quote($this->getId(), "integer") . PHP_EOL
-        ;
-        $obj_set = $this->db->query($sql);
-        $obj_rec = $this->db->fetchAssoc($obj_set);
-        $this->last_update = $obj_rec["last_update"];
-
-        if ($this->obj_definition->isRBACObject($this->getType())) {
-            // Update long description
-            $sql =
-                "SELECT obj_id, description" . PHP_EOL
-                . "FROM object_description" . PHP_EOL
-                . "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . PHP_EOL
-            ;
-            $res = $this->db->query($sql);
-
-            if ($res->numRows()) {
-                $values = [
-                    'description' => ['clob',$this->getLongDescription()]
-                ];
-                $where = [
-                    'obj_id' => ['integer',$this->getId()]
-                ];
-                $this->db->update('object_description', $values, $where);
-            } else {
-                $values = [
-                    'description' => ['clob',$this->getLongDescription()],
-                    'obj_id' => ['integer',$this->getId()]
-                ];
-                $this->db->insert('object_description', $values);
-            }
-        }
+        $this->getObjectProperties()->storeCoreProperties();
 
         $this->app_event_handler->raise(
             'components/ILIAS/ILIASObject',

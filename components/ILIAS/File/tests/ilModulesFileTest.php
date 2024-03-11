@@ -104,7 +104,10 @@ class ilModulesFileTest extends TestCase
                       ->method('fetchAssoc')
                       ->willReturnCallback(function (ilDBStatement $statement): ?array {
                           $row = $statement->fetchAssoc();
-                          $query = end($row);
+                          $query = '';
+                          if ($row !== null) {
+                              $query = end($row);
+                          }
                           if (str_contains($query, 'last_update')) {
                               return [
                                   'last_update' => '',
@@ -116,7 +119,13 @@ class ilModulesFileTest extends TestCase
                       });
 
         // Create File Object with disabled news notification
-        $file = new ilObjFile();
+        $file = $this->getMockBuilder(ilObjFile::class)
+            ->onlyMethods(['getObjectProperties', 'update'])
+            ->getMock();
+        $file->method('getObjectProperties')->willReturn(
+            $this->createMock(ilObjectProperties::class)
+        );
+
         $r = new ReflectionClass(ilObjFile::class);
         $property = $r->getProperty('just_notified');
         $property->setAccessible(true);
