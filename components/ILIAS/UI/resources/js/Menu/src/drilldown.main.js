@@ -76,6 +76,7 @@ export default class Drilldown {
    * @returns {void}
    */
   #filter(e) {
+    this.#model.engageLevel(0);
     this.#model.filter(e);
     this.#mapping.setFiltered(this.#model.getFiltered());
     e.target.focus();
