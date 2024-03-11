@@ -66,7 +66,8 @@ class Renderer extends AbstractComponentRenderer
             $tpl_name = "tpl.drilldown.html";
             $tpl = $this->getTemplate($tpl_name, true, true);
             $tpl->setVariable("ID", $id_drilldown);
-            $tpl->setVariable('LABEL', 'Filter Nodes in ' . $component->getLabel());
+            $tpl->setVariable('LABEL', sprintf($this->txt('filter_nodes_in'), $component->getLabel()));
+            $tpl->setVariable('ARIA_LABEL', $component->getLabel());
             $tpl->setVariable('ID_FILTER', $id_filter);
             $tpl->setVariable('BACKNAV', $back_button_html);
             $tpl->setVariable('DRILLDOWN', $items_html);

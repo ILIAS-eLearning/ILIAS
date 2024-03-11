@@ -97,7 +97,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             <div></div>
                             <div></div>
                             <div class="c-drilldown__filter">
-                                <label for=\'id_3\' class="control-label">Filter Nodes in ddmenu</label>
+                                <label for=\'id_3\' class="control-label">filter_nodes_in</label>
                                 <input id=\'id_3\' type="text" name=\'\' class="form-control" />
                             </div>
                             <div class="c-drilldown__backnav">
@@ -110,7 +110,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                             </div>
                         </header>
                         <div class="c-drilldown__menu">
-                            <ul></ul>
+                            <ul aria-live="polite" aria-label="ddmenu"></ul>
                         </div>
                     </div>
                 </div>
