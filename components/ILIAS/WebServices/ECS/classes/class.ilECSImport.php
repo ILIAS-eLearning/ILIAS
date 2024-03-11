@@ -64,7 +64,7 @@ class ilECSImport
         $this->imported = $a_status;
     }
 
-    public function setSubId($a_id): void
+    public function setSubId(string $a_id): void
     {
         $this->sub_id = $a_id;
     }

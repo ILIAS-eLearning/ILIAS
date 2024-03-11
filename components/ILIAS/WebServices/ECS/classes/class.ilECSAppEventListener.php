@@ -219,7 +219,7 @@ class ilECSAppEventListener implements ilAppEventListener
         $mail->enqueue($server->getUserRecipientsAsString(), "", "", $subject, $body, array());
 
         // Store sub_id = 1 in ecs import which means mail is send
-        $import->setSubId(1);
+        $import->setSubId("1");
         $import->save();
     }
 
