@@ -24,6 +24,7 @@
  * @ilCtrl_Calls ilAssSpecFeedbackPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilAssSpecFeedbackPageGUI: ilPublicUserProfileGUI, ilCommentGUI
  * @ilCtrl_Calls ilAssSpecFeedbackPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrl_IsCalledBy ilAssSpecFeedbackPageGUI: ilObjQuestionPoolGUI, ilObjTestGUI, ilRepositoryGUI, ilCommonActionDispatcherGUI
  *
  * @ingroup components\ILIASTestQuestionPool
  */
