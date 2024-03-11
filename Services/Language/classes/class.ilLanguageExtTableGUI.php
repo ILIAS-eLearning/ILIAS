@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,10 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-require_once "./Services/Table/classes/class.ilTable2GUI.php";
+declare(strict_types=1);
 
 class ilLanguageExtTableGUI extends ilTable2GUI
 {
@@ -100,7 +97,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("T_ROWS", ceil(strlen($a_set["translation"]) / $this->inputsize));
+        $this->tpl->setVariable("T_ROWS", ceil(strlen($a_set["translation"] ?? " ") / $this->inputsize));
         $this->tpl->setVariable("T_SIZE", $this->inputsize);
         $this->tpl->setVariable("T_NAME", ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"]));
         $this->tpl->setVariable("T_USER_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["translation"]));
@@ -123,9 +120,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         // most filters are only
         if (!ilObjLanguageAccess::_isPageTranslation()) {
             // pattern
-            include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI($lng->txt("search"), "pattern");
-            //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(64);
             $ti->setSize(20);
             $this->addFilterItem($ti);
@@ -139,9 +134,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
                 $options[$mod] = $mod;
             }
 
-            include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI(ucfirst($lng->txt("module")), "module");
-            //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
             $this->addFilterItem($si);
             $si->readFromSession();
@@ -150,9 +143,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             }
 
             // identifier
-            include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI(ucfirst($lng->txt("identifier")), "identifier");
-            //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(200);
             $ti->setSize(20);
             $this->addFilterItem($ti);
@@ -174,9 +165,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             }
             $options["conflicts"] = $lng->txt("language_scope_conflicts");
 
-            include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI($lng->txt("filter"), "mode");
-            //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
             $this->addFilterItem($si);
             $si->readFromSession();
@@ -192,9 +181,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             $options[$lang_key] = $lng->txt("meta_l_" . $lang_key);
         }
 
-        include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
         $si = new ilSelectInputGUI($lng->txt("language_compare"), "compare");
-        //$si->setParent($this->parent_obj);
         $si->setOptions($options);
         $this->addFilterItem($si);
         $si->readFromSession();
