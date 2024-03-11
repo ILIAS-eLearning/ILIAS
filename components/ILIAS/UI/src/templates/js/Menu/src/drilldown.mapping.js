@@ -207,10 +207,18 @@ export default class DropdownMapping {
       `.${this.#classes.MENU} > ul > .${this.#classes.MENU_BRANCH}`
     );
 
+    this.#elements.levels.forEach(
+      (e) => {
+        const eRef = e;
+        eRef.style.removeProperty('top');
+        eRef.style.removeProperty('height');
+      },
+    );
+
     leaves.forEach(
       (element) => {
         const elemRef = element;
-        elemRef.classList.remove(this.#classes.FILTERED)
+        elemRef.classList.remove(this.#classes.FILTERED);
       }
     );
 
@@ -223,6 +231,7 @@ export default class DropdownMapping {
           elemRef.classList.remove(this.#classes.FILTERED);
         }
       );
+      this.correctRightColumnPositionAndHeight('0');
       return;
     }
 

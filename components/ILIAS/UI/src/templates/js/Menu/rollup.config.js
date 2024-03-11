@@ -17,13 +17,13 @@ export default {
       jquery: '$',
       ilias: 'il',
       document: 'document'
-    }/*,
+    },
     plugins: [
       terser({
         format: {
           comments: preserveCopyright,
         }
       })
-    ]*/
+    ]
   }
 };
