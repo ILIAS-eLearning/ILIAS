@@ -425,7 +425,7 @@ class ilObjStudyProgramme extends ilContainer
         return null;
     }
 
-    public function isCertifcateActive(): bool
+    public function isCertificateActive(): bool
     {
         $global_settings = new ilSetting('certificate');
         $global_active = (bool) $global_settings->get('active', '0');
