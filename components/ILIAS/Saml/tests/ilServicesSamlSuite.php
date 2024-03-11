@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestSuite;
  * Class ilServicesSamlTestSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesSamlTestSuite extends TestSuite
+class ilServicesSamlSuite extends TestSuite
 {
     public static function suite(): self
     {

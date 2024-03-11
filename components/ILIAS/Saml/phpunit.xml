@@ -10,8 +10,8 @@
       <html outputDirectory="build/coverage" highLowerBound="80"/>
     </report>
   </coverage>
-  <testsuite name="ilServicesSamlTestSuite">
-    <file>./tests/ilServicesSamlTestSuite.php</file>
+  <testsuite name="ilServicesSamlSuite">
+    <file>./tests/ilServicesSamlSuite.php</file>
   </testsuite>
   <logging>
     <testdoxHtml outputFile="build/dox.html"/>
