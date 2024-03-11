@@ -649,7 +649,7 @@ class ilECSCourseCreationHandler
         );
 
 
-        $import->setSubId($a_sub_id);
+        $import->setSubId((string) $a_sub_id);
         $import->setMID($this->getMid());
         $import->setEContentId($a_ecs_id);
         $import->setContentId($a_content_id);
