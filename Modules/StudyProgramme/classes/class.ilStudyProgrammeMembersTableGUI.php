@@ -342,7 +342,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
             'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
         ];
-        if($this->prg->isCertifcateActive()) {
+        if($this->prg->isCertificateActive()) {
             $permissions_for_edit_individual_plan['updateCertificateMulti'] = $this->lng->txt('prg_multi_update_certificate');
             $permissions_for_edit_individual_plan['removeCertificateMulti'] = $this->lng->txt('prg_multi_remove_certificate');
         }
