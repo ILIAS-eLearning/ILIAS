@@ -3853,6 +3853,7 @@ common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to
 common#:#current_password#:#Current Password
 common#:#current_user_avatar#:#Your User Avatar
 common#:#currently_used_disk_space#:#Currently used disk space
+common#:#customize_page#:#Customize Page
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
 common#:#daily#:#daily
@@ -8095,6 +8096,7 @@ dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_page_edit_info#:#Changes to the dashboard page will apply to ALL users!
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List

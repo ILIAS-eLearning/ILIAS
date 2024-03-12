@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\UIServices;
+
 /**
  * Dashboard UI
  * @author Alexander Killing <killing@leifos.de>
@@ -30,6 +32,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
  * @ilCtrl_Calls ilDashboardGUI: ilPDMailBlockGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilDashboardPageGUI, ilDashboardPageLanguageSelectGUI
  * @ilCtrl_Calls ilDashboardGUI: ilSelectedItemsBlockGUI, ilDashboardRecommendedContentGUI, ilMembershipBlockGUI, ilDashboardLearningSequenceGUI, ilStudyProgrammeDashboardViewGUI, ilObjStudyProgrammeGUI
  *
  */
@@ -41,7 +44,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected ilSetting $settings;
-    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbac;
+    protected ilToolbarGUI $toolbar;
+    protected UIServices $ui;
     protected ilHelpGUI $help;
     public \ilGlobalTemplateInterface $tpl;
     public \ilLanguage $lng;
@@ -60,7 +65,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbac = $DIC->rbac()->review();
+        $this->toolbar = $DIC->toolbar();
+        $this->ui = $DIC->ui();
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
@@ -96,6 +103,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): void
     {
+        $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
+
         $context = $this->tool_context;
         $context->stack()->desktop();
         $ilSetting = $this->settings;
@@ -228,6 +238,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $ret = $this->ctrl->forwardCommand($gui);
                 $this->tpl->printToStdout();
                 break;
+            case strtolower(ilDashboardPageLanguageSelectGUI::class):
+                $gui = new ilDashboardPageLanguageSelectGUI();
+                $this->ctrl->forwardCommand($gui);
+                $this->tpl->printToStdout();
+                break;
             default:
                 $context->current()->addAdditionalData(self::DISENGAGE_MAINBAR, true);
                 $this->getStandardTemplates();
@@ -248,11 +263,23 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         // preload block settings
         ilBlockSetting::preloadPDBlockSettings();
 
-        $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("media/spacer.png"));
 
-        $this->tpl->setContent($this->getCenterColumnHTML());
+        $content = $this->getCenterColumnHTML();
+        if(
+            ilPageObject::_exists(ilDashboardPage::PARENT_TYPE, ilDashboardPage::ID, $this->user->getLanguage()) ||
+            ilPageObject::_exists(ilDashboardPage::PARENT_TYPE, ilDashboardPage::ID, $this->lng->getDefaultLanguage())
+        ) {
+            $content = (new ilDashboardPageGUI(ilDashboardPage::PARENT_TYPE, 0))->showPage() . $content;
+        }
+
+        if ($this->rbac->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)) {
+            $this->toolbar->addComponent($this->ui->factory()->button()->standard(
+                $this->lng->txt('customize_page'),
+                $this->ctrl->getLinkTargetByClass(ilDashboardPageLanguageSelectGUI::class, 'select')
+            ));
+        }
+        $this->tpl->setContent($content);
         $this->tpl->setRightContent($this->getRightColumnHTML());
         $this->tpl->printToStdout();
     }
