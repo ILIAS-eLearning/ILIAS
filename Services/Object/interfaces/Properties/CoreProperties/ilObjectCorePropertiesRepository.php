@@ -23,6 +23,6 @@ interface ilObjectCorePropertiesRepository
      */
     public function preload(array $ids): void;
     public function resetPreloadedData(): void;
-    public function getFor(int $object_id): ilObjectCoreProperties;
+    public function getFor(int $object_id, string $type = null): ilObjectCoreProperties;
     public function store(ilObjectCoreProperties $properties): ilObjectCoreProperties;
 }

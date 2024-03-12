@@ -58,11 +58,11 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
         $this->data_cache = [];
     }
 
-    public function getFor(?int $object_id): ilObjectCoreProperties
+    public function getFor(?int $object_id, string $type = null): ilObjectCoreProperties
     {
         if ($object_id === null
             || $object_id === 0) {
-            return $this->getDefaultCoreProperties();
+            return $this->getDefaultCoreProperties($type);
         }
 
         if (!isset($this->data_cache[$object_id])) {
@@ -170,13 +170,13 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
         );
     }
 
-    private function getDefaultCoreProperties(): ilObjectCoreProperties
+    private function getDefaultCoreProperties(?string $type): ilObjectCoreProperties
     {
-        return new ilObjectCoreProperties(
+        return (new ilObjectCoreProperties(
             new ilObjectPropertyTitleAndDescription(),
             new ilObjectPropertyIsOnline(),
             new ilObjectPropertyTileImage()
-        );
+        ))->withType($type);
     }
 
     /**

@@ -45,6 +45,15 @@ class ilObjectProperties
         return $this->core_properties->getPropertyTitleAndDescription();
     }
 
+    public function withPropertyTitleAndDescription(
+        ilObjectPropertyTitleAndDescription $property_title_and_description
+    ): self {
+        $clone = clone $this;
+        $clone->core_properties = $this->core_properties
+            ->withPropertyTitleAndDescription($property_title_and_description);
+        return $clone;
+    }
+
     public function storePropertyTitleAndDescription(
         ilObjectPropertyTitleAndDescription $property_title_and_description
     ): void {
@@ -152,7 +161,7 @@ class ilObjectProperties
     private function updateMetadataForTitleAndDescription(
         string $title,
         string $description
-    ) {
+    ): void {
         $general_metadata = $this->meta_data->getGeneral();
         if ($general_metadata === null) {
             return;

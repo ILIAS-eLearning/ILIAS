@@ -65,6 +65,13 @@ class ilObjectCoreProperties
         return $this->type;
     }
 
+    public function withType(?string $type): self
+    {
+        $clone = clone $this;
+        $clone->type = $type;
+        return $clone;
+    }
+
     public function getOwner(): ?int
     {
         return $this->owner;

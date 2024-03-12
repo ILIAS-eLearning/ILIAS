@@ -65,6 +65,9 @@ class ilModulesFileTest extends TestCase
         $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
         $DIC['lng'] = $this->createMock(ilLanguage::class);
         $DIC['ilCtrl'] = $this->createMock(ilCtrlInterface::class);
+        $DIC['refinery'] = $this->createMock(\ILIAS\Refinery\Factory::class);
+        $DIC['http'] = $this->createMock(\ILIAS\HTTP\Services::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
         /*  $DIC['ilCtrl'] = $this->getMockBuilder(ilCtrl::class)
                                 ->disableOriginalConstructor()
                                 ->disableArgumentCloning()
@@ -81,6 +84,10 @@ class ilModulesFileTest extends TestCase
         $DIC = $this->dic_backup;
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testAppendStream(): void
     {
         // DB mock
@@ -120,11 +127,9 @@ class ilModulesFileTest extends TestCase
 
         // Create File Object with disabled news notification
         $file = $this->getMockBuilder(ilObjFile::class)
-            ->onlyMethods(['getObjectProperties', 'update'])
+            ->onlyMethods(['update'])
             ->getMock();
-        $file->method('getObjectProperties')->willReturn(
-            $this->createMock(ilObjectProperties::class)
-        );
+        $file->method('update');
 
         $r = new ReflectionClass(ilObjFile::class);
         $property = $r->getProperty('just_notified');
