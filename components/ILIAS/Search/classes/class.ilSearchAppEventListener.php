@@ -50,11 +50,6 @@ class ilSearchAppEventListener implements ilAppEventListener
             $type = $a_parameter['obj_type'];
         }
 
-        if ($type != 'file' and
-            $type != 'htlm') {
-            return;
-        }
-
         switch ($a_component) {
             case 'components/ILIAS/Search':
                 if ($a_event === 'contentChanged') {
