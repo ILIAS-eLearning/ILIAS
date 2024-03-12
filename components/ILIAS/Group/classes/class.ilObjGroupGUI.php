@@ -421,6 +421,18 @@ class ilObjGroupGUI extends ilContainerGUI
         }
     }
 
+    public function enableAdministrationPanelObject(): void
+    {
+        $this->getModeManager()->setAdminMode();
+        $this->ctrl->redirect($this, "");
+    }
+
+    public function disableAdministrationPanelObject(): void
+    {
+        $this->getModeManager()->setContentMode();
+        $this->ctrl->redirect($this, "");
+    }
+
     /**
      * @inheritDoc
      */
