@@ -184,8 +184,13 @@ class ilOpenIdConnectUserSync
         $this->logger->dump($this->settings->getRoleMappings(), ilLogLevel::DEBUG);
 
         foreach ($this->settings->getRoleMappings() as $role_id => $role_info) {
-            $this->logger->dump($role_id);
-            $this->logger->dump($role_info);
+            $this->logger->dump($role_id, ilLogLevel::DEBUG);
+            $this->logger->dump($role_info, ilLogLevel::DEBUG);
+
+            if ($role_info['value'] === '') {
+                $this->logger->debug('No role mapping for role: ' . $role_id);
+                continue;
+            }
 
             [$role_attribute, $role_value] = explode('::', $role_info['value']);
 
@@ -247,6 +252,7 @@ class ilOpenIdConnectUserSync
                 null
             );
         }
+
         return $roles_assignable;
     }
 
