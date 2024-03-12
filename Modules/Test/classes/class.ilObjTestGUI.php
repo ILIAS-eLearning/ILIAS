@@ -355,6 +355,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ctrl,
                     $this->access,
                     $this->db,
+                    $this->refinery,
                     $this->user,
                     $this->lng,
                     $this->logging_services,
