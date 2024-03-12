@@ -372,12 +372,14 @@ class ilObject
      */
     public function getLongDescription(): string
     {
-        if (strlen($this->long_desc)) {
+        if ($this->long_desc !== '') {
             return $this->long_desc;
-        } elseif (strlen($this->desc)) {
+        }
+
+        if ($this->desc !== '') {
             return $this->desc;
         }
-        return "";
+        return '';
     }
 
     final public function getImportId(): string
@@ -554,6 +556,7 @@ class ilObject
         ];
 
         $this->db->insert(self::TABLE_OBJECT_DATA, $values);
+        $this->object_properties = null;
 
         if ($this->supportsOfflineHandling()) {
             $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
@@ -1576,12 +1579,13 @@ class ilObject
             $this->obj_log->debug("title incl. copy info: " . $title);
         }
 
-        // create instance
+        /** @var ilObject $new_obj */
         $new_obj = new $class_name(0, false);
         $new_obj->setOwner($ilUser->getId());
-        $new_obj->setTitle($title);
-        $new_obj->setDescription($this->getLongDescription());
-        $new_obj->setType($this->getType());
+        $new_obj->title = $title;
+        $new_obj->long_desc = $this->getLongDescription();
+        $new_obj->desc = $this->getDescription();
+        $new_obj->type = $this->getType();
 
         // Choose upload mode to avoid creation of additional settings, db entries ...
         $new_obj->create(true);
