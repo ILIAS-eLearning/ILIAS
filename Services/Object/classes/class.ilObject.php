@@ -37,7 +37,6 @@ class ilObject
     public const TABLE_OBJECT_DATA = "object_data";
 
     private ?ilObjectProperties $object_properties = null;
-    private ?ObjectReferenceProperties $object_reference_properties = null;
 
     protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
@@ -138,7 +137,7 @@ class ilObject
     public function getObjectProperties(): ilObjectProperties
     {
         if ($this->object_properties === null) {
-            $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($this->id);
+            $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($this->id, $this->type);
         }
         return $this->object_properties;
     }
@@ -339,7 +338,13 @@ class ilObject
 
     final public function setTitle(string $title): void
     {
-        $this->title = ilStr::shortenTextExtended($title, $this->max_title ?? self::TITLE_LENGTH, $this->add_dots);
+        $property = $this->getObjectProperties()->getPropertyTitleAndDescription()->withTitle(
+            ilStr::shortenTextExtended($title, $this->max_title ?? self::TITLE_LENGTH, $this->add_dots)
+        );
+
+        $this->object_properties = $this->getObjectProperties()->withPropertyTitleAndDescription($property);
+
+        $this->title = $property->getTitle();
 
         // WebDAV needs to access the untranslated title of an object
         $this->untranslatedTitle = $this->title;
@@ -350,11 +355,16 @@ class ilObject
         return $this->desc;
     }
 
-    final public function setDescription(string $desc): void
+    final public function setDescription(string $description): void
     {
+        $property = $this->getObjectProperties()
+            ->getPropertyTitleAndDescription()->withDescription($description);
+
+        $this->object_properties = $this->getObjectProperties()->withPropertyTitleAndDescription($property);
+
         // Shortened form is storted in object_data. Long form is stored in object_description
-        $this->desc = ilStr::shortenTextExtended($desc, $this->max_desc, $this->add_dots);
-        $this->long_desc = ilStr::shortenTextExtended($desc, ilObject::LONG_DESC_LENGTH);
+        $this->desc = $property->getDescription();
+        $this->long_desc = $property->getLongDescription();
     }
 
     /**

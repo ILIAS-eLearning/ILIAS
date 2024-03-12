@@ -34,9 +34,10 @@ class ilObjectPropertiesAgregator
     ) {
     }
 
-    public function getFor(int $object_id): ilObjectProperties
+    public function getFor(int $object_id, string $type = null): ilObjectProperties
     {
-        $core_properties = $this->core_properties_repository->getFor($object_id);
+        $core_properties = $this->core_properties_repository->getFor($object_id, $type);
+
         return new ilObjectProperties(
             $core_properties,
             $this->core_properties_repository,

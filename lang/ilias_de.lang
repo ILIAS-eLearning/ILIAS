@@ -17156,8 +17156,8 @@ user#:#ldoc_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
-user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Anmeldekonten
-user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Anmeldekonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht „Lesezugriff auf Anmeldekonten“, um auf lokale Anmeldekonten in Kategorien und auf die globalen Anmeldekonten zugreifen zu können.
+user#:#restrict_user_access#:#Eingeschränkte Suche in ILIAS-Konten
+user#:#restrict_user_access_info#:#ILIAS-Konten werden bei der Benutzersuche nicht mehr automatisch vervollständigt. Die Suche nach lokalen Konten wird nur vervollständigt, wenn das Recht "Lesezugriff auf Anmeldekonten" vorliegt.
 user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß, um den Versand einer E-Mail vor der Löschung des Kontos zu gewährleisten.

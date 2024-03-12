@@ -19,15 +19,57 @@ declare(strict_types=1);
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 use Sabre\DAV\INode;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
 
 require_once "./Services/WebDAV/test/webdav_overrides.php";
+require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
 
 class ilDAVContainerTest extends TestCase
 {
     use ilWebDAVCheckValidTitleTrait;
+
+    protected ?Container $dic = null;
+
+    protected function setUp(): void
+    {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+        $DIC['tree'] = $this->createMock(ilTree::class);
+        $DIC['lng'] = $this->createMock(ilLanguage::class);
+        $DIC['http'] = $this->createMock(\ILIAS\HTTP\Services::class);
+        $DIC['rbacsystem'] = $this->createMock(ilRbacSystem::class);
+        $DIC['rbacreview'] = $this->createMock(ilRbacReview::class);
+        $DIC['ilAccess'] = $this->createMock(ilAccess::class);
+        $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
+        $DIC['ilLog'] = $this->createMock(ilLogger::class);
+        $DIC['ilErr'] = $this->createMock(ilErrorHandling::class);
+        $DIC['ilUser'] = $this->createMock(ilObjUser::class);
+        $DIC['objDefinition'] = $this->createMock(ilObjectDefinition::class);
+        $DIC['ilSetting'] = $this->createMock(ilSetting::class);
+        $DIC['ilias'] = $this->createMock(ILIAS::class);
+        $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
+        $DIC['filesystem'] = $this->createMock(\ILIAS\Filesystem\Filesystems::class);
+        $DIC['upload'] = $this->createMock(\ILIAS\FileUpload\FileUpload::class);
+        $DIC['resource_storage'] = $this->createMock(\ILIAS\ResourceStorage\Services::class);
+        $DIC['refinery'] = $this->createMock(\ILIAS\Refinery\Factory::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
 
     public function testGetNameGetsObjectTitle(): void
     {
@@ -391,8 +433,13 @@ class ilDAVContainerTest extends TestCase
         }
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCreateDirectoryWithNonDavableNameThrowsForbiddenError(): void
     {
+        define('ILIAS_LOG_ENABLED', false);
         $ref_id = 7221;
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
@@ -430,7 +477,7 @@ class ilDAVContainerTest extends TestCase
         int $expects_child_ref = 1,
         bool $for_create = false
     ): ilDAVContainer {
-        $object_folder = $this->createPartialMock(ilObjFolder::class, []);
+        $object_folder = new ilObjFolder();
         $object_folder->setRefId($object_ref_id);
         $user = $this->createStub(ilObjUser::class);
         $request = $this->createStub('Psr\Http\Message\RequestInterface');
@@ -505,7 +552,7 @@ class ilDAVContainerTest extends TestCase
         );
 
         if ($for_create) {
-            $object_child = $this->createPartialMock(ilObjFolder::class, []);
+            $object_child = new ilObjFolder();
             $object_child->setType('fold');
             $dav_container = new ilDAVContainerWithOverridenGetChildCollection($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper);
             $dav_container->setChildcollection($object_child);
