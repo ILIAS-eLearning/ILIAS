@@ -74,7 +74,7 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    final public function update(): bool
+    public function update(): bool
     {
         if ($this->beforeUpdate()) {
             if (!parent::update()) {
