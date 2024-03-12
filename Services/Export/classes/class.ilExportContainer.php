@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 
 /**
  * Export Container
@@ -29,7 +31,7 @@ class ilExportContainer extends ilExport
     private string $cont_export_dir = '';
     private ?ilXmlWriter $cont_manifest_writer = null;
     private ilExportOptions $eo;
-    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
+    private LegacyArchives $archives;
 
     /**
      * Constructor
@@ -40,7 +42,7 @@ class ilExportContainer extends ilExport
         $this->eo = $eo;
         parent::__construct();
         global $DIC;
-        $this->archives = $DIC->archives();
+        $this->archives = $DIC->legacyArchives();
     }
 
     /**
@@ -118,12 +120,8 @@ class ilExportContainer extends ilExport
 
             // Unzip
             $this->archives->unzip(
-                $exp_full,
-                $this->archives
-                    ->unzipOptions()
-                    ->withOverwrite(true)
-                    ->getDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
-            )->extract();
+                $exp_full
+            );
 
             // create set directory
             ilFileUtils::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
