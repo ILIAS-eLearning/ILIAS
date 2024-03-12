@@ -17157,8 +17157,8 @@ user#:#ldoc_not_accepted_yet#:#Not accepted yet
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
-user#:#restrict_user_access#:#Restricted Access to User Accounts
-user#:#restrict_user_access_info#:#Access to local and global user accounts is restricted to roles that have the permission ‘Read Access to User Accounts’.
+user#:#restrict_user_access#:#Restricted Search in User Accounts
+user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.
 user#:#roles_without_starting_point#:#Roles without defined starting point:
 user#:#save_order#:#Save Order
 user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
