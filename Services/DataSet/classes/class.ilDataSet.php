@@ -287,14 +287,6 @@ abstract class ilDataSet
                 array("Entity" => $this->getXMLEntityName($a_entity, $a_schema_version))
             );
 
-            // entity tag
-            $a_writer->xmlStartTag(
-                $this->getXMLEntityTag($a_entity, $a_schema_version),
-                [
-                    'xmlns' => $this->getXmlNamespace($a_entity, $a_schema_version)
-                ]
-            );
-
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
                 if ($this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
@@ -329,8 +321,6 @@ abstract class ilDataSet
                 //	array(), $c);
                 $a_writer->xmlElement($f, array(), $c);
             }
-
-            $a_writer->xmlEndTag($this->getXMLEntityTag($a_entity, $a_schema_version));
 
             $a_writer->xmlEndTag($this->getDSPrefixString() . "Rec");
 
