@@ -429,7 +429,7 @@ class ilExSubmission
 
         try {
             $filearray = [];
-            ilFileUtils::processZipFile($newDir, $fileTmp, false);
+            self::processZipFile($newDir, $fileTmp, false);
             ilFileUtils::recursive_dirscan($newDir, $filearray);
 
             // #18441 - check number of files in zip
@@ -1643,5 +1643,96 @@ class ilExSubmission
         }
 
         return $participants;
+    }
+
+    public static function processZipFile(
+        string $a_directory,
+        string $a_file,
+        bool $structure
+    ): void {
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        $pathinfo = pathinfo($a_file);
+        $file = $pathinfo["basename"];
+
+        // see 22727
+        if (($pathinfo["extension"] ?? '') === '') {
+            $file .= ".zip";
+        }
+
+        // Copy zip-file to new directory, unzip and remove it
+        // TODO: check archive for broken file
+        //copy ($a_file, $a_directory . "/" . $file);
+        ilFileUtils::moveUploadedFile($a_file, $file, $a_directory . "/" . $file);
+        ilFileUtils::unzip($a_directory . "/" . $file);
+        unlink($a_directory . "/" . $file);
+        //echo "-".$a_directory . "/" . $file."-";
+        // Stores filename and paths into $filearray to check for viruses
+        // Checks if filenames can be read, else -> throw exception and leave
+        $filearray = [];
+        ilFileUtils::recursive_dirscan($a_directory, $filearray);
+
+        // if there are no files unziped (->broken file!)
+        if (empty($filearray)) {
+            throw new ilFileUtilsException(
+                $lng->txt("archive_broken"),
+                ilFileUtilsException::$BROKEN_FILE
+            );
+        }
+
+        // virus handling
+        foreach ($filearray["file"] as $key => $value) {
+            // remove "invisible" files
+            if (substr($value, 0, 1) == "." || stristr(
+                $filearray["path"][$key],
+                "/__MACOSX/"
+            )) {
+                unlink($filearray["path"][$key] . $value);
+                unset($filearray["path"][$key]);
+                unset($filearray["file"][$key]);
+                continue;
+            }
+
+            $vir = ilVirusScanner::virusHandling($filearray["path"][$key], $value);
+            if (!$vir[0]) {
+                // Unlink file and throw exception
+                unlink($filearray['path'][$key]);
+                throw new ilFileUtilsException(
+                    $lng->txt("file_is_infected") . "<br />" . $vir[1],
+                    ilFileUtilsException::$INFECTED_FILE
+                );
+            } elseif ($vir[1] != "") {
+                throw new ilFileUtilsException(
+                    $vir[1],
+                    ilFileUtilsException::$INFECTED_FILE
+                );
+            }
+        }
+
+        // If archive is to be used "flat"
+        $doublettes = '';
+        if (!$structure) {
+            foreach (array_count_values($filearray["file"]) as $key => $value) {
+                // Archive contains same filenames in different directories
+                if ($value != "1") {
+                    $doublettes .= " '" . ilFileUtils::utf8_encode($key) . "'";
+                }
+            }
+            if (strlen($doublettes) > 0) {
+                throw new ilFileUtilsException(
+                    $lng->txt("exc_upload_error") . "<br />" . $lng->txt(
+                        "zip_structure_error"
+                    ) . $doublettes,
+                    ilFileUtilsException::$DOUBLETTES_FOUND
+                );
+            }
+        } else {
+            $mac_dir = $a_directory . "/__MACOSX";
+            if (file_exists($mac_dir)) {
+                ilFileUtils::delDir($mac_dir);
+            }
+        }
     }
 }
