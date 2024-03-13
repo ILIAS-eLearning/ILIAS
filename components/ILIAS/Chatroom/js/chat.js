@@ -620,7 +620,7 @@
               }
 
               var messageSpan = $('<span class="chat content message"></span>');
-              messageSpan.text(messageSpan.text(content).text());
+              messageSpan.text(content);
               line.append($('<span class="chat content messageseparator">:</span>'))
                 .append(messageSpan);
 
