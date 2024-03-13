@@ -86,7 +86,7 @@ class UsageTable
     protected function getColumns(): array
     {
         $columns = [
-            "type_info" => $this->ui_fac->table()->column()->statusIcon($this->lng->txt("skmg_type"))
+            "type_info" => $this->ui_fac->table()->column()->status($this->lng->txt("skmg_type"))
                                         ->withIsSortable(false),
             "count" => $this->ui_fac->table()->column()->text($this->lng->txt("skmg_number"))
                                     ->withIsSortable(false)
