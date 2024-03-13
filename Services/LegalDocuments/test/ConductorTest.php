@@ -48,6 +48,8 @@ use ilCtrl;
 use ilLegalDocumentsAgreementGUI;
 use ilGlobalTemplateInterface;
 use ilObjUser;
+use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
+use ILIAS\Data\Result\Error;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -57,12 +59,12 @@ class ConductorTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Conductor::class, new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Clock::class)));
+        $this->assertInstanceOf(Conductor::class, new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Routing::class)));
     }
 
     public function testProvide(): void
     {
-        $instance = new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Routing::class));
         $this->assertInstanceOf(Provide::class, $instance->provide('foo'));
     }
 
@@ -84,7 +86,7 @@ class ConductorTest extends TestCase
             $called = true;
         });
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
         $instance->onLogout('dummy gui');
         $this->assertTrue($called);
@@ -109,7 +111,7 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'get', ['show-on-login-page', 'foo'], fn() => $components);
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
         $this->assertSame('rendered', $instance->loginPageHTML('foo'));
     }
@@ -129,7 +131,7 @@ class ConductorTest extends TestCase
             return $component;
         });
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
         $this->assertSame('rendered', $instance->logoutText());
         ;
@@ -147,7 +149,7 @@ class ConductorTest extends TestCase
         $instance = new Conductor($this->mock(Container::class), $this->mockMethod(Internal::class, 'all', ['footer'], [
             $modify_footer,
             $modify_footer,
-        ]), $this->mock(Clock::class));
+        ]), $this->mock(Routing::class));
 
         $this->assertSame($footer, $instance->modifyFooter($footer));
     }
@@ -170,6 +172,24 @@ class ConductorTest extends TestCase
         $this->assertSame('rendered', $this->agreement('agreeContent', $gui, $key));
     }
 
+    public function testRedirectAgreeContent(): void
+    {
+        $this->expectExceptionMessage('Not available.');
+        $routing = $this->mock(Routing::class);
+        $routing->expects(self::once())->method('redirectToOriginalTarget');
+        $constraint = $this->mock(Constraint::class);
+        $container = $this->mockTree(Container::class, [
+            'refinery' => ['to' => ['string' => $constraint]],
+            'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['id', $constraint], 'foo')]],
+        ]);
+        $internal = $this->mock(Internal::class);
+        $internal = $this->mockMethod(Internal::class, 'get', ['agreement-form', 'foo'], function (string $g, string $cmd): Result {
+            return new Error('Not available.');
+        });
+        $instance = new Conductor($container, $internal, $routing);
+        $instance->agreeContent(ilLegalDocumentsAgreementGUI::class, 'foo');
+    }
+
     public function testWithdraw(): void
     {
         $main_template = $this->mock(ilGlobalTemplateInterface::class);
@@ -183,7 +203,7 @@ class ConductorTest extends TestCase
             fn() => [4, 5, 6],
             fn() => [5, 6],
         ]);
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
 
         $this->assertSame(
             [1, 2, 3, 4, 7, 8, 9],
@@ -211,7 +231,7 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'all', ['constrain-internal-mail'], $constraints);
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
         $this->assertSame($series, $instance->userCanReadInternalMail());
     }
 
@@ -228,7 +248,7 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'all', ['use-soap-api'], $constraints);
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
         $this->assertInstanceOf(Transformation::class, $instance->canUseSoapApi());
     }
 
@@ -245,7 +265,7 @@ class ConductorTest extends TestCase
             }
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
 
         $instance->afterLogin();
 
@@ -260,7 +280,7 @@ class ConductorTest extends TestCase
             $this->mockTree(GotoLink::class, ['name' => 'foo', 'target' => $foo]),
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
 
         $target = $instance->findGotoLink('foo');
         $this->assertTrue($target->isOk());
@@ -277,7 +297,7 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'all', ['intercept'], $intercepting);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
         $this->assertSame($intercepting, $instance->intercepting());
     }
 
@@ -287,7 +307,7 @@ class ConductorTest extends TestCase
             $this->mock(SelfRegistration::class),
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
 
         $this->assertInstanceOf(Bundle::class, $instance->selfRegistration());
     }
@@ -299,7 +319,7 @@ class ConductorTest extends TestCase
             fn() => ['hoo' => 'har'],
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Clock::class));
+        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
 
         $this->assertSame([
             'foo' => 'bar',
@@ -341,7 +361,7 @@ class ConductorTest extends TestCase
             return new Ok($fragment);
         });
 
-        $instance = new Conductor($container, $internal, $this->mock(Clock::class));
+        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
 
         return $instance->$method($gui, 'some cmd');
     }

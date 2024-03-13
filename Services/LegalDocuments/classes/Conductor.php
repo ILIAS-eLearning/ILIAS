@@ -35,14 +35,26 @@ use ilObjUser;
 use Exception;
 use ILIAS\Data\Factory as DataFactory;
 use ilLegalDocumentsAgreementGUI;
+use ilInitialisation;
+use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
+use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
+use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
+use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 
 class Conductor
 {
     private readonly Internal $internal;
+    private readonly Routing $routing;
 
-    public function __construct(private readonly Container $container, ?Internal $internal = null)
+    public function __construct(private readonly Container $container, ?Internal $internal = null, Routing $routing = null)
     {
         $this->internal = $internal ?? $this->createInternal();
+        $this->routing = $routing ?? new Routing(
+            $this->container->ctrl(),
+            new SelectSetting(new SessionStore(), new Marshal($this->container->refinery())),
+            ilInitialisation::redirectToStartingPage(...),
+            ilStartUpGUI::logoutUrl(...)
+        );
     }
 
     public function provide(string $id): Provide
@@ -100,7 +112,13 @@ class Conductor
     public function agreeContent(string $gui, string $cmd): string
     {
         $key = ilLegalDocumentsAgreementGUI::class === $gui ? 'agreement-form' : 'public-page';
-        return $this->byQueryParams($gui, $cmd, $key)->then($this->renderPageFragment($gui, $cmd))->value();
+        $result = $this->byQueryParams($gui, $cmd, $key)->then($this->renderPageFragment($gui, $cmd));
+
+        if (!$result->isOk() && $result->error() === 'Not available.') {
+            $this->routing->redirectToOriginalTarget();
+        }
+
+        return $result->value();
     }
 
     public function withdraw(string $gui, string $cmd): void
