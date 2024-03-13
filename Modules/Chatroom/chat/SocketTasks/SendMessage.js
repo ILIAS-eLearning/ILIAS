@@ -1,18 +1,10 @@
-var Container = require('../AppContainer');
-var TextMessage = require('../Model/Messages/TextMessage');
-var TargetMessage = require('../Model/Messages/TargetMessage');
-var AccessHandler = require('../Handler/AccessHandler');
-var HTMLEscape = require('../Helper/HTMLEscape');
+const Container = require('../AppContainer');
+const TextMessage = require('../Model/Messages/TextMessage');
+const TargetMessage = require('../Model/Messages/TargetMessage');
 
 module.exports = function (data, roomId) {
-	var serverRoomId = Container.createServerRoomId(roomId);
-	var namespace = Container.getNamespace(this.nsp.name);
-
-	function messageCallbackFactory(message) {
-		return function messageCallback(socketId) {
-			namespace.getIO().to(socketId).emit('message', message);
-		};
-	}
+	const serverRoomId = Container.createServerRoomId(roomId);
+	const namespace = Container.getNamespace(this.nsp.name);
 
 	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
 	if (typeof this.subscriber === "undefined") {
@@ -21,7 +13,7 @@ module.exports = function (data, roomId) {
 	}
 
 	const subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
-	var message = {};
+	let message = {};
 
 	if (data.target !== undefined) {
 		message = TargetMessage.create(data.content, roomId, subscriber, data.format, data.target);
@@ -29,13 +21,15 @@ module.exports = function (data, roomId) {
 		if (message.target.public) {
 			namespace.getIO().in(serverRoomId).emit('message', message);
 		} else {
-			var target = namespace.getSubscriber(message.target.id);
-			var from = namespace.getSubscriber(message.from.id);
+			const target = namespace.getSubscriber(message.target.id);
+			const from = namespace.getSubscriber(message.from.id);
 
-			var emitMessageCallback = messageCallbackFactory(message);
+			const emitMessage = function (socketId) {
+				namespace.getIO().to(socketId).emit('message', message);
+			};
 
-			from.getSocketIds().forEach(emitMessageCallback);
-			target.getSocketIds().forEach(emitMessageCallback);
+			from.getSocketIds().forEach(emitMessage);
+			target.getSocketIds().forEach(emitMessage);
 		}
 	} else {
 		message = TextMessage.create(data.content, roomId, subscriber, data.format);
