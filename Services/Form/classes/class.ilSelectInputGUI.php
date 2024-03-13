@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a selection list property in a property form.
@@ -147,6 +147,12 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         foreach ($this->getCustomAttributes() as $attr) {
             $tpl->setCurrentBlock('cust_attr');
             $tpl->setVariable('CUSTOM_ATTR', $attr);
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($this->getRequired()) {
+            $tpl->setCurrentBlock('required_attribute');
+            $tpl->setVariable('REQUIRED', 'required');
             $tpl->parseCurrentBlock();
         }
 
