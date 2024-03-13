@@ -161,6 +161,12 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             $tpl->parseCurrentBlock();
         }
 
+        if ($this->getRequired()) {
+            $tpl->setCurrentBlock('required_attribute');
+            $tpl->setVariable('REQUIRED', 'required');
+            $tpl->parseCurrentBlock();
+        }
+
         // determine value to select. Due to accessibility reasons we
         // should always select a value (per default the first one)
         $first = true;
