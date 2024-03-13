@@ -225,7 +225,7 @@ class ilMediaObjectDataSet extends ilDataSet
                         " WHERE " .
                         $ilDB->in("item_id", $a_ids, false, "integer") .
                         " ORDER BY nr", true, false) as $r) {
-                        $r["Target"] = ilUtil::insertInstIntoID($r["Target"]);
+                        $r["Target"] = ilUtil::insertInstIntoID((string) ($r["Target"] ?? ""));
 
                         // see ilPageObject::insertInstIntoIDs
                         if ($r["Type"] == "RepositoryItem") {
