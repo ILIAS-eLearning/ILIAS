@@ -118,11 +118,11 @@ class ilMyStaffGUI
                     case "invite_osd": //direct chat (start conversation)
                         //do only display those actions if the displayed user is not the current user
                         if ($usr_id != $DIC->user()->getId()) {
-                            $actions[] = self::addButtonWithActionData($action);
+                            $actions[] = self::addLinkWithActionData($action);
                         }
                         break;
                     default:
-                        $actions[] = self::addButtonWithActionData($action);
+                        $actions[] = self::addLinkWithActionData($action);
                         break;
                 }
             }
@@ -131,14 +131,14 @@ class ilMyStaffGUI
         return $actions;
     }
 
-    protected static function addButtonWithActionData(ilUserAction $action): \ILIAS\UI\Component\Button\Shy
+    protected static function addLinkWithActionData(ilUserAction $action)
     {
         global $DIC;
 
         $ui_fac = $DIC->ui()->factory();
 
         $action_data = $action->getData();
-        $button = $ui_fac->button()->shy(
+        $link = $ui_fac->link()->standard(
             $action->getText(),
             $action->getHref()
         )->withAdditionalOnLoadCode(function ($id) use ($action_data) {
@@ -149,7 +149,7 @@ class ilMyStaffGUI
             return $r;
         });
 
-        return $button;
+        return $link;
     }
 
     final public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course): string
