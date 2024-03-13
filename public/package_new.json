@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "tinymce": "^6.9.1"
   },
   "devDependencies": {
   },
