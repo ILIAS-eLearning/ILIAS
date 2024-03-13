@@ -167,14 +167,13 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 }
             }
 
-            $refresh_lp = ($mode_changed || $visits_changed);
 
             // has to be done before LP refresh!
             $this->obj_lp->resetCaches();
 
             $this->obj_settings->setMode($new_mode);
             $this->obj_settings->setVisits((int) $new_visits);
-            $this->obj_settings->update($refresh_lp);
+            $this->obj_settings->update(true);
 
             if ($mode_changed &&
                 $this->obj_lp->getCollectionInstance() &&
@@ -240,11 +239,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             if ($collection && $collection->hasSelectableItems()) {
                 $collection->activateEntries($this->initItemIdsFromPost());
             }
-
-            // #15045 - has to be done before LP refresh!
-            $this->obj_lp->resetCaches();
-
             // refresh learning progress
+            $this->obj_lp->resetCaches();
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
         $this->tpl->setOnScreenMessage(
@@ -305,6 +301,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             // Assign new grouping id
             $collection->createNewGrouping($this->initItemIdsFromPost());
 
+            $this->obj_lp->resetCaches();
+
             // refresh learning progress
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
@@ -334,6 +332,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
             $collection->releaseGrouping($this->initItemIdsFromPost());
+
+            $this->obj_lp->resetCaches();
 
             // refresh learning progress
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
@@ -374,6 +374,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $collection = $this->obj_lp->getCollectionInstance();
             if ($collection && $collection->hasSelectableItems()) {
                 $collection->saveObligatoryMaterials($groups);
+
+                $this->obj_lp->resetCaches();
 
                 // refresh learning progress
                 ilLPStatusWrapper::_refreshStatus($this->getObjId());
@@ -425,6 +427,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
 
         // refresh learning progress
+        $this->obj_lp->resetCaches();
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
 
         $this->tpl->setOnScreenMessage(
