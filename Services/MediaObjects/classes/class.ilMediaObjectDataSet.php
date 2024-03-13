@@ -123,20 +123,20 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
-                        return array(
-                            "MiId" => "integer",
-                            "Nr" => "integer",
-                            "Shape" => "text",
-                            "Coords" => "text",
-                            "LinkType" => "text",
-                            "Title" => "text",
-                            "Href" => "text",
-                            "Target" => "text",
-                            "Type" => "text",
-                            "TargetFrame" => "text",
-                            "HighlightMode" => "text",
-                            "HighlightText" => "text"
-                        );
+                    return array(
+                        "MiId" => "integer",
+                        "Nr" => "integer",
+                        "Shape" => "text",
+                        "Coords" => "text",
+                        "LinkType" => "text",
+                        "Title" => "text",
+                        "Href" => "text",
+                        "Target" => "text",
+                        "Type" => "text",
+                        "TargetFrame" => "text",
+                        "HighlightMode" => "text",
+                        "HighlightText" => "text"
+                    );
             }
         }
 
@@ -146,11 +146,11 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
-                        return array(
-                            "MiId" => "integer",
-                            "Name" => "text",
-                            "Value" => "text"
-                        );
+                    return array(
+                        "MiId" => "integer",
+                        "Name" => "text",
+                        "Value" => "text"
+                    );
             }
         }
         return [];
@@ -227,7 +227,7 @@ class ilMediaObjectDataSet extends ilDataSet
                         " WHERE " .
                         $ilDB->in("item_id", $a_ids, false, "integer") .
                         " ORDER BY nr", true, false) as $r) {
-                        $r["Target"] = ilUtil::insertInstIntoID($r["Target"]);
+                        $r["Target"] = ilUtil::insertInstIntoID((string) ($r["Target"] ?? ""));
 
                         // see ilPageObject::insertInstIntoIDs
                         if ($r["Type"] == "RepositoryItem") {
