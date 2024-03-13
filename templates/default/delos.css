@@ -16776,6 +16776,13 @@ div.ilCreationFormSection .form-horizontal {
   background-color: #f3f5f8;
 }
 
+#il-add-new-item-gl {
+  max-height: initial;
+}
+#il-add-new-item-gl .row {
+  --bs-gutter-x: 0;
+}
+
 [data-onscreenchat-inact-userid] {
   opacity: 0.3 !important;
 }

@@ -60,3 +60,11 @@ div.ilCreationFormSection .form-horizontal {
         }
     }
 }
+
+#il-add-new-item-gl {
+    max-height: initial;
+
+    .row {
+        --bs-gutter-x: 0;
+    }
+}
