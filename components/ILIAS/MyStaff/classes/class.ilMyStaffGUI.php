@@ -131,7 +131,7 @@ class ilMyStaffGUI
         return $actions;
     }
 
-    protected static function addLinkWithActionData(ilUserAction $action)
+    protected static function addLinkWithActionData(ilUserAction $action): \ILIAS\UI\Component\Link\Standard
     {
         global $DIC;
 
