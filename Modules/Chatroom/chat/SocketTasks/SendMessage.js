@@ -20,10 +20,7 @@ module.exports = function (data, roomId) {
 		return;
 	}
 
-	var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
-
-	data.content = HTMLEscape.escape(data.content);
-
+	const subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
 	var message = {};
 
 	if (data.target !== undefined) {
