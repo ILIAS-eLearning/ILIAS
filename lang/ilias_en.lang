@@ -8580,6 +8580,7 @@ dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_detailed_view#:#Single
 dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module
 dcl#:#dcl_display_record_alt#:#Display this entry
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
 dcl#:#dcl_edit#:#Edit Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field

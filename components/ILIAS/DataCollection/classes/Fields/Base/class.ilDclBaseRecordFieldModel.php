@@ -111,7 +111,7 @@ class ilDclBaseRecordFieldModel
 
             $value = $this->serializeData($this->value);
 
-            if ($this->getId() == 0) {
+            if (empty($this->getId())) {
                 $this->doCreate();
             }
 

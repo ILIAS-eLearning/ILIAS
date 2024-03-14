@@ -531,15 +531,17 @@ class ilDclBaseFieldModel
     public function checkValidity($value, ?int $record_id = null): bool
     {
         //Don't check empty values
-        if ($value == null) {
+        if (!isset($value)) {
             return true;
         }
 
         if ($this->isUnique()) {
             $table = ilDclCache::getTableCache($this->getTableId());
             foreach ($table->getRecords() as $record) {
-                if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) == $this->normalizeValue($value) && ($record->getId() != $record_id || $record_id == 0)) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+                if ($record->getId() !== $record_id || $record_id === 0) {
+                    if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) === $this->normalizeValue($value)) {
+                        throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+                    }
                 }
             }
         }

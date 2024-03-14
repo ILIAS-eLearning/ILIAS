@@ -50,6 +50,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
+    /**
+     * @throws ilDclInputException
+     */
     public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
         $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
@@ -65,60 +68,22 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     }
 
     /**
-     * @param null|string $value
-     * @throws ilDclInputException
-     */
-    public function checkValidity($value, ?int $record_id = null): bool
-    {
-        $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
-        if ($has_url_property) {
-            return $this->checkValidityOfURLField($value, $record_id);
-        }
-
-        // Don't check empty values
-        if ($value === null) {
-            return true;
-        }
-
-        $this->checkRegexAndLength($value);
-
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            foreach ($table->getRecords() as $record) {
-                //for text it has to be case insensitive.
-                $record_value = $record->getRecordFieldValue($this->getId());
-
-                if (strtolower((string)$this->normalizeValue($record_value)) == strtolower((string)$this->normalizeValue(nl2br($value)))
-                    && ($record->getId() != $record_id
-                        || $record_id == 0)
-                ) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @param null|string|array $value
-     * @param int               $record_id
+     * @param null|int          $record_id
      * @return bool
      * @throws ilDclInputException
      */
     protected function checkValidityOfURLField($value, ?int $record_id): bool
     {
-        // TODO: value should always be an array with url fields, can we remove the check & json_decode?
-        if (!is_array($value)) {
-            $value = ['link' => $value, 'title' => ''];
-        }
-
         //Don't check empty values
         if (!$value['link']) {
             return true;
         }
 
-        $this->checkRegexAndLength($value['link']);
+        // TODO: value should always be an array with url fields, can we remove the check & json_decode?
+        if (!is_array($value)) {
+            $value = ['link' => $value, 'title' => ''];
+        }
 
         //check url/email
         $link = (substr($value['link'], 0, 3) === 'www') ? 'https://' . $value['link'] : $value['link'];
@@ -129,13 +94,11 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         if ($this->isUnique()) {
             $table = ilDclCache::getTableCache($this->getTableId());
             foreach ($table->getRecords() as $record) {
-                $record_value = $record->getRecordFieldValue($this->getId());
-
-                if ($record_value == $value
-                    && ($record->getId() != $record_id
-                        || !$record_id)
-                ) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+                if (($record->getId() !== $record_id) && !empty($record_id)) {
+                    $record_value = $record->getRecordFieldValue($this->getId());
+                    if (!empty($record_value['link']) && $record_value['link'] === $link) {
+                        throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
+                    }
                 }
             }
         }

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilDclFieldFactory
 {
-    public static string $field_base_path_patter = "./components/ILIAS/DataCollection/classes/Fields/%s/";
+    public static string $field_base_path_patter = "../components/ILIAS/DataCollection/classes/Fields/%s/";
     public static string $default_prefix = "ilDcl";
     public static string $record_field_class_patter = "%sRecordFieldModel";
     public static string $field_class_patter = "%sFieldModel";
@@ -93,7 +93,7 @@ class ilDclFieldFactory
     public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field): ilDclBaseFieldRepresentation
     {
         // when the datatype overview is generated no field-models are available, so an empty instance is used => no caching there
-        if ($field->getId() != null && !empty(self::$field_representation_cache[$field->getId()])) {
+        if (!empty($field->getId()) && !empty(self::$field_representation_cache[$field->getId()])) {
             return self::$field_representation_cache[$field->getId()];
         }
 
