@@ -9860,7 +9860,7 @@ forum#:#add_re_to_subject#:#Titel des Beitrags wird für Antwort mit vorangestel
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#adm_autosave_ival#:#Speicherintervall
-forum#:#adm_save_drafts#:#Entwürfe speichern
+forum#:#adm_save_drafts#:#Entwürfe aktivieren
 forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beiträge in Foren als Entwurf speichern
 forum#:#allow_file_upload_desc#:#Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden.
 forum#:#ascending_order#:#Neueste Beiträge unten
