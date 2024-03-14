@@ -189,23 +189,23 @@ class ilUserTableGUI extends ilTable2GUI
         $cols["lastname"] = [
             "txt" => $lng->txt("lastname"),
             "default" => true];
+
+        $cols["access_until"] = [
+            "txt" => $lng->txt("access_until"),
+            "default" => true];
+        $cols["last_login"] = [
+            "txt" => $lng->txt("last_login"),
+            "default" => true];
+
+        // #13967
+        $cols["create_date"] = [
+            "txt" => $lng->txt("create_date")];
+        $cols["approve_date"] = [
+            "txt" => $lng->txt("approve_date")];
+        $cols["agree_date"] = [
+            "txt" => $lng->txt("agree_date")];
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             $ufs = $up->getStandardFields();
-
-            $cols["access_until"] = [
-                "txt" => $lng->txt("access_until"),
-                "default" => true];
-            $cols["last_login"] = [
-                "txt" => $lng->txt("last_login"),
-                "default" => true];
-
-            // #13967
-            $cols["create_date"] = [
-                "txt" => $lng->txt("create_date")];
-            $cols["approve_date"] = [
-                "txt" => $lng->txt("approve_date")];
-            $cols["agree_date"] = [
-                "txt" => $lng->txt("agree_date")];
         } else {
             $ufs = $up->getLocalUserAdministrationFields();
         }
