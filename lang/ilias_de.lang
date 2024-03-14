@@ -9945,6 +9945,10 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Forum ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
+forum#:#frm_adm_sec_default_settings#:#Standard Objekt-Einstellungen
+forum#:#frm_adm_sec_drafts#:#Entwürfe
+forum#:#frm_adm_sec_features#:#Foren-Funktionalitäten
+forum#:#frm_adm_sec_notifications#:#Benachrichtigungen
 forum#:#frm_all_threads#:#Alle Themen
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
