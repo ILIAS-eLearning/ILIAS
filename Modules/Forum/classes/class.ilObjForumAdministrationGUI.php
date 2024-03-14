@@ -32,6 +32,11 @@ use ILIAS\Data\Result\Ok;
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
+    private const PROP_SECTION_DEFAULTS = 'defaults';
+    private const PROP_SECTION_FEATURES = 'features';
+    private const PROP_SECTION_NOTIFICATIONS = 'notifications';
+    private const PROP_SECTION_DRAFTS = 'drafts';
+
     private \ILIAS\DI\RBACServices $rbac;
     private ilCronManager $cronManager;
     private UIServices $ui;
@@ -50,6 +55,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->type = 'frma';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('forum');
+        $this->lng->loadLanguageModule('form');
     }
 
     public function executeCommand(): void
@@ -116,35 +122,51 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
     public function saveSettings(): void
     {
-        $this->checkPermission("write");
+        $this->checkPermission('write');
 
         $form = $this->settingsForm()->withRequest($this->request);
         $data = $form->getData();
-        $drafts_key = 'autosave_drafts';
-        if ($data === null || $this->request->getMethod() !== 'POST' || !$this->draftsValid($data[$drafts_key])) {
+        if ($data === null || $this->request->getMethod() !== 'POST') {
             $this->editSettings($form);
             return;
         }
 
-        $set_int = fn($key) => $this->settings->set($key, (string) ((int) $data[$key]));
+        $set_int = fn(string $field, string $section) => $this->settings->set(
+            $field,
+            (string) ((int) $data[$section][$field])
+        );
 
-        $data['forum_notification'] = $data['forum_notification'] || $this->forumJobActive();
+        $data[self::PROP_SECTION_NOTIFICATIONS]['forum_notification'] = (
+            $data[self::PROP_SECTION_NOTIFICATIONS]['forum_notification'] || $this->forumJobActive()
+        );
 
         array_map($set_int, [
-            'file_upload_allowed_fora',
-            'send_attachments_by_mail',
+            'forum_default_view',
+            'forum_enable_print',
             'enable_fora_statistics',
             'enable_anonymous_fora',
-            'save_post_drafts',
-            'forum_default_view',
+            'file_upload_allowed_fora',
             'forum_notification',
-            'forum_enable_print',
+            'send_attachments_by_mail',
+            'save_post_drafts',
+        ], [
+            self::PROP_SECTION_DEFAULTS,
+            self::PROP_SECTION_FEATURES,
+            self::PROP_SECTION_FEATURES,
+            self::PROP_SECTION_FEATURES,
+            self::PROP_SECTION_FEATURES,
+            self::PROP_SECTION_NOTIFICATIONS,
+            self::PROP_SECTION_NOTIFICATIONS,
+            self::PROP_SECTION_DRAFTS
         ]);
 
-        $drafts = null !== $data[$drafts_key];
+        $drafts = $data[self::PROP_SECTION_DRAFTS]['autosave_drafts'] !== null;
         $this->settings->set('autosave_drafts', (string) ((int) $drafts));
         if ($drafts) {
-            $this->settings->set('autosave_drafts_ival', (string) ((int) $data['autosave_drafts']['ival']));
+            $this->settings->set(
+                'autosave_drafts_ival',
+                (string) ((int) $data[self::PROP_SECTION_DRAFTS]['autosave_drafts']['ival'])
+            );
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
@@ -155,59 +177,126 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     {
         $field = $this->ui->factory()->input()->field();
 
-        $items = [];
-
-        $checkbox = fn($label) => $field->checkbox($this->lng->txt($label), $this->lng->txt($label . '_desc'));
-        $nice = fn($label) => sprintf('%s (%s)', $this->lng->txt('sort_by_date'), $this->lng->txt($label));
-        $to_string = static fn($x) => (string) $x;
-        $with_options = static fn($x, $options) => array_reduce(
+        $section = fn(string $label, array $inputs): \ILIAS\UI\Component\Input\Field\Section => $field->section(
+            $inputs,
+            $this->lng->txt($label)
+        );
+        $checkbox = fn(string $label): \ILIAS\UI\Component\Input\Field\Checkbox => $field->checkbox(
+            $this->lng->txt($label),
+            $this->lng->txt($label . '_desc')
+        );
+        $by_date_with_additional_info = fn(string $label): string => sprintf(
+            '%s (%s)',
+            $this->lng->txt('sort_by_date'),
+            $this->lng->txt($label)
+        );
+        $to_string = static fn($value): string => (string) $value;
+        $radio_with_options = static fn(
+            \ILIAS\UI\Component\Input\Field\Radio $x,
+            array $options
+        ): \ILIAS\UI\Component\Input\Field\Radio => array_reduce(
             $options,
-            static fn($x, $option) => $x->withOption(...array_map($to_string, $option)),
+            static fn($field, array $option) => $field->withOption(...array_map($to_string, $option)),
             $x
         );
-        $add_checkbox = function ($name, $label = null, $f = null) use (&$items, $checkbox) {
+        $checkbox = function (string $name, ?string $label = null, $f = null) use (
+            $checkbox
+        ): \ILIAS\UI\Component\Input\Field\Checkbox {
             $f = $f ?? static fn($x) => $x;
-            $items[$name] = $f($checkbox($label ?? $name)->withValue((bool) $this->settings->get($name)));
+            return $f($checkbox($label ?? $name)->withValue((bool) $this->settings->get($name)));
         };
-
-        $items['forum_default_view'] = $with_options($field->radio($this->lng->txt('frm_default_view')), [
-            [ilForumProperties::VIEW_TREE, $this->lng->txt('sort_by_posts'), $this->lng->txt('sort_by_posts_desc')],
-            [ilForumProperties::VIEW_DATE_ASC, $nice('ascending_order'), $this->lng->txt('sort_by_date_desc')],
-            [ilForumProperties::VIEW_DATE_DESC, $nice('descending_order'), $this->lng->txt('sort_by_date_desc')],
-        ])->withValue($this->settings->get('forum_default_view', (string) ilForumProperties::VIEW_DATE_ASC));
-
-        $add_checkbox('forum_enable_print', 'frm_enable_print_option');
-        $add_checkbox('enable_fora_statistics');
-        $add_checkbox('enable_anonymous_fora');
-
-        $items['file_upload_allowed_fora'] = $with_options($field->radio($this->lng->txt('file_upload_allowed_fora')), [
-            [ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED, $this->lng->txt('file_upload_option_allow'), $this->lng->txt('file_upload_option_allow_info')],
-            [ilForumProperties::FILE_UPLOAD_INDIVIDUAL, $this->lng->txt('file_upload_option_disallow'), $this->lng->txt('file_upload_allowed_fora_desc')],
-        ])->withValue($this->settings->get(
-            'file_upload_allowed_fora',
-            (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
-        ));
-
-        $add_checkbox('forum_notification', 'cron_forum_notification', fn($x) => (
-            $x->withDisabled($this->forumJobActive())
-              ->withValue($x->getValue() || $this->forumJobActive())
-              ->withByLine($this->forumByLine($x))
-        ));
-
-        $add_checkbox('send_attachments_by_mail', 'enable_send_attachments');
-        $add_checkbox('save_post_drafts', 'adm_save_drafts');
-
-        $items['autosave_drafts'] = $field->optionalGroup([
-            'ival' => $field->numeric($this->lng->txt('adm_autosave_ival'))->withRequired(true),
-        ], $this->lng->txt('adm_autosave_drafts'), $this->lng->txt('adm_autosave_drafts_desc'))->withValue(
-            $this->settings->get('autosave_drafts') ? ['ival' => $this->settings->get('autosave_drafts_ival', '30')] : null
+        $disable_if_no_permission = $this->checkPermissionBool('write') ? static fn(
+            array $fields
+        ): array => $fields : static fn(
+            array $fields
+        ): array => array_map(
+            static fn($x) => $x->withDisabled(true),
+            $fields
         );
 
-        if (!$this->checkPermissionBool('write')) {
-            $items = array_map(static fn($x) => $x->withDisabled(true), $items);
-        }
-
-        return $this->ui->factory()->input()->container()->form()->standard($this->ctrl->getFormAction($this, 'saveSettings'), $items);
+        return $this->ui->factory()->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            [
+                self::PROP_SECTION_DEFAULTS => $section('frm_adm_sec_default_settings', $disable_if_no_permission([
+                    'forum_default_view' => $radio_with_options($field->radio($this->lng->txt('frm_default_view')), [
+                        [
+                            ilForumProperties::VIEW_TREE,
+                            $this->lng->txt('sort_by_posts'),
+                            $this->lng->txt('sort_by_posts_desc')
+                        ],
+                        [
+                            ilForumProperties::VIEW_DATE_ASC,
+                            $by_date_with_additional_info('ascending_order'),
+                            $this->lng->txt('sort_by_date_desc')
+                        ],
+                        [
+                            ilForumProperties::VIEW_DATE_DESC,
+                            $by_date_with_additional_info('descending_order'),
+                            $this->lng->txt('sort_by_date_desc')
+                        ],
+                    ])->withValue($this->settings->get('forum_default_view', (string) ilForumProperties::VIEW_DATE_ASC))
+                ])),
+                self::PROP_SECTION_FEATURES => $section('frm_adm_sec_features', $disable_if_no_permission([
+                    'forum_enable_print' => $checkbox('forum_enable_print', 'frm_enable_print_option'),
+                    'enable_fora_statistics' => $checkbox('enable_fora_statistics'),
+                    'enable_anonymous_fora' => $checkbox('enable_anonymous_fora'),
+                    'file_upload_allowed_fora' => $radio_with_options(
+                        $field->radio($this->lng->txt('file_upload_allowed_fora')),
+                        [
+                            [
+                                ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED,
+                                $this->lng->txt('file_upload_option_allow'),
+                                $this->lng->txt('file_upload_option_allow_info')
+                            ],
+                            [
+                                ilForumProperties::FILE_UPLOAD_INDIVIDUAL,
+                                $this->lng->txt('file_upload_option_disallow'),
+                                $this->lng->txt('file_upload_allowed_fora_desc')
+                            ],
+                        ]
+                    )->withValue(
+                        $this->settings->get(
+                            'file_upload_allowed_fora',
+                            (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
+                        )
+                    )
+                ])),
+                self::PROP_SECTION_NOTIFICATIONS => $section('frm_adm_sec_notifications', $disable_if_no_permission([
+                    'forum_notification' => $checkbox(
+                        'forum_notification',
+                        'cron_forum_notification',
+                        fn($field) => (
+                            $field
+                            ->withDisabled($this->forumJobActive())
+                            ->withValue($field->getValue() || $this->forumJobActive())
+                            ->withByLine($this->forumByLine($field))
+                        )
+                    ),
+                    'send_attachments_by_mail' => $checkbox('send_attachments_by_mail', 'enable_send_attachments')
+                ])),
+                self::PROP_SECTION_DRAFTS => $section('frm_adm_sec_drafts', $disable_if_no_permission([
+                    'save_post_drafts' => $checkbox('save_post_drafts', 'adm_save_drafts'),
+                    'autosave_drafts' => $field->optionalGroup([
+                        'ival' => $field
+                            ->numeric($this->lng->txt('adm_autosave_ival'))
+                            ->withRequired(true)
+                            ->withAdditionalTransformation(
+                                $this->refinery->in()->series([
+                                    $this->refinery->int()->isGreaterThanOrEqual(30),
+                                    $this->refinery->int()->isLessThanOrEqual(60 * 60)
+                                ])
+                            )
+                    ], $this->lng->txt('adm_autosave_drafts'), $this->lng->txt('adm_autosave_drafts_desc'))->withValue(
+                        $this->settings->get('autosave_drafts') ? [
+                            'ival' => $this->settings->get(
+                                'autosave_drafts_ival',
+                                '30'
+                            )
+                        ] : null
+                    )
+                ])),
+            ]
+        );
     }
 
     public function addToExternalSettingsForm(int $a_form_id): array
@@ -235,36 +324,16 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $data = $gui->addToExternalSettingsForm(ilAdministrationSettingsFormHandler::FORM_FORUM);
         $data = $data['cron_jobs'][1];
 
-        $url = $this->ctrl->getLinkTargetByClass([ilAdministrationGUI::class, ilObjSystemFolderGUI::class], 'jumpToCronJobs');
+        $url = $this->ctrl->getLinkTargetByClass(
+            [ilAdministrationGUI::class, ilObjSystemFolderGUI::class],
+            'jumpToCronJobs'
+        );
 
-        return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withLinks([
-            $this->ui->factory()->link()->standard($this->lng->txt('adm_external_setting_edit'), $url)
-        ]);
-    }
-
-    /**
-     * At the time of this writing there is no equivalent to: ilNumberInputGUI::setM*Value. So this must be done manually.
-     * Additionally there is also no way to set custom / additional error messages to form inputs AFTER Form::withRequest is called,
-     * so the error message cannot be displayed with the corresponding input field.
-     *
-     * @param array{ival: int}|null
-     */
-    private function draftsValid(?array $drafts): bool
-    {
-        if ($drafts === null) {
-            return true;
-        }
-
-        $this->lng->loadLanguageModule('form');
-
-        return $this->refinery->in()->series([
-            $this->refinery->int()->isGreaterThanOrEqual(30)->withProblemBuilder(fn() => $this->lng->txt('form_msg_value_too_low')),
-            $this->refinery->int()->isLessThanOrEqual(60 * 60)->withProblemBuilder(fn() => $this->lng->txt('form_msg_value_too_high')),
-            $this->refinery->always(true),
-        ])->applyTo(new Ok($drafts['ival']))->except(function ($error) {
-            $this->tpl->setOnScreenMessage('failure', sprintf('%s: %s', $this->lng->txt('adm_autosave_drafts'), $error->getMessage()));
-            return new Ok(false);
-        })->value();
+        return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withLinks(
+            [
+                $this->ui->factory()->link()->standard($this->lng->txt('adm_external_setting_edit'), $url)
+            ]
+        );
     }
 
     private function forumJobActive(): bool
