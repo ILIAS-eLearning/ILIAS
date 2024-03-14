@@ -199,7 +199,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             static fn($field, array $option) => $field->withOption(...array_map($to_string, $option)),
             $x
         );
-        $checkbox = function (string $name, ?string $label = null, $f = null) use (
+        $checkbox_with_func = function (string $name, ?string $label = null, $f = null) use (
             $checkbox
         ): \ILIAS\UI\Component\Input\Field\Checkbox {
             $f = $f ?? static fn($x) => $x;
@@ -237,9 +237,9 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                     ])->withValue($this->settings->get('forum_default_view', (string) ilForumProperties::VIEW_DATE_ASC))
                 ])),
                 self::PROP_SECTION_FEATURES => $section('frm_adm_sec_features', $disable_if_no_permission([
-                    'forum_enable_print' => $checkbox('forum_enable_print', 'frm_enable_print_option'),
-                    'enable_fora_statistics' => $checkbox('enable_fora_statistics'),
-                    'enable_anonymous_fora' => $checkbox('enable_anonymous_fora'),
+                    'forum_enable_print' => $checkbox_with_func('forum_enable_print', 'frm_enable_print_option'),
+                    'enable_fora_statistics' => $checkbox_with_func('enable_fora_statistics'),
+                    'enable_anonymous_fora' => $checkbox_with_func('enable_anonymous_fora'),
                     'file_upload_allowed_fora' => $radio_with_options(
                         $field->radio($this->lng->txt('file_upload_allowed_fora')),
                         [
@@ -262,7 +262,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                     )
                 ])),
                 self::PROP_SECTION_NOTIFICATIONS => $section('frm_adm_sec_notifications', $disable_if_no_permission([
-                    'forum_notification' => $checkbox(
+                    'forum_notification' => $checkbox_with_func(
                         'forum_notification',
                         'cron_forum_notification',
                         fn($field) => (
@@ -272,10 +272,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                             ->withByLine($this->forumByLine($field))
                         )
                     ),
-                    'send_attachments_by_mail' => $checkbox('send_attachments_by_mail', 'enable_send_attachments')
+                    'send_attachments_by_mail' => $checkbox_with_func('send_attachments_by_mail', 'enable_send_attachments')
                 ])),
                 self::PROP_SECTION_DRAFTS => $section('frm_adm_sec_drafts', $disable_if_no_permission([
-                    'save_post_drafts' => $checkbox('save_post_drafts', 'adm_save_drafts'),
+                    'save_post_drafts' => $checkbox_with_func('save_post_drafts', 'adm_save_drafts'),
                     'autosave_drafts' => $field->optionalGroup([
                         'ival' => $field
                             ->numeric($this->lng->txt('adm_autosave_ival'))
