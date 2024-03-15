@@ -273,32 +273,30 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             return $this->$prop;
         }, $user_certificate_dto, $user_certificate_dto);
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'usr_assinged_orgus':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'usr_assinged_orgus':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'issuedOnTimestamp':
+                    $date_time = new ilDateTime($propGetter($k), IL_CAL_UNIX);
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $date_time->get(IL_CAL_DATE));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId()));
+                        $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'issuedOnTimestamp':
-                        $date_time = new ilDateTime($propGetter($k), IL_CAL_UNIX);
+                    } else {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $date_time->get(IL_CAL_DATE));
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 

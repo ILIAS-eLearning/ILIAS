@@ -241,49 +241,47 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable('user_profile_picture', $renderer->render($avatar));
         $this->tpl->parseCurrentBlock();
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'org_units':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'org_units':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'gender':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $my_staff_user->getGender()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_general':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
+                        ->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_help_offered':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
+                        ->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_help_looking':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
+                        ->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId()));
+                        $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'gender':
+                    } else {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $my_staff_user->getGender()));
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_general':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getGeneralInterestsAsText() ? $my_staff_user->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_help_offered':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getOfferingHelpAsText() ? $my_staff_user->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_help_looking':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($my_staff_user->returnIlUserObj()
-                            ->getLookingForHelpAsText() ? $my_staff_user->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 

@@ -339,36 +339,34 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             return $this->$prop;
         }, $profile, $profile);
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'usr_assinged_orgus':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'usr_assinged_orgus':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($profile->getUsrId()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'usr_reg_status':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($profile->getUsrRegStatus()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'usr_lp_status':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($profile));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getTextRepresentationOfUsersOrgUnits($profile->getUsrId()));
+                        $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'usr_reg_status':
+                    } else {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($profile->getUsrRegStatus()));
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'usr_lp_status':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($profile));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 

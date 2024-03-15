@@ -273,32 +273,30 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             return $this->$prop;
         }, $profile, $profile);
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'usr_assinged_orgus':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'usr_assinged_orgus':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable(
+                        'VALUE',
+                        $this->getTextRepresentationOfUsersOrgUnits($profile->getUserId())
+                    );
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            $this->getTextRepresentationOfUsersOrgUnits($profile->getUserId())
+                            (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
                         );
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable(
-                                'VALUE',
-                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
-                            );
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    } else {
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
+                        $this->tpl->parseCurrentBlock();
+                    }
+                    break;
             }
         }
 

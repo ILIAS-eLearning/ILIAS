@@ -213,7 +213,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         }
 
         $this->columnDefinition = $cols;
-        
+
         return $this->columnDefinition;
     }
 
@@ -262,31 +262,29 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             return $this->$prop;
         }, $profile, $profile);
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'usr_reg_status':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'usr_reg_status':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($profile->getUsrRegStatus())));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'usr_lp_status':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($profile)));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($profile->getUsrRegStatus())));
+                        $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'usr_lp_status':
+                    } else {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($profile)));
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 
