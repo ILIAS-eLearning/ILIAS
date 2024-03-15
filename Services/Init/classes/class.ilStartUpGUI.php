@@ -1516,8 +1516,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
-        $this->mainTemplate->setTitle($this->lng->txt('accept_usr_agreement'));
-        $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('accept_usr_agreement_intro'));
+        $is_read_only_view = true;
 
         $helper = new ilTermsOfServiceHelper();
         $handleDocument = $helper->isGloballyEnabled() && $this->termsOfServiceEvaluation->hasDocument();
@@ -1538,6 +1537,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                         $this->ctrl->redirectToURL('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
                     }
                 }
+
+                $this->mainTemplate->setTitle($this->lng->txt('accept_usr_agreement'));
+                $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('accept_usr_agreement_intro'));
+                $is_read_only_view = false;
 
                 $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
@@ -1566,6 +1569,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     )
                 )
             );
+        }
+
+        if ($is_read_only_view) {
+            if ($this->user->isAnonymous()) {
+                $this->lng->loadLanguageModule('tos');
+                $this->mainTemplate->setTitle($this->lng->txt('tos_accept_usr_agreement_anonymous'));
+                $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('tos_accept_usr_agreement_anonymous_intro'));
+            } else {
+                $this->mainTemplate->setTitle($this->lng->txt('usr_agreement'));
+                $this->mainTemplate->setOnScreenMessage('info', $this->lng->txt('usr_agreement_footer_intro'));
+            }
         }
 
         self::printToGlobalTemplate($tpl);
