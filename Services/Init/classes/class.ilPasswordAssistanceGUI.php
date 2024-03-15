@@ -157,33 +157,47 @@ class ilPasswordAssistanceGUI
         });
     }
 
+    private function trimIfStringTrafo(): \ILIAS\Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(static function ($value) {
+            if (is_string($value)) {
+                $value = trim($value);
+            }
+
+            return $value;
+        });
+    }
+
     private function getAssistanceForm(): ILIAS\UI\Component\Input\Container\Form\Form
     {
         $field_factory = $this->ui_factory->input()->field();
 
-        return $this->ui_factory->input()
-                                ->container()
-                                ->form()
-                                ->standard(
-                                    $this->ctrl->getFormAction($this, 'submitAssistanceForm'),
-                                    [
-                                        $field_factory->section(
-                                            [
-                                                self::PROP_USERNAME => $field_factory
-                                                    ->text($this->lng->txt('username'))
-                                                    ->withRequired(true),
-                                                self::PROP_EMAIL => $field_factory
-                                                    ->text($this->lng->txt('email'))
-                                                    ->withRequired(true)
-                                                    ->withAdditionalTransformation($this->emailTrafo()),
-                                            ],
-                                            $this->lng->txt('password_assistance'),
-                                            ''
-                                        ),
-                                    ]
-                                )
-                                ->withAdditionalTransformation($this->mergeValuesTrafo())
-                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+        return $this->ui_factory
+            ->input()
+            ->container()
+            ->form()
+            ->standard(
+                $this->ctrl->getFormAction($this, 'submitAssistanceForm'),
+                [
+                    $field_factory->section(
+                        [
+                            self::PROP_USERNAME => $field_factory
+                                ->text($this->lng->txt('username'))
+                                ->withAdditionalTransformation($this->trimIfStringTrafo())
+                                ->withRequired(true),
+                            self::PROP_EMAIL => $field_factory
+                                ->text($this->lng->txt('email'))
+                                ->withRequired(true)
+                                ->withAdditionalTransformation($this->trimIfStringTrafo())
+                                ->withAdditionalTransformation($this->emailTrafo()),
+                        ],
+                        $this->lng->txt('password_assistance'),
+                        ''
+                    ),
+                ]
+            )
+            ->withAdditionalTransformation($this->mergeValuesTrafo())
+            ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
     private function showAssistanceForm(ILIAS\UI\Component\Input\Container\Form\Form $form = null): void
@@ -406,63 +420,63 @@ class ilPasswordAssistanceGUI
             $key = $key->withValue($pwassist_id);
         }
 
-        return $this->ui_factory->input()
-                                ->container()
-                                ->form()
-                                ->standard(
-                                    $this->ctrl->getFormAction($this, 'submitAssignPasswordForm'),
-                                    [
-                                        $field_factory->section(
-                                            [
-                                                self::PROP_KEY => $key,
-                                                self::PROP_USERNAME => $field_factory
-                                                    ->text($this->lng->txt('username'))
-                                                    ->withRequired(true),
-                                                self::PROP_PASSWORD => $field_factory
-                                                    ->password(
-                                                        $this->lng->txt('password'),
-                                                        ilSecuritySettingsChecker::getPasswordRequirementsInfo()
-                                                    )
-                                                    ->withRequired(true)
-                                                    ->withRevelation(true)
-                                                    ->withAdditionalTransformation(
-                                                        $this->refinery->custom()->constraint(
-                                                            static function (ILIAS\Data\Password $value): bool {
-                                                                return (
-                                                                    ilSecuritySettingsChecker::isPassword(
-                                                                        $value->toString()
-                                                                    )
-                                                                );
-                                                            },
-                                                            static function (Closure $lng, ILIAS\Data\Password $value): string {
-                                                                $problem = $lng('passwd_invalid');
-                                                                $custom_problem = null;
-                                                                if (!ilSecuritySettingsChecker::isPassword(
-                                                                    $value->toString(),
-                                                                    $custom_problem
-                                                                )) {
-                                                                    $problem = $custom_problem;
-                                                                }
-
-                                                                return $problem;
-                                                            }
-                                                        )
-                                                    )
-                                                    ->withAdditionalTransformation(
-                                                        $this->refinery->custom()->transformation(
-                                                            static function (ILIAS\Data\Password $value): string {
-                                                                return $value->toString();
-                                                            }
-                                                        )
-                                                    ),
-                                            ],
-                                            $this->lng->txt('password_assistance'),
-                                            ''
-                                        ),
-                                    ]
+        return $this->ui_factory
+            ->input()
+            ->container()
+            ->form()
+            ->standard(
+                $this->ctrl->getFormAction($this, 'submitAssignPasswordForm'),
+                [
+                    $field_factory->section(
+                        [
+                            self::PROP_KEY => $key,
+                            self::PROP_USERNAME => $field_factory
+                                ->text($this->lng->txt('username'))
+                                ->withAdditionalTransformation($this->trimIfStringTrafo())
+                                ->withRequired(true),
+                            self::PROP_PASSWORD => $field_factory
+                                ->password(
+                                    $this->lng->txt('password'),
+                                    ilSecuritySettingsChecker::getPasswordRequirementsInfo()
                                 )
-                                ->withAdditionalTransformation($this->mergeValuesTrafo())
-                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+                                ->withRequired(true)
+                                ->withRevelation(true)
+                                ->withAdditionalTransformation(
+                                    $this->refinery->custom()->constraint(
+                                        static function (ILIAS\Data\Password $value): bool {
+                                            return ilSecuritySettingsChecker::isPassword(
+                                                trim($value->toString())
+                                            );
+                                        },
+                                        static function (Closure $lng, ILIAS\Data\Password $value): string {
+                                            $problem = $lng('passwd_invalid');
+                                            $custom_problem = null;
+                                            if (!ilSecuritySettingsChecker::isPassword(
+                                                trim($value->toString()),
+                                                $custom_problem
+                                            )) {
+                                                $problem = $custom_problem;
+                                            }
+
+                                            return $problem;
+                                        }
+                                    )
+                                )
+                                ->withAdditionalTransformation(
+                                    $this->refinery->custom()->transformation(
+                                        static function (ILIAS\Data\Password $value): string {
+                                            return trim($value->toString());
+                                        }
+                                    )
+                                ),
+                        ],
+                        $this->lng->txt('password_assistance'),
+                        ''
+                    ),
+                ]
+            )
+            ->withAdditionalTransformation($this->mergeValuesTrafo())
+            ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
     /**
@@ -624,26 +638,28 @@ class ilPasswordAssistanceGUI
     {
         $field_factory = $this->ui_factory->input()->field();
 
-        return $this->ui_factory->input()
-                                ->container()
-                                ->form()
-                                ->standard(
-                                    $this->ctrl->getFormAction($this, 'submitUsernameAssistanceForm'),
-                                    [
-                                        $field_factory->section(
-                                            [
-                                                self::PROP_EMAIL => $field_factory
-                                                    ->text($this->lng->txt('email'))
-                                                    ->withRequired(true)
-                                                    ->withAdditionalTransformation($this->emailTrafo()),
-                                            ],
-                                            $this->lng->txt('username_assistance'),
-                                            ''
-                                        ),
-                                    ]
-                                )
-                                ->withAdditionalTransformation($this->mergeValuesTrafo())
-                                ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+        return $this->ui_factory
+            ->input()
+            ->container()
+            ->form()
+            ->standard(
+                $this->ctrl->getFormAction($this, 'submitUsernameAssistanceForm'),
+                [
+                    $field_factory->section(
+                        [
+                            self::PROP_EMAIL => $field_factory
+                                ->text($this->lng->txt('email'))
+                                ->withRequired(true)
+                                ->withAdditionalTransformation($this->trimIfStringTrafo())
+                                ->withAdditionalTransformation($this->emailTrafo()),
+                        ],
+                        $this->lng->txt('username_assistance'),
+                        ''
+                    ),
+                ]
+            )
+            ->withAdditionalTransformation($this->mergeValuesTrafo())
+            ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
     private function showUsernameAssistanceForm(ILIAS\UI\Component\Input\Container\Form\Form $form = null): void
