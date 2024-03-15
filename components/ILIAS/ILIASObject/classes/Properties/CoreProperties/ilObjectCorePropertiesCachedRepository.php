@@ -136,7 +136,7 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
             'title' => [ilDBConstants::T_TEXT, $properties->getPropertyTitleAndDescription()->getTitle()],
             'description' => [ilDBConstants::T_TEXT, $properties->getPropertyTitleAndDescription()->getDescription()],
             'owner' => [ilDBConstants::T_INTEGER, $properties->getOwner()],
-            'create_date' => [ilDBConstants::T_DATETIME, $properties->getCreateDate()->format('Y-m-d H:i:s')],
+            'create_date' => [ilDBConstants::T_DATETIME, $properties->getCreateDate()?->format('Y-m-d H:i:s')],
             'last_update' => [ilDBConstants::T_DATETIME, (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d H:i:s')],
             'import_id' => [ilDBConstants::T_TEXT, $properties->getImportId()],
             'offline' => [ilDBConstants::T_INTEGER, (int) !$properties->getPropertyIsOnline()->getIsOnline()],
@@ -233,8 +233,8 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
                 'type' => $row['type'],
                 'owner' => $row['owner'],
                 'import_id' => $row['import_id'],
-                'create_date' => new DateTimeImmutable($row['create_date']),
-                'update_date' => new DateTimeImmutable($row['last_update'])
+                'create_date' => $row['create_date'] !== null ? new DateTimeImmutable($row['create_date']) : null,
+                'update_date' => $row['last_update'] !== null ? new DateTimeImmutable($row['last_update']) : null
             ];
         }
 
