@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,31 +13,35 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 
+/**
+ * Extend some more concrete implementation of @see ilPlugin depending on your
+ * plugin-slot.
+ */
 class ExamplePlugin extends ilUserInterfaceHookPlugin
 {
+    /**
+     * This method can ALWAYS replace the UI renderer, because the method is only ever
+     * invoked if a plugin is considered active.
+     */
     public function exchangeUIRendererAfterInitialization(Container $dic): Closure
     {
-        //Safe the origin renderer closure
+        // we need the previous renderer, which has possibly been exchanged, so we can
+        // wrap it by our renderer and keep the rendering chain alive.
         $renderer = $dic->raw('ui.renderer');
 
-        //return origin if plugin is not active
-        if (!$this->isActive()) {
-            return $renderer;
-        }
-
-        //else return own renderer with origin as default
-        //be aware that you can not provide the renderer itself for the closure since its state changes
-        return function () use ($dic, $renderer) {
+        return static function () use ($dic, $renderer) {
+            // create an instance of the renderer using the Closure from the container.
             return new ExampleRenderer($renderer($dic));
         };
     }
 
-    public function getPluginName()
+    public function getPluginName(): string
     {
         return "NoRealPlugin";
     }
