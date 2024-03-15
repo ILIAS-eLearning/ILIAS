@@ -56,7 +56,13 @@ final class Agreement implements AgreementInterface
 
     public function showAgreement(string $gui, string $cmd): PageFragment
     {
-        return (new PageContent($this->ui->txt('usr_agreement'), [$this->showDocument()]));
+        $title = 'accept_usr_agreement_anonymous';
+        $info = 'accept_usr_agreement_anonymous_intro';
+        if ($this->user->isLoggedIn()) {
+            $title = 'usr_agreement';
+            $info = 'usr_agreement_footer_intro';
+        }
+        return (new PageContent($this->ui->txt($title), [$this->showDocument()]))->withOnScreenMessage('info', $this->ui->txt($info));
     }
 
     public function showAgreementForm(string $gui, string $cmd): PageFragment
