@@ -307,7 +307,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
                 if ($oldQuestionSetConfig->doesQuestionSetRelatedDataExist()) {
                     if (!$isConfirmedSave) {
-                        $form->setValuesByArray($values);
+                        $form->setValuesByPost();
                         if ($oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED) {
                             $this->showConfirmation(
                                 $form,
