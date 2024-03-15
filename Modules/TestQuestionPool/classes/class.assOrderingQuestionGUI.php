@@ -474,9 +474,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $answers_gui->setCorrectnessTrueElementList(
             $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
         );
-        if (!$show_correct_solution) {
-            $answers_gui->setShowCorrectnessIconsEnabled(true);
-        }
         $solution_html = $answers_gui->getHTML();
 
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
