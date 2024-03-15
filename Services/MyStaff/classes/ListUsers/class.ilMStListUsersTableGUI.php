@@ -242,55 +242,53 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable('user_profile_picture', $this->uiRenderer->render($avatar));
         $this->tpl->parseCurrentBlock();
 
-        foreach ($this->getSelectableColumns() as $k => $v) {
-            if ($this->isColumnSelected($k)) {
-                switch ($k) {
-                    case 'org_units':
+        foreach ($this->getSelectedColumns() as $k => $v) {
+            switch ($k) {
+                case 'org_units':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable(
+                        'VALUE',
+                        $this->getTextRepresentationOfUsersOrgUnits($set->getUsrId())
+                    );
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'gender':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $set->getGender()));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_general':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
+                                                            ->getGeneralInterestsAsText() ? $set->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_help_offered':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
+                                                            ->getOfferingHelpAsText() ? $set->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'interests_help_looking':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
+                                                            ->getLookingForHelpAsText() ? $set->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                default:
+                    if ($propGetter($k) !== null) {
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            $this->getTextRepresentationOfUsersOrgUnits($set->getUsrId())
+                            (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
                         );
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'gender':
+                    } else {
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $DIC->language()->txt('gender_' . $set->getGender()));
+                        $this->tpl->setVariable('VALUE', '&nbsp;');
                         $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_general':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getGeneralInterestsAsText() ? $set->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_help_offered':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getOfferingHelpAsText() ? $set->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    case 'interests_help_looking':
-                        $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getLookingForHelpAsText() ? $set->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
-                        $this->tpl->parseCurrentBlock();
-                        break;
-                    default:
-                        if ($propGetter($k) !== null) {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable(
-                                'VALUE',
-                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
-                            );
-                            $this->tpl->parseCurrentBlock();
-                        } else {
-                            $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', '&nbsp;');
-                            $this->tpl->parseCurrentBlock();
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 
