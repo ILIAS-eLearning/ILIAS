@@ -67,18 +67,13 @@ trait QuestionPoolLinkedTitleBuilder
             return $lng->txt('tst_question_not_from_pool_info');
         }
 
-        $qpl_obj_id = $qpl_id;
-        if ($reference) {
-            $qpl_obj_id = ilObject::_lookupObjId($qpl_id);
-        }
-
         return $this->buildPossiblyLinkedTitle(
             $ctrl,
             $access,
             $lng,
             $ui_factory,
             $ui_renderer,
-            $qpl_obj_id,
+            $qpl_id,
             $title,
             \ilObjQuestionPoolGUI::class,
             $reference
@@ -91,16 +86,20 @@ trait QuestionPoolLinkedTitleBuilder
         \ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
-        int $obj_id,
+        int $qpl_id,
         string $title,
         string $target_class_type,
         bool $reference = false
     ): string {
+        $qpl_obj_id = $qpl_id;
+        if ($reference) {
+            $qpl_obj_id = ilObject::_lookupObjId($qpl_id);
+        }
         $ref_id = $this->getFirstReferenceWithCurrentUserAccess(
             $access,
             $reference,
-            $obj_id,
-            ilObject::_getAllReferences($obj_id)
+            $qpl_id,
+            ilObject::_getAllReferences($qpl_obj_id)
         );
 
         if ($ref_id === null) {
@@ -133,11 +132,11 @@ trait QuestionPoolLinkedTitleBuilder
     private function getFirstReferenceWithCurrentUserAccess(
         \ilAccessHandler $access,
         bool $reference,
-        int $obj_id,
+        int $qpl_id,
         array $all_ref_ids
     ): ?int {
-        if ($reference && $access->checkAccess('read', '', $obj_id)) {
-            return $obj_id;
+        if ($reference && $access->checkAccess('read', '', $qpl_id)) {
+            return $qpl_id;
         }
 
         $references_with_access = array_filter(
