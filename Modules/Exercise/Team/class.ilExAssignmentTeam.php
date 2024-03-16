@@ -197,11 +197,23 @@ class ilExAssignmentTeam
         // must not be in any team already
         if (!in_array($a_user_id, $this->getMembersOfAllTeams())) {
 
+            // get team status...
+            $status = $this->team_manager->getStatusForTeam($this->id);
+
             $this->repo->addUser(
                 $this->id,
                 $this->assignment_id,
                 $a_user_id
             );
+
+            // ...set status for new team member
+            $mem_stat = new ilExAssignmentMemberStatus(
+                $this->assignment_id,
+                $a_user_id
+            );
+            $mem_stat->setStatus($status);
+            $mem_stat->update();
+
 
             if ($a_exc_ref_id) {
                 $this->sendNotification($a_exc_ref_id, $a_user_id, "add");

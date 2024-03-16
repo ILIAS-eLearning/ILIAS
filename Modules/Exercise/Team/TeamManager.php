@@ -51,4 +51,21 @@ class TeamManager
     {
         return $this->repo->getTeamForMember($ass_id, $user_id);
     }
+
+    public function getStatusForTeam(int $team_id): string
+    {
+        $members = iterator_to_array($this->repo->getMembers($team_id));
+        $ass_id = $this->getAssignmentForTeam($team_id);
+        $mem_status = new \ilExAssignmentMemberStatus(
+            $ass_id,
+            current($members)->getUserId()
+        );
+        return $mem_status->getStatus();
+    }
+
+    public function getAssignmentForTeam(int $team_id): int
+    {
+        return $this->repo->getAssignmentForTeam($team_id);
+    }
+
 }

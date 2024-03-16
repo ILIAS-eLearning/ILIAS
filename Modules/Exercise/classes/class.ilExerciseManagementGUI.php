@@ -1452,7 +1452,6 @@ class ilExerciseManagementGUI
         bool $a_redirect = true
     ): void {
         $ilCtrl = $this->ctrl;
-
         $saved_for = array();
         foreach ($a_data as $ass_id => $users) {
             $ass = ($ass_id < 0)
@@ -1460,6 +1459,8 @@ class ilExerciseManagementGUI
                 : new ilExAssignment($ass_id);
             foreach ($users as $user_id => $values) {
                 // this will add team members if available
+                // $user_id is only the ID of one team member here,
+                // $sub_user_id will be all team members
                 $submission = new ilExSubmission($ass, $user_id);
                 foreach ($submission->getUserIds() as $sub_user_id) {
                     $uname = ilObjUser::_lookupName($sub_user_id);

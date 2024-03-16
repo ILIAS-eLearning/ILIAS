@@ -1,5 +1,8 @@
 # Change Log
 
+## ILIAS 9
+- Legacy Accordions have been replaced by panel views.
+
 ## ILIAS 8
 - Full type declarations
 - Fixed code inspection issues

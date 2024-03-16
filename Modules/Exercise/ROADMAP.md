@@ -61,22 +61,15 @@ Data objects should usually be returned by the repository layer. Factories for t
 
 - Layers should separate responsibilities. Structure should be integrated into an internal service managing dependecies.
 - Domain layer should implement business logic without UI dependencies (including permission checks).
+  - Team handling incl. status should be done in domain classes, see [README-technical.md](./README-technical.md).
 
 ### Dependency Management / Interfaces
 
 - Move more dependencies from implementation to interface dependencies.
 - Move instantiation upwards in the service factory chain.
 
-### Refactor filesystem access
-
-The new filesystem services should be introduced. Especially the submission files should be organised in a more semantic and explicit way.
-
 ### Artefact reader / assignment types
 
 The assignment types should be collect by using the artefact reader and defined interfaces. Code that checks for specific assignment types (if ilExAssignment::TYPE_UPLOAD) needs to be eliminated as far as possible and replaced by "feature-sensitive" checks via a common interface for the types.
-
-### Replace Accordion view by KS Listing Panels
-
-The accordions should be replaced by KS elements. Most probably a Listing Panel with Items that links to specialised assignment type specific views (e.g. Panels) in a second UI level instead of the legacy InfoScreenGUI.
 
 ## Long Term

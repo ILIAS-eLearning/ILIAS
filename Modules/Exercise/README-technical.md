@@ -63,6 +63,11 @@ DB Table: `exc_data`
 
 ## Team
 
+### Team Status Handling
+
+- Saving the team status currently is done in ilExerciseManagementGUI->saveStatus. This gets the team members from ilExSubmission->getUserIds(). Todo: Move to domain class.
+- Retrieving the team status is initially done by ilExAssignment->getMemberListData() (on row per user) and then aggregated per team in ilParticipantsPerAssignmentTableGUI(). Todo: Move to domain class.
+
 
 ## Assignment Member Status
 
