@@ -71,6 +71,9 @@ class TeamDBRepository
         );
     }
 
+    /**
+     * @return \Generator[TeamMember]
+     */
     public function getMembers(int $team_id): \Generator
     {
         $set = $this->db->queryF(
@@ -130,4 +133,17 @@ class TeamDBRepository
         }
         return $map;
     }
+
+    public function getAssignmentForTeam(int $team_id): int
+    {
+        $set = $this->db->queryF(
+            "SELECT ass_id FROM il_exc_team " .
+            " WHERE id = %s ",
+            ["integer"],
+            [$team_id]
+        );
+        $rec = $this->db->fetchAssoc($set);
+        return (int) ($rec["ass_id"] ?? 0);
+    }
+
 }
