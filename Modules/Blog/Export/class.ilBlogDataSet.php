@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Notes\Service;
+use ILIAS\Blog\ReadingTime\ReadingTimeManager;
 
 /**
  * Blog Data set class
@@ -29,6 +30,7 @@ use ILIAS\Notes\Service;
  */
 class ilBlogDataSet extends ilDataSet
 {
+    protected ReadingTimeManager $reading_time;
     protected Service $notes;
     protected ilObjBlog $current_blog;
     public static array $style_map = array();
@@ -42,11 +44,12 @@ class ilBlogDataSet extends ilDataSet
             ->contentStyle()
             ->domain();
         $this->notes = $DIC->notes();
+        $this->reading_time = $DIC->blog()->internal()->domain()->readingTime();
     }
 
     public function getSupportedVersions(): array
     {
-        return array("4.3.0", "5.0.0", "5.3.0");
+        return array("4.3.0", "5.0.0", "5.3.0", "8.0");
     }
 
     protected function getXmlNamespace(
@@ -137,6 +140,35 @@ class ilBlogDataSet extends ilDataSet
                         "OvPost" => "integer",
                         "Style" => "integer"
                     );
+
+                case "8.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "Notes" => "integer",
+                        "BgColor" => "text",
+                        "FontColor" => "text",
+                        "Img" => "text",
+                        "Ppic" => "integer",
+                        "RssActive" => "integer",
+                        "Approval" => "integer",
+                        "Dir" => "directory",
+                        "AbsShorten" => "integer",
+                        "AbsShortenLen" => "integer",
+                        "AbsImage" => "integer",
+                        "AbsImgWidth" => "integer",
+                        "AbsImgHeight" => "integer",
+                        "NavMode" => "integer",
+                        "NavListMonWithPost" => "integer",
+                        "NavListMon" => "integer",
+                        "Keywords" => "integer",
+                        "Authors" => "integer",
+                        "NavOrder" => "text",
+                        "OvPost" => "integer",
+                        "Style" => "integer",
+                        "ReadingTime" => "integer"
+                    );
             }
         }
 
@@ -145,6 +177,7 @@ class ilBlogDataSet extends ilDataSet
                 case "4.3.0":
                 case "5.0.0":
                 case "5.3.0":
+                case "8.0":
                     return array(
                         "Id" => "integer",
                         "BlogId" => "integer",
@@ -206,6 +239,23 @@ class ilBlogDataSet extends ilDataSet
                         " AND od.type = " . $ilDB->quote("blog", "text")
                     );
                     break;
+
+                case "8.0":
+                    $this->getDirectDataFromQuery(
+                        "SELECT bl.id,od.title,od.description," .
+                        "bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval," .
+                        "bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height," .
+                        "bl.nav_mode,bl.nav_list_mon_with_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order," .
+                        "bl.ov_post" .
+                        " FROM il_blog bl" .
+                        " JOIN object_data od ON (od.obj_id = bl.id)" .
+                        " WHERE " . $ilDB->in("bl.id", $a_ids, false, "integer") .
+                        " AND od.type = " . $ilDB->quote("blog", "text")
+                    );
+                    foreach ($this->data as $idx => $item) {
+                        $this->data[$idx]["ReadingTime"] = (int) $this->reading_time->isActivated((int) $item["Id"]);
+                    }
+                    break;
             }
         }
 
@@ -214,6 +264,7 @@ class ilBlogDataSet extends ilDataSet
                 case "4.3.0":
                 case "5.0.0":
                 case "5.3.0":
+                case "8.0":
                     $this->getDirectDataFromQuery(
                         "SELECT id,blog_id,title,created,author,approved,last_withdrawn" .
                         " FROM il_blog_posting WHERE " .
@@ -344,6 +395,10 @@ class ilBlogDataSet extends ilDataSet
                 if ($a_rec["Style"] ?? false) {
                     self::$style_map[$a_rec["Style"]][] = $newObj->getId();
                 }
+
+                // reading time
+                $this->reading_time->activate($newObj->getId(), (bool) ($a_rec["ReadingTime"] ?? false));
+
                 $a_mapping->addMapping("Modules/Blog", "blog", $a_rec["Id"], (string) $newObj->getId());
                 break;
 

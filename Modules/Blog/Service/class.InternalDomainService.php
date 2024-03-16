@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Blog\Exercise\BlogExercise;
 use ILIAS\Blog\Access\BlogAccess;
+use ILIAS\Blog\ReadingTime\ReadingTimeManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -69,4 +70,10 @@ class InternalDomainService
             $owner
         );
     }
+
+    public function readingTime(): ReadingTimeManager
+    {
+        return new ReadingTimeManager();
+    }
+
 }
