@@ -204,7 +204,6 @@ class BlogHtmlExport
 
         // month list
         $has_index = false;
-
         foreach (array_keys($this->items) as $month) {
             $list = $this->blog_gui->renderList($this->items[$month], "render", $a_link_template, false, $this->target_dir);
 
@@ -290,6 +289,15 @@ class BlogHtmlExport
 
                 $this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
             }
+        }
+
+        if (!$has_index) {
+            if (!$a_tpl_callback) {
+                $tpl = $this->getInitialisedTemplate();
+            } else {
+                $tpl = $a_tpl_callback();
+            }
+            $file = $this->writeExportFile($a_index_name, $tpl, "", $nav);
         }
     }
 
