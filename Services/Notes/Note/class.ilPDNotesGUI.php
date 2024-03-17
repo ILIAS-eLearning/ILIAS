@@ -256,7 +256,7 @@ class ilPDNotesGUI
             $rep_objs = 0;
             $type = "pd";
             $include_subs = false;
-            $obj_id = $ilUser->getId();
+            $obj_id = $this->user->getId();
         }
         if ($this->note_type === Note::PRIVATE) {
             $gui = new ilNoteGUI(

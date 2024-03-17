@@ -113,13 +113,14 @@ class ilNotesDataSet extends ilDataSet
                     // here.
                     if ((int) $a_rec["RepObjId"] === 0 &&
                         $a_rec["ObjId"] == $a_rec["Author"] &&
-                        $a_rec["Type"] === Note::PRIVATE &&
+                        $a_rec["Type"] == Note::PRIVATE &&
                         $a_rec["ObjType"] === "pd") {
                         $context = $this->notes_data->context(
                             0,
                             (int) $usr_id,
                             "pd"
                         );
+
                         $note = $this->notes_data->note(
                             0,
                             $context,
