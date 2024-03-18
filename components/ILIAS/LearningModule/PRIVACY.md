@@ -11,12 +11,13 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
-    - [News Service](../../Services/News/Privacy.md)
-    - [Page Editor Service](../../Services/COPage/Privacy.md)
-    - [Notes/Comments Service](../../Services/Notes/Privacy.md)
-    - [Rating Service](../../Services/Rating/Privacy.md)
+    - [AccessControl](../AccessControl/PRIVACY.md)
+    - [Info Screen Service](../InfoScreen/PRIVACY.md)
+    - [News Service](../News/Privacy.md)
+    - [Page Editor Service](../COPage/Privacy.md)
+    - [Notes/Comments Service](../Notes/Privacy.md)
+    - [Rating Service](../Rating/Privacy.md)
+    - [Metadata](../MetaData/Privacy.md)
 
 
 ## Configuration
