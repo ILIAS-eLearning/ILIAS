@@ -1030,7 +1030,7 @@ class ilPropertyFormGUI extends ilFormGUI
                         $name = $file[7];
 
                         if ($idx2 != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                            if (!isset($_FILES[$field]["tmp_name"][$idx]) || !$_FILES[$field]["tmp_name"][$idx][$idx2]) {
                                 $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                                 $_FILES[$field]["name"][$idx][$idx2] = $name;
                                 $_FILES[$field]["type"][$idx][$idx2] = $type;
