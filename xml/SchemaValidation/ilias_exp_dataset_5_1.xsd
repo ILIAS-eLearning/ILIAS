@@ -15,6 +15,7 @@
             <xs:attribute name="InstallationUrl" type="xs:anyURI" use="required"/>
             <xs:attribute name="Entity" type="xs:string" use="required"/>
             <xs:attribute name="SchemaVersion" type="xs:string" use="required"/>
+            <xs:attribute name="TargetRelease" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>
 

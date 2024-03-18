@@ -91,7 +91,17 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
                 ->withNode($this->path->node()->simple()->withName('ds:DataSet'))
                 ->withNode($this->path->node()->simple()->withName('ds:Rec'));
             // General structure validation set
-            $structure_spl = $this->schema->getLatest('exp', 'dataset');
+            $node_info = null;
+            $node_info = $this->parser->DOM()->withFileHandler($this)
+                ->getNodeInfoAt($path_to_export_node)
+                ->current();
+            $type_str = $node_info->getValueOfAttribute('Entity');
+            $types = str_contains($type_str, '_')
+                ? explode('_', $type_str)
+                : [$type_str, ''];
+            $version_str = $node_info->getValueOfAttribute('SchemaVersion');
+            $version = new Version($version_str);
+            $structure_spl = $this->schema->getByVersionOrLatest($version, 'exp', 'dataset');
             $structure_xsd = is_null($structure_spl)
                 ? null
                 : $this->xsd_file->withFileInfo($structure_spl);
@@ -111,19 +121,8 @@ class ilHandler extends ilXMLExportFileHandler implements ilDataSetXMLExportFile
                     )));
             }
             // Content validation set
-            $node_info = null;
-            $node_info = $this->parser->DOM()->withFileHandler($this)
-                ->getNodeInfoAt($path_to_export_node)
-                ->current();
-            $type_str = $node_info->getValueOfAttribute('Entity');
-            $types = str_contains($type_str, '_')
-                ? explode('_', $type_str)
-                : [$type_str, ''];
-            $version_str = $node_info->getValueOfAttribute('SchemaVersion');
-            $version = new Version($version_str);
             $nodes = $this->parser->DOM()->withFileHandler($this)
                 ->getNodeInfoAt($path_to_dataset_child_nodes);
-
             for ($i = 0; $i < $nodes->count(); $i++) {
                 $node = $nodes->toArray()[$i];
                 $type_str = $node->getValueOfAttribute('Entity');
