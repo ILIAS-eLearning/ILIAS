@@ -493,11 +493,15 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataProtection)
 
 * **Data Protection**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
- 	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* Tester: [[TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DataProtection)
 
@@ -876,11 +880,15 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LegalDocuments)
 
 * **Legal Documents**
-	* Maintenance Model: Classic
-	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* Tester: [[TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LegalDocuments)
 
