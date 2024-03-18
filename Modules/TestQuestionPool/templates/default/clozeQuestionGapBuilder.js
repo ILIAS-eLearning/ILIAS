@@ -444,8 +444,10 @@ var ClozeQuestionGapBuilder = (function () {
 		var regex = new RegExp(regexExpression, 'i');
 		var stringBuild = '';
 		ClozeSettings.gaps_php[0][gap_count - 1].values.forEach(function (entry) {
-      if (entry.answer !== undefined) {
-  			stringBuild += entry.answer.replace(/\[/g, '[&hairsp;') + ',';
+			// entry.answer to string
+			const answer = entry.answer.toString();
+      if (answer !== undefined) {
+  			stringBuild += answer.replace(/\[/g, '[&hairsp;') + ',';
     }
 		});
 		stringBuild = stringBuild.replace(/,+$/, '');
