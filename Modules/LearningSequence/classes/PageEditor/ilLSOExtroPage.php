@@ -16,21 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
-class ilLearningSequenceRegisterPageType implements \ilDatabaseUpdateSteps
+class ilLSOExtroPage extends ilPageObject
 {
-    protected \ilDBInterface $db;
-
-    public function prepare(\ilDBInterface $db): void
+    public function getParentType(): string
     {
-        $this->db = $db;
+        return "lsoe";
     }
-
-    public function step_1(): void
-    {
-        $query = "INSERT INTO copg_pobj_def (parent_type, class_name, directory , component)" . PHP_EOL
-            . "VALUES ('lso', 'ilLSOPage', 'classes/PageEditor', 'Modules/LearningSequence');";
-        $this->db->manipulate($query);
-    }
-
 }

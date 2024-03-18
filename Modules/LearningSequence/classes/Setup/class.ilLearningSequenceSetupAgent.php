@@ -65,10 +65,7 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             ),
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilLearningSequenceRegisterNotificationType()
-            ),
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilLearningSequenceRegisterPageType()
-            ),
+            )
         );
     }
 

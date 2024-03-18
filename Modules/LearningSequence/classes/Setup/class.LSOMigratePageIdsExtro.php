@@ -65,7 +65,7 @@ class LSOMigratePageIdsExtro implements Setup\Migration
         $result = $this->db->query(self::QUERY . ' LIMIT 1');
         $row = $this->db->fetchAssoc($result);
         $query = 'UPDATE page_object' . PHP_EOL
-            . "SET page_id = (parent_id * -1), parent_type = 'lso'" . PHP_EOL
+            . "SET page_id = parent_id, parent_type = 'lsoe'" . PHP_EOL
             . "WHERE page_id = " . $row['page_id'] . PHP_EOL
             . "AND parent_id = " . $row['parent_id'];
         $this->db->manipulate($query);
