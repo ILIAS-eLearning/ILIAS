@@ -11371,6 +11371,7 @@ mail#:#mail_nacc_user_fullname#:#User Full Name
 mail#:#mail_nacc_user_login#:#User Login
 mail#:#mail_nacc_user_name#:#User Name
 mail#:#mail_new_template#:#New Text Template
+mail#:#mail_no_mail_items#:#No unread mails.
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_subject#:#No subject available
 mail#:#mail_no_valid_mailing_list#:#%1$s (not a valid mailing list)

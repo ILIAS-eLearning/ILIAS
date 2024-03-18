@@ -51,6 +51,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->new_rendering = true;
 
         parent::__construct();
 
@@ -79,7 +80,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public static function getScreenMode(): string
     {
         global $DIC;
-        $cmd = "";
+        $cmd = '';
         if ($DIC->http()->wrapper()->query()->has('cmd')) {
             $cmd = $DIC->http()->wrapper()->query()->retrieve('cmd', $DIC->refinery()->kindlyTo()->string());
         }
@@ -123,7 +124,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public function fillDataSection(): void
     {
         if ($this->mails !== []) {
-            $this->setRowTemplate("tpl.pd_mail_row.html", "components/ILIAS/Mail");
+            $this->setRowTemplate('tpl.pd_mail_row.html', 'components/ILIAS/Mail');
             parent::fillDataSection();
         } else {
             $this->setEnableNumInfo(false);
@@ -172,79 +173,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     protected function getOverview(): string
     {
-        return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
-    }
-
-    protected function showMail(): string
-    {
-        $mail_gui = new ilPDMailGUI();
-
-        $content_block = new ilDashboardContentBlockGUI();
-        $mailId = 0;
-        if ($this->http->wrapper()->query()->has('mail_id')) {
-            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
-        }
-        $mobjId = $this->requestMailObjId;
-        if ($this->http->wrapper()->query()->has('mobj_id')) {
-            $mobjId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
-        }
-        $content_block->setContent($mail_gui->getPDMailHTML(
-            $mailId,
-            $mobjId
-        ));
-        $content_block->setTitle($this->lng->txt("message"));
-
-        $content_block->addBlockCommand(
-            "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $mailId . "&mobj_id="
-            . $mobjId . "&type=reply",
-            $this->lng->txt("reply")
-        );
-        $content_block->addBlockCommand(
-            "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $mailId . "&mobj_id="
-            . $mobjId . "&type=read",
-            $this->lng->txt("inbox")
-        );
-
-        $this->ctrl->setParameter($this, 'mail_id', $mailId);
-        $content_block->addBlockCommand(
-            $this->ctrl->getLinkTarget($this, 'deleteMail'),
-            $this->lng->txt('delete')
-        );
-
-        return $content_block->getHTML();
-    }
-
-    public function deleteMail(): void
-    {
-        $this->lng->loadLanguageModule('mail');
-
-        $umail = new ilMail($this->user->getId());
-        $mbox = new ilMailbox($this->user->getId());
-
-        $mailId = 0;
-        if ($this->http->wrapper()->query()->has('mail_id')) {
-            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
-        }
-        $mobjId = 0;
-        if ($this->http->wrapper()->query()->has('mobj_id')) {
-            $mobjId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
-        }
-
-        if ($mobjId) {
-            $this->requestMailObjId = $mbox->getInboxFolder();
-        }
-
-        if ($umail->moveMailsToFolder(
-            [$mailId],
-            $mbox->getTrashFolder()
-        )) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_moved_to_trash'), true);
-        } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_move_error'), true);
-        }
-        $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
+        return '<div class="small">' . (count($this->mails)) . ' ' . $this->lng->txt('mails_pl') . '</div>';
     }
 
     protected function preloadData(array $data): void
@@ -260,12 +189,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         ilMailUserCache::preloadUserObjects($usr_ids);
     }
 
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
     protected function getListItemForData(array $data): ?Item
     {
         $f = $this->ui->factory();
@@ -273,34 +196,42 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $user = ilMailUserCache::getUserObjectById($data['sender_id']);
 
         if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
-            $public_name_long = $user->getPublicName();
             $img_sender = $user->getPersonalPicturePath('xxsmall');
             $alt_sender = htmlspecialchars($user->getPublicName());
+            $public_name_long = $user->getPublicName();
         } elseif (!$user instanceof ilObjUser) {
+            $img_sender = '';
+            $alt_sender = '';
             $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
-            $img_sender = "";
-            $alt_sender = "";
         } else {
-            $public_name_long = ilMail::_getIliasMailerName();
             $img_sender = ilUtil::getImagePath('logo/HeaderIconAvatar.svg');
             $alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
+            $public_name_long = ilMail::_getIliasMailerName();
         }
 
-        $new_mail_date = ilDatePresentation::formatDate(new ilDate($data['send_time'], IL_CAL_DATE));
         $new_mail_subj = htmlentities($data['m_subject'], ENT_NOQUOTES, 'UTF-8');
-        $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-        $this->ctrl->setParameter($this, 'mail_id', $data['mail_id']);
-        $new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail');
-        $this->ctrl->clearParameters($this);
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->inbox);
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $data['mail_id']);
+        $new_mail_link = $this->ctrl->getLinkTargetByClass([ilMailGUI::class, ilMailFolderGUI::class], 'showMail');
+        $this->ctrl->clearParametersByClass(ilMailFolderGUI::class);
 
+        $button = $f->link()->standard($new_mail_subj, $new_mail_link);
 
-        $button = $f->button()->shy($new_mail_subj, $new_mail_link);
-
-        $item = $f->item()->standard($button)->withDescription($new_mail_date);
-        if ($img_sender !== "") {
+        $item = $f->item()->standard($button);
+        if ($img_sender !== '') {
             $item = $item->withLeadImage($f->image()->standard($img_sender, $alt_sender));
         }
 
+        $item = $item->withProperties([
+            $this->lng->txt('from') => $public_name_long,
+            $this->lng->txt('date') => ilDatePresentation::formatDate(new ilDateTime($data['send_time'], IL_CAL_DATE)),
+        ]);
+
         return $item;
+    }
+
+    public function getNoItemFoundContent(): string
+    {
+        return $this->lng->txt('mail_no_mail_items');
     }
 }
