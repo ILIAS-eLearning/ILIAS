@@ -365,6 +365,9 @@ class StandardFormTest extends ILIAS_UI_TestBase
 <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
     <div class="il-standard-form-header clearfix">
         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+        <div class="il-standard-form-required">
+            <span class="asterisk">*</span><span class="small"> required_field</span>
+        </div>
     </div>
     <div class="form-group row">
         <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>

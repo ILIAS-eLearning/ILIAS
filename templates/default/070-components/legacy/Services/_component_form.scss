@@ -587,6 +587,12 @@ input[type="checkbox"] {
 	}
 }
 
+.ilFormRequired {
+	&--top {
+		padding-bottom: $il-padding-xs-horizontal;
+	}
+}
+
 .ilFormFooter {
 	margin: 0; // counteracts grid system negative margin
 	padding: $il-padding-small-vertical 0 $il-padding-small-vertical 0;

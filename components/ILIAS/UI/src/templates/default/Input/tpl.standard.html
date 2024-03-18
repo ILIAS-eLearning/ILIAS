@@ -1,6 +1,11 @@
 <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" {NAME}<!-- BEGIN action --> action="{URL}"<!-- END action --> method="post" novalidate="novalidate">
 	<div class="il-standard-form-header clearfix">
 		<div class="il-standard-form-cmd">{BUTTONS_TOP}</div>
+		<!-- BEGIN required_text_top -->
+		<div class="il-standard-form-required">
+			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_TOP}</span>
+		</div>
+		<!-- END required_text_top -->
 	</div>
 	<!-- BEGIN error -->
 	<div class="help-block alert alert-danger" role="alert">
