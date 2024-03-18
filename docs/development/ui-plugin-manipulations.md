@@ -118,7 +118,7 @@ the function `manipulateAsyncRendering()` for that. Inside the function you can 
 exchange it with your own HTML. If you just want to make an addition, you can use the default rendering progress with
 the function `renderDefault()`.
 
-See the [example](code-examples/ui-exchange/00_base_classes/ExampleRenderer.php) for more details.
+See the [example](code-examples/ui-exchange/rendering-manipulations/ExampleRenderer.php) for more details.
 
 When you finished your manipulation, all you have to do is to provide your renderer to the chain with
 the `exchangeUIRendererAfterInitialization()` function.
@@ -133,7 +133,7 @@ the `exchangeUIRendererAfterInitialization()` function.
     }
 ```
 
-See the [example](code-examples/ui-exchange/00_base_classes/ExamplePlugin.php) for more details.
+See the [example](code-examples/ui-exchange/rendering-manipulations/ExamplePlugin.php) for more details.
 
 With that done all manipulations made by your plugin will be integrated and merged with all other plugin manipulations.
 
