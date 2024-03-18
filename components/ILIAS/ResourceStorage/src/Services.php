@@ -42,16 +42,18 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Manager\ContainerManager;
 
 /**
  * Class Services
  * @public
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class Services
+final class Services
 {
     protected Subject $events;
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
+    protected ContainerManager $container_manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
     protected \ILIAS\ResourceStorage\Collection\Collections $collections;
     protected \ILIAS\ResourceStorage\Flavour\Flavours $flavours;
@@ -94,6 +96,12 @@ class Services
             $collection_builder,
             $this->preloader
         );
+        $this->container_manager = new ContainerManager(
+            $resource_builder,
+            $collection_builder,
+            $this->preloader,
+            $this->events
+        );
         $this->consumers = new Consumers(
             new ConsumerFactory(
                 $stream_access,
@@ -127,6 +135,11 @@ class Services
     public function manage(): Manager
     {
         return $this->manager;
+    }
+
+    public function manageContainer(): ContainerManager
+    {
+        return $this->container_manager;
     }
 
     public function consume(): Consumers

@@ -314,6 +314,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             . '/' . $flavour->getPersistingName();
     }
 
+    public function clearFlavours(Revision $revision): void
+    {
+        $this->fs->deleteDir($this->getRevisionPath($revision) . '/' . self::FLAVOUR_PATH_PREFIX);
+    }
+
     public function getRevisionPath(Revision $revision): string
     {
         return $this->getFullContainerPath($revision->getIdentification()) . '/' . $revision->getVersionNumber();

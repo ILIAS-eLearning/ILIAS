@@ -73,6 +73,8 @@ interface StorageHandler
 
     public function getFlavourPath(Revision $revision, Flavour $flavour): string;
 
+    public function clearFlavours(Revision $revision): void;
+
     // REVISIONS
 
     public function cloneRevision(CloneRevision $revision): bool;
