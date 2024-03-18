@@ -2344,6 +2344,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         foreach ($this->object->questions as $question) {
             $template->setCurrentBlock("question");
             $question_gui = $this->object->createQuestionGUI("", $question);
+            $question_gui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
 
             $questionHeaderBlockBuilder->setQuestionTitle($question_gui->object->getTitle());
             $questionHeaderBlockBuilder->setQuestionPoints($question_gui->object->getMaximumPoints());
@@ -2352,7 +2353,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
             $template->setVariable("QUESTION_ID", $question_gui->object->getId());
-            $result_output = $question_gui->getSolutionOutput(0, null, false, true, false, $this->object->getShowSolutionFeedback());
+            $result_output = $question_gui->getSolutionOutput(0, null, false, true, false, false);
             $template->setVariable("SOLUTION_OUTPUT", $result_output);
             $template->parseCurrentBlock("question");
             $counter++;
