@@ -650,7 +650,7 @@ class ilObjStudyProgrammeMembersGUI
             }
             foreach ($acknowledge as $ass_id => $nodes) {
                 $this->object->acknowledgeCourses(
-                    (int)$assignment_id,
+                    (int)$ass_id,
                     $nodes,
                     $msgs
                 );
