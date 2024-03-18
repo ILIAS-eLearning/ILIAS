@@ -13124,7 +13124,8 @@ prg#:#msg_mark_relevant_failed#:#Nicht als relevant markiert:
 prg#:#msg_points_must_be_positive#:#Nur positive Punktzahlen sind erlaubt.
 prg#:#msg_unmark_accredited#:#%s Benutzer als nicht akkreditiert markiert.
 prg#:#msg_unmark_accredited_failed#:#Akkreditierung entfernen nicht erfolgreich bei:
-prg#:#msg_update_certificate#:#%s Zertifikat aktualisiert.
+prg#:#msg_update_certificate#:#%s Zertifikat(e) aktualisiert.
+prg#:#msg_update_certificate_failed#:#Zertifikat(e) nicht aktualisiert:
 prg#:#msg_update_from_settings#:#%s Benutzer aus den Einstellungen aktualisiert.
 prg#:#msg_update_from_settings_failed#:#Aktualisierung nicht erfolgreich:
 prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
@@ -13229,11 +13230,11 @@ prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_multi_mail_user#:#Mail versenden
 prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
-prg#:#prg_multi_remove_certificate#:#Zertifikat entfernen
+prg#:#prg_multi_remove_certificate#:#Zertifikate entfernen
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
 prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
-prg#:#prg_multi_update_certificate#:#Zertifikat aktualisieren
+prg#:#prg_multi_update_certificate#:#Zertifikate aktualisieren
 prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_new#:#Neues Studienprogramm anlegen
 prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
@@ -13262,6 +13263,7 @@ prg#:#prg_progress_status#:# %1$d von %2$d Punkten
 prg#:#prg_progress_status_with_child_sp#:# %1$d von möglichen %2$d Punkten
 prg#:#prg_quali_not_valid#:#Qualifikation ungültig
 prg#:#prg_quali_still_valid#:#Qualifikation gültig
+prg#:#prg_remove_certificate#:#Zertifikat entfernen
 prg#:#prg_remove_user#:#Zuweisung löschen
 prg#:#prg_remove_user_success#:#Die Zuweisung wurde entfernt.
 prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
@@ -13300,7 +13302,6 @@ prg#:#prg_still_valid#:#gültig
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
 prg#:#prg_subtypes#:#Typen
 prg#:#prg_successfully_removed_certificate#:#Das Zertifikat der ausgewählten Benutzer wurde erfolgreich entfernt.
-prg#:#prg_successfully_updated_certificate#:#Zertifikat wurde für ausgwählte Benutzer erfolgreich aktualisiert
 prg#:#prg_title#:#Titel
 prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
@@ -13319,6 +13320,7 @@ prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_unmark_accredited_multi_success#:#Ausgewählte Benutzer als nicht akkreditiert markiert
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
 prg#:#prg_unmark_relevant#:#Als irrelevant markieren
+prg#:#prg_update_certificate#:#Zertifikat aktualisieren
 prg#:#prg_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
@@ -13395,6 +13397,7 @@ prg#:#will_not_modify_irrelevant_progress#:#keine Änderung, da irrelevant
 prg#:#will_not_modify_relevant_progress#:#bereits relevant
 prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur geändert werden, wenn abgeschlossen oder akkreditiert
 prg#:#will_not_set_top_progress_to_irrelevant#:#Oberste Zuordnung kann nicht irrelevant sein.
+prg#:#will_not_update_cert_for_unsuccessful_progress#:#kein Zertifikat erzeugt, da nicht abgeschlossen oder akkreditiert
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_assignment#:#Zuordnung hinzufügen
 prtf#:#prtf_add_blog#:#Blog hinzufügen

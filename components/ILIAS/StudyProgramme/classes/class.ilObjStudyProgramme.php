@@ -425,6 +425,18 @@ class ilObjStudyProgramme extends ilContainer
         return null;
     }
 
+    public function isCertificateActive(): bool
+    {
+        $global_settings = new ilSetting('certificate');
+        $global_active = (bool) $global_settings->get('active', '0');
+        if(!$global_active) {
+            return false;
+        }
+        $certificate_template_repository = new ilCertificateTemplateDatabaseRepository($this->db);
+        $certificate_template = $certificate_template_repository->fetchCurrentlyUsedCertificate($this->getId());
+        return $certificate_template->isCurrentlyActive();
+    }
+
 
     ////////////////////////////////////
     // TREE NAVIGATION
