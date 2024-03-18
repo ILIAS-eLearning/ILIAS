@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+
 /**
- * Dashboard UI
- * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
@@ -43,10 +43,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected ilSetting $settings;
     protected ilRbacSystem $rbacsystem;
     protected ilHelpGUI $help;
-    public \ilGlobalTemplateInterface $tpl;
-    public \ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
     public string $cmdClass = '';
-    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
+    protected ContextServices $tool_context;
     protected int $requested_view;
     protected int $requested_prt_id;
     protected int $requested_gtp;
@@ -103,7 +103,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
         switch ($next_class) {
-            // profile
             case "ilpersonalprofilegui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -111,7 +110,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
-                // settings
             case "ilpersonalsettingsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -129,7 +127,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
 
-                // pd notes
             case "ilpdnotesgui":
                 if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments')) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -143,7 +140,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
 
-                // pd news
             case "ilpdnewsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -245,7 +241,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function show(): void
     {
-        // preload block settings
         ilBlockSetting::preloadPDBlockSettings();
 
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
@@ -270,12 +265,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         } else {
             if (!$ilCtrl->isAsynch()) {
                 if ($column_gui->getScreenMode() != IL_SCREEN_SIDE) {
-                    // right column wants center
                     if ($column_gui->getCmdSide() == IL_COL_RIGHT) {
                         $column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
                         $html = $ilCtrl->forwardCommand($column_gui);
                     }
-                    // left column wants center
                     if ($column_gui->getCmdSide() == IL_COL_LEFT) {
                         $column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
                         $html = $ilCtrl->forwardCommand($column_gui);
@@ -283,7 +276,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 } else {
                     $html = "";
 
-                    // user interface plugin slot + default rendering
                     $uip = new ilUIHookProcessor(
                         "Services/Dashboard",
                         "center_column",
@@ -291,7 +283,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                     );
                     if (!$uip->replaced()) {
                         $html = $this->getMainContent();
-                        //$html = $ilCtrl->getHTML($column_gui);
                     }
                     $html = $uip->getHTML($html);
                 }
@@ -320,7 +311,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             if (!$ilCtrl->isAsynch()) {
                 $html = "";
 
-                // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
                     "Services/Dashboard",
                     "right_column",
@@ -377,14 +367,12 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToPortfolio(): void
     {
-        // incoming back link from shared resource
         $cmd = "";
         if ($this->requested_dsh != "") {
             $this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->requested_dsh);
             $cmd = "showOther";
         }
 
-        // used for goto links
         if ($this->requested_prt_id > 0) {
             $this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $this->requested_prt_id);
             $this->ctrl->setParameterByClass("ilobjportfoliogui", "gtp", $this->requested_gtp);
@@ -426,7 +414,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToWorkspace(): void
     {
-        // incoming back link from shared resource
         $cmd = "";
         if ($this->requested_dsh != "") {
             $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "shr_id", $this->requested_dsh);
