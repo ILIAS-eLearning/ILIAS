@@ -12,6 +12,7 @@ $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // basic layout for all viewcontrol flex constructs
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode,
@@ -22,6 +23,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // viewcontrols container bar to include set of inner buttons
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
@@ -35,6 +37,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // buttons inside the container
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-section .btn-group,
 .il-viewcontrol-pagination__sectioncontrol,
@@ -56,20 +59,23 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // viewcontrols as single buttons
 // should in the future be done by using btn-ctrl class on these buttons
+.il-viewcontrol-sortation,
 .il-viewcontrol-sortation .dropdown,
 .il-table-presentation-viewcontrols .l-bar__space-keeper .l-bar__group .l-bar__element {
 	> .btn-default.btn {
 		@extend .btn-ctrl;
 		border-radius: $il-border-radius-secondary-large;
 	}
-}
+	li .btn.btn-link {
+		padding-left: $il-padding-large-horizontal * 3;
+	}
 
-// centering browse next/previous arrows
-.il-viewcontrol-pagination__sectioncontrol,
-.il-viewcontrol-pagination,
-.il-viewcontrol-section {
-	.browse {
-		display: inline-block;
+	li.selected .btn::before {
+		position: absolute;
+		left: $il-margin-large-horizontal;
+		font-family: "Glyphicons Halflings";
+		color: $il-btn-ctrl-color;
+		content: "\e013";
 	}
 }
 

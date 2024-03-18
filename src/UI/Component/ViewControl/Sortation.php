@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Component;
@@ -31,14 +31,9 @@ use ILIAS\UI\Component\Triggerer;
 interface Sortation extends Component, JavaScriptBindable, Triggerer
 {
     /**
-     * Set the initial, non-functional entry
+     * Set the prefix of the label
      */
-    public function withLabel(string $label): Sortation;
-
-    /**
-     * Get the label.
-     */
-    public function getLabel(): string;
+    public function withLabelPrefix(string $label_prefix): Sortation;
 
     /**
      * Get a Sortation with this target-url.
@@ -75,4 +70,9 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      * Get the Signal for the selection of a option
      */
     public function getSelectSignal(): Signal;
+
+    /**
+     * Set the selected option.
+     */
+    public function withSelected(string $selected_option): self;
 }
