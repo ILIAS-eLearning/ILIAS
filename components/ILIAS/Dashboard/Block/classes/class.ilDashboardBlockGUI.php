@@ -304,13 +304,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $data = $this->getData();
         /** @var BlockDTO[] $data */
         $data = array_merge(...array_values($data));
-        $provider = new ilPDSelectedItemsBlockMembershipsProvider($this->viewSettings->getActor());
-
-        foreach ($data as $item) {
-            if (isset($object_types_by_container[$item->getType()])) {
-                $object_types_by_container[$item->getType()]['items'][] = $item;
-            }
-        }
 
         foreach ($object_types_by_container as $type_title => $type) {
             if (!$this->objDefinition->isPlugin($type_title)) {
@@ -320,8 +313,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 $title = $pl->txt("objs_" . $type_title);
             }
 
-            if (isset($type['items'])) {
-                $grouped_items[$title] = $type['items'];
+            foreach ($data as $item) {
+                if (in_array($item->getType(), $type['objs'])) {
+                    $grouped_items[$title][] = $item;
+                }
             }
         }
 
