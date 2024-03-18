@@ -13,7 +13,7 @@
 
 return [
     "*" => [
-        "\\ILIAS\Language\Language" => "ilSetupLanguage"
+        "\\ILIAS\\Language\\Language" => "ilSetupLanguage"
     ],
     "\\ILIAS\\Refinery" => [
         "\\ILIAS\Language\Language" => "myLanguage"
