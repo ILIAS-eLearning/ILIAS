@@ -1717,7 +1717,7 @@ abstract class assQuestion
             array('integer','integer'),
             array($active_id, $question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             return (int) $row["maxpass"];
         }
