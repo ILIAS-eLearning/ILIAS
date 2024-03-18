@@ -13118,7 +13118,8 @@ prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:
 prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.
 prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
-prg#:#msg_update_certificate#:#%s Certificate updated.
+prg#:#msg_update_certificate#:#%s Certificate(s) updated.
+prg#:#msg_update_certificate_failed#:#Certificate(s) not updated:
 prg#:#msg_update_from_settings#:#Updated %s users from settings:
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
@@ -13225,11 +13226,11 @@ prg#:#prg_multi_change_expire_date#:#Change expire date
 prg#:#prg_multi_mail_user#:#Send Mail
 prg#:#prg_multi_mark_accredited#:#Accredited
 prg#:#prg_multi_mark_relevant#:#Mark Relevant
-prg#:#prg_multi_remove_certificate#:#Remove Certificate
+prg#:#prg_multi_remove_certificate#:#Remove Certificates
 prg#:#prg_multi_remove_user#:#Remove User
 prg#:#prg_multi_unmark_accredited#:#Unmark Accredited
 prg#:#prg_multi_unmark_relevant#:#Unmark Relevant
-prg#:#prg_multi_update_certificate#:#Update Certificate
+prg#:#prg_multi_update_certificate#:#Update Certificates
 prg#:#prg_multi_update_from_current_plan#:#Update From Current Plan
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_no_deadline#:#No fixed processing time
@@ -13258,6 +13259,7 @@ prg#:#prg_progress_status#:# %1$d of %2$d Points
 prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points
 prg#:#prg_quali_not_valid#:#Qualification not valid
 prg#:#prg_quali_still_valid#:#Qualification still valid
+prg#:#prg_remove_certificate#:#Remove Certificate
 prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_remove_users_not_possible#:#Remove Selected Users Not Possible
@@ -13296,7 +13298,6 @@ prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_successfully_removed_certificate#:#Successfully removed certificate of selected Users
-prg#:#prg_successfully_updated_certificate#:#Successfully updated certificate of selected Users
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -13315,6 +13316,7 @@ prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
 prg#:#prg_unmark_relevant#:#Unmark Relevant
+prg#:#prg_update_certificate#:#Update Certificate
 prg#:#prg_update_from_current_plan#:#Update from current Plan
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
@@ -13390,6 +13392,7 @@ prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant
 prg#:#will_not_modify_relevant_progress#:#already relevant
 prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful
 prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.
+prg#:#will_not_update_cert_for_unsuccessful_progress#:#No certificate for unsuccessful programme
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_assignment#:#Add Assignment
 prtf#:#prtf_add_blog#:#Add Blog
