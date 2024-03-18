@@ -77,28 +77,27 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 
         $ilDB = $DIC->database();
 
-        if (isset(self::$startfile[$a_id])) {
-            $start_file = self::$startfile[$a_id];
-        } else {
-            $q = "SELECT startfile FROM file_based_lm WHERE id = " . $ilDB->quote($a_id, "integer");
-            $set = $ilDB->query($q);
-            $rec = $ilDB->fetchAssoc($set);
-            $start_file = $rec["startfile"];
-            self::$startfile[$a_id] = $start_file . "";
+        $q = "SELECT startfile, rid FROM file_based_lm WHERE id = " . $ilDB->quote($a_id, "integer");
+        $set = $ilDB->query($q);
+        $rec = $ilDB->fetchAssoc($set);
+        $start_file = $rec["startfile"] ?? '';
+
+        if (!empty($rec['rid'])) {
+            return $start_file;
         }
 
         $dir = realpath(__DIR__ . '/../../../../public/' . ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id);
 
         if (($start_file !== "") && (is_file($dir . "/" . $start_file))) {
-            return  $dir . "/" . $start_file;
+            return  str_replace(realpath(__DIR__ . '/../../../../public/'), "", $dir . "/" . $start_file);
         }
 
         if (is_file($dir . "/index.html")) {
-            return  $dir . "/index.html";
+            return  str_replace(realpath(__DIR__ . '/../../../../public/'), "", $dir . "/index.html");
         }
 
         if (is_file($dir . "/index.htm")) {
-            return  $dir . "/index.htm";
+            return  str_replace(realpath(__DIR__ . '/../../../../public/'), "", $dir . "/index.htm");
         }
 
         return "";
