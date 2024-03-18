@@ -75,11 +75,12 @@ class MediaPoolManager
                     // copy content
                     $original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
 
+
                     // copy adv metadata
                     $pool_ids = \ilMediaPoolItem::getPoolForItemId($id);
                     if (count($pool_ids) === 1) {
                         $source_pool_id = current($pool_ids);
-                        $this->copyAdvMetadataOfItem(
+                        $this->copyMetadataOfItem(
                             $source_pool_id,
                             $this->obj_id,
                             $id,
@@ -121,7 +122,7 @@ class MediaPoolManager
                 }
 
                 $target_tree->insertNode($id, $target_folder_id);
-                $this->copyAdvMetadataOfItem(
+                $this->copyMetadataOfItem(
                     $source_pool_id,
                     $this->obj_id,
                     $id,
@@ -130,7 +131,7 @@ class MediaPoolManager
                 foreach ($subnodes as $node) {
                     if ($node["child"] != $id) {
                         $target_tree->insertNode($node["child"], $node["parent"]);
-                        $this->copyAdvMetadataOfItem(
+                        $this->copyMetadataOfItem(
                             $source_pool_id,
                             $this->obj_id,
                             (int) $node["child"],
@@ -143,7 +144,7 @@ class MediaPoolManager
         \ilSession::clear("mep_move_ids");
     }
 
-    protected function copyAdvMetadataOfItem(
+    protected function copyMetadataOfItem(
         int $source_pool_id,
         int $target_pool_id,
         int $source_child_id,
@@ -158,6 +159,9 @@ class MediaPoolManager
                 $source_child_id,
                 $target_child_id
             );
+
+            $md = new \ilMD($source_pool_id, $source_child_id, "mpg");
+            $new_md = $md->cloneMD($target_pool_id, $target_child_id, "mpg");
         }
     }
 
