@@ -2632,7 +2632,7 @@ abstract class assQuestion
         $this->points = $points;
     }
 
-    public function getSolutionMaxPass(int $active_id)
+    public function getSolutionMaxPass(int $active_id): int
     {
         return self::_getSolutionMaxPass($this->getId(), $active_id);
     }
@@ -2640,7 +2640,7 @@ abstract class assQuestion
     /**
     * Returns the maximum pass a users question solution
     */
-    public static function _getSolutionMaxPass(int $question_id, int $active_id)
+    public static function _getSolutionMaxPass(int $question_id, int $active_id): int
     {
         /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
                 $pass = ilObjTest::_getPass($active_id);
@@ -2657,9 +2657,9 @@ abstract class assQuestion
             array('integer','integer'),
             array($active_id, $question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            return $row["maxpass"];
+            return (int) $row["maxpass"];
         }
 
         return 0;
