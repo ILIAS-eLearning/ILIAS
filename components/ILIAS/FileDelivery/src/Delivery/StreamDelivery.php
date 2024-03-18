@@ -27,6 +27,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
+use ILIAS\Filesystem\Stream\ZIPStream;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -95,6 +96,10 @@ final class StreamDelivery extends BaseDelivery
             $download_file_name,
             $disposition
         );
+        if ($stream instanceof ZIPStream) {
+            $this->response_builder = new PHPResponseBuilder();
+        }
+
         $r = $this->response_builder->buildForStream(
             $r,
             $stream
