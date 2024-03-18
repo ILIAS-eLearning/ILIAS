@@ -126,6 +126,7 @@ class Renderer extends AbstractComponentRenderer
     protected function maybeAddRequired(Form\Form $component, Template $tpl): void
     {
         if ($component->hasRequiredInputs()) {
+            $tpl->setVariable("TXT_REQUIRED_TOP", $this->txt("required_field"));
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
     }

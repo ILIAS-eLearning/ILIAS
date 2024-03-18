@@ -77,7 +77,12 @@
     font-size: $il-standard-form-header-byline-font-size;
   }
 
-  //Move the first section header up, to be displayed next to the forms top button
+  // Add padding if a required field is declared to avoid overlapping with the first section header title
+  .il-standard-form-required {
+    padding-bottom: 2 * $il-padding-xxlarge-horizontal;
+  }
+
+  //Move the first section header up, to be displayed next to the forms top button if no required field is declared
   .il-standard-form-header + .il-section-input{
     $button-height: $il-line-height-computed + $il-padding-small-vertical;
     margin-top: -1 * ($button-height + $il-margin-xxxlarge-vertical + $il-padding-xxlarge-vertical);

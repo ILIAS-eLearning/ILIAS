@@ -4676,6 +4676,9 @@ hr.il-divider-with-label {
 .il-standard-form .il-standar-form-header-byline, .il-standard-form .il-section-input-header-byline {
   font-size: 0.75rem;
 }
+.il-standard-form .il-standard-form-required {
+  padding-bottom: 30px;
+}
 .il-standard-form .il-standard-form-header + .il-section-input {
   margin-top: -50px;
   padding: 0;
@@ -15837,6 +15840,10 @@ fieldset[disabled] .checkbox label {
 }
 .ilSubForm .col-sm-9.il_textarea {
   width: 100%;
+}
+
+.ilFormRequired--top {
+  padding-bottom: 3px;
 }
 
 .ilFormFooter {
