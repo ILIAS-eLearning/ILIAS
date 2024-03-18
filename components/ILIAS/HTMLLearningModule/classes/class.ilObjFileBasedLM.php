@@ -16,13 +16,21 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Util\Archive\Zip;
+use ILIAS\Filesystem\Util\Archive\ZipOptions;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
+
 /**
  * File Based Learning Module (HTML) object
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjFileBasedLM extends ilObject
 {
+    private \ILIAS\ResourceStorage\Services $irss;
+    private \ILIAS\Filesystem\Util\Archive\Archives $archives;
     protected ?string $start_file = null;
+    protected ?string $rid = null;
     protected bool $online;
 
     public function __construct(
@@ -33,6 +41,8 @@ class ilObjFileBasedLM extends ilObject
 
 
         $this->db = $DIC->database();
+        $this->irss = $DIC->resourceStorage();
+        $this->archives = $DIC->archives();
         // this also calls read() method! (if $a_id is set)
         $this->type = "htlm";
         parent::__construct($a_id, $a_call_by_reference);
@@ -40,55 +50,92 @@ class ilObjFileBasedLM extends ilObject
 
     public function update(bool $a_skip_meta = false): bool
     {
-        $ilDB = $this->db;
-
         if (!$a_skip_meta) {
             $this->updateMetaData();
         }
         parent::update();
 
-        $ilDB->manipulate($q = "UPDATE file_based_lm SET " .
-            " startfile = " . $ilDB->quote($this->getStartFile(), "text") . " " .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+        $this->db->update(
+            'file_based_lm',
+            [
+                'startfile' => ['text', $this->getStartFile()],
+                'rid' => ['text', $this->getRID() ?? '']
+            ],
+            ['id' => ['integer', $this->getId()]]
+        );
+
         return true;
     }
 
     public function read(): void
     {
-        $ilDB = $this->db;
-
         parent::read();
 
-        $q = "SELECT * FROM file_based_lm WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $lm_set = $ilDB->query($q);
-        $lm_rec = $ilDB->fetchAssoc($lm_set);
-        $this->setStartFile((string) $lm_rec["startfile"]);
+        $q = "SELECT * FROM file_based_lm WHERE id = " . $this->db->quote($this->getId(), "integer");
+        $lm_set = $this->db->query($q);
+        $lm_rec = $this->db->fetchAssoc($lm_set);
+        $this->setStartFile((string) ($lm_rec["startfile"] ?? ''));
+        $this->setRID((string) ($lm_rec["rid"] ?? ''));
     }
 
     public function create(bool $a_skip_meta = false): int
     {
-        $ilDB = $this->db;
-
         $id = parent::create();
-        $this->createDataDirectory();
 
-        $ilDB->manipulate("INSERT INTO file_based_lm (id, startfile) VALUES " .
-            " (" . $ilDB->quote($this->getId(), "integer") . "," .
-            $ilDB->quote($this->getStartFile(), "text") . ")");
+        // create empty container resource. empty zips are not allowed, we need at least one file which is hidden
+        $empty_zip = $this->archives->zip(
+            []
+        );
+
+        $rid = $this->irss->manageContainer()->containerFromStream(
+            $empty_zip->get(),
+            new ilHTLMStakeholder(),
+            $this->getTitle()
+        );
+        $this->setRID($rid->serialize());
+
+        $this->db->insert(
+            'file_based_lm',
+            [
+                'id' => ['integer', $this->getId()],
+                'startfile' => ['text', $this->getStartFile()],
+                'rid' => ['text', $this->getRID()]
+            ]
+        );
+
+
         if (!$a_skip_meta) {
             $this->createMetaData();
         }
         return $id;
     }
 
+    public function maybeDetermineStartFile(): bool
+    {
+        $valid_start_files = ["index.htm", "index.html", "start.htm", "start.html"];
+        /** @var StorableContainerResource $resource */
+        $resource = $this->getResource();
+        if ($resource !== null) {
+            $zip = $this->irss->consume()->containerZIP($resource->getIdentification())->getZIP();
+            foreach ($zip->getFiles() as $file) {
+                if (in_array(basename($file), $valid_start_files, true)) {
+                    $this->setStartFile($file);
+                    $this->update();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public function getDataDirectory(string $mode = "filesystem"): string
     {
-        return CLIENT_WEB_DIR. "/lm_data". "/lm_" . $this->getId();
+        return CLIENT_WEB_DIR . "/lm_data" . "/lm_" . $this->getId();
     }
 
     public function createDataDirectory(): void
     {
-        ilFileUtils::makeDir($this->getDataDirectory());
+        //
     }
 
     public function getStartFile(): ?string
@@ -100,17 +147,34 @@ class ilObjFileBasedLM extends ilObject
         string $a_file,
         bool $a_omit_file_check = false
     ): void {
-        if ($a_file &&
-            (file_exists($this->getDataDirectory() . "/" . $a_file) || $a_omit_file_check)) {
-            $this->start_file = $a_file;
+        $this->start_file = $a_file;
+    }
+
+    public function getRID(): ?string
+    {
+        return $this->rid;
+    }
+
+    public function getResource(): ?StorableContainerResource
+    {
+        if ($this->getRID() === null) {
+            return null;
         }
+        $rid = $this->irss->manage()->find($this->getRID());
+        if ($rid === null) {
+            return null;
+        }
+        return $this->irss->manage()->getResource($rid);
+    }
+
+    public function setRID(string $rid): void
+    {
+        $this->rid = $rid;
     }
 
 
     public function delete(): bool
     {
-        $ilDB = $this->db;
-
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
@@ -120,11 +184,15 @@ class ilObjFileBasedLM extends ilObject
         $this->deleteMetaData();
 
         // delete file_based_lm record
-        $ilDB->manipulate("DELETE FROM file_based_lm WHERE id = " .
-            $ilDB->quote($this->getId(), "integer"));
+        $this->db->manipulateF(
+            "DELETE FROM file_based_lm WHERE id = %s",
+            ["integer"],
+            [$this->getId()]
+        );
 
         // delete data directory
-        ilFileUtils::delDir($this->getDataDirectory());
+        ilFileUtils::delDir($this->getDataDirectory()); // for legacy reasons
+        // TODO remove RID
 
         return true;
     }
