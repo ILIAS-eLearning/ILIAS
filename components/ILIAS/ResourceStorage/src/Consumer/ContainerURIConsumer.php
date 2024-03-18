@@ -26,6 +26,8 @@ use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Data\URI;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
 
+use function ILIAS\UI\examples\Deck\base;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
@@ -56,11 +58,16 @@ class ContainerURIConsumer implements ContainerConsumer
 
     public function getURI(): URI
     {
+        $filename = basename($this->start_file);
+        if ($filename === '') {
+            $filename = null;
+        }
+
         $uri_string = $this->src_builder->getRevisionURL(
             $this->stream_access->populateRevision($this->getRevision()),
             true,
-            60,
-            $this->valid_for_at_least_minutes
+            $this->valid_for_at_least_minutes,
+            $filename
         ) . StreamDelivery::SUBREQUEST_SEPARATOR . $this->start_file;
 
         return new URI($uri_string);

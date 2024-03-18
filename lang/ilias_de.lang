@@ -10472,6 +10472,8 @@ irss#:#action_download#:#Herunterladen
 irss#:#action_goto#:#Ressource öffnen
 irss#:#action_remove_resource#:#Ressource löschen
 irss#:#action_remove_resource_msg#:#Möchten Sie die folgende(n) Ressource(n) löschen?
+irss#:#action_remove_zip_path#:#Pfad löschen
+irss#:#action_remove_zip_path_msg#:#Möchten sie die folgenden Pfade löschen?
 irss#:#action_show_revisions#:#Revisionen anzeigen
 irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
 irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
@@ -10479,11 +10481,18 @@ irss#:#by_size_asc#:#Dateigrösse (aufsteigend)
 irss#:#by_size_desc#:#Dateigrösse (absteigend)
 irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
+irss#:#create_directory#:#Verzeichnis erstellen
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
+irss#:#directory_name#:#Verzeichnisname
+irss#:#directory_name_info#:#Name des Verzeichnisses, welches an der aktuellen Stelle eingefügt werden soll.
+irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
 irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
+irss#:#home_directoryStammverzeichnis
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
+irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
@@ -10507,6 +10516,7 @@ irss#:#sorting_6#:#Erstellungsdatum (absteigend)
 irss#:#stakeholders#:#Ursprung
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
+irss#:#title_manage_container#:#Dateien und Ordner verwalten
 irss#:#type#:#Dateityp
 irss#:#upload_field_title#:#Ausgewählte Dateien
 irss#:#upload_modal_title#:#Dateien hinzufügen

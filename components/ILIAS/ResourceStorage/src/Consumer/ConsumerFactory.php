@@ -136,7 +136,7 @@ class ConsumerFactory
         StorableContainerResource $resource,
         SrcBuilder $src_builder,
         string $start_file = 'index.html',
-        float $valid_for_at_least_minutes = 60.0
+        float $valid_for_at_least_minutes = 120.0
     ): ContainerConsumer {
         return new ContainerURIConsumer(
             $src_builder,

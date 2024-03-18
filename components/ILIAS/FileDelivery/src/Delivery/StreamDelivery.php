@@ -92,6 +92,10 @@ final class StreamDelivery extends BaseDelivery
         $r = $this->http->response();
         $uri = $stream->getMetadata()['uri'];
 
+        if ($stream instanceof ZIPStream || $stream->getMetadata()['uri'] === 'php://memory') {
+            $this->response_builder = new PHPResponseBuilder();
+        }
+
         $r = $this->setGeneralHeaders(
             $r,
             $uri,
@@ -99,9 +103,6 @@ final class StreamDelivery extends BaseDelivery
             $download_file_name,
             $disposition
         );
-        if ($stream instanceof ZIPStream) {
-            $this->response_builder = new PHPResponseBuilder();
-        }
 
         $r = $this->response_builder->buildForStream(
             $this->http->request(),

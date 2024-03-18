@@ -71,12 +71,12 @@ class BaseDirObjective extends BuildArtifactObjective
     {
         static $base;
 
-        if (isset($base)) {
+        if ($base !== null) {
             return $base;
         }
 
-        if (is_readable(self::BASE_DIR)) {
-            $data = require self::BASE_DIR;
+        if (is_readable(self::PATH())) {
+            $data = require self::PATH();
         }
 
         return $base = $data['base_dir'] ?? null;
