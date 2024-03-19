@@ -155,9 +155,14 @@ class Zip
      */
     public function addPath(string $path, ?string $path_inside_zip = null): void
     {
+        $path_inside_zip = $path_inside_zip ?? basename($path);
+
+        // create directory if it does not exist
+        $this->zip->addEmptyDir(rtrim(dirname($path_inside_zip), '/') . '/');
+
         $this->addStream(
-            Streams::ofResource(fopen($path, 'r')),
-            $path_inside_zip ?? basename($path)
+            Streams::ofResource(fopen($path, 'rb')),
+            $path_inside_zip
         );
     }
 
@@ -205,12 +210,16 @@ class Zip
             if ($pattern !== null) {
                 $path_inside_zip = $prefix . preg_replace($pattern, '', $path_inside_zip);
             }
-
             /** @var $file \SplFileInfo */
+            // skip . and .. directories
+            if (in_array($file->getBasename(), ['.', '..'], true)) {
+                continue;
+            }
+
             if ($file->isDir()) {
                 // add directory to zip if it's empty
                 if (count(scandir($pathname)) === 2) {
-                    $this->zip->addEmptyDir($path_inside_zip);
+                    $this->zip->addEmptyDir(rtrim($path_inside_zip, '/') . '/');
                 }
                 continue;
             }
