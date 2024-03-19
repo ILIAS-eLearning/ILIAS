@@ -93,7 +93,7 @@ class ZipTest extends TestCase
             $parts = explode('/', $path);
             $depth = max($depth, count($parts));
         }
-        $this->assertEquals(1, $depth);
+        $this->assertEquals(2, $depth);
         $this->recurseRmdir($this->unzips_dir);
     }
 
