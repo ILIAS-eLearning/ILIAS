@@ -24,7 +24,7 @@ use ILIAS\Setup\Environment;
 class LSOMigratePageIdsIntro implements Setup\Migration
 {
     private const DEFAULT_AMOUNT_OF_STEPS = 1000;
-    private const QUERY = "SELECT page_id, parent_id, count(page_id) AS cnt" . PHP_EOL
+    private const QUERY = "SELECT page_id, parent_id, parent_type, count(page_id) AS cnt" . PHP_EOL
         . "FROM page_object" . PHP_EOL
         . "WHERE page_id = (parent_id * -1)" . PHP_EOL
         . "AND parent_type = 'cont'";
@@ -63,7 +63,8 @@ class LSOMigratePageIdsIntro implements Setup\Migration
         $query = 'UPDATE page_object' . PHP_EOL
             . "SET page_id = parent_id, parent_type = 'lso'" . PHP_EOL
             . "WHERE page_id = " . $row['page_id'] . PHP_EOL
-            . "AND parent_id = " . $row['parent_id'];
+            . "AND parent_id = " . $row['parent_id'] . PHP_EOL
+            . "AND parent_type = " . $this->db->quote($row['parent_type'], 'text');
         $this->db->manipulate($query);
     }
 
