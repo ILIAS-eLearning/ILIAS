@@ -91,6 +91,63 @@ Depending on where you want to use the presentation or editing features of the c
 
 A good example for how this can be done is `Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
 
+** Import / Export **
+
+To add pages to the export, you need to add tail dependencies for the COPage component:
+
+```
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ): array {
+        $deps = [];
+
+        if ($a_entity == "...") {
+        
+            $your_page_parent_type = "...";
+            $pg_ids = [];
+        
+            // get all page IDs and prefix them with your parent type
+            foreach ($a_ids as $obj_id) {
+                $pg_ids = array_merge($pg_ids, array_map(static function ($i) {
+                    return $your_page_parent_type . ":" $i;
+                }, yourFunctionToGetAllPageIds($obj_id));
+            }
+
+            $deps = array(
+                array(
+                    "component" => "Services/COPage",
+                    "entity" => "pg",
+                    "ids" => $pg_ids),
+            );
+
+        }
+
+        return $deps;
+    }
+```
+
+On import you need to add a mapping for your pages. Since your component has to manage the page IDs (COPage will not create these) you need to tell the COPage importer the mapping between import ID and the new ID for the page. This might happen in your importXmlRepresentation() method of your importer class or in importRecord() method when using datasets:
+
+```
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
+    {
+        ...
+        $your_page_parent_type = "...";
+        $a_mapping->addMapping(
+            "Services/COPage",
+            "pg",
+            $your_page_parent_type . ":" . $old_id,
+            $your_page_parent_type . ":" . $new_id
+        );
+        ...
+    }
+```
+
+Since the COPage dependency is a tail dependency, it will run after your import methods and assign the pages with the old import IDs to the new IDs.
+
+
 ### Implementing new page components
 
 Please replace the string `BaseName` and `typeid` with your individual class base name and component type id in the following code.
