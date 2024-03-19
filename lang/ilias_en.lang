@@ -13133,8 +13133,8 @@ prg#:#optgrp_label_validity#:#Expiry
 prg#:#orgu#:#Organisational Unit
 prg#:#pc_prg_action_note_label#:#Required Actions Study Programme
 prg#:#pc_prg_statusinfo_label#:#Statusinformation Study Programme
-prg#:#pc_prgactionnote_complete_content#:#Please complete the content.
-prg#:#pc_prgactionnote_complete_content_with_deadline#:#Please complete the content until
+prg#:#pc_prgactionnote_complete_content#:#You are assigned to the Study Programme, but have not completed its content. Please complete the content.
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#You are assigned to the Study Programme, but have not completed its content. Please complete the content until
 prg#:#pc_prgactionnote_headline#:#Required actions
 prg#:#pc_prgactionnote_no_actions_required#:#No actions required.
 prg#:#pc_prgstatus_edit_qualification#:#Re-processing required from
