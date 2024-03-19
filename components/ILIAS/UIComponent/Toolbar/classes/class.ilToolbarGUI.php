@@ -397,7 +397,7 @@ class ilToolbarGUI
                     }
                     $tpl_items->parseCurrentBlock();
                 }
-                $tpl_itemgroups = new ilTemplate("tpl.toolbar_itemgroup.html", true, true, "Services/UIComponent/Toolbar");
+                $tpl_itemgroups = new ilTemplate("tpl.toolbar_itemgroup.html", true, true, 'components/ILIAS/UIComponent/Toolbar');
                 $tpl_itemgroups->setCurrentBlock("itemgroup");
                 $tpl_itemgroups->setVariable("ITEMS", $tpl_items->get());
                 $tpl_itemgroups->parseCurrentBlock();
