@@ -1180,29 +1180,18 @@ class ilObjMediaObject extends ilObject
                         $obj_id = ilPortfolioTemplatePage::findPortfolioForPage($id);
                         break;
 
-                    case "blp":
-                        // blog
-                        $obj_id = ilPageObject::lookupParentId($id, 'blp');
-                        break;
 
                     case "impr":
                         // imprint page - always id 1
                         // fallthrough
 
-                    case "crs":
-                    case "grp":
-                    case "cat":
-                    case "fold":
-                    case "root":
-                    case "cont":
                     case "copa":
                     case "cstr":
-                        // repository pages
                         $obj_id = $id;
-                        // see #39159
-                        if ($obj_id < 0 && ilObject::_lookupType(-$obj_id) === "lso") {
-                            $obj_id = -$obj_id;
-                        }
+                        break;
+
+                    default:
+                        $obj_id = ilPageObject::lookupParentId($id, $cont_type);
                         break;
                 }
                 break;
