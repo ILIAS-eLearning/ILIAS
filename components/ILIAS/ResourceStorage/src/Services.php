@@ -49,7 +49,7 @@ use ILIAS\ResourceStorage\Manager\ContainerManager;
  * @public
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-final class Services
+class Services
 {
     protected Subject $events;
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;

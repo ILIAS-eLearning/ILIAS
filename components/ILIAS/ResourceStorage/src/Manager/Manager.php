@@ -37,7 +37,7 @@ use ILIAS\ResourceStorage\Revision\RevisionStatus;
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-final class Manager extends BaseManager
+class Manager extends BaseManager
 {
 
     /**
