@@ -27,7 +27,7 @@
 				<xs:element name='EndingTime' type="Data" minOccurs='1' maxOccurs='1'/>
 				<xs:element name='Fulltime' type="Data" minOccurs='1' maxOccurs='1'/>
 				<xs:element name='MailMembers' type="Data" minOccurs='1' maxOccurs='1'/>
-				<!--<xs:element name='ShowMembers' type="Data" minOccurs='1' maxOccurs='1'/>-->
+				<xs:element name='ShowMembers' type="Data" minOccurs='0' maxOccurs='1'/>
 				<xs:element name='ShowCannotPart' type="Data" minOccurs='1' maxOccurs='1'/>
 				<xs:element name='Type' type="Data" minOccurs='1' maxOccurs='1'/>
 			</xs:sequence>
