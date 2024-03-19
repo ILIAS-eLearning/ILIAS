@@ -126,6 +126,11 @@ class ilFileObjectToStorageMigrationRunner
             );
         } catch (FileNamePolicyException $e) {
             // continue
+            $this->database->manipulateF(
+                'UPDATE file_data SET rid = %s WHERE file_id = %s',
+                ['text', 'integer'],
+                ['error', $object_id]
+            );
         }
 
         if (null === $this->getMigrateToNewObjectId()) {
