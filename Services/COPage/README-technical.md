@@ -42,6 +42,19 @@ public function getParentType()
 
 Please do not overwrite the constructor of this class.
 
+**Setting the Page Parent ID**
+
+If your page belongs to a repository object, set the parent ID of the page to the object ID of your repository object when creating new pages:
+
+```
+  $new_page_object = new ...();
+  $new_page_object->setParentId($this->object->getId());   // $this->object is an ilObject instance
+  ...
+```
+
+This will enable the default WAC checking for embedded media objects.
+
+
 **class {BASIC_CLASS_NAME}GUI extends \ilPageObjectGUI**
 
 The weak point of this class is also its constructor. You should overwrite it in order to pass your parent type in the following way:
