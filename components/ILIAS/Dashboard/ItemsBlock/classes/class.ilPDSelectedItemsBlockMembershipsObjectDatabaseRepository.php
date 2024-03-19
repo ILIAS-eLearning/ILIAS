@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements ilPDSelectedItemsBlockMembershipsObjectRepository
 {
@@ -43,9 +42,6 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         return self::VALID_OBJECT_TYPES;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode): Generator
     {
         $objTypes = array_intersect($objTypes, self::VALID_OBJECT_TYPES);

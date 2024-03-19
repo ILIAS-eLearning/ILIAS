@@ -3,32 +3,33 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
-/**
- * Personal desktop settings repo
  *
- * @author Alexander Killing <killing@leifos.de>
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Administration\Setting;
+
 class ilPersonalDesktopSettingsRepository
 {
-    protected \ILIAS\Administration\Setting $settings;
+    protected Setting $settings;
 
-    public function __construct(\ILIAS\Administration\Setting $settings)
+    public function __construct(Setting $settings)
     {
         $this->settings = $settings;
     }
 
 
-    // Notes enabled?
     public function ifNotesEnabled(): bool
     {
         return !$this->settings->get("disable_notes");
@@ -39,7 +40,6 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("disable_notes", (int) !$active);
     }
 
-    // Comments enabled?
     public function ifCommentsEnabled(): bool
     {
         return !$this->settings->get("disable_comments");
@@ -50,7 +50,6 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("disable_comments", (int) !$active);
     }
 
-    // Can authors delete their comments
     public function ifAuthorsCanDelete(): bool
     {
         return (bool) $this->settings->get("comments_del_user", '0');
@@ -61,7 +60,6 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("comments_del_user", (int) $active);
     }
 
-    // Can tutors delete comments of others
     public function ifTutorsCanDelete(): bool
     {
         return (bool) $this->settings->get("comments_del_tutor", '1');
@@ -72,19 +70,16 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("comments_del_tutor", (int) $active);
     }
 
-    // Get recipients of comments notification
     public function getCommentsNotificationRecipients(): string
     {
         return (string) $this->settings->get("comments_noti_recip");
     }
 
-    // Update recipients of comments notification
     public function updateCommentsNotificationRecipients(string $recipients): void
     {
         $this->settings->set("comments_noti_recip", $recipients);
     }
 
-    // learning history enabled?
     public function ifLearningHistoryEnabled(): bool
     {
         return (bool) $this->settings->get("enable_learning_history");
@@ -95,7 +90,6 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("enable_learning_history", (int) $active);
     }
 
-    // chat viewer enabled?
     public function ifChatViewerEnabled(): bool
     {
         return (bool) $this->settings->get("block_activated_chatviewer");
@@ -116,7 +110,6 @@ class ilPersonalDesktopSettingsRepository
         $this->settings->set("pd_sys_msg_mode", $mode);
     }
 
-    // forum draft block enabled?
     public function ifForumDrafts(): bool
     {
         return (bool) $this->settings->get('block_activated_pdfrmpostdraft', '0');
