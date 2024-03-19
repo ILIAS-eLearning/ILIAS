@@ -10944,6 +10944,7 @@ mail#:#mail_notification_membership_section#:#Članstvo
 mail#:#mail_notification_subject#:#Nova pošta u pristigloj pošti
 mail#:#mail_notify_orphaned#:#Poruka obavijesti
 mail#:#mail_notify_orphaned_info#:#Ako ovdje unesete vrijednost veću ili jednaku 1, ILIAS će poslati e-poštu korisniku prije nego što se interna pošta izbriše. Molimo pripazite da je moguć prijem vanjske e-pošte.
+mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.###19 03 2024 new variable
 mail#:#mail_options_saved#:#Opcije spremljene
 mail#:#mail_orphaned_mails#:#Izbrišite stare ili dugo nekorištene e-poruke
 mail#:#mail_orphaned_mails_desc#:#Izbrišite stare ili dugo nekorištene e-poruke
@@ -13599,6 +13600,7 @@ rbac#:#mobs_visible#:#Vidljiva je administracija medijskih objekata / bazena med
 rbac#:#mobs_write#:#Korisnik može uređivati postavke u administraciji medijskih objekata / bazena medija
 rbac#:#moderate#:#Moderiraj
 rbac#:#moderate_frm#:#Moderiraj
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Nema dostupnih uloga s odabranom postavkom filtra
 rbac#:#news_add_news#:#Dodaj vijesti
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###04 06 2021 new variable

@@ -10943,6 +10943,7 @@ mail#:#mail_notification_membership_section#:#Membership###30 08 2015 new variab
 mail#:#mail_notification_subject#:#您的收件箱中有新邮件
 mail#:#mail_notify_orphaned#:#Notification Mail###30 08 2015 new variable
 mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.###30 08 2015 new variable
+mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.###19 03 2024 new variable
 mail#:#mail_options_saved#:#选项已存
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails###30 08 2015 new variable
 mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails###30 08 2015 new variable
@@ -13598,6 +13599,7 @@ rbac#:#mobs_visible#:#媒体对象/池设置可见
 rbac#:#mobs_write#:#编辑媒体对象/池设置
 rbac#:#moderate#:#主持
 rbac#:#moderate_frm#:#Moderate
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#选定的过滤器设置没有可用的角色
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

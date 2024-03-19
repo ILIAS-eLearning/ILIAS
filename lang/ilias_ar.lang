@@ -10944,6 +10944,7 @@ mail#:#mail_notification_membership_section#:#Membership###30 08 2015 new variab
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail###30 08 2015 new variable
 mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.###30 08 2015 new variable
+mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.###19 03 2024 new variable
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails###30 08 2015 new variable
 mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails###30 08 2015 new variable
@@ -13599,6 +13600,7 @@ rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
 rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 rbac#:#moderate#:#Moderate
 rbac#:#moderate_frm#:#مشرف
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#لا يوجد وظائف متعلقة بإعدادات التصفية المختارة
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable
