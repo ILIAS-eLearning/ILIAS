@@ -421,7 +421,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         if ($status == ilPRGProgress::STATUS_COMPLETED ||
             $status == ilPRGProgress::STATUS_ACCREDITED
-            && $this->prg->isCertifcateActive()
+            && $this->prg->isCertificateActive()
         ) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_CERTIFICATE;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_CERTIFICATE;
