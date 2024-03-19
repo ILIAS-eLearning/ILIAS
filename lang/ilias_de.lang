@@ -13132,8 +13132,8 @@ prg#:#optgrp_label_validity#:#Ablauf
 prg#:#orgu#:#Organisationseinheit
 prg#:#pc_prg_action_note_label#:#Erforderliche Maßnahmen Studienprogramm
 prg#:#pc_prg_statusinfo_label#:#Statusinformation Studienprogramm
-prg#:#pc_prgactionnote_complete_content#:#Bitte vervollständigen Sie den Inhalt.
-prg#:#pc_prgactionnote_complete_content_with_deadline#:#Bitte vervollständigen Sie den Inhalt bis zum
+prg#:#pc_prgactionnote_complete_content#:#Sie sind zugewiesen, haben aber noch nicht abgeschlossen. Bitte bearbeiten Sie die Inhalte.
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#Sie sind zugewiesen, haben aber noch nicht abgeschlossen. Bitte bearbeiten Sie die Inhalte bis zum
 prg#:#pc_prgactionnote_headline#:#Erforderliche Maßnahmen
 prg#:#pc_prgactionnote_no_actions_required#:#Keine Maßnahmen erforderlich.
 prg#:#pc_prgstatus_edit_qualification#:#Erneut zu bearbeiten ab
