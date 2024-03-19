@@ -619,8 +619,8 @@ class ilObjLearningSequence extends ilContainer
         }
 
         $gui = $page_type === LSOPageType::INTRO ?
-            new ilObjLearningSequenceEditIntroGUI(LSOPageType::INTRO, $this->getContentPageId()) :
-            new ilObjLearningSequenceEditExtroGUI(LSOPageType::EXTRO, $this->getContentPageId());
+            new ilObjLearningSequenceEditIntroGUI(LSOPageType::INTRO->value, $this->getContentPageId()) :
+            new ilObjLearningSequenceEditExtroGUI(LSOPageType::EXTRO->value, $this->getContentPageId());
 
         $gui->setPresentationTitle("");
         $gui->setTemplateOutput(false);
