@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Dashboard side panel settings Repo
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilDashboardSidePanelSettingsRepository
 {
     public const CALENDAR = "cal";
@@ -77,7 +72,6 @@ class ilDashboardSidePanelSettingsRepository
         return in_array($mod, $this->getValidModules());
     }
 
-    // Enable module
     public function enable(string $mod, bool $active): void
     {
         if ($this->isValidModule($mod)) {
@@ -85,7 +79,6 @@ class ilDashboardSidePanelSettingsRepository
         }
     }
 
-    // Is module enabled?
     public function isEnabled(string $mod): bool
     {
         if ($this->isValidModule($mod)) {

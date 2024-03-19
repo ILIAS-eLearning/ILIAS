@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
-use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Section;

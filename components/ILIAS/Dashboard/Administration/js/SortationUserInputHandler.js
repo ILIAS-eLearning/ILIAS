@@ -14,16 +14,9 @@
  *
  *********************************************************************/
 
-/* global il */
 il.Dashboard = il.Dashboard || {};
-/**
- * @type {(view: int) => void}
- */
+
  il.Dashboard.handleUserInputForSortationsByView = function() {
-    /**
-     * @param {Element} selectio.nInput
-     * @param {Element} checkboxInput
-     */
     function updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput) {
         selectionInput.querySelectorAll('option').forEach(function (element) {
             if (element.value !== '') {
@@ -39,10 +32,6 @@ il.Dashboard = il.Dashboard || {};
         switchBackToDefaultIfEnabled(selectionInput, checkboxInput);
     }
 
-    /**
-     * @param {Element} selectionInput
-     * @param {Element} checkboxInput
-     */
     function switchBackToDefaultIfEnabled(selectionInput, checkboxInput) {
         selectionInput.querySelectorAll('option').forEach(function (element) {
             const checkboxOption = checkboxInput.querySelector('input[value="' + element.value + '"]');
@@ -55,9 +44,6 @@ il.Dashboard = il.Dashboard || {};
         });
     }
 
-    /**
-     * @param {Element} selectionInput
-     */
     function updateSelectedValueToFirstPossibleOption(selectionInput) {
         const selectedDefaultSortation = selectionInput.querySelector('option[selected="selected"]:not([disabled="disabled"])');
         if (!selectedDefaultSortation) {
@@ -67,9 +53,7 @@ il.Dashboard = il.Dashboard || {};
             }
         }
     }
-    /**
-     * @param {Element} checkboxInput
-     */
+
     function ensureLastOptionNotDeselectable(checkboxInput) {
         const checkedCheckbox = checkboxInput.querySelectorAll('input[type="checkbox"]:checked');
         if (checkedCheckbox.length === 1) {

@@ -3,21 +3,21 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
-/**
- * Classic table for rep object lists, including checkbox
  *
- * @author Alexander Killing <killing@leifos.de>
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDashObjectsTableGUI extends ilTable2GUI
 {
     public function __construct(
@@ -45,9 +45,6 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $this->setLimit(9999);
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
