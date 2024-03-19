@@ -1,6 +1,24 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
+
+use ILIAS\UI\Component\Link\Standard as StandardLink;
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -11,10 +29,8 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 {
     public function collectPropertiesAndActions(): void
     {
-        global $DIC;
-
-        $f = $DIC->ui()->factory();
-        $r = $DIC->ui()->renderer();
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
         $this->lng->loadLanguageModule("sess");
         $this->lng->loadLanguageModule("crs");
 
@@ -76,7 +92,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
         $eventItems = ilObjectActivation::getItemsByEvent($this->getObjIdForAppointment());
         if (count($eventItems)) {
-            $str = array();
+            $links = [];
             foreach ($eventItems as $file) {
                 if ($file['type'] == "file") {
                     $this->has_files = true;
@@ -85,13 +101,13 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
                     if (ilObjFileAccess::_isFileInline($file["title"])) {
                         $link = $link->withOpenInNewViewport(true);
                     }
-                    $str[$file['title']] = $r->render($link);
+                    $links[] = $link;
                 }
             }
             if ($this->has_files) {
-                ksort($str, SORT_NATURAL | SORT_FLAG_CASE);
-                $this->addInfoProperty($this->lng->txt("files"), implode("<br>", $str));
-                $this->addListItemProperty($this->lng->txt("files"), implode(", ", $str));
+                $rendered = $this->sortAndRenderLinks(...$links);
+                $this->addInfoProperty($this->lng->txt("files"), implode("<br>", $rendered));
+                $this->addListItemProperty($this->lng->txt("files"), implode(", ", $rendered));
             }
         }
 
@@ -120,8 +136,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
      */
     protected function getOtherMaterials(): array
     {
-        global $DIC;
-
         $event_items = new ilEventItems($this->getObjIdForAppointment());
         $others = [];
         foreach ($event_items->getItems() as $ref_id) {
@@ -134,5 +148,20 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
             }
         }
         return $others;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function sortAndRenderLinks(StandardLink ...$links): array
+    {
+        usort($links, function (StandardLink $a, $b) {
+            return $a->getLabel() <=> $b->getLabel();
+        });
+        $rendered = [];
+        foreach ($links as $link) {
+            $rendered[] = $this->ui->renderer()->render($link);
+        }
+        return $rendered;
     }
 }
