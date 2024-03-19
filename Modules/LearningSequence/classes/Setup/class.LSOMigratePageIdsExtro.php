@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective\MigrationObjective;
 
 class LSOMigratePageIdsExtro implements Setup\Migration
 {
@@ -45,10 +44,7 @@ class LSOMigratePageIdsExtro implements Setup\Migration
     public function getPreconditions(Environment $environment): array
     {
         return [
-            new ilDatabaseInitializedObjective(),
-            new MigrationObjective(
-                new  LSOMigratePageIdsIntro()
-            )
+            new ilDatabaseInitializedObjective()
         ];
     }
 
