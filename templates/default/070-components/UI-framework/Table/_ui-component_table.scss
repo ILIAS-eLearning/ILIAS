@@ -134,6 +134,9 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     background-color: $il-main-bg; // so sticky cells can cover up cells underneath them
     padding: $il-padding-large-vertical $il-padding-large-horizontal;
     border: 1px solid $il-main-border-color;
+    &--multiaction {
+        padding-bottom: $il-padding-xlarge-vertical;
+    }
 }
 
 // hover row on larger screens only
@@ -260,11 +263,6 @@ th.c-table-data__cell:after {
 
 .c-table-data__multiaction-triggerer {
     width: fit-content;
-}
-
-.c-table-data__multiaction-triggerer {
-    padding-top: $il-margin-large-vertical;
-    padding-left: $il-margin-large-horizontal;
 }
 
 //
@@ -412,15 +410,6 @@ td.c-table-data__cell--highlighted {
         }
         .c-table-data__rowaction {
             margin-left: auto;
-        }
-
-        //
-        // Multiaction Dropdown below table
-        //
-
-        .c-table-data__multiaction-triggerer {
-            padding-top: $il-padding-xxlarge-vertical;
-            padding-left: 0;
         }
     }
 }
