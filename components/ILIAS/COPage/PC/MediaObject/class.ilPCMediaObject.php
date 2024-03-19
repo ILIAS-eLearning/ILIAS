@@ -443,6 +443,11 @@ class ilPCMediaObject extends ilPageContent
                 "",
                 $a_output
             );
+            $a_output = str_replace(
+                "{{{{{No Media Type}}}}}",
+                "",
+                $a_output
+            );
         }
 
         // add fullscreen modals

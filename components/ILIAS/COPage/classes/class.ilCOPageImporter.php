@@ -71,7 +71,6 @@ class ilCOPageImporter extends ilXmlImporter
             $pg_id = $a_mapping->getMapping("components/ILIAS/COPage", "pg", $a_id);
 
             $this->log->debug("mapping id: " . $pg_id);
-
             if ($pg_id != "") {
                 $id = explode(":", $pg_id);
                 if (count($id) == 2) {
@@ -99,7 +98,8 @@ class ilCOPageImporter extends ilXmlImporter
                             $page->updateFromXML();
                             $this->extractPluginProperties($page);
                         } else {
-                            if (ilPageObject::_exists($id[0], (int) $id[1], "-", true)) {
+                            // #31937, #39229 (added lang === "-")
+                            if ($lstr === "-" && ilPageObject::_exists($id[0], (int) $id[1], "-", true)) {
                                 return;
                             }
                             $new_page = ilPageObjectFactory::getInstance($id[0]);
