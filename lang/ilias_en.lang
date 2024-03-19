@@ -17100,6 +17100,7 @@ ui#:#2stars#:#two of five stars
 ui#:#3stars#:#three of five stars
 ui#:#4stars#:#four of five stars
 ui#:#5stars#:#five of five stars
+ui#:#datatable_multiaction_label#:#Bulk Actions
 ui#:#datatable_multiactionmodal_actionlabel#:#operation
 ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
