@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\Administration\Setting;
@@ -30,7 +31,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::VIEW_LEARNING_SEQUENCES,
         self::VIEW_MY_STUDYPROGRAMME,
     ];
-
     /** @var string[] */
     protected static array $viewNames = [
         self::VIEW_SELECTED_ITEMS => 'favourites',
@@ -39,7 +39,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::VIEW_LEARNING_SEQUENCES => 'learning_sequences',
         self::VIEW_MY_STUDYPROGRAMME => 'study_programmes',
     ];
-
     /** @var string[] */
     protected static array $availablePresentations = [
         self::PRESENTATION_LIST,
@@ -52,10 +51,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::SORT_BY_START_DATE,
         self::SORT_BY_ALPHABET,
     ];
-
-    /**
-     * @var array<int, string[]>
-     */
+    /** @var array<int, string[]> */
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::SORT_BY_LOCATION,

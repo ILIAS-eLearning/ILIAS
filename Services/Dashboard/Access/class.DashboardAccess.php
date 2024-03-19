@@ -3,27 +3,30 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Dashboard\Access;
 
-/**
- * Dashboard permission wrapper
- *
- * @author Alexander Killing <killing@leifos.de>
- */
+use ilDBInterface;
+use ilRbacSystem;
+
 class DashboardAccess
 {
-    protected \ilRbacSystem $rbac_system;
-    protected \ilDBInterface $db;
+    protected ilRbacSystem $rbac_system;
+    protected ilDBInterface $db;
     protected static int $setting_ref_id = 0;
 
     public function __construct()
@@ -34,9 +37,6 @@ class DashboardAccess
         $this->rbac_system = $DIC->rbac()->system();
     }
 
-    /**
-     * Get dashboard settings ref id
-     */
     protected function getSettingsRefId(): int
     {
         if (self::$setting_ref_id == 0) {
