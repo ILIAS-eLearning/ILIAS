@@ -74,6 +74,8 @@ class SortationTest extends ILIAS_UI_TestBase
         $signal = $generator->create();
         $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
         $this->assertEquals('internal_rating', $s->withSelected('internal_rating')->getSelected());
+        $this->assertFalse($s->isHiddenLabel());
+        $this->assertTrue($s->withHiddenlabel(true)->isHiddenLabel());
     }
 
     public function testRendering(): void

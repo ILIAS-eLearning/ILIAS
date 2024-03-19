@@ -75,4 +75,9 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      * Set the selected option.
      */
     public function withSelected(string $selected_option): self;
+
+    /**
+     * Do not display the selected label in the unopened control.
+     */
+    public function withHiddenLabel(bool $flag): self;
 }

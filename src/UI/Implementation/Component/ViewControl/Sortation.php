@@ -38,6 +38,7 @@ class Sortation implements C\ViewControl\Sortation
     protected ?string $target_url = null;
     protected string $parameter_name = "sortation";
     protected ?string $active = null;
+    protected bool $hidden_label = false;
 
     /**
      * @param array<string,string> $options
@@ -47,7 +48,9 @@ class Sortation implements C\ViewControl\Sortation
         protected string $selected,
         protected SignalGeneratorInterface $signal_generator
     ) {
-        $this->checkArgIsElement('selected', $selected, array_keys($options), 'one of [' . implode(', ', array_keys($options)) . ']');
+        $check = array_keys($options);
+        $check[] = '';
+        $this->checkArgIsElement('selected', $selected, $check, 'one of [' . implode(', ', array_keys($options)) . ']');
         $this->initSignals();
     }
 
@@ -149,5 +152,17 @@ class Sortation implements C\ViewControl\Sortation
     public function getSelected(): ?string
     {
         return $this->selected;
+    }
+
+    public function isHiddenLabel(): bool
+    {
+        return $this->hidden_label;
+    }
+
+    public function withHiddenLabel(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->hidden_label = $flag;
+        return $clone;
     }
 }
