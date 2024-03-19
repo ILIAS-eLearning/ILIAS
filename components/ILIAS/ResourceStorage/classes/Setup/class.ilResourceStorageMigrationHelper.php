@@ -38,6 +38,7 @@ use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
 use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -326,7 +327,7 @@ class ilResourceStorageMigrationHelper
         }
 
         $zip = new Zip(
-            (new ZipOptions())->withEnsureTopDirectoy(false)
+            (new ZipOptions())->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
         );
         $zip->addDirectory($absolute_path_to_directory);
         try {
