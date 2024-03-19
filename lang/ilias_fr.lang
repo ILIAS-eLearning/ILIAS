@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Panneau d'administration visible
 rbac#:#mobs_write#:#Administration autorisée
 rbac#:#moderate#:#Modérer
 rbac#:#moderate_frm#:#Modérer
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Aucun rôle disponible
 rbac#:#news_add_news#:#Ajouter les nouvelles
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.

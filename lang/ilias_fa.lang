@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Media Objects/Pools administration is visible###28 08 2012
 rbac#:#mobs_write#:#User can edit settings in Media Objects/Pools administration###28 08 2012 new variable
 rbac#:#moderate#:#مدیریت
 rbac#:#moderate_frm#:#مدیریت
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#نقشی برای تنظیمات فیلتر انتخاب شده وجود ندارد
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

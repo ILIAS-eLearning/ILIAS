@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Definições guardadas
 rbac#:#mobs_write#:#Número necessário de visitas
 rbac#:#moderate#:#Moderar
 rbac#:#moderate_frm#:#Moderar
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Nenhumas funções disponíveis com definição de filtro selecionada
 rbac#:#news_add_news#:#Adicionar notícias
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

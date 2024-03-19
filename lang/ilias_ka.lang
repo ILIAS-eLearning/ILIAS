@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Media Objects/Pools administration is visible
 rbac#:#mobs_write#:#User can edit settings in Media Objects/Pools administration
 rbac#:#moderate#:#Moderate
 rbac#:#moderate_frm#:#შეცვლა
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#მონიშნული ფილტრის პარამეტრებში პასუხისმგებლობები არ არის ხელმისაწვდომი
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

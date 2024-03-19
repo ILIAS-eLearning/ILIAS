@@ -13335,6 +13335,7 @@ rbac#:#mobs_visible#:#Administracija medijskih objektov in skupin medijev je vid
 rbac#:#mobs_write#:#Uredi nastavitve za medijske objekte in skupine medijev
 rbac#:#moderate#:#Moderiraj
 rbac#:#moderate_frm#:#Moderiraj
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Z izbrano nastavitvijo filtra ni na voljo nobene vloge
 rbac#:#news_add_news#:#Ustvari novosti
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###19 08 2022 new variable

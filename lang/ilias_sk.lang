@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Nastavení mediálních objektů/zásobníků je viditeln�
 rbac#:#mobs_write#:#Upravit nastavení mediálního objektu/zásobníku
 rbac#:#moderate#:#Moderate###10 11 2011 new variable
 rbac#:#moderate_frm#:#Moderovat
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Žádná role pro vybrané nastavení filtru nenalezena
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

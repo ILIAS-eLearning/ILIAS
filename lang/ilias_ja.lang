@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#メディアオブジェクト・集管理を表示
 rbac#:#mobs_write#:#ユーザはメディアオブジェクト・集管理の設定を編集できます
 rbac#:#moderate#:#モデレート
 rbac#:#moderate_frm#:#モデレータ役
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#選択したフィルタ設定には利用可能な役割がありません
 rbac#:#news_add_news#:#ニュースを追加
 rbac#:#nots_edit_permissions#:#ユーザは通知管理のアクセス権設定変更ができます。

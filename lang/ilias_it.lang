@@ -13335,6 +13335,7 @@ rbac#:#mobs_visible#:#Le impostazioni degli oggetti multimediali/dei pool sono v
 rbac#:#mobs_write#:#L'utente può modificare le impostazioni degli oggetti multimediali/dei pool
 rbac#:#moderate#:#Moderare
 rbac#:#moderate_frm#:#Moderare
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Non sono disponibili ruoli, con queste impostazioni di filtro.
 rbac#:#news_add_news#:#Aggiungi notizie
 rbac#:#nots_edit_permissions#:#L'utente può cambiare le impostazioni di autorizzazione dell'amministrazione di Notes.

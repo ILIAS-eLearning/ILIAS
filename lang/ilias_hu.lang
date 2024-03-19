@@ -13335,6 +13335,7 @@ rbac#:#mobs_visible#:#A felhasználó láthatja a Rendszerbeállítások » Méd
 rbac#:#mobs_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények beállításait
 rbac#:#moderate#:#Moderálás
 rbac#:#moderate_frm#:#Moderálás
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Nincsenek elérhetők szerepek a kiválasztott szűrőbeállítással.
 rbac#:#news_add_news#:#Hír létrehozása
 rbac#:#nots_edit_permissions#:#A felhasználó módosíthatja a Rendszerbeállítások » Jegyzetek jogosultsági beállításait

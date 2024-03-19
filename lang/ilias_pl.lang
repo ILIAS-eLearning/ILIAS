@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Ustawienia dla obiekty/pule mediów są widoczne
 rbac#:#mobs_write#:#Edytuj ustawienia dla obiekty/pule mediów
 rbac#:#moderate#:#Moderuj
 rbac#:#moderate_frm#:#Moderuj
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Brak dostępnych roli spełniających ustawienia filtru
 rbac#:#news_add_news#:#Utwórz nowości
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

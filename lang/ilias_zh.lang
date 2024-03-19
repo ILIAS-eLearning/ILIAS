@@ -13320,6 +13320,7 @@ rbac#:#mobs_visible#:#媒体对象/池设置可见
 rbac#:#mobs_write#:#编辑媒体对象/池设置
 rbac#:#moderate#:#主持
 rbac#:#moderate_frm#:#Moderate
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#选定的过滤器设置没有可用的角色
 rbac#:#news_add_news#:#Add News###25 10 2016 new variable
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable

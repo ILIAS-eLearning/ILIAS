@@ -13321,6 +13321,7 @@ rbac#:#mobs_visible#:#Vidljiva je administracija medijskih objekata / bazena med
 rbac#:#mobs_write#:#Korisnik može uređivati postavke u administraciji medijskih objekata / bazena medija
 rbac#:#moderate#:#Moderiraj
 rbac#:#moderate_frm#:#Moderiraj
+rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Nema dostupnih uloga s odabranom postavkom filtra
 rbac#:#news_add_news#:#Dodaj vijesti
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###04 06 2021 new variable
