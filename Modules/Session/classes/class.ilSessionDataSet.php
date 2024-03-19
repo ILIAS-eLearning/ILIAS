@@ -179,7 +179,9 @@ class ilSessionDataSet extends ilDataSet
                         'MailMembers' => 'integer',
                         'ShowMembers' => 'integer',
                         'Type' => 'integer',
-                        'ShowCannotPart' => 'integer'
+                        'ShowCannotPart' => 'integer',
+                        'RegistrationNotificationEnabled' => 'integer',
+                        'RegistrationNotificationOption' => 'text'
                     );
             }
         }
@@ -269,8 +271,9 @@ class ilSessionDataSet extends ilDataSet
                         " location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, " .
                         " reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, " .
                         " reg_limit_users limit_users, reg_min_users min_users, " .
-                        " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members " .
-                        " show_cannot_part " .
+                        " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members, " .
+                        " show_cannot_part, reg_notification registration_notification_enabled, " .
+                        " notification_opt registration_notification_option " .
                         " FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) " .
                         " JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  " .
                         " JOIN object_description odes ON (ev.obj_id = odes.obj_id) " .
@@ -372,6 +375,25 @@ class ilSessionDataSet extends ilDataSet
                 $newObj->setDetails($a_rec["Details"]);
 
                 switch ($a_schema_version) {
+                    case '5.4.0':
+                    case '7.0':
+                        if (isset($a_rec['MailMembers'])) {
+                            $newObj->setMailToMembersType($a_rec['MailMembers']);
+                        }
+                        if (isset($a_rec['ShowMembers'])) {
+                            $newObj->setShowMembers($a_rec['ShowMembers']);
+                        }
+                        if (isset($a_rec['ShowCannotPart'])) {
+                            $newObj->enableCannotParticipateOption((bool) $a_rec['ShowCannotPart']);
+                        }
+                        if (isset($a_rec['RegistrationNotificationEnabled'])) {
+                            $newObj->setRegistrationNotificationEnabled((bool) $a_rec['RegistrationNotificationEnabled']);
+                        }
+                        if (isset($a_rec['RegistrationNotificationOption'])) {
+                            $newObj->setRegistrationNotificationOption((string) $a_rec['RegistrationNotificationOption']);
+                        }
+                        $this->applyDidacticTemplate($newObj, $a_rec['Type']);
+                        // no break
                     case "5.0.0":
                     case "5.1.0":
                         $newObj->setRegistrationType($a_rec["Registration"]);
@@ -387,20 +409,6 @@ class ilSessionDataSet extends ilDataSet
                         if (isset($a_rec["AutoWait"])) {
                             $newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
                         }
-                        break;
-                    case '5.4.0':
-                    case '7.0':
-                        if (isset($a_rec['MailMembers'])) {
-                            $newObj->setMailToMembersType($a_rec['MailMembers']);
-                        }
-                        if (isset($a_rec['ShowMembers'])) {
-                            $newObj->setShowMembers($a_rec['ShowMembers']);
-                        }
-                        if (isset($a_rec['ShowCannotPart'])) {
-                            $newObj->enableCannotParticipateOption((bool) $a_rec['show_cannot_part']);
-                            break;
-                        }
-                        $this->applyDidacticTemplate($newObj, $a_rec['Type']);
                         break;
                 }
 
