@@ -53,9 +53,9 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function sortation(array $options, string $default): VC\Sortation
+    public function sortation(array $options, string $selected): VC\Sortation
     {
-        return new Sortation($options, $default, $this->signal_generator);
+        return new Sortation($options, $selected, $this->signal_generator);
     }
 
     /**

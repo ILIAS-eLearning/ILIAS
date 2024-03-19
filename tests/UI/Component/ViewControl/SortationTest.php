@@ -121,7 +121,7 @@ EOT;
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options, current(array_keys($this->options)))
+        $s = $f->sortation($this->options, array_key_first($this->options))
             ->withAdditionalOnLoadCode(
                 function ($id) {
                     return "";
