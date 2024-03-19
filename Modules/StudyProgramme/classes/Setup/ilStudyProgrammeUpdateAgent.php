@@ -44,6 +44,9 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
         $udf_definitions = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeUDFDefinitionUpdateSteps()
         );
+        $update_auto_assignment = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammeAutoMembershipTableUpdateSteps()
+        );
 
         return new Setup\ObjectiveCollection(
             'Database is updated for Module/Studyprogramme',
@@ -53,7 +56,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             $update_settings,
             $update_auto_category,
             $enable_pc_statusinfo,
-            $udf_definitions
+            $udf_definitions,
+            $update_auto_assignment
         );
     }
 
@@ -67,7 +71,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammePCStatusInfoUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeUDFDefinitionUpdateSteps())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeUDFDefinitionUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoMembershipTableUpdateSteps()),
         );
     }
 }
