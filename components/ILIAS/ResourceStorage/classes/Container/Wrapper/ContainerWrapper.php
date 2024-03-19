@@ -79,6 +79,13 @@ final class ContainerWrapper
         if (empty($this->data)) {
             $this->data = $this->reader->getStructure();
         }
+
+        // remove items from array with key . or /
+        $this->data = array_filter(
+            $this->data,
+            static fn($key) => !in_array($key, ['.', '/', './', '..'], true),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     public function download(string $path_inside_zip): never
