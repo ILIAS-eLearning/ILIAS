@@ -433,7 +433,7 @@ class ilColumnGUI
 
             // get block for custom blocks
             if ($block["custom"]) {
-                $path = "./" . self::$locations[$gui_class] . "classes/" .
+                $path = "./../" . self::$locations[$gui_class] . "classes/" .
                     "class." . $block_class . ".php";
                 if (file_exists($path)) {
                     $app_block = new $block_class((int) $block["id"]);
