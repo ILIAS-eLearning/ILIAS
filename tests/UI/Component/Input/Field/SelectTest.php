@@ -225,7 +225,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $select = $select->withRequired(true);
         $html_with_required = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
 
-        $this->assertTrue(str_contains($html_with_required, ">-</option>"));
+        $this->assertTrue(str_contains($html_with_required, ">ui_select_dropdown_label</option>"));
         $this->assertTrue(str_contains($html_with_required, "value=\"\""));
 
         $select = $select->withRequired(false)->withValue("something_value");

@@ -450,7 +450,7 @@ class Renderer extends AbstractComponentRenderer
 
         if(!($value && $component->isRequired())) {
             $tpl->setVariable("VALUE", null);
-            $tpl->setVariable("VALUE_STR", "-");
+            $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
         }
 
