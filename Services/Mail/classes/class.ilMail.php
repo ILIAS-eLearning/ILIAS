@@ -1212,12 +1212,13 @@ class ilMail
     ) : array {
         global $DIC;
 
-        $this->logger->debug(
+        $this->logger->info(
             "New mail system task:" .
             " To: " . $a_rcp_to .
             " | CC: " . $a_rcp_cc .
             " | BCC: " . $a_rcp_bcc .
-            " | Subject: " . $a_m_subject
+            " | Subject: " . $a_m_subject .
+            " | Attachments: " . print_r($a_attachment, true)
         );
 
         if ($a_attachment && !$this->mfile->checkFilesExist($a_attachment)) {
