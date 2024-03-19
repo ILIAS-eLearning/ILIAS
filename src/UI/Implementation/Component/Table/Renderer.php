@@ -409,7 +409,7 @@ class Renderer extends AbstractComponentRenderer
                 $actions
             ),
             ""
-        );
+        )->withRequired(true);
         $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_buttonlabel'), '')
             ->withOnLoadCode(
                 static fn($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
@@ -444,7 +444,7 @@ class Renderer extends AbstractComponentRenderer
         $buttons[] = $f->divider()->horizontal();
         $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick($modal_signal);
 
-        return $f->dropdown()->standard($buttons);
+        return $f->dropdown()->standard($buttons)->withLabel($this->txt('datatable_multiaction_label'));
     }
 
     protected function getAsyncActionHandler(Component\Signal $action_signal): \Closure
