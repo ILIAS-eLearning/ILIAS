@@ -135,13 +135,14 @@ class Renderer extends AbstractComponentRenderer
         $ui_factory = $this->getUIFactory();
 
         foreach ($component->getOptions() as $opt_label => $order) {
-            $opt_value = $order->join(':', fn($ret, $key, $value) => implode($ret, [$key, $value]));
+            $opt_value = $order->join(':', fn($ret, $key, $value) => [$key, $value]);
             $internal_signal = $component->getInternalSignal();
             $internal_signal->addOption('value', $opt_value);
             $item = $ui_factory->button()->shy((string)$opt_label, '#')
                 ->withOnClick($internal_signal);
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("OPTION", $default_renderer->render($item));
+
             if ($opt_value === $component->getValue()) {
                 $tpl->touchBlock("selected");
                 $tpl->setCurrentBlock("option");
