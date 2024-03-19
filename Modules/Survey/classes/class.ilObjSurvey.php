@@ -6217,7 +6217,14 @@ class ilObjSurvey extends ilObject
         $log->debug("html (first 1000 chars): " . substr($html, 0, 1000));
         //echo $html; exit;
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
+        $attachment_filename = "survey_" . $this->getRefId() . "_" . (new DateTimeImmutable('now'))->format('Ymd_His') . ".pdf";
+        $pdf = $pdf_factory->deliverPDFFromHTMLString(
+            $html,
+            $attachment_filename,
+            ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE,
+            "Survey",
+            "Results"
+        );
         $log->debug("--pdf end");
 
         if (!$pdf ||
@@ -6227,9 +6234,8 @@ class ilObjSurvey extends ilObject
         
         // prepare mail attachment
         require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-        $att = "survey_" . $this->getRefId() . ".pdf";
         $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $mail_data->copyAttachmentFile($pdf, $att);
+        $mail_data->copyAttachmentFile($pdf, $attachment_filename);
             
         foreach ($this->getTutorResultsRecipients() as $user_id) {
             // use language of recipient to compose message
@@ -6252,7 +6258,7 @@ class ilObjSurvey extends ilObject
                 "",
                 $subject,
                 $message,
-                array($att)
+                array($attachment_filename)
             );
         }
         
