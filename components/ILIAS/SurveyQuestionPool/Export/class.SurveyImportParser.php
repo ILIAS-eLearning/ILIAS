@@ -52,6 +52,7 @@ class SurveyImportParser extends ilSaxParser
     public int $text_size = 0;
     public string $characterbuffer = "";
     public string $activetag = "";
+    public array $material = [];
     public array $metadata = [];
     public array $responses = [];
     public array $variables = [];
@@ -75,7 +76,6 @@ class SurveyImportParser extends ilSaxParser
     public array $questionblock = [];
     public array $questionblocks = [];
     public string $questionblocktitle = "";
-    protected array $material = [];
 
     public function __construct(
         int $a_spl_id,
@@ -91,6 +91,7 @@ class SurveyImportParser extends ilSaxParser
         $this->characterbuffer = "";
         $this->survey_status = false;
         $this->activetag = "";
+        $this->material = [];
         $this->depth = 0;
         $this->path = array();
         $this->metadata = array();
@@ -317,6 +318,15 @@ class SurveyImportParser extends ilSaxParser
                     }
                 }
                 break;
+            case "material":
+                switch ($this->getParent()) {
+                    case "question":
+                    case "questiontext":
+                        $this->material = [];
+                        break;
+                }
+                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"] ?? "");
+                break;
             case "matimage":
             case "label":
                 if (array_key_exists("label", $a_attribs)) {
@@ -342,16 +352,19 @@ class SurveyImportParser extends ilSaxParser
                 $this->matrix = array();
                 break;
             case "matrixrow":
+                $this->material = [];
                 $this->matrix[] = "";
                 $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "");
                 break;
             case "responses":
+                $this->material = [];
                 $this->responses = array();
                 break;
             case "variables":
                 $this->variables = array();
                 break;
             case "response_single":
+                $this->material = [];
                 $this->responses[$a_attribs["id"]] = array("type" => "single",
                                                            "id" => $a_attribs["id"],
                                                            "label" => $a_attribs["label"] ?? "",
@@ -361,14 +374,17 @@ class SurveyImportParser extends ilSaxParser
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_multiple":
+                $this->material = [];
                 $this->responses[$a_attribs["id"]] = array("type" => "multiple", "id" => $a_attribs["id"], "label" => $a_attribs["label"] ?? "", "other" => $a_attribs["other"] ?? "", "neutral" => $a_attribs["neutral"] ?? "", "scale" => $a_attribs["scale"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_text":
+                $this->material = [];
                 $this->responses[$a_attribs["id"]] = array("type" => "text", "id" => $a_attribs["id"], "columns" => $a_attribs["columns"], "maxlength" => $a_attribs["maxlength"] ?? null, "rows" => $a_attribs["rows"], "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
             case "response_num":
+                $this->material = [];
                 $this->responses[$a_attribs["id"]] = array("type" => "num", "id" => $a_attribs["id"], "format" => $a_attribs["format"], "max" => $a_attribs["max"] ?? null, "min" => $a_attribs["min"] ?? null, "size" => $a_attribs["size"] ?? null, "label" => $a_attribs["label"] ?? "");
                 $this->response_id = $a_attribs["id"];
                 break;
@@ -537,7 +553,12 @@ class SurveyImportParser extends ilSaxParser
                                 $this->survey->setOutro($this->material[0]["text"]);
                             }
                         }
-                        $this->material = [];
+                        $this->material = array();
+                    }
+                } else {
+                    if (strcmp($this->getParent(), "question") == 0) {
+                        /*$this->activequestion->setMaterial($this->material[0]["text"], true,
+                            $this->material[0]["label"]);*/
                     }
                 }
                 break;
