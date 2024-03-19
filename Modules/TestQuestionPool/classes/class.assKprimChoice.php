@@ -972,7 +972,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             }
 
             $answers[] = array(
-                'answertext' => $this->formatSAQuestion($answer->getAnswertext()),
+                'answertext' => $this->formatSAQuestion($answer->getAnswertext() ?? ''),
                 'correctness' => (bool) $answer->getCorrectness(),
                 'order' => (int) $answer->getPosition(),
                 'image' => (string) $answer->getImageFile(),
