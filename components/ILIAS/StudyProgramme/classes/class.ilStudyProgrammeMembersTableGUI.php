@@ -228,8 +228,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
+                    $value = $row->getUserInformation()->getUserData($column) ?? '';
                     $this->tpl->setCurrentBlock('udf');
-                    $this->tpl->setVariable("UDF", $row->getUserInformation()->getUserData($column));
+                    $this->tpl->setVariable("UDF", $value);
                     $this->tpl->parseCurrentBlock();
             }
         }
