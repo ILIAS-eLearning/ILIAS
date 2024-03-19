@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Database Update class
@@ -202,6 +202,8 @@ class ilDBUpdate
 
         if ($custom_update) {
             $this->setCustomUpdatesCurrentVersion($nr);
+        } else {
+            $this->setCurrentVersion($nr);
         }
 
         return true;
@@ -219,6 +221,10 @@ class ilDBUpdate
         $this->readCustomUpdatesInfo();
         $this->custom_updates_setting->set('db_version_custom', (string) $a_version);
         $this->custom_updates_current_version = $a_version;
+    }
+
+    protected function setCurrentVersion(?int $a_version): void
+    {
     }
 
     public function getCustomUpdatesFileVersion(): ?int
