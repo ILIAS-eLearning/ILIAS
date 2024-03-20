@@ -17,13 +17,6 @@
  *********************************************************************/
 
 /**
- * Class ilParticipantsTestResultsGUI
- *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Modules/Test
- *
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssSpecFeedbackPageGUI
@@ -38,36 +31,25 @@ class ilParticipantsTestResultsGUI
     public const CMD_PERFORM_DELETE_SELECTED_USER_RESULTS = 'confirmDeleteSelectedUserData';
     private \ILIAS\Test\InternalRequestService $testrequest;
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
-
-    /**
-     * @var ilTestQuestionSetConfig
-     */
-    protected $questionSetConfig;
-
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lang;
-    protected ilDBInterface $db;
-    protected ilTabsGUI $tabs;
-    protected ilToolbarGUI $toolbar;
-
-    /**
-     * @var ilTestObjectiveOrientedContainer
-     */
-    protected $objectiveParent;
+    private ?ilObjTest $testObj = null;
+    private ?ilTestQuestionSetConfig $questionSetConfig = null;
+    private ?ilTestAccess $testAccess = null;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lang;
+    private ilDBInterface $db;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private \ILIAS\Refinery\Factory $refinery;
+    private ?ilTestObjectiveOrientedContainer $objectiveParent = null;
     private ilGlobalTemplateInterface $main_tpl;
+
     public function __construct()
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->ctrl = $DIC->ctrl();
         $this->lang = $DIC->language();
         $this->db = $DIC->database();
@@ -76,74 +58,47 @@ class ilParticipantsTestResultsGUI
         $this->testrequest = $DIC->test()->internal()->request();
     }
 
-    /**
-     * @return ilObjTest
-     */
     public function getTestObj(): ?ilObjTest
     {
         return $this->testObj;
     }
 
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+    public function setTestObj(ilObjTest $testObj): void
     {
         $this->testObj = $testObj;
     }
 
-    /**
-     * @return ilTestQuestionSetConfig
-     */
     public function getQuestionSetConfig(): ?ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
 
-    /**
-     * @param ilTestQuestionSetConfig $questionSetConfig
-     */
-    public function setQuestionSetConfig($questionSetConfig)
+    public function setQuestionSetConfig(ilTestQuestionSetConfig $questionSetConfig): void
     {
         $this->questionSetConfig = $questionSetConfig;
     }
 
-    /**
-     * @return ilTestAccess
-     */
     public function getTestAccess(): ?ilTestAccess
     {
         return $this->testAccess;
     }
 
-    /**
-     * @param ilTestAccess $testAccess
-     */
-    public function setTestAccess($testAccess)
+    public function setTestAccess(ilTestAccess $testAccess): void
     {
         $this->testAccess = $testAccess;
     }
 
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
     public function getObjectiveParent(): ?ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
 
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent($objectiveParent)
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent): void
     {
         $this->objectiveParent = $objectiveParent;
     }
 
-    /**
-     * Execute Command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass($this)) {
             case "iltestevaluationgui":
@@ -169,30 +124,48 @@ class ilParticipantsTestResultsGUI
     }
 
     /**
-     * @return ilParticipantsTestResultsTableGUI
+     * @return list<int>
      */
-    protected function buildTableGUI(): ilParticipantsTestResultsTableGUI
+    private function getUserIdsFromPost(): array
+    {
+        return $this->http->wrapper()->post()->retrieve(
+            'chbUser',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+    }
+
+    private function buildTableGUI(): ilParticipantsTestResultsTableGUI
     {
         $tableGUI = new ilParticipantsTestResultsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
         $tableGUI->setTitle($this->lang->txt('tst_tbl_results_grades'));
         return $tableGUI;
     }
 
-    /**
-     * show participants command
-     */
-    protected function showParticipantsCmd()
+    private function showParticipantsCmd(): void
     {
         ilSession::clear("show_user_results");
 
         if ($this->getQuestionSetConfig()->areDepenciesBroken()) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lang));
+            $this->main_tpl->setOnScreenMessage(
+                'failure',
+                $this->getQuestionSetConfig()->getDepenciesBrokenMessage($this->lang)
+            );
         } elseif ($this->getQuestionSetConfig()->areDepenciesInVulnerableState()) {
-            $this->main_tpl->setOnScreenMessage('info', $this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lang));
+            $this->main_tpl->setOnScreenMessage(
+                'info',
+                $this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lang)
+            );
         }
 
-        $manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $accessResultsFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->getTestObj()->getRefId());
+        $manageParticipantFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter(
+            $this->getTestObj()->getRefId()
+        );
+        $accessResultsFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter(
+            $this->getTestObj()->getRefId()
+        );
 
         $full_participant_list = $this->getTestObj()->getActiveParticipantList();
         $participantList = $full_participant_list->getAccessFilteredList($manageParticipantFilter);
@@ -232,10 +205,7 @@ class ilParticipantsTestResultsGUI
         $this->main_tpl->setContent($tableGUI->getHTML());
     }
 
-    /**
-     * @param ilToolbarGUI $toolbar
-     */
-    protected function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar)
+    private function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar): void
     {
         $delete_all_results_btn = ilLinkButton::getInstance();
         $delete_all_results_btn->setCaption('delete_all_user_data');
@@ -243,10 +213,7 @@ class ilParticipantsTestResultsGUI
         $toolbar->addButtonInstance($delete_all_results_btn);
     }
 
-    /**
-     * Asks for a confirmation to delete all user data of the test object
-     */
-    protected function deleteAllUserResultsCmd()
+    private function deleteAllUserResultsCmd(): void
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -257,10 +224,7 @@ class ilParticipantsTestResultsGUI
         $this->main_tpl->setContent($cgui->getHTML());
     }
 
-    /**
-     * Deletes all user data for the test object
-     */
-    protected function confirmDeleteAllUserResultsCmd()
+    private function confirmDeleteAllUserResultsCmd(): void
     {
         $accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter(
             $this->getTestObj()->getRefId()
@@ -276,13 +240,10 @@ class ilParticipantsTestResultsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
-    /**
-     * Asks for a confirmation to delete selected user data of the test object
-     */
-    protected function deleteSingleUserResultsCmd()
+    protected function deleteSingleUserResultsCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (!is_array($users) || count($users) === 0) {
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids === []) {
             $this->main_tpl->setOnScreenMessage('info', $this->lang->txt("select_one_user"), true);
             $this->ctrl->redirect($this);
         }
@@ -299,7 +260,7 @@ class ilParticipantsTestResultsGUI
         $participantData = new ilTestParticipantData($this->db, $this->lang);
         $participantData->setParticipantAccessFilter($accessFilter);
 
-        $participantData->setActiveIdsFilter((array) $users);
+        $participantData->setActiveIdsFilter($usr_ids);
 
         $participantData->load($this->getTestObj()->getTestId());
 
@@ -322,17 +283,17 @@ class ilParticipantsTestResultsGUI
         $this->main_tpl->setContent($cgui->getHTML());
     }
 
-    /**
-     * Deletes the selected user data for the test object
-     */
-    protected function confirmDeleteSelectedUserDataCmd()
+    protected function confirmDeleteSelectedUserDataCmd(): void
     {
-        if (isset($_POST["chbUser"]) && is_array($_POST["chbUser"]) && count($_POST["chbUser"])) {
-            $accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            $accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter(
+                $this->getTestObj()->getRefId()
+            );
 
             $participantData = new ilTestParticipantData($this->db, $this->lang);
             $participantData->setParticipantAccessFilter($accessFilter);
-            $participantData->setActiveIdsFilter($_POST["chbUser"]);
+            $participantData->setActiveIdsFilter($usr_ids);
 
             $participantData->load($this->getTestObj()->getTestId());
 
@@ -344,67 +305,60 @@ class ilParticipantsTestResultsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
     }
 
-    /**
-     * Shows the pass overview and the answers of one ore more users for the scored pass
-     */
-    protected function showDetailedResultsCmd()
+    protected function showDetailedResultsCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = true, $show_reached_points = true);
     }
 
-    /**
-     * Shows the answers of one ore more users for the scored pass
-     */
-    protected function showUserAnswersCmd()
+    protected function showUserAnswersCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $this->showUserResults($show_pass_details = false, $show_answers = true);
     }
 
-    /**
-     * Shows the pass overview of the scored pass for one ore more users
-     */
-    protected function showPassOverviewCmd()
+    protected function showPassOverviewCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $this->showUserResults($show_pass_details = true, $show_answers = false);
     }
 
-    /**
-     * Shows the pass overview of the scored pass for one ore more users
-     *
-     * @access	public
-     */
-    protected function showUserResults($show_pass_details, $show_answers, $show_reached_points = false)
+    protected function showUserResults($show_pass_details, $show_answers, $show_reached_points = false): void
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
 
         $show_user_results = ilSession::get("show_user_results");
 
-        if (!is_array($show_user_results) || count($show_user_results) == 0) {
+        if (!is_array($show_user_results) || count($show_user_results) === 0) {
             $this->main_tpl->setOnScreenMessage('info', $this->lang->txt("select_one_user"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
 
-
-        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results);
+        $template = $this->createUserResults(
+            $show_pass_details,
+            $show_answers,
+            $show_reached_points,
+            $show_user_results
+        );
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());
             $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
             if ($this->getTestObj()->getShowSolutionAnswersOnly()) {
-                $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+                $this->main_tpl->addCss(
+                    ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"),
+                    "print"
+                );
             }
         }
     }
@@ -414,11 +368,13 @@ class ilParticipantsTestResultsGUI
      * @param $show_answers
      * @param $show_reached_points
      * @param $show_user_results
-     *
-     * @return ilTemplate
      */
-    public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results): ilTemplate
-    {
+    public function createUserResults(
+        $show_pass_details,
+        $show_answers,
+        $show_reached_points,
+        $show_user_results
+    ): ilTemplate {
         // prepare generation before contents are processed (needed for mathjax)
         if ($this->isPdfDeliveryRequest()) {
             ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
@@ -520,16 +476,13 @@ class ilParticipantsTestResultsGUI
         return $template;
     }
 
-    /**
-     * @return bool
-     */
     protected function isPdfDeliveryRequest(): bool
     {
         if (!$this->testrequest->isset('pdf')) {
             return false;
         }
 
-        if (!(bool) $this->testrequest->raw('pdf')) {
+        if (!$this->testrequest->raw('pdf')) {
             return false;
         }
 
