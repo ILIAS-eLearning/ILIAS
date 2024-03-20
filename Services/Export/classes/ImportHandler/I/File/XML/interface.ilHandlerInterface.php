@@ -22,7 +22,6 @@ namespace ILIAS\Export\ImportHandler\I\File\XML;
 
 use DOMDocument;
 use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
 use SplFileInfo;
 
 interface ilHandlerInterface extends ilFileHandlerInterface

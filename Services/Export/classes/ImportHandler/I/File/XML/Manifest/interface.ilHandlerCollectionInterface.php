@@ -20,12 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
+use Countable;
 use ILIAS\Export\ImportHandler\File\XML\Manifest\ilExportObjectType;
 use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHandlerCollectionInterface;
 use Iterator;
-use Countable;
 
 interface ilHandlerCollectionInterface extends Iterator, Countable
 {

@@ -9666,6 +9666,7 @@ exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allo
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
 exp#:#exp_html#:#HTML
+exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
 exp#:#exp_really_delete#:#Do you really want to delete these export files?

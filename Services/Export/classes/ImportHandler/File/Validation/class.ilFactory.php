@@ -20,39 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Validation;
 
-use ilLogger;
+use ILIAS\Export\ImportHandler\File\Path\ilFactory as ilFilePathFactory;
 use ILIAS\Export\ImportHandler\File\Validation\ilHandler as ilFileValidationHandler;
-use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
 use ILIAS\Export\ImportHandler\I\File\Validation\ilFactoryInterface as ilFileValidationFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
-use ILIAS\Export\ImportHandler\File\Validation\Set\ilFactory as ilFileValidationSetFactory;
+use ilLogger;
 
 class ilFactory implements ilFileValidationFactoryInterface
 {
     protected ilLogger $logger;
-    protected ilParserFactoryInterface $parser;
-    protected ilFilePathFactoryInterface $path;
 
     public function __construct(
         ilLogger $logger,
-        ilParserFactoryInterface $parser,
-        ilFilePathFactoryInterface $path
     ) {
         $this->logger = $logger;
-        $this->parser = $parser;
-        $this->path = $path;
     }
 
     public function handler(): ilFileValidationHandlerInterface
     {
         return new ilFileValidationHandler(
             $this->logger,
-            $this->parser,
+            new ilParserFactory($this->logger),
             new ilImportStatusFactory(),
-            $this->path
+            new ilFilePathFactory($this->logger)
         );
     }
 

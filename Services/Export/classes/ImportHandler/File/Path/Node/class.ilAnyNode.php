@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
 use ILIAS\Export\ImportHandler\I\File\Path\Node\ilAnyNodeInterface as ilAnyNodeFilePathNodeInterface;
-use XMLReader;
 
 class ilAnyNode implements ilAnyNodeFilePathNodeInterface
 {
