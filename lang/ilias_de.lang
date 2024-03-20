@@ -9665,8 +9665,8 @@ exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Z
 exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
 exp#:#exp_html#:#HTML
-exp#:#exp_print_pdf#:#Drucken/PDF
 exp#:#exp_import_validation_err_no_matching_xsd#:#Eine Schema Datei für Version %s existiert nicht.
+exp#:#exp_print_pdf#:#Drucken/PDF
 exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
 exp#:#exp_really_delete#:#Möchten Sie diese Exportdateien wirklich löschen?
 exp#:#exp_scorm#:#SCORM
