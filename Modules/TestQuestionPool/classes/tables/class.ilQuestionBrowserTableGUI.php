@@ -17,10 +17,9 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
-    protected \ILIAS\Notes\Service $notes;
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $renderer;
+    protected $notes;
+    protected $ui_factory;
+    protected $renderer;
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
