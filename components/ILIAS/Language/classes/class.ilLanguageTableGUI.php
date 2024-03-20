@@ -56,7 +56,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.lang_list_row_extended.html", "components/ILIAS/Language_");
+        $this->setRowTemplate("tpl.lang_list_row_extended.html", "components/ILIAS/Language");
         $this->disable("footer");
         $this->setEnableTitle(true);
 
