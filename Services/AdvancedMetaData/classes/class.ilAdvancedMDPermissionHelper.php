@@ -83,6 +83,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD = 35;
     public const ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY = 36;
 
+    public const SUBACTION_UNDEFINED = 0;
     public const SUBACTION_RECORD_TITLE = 1;
     public const SUBACTION_RECORD_DESCRIPTION = 2;
     public const SUBACTION_RECORD_OBJECT_TYPES = 3;
@@ -312,12 +313,12 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // plugins
 
-    protected function getActivePlugins(): array
+    protected function getActivePlugins(): Generator
     {
         global $DIC;
 
         $component_factory = $DIC['component.factory'];
-        return $component_factory->getActivePluginsInSlot("amdc");
+        yield from $component_factory->getActivePluginsInSlot("amdc");
     }
 
     protected function checkPermission(

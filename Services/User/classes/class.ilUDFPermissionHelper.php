@@ -120,10 +120,10 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 
     // plugins
 
-    protected function getActivePlugins(): array // Missing array type.
+    protected function getActivePlugins(): Generator // Missing array type.
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];
-        return iterator_to_array($component_factory->getActivePluginsInSlot("udfc"));
+        yield from $component_factory->getActivePluginsInSlot("udfc");
     }
 }
