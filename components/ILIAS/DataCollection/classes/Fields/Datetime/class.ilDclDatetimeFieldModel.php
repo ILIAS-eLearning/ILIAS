@@ -53,25 +53,12 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
     }
 
     /**
-     * @param string|int $value
-     * @throws ilDclInputException
      */
-    public function checkValidity($value, ?int $record_id = null): bool
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
-        if ($value == null) {
-            return true;
-        }
+        $value = $form->getInput('field_' . $this->getId());
 
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            $datestring = $value . ' 00:00:00';
-            foreach ($table->getRecords() as $record) {
-                if ($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0)) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                }
-            }
-        }
-
-        return true;
+        //field is of type datetime (see ilDcldatatype::INPUTFORMAT_DATETIME)
+        parent::checkValidity($value . ' 00:00:00', $record_id);
     }
 }
