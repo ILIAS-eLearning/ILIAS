@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,7 +28,8 @@ abstract class ilClaimingPermissionHelper
     protected int $ref_id = 0;
     protected array $map = [];
     protected array $context_ids = [];
-    protected array $plugins = [];
+    /** @var list<ilAdvancedMDClaimingPlugin|ilUDFClaimingPlugin>|null  */
+    protected ?array $plugins = null;
     protected static array $instances = [];
 
     protected function __construct(int $a_user_id, int $a_ref_id)
@@ -208,7 +210,7 @@ abstract class ilClaimingPermissionHelper
     /**
      * Get active plugins (for current slot)
      */
-    abstract protected function getActivePlugins(): array;
+    abstract protected function getActivePlugins(): Generator;
 
     /**
      * Check permission against plugins
@@ -222,10 +224,13 @@ abstract class ilClaimingPermissionHelper
         $valid = true;
 
         if (!is_array($this->plugins)) {
-            $this->plugins = $this->getActivePlugins();
+            $this->plugins = iterator_to_array($this->getActivePlugins());
         }
 
         foreach ($this->plugins as $plugin) {
+            $a_action_sub_id = is_null($a_action_sub_id)
+                ? ilAdvancedMDPermissionHelper::SUBACTION_UNDEFINED
+                : $a_action_sub_id;
             if (!$plugin->checkPermission($this->getUserId(), $a_context_type, $a_context_id, $a_action_id, $a_action_sub_id)) {
                 $valid = false;
                 break;
