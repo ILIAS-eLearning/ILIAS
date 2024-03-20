@@ -41,6 +41,7 @@ class ilFactory implements ilImportHandlerFactoryInterface
         global $DIC;
         $this->logger = $DIC->logger()->root();
         $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("exp");
         $this->schema_factory = new ilXmlSchemaFactory();
     }
 

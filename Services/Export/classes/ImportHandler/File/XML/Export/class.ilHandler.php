@@ -69,6 +69,7 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
         $this->path = $path;
         $this->attribute = $attribute;
         $this->set = $set;
+        $this->lng = $lng;
     }
 
     /**
@@ -129,7 +130,7 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
     ): ilImportStatusHandlerInterface {
         $xml_str = "<br>XML-File: " . $xml_file_handler->getSubPathToDirBeginningAtPathEnd(ilFileValidationHandler::TMP_DIR_NAME)->getFilePath();
         $xsd_str = "<br>XSD-File: " . $xsd_file_handler->getSubPathToDirBeginningAtPathEnd(ilFileValidationHandler::XML_DIR_NAME)->getFilePath();
-        $msg = "No valid schema file for version " . $version_str . " exists.";
+        $msg = sprintf($this->lng->txt('exp_import_validation_err_no_matching_xsd'), $version_str);
         $content = $this->status->content()->builder()->string()->withString(
             "Validation FAILED"
             . $xml_str
