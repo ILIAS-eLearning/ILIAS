@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
@@ -32,16 +33,27 @@ use ILIAS\UI\URLBuilderToken;
 
 class LogTable implements Table\DataRetrieval
 {
+    private const FILTER_FIELD_TIME_FROM = 'from';
+    private const FILTER_FIELD_TIME_TO = 'until';
+    private const FILTER_FIELD_TEST_TITLE = 'test_title';
+    private const FILTER_FIELD_QUESTION_TITLE = 'question_title';
+    private const FILTER_FIELD_ADMIN = 'admin_name';
+    private const FILTER_FIELD_PARTICIPANT = 'participant_name';
+    private const FILTER_FIELD_IP = 'ip';
+    private const FILTER_FIELD_LOG_ENTRY_TYPE = 'log_entry_type';
+    private const FILTER_FIELD_INTERACTION_TYPE = 'interaction_type';
+
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly UIFactory $ui_factory,
         private readonly DataFactory $data_factory,
         private readonly \ilLanguage $lng,
         private readonly URLBuilder $url_builder,
         private readonly URLBuilderToken $action_parameter_token,
         private readonly URLBuilderToken $row_id_token,
-        private readonly int $ref_id
+        private readonly ?int $ref_id
     ) {
     }
 
@@ -62,23 +74,23 @@ class LogTable implements Table\DataRetrieval
     {
         $field_factory = $this->ui_factory->input()->field();
         $filter_inputs = [
-            'from' => $field_factory->text($this->lng->txt('from')),
-            'until' => $field_factory->text($this->lng->txt('until'))
+            self::FILTER_FIELD_TIME_FROM => $field_factory->text($this->lng->txt('from')),
+            self::FILTER_FIELD_TIME_TO => $field_factory->text($this->lng->txt('until'))
         ];
         if ($this->ref_id === null) {
-            $filter_inputs['test_title'] = $field_factory->text($this->lng->txt('test_title'));
+            $filter_inputs[self::FILTER_FIELD_TEST_TITLE] = $field_factory->text($this->lng->txt('test_title'));
         }
 
         $filter_inputs += [
-            'author' => $field_factory->text($this->lng->txt('author')),
-            'participant' => $field_factory->text($this->lng->txt('participant')),
-            'ip' => $field_factory->text($this->lng->txt('ip')),
-            'question_title' => $field_factory->text($this->lng->txt('question_title')),
-            'log_entry_type' => $field_factory->select(
+            self::FILTER_FIELD_ADMIN => $field_factory->text($this->lng->txt('author')),
+            self::FILTER_FIELD_PARTICIPANT => $field_factory->text($this->lng->txt('participant')),
+            self::FILTER_FIELD_IP => $field_factory->text($this->lng->txt('ip')),
+            self::FILTER_FIELD_QUESTION_TITLE => $field_factory->text($this->lng->txt('question_title')),
+            self::FILTER_FIELD_LOG_ENTRY_TYPE => $field_factory->multiSelect(
                 $this->lng->txt('log_entry_type'),
                 $this->buildLogEntryTypesOptionsForFilter()
             ),
-            'interaction_type' => $field_factory->select(
+            self::FILTER_FIELD_INTERACTION_TYPE => $field_factory->multiSelect(
                 $this->lng->txt('interaction_type'),
                 $this->buildInteractionTypesOptionsForFilter()
             ),
@@ -124,38 +136,33 @@ class LogTable implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
+        list(
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
+        ) = $this->prepareFilterData($filter_data);
+
         foreach ($this->logging_repository->getLogs(
+            $this->logger->getInteractionTypes(),
             $range,
             $order,
-            $filter_data,
-            $this->ref_id
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
         ) as $interaction) {
-            $interaction->getLogEntryAsDataTableRow();
-            $row_id = (string)$record['question_id'];
-            $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
-            $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
-            $lifecycle = \ilAssQuestionLifecycle::getInstance($record['lifecycle']);
-            $record['lifecycle'] = $lifecycle->getTranslation($this->lng);
-
-            $title = $record['title'];
-            $to_question = $this->url_builder
-                ->withParameter($this->action_parameter_token, 'preview')
-                ->withParameter($this->row_id_token, $row_id)
-                ->buildURI()->__toString();
-            if (!(bool) $record['complete']) {
-                $title .= ' (' . $this->lng->txt('warning_question_not_complete') . ')';
-            }
-            $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
-
-            $record['taxonomies'] = implode('', $taxonomies);
-
-            yield $row_builder->buildDataRow($row_id, $record)
-                ->withDisabledAction('move', $no_write_access)
-                ->withDisabledAction('copy', $no_write_access)
-                ->withDisabledAction('delete', $no_write_access)
-                ->withDisabledAction('feedback', $no_write_access)
-                ->withDisabledAction('hints', $no_write_access)
-            ;
+            yield $interaction->getLogEntryAsDataTableRow();
         }
     }
 
@@ -163,9 +170,6 @@ class LogTable implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): ?int {
-        return 0;
-        $this->setParentObjId($this->parent_obj_id);
-        $this->load();
         return count($this->getQuestionDataArray());
     }
 
@@ -209,7 +213,12 @@ class LogTable implements Table\DataRetrieval
      */
     private function buildInteractionTypesOptionsForFilter(): array
     {
-        $interaction_types = $this->logger->getInteractionTypes();
+        $interaction_types = array_reduce(
+            $this->logger->getInteractionTypes(),
+            fn(array $et, array $it): array => $et + $it,
+            []
+        );
+
         $interaction_options = [];
         foreach ($interaction_types as $interaction_type) {
             $interaction_options[$interaction_type] = $this->lng->txt($interaction_type);
@@ -247,5 +256,59 @@ class LogTable implements Table\DataRetrieval
             $list = array_reverse($list);
         }
         return $list;
+    }
+
+    private function prepareFilterData(array $filter_array): array
+    {
+        $from_filter = null;
+        $to_filter = null;
+        $test_filter = $this->ref_id;
+        $pax_filter = null;
+        $admin_filter = null;
+        $question_filter = null;
+
+        if ($filter_array[self::FILTER_FIELD_TIME_FROM] !== null) {
+            $from_filter = (new \DateTimeImmutable($filter_array[self::FILTER_FIELD_TIME_FROM]))->getTimestamp();
+        }
+
+        if ($filter_array[self::FILTER_FIELD_TIME_TO] !== null) {
+            $to_filter = (new \DateTimeImmutable(filter_array[self::FILTER_FIELD_TIME_TO]))->getTimestamp();
+        }
+
+        if ($filter_array[self::FILTER_FIELD_TEST_TITLE] !== null) {
+            $test_filter = array_reduce(
+                \ilObject::_getIdsForTitle($filter_array[self::FILTER_FIELD_TEST_TITLE], 'tst', true),
+                static fn(array $ref_ids, int $obj_id) => $ref_ids + \ilObject::_getAllReferences($obj_id),
+                $test_filter
+            );
+        }
+
+        if ($filter_array[self::FILTER_FIELD_ADMIN] !== null) {
+            $admin_query = new \ilUserQuery();
+            $admin_query->setTextFilter($filter_array[self::FILTER_FIELD_ADMIN]);
+            $admin_filter = $admin_query->query();
+        }
+
+        if ($filter_array[self::FILTER_FIELD_PARTICIPANT] !== null) {
+            $pax_query = new \ilUserQuery();
+            $pax_query->setTextFilter($filter_array[self::FILTER_FIELD_PARTICIPANT]);
+            $pax_filter = $pax_query->query();
+        }
+
+        if ($filter_array[self::FILTER_FIELD_QUESTION_TITLE] !== null) {
+            $question_filter = $this->question_repo->searchQuestionsByName($filter_array[self::FILTER_FIELD_PARTICIPANT]);
+        }
+
+        return [
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter['set'],
+            $pax_filter['set'],
+            $question_filter,
+            $filter_array[self::FILTER_FIELD_IP],
+            $filter_array[self::FILTER_FIELD_LOG_ENTRY_TYPE],
+            $filter_array[self::FILTER_FIELD_INTERACTION_TYPE]
+        ];
     }
 }

@@ -268,7 +268,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     $this->logger->getInteractionFactory()->buildScoringInteraction(
                         $this->getObject()->getRefId(),
                         $question_id,
-                        $this->user,
+                        $this->user->getId(),
                         \ilObjTestAccess::_getParticipantId($active_id),
                         TestScoringInteractionTypes::QUESTION_GRADED,
                         [

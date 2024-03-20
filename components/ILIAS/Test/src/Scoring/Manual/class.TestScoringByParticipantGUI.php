@@ -285,8 +285,8 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                     new TestScoringInteraction(
                         $this->getObject()->getRefId(),
                         $question_id,
-                        $this->user,
-                        new \ilObjUser(\ilObjTestAccess::_getParticipantId($active_id)),
+                        $this->user->getId(),
+                        \ilObjTestAccess::_getParticipantId($active_id),
                         TestScoringInteractionTypes::QUESTION_GRADED,
                         [
                             'points' => $reached_points,

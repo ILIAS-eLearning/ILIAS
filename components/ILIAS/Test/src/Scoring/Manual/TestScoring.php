@@ -165,8 +165,8 @@ class TestScoring
                     $this->lng,
                     $this->test->getRefId(),
                     $questiondata['id'],
-                    $this->scorer,
-                    new \ilObjUser($user_id),
+                    $this->scorer->getId(),
+                    $user_id,
                     TestScoringInteractionTypes::QUESTION_GRADING_RESET,
                     time(),
                     []

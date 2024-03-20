@@ -151,7 +151,7 @@ class MarkSchemaGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
-                    $this->active_user,
+                    $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     $this->mark_schema->toLog($this->lng)
                 )
@@ -180,7 +180,7 @@ class MarkSchemaGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
-                    $this->active_user,
+                    $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_RESET,
                     []
                 )
@@ -217,7 +217,7 @@ class MarkSchemaGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test->getRefId(),
-                    $this->active_user,
+                    $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MARK_SCHEMA_MODIFIED,
                     $this->mark_schema->toLog($this->lng)
                 )

@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\StaticURL\Services as StaticURLServices;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Component\Table\DataRow;
+
 class TestParticipantInteraction implements TestUserInteraction
 {
     public const IDENTIFIER = 'pi';
@@ -30,10 +35,9 @@ class TestParticipantInteraction implements TestUserInteraction
     * @param array<string label_lang_var => mixed value> $additional_data
     */
     public function __construct(
-        private readonly \ilLanguage $lng,
         private readonly int $test_ref_id,
         private readonly ?int $question_id,
-        private readonly \ilObjUser $participant,
+        private readonly int $pax_id,
         private readonly string $source_ip,
         private readonly TestParticipantInteractionTypes $interaction_type,
         private readonly int $modification_timestamp,
@@ -71,7 +75,7 @@ class TestParticipantInteraction implements TestUserInteraction
 
     public function getParticipantId(): int
     {
-        return $this->participant->getId();
+        return $this->pax_id;
     }
 
     public function getInteractionType(): TestParticipantInteractionTypes
@@ -84,9 +88,38 @@ class TestParticipantInteraction implements TestUserInteraction
         return $this->modification_timestamp;
     }
 
-    public function getLogEntryAsDataTableRow(): array
-    {
+    public function getLogEntryAsDataTableRow(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $properties_repository,
+        UIFactory $ui_factory,
+        DataRowBuilder $row_builder,
+        array $environment
+    ): DataRow {
+        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
 
+        return $row_builder->buildDataRow(
+            $this->getUniqueIdentifier(),
+            [
+                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'corresponding_test' => $ui_factory->link()->standard(
+                    \ilObject::_lookupTitle($test_obj_id),
+                    $static_url->builder()->build('tst', $this->test_ref_id)
+                ),
+                'author' => '',
+                'participant' => \ilUserUtil::getNamePresentation(
+                    $this->pax_id,
+                    false,
+                    false,
+                    false,
+                    true
+                ),
+                'ip' => $this->source_ip,
+                'question' => $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
+                'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
+            ]
+        );
     }
 
     public function getLogEntryAsCsvRow(): string

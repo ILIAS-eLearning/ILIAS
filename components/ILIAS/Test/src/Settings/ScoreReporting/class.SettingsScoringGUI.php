@@ -172,7 +172,7 @@ class SettingsScoringGUI extends TestSettingsGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_gui->getRefId(),
-                    $this->active_user,
+                    $this->active_user->getId(),
                     TestAdministrationInteractionTypes::SCORING_SETTINGS_MODIFIED,
                     $settings->getArrayForLog($this->lng)
                 )

@@ -34,11 +34,19 @@ interface TestLoggingRepository
      * @return array<\ILIAS\Test\Logging\TestUserInteraction>
      */
     public function getLogs(
+        array $valid_types,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        array $filter_data,
-        ?int $ref_id
-    ): array;
+        ?int $from_filter,
+        ?int $to_filter,
+        ?array $test_filter,
+        ?array $admin_filter,
+        ?array $pax_filter,
+        ?array $question_filter,
+        ?array $ip_filter,
+        ?array $log_entry_type_filter,
+        ?array $interaction_type_filter
+    ): \Generator;
 
     public function getLog(string $unique_identifier): TestUserInteraction;
 

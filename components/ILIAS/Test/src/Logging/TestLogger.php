@@ -177,8 +177,8 @@ class TestLogger implements LoggerInterface
     public function getInteractionTypes(): array
     {
         $interaction_types = [];
-        foreach (self::LOG_ENTRY_TYPES as $entry_type) {
-            $interaction_types += array_column($entry_type::cases(), 'value');
+        foreach (self::LOG_ENTRY_TYPES as $type => $enum_class) {
+            $interaction_types[$type] = array_column($enum_class::cases(), 'value');
         }
         return $interaction_types;
     }
