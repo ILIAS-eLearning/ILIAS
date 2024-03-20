@@ -179,7 +179,6 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         };
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
-        $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
             public array $prefs = [];
 
@@ -197,6 +196,10 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             define('SYSTEM_ROLE_ID', '2');
         }
 
+        if (!defined("ILIAS_ABSOLUTE_PATH")) {
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+        }
+
         if (!defined("CLIENT_ID")) {
             define('CLIENT_ID', $client_ini->readVariable('client', 'name'));
         }
@@ -204,6 +207,11 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         if (!defined("ILIAS_WEB_DIR")) {
             define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
         }
+
+        // initialise this last to make sure the environment defined here
+        // will be available for plugins, ilObjectDefinition will create
+        // plugin instances, see https://mantis.ilias.de/view.php?id=40890
+        $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
 
         return $DIC;
     }
