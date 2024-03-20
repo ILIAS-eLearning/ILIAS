@@ -58,36 +58,6 @@ class TestParticipantInteraction implements TestUserInteraction
         return $clone;
     }
 
-    public function getTestRefId(): int
-    {
-        return $this->test_ref_id;
-    }
-
-    public function getQuestionId(): ?int
-    {
-        return $this->question_id;
-    }
-
-    public function getSourceIp(): string
-    {
-        return $this->source_ip;
-    }
-
-    public function getParticipantId(): int
-    {
-        return $this->pax_id;
-    }
-
-    public function getInteractionType(): TestParticipantInteractionTypes
-    {
-        return $this->interaction_type;
-    }
-
-    public function getModificationTimestamp(): int
-    {
-        return $this->modification_timestamp;
-    }
-
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
         StaticURLServices $static_url,

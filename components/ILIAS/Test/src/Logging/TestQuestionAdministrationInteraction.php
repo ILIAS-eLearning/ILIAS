@@ -59,31 +59,6 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         return $clone;
     }
 
-    public function getTestRefId(): int
-    {
-        return $this->test_ref_id;
-    }
-
-    public function getQuestionId(): int
-    {
-        return $this->question_id;
-    }
-
-    public function getInteractionType(): TestQuestionAdministrationInteractionTypes
-    {
-        return $this->interaction_type;
-    }
-
-    public function getAdministratorId(): int
-    {
-        return $this->admin_id;
-    }
-
-    public function getModificationTimestamp(): int
-    {
-        return $this->modification_timestamp;
-    }
-
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
         StaticURLServices $static_url,
