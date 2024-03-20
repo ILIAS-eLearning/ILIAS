@@ -61,9 +61,9 @@ export default class Sortation {
       (li) => {
         const node = li;
         if (node.getElementsByTagName('button')[0].innerHTML === label) {
-          node.className = 'selected';
+          node.classList.add('selected');
         } else {
-          node.className = '';
+          node.classList.remove('selected');
         }
       },
     );

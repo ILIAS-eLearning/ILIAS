@@ -33,14 +33,14 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
     /**
      * Set the prefix of the label
      */
-    public function withLabelPrefix(string $label_prefix): Sortation;
+    public function withLabelPrefix(string $label_prefix): self;
 
     /**
      * Get a Sortation with this target-url.
      * Shy-Buttons in this control will link to this url
      * and add $parameter_name with the selected value.
      */
-    public function withTargetURL(string $url, string $parameter_name): Sortation;
+    public function withTargetURL(string $url, string $parameter_name): self;
 
     /**
      * Get the url this instance should trigger.
@@ -64,7 +64,7 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      *
      * @param Signal $signal A signal of another component
      */
-    public function withOnSort(Signal $signal): Sortation;
+    public function withOnSort(Signal $signal): self;
 
     /**
      * Get the Signal for the selection of a option
@@ -75,9 +75,4 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      * Set the selected option.
      */
     public function withSelected(string $selected_option): self;
-
-    /**
-     * Do not display the selected label in the unopened control.
-     */
-    public function withHiddenLabel(bool $flag): self;
 }

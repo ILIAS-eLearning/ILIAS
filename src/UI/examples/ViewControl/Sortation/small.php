@@ -22,9 +22,10 @@ function small()
 
     //Hide the label
     $s = $f->viewControl()->sortation($options, 'oldest')
-        ->withTargetURL($DIC->http()->request()->getRequestTarget(), 'sortation')
-        ->withHiddenLabel(true);
+        ->withTargetURL($DIC->http()->request()->getRequestTarget(), 'sortation');
 
-
-    return $renderer->render($s);
+    return
+    '<div style="border:1px; width:100px;">'
+    . $renderer->render($s)
+    . '</div>';
 }

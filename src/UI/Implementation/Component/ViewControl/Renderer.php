@@ -184,10 +184,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if($component->isHiddenLabel() === false) {
-            $tpl->setVariable('LABEL', $label_prefix . ' ' . $options[$selected] . ' ');
-        }
-
+        $tpl->setVariable('LABEL', $label_prefix . ' ' . $options[$selected] . ' ');
         $tpl->setVariable("ARIA_LABEL", $this->txt("sortation"));
         return $tpl->get();
     }

@@ -57,7 +57,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withResetSignals(): C\ViewControl\Sortation
+    public function withResetSignals(): self
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -75,7 +75,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withLabelPrefix(string $label_prefix): C\ViewControl\Sortation
+    public function withLabelPrefix(string $label_prefix): self
     {
         $clone = clone $this;
         $clone->label_prefix = $label_prefix;
@@ -90,7 +90,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withTargetURL(string $url, string $parameter_name): C\ViewControl\Sortation
+    public function withTargetURL(string $url, string $parameter_name): self
     {
         $this->checkStringArg("url", $url);
         $this->checkStringArg("parameter_name", $parameter_name);
@@ -127,7 +127,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withOnSort(Signal $signal): C\ViewControl\Sortation
+    public function withOnSort(Signal $signal): self
     {
         return $this->withTriggeredSignal($signal, 'sort');
     }
@@ -152,17 +152,5 @@ class Sortation implements C\ViewControl\Sortation
     public function getSelected(): ?string
     {
         return $this->selected;
-    }
-
-    public function isHiddenLabel(): bool
-    {
-        return $this->hidden_label;
-    }
-
-    public function withHiddenLabel(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->hidden_label = $flag;
-        return $clone;
     }
 }
