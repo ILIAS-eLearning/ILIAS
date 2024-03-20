@@ -86,6 +86,11 @@ class ilCalendarPresentationGUI
     protected $cal_settings;
 
     /**
+     * @var int
+     */
+    protected $category_id;
+
+    /**
      * Constructor
      *
      * @access public
@@ -108,7 +113,7 @@ class ilCalendarPresentationGUI
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
         $this->ref_id = $a_ref_id;
-        $this->category_id = $_GET["category_id"];
+        $this->category_id = (int) $_GET["category_id"];
         $this->ctrl->setParameter($this, 'category_id', $_REQUEST['category_id']);
         $this->cal_settings = ilCalendarSettings::_getInstance();
 
@@ -121,9 +126,14 @@ class ilCalendarPresentationGUI
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         
         include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-        if ($a_ref_id > 0) {
-            $this->repository_mode = true;
+        $this->repository_mode = $a_ref_id > 0;
+
+        if ($this->repository_mode && $this->category_id === 0) {
+            $obj_id = ilObject::_lookupObjId($this->ref_id);
+            $category = ilCalendarCategory::_getInstanceByObjId($obj_id);
+            $this->category_id = is_null($category) ? 0 : $category->getCategoryID();
         }
+
         if ($this->category_id > 0) {		// single calendar view
             // ensure activation of this category
             include_once("./Services/Calendar/classes/class.ilCalendarVisibility.php");
@@ -176,9 +186,9 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
-                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed' , $this->seed);
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
                 $this->ctrl->redirectToURL(
-                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class,'')
+                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
                 );
             }
         }
@@ -198,7 +208,6 @@ class ilCalendarPresentationGUI
         } else {
             $this->cal_view = $this->cal_settings->getDefaultCal();
         }
-
     }
     
     /**
@@ -429,10 +438,12 @@ class ilCalendarPresentationGUI
             if (!$extra_button_added) {
                 $toolbar->addSeparator();
             }
+            $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
             $add_button = $f->button()->standard(
                 $lng->txt("cal_import_appointments"),
                 $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "importAppointments")
             );
+            $ctrl->clearParameterByClass("ilcalendarcategorygui", "category_id");
             $toolbar->addComponent($add_button);
         }
     }
@@ -631,11 +642,13 @@ class ilCalendarPresentationGUI
             );
         }
         if ($this->actions->checkSettingsCal($this->category_id)) {
+            $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
             $this->tabs_gui->addTab(
                 "edit",
                 $this->lng->txt("settings"),
                 $ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "edit")
             );
+            $ctrl->clearParameterByClass("ilcalendarcategorygui", "category_id");
         }
 
         $this->tabs_gui->activateTab('cal_agenda');
