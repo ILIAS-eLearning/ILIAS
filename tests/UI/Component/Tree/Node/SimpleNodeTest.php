@@ -212,14 +212,14 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-        <li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
-                <span class="c-tree__node__line">
-                       <span class="c-tree__node__label">
-                            <img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt="Different Icon Label"/>
-                            label
-                       </span>
-                </span>
-        </li>  
+			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
+				<span class="c-tree__node__line">
+					<span class="c-tree__node__label">
+						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt="Different Icon Label"/>
+						label
+					</span>
+				</span>
+			</li>
 EOT;
 
         $this->assertEquals(
