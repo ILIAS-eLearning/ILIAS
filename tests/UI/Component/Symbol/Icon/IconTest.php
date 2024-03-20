@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -190,5 +190,17 @@ imgtag;
         $expected = "<img  aria-disabled=\"true\"/>";
         $expected = $this->normalizeHTML("<img id=\"id_1\" class=\"icon crs medium\" src=\"$path\" alt=\"Course\"/>");
         $this->assertEquals($expected, $html);
+    }
+
+    public function testSetCustomLabel(): Custom
+    {
+        $path = './templates/default/images/icon_fold.svg';
+        $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
+        $ico->setLabel("New Custom Icon Label");
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon custom medium" src="./templates/default/images/icon_fold.svg" alt="New Custom Icon Label"/>';
+        $this->assertEquals($expected, $html);
+
+        return $ico;
     }
 }
