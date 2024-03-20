@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\File\XSD;
 
 use ILIAS\Export\ImportHandler\File\ilHandler as ilFileHandler;
-use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use SplFileInfo;
 

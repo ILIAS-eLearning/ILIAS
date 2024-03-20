@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestXMLFileHandlerInterface;
 use SplFileInfo;
 
 interface ilFactoryInterface

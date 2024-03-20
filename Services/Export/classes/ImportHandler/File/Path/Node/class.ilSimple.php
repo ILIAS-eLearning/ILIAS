@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Path\Node;
 
-use ilLogger;
 use ILIAS\Export\ImportHandler\I\File\Path\Node\ilSimpleInterface as ilSimpleFilePathNodeInterface;
-use XMLReader;
 
 class ilSimple implements ilSimpleFilePathNodeInterface
 {

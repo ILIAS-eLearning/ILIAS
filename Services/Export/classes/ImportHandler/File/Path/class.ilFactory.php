@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Path;
 
-use ilLogger;
 use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
 use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
 use ILIAS\Export\ImportHandler\File\Path\ilHandler as ilFilePathHandler;
@@ -29,6 +28,7 @@ use ILIAS\Export\ImportHandler\I\File\Path\Comparison\ilHandlerInterface as ilFi
 use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePAthFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\Path\Node\ilFactoryInterface as ilFilePathNodeFactoryInterface;
+use ilLogger;
 
 class ilFactory implements ilFilePathFactoryInterface
 {

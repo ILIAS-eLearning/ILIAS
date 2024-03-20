@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\Validation\Set;
 
-use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationSetInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationSetInterface;
 
 interface ilFactoryInterface
 {

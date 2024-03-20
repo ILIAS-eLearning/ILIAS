@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute;
 
-use ilLogger;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilCollection as ilXMLFileNodeInfoAttribureCollection;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributeCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilCollection as ilXMLFileNodeInfoAttribureCollection;
+use ilLogger;
 
 class ilFactory implements ilXMLFileNodeInfoAttributeFactoryInterface
 {

@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XSD;
 
+use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ILIAS\Export\ImportHandler\File\XSD\ilHandler as ilXSDFileHandler;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileHandlerFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\File\XSD\ilHandler as ilXSDFileHandler;
-use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
 use SplFileInfo;
 
 class ilFactory implements ilXSDFileHandlerFactoryInterface

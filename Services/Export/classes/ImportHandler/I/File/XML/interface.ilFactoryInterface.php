@@ -20,11 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML;
 
-use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\ilCollectionInterface as ilXMLFileHanlderCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHanlderInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilFactoryInterface as ilManifestFileFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\ilFactoryInterface as ilXMLFileNodeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Schema\ilFactoryInterface as ilXMLFileSchemaFactoryInterface;
 use SplFileInfo;
 
 interface ilFactoryInterface
@@ -38,4 +39,6 @@ interface ilFactoryInterface
     public function node(): ilXMLFileNodeFactoryInterface;
 
     public function export(): ilXMLExportFileFactoryInterface;
+
+    public function schema(): ilXMLFileSchemaFactoryInterface;
 }

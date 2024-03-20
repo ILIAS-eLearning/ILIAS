@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser;
 
-use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\Parser\DOM\ilFactoryInterface as ilDOMParserFactoryInterface;
 
 interface ilFactoryInterface

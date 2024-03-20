@@ -22,27 +22,27 @@ namespace ILIAS\Export\ImportHandler\File\Validation;
 
 use DOMDocument;
 use Exception;
-use ilLogger;
-use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollection;
 use ILIAS\Export\ImportHandler\I\File\ilHandlerInterface as ilFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\ilHandlerInterface as ilFileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollection;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
 use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
 use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
 use ILIAS\Export\ImportStatus\StatusType;
+use ilLogger;
 use LibXMLError;
 
 class ilHandler implements ilFileValidationHandlerInterface
 {
-    protected const TMP_DIR_NAME = 'temp';
-    protected const XML_DIR_NAME = 'xml';
+    public const TMP_DIR_NAME = 'temp';
+    public const XML_DIR_NAME = 'xml';
 
     protected ilLogger $logger;
     protected ilImportStatusFactoryInterface $import_status;

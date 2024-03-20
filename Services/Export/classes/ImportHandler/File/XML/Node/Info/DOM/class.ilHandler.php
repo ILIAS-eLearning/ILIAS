@@ -22,10 +22,10 @@ namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM;
 
 use DOMAttr;
 use DOMNode;
-use ilImportException;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoilDOMNodeHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilXMLFileNodeInfoCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
+use ilImportException;
 
 class ilHandler implements ilXMLFileNodeInfoilDOMNodeHandlerInterface
 {

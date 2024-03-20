@@ -20,32 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
-use ilLogger;
+use ILIAS\Export\ImportHandler\File\XML\Export\Component\ilFactory as ilComponentXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\Export\DataSet\ilFactory as ilDataSetXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\Export\ilCollection as ilXMLExportFileHandlerCollection;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\ilFactoryInterface as ilComponentXMLExportFileHandlerFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\ilFactoryInterface as ilDataSetXMLExportFileHandlerFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\ilFactoryInterface as ilXMLExportFileFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
-use ILIAS\Export\ImportHandler\File\XML\Export\ilHandler as ilXMLExportFileHanlder;
-use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
-use ILIAS\Export\ImportHandler\File\Path\ilFactory as ilFilePathFactory;
-use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
-use ILIAS\Export\ImportHandler\File\XSD\ilFactory as ilXSDFileFactory;
-use ILIAS\Export\ImportHandler\File\XML\Export\ilCollection as ilXMLExportFileHandlerCollection;
 use ILIAS\Export\Schema\ilXmlSchemaFactory;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLNodeInfoAttributeFactory;
-use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ilLanguage;
+use ilLogger;
 use SplFileInfo;
-use ILIAS\Export\ImportHandler\File\XML\Export\Component\ilFactory as ilComponentXMLExportFileFactory;
-use ILIAS\Export\ImportHandler\File\XML\Export\DataSet\ilFactory as ilDataSetXMLExportFileFactory;
 
 class ilFactory implements ilXMLExportFileFactoryInterface
 {
-    public ilLogger $logger;
+    protected ilLogger $logger;
+    protected ilLanguage $lng;
+    protected ilXmlSchemaFactory $schema_factory;
 
-    public function __construct(ilLogger $logger)
-    {
+    public function __construct(
+        ilLogger $logger,
+        ilLanguage $lng,
+        ilXmlSchemaFactory $schema_factory
+    ) {
         $this->logger = $logger;
+        $this->lng = $lng;
+        $this->schema_factory = $schema_factory;
     }
 
     public function withFileInfo(SplFileInfo $file_info): ilXMLExportFileHandlerInterface
@@ -65,11 +66,19 @@ class ilFactory implements ilXMLExportFileFactoryInterface
 
     public function component(): ilComponentXMLExportFileHandlerFactoryInterface
     {
-        return new ilComponentXMLExportFileFactory($this->logger);
+        return new ilComponentXMLExportFileFactory(
+            $this->logger,
+            $this->lng,
+            $this->schema_factory
+        );
     }
 
     public function dataSet(): ilDataSetXMLExportFileHandlerFactoryInterface
     {
-        return new ilDataSetXMLExportFileFactory($this->logger);
+        return new ilDataSetXMLExportFileFactory(
+            $this->logger,
+            $this->lng,
+            $this->schema_factory
+        );
     }
 }

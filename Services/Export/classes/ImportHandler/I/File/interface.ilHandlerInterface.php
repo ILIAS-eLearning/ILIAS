@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File;
 
-use SplFileInfo;
 use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\Namespace\ilHandlerInterface as ilFileNamespaceHandlerInterface;
+use SplFileInfo;
 
 interface ilHandlerInterface
 {
