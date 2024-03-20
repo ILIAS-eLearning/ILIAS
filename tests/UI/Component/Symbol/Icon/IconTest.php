@@ -191,4 +191,16 @@ imgtag;
         $expected = $this->normalizeHTML("<img id=\"id_1\" class=\"icon crs medium\" src=\"$path\" alt=\"Course\"/>");
         $this->assertEquals($expected, $html);
     }
+
+    public function testSetCustomLabel(): Custom
+    {
+        $path = './templates/default/images/icon_fold.svg';
+        $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
+        $ico->setLabel("New Custom Icon Label");
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon custom medium" src="./templates/default/images/icon_fold.svg" alt="New Custom Icon Label"/>';
+        $this->assertEquals($expected, $html);
+
+        return $ico;
+    }
 }
