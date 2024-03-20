@@ -71,6 +71,24 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         );
         return $node;
     }
+    public function testConstructionWithIconAndDifferentLabels(): C\Tree\Node\Simple
+    {
+        $this->icon->setLabel('Different Icon Label');
+        $node = $this->node_factory->simple('label', $this->icon);
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Tree\\Node\\Simple",
+            $node
+        );
+        return $node;
+    }
+
+    /**
+     * @depends testConstructionWithIconAndDifferentLabels
+     */
+    public function testGetDifferentLabels(C\Tree\Node\Simple $node): void
+    {
+        $this->assertNotEquals($this->icon->getLabel(), $node->getLabel());
+    }
 
     /**
      * @depends testConstructionWithIcon
@@ -170,6 +188,34 @@ EOT;
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
 						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
+						label
+					</span>
+				</span>
+			</li>
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+    /**
+     * This test is successfull if the icon label differs from the node label.
+     * As a result the alt attribute will get the icon's label as content.
+     * Else the alt attribute will be empty (see testRenderingWithIcon).
+     *
+     * @depends testConstructionWithIconAndDifferentLabels
+     */
+    public function testRenderingWithIconAndAltAttribute(C\Tree\Node\Simple $node): void
+    {
+        $r = $this->getDefaultRenderer();
+        $html = $r->render($node);
+
+        $expected = <<<EOT
+			<li id="" class="il-tree-node node-simple" role="treeitem">
+				<span class="node-line">
+					<span class="node-label">
+						<img class="icon small" src="./templates/default/images/icon_default.svg" alt="Different Icon Label"/>
 						label
 					</span>
 				</span>
