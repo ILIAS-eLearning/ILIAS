@@ -54,6 +54,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $ilTabs = $DIC['ilTabs'];
         $tree = $DIC['tree'];
+        $refinery = $DIC['refinery'];
 
         $ilTabs->clearTargets();
 
@@ -78,7 +79,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->checkTestSessionUser($this->testSession);
         $this->initProcessLocker($this->testSession->getActiveId());
 
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $refinery, $ilPluginAdmin, $this->object);
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
 
