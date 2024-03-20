@@ -458,7 +458,7 @@ class ilObjSurvey extends ilObject
     {
         $ilDB = $this->db;
         
-        $user_ids[] = array();
+        $user_ids = array();
         
         foreach ($finished_ids as $finished_id) {
             $result = $ilDB->queryF(
