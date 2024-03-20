@@ -83,6 +83,13 @@ class ilCalendarPresentationGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
+
+        $this->repository_mode = $a_ref_id > 0;
+        if ($this->repository_mode && $this->category_id === 0) {
+            $obj_id = ilObject::_lookupObjId($this->ref_id);
+            $category = ilCalendarCategory::_getInstanceByObjId($obj_id);
+            $this->category_id = is_null($category) ? 0 : $category->getCategoryID();
+        }
         $this->ctrl->setParameter($this, 'category_id', $this->category_id);
         $this->cal_settings = ilCalendarSettings::_getInstance();
 
@@ -92,9 +99,6 @@ class ilCalendarPresentationGUI
         $this->initCalendarView();
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
 
-        if ($a_ref_id > 0) {
-            $this->repository_mode = true;
-        }
         if ($this->category_id > 0) {        // single calendar view
             // ensure activation of this category
             $vis = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $a_ref_id);
@@ -565,11 +569,13 @@ class ilCalendarPresentationGUI
             );
         }
         if ($this->actions->checkSettingsCal($this->category_id)) {
+            $ctrl->setParameterByClass(ilCalendarCategoryGUI::class, 'category_id', $this->category_id);
             $this->tabs_gui->addTab(
                 "edit",
                 $this->lng->txt("settings"),
                 $ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "edit")
             );
+            $ctrl->clearParameterByClass(ilCalendarCategoryGUI::class, 'category_id');
         }
         $this->tabs_gui->activateTab('cal_agenda');
     }
