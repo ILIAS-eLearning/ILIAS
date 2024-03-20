@@ -325,7 +325,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
-                    $this->user,
+                    $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
                     $log_array
                 )
@@ -605,7 +605,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
-                    $this->user,
+                    $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_SELECTION_CRITERIA_MODIFIED,
                     $log_array
                 )
@@ -688,7 +688,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
-                    $this->user,
+                    $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
                     $log_array
                 )
@@ -918,7 +918,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
-                    $this->user,
+                    $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTIONS_SYNCHRONISATION_RESET,
                     []
                 )

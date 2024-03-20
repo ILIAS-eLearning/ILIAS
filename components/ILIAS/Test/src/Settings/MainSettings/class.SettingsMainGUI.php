@@ -242,7 +242,7 @@ class SettingsMainGUI extends TestSettingsGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_object->getRefId(),
-                    $this->active_user,
+                    $this->active_user->getId(),
                     TestAdministrationInteractionTypes::MAIN_SETTINGS_MODIFIED,
                     $additional_information
                 )

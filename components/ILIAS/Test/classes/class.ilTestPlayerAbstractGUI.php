@@ -1439,7 +1439,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                         $this->logger->getInteractionFactory()->buildParticipantInteraction(
                             $this->object->getRefId(),
                             $question_id,
-                            $this->user,
+                            $this->user->getId(),
                             TestParticipantInteractionTypes::TEST_RUN_STARTED,
                             []
                         )
@@ -1568,15 +1568,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function skipQuestionCmd()
     {
-        $curSequenceElement = $this->getCurrentSequenceElement();
-        $nextSequenceElement = $this->test_sequence->getNextSequence($curSequenceElement);
+        $current_sequence_element = $this->getCurrentSequenceElement();
+        $next_sequence_element = $this->test_sequence->getNextSequence($current_sequence_element);
 
-        if (!$this->isValidSequenceElement($nextSequenceElement)) {
-            $nextSequenceElement = $this->test_sequence->getFirstSequence();
+        if (!$this->isValidSequenceElement($next_sequence_element)) {
+            $next_sequence_element = $this->test_sequence->getFirstSequence();
         }
 
         if ($this->object->isPostponingEnabled()) {
-            $this->test_sequence->postponeSequence($curSequenceElement);
+            $this->test_sequence->postponeSequence($current_sequence_element);
             $this->test_sequence->saveToDb();
         }
 
@@ -1584,15 +1584,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->logger->logParticipantInteraction(
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
-                    $this->test_sequence->getQuestionForSequence($sequence),
-                    $this->user,
+                    $this->test_sequence->getQuestionForSequence($current_sequence_element),
+                    $this->user->getId(),
                     TestParticipantInteractionTypes::QUESTION_SKIPPED,
                     []
                 )
             );
         }
 
-        $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+        $this->ctrl->setParameter($this, 'sequence', $next_sequence_element);
         $this->ctrl->setParameter($this, 'pmode', '');
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -1678,7 +1678,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $this->logger->getInteractionFactory()->buildParticipantInteraction(
                     $this->object->getRefId(),
                     null,
-                    $this->user,
+                    $this->user->getId(),
                     TestParticipantInteractionTypes::TEST_RUN_STARTED,
                     []
                 )
@@ -2223,17 +2223,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $this->handleCheckTestPassValid();
         $lastSequenceElement = $this->getCurrentSequenceElement();
-        $nextSequenceElement = $this->test_sequence->getNextSequence($lastSequenceElement);
+        $next_sequence_element = $this->test_sequence->getNextSequence($lastSequenceElement);
 
         if ($this->object->isPostponingEnabled()) {
             $this->handleQuestionPostponing($lastSequenceElement);
         }
 
-        if (!$this->isValidSequenceElement($nextSequenceElement)) {
-            $nextSequenceElement = $this->test_sequence->getFirstSequence();
+        if (!$this->isValidSequenceElement($next_sequence_element)) {
+            $next_sequence_element = $this->test_sequence->getFirstSequence();
         }
 
-        $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+        $this->ctrl->setParameter($this, 'sequence', $next_sequence_element);
         $this->ctrl->setParameter($this, 'pmode', '');
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -3132,16 +3132,16 @@ JS;
 
             $this->removeIntermediateSolution();
 
-            $nextSequenceElement = $this->test_sequence->getNextSequence($this->getCurrentSequenceElement());
+            $next_sequence_element = $this->test_sequence->getNextSequence($this->getCurrentSequenceElement());
 
-            if (!$this->isValidSequenceElement($nextSequenceElement)) {
-                $nextSequenceElement = $this->test_sequence->getFirstSequence();
+            if (!$this->isValidSequenceElement($next_sequence_element)) {
+                $next_sequence_element = $this->test_sequence->getFirstSequence();
             }
 
-            $this->test_session->setLastSequence($nextSequenceElement ?? 0);
+            $this->test_session->setLastSequence($next_sequence_element ?? 0);
             $this->test_session->saveToDb();
 
-            $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+            $this->ctrl->setParameter($this, 'sequence', $next_sequence_element);
             $this->ctrl->setParameter($this, 'pmode', '');
         }
 

@@ -100,6 +100,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     use QuestionPoolLinkedTitleBuilder;
 
     public const DEFAULT_CMD = 'showQuestions';
+    public const PREVIEW_QUESTION_CMD = 'previewQuestion';
+
     private const INFO_SCREEN_CHILD_CLASSES = [
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     ];

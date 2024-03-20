@@ -30,11 +30,10 @@ class TestScoringInteraction implements TestUserInteraction
     * @param array<string label_lang_var => mixed value> $additional_data
     */
     public function __construct(
-        private readonly \ilLanguage $lng,
         private readonly int $test_ref_id,
         private readonly int $question_id,
-        private readonly \ilObjUser $administrator,
-        private readonly \ilObjUser $participant,
+        private readonly int $admin_id,
+        private readonly int $pax_id,
         private readonly TestScoringInteractionTypes $interaction_type,
         private readonly int $modification_timestamp,
         private readonly array $additional_data
@@ -66,12 +65,12 @@ class TestScoringInteraction implements TestUserInteraction
 
     public function getAdministratorId(): int
     {
-        return $this->administrator->getId();
+        return $this->admin_id;
     }
 
     public function getParticipantId(): int
     {
-        return $this->participant->getId();
+        return $this->pax_id;
     }
 
     public function getInteractionType(): TestScoringInteractionTypes
@@ -84,9 +83,44 @@ class TestScoringInteraction implements TestUserInteraction
         return $this->modification_timestamp;
     }
 
-    public function getLogEntryAsDataTableRow(): array
-    {
+    public function getLogEntryAsDataTableRow(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $properties_repository,
+        UIFactory $ui_factory,
+        DataRowBuilder $row_builder,
+        array $environment
+    ): DataRow {
+        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
 
+        return $row_builder->buildDataRow(
+            $this->getUniqueIdentifier(),
+            [
+                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'corresponding_test' => $ui_factory->link()->standard(
+                    \ilObject::_lookupTitle($test_obj_id),
+                    $static_url->builder()->build('tst', $this->test_ref_id)
+                ),
+                'author' => \ilUserUtil::getNamePresentation(
+                    $this->admin_id,
+                    false,
+                    false,
+                    false,
+                    true
+                ),
+                'participant' => \ilUserUtil::getNamePresentation(
+                    $this->pax_id,
+                    false,
+                    false,
+                    false,
+                    true
+                ),
+                'ip' => '',
+                'question' => $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
+                'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
+            ]
+        );
     }
 
     public function getLogEntryAsCsvRow(): string

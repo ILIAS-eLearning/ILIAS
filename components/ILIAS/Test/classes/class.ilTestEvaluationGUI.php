@@ -2016,7 +2016,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->object->getRefId(),
-                    $this->user,
+                    $this->user->getId(),
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
                     [
                         'user' => $user_id

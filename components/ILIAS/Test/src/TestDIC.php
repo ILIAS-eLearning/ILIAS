@@ -100,9 +100,7 @@ class TestDIC extends PimpleContainer
             $c['settings.global.repository']->getLoggingSettings();
 
         $dic['logging.factory'] = static fn($c): InteractionFactory =>
-            new InteractionFactory(
-                $DIC['lng']
-            );
+            new InteractionFactory();
 
         $dic['logging.repository'] = static fn($c): TestLoggingRepository =>
             new TestLoggingDatabaseRepository(

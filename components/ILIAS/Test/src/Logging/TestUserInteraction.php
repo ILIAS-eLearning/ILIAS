@@ -18,6 +18,9 @@
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Component\Table\DataRow;
+
 /**
  *
  * @author skergomard
@@ -28,7 +31,14 @@ interface TestUserInteraction
     public function getUniqueIdentifier(): ?string;
     public function withId(int $id): self;
     public function getModificationTimestamp(): int;
-    public function getLogEntryAsDataTableRow(): array;
+    public function getLogEntryAsDataTableRow(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $properties_repository,
+        UIFactory $ui_factory,
+        DataRowBuilder $row_builder,
+        array $environment
+    ): DataRow;
     public function getLogEntryAsCsvRow(): string;
     public function toStorage(): array;
 }

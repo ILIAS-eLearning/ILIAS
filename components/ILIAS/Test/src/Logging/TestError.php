@@ -27,11 +27,10 @@ class TestError implements TestUserInteraction
     private int $unique_id;
 
     public function __construct(
-        private readonly \ilLanguage $lng,
         private readonly int $test_ref_id,
         private readonly ?int $question_id,
-        private readonly ?\ilObjUser $administrator,
-        private readonly ?\ilObjUser $participant,
+        private readonly ?int $admin_id,
+        private readonly ?int $pax_id,
         private readonly TestErrorTypes $interaction_type,
         private readonly int $modification_timestamp,
         private readonly string $error_message
@@ -63,12 +62,12 @@ class TestError implements TestUserInteraction
 
     public function getAdministratorId(): ?int
     {
-        return $this->administrator->getId();
+        return $this->admin_id;
     }
 
     public function getParticipantId(): ?int
     {
-        return $this->participant->getId();
+        return $this->pax_id;
     }
 
     public function getInteractionType(): TestErrorTypes
@@ -81,9 +80,60 @@ class TestError implements TestUserInteraction
         return $this->modification_timestamp;
     }
 
-    public function getLogEntryAsDataTableRow(): array
-    {
+    public function getLogEntryAsDataTableRow(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $properties_repository,
+        UIFactory $ui_factory,
+        DataRowBuilder $row_builder,
+        array $environment
+    ): DataRow {
+        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
 
+        $admin = '';
+        $pax = '';
+        $question = '';
+
+        if ($this->admin_id !== null) {
+            $admin = \ilUserUtil::getNamePresentation(
+                $this->admin_id,
+                false,
+                false,
+                false,
+                true
+            );
+        }
+
+        if ($this->pax_id !== null) {
+            $pax = \ilUserUtil::getNamePresentation(
+                $this->pax_id,
+                false,
+                false,
+                false,
+                true
+            );
+        }
+
+        if ($this->question_id !== null) {
+            $question = $properties_repository->getForQuestionId($this->question_id)->getTitle();
+        }
+
+        return $row_builder->buildDataRow(
+            $this->getUniqueIdentifier(),
+            [
+                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'corresponding_test' => $ui_factory->link()->standard(
+                    \ilObject::_lookupTitle($test_obj_id),
+                    $static_url->builder()->build('tst', $this->test_ref_id)
+                ),
+                'author' => $admin,
+                'participant' => $pax,
+                'ip' => '',
+                'question' => $question,
+                'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
+                'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
+            ]
+        );
     }
 
     public function getLogEntryAsCsvRow(): string

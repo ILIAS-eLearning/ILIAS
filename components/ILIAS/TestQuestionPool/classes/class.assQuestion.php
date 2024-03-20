@@ -3023,7 +3023,7 @@ abstract class assQuestion implements Question
             $this->lng,
             $test_id,
             $this->id,
-            $this->current_user,
+            $this->current_user->getId(),
             $source_ip,
             $interaction_type,
             time(),
@@ -3039,7 +3039,7 @@ abstract class assQuestion implements Question
             $this->lng,
             $test_id,
             $this->id,
-            $this->current_user,
+            $this->current_user->getId(),
             $interaction_type,
             time(),
             $this->toLog()

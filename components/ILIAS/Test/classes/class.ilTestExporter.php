@@ -72,7 +72,7 @@ class ilTestExporter extends ilXmlExporter
         $test_export = $test_export_factory->getExporter('xml');
         $zip = $test_export->buildExportFile();
 
-        $this->logger->write(__METHOD__ . ': Created zip file ' . $zip);
+        $this->logger->info(__METHOD__ . ': Created zip file ' . $zip);
         return ''; // Sagt mjansen
     }
 

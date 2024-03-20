@@ -23,21 +23,16 @@ namespace ILIAS\Test\Logging;
 class Factory
 {
     private const NONEXISTENT_TYPE_MSG = 'Invalid Interaction Type in Database for id %s with type %s';
-    public function __construct(
-        private readonly \ilLanguage $lng
-    ) {
-    }
 
     public function buildTestAdministrationInteraction(
         int $ref_id,
-        \ilObjUser $admin,
+        int $admin_id,
         TestAdministrationInteractionTypes $type,
         array $additional_data
     ): TestAdministrationInteraction {
         return new TestAdministrationInteraction(
-            $this->lng,
             $ref_id,
-            $admin,
+            $admin_id,
             $type,
             time(),
             $additional_data
@@ -53,9 +48,8 @@ class Factory
             );
         }
         return (new TestAdministrationInteraction(
-            $this->lng,
             $db_values->ref_id,
-            new \ilObjUser($db_values->admin_id),
+            $db_values->admin_id,
             $type,
             $db_values->modification_timestamp,
             $db_values->additional_data
@@ -66,15 +60,14 @@ class Factory
     public function buildTestQuestionAdministrationInteraction(
         int $ref_id,
         int $qst_id,
-        \ilObjUser $admin,
+        int $admin_id,
         TestQuestionAdministrationInteractionTypes $type,
         array $additional_data
     ): TestQuestionAdministrationInteraction {
         return new TestAdministrationInteraction(
-            $this->lng,
             $ref_id,
             $qst_id,
-            $admin,
+            $admin_id,
             $type,
             time(),
             $additional_data
@@ -90,10 +83,9 @@ class Factory
             );
         }
         return (new TestQuestionAdministrationInteraction(
-            $this->lng,
             $db_values->ref_id,
             $db_values->qst_id,
-            new \ilObjUser($db_values->admin_id),
+            $db_values->admin_id,
             $type,
             $db_values->modification_timestamp,
             $db_values->additional_data
@@ -103,15 +95,14 @@ class Factory
     public function buildParticipantInteraction(
         int $ref_id,
         int $qst_id,
-        \ilObjUser $pax,
+        int $pax_id,
         TestParticipantInteractionTypes $type,
         array $additional_data
     ): TestParticipantInteraction {
         return new TestParticipantInteraction(
-            $this->lng,
             $ref_id,
             $qst_id,
-            $pax,
+            $pax_id,
             $_SERVER['REMOTE_ADDR'],
             $type,
             time(),
@@ -128,10 +119,9 @@ class Factory
             );
         }
         return (new TestParticipantInteraction(
-            $this->lng,
             $db_values->ref_id,
             $db_values->qst_id,
-            new \ilObjUser($db_values->pax_id),
+            $db_values->pax_id,
             $db_values->source_ip,
             $type,
             $db_values->modification_timestamp,
@@ -142,17 +132,16 @@ class Factory
     public function buildScoringInteraction(
         int $ref_id,
         int $qst_id,
-        \ilObjUser $admin,
-        \ilObjUser $pax,
+        int $admin_id,
+        int $pax_id,
         TestScoringInteractionTypes $type,
         array $additional_data
     ): TestScoringInteraction {
         return new TestScoringInteraction(
-            $this->lng,
             $ref_id,
             $qst_id,
-            $admin,
-            $pax,
+            $admin_id,
+            $pax_id,
             $type,
             time(),
             $additional_data
@@ -168,11 +157,10 @@ class Factory
             );
         }
         return (new TestScoringInteraction(
-            $this->lng,
             $db_values->ref_id,
             $db_values->qst_id,
-            new \ilObjUser($db_values->admin_id),
-            new \ilObjUser($db_values->pax_id),
+            $db_values->admin_id,
+            $db_values->pax_id,
             $type,
             $db_values->modification_timestamp,
             $db_values->additional_data
@@ -182,17 +170,16 @@ class Factory
     public function buildError(
         int $ref_id,
         ?int $qst_id,
-        ?\ilObjUser $admin,
-        ?\ilObjUser $pax,
+        ?int $admin_id,
+        ?int $pax_id,
         TestErrorTypes $type,
         string $error_message
     ): TestError {
         return new TestError(
-            $this->lng,
             $ref_id,
             $qst_id,
-            $admin,
-            $pax,
+            $admin_id,
+            $pax_id,
             $type,
             time(),
             $error_message
@@ -207,23 +194,11 @@ class Factory
             );
         }
 
-        $administrator = null;
-        if ($db_values->admin_id !== null) {
-            $administrator = new \ilObjUser($db_values->admin_id);
-        }
-
-
-        $participant = null;
-        if ($db_values->admin_id !== null) {
-            $participant = new \ilObjUser($db_values->pax_id);
-        }
-
         return (new TestError(
-            $this->lng,
             $db_values->ref_id,
             $db_values->qst_id,
-            $administrator,
-            $participant,
+            $db_values->admin_id,
+            $db_values->pax_id,
             $type,
             $db_values->modification_timestamp,
             $db_values->error_message

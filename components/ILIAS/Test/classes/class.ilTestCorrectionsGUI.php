@@ -403,7 +403,7 @@ class ilTestCorrectionsGUI
             $this->logger->logTestAdministrationInteraction(
                 $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
                     $this->test_obj->getRefId(),
-                    $this->scorer,
+                    $this->scorer->getId(),
                     TestAdministrationInteractionTypes::QUESTION_REMOVED_IN_CORRECTIONS,
                     [
                         'title' => $question_gui->getObject()->getTitle(),
