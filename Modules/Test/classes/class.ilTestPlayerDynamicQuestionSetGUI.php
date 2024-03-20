@@ -42,7 +42,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
      * @var ilTestSessionDynamicQuestionSet
      */
     protected $testSession;
-    
+
     /**
      * execute command
      */
@@ -56,7 +56,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $tree = $DIC['tree'];
 
         $ilTabs->clearTargets();
-        
+
         $this->ctrl->saveParameter($this, "sequence");
         $this->ctrl->saveParameter($this, "active_id");
 
@@ -77,7 +77,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->ensureExistingTestSession($this->testSession);
         $this->checkTestSessionUser($this->testSession);
         $this->initProcessLocker($this->testSession->getActiveId());
-        
+
         $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
@@ -94,12 +94,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             include_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
             ilOverlayGUI::initJavascript();
         }
-        
+
         $this->handlePasswordProtectionRedirect();
-        
+
         $cmd = $this->ctrl->getCmd();
         $nextClass = $this->ctrl->getNextClass($this);
-        
+
         switch ($nextClass) {
             case 'ilassquestionpagegui':
 
@@ -113,7 +113,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             case 'ilassquestionhintrequestgui':
 
                 $this->ctrl->saveParameter($this, 'pmode');
-                
+
                 $questionGUI = $this->object->createQuestionGUI(
                     "",
                     $this->testSession->getCurrentQuestionId()
@@ -133,18 +133,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     $questionGUI,
                     $questionHintTracking
                 );
-                
+
 // fau: testNav - save the 'answer changed status' for viewing hint requests
                 $this->setAnswerChangedParameter($this->getAnswerChangedParameter());
 // fau.
                 $this->ctrl->forwardCommand($gui);
-                
+
                 break;
-                
+
             case 'ildynamicquestionsetstatistictablegui':
-                
+
                 $this->ctrl->forwardCommand($this->buildQuestionSetFilteredStatisticTableGUI());
-                
+
                 break;
 
             case 'iltestpasswordprotectiongui':
@@ -152,17 +152,17 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $gui = new ilTestPasswordProtectionGUI($this->ctrl, $this->tpl, $this->lng, $this, $this->passwordChecker);
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             default:
-                
+
                 $cmd .= 'Cmd';
                 $ret = &$this->$cmd();
                 break;
         }
-        
+
         return $ret;
     }
-    
+
     /**
      * @return integer
      */
@@ -179,22 +179,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         if ($this->object->checkMaximumAllowedUsers() == false) {
             return $this->showMaximumAllowedUsersReachedMessage();
         }
-        
+
         $this->handleUserSettings();
-        
+
         if ($this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled()) {
             $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
         }
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function startTestCmd()
     {
         $this->testSession->setCurrentQuestionId(null); // no question "came up" yet
-        
+
         $this->testSession->saveToDb();
-        
+
         $this->ctrl->setParameter($this, 'active_id', $this->testSession->getActiveId());
 
         assQuestion::_updateTestPassResults($this->testSession->getActiveId(), $this->testSession->getPass(), false, null, $this->object->id);
@@ -203,32 +203,32 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
         );
-        
+
         $this->ctrl->saveParameter($this, 'tst_javascript');
-        
+
         if ($this->dynamicQuestionSetConfig->isAnyQuestionFilterEnabled()) {
             $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
         }
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function showQuestionSelectionCmd()
     {
         $this->prepareSummaryPage();
-        
+
         $this->testSequence->loadQuestions(
             $this->dynamicQuestionSetConfig,
             $this->testSession->getQuestionSetFilterSelection()
         );
-        
+
         $this->testSequence->cleanupQuestions($this->testSession);
 
         $this->testSequence->saveToDb();
-            
+
         require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
         $toolbarGUI = new ilToolbarGUI();
-        
+
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $button = ilLinkButton::getInstance();
         $button->setUrl($this->getStartTestFromQuestionSelectionLink());
@@ -245,16 +245,16 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $button->setCaption('cancel_test');
             $toolbarGUI->addButtonInstance($button);
         }
-        
+
         if ($this->object->isPassDeletionAllowed()) {
             require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
-            
+
             $toolbarGUI->addButton(
                 $this->lng->txt('tst_dyn_test_pass_deletion_button'),
                 $this->getPassDeletionTarget(ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER)
             );
         }
-        
+
         $filteredData = array($this->buildQuestionSetAnswerStatisticRowArray(
             $this->testSequence->getFilteredQuestionsData(),
             $this->testSequence->getTrackedQuestionList()
@@ -279,7 +279,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $this->outProcessingTime($this->testSession->getActiveId());
         }
     }
-    
+
     protected function filterQuestionSelectionCmd()
     {
         $tableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
@@ -287,7 +287,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         $taxFilterSelection = array();
         $answerStatusFilterSelection = ilAssQuestionList::ANSWER_STATUS_FILTER_ALL_NON_CORRECT;
-        
+
         foreach ($tableGUI->getFilterItems() as $item) {
             if (strpos($item->getPostVar(), 'tax_') !== false) {
                 $taxId = substr($item->getPostVar(), strlen('tax_'));
@@ -296,30 +296,30 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $answerStatusFilterSelection = $item->getValue();
             }
         }
-        
+
         $this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection($taxFilterSelection);
         $this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection($answerStatusFilterSelection);
         $this->testSession->saveToDb();
-        
+
         $this->testSequence->resetTrackedQuestionList();
         $this->testSequence->saveToDb();
 
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
     }
-    
+
     protected function resetQuestionSelectionCmd()
     {
         $tableGUI = $this->buildQuestionSetFilteredStatisticTableGUI();
         $tableGUI->resetFilter();
-        
+
         $this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection(array());
         $this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection(null);
         $this->testSession->saveToDb();
-        
+
         $this->testSequence->resetTrackedQuestionList();
         $this->testSequence->saveToDb();
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
     }
 
@@ -333,7 +333,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $this->resetCurrentQuestion();
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function nextQuestionCmd()
     {
         $isWorkedThrough = assQuestion::_isWorkedThrough(
@@ -346,18 +346,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->setQuestionPostponed($this->testSession->getCurrentQuestionId());
             $this->testSequence->saveToDb();
         }
-        
+
         $this->resetCurrentQuestion();
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function markQuestionCmd()
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
@@ -366,7 +366,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
@@ -399,7 +399,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function submitSolutionCmd()
     {
         if ($this->saveQuestionSolution(true, false)) {
@@ -409,7 +409,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $this->testSession->getActiveId(),
                 $this->testSession->getPass()
             );
-            
+
             $this->persistQuestionAnswerStatus();
 
             if ($this->object->isForceInstantFeedbackEnabled()) {
@@ -458,7 +458,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
         );
-        
+
         $this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -474,7 +474,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         if (!$this->getResetCheckedParameter()) {
             return false;
         }
-        
+
         if ($this->testSession->getQuestionSetFilterSelection()->isAnswerStatusSelectionWrongAnswered()) {
             $this->testSequence->loadQuestions(
                 $this->dynamicQuestionSetConfig,
@@ -488,34 +488,34 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         return false;
     }
-    
+
     protected function showQuestionCmd()
     {
         $this->updateWorkingTime();
-        
+
         $this->testSequence->loadQuestions(
             $this->dynamicQuestionSetConfig,
             $this->testSession->getQuestionSetFilterSelection()
         );
-        
+
         $this->testSequence->cleanupQuestions($this->testSession);
-        
+
         if ($this->isCheckedQuestionResettingConfirmationRequired()) {
             $this->showCheckedQuestionResettingConfirmation();
             return;
         }
-        
+
         if ($this->testSequence->getQuestionSet()->getSelectionQuestionList()->isInList($this->getQuestionIdParameter())) {
             $this->testSession->setCurrentQuestionId($this->getQuestionIdParameter());
         } else {
             $this->resetQuestionIdParameter();
         }
-        
+
         if (!$this->testSession->getCurrentQuestionId()) {
             $upComingQuestionId = $this->testSequence->getUpcomingQuestionId();
-            
+
             $this->testSession->setCurrentQuestionId($upComingQuestionId);
-            
+
             // seems to be a first try of freezing answers not too hard
             /*if( $this->testSequence->isQuestionChecked($upComingQuestionId) )
             {
@@ -567,7 +567,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $headerBlockBuilder->setQuestionPostponed(
                 $this->testSequence->isPostponedQuestion(
                     $this->testSession->getCurrentQuestionId()
-            )
+                )
             );
             $headerBlockBuilder->setQuestionObligatory(
                 $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
@@ -594,11 +594,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $this->testSession->getCurrentQuestionId(),
                 $this->testSession->getCurrentQuestionId()
             );
-            
+
             $this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
             $this->ctrl->setParameter($this, 'pmode', $presentationMode);
             $formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
-            
+
             switch ($presentationMode) {
                 case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
@@ -606,13 +606,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     $navigationToolbarGUI->setDisabledStateEnabled(false);
 // fau.
                     $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                    
+
                     break;
 
                 case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
 
                     $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
-                    
+
                     break;
 
                 default:
@@ -620,7 +620,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     require_once 'Modules/Test/exceptions/class.ilTestException.php';
                     throw new ilTestException('no presentation mode given');
             }
-            
+
             $navigationToolbarGUI->build();
             $this->populateTestNavigationToolbar($navigationToolbarGUI);
 
@@ -653,18 +653,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
             $navigationToolbarGUI->build();
             $this->populateTestNavigationToolbar($navigationToolbarGUI);
-            
+
             $this->outCurrentlyFinishedPage();
         }
-        
+
         $this->testSequence->saveToDb();
         $this->testSession->saveToDb();
     }
-    
+
     protected function showInstantResponseCmd()
     {
         $questionId = $this->testSession->getCurrentQuestionId();
-        
+
         $filterSelection = $this->testSession->getQuestionSetFilterSelection();
 
         $filterSelection->setForcedQuestionIds(array($this->testSession->getCurrentQuestionId()));
@@ -693,7 +693,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         );
 
         $this->ctrl->setParameter($this, 'instresp', 1);
-        
+
         // fau: testNav - handle navigation after feedback
         if ($this->getNavigationUrlParameter()) {
             $this->saveNavigationPreventConfirmation();
@@ -702,7 +702,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         // fau.
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
-    
+
     protected function handleQuestionActionCmd()
     {
         $questionId = $this->testSession->getCurrentQuestionId();
@@ -721,7 +721,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         );
 
         $this->ctrl->saveParameter($this, 'pmode');
-        
+
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
     }
 
@@ -733,15 +733,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $message = $this->lng->txt('tst_dyn_test_msg_currently_finished_completely');
             $message .= "<br /><br />{$this->buildFinishPagePassDeletionLink()}";
         }
-        
+
         $msgHtml = ilUtil::getSystemMessageHTML($message);
-        
+
         $tpl = new ilTemplate('tpl.test_currently_finished_msg.html', true, true, 'Modules/Test');
         $tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);
-        
+
         $this->tpl->setVariable('QUESTION_OUTPUT', $tpl->get());
     }
-    
+
     protected function isFirstQuestionInSequence($sequenceElement)
     {
         return !$this->testSequence->trackedQuestionExists();
@@ -751,7 +751,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     {
         return false; // always
     }
-    
+
     /**
      * Returns TRUE if the answers of the current user could be saved
      *
@@ -761,7 +761,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     {
         return !$this->object->endingTimeReached();
     }
-     
+
     /**
      * saves the user input of a question
      */
@@ -779,76 +779,76 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 return false;
             }
         }
-        
+
         // determine current question
-        
+
         $qId = $this->testSession->getCurrentQuestionId();
-        
+
         if (!$qId || $qId != $_GET["sequence"]) {
             return false;
         }
-        
+
         // save question solution
-        
+
         $this->saveResult = false;
 
         if ($this->canSaveResult($qId) || $force) {
             $questionGUI = $this->object->createQuestionGUI("", $qId);
-                
+
             if ($this->object->getJavaScriptOutput()) {
                 $questionGUI->object->setOutputType(OUTPUT_JAVASCRIPT);
             }
-                
+
             $activeId = $this->testSession->getActiveId();
-                
+
             $this->saveResult = $questionGUI->object->persistWorkingState(
                 $activeId,
                 $pass = null,
                 $this->object->areObligationsEnabled(),
                 $authorized
-                );
-            
+            );
+
             if ($authorized && $this->object->isSkillServiceToBeConsidered()) {
                 $this->handleSkillTriggering($this->testSession);
             }
         }
-        
+
         if ($this->saveResult == false) {
             $this->ctrl->setParameter($this, "save_error", "1");
             $_SESSION["previouspost"] = $_POST;
         }
-        
+
         return $this->saveResult;
     }
-    
+
     private function isQuestionAnsweredCorrect($questionId, $activeId, $pass)
     {
         $questionGUI = $this->object->createQuestionGUI("", $questionId);
 
         $reachedPoints = assQuestion::_getReachedPoints($activeId, $questionId, $pass);
         $maxPoints = $questionGUI->object->getMaximumPoints();
-        
+
         if ($reachedPoints < $maxPoints) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     protected function buildQuestionsTableDataArray($questions, $marked_questions)
     {
         $data = array();
-        
+
         foreach ($questions as $key => $value) {
             $this->ctrl->setParameter($this, 'sequence', $value['question_id']);
             $href = $this->ctrl->getLinkTarget($this, 'gotoQuestion');
             $this->ctrl->setParameter($this, 'sequence', '');
-            
+
             $description = "";
             if ($this->object->getListOfQuestionsDescription()) {
                 $description = $value["description"];
             }
-            
+
             $marked = false;
             if (count($marked_questions)) {
                 if (isset($marked_questions[$value["question_id"]])) {
@@ -857,7 +857,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                     }
                 }
             }
-            
+
             array_push($data, array(
                 'href' => $href,
                 'title' => $this->object->getQuestionTitle($value["title"]),
@@ -867,7 +867,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 'marked' => $marked
             ));
         }
-        
+
         return $data;
     }
 
@@ -917,7 +917,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         return $gui;
     }
-    
+
     private function buildQuestionSetFilteredStatisticTableGUI()
     {
         require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
@@ -940,10 +940,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         $gui->initFilter();
         $gui->setFilterCommand('filterQuestionSelection');
         $gui->setResetCommand('resetQuestionSelection');
-        
+
         return $gui;
     }
-        
+
     private function buildQuestionSetStatisticTableGUI($tableId)
     {
         require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
@@ -957,13 +957,13 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         return $gui;
     }
-    
+
     private function getEnterTestButtonLangVar()
     {
         if ($this->testSequence->trackedQuestionExists()) {
             return 'tst_resume_dyn_test_with_cur_quest_sel';
         }
-        
+
         return 'tst_start_dyn_test_with_cur_quest_sel';
     }
 
@@ -1009,24 +1009,24 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     private function getPassDeletionTarget()
     {
         require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
-        
+
         $this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'context', ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER);
         $this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'active_id', $this->testSession->getActiveId());
         $this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'pass', $this->testSession->getPass());
 
         return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
     }
-    
+
     protected function resetQuestionIdParameter()
     {
         $this->resetSequenceElementParameter();
     }
-    
+
     protected function getQuestionIdParameter()
     {
         return $this->getSequenceElementParameter();
     }
-    
+
     protected function getResetCheckedParameter()
     {
         if (isset($_GET['reset_checked'])) {
@@ -1044,10 +1044,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
         );
 
         $this->testSequence->setCurrentQuestionId($this->testSession->getCurrentQuestionId());
-        
+
         parent::outQuestionSummaryCmd($fullpage, $contextFinishTest, $obligationsNotAnswered, $obligationsFilter);
     }
-    
+
     protected function showCheckedQuestionResettingConfirmation()
     {
         require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
@@ -1059,7 +1059,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
         $this->populateMessageContent($confirmation->getHtml());
     }
-    
+
     protected function unfreezeCheckedQuestionsAnswersCmd()
     {
         $this->testSequence->loadQuestions(
@@ -1079,7 +1079,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $this->populateNextButtons($disabled, $primaryNext);
         }
     }
-    
+
     protected function getStartTestFromQuestionSelectionLink()
     {
         $this->ctrl->setParameter($this, 'reset_checked', 1);
@@ -1111,7 +1111,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     {
         return false;
     }
-    
+
     protected function isOptionalQuestionAnsweringConfirmationRequired($sequenceKey)
     {
         return false;
