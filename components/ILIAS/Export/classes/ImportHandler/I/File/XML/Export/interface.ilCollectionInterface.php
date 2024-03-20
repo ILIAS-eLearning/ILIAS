@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export;
 
+use Countable;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
 use Iterator;
-use Countable;
 
 interface ilCollectionInterface extends Iterator, Countable
 {

@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Node\Info;
 
-use DOMNode;
-use ilLogger;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilFactory as ilXMLFileNodeInfoAttributeFactory;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilFactory as ilXMLFileDOMNodeInfoFactory;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilCollection as ilFileNodeInfoCollection;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilTree as ilXMLFileNodeInfoTree;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMLFileNodeInfoAttributeFactoryInterface;
@@ -31,7 +30,7 @@ use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilCollectionInterface as ilX
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
 use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilFactory as ilXMLFileDOMNodeInfoFactory;
+use ilLogger;
 
 class ilFactory implements ilXMLFileNodeInfoFactoryInterface
 {

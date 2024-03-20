@@ -20,22 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
-use ilImportException;
-use ilLogger;
 use ILIAS\Export\ImportHandler\File\ilFactory as ilFileFactory;
 use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Export\ilCollectionInterface as ilXMLExportFileCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Manifest\ilHandlerInterface as ilManifestHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
 use ILIAS\Export\ImportHandler\I\Parser\ilHandlerInterface as ilParserHandler;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\Parser\ilFactory as ilParserFactory;
 use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\StatusType;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
 use ILIAS\Export\Schema\ilXmlSchemaFactory;
+use ilLogger;
 use SplFileInfo;
 
 class ilHandler extends ilXMLFileHandler implements ilManifestHandlerInterface

@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM;
 
 use DOMNode;
+use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilHandler as ilXMLFileDOMNodeInfoHandler;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilFactoryInterface as ilXMLFileDOMNodeInfoFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\DOM\ilHandlerInterface as ilXMLFileNodeInfoDOMNodeHandlerInterface;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilHandler as ilXMLFileDOMNodeInfoHandler;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilFactoryInterface as ilXMLFileNodeInfoFactoryInterface;
 
 class ilFactory implements ilXMLFileDOMNodeInfoFactoryInterface

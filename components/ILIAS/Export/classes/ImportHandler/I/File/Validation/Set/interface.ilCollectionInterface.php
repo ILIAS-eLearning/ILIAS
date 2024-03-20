@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\Validation\Set;
 
-use Iterator;
 use Countable;
 use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilHandlerInterface as ilFileValidationPairHandlerInterface;
+use Iterator;
 
 interface ilCollectionInterface extends Iterator, Countable
 {

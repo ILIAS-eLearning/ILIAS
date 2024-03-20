@@ -21,58 +21,55 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
 use ilDataSet;
-use ILIAS\BookingManager\getObjectSettingsCommand;
-use ilLogger;
+use ILIAS\Export\ImportHandler\File\Validation\ilHandler as ilFileValidationHandler;
 use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
-use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactoryInterface;
-use ILIAS\Export\ImportStatus\StatusType;
-use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilFilePathHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilHandlerInterface as ilXMLFileNodeInfoInterface;
 use ILIAS\Export\ImportHandler\I\File\Namespace\ilFactoryInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Path\ilFactoryInterface as ilFilePathFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilFactoryInterface as ilFileValidationSetFactoryInterface;
-use ILIAS\Export\Schema\ilXmlSchemaFactory;
-use ILIAS\Data\Version;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\ilHandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilFactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\ilTreeInterface as ilXMLFileNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Schema\ilFactoryInterface as ilXMLFileSchemaFactory;
+use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportStatus\StatusType;
+use ilLanguage;
+use ilLogger;
 use SplFileInfo;
 
 abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHandlerInterface
 {
-    protected ilXmlSchemaFactory $schema;
+    protected ilXMLFileSchemaFactory $schema;
     protected ilParserFactoryInterface $parser;
-    protected ilXSDFileFactoryInterface $xsd_file;
     protected ilFilePathFactoryInterface $path;
     protected ilXMlFileInfoNodeAttributeFactoryInterface $attribute;
     protected ilFileValidationSetFactoryInterface $set;
     protected ilLogger $logger;
+    protected ilLanguage $lng;
 
     public function __construct(
         ilFileNamespaceHandlerInterface $namespace,
         ilImportStatusFactoryInterface $status,
-        ilXmlSchemaFactory $schema,
+        ilXMLFileSchemaFactory $schema,
         ilParserFactoryInterface $parser,
-        ilXSDFileFactoryInterface $xsd_file,
         ilFilePathFactoryInterface $path,
         ilLogger $logger,
         ilXMlFileInfoNodeAttributeFactoryInterface $attribute,
-        ilFileValidationSetFactoryInterface $set
+        ilFileValidationSetFactoryInterface $set,
+        ilLanguage $lng
     ) {
         parent::__construct($namespace, $status);
         $this->schema = $schema;
         $this->parser = $parser;
-        $this->xsd_file = $xsd_file;
         $this->logger = $logger;
         $this->path = $path;
         $this->attribute = $attribute;
         $this->set = $set;
+        $this->lng = $lng;
     }
 
     /**
@@ -124,5 +121,24 @@ abstract class ilHandler extends ilXMLFileHandler implements ilXMLExportFileHand
             return false;
         }
         return count($nodes) > 0;
+    }
+
+    protected function getFailMsgNoMatchingVersionFound(
+        ilXMLFileHandlerInterface $xml_file_handler,
+        ilXSDFileHandlerInterface $xsd_file_handler,
+        string $version_str
+    ): ilImportStatusHandlerInterface {
+        $xml_str = "<br>XML-File: " . $xml_file_handler->getSubPathToDirBeginningAtPathEnd(ilFileValidationHandler::TMP_DIR_NAME)->getFilePath();
+        $xsd_str = "<br>XSD-File: " . $xsd_file_handler->getSubPathToDirBeginningAtPathEnd(ilFileValidationHandler::XML_DIR_NAME)->getFilePath();
+        $msg = sprintf($this->lng->txt('exp_import_validation_err_no_matching_xsd'), $version_str);
+        $content = $this->status->content()->builder()->string()->withString(
+            "Validation FAILED"
+            . $xml_str
+            . $xsd_str
+            . "<br>ERROR Message: " . $msg
+        );
+        return $this->status->handler()
+            ->withType(StatusType::FAILED)
+            ->withContent($content);
     }
 }

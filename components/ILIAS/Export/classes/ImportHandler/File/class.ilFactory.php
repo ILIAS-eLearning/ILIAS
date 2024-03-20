@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File;
 
+use ilLanguage;
 use ilLogger;
 use ILIAS\Export\ImportHandler\File\Validation\ilFactory as ilFileValidationFactory;
 use ILIAS\Export\ImportHandler\File\XML\ilFactory as ilXMLFileFactory;
@@ -36,26 +37,30 @@ use ILIAS\Export\ImportHandler\I\File\XSD\ilFactoryInterface as ilXSDFileFactory
 use ILIAS\Export\ImportHandler\I\Parser\ilFactoryInterface as ilParserFactoryInterface;
 use ILIAS\Export\ImportHandler\File\Path\ilFactory as ilFilePathFactory;
 use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ILIAS\Export\Schema\ilXmlSchemaFactory;
 
 class ilFactory implements ilFileFactory
 {
     protected ilLogger $logger;
-    protected ilParserFactoryInterface $parser;
+    protected ilLanguage $lng;
+    protected ilXmlSchemaFactory $schema_factory;
 
     public function __construct(
-        ilParserFactoryInterface $parser,
-        ilLogger $logger
+        ilLogger $logger,
+        ilLanguage $lng,
+        ilXmlSchemaFactory $schema_factory
     ) {
         $this->logger = $logger;
-        $this->parser = $parser;
+        $this->lng = $lng;
+        $this->schema_factory = $schema_factory;
     }
 
     public function xml(): ilXMLFileFactoryInterface
     {
         return new ilXMLFileFactory(
-            $this,
-            $this->parser,
-            $this->logger
+            $this->logger,
+            $this->lng,
+            $this->schema_factory
         );
     }
 
@@ -66,11 +71,7 @@ class ilFactory implements ilFileFactory
 
     public function validation(): ilFileValidationFactoryInterface
     {
-        return new ilFileValidationFactory(
-            $this->logger,
-            $this->parser,
-            new ilFilePathFactory($this->logger)
-        );
+        return new ilFileValidationFactory($this->logger);
     }
 
     public function path(): ilFilePathFactoryInterface

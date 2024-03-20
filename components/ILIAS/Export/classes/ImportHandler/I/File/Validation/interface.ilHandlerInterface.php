@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\Validation;
 
 use ILIAS\Export\ImportHandler\I\File\Path\ilHandlerInterface as ilParserPathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\ilHandlerInterface as ilXMLFileHandlerInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\ilHandlerInterface as ilXSDFileHandlerInterface;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Validation\Set\ilCollectionInterface as ilFileValidationSetCollectionInterface;
 
 interface ilHandlerInterface
 {

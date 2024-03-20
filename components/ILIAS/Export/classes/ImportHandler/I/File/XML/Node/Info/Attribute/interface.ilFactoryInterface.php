@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
 use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilCollectionInterface as ilXMLFileNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Node\Info\Attribute\ilPairInterface as ilXMLFileNodeInfoAttributePairInterface;
 
 interface ilFactoryInterface
 {
