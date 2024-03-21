@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * AMD field type text
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -27,6 +27,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
 {
     public const XML_SEPARATOR_TRANSLATIONS = "~|~";
     public const XML_SEPARATOR_TRANSLATION = '~+~';
+    public const KEY_MULTI = "multi";
 
     protected ?int $max_length = null;
     protected bool $multi = false;
@@ -85,20 +86,12 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         return $this->max_length;
     }
 
-    /**
-     * Set multi-line
-     * @param string $a_value
-     */
-    public function setMulti($a_value)
+    public function setMulti(bool $a_value): void
     {
-        $this->multi = (bool) $a_value;
+        $this->multi = $a_value;
     }
 
-    /**
-     * Is multi-line?
-     * @return bool
-     */
-    public function isMulti()
+    public function isMulti(): bool
     {
         return $this->multi;
     }
@@ -111,14 +104,14 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     protected function importFieldDefinition(array $a_def): void
     {
         $this->setMaxLength(isset($a_def["max"]) ? (int) $a_def["max"] : null);
-        $this->setMulti($a_def["multi"]);
+        $this->setMulti((bool) ($a_def[self::KEY_MULTI] ?? false));
     }
 
     protected function getFieldDefinition(): array
     {
         return array(
             "max" => $this->getMaxLength(),
-            "multi" => $this->isMulti()
+            self::KEY_MULTI => $this->isMulti()
         );
     }
 
@@ -163,7 +156,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $max->setMaxValue(4000); // DB limit
         $a_form->addItem($max);
 
-        $multi = new ilCheckboxInputGUI($lng->txt("md_adv_text_multi"), "multi");
+        $multi = new ilCheckboxInputGUI($lng->txt("md_adv_text_multi"), self::KEY_MULTI);
         $multi->setValue("1");
         $multi->setChecked($this->isMulti());
         $a_form->addItem($multi);
@@ -183,7 +176,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     {
         $max = $a_form->getInput("max");
         $this->setMaxLength(($max !== "" && $max !== null) ? (int) $max : null);
-        $this->setMulti($a_form->getInput("multi"));
+        $this->setMulti((bool) $a_form->getInput(self::KEY_MULTI));
     }
 
     //
@@ -193,16 +186,16 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     protected function addPropertiesToXML(ilXmlWriter $a_writer): void
     {
         $a_writer->xmlElement('FieldValue', array("id" => "max"), $this->getMaxLength());
-        $a_writer->xmlElement('FieldValue', array("id" => "multi"), $this->isMulti());
+        $a_writer->xmlElement('FieldValue', array("id" => self::KEY_MULTI), $this->isMulti());
     }
 
     public function importXMLProperty(string $a_key, string $a_value): void
     {
-        if ($a_key == "max") {
-            $this->setMaxLength($a_value != "" ? (int) $a_value : null);
+        if ($a_key === "max") {
+            $this->setMaxLength($a_value !== "" ? (int) $a_value : null);
         }
-        if ($a_key == "multi") {
-            $this->setMulti($a_value != "" ? $a_value : null);
+        if ($a_key === self::KEY_MULTI) {
+            $this->setMulti((bool) $a_value);
         }
     }
 
