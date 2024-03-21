@@ -95,6 +95,7 @@ class ilHelpDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "help_map":
 

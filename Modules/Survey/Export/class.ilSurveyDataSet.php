@@ -128,6 +128,7 @@ class ilSurveyDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "svy_quest_skill":
                 $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);

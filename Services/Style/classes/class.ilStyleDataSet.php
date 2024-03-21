@@ -421,6 +421,7 @@ class ilStyleDataSet extends ilDataSet
             $access_manager
         );
 
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "sty":
                 $this->log->debug("Entity: " . $a_entity);

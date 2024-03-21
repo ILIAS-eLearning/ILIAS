@@ -522,8 +522,7 @@ class ilExerciseDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        //echo $a_entity;
-        //var_dump($a_rec);
+        $a_rec = $this->stripTags($a_rec, ["Instruction"]);
 
         switch ($a_entity) {
             case "exc":

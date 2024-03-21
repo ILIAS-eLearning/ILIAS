@@ -224,14 +224,14 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                return array(
-                        "LmId" => "integer",
-                        "LinkType" => "text",
-                        "Title" => "text",
-                        "Target" => "text",
-                        "LinkRefId" => "text",
-                        "Active" => "text"
-                    );
+                    return array(
+                            "LmId" => "integer",
+                            "LinkType" => "text",
+                            "Title" => "text",
+                            "Target" => "text",
+                            "LinkRefId" => "text",
+                            "Active" => "text"
+                        );
             }
         }
 
@@ -240,12 +240,12 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                return array(
-                        "Id" => "integer",
-                        "Lang" => "text",
-                        "Title" => "text",
-                        "ShortTitle" => "text"
-                    );
+                    return array(
+                            "Id" => "integer",
+                            "Lang" => "text",
+                            "Title" => "text",
+                            "ShortTitle" => "text"
+                        );
             }
         }
         return [];
@@ -265,7 +265,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                switch ($a_version) {
+                    switch ($a_version) {
                         case "5.1.0":
                             $q = "SELECT id, title, description," .
                                 " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
@@ -273,16 +273,16 @@ class ilLearningModuleDataSet extends ilDataSet
                                 " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
                                 " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
                                 " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
-                                break;
+                            break;
 
                         case "5.4.0":
                         case "8.0":
-                        $q = "SELECT id, title, description," .
-                                " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
-                                " hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
-                                " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
-                                " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
-                                " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
+                            $q = "SELECT id, title, description," .
+                                    " default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering," .
+                                    " hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, " .
+                                    " hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id" .
+                                    " FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)" .
+                                    " WHERE " . $ilDB->in("id", $a_ids, false, "integer");
 
                     }
 
@@ -374,9 +374,9 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                $this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active" .
-                        " FROM lm_menu " .
-                        " WHERE " . $ilDB->in("lm_id", $a_ids, false, "integer"));
+                    $this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active" .
+                            " FROM lm_menu " .
+                            " WHERE " . $ilDB->in("lm_id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -386,9 +386,9 @@ class ilLearningModuleDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "8.0":
-                $this->getDirectDataFromQuery("SELECT id, lang, title, short_title" .
-                        " FROM lm_data_transl " .
-                        " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
+                    $this->getDirectDataFromQuery("SELECT id, lang, title, short_title" .
+                            " FROM lm_data_transl " .
+                            " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -427,7 +427,7 @@ class ilLearningModuleDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        //var_dump($a_rec);
+        $a_rec = $this->stripTags($a_rec);
 
         switch ($a_entity) {
             case "lm":
@@ -554,7 +554,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             );
                             break;
 
-                        // add free pages #18976
+                            // add free pages #18976
                         case "free_pg":
                             $pg_obj = new ilLMPageObject($this->current_obj);
                             $pg_obj->setType("pg");
@@ -593,7 +593,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             if ($imp_id[0] == "il" &&
                                 (int) $imp_id[1] == (int) IL_INST_ID &&
                                 $imp_id[2] == "st"
-                                ) {
+                            ) {
                                 $st_id = $imp_id[3];
                                 if (ilLMObject::_lookupContObjID($st_id) == $this->getTranslationLM()->getId()) {
                                     $trans = new ilLMObjTranslation($st_id, $this->getTranslationLang());

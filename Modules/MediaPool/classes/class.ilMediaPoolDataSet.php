@@ -120,16 +120,16 @@ class ilMediaPoolDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.1.0":
                 case "5.1.0":
-                        return array(
-                            "MepId" => "integer",
-                            "Child" => "integer",
-                            "Parent" => "integer",
-                            "Depth" => "integer",
-                            "Type" => "text",
-                            "Title" => "text",
-                            "ForeignId" => "integer",
-                            "ImportId" => "text"
-                        );
+                    return array(
+                        "MepId" => "integer",
+                        "Child" => "integer",
+                        "Parent" => "integer",
+                        "Depth" => "integer",
+                        "Type" => "text",
+                        "Title" => "text",
+                        "ForeignId" => "integer",
+                        "ImportId" => "text"
+                    );
             }
         }
         return [];
@@ -248,8 +248,7 @@ class ilMediaPoolDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        //echo $a_entity;
-        //var_dump($a_rec);
+        $a_rec = $this->stripTags($a_rec);
 
         switch ($a_entity) {
             case "mep":
