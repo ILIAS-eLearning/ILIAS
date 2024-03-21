@@ -37,7 +37,10 @@ class ilStudyProgrammeUserTableRow
     protected string $gender;
     protected string $status;
     protected string $completion_date;
-    protected ?int $completion_by_obj_id;
+    /**
+     * @var ?int[]
+     */
+    protected ?array $completion_by_obj_ids;
     protected string $completion_by;
     protected string $points_reachable;
     protected string $points_required;
@@ -215,16 +218,22 @@ class ilStudyProgrammeUserTableRow
         return $this->completion_by;
     }
 
-    public function withCompletionByObjId(?int $obj_id): self
+    /**
+     * @param ?int[] $ob_ids
+     */
+    public function withCompletionByObjIds(?array $obj_ids): self
     {
         $clone = clone $this;
-        $clone->completion_by_obj_id = $obj_id;
+        $clone->completion_by_obj_ids = $obj_ids;
         return $clone;
     }
 
-    public function getCompletionByObjId(): ?int
+    /**
+     * @return ?int[]
+     */
+    public function getCompletionByObjIds(): ?array
     {
-        return $this->completion_by_obj_id;
+        return $this->completion_by_obj_ids;
     }
 
     public function withPointsReachable(string $points_reachable): self
