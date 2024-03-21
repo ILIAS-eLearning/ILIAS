@@ -13172,7 +13172,6 @@ prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_change_deadline#:#Change deadline
 prg#:#prg_change_expire_date#:#Change expire date
 prg#:#prg_changed_by#:#Changed by
-prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_confirm_delete#:#Delete

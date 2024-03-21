@@ -164,25 +164,24 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $prg->applyToSubTreeNodes(
             function ($node) use ($prg_id, $ass_id, $usr_id, &$plan, $prg) {
                 $progress = $this->assignment->getProgressForNode($node->getId());
-                $completion_by_id = $progress->getCompletionBy();
+                $completion_by = $progress->getCompletionBy();
 
-                if ($completion_by_id) {
-                    $completion_by = ilObjUser::_lookupLogin($completion_by_id);
-                    if (!$completion_by) {
-                        $type = ilObject::_lookupType($completion_by_id);
-                        if ($type === "crsr") {
-                            $completion_by = ilContainerReference::_lookupTitle($completion_by_id);
-                        } else {
-                            $completion_by = ilObject::_lookupTitle($completion_by_id);
-                        }
-                    }
+                if ($completion_by === ilPRGProgress::COMPLETED_BY_SUBNODES) {
+                    $successful_subnodes = array_filter(
+                        $progress->getSubnodes(),
+                        static fn(ilPRGProgress $pgs): bool => $pgs->isSuccessful()
+                    );
+                    $successful_subnode_ids = array_map(
+                        static fn(ilPRGProgress $pgs): int => $pgs->getNodeId(),
+                        $successful_subnodes
+                    );
+                    $out = array_map(
+                        fn(int $node_obj_id): string => ilStudyProgrammeUserTable::lookupTitle($node_obj_id),
+                        $successful_subnode_ids
+                    );
+                    $completion_by = implode(', ', $out);
                 } else {
-                    $completion_by = '';
-                    if ($progress->isSuccessful()) {
-                        if ($progress->getCompletionBy()) {
-                            $completion_by = ilStudyProgrammeUserTable::lookupTitle($progress->getCompletionBy());
-                        }
-                    }
+                    $completion_by = $progress->isSuccessful() ? ilStudyProgrammeUserTable::lookupTitle($completion_by) : '';
                 }
 
                 $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
