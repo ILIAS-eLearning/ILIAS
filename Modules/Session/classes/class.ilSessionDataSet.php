@@ -351,10 +351,10 @@ class ilSessionDataSet extends ilDataSet
                     case '5.4.0':
                     case '7.0':
                         if (isset($a_rec['MailMembers'])) {
-                            $newObj->setMailToMembersType($a_rec['MailMembers']);
+                            $newObj->setMailToMembersType((int) $a_rec['MailMembers']);
                         }
                         if (isset($a_rec['ShowMembers'])) {
-                            $newObj->setShowMembers($a_rec['ShowMembers']);
+                            $newObj->setShowMembers((bool) $a_rec['ShowMembers']);
                         }
                         if (isset($a_rec['ShowCannotPart'])) {
                             $newObj->enableCannotParticipateOption((bool) $a_rec['ShowCannotPart']);
@@ -365,7 +365,7 @@ class ilSessionDataSet extends ilDataSet
                         if (isset($a_rec['RegistrationNotificationOption'])) {
                             $newObj->setRegistrationNotificationOption((string) $a_rec['RegistrationNotificationOption']);
                         }
-                        $this->applyDidacticTemplate($newObj, $a_rec['Type']);
+                        $this->applyDidacticTemplate($newObj, (int) $a_rec['Type']);
                         // no break
                     case "5.0.0":
                     case "5.1.0":
