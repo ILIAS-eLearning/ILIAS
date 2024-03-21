@@ -18,6 +18,8 @@
 
 use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Extension of ilPageObjectGUI for learning modules
  *
@@ -29,6 +31,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 {
     protected ilDBInterface $db;
     protected PresentationGUIRequest $pres_request;
+    protected Refinery $refinery;
     protected ilComponentRepository $component_repository;
 
     public function __construct(
@@ -42,6 +45,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
+        $this->refinery = $DIC['refinery'];
         $this->component_repository = $DIC['component.repository'];
 
         $this->log = $DIC["ilLog"];
@@ -80,6 +84,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         $ilUser = $this->user;
         $ilDB = $this->db;
         $lng = $this->lng;
+        $refinery = $this->refinery;
         $component_repository = $this->component_repository;
 
         parent::processAnswer();
@@ -100,7 +105,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
-            $qlist = new ilAssQuestionList($ilDB, $lng, $component_repository);
+            $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository);
             $qlist->setParentObjId(0);
             $qlist->setJoinObjectData(false);
             $qlist->addFieldFilter("question_id", array($id));
