@@ -50,9 +50,9 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setId("cont_qpl");
         $this->pool_ref_id = $a_pool_ref_id;
         $this->pool_obj_id = ilObject::_lookupObjId($a_pool_ref_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle(ilObject::_lookupTitle($this->pool_obj_id));
 
         $this->setFormName('sa_quest_browser');
@@ -67,9 +67,9 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->initFilter();
-        
+
         $this->getQuestions();
     }
 
@@ -81,25 +81,26 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         global $DIC;
 
         $access = $this->access;
-        
+
         include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
         $all_ids = array();
         foreach ($all_types as $k => $v) {
             $all_ids[] = $v["question_type_id"];
         }
-        
+
         $questions = array();
         if ($access->checkAccess("read", "", $this->pool_ref_id)) {
             require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
             $questionList = new ilAssQuestionList(
                 $DIC->database(),
                 $DIC->language(),
+                $DIC['refinery'],
                 $DIC["ilPluginAdmin"]
             );
             $questionList->setParentObjId($this->pool_obj_id);
             $questionList->load();
-            
+
             $data = $questionList->getQuestionDataArray();
 
             $questions = array();
@@ -137,7 +138,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         );
         $this->tpl->parseCurrentBlock();
         $ctrl->setParameter($this->parent_obj, "subCmd", "listPoolQuestions");
-        
+
         // properties
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable(

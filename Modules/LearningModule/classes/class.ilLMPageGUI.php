@@ -19,17 +19,27 @@ class ilLMPageGUI extends ilPageObjectGUI
     protected $db;
 
     /**
+     * @var ILIAS\Refinery\Factory
+     */
+    protected $refinery;
+
+    /**
      * Constructor
      */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "",
-      $concrete_lang = "")
-    {
+    public function __construct(
+        $a_id = 0,
+        $a_old_nr = 0,
+        $a_prevent_get_id = false,
+        $a_lang = "",
+        $concrete_lang = ""
+    ) {
         global $DIC;
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->log = $DIC["ilLog"];
+        $this->refinery = $DIC['refinery'];
         parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang, $concrete_lang);
 
         $this->getPageConfig()->setUseStoredQuestionTries(ilObjContentObject::_lookupStoreTries($this->getPageObject()->getParentId()));
@@ -59,6 +69,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         $ilUser = $this->user;
         $ilDB = $this->db;
         $lng = $this->lng;
+        $refinery = $this->refinery;
         $ilPluginAdmin = $this->plugin_admin;
         $ilLog = $this->log;
 
@@ -77,7 +88,7 @@ class ilLMPageGUI extends ilPageObjectGUI
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
-            $qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
+            $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $ilPluginAdmin);
             $qlist->setParentObjId(0);
             $qlist->setJoinObjectData(false);
             $qlist->addFieldFilter("question_id", array($id));
@@ -106,7 +117,9 @@ class ilLMPageGUI extends ilPageObjectGUI
             $parent_id = $lm_tree->getParentId($this->getPageObject()->getId());
             $this->ctrl->setParameterByClass(
                 ilStructureObjectGUI::class,
-                "obj_id", $parent_id);
+                "obj_id",
+                $parent_id
+            );
             $this->ctrl->redirectByClass([
                 ilObjLearningModuleGUI::class,
                 ilStructureObjectGUI::class
