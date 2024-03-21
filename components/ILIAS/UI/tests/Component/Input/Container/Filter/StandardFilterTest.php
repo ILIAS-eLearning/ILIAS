@@ -228,7 +228,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
-                    <label class="input-group-addon leftaddon">Multi Selection</label>
+                    <label for="id_11" class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -362,7 +362,7 @@ EOT;
 			</div>
 			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
-                    <label class="input-group-addon leftaddon">Multi Selection</label>
+                    <label for="id_11" class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -496,7 +496,7 @@ EOT;
 			</div>
 			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
-                    <label class="input-group-addon leftaddon">Multi Selection</label>
+                    <label for="id_11" class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -630,7 +630,7 @@ EOT;
 			</div>
 			<div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
-                    <label class="input-group-addon leftaddon">Multi Selection</label>
+                    <label for="id_11" class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
