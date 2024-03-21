@@ -97,6 +97,7 @@ class ilRatingDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "rating_category":
                 if ($parent_id = $a_mapping->getMapping('Services/Rating', 'rating_category_parent_id', $a_rec['ParentId'])) {

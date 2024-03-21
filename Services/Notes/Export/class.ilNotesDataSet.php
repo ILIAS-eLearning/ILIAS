@@ -105,6 +105,7 @@ class ilNotesDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "user_notes":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);

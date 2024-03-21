@@ -103,6 +103,7 @@ class ilCOPageDataSet extends ilDataSet
 
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "pgtp":
                 $pt = new ilPageLayout();
