@@ -8949,6 +8949,8 @@ ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
 ecs#:#ecs_communities#:#Participants
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
 ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only possible, if ECS server is configured in administration at 'Extending ILIAS » ECS'.
 ecs#:#ecs_crs_alloc#:#Course Allocation
@@ -8977,9 +8979,16 @@ ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
 ecs#:#ecs_event_appointment#:#Event Date
 ecs#:#ecs_export#:#Course Releases
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth
 ecs#:#ecs_export_created_body_a#:#A new course has been released
 ecs#:#ecs_export_disabled#:#Do not release this Course
 ecs#:#ecs_export_enabled#:#Release this Course
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.
 ecs#:#ecs_export_obj_settings#:#Course Release Settings
 ecs#:#ecs_export_types#:#Exportable Object Types
 ecs#:#ecs_field_begin#:#Begin
@@ -9002,6 +9011,10 @@ ecs#:#ecs_file_export#:#File Releases
 ecs#:#ecs_file_export_disabled#:#Do not release this File
 ecs#:#ecs_file_export_enabled#:#Release this File
 ecs#:#ecs_file_export_obj_settings#:#File Release Settings
+ecs#:#ecs_firstname#:#First name
+ecs#:#ecs_form_consent#:#Consent
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:
+ecs#:#ecs_form_target_platform#:#Target system
 ecs#:#ecs_general_info#:#General Information
 ecs#:#ecs_glo_export#:#Glossary Releases
 ecs#:#ecs_glo_export_disabled#:#Do not release this Glossary
@@ -9014,20 +9027,27 @@ ecs#:#ecs_grp_export_enabled#:#Release this Group
 ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings
 ecs#:#ecs_ignore_field#:#Disable export/update of this field
 ecs#:#ecs_import#:#Imported Objects
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS
 ecs#:#ecs_import_cms#:#Campus Management
 ecs#:#ecs_import_id#:#Import ID
 ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course Links will be created
 ecs#:#ecs_import_types#:#Importable Object Types
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.
 ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
+ecs#:#ecs_institution#:#Institution
 ecs#:#ecs_invalid_import_type_cms#:#The import type ‘Campus Management’ can be chosen only once.
 ecs#:#ecs_key_password#:#Key Password
+ecs#:#ecs_lastname#:#Last name
 ecs#:#ecs_lm_export#:#Learning Module Releases
 ecs#:#ecs_lm_export_disabled#:#Do not release this Learning Module
 ecs#:#ecs_lm_export_enabled#:#Release this Learning Module
 ecs#:#ecs_lm_export_obj_settings#:#Learning Module Release Settings
 ecs#:#ecs_local_information#:#Further Information
 ecs#:#ecs_local_settings#:#Local Settings
+ecs#:#ecs_login#:#Username or External user account
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Custom Metadata to ECS-Data
 ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
@@ -9053,6 +9073,8 @@ ecs#:#ecs_node_mapping_status_3#:#Unmapped
 ecs#:#ecs_not_configured#:#Not configured
 ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_notifications#:#Notifications
+ecs#:#ecs_outgoing_user_credentials#:#User attribute
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com
 ecs#:#ecs_part_settings#:#Settings for Participant:
 ecs#:#ecs_participants#:#Participants
 ecs#:#ecs_participants_infos#:#Further Information

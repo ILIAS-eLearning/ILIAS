@@ -8955,6 +8955,8 @@ ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
 ecs#:#ecs_communities#:#Teilnehmer
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
+ecs#:#ecs_consent_modal_title#:#Einwilligung zur Datenübertragung
+ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Teilnehmer zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
 ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Dies ist nur möglich, wenn ein ECS-Server unter „Administration » ILIAS erweitern » ECS“ aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
@@ -8983,9 +8985,16 @@ ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attr
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
 ecs#:#ecs_event_appointment#:#Veranstaltungstermin
 ecs#:#ecs_export#:#Kursfreigaben
+ecs#:#ecs_export_auth_type#:#Authentifikations-Methode für Benutzer mit externen Benutzerattribut
+ecs#:#ecs_export_auth_type_ilias#:#Benutzerauthentifikation via LDAP
+ecs#:#ecs_export_auth_type_info#:#Bitte wählen Sie, mit welcher Authentifizierungsmethode sich Benutzer via ECS authentifizieren sollen, bei denen via ECS ein externes Benutzerattribut übertragen wurde.
+ecs#:#ecs_export_auth_type_none#:#Keine Benutzer mit externem Benutzerattribut zulassen
+ecs#:#ecs_export_auth_type_shib#:#Benutzerauthentifikation via Shibboleth
 ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
 ecs#:#ecs_export_disabled#:#Nicht freigeben
 ecs#:#ecs_export_enabled#:#Freigeben
+ecs#:#ecs_export_local_account#:#Lokale ILIAS Accounts
+ecs#:#ecs_export_local_account_info#:#Falls aktiviert, wird die Erstellung lokaler Accounts via ECS zulassen. ECS Benutzer ohne externes Benutzerattriubut erhalten ein lokales Benutzerkonto auf Ihrer Installation.
 ecs#:#ecs_export_obj_settings#:#Einstellungen für Kursfreigaben
 ecs#:#ecs_export_types#:#Exportierbare Objekttypen
 ecs#:#ecs_field_begin#:#Starttermin
@@ -9008,6 +9017,10 @@ ecs#:#ecs_file_export#:#Dateifreigaben
 ecs#:#ecs_file_export_disabled#:#Nicht freigeben
 ecs#:#ecs_file_export_enabled#:#Freigeben
 ecs#:#ecs_file_export_obj_settings#:#Einstellungen für Dateifreigaben
+ecs#:#ecs_firstname#:#Vorname
+ecs#:#ecs_form_consent#:#Einwilligung
+ecs#:#ecs_form_consent_option_title#:#Hiermit willige ich ein, dass folgende Daten an das oben genannte Zielsystem übertragen werden:
+ecs#:#ecs_form_target_platform#:#Zielsystem
 ecs#:#ecs_general_info#:#Allgemeine Informationen
 ecs#:#ecs_glo_export#:#Glossarfreigaben
 ecs#:#ecs_glo_export_disabled#:#Nicht freigeben
@@ -9020,20 +9033,27 @@ ecs#:#ecs_grp_export_enabled#:#Freigeben
 ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
+ecs#:#ecs_import_auth_mode#:#Konten der Authentifikations-Methode %s zur Übertragung via ECS zulassen
+ecs#:#ecs_import_auth_type_default#:#Konten Authentifikations-Methode "Default" zur Übertragung via ECS zulassen
 ecs#:#ecs_import_cms#:#Campus-Management
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Konfiguration der Authentifikations-Methoden zur Übertragung via ECS
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Aktivieren Sie diese Option um es Account der Authentifizierungsmethode "Default" zu erlauben, über den ECS auf Ressourcen des Teilnehmers zugreifen zu können.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
+ecs#:#ecs_institution#:#Institution
 ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
+ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
 ecs#:#ecs_lm_export_disabled#:#Nicht freigeben
 ecs#:#ecs_lm_export_enabled#:#Freigeben
 ecs#:#ecs_lm_export_obj_settings#:#Einstellungen für Lernmodulfreigaben
 ecs#:#ecs_local_information#:#Weitere Informationen
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
+ecs#:#ecs_login#:#Benutzername bzw. Externes Benutzerkonto
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
@@ -9059,6 +9079,8 @@ ecs#:#ecs_node_mapping_status_3#:#Ungemapped
 ecs#:#ecs_not_configured#:#Nicht konfiguriert
 ecs#:#ecs_not_published#:#Es wurden keine Freigaben ausgewählt.
 ecs#:#ecs_notifications#:#Benachrichtigungen
+ecs#:#ecs_outgoing_user_credentials#:#Benutzerattribut
+ecs#:#ecs_outgoing_user_credentials_info#:#Bitte geben Sie an, welches Benutzerattribut zur Übertragung verwendet werden soll. Mögliche Werte [Login], [EXTERNAL_ACCOUNT]. Sie können das angegebene Attribut durch voranstellen oder anhängen von beliebigen Strings verändern. Bespiel: [LOGIN]@example.com
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
 ecs#:#ecs_participants#:#Teilnehmer
 ecs#:#ecs_participants_infos#:#Weitere Informationen
