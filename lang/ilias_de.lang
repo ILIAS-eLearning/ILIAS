@@ -13168,7 +13168,6 @@ prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_change_deadline#:#Stichtag anpassen
 prg#:#prg_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#prg_changed_by#:#Geändert durch
-prg#:#prg_completed_by_subnodes#:#Unterprogramm(e)
 prg#:#prg_completion_by#:#Abgeschlossen durch
 prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen

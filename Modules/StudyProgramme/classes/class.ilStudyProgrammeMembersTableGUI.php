@@ -192,10 +192,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     break;
                 case "prg_completion_by":
                     $completion_by = $row->getCompletionBy();
-                    if ($completion_by_obj_id = $row->getCompletionByObjId()) {
-                        if (ilObject::_lookupType($completion_by_obj_id) === 'crsr') {
-                            $completion_by = $this->getCompletionLink($completion_by_obj_id, $completion_by);
+                    if ($completion_by_obj_ids = $row->getCompletionByObjIds()) {
+                        $out = [];
+                        foreach ($completion_by_obj_ids as $completion_by_obj_id) {
+                            $type = ilObject::_lookupType($completion_by_obj_id);
+                            if ($type === 'crsr') {
+                                $target_obj_id = ilContainerReference::_lookupTargetId($completion_by_obj_id);
+                                $out[] = $this->getCompletionLink($target_obj_id, $completion_by);
+                            } else {
+                                $target_obj_id = $completion_by_obj_id;
+                                $out[] = $this->getCompletionLink($target_obj_id, ilObject::_lookupTitle($target_obj_id));
+                            }
                         }
+                        $completion_by = implode(', ', $out);
                     }
                     $this->tpl->setVariable("COMPLETION_BY", $completion_by);
                     break;
@@ -443,10 +452,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return $valid_user_ids;
     }
 
-    protected function getCompletionLink(int $reference_obj_id, string $title): string
+    protected function getCompletionLink(int $target_obj_id, string $title): string
     {
         $link = $title;
-        $target_obj_id = ilContainerReference::_lookupTargetId($reference_obj_id);
         $ref_ids = ilObject::_getAllReferences($target_obj_id);
         foreach ($ref_ids as $ref_id) {
             if (!ilObject::_isInTrash($ref_id)) {
