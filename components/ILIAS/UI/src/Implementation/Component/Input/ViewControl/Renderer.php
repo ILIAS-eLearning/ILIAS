@@ -322,7 +322,7 @@ class Renderer extends AbstractComponentRenderer
             $signal = clone $internal_signal;
             $signal->addOption('offset', $offset);
             $signal->addOption('limit', (string)$option);
-            $option_label = $option === \PHP_INT_MAX ? 'unlimited' : (string)$option;
+            $option_label = $option === \PHP_INT_MAX ? $this->txt('ui_pagination_unlimited') : (string)$option;
 
             $item = $ui_factory->button()->shy($option_label, '#')
                 ->withOnClick($signal);
