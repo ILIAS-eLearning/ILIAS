@@ -92,8 +92,9 @@ class DatabaseHistoryRepository implements HistoryRepository
         $tracking = $this->trackingTable();
         $version = $this->versionTable();
 
+        $this->database->setLimit(1);
         $result = $this->database->fetchAssoc($this->database->queryF(
-            "SELECT doc_id FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id WHERE provider = %s AND usr_id = %s ORDER BY $version.ts DESC LIMIT 0, 1",
+            "SELECT doc_id FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id WHERE provider = %s AND usr_id = %s ORDER BY $tracking.ts DESC",
             [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
             [$this->id, $user->getId()]
         ));
