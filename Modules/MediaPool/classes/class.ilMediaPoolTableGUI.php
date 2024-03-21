@@ -408,7 +408,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         switch ($a_set["type"]) {
             case "fold":
-                $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+                $this->tpl->setVariable("TXT_TITLE", htmlentities($a_set["title"]));
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $a_set["obj_id"]);
                 $this->tpl->setVariable(
                     "LINK_VIEW",
@@ -437,7 +437,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             case "pg":
                 if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
                     $this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE) {
-                    $this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
+                    $this->tpl->setVariable("TXT_NO_LINK_TITLE", htmlentities($a_set["title"]));
                 } else {
                     $this->tpl->setVariable("ONCLICK", "il.MediaPool.preview('" . $a_set["child"] . "'); return false;");
                     $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
@@ -463,7 +463,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
             case "mob":
                 $this->tpl->setVariable("ONCLICK", "il.MediaPool.preview('" . $a_set["child"] . "'); return false;");
-                $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+                $this->tpl->setVariable("TXT_TITLE", htmlentities($a_set["title"]));
                 $ilCtrl->setParameterByClass("ilobjmediaobjectgui", "mepitem_id", $a_set["child"]);
                 $ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
 

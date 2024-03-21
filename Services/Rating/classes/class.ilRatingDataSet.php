@@ -100,9 +100,8 @@ class ilRatingDataSet extends ilDataSet
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
-        //echo $a_entity;
-        //var_dump($a_rec);
-    
+        $a_rec = $this->stripTags($a_rec);
+
         switch ($a_entity) {
             case "rating_category":
                 if ($parent_id = $a_mapping->getMapping('Services/Rating', 'rating_category_parent_id', $a_rec['ParentId'])) {

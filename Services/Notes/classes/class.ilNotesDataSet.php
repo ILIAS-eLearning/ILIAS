@@ -116,6 +116,7 @@ class ilNotesDataSet extends ilDataSet
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "user_notes":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);

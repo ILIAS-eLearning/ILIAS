@@ -117,6 +117,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
     {
         //echo $a_entity;
         //var_dump($a_rec);
+        $a_rec = $this->stripTags($a_rec);
 
         switch ($a_entity) {
             case "htlm":

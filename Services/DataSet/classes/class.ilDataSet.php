@@ -638,4 +638,17 @@ abstract class ilDataSet
             return array("type" => self::EXPORT_ID_INVALID, "id" => $a_fallback_id);
         }
     }
+
+    protected function stripTags(array $rec, array $omit_keys = []) : array
+    {
+        $ret_rec = [];
+        foreach ($rec as $k => $v) {
+            if (in_array($k, $omit_keys, true)) {
+                $ret_rec[$k] = $v;
+            } else {
+                $ret_rec[$k] = ilUtil::stripSlashes($v);
+            }
+        }
+        return $ret_rec;
+    }
 }
