@@ -60,8 +60,14 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
                 $this->lng->txt('prg_dash_label_status') => $row->getStatus(),
             ];
 
-            if ($row->getStatusRaw() === ilPRGProgress::STATUS_ACCREDITED || $row->getStatusRaw() === ilPRGProgress::STATUS_COMPLETED) {
+            if ($row->getStatusRaw() === ilPRGProgress::STATUS_ACCREDITED ||
+                $row->getStatusRaw() === ilPRGProgress::STATUS_COMPLETED
+            ) {
                 $properties[$this->lng->txt('prg_dash_label_valid')] = $row->getExpiryDate() ?: $row->getValidity();
+
+                if($cert_link = $this->maybeGetCertificateLink($this->user->getId(), $prg->getId(), $prg->getRefId())) {
+                    $properties[$this->lng->txt('certificate')] = $cert_link;
+                }
             } else {
                 $properties[$this->lng->txt('prg_dash_label_finish_until')] = $row->getDeadline();
             }
@@ -118,5 +124,18 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
     public function getRemoveMultipleActionText(): string
     {
         return '';
+    }
+
+    protected function maybeGetCertificateLink(int $usr_id, int $prg_obj_id, int $prg_ref_id): ?string
+    {
+        $cert_validator = new ilCertificateDownloadValidator();
+        if ($cert_validator->isCertificateDownloadable($usr_id, $prg_obj_id)) {
+            $this->ctrl->setParameterByClass('ilObjStudyProgrammeGUI', 'ref_id', $prg_ref_id);
+            $target = $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeGUI", "deliverCertificate");
+            $this->ctrl->setParameterByClass('ilObjStudyProgrammeGUI', 'ref_id', null);
+            $this->lng->loadLanguageModule('certificate');
+            return $this->renderer->render($this->factory->link()->standard($this->lng->txt('download_certificate'), $target));
+        }
+        return null;
     }
 }
