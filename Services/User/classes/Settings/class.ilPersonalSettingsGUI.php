@@ -420,16 +420,7 @@ class ilPersonalSettingsGUI
         }
 
         // help tooltips
-        $module_id = (int) $this->settings->get('help_module');
-        if (((int) OH_REF_ID > 0 || $module_id > 0)
-            && $this->user->getLanguage() == 'de'
-            && $this->settings->get('help_mode') != '1') {
-            $this->lng->loadLanguageModule('help');
-            $cb = new ilCheckboxInputGUI($this->lng->txt('help_toggle_tooltips'), 'help_tooltips');
-            $cb->setChecked(!($this->user->prefs['hide_help_tt'] ?? false));
-            $cb->setInfo($this->lng->txt('help_toggle_tooltips_info'));
-            $this->form->addItem($cb);
-        }
+        $this->help->addPersonalSettingToLegacyForm($this->form);
 
         // hits per page
         if ($this->userSettingVisible('hits_per_page')) {
@@ -605,11 +596,7 @@ class ilPersonalSettingsGUI
             }
 
             // help tooltips
-            $module_id = (int) $this->settings->get('help_module');
-            if (((int) OH_REF_ID > 0 || $module_id > 0) && $this->user->getLanguage() == 'de' &&
-                $this->settings->get('help_mode') != '1') {
-                $this->user->setPref('hide_help_tt', (int) !$this->form->getInput('help_tooltips'));
-            }
+            $this->help->savePersonalSettingFromLegacyForm($this->form);
 
             $this->user->setPref('store_last_visited', $this->form->getInput('store_last_visited'));
             if ((int) $this->form->getInput('store_last_visited') > 0) {
