@@ -546,6 +546,29 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         return $this->presentation->showTooltips();
     }
 
+    public function isHelpActive(): bool
+    {
+        return $this->internal()->domain()->module()->isHelpActive();
+    }
+
+    public function savePersonalSettingFromLegacyForm(ilPropertyFormGUI $form): void
+    {
+        if ($this->isHelpActive()) {
+            $this->user->setPref('hide_help_tt', (string) (int) !$form->getInput('help_tooltips'));
+        }
+    }
+
+    public function addPersonalSettingToLegacyForm(ilPropertyFormGUI $form): void
+    {
+        if ($this->isHelpActive()) {
+            $this->lng->loadLanguageModule('help');
+            $cb = new ilCheckboxInputGUI($this->lng->txt('help_toggle_tooltips'), 'help_tooltips');
+            $cb->setChecked(!($this->user->prefs['hide_help_tt'] ?? false));
+            $cb->setInfo($this->lng->txt('help_toggle_tooltips_info'));
+            $form->addItem($cb);
+        }
+    }
+
     /**
      * temporary move it here until DIC holds help service instead of ilHelpGUI
      */
