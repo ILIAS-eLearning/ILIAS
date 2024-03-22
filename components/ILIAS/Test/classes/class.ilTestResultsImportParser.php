@@ -37,7 +37,7 @@ class ilTestResultsImportParser extends ilSaxParser
         ?string $a_xml_file,
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private LoggingServices $log
+        private ilLogger $log
     ) {
         parent::__construct($a_xml_file, true);
         $this->table = '';
@@ -146,8 +146,8 @@ class ilTestResultsImportParser extends ilSaxParser
                     case 'tst_test_rnd_qst':
                         $nextId = $this->db->nextId('tst_test_rnd_qst');
                         $newActiveId = $this->active_id_mapping[$a_attribs['active_fi']];
-                        $newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']];
-                        $newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']];
+                        $newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']] ?? 0;
+                        $newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']] ?? 0;
                         $this->db->insert('tst_test_rnd_qst', array(
                             'test_random_question_id' => array('integer', $nextId),
                             'active_fi' => array('integer', $newActiveId),
