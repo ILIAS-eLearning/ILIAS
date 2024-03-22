@@ -325,7 +325,7 @@ class ilPCQuestion extends ilPageContent
 
         // call renderers
         foreach ($q_ids as $q_id) {
-            $code[] = "renderILQuestion$q_id();";
+            $code[] = "if (typeof renderILQuestion$q_id === 'function') {renderILQuestion$q_id();}";
         }
 
         // init answer status
