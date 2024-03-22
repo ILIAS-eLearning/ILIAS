@@ -46,12 +46,13 @@ class ilDBStepExecutionDBExistsObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+
         return $environment
             ->withResource(
-                \ilDBStepExecutionDB::class,
+                \ilDatabaseUpdateStepExecutionLog::class,
                 new \ilDBStepExecutionDB(
                     $db,
-                    fn () => new \DateTime()
+                    fn() => new \DateTime()
                 )
             );
     }
