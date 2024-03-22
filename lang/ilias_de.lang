@@ -13369,7 +13369,7 @@ prg#:#restart_recheck_desc#:#Bei Zuweisungen, die über einen Automatismus vorge
 prg#:#restart_recheck_label#:#Voraussetzungen erneut prüfen
 prg#:#restarted#:#Wiederaufnahme
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
-prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
+prg#:#risky_to_fail_mail_subject#:#Erinnerung, dass der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
 prg#:#select_crs#:#Nach Kursen suchen
 prg#:#select_grp#:#Nach Gruppen suchen

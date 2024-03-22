@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Send mails to users (usually triggered by cron)
  */
 class ilPRGMail
 {
+    protected const LANGMODULE = 'prg';
+
     protected ilComponentLogger $log;
     protected ilLanguage $lng;
 
@@ -32,7 +34,7 @@ class ilPRGMail
     ) {
         $this->log = $log;
         $this->lng = $lng;
-        $this->lng->loadLanguageModule("prg");
+        $this->lng->loadLanguageModule(self::LANGMODULE);
         $this->lng->loadLanguageModule("mail");
     }
 
@@ -46,6 +48,16 @@ class ilPRGMail
         return [$ass, $prg];
     }
 
+    protected function getUserLanguage(int $usr_id): string
+    {
+        return \ilObjUser::_getPreferences($usr_id)['language'];
+    }
+
+    protected function txt(string $identifier, string $lang): string
+    {
+        return $this->lng->txtlng(self::LANGMODULE, $identifier, $lang);
+    }
+
     protected function sendMail(
         ilObjStudyProgramme $prg,
         ilPRGAssignment $assignment,
@@ -53,16 +65,31 @@ class ilPRGMail
         string $body_template
     ): bool {
         $user_info = $assignment->getUserInformation();
-        $gender = $user_info->getGender();
-        $name = $user_info->getFullname();
+        $gender = $user_info->getGender() ?? 'n';
+        $name = implode(' ', [$user_info->getFirstname(), $user_info->getLastname()]);
         $login = $user_info->getLogin();
+        $prg_link = \ilLink::_getStaticLink(ilObjStudyProgramme::getRefIdFor($assignment->getRootId()), 'prg');
+
+        $lang = $this->getUserLanguage($assignment->getUserId());
+
+        //re-init ilLanguage to switch between languages
+        if ($this->lng->getLangKey() !== $lang) {
+            $this->lng = new \ilLanguage($lang);
+            $this->lng->loadLanguageModule(self::LANGMODULE);
+            $this->lng->loadLanguageModule("mail");
+        }
+
+        $salutation = $this->txt("mail_salutation_" . $gender, $lang);
+        $subject = $this->txt($subject, $lang);
+        $body_template = $this->txt($body_template, $lang);
 
         $body = sprintf(
             $body_template,
-            $this->lng->txt("mail_salutation_" . $gender),
+            $salutation,
             $name,
             $prg->getTitle()
-        );
+        )
+        . '<br /><br />' . $prg_link;
 
         $mail = new ilMail(ANONYMOUS_USER_ID);
         try {
@@ -83,8 +110,8 @@ class ilPRGMail
             return;
         }
 
-        $subject = $this->lng->txt("info_to_re_assign_mail_subject");
-        $body_template = $this->lng->txt("info_to_re_assign_mail_body");
+        $subject = "info_to_re_assign_mail_subject";
+        $body_template = "info_to_re_assign_mail_body";
         $sent = $this->sendMail($prg, $ass, $subject, $body_template);
 
         if ($sent) {
@@ -112,8 +139,9 @@ class ilPRGMail
             return;
         }
 
-        $subject = $this->lng->txt("risky_to_fail_mail_subject");
-        $body_template = $this->lng->txt("risky_to_fail_mail_body");
+        $lang = $this->getUserLanguage($ass->getUserId());
+        $subject = "risky_to_fail_mail_subject";
+        $body_template = "risky_to_fail_mail_body";
         $sent = $this->sendMail($prg, $ass, $subject, $body_template);
 
         if ($sent) {
@@ -140,8 +168,9 @@ class ilPRGMail
             return false;
         }
 
-        $subject = $this->lng->txt("re_assigned_mail_subject");
-        $body_template = $this->lng->txt("re_assigned_mail_body");
+        $lang = $this->getUserLanguage($ass->getUserId());
+        $subject = "re_assigned_mail_subject";
+        $body_template = "re_assigned_mail_body";
         $sent = $this->sendMail($prg, $ass, $subject, $body_template);
 
         return $sent;
