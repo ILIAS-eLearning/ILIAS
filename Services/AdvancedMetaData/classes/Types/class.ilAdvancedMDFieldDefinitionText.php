@@ -122,7 +122,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     {
         return [
             "max" => $this->getMaxLength(),
-            self::KEY_MULTI => $this->isMulti()
+            self::KEY_MULTI => $this->isMulti(),
             'multilingual_values' => $this->isMultilingualValueSupport()
         ];
     }
