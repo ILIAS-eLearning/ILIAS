@@ -2673,10 +2673,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                             $tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
 
                             $data->getParticipant($active_id)->addQuestion(
-                                $row["original_id"],
-                                $row["question_fi"],
-                                $row["points"],
-                                $row["sequence"],
+                                (int) $row["original_id"],
+                                (int) $row["question_fi"],
+                                (float) $row["points"],
+                                (int) $row["sequence"],
                                 $tpass
                             );
 
