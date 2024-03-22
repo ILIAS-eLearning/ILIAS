@@ -73,6 +73,7 @@ final class LegacyDelivery extends BaseDelivery
             $disposition
         );
         $r = $this->response_builder->buildForStream(
+            $this->http->request(),
             $r,
             Streams::ofResource(fopen($path_to_file, 'rb'))
         );

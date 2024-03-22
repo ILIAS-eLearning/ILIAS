@@ -27,7 +27,6 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
-use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -96,7 +95,9 @@ final class StreamDelivery extends BaseDelivery
             $download_file_name,
             $disposition
         );
+
         $r = $this->response_builder->buildForStream(
+            $this->http->request(),
             $r,
             $stream
         );
@@ -130,6 +131,7 @@ final class StreamDelivery extends BaseDelivery
 
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
+                    $this->http->request(),
                     $r,
                     Streams::ofResource(fopen($payload->getUri(), 'rb'))
                 )
@@ -158,6 +160,7 @@ final class StreamDelivery extends BaseDelivery
 
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
+                    $this->http->request(),
                     $r,
                     Streams::ofResource($file_inside_zip_stream, true)
                 )
