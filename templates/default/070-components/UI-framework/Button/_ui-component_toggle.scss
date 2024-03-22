@@ -128,3 +128,12 @@ $il-btn-toggle-switch-border-color-unavailable: $il-neutral-color;
     font-size: $il-font-size-small;
   }
 }
+
+.il-toggle-item {
+  display: flex;
+
+  label {
+    margin: auto;
+    padding-right: $il-padding-small-horizontal;
+  }
+}
