@@ -101,6 +101,7 @@ final class StreamDelivery extends BaseDelivery
         }
 
         $r = $this->response_builder->buildForStream(
+            $this->http->request(),
             $r,
             $stream
         );
@@ -134,6 +135,7 @@ final class StreamDelivery extends BaseDelivery
 
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
+                    $this->http->request(),
                     $r,
                     Streams::ofResource(fopen($payload->getUri(), 'rb'))
                 )
@@ -164,6 +166,7 @@ final class StreamDelivery extends BaseDelivery
 
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
+                    $this->http->request(),
                     $r,
                     Streams::ofResource($file_inside_zip_stream, true)
                 )
