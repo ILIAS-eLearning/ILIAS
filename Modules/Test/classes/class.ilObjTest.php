@@ -8765,42 +8765,42 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $testsettings = unserialize($test_defaults["defaults"]);
         $this->mark_schema = unserialize($test_defaults["marks"]);
 
-        $this->setTitleOutput((int) ($testsettings['TitleOutput'] ?? 0));
-        $this->setIntroductionEnabled((bool) ($testsettings['IntroEnabled'] ?? false));
-        $this->setIntroduction($testsettings['Introduction'] ?? '');
-        $this->setFinalStatement($testsettings['FinalStatement'] ?? '');
-        $this->setShowInfo((int) ($testsettings['ShowInfo'] ?? 1));
-        $this->setForceJS((int) ($testsettings['ForceJS'] ?? 1));
-        $this->setCustomStyle($testsettings['CustomStyle'] ?? null);
-        $this->setShowFinalStatement((int) ($testsettings['ShowFinalStatement'] ?? 0));
-        $this->setSequenceSettings((int) ($testsettings['SequenceSettings'] ?? 0));
-        $this->setScoreReporting((int) ($testsettings['ScoreReporting'] ?? 0));
-        $this->setSpecificAnswerFeedback((int) ($testsettings['SpecificAnswerFeedback'] ?? 0));
-        $this->setInstantFeedbackSolution((int) ($testsettings['InstantFeedbackSolution'] ?? 0));
-        $this->setAnswerFeedback((int) ($testsettings['AnswerFeedback'] ?? 0));
-        $this->setAnswerFeedbackPoints((int) ($testsettings['AnswerFeedbackPoints'] ?? 0));
-        $this->setResultsPresentation((int) ($testsettings['ResultsPresentation'] ?? 3));
-        $this->setAnonymity((int) ($testsettings['Anonymity'] ?? 0));
-        $this->setShowCancel((int) ($testsettings['ShowCancel'] ?? 0));
-        $this->setShuffleQuestions((int) ($testsettings['Shuffle'] ?? 0));
-        $this->setShowMarker((int) ($testsettings['ShowMarker'] ?? 1));
-        $this->setReportingDate((string) ($testsettings['ReportingDate'] ?? ''));
-        $this->setNrOfTries((int) ($testsettings['NrOfTries'] ?? 0));
+        $this->setTitleOutput($testsettings["TitleOutput"]);
+        $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
+        $this->setIntroduction($testsettings["Introduction"] ?? '');
+        $this->setFinalStatement($testsettings["FinalStatement"] ?? '');
+        $this->setShowInfo($testsettings["ShowInfo"]);
+        $this->setForceJS($testsettings["ForceJS"]);
+        $this->setCustomStyle($testsettings["CustomStyle"]);
+        $this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
+        $this->setSequenceSettings($testsettings["SequenceSettings"]);
+        $this->setScoreReporting($testsettings["ScoreReporting"]);
+        $this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
+        $this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
+        $this->setAnswerFeedback($testsettings["AnswerFeedback"]);
+        $this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
+        $this->setResultsPresentation($testsettings["ResultsPresentation"]);
+        $this->setAnonymity($testsettings["Anonymity"]);
+        $this->setShowCancel($testsettings["ShowCancel"]);
+        $this->setShuffleQuestions($testsettings["Shuffle"]);
+        $this->setShowMarker($testsettings["ShowMarker"]);
+        $this->setReportingDate($testsettings["ReportingDate"]);
+        $this->setNrOfTries($testsettings["NrOfTries"]);
         $this->setBlockPassesAfterPassedEnabled((bool) ($testsettings['BlockAfterPassed'] ?? 0));
-        $this->setUsePreviousAnswers((int) ($testsettings['UsePreviousAnswers'] ?? 1));
-        $this->setRedirectionMode((int) ($testsettings['redirection_mode'] ?? 0));
-        $this->setRedirectionUrl((string) ($testsettings['redirection_url'] ?? ''));
-        $this->setProcessingTime($testsettings['ProcessingTime'] ?? null);
-        $this->setResetProcessingTime((int) ($testsettings['ResetProcessingTime'] ?? 0));
-        $this->setEnableProcessingTime((int) ($testsettings['EnableProcessingTime'] ?? 0));
-        $this->setStartingTimeEnabled((bool) ($testsettings['StartingTimeEnabled'] ?? false));
-        $this->setStartingTime((int) ($testsettings['StartingTime'] ?? 0));
-        $this->setKiosk((int) ($testsettings['Kiosk'] ?? 0));
-        $this->setEndingTimeEnabled((bool) ($testsettings['EndingTimeEnabled'] ?? false));
-        $this->setEndingTime((int) ($testsettings['EndingTime'] ?? 0));
-        $this->setECTSOutput((int) ($testsettings['ECTSOutput'] ?? 0));
-        $this->setECTSFX((string) ($testsettings['ECTSFX'] ?? '0.0'));
-        $this->setECTSGrades((array) $testsettings['ECTSGrades'] ?? []);
+        $this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
+        $this->setRedirectionMode($testsettings['redirection_mode']);
+        $this->setRedirectionUrl($testsettings['redirection_url']);
+        $this->setProcessingTime($testsettings["ProcessingTime"]);
+        $this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
+        $this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
+        $this->setStartingTimeEnabled($testsettings["StartingTimeEnabled"]);
+        $this->setStartingTime($testsettings["StartingTime"]);
+        $this->setKiosk($testsettings["Kiosk"]);
+        $this->setEndingTimeEnabled($testsettings["EndingTimeEnabled"]);
+        $this->setEndingTime($testsettings["EndingTime"]);
+        $this->setECTSOutput($testsettings["ECTSOutput"]);
+        $this->setECTSFX($testsettings["ECTSFX"]);
+        $this->setECTSGrades($testsettings["ECTSGrades"]);
         if (isset($testsettings["isRandomTest"])) {
             if ($testsettings["isRandomTest"]) {
                 $this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
@@ -8811,12 +8811,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setQuestionSetType($testsettings["questionSetType"]);
         }
 
-        $this->setMailNotification((int) ($testsettings['mailnotification'] ?? 0));
-        $this->setMailNotificationType((int) ($testsettings['mailnottype'] ?? 0));
-        $this->setExportSettings((int) ($testsettings['exportsettings'] ?? 0));
-        $this->setListOfQuestionsSettings((int) ($testsettings['ListOfQuestionsSettings'] ?? 0));
-        $this->setObligationsEnabled((bool) ($testsettings['obligations_enabled'] ?? true));
-        $this->setOfferingQuestionHintsEnabled((bool) ($testsettings['offer_question_hints'] ?? false));
+        $this->setMailNotification($testsettings["mailnotification"]);
+        $this->setMailNotificationType($testsettings["mailnottype"]);
+        $this->setExportSettings($testsettings['exportsettings']);
+        $this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
+        $this->setObligationsEnabled($testsettings["obligations_enabled"]);
+        $this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
 
         if (isset($testsettings['examid_in_kiosk'])) {
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
@@ -8824,35 +8824,35 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
         }
 
-        $this->setEnableExamview((bool) ($testsettings['enable_examview'] ?? false));
-        $this->setShowExamviewHtml((bool) ($testsettings['show_examview_html'] ?? false));
-        $this->setShowExamviewPdf((bool) ($testsettings['show_examview_pdf'] ?? false));
-        $this->setEnableArchiving((bool) ($testsettings['enable_archiving'] ?? false));
-        $this->setSignSubmission((bool) ($testsettings['sign_submission'] ?? false));
-        $this->setCharSelectorAvailability((int) ($testsettings['char_selector_availability'] ?? 0));
-        $this->setCharSelectorDefinition((string) ($testsettings['char_selector_definition'] ?? ''));
-        $this->setSkillServiceEnabled((bool) ($testsettings['skill_service'] ?? false));
-        $this->setShowGradingStatusEnabled((bool) ($testsettings['show_grading_status'] ?? false));
-        $this->setShowGradingMarkEnabled((bool) ($testsettings['show_grading_mark'] ?? false));
-        $this->setFollowupQuestionAnswerFixationEnabled((bool) ($testsettings['follow_qst_answer_fixation'] ?? false));
-        $this->setInstantFeedbackAnswerFixationEnabled((bool) ($testsettings['inst_fb_answer_fixation'] ?? false));
-        $this->setForceInstantFeedbackEnabled((bool) ($testsettings['force_inst_fb'] ?? false));
-        $this->setRedirectionMode((int) ($testsettings['redirection_mode'] ?? 0));
-        $this->setRedirectionUrl((string) ($testsettings['redirection_url'] ?? ''));
-        $this->setAutosave((bool) ($testsettings['autosave'] ?? false));
-        $this->setAutosaveIval((int) ($testsettings['autosave_ival'] ?? 0));
-        $this->setPasswordEnabled((bool) ($testsettings['password_enabled'] ?? false));
-        $this->setPassword((string) ($testsettings['password'] ?? ''));
-        $this->setFixedParticipants((int) ($testsettings['fixed_participants'] ?? 0));
-        $this->setLimitUsersEnabled((bool) ($testsettings['limit_users_enabled'] ?? false));
-        $this->setAllowedUsers((string) ($testsettings['allowedusers'] ?? ''));
-        $this->setAllowedUsersTimeGap((string) ($testsettings['alloweduserstimegap'] ?? ''));
-        $this->setUsePreviousAnswers((int) ($testsettings['use_previous_answers'] ?? 1));
-        $this->setActivationLimited((bool) ($testsettings['activation_limited'] ?? false));
-        $this->setActivationStartingTime($testsettings['activation_start_time'] ?? null);
-        $this->setActivationEndingTime($testsettings['activation_end_time'] ?? null);
-        $this->setActivationVisibility((bool) ($testsettings['activation_visibility'] ?? false));
-        $this->setPassWaiting((string) ($testsettings['pass_waiting'] ?? ''));
+        $this->setEnableExamview($testsettings['enable_examview']);
+        $this->setShowExamviewHtml($testsettings['show_examview_html']);
+        $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
+        $this->setEnableArchiving($testsettings['enable_archiving']);
+        $this->setSignSubmission($testsettings['sign_submission']);
+        $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
+        $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
+        $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
+        $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
+        $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
+        $this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
+        $this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
+        $this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
+        $this->setRedirectionMode($testsettings['redirection_mode']);
+        $this->setRedirectionUrl($testsettings['redirection_url']);
+        $this->setAutosave($testsettings['autosave']);
+        $this->setAutosaveIval($testsettings['autosave_ival']);
+        $this->setPasswordEnabled($testsettings['password_enabled']);
+        $this->setPassword($testsettings['password']);
+        $this->setFixedParticipants($testsettings['fixed_participants']);
+        $this->setLimitUsersEnabled($testsettings['limit_users_enabled']);
+        $this->setAllowedUsers($testsettings['allowedusers']);
+        $this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
+        $this->setUsePreviousAnswers($testsettings['use_previous_answers']);
+        $this->setActivationLimited($testsettings['activation_limited']);
+        $this->setActivationStartingTime($testsettings['activation_start_time']);
+        $this->setActivationEndingTime($testsettings['activation_end_time']);
+        $this->setActivationVisibility($testsettings['activation_visibility']);
+        $this->setPassWaiting($testsettings['pass_waiting']);
 
         $settings = $this->getScoreSettings();
         $exam_id_in_results = false;
@@ -8871,7 +8871,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             )
             ->withResultSummarySettings(
                 $settings->getResultSummarySettings()
-                ->withPassDeletionAllowed((bool) $testsettings['pass_deletion_allowed'])
+                ->withPassDeletionAllowed($testsettings['pass_deletion_allowed'])
             )
             ->withResultDetailsSettings(
                 $settings->getResultDetailsSettings()
@@ -8881,16 +8881,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             )
             ->withGamificationSettings(
                 $settings->getGamificationSettings()
-                    ->withHighscoreEnabled((bool) $testsettings['highscore_enabled'])
-                    ->withHighscoreAnon((bool) $testsettings['highscore_anon'])
-                    ->withHighscoreAchievedTS((bool) $testsettings['highscore_achieved_ts'])
-                    ->withHighscoreScore((bool) $testsettings['highscore_score'])
-                    ->withHighscorePercentage((bool) $testsettings['highscore_percentage'])
-                    ->withHighscoreHints((bool) $testsettings['highscore_hints'])
-                    ->withHighscoreWTime((bool) $testsettings['highscore_wtime'])
-                    ->withHighscoreOwnTable((bool) $testsettings['highscore_own_table'])
-                    ->withHighscoreTopTable((bool) $testsettings['highscore_top_table'])
-                    ->withHighscoreTopNum((int) $testsettings['highscore_top_num'])
+                ->withHighscoreEnabled($testsettings['highscore_enabled'])
+                ->withHighscoreAnon($testsettings['highscore_anon'])
+                ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
+                ->withHighscoreScore($testsettings['highscore_score'])
+                ->withHighscorePercentage($testsettings['highscore_percentage'])
+                ->withHighscoreHints($testsettings['highscore_hints'])
+                ->withHighscoreWTime($testsettings['highscore_wtime'])
+                ->withHighscoreOwnTable($testsettings['highscore_own_table'])
+                ->withHighscoreTopTable($testsettings['highscore_top_table'])
+                ->withHighscoreTopNum($testsettings['highscore_top_num'])
             )
         ;
         $this->getScoreSettingsRepository()->store($settings);
