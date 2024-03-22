@@ -100,7 +100,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
-        if (is_array($a_value)) {
+        if (is_array($a_value) && !empty($a_value)) {
             $this->getADT()->setSelection($a_value[0]);
         }
     }
