@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -8785,7 +8786,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setShowMarker($testsettings["ShowMarker"]);
         $this->setReportingDate($testsettings["ReportingDate"]);
         $this->setNrOfTries($testsettings["NrOfTries"]);
-        $this->setBlockPassesAfterPassedEnabled((bool) $testsettings['BlockAfterPassed']);
+        $this->setBlockPassesAfterPassedEnabled((bool) ($testsettings['BlockAfterPassed'] ?? 0));
         $this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
         $this->setRedirectionMode($testsettings['redirection_mode']);
         $this->setRedirectionUrl($testsettings['redirection_url']);
