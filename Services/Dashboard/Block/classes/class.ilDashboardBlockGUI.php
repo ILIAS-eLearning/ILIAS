@@ -61,7 +61,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC["objDefinition"];
-        $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
         $this->parent = $this->ctrl->getCurrentClassPath()[0] ?? '';

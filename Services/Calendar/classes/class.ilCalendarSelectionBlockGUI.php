@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -36,11 +35,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     protected const CAL_GRP_CURRENT_CONT = "curr_cont";
     protected const CAL_GRP_PERSONAL = "personal";
     protected const CAL_GRP_OTHERS = "others";
-
-    /**
-     * @todo fix in base class
-     */
-    protected bool $new_rendering = true;
 
     protected ilTree $tree;
     protected RefineryFactory $refinery;

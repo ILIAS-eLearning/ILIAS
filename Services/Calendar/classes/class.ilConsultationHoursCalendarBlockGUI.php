@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Item\Item;
  */
 class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI
 {
-    protected bool $new_rendering = true;
     protected array $consultation_hour_links;
 
     public function __construct()
@@ -94,11 +93,11 @@ class ilConsultationHoursCalendarBlockGUI extends ilBlockGUI
         return $this->ui->factory()->item()->standard($button);
     }
 
-    public function getHTMLNew(): string
+    public function getHTML(): string
     {
         if (empty($this->getData())) {
             return '';
         }
-        return parent::getHTMLNew();
+        return parent::getHTML();
     }
 }

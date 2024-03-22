@@ -88,26 +88,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         return $this->$cmd();
     }
 
-    /**
-     * Fill data section
-     */
-    public function fillDataSection(): void
-    {
-        global $DIC;
-        $collector = $DIC->task()->derived()->factory()->collector();
-
-        $this->tasks = $collector->getEntries($this->user->getId());
-
-        if (count($this->tasks) > 0) {
-            $this->setRowTemplate("tpl.pd_tasks.html", "Services/Tasks");
-            $this->getListRowData();
-            parent::fillDataSection();
-        } else {
-            $this->setEnableNumInfo(false);
-            $this->setDataSection($this->getOverview());
-        }
-    }
-
 
     /**
      * Get list data.
@@ -132,81 +112,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     }
 
     /**
-     * get flat list for personal desktop
-     */
-    public function fillRow(array $a_set): void
-    {
-        global $DIC;
-
-        $factory = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
-        $lng = $this->lng;
-
-        $info_screen = new ilInfoScreenGUI($this);
-        $info_screen->setFormAction("#");
-        $info_screen->addSection($lng->txt(""));
-        //$toolbar = new ilToolbarGUI();
-
-        $info_screen->addProperty(
-            $lng->txt("task_task"),
-            $a_set["title"]
-        );
-
-        if ($a_set["ref_id"] > 0) {
-            $obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
-            $obj_type = ilObject::_lookupType($obj_id);
-
-            $url = 0 === $a_set['url'] ? ilLink::_getStaticLink($a_set["ref_id"]) : $a_set['url'];
-            $link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
-
-            $info_screen->addProperty(
-                $lng->txt("obj_" . $obj_type),
-                $renderer->render($link)
-            );
-        }
-
-        if ($a_set["wsp_id"] > 0) {
-            $wst = new ilWorkspaceTree($this->user->getId());
-            $obj_id = $wst->lookupObjectId($a_set["wsp_id"]);
-            $obj_type = ilObject::_lookupType($obj_id);
-
-            $url = 0 === $a_set['url'] ? ilLink::_getStaticLink($a_set["wsp_id"]) : $a_set['url'];
-            $link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
-
-            $info_screen->addProperty(
-                $lng->txt("obj_" . $obj_type),
-                $renderer->render($link)
-            );
-        }
-
-        if ($a_set["starting_time"] > 0) {
-            $start = new ilDateTime($a_set["starting_time"], IL_CAL_UNIX);
-            $info_screen->addProperty(
-                $lng->txt("task_start"),
-                ilDatePresentation::formatDate($start)
-            );
-        }
-
-        if ($a_set["deadline"] > 0) {
-            $end = new ilDateTime($a_set["deadline"], IL_CAL_UNIX);
-            $info_screen->addProperty(
-                $lng->txt("task_deadline"),
-                ilDatePresentation::formatDate($end)
-            );
-        }
-
-        $modal = $factory->modal()->roundtrip(
-            $lng->txt("task_details"),
-            $factory->legacy($info_screen->getHTML())
-        )
-            ->withCancelButtonLabel($lng->txt("close"));
-        $button1 = $factory->button()->shy($a_set["title"], '#')
-            ->withOnClick($modal->getShowSignal());
-
-        $this->tpl->setVariable("TITLE", $renderer->render([$button1, $modal]));
-    }
-
-    /**
      * Get overview.
      */
     public function getOverview(): string
@@ -216,16 +121,10 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         return '<div class="small">' . (count($this->tasks)) . " " . $lng->txt("task_derived_tasks") . "</div>";
     }
 
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
     /**
      * @inheritdoc
      */
-    public function getHTMLNew(): string
+    public function getHTML(): string
     {
         global $DIC;
         $collector = $DIC->task()->derived()->factory()->collector();
@@ -234,7 +133,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 
         $this->getListRowData();
 
-        return parent::getHTMLNew();
+        return parent::getHTML();
     }
 
     /**
