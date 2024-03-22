@@ -88,9 +88,7 @@ class ilSetupAgent implements Setup\Agent
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
                 new ilSetupConfigStoredObjective($config),
-                $config->getRegisterNIC()
-                    ? new ilNICKeyRegisteredObjective($config)
-                    : new ilNICKeyStoredObjective($config)
+                new ilNICKeyRegisteredObjective($config)
             )
         );
     }

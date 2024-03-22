@@ -57,12 +57,6 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
 
-        if (!$this->config->getRegisterNIC()) {
-            throw new Setup\UnachievableException(
-                "It is not allowed to deactivate an registered NIC."
-            );
-        }
-
         $systemfolder_config = $environment->getConfigFor("systemfolder");
         $http_config = $environment->getConfigFor("http");
 
@@ -120,7 +114,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
-        return $settings->get("inst_id") === '0';
+        return ($settings->get("inst_id") === '0') && $this->config->getRegisterNIC();
     }
 
     protected function getRegistrationProblem(array $nic_response_parts): string
