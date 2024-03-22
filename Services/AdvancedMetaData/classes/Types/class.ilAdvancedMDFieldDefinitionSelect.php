@@ -142,21 +142,105 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             return;
         }
 
-        // if not the default language is chosen => no add/remove; no sorting
-        $field = new ilTextInputGUI($this->lng->txt("meta_advmd_select_options"), "opts");
-        $field->setRequired(true);
-        $field->setMulti(true, true);
-        $field->setMaxLength(255); // :TODO:
-        $a_form->addItem($field);
-
         $options = $this->getOptions();
-        if ($options) {
-            $field->setMultiValues($options);
-            $field->setValue(array_shift($options));
+
+        if (is_null($options)) {
+            $this->addCreateOptionsFieldsToDefinitionForm($a_form, $a_disabled);
+            return;
         }
 
-        if ($a_disabled) {
-            $field->setDisabled(true);
+        $this->addEditOptionsFieldsToDefinitionForm($options, $a_form, $a_disabled);
+    }
+
+    protected function addCreateOptionsFieldsToDefinitionForm(
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled
+    ): void {
+        $field = new ilTextInputGUI($this->lng->txt('meta_advmd_select_options'), 'opts_new');
+        $field->setRequired(true);
+        $field->setMulti(true);
+        $field->setMaxLength(255);
+        $field->setDisabled($a_disabled);
+
+        $a_form->addItem($field);
+    }
+
+    protected function addEditOptionsFieldsToDefinitionForm(
+        array $options,
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled
+    ): void {
+        $entries = new ilRadioGroupInputGUI(
+            $this->lng->txt('meta_advmd_select_options_edit'),
+            'opts_edit'
+        );
+
+        $position_identifiers = ['0' => $this->lng->txt('meta_advmd_select_first_position_identifier')];
+        $last_idx = 0;
+        foreach ($options as $idx => $option) {
+            $position_identifiers[$idx + 1] = sprintf(
+                $this->lng->txt('meta_advmd_select_position_identifier'),
+                $option
+            );
+            $last_idx = $idx + 1;
+        }
+
+        $options[$last_idx] = $this->lng->txt('meta_advmd_select_new_option');
+
+        $disabled_checkbox_overwrites = [];
+
+        foreach ($options as $idx => $option) {
+            $radio = new ilRadioOption($option, (string) $idx);
+
+            $value = new ilTextInputGUI(
+                $this->lng->txt('meta_advmd_select_option_value'),
+                'value_' . $idx
+            );
+            $value->setRequired(true);
+            $value->setMaxLength(255);
+            $value->setValue($idx !== $last_idx ? $option : '');
+            $value->setDisabled($a_disabled);
+            $radio->addSubItem($value);
+
+            $position = new ilSelectInputGUI(
+                $this->lng->txt('meta_advmd_select_option_position'),
+                'position_' . $idx
+            );
+            $relevant_position_identifiers = $position_identifiers;
+            unset($relevant_position_identifiers[$idx + 1]);
+            $position->setOptions($relevant_position_identifiers);
+            $position->setValue($idx);
+            $position->setDisabled($a_disabled);
+            $radio->addSubItem($position);
+
+            if ($idx !== $last_idx && $last_idx > 1) {
+                $delete = new ilCheckboxInputGUI(
+                    $this->lng->txt('meta_advmd_select_delete_option'),
+                    'delete_me_' . $idx
+                );
+                $delete->setDisabled($a_disabled);
+                $radio->addSubItem($delete);
+
+                /*
+                 * If disabled, checkboxes don't come with a hidden input to write to post,
+                 * this is a workaround.
+                 */
+                if ($a_disabled) {
+                    $hidden = new ilHiddenInputGUI('delete_me_' . $idx);
+                    $hidden->setValue("1");
+                    $disabled_checkbox_overwrites[] = $hidden;
+                }
+            }
+
+            $radio->setDisabled($a_disabled);
+            $entries->addOption($radio);
+        }
+
+        $entries->setDisabled($a_disabled);
+        $a_form->addItem($entries);
+
+        foreach ($disabled_checkbox_overwrites as $input) {
+            $a_form->addItem($input);
         }
     }
 
@@ -268,18 +352,76 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         }
 
         $old = $this->getOptionTranslation($language);
-        $new = $a_form->getInput("opts");
+        if ($new = $a_form->getInput('opts_new')) {
+            $this->setOptions($new);
+            $this->setOptionTranslationsForLanguage($new, $language);
+            return;
+        }
 
-        $missing = array_diff_assoc($old, $new);
-        // keep track of the indices of entries persisting through the operation
+        $edited_idx = $a_form->getInput('opts_edit');
+        if($edited_idx === '' || is_null($edited_idx)) {
+            return;
+        }
+        $edited_idx = (int) $edited_idx;
+
+        $new_value = (string) $a_form->getInput('value_' . $edited_idx);
+        $new_position = (int) $a_form->getInput('position_' . $edited_idx);
+        $delete = (bool) $a_form->getInput('delete_me_' . $edited_idx);
+
+        /*
+         * Build the new options, keeping track of how indices change in a map.
+         */
+        $new = [];
         $index_map = [];
-        foreach ($missing as $missing_idx => $missing_value) {
-            if (in_array($missing_value, $new)) {
-                $index_map[$missing_idx] = array_search($missing_value, $new);
+        $new_idx = 0;
+
+        /*
+         * If an entry is is moved down, shift new position to reflect entry not
+         * being in its old position anymore.
+         */
+        if ($new_position > $edited_idx) {
+            $new_position -= 1;
+        }
+
+        foreach ($old as $old_idx => $old_value) {
+            if ($old_idx === $edited_idx) {
+                continue;
+            }
+
+            if (!$delete && $new_idx === $new_position) {
+                $new[$new_idx] = $new_value;
+                /*
+                 * Newly added indices must not be used as 'old indices' in the index map,
+                 * otherwise the search doesn't work.
+                 */
+                if ($edited_idx !== $new_idx && array_key_exists($edited_idx, $old)) {
+                    $index_map[$edited_idx] = $new_idx;
+                }
+                $new_idx++;
+            }
+
+            $new[$new_idx] = $old_value;
+            if ($old_idx !== $new_idx) {
+                $index_map[$old_idx] = $new_idx;
+            }
+            $new_idx++;
+        }
+
+        /*
+         * If an entry is moved to or added at the end, append it.
+         */
+        if (!$delete && $new_idx === $new_position) {
+            $new[$new_idx] = $new_value;
+            if ($edited_idx !== $new_idx) {
+                $index_map[$edited_idx] = $new_idx;
             }
         }
 
-        if (sizeof($missing)) {
+        /*
+         * Prepare migration of existing values, prepare for confirmation if more
+         * user input is required.
+         */
+        if ($delete || count($index_map)) {
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
             $already_confirmed = is_array($this->confirmed_objects);
 
@@ -288,28 +430,40 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 false,
                 $multi
             );
-            foreach ($missing as $missing_idx => $missing_value) {
-                $in_use = $this->findBySingleValue($search, $missing_idx);
-                if (is_array($in_use)) {
-                    foreach ($in_use as $item) {
-                        if (array_key_exists($missing_idx, $index_map)) {
-                            $complete_id = $item[0] . "_" . $item[1] . "_" . $item[2];
-                            $new_index = $index_map[$missing_idx];
-                            $this->confirmed_objects[$missing_idx][$complete_id] = $new_index;
-                            continue;
-                        }
-                        if (!$already_confirmed) {
-                            $this->confirm_objects[$missing_idx][] = $item;
-                            $this->confirm_objects_values[$missing_idx] = $old[$missing_idx];
-                        }
+
+            /*
+             * If option is to be deleted, collect objects whith that value and
+             * and prepare confirmation of their migration.
+             */
+            if ($delete) {
+                $in_use = $this->findBySingleValue($search, $edited_idx);
+                foreach ($in_use as $item) {
+                    if (!$already_confirmed) {
+                        $this->confirm_objects[$edited_idx][] = $item;
+                        $this->confirm_objects_values[$edited_idx] = $old[$edited_idx];
                     }
+                }
+            }
+
+            /*
+             * Prepare objects that can be automatically migrated.
+             */
+            foreach ($index_map as $old_idx => $new_idx) {
+                $in_use = $this->findBySingleValue($search, $old_idx);
+                foreach ($in_use as $item) {
+                    $complete_id = $item[0] . "_" . $item[1] . "_" . $item[2];
+                    $this->confirmed_objects[$old_idx][$complete_id] = $new_idx;
                 }
             }
         }
         $this->old_options = $old;
 
-        // update the options along with their translations
+        /*
+         * Finally set the new options, and change the indices of translations
+         * according to the index map.
+         */
         $this->setOptionTranslationsForLanguage($new, $language);
+        $this->setOptions($new);
         foreach ($this->getOptionTranslations() as $current_lang => $options) {
             $current_lang = (string) $current_lang;
             if ($current_lang === $language) {
@@ -379,27 +533,39 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $post_conf_det = (array) ($this->http->request()->getParsedBody()['conf_det'] ?? []);
         $post_conf = (array) ($this->http->request()->getParsedBody()['conf'] ?? []);
 
-        $a_form->getItemByPostVar("opts")->setDisabled(true);
-        if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
-            $new_options = $a_form->getInput("opts");
+        $custom_field = $a_form->getItemByPostVar('opts_edit');
+        $custom_field->setDisabled(true);
+        foreach ($custom_field->getSubInputItemsRecursive() as $sub_input) {
+            $sub_input->setDisabled(true);
+            /*
+             * If disabled, checkboxes don't come with a hidden input to write to post,
+             * this is a workaround.
+             */
+            if ($sub_input instanceof ilCheckboxInputGUI) {
+                $hidden = new ilHiddenInputGUI($sub_input->getPostVar());
+                $hidden->setValue($sub_input->getValue());
+                $a_form->addItem($hidden);
+            }
+        }
 
+        if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
             $sec = new ilFormSectionHeaderGUI();
             $sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
             $a_form->addItem($sec);
 
-            foreach ($this->confirm_objects as $old_option => $items) {
-                $old_option_value = $this->confirm_objects_values[$old_option];
+            foreach ($this->confirm_objects as $old_option_index => $items) {
+                $old_option_value = $this->confirm_objects_values[$old_option_index];
                 $details = new ilRadioGroupInputGUI(
                     $lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"',
-                    "conf_det[" . $this->getFieldId() . "][" . $old_option . "]"
+                    "conf_det[" . $this->getFieldId() . "][" . $old_option_index . "]"
                 );
                 $details->setRequired(true);
                 $details->setValue("sum");
                 $a_form->addItem($details);
 
                 // automatic reload does not work
-                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
-                    $details->setValue($post_conf_det[$this->getFieldId()][$old_option]);
+                if (isset($post_conf_det[$this->getFieldId()][$old_option_index])) {
+                    $details->setValue($post_conf_det[$this->getFieldId()][$old_option_index]);
                 }
 
                 $sum = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_all"), "sum");
@@ -407,24 +573,24 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                 $sel = new ilSelectInputGUI(
                     $lng->txt("md_adv_confirm_definition_select_option_all_action"),
-                    "conf_det_act[" . $this->getFieldId() . "][" . $old_option . "]"
+                    "conf_det_act[" . $this->getFieldId() . "][" . $old_option_index . "]"
                 );
                 $sel->setRequired(true);
                 $options = array(
                     "" => $lng->txt("please_select"),
                     self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                 );
-                foreach ($new_options as $new_option_index => $new_option) {
+                foreach ($this->getOptions() as $new_option_index => $new_option) {
                     $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
                 }
                 $sel->setOptions($options);
                 $sum->addSubItem($sel);
 
                 // automatic reload does not work
-                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
-                    if ($post_conf_det[$this->getFieldId()][$old_option]) {
-                        $sel->setValue($post_conf_det[$this->getFieldId()][$old_option]);
-                    } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sum") {
+                if (isset($post_conf_det[$this->getFieldId()][$old_option_index])) {
+                    if ($post_conf_det[$this->getFieldId()][$old_option_index]) {
+                        $sel->setValue($post_conf_det[$this->getFieldId()][$old_option_index]);
+                    } elseif ($post_conf_det[$this->getFieldId()][$old_option_index] == "sum") {
                         $sel->setAlert($lng->txt("msg_input_is_required"));
                         $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                     }
@@ -466,23 +632,23 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                     $sel = new ilSelectInputGUI(
                         $type_title . ' ' . $title,
-                        "conf[" . $this->getFieldId() . "][" . $old_option . "][" . $item_id . "]"
+                        "conf[" . $this->getFieldId() . "][" . $old_option_index . "][" . $item_id . "]"
                     );
                     $sel->setRequired(true);
                     $options = array(
                         "" => $lng->txt("please_select"),
                         self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                     );
-                    foreach ($new_options as $new_option_index => $new_option) {
+                    foreach ($this->getOptions() as $new_option_index => $new_option) {
                         $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
                     }
                     $sel->setOptions($options);
 
                     // automatic reload does not work
-                    if (isset($post_conf[$this->getFieldId()][$old_option][$item_id])) {
-                        if ($post_conf[$this->getFieldId()][$old_option][$item_id]) {
-                            $sel->setValue($post_conf[$this->getFieldId()][$old_option][$item_id]);
-                        } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sgl") {
+                    if (isset($post_conf[$this->getFieldId()][$old_option_index][$item_id])) {
+                        if ($post_conf[$this->getFieldId()][$old_option_index][$item_id]) {
+                            $sel->setValue($post_conf[$this->getFieldId()][$old_option_index][$item_id]);
+                        } elseif ($post_conf_det[$this->getFieldId()][$old_option_index] == "sgl") {
                             $sel->setAlert($lng->txt("msg_input_is_required"));
                             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                         }
