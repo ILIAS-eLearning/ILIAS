@@ -1,15 +1,23 @@
 import {expect} from "chai";
 import {JSDOM} from 'jsdom';
 
-global.setTimeout = (callback, time) => {
-    global.last_timeout = callback;
-    global.last_timeout_time = time;
-}
+let last_timeout;
+let last_timeout_time;
 
 beforeEach( (done) => {
+    last_timeout = () => {};
+    last_timeout_time = 0;
     JSDOM.fromFile('./tests/UI/Client/Toast/ToastTest.html', { runScripts: "dangerously", resources: "usable"})
         .then(dom => {
             global.window = dom.window;
+            window.setTimeout = (callback, time) => {
+                last_timeout = callback;
+                last_timeout_time = time;
+            };
+            window.clearTimeout = element => {
+                last_timeout = () => {};
+                last_timeout_time = 0;
+            };
             window.XMLHttpRequest = class {
                 open(mode, url) {global.last_xhr_url = url;};
                 send(){};
@@ -90,5 +98,28 @@ describe('closeToast', () => {
         il.UI.toast.closeToast(element, true);
         toast.dispatchEvent(new window.Event('transitionend'));
         expect(last_xhr_url).to.be.string(element.dataset.vanishurl);
+    })
+})
+
+describe('stopToast', () => {
+    it ('prevent default vanish action', () => {
+        il.UI.toast.appearToast(element);
+        toast.dispatchEvent(new window.Event('mouseenter'));
+        last_timeout();
+        expect(toast.classList.contains('active')).to.be.true;
+    })
+    it ('reestablish vanish action', () => {
+        il.UI.toast.appearToast(element);
+        toast.dispatchEvent(new window.Event('mouseenter'));
+        last_timeout();
+        toast.dispatchEvent(new window.Event('mouseleave'));
+        last_timeout();
+        expect(toast.classList.contains('active')).to.be.false;
+    })
+    it ('enforce close on prevention', () => {
+        il.UI.toast.appearToast(element);
+        toast.dispatchEvent(new window.Event('mouseenter'));
+        toast.querySelector('.close').dispatchEvent(new window.Event('click'));
+        expect(toast.classList.contains('active')).to.be.false;
     })
 })
