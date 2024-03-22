@@ -76,7 +76,6 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
     protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
-            new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDBStepExecutionDBExistsObjective(),
             new ilDBStepReaderExistsObjective()
