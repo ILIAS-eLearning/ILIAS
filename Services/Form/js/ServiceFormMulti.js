@@ -48,7 +48,7 @@ var ilMultiFormValues = {
 	 */
 	addEvent: function(e) {
 		var id = $(e.delegateTarget).attr('id').split('~');
-		ilMultiFormValues.add(id[1], id[2], '');
+		ilMultiFormValues.add(id[1], id[2], []);
 	},
 
 	/**
@@ -221,12 +221,8 @@ var ilMultiFormValues = {
 		element_id = element_id[1];
 
 		// add element for each additional value
-		var values = $(element).attr('value').split('~');	
-		$(values).each(function(i) {
-			// 1st value can be ignored
-			if(i > 0) {
-				ilMultiFormValues.add(element_id, i-1, this);		
-			}
+		JSON.parse(atob($(element).attr('value'))).slice(1).forEach(function(value, i) {
+			ilMultiFormValues.add(element_id, i, (typeof value === 'object') ? value : [value]);
 		});	
 	},
 
@@ -260,14 +256,20 @@ var ilMultiFormValues = {
 
 
 		// try to set value 
-		if(preset != '') {
-			$(element).find('select[id*="' + group_id + '"] option[value="' + il.Form.escapeSelector(preset) + '"]').attr('selected', true);
-			$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
+		$(element).find('select[id*="' + group_id + '"],input:text[id*="' + group_id + '"]').each(function (i) {
+			const value = preset[Object.keys(preset)[i]];
+			$(this).find('option:selected').removeAttr('selected');
+			if(value !== undefined && value != '') {
+				$(this).find('option[value="' + il.Form.escapeSelector(String(value)) + '"]').attr('selected', true);
+				if (this.tagName === 'INPUT') {
+					$(this).attr('value', value);
+				}
+			} else {
+				if (this.tagName === 'INPUT') {
+					$(this).val('');
 		}
-		else {
-			$(element).find('select[id*="' + group_id + '"] option:selected').removeAttr('selected');
-			$(element).find('input:text[id*="' + group_id + '"]').val('');
-		}
+			}
+		});
 
 		// non-editable value
 		$(element).find('span[id*="' + group_id + '"]').html(preset);
