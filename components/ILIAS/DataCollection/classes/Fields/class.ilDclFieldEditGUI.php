@@ -433,9 +433,6 @@ class ilDclFieldEditGUI
                 } catch (ilDclInputException $e) {
                     $item = $this->form->getItemByPostVar('unique');
                     $item->setAlert($txt);
-
-                    //--sendFailure($lng->txt("form_input_not_valid"));
-                    //--$this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"));
                     return false;
                 }
             }
