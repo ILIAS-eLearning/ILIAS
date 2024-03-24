@@ -25,17 +25,18 @@ class ilPRGMail
 {
     protected const LANGMODULE = 'prg';
 
-    protected ilComponentLogger $log;
-    protected ilLanguage $lng;
+    /**
+     * var <string, ilLanguage> $languages
+     */
+    protected array $languages;
 
     public function __construct(
-        ilComponentLogger $log,
+        protected ilComponentLogger $log,
         ilLanguage $lng
     ) {
-        $this->log = $log;
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule(self::LANGMODULE);
-        $this->lng->loadLanguageModule("mail");
+        $lng->loadLanguageModule(self::LANGMODULE);
+        $lng->loadLanguageModule("mail");
+        $this->languages[$lng->getLangKey()] = $lng;
     }
 
     /**
@@ -55,7 +56,14 @@ class ilPRGMail
 
     protected function txt(string $identifier, string $lang): string
     {
-        return $this->lng->txtlng(self::LANGMODULE, $identifier, $lang);
+        if(!array_key_exists($lang, $this->languages)) {
+            $lng = new \ilLanguage($lang);
+            $lng->loadLanguageModule(self::LANGMODULE);
+            $lng->loadLanguageModule("mail");
+            $this->languages[$lang] = $lng;
+        }
+        $lng = $this->languages[$lang];
+        return $lng->txtlng(self::LANGMODULE, $identifier, $lang);
     }
 
     protected function sendMail(
@@ -71,14 +79,6 @@ class ilPRGMail
         $prg_link = \ilLink::_getStaticLink(ilObjStudyProgramme::getRefIdFor($assignment->getRootId()), 'prg');
 
         $lang = $this->getUserLanguage($assignment->getUserId());
-
-        //re-init ilLanguage to switch between languages
-        if ($this->lng->getLangKey() !== $lang) {
-            $this->lng = new \ilLanguage($lang);
-            $this->lng->loadLanguageModule(self::LANGMODULE);
-            $this->lng->loadLanguageModule("mail");
-        }
-
         $salutation = $this->txt("mail_salutation_" . $gender, $lang);
         $subject = $this->txt($subject, $lang);
         $body_template = $this->txt($body_template, $lang);
