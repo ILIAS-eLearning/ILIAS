@@ -1508,8 +1508,13 @@ class ilObjStudyProgramme extends ilContainer
     }
 
     /**
-     * Set all progresses to completed where the object with given id is a leaf
-     * and that belong to the user.
+     * Succeed all StudyProgramme(Nodes) where the object with the given id (a CRSR)
+     * is in a Programme with MODE_LP_COMPLETED.
+     * This is exclusively called via event "Services/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
+     *
+     * @param int $ref_id the RefId of the CRSR; used to find the PRG it's in
+     * @param int $obj_id the ObjId of the CRS; used as "triggering object"
+     * @param int $user_id the user's id to succeed for; all assignments are affected
      *
      * This is exclusively called via event "components/ILIAS/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
      */
