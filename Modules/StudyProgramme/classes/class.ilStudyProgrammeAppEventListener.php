@@ -189,7 +189,11 @@ class ilStudyProgrammeAppEventListener
         $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds((int) $parameter["obj_id"]);
         foreach ($crs_reference_obj_ids as $crsr_obj_id) {
             foreach (ilObject::_getAllReferences($crsr_obj_id) as $crsr_ref_id) {
-                ilObjStudyProgramme::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($crsr_ref_id, $crsr_obj_id, (int) $parameter["usr_id"]);
+                ilObjStudyProgramme::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode(
+                    $crsr_ref_id,
+                    (int) $parameter["obj_id"],
+                    (int) $parameter["usr_id"]
+                );
             }
         }
     }
