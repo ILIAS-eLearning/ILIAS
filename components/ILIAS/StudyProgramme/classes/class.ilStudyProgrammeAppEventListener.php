@@ -181,7 +181,16 @@ class ilStudyProgrammeAppEventListener
             return;
         }
 
-        ilObjStudyProgramme::setProgressesCompletedFor((int) $parameter["obj_id"], (int) $parameter["usr_id"]);
+        $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds((int) $parameter["obj_id"]);
+        foreach ($crs_reference_obj_ids as $crsr_obj_id) {
+            foreach (ilObject::_getAllReferences($crsr_obj_id) as $crsr_ref_id) {
+                ilObjStudyProgramme::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode(
+                    $crsr_ref_id,
+                    (int) $parameter["obj_id"],
+                    (int) $parameter["usr_id"]
+                );
+            }
+        }
     }
 
     private static function onServiceTreeInsertNode(array $parameter): void
