@@ -1513,7 +1513,7 @@ class ilObjStudyProgramme extends ilContainer
      * This is exclusively called via event "Services/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
      *
      * @param int $ref_id the RefId of the CRSR; used to find the PRG it's in
-     * @param int $obj_id the ObjId of the CRSR; used as "triggering object"
+     * @param int $obj_id the ObjId of the CRS; used as "triggering object"
      * @param int $user_id the user's id to succeed for; all assignments are affected
      *
      * @throws ilException

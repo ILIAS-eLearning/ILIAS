@@ -65,7 +65,8 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
     {
         return [
             new PRGUpdateCRSRefLPSettingMigration(),
-            new PRGUpdateRestartedSourceMigration()
+            new PRGUpdateRestartedSourceMigration(),
+            new PRGUpdateCompletionByMigration()
         ];
     }
 }
