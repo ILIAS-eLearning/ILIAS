@@ -119,12 +119,13 @@ class ilSetupAgent implements Setup\Agent
             new Setup\Objective\ObjectiveWithPreconditions(
                 new ilVersionWrittenToSettingsObjective($this->data),
                 new ilNoMajorVersionSkippedConditionObjective($this->data),
-                new ilNoVersionDowngradeConditionObjective($this->data),
-                new ilNICKeyRegisteredObjective($config)
+                new ilNoVersionDowngradeConditionObjective($this->data)
             )
         ];
+
         if ($config !== null) {
             $objectives[] = new ilSetupConfigStoredObjective($config);
+            $objectives[] = new ilNICKeyRegisteredObjective($config);
         }
 
         return new Setup\ObjectiveCollection(
