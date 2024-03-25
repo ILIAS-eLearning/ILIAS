@@ -9530,7 +9530,7 @@ exc#:#exc_settings_feedback_text_info#:#Rückmeldungen zur jeweiligen Abgabe wer
 exc#:#exc_show_instructions#:#Arbeitsanweisung anzeigen
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
-exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
+exc#:#exc_show_submissions_info#:#Bei Übungseinheiten mit einem festen Abgabetermin können Teilnehmerinnen und Teilnehmer nach dem Abgabetermin alle Lösungsabgaben einsehen.
 exc#:#exc_start_assignment#:#Übungseinheit starten
 exc#:#exc_start_exercise#:#Übung beginnen
 exc#:#exc_start_time#:#Startzeit
