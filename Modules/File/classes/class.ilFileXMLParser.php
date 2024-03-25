@@ -26,7 +26,6 @@
  *
  * @extends ilSaxParser
  */
-
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 
@@ -205,7 +204,7 @@ class ilFileXMLParser extends ilSaxParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
-        $this->cdata = trim($this->cdata);
+        $this->cdata = trim($this->cdata ?? '');
 
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->cdata);
 

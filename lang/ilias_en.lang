@@ -4655,7 +4655,7 @@ common#:#mm_learning_history#:#Learning History
 common#:#mm_learning_progress#:#Learning Progress
 common#:#mm_mail#:#Mail
 common#:#mm_news#:#News
-common#:#mm_notes#:#Notes
+common#:#mm_notes#:#Private Notes
 common#:#mm_organisation#:#Organisation
 common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
@@ -9531,7 +9531,7 @@ exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text f
 exc#:#exc_show_instructions#:#Show Work Instructions
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
-exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after the deadline.
+exc#:#exc_show_submissions_info#:#For assignments with a fixed submission deadline, participants can view all submissions after the submission deadline.
 exc#:#exc_start_assignment#:#Start Assignment
 exc#:#exc_start_exercise#:#Start Exercise
 exc#:#exc_start_time#:#Start Time

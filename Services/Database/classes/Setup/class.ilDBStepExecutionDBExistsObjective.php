@@ -62,7 +62,7 @@ class ilDBStepExecutionDBExistsObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        $execution_db = $environment->getResource(\ilDBStepExecutionDB::class);
+        $execution_db = $environment->getResource(\ilDatabaseUpdateStepExecutionLog::class);
         return is_null($execution_db);
     }
 }
