@@ -42,15 +42,26 @@ interface Factory
      *     either a button plus a further list for a menu level
      *     or a list of buttons or links as leafs.
      *     Also, Dividers may be used so separate entries from each other.
-     *     In the header-section of the menu the currently selected level is shown as headline,
+     *     In the header-section of the menu a filter to filter the list of items
+     *     in the menu is shown as long as the top level of the menu is visible
+     *     as soon as the top level is not visible anymore the currently selected
+     *     level is shown as headline,
      *     and a bulky button offers navigation to an upper level.
+     *     The label of the Drilldown Menu will be shown as part of the label of
+     *     the filter.
      *   effect: >
+     *     The Drilldown Menu maybe presented in one or two columns depending on the available
+     *     space.
      *     Buttons within the Drilldown Menu will either affect the Menu itself or
      *     trigger other navigational events.
      *     Speaking of the first ("Submenus"), the user will navigate down the
      *     tree-structure of the Menu's entries. The currently selected level will be outlined,
      *     and a backlink will be presented to navigate back up the hierarchy.
      *     Entries directly below the current level will be presented as a flat list.
+     *     Entering text in the filter input will filter the list of elements presented
+     *     directly in the browser. Only the content of leaves will be considered. All
+     *     leaves found will be presented directly to the user ordered by the entries at the
+     *     top level of the Drilldown Menu.
      * context:
      *   - Drilldown Menus are primarily used in Mainbar-Slates to break down navigational topics into smaller parts.
      *
