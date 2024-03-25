@@ -300,8 +300,11 @@ class ilPCAMDPageList extends ilPageContent
                     unset($updated_data[$idx]);
                 }
             }
+
+            $serialized_updated_data = serialize(empty($updated_data) ? '' : serialize($updated_data));
+
             $fields = array(
-                "sdata" => array("text", serialize(empty($updated_data) ? '' : serialize($updated_data)))
+                "sdata" => array("text", $serialized_updated_data)
             );
             $primary = array(
                 "id" => array("integer", $row["id"]),

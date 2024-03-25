@@ -97,6 +97,6 @@ class ilContainerFilterAdvMDAdapter
     public function getOptions(int $filter_id): array
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
-        return $field->getOptions();
+        return $field->getOptionsInDefaultLanguageAsArray();
     }
 }

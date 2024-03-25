@@ -3,6 +3,8 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericData;
+
 /**
  * AMD field type float (based on integer)
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -12,6 +14,12 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 {
     protected int $decimals;
 
+    public function __construct(GenericData $generic_data, string $language = '')
+    {
+        $this->init();
+        parent::__construct($generic_data, $language);
+    }
+
     public function getType(): int
     {
         return self::TYPE_FLOAT;
@@ -19,7 +27,6 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 
     protected function init(): void
     {
-        parent::init();
         $this->setDecimals(2);
     }
 

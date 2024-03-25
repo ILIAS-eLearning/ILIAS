@@ -35,7 +35,7 @@ class ilServicesMetaDataSuite extends TestSuite
             /** @var SplFileInfo $test_file */
             require_once $test_file->getPathname();
 
-            $class_name = preg_replace('/.*test\/(.*?)(\.php)/', '$1', $test_file->getPathname());
+            $class_name = preg_replace('/.*tests\/(.*?)(\.php)/', '$1', $test_file->getPathname());
             $class_name = str_replace('/', '\\', $class_name);
             $class_name = '\\ILIAS\\MetaData\\' . $class_name;
 

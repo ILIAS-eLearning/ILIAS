@@ -170,7 +170,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
             $suffix->setValue($this->getSuffix());
         } else {
             $default_language = ilAdvancedMDRecord::_getInstanceByRecordId(
-                $this->record_id
+                $this->getRecordId()
             )->getDefaultLanguage();
             $suffix->setInfo($default_language . ': ' . $this->getSuffix());
             $suffix->setValue($this->getSuffixTranslations()[$language] ?? '');

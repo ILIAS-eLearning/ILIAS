@@ -42,18 +42,13 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");
         $def->setNumeric(false);
 
-        $options = $this->getOptions();
-        $translated_options = [];
-        if (isset($this->getOptionTranslations()[$this->language])) {
-            $translated_options = $this->getOptionTranslations()[$this->language];
-        }
-        $def->setOptions(array_replace($options, $translated_options));
+        $def->setOptions($this->getOptionsInLanguageAsArray($this->language));
         return $def;
     }
 
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
-        $this->importNewSelectOptions(false, $a_form, $language);
+        $this->importNewSelectOptions(true, $a_form, $language);
     }
 
     public function getValueForXML(ilADT $element): string

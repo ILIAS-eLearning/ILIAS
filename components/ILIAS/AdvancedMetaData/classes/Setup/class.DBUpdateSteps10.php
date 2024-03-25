@@ -20,23 +20,25 @@ namespace ILIAS\AdvancedMetaData\Setup;
 
 use ILIAS\Setup;
 
-/**
- * @author Stefan Meyer <meyer@leifos.de>
- */
-class Agent extends Setup\Agent\NullAgent
+class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    private \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
     {
-        return new Setup\ObjectiveCollection(
-            'AdvancedMetaData',
-            false,
-            new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps8()),
-            new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps10())
-        );
+        $this->db = $db;
     }
 
-    public function getMigrations(): array
+    public function step_1(): void
     {
-        return [new SelectOptionsMigration()];
+        if (!$this->db->tableColumnExists('adv_mdf_enum', 'position')) {
+            $field_infos = [
+                'type' => 'integer',
+                'length' => 4,
+                'notnull' => false,
+                'default' => null
+            ];
+            $this->db->addTableColumn('adv_mdf_enum', 'position', $field_infos);
+        }
     }
 }
