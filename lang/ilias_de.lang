@@ -1033,8 +1033,8 @@ assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
-assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
-assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
+assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert.
+assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren.
 assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu entfernen!
 assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_export_excel#:#Microsoft Excel-Datei
@@ -3730,7 +3730,7 @@ common#:#clientlist_login#:#Anmelden
 common#:#clientlist_login_page#:#Anmelden
 common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_start_page#:#Öffentlicher Bereich
-common#:#clipboard#:#Zwischenablage
+common#:#clipboard#:#Medien-Clipboard
 common#:#close#:#Schließen
 common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
@@ -6166,7 +6166,7 @@ content#:#cont_cach_mode_automatic#:#Automatisch
 content#:#cont_cach_mode_automatic_info#:#Es werden alle Ihre Sprechstundentermine veröffentlicht.
 content#:#cont_cach_mode_manual#:#Manuell
 content#:#cont_cach_mode_manual_info#:#Es werden nur die Sprechstundentermine veröffentlich, die in einer der folgenden Sprechstundengruppen enthalten sind.
-content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
+content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden.
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
 content#:#cont_captcha_code#:#Code
@@ -6233,7 +6233,7 @@ content#:#cont_content_popups#:#Content-Popups
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_question_from_pool#:#Frage aus Testfragenpool kopieren
 content#:#cont_copy_question_into_page#:#In Seite kopieren
-content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
+content#:#cont_copy_to_clipboard#:#Ins Medien-Clipboard kopieren
 content#:#cont_correct_after_first#:#1.&nbsp;Antwort korrekt
 content#:#cont_correct_answer_also#:#Richtig ist auch:
 content#:#cont_correct_answers_also#:#Richtig sind auch:
@@ -6943,8 +6943,8 @@ content#:#cont_select_media_pool#:#Medienpool auswählen
 content#:#cont_select_none#:#Auswahl aufheben
 content#:#cont_select_other_qpool#:#Anderen Fragenpool auswählen
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
-content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
-content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
+content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um die Elemente an dieser Stelle einzufügen.
+content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um die Elemente an dieser Stelle einzufügen.
 content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
 content#:#cont_selected_terms#:#Ausgewählte Begriffe
 content#:#cont_selected_topic#:#Ausgewähltes Thema
@@ -7097,7 +7097,7 @@ content#:#cont_user_blocked2#:#Ein Benutzer hat die maximale Anzahl an Antwortve
 content#:#cont_user_blocked3#:#Öffnen Sie das Lernmodul im Bearbeitungsmodus und gehen auf folgende Ansicht:
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
 content#:#cont_users_answered#:#Benutzerantworten
-content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich in der Zwischenablage von
+content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Medien-Clipboard von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
 content#:#cont_verification_object#:#Zertifikat
@@ -7120,7 +7120,7 @@ content#:#content_page_history#:#Verlauf der Seite
 content#:#content_plugin_not_activated#:#Das Plugin für Seiteninhalte ist im Moment nicht aktiviert.
 content#:#content_some_export_ids_multiple_times#:#Einige Export-IDs werden mehrfach verwendet. Dies wird zu fehlenden Seiten im Export führen.
 content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis
-content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
+content#:#copied_to_clipboard#:#Objekt(e) ins Medien-Clipboard kopiert.
 content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
 content#:#glo_content_settings#:#Zusammenstellung des Inhalts
