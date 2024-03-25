@@ -1921,7 +1921,7 @@ JS;
             // Notation of the params prior to getting rid of this crap in favor of a class
             $solutionoutput = $questionGui->getSolutionOutput(
                 $this->test_session->getActiveId(),    #active_id
-                null,                                                #pass
+                $this->test_session->getPass(),                                                #pass
                 false,                                                #graphical_output
                 $show_question_inline_score,                        #result_output
                 true,                                                #show_question_only
