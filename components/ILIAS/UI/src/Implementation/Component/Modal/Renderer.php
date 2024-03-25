@@ -42,6 +42,13 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
+        if ($component instanceof Component\Modal\Dialog) {
+            return $this->renderDialog($component, $default_renderer);
+        }
+        if ($component instanceof Component\Modal\DialogResponse) {
+            return $this->renderResponse($component, $default_renderer);
+        }
+
         // If the modal is rendered async, we just create a fake container which will be
         // replaced by the modal upon successful ajax request
         /** @var Modal $component */
@@ -66,6 +73,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./components/ILIAS/UI/src/templates/js/Modal/modal.js');
+        $registry->register('./components/ILIAS/UI/src/templates/js/Modal/dist/dialog.min.js');
     }
 
     protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
@@ -269,6 +277,8 @@ class Renderer extends AbstractComponentRenderer
             Component\Modal\Interruptive::class,
             Component\Modal\RoundTrip::class,
             Component\Modal\Lightbox::class,
+            Component\Modal\Dialog::class,
+            Component\Modal\DialogResponse::class,
         );
     }
 
@@ -296,5 +306,48 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('DESCRIPTION', $page->getDescription());
         }
         $tpl->parseCurrentBlock();
+    }
+
+    protected function renderDialog(Component\Modal\Dialog $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate('tpl.dialog.html', true, true);
+        $show_signal = $component->getShowSignal();
+        $close_signal = $component->getCloseSignal();
+        $url = $component->getAsyncUrl()->__toString();
+        $component = $component->withAdditionalOnLoadCode(
+            fn($id) => "
+                il.UI.modal.dialog.init('$id');
+                $(document).on('$show_signal', (e, data) => {il.UI.modal.dialog.get('$id').show(data.options.url);})
+                $(document).on('$close_signal', () => {il.UI.modal.dialog.get('$id').close();})
+            "
+        );
+        $id = $this->bindJavaScript($component);
+
+        $tpl->setVariable('ID', $id);
+        $tpl->setVariable('URI', $component->getAsyncUrl()->__toString());
+
+        return $tpl->get();
+    }
+
+    protected function renderResponse(Component\Modal\DialogResponse $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate('tpl.dialogresponse.html', true, true);
+        $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable('COMMAND', $component->getCommand());
+        $tpl->setVariable('CONTENT', $default_renderer->render(
+            $component->getContent()->getDialogContent()
+        ));
+        $buttons = $component->getButtons();
+        $buttons[] = $this->getUIFactory()->button()
+            ->standard($this->txt('close_dialog'), '')
+            ->withOnLoadCode(
+                fn($id) => "$('#$id').on('click', (e)=> {
+                    let dialogId = e.target.closest('dialog').parentNode.id;
+                    il.UI.modal.dialog.get(dialogId).close();
+                });"
+            );
+
+        $tpl->setVariable('BUTTONS', $default_renderer->render($buttons));
+        return $tpl->get();
     }
 }
