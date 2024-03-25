@@ -2154,8 +2154,8 @@ awrn#:#awrn_minutes#:#min
 awrn#:#awrn_online#:#Online
 awrn#:#awrn_online_only#:#Nur Online
 awrn#:#awrn_seconds#:#Sek.
-awrn#:#awrn_use_osd#:#Popup Online-Benutzer
-awrn#:#awrn_use_osd_info#:#Zeigt ein Popup an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
+awrn#:#awrn_use_osd#:#Pop-up Online-Benutzer
+awrn#:#awrn_use_osd_info#:#Zeigt ein Pop-up an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
 awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Nicht anzeigen
@@ -2700,8 +2700,8 @@ buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_tbl_filter_state#:#Status
 buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Aktion
 buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
-buddysystem#:#buddy_use_osd#:#Popup Kontaktanfragen
-buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir in Kontakt treten möchte.
+buddysystem#:#buddy_use_osd#:#Pop-up Kontaktanfragen
+buddysystem#:#buddy_use_osd_info#:#Zeigt ein Pop-up an, wenn ein Benutzer mit mir in Kontakt treten möchte.
 buddysystem#:#buddy_view_gallery#:#Galerie
 buddysystem#:#buddy_view_table#:#Liste
 cat#:#cat_copy#:#Kategorie kopieren
@@ -3341,12 +3341,12 @@ cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_plugin_activated#:#Das Plugin wurde aktiviert.
 cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
 cmps#:#cmps_plugin_deactivated#:#Das Plugin wurde deaktiviert.
-cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert
+cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert.
 cmps#:#cmps_plugin_file#:#Plugin-Datei
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
 cmps#:#cmps_plugin_slot#:#Plugin-Slot
 cmps#:#cmps_plugin_uninstalled#:#Alle Sprach- und Datenbankeinträge, die sich auf das Plugin beziehen, wurden gelöscht und das Plugin deaktiviert. Sie können jetzt das Verzeichnis und den Quellcode des Plugins aus dem ‘Customizing’-Verzeichnis entfernen, um das Plugin endgültig zu deinstallieren.
-cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert
+cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert.
 cmps#:#cmps_plugins#:#Plugins
 cmps#:#cmps_refresh#:#Sprachen neu laden
 cmps#:#cmps_refresh_lng#:#Sprache aktualisiert
@@ -3360,7 +3360,7 @@ cmps#:#cmps_show_details#:#Details anzeigen
 cmps#:#cmps_slots#:#Slots
 cmps#:#cmps_status#:#Status
 cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
-cmps#:#cmps_supports_export#:#Unterstüzt Export
+cmps#:#cmps_supports_export#:#Unterstützt Export
 cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
 cmps#:#cmps_uninstall#:#Deinstallieren
 cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin „%s“ deinstallieren und alle zugehörigen Datenbankeinträge löschen?
@@ -3756,7 +3756,7 @@ common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
-common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite bearbeitet.
+common#:#cont_iim_content_popups_info#:#Content-Pop-ups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite bearbeitet.
 common#:#cont_iim_create_info#:#Bitte laden Sie die zugrundeliegende Bilddatei für das interaktive Bild hoch.
 common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenden Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
 common#:#contact#:#Kontakt
@@ -4976,7 +4976,7 @@ common#:#obj_mobs#:#Medienobjekte und -pools
 common#:#obj_mobs_desc#:#Einstellungen für Medienobjekte und -pools
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_nota#:#Benachrichtigungen
-common#:#obj_nota_desc#:#Benachrichtigungensadministration
+common#:#obj_nota_desc#:#Verwaltung der Benachrichtigungen
 common#:#obj_nots#:#Notizen
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nwss#:#Neuigkeiten und Webfeeds
@@ -6164,7 +6164,7 @@ content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
 content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
-content#:#cont_add_popup#:#Popup hinzufügen
+content#:#cont_add_popup#:#Pop-up hinzufügen
 content#:#cont_add_tab#:#Fach hinzufügen
 content#:#cont_add_url#:#Über URL einbinden
 content#:#cont_added_cell#:#Spalte hinzugefügt
@@ -6222,7 +6222,7 @@ content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage ko
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
 content#:#cont_caption#:#Beschriftung
-content#:#cont_caption_style#:#Caption Style
+content#:#cont_caption_style#:#Beschriftungsstil
 content#:#cont_cc_emp#:#Betont
 content#:#cont_cc_imp#:#Wichtig
 content#:#cont_cc_str#:#Stark
@@ -6285,8 +6285,8 @@ content#:#cont_comments_info#:#SCORM 2004-Lernmodule erlauben Benutzern, im Lern
 content#:#cont_confirm_delete#:#Wollen Sie diese Inhalte wirklich löschen?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
-content#:#cont_content_popup#:#Content-Popup
-content#:#cont_content_popups#:#Content-Popups
+content#:#cont_content_popup#:#Content-Pop-up
+content#:#cont_content_popups#:#Content-Pop-ups
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_question_from_pool#:#Frage aus Testfragenpool kopieren
 content#:#cont_copy_question_into_page#:#In Seite kopieren
@@ -6463,7 +6463,7 @@ content#:#cont_edit_multi#:#Mehrfachauswahl
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
 content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
-content#:#cont_edit_popup_position#:#Position des Popups bearbeiten
+content#:#cont_edit_popup_position#:#Position des Pop-ups bearbeiten
 content#:#cont_edit_qover#:#Fragenübersicht bearbeiten
 content#:#cont_edit_shape_circle#:#Umriss (Kreis) bearbeiten
 content#:#cont_edit_shape_polygon#:#Umriss (Polygon) bearbeiten
@@ -6586,7 +6586,7 @@ content#:#cont_iim_select_overlay#:#Overlay-Bild auswählen
 content#:#cont_iim_select_trigger#:#Klicken Sie auf einen Auslöser im rechten Bereich um diesen zu bearbeiten.
 content#:#cont_iim_size#:#Größe
 content#:#cont_iim_sm#:#Klein
-content#:#cont_iim_tr_add_popup#:#Content-Popup hinzufügen
+content#:#cont_iim_tr_add_popup#:#Content-Pop-up hinzufügen
 content#:#cont_iim_tr_properties_info#:#Der Auslöser wird Ihnen auf der rechten Seite angezeigt. Sie können dort Größe und Position per Maus ändern.
 content#:#cont_iim_trigger#:#Auslöser
 content#:#cont_iim_vertical#:#Vertikal
@@ -6761,7 +6761,7 @@ content#:#cont_new_marker#:#Neuer Markierungspunkt
 content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
 content#:#cont_new_page#:#Neue Seite
-content#:#cont_new_popup#:#Neues Popup
+content#:#cont_new_popup#:#Neues Pop-up
 content#:#cont_new_question#:#Neue Frage
 content#:#cont_new_tab#:#Neues Fach
 content#:#cont_new_term#:#Neuer Begriff
@@ -6899,7 +6899,7 @@ content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
 content#:#cont_please_select#:#Bitte auswählen
 content#:#cont_please_try_again#:#Versuchen Sie es nochmals!
-content#:#cont_popups_have_been_deleted#:#Popups wurden gelöscht
+content#:#cont_popups_have_been_deleted#:#Pop-ups wurden gelöscht
 content#:#cont_position#:#Position
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
@@ -6936,7 +6936,7 @@ content#:#cont_question_type#:#Fragetyp
 content#:#cont_quit_text_editing#:#Textbearbeitung beenden
 content#:#cont_rand_start#:#Zufällige Startseite
 content#:#cont_really_delete_overlays#:#Möchten Sie wirklich die folgenden Overlays löschen?
-content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Popups löschen?
+content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Pop-ups löschen?
 content#:#cont_really_delete_triggers#:#Möchten Sie wirklich die folgenden Auslöser löschen?
 content#:#cont_ref_helptext#:#(z.B.. http://www.ilias.de/logo.jpg)
 content#:#cont_ref_images#:#Referenzierte Bilder
@@ -7345,7 +7345,7 @@ copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
-copg#:#copg_active_to_small#:#Dieses Datum muss größer als das "Aktiv ab" Datum sein.
+copg#:#copg_active_to_small#:#Dieses Datum muss größer als das „Aktiv ab“-Datum sein.
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
@@ -7361,8 +7361,8 @@ copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
 copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
 copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
-copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
-copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
+copg#:#copg_history_cleanup_cron#:#Verlaufsbereinigung
+copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Verlauf des Seiteneditors.
 copg#:#copg_list_item_style#:#Listeneintrag
 copg#:#copg_list_style#:#Liste
 copg#:#copg_list_styles#:#Listenformat
@@ -8596,7 +8596,7 @@ dcl#:#dcl_edit_table#:#Tabelleneinstellungen
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
-dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht
+dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
@@ -10856,8 +10856,8 @@ lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
-lso#:#cont_ed_insert_lsocurriculum#:#Lernsequenz Curriculum einfügen
-lso#:#cont_ed_insert_lsostartbutton#:#Lernsequenz 'Start' einfügen
+lso#:#cont_ed_insert_lsocurriculum#:#Curriculum einfügen
+lso#:#cont_ed_insert_lsostartbutton#:#„Start”-Button einfügen
 lso#:#curriculum#:#Inhalt
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
@@ -10912,7 +10912,7 @@ lso#:#lso_members_gallery#:#Mitgliedergalerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muss mindestens ein Konto mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
-lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist derzeit nicht für Lernsequenz Objekten verfügbar.
+lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist für Lernsequenz-Objekte derzeit nicht verfügbar.
 lso#:#lso_new_status#:#Ihr neuer Status:
 lso#:#lso_notification#:#Benachrichtigung
 lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuung die Benachrichtigungen aktiviert sind.
@@ -11592,7 +11592,7 @@ mcst#:#mcst_download_all#:#Alle herunterladen
 mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_download_standard#:#Download
-mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
+mcst#:#mcst_download_started_bg#:mcst#:#mcst_download_started_bg#:#Das Download-Paket wird aktuell erstellt. Um den Fortschritt zu sehen, klicken Sie oben rechts in der Top-Bar auf das Glocken-Symbol.
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
 mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_downloadable#:#Download-Link
@@ -11722,7 +11722,7 @@ mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in 
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Mime-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte Mime-Typen:
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige MIME-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte MIME-Typen:
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
@@ -12490,15 +12490,15 @@ mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
 mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
-mme#:#msg_ref_id_not_callable#:#Diese Referenz-ID kann von Main-Menu nicht verwendet werden. Es werden nur Ziele im Magazin unterstützt.
-mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
-mme#:#msg_restored#:#Hauptmenu zurückgesetzt
+mme#:#msg_ref_id_not_callable#:#Diese Referenz-ID kann vom Hauptmenü nicht verwendet werden. Ausgewählt werden können nur Ziele im Magazin.
+mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenü gehen verloren.
+mme#:#msg_restored#:#Hauptmenü zurückgesetzt
 mme#:#msg_subitem_deleted#:#Eintrag gelöscht.
 mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#msg_topitem_deleted#:#Eintrag gelöscht.
 mme#:#msg_translations_deleted#:#Übersetzungen gelöscht.
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
-mme#:#restore#:#Hauptmenu zurücksetzen
+mme#:#restore#:#Hauptmenü zurücksetzen
 mme#:#select_parent#:#Zugehörigen Haupteintrag auswählen
 mme#:#sub_actions#:#Aktionen
 mme#:#sub_active#:#Aktiv
@@ -12564,12 +12564,12 @@ mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_general#:#Allgemein
 mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
-mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
+mob#:#mob_mime_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
-mob#:#mob_please_select_pool#:#Please select a media pool.
+mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
 mob#:#mob_preview_picture#:#Vorschaubild
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_second#:#Sekunde
@@ -12583,9 +12583,9 @@ mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
-mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
-mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.
+mob#:#mob_url_info#:#Externe URL, z.B. Youtube- oder Vimeo-URL.
+mob#:#mob_url_info1#:#URL des externen Inhalts. Erlaubte Dateikennungen sind:
+mob#:#mob_url_info_video#:#Sie können auch auf ein Video bei Youtube oder Vimeo verweisen.
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen
@@ -12764,8 +12764,8 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
-notifications_adm#:#enable_osd#:#Popup Benachrichtigungen aktivieren
-notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
+notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
+notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
 notifications_adm#:#osd_delay#:#Anzeigeverzögerung
 notifications_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
@@ -12776,7 +12776,7 @@ notifications_adm#:#osd_interval#:#Abfrageintervall
 notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
-notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
+notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
 notifications_adm#:#osd_vanish#:#Anzeigedauer
 notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
@@ -13217,13 +13217,13 @@ prg#:#prg_dash_label_gain#:#Aktueller Stand
 prg#:#prg_dash_label_minimum#:#Minimales Ziel
 prg#:#prg_dash_label_restart_from#:#Neubeginn ab
 prg#:#prg_dash_label_status#:#Status
-prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden
+prg#:#prg_dash_label_unreachable#:#- Ziel kann nicht erreicht werden.
 prg#:#prg_dash_label_valid#:#Gültigkeit
 prg#:#prg_deadline#:#Stichtag
-prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag.
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prg#:#prg_deadline_date_label#:#Bearbeitung bis
-prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell.
 prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
 prg#:#prg_deadline_period_label#:#Tage nach Zuweisung
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
@@ -15677,7 +15677,7 @@ style#:#sty_background_position#:#Hintergrundposition
 style#:#sty_background_repeat#:#Wiederholungseffekt
 style#:#sty_base_color#:#Grundfarbe
 style#:#sty_based_on#:#Basierend auf
-style#:#sty_bg_img_info#:#Um Bilder in die Auswahl aufzunehmen müssen diese zunächst im Bereich "Bilder" des Styles hochgeladen werden.
+style#:#sty_bg_img_info#:#Um Bilder in die Auswahl aufzunehmen, müssen diese zunächst im Bereich „Bilder“ des Styles hochgeladen werden.
 style#:#sty_border#:#Rahmen
 style#:#sty_border_color#:#Rahmenfarbe
 style#:#sty_border_style#:#Rahmentyp
@@ -15884,8 +15884,8 @@ style#:#sty_type_flist_cont#:#Dateilistencontainer
 style#:#sty_type_flist_head#:#Dateilistenüberschrift
 style#:#sty_type_flist_li#:#Dateilisteneintrag
 style#:#sty_type_glo_ovclink#:#Glossar Schließen-Link
-style#:#sty_type_glo_overlay#:#Glossar Popup
-style#:#sty_type_glo_ovtitle#:#Begriff/Titel (Popup)
+style#:#sty_type_glo_overlay#:#Glossar-Pop-up
+style#:#sty_type_glo_ovtitle#:#Begriff/Titel (Pop-up)
 style#:#sty_type_glo_ovuglink#:#Begriffslink
 style#:#sty_type_glo_ovuglistlink#:#Link in Begriffsliste
 style#:#sty_type_ha_cntr#:#Hor. Akkordeon-Container
@@ -15897,7 +15897,7 @@ style#:#sty_type_ha_iheada#:#Hor. Akkordeonelement Kopf (aktiv)
 style#:#sty_type_heading1#:#Überschrift 1
 style#:#sty_type_heading2#:#Überschrift 2
 style#:#sty_type_heading3#:#Überschrift 3
-style#:#sty_type_iim#:#Popup für Inhalte in Interaktivem Bild
+style#:#sty_type_iim#:#Pop-up für Inhalte in Interaktivem Bild
 style#:#sty_type_link#:#Link
 style#:#sty_type_list_item#:#Listeneintrag
 style#:#sty_type_list_o#:#Nummerierte Liste
@@ -16562,9 +16562,9 @@ survey#:#survey_using_template_link#:#Vorlage nicht mehr verwenden
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_add_internal_user#:#Benutzer hinzufügen
-survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen ein ILIAS-Konto für diese Installation.
-survey#:#svy_add_rater#:#Feedbackgeber hinzufügen
-survey#:#svy_all_raters#:#Alle Feedbackgeber
+survey#:#svy_add_internal_user_info#:#Feedback-Geber benötigen ein ILIAS-Konto für diese Installation.
+survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
+survey#:#svy_all_raters#:#Alle Feedback-Geber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
@@ -16575,7 +16575,7 @@ survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt ers
 survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
 survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
-survey#:#svy_app_see_rater_info#:#Feedbacknehemde können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
+survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
 survey#:#svy_chart_download#:#Grafik herunterladen
@@ -16652,7 +16652,7 @@ survey#:#svy_print_hide_labels#:#Labels ausblenden
 survey#:#svy_print_show_labels#:#Labels anzeigen
 survey#:#svy_privacy_info#:#Persönliche Daten
 survey#:#svy_rater#:#Feedback-Geber
-survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
+survey#:#svy_rater_see_app_info#:#Feedbackgebenden werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
 survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
@@ -16663,13 +16663,13 @@ survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
-survey#:#svy_save_and_continue#:#Speichern und Fortfahren
+survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
-survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen.
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen
 survey#:#svy_search_users#:#Benutzer suchen
-survey#:#svy_select_rater#:#Feedbackgeber auswählen
-survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmer wurden erfolgreich gelöscht
+survey#:#svy_select_rater#:#Feedback-Geber auswählen
+survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmer wurden erfolgreich gelöscht.
 survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
@@ -16745,11 +16745,11 @@ sysc#:#sysc_btn_tree_missing#:#Wiederherstellung starten
 sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
 sysc#:#sysc_completed_num#:#Erfüllte Aufgaben
 sysc#:#sysc_cron_empty_trash#:#Papierkorb löschen
-sysc#:#sysc_cron_empty_trash_desc#:#Wenn aktiviert, werden Objekte des Papierkorbs automatisch anhand bestimmter Kriterien (Alter, Objekttyp, Anzahl) aus dem System entfernt.
+sysc#:#sysc_cron_empty_trash_desc#:#Objekte des Papierkorbs werden automatisch anhand bestimmter Kriterien (Alter, Objekttyp, Anzahl) aus dem System entfernt.
 sysc#:#sysc_failed_num#:#Nicht erfüllte Aufgaben
 sysc#:#sysc_groups#:#Systemcheck-Gruppen
 sysc#:#sysc_grp_tree#:#Magazinbaum
-sysc#:#sysc_grp_tree_desc#:#Analysiert und repariert die Datenintegrität des Magazinbaums
+sysc#:#sysc_grp_tree_desc#:#Analysiert und repariert die Datenintegrität des Magazinbaums.
 sysc#:#sysc_message_success#:#Es wurden keine Fehler festgestellt.
 sysc#:#sysc_message_tree_missing_confirm#:#Möchten Sie die fehlenden Einträge in der Baumstruktur wieder herstellen?
 sysc#:#sysc_message_tree_structure_confirm#:#Sind Sie sicher, dass Sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
@@ -16761,13 +16761,13 @@ sysc#:#sysc_status_running#:#Wird durchgeführt
 sysc#:#sysc_tab_trash#:#Gelöschte Objekte
 sysc#:#sysc_task_overview#:#Aufgaben
 sysc#:#sysc_task_structure#:#Baumstruktur
-sysc#:#sysc_task_structure_desc#:#Analysiert und korrigiert die Struktur des Magazinbaums
+sysc#:#sysc_task_structure_desc#:#Analysiert und korrigiert die Struktur des Magazinbaums.
 sysc#:#sysc_task_tree_dump#:#Baum auflisten
 sysc#:#sysc_task_tree_dump_desc#:#Analysiert die Baumstruktur und listet alle Baumknoten zusammen mit den Analysedaten auf.
 sysc#:#sysc_task_tree_duplicates#:#Doppelte Einträge in der Baumstruktur
 sysc#:#sysc_task_tree_duplicates_desc#:#Durchsucht das System nach doppelten Einträgen in Magazinbaum.
 sysc#:#sysc_task_tree_missing#:#Fehlende Einträge in der Baumstruktur
-sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur
+sysc#:#sysc_task_tree_missing_desc#:#Durchsucht das System nach fehlenden Einträgen in der Baumstruktur.
 sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
 sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_tree_missing_tree#:#Fehlende Einträge im Magazinbaum
