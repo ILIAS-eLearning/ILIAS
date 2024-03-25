@@ -257,7 +257,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             'position_' . $id
         );
         $relevant_position_select_options = $position_select_options;
-        if (isset($relevant_position_select_options[$position_value + 1])) {
+        if (!is_null($position_value) && isset($relevant_position_select_options[$position_value + 1])) {
             unset($relevant_position_select_options[$position_value + 1]);
         }
         $position->setOptions($relevant_position_select_options);
