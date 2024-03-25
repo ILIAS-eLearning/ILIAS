@@ -47,8 +47,18 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->data = $parser->start();
 
         $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
-        $a_mapping->addMapping('Services/COPage', 'pg', 'lso:' . $a_id, 'lso:' . (string) $this->obj->getId());
-        $a_mapping->addMapping('Services/COPage', 'pg', 'lsoe:' . $a_id, 'lsoe:' . (string) $this->obj->getId());
+        $a_mapping->addMapping(
+            'Services/COPage',
+            'pg',
+            LSOPageType::INTRO->value . ':' . $a_id,
+            LSOPageType::INTRO->value . ':' . (string) $this->obj->getId()
+        );
+        $a_mapping->addMapping(
+            'Services/COPage',
+            'pg',
+            LSOPageType::EXTRO->value . ':' . $a_id,
+            LSOPageType::EXTRO->value . ':' . (string) $this->obj->getId()
+        );
 
     }
 
@@ -59,7 +69,6 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
         // pages
         $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
-        $page_map = array_merge($page_map, $a_mapping->getMappingsOfEntity('Services/COPage', 'pge'));
         foreach ($page_map as $old_pg_id => $new_pg_id) {
             $parts = explode(':', $old_pg_id);
             $pg_type = $parts[0];

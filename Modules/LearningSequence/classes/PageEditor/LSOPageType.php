@@ -20,6 +20,6 @@ declare(strict_types=1);
 
 enum LSOPageType: string
 {
-    case INTRO = 'lso';
+    case INTRO = 'lsoi';
     case EXTRO = 'lsoe';
 }

@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-class ilLSOPage extends ilPageObject {
-
+class ilLSOIntroPage extends ilPageObject
+{
     public function getParentType(): string
     {
-        return "lso";
+        return LSOPageType::INTRO->value;
     }
 }

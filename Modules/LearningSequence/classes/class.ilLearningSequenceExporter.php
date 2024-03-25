@@ -101,19 +101,19 @@ class ilLearningSequenceExporter extends ilXmlExporter
 
         // container pages
         foreach ($a_ids as $id) {
-            if (ilContainerPage::_exists("lso", (int) $id)) {
+            if (ilContainerPage::_exists(LSOPageType::INTRO->value, (int) $id)) {
                 $res[] = [
                     "component" => "Services/COPage",
                     "entity" => "pg",
-                    "ids" => ["lso:" . $id]
+                    "ids" => [LSOPageType::INTRO->value . ":" . $id]
                 ];
             }
 
-            if (ilContainerPage::_exists("lsoe", (int) $id)) {
+            if (ilContainerPage::_exists(LSOPageType::EXTRO->value, (int) $id)) {
                 $res[] = [
                     "component" => "Services/COPage",
                     "entity" => "pg",
-                    "ids" => ["lsoe:" . $id]
+                    "ids" => [LSOPageType::EXTRO->value . ":" . $id]
                 ];
             }
         }

@@ -22,6 +22,6 @@ class ilLSOExtroPage extends ilPageObject
 {
     public function getParentType(): string
     {
-        return "lsoe";
+        return LSOPageType::EXTRO->value;
     }
 }

@@ -21,8 +21,6 @@ declare(strict_types=1);
 class ilObjLearningSequence extends ilContainer
 {
     public const OBJ_TYPE = 'lso';
-    public const CP_TYPE = 'lso';
-    public const CP_TYPE_EXTRO = 'lsoe';
 
     public const E_CREATE = 'create';
     public const E_UPDATE = 'update';
@@ -606,7 +604,7 @@ class ilObjLearningSequence extends ilContainer
         if ($this->hasContentPage($page_type)) {
             throw new \LogicException('will not create content page - it already exists.');
         }
-        $new_page_object = $page_type === LSOPageType::INTRO ? new ilLSOPage() : new ilLSOExtroPage();
+        $new_page_object = $page_type === LSOPageType::INTRO ? new ilLSOIntroPage() : new ilLSOExtroPage();
         $new_page_object->setId($this->getContentPageId());
         $new_page_object->setParentId($this->getId());
         $new_page_object->createFromXML();
