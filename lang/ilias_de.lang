@@ -512,7 +512,7 @@ assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nic
 assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden.
 assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
-assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
+assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck „%s“ kann nicht validiert werden.
 assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
 assessment#:#ass_location#:#Ort
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
@@ -745,7 +745,7 @@ assessment#:#finalized_on#:#Bewertung abgeschlossen am
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durchläufe aller Benutzer nicht gemeinsam beenden, da für mindestens einen Benutzer die Bearbeitungszeit noch nicht vorbei ist.
-assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer "%s" wirklich beenden?
+assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
@@ -1037,7 +1037,7 @@ assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#Die obere Schranke muss
 assessment#:#qpl_paste_error#:#Mindestens eine Frage konnte nicht in den Fragenpool eingefügt werden. Möglicher Grund: Sie haben versucht die Frage in den selben Fragenpool zu verschieben.
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
 assessment#:#qpl_paste_success#:#Die Fragen wurden in den Fragenpool eingefügt
-assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
+assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie „%s“
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Zuordnung zu Taxonomieknoten
 assessment#:#qpl_qst_inp_matching_mode#:#Zuordnungsmodus
 assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#Ein oder mehrere Terme können einer oder mehreren Definitionen zugeordnet werden (n:n)
@@ -1488,7 +1488,7 @@ assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Anzahl der Fragen für den ges
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Anzahl Fragen
 assessment#:#tst_inp_quest_amount_per_test#:#Gesamtzahl der Fragen im Test
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
-assessment#:#tst_inp_source_pool_filter_tax_x#:#Verwende Taxonomie "%s" als Filter
+assessment#:#tst_inp_source_pool_filter_tax_x#:#Verwende Taxonomie „%s“ als Filter
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
@@ -1605,7 +1605,7 @@ assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuelle Test-Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn Sie den Modus des Tests ändern, gehen diese Fragen unwiederbringlich verloren.</b>
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nachricht, weil Sie an diesem Test teilgenommen haben.
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test "%s" erfolgt
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test „%s“ erfolgt
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
@@ -1618,7 +1618,7 @@ assessment#:#tst_num_non_answered_questions_skipped#:#Angesehen, nicht beantwort
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
 assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortet
-assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
+assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test „%s“ enthält keine Fragen.
 assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
@@ -1684,8 +1684,8 @@ assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_order#:#Nr.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus "%s" müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus "%s" müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_amount#:#Anzahl Fragen
 assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorlage?
@@ -2179,7 +2179,7 @@ badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
 badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
 badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
-badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
+badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für „%s“ entziehen?
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
 badge#:#badge_backpack_email#:#Mozilla-Backpack-Account (E-Mail)
@@ -2392,7 +2392,7 @@ blog#:#blog_change_notification_body_new#:#der folgende Beitrag wurde neu angele
 blog#:#blog_change_notification_body_update#:#der folgende Beitrag wurde geändert:
 blog#:#blog_change_notification_link#:#Link zum Beitrag
 blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
-blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
+blog#:#blog_change_notification_subject#:#Blog „%s“ wurde aktualisiert
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_contribute_other_roles#:#Zusätzlich zu den Mitwirkenden können auch Personen mit der Rolle %s Beiträge in diesem Blog verfassen. Sie werden nicht in der Tabelle aufgeführt, denn sie erhalten das entsprechende Recht durch ein übergeordnetes Objekt.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2419,7 +2419,7 @@ blog#:#blog_enable_rss#:#RSS aktivieren
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Rechten.
 blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
 blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
-blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
+blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit „%s“ in der Übung „%s“ zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
 blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
 blog#:#blog_finalized#:#Das Blog wurde abgegeben.
@@ -2486,7 +2486,7 @@ blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 blog#:#blog_show_print_view#:#Druckansicht
 blog#:#blog_starting_page#:#Startseite
 blog#:#blog_style#:#Blog-Style
-blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
+blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs „%s“
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
 blog#:#blog_toggle_draft_admin#:#Beitrag deaktivieren
 blog#:#blog_toggle_final#:#Beitrag veröffentlichen
@@ -2541,7 +2541,7 @@ book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden vor Beginn des Zeitfensters
 book#:#book_is_used#:#In Benutzung
-book#:#book_limit_objects_available#:#Dieses Angebot können Sie nicht für %s Teilnehmer buchen. "%s" ist nur %s Mal verfügbar.
+book#:#book_limit_objects_available#:#Dieses Angebot können Sie nicht für %s Teilnehmer buchen. „%s“ ist nur %s Mal verfügbar.
 book#:#book_list#:#Liste
 book#:#book_log#:#Buchungen
 book#:#book_mail_permanent_link#:#Link zum Buchungspool
@@ -2657,10 +2657,10 @@ buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Kontakt aufheben
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Kontakt ignorieren
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Kontakt bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Anfrage zurückziehen
-buddysystem#:#buddy_bs_action_already_ignored#:#Die Aktion ist nicht möglich, da die Kontaktanfrage von Benutzer '%s' bereits ignoriert wurde.
-buddysystem#:#buddy_bs_action_already_linked#:#Die Aktion ist nicht möglich, da die Kontaktanfrage für Benutzer '%s' bereits bestätigt wurde.
-buddysystem#:#buddy_bs_action_already_requested#:#Die Aktion ist nicht möglich, da Benutzer '%s' bereits angefragt wurde.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
+buddysystem#:#buddy_bs_action_already_ignored#:#Die Aktion ist nicht möglich, da die Kontaktanfrage von Benutzer „%s“ bereits ignoriert wurde.
+buddysystem#:#buddy_bs_action_already_linked#:#Die Aktion ist nicht möglich, da die Kontaktanfrage für Benutzer „%s“ bereits bestätigt wurde.
+buddysystem#:#buddy_bs_action_already_requested#:#Die Aktion ist nicht möglich, da Benutzer „%s“ bereits angefragt wurde.
+buddysystem#:#buddy_bs_action_already_unlinked#:#Die Aktion ist nicht möglich. Jeglicher Kontakt zu Benutzer „%s“ wurde bereits gelöst.
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
 buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Kontakt angefragt
 buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Anfrage ignoriert
@@ -2875,7 +2875,7 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 chatroom#:#chat_deletion_interval_unit#:#Einheit
 chatroom#:#chat_deletion_interval_value#:#Wert
-chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit '%s' ist: %s
+chatroom#:#chat_deletion_ival_max_val#:#Der maximale Wert für die gewählte Einheit „%s“ ist: %s
 chatroom#:#chat_deletion_section_head#:#Löschen alter Nachrichten
 chatroom#:#chat_enable_history#:#Verlauf
 chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ Chat-Beiträge aus der Vergangenheit lesen und exportieren.
@@ -2934,7 +2934,7 @@ chatroom#:#chat_osc_subs_rej_msgs#:#Die kontaktierte Person möchte zur Zeit kei
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Personen möchten aktuell keine Nachrichten mehr empfangen: %s
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Gruppenchat verlassen möchten?
 chatroom#:#chat_osc_user#:#Benutzer
-chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
+chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer „%s“ hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
@@ -2985,7 +2985,7 @@ chatroom#:#history_by_session#:#Sitzungverlauf
 chatroom#:#history_byday_title#:#Zeitraum auswählen
 chatroom#:#history_bysession_title#:#Sitzung auswählen
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
-chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
+chatroom#:#history_title_general#:#Unterhaltungen im Chatraum „%s“
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#invite_to_private_room#:#In Chatraum einladen
@@ -3363,7 +3363,7 @@ cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
 cmps#:#cmps_supports_export#:#Unterstüzt Export
 cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
 cmps#:#cmps_uninstall#:#Deinstallieren
-cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin "%s" deinstallieren und alle zugehörigen Datenbankeinträge löschen?
+cmps#:#cmps_uninstall_confirm#:#Wollen Sie wirklich das Plugin „%s“ deinstallieren und alle zugehörigen Datenbankeinträge löschen?
 cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
 cmps#:#cmps_update#:#Aktualisieren
 cmps#:#cmps_version#:#Version
@@ -3802,7 +3802,7 @@ common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server in der Administration unter „Suchen und finden » Suche“, Reiter „Lucene“.
 common#:#cron_mail_notification#:#E-Mail-Benachrichtigungen für neue Nachrichten versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#ILIAS verschickt auf Wunsch E-Mail-Benachrichtigungen über neue Mails. Im Gegensatz zur sofortigen Weiterleitung aller Mails sammelt dieser Cronjob die Mails eines Tages und stellt diese als Paket zu. Bitte aktivieren Sie die Option '%s', um diese Funktion zu nutzen. Zusätzlich müssen die E-Mail-Benachrichtigungen für jedes ILIAS-Konto in den persönlichen Mail-Einstellungen aktiviert werden.
+common#:#cron_mail_notification_desc#:#ILIAS verschickt auf Wunsch E-Mail-Benachrichtigungen über neue Mails. Im Gegensatz zur sofortigen Weiterleitung aller Mails sammelt dieser Cronjob die Mails eines Tages und stellt diese als Paket zu. Bitte aktivieren Sie die Option „%s“, um diese Funktion zu nutzen. Zusätzlich müssen die E-Mail-Benachrichtigungen für jedes ILIAS-Konto in den persönlichen Mail-Einstellungen aktiviert werden.
 common#:#cron_mail_notification_message#:#Mail content as part of the e-mail notification
 common#:#cron_mail_notification_message_info#:#E-Mail-Benachrichtigungen enthalten den kompletten Inhalt der in ILIAS erhaltenen Mails. So können diese ohne weitere Anmeldung gelesen werden.
 common#:#cron_mail_notification_never#:#Nie
@@ -3817,7 +3817,7 @@ common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht g
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_archives#:#Archive
-common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
+common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses „%s“ austragen möchten?
 common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_edit#:#Einstellungen des Kurses
 common#:#crs_list_reg#:#Anmeldung
@@ -3831,7 +3831,7 @@ common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
 common#:#crs_members_gallery#:#Mitgliedergalerie
 common#:#crs_new#:#Neuen Kurs anlegen
-common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses "%s" ausgetragen.
+common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses „%s“ ausgetragen.
 common#:#crs_status_blocked#:#[Zugang gesperrt]
 common#:#crs_status_pending#:#[Antrag wird bearbeitet]
 common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
@@ -3900,7 +3900,7 @@ common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Das ILIAS-Konto wurde gelöscht.
 common#:#deleted_users#:#Die ILIAS-Konten wurden gelöscht.
-common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
+common#:#deletion_notification#:#„%s“ hat sich von der Sitzung „%s“ abgemeldet.
 common#:#deliver#:#Übung abgeben
 common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
 common#:#deny_usr_agreement_btn#:#Ablehnen
@@ -3996,7 +3996,7 @@ common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin
 common#:#enabled#:#Eingeschaltet
 common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
-common#:#entered_notification#:#"%s" ist der Sitzung "%s" beigetreten.
+common#:#entered_notification#:#„%s“ ist der Sitzung „%s“ beigetreten.
 common#:#entry_status#:#Eintragsstatus
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
@@ -4177,7 +4177,7 @@ common#:#forums_rating_dsc#:#Bewertung absteigend
 common#:#forums_thread_sorting_asc#:#Thema A→Z
 common#:#forums_thread_sorting_dsc#:#Thema Z→A
 common#:#forums_threads#:#Themen
-common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
+common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von „%s“ geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_add#:#Forum anlegen
@@ -4241,7 +4241,7 @@ common#:#grp#:#Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
-common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
+common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe „%s“ austragen möchten?
 common#:#grp_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sie möchten folgende Mitglieder aus der Gruppe austragen?
@@ -4267,7 +4267,7 @@ common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben.
 common#:#grp_new#:#Neue Gruppe anlegen
 common#:#grp_registration#:#Der Gruppe beitreten
 common#:#grp_registration_completed#:#Sie sind der Gruppe beigetreten.
-common#:#grp_removed_from_waiting_list#:#Sie wurden aus der Warteliste der Gruppe "%s" ausgetragen.
+common#:#grp_removed_from_waiting_list#:#Sie wurden aus der Warteliste der Gruppe „%s“ ausgetragen.
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
 common#:#grp_wizard_page#:#Gruppe kopieren (Schritt 2/2)
 common#:#grpr#:#Gruppenlink
@@ -4752,7 +4752,7 @@ common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um di
 common#:#msg_no_perm_paste_object_in_folder#:#Sie besitzen keine ausreichende Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
-common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt '%s' zuzugreifen.
+common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
@@ -4769,7 +4769,7 @@ common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_download#:#können nicht heruntergeladen werden.
 common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden die Objekttypen Kategorienlink, Kurslink bzw. Gruppenlink.
 common#:#msg_obj_perm_download#:#Sie besitzen keine ausreichende Berechtigung um folgenden Objekte herunterzuladen:
-common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich, das Objekt "%s" in sich selbst einzufügen.
+common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich, das Objekt „%s“ in sich selbst einzufügen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
@@ -5392,7 +5392,7 @@ common#:#reg_mail_subject#:#Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#Ihr Bestätigungslink
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
-common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
+common#:#register_notification#:#„%s“ hat die Teilnahme an der Sitzung „%s“ beantragt.
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
@@ -5554,9 +5554,9 @@ common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellu
 common#:#sess_mode#:#Session-Modus
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
-common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in "%s" von der Sitzung "%s"
-common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in "%s" zur Sitzung "%s"
-common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in "%s" für die Sitzung "%s"
+common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“
+common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in „%s“ zur Sitzung „%s“
+common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s“ für die Sitzung „%s“
 common#:#session_max_count#:#Maximale Anzahl aktiver Sessions
 common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 common#:#session_max_idle#:#Maximale Leerlaufzeit einer Session (in Minuten)
@@ -6737,7 +6737,7 @@ content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzuf
 content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_merge_cells#:#Zellen verbinden
-content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
+content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel „%s“.
 content#:#cont_missing_snippet#:#Fehlender Inhaltsbaustein: Der Inhaltsbaustein wurde gelöscht.
 content#:#cont_mob_def_prop#:#Standardeinstellungen
 content#:#cont_mob_from_media_pool#:#Aus Medienpool auswählen
@@ -6779,7 +6779,7 @@ content#:#cont_no_page_access_unansw_q#:#Sie müssen alle bisherigen Fragen korr
 content#:#cont_no_page_in_chapter#:#In diesem Kapitel befinden sich zur Zeit leider keine aktiven Inhalte.
 content#:#cont_no_parameters#:#Keine Parameter
 content#:#cont_no_read#:#Kein Lesezugriff
-content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'.
+content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner „%s“.
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden, wenn das SCORM-Lernmodul ausreichende Funktionalität zum Unterbrechen, Beenden und Navigieren mitbringt.
@@ -7210,7 +7210,7 @@ content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
 content#:#cont_usage#:#Verwendung
 content#:#cont_use_same_resource_as_above#:#Obige Datei benutzen
 content#:#cont_user#:#Benutzer
-content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im Lernmodul "%s".
+content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im Lernmodul „%s“.
 content#:#cont_user_blocked2#:#Ein Benutzer hat die maximale Anzahl an Antwortversuchen für eine Frage im Lernmodul überschritten. Dieser Benutzer kann nur dann weitere Seiten aufrufen, wenn Sie die Sperre des Benutzers aufheben.
 content#:#cont_user_blocked3#:#Öffnen Sie das Lernmodul im Bearbeitungsmodus und gehen auf folgende Ansicht:
 content#:#cont_user_search_did_not_match#:#Es wurde kein Benutzer gefunden.
@@ -7232,7 +7232,7 @@ content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
 content#:#cont_wrong_answers#:#Anzahl Fehler
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
 content#:#cont_xml_base#:#xml:base
-content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei '%s'.
+content#:#cont_zip_file_invalid#:#Datei ist keine gültige Importdatei. <br />Sie enthält keine Datei „%s“.
 content#:#content_no_edit_lock#:#Die Seite wird aktuell durch einen anderen Benutzer bearbeitet.
 content#:#content_page_history#:#Verlauf der Seite
 content#:#content_plugin_not_activated#:#Das Plugin für Seiteninhalte ist im Moment nicht aktiviert.
@@ -7387,22 +7387,22 @@ cron#:#cro_job_rc_job_manual_reset#:#Der Cron-Job wurde von der ILIAS-Administra
 cron#:#cro_job_rc_job_no_result#:#Vom Cron-Job wurde kein sauberes Resultat übermittelt.
 cron#:#cron_action_activate#:#Aktivieren
 cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
-cron#:#cron_action_activate_sure#:#Wollen Sie wirklich den Cron-Job "%s" aktivieren?
+cron#:#cron_action_activate_sure#:#Wollen Sie wirklich den Cron-Job „%s“ aktivieren?
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate#:#Deaktivieren
 cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
-cron#:#cron_action_deactivate_sure#:#Wollen Sie wirklich den Cron-Job "%s" deaktivieren?
+cron#:#cron_action_deactivate_sure#:#Wollen Sie wirklich den Cron-Job „%s“ deaktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_edit#:#Bearbeiten
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
 cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
-cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job "%s" zurücksetzen?
+cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 cron#:#cron_action_run#:#Ausführen
 cron#:#cron_action_run_fail#:#Ausführung gescheitert.
 cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
-cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job "%s" ausführen?
+cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Komponente
 cron#:#cron_job_id#:#Id
@@ -7435,8 +7435,8 @@ cron#:#cron_status_info#:#Status-Info
 crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
-crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
-crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
+crs#:#crs_accept_subscriber#:#Aufnahme in Kurs „%s“
+crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs „%s“ aufgenommen worden.
 crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
@@ -7452,8 +7452,8 @@ crs#:#crs_add_remove_from_desktop_info#:#Objekte innerhalb des Kurses können de
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
-crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
-crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
+crs#:#crs_added_member#:#Aufnahme in Kurs „%s“
+crs#:#crs_added_member_body#:#Sie sind in den Kurs „%s“ aufgenommen worden.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
@@ -7465,7 +7465,7 @@ crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 crs#:#crs_admission_link_failure_offline#:#Kein Beitritt möglich. Der Kurs ist offline.
 crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zum Kurs liegt ausserhalb des Beitrittszeitraumes.
-crs#:#crs_admission_link_success_registration#:#Erfolgreich dem Kurs "%s" beigetreten.
+crs#:#crs_admission_link_success_registration#:#Erfolgreich dem Kurs „%s“ beigetreten.
 crs#:#crs_agree#:#Zustimmung
 crs#:#crs_agreement_header#:#Nutzungsvereinbarung
 crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
@@ -7477,13 +7477,13 @@ crs#:#crs_awrn_current_course_info#:#Innerhalb eines Kurses werden alle Mitglied
 crs#:#crs_awrn_support_contacts#:#Kursbetreuung
 crs#:#crs_awrn_support_contacts_info#:#Benutzer, die den Kurs betreuen, werden aufgelistet. Die jeweiligen Benutzer werden im Reiter Mitglieder des Kurses für die Kursbetreuung eingetragen.
 crs#:#crs_blocked#:#Zugang gesperrt
-crs#:#crs_blocked_member#:#Status in Kurs "%s"
-crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft im Kurs "%s" wurde gesperrt.
+crs#:#crs_blocked_member#:#Status in Kurs „%s“
+crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft im Kurs „%s“ wurde gesperrt.
 crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
 crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
-crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
-crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
+crs#:#crs_cancel_subscription#:#Austritt aus Kurs „%s“
+crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs „%s“ ausgetreten.
 crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
@@ -7510,8 +7510,8 @@ crs#:#crs_dates#:#Termine
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs "%s" beendet
-crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft im Kurs "%s" ist beendet worden.
+crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs „%s“ beendet
+crs#:#crs_dismiss_member_body#:#Ihre Mitgliedschaft im Kurs „%s“ ist beendet worden.
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 crs#:#crs_edit_timings#:#Zeitvorgaben bearbeiten
 crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
@@ -7560,7 +7560,7 @@ crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgen
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_join_request#:#Abschicken
 crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
-crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs „%s“.
 crs#:#crs_link_hide_next_sessions#:#Zukünftige Sitzungen ausblenden
 crs#:#crs_link_hide_prev_sessions#:#Vergangene Sitzungen ausblenden
 crs#:#crs_link_show_all_next_sessions#:#Alle zukünftigen Sitzungen anzeigen
@@ -7704,9 +7704,9 @@ crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#Der Zeitr
 crs#:#crs_my_courses_groups_enabled#:#Meine Kurse und Gruppen
 crs#:#crs_my_courses_groups_enabled_info#:#Wenn Sie diese Option aktivieren, wird die Option 'Meine Kurse und Gruppen' im Magazin angezeigt.
 crs#:#crs_new_status#:#Ihr Status:
-crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
+crs#:#crs_new_subscription#:#Beitritt zum Kurs „%s“
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
-crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
+crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs „%s“
 crs#:#crs_new_subscription_request_body#:#%1$s hat einen Aufnahmeantrag für den Kurs "%2$s" gestellt.
 crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen. Wählen Sie dazu bitte folgenden Link:
 crs#:#crs_news#:#Mail zum Kurs
@@ -7823,8 +7823,8 @@ crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_limited_info#:#Mitglieder können dem Kurs nur in einen bestimmten Zeitraum beitreten.
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_type#:#Beitrittsverfahren
-crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
-crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
+crs#:#crs_reject_subscriber#:#Ablehnung für Kurs „%s“
+crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs „%s“ ist abgelehnt worden.
 crs#:#crs_reset_results#:#Ergebnisse zurücksetzen
 crs#:#crs_role_status#:#Rolle/Status
 crs#:#crs_search_users#:#Benutzer suchen
@@ -7852,8 +7852,8 @@ crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich, dass die folgenden Objekte 
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
-crs#:#crs_status_changed#:#Status in Kurs "%s"
-crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert.
+crs#:#crs_status_changed#:#Status in Kurs „%s“
+crs#:#crs_status_changed_body#:#Ihr Status in Kurs „%s“ wurde geändert.
 crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
 crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf „Bearbeitet“, wird der Status „Bestanden“ gesetzt. Die Kursadministration oder Kursbetreuung kann den Status manuell im Reiter „Lernfortschritt » Benutzer“ überschreiben.
@@ -7861,10 +7861,10 @@ crs#:#crs_status_determination_manual#:#Manuell setzen
 crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?###Modified as part of gender mainstreaming activities for ILIAS 8
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
-crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs "%s" aufgenommen.
-crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs „%s“
+crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs „%s“ aufgenommen.
+crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs „%s“
+crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses „%s“ gesetzt und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
 crs#:#crs_subscription#:#Beitrittsverfahren
@@ -7935,11 +7935,11 @@ crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Kursbetreuung
 crs#:#crs_tutors#:#Kursbetreuung
 crs#:#crs_unblocked#:#Freigeschaltet
-crs#:#crs_unblocked_member#:#Status in Kurs "%s"
-crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
+crs#:#crs_unblocked_member#:#Status in Kurs „%s“
+crs#:#crs_unblocked_member_body#:#Ihre Mitgliedschaft für Kurs „%s“ wurde freigeschaltet.
 crs#:#crs_unlimited#:#Unbegrenzt
-crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
-crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
+crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs „%s“
+crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs „%s“.
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
@@ -8160,11 +8160,11 @@ dateplaner#:#cal_batch_file_downloads_info#:#Erlaubt Herunterladen aller Dateien
 dateplaner#:#cal_book_free#:#frei
 dateplaner#:#cal_booked_out#:#ausgebucht
 dateplaner#:#cal_booking_cancellation_body#:#Ihr Termin mit %s ist abgesagt.
-dateplaner#:#cal_booking_cancellation_subject#:#Termin "%s" wurde abgesagt
+dateplaner#:#cal_booking_cancellation_subject#:#Termin „%s“ wurde abgesagt
 dateplaner#:#cal_booking_cancellation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmation_body#:#Ihr Termin mit %s ist gebucht.
 dateplaner#:#cal_booking_confirmation_link#:#Link zum Termin:
-dateplaner#:#cal_booking_confirmation_subject#:#Termin "%s" wurde gebucht
+dateplaner#:#cal_booking_confirmation_subject#:#Termin „%s“ wurde gebucht
 dateplaner#:#cal_booking_confirmation_user#:#Dies ist eine Kopie der Mail an Benutzer:
 dateplaner#:#cal_booking_confirmed#:#Der Termin wurde erfolgreich gebucht.
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
@@ -8201,8 +8201,8 @@ dateplaner#:#cal_ch_book#:#Sprechstunde buchen
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
 dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung
 dateplaner#:#cal_ch_booking_owner#:#Sprechstunde bei###Modified as part of gender mainstreaming activities for ILIAS 8
-dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit "%s" findet in wenigen Tagen statt.
-dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung "%s"
+dateplaner#:#cal_ch_booking_reminder_body#:#Ihr Termin mit „%s“ findet in wenigen Tagen statt.
+dateplaner#:#cal_ch_booking_reminder_subject#:#Terminerinnerung „%s“
 dateplaner#:#cal_ch_bookings#:#Teilnehmer
 dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
@@ -8268,10 +8268,10 @@ dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitt
 dateplaner#:#cal_cronjob_remote_description#:#Wenn aktiviert, werden Termine des Kalendertyps "Web-Kalender" automatisch nach dem vorgegeben Zeitintervall synchronisiert.
 dateplaner#:#cal_cronjob_remote_title#:#Synchronisierung externer Kalender
 dateplaner#:#cal_crs_info#:#Course Information
-dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
-dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
-dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Kurs "%s".
-dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs "%s"
+dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs „%s“ angelegt worden.
+dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs „%s“
+dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Kurs „%s“.
+dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs „%s“
 dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_daily#:#Täglich
@@ -8342,10 +8342,10 @@ dateplaner#:#cal_grp_curr_crs#:#Aktueller Kurs
 dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
 dateplaner#:#cal_grp_curr_grp#:#Aktuelle Gruppe
 dateplaner#:#cal_grp_info#:#Information zur Gruppe
-dateplaner#:#cal_grp_new_notification_body#:#ein neuer Termin ist in der Gruppe "%s" angelegt worden.
-dateplaner#:#cal_grp_new_notification_sub#:#Neuer Termin in Gruppe "%s"
-dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der Gruppe "%s".
-dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
+dateplaner#:#cal_grp_new_notification_body#:#ein neuer Termin ist in der Gruppe „%s“ angelegt worden.
+dateplaner#:#cal_grp_new_notification_sub#:#Neuer Termin in Gruppe „%s“
+dateplaner#:#cal_grp_notification_body#:#es erfolgte eine Terminänderung in der Gruppe „%s“.
+dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe „%s“
 dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
@@ -8359,7 +8359,7 @@ dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
 dateplaner#:#cal_list#:#Liste
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
-dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
+dateplaner#:#cal_mail_notification_subject#:#Termineinladung: „%s“
 dateplaner#:#cal_manage#:#Kalender verwalten
 dateplaner#:#cal_materials#:#Materialien
 dateplaner#:#cal_milestone_settings#:#Meilensteine
@@ -8540,7 +8540,7 @@ dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gel
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
-dcl#:#dcl_change_notification_subject#:#Die Datensammlung "%s" wurde bearbeitet.
+dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
 dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
@@ -8596,7 +8596,7 @@ dcl#:#dcl_edit_table#:#Tabelleneinstellungen
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
-dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel '%s' existiert nicht
+dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
@@ -8681,7 +8681,7 @@ dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, ha
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -9273,7 +9273,7 @@ exc#:#exc_feedback#:#Feedback
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da Sie ein Teilnehmer der oben genannten Übung sind.
-exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung "%s" freigeschaltet
+exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übung „%s“ freigeschaltet
 exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 exc#:#exc_fixed_date#:#Festes Datum
@@ -9337,21 +9337,21 @@ exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl
 exc#:#exc_min_team_participants#:#Minimale Anzahl
 exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_msg_deadline_request_body#:#Der folgende Benutzer hat eine individuelle Abgabefrist angefragt.
-exc#:#exc_msg_deadline_request_subject#:#Es wurde eine Abgabefrist in Übung "%s" angefragt.
+exc#:#exc_msg_deadline_request_subject#:#Es wurde eine Abgabefrist in Übung „%s“ angefragt.
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
-exc#:#exc_msg_grading_done#:#Es wurde eine Übungseinheit in Übung "%s" bewertet.
-exc#:#exc_msg_grading_done_body#:#Ein Tutor hat Ihre Lösungsabgabe in Übung "%s" bewertet.
+exc#:#exc_msg_grading_done#:#Es wurde eine Übungseinheit in Übung „%s“ bewertet.
+exc#:#exc_msg_grading_done_body#:#Ein Tutor hat Ihre Lösungsabgabe in Übung „%s“ bewertet.
 exc#:#exc_msg_idl_set_body#:#Es wurde eine individuelle Abgabefrist für Sie durch den Tutor gesetzt.
-exc#:#exc_msg_idl_set_subject#:#Es wurde eine Abgabefrist in Übung "%s" gesetzt.
+exc#:#exc_msg_idl_set_subject#:#Es wurde eine Abgabefrist in Übung „%s“ gesetzt.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
-exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
-exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#die folgende Einreichung von Ihnen wurde kommentiert.
-exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
-exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung „%s“ hinzugefügt.
 exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
@@ -9441,7 +9441,7 @@ exc#:#exc_peer_review_rating#:#Bewertung
 exc#:#exc_peer_review_recipient#:#Feedback-Nehmer
 exc#:#exc_peer_review_reset#:#Peer-Feedback löschen und zurücksetzen
 exc#:#exc_peer_review_reset_done#:#Sämtliche Peer-Feedback-Daten wurde für die Übungseinheit gelöscht.
-exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit "%s" löschen?
+exc#:#exc_peer_review_reset_sure#:#Wollen Sie wirklich das komplette Peer-Feedback für die Übungseinheit „%s“ löschen?
 exc#:#exc_peer_review_show#:#Erhaltenes Feedback zeigen
 exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht einsehen, da Sie zu wenig Feedback gegeben haben.
 exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
@@ -9485,18 +9485,18 @@ exc#:#exc_reminder_feedback_start#:#Start vor Peer-Feedback-Termin
 exc#:#exc_reminder_frequency#:#Häufigkeit
 exc#:#exc_reminder_grade_body#:#Die folgende Übungseinheit wurde noch nicht bewertet
 exc#:#exc_reminder_grade_setting#:#Erinnerung an notwendige Bewertung
-exc#:#exc_reminder_grade_subject#:#Übungseinheit "%s" wurde nicht berwertet
+exc#:#exc_reminder_grade_subject#:#Übungseinheit „%s“ wurde nicht berwertet
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_reminder_mail_no_tpl#:#Keine Mail-Vorlage verwenden
 exc#:#exc_reminder_mail_template#:#Mail-Vorlage
 exc#:#exc_reminder_peer_body#:#Zur folgenden Übungseinheit fehlen noch Rückmeldungen
-exc#:#exc_reminder_peer_subject#:#Zur Übungseinheit "%s" fehlen Rückmeldungen
+exc#:#exc_reminder_peer_subject#:#Zur Übungseinheit „%s“ fehlen Rückmeldungen
 exc#:#exc_reminder_salutation#:#Hallo %s,
 exc#:#exc_reminder_start#:#Start vor Abgabetermin
 exc#:#exc_reminder_start_info#:#Alle Mitglieder der übergeordneten Gruppe oder des übergeordneten Kurses werden benachrichtigt.<br>Ohne Kurs oder Gruppe wird niemand benachrichtigt.
 exc#:#exc_reminder_submit_body#:#die folgenden Übungseinheiten wurden von Ihnen noch nicht abgegeben
 exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
-exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
+exc#:#exc_reminder_submit_subject#:#Übungseinheit „%s“ wurde noch nicht abgegeben
 exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
 exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
 exc#:#exc_request_deadline#:#Abgabefrist anfragen
@@ -9541,10 +9541,10 @@ exc#:#exc_submission_downloads_notification_link#:#Neue Abgaben herunterladen: %
 exc#:#exc_submission_file#:#Dateiabgabe
 exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
-exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" liegt vor.
+exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung „%s“ liegt vor.
 exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden oder Abgabefristen beantragt werden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
-exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
+exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung „%s“ liegt vor
 exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
 exc#:#exc_submission_text#:#Textabgabe
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -9626,8 +9626,8 @@ exc#:#exc_team_notification_body_add#:#Sie wurden zu einer Team-Upload-Übungsei
 exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungseinheit entfernt.
 exc#:#exc_team_notification_link#:#Link zur Übung
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da Sie ein Teilnehmer der oben genannten Übung sind.
-exc#:#exc_team_notification_subject_add#:#Als Team-Mitglied zu einer Übungseinheit der Übung "%s" hinzugefügt
-exc#:#exc_team_notification_subject_rmv#:#Als Team-Mitglied aus einer Übungseinheit der Übung "%s" entfernt
+exc#:#exc_team_notification_subject_add#:#Als Team-Mitglied zu einer Übungseinheit der Übung „%s“ hinzugefügt
+exc#:#exc_team_notification_subject_rmv#:#Als Team-Mitglied aus einer Übungseinheit der Übung „%s“ entfernt
 exc#:#exc_teams_assignment_adopted#:#Die Teams wurden von der bestehender Übungseinheit übernommen.
 exc#:#exc_template#:#Vorlage
 exc#:#exc_text_assignment_edit#:#Text bearbeiten
@@ -10036,7 +10036,7 @@ forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass das folgendende Thema gelöscht werden soll?
 forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden.
-forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
+forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs „%s“
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#Gelesen
 forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
@@ -10046,7 +10046,7 @@ forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich her
 forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#move_chosen_topics#:#Thema "%s" verschieben nach:
+forum#:#move_chosen_topics#:#Thema „%s“ verschieben nach:
 forum#:#move_thread_to_forum#:#Verschiebe Thema in ein anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
@@ -10186,12 +10186,12 @@ grp#:#grp_activate_notification#:#Benachrichtigung aktivieren
 grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
 grp#:#grp_add_user#:#Benutzer hinzufügen
 grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
-grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
+grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe „%s“ aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 grp#:#grp_admins#:#Gruppenadministration
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
-grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe "%s" beigetreten.
+grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe „%s“ beigetreten.
 grp#:#grp_agree#:#Zustimmung
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
 grp#:#grp_agreement_required#:#Sie können nur auf die Gruppeninhalte zugreifen, wenn Sie der Nutzungsvereinbarung zustimmen.
@@ -10233,37 +10233,37 @@ grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
-grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
-grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" aufgenommen worden.
-grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe „%s“.
+grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe „%s“ aufgenommen worden.
+grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe „%s“
 grp#:#grp_mail_all#:#Für alle Mitglieder
 grp#:#grp_mail_all_info#:#Alle aus der Gruppe können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
-grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
-grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
-grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
-grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
+grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe „%s“ wurde beendet.
+grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe „%s“ beendet
+grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe „%s“ beigetreten.
+grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe „%s“ gestellt.
 grp#:#grp_mail_notification_reg_req_bod2#:#Um den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
-grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
-grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
-grp#:#grp_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Gruppe "%s" beendet.
+grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe „%s“
+grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe „%s“
+grp#:#grp_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer „%s“ hat die Mitgliedschaft in der Gruppe „%s“ beendet.
 grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
-grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
+grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe „%s“
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
-grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
-grp#:#grp_mail_status_sub#:#Status in Gruppe "%s"
-grp#:#grp_mail_sub_acc_bod#:#Sie sind in die Gruppe "%s" aufgenommen worden.
-grp#:#grp_mail_sub_acc_sub#:#Aufnahme in Gruppe "%s"
-grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe "%s" ist abgelehnt worden.
-grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe "%s"
-grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe "%s" erfolgt ist.
-grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe "%s"
+grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe „%s“ wurde geändert.
+grp#:#grp_mail_status_sub#:#Status in Gruppe „%s“
+grp#:#grp_mail_sub_acc_bod#:#Sie sind in die Gruppe „%s“ aufgenommen worden.
+grp#:#grp_mail_sub_acc_sub#:#Aufnahme in Gruppe „%s“
+grp#:#grp_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Gruppe „%s“ ist abgelehnt worden.
+grp#:#grp_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Gruppe „%s“
+grp#:#grp_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Gruppe „%s“ erfolgt ist.
+grp#:#grp_mail_subscribe_member_sub#:#Ihre Anmeldung für Gruppe „%s“
 grp#:#grp_mail_tutors_only#:#Nur für die Gruppenadministration
 grp#:#grp_mail_tutors_only_info#:#Nur die Gruppenadministration kann die Funktion „Mail an Mitglieder“ im Reiter „Mitglieder“ nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
-grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
-grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_wl_bod#:#Sie sind auf die Warteliste der Gruppe "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
-grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe „%s“.
+grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe „%s“
+grp#:#grp_mail_wl_bod#:#Sie sind auf die Warteliste der Gruppe „%s“ gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe „%s“
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
@@ -10846,7 +10846,7 @@ logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des 
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#Protokoll senden an (E-Mail-Adresse)
-logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
+logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code „%s“ identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
@@ -10878,31 +10878,31 @@ lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lerns
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
 lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben aber die "Weiter"-Schaltfläche weiterhin deaktiviert bleibt.
-lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz "%s" als Mitglied aufgenommen worden.
-lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz "%s"
-lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
-lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
-lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
-lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
+lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz „%s“ als Mitglied aufgenommen worden.
+lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz „%s“
+lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz „%s“ wurde beendet.
+lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz „%s“ beendet
+lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt.
+lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt.
 lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
-lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz "%s"
-lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz "%s"
-lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Lernsequenz "%s" beendet.
+lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz „%s“
+lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz „%s“
+lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer „%s“ hat die Mitgliedschaft in der Lernsequenz „%s“ beendet.
 lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
-lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz "%s"
+lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz „%s“
 lso#:#lso_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:
-lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz "%s" wurde geändert.
-lso#:#lso_mail_status_sub#:#Status in Lernsequenz "%s"
-lso#:#lso_mail_sub_acc_bod#:#Sie sind in die Lernsequenz "%s" aufgenommen worden.
-lso#:#lso_mail_sub_acc_sub#:#Aufnahme in Lernsequenz "%s"
-lso#:#lso_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Lernsequenz "%s" ist abgelehnt worden.
-lso#:#lso_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Lernsequenz "%s"
-lso#:#lso_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Lernsequenz "%s" erfolgt ist.
-lso#:#lso_mail_subscribe_member_sub#:#Ihre Anmeldung für Lernsequenz "%s"
-lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Lernsequenz "%s".
-lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
-lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
-lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
+lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz „%s“ wurde geändert.
+lso#:#lso_mail_status_sub#:#Status in Lernsequenz „%s“
+lso#:#lso_mail_sub_acc_bod#:#Sie sind in die Lernsequenz „%s“ aufgenommen worden.
+lso#:#lso_mail_sub_acc_sub#:#Aufnahme in Lernsequenz „%s“
+lso#:#lso_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Lernsequenz „%s“ ist abgelehnt worden.
+lso#:#lso_mail_sub_dec_sub#:#Ablehnung des Aufnahmeantrags für Lernsequenz „%s“
+lso#:#lso_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Lernsequenz „%s“ erfolgt ist.
+lso#:#lso_mail_subscribe_member_sub#:#Ihre Anmeldung für Lernsequenz „%s“
+lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Lernsequenz „%s“.
+lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz „%s“
+lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz „%s“ gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz „%s“
 lso#:#lso_mainbar_button_label_curriculum#:#Lernsequenz
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
@@ -11267,7 +11267,7 @@ mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
-mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler "%s"
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler „%s“
 mail#:#mail_assign_to_mailing_list#:#Zuweisen
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
@@ -11342,7 +11342,7 @@ mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehl
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_grp_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
-mail#:#mail_hint_add_placeholder_x#:#Füge Platzhalter '%s' in den Textkörper der Nachricht ein.
+mail#:#mail_hint_add_placeholder_x#:#Füge Platzhalter „%s“ in den Textkörper der Nachricht ein.
 mail#:#mail_incoming#:#Maileingang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung an E-Mail
 mail#:#mail_incoming_local#:#Nur lokal empfangen
@@ -11367,13 +11367,13 @@ mail#:#mail_max_size_attachments_total#:#Bitte geben Sie die maximal zulässige 
 mail#:#mail_max_size_attachments_total_error#:#Die maximal zulässige Gesamtgröße aller Anhänge beträgt:
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
-mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
+mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste „%s“
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt.
 mail#:#mail_move_error#:#Beim Versuch, Ihre E-Mail zu verschieben, ist ein Fehler aufgetreten.
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
-mail#:#mail_move_to_folder_x#:#nach "%s"
+mail#:#mail_move_to_folder_x#:#nach „%s“
 mail#:#mail_moved#:#Ihre Mail(s) wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Mail(s) wurde(n) in den Papierkorb verschoben
 mail#:#mail_multiple_role_recipients_found#:#Die Angabe %1$s im „An”-Feld ist nicht eindeutig: Versenden Sie diese Mail bitte direkt aus dem Mitglieder-Reiter des gewünschten Kurses bzw. der gewünschten Gruppe.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -11438,7 +11438,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
 mail#:#mail_settings_general_tab#:#Allgemein
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href="%s">hier</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href=„%s“>hier</a>.
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
 mail#:#mail_smtp_encryption#:#Verschlüsselung
@@ -11518,10 +11518,10 @@ mail#:#send_mail_tutors#:#Kursbetreuung
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
-mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut „%s“ im Feld „%s“ verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
 maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json
-maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
+maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 maps#:#maps_extt_maps#:#Karten
@@ -11679,7 +11679,7 @@ mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
 mep#:#mep_choose_from_mep#:#Aus Pool auswählen
 mep#:#mep_content#:#Medienobjekte
-mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein '%s' wird verwendet und kann daher nicht gelöscht werden.
+mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
 mep#:#mep_copy_to_mep#:#In Medienpool kopieren
 mep#:#mep_create_content_snippet#:#Inhaltsbaustein anlegen
@@ -12629,7 +12629,7 @@ news#:#news_enable_internal_rss_info#:#Erlaube Veröffentlichung von Neuigkeiten
 news#:#news_enable_private_feed#:#Privaten RSS-Feed aktivieren
 news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Neuigkeiten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
 news#:#news_feed_url#:#Feed-URL
-news#:#news_feed_url_for#:#Feed-URL für '%s'
+news#:#news_feed_url_for#:#Feed-URL für „%s“
 news#:#news_first_letter_of_word_notification#:#B
 news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Neuigkeiten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
 news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
@@ -12699,8 +12699,8 @@ news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
 note#:#note_comment_notification_link#:#Link
 note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, weil in der ILIAS-Adminstration eingetragen ist, Sie über alle Kommentare zu benachrichtigen.
 note#:#note_comment_notification_salutation#:#Hallo %s,
-note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
-note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
+note#:#note_comment_notification_subject#:#Neuer Kommentar in „%s“.
+note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in „%s“.
 note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
 note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
@@ -12950,7 +12950,7 @@ orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
 orgu#:#orgu_type_msg_missing_title#:#Es muss ein Titel für die Standardsprache angegeben werden
 orgu#:#orgu_type_msg_missing_title_default_language#:#Standardsprache und der Titel für die Standardsprache müssen ausgefüllt werden
 orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%' als Standardsprache nicht möglich, verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_setting_member_prevented#:#Zuweisen von '%s' verhindert durch folgende Plugins: %s
+orgu#:#orgu_type_msg_setting_member_prevented#:#Zuweisen von „%s“ verhindert durch folgende Plugins: %s
 orgu#:#orgu_type_msg_unable_delete#:#Der Typ kann nicht gelöscht werden, da er noch folgenden Organisationseinheiten zugewiesen ist: %s
 orgu#:#orgu_type_msg_updating_prevented#:#Aktualisieren des Objekts verhindert durch folgende Plugins: %s
 orgu#:#orgu_types#:#Typen
@@ -13082,7 +13082,7 @@ poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
 poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
-poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
+poll#:#poll_vote_notification_subject#:#Abstimmung „%s“: neue Stimme
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
 poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
@@ -13121,7 +13121,7 @@ prg#:#header_remove_certificate#:#Wollen Sie das Zertifikat von den ausgewählte
 prg#:#header_update_certificate#:#Wollen Sie das Zertifikat wirklich aktualisieren?
 prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?
 prg#:#inactive_only#:#nur inaktive
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm „%s“ läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
 prg#:#invalidated#:#Gültigkeit
 prg#:#label_crs#:#Kursname
@@ -13372,7 +13372,7 @@ prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_view#:#Anzeigen
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#qualification_prg_finalization_error#:#Ein Abschluss des Qualifizierungsprogramms ist für den/die zugewiesene*n Benutzer*in bei den jetzigen Einstellungen nicht möglich.
-prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm „%s“ als Teilnehmer zugeordnet.
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
@@ -13382,7 +13382,7 @@ prg#:#restart_period_label#:#Tage vor Ablauf der Qualifikation
 prg#:#restart_recheck_desc#:#Bei Zuweisungen, die über einen Automatismus vorgenommen wurden, wird erneut geprüft, ob Kriterien für die Zuweisung vorliegen.
 prg#:#restart_recheck_label#:#Voraussetzungen erneut prüfen
 prg#:#restarted#:#Wiederaufnahme
-prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm „%s“ ist bald ereicht.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, dass der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
 prg#:#select_crs#:#Nach Kursen suchen
@@ -13464,9 +13464,9 @@ prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnu
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 prtf#:#prtf_edit_content#:#Inhalt bearbeiten
 prtf#:#prtf_edit_data#:#Felder ausfüllen
-prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
+prtf#:#prtf_edit_embedded_blog#:#Blog „%s“ bearbeiten
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
-prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
+prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit „%s“ der Übung „%s“ zugeordnet.
 prtf#:#prtf_exercise_submitted_info#:#Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage.
 prtf#:#prtf_existing_portfolio#:#Vorhandenes Portfolio
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschließen und abgeben
@@ -13476,7 +13476,7 @@ prtf#:#prtf_has_been_set_online#:#Das Portfolio wurde online gesetzt.
 prtf#:#prtf_link#:#Link
 prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
-prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
+prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich „%s“ einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
 prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden, bevor es für bestimmte Benutzer freigegeben werden kann.
 prtf#:#prtf_no_submission#:#Keine Abgabe
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
@@ -13524,8 +13524,8 @@ prtf#:#prtf_signature_date#:#Datum, Unterschrift
 prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_style#:#Portfolio-Style
 prtf#:#prtf_submission_on#:#Abgabe am $1
-prtf#:#prtf_successfully_shared_prtf#:#Bestätigung der Freigabe Ihres Portfolios "%s"
-prtf#:#prtf_successfully_shared_prtf_body#:#Sie haben Ihr Portfolio "%s" erfolgreich freigegeben für:
+prtf#:#prtf_successfully_shared_prtf#:#Bestätigung der Freigabe Ihres Portfolios „%s“
+prtf#:#prtf_successfully_shared_prtf_body#:#Sie haben Ihr Portfolio „%s“ erfolgreich freigegeben für:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgende Portfolio- bzw. Blog-Seite wirklich löschen?
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
@@ -13661,7 +13661,7 @@ pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort für den Anmeldenamen %1$s wurde erfolgreich gespeichert.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Anmeldenamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Anmeldenamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Anmeldenamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Anmeldenamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Anmeldenamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Anmeldenamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Anmeldenamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Anmeldenamenauflistung für die E-Mail-Adresse „%s“ angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Anmeldenamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Anmeldenamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Anmeldenamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Anmeldenamen und E-Mail ein neues Passwort schicken zu lassen.
 pwassist#:#unassist_disabled_no_access#:#Die Unterstützung für vergessene Anmeldenamen ist nicht aktiviert. Bitte kontaktieren Sie die technische Betreuung: %s
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
@@ -14349,12 +14349,12 @@ rbac#:#rbac_log_create_object#:#Objekt anlegen
 rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
 rbac#:#rbac_log_edit_template#:#Rollenvorlagen editieren
 rbac#:#rbac_log_edit_template_existing#:#Rollenvorlagen auf Objekte anwenden
-rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für "%s"
-rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für "%s"
+rbac#:#rbac_log_inheritance_add#:#Vererbung unterbrochen für „%s“
+rbac#:#rbac_log_inheritance_rmv#:#Vererbung wiederherstellen für „%s“
 rbac#:#rbac_log_link_object#:#Objekt verknüpfen
 rbac#:#rbac_log_move_object#:#Objekt verschieben
-rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für "%s"
-rbac#:#rbac_log_operation_rmv#:#Recht entfernt für "%s"
+rbac#:#rbac_log_operation_add#:#Recht hinzugefügt für „%s“
+rbac#:#rbac_log_operation_rmv#:#Recht entfernt für „%s“
 rbac#:#rbac_log_source_object#:#Quell-Objekt
 rbac#:#rbac_msg_user_already_assigned#:#Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet.
 rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
@@ -14746,7 +14746,7 @@ rep#:#rep_export_limitation_info#:#Begrenzt die Anzahl an exportierten Unterobje
 rep#:#rep_export_limitation_limited#:#Limit
 rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht mehr an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Für diese Objekte können Sie nur die Option "Wiederherstellen (neuer Ort)" verwenden.
 rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+rep#:#rep_fav_intro2#:#Klicken Sie auf „%s“ und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
 rep#:#rep_favourites#:#Favoriten
 rep#:#rep_favourites_info#:#Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden.
@@ -15263,10 +15263,10 @@ sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den 
 sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_permanent_link_participants#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
-sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin "%s" zugelassen.
-sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung "%s"
-sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung "%s" ist abgelehnt worden.
-sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung "%s"
+sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin „%s“ zugelassen.
+sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung „%s“
+sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung „%s“ ist abgelehnt worden.
+sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung „%s“
 sess#:#sess_mail_type#:#Mail an Teilnehmer
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
@@ -15708,7 +15708,7 @@ style#:#sty_commands#:#Aktionen
 style#:#sty_confirm_char_deletion#:#Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?
 style#:#sty_confirm_color_deletion#:#Löschen der Farbe bestätigen
 style#:#sty_confirm_del_ind_styles#:#Löschen der lokalen Lernmodul-Stylesheets bestätigen
-style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit lokalen Stylesheets werden dem Stil '%s' zugeordnet. Die lokalen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
+style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit lokalen Stylesheets werden dem Stil „%s“ zugeordnet. Die lokalen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_template_deletion#:#Löschen des Templates bestätigen
 style#:#sty_copied_please_select_target#:#Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen "Styleklassen einfügen".
 style#:#sty_copy_other_stylesheet#:#Stylesheet aus lokaler Quelle kopieren
@@ -16168,7 +16168,7 @@ survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten auf
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragetypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
-survey#:#finished_mail_subject#:#Die Umfrage "%s" wurde beendet
+survey#:#finished_mail_subject#:#Die Umfrage „%s“ wurde beendet
 survey#:#freetext_answers#:#Freitext-Antworten
 survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
@@ -16493,7 +16493,7 @@ survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
-survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage "%s" beendet
+survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
 survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
@@ -16526,7 +16526,7 @@ survey#:#survey_reminder_link#:#URL
 survey#:#survey_reminder_salutation#:#Hallo %s,
 survey#:#survey_reminder_setting#:#Benutzer an Teilnahme erinnern
 survey#:#survey_reminder_start#:#Beginn
-survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
+survey#:#survey_reminder_subject#:#Umfrage „%s“ wurde noch nicht bearbeitet
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
@@ -16537,7 +16537,7 @@ survey#:#survey_results_personalized#:#Mit Namen
 survey#:#survey_results_personalized_info#:#Im Reiter „Ergebnisse“ werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
-survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
+survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage „%s“
 survey#:#survey_show_blocktitle#:#Blocktitel anzeigen
 survey#:#survey_show_blocktitle_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird der Titel des Blocks innerhalb der Umfrage angezeigt.
 survey#:#survey_skill#:#Kompetenz
@@ -16600,7 +16600,7 @@ survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
 survey#:#svy_eval_skipped_value_custom_info#:#Geben Sie einen (oder leeren) Wert für übersprungene Antworten an
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
-survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
+survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: „%s“
 survey#:#svy_eval_user#:#Pro Teilnehmer
 survey#:#svy_eval_view#:#Anzeige
 survey#:#svy_eval_view_charts#:#Grafik
@@ -16620,10 +16620,10 @@ survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antw
 survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_import_codes#:#Schlüssel importieren
-survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
+survey#:#svy_import_codes_info#:#Dieser Import benötigt eine „%s“-Export-Datei.
 survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feedback-Geber.
 survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
-survey#:#svy_mail_confirmation_subject#:#Umfrage "%s" - Ihre Teilnahmebestätigung
+survey#:#svy_mail_confirmation_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung
 survey#:#svy_mail_context_rater_invitation_info#:#Feedback-Geber zur Teilnahme in einer Umfrage einladen.
 survey#:#svy_mail_context_rater_invitation_survey_title#:#Titel der Umfrage
 survey#:#svy_mail_context_rater_invitation_title#:#Umfrage: Feedback-Geber einladen
@@ -16632,7 +16632,7 @@ survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
+survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Antworten
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
@@ -16785,7 +16785,7 @@ sysc#:#sysc_tree_list_failures#:#Ein Dump des Magazinbaums wurde erstellt. Anzah
 sysc#:#sysc_tree_missing_failures#:#Es gibt fehlende Einträge in der Baumstruktur. Anzahl fehlender Einträge:
 sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation):
 tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
-tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+tagging#:#no_tag_text_2#:#Klicken Sie auf „%s“ und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
 tagging#:#tag_remove_tags_of_obj_without_access#:#Tag entfernen
 tagging#:#tag_some_obj_tagged_without_access#:#Zu einigen der getaggten Objekte haben Sie keinen Zugriff mehr. Sollen der Tag zu diesen Objekten entfernt werden?
@@ -16796,7 +16796,7 @@ tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
 tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
-tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.
+tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
 tagging#:#tagging_search_users#:#Benutzer suchen
@@ -16957,7 +16957,7 @@ trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eige
 trac#:#trac_lp_list_gui#:#Dashboard, Magazin, Suche
 trac#:#trac_lp_list_gui_info#:#Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt.
 trac#:#trac_lp_settings_info_parent_container#:#Lernfortschritt übergeordneter Objekte
-trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
+trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch „%s“ beeinflusst.
 trac#:#trac_manual_display#:#Im Lernfortschritt anzeigen
 trac#:#trac_manual_is_displayed#:#Bestimmt Lernfortschritt
 trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
@@ -17163,7 +17163,7 @@ ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
-ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.
 ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
@@ -17252,7 +17252,7 @@ user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
 user#:#user_delete_own_account#:#ILIAS-Konto löschen
 user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Das Konto ist unverändert.
-user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto "%s" auf %s wurde am %s gelöscht.
+user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto „%s“ auf %s wurde am %s gelöscht.
 user#:#user_delete_own_account_email_subject#:#ILIAS-Konto gelöscht
 user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr ILIAS-Konto unwiderruflich aus dem System entfernt werden soll.
 user#:#user_delete_own_account_info#:#Hier können Sie Ihr aktuelles ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
@@ -17318,19 +17318,19 @@ usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 validation#:#datetime_required#:#Zeit/Datum erforderlich
 validation#:#no_array#:#Wert ist kein Feld
-validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
-validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
-validation#:#not_an_array#:#'%s' ist kein Array.
+validation#:#not_a_null#:#Wert vom Typ „%s“ ist keine Null.
+validation#:#not_a_string#:#Wert vom Typ „%s“ ist kein String.
+validation#:#not_an_array#:#„%s“ ist kein Array.
 validation#:#not_an_array_of#:#Die Elemente des Arrays scheitern an Bedingungen: %s
-validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
+validation#:#not_an_int#:#Wert vom Typ „%s“ ist kein Integer.
 validation#:#not_generic#:#Es ist nicht der Fall, dass %s
-validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
-validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
-validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
-validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.
-validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
+validation#:#not_greater_than#:#„%s“ ist nicht größer als „%s“.
+validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich „%s“.
+validation#:#not_less_than#:#„%s“ ist nicht kleiner als „%s“.
+validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich „%s“.
+validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als „%s“.
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
-validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_numeric#:#„%s“ ist nicht nummerisch.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#numeric_only#:#Bitte geben sie eine ganze Zahl ein.
 validation#:#tag_required#:#Bitte geben sie mindestens ein Tag ein.
@@ -17401,7 +17401,7 @@ wiki#:#wiki_empty_page#:#Leere Seite
 wiki#:#wiki_empty_page_template#:#Erstellen einer neuen Seite ohne Vorlage anbieten (leere Seite)
 wiki#:#wiki_exc_template#:#Wikivorlage
 wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
-wiki#:#wiki_exercise_info#:#Dieses Wiki ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
+wiki#:#wiki_exercise_info#:#Dieses Wiki ist der Übungseinheit „%s“ in der Übung „%s“ zugeordnet.
 wiki#:#wiki_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Abgabedatei.
 wiki#:#wiki_failed#:#Durchgefallen
 wiki#:#wiki_feedback_from_tutor#:#Bewertung
@@ -17556,7 +17556,7 @@ wiki#:#wiki_type_wiki_team#:#Team-Wiki
 wiki#:#wiki_unblock_page#:#Schreibschutz aufheben
 wiki#:#wiki_unhide_meta_adv_records#:#Benutzerdefinierte Metadaten anzeigen
 wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
-wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
+wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite „%s“?
 wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
