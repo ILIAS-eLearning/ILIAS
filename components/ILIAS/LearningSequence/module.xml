@@ -50,6 +50,9 @@
 	</objects>
 
 	<copage>
+		<pageobject parent_type="lsoi" class_name="ilLSOIntroPage" directory="classes/PageEditor"/>
+		<pageobject parent_type="lsoe" class_name="ilLSOExtroPage" directory="classes/PageEditor"/>
+
 		<pagecontent pc_type="lsocurriculum" name="Curriculum" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
 		<pagecontent pc_type="lsostartbutton" name="Launcher" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
 	</copage>

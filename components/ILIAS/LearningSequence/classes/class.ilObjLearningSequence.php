@@ -589,46 +589,36 @@ class ilObjLearningSequence extends ilContainer
         ];
     }
 
-    public const CP_INTRO = -1;
-    public const CP_EXTRO = -2;
-    public const CP_TYPE = 'cont';
-
-    public function getContentPageId(int $factor): int
+    public function getContentPageId(): int
     {
-        if (!in_array($factor, [self::CP_INTRO, self::CP_EXTRO])) {
-            throw new \InvalidArgumentException("not a valid modifier for page id: '$factor'");
-        }
-        return $this->getId() * $factor;
+        return $this->getId();
     }
 
-    public function hasContentPage(int $factor): bool
+    public function hasContentPage(LSOPageType $page_type): bool
     {
-        $page_id = $this->getContentPageId($factor);
-        return ilContainerPage::_exists(self::CP_TYPE, $page_id);
+        return ilContainerPage::_exists($page_type->value, $this->getContentPageId());
     }
 
-    public function createContentPage(int $factor): void
+    public function createContentPage(LSOPageType $page_type): void
     {
-        if ($this->hasContentPage($factor)) {
+        if ($this->hasContentPage($page_type)) {
             throw new \LogicException('will not create content page - it already exists.');
         }
-        $page_id = $this->getContentPageId($factor);
-        $new_page_object = new \ilContainerPage();
-        $new_page_object->setId($page_id);
+        $new_page_object = $page_type === LSOPageType::INTRO ? new ilLSOIntroPage() : new ilLSOExtroPage();
+        $new_page_object->setId($this->getContentPageId());
         $new_page_object->setParentId($this->getId());
         $new_page_object->createFromXML();
     }
 
-    public function getContentPageHTML(int $factor): string
+    public function getContentPageHTML(LSOPageType $page_type): string
     {
-        if (!$this->hasContentPage($factor)) {
+        if (!$this->hasContentPage($page_type)) {
             return '';
         }
-        $page_id = $this->getContentPageId($factor);
-        $gui = new ilObjLearningSequenceEditIntroGUI(
-            self::CP_TYPE,
-            $page_id
-        );
+
+        $gui = $page_type === LSOPageType::INTRO ?
+            new ilObjLearningSequenceEditIntroGUI(LSOPageType::INTRO->value, $this->getContentPageId()) :
+            new ilObjLearningSequenceEditExtroGUI(LSOPageType::EXTRO->value, $this->getContentPageId());
 
         $gui->setPresentationTitle("");
         $gui->setTemplateOutput(false);

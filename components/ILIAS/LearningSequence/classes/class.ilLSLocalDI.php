@@ -90,8 +90,8 @@ class ilLSLocalDI extends Container
 
 
         $this["gui.learner"] = function ($c) use ($dic, $lsdic, $object): ilObjLearningSequenceLearnerGUI {
-            $intro = $object->getContentPageHTML($object::CP_INTRO);
-            $extro = $object->getContentPageHTML($object::CP_EXTRO);
+            $intro = $object->getContentPageHTML(LSOPageType::INTRO);
+            $extro = $object->getContentPageHTML(LSOPageType::EXTRO);
 
             return new ilObjLearningSequenceLearnerGUI(
                 $c["usr.id"],
