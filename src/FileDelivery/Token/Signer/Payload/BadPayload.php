@@ -38,4 +38,10 @@ class BadPayload implements Payload
     {
         return 0;
     }
+
+    public function setUntil(?int $valid_until): void
+    {
+        // nothing to do
+    }
+
 }

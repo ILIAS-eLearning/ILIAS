@@ -29,5 +29,11 @@ interface Payload
 
     public function set(array $data): void;
 
+    /**
+     * @return int unix timestamp
+     */
     public function until(): ?int;
+
+    public function setUntil(?int $valid_until): void;
+
 }

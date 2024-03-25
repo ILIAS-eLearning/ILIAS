@@ -59,21 +59,23 @@ final class DataSigner
         SecretKeyRotation $key_rotation
     ) {
         $this->salt_factory = new Factory();
-        $this->compression = new DeflateCompression();
-        $this->transport = new URLSafeTransport();
+        $compression = new DeflateCompression();
+        $transport = new URLSafeTransport();
+        $algorithm = new SHA1();
+
         $this->signing_serializer = new SigningSerializer(
             new KeyRotatingSigner(
                 $key_rotation,
                 new HMACSigner(
-                    new SHA1()
+                    $algorithm
                 ),
                 new HMACSigningKeyGenerator(
-                    new SHA1()
+                    $algorithm
                 )
             ),
             new JSONSerializer(),
-            $this->compression,
-            $this->transport
+            $compression,
+            $transport
         );
 
         $this->payload_builder = new Builder();
@@ -86,15 +88,20 @@ final class DataSigner
         int $user_id,
         \DateTimeImmutable $until = null
     ): string {
-        $payload = $this->payload_builder->file(
+        $payload = $this->payload_builder->shortFile(
             $stream,
             $filename,
-            $disposition,
-            $user_id,
-            $until
+            $disposition
         );
 
-        return $this->sign($payload->get(), 'stream', $until);
+        if ($until !== null) {
+            $payload->setUntil($until->getTimestamp());
+        }
+
+        return $this->signing_serializer->sign(
+            $payload,
+            $this->salt_factory->create('stream')
+        );
     }
 
     public function verifyStreamToken(string $token): ?Payload
@@ -103,7 +110,7 @@ final class DataSigner
         if ($data === null) {
             return null;
         }
-        return $this->payload_builder->fileFromRaw($data);
+        return $this->payload_builder->shortFileFromRaw($data);
     }
 
     public function sign(
@@ -111,8 +118,14 @@ final class DataSigner
         string $salt,
         \DateTimeImmutable $until = null
     ): string {
+        $payload = new StructuredPayload($data);
+
+        if ($until !== null) {
+            $payload->setUntil($until->getTimestamp());
+        }
+
         return $this->signing_serializer->sign(
-            new StructuredPayload($data, $until?->getTimestamp()),
+            $payload,
             $this->salt_factory->create($salt)
         );
     }

@@ -68,9 +68,13 @@ final class SigningSerializer
     public function verify(string $data, Salt $salt): ?Payload
     {
         // decompress payload
-        $decompressed_payload = $this->compression->decompress(
-            $this->transport->readFromTransport($data)
-        );
+        try {
+            $decompressed_payload = $this->compression->decompress(
+                $this->transport->readFromTransport($data)
+            );
+        } catch (\Throwable $e) {
+            return null;
+        }
 
         $split_data = explode(self::SEPARATOR, $decompressed_payload);
         $serialized_payload = $split_data[0] ?? '';

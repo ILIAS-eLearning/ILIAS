@@ -37,7 +37,8 @@ class Agent implements Setup\Agent
             'File StreamDelivery Artifacts',
             true,
             new KeyRotationObjective(),
-            new DeliveryMethodObjective()
+            new DeliveryMethodObjective(),
+            // new BaseDirObjective() // removed objective since it's not possible to run it in some environments
         );
     }
 
