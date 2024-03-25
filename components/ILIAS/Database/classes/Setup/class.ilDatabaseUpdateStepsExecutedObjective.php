@@ -78,7 +78,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      */
     public function achieve(Environment $environment): Environment
     {
-        $execution_log = $environment->getResource(ilDBStepExecutionDB::class);
+        $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
 
         $last_started_step = $execution_log->getLastStartedStep($this->steps_class);
@@ -116,7 +116,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      */
     public function isApplicable(Environment $environment): bool
     {
-        $execution_log = $environment->getResource(ilDBStepExecutionDB::class);
+        $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
 
         return $execution_log->getLastFinishedStep($this->steps_class) !== $step_reader->getLatestStepNumber(
