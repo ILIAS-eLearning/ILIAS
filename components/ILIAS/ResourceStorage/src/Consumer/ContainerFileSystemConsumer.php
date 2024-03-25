@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 use ILIAS\Filesystem\Util\Archive\Unzip;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Data\URI;
+use ILIAS\FileDelivery\Delivery\StreamDelivery;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -46,8 +47,7 @@ class ContainerURIConsumer implements ContainerConsumer
         StreamAccess $stream_access,
         private string $start_file,
         private float $valid_for_at_least_minutes = 60.0
-    )
-    {
+    ) {
         global $DIC;
         $this->resource = $resource;
         $this->archives = $DIC->archives();
@@ -57,10 +57,11 @@ class ContainerURIConsumer implements ContainerConsumer
     public function getURI(): URI
     {
         $uri_string = $this->src_builder->getRevisionURL(
-                $this->stream_access->populateRevision($this->getRevision()),
-                true, 60,
-                $this->valid_for_at_least_minutes
-            ) . '/' . $this->start_file;
+            $this->stream_access->populateRevision($this->getRevision()),
+            true,
+            60,
+            $this->valid_for_at_least_minutes
+        ) . StreamDelivery::SUBREQUEST_SEPARATOR . $this->start_file;
 
         return new URI($uri_string);
     }
