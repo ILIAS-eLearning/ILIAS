@@ -9748,7 +9748,7 @@ file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
-file#:#MIME_type#:#MIME-Type
+file#:#mime_type#:#MIME-Type
 file#:#msg_cant_unpublish#:#Aktion konnte nicht ausgeführt werden
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nicht genutzt werden.
@@ -10856,7 +10856,7 @@ lso#:#avail_time_period#:#Zeitraum
 lso#:#completed_steps#:#Bestandene Schritte
 lso#:#condition_always#:#Immer
 lso#:#cont_ed_insert_lsocurriculum#:#Curriculum einfügen
-lso#:#cont_ed_insert_lsostartbutton#:#"„Start”-Button einfügen
+lso#:#cont_ed_insert_lsostartbutton#:#„Start”-Button einfügen
 lso#:#curriculum#:#Inhalt
 lso#:#delete_confirmation#:#Möchten Sie folgende Objekte wirklich löschen?
 lso#:#entries_deleted#:#Einträge wurden erfolgreich gelöscht.
@@ -11605,10 +11605,10 @@ mcst#:#mcst_manage#:#Verwalten
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
 mcst#:#mcst_media_cast_not_online_text#:#Der Mediacast ist nicht online oder wurde deaktiviert
-mcst#:#mcst_MIMEtype#:#MIME-Type
-mcst#:#mcst_MIMEtype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
-mcst#:#mcst_MIMEtypes#:#MIME-Types
-mcst#:#mcst_MIMEtypes_info#:#Kommagetrennte Liste von MIME-Types
+mcst#:#mcst_mimetype#:#MIME-Type
+mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plugin zu definieren. <br />Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
+mcst#:#mcst_mimetypes#:#MIME-Types
+mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
@@ -12555,7 +12555,7 @@ mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_general#:#Allgemein
 mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
-mob#:#mob_MIME_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
+mob#:#mob_mime_type_not_allowed#:#Die folgenden MIME-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
@@ -15195,13 +15195,13 @@ search#:#search_like_info#:#Erlaubt die Suche in der ILIAS-Datenbank ohne Zusatz
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
-search#:#search_MIME_excel#:#Excel-Dateien
-search#:#search_MIME_filter_form#:#Dateitypen-Filter
-search#:#search_MIME_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen.
-search#:#search_MIME_image#:#Bilder
-search#:#search_MIME_pdf#:#PDF-Dateien
-search#:#search_MIME_powerpoint#:#Powerpoint-Dateien
-search#:#search_MIME_word#:#Word-Dateien
+search#:#search_mime_excel#:#Excel-Dateien
+search#:#search_mime_filter_form#:#Dateitypen-Filter
+search#:#search_mime_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen.
+search#:#search_mime_image#:#Bilder
+search#:#search_mime_pdf#:#PDF-Dateien
+search#:#search_mime_powerpoint#:#Powerpoint-Dateien
+search#:#search_mime_word#:#Word-Dateien
 search#:#search_minimum_info#:#Die Suchbegriffe müssen mindestens %s Zeichen lang sein.
 search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein.
 search#:#search_newer_than#:#Objekte erstellt vor dem...
@@ -17152,7 +17152,7 @@ ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
-ui#:#ui_file_input_invalid_MIME#:#Dateien vom Typ „%s“ sind nicht erlaubt.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.
 ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
