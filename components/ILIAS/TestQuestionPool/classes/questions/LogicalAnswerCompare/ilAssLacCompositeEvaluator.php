@@ -94,7 +94,7 @@ class ilAssLacCompositeEvaluator
                 $gap = $question->getAvailableAnswerOptions($index - 1);
 
                 if ($rightNode instanceof ilAssLacStringResultExpression) {
-                    if ($gap->getType() == 1) {
+                    if ($gap->getType() == 1 && is_array($result) && isset($result['value'])) {
                         $answer = $gap->getItem($result['value'] - 1);
                         if ($answer) {
                             $solutions->removeByKey($index);
