@@ -38,7 +38,7 @@ class Agent implements Setup\Agent
             true,
             new KeyRotationObjective(),
             new DeliveryMethodObjective(),
-            new BaseDirObjective()
+            // new BaseDirObjective() // removed objective since it's not possible to run it in some environments
         );
     }
 
