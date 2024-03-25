@@ -44,10 +44,10 @@ class ilTestSession
     public bool $submitted = false;
     public int $tstamp = 0;
     public string $submittedTimestamp = '';
-    private int $objectiveOrientedContainerId = 0;
+    private ?int $objectiveOrientedContainerId = null;
 
-    private $lastFinishedPass = null;
-    private $lastStartedPass = null;
+    private ?int $lastFinishedPass = null;
+    private ?int $lastStartedPass = null;
 
 
     /**
@@ -76,30 +76,32 @@ class ilTestSession
 
     protected function activeIDExists(int $user_id, int $test_id): bool
     {
-        if ($this->user->getId() != ANONYMOUS_USER_ID) {
-            $result = $this->db->queryF(
-                "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-                ['integer','integer'],
-                [$user_id, $test_id]
-            );
-            if ($result->numRows()) {
-                $row = $this->db->fetchAssoc($result);
-                $this->active_id = (int) $row["active_id"];
-                $this->user_id = (int) $row["user_fi"];
-                $this->anonymous_id = $row["anonymous_id"] ?? '';
-                $this->test_id = (int) $row["test_fi"];
-                $this->lastsequence = (int) $row["lastindex"];
-                $this->pass = (int) $row["tries"];
-                $this->submitted = ($row["submitted"]) ? true : false;
-                $this->submittedTimestamp = (string) $row["submittimestamp"];
-                $this->tstamp = (int) $row["tstamp"];
+        if ($this->user->getId() === ANONYMOUS_USER_ID) {
+            return false;
+        }
 
-                $this->setLastStartedPass($row['last_started_pass']);
-                $this->setLastFinishedPass($row['last_finished_pass']);
-                $this->setObjectiveOrientedContainerId((int) $row['objective_container']);
+        $result = $this->db->queryF(
+            "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+            ['integer','integer'],
+            [$user_id, $test_id]
+        );
+        if ($result->numRows()) {
+            $row = $this->db->fetchAssoc($result);
+            $this->active_id = (int) $row["active_id"];
+            $this->user_id = (int) $row["user_fi"];
+            $this->anonymous_id = $row["anonymous_id"] ?? '';
+            $this->test_id = (int) $row["test_fi"];
+            $this->lastsequence = (int) $row["lastindex"];
+            $this->pass = (int) $row["tries"];
+            $this->submitted = ($row["submitted"]) ? true : false;
+            $this->submittedTimestamp = (string) $row["submittimestamp"];
+            $this->tstamp = (int) $row["tstamp"];
 
-                return true;
-            }
+            $this->lastStartedPass = $row['last_started_pass'];
+            $this->lastFinishedPass = $row['last_finished_pass'];
+            $this->objectiveOrientedContainerId = $row['objective_container'];
+
+            return true;
         }
         return false;
     }
@@ -363,7 +365,7 @@ class ilTestSession
 
     public function getObjectiveOrientedContainerId(): int
     {
-        return $this->objectiveOrientedContainerId;
+        return $this->objectiveOrientedContainerId ?? 0;
     }
 
     /**

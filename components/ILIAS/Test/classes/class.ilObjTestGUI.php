@@ -2623,7 +2623,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         if ($this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass(ilTestScreenGUI::class, 'testScreen');
+            $this->ctrl->redirectByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD);
             return '';
         }
 
@@ -2785,7 +2785,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "postpone":
             case "outUserPassDetails":
             case "checkPassword":
-                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
+                $this->locator->addItem(
+                    $this->object->getTitle(),
+                    $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD),
+                    '',
+                    $this->testrequest->getRefId()
+                );
                 break;
             case "eval_stat":
             case "evalAllUsers":
@@ -2801,7 +2806,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "cancelImport":
                 break;
             default:
-                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
+                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD), '', $this->testrequest->getRefId());
                 break;
         }
     }
@@ -2856,7 +2861,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $main_tpl = $DIC->ui()->mainTemplate();
 
         $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("no_permission"), true);
-        $DIC->ctrl()->redirectByClass(ilTestScreenGUI::class, 'testScreen');
+        $DIC->ctrl()->redirectByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD);
     }
 
     /**
@@ -2875,7 +2880,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         if ($ilAccess->checkAccess("read", "", (int) $target) || $ilAccess->checkAccess("visible", "", (int) $target)) {
             $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', (int) $target);
-            $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestScreenGUI::class], 'testScreen');
+            $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestScreenGUI::class], ilTestScreenGUI::DEFAULT_CMD);
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),

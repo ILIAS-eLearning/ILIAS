@@ -38,6 +38,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilTestScreenGUI
 {
+    public const DEFAULT_CMD = 'testScreen';
+
     private readonly ilTestPassesSelector $test_passes_selector;
     private readonly int $ref_id;
     private readonly ilObjTestMainSettings $main_settings;
