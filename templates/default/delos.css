@@ -13192,13 +13192,14 @@ div.ilc_Page.readonly textarea[disabled] {
 }
 
 .tstAutosaveMsg {
-  font-style: italic;
-  border: 1px #666 solid;
-  background-color: #ffffe0;
   position: fixed;
   z-index: 99999999999;
-  top: 0;
-  left: 0;
+  top: 9px;
+  right: 15px;
+  box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
+}
+.tstAutosaveMsg:empty {
+  display: none;
 }
 
 .textarea {
