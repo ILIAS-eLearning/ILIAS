@@ -3724,7 +3724,7 @@ common#:#clientlist_login#:#Anmelden
 common#:#clientlist_login_page#:#Anmelden
 common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_start_page#:#Öffentlicher Bereich
-common#:#clipboard#:#Zwischenablage
+common#:#clipboard#:#Medien-Clipboard
 common#:#close#:#Schließen
 common#:#cmix#:#Objekt xAPI/cmi5
 common#:#cnt_new#:#(%s Neu)
@@ -6290,7 +6290,7 @@ content#:#cont_content_popups#:#Content-Popups
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_question_from_pool#:#Frage aus Testfragenpool kopieren
 content#:#cont_copy_question_into_page#:#In Seite kopieren
-content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
+content#:#cont_copy_to_clipboard#:#Ins Medien-Clipboard kopieren
 content#:#cont_correct_after_first#:#1.&nbsp;Antwort korrekt
 content#:#cont_correct_answer_also#:#Richtig ist auch:
 content#:#cont_correct_answers_also#:#Richtig sind auch:
@@ -7238,7 +7238,7 @@ content#:#content_page_history#:#Verlauf der Seite
 content#:#content_plugin_not_activated#:#Das Plugin für Seiteninhalte ist im Moment nicht aktiviert.
 content#:#content_some_export_ids_multiple_times#:#Einige Export-IDs werden mehrfach verwendet. Dies wird zu fehlenden Seiten im Export führen.
 content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis
-content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
+content#:#copied_to_clipboard#:#Objekt(e) ins Medien-Clipboard kopiert.
 content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
 content#:#glo_content_settings#:#Zusammenstellung des Inhalts
