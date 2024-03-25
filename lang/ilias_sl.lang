@@ -1021,8 +1021,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Shranite dodelitev kompetenc
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Obstoječe taksonomije se lahko uporabijo za filtriranje vprašanj.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taksonomija kot navigacijsko drevo
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Če je izbrana taksonomija, ni prikazana kot filter, ampak kot navigacijsko drevo.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Skupina vprašanj mora biti na spletu, da se lahko uporablja pri testu.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne uporabljajte taksonomije kot navigacijsko drevo
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taksonomije
 assessment#:#qpl_settings_subtab_general#:#Splošne nastavitve

@@ -1021,8 +1021,6 @@ assessment#:#qpl_save_skill_assigns_update#:#能力割り当てを保存
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#有効にすると作成可能性のある分類基準がフィルタ用として表示されます。
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#ナビゲーションツリーの分類基準フィルタ
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#分類基準が選択されるとテーブルフィルタアイテムに代わりナビゲーションツリーとして表示されます。
-assessment#:#qpl_settings_general_form_property_online#:#オンライン
-assessment#:#qpl_settings_general_form_property_online_description#:#オンライン問題集のみテストで使用される事ができます。
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#ナビゲーションツリーフィルタなしを使用
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#分類基準を表示
 assessment#:#qpl_settings_subtab_general#:#全般設定

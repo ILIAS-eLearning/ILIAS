@@ -1016,8 +1016,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Zapisz przyporządkowane kompetencj
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Istniejące klasyfikacje można użyć do filtrowania pytań.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Klasyfikacja jako drzewo nawigacyjne
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Jeśli wybrano klasyfikację, pokazywana jest nie jako filtr, lecz jako drzewo nawigacyjne.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Pula pytań musi być w trybie online, aby można ją było użyć w teście.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Nie używaj klasyfikacji jako drzewa nawigacyjnego
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Klasyfikacje
 assessment#:#qpl_settings_subtab_general#:#Ustawienia ogólne

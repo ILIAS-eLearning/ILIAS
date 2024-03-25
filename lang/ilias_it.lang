@@ -1016,8 +1016,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Salva assegnazioni della competenza
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtro tassonomia come Albero di navigazione
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Quando viene selezionata una tassonomia, viene presentata come un albero di navigazione invece di elemento filtro tabella.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Solo i gruppi di domande online potrebbero essere utilizzati nei test.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Utilizza nessun filtro albero di navigazione
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Mostra tassonomie
 assessment#:#qpl_settings_subtab_general#:#Impostazioni generali

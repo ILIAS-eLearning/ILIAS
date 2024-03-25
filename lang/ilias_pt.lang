@@ -1016,8 +1016,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Guardar atribuições de competênc
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#São propostas taxonomias existentes neste banco para filtrar as perguntas.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtro de taxonomia como árvore de navegação
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Quando é selecionada uma taxonomia, será apresentada como árvore de navegação em vez de um item de filtro da tabela.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Podem ser usados no teste apenas bancos de perguntas online.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Usar filtro de árvore de não navegação
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Mostrar taxonomias
 assessment#:#qpl_settings_subtab_general#:#Definições gerais

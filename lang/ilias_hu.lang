@@ -1016,8 +1016,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Kompetencia-összerendelése menté
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#A már létező taxonómiák a kérdések szűrésére használhatóak ebben a gyűjteményben.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonómia szűrő, mint navigációs fa
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Mikor egy taxonómia kiválasztása kerül, asztali szűrő helyett navigáció faként jelenik meg.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Csak online kérdésgyűjtemények használhatóak a teszthez.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne használjon navigációs fa szűrőt
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonómiák megjelenítése
 assessment#:#qpl_settings_subtab_general#:#Általános beállítások

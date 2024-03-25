@@ -1017,8 +1017,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online#:#Online###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###24 10 2013 new variable
 assessment#:#qpl_settings_subtab_general#:#General Settings###24 10 2013 new variable
