@@ -666,9 +666,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $username['lastname'],
             '(' . $username['login'] . ')'
         ]);
-        $usr = ilObjectFactory::getInstanceByObjId($usr_id);
-        $url = ilLink::_getStaticLink($usr_id, 'usr');
 
+        $back_url = $this->ctrl->getLinkTarget($this, self::CMD_VIEW);
+        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'back_url', urlencode($back_url));
+        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'user_id', $usr_id);
+        $url = $this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'view');
+
+        $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         if (!$usr->hasPublicProfile()) {
             $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }
