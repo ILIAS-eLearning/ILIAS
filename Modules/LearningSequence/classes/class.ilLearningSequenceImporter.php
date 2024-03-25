@@ -47,8 +47,18 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->data = $parser->start();
 
         $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
-        $a_mapping->addMapping('Services/COPage', 'pg', 'cont:' . $a_id * ilObjLearningSequence::CP_INTRO, 'cont:' . (string) $this->obj->getId() * ilObjLearningSequence::CP_INTRO);
-        $a_mapping->addMapping('Services/COPage', 'pg', 'cont:' . $a_id * ilObjLearningSequence::CP_EXTRO, 'cont:' . (string) $this->obj->getId() * ilObjLearningSequence::CP_EXTRO);
+        $a_mapping->addMapping(
+            'Services/COPage',
+            'pg',
+            LSOPageType::INTRO->value . ':' . $a_id,
+            LSOPageType::INTRO->value . ':' . (string) $this->obj->getId()
+        );
+        $a_mapping->addMapping(
+            'Services/COPage',
+            'pg',
+            LSOPageType::EXTRO->value . ':' . $a_id,
+            LSOPageType::EXTRO->value . ':' . (string) $this->obj->getId()
+        );
 
     }
 

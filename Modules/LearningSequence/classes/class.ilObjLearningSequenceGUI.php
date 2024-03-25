@@ -318,30 +318,27 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
 
             case "ilobjlearningsequenceeditintrogui":
-                $which_page = $this->object::CP_INTRO;
+                $which_page = LSOPageType::INTRO;
                 $which_tab = self::TAB_EDIT_INTRO;
                 $gui_class = 'ilObjLearningSequenceEditIntroGUI';
                 // no break
             case "ilobjlearningsequenceeditextrogui":
-
                 if (!isset($which_page)) {
-                    $which_page = $this->object::CP_EXTRO;
+                    $which_page = LSOPageType::EXTRO;
                     $which_tab = self::TAB_EDIT_EXTRO;
-
                     $gui_class = 'ilObjLearningSequenceEditExtroGUI';
                 }
 
                 $this->addContentStyleCss();
                 $this->addSubTabsForContent($which_tab);
 
-                $page_id = $this->object->getContentPageId($which_page);
                 if (!$this->object->hasContentPage($which_page)) {
                     $this->object->createContentPage($which_page);
                 }
 
                 $gui = new $gui_class(
-                    $this->object::CP_TYPE,
-                    $page_id
+                    $which_page->value,
+                    $this->object->getContentPageId()
                 );
                 $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);

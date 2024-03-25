@@ -90,7 +90,6 @@ class ilLearningSequenceExporter extends ilXmlExporter
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $res = [];
-
         if ($a_entity == "lso") {
             // service settings
             $res[] = [
@@ -101,25 +100,24 @@ class ilLearningSequenceExporter extends ilXmlExporter
         }
 
         // container pages
-        $pg_ids = [];
-        $lso_ids = [];
         foreach ($a_ids as $id) {
-            $lso_ids[] = (int)$id * ilObjLearningSequence::CP_INTRO;
-            $lso_ids[] = (int)$id * ilObjLearningSequence::CP_EXTRO;
-        }
-        foreach ($lso_ids as $id) {
-            if (ilContainerPage::_exists("cont", (int) $id)) {
-                $pg_ids[] = "cont:" . $id;
+            if (ilContainerPage::_exists(LSOPageType::INTRO->value, (int) $id)) {
+                $res[] = [
+                    "component" => "Services/COPage",
+                    "entity" => "pg",
+                    "ids" => [LSOPageType::INTRO->value . ":" . $id]
+                ];
+            }
+
+            if (ilContainerPage::_exists(LSOPageType::EXTRO->value, (int) $id)) {
+                $res[] = [
+                    "component" => "Services/COPage",
+                    "entity" => "pg",
+                    "ids" => [LSOPageType::EXTRO->value . ":" . $id]
+                ];
             }
         }
 
-        if (count($pg_ids)) {
-            $res[] = [
-                "component" => "Services/COPage",
-                "entity" => "pg",
-                "ids" => $pg_ids
-            ];
-        }
         return $res;
     }
 }
