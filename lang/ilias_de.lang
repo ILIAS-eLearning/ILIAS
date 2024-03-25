@@ -1054,8 +1054,6 @@ assessment#:#qpl_settings_availability#:#Verfügbarkeit
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Ein Fragenpool muss online sein, um in Tests verwendet werden zu können.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Keine Taxonomie als Navigationsbaum verwenden
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_settings_subtab_general#:#Allgemeine Einstellungen

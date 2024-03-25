@@ -1051,8 +1051,6 @@ assessment#:#qpl_settings_availability#:#Elérhetőség
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#A már létező taxonómiák a kérdések szűrésére használhatóak ebben a gyűjteményben.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonómia szűrő, mint navigációs fa
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Mikor egy taxonómia kiválasztása kerül, asztali szűrő helyett navigáció faként jelenik meg.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Csak online kérdésgyűjtemények használhatók a teszthez.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne használjon navigációs fa szűrőt
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonómiák megjelenítése
 assessment#:#qpl_settings_subtab_general#:#Általános beállítások
@@ -2481,7 +2479,7 @@ blog#:#blog_toggle_draft#:#Közzététel visszavonása
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
 blog#:#blog_toggle_final#:#Bejegyzés közzététele
 blog#:#blog_whole_blog#:#Teljes blog
-book#:#X_reservations_of#:#%s foglalás / 
+book#:#X_reservations_of#:#%s foglalás /
 book#:#book_add#:#Foglalásgyűjtemény létrehozása
 book#:#book_add_object#:#Objektum létrehozása
 book#:#book_add_schedule#:#Időterv létrehozása
@@ -5822,7 +5820,7 @@ common#:#user_activated#:#A felhasználót sikeresen jóváhagyta
 common#:#user_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#user_assignment#:#Felhasználó-hozzárendelés
 common#:#user_avatar#:#Profilkép
-common#:#user_avatar_of#:#Profilkép - 
+common#:#user_avatar_of#:#Profilkép -
 common#:#user_cant_receive_mail#:#%1$s – a felhasználónak nem engedélyezett a levelezőrendszer használata.
 common#:#user_comment#:#Felhasználói megjegyzés
 common#:#user_deactivated#:#Felhasználót kikapcsolta
@@ -6480,7 +6478,7 @@ content#:#cont_file_renamed#:#A fájl neve megváltozott.
 content#:#cont_file_unzipped#:#A fájlt kicsomagoltuk.
 content#:#cont_files#:#Fájlok
 content#:#cont_finish_editing#:#Szerkesztés befejezése
-content#:#cont_finish_table_editing#:#Adattábla szerkesztésének befejezése 
+content#:#cont_finish_table_editing#:#Adattábla szerkesztésének befejezése
 content#:#cont_first_open#:#Első panel kinyitva
 content#:#cont_first_page#:#Első oldal
 content#:#cont_first_row_style#:#Első sor stílusosztálya
@@ -8842,8 +8840,8 @@ dpro#:#dpro_last_reset_date#:#Az Adatvédelmi Nyilatkozatot elfogadásait törö
 dpro#:#dpro_mode#:#Mód
 dpro#:#dpro_mode_desc#:#Kérem, adja meg, hogy az Adatvédelmi Nyilatkozatot mikor és hogyan fogadják el.
 dpro#:#dpro_no_acceptance#:#Soha, csak informatív
-dpro#:#dpro_no_documents_exist#:#Jelenleg nincs beállítva Adatvdelmi Nyilatkozat. 
-dpro#:#dpro_no_documents_exist_cant_save#:#A szolgáltatás jelenleg nem kapcsolható be, mert nincs beállítva Adatvdelmi Nyilatkozat. Leaglább egyet adjon hozzá 
+dpro#:#dpro_no_documents_exist#:#Jelenleg nincs beállítva Adatvdelmi Nyilatkozat.
+dpro#:#dpro_no_documents_exist_cant_save#:#A szolgáltatás jelenleg nem kapcsolható be, mert nincs beállítva Adatvdelmi Nyilatkozat. Leaglább egyet adjon hozzá
 dpro#:#dpro_once#:#Egyszer
 dpro#:#dpro_reset_for_all_users#:#Adatvédelem Nyilatkozat elfogadásainak törlése
 dpro#:#dpro_status_enable#:#Adatvédelem bekapcsolása
@@ -9304,9 +9302,9 @@ exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszaj
 exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_new_feedback_text_uploaded#:#'%s' beadandó feladathoz új megjegyzés jött létre
 exc#:#exc_msg_new_feedback_text_uploaded2#:#ezúton tájékoztatjuk, hogy egy tutor megjegyzést írt Önnek.
-exc#:#exc_msg_new_message_from_pf_giver#:#'%s' feladathoz egy visszajelző üzenetet küldött. 
+exc#:#exc_msg_new_message_from_pf_giver#:#'%s' feladathoz egy visszajelző üzenetet küldött.
 exc#:#exc_msg_new_message_from_pf_giver2#:#Egy visszajelző üzenetet küldött Önnek:
-exc#:#exc_msg_new_message_from_pf_recipient#:#'%s' feladathoz egy visszajelzett üzenetet küldött. 
+exc#:#exc_msg_new_message_from_pf_recipient#:#'%s' feladathoz egy visszajelzett üzenetet küldött.
 exc#:#exc_msg_new_message_from_pf_recipient2#:#egy visszajelzett üzenetet küldött Önnek:
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
@@ -10707,7 +10705,7 @@ ldoc#:#ldoc_period#:#Időszak
 ldoc#:#ldoc_period_from#:#Kezdő időpont
 ldoc#:#ldoc_period_until#:#Záró időpont
 ldoc#:#ldoc_reevaluate_on_login#:#Bejelentkezéskor ellenőrizze újra
-ldoc#:#ldoc_reevaluate_on_login_desc#:#Sikeres bejelentkezés után automatikusan ellenőrizzük, hogy a korábban elfogadott dokumentum érvényben van-e még. Amennyiben már nincs, például a megjelenítés feltétele megváltozott(például nyelv vagy ország beállítása), és az új feltételekkel új dokumentum létezik, a felhasználónak az újat el kell fogadnia. 
+ldoc#:#ldoc_reevaluate_on_login_desc#:#Sikeres bejelentkezés után automatikusan ellenőrizzük, hogy a korábban elfogadott dokumentum érvényben van-e még. Amennyiben már nincs, például a megjelenítés feltétele megváltozott(például nyelv vagy ország beállítása), és az új feltételekkel új dokumentum létezik, a felhasználónak az újat el kell fogadnia.
 ldoc#:#ldoc_saved_sorting#:#Az új sorrendet sikeresen mentette.
 ldoc#:#ldoc_sure_delete_documents_p#:#Biztos, hogy törli a kiválasztott dokumentumokat?
 ldoc#:#ldoc_sure_delete_documents_s#:#Biztos, hogy törli ezt a dokumentumot?
@@ -13101,11 +13099,11 @@ prg#:#orgu#:#Szervezeti egység
 prg#:#pc_prg_action_note_label#:#Képzési program kötelező teendői
 prg#:#pc_prg_statusinfo_label#:#Képzési program állapotinformációi
 prg#:#pc_prgactionnote_complete_content#:#Kérem, fejezze be a tartalmat.
-prg#:#pc_prgactionnote_complete_content_with_deadline#:#Kérem, fejezze be a tartalmat eddig: 
+prg#:#pc_prgactionnote_complete_content_with_deadline#:#Kérem, fejezze be a tartalmat eddig:
 prg#:#pc_prgactionnote_headline#:#Kötelező teendő
 prg#:#pc_prgactionnote_no_actions_required#:#Nincs kötelező teendő
 prg#:#pc_prgstatus_edit_qualification#:#Újrafeldolgozás szükséges innen:
-prg#:#pc_prgstatus_expiration_date#:#Lejárat dátuma 
+prg#:#pc_prgstatus_expiration_date#:#Lejárat dátuma
 prg#:#pc_prgstatus_qualification_headline#:#Képesítésének állapota
 prg#:#pc_prgstatus_status_no_qualification#:#Nincs képesítése
 prg#:#pc_prgstatus_status_valid_qualification#:#Érvényes
@@ -13527,7 +13525,7 @@ ps#:#ps_export_excel#:#Excel-export indítása
 ps#:#ps_export_files#:#Exportfájlok
 ps#:#ps_export_groups#:#Felhasználó profiladatainak exportálásának engedélyezése csoportokban
 ps#:#ps_export_member#:#Tagok
-ps#:#ps_export_prgs#:#A Képzési programban a felhasználó profiladatok exportálásának engedélyezése 
+ps#:#ps_export_prgs#:#A Képzési programban a felhasználó profiladatok exportálásának engedélyezése
 ps#:#ps_export_settings#:#Exportbeállítások
 ps#:#ps_export_sub#:#Feliratkozottak
 ps#:#ps_export_tutor#:#Tutorok
@@ -13798,7 +13796,7 @@ rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
 rbac#:#crsr_delete#:#A felhasználó áthelyezhet vagy törölhet kurzuslinket
 rbac#:#crsr_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#crsr_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#crsr_read_learning_progress#:#A felhasználó megtekintheti a többi felhasználó tanulási haladását 
+rbac#:#crsr_read_learning_progress#:#A felhasználó megtekintheti a többi felhasználó tanulási haladását
 rbac#:#crsr_visible#:#A kurzuslink látható
 rbac#:#crsr_write#:#A felhasználó szerkesztheti kurzuslinket
 rbac#:#crss_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Kurzus jogosultsági beállításait
@@ -17473,7 +17471,7 @@ wopi#:#activate_wopi#:#WOPI bekapcsolása
 wopi#:#close_wopi_editor#:#Close Editor###31 01 2024 new variable
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#A Discovery URL nem valós vagy nem érhető el.
 wopi#:#msg_wopi_settings_modified#:#A beállításokat sikeresen mentette
-wopi#:#open_external_editor#:#Megnyitás külső szerkesztőben 
+wopi#:#open_external_editor#:#Megnyitás külső szerkesztőben
 wopi#:#wopi_crawler_cronjob_description#:#A csatlakoztatott WOPI szolgáltatás információinak frissítése.
 wopi#:#wopi_crawler_cronjob_no_apps#:#Egy WOPI app-ot sem találtunk a discovery-ben.
 wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI nincs bekapcsolva.

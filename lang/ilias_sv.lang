@@ -1051,8 +1051,6 @@ assessment#:#qpl_settings_availability#:#Availability###21 11 2023 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existerande taxonomier kan användas för att filtrera frågorna.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomi som navigationsträd
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Om en taxonomi väljs visas den inte som ett filter utan som ett navigationsträd.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#En frågepool måste vara online för att kunna användas i tester.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Använd inte taxonomi som navigationsträd
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomier
 assessment#:#qpl_settings_subtab_general#:#Allmänna inställningar

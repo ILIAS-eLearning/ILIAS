@@ -1036,8 +1036,6 @@ assessment#:#qpl_settings_availability#:#Availability###31 10 2023 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Lorsque activé, les taxinomies créées sont utilisées pour le filtrage.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtre de Taxinomie comme Arbre de Navigation
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Lorsqu'une taxinomie est sélectionnée, elle est utilisée pour la navigation.
-assessment#:#qpl_settings_general_form_property_online#:#En-Ligne
-assessment#:#qpl_settings_general_form_property_online_description#:#Seules les banques de question en-ligne peuvent être utilisées dans les tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne Pas Utiliser de Filtre de Navigation
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Afficher les Taxinomies
 assessment#:#qpl_settings_subtab_general#:#Paramètres Généraux

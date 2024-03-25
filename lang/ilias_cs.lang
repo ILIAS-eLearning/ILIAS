@@ -1051,8 +1051,6 @@ assessment#:#qpl_settings_availability#:#Availability###12 12 2023 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Pokud je zapnuto, pro filtrování jsou zobrazeny možné vytvořené taxonomie.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtr taxonomie v navigačním stromu
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Pokud je vybrána taxonomie, pak bude dobře prezentována jako navigační strom namísto filtrování položek tabulky.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#V testu mohou být použity pouze online zásobníky otázek.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Použít filtr žádný navigační strom
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Zobrazit taxonomie
 assessment#:#qpl_settings_subtab_general#:#Obecná nastavení

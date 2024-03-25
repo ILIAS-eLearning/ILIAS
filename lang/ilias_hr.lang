@@ -1051,8 +1051,6 @@ assessment#:#qpl_settings_availability#:#Availability###12 12 2023 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Postojeće taksonomije u ovom bazenu mogu se koristiti za filtriranje pitanja.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taksonomija za navigacijsko stablo
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ako je odabrana taksonomija, ona se ne prikazuje kao filtar već kao navigacijsko stablo.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Bazen pitanja mora biti online kako bi se mogao koristiti u testu.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne koristi taksonomiju kao navigacijsko stablo
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Prikaži taksonomije
 assessment#:#qpl_settings_subtab_general#:#Opće postavke
