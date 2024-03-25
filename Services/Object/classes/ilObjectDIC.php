@@ -53,9 +53,7 @@ class ilObjectDIC extends PimpleContainer
             $DIC->resourceStorage(),
             $DIC->http(),
             $c['tile_image_stackholder'],
-            $c['tile_image_flavour'],
-            $c['core_properties_repository'],
-            $c['additional_properties_repository']
+            $c['tile_image_flavour']
         );
 
         $this['object_properties_agregator'] = fn($c): \ilObjectPropertiesAgregator => new \ilObjectPropertiesAgregator(
