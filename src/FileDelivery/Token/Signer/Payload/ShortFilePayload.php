@@ -20,24 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Token\Signer\Payload;
 
+use ILIAS\FileDelivery\Setup\BaseDirObjective;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class FilePayload extends StructuredPayload
+class ShortFilePayload extends StructuredPayload
 {
     public function __construct(
         private string $uri,
-        private string $mime_type,
-        private string $file_name,
-        private string $disposition,
-        private int $user_id = 0
+        private string $file_name
     ) {
+        // try to shorten uri
+        $base = BaseDirObjective::get();
+        if ($base !== null) {
+            $uri = str_replace($base, '', $uri);
+        }
+
         parent::__construct([
             'p' => $uri,
-            'm' => $mime_type,
-            'n' => $file_name,
-            'd' => $disposition,
-            'u' => $user_id,
+            'n' => $file_name
         ]);
     }
 
@@ -45,16 +47,20 @@ class FilePayload extends StructuredPayload
     {
         return new self(
             $raw_payload['p'],
-            $raw_payload['m'],
-            $raw_payload['n'],
-            $raw_payload['d'],
-            $raw_payload['u']
+            $raw_payload['n']
         );
     }
 
     public function getUri(): string
     {
-        return $this->uri;
+        $uri = $this->uri;
+        // try to expand uri
+        $base = BaseDirObjective::get();
+        if ($base !== null) {
+            $uri = $base . $uri;
+        }
+
+        return $uri;
     }
 
     public function getMimeType(): string

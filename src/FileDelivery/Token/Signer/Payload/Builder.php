@@ -31,8 +31,7 @@ final class Builder
     public function file(
         FileStream $stream,
         string $filename,
-        Disposition $disposition,
-        int $valid_for_at_least_hours
+        Disposition $disposition
     ): FilePayload {
         $uri = $stream->getMetadata()['uri'];
 
@@ -40,8 +39,19 @@ final class Builder
             $uri,
             mime_content_type($uri),
             $filename,
-            $disposition->value,
-            $valid_for_at_least_hours
+            $disposition->value
+        );
+    }
+
+    public function shortFile(
+        FileStream $stream,
+        string $filename
+    ): ShortFilePayload {
+        $uri = $stream->getMetadata()['uri'];
+
+        return new ShortFilePayload(
+            $uri,
+            $filename
         );
     }
 
@@ -49,5 +59,11 @@ final class Builder
         array $raw
     ): FilePayload {
         return FilePayload::fromArray($raw);
+    }
+
+    public function shortFileFromRaw(
+        array $raw
+    ): ShortFilePayload {
+        return ShortFilePayload::fromArray($raw);
     }
 }
