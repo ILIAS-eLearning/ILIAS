@@ -50,6 +50,11 @@ class BaseDirObjective extends BuildArtifactObjective
         return $this->build();
     }
 
+    public function getArtifactName(): string
+    {
+        return 'base_dir';
+    }
+
     public function build(): Setup\Artifact
     {
         return new Setup\Artifact\ArrayArtifact($this->data);
