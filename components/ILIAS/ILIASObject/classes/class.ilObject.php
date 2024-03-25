@@ -143,6 +143,14 @@ class ilObject
     }
 
     /**
+     * @deprecated 11: Do absolutely not use this! I will NOT check any usages before removal.
+     */
+    public function flushObjectProperties(): void
+    {
+        $this->object_properties = null;
+    }
+
+    /**
     * determines whether objects are referenced or not (got ref ids or not)
     */
     final public function withReferences(): bool

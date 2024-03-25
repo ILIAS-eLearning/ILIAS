@@ -51,7 +51,6 @@ use ILIAS\Test\QuestionIdentifiers;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
-    private ilObjectCommonSettings $common_settings;
     private HttpRequest $http_request;
     private QuestionInfoService $questioninfo;
     private \ILIAS\Filesystem\Util\Archive\LegacyArchives $archives;

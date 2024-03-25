@@ -31,8 +31,7 @@ use ILIAS\HTTP\Services;
  */
 class ilObjectCommonSettings
 {
-    private ilObjectAdditionalProperties $additional_properties;
-    private ilObjectCoreProperties $core_properties;
+    private ?ilObject $object = null;
 
     public function __construct(
         private ilLanguage $language,
@@ -40,62 +39,56 @@ class ilObjectCommonSettings
         private ResourceStorageServices $storage,
         private Services $http,
         private ilObjectTileImageStakeholder $stakeholder,
-        private ilObjectTileImageFlavourDefinition $flavour,
-        private ilObjectCorePropertiesRepository $core_properties_repository,
-        private ilObjectAdditionalPropertiesRepository $additional_properties_repository
+        private ilObjectTileImageFlavourDefinition $flavour
     ) {
     }
 
-    public function getPropertyTitleAndIconVisibility(): ilObjectPropertyTitleAndIconVisibility
+    public function getPropertyTitleAndIconVisibility(): ?ilObjectPropertyTitleAndIconVisibility
     {
-        return $this->additional_properties->getPropertyTitleAndIconVisibility();
+        return $this->object?->getObjectProperties()->getPropertyTitleAndIconVisibility();
     }
 
     public function storePropertyTitleAndIconVisibility(
         ilObjectPropertyTitleAndIconVisibility $property_title_and_icon_visibility
     ): void {
-        $this->additional_properties = $this->additional_properties
-            ->withPropertyTitleAndIconVisibility($property_title_and_icon_visibility);
-        $this->additional_properties_repository->store($this->additional_properties);
+        $this->object?->getObjectProperties()->storePropertyTitleAndIconVisibility($property_title_and_icon_visibility);
+        $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyHeaderActionVisibility(): ilObjectPropertyHeaderActionVisibility
+    public function getPropertyHeaderActionVisibility(): ?ilObjectPropertyHeaderActionVisibility
     {
-        return $this->additional_properties->getPropertyHeaderActionVisibility();
+        return $this->object?->getObjectProperties()->getPropertyHeaderActionVisibility();
     }
 
     public function storePropertyHeaderActionVisibility(
         ilObjectPropertyHeaderActionVisibility $property_header_action_visibility
     ): void {
-        $this->additional_properties = $this->additional_properties
-            ->withPropertyHeaderActionVisibility($property_header_action_visibility);
-        $this->additional_properties_repository->store($this->additional_properties);
+        $this->object?->getObjectProperties()->storePropertyHeaderActionVisibility($property_header_action_visibility);
+        $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyTileImage(): ilObjectPropertyTileImage
+    public function getPropertyTileImage(): ?ilObjectPropertyTileImage
     {
-        return $this->core_properties->getPropertyTileImage();
+        return $this->object?->getObjectProperties()->getPropertyTileImage();
     }
 
     public function storePropertyTileImage(
         ilObjectPropertyTileImage $property_tile_image
     ): void {
-        $this->core_properties = $this->core_properties
-            ->withPropertyTileImage($property_tile_image);
-        $this->core_properties_repository->store($this->core_properties);
+        $this->object?->getObjectProperties()->storePropertyTileImage($property_tile_image);
+        $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyIcon(): ilObjectPropertyIcon
+    public function getPropertyIcon(): ?ilObjectPropertyIcon
     {
-        return $this->additional_properties->getPropertyIcon();
+        return $this->object?->getObjectProperties()->getPropertyIcon();
     }
 
     public function storePropertyIcon(
         ilObjectPropertyIcon $property_icon
     ): void {
-        $this->additional_properties = $this->additional_properties
-            ->withPropertyIcon($property_icon);
-        $this->additional_properties_repository->store($this->additional_properties);
+        $this->object?->getObjectProperties()->storePropertyIcon($property_icon);
+        $this->object?->flushObjectProperties();
     }
 
     /**
@@ -106,8 +99,7 @@ class ilObjectCommonSettings
      */
     public function legacyForm(ilPropertyFormGUI $form, ilObject $object): ilObjectCommonSettingFormAdapter
     {
-        $this->additional_properties = $this->additional_properties_repository->getFor($object->getId());
-        $this->core_properties = $this->core_properties_repository->getFor($object->getId());
+        $this->object = $object;
 
         return new ilObjectCommonSettingFormAdapter(
             $this->language,
