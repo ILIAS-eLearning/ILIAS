@@ -65,7 +65,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return int
      */
-    public function getQuestionIndex(): int
+    public function getQuestionIndex(): ?int
     {
         return $this->question_index;
     }
