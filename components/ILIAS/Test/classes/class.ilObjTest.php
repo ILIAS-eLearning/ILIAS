@@ -80,8 +80,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     private int $template_id = 0;
 
-    protected $oldOnlineStatus = null;
-
     protected bool $print_best_solution_with_result = true;
 
     protected bool $activation_visibility = false;
@@ -555,8 +553,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 }
             }
         }
-
-        $this->addToNewsOnOnline($this->getOldOnlineStatus(), !$this->getOfflineStatus());
 
         $this->storeActivationSettings([
             'is_activation_limited' => $this->isActivationLimited(),
@@ -3560,6 +3556,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withTitle($assessment->getTitle())
                 ->withDescription($assessment->getComment())
         );
+        $this->addToNewsOnOnline(false, $this->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
         $main_settings = $main_settings
             ->withGeneralSettings($general_settings)
             ->withIntroductionSettings($introduction_settings)
@@ -4541,6 +4538,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $new_obj->saveToDb();
+        $new_obj->addToNewsOnOnline(false, $new_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
         $this->getMainSettingsRepository()->store(
             $this->getMainSettings()->withTestId($new_obj->getTestId())
         );
@@ -7330,16 +7328,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function isOnline(): bool
     {
         return $this->online;
-    }
-
-    public function getOldOnlineStatus()
-    {
-        return $this->oldOnlineStatus;
-    }
-
-    public function setOldOnlineStatus($oldOnlineStatus): void
-    {
-        $this->oldOnlineStatus = $oldOnlineStatus;
     }
 
     public function isOfferingQuestionHintsEnabled(): bool
