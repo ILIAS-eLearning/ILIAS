@@ -845,11 +845,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
         $this->object->handleAutoFill();
 
-        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
-        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
         ilContainer::_writeContainerSetting($this->object->getId(), "rep_breacrumb", $form->getInput('rep_breacrumb'));
-        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
-        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
         $this->saveListPresentation($form);
 
         $this->object->setViewMode((int) $form->getInput('view_mode'));
@@ -900,6 +896,11 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->handleAutoFill();
         }
         $this->object->update();
+
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),

@@ -665,6 +665,9 @@ class ilObjGroupGUI extends ilContainerGUI
                     break;
             }
 
+            // update object settings
+            $this->object->update();
+
             // title icon visibility
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
 
@@ -679,9 +682,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
             // list presentation
             $this->saveListPresentation($form);
-
-            // update object settings
-            $this->object->update();
 
 
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
