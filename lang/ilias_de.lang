@@ -6455,7 +6455,7 @@ content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_general_properties#:#Generelle Eigenschaften
-content#:#cont_get_link#:#Link auswählen
+content#:#cont_get_link#:#→ Ziel-Objekt wählen
 content#:#cont_glo_assign#:#Glossar zuweisen
 content#:#cont_glo_create#:#Neues Glossar anlegen
 content#:#cont_glo_detach#:#Glossarzuweisung aufheben
@@ -6576,13 +6576,13 @@ content#:#cont_layout_toc2windyn_desc#:#Übersicht links, Inhalte im rechten Fra
 content#:#cont_left#:#Links
 content#:#cont_left_float#:#Links, Text umfließt
 content#:#cont_license#:#Lizenz
-content#:#cont_license_info#:#Reiter und Funktion "Lizenz" werden angezeigt.
+content#:#cont_license_info#:#Reiter und Funktion „Lizenz“ werden angezeigt.
 content#:#cont_light#:#Hell
 content#:#cont_link#:#Link
 content#:#cont_link_area#:#Link-Bereich
-content#:#cont_link_ext#:#Link (extern)
+content#:#cont_link_ext#:#Externer Link
 content#:#cont_link_glo_in_lm#:#Sollen jetzt alle Glossarbegriffe im Lernmodul verlinkt werden?
-content#:#cont_link_int#:#Link (intern)
+content#:#cont_link_int#:#Interner Link
 content#:#cont_link_no#:#Kein Link
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_to_external#:#Link zu einer externen Webseite
@@ -9493,8 +9493,8 @@ form#:#form_hierarchy_drag_drop_help#:#Ziehen Sie die Icons mit der Maus auf die
 form#:#form_hours#:#Stunden
 form#:#form_image_file_input#:#Bilddatei auswählen
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
-form#:#form_link_external#:#WWW / Internet
-form#:#form_link_internal#:#Innerhalb von ILIAS
+form#:#form_link_external#:#Externer Link
+form#:#form_link_internal#:#Interner Link
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
 form#:#form_max_value#:#Maximalwert
