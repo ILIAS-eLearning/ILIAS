@@ -68,7 +68,7 @@ il.AdvancedSelectionList =
 		this.setHiddenInput(id, hid_name, hid_val);
 		anchor_text = document.getElementById("ilAdvSelListAnchorText_" + id);
 		anchor_text.innerHTML = title + ' <span class="caret"></span>';
-		if (this.lists[id]['select_callback'] != null)
+		if (typeof(this.lists[id]) !== "undefined" && this.lists[id]['select_callback'] != null)
 		{
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
 		}
@@ -78,7 +78,7 @@ il.AdvancedSelectionList =
 
 	clickNop: function (id, hid_name, hid_val, title)
 	{
-		if (this.lists[id]['select_callback'] != null)
+		if (typeof(this.lists[id]) !== "undefined" && this.lists[id]['select_callback'] != null)
 		{
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
 		}
