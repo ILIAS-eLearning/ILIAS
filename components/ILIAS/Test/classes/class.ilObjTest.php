@@ -556,28 +556,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
         }
 
-        if (!$this->getOldOnlineStatus() && !$this->getOfflineStatus()) {
-            $newsItem = new ilNewsItem();
-            $newsItem->setContext($this->getId(), 'tst');
-            $newsItem->setPriority(NEWS_NOTICE);
-            $newsItem->setTitle('new_test_online');
-            $newsItem->setContentIsLangVar(true);
-            $newsItem->setContent('');
-            $newsItem->setUserId($this->user->getId());
-            $newsItem->setVisibility(NEWS_USERS);
-            $newsItem->create();
-        } elseif ($this->getOldOnlineStatus() && !$this->getOfflineStatus()) {
-            ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
-        } elseif (!$this->getOfflineStatus()) {
-            $newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
-            if ($newsId > 0) {
-                $newsItem = new ilNewsItem($newsId);
-                $newsItem->setTitle('new_test_online');
-                $newsItem->setContentIsLangVar(true);
-                $newsItem->setContent('');
-                $newsItem->update();
-            }
-        }
+        $this->addToNewsOnOnline($this->getOldOnlineStatus(), !$this->getOfflineStatus());
 
         $this->storeActivationSettings([
             'is_activation_limited' => $this->isActivationLimited(),
@@ -8385,5 +8364,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function resetMarkSchema(): void
     {
         $this->mark_schema->flush();
+    }
+
+    public function addToNewsOnOnline(
+        bool $old_online_status,
+        bool $new_online_status
+    ): void {
+        if (!$old_online_status && $new_online_status) {
+            $newsItem = new ilNewsItem();
+            $newsItem->setContext($this->getId(), 'tst');
+            $newsItem->setPriority(NEWS_NOTICE);
+            $newsItem->setTitle('new_test_online');
+            $newsItem->setContentIsLangVar(true);
+            $newsItem->setContent('');
+            $newsItem->setUserId($this->user->getId());
+            $newsItem->setVisibility(NEWS_USERS);
+            $newsItem->create();
+            return;
+        }
+
+        if ($old_online_status && !$new_online_status) {
+            ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
+            return;
+        }
+
+        $newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
+        if (!$new_online_status && $newsId > 0) {
+            $newsItem = new ilNewsItem($newsId);
+            $newsItem->setTitle('new_test_online');
+            $newsItem->setContentIsLangVar(true);
+            $newsItem->setContent('');
+            $newsItem->update();
+        }
     }
 }
