@@ -10466,6 +10466,8 @@ irss#:#action_download#:#Download
 irss#:#action_goto#:#Open Resource
 irss#:#action_remove_resource#:#Delete Resource
 irss#:#action_remove_resource_msg#:#Do you want to delete the following Resource(s)?
+irss#:#action_remove_zip_path#:#Delete path
+irss#:#action_remove_zip_path_msg#:#Would you like to delete the following paths?
 irss#:#action_show_revisions#:#Show Revisions
 irss#:#by_creation_date_asc#:#By Creation Date (Ascending)
 irss#:#by_creation_date_desc#:#By Creation Date (Descending)
@@ -10473,11 +10475,18 @@ irss#:#by_size_asc#:#By File Size (Ascending)
 irss#:#by_size_desc#:#By File Size (Descending)
 irss#:#by_title_asc#:#By Title (Ascending)
 irss#:#by_title_desc#:#By Title (Descending)
+irss#:#create_directory#:#Create Directory
 irss#:#creation_date#:#Creation Date (This Revision)
+irss#:#directory_name#:#Directory Name
+irss#:#directory_name_info#:#Name of the directory to be inserted at the current location.
+irss#:#download_zip#:#Download all files as ZIP
 irss#:#file_size#:#File Size (This Revision)
 irss#:#file_size_bigger_than#:#File Size > MB
 irss#:#full_size#:#Resource Size (All Revisions)
+irss#:#home_directory#:#Root-Directory
 irss#:#max_revision#:#Max. Revision
+irss#:#msg_error_adding_directory#:#The directory could not be created.
+irss#:#msg_success_adding_directory#:#The directory was created successfully.
 irss#:#msg_upload#:#Drop Files to upload
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
@@ -10501,6 +10510,7 @@ irss#:#sorting_6#:#By Creation Date (Descending)
 irss#:#stakeholders#:#Origin
 irss#:#storage_id#:#Storage ID
 irss#:#storage_info#:#Storage Information
+irss#:#title_manage_container#:#Manage files and folders
 irss#:#type#:#File Type
 irss#:#upload_field_title#:#Selected Files
 irss#:#upload_modal_title#:#Add Files
