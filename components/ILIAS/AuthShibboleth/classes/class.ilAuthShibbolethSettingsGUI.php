@@ -41,6 +41,8 @@ class ilAuthShibbolethSettingsGUI
     private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     private \ILIAS\Refinery\Factory $refinery;
     private ilShibbolethSettings $shib_settings;
+    private ilSetting $global_settings;
+    private ilRbacReview $rbac_review;
 
     public function __construct(int $a_auth_ref_id)
     {
@@ -57,6 +59,8 @@ class ilAuthShibbolethSettingsGUI
         $this->ref_id = $a_auth_ref_id;
         $this->component_repository = $DIC["component.repository"];
         $this->shib_settings = new ilShibbolethSettings();
+        $this->global_settings = $DIC['ilSetting'];
+        $this->rbac_review = $DIC['rbacreview'];
     }
 
     public function executeCommand(): void
@@ -315,9 +319,7 @@ class ilAuthShibbolethSettingsGUI
 
     protected function updateRoleAssignmentRule(): bool
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->roleAssignment();
 
@@ -422,11 +424,7 @@ class ilAuthShibbolethSettingsGUI
      */
     private function prepareRoleSelect(): array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
-        $global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(), 'object_data', 'title', 'obj_id');
+        $global_roles = ilUtil::_sortIds($this->rbac_review->getGlobalRoles(), 'object_data', 'title', 'obj_id');
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
             $select[$role_id] = ilObject::_lookupTitle($role_id);
@@ -437,14 +435,9 @@ class ilAuthShibbolethSettingsGUI
 
     protected function setSubTabs(): bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        if ($ilSetting->get('shib_active', '0') && ilShibbolethRoleAssignmentRules::getCountRules() === 0) {
+        if (!(bool) $this->global_settings->get('shib_active', '0')) {
             return false;
         }
-        // DONE: show sub tabs if there is any role assignment rule
         $this->tabs_gui->addSubTabTarget('shib_settings', $this->ctrl->getLinkTarget($this, 'settings'));
         $this->tabs_gui->addSubTabTarget('shib_role_assignment', $this->ctrl->getLinkTarget($this, 'roleAssignment'));
 
