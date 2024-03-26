@@ -4371,6 +4371,7 @@ hr.il-divider-with-label {
   height: unset;
   border: unset;
   background-color: unset;
+  box-shadow: none;
 }
 
 .il-input-multiselect {
