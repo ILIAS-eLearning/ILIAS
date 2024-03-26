@@ -31,6 +31,12 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
 {
     private const PATH_DEFAULT_ICON_DIR = __DIR__ . "/../../../../templates/default/images/default_file_icons/";
 
+    public function __construct(
+        private bool $reset_default = false,
+        private bool $reset_all = false
+    ) {
+    }
+
     /**
      * @inheritDoc
      */
@@ -105,20 +111,20 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
                 continue;
             }
 
-            // copy icon to a temp dir before using the moveToStorage function to prevent losing the original file
-            $path_temp_dir = \ilFileUtils::ilTempnam();
-            $temp_dir_created = mkdir($path_temp_dir);
-            if (!$temp_dir_created) {
-                continue;
-            }
             $path_default_file_icon = self::PATH_DEFAULT_ICON_DIR . $default_icon_filename;
-            $path_temp_default_file_icon = $path_temp_dir . "/" . $default_icon_filename;
-            $copied_to_temp = copy($path_default_file_icon, $path_temp_default_file_icon);
-            if (!$copied_to_temp) {
+
+            //move copy of default icon in temp dir to resource storage
+            $resource_identification = $helper->movePathToStorage(
+                $path_default_file_icon,
+                6,
+                null,
+                null,
+                true
+            );
+
+            if ($resource_identification === null) {
                 continue;
             }
-            //move copy of default icon in temp dir to resource storage
-            $resource_identification = $helper->movePathToStorage($path_temp_default_file_icon, 6);
             $rid = $resource_identification->serialize();
             //create icon & icon suffix db entry for newly added default icon
             $db->insert(
@@ -150,6 +156,101 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
          * @var $db ilDBInterface
          */
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+
+        // this removes all icons from the database and therefore forces a re-creation of the default icons
+        if ($this->reset_all) {
+            if ($db->tableExists(IconDatabaseRepository::ICON_TABLE_NAME)) {
+                $db->manipulate("DELETE FROM " . IconDatabaseRepository::ICON_TABLE_NAME);
+            }
+            if ($db->tableExists(IconDatabaseRepository::SUFFIX_TABLE_NAME)) {
+                $db->manipulate("DELETE FROM " . IconDatabaseRepository::SUFFIX_TABLE_NAME);
+            }
+            return true;
+        }
+
+        // this removes all default icons from the database and therefore forces a re-creation of the default icons but keeps custom icons
+        if ($this->reset_default && $db->tableExists(IconDatabaseRepository::ICON_TABLE_NAME)) {
+            // we can proceed if icon tables are not available
+            if (
+                !$db->tableExists(IconDatabaseRepository::SUFFIX_TABLE_NAME)
+                && !$db->tableExists(IconDatabaseRepository::ICON_TABLE_NAME)
+            ) {
+                return true;
+            }
+
+            // selects the rids of all default icons
+            $query = "SELECT rid FROM " . IconDatabaseRepository::ICON_TABLE_NAME . " WHERE " . IconDatabaseRepository::IS_DEFAULT_ICON . " = 1";
+            $statement = $db->query($query);
+            $rids = [];
+            while ($row = $db->fetchAssoc($statement)) {
+                $rids[] = $row[IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION];
+            }
+            // delete all default icons
+            $db->manipulate(
+                "DELETE FROM " . IconDatabaseRepository::ICON_TABLE_NAME . " WHERE " . IconDatabaseRepository::IS_DEFAULT_ICON . " = 1"
+            );
+
+            // now we deactivate all custom icons which override the default icons. therefore we must search for the suffixes related to the default icons.
+            // read all suffixes of the default icons
+            $query = "SELECT " . IconDatabaseRepository::SUFFIX . " FROM " . IconDatabaseRepository::SUFFIX_TABLE_NAME . " WHERE " . $db->in(
+                IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION,
+                $rids,
+                false,
+                'text'
+            );
+            $statement = $db->query($query);
+            $suffixes = [];
+            while ($row = $db->fetchAssoc($statement)) {
+                $suffixes[] = $row[IconDatabaseRepository::SUFFIX];
+            }
+            // remove all entries of the default icons
+            $db->manipulate(
+                "DELETE FROM " . IconDatabaseRepository::SUFFIX_TABLE_NAME . " WHERE " . $db->in(
+                    IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION,
+                    $rids,
+                    false,
+                    'text'
+                )
+            );
+
+            $rids = [];
+            if (!empty($suffixes)) {
+                // collect rids of custom icons which override the default icons
+                $query = "SELECT " . IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION . " FROM " . IconDatabaseRepository::SUFFIX_TABLE_NAME . " WHERE " . $db->in(
+                    IconDatabaseRepository::SUFFIX,
+                    $suffixes,
+                    false,
+                    'text'
+                );
+                $statement = $db->query($query);
+
+                while ($row = $db->fetchAssoc($statement)) {
+                    $rids[] = $row[IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION];
+                }
+            }
+
+            // deactivate all custom icons which override the default icons
+            if (!empty($rids)) {
+                $db->manipulate(
+                    "UPDATE " . IconDatabaseRepository::ICON_TABLE_NAME . " SET " . IconDatabaseRepository::ICON_ACTIVE . " = 0 WHERE " . $db->in(
+                        IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION,
+                        $rids,
+                        false,
+                        'text'
+                    )
+                );
+            }
+
+            // clean up orphaned suffixes
+            $db->manipulate(
+                "DELETE su FROM " . IconDatabaseRepository::SUFFIX_TABLE_NAME . " su LEFT JOIN " . IconDatabaseRepository::ICON_TABLE_NAME
+                . " i ON su." . IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION . " = i." . IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION
+                . " WHERE i." . IconDatabaseRepository::ICON_RESOURCE_IDENTIFICATION . " IS NULL"
+            );
+
+            return true;
+        }
+
         if ($db->tableExists(IconDatabaseRepository::ICON_TABLE_NAME)) {
             $scan_result = scandir(self::PATH_DEFAULT_ICON_DIR);
             $num_default_icons_in_dir = is_countable(preg_grep("/^icon_file_/", $scan_result)) ? count(
