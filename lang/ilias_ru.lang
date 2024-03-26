@@ -16332,7 +16332,6 @@ user#:#user_account_deleted_confirmation#:#Ваша учетная запись 
 user#:#user_activate_public_profile#:#Активировать публичный профиль
 user#:#user_activate_public_profile_info#:#Если включено, то имя и фамилия всегда будет отображаться в вашем профиле.
 user#:#user_activation#:#Активация пользователя
-user#:#user_adm_enable_alpha_nav#:#Алфавитный порядок в "Учетные записи"
 user#:#user_all#:#Все
 user#:#user_allow_delete_own_account#:#Позволить пользователям удалить свою учетную запись
 user#:#user_any#:#Любой

@@ -16436,7 +16436,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-m
 user#:#user_activate_public_profile#:#Activation
 user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.
 user#:#user_activation#:#Activation
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration
 user#:#user_all#:#All
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#Any

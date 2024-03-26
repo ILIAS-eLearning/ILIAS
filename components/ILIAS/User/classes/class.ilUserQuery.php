@@ -315,7 +315,7 @@ class ilUserQuery
         // User filter
         $count_query .= " WHERE 1 = 1 ";
         $count_user_filter = "usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
-        if ($this->users and is_array(($this->users))) {
+        if ($this->users && is_array(($this->users))) {
             $query .= ' AND ' . $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
             $count_user_filter = $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
         }

@@ -16330,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#您的账号已被删除。一封包�
 user#:#user_activate_public_profile#:#激活公共资料(profile)
 user#:#user_activate_public_profile_info#:#您的公共资料(profil)的全局活跃状态。如果已激活，您的姓名将对其他用户可见。
 user#:#user_activation#:#激活
-user#:#user_adm_enable_alpha_nav#:#在用户管理中按字母顺序导航
 user#:#user_all#:#全部
 user#:#user_allow_delete_own_account#:#允许用户删除自己的账号
 user#:#user_any#:#任意

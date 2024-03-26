@@ -16331,7 +16331,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#فعالسازی نمایه عمومی
 user#:#user_activate_public_profile_info#:#اگر فعال شود، نام ونام خانوادگی شما همیشه قابل مشاهده خواهد شد
 user#:#user_activation#:#فعالسازی
-user#:#user_adm_enable_alpha_nav#:#حرکت بصورت الفبایی در مدیریت کاربران
 user#:#user_all#:#همه
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#هر

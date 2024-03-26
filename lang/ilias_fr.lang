@@ -17065,7 +17065,6 @@ user#:#user_account_deleted_confirmation#:#Votre compte a été supprimé. Un em
 user#:#user_activate_public_profile#:#Activation
 user#:#user_activate_public_profile_info#:#Activation globale du profil public. Si actif, votre prénom et votre nom seront visibles par les autres utilisateurs connectés.
 user#:#user_activation#:#Activation
-user#:#user_adm_enable_alpha_nav#:#Navigation alphabétique dans l'administration utilisateur
 user#:#user_all#:#Tous
 user#:#user_allow_delete_own_account#:#Autoriser les utilisateurs à supprimer leur propre compte
 user#:#user_any#:#Tous

@@ -16331,7 +16331,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Aktiveeri avalik profiil
 user#:#user_activate_public_profile_info#:#Sinu avaliku profiili üldine aktiveerimine. Aktiveerimise korral on sinu ees- ja perenimi teistele kasutajatele näha.
 user#:#user_activation#:#Aktiveerimine
-user#:#user_adm_enable_alpha_nav#:#Kasutaja halduses alfabeetiline navigatsioon
 user#:#user_all#:#Kõik
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#Kõik

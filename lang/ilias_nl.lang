@@ -16331,7 +16331,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-m
 user#:#user_activate_public_profile#:#Inschakelen publiek profiel
 user#:#user_activate_public_profile_info#:#Globale inschakeling van je publieke profiel. Indien ingeschakeld, zijn je voor- en achternaam zichtbaar voor anderen.
 user#:#user_activation#:#Activeren
-user#:#user_adm_enable_alpha_nav#:#Alfabetische navigatie in gebruikersbeheer
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Laat gebruikers toe om eigen account te verwijderen
 user#:#user_any#:#Enige
