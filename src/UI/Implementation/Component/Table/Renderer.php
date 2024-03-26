@@ -262,6 +262,8 @@ class Renderer extends AbstractComponentRenderer
                     $component->getMultiActionSignal(),
                     $modal->getShowSignal()
                 );
+                $total_number_of_cols = count($component->getVisibleColumns()) + 2; // + selection column and action dropdown column
+                $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
                 $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
                 $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
             }
