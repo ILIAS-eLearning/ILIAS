@@ -540,13 +540,15 @@ class ilDclRecordEditGUI
         }
 
         // Check if we can create this record.
-        foreach ($all_fields as $field) {
-            try {
-                $field->checkValidityFromForm($this->form, $this->record_id);
-            } catch (ilDclInputException $e) {
-                $valid = false;
-                $item = $this->form->getItemByPostVar('field_' . $field->getId());
-                $item->setAlert($e->getMessage());
+        if ($valid) {
+            foreach ($all_fields as $field) {
+                try {
+                    $field->checkValidityFromForm($this->form, $this->record_id);
+                } catch (ilDclInputException $e) {
+                    $valid = false;
+                    $item = $this->form->getItemByPostVar('field_' . $field->getId());
+                    $item->setAlert($e->getMessage());
+                }
             }
         }
 
