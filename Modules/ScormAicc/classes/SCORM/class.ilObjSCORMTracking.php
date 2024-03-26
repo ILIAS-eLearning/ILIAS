@@ -570,6 +570,7 @@ class ilObjSCORMTracking
         while ($row = $ilDB->fetchObject($res)) {
             // #15061 - see _getProgressInfo()
             if (!($a_blocked_user_ids &&
+                isset($a_blocked_user_ids[$row->sco_id]) &&
                 is_array($a_blocked_user_ids[$row->sco_id]) &&
                 in_array($row->user_id, $a_blocked_user_ids[$row->sco_id]))) {
                 $in_progress[$row->sco_id][] = $row->user_id;
