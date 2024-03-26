@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"sabre/dav": "^4.5",
 	},
 	"require-dev": {
 	},
