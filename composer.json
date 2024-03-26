@@ -58,7 +58,8 @@
 		"ezyang/htmlpurifier": "^4.17",
 		"phpmailer/phpmailer": "^6.8",
 		"symfony/yaml": "^5.3",
-		"guzzlehttp/psr7": "^2.6.1"
+		"guzzlehttp/psr7": "^2.6.1",
+		"league/flysystem": "^3.0"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
