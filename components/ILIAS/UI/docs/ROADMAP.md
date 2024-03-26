@@ -421,6 +421,18 @@ Following advantages will be gained:
 
 Note: the package can be found in the node_modules directory. With ILIAS 10 it will be found in the public/node_modules directory.
 
+### Add Accessibility for UI Input "Button" > "Month"
+
+The DateTime Input Field was adjusted to HTML5 to make accessibility possible. The UI
+Input field for Duration uses those changes too. The JavaScript Bootstrap DateTimePicker
+files could not be deleted, because the UI Input Button "Month" still uses this library.
+There's currently no HTML5 Picker for that scenario available - the input type "month" in HTML5
+acts like a text type field. We need a accessible Input Button field "Month".
+
+Following tasks have to be done:
+- creating and diskussing a concept
+- implementing the solution after the concept got approved
+
 
 ## Ideas and Food for Thought
 
