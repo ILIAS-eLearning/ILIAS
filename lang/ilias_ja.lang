@@ -17148,7 +17148,6 @@ user#:#user_account_deleted_confirmation#:#アカウントは削除されまし�
 user#:#user_activate_public_profile#:#パブリックプロファイルのアクティベーション
 user#:#user_activate_public_profile_info#:#有効にすると姓と名は常時表示されます。
 user#:#user_activation#:#アクティベーション
-user#:#user_adm_enable_alpha_nav#:#ユーザ管理のアルファベットナビゲーション
 user#:#user_all#:#すべて
 user#:#user_allow_delete_own_account#:#自身のアカウント削除をユーザへ許可する
 user#:#user_any#:#いずれか

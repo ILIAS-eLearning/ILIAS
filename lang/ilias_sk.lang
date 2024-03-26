@@ -17148,7 +17148,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Activate Public Profile
 user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.
 user#:#user_activation#:#Aktivace
-user#:#user_adm_enable_alpha_nav#:#Abecední navigace v uživatelské správě
 user#:#user_all#:#Všichni
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#Kterýkoli

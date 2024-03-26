@@ -17150,7 +17150,6 @@ user#:#user_account_deleted_confirmation#:#Tu cuenta ha sido borrada. Se te ha e
 user#:#user_activate_public_profile#:#Activar perfil público
 user#:#user_activate_public_profile_info#:#Activación global de su perfil público. Si se activa su nombre y apellido serán visibles para otros usuarios.
 user#:#user_activation#:#Activación
-user#:#user_adm_enable_alpha_nav#:#Navegación alfabética en la administración de usuario
 user#:#user_all#:#Todo
 user#:#user_allow_delete_own_account#:#Permitir a los usuarios eliminar su propia cuenta
 user#:#user_any#:#Nada

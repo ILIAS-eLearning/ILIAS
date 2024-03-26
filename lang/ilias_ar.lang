@@ -17148,7 +17148,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#تفعيل الملف العام
 user#:#user_activate_public_profile_info#:#اذا قمت بالتفعيل سيكون اسم الاول والاخير ظاهرا دائما
 user#:#user_activation#:#تفعيل
-user#:#user_adm_enable_alpha_nav#:#التنقل الابجدي في ادارة المستخدم
 user#:#user_all#:#الكل
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#اي مستخدم

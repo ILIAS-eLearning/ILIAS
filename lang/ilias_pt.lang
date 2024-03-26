@@ -17148,7 +17148,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Ativar Perfil Público
 user#:#user_activate_public_profile_info#:#Ativação Global do Perfil Público. Se habilitado seu nome e sobrenome ficarão visíveis para outros usuários.
 user#:#user_activation#:#Ativação
-user#:#user_adm_enable_alpha_nav#:#Navegação alfabética na administração de usuário
 user#:#user_all#:#Tudo
 user#:#user_allow_delete_own_account#:#Permite aos utilizadores apagar a própria conta
 user#:#user_any#:#Nenhum

@@ -246,7 +246,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $utab->resetOffset();
         $utab->resetFilter();
-        $this->viewObject(true);
+        $this->viewObject();
     }
 
     /**
@@ -281,10 +281,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * list users
      */
     public function viewObject(
-        bool $reset_filter = false
     ): void {
-        $user_filter = null;
-
         if ($this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
             || $this->rbac_system->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $this->toolbar->addComponent(
@@ -302,41 +299,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
+        $list_of_users = null;
         if (!$this->access->checkAccess('read_users', '', USER_FOLDER_ID)
             && $this->access->checkRbacOrPositionPermissionAccess(
                 'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID
             )) {
-            $users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
-            $user_filter = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+            $list_of_users = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
-                $users
-            );
-        }
-
-        // alphabetical navigation
-        if ((int) $this->settings->get('user_adm_alpha_nav')) {
-            if (count($this->toolbar->getItems()) > 0) {
-                $this->toolbar->addSeparator();
-            }
-
-            // alphabetical navigation
-            $ai = new ilAlphabetInputGUI(
-                '',
-                'first'
-            );
-            $ai->setLetters(ilObjUser::getFirstLettersOfLastnames($user_filter));
-            $ai->setParentCommand(
-                $this,
-                'chooseLetter'
-            );
-            $ai->setHighlighted($this->user_request->getLetter());
-            $this->toolbar->addInputItem(
-                $ai,
-                true
+                \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId())
             );
         }
 
@@ -348,7 +322,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $utab->addFilterItemValue(
             'user_ids',
-            $user_filter
+            $list_of_users
         );
         $utab->getItems();
 
@@ -1108,23 +1082,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $roles_of_user = $this->rbac_review->assignedRoles($this->user->getId());
         foreach ($all_gl_roles as $obj_data) {
             // check assignment permission if called from local admin
-            if ($this->object->getRefId() != USER_FOLDER_ID) {
-                if (!in_array(
-                    SYSTEM_ROLE_ID,
-                    $roles_of_user
-                ) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])) {
-                    continue;
-                }
+            if ($this->object->getRefId() != USER_FOLDER_ID
+                && !in_array(SYSTEM_ROLE_ID, $roles_of_user)
+                && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])
+            ) {
+                continue;
             }
             // exclude anonymous role from list
-            if ($obj_data['obj_id'] != ANONYMOUS_ROLE_ID) {
-                // do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-                if ($obj_data['obj_id'] != SYSTEM_ROLE_ID or in_array(
-                    SYSTEM_ROLE_ID,
-                    $roles_of_user
-                )) {
-                    $gl_roles[$obj_data['obj_id']] = $obj_data['title'];
-                }
+            if ($obj_data['obj_id'] != ANONYMOUS_ROLE_ID
+                && ($obj_data['obj_id'] != SYSTEM_ROLE_ID
+                    || in_array(SYSTEM_ROLE_ID, $roles_of_user))
+            ) {
+                $gl_roles[$obj_data['obj_id']] = $obj_data['title'];
             }
         }
 
@@ -1748,7 +1717,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'create_history_loginname' => (bool) $this->settings->get('create_history_loginname'),
             'reuse_of_loginnames' => (bool) $this->settings->get('reuse_of_loginnames'),
             'loginname_change_blocking_time' => $show_blocking_time_in_days,
-            'user_adm_alpha_nav' => (int) $this->settings->get('user_adm_alpha_nav'),
             'user_reactivate_code' => (int) $this->settings->get('user_reactivate_code'),
             'user_own_account' => (int) $this->settings->get('user_delete_own_account'),
             'user_own_account_email' => $this->settings->get('user_delete_own_account_email'),
@@ -1897,10 +1865,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->settings->set(
                     'loginname_change_blocking_time',
                     $save_blocking_time_in_seconds
-                );
-                $this->settings->set(
-                    'user_adm_alpha_nav',
-                    $this->form->getInput('user_adm_alpha_nav')
                 );
                 $this->settings->set(
                     'user_reactivate_code',
@@ -2073,13 +2037,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $lrua->setInfo($this->lng->txt('restrict_user_access_info'));
         $lrua->setValue('1');
         $this->form->addItem($lrua);
-
-        $alph = new ilCheckboxInputGUI(
-            $this->lng->txt('user_adm_enable_alpha_nav'),
-            'user_adm_alpha_nav'
-        );
-        $alph->setValue('1');
-        $this->form->addItem($alph);
 
         $code = new ilCheckboxInputGUI(
             $this->lng->txt('user_account_code_setting'),

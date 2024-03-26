@@ -17229,7 +17229,6 @@ user#:#user_account_deleted_confirmation#:#Ihr ILIAS-Konto wurde gelöscht. Eine
 user#:#user_activate_public_profile#:#Aktivierung
 user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
-user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation für die Tabelle „ILIAS-Konten”
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Benutzer können eigenes ILIAS-Konto löschen
 user#:#user_any#:#Alle

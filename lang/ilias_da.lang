@@ -17148,7 +17148,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Aktiver offentlig profil
 user#:#user_activate_public_profile_info#:#Global aktivering af offentlig profil. Dette gør dit for- og efternavn synligt for de andre brugere.
 user#:#user_activation#:#Aktivering
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Tillad bruger at slette egen konto
 user#:#user_any#:#Enhver

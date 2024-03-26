@@ -17150,7 +17150,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
 user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
 user#:#user_activation#:#Activation###15 05 2009 new variable
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
 user#:#user_all#:#All###15 05 2009 new variable
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#Any###15 05 2009 new variable

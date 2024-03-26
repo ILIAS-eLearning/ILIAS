@@ -115,4 +115,9 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
         $query = 'DELETE FROM rbac_ta WHERE typ_id=22 AND ops_id=48 ;';
         $this->db->manipulate($query);
     }
+    public function step_9(): void
+    {
+        $query = 'DELETE FROM settings WHERE module="common" AND keyword="user_adm_alpha_nav";';
+        $this->db->manipulate($query);
+    }
 }
