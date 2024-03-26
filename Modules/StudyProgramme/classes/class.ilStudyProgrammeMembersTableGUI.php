@@ -422,9 +422,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         if ($status == ilPRGProgress::STATUS_IN_PROGRESS) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED;
-            if(! $is_root) {
-                $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
-            }
+        }
+
+        if (! $is_root &&
+            ($status == ilPRGProgress::STATUS_IN_PROGRESS ||
+            $status == ilPRGProgress::STATUS_ACCREDITED)
+        ) {
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
         }
         if ($status == ilPRGProgress::STATUS_NOT_RELEVANT) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
