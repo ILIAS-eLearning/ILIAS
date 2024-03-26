@@ -1436,10 +1436,12 @@ abstract class assQuestion
         return null;
     }
 
-    protected function syncSuggestedSolutions(int $source_question_id, int $target_question_id): void
-    {
-        $this->getSuggestedSolutionsRepo()->syncForQuestion($source_question_id, $target_question_id);
-        $this->syncSuggestedSolutionFiles($source_question_id);
+    protected function syncSuggestedSolutions(
+        int $target_question_id,
+        int $target_obj_id
+    ): void {
+        $this->getSuggestedSolutionsRepo()->syncForQuestion($this->getId(), $target_question_id);
+        $this->syncSuggestedSolutionFiles($target_question_id, $target_obj_id);
     }
 
     /**
@@ -1470,10 +1472,16 @@ abstract class assQuestion
         }
     }
 
-    protected function syncSuggestedSolutionFiles(int $original_id): void
-    {
+    protected function syncSuggestedSolutionFiles(
+        int $target_question_id,
+        int $target_obj_id
+    ): void {
         $filepath = $this->getSuggestedSolutionPath();
-        $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
+        $filepath_original = str_replace(
+            "{$this->getObjId()}/{$this->id}/solution",
+            "{$target_obj_id}/{$target_question_id}/solution",
+            $filepath
+        );
         ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
             if ($solution->isOfTypeFile()) {
@@ -1642,7 +1650,7 @@ abstract class assQuestion
         $original->createPageObject();
         $original->copyPageOfQuestion($this->getId());
 
-        $this->syncSuggestedSolutions($this->getId(), $this->getOriginalId());
+        $this->syncSuggestedSolutions($this->getOriginalId(), $original_obj_id);
         $this->syncXHTMLMediaObjectsOfQuestion();
         $this->afterSyncWithOriginal($this->getId(), $this->getOriginalId(), $this->getObjId(), $original_obj_id);
         $this->syncHints();
