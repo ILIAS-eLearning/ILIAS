@@ -45,10 +45,15 @@ interface FileUpload
     /**
      * @param string[] $mime_types
      */
-    public function withAcceptedMimeTypes(array $mime_types): FileUpload;
+    public function withAcceptedMimeTypes(array $mime_types, ?array $visible_extensions = null): FileUpload;
 
     /**
      * @return string[]
      */
     public function getAcceptedMimeTypes(): array;
+
+    /**
+     * @return null|string[]
+     */
+    public function getVisibleExtensions(): ?array;
 }
