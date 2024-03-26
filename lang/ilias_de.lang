@@ -14722,8 +14722,8 @@ rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_config#:#Konfiguration
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
-rep#:#rep_breadcr_crs_overwrite_settings#:#Allow Exceptions###12 12 2023 new variable
-rep#:#rep_breadcr_crs_overwrite_with_default#:#Setting is changeable on course level, with this as default###12 12 2023 new variable
+rep#:#rep_breadcr_crs_overwrite_settings#:#Erlaube Ausnahmen
+rep#:#rep_breadcr_crs_overwrite_with_default#:#Einstellung ist für Kurs vorgegeben, kann aber geändert werden.
 rep#:#rep_configure#:#Konfigurieren
 rep#:#rep_crs_default_shortened#:#Standardvorgabe: Gekürzte Brotkrumen
 rep#:#rep_custom_icons#:#Angepasste Icons
