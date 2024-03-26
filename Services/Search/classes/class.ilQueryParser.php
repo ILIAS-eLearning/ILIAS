@@ -160,7 +160,7 @@ class ilQueryParser
             return $this->quoted_words ? $this->quoted_words : array();
         } else {
             foreach ($this->quoted_words as $word) {
-                $tmp_word[] = str_replace("\"", '', $word);
+                $tmp_word[] = str_replace('\"', '', $word);
             }
             return $tmp_word ? $tmp_word : array();
         }
