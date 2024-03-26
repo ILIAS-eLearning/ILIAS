@@ -3,21 +3,9 @@
 The ILIAS UI-Framework helps you to implement GUIs consistent with the guidelines
 of the Kitchen Sink.
 
-## Use Kitchen Sink Concepts
-
-The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fact,
-this framework and the Kitchen Sink are heavily related. You won't need to think
-about HTML if you're using this framework. You also won't need to think about
-the implementation you are using, the device your GUI is displayed on or the
-CSS classes you need to use. You will be able to talk to other people (like users
-or designers) using the same concepts and problem space as they do. This is also
-not a templating framework.
-
-## Semantics of Components
-
-UI Components serve a specific purpose. They are not simply named html structures that are composed to larger structures, 
-but semantically different identities. It is possible that two different components look the same and act the same by 
-accident, but still remain different identities. However it is also possible that the same component looks different in separate contexts.
+## Tutorial
+You find a tutorial on what UI Components are and on their purpose, how they are used and what you should consider
+while using them [here](../../../docs/development/devguide/coding-ui-components.md).
 
 ## Correctness by Construction and Testability
 
@@ -50,50 +38,6 @@ existing UI components when you do.
 Documents with recommendations on how to approach UX challenges of specific UI
 components and use cases will be added below:
 * [Best practices for properties and actions displayed on repository objects](docu/ux-guide-repository-objects-properties-and-actions.md)
-
-## Using the Framework
-
-As a user of the ILIAS UI-Framework your entry point to the framework is provided
-via the dependency injection container `$DIC->ui()->factory()`, which gives you
-access to the main factory implementing ILIAS\UI\Factory.
-
-### How to Discover the Components in the Framework?
-
-The factories provided by the framework are structured in the same way as the
-taxonomy given in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11).
-The main factory provides methods for every node or leaf in the `Class`-Layer
-of the Kitchen Sink Taxonomy. Using that method you get a sub factory if methods
-correspond to a node in the layout. If the method corresponds to a leaf in the
-layout, you get a PHP representation of the component you chose. Since the Jour
-Fixe decides upon entries in the Kitchen Sink, the factories in the framework
-only contain entries `Accepted` by the JF. Creating a component with the
-framework thus just means following the path from the `Class` to the leaf you
-want to use in your GUI.
-
-The entries of the Kitchen Sink are documented in this framework in a machine
-readable form. That means you can rely on the documentation given in the
-interfaces of the factories, other representations of the Kitchen Sink are
-derived from there. This also means you can chose to use the [documentation of the
-Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
-to check out the components.
-
-### How to Use the Components of the Framework?
-
-With the ILIAS UI-Framework you describe how your GUI is structured instead of
-instructing the system to construct it for you. The main principle for the description
-of GUIs is composition.
-
-You declare you components by providing a minimum set of properties and maybe
-other components that are bundled in your component. All compents in the framework
-strive to only use a small amount of required properties and provide sensible
-defaults for other properties.
-
-Since the representations of the components are implemented as immutable objects,
-you can savely reuse components created elsewhere in your code or pass your
-component to other code without being concerned if the other code modifies it.
-
-[Example 1](examples/Button/Primary/base.php)
-[Example 2](examples/Glyph/Mail/mail_example.php)
 
 ## Implementing Elements in the Framework
 
