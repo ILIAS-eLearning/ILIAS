@@ -35,6 +35,7 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\Setup\Objective\DirectoryCreatedObjective;
 use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
 use ILIAS\ResourceStorage\Resource\ResourceType;
@@ -123,7 +124,8 @@ class ilResourceStorageMigrationHelper
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
-            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90())
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90()),
+            new ilStorageContainersExistingObjective()
         ];
     }
 
@@ -280,7 +282,8 @@ class ilResourceStorageMigrationHelper
         string $absolute_path,
         int $owner_user_id,
         ?Closure $file_name_callback = null,
-        ?Closure $revision_name_callback = null
+        ?Closure $revision_name_callback = null,
+        ?bool $copy_instead_of_move = false
     ): ?ResourceIdentification {
         $open_path = fopen($absolute_path, 'rb');
         if ($open_path === false) {
@@ -306,7 +309,7 @@ class ilResourceStorageMigrationHelper
                 $revision_title,
                 $file_name
             ),
-            false
+            $copy_instead_of_move ?? false
         );
 
         // add stakeholder and store resource

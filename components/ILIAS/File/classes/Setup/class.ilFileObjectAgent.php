@@ -23,6 +23,7 @@ use ILIAS\Setup\Config;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery;
 use ILIAS\Setup;
+use ILIAS\File\Icon\ilObjFileDefaultIconsObjective;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -37,33 +38,21 @@ class ilFileObjectAgent implements Setup\Agent
         $this->refinery = $refinery;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallObjective(Config $config = null): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(true, true);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateObjective(Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
@@ -72,7 +61,7 @@ class ilFileObjectAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilFileObjectDatabaseObjective()
             ),
-            new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(),
+            new \ILIAS\File\Icon\ilObjFileDefaultIconsObjective(false, false),
             new ilFileObjectSettingsUpdatedObjective(),
             new ilFileObjectRBACDatabase(
                 new ilFileObjectRBACDatabaseSteps()
@@ -80,17 +69,11 @@ class ilFileObjectAgent implements Setup\Agent
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
@@ -101,9 +84,6 @@ class ilFileObjectAgent implements Setup\Agent
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations(): array
     {
         return [
@@ -111,16 +91,13 @@ class ilFileObjectAgent implements Setup\Agent
         ];
     }
 
-    /**
-     * @return array{updateFileObjectDatabase: \ILIAS\Setup\ObjectiveConstructor}
-     */
     public function getNamedObjectives(?Config $config = null): array
     {
         return [
-            'updateFileObjectDatabase' => new ObjectiveConstructor(
-                'executes all file object database update steps.',
+            'resetDefaultIcons' => new ObjectiveConstructor(
+                'resets the default suffix specific file icons.',
                 function (): \ILIAS\Setup\Objective {
-                    return $this->getUpdateObjective();
+                    return new ilObjFileDefaultIconsObjective(true, false);
                 }
             ),
         ];
