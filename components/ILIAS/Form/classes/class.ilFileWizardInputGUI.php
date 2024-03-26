@@ -28,6 +28,8 @@ use ILIAS\Filesystem\Util;
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
     protected ilGlobalTemplateInterface $tpl;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
     protected array $filenames = array();
     protected bool $allowMove = false;
     protected string $imagepath_web = "";
@@ -41,6 +43,8 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("form");
         $this->tpl = $DIC["tpl"];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         parent::__construct($a_title, $a_postvar);
     }
 
@@ -195,8 +199,18 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable(
+                    "UP_BUTTON",
+                    $this->ui_renderer->render(
+                        $this->ui_factory->symbol()->glyph()->up()
+                    )
+                );
+                $tpl->setVariable(
+                    "DOWN_BUTTON",
+                    $this->ui_renderer->render(
+                        $this->ui_factory->symbol()->glyph()->down()
+                    )
+                );
                 $tpl->parseCurrentBlock();
             }
 
@@ -216,8 +230,18 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 );
             }
 
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable(
+                "ADD_BUTTON",
+                $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->glyph()->add()
+                )
+            );
+            $tpl->setVariable(
+                "REMOVE_BUTTON",
+                $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->glyph()->remove()
+                )
+            );
             $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
             $tpl->setVariable("MAX_UPLOAD_VALUE", $this->getMaxFileUploads());
             $tpl->setVariable("TXT_MAX_UPLOADS", $lng->txt("form_msg_max_upload") . " " . $this->getMaxFileUploads());
