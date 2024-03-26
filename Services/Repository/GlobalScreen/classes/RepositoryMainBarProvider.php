@@ -203,9 +203,11 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ) {            // do not list current item
                 $ititle = ilStr::shortenTextExtended(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
+                $icon = $f->symbol()->icon()->custom(ilObject::_getIcon($obj_id), $ititle);
+                $icon->setLabel("");
                 $items[] = $f->item()->standard(
                     $f->link()->standard($ititle, $nav_item["link"])
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj_id), $ititle));
+                )->withLeadIcon($icon);
             }
             $first = false;
         }
