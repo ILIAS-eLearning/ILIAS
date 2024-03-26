@@ -186,11 +186,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</button>
 		</span>
 		<span class="il-filter-bar-toggle">
-			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
-				<span class="il-toggle-label-on">toggle_on</span>
-				<span class="il-toggle-label-off">toggle_off</span>
-				<span class="il-toggle-switch"></span>
-			</button>
+		    <div class="il-toggle-item">
+                <button class="il-toggle-button on" id="id_6" aria-pressed="false">
+                    <span class="il-toggle-label-on">toggle_on</span>
+                    <span class="il-toggle-label-off">toggle_off</span>
+                    <span class="il-toggle-switch"></span>
+                </button>
+			</div>
 		</span>
         </div>
         <div class="il-filter-inputs-active clearfix collapse in">
@@ -320,11 +322,13 @@ EOT;
 			</button>
 		</span>
 		<span class="il-filter-bar-toggle">
-			<button class="il-toggle-button off" id="id_6" aria-pressed="false">
-				<span class="il-toggle-label-on">toggle_on</span>
-				<span class="il-toggle-label-off">toggle_off</span>
-				<span class="il-toggle-switch"></span>
-			</button>
+            <div class="il-toggle-item">
+                <button class="il-toggle-button off" id="id_6" aria-pressed="false">
+                    <span class="il-toggle-label-on">toggle_on</span>
+                    <span class="il-toggle-label-off">toggle_off</span>
+                    <span class="il-toggle-switch"></span>
+                </button>
+			</div>
 		</span>
         </div>
         <div class="il-filter-inputs-active clearfix collapse in">
@@ -454,11 +458,13 @@ EOT;
 			</button>
 		</span>
 		<span class="il-filter-bar-toggle">
-			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
-				<span class="il-toggle-label-on">toggle_on</span>
-				<span class="il-toggle-label-off">toggle_off</span>
-				<span class="il-toggle-switch"></span>
-			</button>
+		    <div class="il-toggle-item">
+                <button class="il-toggle-button on" id="id_6" aria-pressed="false">
+                    <span class="il-toggle-label-on">toggle_on</span>
+                    <span class="il-toggle-label-off">toggle_off</span>
+                    <span class="il-toggle-switch"></span>
+                </button>
+			</div>
 		</span>
         </div>
         <div class="il-filter-inputs-active clearfix collapse ">
@@ -588,11 +594,13 @@ EOT;
 			</button>
 		</span>
 		<span class="il-filter-bar-toggle">
-			<button class="il-toggle-button off" id="id_6" aria-pressed="false">
-				<span class="il-toggle-label-on">toggle_on</span>
-				<span class="il-toggle-label-off">toggle_off</span>
-				<span class="il-toggle-switch"></span>
-			</button>
+		    <div class="il-toggle-item">
+                <button class="il-toggle-button off" id="id_6" aria-pressed="false">
+                    <span class="il-toggle-label-on">toggle_on</span>
+                    <span class="il-toggle-label-off">toggle_off</span>
+                    <span class="il-toggle-switch"></span>
+                </button>
+			</div>
 		</span>
         </div>
         <div class="il-filter-inputs-active clearfix collapse ">

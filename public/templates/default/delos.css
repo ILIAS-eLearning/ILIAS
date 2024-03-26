@@ -3815,6 +3815,14 @@ button .minimize, button .close {
   font-size: 0.75rem;
 }
 
+.il-toggle-item {
+  display: flex;
+}
+.il-toggle-item label {
+  margin: auto;
+  padding-right: 6px;
+}
+
 .il-card {
   padding: 0 0 6px 0;
   width: 100%;

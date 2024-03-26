@@ -106,13 +106,15 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $button = $this->getFactory()->toggle("label", "action_on_string", "action_off_string");
 
         $expected = <<<EOT
-		<label>label</label>
-<button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <span class="il-toggle-label-on">toggle_on</span>
-    <span class="il-toggle-label-off">toggle_off</span>
-    <span class="il-toggle-switch"></span>
-</button>
-EOT;
+        <div class="il-toggle-item">
+        <label>label</label>
+            <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+                <span class="il-toggle-label-on">toggle_on</span>
+                <span class="il-toggle-label-off">toggle_off</span>
+                <span class="il-toggle-switch"></span>
+            </button>
+        </div>
+        EOT;
 
         $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
     }
@@ -123,11 +125,13 @@ EOT;
         $button = $this->getFactory()->toggle("", "action_on_string", "action_off_string", true);
 
         $expected = ''
-            . '<button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
-            . '    <span class="il-toggle-label-on">toggle_on</span>'
-            . '    <span class="il-toggle-label-off">toggle_off</span>'
-            . '    <span class="il-toggle-switch"></span>'
-            . '</button>';
+            . '<div class="il-toggle-item">'
+            . '   <button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
+            . '     <span class="il-toggle-label-on">toggle_on</span>'
+            . '       <span class="il-toggle-label-off">toggle_off</span>'
+            . '     <span class="il-toggle-switch"></span>'
+            . '  </button>'
+            . '</div>';
 
         $this->assertHTMLEquals($expected, $r->render($button));
         return $button;
@@ -145,12 +149,14 @@ EOT;
         $button = $this->getFactory()->toggle("label", $signal_on, $signal_off);
 
         $expected = <<<EOT
-		<label>label</label>
-<button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <span class="il-toggle-label-on">toggle_on</span>
-    <span class="il-toggle-label-off">toggle_off</span>
-    <span class="il-toggle-switch"></span>
-</button>
+        <div class="il-toggle-item">
+            <label>label</label>
+            <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+                <span class="il-toggle-label-on">toggle_on</span>
+                <span class="il-toggle-label-off">toggle_off</span>
+                <span class="il-toggle-switch"></span>
+            </button>
+        </div>
 EOT;
 
         $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
@@ -167,9 +173,11 @@ EOT;
         $html = $r->render($button);
 
         $expected = ''
-            . '<button class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
-            . '    <span class="il-toggle-switch"></span>'
-            . '</button>';
+            . '<div class="il-toggle-item">'
+            . '   <button class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
+            . '      <span class="il-toggle-switch"></span>'
+            . '   </button>'
+            . '</div>';
 
         $this->assertHTMLEquals(
             $expected,
