@@ -3368,7 +3368,7 @@ cmps#:#database_is_uptodate#:#The database is up to date.
 cmps#:#no_changes#:#No changes
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
-cntr#:#cntr_add_new_item#:#Add New Item
+cntr#:#cntr_add_new_item#:#Add New Object
 cntr#:#cntr_adopt_content#:#Adopt Content
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders, learning sequences or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
@@ -3402,8 +3402,8 @@ cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
-cntr#:#sorting_new_items_order#:#Order for New Objects
-cntr#:#sorting_new_items_position#:#Position for New Objects
+cntr#:#sorting_new_items_order#:#Arrangement of New Objects
+cntr#:#sorting_new_items_position#:#Position of New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
@@ -4371,9 +4371,9 @@ common#:#info_assigned#:#assigned
 common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
-common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
+common#:#info_delete_sure#:#Are you sure that you want to delete the following?
 common#:#info_delete_warning_no_trash#:#(WARNING: The selected object(s) will be irretrievably deleted from the system. The recovery of any such deleted objects will not be possible).
-common#:#info_deleted#:#Object(s) Deleted
+common#:#info_deleted#:#Object(s) deleted.
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership
 common#:#info_is_member#:#User is member
@@ -5647,13 +5647,13 @@ common#:#sort_descending_long#:#Change Sort Direction to Descending
 common#:#sort_inherit_prefix#:#Default
 common#:#sorting_asc#:#Ascending
 common#:#sorting_creation_header#:#By Creation Date
-common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
-common#:#sorting_desc#:#Descendent
+common#:#sorting_creation_info#:#Objects located within this container are arranged automatically by their creation date.
+common#:#sorting_desc#:#Descending
 common#:#sorting_direction#:#Sorting Direction
-common#:#sorting_header#:#Content Item Sorting
-common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course/group.
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
-common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
+common#:#sorting_header#:#Content Arrangement Options
+common#:#sorting_info_inherit#:#The content arrangement is adopted from a parent course/group.
+common#:#sorting_info_manual#:#Objects located within this container can be arranged manually in any order. Additionally, please set some rules for how new objects should be placed.
+common#:#sorting_info_title#:#Objects located within this container are arranged automatically by title into alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Order
 common#:#sorting_title_header#:#Titles in Alphabetical Order
@@ -6017,8 +6017,8 @@ cont#:#cont_add_local_profile#:#Add Local Profile
 cont#:#cont_add_skill#:#Add Competence
 cont#:#cont_assign_competence#:#Assign Competences to Members
 cont#:#cont_assign_skills#:#Assign Competences
-cont#:#cont_block_limit#:#Limit Items per Block
-cont#:#cont_block_limit_info#:#If a block contains more items, a "Show more" button will appear.
+cont#:#cont_block_limit#:#Limit Objects per Block
+cont#:#cont_block_limit_info#:#If a block contains more objects than the number set here, a "Show More" button will appear.
 cont#:#cont_cont_skills#:#Assigned Competences of Members
 cont#:#cont_deassign_competence#:#Deassign Competences
 cont#:#cont_filter#:#Filter
@@ -6027,8 +6027,8 @@ cont#:#cont_filter_fields#:#Filter Fields
 cont#:#cont_filter_record#:#Record
 cont#:#cont_found_objects#:#Found Objects
 cont#:#cont_item_list#:#List
-cont#:#cont_item_list_info#:#Display content objects in a list.
-cont#:#cont_list_presentation#:#Item Presentation
+cont#:#cont_item_list_info#:#Objects located within this container are displayed in the form of a list.
+cont#:#cont_list_presentation#:#Content Display Options
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_news_edited#:#Bearbeitet
 cont#:#cont_news_settings#:#News Settings
@@ -6088,7 +6088,7 @@ cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
 cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
-cont#:#cont_tile_view_info#:#Display content objects as thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
+cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -12817,7 +12817,7 @@ obj#:#obj_show_header_actions#:#Show Header Actions
 obj#:#obj_show_title_and_icon#:#Show Title and Icon
 obj#:#obj_target_location#:#Target Location
 obj#:#obj_tile_image#:#Tile Image
-obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Item Presentation’ (or 'Content Display Options' - see above) to ‘Tiles’ (rather than ‘List’).
+obj#:#obj_tile_image_info#:#This image will be used as a thumbnail-style image (called a tile) to represent this object in the container (e.g. the category, folder group etc.) in which it is located. The tile is only used if the parent container sets its ‘Content Display Options' to ‘Tiles’ (rather than ‘List’).
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
