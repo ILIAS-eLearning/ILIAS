@@ -103,6 +103,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
+        $min_auto_complete = (int) $form->getInput('min_auto_complete');
         $longmenu_text = $this->request->raw('longmenu_text') ?? '';
         $hidden_text_files = $this->request->raw('hidden_text_files') ?? '';
         $hidden_correct_answers = $this->request->raw('hidden_correct_answers') ?? [];
@@ -113,7 +114,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->object->setAnswerType(ilArrayUtil::stripSlashesRecursive($long_menu_type));
         $this->object->setQuestion($this->request->raw('question'));
         $this->object->setLongMenuTextValue($this->request->raw('longmenu_text'));
-        $this->object->setMinAutoComplete($this->request->int('min_auto_complete'));
+        $this->object->setMinAutoComplete($min_auto_complete);
         $this->object->setIdenticalScoring($this->request->int('identical_scoring'));
 
         $this->saveTaxonomyAssignments();
@@ -239,12 +240,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         //$modal->setBackdrop(ilModalGUI::BACKDROP_OFF);
         $modal->setBody('');
 
-        $min_auto_complete = new ilNumberInputGUI($this->lng->txt("min_auto_complete"), 'min_auto_complete');
+        $min_auto_complete = new ilNumberInputGUI($this->lng->txt('min_auto_complete'), 'min_auto_complete');
 
         $auto_complete = $this->object->getMinAutoComplete();
-        if ($auto_complete == 0) {
+        if ($auto_complete === 0) {
             $auto_complete = assLongMenu::MIN_LENGTH_AUTOCOMPLETE;
         }
+        $min_auto_complete->setDecimals(0);
         $min_auto_complete->setValue($auto_complete);
         $min_auto_complete->setMinValue(1);
         $min_auto_complete->setMaxValue(99);
