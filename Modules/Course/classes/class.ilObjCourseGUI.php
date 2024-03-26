@@ -774,9 +774,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $crs_period->getEnd()
         );
 
-        // activation/online
-        $this->object->setOfflineStatus(!$form->getInput('activation_online'));
-
         // activation period
         $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
@@ -844,6 +841,10 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
         }
         $this->object->handleAutoFill();
+
+        $property_online = $this->object->getObjectProperties()->getPropertyIsOnline();
+        $online = $form->getInput('activation_online') ? $property_online->withOnline() : $property_online->withOffline();
+        $this->object->getObjectProperties()->storePropertyIsOnline($online);
 
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
