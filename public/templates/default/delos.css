@@ -9262,6 +9262,9 @@ div.alert ul > li:before {
   padding: 6px 12px;
   border: 1px solid #dddddd;
 }
+.c-table-data__cell--multiaction {
+  padding-bottom: 9px;
+}
 
 @media screen and (min-width: 769px) {
   .c-table-data__row:hover td.c-table-data__cell {
@@ -9363,11 +9366,6 @@ th.c-table-data__cell {
   width: fit-content;
 }
 
-.c-table-data__multiaction-triggerer {
-  padding-top: 6px;
-  padding-left: 12px;
-}
-
 .c-table-data__cell--link .c-table-data__header__resize-wrapper,
 .c-table-data__cell--linklisting .c-table-data__header__resize-wrapper,
 .c-table-data__cell--text .c-table-data__header__resize-wrapper {
@@ -9460,10 +9458,6 @@ td.c-table-data__cell--highlighted {
   }
   .c-table-data .c-table-data__rowaction {
     margin-left: auto;
-  }
-  .c-table-data .c-table-data__multiaction-triggerer {
-    padding-top: 12px;
-    padding-left: 0;
   }
 }
 
