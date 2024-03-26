@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -30,6 +31,9 @@ trait ilObjFileCopyrightInput
         $copyright_options = ilMDCopyrightSelectionEntry::_getEntries();
         $default_entry_id = ilMDCopyrightSelectionEntry::getDefault();
         foreach ($copyright_options as $copyright_option) {
+            if ($copyright_option->getOutdated()) {
+                continue;
+            }
             $entry_id = $copyright_option->getEntryId();
             $copyright_input = $copyright_input->withOption(
                 (string) $entry_id,
