@@ -2224,10 +2224,16 @@ abstract class assQuestion
         }
     }
 
-    protected function syncSuggestedSolutionFiles(int $original_id): void
-    {
+    protected function syncSuggestedSolutionFiles(
+        int $target_question_id,
+        int $target_obj_id
+    ): void {
         $filepath = $this->getSuggestedSolutionPath();
-        $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
+        $filepath_original = str_replace(
+            "{$this->getObjId()}/{$this->id}/solution",
+            "{$target_obj_id}/{$target_question_id}/solution",
+            $filepath
+        );
         ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
             if (strcmp($solution["type"], "file") == 0) {
@@ -2265,7 +2271,7 @@ abstract class assQuestion
         }
     }
 
-    public function updateSuggestedSolutions(int $original_id = -1): void
+    public function updateSuggestedSolutions(int $original_id = -1, int $original_obj_id = -1): void
     {
         $id = $original_id !== -1 ? $original_id : $this->getId();
         $this->db->manipulateF(
@@ -2299,8 +2305,9 @@ abstract class assQuestion
                 ilInternalLink::_saveLink("qst", $id, $matches[2], (int) $matches[3], (int) $matches[1]);
             }
         }
-        if ($original_id !== -1) {
-            $this->syncSuggestedSolutionFiles($id);
+        if ($original_id !== -1
+            && $original_obj_id !== -1) {
+            $this->syncSuggestedSolutionFiles($id, $original_obj_id);
         }
         $this->cleanupMediaObjectUsage();
     }
@@ -2525,7 +2532,7 @@ abstract class assQuestion
         $this->setOriginalId($originalID);
         $this->setObjId($currentObjId);
 
-        $this->updateSuggestedSolutions($this->getOriginalId());
+        $this->updateSuggestedSolutions($this->getOriginalId(), $originalObjId);
         $this->syncXHTMLMediaObjectsOfQuestion();
 
         $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
