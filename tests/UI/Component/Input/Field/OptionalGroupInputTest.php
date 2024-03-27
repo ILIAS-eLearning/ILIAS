@@ -22,17 +22,17 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\OptionalGroup;
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 
-abstract class Input11 extends Input
+abstract class Input11 extends FormInput
 {
 };
-abstract class Input12 extends Input
+abstract class Input12 extends FormInput
 {
 };
 
@@ -56,7 +56,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
     protected $language;
 
     protected Refinery $refinery;
-    protected \ILIAS\UI\Component\Input\Field\Input $optional_group;
+    protected \ILIAS\UI\Component\Input\Field\Group $optional_group;
     protected OptionalGroup $group;
 
     public function setUp(): void

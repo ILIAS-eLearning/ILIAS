@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -25,11 +25,13 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 use Closure;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Presentation extends Table implements T\Presentation
 {
     use ComponentHelper;
     use HasViewControls;
+    use JavaScriptBindable;
 
     /**
      * @var array<string,mixed>

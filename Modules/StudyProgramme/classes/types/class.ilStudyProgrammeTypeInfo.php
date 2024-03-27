@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeTypeInfo
@@ -77,7 +78,7 @@ class ilStudyProgrammeTypeInfo
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ): Field\Input {
+    ): FormInput {
         $title = $input
             ->text($lng->txt('title'), '')
             ->withValue($this->getTitle() ?? "")

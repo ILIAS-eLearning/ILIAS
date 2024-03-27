@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Refinery\Constraint;
@@ -28,7 +28,7 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class Hidden extends Input implements \ILIAS\UI\Component\Input\Field\Hidden
+class Hidden extends FormInput implements \ILIAS\UI\Component\Input\Field\Hidden
 {
     public function __construct(DataFactory $data_factory, Factory $refinery)
     {
@@ -46,7 +46,7 @@ class Hidden extends Input implements \ILIAS\UI\Component\Input\Field\Hidden
         return null;
     }
 
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return true;
     }

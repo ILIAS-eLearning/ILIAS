@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect
+class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}
@@ -61,7 +61,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_null($value)) {
             return true;
@@ -82,6 +82,10 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->custom()->constraint(
             fn ($value) => is_array($value) && count($value) > 0,
             "Empty"

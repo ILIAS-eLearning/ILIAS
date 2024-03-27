@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
@@ -27,7 +26,7 @@ use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Implementation\Component\Input\Container\QueryParamsFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 
 /**
  * This implements commonalities between all Filters.
@@ -89,6 +88,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * For the implementation of NameSource.
      */
     private int $count = 0;
+    private array $used_names = [];
 
 
     /**
@@ -98,7 +98,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * @param string|Signal $collapse_action
      * @param string|Signal $apply_action
      * @param string|Signal $reset_action
-     * @param C\Input\Field\Input[] $inputs
+     * @param C\Input\Container\Form\FormInput[] $inputs
      * @param bool[] $is_input_rendered
      */
     public function __construct(
@@ -125,7 +125,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->reset_action = $reset_action;
         //No further handling for actions needed here, will be done in constructors of the respective component
 
-        $classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
+        $classes = ['\ILIAS\UI\Component\Input\Container\Filter\FilterInput'];
         $this->checkArgListElements("input", $inputs, $classes);
 
         $this->initSignals();
@@ -259,6 +259,23 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->count++;
 
         return $name;
+    }
+
+    /**
+     * Implementation of NameSource
+     * for using dedicated names in filter fields
+     */
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        if ($dedicated_name == 'filter_input') {
+            return $this->getNewName();
+        }
+        if (in_array($dedicated_name, $this->used_names)) {
+            return $dedicated_name . '_' . $this->count++;
+        } else {
+            $this->used_names[] = $dedicated_name;
+            return $dedicated_name;
+        }
     }
 
     /**

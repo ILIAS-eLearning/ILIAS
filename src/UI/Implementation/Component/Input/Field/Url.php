@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -31,7 +31,7 @@ use Throwable;
 /**
  * This implements the URL input.
  */
-class Url extends Input implements C\Input\Field\Url
+class Url extends FormInput implements C\Input\Field\Url
 {
     /**
      * @inheritdoc
@@ -97,7 +97,7 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_string($value) && trim($value) === "") {
             return true;
@@ -114,6 +114,10 @@ class Url extends Input implements C\Input\Field\Url
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->custom()->constraint(self::getURIChecker(), 'Not an URI');
     }
 

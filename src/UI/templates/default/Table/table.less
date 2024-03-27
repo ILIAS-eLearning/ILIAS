@@ -142,3 +142,219 @@
         font-weight: @il-font-weight-bold;
     }
 }
+
+
+//
+// DATA TABLE
+// ==========
+//
+
+//
+// Basic Table Design
+//
+
+.c-table-data {
+    .viewcontrols {
+        margin-bottom: @il-margin-large-vertical;
+    }
+}
+
+.c-table-data__table {
+    background-color: @il-main-bg;
+}
+
+.c-table-data__cell {
+    background-color: @il-main-bg; // so sticky cells can cover up cells underneath them
+    padding: @il-padding-large-vertical @il-padding-large-horizontal;
+    border: 1px solid @il-main-border-color;
+}
+
+// hover row on larger screens only
+.c-table-data__row:hover td.c-table-data__cell {
+    background-color: @il-main-darker-bg;
+
+}
+
+//
+// Table Header
+//
+
+th.c-table-data__cell {
+    padding: 0; // most of the header cells get padding from the resize wrapper
+    // sticky header
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    &.c-table-data__header__rowselection {
+        padding: @il-padding-xxlarge-vertical @il-padding-large-horizontal;
+        text-align: center;
+    }
+}
+
+// shadow below header when sticky (because borders and box shadow are left behind in tables)
+th.c-table-data__cell:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(180deg, #00000021, transparent);
+    z-index: 3;
+}
+
+// Resizable Header Cell
+.c-table-data__header__resize-wrapper {
+    padding: @il-padding-xxlarge-vertical @il-padding-large-horizontal;
+    height: 100%;
+    margin: 0px;
+    display: block;
+    vertical-align: bottom;
+    // limit max-height
+    max-height: 85px;
+    overflow: hidden;
+    //indicate when text is being cut off
+    &:after {
+        content: "";
+        bottom: 0;
+        left: 0;
+        display: block;
+        position: absolute;
+        height: @il-padding-xxlarge-vertical * 1.5;
+        width: calc(100% - 10px);
+        background: linear-gradient(360deg, white, transparent);
+        pointer-events: none;
+    }
+    // actual resize attribute is later added for specific column types only
+}
+
+//
+// Row Selection & Multiaction
+//
+
+.c-table-data__rowselection {
+    min-width: 50px; // to align checkboxes with multiaction
+    text-align: center;
+}
+
+// shadow that sticks to the right of action column (because borders and box shadow are left behind and do not stick)
+.c-table-data__rowselection:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -5px;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.1294117647), transparent);
+    z-index: 2;
+}
+
+//
+// Column rowselection
+//
+
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+    position: -webkit-sticky;
+    position: sticky;
+    left: -1px; // so text doesn't glitch through on left edge
+    z-index: 2;
+}
+
+//
+// Multiaction Dropdown below table
+//
+
+.c-table-data__multiaction-triggerer {
+    width: fit-content;
+}
+
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+
+.c-table-data__multiaction-triggerer {
+    padding-top: @il-margin-large-vertical;
+    padding-left: @il-margin-large-horizontal;
+}
+
+//
+// Special Column Types
+//
+
+// Text
+.c-table-data__cell--link,
+.c-table-data__cell--linklisting,
+.c-table-data__cell--text {
+    .c-table-data__header__resize-wrapper {
+        min-width: 140px;
+        // width: 140px;
+        resize: horizontal;
+    }
+}
+
+// E-Mail
+.c-table-data__cell--email {
+    .c-table-data__header__resize-wrapper {
+        min-width: 200px;
+        // width: 200px;
+        resize: horizontal;
+    }
+}
+td.c-table-data__cell--email {
+    text-align: right;
+}
+
+// Number
+.c-table-data__cell--number,
+.c-table-data__cell--status {
+    .c-table-data__header__resize-wrapper {
+        width: 110px; // width instead of min-width so resizer can also reduce width below default
+        resize: horizontal;
+    }
+}
+td.c-table-data__cell--number {
+    text-align: right;
+}
+
+// Date
+.c-table-data__cell--date {
+    .c-table-data__header__resize-wrapper {
+        // width: 110px;
+        min-width: 110px;
+        resize: horizontal;
+    }
+}
+
+// Status Icon
+.c-table-data__cell--statusicon,
+.c-table-data__cell--boolean {
+    .c-table-data__header__resize-wrapper {
+        // width: 40px;
+        min-width: 40px;
+        resize: horizontal;
+    }
+}
+
+// Highlighted Columns
+td.c-table-data__cell--highlighted {
+    background-color: @il-main-dark-bg;
+}
+// hover on larger screens only
+.c-table-data__row:hover td.c-table-data__cell--highlighted {
+    background-color: darken(@il-main-darker-bg, 7%);
+}
+
+//
+// Data Table on Small Screens
+//
+
+// Fake Header Title repeated inside the cell, invisible by default
+.c-table-data__cell__col-title {
+    display: none;
+}

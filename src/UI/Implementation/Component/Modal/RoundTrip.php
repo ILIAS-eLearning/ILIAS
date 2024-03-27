@@ -22,19 +22,16 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
-use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -60,7 +57,7 @@ class RoundTrip extends Modal implements M\RoundTrip
 
     /**
      * @param Component[]|Component|null $content
-     * @param Input[]                    $inputs
+     * @param FormInput[]                $inputs
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -178,7 +175,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function withRequest(ServerRequestInterface $request)
+    public function withRequest(ServerRequestInterface $request): self
     {
         $clone = clone $this;
         $clone->form = $clone->form->withRequest($request);
@@ -188,7 +185,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function withAdditionalTransformation(Transformation $trafo)
+    public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
         $clone->form = $clone->form->withAdditionalTransformation($trafo);
@@ -240,5 +237,13 @@ class RoundTrip extends Modal implements M\RoundTrip
     public function getSubmitSignal(): Signal
     {
         return $this->submit_signal;
+    }
+
+    /**
+     * No dedicated name can be set for this subform
+     */
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        return $this;
     }
 }

@@ -25,15 +25,7 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
-use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
-use ILIAS\UI\Implementation\Render\FSLoader;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
-use ILIAS\UI\Implementation\Render\LoaderCachingWrapper;
-use ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
 use ILIAS\FileUpload\Handler\FileInfoResult;
@@ -154,7 +146,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $text = $f->file($this->getUploadHandler(), "label", "byline");
 
-        $this->assertInstanceOf(Field\Input::class, $text);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $text);
         $this->assertInstanceOf(Field\File::class, $text);
     }
 
@@ -281,7 +273,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 					</div>
 					<div class="ui-input-file-metadata" style="display: none;">
-						<input id="id_1" type="hidden" name="name_0[form_input_0][]" value="test_file_id_1"/>
+						<input id="id_1" type="hidden" name="name_0[input_0][]" value="test_file_id_1"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>
@@ -351,10 +343,10 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<div class="form-group row">
 							<label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
 							<div class="col-sm-8 col-md-9 col-lg-10">
-								<input id="id_1" type="text" name="name_0[form_input_1][]" class="form-control form-control-sm"/>
+								<input id="id_1" type="text" name="name_0[input_1][]" class="form-control form-control-sm"/>
 							</div>
 						</div>
-						<input id="id_2" type="hidden" name="name_0[form_input_2][]" value="file_id"/>
+						<input id="id_2" type="hidden" name="name_0[input_2][]" value="file_id"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>
@@ -433,10 +425,10 @@ class FileInputTest extends ILIAS_UI_TestBase
 						<div class="form-group row">
 							<label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">text_input</label>
 							<div class="col-sm-8 col-md-9 col-lg-10">
-								<input id="id_1" type="text" value="test" name="name_0[form_input_1][]" class="form-control form-control-sm"/>
+								<input id="id_1" type="text" value="test" name="name_0[input_1][]" class="form-control form-control-sm"/>
 							</div>
 						</div>
-						<input id="id_2" type="hidden" name="name_0[form_input_2][]" value="test_file_id_1"/>
+						<input id="id_2" type="hidden" name="name_0[input_2][]" value="test_file_id_1"/>
 					</div>
 					<div class="ui-input-file-input-progress-container">
 						<div class="ui-input-file-input-progress-indicator"></div>
@@ -526,64 +518,5 @@ class FileInputTest extends ILIAS_UI_TestBase
             $this->buildButtonFactory(),
             $this->buildSymbolFactory()
         );
-    }
-
-    public function getDefaultRenderer(
-        JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
-    ): TestDefaultRenderer {
-        $ui_factory = $this->getUIFactory();
-        $tpl_factory = $this->getTemplateFactory();
-        $resource_registry = $this->getResourceRegistry();
-        $lng = $this->getLanguage();
-        if (!$js_binding) {
-            $js_binding = $this->getJavaScriptBinding();
-        }
-
-        $refinery = $this->getRefinery();
-        $img_resolver = new ilImagePathResolver();
-
-        $component_renderer_loader
-            = new LoaderCachingWrapper(
-                new LoaderResourceRegistryWrapper(
-                    $resource_registry,
-                    new FSLoader(
-                        new DefaultRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new GlyphRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new IconRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        ),
-                        new FieldRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery,
-                            $img_resolver
-                        )
-                    )
-                )
-            );
-
-        return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
     }
 }

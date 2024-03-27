@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Group as GroupInterface;
+
 /**
- * This describes a group of inputs.
+ * Describes the monoid operation of grouping form inputs.
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Group extends FormInput
+interface Group extends FormInput, GroupInterface
 {
 }

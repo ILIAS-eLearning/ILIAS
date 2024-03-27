@@ -28,11 +28,6 @@ use ILIAS\UI\Component\Chart\Bar\BarConfig;
  */
 class BarConfigTest extends ILIAS_UI_TestBase
 {
-    protected function getDataFactory(): ILIAS\Data\Factory
-    {
-        return new ILIAS\Data\Factory();
-    }
-
     public function test_with_color(): void
     {
         $df = $this->getDataFactory();

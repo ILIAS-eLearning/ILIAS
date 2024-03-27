@@ -350,7 +350,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="'.$aria_label.'"><span class="'.$css_classes.'" aria-hidden="true"></span></a>';
+        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 
@@ -369,8 +369,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $expected = '
-        <a class="glyph disabled" aria-label="'.$aria_label.'" aria-disabled="true">
-            <span class="'.$css_classes.'" aria-hidden="true"></span>
+        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true">
+            <span class="' . $css_classes . '" aria-hidden="true"></span>
         </a>';
         $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
@@ -391,9 +391,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
         $expected = '
-            <a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="'.$aria_label.'">
-                    <span class="'.$css_classes.'" aria-hidden="true"></span>
-                    <span class="il-counter"><span class="badge badge-notify il-counter-'.$type.'">42</span></span>
+            <a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '">
+                    <span class="' . $css_classes . '" aria-hidden="true"></span>
+                    <span class="il-counter"><span class="badge badge-notify il-counter-' . $type . '">42</span></span>
                     <span class="il-counter-spacer">42</span>
             </a>';
         $this->assertHTMLEquals($expected, $html);
@@ -430,7 +430,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
             $this->getRefinery(),
-            new ilImagePathResolver()
+            new ilImagePathResolver(),
+            $this->getDataFactory()
         );
         $f = $this->getCounterFactory();
 

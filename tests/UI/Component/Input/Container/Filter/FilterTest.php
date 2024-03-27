@@ -22,7 +22,7 @@ require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Filter;
@@ -80,12 +80,10 @@ class ConcreteFilter extends Filter
         );
     }
 
-
     public function _extractParamData(ServerRequestInterface $request): Input\InputData
     {
         return $this->extractParamData($request);
     }
-
 
     public function extractParamData(ServerRequestInterface $request): Input\InputData
     {
@@ -96,7 +94,6 @@ class ConcreteFilter extends Filter
         return parent::extractParamData($request);
     }
 
-
     public function setInputs(array $inputs): void
     {
         $this->input_group = $this->input_factory->group($inputs);
@@ -104,10 +101,10 @@ class ConcreteFilter extends Filter
     }
 
     // TODO: DW perhaps, this can be removed
-//    public function _getInput(ServerRequestInterface $request)
-//    {
-//        return $this->getInput($request);
-//    }
+    //    public function _getInput(ServerRequestInterface $request)
+    //    {
+    //        return $this->getInput($request);
+    //    }
 }
 
 /**
@@ -445,15 +442,16 @@ class FilterTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @return FormInputInternal|mixed|MockObject
+     * @return Input\Field\FormInputInternal|mixed|MockObject
      */
     protected function inputMock()
     {
         static $no = 2000;
         return $this
-            ->getMockBuilder(FormInputInternal::class)
+            ->getMockBuilder(Input\Field\FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "withDedicatedName",
                 "withNameFrom",
                 "withInput",
                 "getContent",

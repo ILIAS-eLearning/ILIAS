@@ -21,18 +21,20 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use ILIAS\UI\Implementation\Component\Input\Field;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Data\Result\Ok;
 
-abstract class Input1 extends Field\Input
+abstract class Input1 extends FormInput
 {
 }
 
-abstract class Input2 extends Field\Input
+abstract class Input2 extends FormInput
 {
 }
 
@@ -55,7 +57,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
      */
     protected $language;
     protected Refinery $refinery;
-    protected Field\Group $group;
+    protected Group $group;
 
     public function setUp(): void
     {
@@ -65,7 +67,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = new Refinery($this->data_factory, $this->language);
 
-        $this->group = new Field\Group(
+        $this->group = new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
@@ -93,7 +95,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $new_group = $this->group->withDisabled(true);
 
         $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
-        $this->assertInstanceOf(Field\Group::class, $new_group);
+        $this->assertInstanceOf(Group::class, $new_group);
         $this->assertNotSame($this->group, $new_group);
     }
 
@@ -115,7 +117,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $new_group = $this->group->withRequired(true);
 
         $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
-        $this->assertInstanceOf(Field\Group::class, $new_group);
+        $this->assertInstanceOf(Group::class, $new_group);
         $this->assertNotSame($this->group, $new_group);
     }
 
@@ -123,7 +125,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->group = new Field\Group(
+        $this->group = new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
@@ -161,7 +163,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $new_group = $this->group->withValue([1,2]);
 
         $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
-        $this->assertInstanceOf(Field\Group::class, $new_group);
+        $this->assertInstanceOf(Group::class, $new_group);
         $this->assertNotSame($this->group, $new_group);
     }
 
@@ -169,7 +171,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
     {
         $this->assertNotSame($this->child1, $this->child2);
 
-        $this->group = new Field\Group(
+        $this->group = new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
@@ -266,7 +268,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
         $this->assertTrue($called);
         $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
-        $this->assertInstanceOf(Field\Group::class, $new_group);
+        $this->assertInstanceOf(Group::class, $new_group);
         $this->assertNotSame($this->group, $new_group);
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
     }
@@ -310,7 +312,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             ->withInput($input_data);
 
         $this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
-        $this->assertInstanceOf(Field\Group::class, $new_group);
+        $this->assertInstanceOf(Group::class, $new_group);
         $this->assertNotSame($this->group, $new_group);
         $this->assertTrue($new_group->getContent()->isError());
     }
@@ -350,7 +352,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
     public function testWithoutChildren(): void
     {
-        $group = new Field\Group(
+        $group = new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
@@ -363,9 +365,9 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $content->value());
     }
 
-    public function getFieldFactory(): Field\Factory
+    public function getFieldFactory(): FieldFactory
     {
-        return new Field\Factory(
+        return new FieldFactory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new IncrementalSignalGenerator(),
             new Data\Factory(),

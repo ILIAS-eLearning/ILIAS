@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -54,7 +54,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label", "byline");
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
@@ -62,7 +62,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label");
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
@@ -71,7 +71,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $limit = 5;
         $textarea = $f->textarea('label')->withMinLimit($limit);
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
@@ -81,7 +81,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $limit = 15;
         $textarea = $f->textarea('label')->withMaxLimit($limit);
-        $this->assertInstanceOf(Field\Input::class, $textarea);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $textarea);
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
         $this->assertEquals($textarea->getMaxLimit(), $limit);
     }

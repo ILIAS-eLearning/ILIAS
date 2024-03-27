@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../Base.php");
@@ -56,7 +56,10 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $this->dic = new Container();
         $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
         $this->dic["lng"] = $this->getLanguage();
-        $this->dic["refinery"] = $this->getRefinery();
+        $this->dic["refinery"] = new \ILIAS\Refinery\Factory(
+            new ILIAS\Data\Factory(),
+            $this->getLanguage()
+        );
         (new InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerable;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -77,7 +77,7 @@ interface Filter extends Component, JavaScriptBindable, Triggerable
     /**
      * Get the inputs contained in the Filter.
      *
-     * @return    array<mixed,Input>
+     * @return    array<mixed,FormInput>
      */
     public function getInputs(): array;
 

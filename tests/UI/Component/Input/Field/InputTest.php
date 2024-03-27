@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Factory as DataFactory;
@@ -29,12 +29,12 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 
-class DefInput extends Input
+class DefInput extends FormInput
 {
     public bool $value_ok = true;
     public ?Constraint $requirement_constraint = null;
 
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return $this->value_ok;
     }
@@ -58,6 +58,14 @@ class DefNamesource implements NameSource
     public function getNewName(): string
     {
         $name = "name_{$this->count}";
+        $this->count++;
+
+        return $name;
+    }
+
+    public function getNewDedicatedName($dedicated_name = 'dedicated_name'): string
+    {
+        $name = $dedicated_name . "_{$this->count}";
         $this->count++;
 
         return $name;
@@ -102,17 +110,24 @@ class DefInputData implements InputData
 
         return $this->values[$name];
     }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->values);
+    }
 }
 
 /**
- * Test on input implementation.
+ * Test on field implementation.
  */
 class InputTest extends ILIAS_UI_TestBase
 {
     protected DataFactory $data_factory;
     protected Refinery $refinery;
     protected DefInput $input;
+    protected DefInput $dedicated_input;
     protected DefNamesource $name_source;
+    protected FormInput $named_input;
 
     public function setUp(): void
     {
@@ -125,6 +140,7 @@ class InputTest extends ILIAS_UI_TestBase
             "label",
             "byline"
         );
+        $this->named_input = $this->input->withDedicatedName('dedicated_name');
         $this->name_source = new DefNamesource();
     }
 
@@ -157,6 +173,19 @@ class InputTest extends ILIAS_UI_TestBase
         $this->assertTrue($input->isRequired());
         $input = $input->withRequired(false);
         $this->assertFalse($input->isRequired());
+    }
+
+    public function test_withRequired_and_custom_constraint(): void
+    {
+        $custom_constraint = $this->refinery->custom()->constraint(
+            function ($value) {
+                return (substr($value, 0, 1) === 'H') ? true : false;
+            },
+            "Your name does not start with an H"
+        );
+        $input = $this->input->withRequired(true, $custom_constraint);
+        $this->assertTrue($input->isRequired());
+        $this->assertEquals($input->requirement_constraint, $custom_constraint);
     }
 
     public function test_withDisabled(): void
@@ -198,6 +227,16 @@ class InputTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $this->input->getName());
         $this->assertEquals($name, $input->getName());
         $this->assertNotSame($this->input, $input);
+        $this->assertEquals(1, $this->name_source->count);
+    }
+
+    public function test_withNameForNamedInput(): void
+    {
+        $name = "dedicated_name_0";
+        $input = $this->named_input->withNameFrom($this->name_source);
+        $this->assertEquals(null, $this->named_input->getName());
+        $this->assertEquals($name, $input->getName());
+        $this->assertNotSame($this->named_input, $input);
         $this->assertEquals(1, $this->name_source->count);
     }
 
@@ -532,24 +571,20 @@ class InputTest extends ILIAS_UI_TestBase
     public function test_withInput_requirement_constraint(): void
     {
         $name = "name_0";
-        $value = "value";
-        $error = "an error";
+        $value = "Adam";
+        $error = "Your name does not start with an H";
         $input = $this->input->withNameFrom($this->name_source);
         $values = new DefInputData([$name => $value]);
-
-        $input->requirement_constraint = $this->refinery->custom()->constraint(function () {
-            return false;
-        }, $error);
-
-        $input2 = $input->withRequired(true)->withInput($values);
+        $custom_constraint = $this->refinery->custom()->constraint(
+            function ($value) {
+                return (substr($value, 0, 1) === 'H') ? true : false;
+            },
+            $error
+        );
+        $input2 = $input->withRequired(true, $custom_constraint)->withInput($values);
         $res = $input2->getContent();
-
         $this->assertInstanceOf(Result::class, $res);
-        $this->assertTrue($res->isError());
-        $this->assertEquals($error, $res->error());
-
-        $this->assertNotSame($input, $input2);
-        $this->assertEquals($value, $input2->getValue());
+        $this->assertFalse($res->isOk());
         $this->assertEquals($error, $input2->getError());
     }
 
@@ -561,11 +596,11 @@ class InputTest extends ILIAS_UI_TestBase
         $input = $this->input->withNameFrom($this->name_source);
         $values = new DefInputData([$name => $value]);
 
-        $input->requirement_constraint = $this->refinery->custom()->constraint(function () {
+        $custom_constraint = $this->refinery->custom()->constraint(function () {
             return false;
         }, $error);
 
-        $input2 = $input->withRequired(true)->withRequired(false)->withInput($values);
+        $input2 = $input->withRequired(true, $custom_constraint)->withRequired(false)->withInput($values);
         $res = $input2->getContent();
 
         $this->assertInstanceOf(Result::class, $res);

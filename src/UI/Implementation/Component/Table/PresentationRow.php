@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
@@ -50,10 +50,14 @@ class PresentationRow implements T\PresentationRow
     private array $further_fields = [];
     private array $data;
     protected SignalGeneratorInterface $signal_generator;
+    protected string $table_id;
 
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        string $table_id
+    ) {
         $this->signal_generator = $signal_generator;
+        $this->table_id = $table_id;
         $this->initSignals();
     }
 
@@ -244,5 +248,10 @@ class PresentationRow implements T\PresentationRow
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function getTableId(): string
+    {
+        return $this->table_id;
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -47,7 +47,7 @@ class ilStudyProgrammeTypeSettings
         ilLanguage $lng,
         Refinery $refinery,
         array $sp_types
-    ): Field\Input {
+    ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $select = $input
             ->select($lng->txt('type'), $sp_types, $lng->txt('prg_type_byline'))
             ->withValue($this->getTypeId() === 0 ? "" : $this->getTypeId())

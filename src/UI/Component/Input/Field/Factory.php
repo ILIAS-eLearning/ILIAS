@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Field;
+
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * This is what a factory for input fields looks like.
@@ -58,7 +60,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
-    public function text(string $label, string $byline = null): Text;
+    public function text(string $label, ?string $byline = null): Text;
 
     /**
      * ---
@@ -84,7 +86,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
-    public function numeric(string $label, string $byline = null): Numeric;
+    public function numeric(string $label, ?string $byline = null): Numeric;
 
     /**
      * ---
@@ -102,11 +104,12 @@ interface Factory
      *      sections: Sections are used to generate a visible relation of fields.
      * rules: []
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
      * @param string                                                 $label
+     * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
-    public function group(array $inputs, string $label = ''): Group;
+    public function group(array $inputs, string $label = '', ?string $byline = null): Group;
 
     /**
      * ---
@@ -129,10 +132,12 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accept by the Jour Fixe.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
+     * @param string                                                 $label
+     * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\OptionalGroup
      */
-    public function optionalGroup(array $inputs, string $label, string $byline = null): OptionalGroup;
+    public function optionalGroup(array $inputs, string $label, ?string $byline = null): OptionalGroup;
 
     /**
      * ---
@@ -155,10 +160,12 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accepted by the Jour Fixe.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $input
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\Group> $inputs
+     * @param string                                             $label
+     * @param string|null                                        $byline
      * @return    \ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
-    public function switchableGroup(array $inputs, string $label, string $byline = null): SwitchableGroup;
+    public function switchableGroup(array $inputs, string $label, ?string $byline = null): SwitchableGroup;
 
     /**
      * ---
@@ -194,12 +201,12 @@ interface Factory
      *     4: >
      *       In doubt consistency SHOULD be prioritized over accuracy in titles.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
-     * @param string|null                                            $label
-     * @param string                                                 $byline
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
+     * @param string                                                 $label
+     * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\Section
      */
-    public function section(array $inputs, string $label, string $byline = null): Section;
+    public function section(array $inputs, string $label, ?string $byline = null): Section;
 
     /**
      * ---
@@ -225,9 +232,11 @@ interface Factory
      *     1: The checkbox’s identifier MUST always state something positive.
      *
      * ---
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Checkbox
      */
-    public function checkbox(string $label, string $byline = null): Checkbox;
+    public function checkbox(string $label, ?string $byline = null): Checkbox;
 
 
     /**
@@ -280,13 +289,13 @@ interface Factory
      *     5: The tags provided SHOULD NOT have long titles (50 characters).
      *
      * ---
-     * @param string   $label
-     * @param string   $byline
-     * @param string[] $tags  List of tags to select from, given as a list of texts
-     *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+     * @param string      $label
+     * @param string[]    $tags  List of tags to select from, given as a list of texts
+     *                           such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Tag
      */
-    public function tag(string $label, array $tags, string $byline = null): Tag;
+    public function tag(string $label, array $tags, ?string $byline = null): Tag;
 
     /**
      * ---
@@ -328,7 +337,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Password
      */
-    public function password(string $label, string $byline = null): Password;
+    public function password(string $label, ?string $byline = null): Password;
 
     /**
      * ---
@@ -358,13 +367,12 @@ interface Factory
      *     2: First Option MAY be selectable when the field is not required.
      *
      * ---
-     * @param $label   string defines the label.
-     * @param $options array<string,string> with the select options as key-value pairs.
-     * @param $byline  string
-     *
+     * @param string               $label
+     * @param array<string,string> $options with the select options as key-value pairs.
+     * @param string|null          $byline
      * @return \ILIAS\UI\Component\Input\Field\Select
      */
-    public function select(string $label, array $options, string $byline = null): Select;
+    public function select(string $label, array $options, ?string $byline = null): Select;
 
     /**
      * ---
@@ -408,7 +416,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Textarea
      */
-    public function textarea(string $label, string $byline = null): Textarea;
+    public function textarea(string $label, ?string $byline = null): Textarea;
 
     /**
      * ---
@@ -450,7 +458,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Radio
      */
-    public function radio(string $label, string $byline = null): Radio;
+    public function radio(string $label, ?string $byline = null): Radio;
 
     /**
      * ---
@@ -489,10 +497,10 @@ interface Factory
      * ---
      * @param string               $label
      * @param array<string,string> $options with the select options as value=>label.
-     * @param string               $byline
+     * @param string|null          $byline
      * @return \ILIAS\UI\Component\Input\Field\MultiSelect
      */
-    public function multiSelect(string $label, array $options, string $byline = null): MultiSelect;
+    public function multiSelect(string $label, array $options, ?string $byline = null): MultiSelect;
 
     /**
      * ---
@@ -520,11 +528,11 @@ interface Factory
      *     1: When used as a time-only input, the glyph MUST be Time Glyph.
      *
      * ---
-     * @param string $label defines the label.
-     * @param string $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\DateTime
      */
-    public function dateTime(string $label, string $byline = null): DateTime;
+    public function dateTime(string $label, ?string $byline = null): DateTime;
 
     /**
      * ---
@@ -547,11 +555,11 @@ interface Factory
      *     1: When used with time-only inputs, the glyph MUST be Time Glyph.
      *
      * ---
-     * @param string $label defines the label.
-     * @param string $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
-    public function duration(string $label, string $byline = null): Duration;
+    public function duration(string $label, ?string $byline = null): Duration;
 
     /**
      * ---
@@ -584,16 +592,16 @@ interface Factory
      *
      * ---
      * @param UploadHandler $handler
-     * @param string        $label defines the label.
+     * @param string        $label
      * @param string|null   $byline
-     * @param Input|null    $metadata_input
+     * @param FormInput|null    $metadata_input
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(
         UploadHandler $handler,
         string $label,
-        string $byline = null,
-        Input $metadata_input = null
+        ?string $byline = null,
+        FormInput $metadata_input = null
     ): File;
 
     /**
@@ -623,7 +631,7 @@ interface Factory
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Url
      */
-    public function url(string $label, string $byline = null): Url;
+    public function url(string $label, ?string $byline = null): Url;
 
     /**
      * ---
@@ -651,7 +659,7 @@ interface Factory
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Link
      */
-    public function link(string $label, string $byline = null): Link;
+    public function link(string $label, ?string $byline = null): Link;
 
     /**
      * ---

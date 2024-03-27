@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -37,11 +36,11 @@ class Link extends Group implements C\Input\Field\Link
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         $inputs = [
-            $field_factory->text($lng->txt('ui_link_label')),
-            $field_factory->url($lng->txt('ui_link_url'))
+            $field_factory->text($lng->txt('ui_link_label'), null)->withDedicatedName('label'),
+            $field_factory->url($lng->txt('ui_link_url'), null)->withDedicatedName('url')
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -86,7 +85,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return true;
     }
@@ -96,6 +95,10 @@ class Link extends Group implements C\Input\Field\Link
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return null;
     }
 }

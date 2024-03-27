@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 
-use ILIAS\UI\Implementation\Component\Input\Container\Form\PostDataFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\PostDataFromServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\TestCase;
 

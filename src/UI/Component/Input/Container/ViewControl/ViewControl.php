@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,28 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
-use ILIAS\UI\Component\Component;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Input\Container\Container;
 
 /**
  * This describes a View Control Container.
  */
-interface ViewControl extends Component
+interface ViewControl extends Container, JavaScriptBindable
 {
-    /**
-     * Get the contained controls.
-     *
-     * @return array<string,Input>
-     */
-    public function getInputs(): array;
-
-    public function withRequest(ServerRequestInterface $request);
-
-    /**
-     * @return array<string,mixed>
-     */
-    public function getData(): array;
 }

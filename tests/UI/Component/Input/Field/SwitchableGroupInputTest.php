@@ -24,7 +24,6 @@ require_once(__DIR__ . "/../../../Base.php");
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data;
@@ -54,37 +53,46 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
     protected $child2;
 
     /**
+     * @var I\Input\Field\FormInputInternal|mixed|MockObject
+     */
+    protected $nested_child;
+
+    /**
      * @var ilLanguage|mixed|MockObject
      */
     protected $lng;
 
     protected Data\Factory $data_factory;
     protected Refinery $refinery;
-    protected \ILIAS\UI\Component\Input\Field\Input $switchable_group;
+    protected \ILIAS\UI\Component\Input\Field\Group $switchable_group;
     protected SwitchableGroup $group;
 
     public function setUp(): void
     {
+        $this->nested_child = $this->createMock(I\Input\Field\FormInputInternal::class);
         $this->child1 = $this->createMock(Group1::class);
         $this->child2 = $this->createMock(Group2::class);
         $this->data_factory = new Data\Factory();
         $this->refinery = new Refinery($this->data_factory, $this->createMock(ilLanguage::class));
         $this->lng = $this->createMock(ilLanguage::class);
 
+        $this->nested_child
+            ->method("withNameFrom")
+            ->willReturn($this->nested_child);
+
         $this->child1
             ->method("withNameFrom")
             ->willReturn($this->child1);
         $this->child1
             ->method("getInputs")
-            ->willReturn([$this->child1]);
+            ->willReturn([$this->nested_child]);
 
         $this->child2
             ->method("withNameFrom")
             ->willReturn($this->child2);
         $this->child2
             ->method("getInputs")
-            ->willReturn([$this->child2]);
-
+            ->willReturn([$this->nested_child]);
 
         $this->switchable_group = (new SwitchableGroup(
             $this->data_factory,
@@ -160,7 +168,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             $this->data_factory,
             $this->refinery,
             $this->lng,
-            [$this->createMock(Input::class)],
+            [$this->createMock(I\Input\Field\FormInput::class)],
             "LABEL",
             "BYLINE"
         );
@@ -242,16 +250,23 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->with("name0")
             ->willReturn("child1");
 
+        $expected_result = $this->data_factory->ok("one");
+
         $this->child1
             ->expects($this->once())
             ->method("withInput")
             ->with($input_data)
             ->willReturn($this->child1);
         $this->child1
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method("getContent")
             ->with()
-            ->willReturn($this->data_factory->ok("one"));
+            ->willReturn($expected_result);
+        $this->nested_child
+            ->expects($this->once())
+            ->method("getContent")
+            ->with()
+            ->willReturn($expected_result);
         $this->child2
             ->expects($this->never())
             ->method("withInput");
@@ -425,7 +440,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" /><label for="id_1_g2_opt"></label>
@@ -436,7 +450,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -472,7 +485,6 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" name="" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
@@ -483,7 +495,6 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
         </div>
         <div class="help-block">byline</div>
@@ -510,7 +521,7 @@ EOT;
             "field_2" => $f->text("f2", "some other field")
         ]);
         $empty_group_title = 'empty group, the title';
-        $empty_group_byline =  'empty group, the byline';
+        $empty_group_byline = 'empty group, the byline';
         $group3 = $f->group([], $empty_group_title, $empty_group_byline);
 
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
@@ -531,7 +542,6 @@ EOT;
                         <div class="help-block">some field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_1_opt" name="" value="1" checked="checked" /><label for="id_1_1_opt"></label>
@@ -542,7 +552,6 @@ EOT;
                         <div class="help-block">some other field</div>
                     </div>
                 </div>
-                <div class="help-block"></div>
             </div>
 
             <div class="form-control form-control-sm il-input-radiooption">
