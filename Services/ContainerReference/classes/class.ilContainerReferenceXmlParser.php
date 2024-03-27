@@ -188,7 +188,7 @@ class ilContainerReferenceXmlParser extends ilContainerBaseXmlParser
      */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
-        $this->cdata = $this->trimAndStripAttribs($this->cdata);
+        $this->cdata = $this->trimAndStrip((string) $this->cdata);
         switch ($a_name) {
             case "ContainerReference":
                 $this->save();
