@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
@@ -132,7 +133,12 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         PageContentProvider::setContent($this->legacy_content_template->renderPage(self::DEFAULT_BLOCK, true));
         $this->http->sendResponse();
 
-        print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+        if ($a_skip_main_menu) {
+            $page = new Standard([(new StandardPagePartProvider())->getContent()]);
+        } else {
+            $page = $this->gs->collector()->layout()->getFinalPage();
+        }
+        print $this->ui->renderer()->render($page);
 
         // save language usages as late as possible
         ilObjLanguageAccess::_saveUsages();
