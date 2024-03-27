@@ -325,7 +325,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         }
 
         if (($this->object->accessHandler()->mayViewAllUsers()
-            || $this->object->accessHandler()->mayGradeAllUsers()
+            || $this->object->accessHandler()->mayEditLearningProgressSettings()
             || ($this->object->loadMembers()->userAllreadyMember($this->usr)
             && $this->object->isActiveLP()))
             && ilObjUserTracking::_enabledLearningProgress()) {
