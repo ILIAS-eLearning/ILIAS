@@ -177,8 +177,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     public function mayViewAnyUser(): bool
     {
         return $this->mayViewAllUsers()
-            || $this->checkRBACOrPositionAccessToObj('read_learning_progress')
-            || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
+            || $this->checkRBACOrPositionAccessToObj('read_learning_progress');
     }
 
     public function mayViewAllUsers(): bool
@@ -188,12 +187,12 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
     public function mayGradeAnyUser(): bool
     {
-        return $this->mayGradeAllUsers() || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
+        return $this->mayGradeAllUsers() || $this->checkRBACOrPositionAccessToObj('read_learning_progress');
     }
 
     public function mayGradeAllUsers(): bool
     {
-        return $this->checkRBACAccessToObj('edit_learning_progress');
+        return $this->checkRBACAccessToObj('read_learning_progress');
     }
 
     public function mayGradeUser(int $user_id): bool
@@ -232,5 +231,10 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     public function isSystemAdmin(): bool
     {
         return $this->review->isAssigned($this->usr->getId(), SYSTEM_ROLE_ID);
+    }
+
+    public function mayEditLearningProgressSettings(): bool
+    {
+        return $this->checkRBACAccessToObj('edit_learning_progress');
     }
 }
