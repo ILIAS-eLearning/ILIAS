@@ -13,12 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import FormNode from './formnode.class';
-
-/**
- * @type {string}
- */
-const ROOT = 'root';
+import FormNode from './formnode.class.js';
 
 /**
  * @type {string}
@@ -42,7 +37,6 @@ export default class Container {
    */
   constructor(component) {
     this.#component = component;
-    this.#nodes = new FormNode(ROOT);
     this.#buildTree();
   }
 
@@ -64,8 +58,13 @@ export default class Container {
    */
   #register(pointer, nameparts, component) {
     let current = pointer;
-
     const part = nameparts.shift();
+
+    if (!current) {
+      this.#nodes = new FormNode(part);
+      current = this.#nodes;
+    }
+
     if (!current.getNodeNames().includes(part)) {
       current.addNode(new FormNode(part));
     }
@@ -96,7 +95,8 @@ export default class Container {
    * @return {Array}
    */
   getValues(fieldName) {
-    return this.node(fieldName).getValuesRecursively();
+    const node = this.node(fieldName);
+    return this.#getValuesRecursively(node, null);
   }
 
   /**
@@ -104,6 +104,64 @@ export default class Container {
    * @return {Array}
    */
   getValuesFlat(fieldName) {
-    return this.node(fieldName).getValuesFlat();
+    const node = this.node(fieldName);
+    return this.#getValuesFlat(node, null, null);
+  }
+
+  /**
+   * @param {FormNode} node
+   * @param {Array|null} [initValues]
+   * @return {Array<string, Array>}
+   */
+  #getValuesRecursively(node, initValues) {
+    const values = initValues || [];
+    values[node.getName()] = node.getValues();
+
+    const subnodes = this.#groupFilteredSubnodes(node);
+    subnodes.forEach(
+      (n) => this.#getValuesRecursively(node.getNodeByName(n), values[node.getName()]),
+    );
+    return values;
+  }
+
+  /**
+   * @param {FormNode} [node]
+   * @param {Array|null} [initValues]
+   * @param {string|null} [initName]
+   * @return {Array<string, Array>}
+   */
+  #getValuesFlat(node, initValues, initName) {
+    const values = initValues || [];
+    const name = initName || [node.getName()];
+
+    values[name.join('/')] = node.getValues();
+    const subnodes = this.#groupFilteredSubnodes(node);
+    subnodes.forEach(
+      (n) => this.#getValuesFlat(node.getNodeByName(n), values, name.concat([n])),
+    );
+    return values;
+  }
+
+  /**
+   * @return {FormNode[]}
+   */
+  #groupFilteredSubnodes(node) {
+    let subnodes = node.getNodeNames();
+
+    // optional groups:
+    if (node.getFields().length > 0 && node.getValues().length === 0) {
+      subnodes = []; // or, equally: return values;
+    }
+    // switchable groups
+    if (node.getFields().length > 0
+      && node.getFields().filter((f) => f.type === 'radio').length === node.getFields().length
+    ) {
+      subnodes = [];
+      const index = node.getFields().findIndex((f) => f.value === node.getValues().shift());
+      if (node.getNodeNames().length > index && index > -1) {
+        subnodes = [node.getNodeNames()[index]];
+      }
+    }
+    return subnodes;
   }
 }

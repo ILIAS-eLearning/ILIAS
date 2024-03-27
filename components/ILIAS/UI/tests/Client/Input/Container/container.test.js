@@ -14,22 +14,22 @@
  */
 
 import { assert, expect } from 'chai';
+import { JSDOM } from 'jsdom';
 
 import ContainerFactory from '../../../../src/templates/js/Input/Container/src/container.factory.js';
 import Container from '../../../../src/templates/js/Input/Container/src/container.class.js';
 import FormNode from '../../../../src/templates/js/Input/Container/src/formnode.class.js';
 
-import ContainerTestDOM from './containertestdom.js';
-
 /**
- * Initializes the global window and document variable that holds a mocked DOM
+ * get HTML document from file
  *
- * @return {void}
+ * @return JSDOM
  */
-function initMockedDom() {
-  const dom = new ContainerTestDOM();
-  global.domSimple = dom.simple.window.document;
-  global.domSwitchableGroup = dom.switchableGroup.window.document;
+function loadMockedDom(file) {
+  const path = 'components/ILIAS/UI/tests/Client/Input/Container/';
+  const doc = JSDOM.fromFile(path + file, { contentType: 'text/html', resources: 'usable' })
+    .then((dom) => dom.window.document);
+  return doc;
 }
 
 describe('Container components are there', () => {
@@ -45,11 +45,11 @@ describe('Container components are there', () => {
 });
 
 describe('Container', () => {
-  beforeEach(initMockedDom);
+  before(async () => {
+    global.doc = await loadMockedDom('containertest_simple.html');
+    global.containerSimple = new Container(doc.querySelector('#test_container_id'));
+  });
 
-  const dom = new ContainerTestDOM();
-  const domSimple = dom.simple.window.document;
-  const containerSimple = new Container(domSimple.querySelector('#test_container_id'));
   it('is build and provides a FormNode', () => {
     expect(containerSimple).to.be.an.instanceOf(Container);
     expect(containerSimple.node()).to.be.an.instanceOf(FormNode);
@@ -66,14 +66,25 @@ describe('Container', () => {
     expect(Object.values(containerSimple.getValuesFlat())).to.eql(Object.values(expected));
   });
 
-  it('provides a Tree of FormNodes and values', () => {
+  it('provides a tree of FormNodes and values', async () => {
+    const values = containerSimple.getValues();
+    expect(values.form.input_0).to.eql(['value_1']);
+    expect(values.form.input_1).to.eql(['value_2']);
+    expect(values.form.input_2).to.eql(['value_3']);
+  });
+  it('...also in complex forms', async () => {
+    const doc = await loadMockedDom('containertest_switchablegroup.html');
+    const containerSwitchableGroup = new Container(doc.querySelector('#test_container_id'));
+    const values = containerSwitchableGroup.getValues();
+    expect(values.form.input_0.input_1.input_2).to.eql(['value_1.1']);
+    expect(values.form.input_0.input_1.input_3).to.eql(['value_1.2']);
+    // expect(values.form.input_1).to.eql(['value_2']);
+    // expect(values.form.input_2).to.eql(['value_3']);
   });
 
-  it('filters switchable groups', () => {
-  
-    const dom = new ContainerTestDOM();
-    const domSwitchableGroup = dom.switchableGroup.window.document;
-    const containerSwitchableGroup = new Container(domSwitchableGroup.querySelector('#test_container_id'));
+  it('filters switchable groups', async () => {
+    const doc = await loadMockedDom('containertest_switchablegroup.html');
+    const containerSwitchableGroup = new Container(doc.querySelector('#test_container_id'));
     const expected = {
       form: [],
       'form/input_0': ['1'],
@@ -86,24 +97,19 @@ describe('Container', () => {
     expect(Object.keys(containerSwitchableGroup.getValuesFlat())).to.eql(Object.keys(expected));
     expect(Object.values(containerSwitchableGroup.getValuesFlat())).to.eql(Object.values(expected));
 
-    domSwitchableGroup.getElementsByName('form/input_0')[1].checked = 'checked';
-    const containerSwitchableGroup2 = new Container(domSwitchableGroup.querySelector('#test_container_id'));
+    doc.getElementsByName('form/input_0')[1].checked = 'checked';
+    const containerSwitchableGroup2 = new Container(doc.querySelector('#test_container_id'));
 
     const expected2 = {
       form: [],
       'form/input_0': ['2'],
-      //'form/input_0/input_1': [],
-      //'form/input_0/input_1/input_2': ['value_1.1'],
-      //'form/input_0/input_1/input_3': ['value_1.2'],
-      'form/input_0/input_4' : [],
-      'form/input_0/input_4/input_5' : ['value_2.1'],
+      // 'form/input_0/input_1': [],
+      // 'form/input_0/input_1/input_2': ['value_1.1'],
+      // 'form/input_0/input_1/input_3': ['value_1.2'],
+      'form/input_0/input_4': [],
+      'form/input_0/input_4/input_5': ['value_2.1'],
     };
     expect(Object.keys(containerSwitchableGroup2.getValuesFlat())).to.eql(Object.keys(expected2));
     expect(Object.values(containerSwitchableGroup2.getValuesFlat())).to.eql(Object.values(expected2));
-
-
-  });
-
-  it('filters values by set group-options', () => {
   });
 });

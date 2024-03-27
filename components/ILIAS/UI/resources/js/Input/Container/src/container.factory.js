@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Container from './container.class';
+import Container from './container.class.js';
 
 export default class ContainerFactory {
   /**
