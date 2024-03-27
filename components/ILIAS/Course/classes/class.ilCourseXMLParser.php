@@ -102,6 +102,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         if ($this->in_meta_data) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return;
@@ -485,6 +486,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip((string) $this->cdata);
         if ($this->in_meta_data) {
             parent::handlerEndTag($a_xml_parser, $a_name);
         }

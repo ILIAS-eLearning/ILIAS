@@ -20,7 +20,7 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilCategoryXmlParser extends ilSaxParser
+class ilCategoryXmlParser extends ilContainerBaseXmlParser
 {
     public const MODE_CREATE = 1;
     public const MODE_UPDATE = 2;
@@ -81,6 +81,7 @@ class ilCategoryXmlParser extends ilSaxParser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         switch ($a_name) {
             case "Category":
                 break;
@@ -113,6 +114,7 @@ class ilCategoryXmlParser extends ilSaxParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip($this->cdata);
         switch ($a_name) {
             case "Category":
                 $this->save();
