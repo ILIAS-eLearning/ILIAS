@@ -30,6 +30,8 @@ use ILIAS\Refinery;
 class ilHierarchyFormGUI extends ilFormGUI
 {
     protected ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
     protected string $exp_target_script = "";
     protected string $icon = "";
     protected string $exp_id = "";
@@ -68,6 +70,8 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->maxdepth = -1;
         $this->multi_commands = array();
@@ -508,7 +512,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                 }
             }
         }
-//        $this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
+        //        $this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
 
 
         if ($this->triggered_update_command != "") {
@@ -563,13 +567,20 @@ class ilHierarchyFormGUI extends ilFormGUI
             $ttpl->setVariable("IMG_DRAG", $this->getDragIcon());
             $ttpl->setVariable(
                 "DRAG_ARROW",
-                ilGlyphGUI::get(ilGlyphGUI::DRAG)
+                $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->glyph()->next()
+                )
             );
             $ttpl->setVariable(
                 "TXT_DRAG",
                 $lng->txt("form_hierarchy_drag_drop_help")
             );
-            $ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
+            $ttpl->setVariable(
+                "PLUS",
+                $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->glyph()->add()
+                )
+            );
             $ttpl->parseCurrentBlock();
         }
 
@@ -589,7 +600,12 @@ class ilHierarchyFormGUI extends ilFormGUI
             "TXT_ADD_EL",
             $lng->txt("form_hierarchy_add_elements")
         );
-        $ttpl->setVariable("PLUS2", ilGlyphGUI::get(ilGlyphGUI::ADD));
+        $ttpl->setVariable(
+            "PLUS2",
+            $this->ui_renderer->render(
+                $this->ui_factory->symbol()->glyph()->add()
+            )
+        );
 
         return $ttpl->get();
     }
