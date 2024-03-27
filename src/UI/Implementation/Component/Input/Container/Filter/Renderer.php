@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
@@ -122,12 +122,10 @@ class Renderer extends AbstractComponentRenderer
         if ($component->isExpanded() == false) {
             $opener = [$opener_collapse, $opener_expand];
             $tpl->setVariable("OPENER", $default_renderer->render($opener));
-            $tpl->setVariable("ARIA_EXPANDED", "'false'");
             $tpl->setVariable("INPUTS_ACTIVE_EXPANDED", "in");
         } else {
             $opener = [$opener_expand, $opener_collapse];
             $tpl->setVariable("OPENER", $default_renderer->render($opener));
-            $tpl->setVariable("ARIA_EXPANDED", "'true'");
             $tpl->setVariable("INPUTS_EXPANDED", "in");
         }
     }
