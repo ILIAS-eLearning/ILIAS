@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import FormNode from './formnode.class';
+import FormNode from './formnode.class.js';
 
 /**
  * @type {string}
@@ -52,6 +52,7 @@ export default class Container {
   #buildTree() {
     const fields = this.#component.querySelectorAll(SEARCH);
     fields.forEach((field) => {
+      // console.log(field.name);
       this.#register(this.#nodes, field.name.split('/'), field);
     });
   }
