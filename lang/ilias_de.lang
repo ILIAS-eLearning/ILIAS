@@ -7391,7 +7391,7 @@ crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
 crs#:#crs_cdf_edit_member#:#Personenbezogene Angaben zu diesem Kurs bearbeiten
-crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert (Kursspezifische Daten)
+crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Sprechstunde
