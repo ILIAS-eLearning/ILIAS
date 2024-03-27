@@ -41,14 +41,14 @@ interface DataHelperInterface
     /**
      * Translates strings in the LOM-internal duration format to seconds.
      * This is only a rough estimate, as LOM-durations do not have a start
-     * date, so e.g.  each month is treated as 30 days.
+     * date, so e.g. each month is treated as 30 days.
      */
     public function durationToSeconds(string $duration): int;
 
     /**
      * Translates strings in the LOM-internal datetime format to
      * datetime objects.
-     * Note that LOM datetimes in ILIAS only consist of a date, and not
+     * Note that LOM datetimes in ILIAS only consist of a date, without
      * a time.
      */
     public function datetimeToObject(string $datetime): \DateTimeImmutable;

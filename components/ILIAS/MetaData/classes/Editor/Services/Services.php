@@ -141,7 +141,8 @@ class Services
         return $this->manipulator = new Manipulator(
             $this->manipulator_services->manipulator(),
             $this->path_services->navigatorFactory(),
-            $this->repository_services->repository()
+            $this->repository_services->repository(),
+            $this->manipulator_services->scaffoldProvider()
         );
     }
 

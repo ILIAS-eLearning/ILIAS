@@ -27,7 +27,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Dictionary\DictionaryInterface as DatabaseDictionary;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Repository\Dictionary\ExpectedParameter;
 use ILIAS\MetaData\Editor\Full\Services\DataFinder;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Vocabularies\VocabulariesInterface;

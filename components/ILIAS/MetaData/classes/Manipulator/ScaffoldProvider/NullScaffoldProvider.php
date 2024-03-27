@@ -18,20 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Utilities;
+namespace ILIAS\MetaData\Manipulator\ScaffoldProvider;
 
 use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\Elements\SetInterface;
+use ILIAS\MetaData\Elements\NullSet;
 
-interface ScaffoldProviderInterface
+class NullScaffoldProvider implements ScaffoldProviderInterface
 {
-    /**
-     * Returns all elements that could be added as sub-elements
-     * to the given element as scaffolds. Scaffolds are used to
-     * mark where elements could potentially be created.
-     * Keys are the name of the following element.
-     * @return ElementInterface[]
-     */
-    public function getScaffoldsForElement(
-        ElementInterface $element
-    ): \Generator;
+    public function getScaffoldsForElement(ElementInterface $element): \Generator
+    {
+        yield from [];
+    }
+
+    public function getPossibleSubElementNamesForElementInOrder(ElementInterface $element): \Generator
+    {
+        yield from [];
+    }
+
+    public function set(): SetInterface
+    {
+        return new NullSet();
+    }
 }

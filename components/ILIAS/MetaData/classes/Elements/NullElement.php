@@ -27,7 +27,7 @@ use ILIAS\MetaData\Elements\Markers\Action;
 use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
 use ILIAS\MetaData\Elements\Markers\NullMarker;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 
 class NullElement extends NullBaseElement implements ElementInterface
 {
@@ -51,7 +51,11 @@ class NullElement extends NullBaseElement implements ElementInterface
         return new NullMarker();
     }
 
-    public function mark(MarkerFactoryInterface $factory, Action $action, string $data_value = '')
+    public function mark(MarkerFactoryInterface $factory, Action $action, string $data_value = ''): void
+    {
+    }
+
+    public function unmark(): void
     {
     }
 

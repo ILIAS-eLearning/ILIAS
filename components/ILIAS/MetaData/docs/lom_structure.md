@@ -5,7 +5,8 @@ missing or wrong information using the [ILIAS issue tracker](https://mantis.ilia
 or contribute a fix via [Pull Request](../../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 Metadata of objects in ILIAS follow the Learning Object Metadata
-(LOM) standard. The standard will not be reproduced here in full, 
+(LOM) standard (for the most part, see [here](#specific-to-ilias) for
+diversions). The standard will not be reproduced here in full, 
 this documentation is restricted to providing information useful for
 working with LOM in ILIAS.
 
@@ -407,5 +408,19 @@ Since the value of the element `general > title > string` is
 synchronized with the  title of the ILIAS object the LOM set belongs
 to, neither it nor its super-elements can be deleted.
 
-The sub-elements of the first `general > identifier` can neither
-be edited nor deleted, along with their super-elements.
+The sub-elements of the first `general > identifier` are fixed and can
+neither be edited nor deleted, along with their super-elements. The
+`catalog` sub-element is always set to `ILIAS` and the `entry` to
+`il_{Installation ID}_{Object Type}_{Object ID}`. `Object ID` refers
+here to either the `sub_id` if it is non-zero, and otherwise to the
+`obj_id` of the object as defined [here](identifying_objects.md).
+
+The LOM standard allows any elements of type `LangString`, meaning those
+with a tupel `string` and `language` as sub-elements, to have arbitrarily
+many such tupels. This is currently not implemented in ILIAS.
+
+Further, some elements denoted above as having data type `string` are
+more restrictive in the LOM standard. For example, `technical > format`
+should be restricted to MIME types (or the token `non-digital`), and
+`contribute > entity` should be restricted to representation of vCards.
+Likewise, these restrictions are currently not implemented in ILIAS.

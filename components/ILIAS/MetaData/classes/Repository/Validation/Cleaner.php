@@ -23,7 +23,7 @@ namespace ILIAS\MetaData\Repository\Validation;
 use ILIAS\MetaData\Elements\Structure\StructureSetInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Repository\Validation\Data\DataValidatorInterface;
-use ILIAS\MetaData\Elements\Factory;
+use ILIAS\MetaData\Elements\Factory as ElementFactory;
 use ILIAS\MetaData\Elements\Element;
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface;
@@ -33,23 +33,27 @@ use ILIAS\MetaData\Elements\Markers\Action;
 use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\TagInterface;
+use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 
 class Cleaner implements CleanerInterface
 {
-    protected Factory $element_factory;
+    protected ElementFactory $element_factory;
+    protected MarkerFactoryInterface $marker_factory;
     protected StructureSetInterface $structure_set;
     protected DataValidatorInterface $data_validator;
     protected DictionaryInterface $dictionary;
     protected \ilLogger $logger;
 
     public function __construct(
-        Factory $element_factory,
+        ElementFactory $element_factory,
+        MarkerFactoryInterface $marker_factory,
         StructureSetInterface $structure_set,
         DataValidatorInterface $data_validator,
         DictionaryInterface $dictionary,
         \ilLogger $logger
     ) {
         $this->element_factory = $element_factory;
+        $this->marker_factory = $marker_factory;
         $this->structure_set = $structure_set;
         $this->data_validator = $data_validator;
         $this->dictionary = $dictionary;
@@ -113,13 +117,19 @@ class Cleaner implements CleanerInterface
         }
     }
 
+    public function cleanMarkers(SetInterface $set): void
+    {
+        $this->checkMarkerOnElement($set->getRoot(), true, 0);
+    }
+
     public function checkMarkers(SetInterface $set): void
     {
-        $this->checkMarkerOnElement($set->getRoot(), 0);
+        $this->checkMarkerOnElement($set->getRoot(), false, 0);
     }
 
     protected function checkMarkerOnElement(
         ElementInterface $element,
+        bool $replace_by_neutral,
         int $depth
     ): void {
         if ($depth > 20) {
@@ -135,20 +145,22 @@ class Cleaner implements CleanerInterface
         ) {
             $message = $marker->dataValue() . ' is not valid as ' .
                 $element->getDefinition()->dataType()->value . ' data.';
-            $this->throwErrorOrLog($element, $message, true);
+            $this->throwErrorOrLog($element, $message, !$replace_by_neutral);
+            $element->mark($this->marker_factory, Action::NEUTRAL);
         }
         foreach ($this->dictionary->tagsForElement($element) as $tag) {
-            $this->checkMarkerAgainstTag($tag, $element, $marker);
+            $this->checkMarkerAgainstTag($tag, $element, $marker, $replace_by_neutral);
         }
         foreach ($element->getSubElements() as $sub) {
-            $this->checkMarkerOnElement($sub, $depth + 1);
+            $this->checkMarkerOnElement($sub, $replace_by_neutral, $depth + 1);
         }
     }
 
     protected function checkMarkerAgainstTag(
         TagInterface $tag,
         ElementInterface $element,
-        MarkerInterface $marker
+        MarkerInterface $marker,
+        bool $replace_by_neutral
     ): void {
         switch ($tag->restriction()) {
             case Restriction::PRESET_VALUE:
@@ -159,14 +171,16 @@ class Cleaner implements CleanerInterface
                     $this->throwErrorOrLog(
                         $element,
                         'can only be created with preset value ' . $tag->value(),
-                        true
+                        !$replace_by_neutral
                     );
+                    $element->mark($this->marker_factory, Action::NEUTRAL);
                 }
                 break;
 
             case Restriction::NOT_DELETABLE:
                 if ($marker->action() === Action::DELETE) {
-                    $this->throwErrorOrLog($element, 'cannot be deleted.', true);
+                    $this->throwErrorOrLog($element, 'cannot be deleted.', !$replace_by_neutral);
+                    $element->mark($this->marker_factory, Action::NEUTRAL);
                 }
                 break;
 
@@ -175,7 +189,8 @@ class Cleaner implements CleanerInterface
                     $marker->action() === Action::CREATE_OR_UPDATE &&
                     $element->getMDID() !== NoID::SCAFFOLD
                 ) {
-                    $this->throwErrorOrLog($element, 'cannot be edited.', true);
+                    $this->throwErrorOrLog($element, 'cannot be edited.', !$replace_by_neutral);
+                    $element->mark($this->marker_factory, Action::NEUTRAL);
                 }
                 break;
         }

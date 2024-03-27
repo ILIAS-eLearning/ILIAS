@@ -18,14 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Utilities;
+namespace ILIAS\MetaData\XML\Dictionary;
 
-use ILIAS\MetaData\Elements\ElementInterface;
+use ILIAS\MetaData\Elements\Base\BaseElementInterface;
+use ILIAS\MetaData\XML\Version;
 
-class NullScaffoldProvider implements ScaffoldProviderInterface
+interface DictionaryInterface
 {
-    public function getScaffoldsForElement(ElementInterface $element): \Generator
-    {
-        yield from [];
-    }
+    public function tagForElement(
+        BaseElementInterface $element,
+        Version $version
+    ): ?TagInterface;
 }

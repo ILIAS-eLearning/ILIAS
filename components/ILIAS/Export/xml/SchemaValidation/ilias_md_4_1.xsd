@@ -157,15 +157,15 @@
  <xs:element name='MetaData'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:General'/>
-    <xs:element ref='t:Lifecycle' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Meta-Metadata' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Technical' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Educational' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Rights' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Relation' minOccurs='0' maxOccurs='unbounded'/>
-    <xs:element ref='t:Annotation' minOccurs='0' maxOccurs='unbounded'/>
-    <xs:element ref='t:Classification' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='General'/>
+    <xs:element ref='Lifecycle' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Meta-Metadata' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Technical' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Educational' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Rights' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Relation' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='Annotation' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='Classification' minOccurs='0' maxOccurs='unbounded'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -174,12 +174,12 @@
  <xs:element name='General'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Identifier' maxOccurs='unbounded'/>
-    <xs:element ref='t:Title'/>
-    <xs:element ref='t:Language' maxOccurs='unbounded'/>
-    <xs:element ref='t:Description' maxOccurs='unbounded'/>
-    <xs:element ref='t:Keyword' maxOccurs='unbounded'/>
-    <xs:element ref='t:Coverage' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Identifier' maxOccurs='unbounded'/>
+    <xs:element ref='Title'/>
+    <xs:element ref='Language' maxOccurs='unbounded'/>
+    <xs:element ref='Description' maxOccurs='unbounded'/>
+    <xs:element ref='Keyword' maxOccurs='unbounded'/>
+    <xs:element ref='Coverage' minOccurs='0' maxOccurs='1'/>
    </xs:sequence>
    <xs:attribute name='Structure' use='required'>
     <xs:simpleType>
@@ -199,7 +199,7 @@
  <xs:element name='Identifier'>
   <xs:complexType>
    <xs:attribute name='Catalog' type='xs:string' use='optional'/>
-   <xs:attribute name='Entry' type='xs:ID' use='required'/>
+   <xs:attribute name='Entry' type='xs:string' use='required'/>
   </xs:complexType>
  </xs:element>
 
@@ -207,8 +207,8 @@
  <xs:element name='Title'>
   <xs:complexType mixed='true'>
    <xs:complexContent>
-    <xs:extension base="t:TitleText">
-     <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+    <xs:extension base="TitleText">
+     <xs:attribute name='Language' type='LanguageCode' use='required' />
     </xs:extension>
    </xs:complexContent>
   </xs:complexType>
@@ -217,28 +217,28 @@
  <!-- Language -->
  <xs:element name='Language'>
   <xs:complexType>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+   <xs:attribute name='Language' type='LanguageCode' use='required' />
   </xs:complexType>
  </xs:element>
 
  <!-- Description -->
  <xs:element name='Description'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+   <xs:attribute name='Language' type='LanguageCode' use='required' />
   </xs:complexType>
  </xs:element>
 
  <!-- Keyword -->
  <xs:element name='Keyword'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+   <xs:attribute name='Language' type='LanguageCode' use='required' />
   </xs:complexType>
  </xs:element>
 
  <!-- Coverage -->
  <xs:element name='Coverage'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+   <xs:attribute name='Language' type='LanguageCode' use='required' />
   </xs:complexType>
  </xs:element>
 
@@ -246,8 +246,8 @@
  <xs:element name='Lifecycle'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Version'/>
-    <xs:element ref='t:Contribute' maxOccurs='unbounded'/>
+    <xs:element ref='Version'/>
+    <xs:element ref='Contribute' maxOccurs='unbounded'/>
    </xs:sequence>
    <xs:attribute name='Status' use='required'>
     <xs:simpleType>
@@ -265,7 +265,7 @@
  <!-- Version -->
  <xs:element name='Version'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required' />
+   <xs:attribute name='Language' type='LanguageCode' use='required' />
   </xs:complexType>
  </xs:element>
 
@@ -273,8 +273,8 @@
  <xs:element name='Contribute'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Entity' maxOccurs='unbounded'/>
-    <xs:element ref='t:Date'/>
+    <xs:element ref='Entity' maxOccurs='unbounded'/>
+    <xs:element ref='Date'/>
    </xs:sequence>
    <xs:attribute name='Role' use='required'>
     <xs:simpleType>
@@ -318,8 +318,8 @@
  <xs:element name='Meta-Metadata'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Identifier' maxOccurs='unbounded'/>
-    <xs:element ref='t:Contribute' maxOccurs='unbounded'/>
+    <xs:element ref='Identifier' maxOccurs='unbounded'/>
+    <xs:element ref='Contribute' maxOccurs='unbounded'/>
    </xs:sequence>
    <xs:attribute name='MetadataScheme' use='required'>
      <xs:simpleType>
@@ -328,7 +328,7 @@
      </xs:restriction>
     </xs:simpleType>
    </xs:attribute>
-   <xs:attribute name='Language' type='t:LanguageCode' use='optional'/>
+   <xs:attribute name='Language' type='LanguageCode' use='optional'/>
   </xs:complexType>
  </xs:element>
 
@@ -336,16 +336,16 @@
  <xs:element name='Technical'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Format' minOccurs='0' maxOccurs='unbounded'/>
-    <xs:element ref='t:Size' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Location' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='Format' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='Size' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Location' minOccurs='0' maxOccurs='unbounded'/>
     <xs:choice minOccurs='0' maxOccurs='1'>
-     <xs:element ref='t:Requirement' minOccurs='0' maxOccurs='unbounded'/>
-     <xs:element ref='t:OrComposite' minOccurs='0' maxOccurs='unbounded'/>
+     <xs:element ref='Requirement' minOccurs='0' maxOccurs='unbounded'/>
+     <xs:element ref='OrComposite' minOccurs='0' maxOccurs='unbounded'/>
     </xs:choice>
-    <xs:element ref='t:InstallationRemarks' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:OtherPlatformRequirements' minOccurs='0' maxOccurs='1'/>
-    <xs:element ref='t:Duration' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='InstallationRemarks' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='OtherPlatformRequirements' minOccurs='0' maxOccurs='1'/>
+    <xs:element ref='Duration' minOccurs='0' maxOccurs='1'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -380,7 +380,7 @@
  <xs:element name='OrComposite'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Requirement' maxOccurs='unbounded'/>
+    <xs:element ref='Requirement' maxOccurs='unbounded'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -389,7 +389,7 @@
  <xs:element name='Requirement'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Type'/>
+    <xs:element ref='Type'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -397,9 +397,9 @@
  <!-- Type -->
  <xs:element name='Type'>
   <xs:complexType>
-   <xs:choice>
-    <xs:element ref='t:OperatingSystem'/>
-    <xs:element ref='t:Browser'/>
+   <xs:choice minOccurs="0" maxOccurs="unbounded">
+    <xs:element ref='OperatingSystem'/>
+    <xs:element ref='Browser'/>
    </xs:choice>
   </xs:complexType>
  </xs:element>
@@ -447,14 +447,14 @@
  <!-- InstallationRemarks -->
  <xs:element name='InstallationRemarks'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Language' type='LanguageCode' use='required'/>
   </xs:complexType>
  </xs:element>
 
  <!-- OtherPlatformRequirements -->
  <xs:element name='OtherPlatformRequirements'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Language' type='LanguageCode' use='required'/>
   </xs:complexType>
  </xs:element>
 
@@ -468,10 +468,10 @@
  <xs:element name='Educational'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:TypicalAgeRange' maxOccurs='unbounded'/>
-    <xs:element ref='t:TypicalLearningTime'/>
-    <xs:element ref='t:Description' minOccurs='0' maxOccurs='unbounded'/>
-    <xs:element ref='t:Language' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='TypicalAgeRange' maxOccurs='unbounded'/>
+    <xs:element ref='TypicalLearningTime'/>
+    <xs:element ref='Description' minOccurs='0' maxOccurs='unbounded'/>
+    <xs:element ref='Language' minOccurs='0' maxOccurs='unbounded'/>
    </xs:sequence>
    <xs:attribute name='InteractivityType' use='required'>
     <xs:simpleType>
@@ -562,7 +562,7 @@
  <!-- TypicalAgeRange -->
  <xs:element name='TypicalAgeRange'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Language' type='LanguageCode' use='required'/>
   </xs:complexType>
  </xs:element>
 
@@ -576,7 +576,7 @@
  <xs:element name='Rights'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Description'/>
+    <xs:element ref='Description'/>
    </xs:sequence>
    <xs:attribute name='Cost' use='required'>
     <xs:simpleType>
@@ -601,7 +601,7 @@
  <xs:element name='Relation'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Resource'/>
+    <xs:element ref='Resource'/>
    </xs:sequence>
    <xs:attribute name='Kind' use='required'>
     <xs:simpleType>
@@ -628,8 +628,8 @@
  <xs:element name='Resource'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Identifier_' maxOccurs='unbounded'/>
-    <xs:element ref='t:Description' maxOccurs='unbounded'/>
+    <xs:element ref='Identifier_' maxOccurs='unbounded'/>
+    <xs:element ref='Description' maxOccurs='unbounded'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -646,9 +646,9 @@
  <xs:element name='Annotation'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Entity'/>
-    <xs:element ref='t:Date'/>
-    <xs:element ref='t:Description'/>
+    <xs:element ref='Entity'/>
+    <xs:element ref='Date'/>
+    <xs:element ref='Description'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -657,9 +657,9 @@
  <xs:element name='Classification'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:TaxonPath' maxOccurs='unbounded'/>
-    <xs:element ref='t:Description'/>
-    <xs:element ref='t:Keyword' maxOccurs='unbounded'/>
+    <xs:element ref='TaxonPath' maxOccurs='unbounded'/>
+    <xs:element ref='Description'/>
+    <xs:element ref='Keyword' maxOccurs='unbounded'/>
    </xs:sequence>
    <xs:attribute name='Purpose' use='required'>
     <xs:simpleType>
@@ -683,8 +683,8 @@
  <xs:element name='TaxonPath'>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref='t:Source'/>
-    <xs:element ref='t:Taxon' maxOccurs='unbounded'/>
+    <xs:element ref='Source'/>
+    <xs:element ref='Taxon' maxOccurs='unbounded'/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -692,14 +692,14 @@
  <!-- Source -->
  <xs:element name='Source'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Language' type='LanguageCode' use='required'/>
   </xs:complexType>
  </xs:element>
 
  <!-- Taxon -->
  <xs:element name='Taxon'>
   <xs:complexType mixed='true'>
-   <xs:attribute name='Language' type='t:LanguageCode' use='required'/>
+   <xs:attribute name='Language' type='LanguageCode' use='required'/>
    <xs:attribute name='Id' type='xs:ID' use='optional'/>
   </xs:complexType>
  </xs:element>

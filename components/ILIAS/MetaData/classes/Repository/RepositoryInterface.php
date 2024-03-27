@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Repository;
 
-use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
+use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
+use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
 
 interface RepositoryInterface
 {
@@ -48,7 +49,9 @@ interface RepositoryInterface
     /**
      * Returns an MD set with only the elements specified on a path, and all nested
      * subelements of the last elements on the path.
-     * The path must start from the root element.
+     * The path must start from the root element. Note that path filters are ignored,
+     * and if the path contains steps to super elements, it is only followed down to
+     * the first element that the path returns to.
      * Note that resulting partial MD sets might not be completely valid, due to
      * conditions between elements. Be careful when dealing with vocabularies, or
      * Technical > Requirement > OrComposite.
@@ -60,7 +63,18 @@ interface RepositoryInterface
         string $type
     ): SetInterface;
 
-    public function scaffolds(): ScaffoldProviderInterface;
+    /**
+     * Results are always ordered first by obj_id, then sub_id, then type.
+     * Multiple filters are joined with a logical OR, values within the
+     * same filter with AND.
+     * @return RessourceIDInterface[]
+     */
+    public function searchMD(
+        ClauseInterface $clause,
+        ?int $limit,
+        ?int $offset,
+        FilterInterface ...$filters
+    ): \Generator;
 
     /**
      * Follows a trail of markers from the root element,
@@ -71,6 +85,25 @@ interface RepositoryInterface
      * a neutral marker on a scaffold.
      */
     public function manipulateMD(SetInterface $set): void;
+
+    /**
+     * Transfers a metadata set to an object, regardless of its source. Takes
+     * The data from 'create or update' markers takes priority over the data
+     * carried by marked elements, but 'delete' markers and unmarked or neutrally
+     * marked scaffolds are ignored.
+     * Always deletes whatever metadata already exist at the target.
+     *
+     * If $throw_error_if_invalid is set true, an error is thrown if the
+     * markers on the $from_set are invalid, otherwise the invalid markers
+     * are replaced by neutral markers.
+     */
+    public function transferMD(
+        SetInterface $from_set,
+        int $to_obj_id,
+        int $to_sub_id,
+        string $to_type,
+        bool $throw_error_if_invalid
+    ): void;
 
     public function deleteAllMD(
         int $obj_id,

@@ -30,6 +30,10 @@ use ILIAS\MetaData\Paths\NullPath;
 
 class BuilderTest extends TestCase
 {
+    /**
+     * Builder will throw an exception on get if the path contains a step with
+     * name INVALID.
+     */
     protected function getBuilder(): Builder
     {
         $internal_builder = new class ('') extends NullInternalBuilder {
@@ -51,12 +55,20 @@ class BuilderTest extends TestCase
                 FilterType $type,
                 string ...$values
             ): BuilderInterface {
+                if ($this->path === '') {
+                    throw new \ilMDPathException('failed');
+                }
+
                 $filter = '{' . $type->value . ';' . implode(',', $values) . '}';
                 return new self($this->path . $filter);
             }
 
             public function get(): PathInterface
             {
+                if (str_contains($this->path, ':INVALID')) {
+                    throw new \ilMDPathException('failed');
+                }
+
                 return new class ($this->path) extends NullPath {
                     public function __construct(public string $path_string)
                     {
@@ -111,16 +123,25 @@ class BuilderTest extends TestCase
     public function testWithAdditionalFilterAtCurrentStep(): void
     {
         $builder = $this->getBuilder();
-        $builder1 = $builder->withAdditionalFilterAtCurrentStep(FilterType::DATA, 'v1', 'v2');
+        $builder1 = $builder->withNextStep('step')
+                            ->withAdditionalFilterAtCurrentStep(FilterType::DATA, 'v1', 'v2');
 
         $this->assertSame(
             '',
             $builder->exposePath()
         );
         $this->assertSame(
-            '{data;v1,v2}',
+            ':step{data;v1,v2}',
             $builder1->exposePath()
         );
+    }
+
+    public function testWithAdditionalFilterAtCurrentStepEmptyPathException(): void
+    {
+        $builder = $this->getBuilder();
+
+        $this->expectException(\ilMDServicesException::class);
+        $builder->withAdditionalFilterAtCurrentStep(FilterType::DATA);
     }
 
     public function testGet(): void
@@ -142,5 +163,13 @@ class BuilderTest extends TestCase
             ':step1:^:step2{id;12}:step3:^',
             $builder3->get()->path_string
         );
+    }
+
+    public function testGetException(): void
+    {
+        $builder = $this->getBuilder()->withNextStep('INVALID');
+
+        $this->expectException(\ilMDServicesException::class);
+        $builder->get();
     }
 }

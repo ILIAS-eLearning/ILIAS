@@ -28,7 +28,6 @@ use ILIAS\MetaData\Paths\Filters\FilterType;
 use ILIAS\MetaData\Paths\Navigator\NavigatorInterface;
 use ILIAS\MetaData\Paths\Steps\StepInterface;
 use ILIAS\MetaData\Paths\Steps\StepToken;
-use ILIAS\MetaData\Repository\RepositoryInterface;
 use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Elements\SetInterface;
@@ -37,25 +36,24 @@ use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\Markers\MarkableInterface;
 use ILIAS\MetaData\Elements\Markers\Action;
 use ilMDPathException;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\iterator;
+use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 
 class Manipulator implements ManipulatorInterface
 {
-    protected RepositoryInterface $repository;
+    protected ScaffoldProviderInterface $scaffold_provider;
     protected MarkerFactoryInterface $marker_factory;
     protected NavigatorFactoryInterface $navigator_factory;
     protected PathFactoryInterface $path_factory;
     protected PathUtilitiesFactoryInterface $path_utilities_factory;
 
     public function __construct(
-        RepositoryInterface $repository,
+        ScaffoldProviderInterface $scaffold_provider,
         MarkerFactoryInterface $marker_factory,
         NavigatorFactoryInterface $navigator_factory,
         PathFactoryInterface $path_factory,
         PathUtilitiesFactoryInterface $path_utilities_factory
     ) {
-        $this->repository = $repository;
+        $this->scaffold_provider = $scaffold_provider;
         $this->marker_factory = $marker_factory;
         $this->navigator_factory = $navigator_factory;
         $this->path_factory = $path_factory;
@@ -82,11 +80,6 @@ class Manipulator implements ManipulatorInterface
         }
         $this->markElementsDelete($target_elements);
         return $my_set;
-    }
-
-    public function execute(SetInterface $set): void
-    {
-        $this->repository->manipulateMD($set);
     }
 
     /**
@@ -411,7 +404,7 @@ class Manipulator implements ManipulatorInterface
             return $element->getSuperElement();
         }
         $scaffold = $element->addScaffoldToSubElements(
-            $this->repository->scaffolds(),
+            $this->scaffold_provider,
             $step->name()
         );
         if (!isset($scaffold)) {

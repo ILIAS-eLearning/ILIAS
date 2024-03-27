@@ -37,10 +37,10 @@ use ILIAS\MetaData\Editor\Digest\ContentType as DigestContentType;
 use ILIAS\MetaData\Editor\Full\Services\Tables\Table;
 use ILIAS\MetaData\Editor\Digest\DigestInitiator;
 use ILIAS\MetaData\Editor\Digest\Digest;
+use ILIAS\MetaData\XML\Writer\WriterInterface as XMLWriter;
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
  */
 class ilMDEditorGUI
 {
@@ -62,6 +62,7 @@ class ilMDEditorGUI
     protected GlobalScreen $global_screen;
     protected ilTabsGUI $tabs;
     protected UIFactory $ui_factory;
+    protected XMLWriter $xml_writer;
 
     protected int $obj_id;
     protected int $sub_id;
@@ -87,6 +88,7 @@ class ilMDEditorGUI
         $this->global_screen = $services->dic()->globalScreen();
         $this->tabs = $services->dic()->tabs();
         $this->ui_factory = $services->dic()->ui()->factory();
+        $this->xml_writer = $services->xml()->standardWriter();
 
         $this->obj_id = $obj_id;
         $this->sub_id = $sub_id === 0 ? $obj_id : $sub_id;
@@ -110,12 +112,13 @@ class ilMDEditorGUI
 
     public function debug(): bool
     {
-        $xml_writer = new ilMD2XML($this->obj_id, $this->sub_id, $this->type);
-        $xml_writer->startExport();
-
         $button = $this->renderButtonToFullEditor();
 
-        $this->tpl->setContent($button . htmlentities($xml_writer->getXML()));
+        $xml = $this->xml_writer->write($this->repository->getMD($this->obj_id, $this->sub_id, $this->type));
+        $dom = new DOMDocument('1.0');
+        $dom->formatOutput = true;
+        $dom->loadXML($xml->asXML());
+        $this->tpl->setContent($button . '<pre>' . htmlentities($dom->saveXML()) . '</pre>');
         return true;
     }
 

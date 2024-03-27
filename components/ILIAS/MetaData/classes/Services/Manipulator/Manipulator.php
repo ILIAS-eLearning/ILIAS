@@ -23,17 +23,21 @@ namespace ILIAS\MetaData\Services\Manipulator;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Manipulator\ManipulatorInterface as InternalManipulator;
 use ILIAS\MetaData\Elements\SetInterface;
+use ILIAS\MetaData\Repository\RepositoryInterface;
 
 class Manipulator implements ManipulatorInterface
 {
     protected InternalManipulator $internal_manipulator;
+    protected RepositoryInterface $repository;
     protected SetInterface $set;
 
     public function __construct(
         InternalManipulator $internal_manipulator,
+        RepositoryInterface $repository,
         SetInterface $set
     ) {
         $this->internal_manipulator = $internal_manipulator;
+        $this->repository = $repository;
         $this->set = $set;
     }
 
@@ -41,11 +45,19 @@ class Manipulator implements ManipulatorInterface
         PathInterface $path,
         string ...$values
     ): ManipulatorInterface {
-        $set = $this->internal_manipulator->prepareCreateOrUpdate(
-            $this->set,
-            $path,
-            ...$values
-        );
+        try {
+            $set = $this->internal_manipulator->prepareCreateOrUpdate(
+                $this->set,
+                $path,
+                ...$values
+            );
+        } catch (\ilMDPathException $e) {
+            throw new \ilMDServicesException(
+                'Failed to prepare create or update values ' . implode(', ', $values) .
+                ' at "' . $path->toString() . '": ' . $e->getMessage()
+            );
+        }
+
         return $this->getCloneWithNewSet($set);
     }
 
@@ -53,11 +65,19 @@ class Manipulator implements ManipulatorInterface
         PathInterface $path,
         string ...$values
     ): ManipulatorInterface {
-        $set = $this->internal_manipulator->prepareForceCreate(
-            $this->set,
-            $path,
-            ...$values
-        );
+        try {
+            $set = $this->internal_manipulator->prepareForceCreate(
+                $this->set,
+                $path,
+                ...$values
+            );
+        } catch (\ilMDPathException $e) {
+            throw new \ilMDServicesException(
+                'Failed to force-create values ' . implode(', ', $values) .
+                ' at "' . $path->toString() . '": ' . $e->getMessage()
+            );
+        }
+
         return $this->getCloneWithNewSet($set);
     }
 
@@ -72,7 +92,14 @@ class Manipulator implements ManipulatorInterface
 
     public function execute(): void
     {
-        $this->internal_manipulator->execute($this->set);
+        try {
+            $this->repository->manipulateMD($this->set);
+        } catch (\ilMDRepositoryException $e) {
+            throw new \ilMDServicesException(
+                'Failed to execute manipulations: ' . $e->getMessage()
+            );
+        }
+
     }
 
     protected function getCloneWithNewSet(SetInterface $set): ManipulatorInterface

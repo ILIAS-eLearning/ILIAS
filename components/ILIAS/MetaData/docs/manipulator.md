@@ -8,10 +8,10 @@ In this documentation we describe how exactly the `Manipulator` used
 in the [API](api.md) manipulates LOM sets via the method
 `prepareCreateOrUpdate` (and relatedly `prepareForceCreate`).
 
-The main mechanism with which the `Manipulator` decides how the proceed
+The main mechanism with which the `Manipulator` decides how to proceed
 is by checking whether various paths are 'complete' on the to-be-manipulated
 set, meaning whether there is at least one instance of the element
-that the path points to in the set.
+that the path points to.
 
 Consider `prepareCreateOrUpdate` being called with a path *p* and *n*
 string values. First, if the path contains any steps to super-elements,
