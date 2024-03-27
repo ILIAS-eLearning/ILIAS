@@ -134,7 +134,7 @@ class ilStyleImportParser extends ilSaxParser
     */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
-        $this->cdata = $this->trimAndStripAttribs($this->cdata);
+        $this->cdata = $this->trimAndStrip($this->cdata);
         switch ($a_name) {
             case "Title":
                 $this->style_obj->setTitle($this->cdata);
