@@ -242,7 +242,11 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         // normal command processing
         $this->ctrl->forwardCommand($this->gui_obj);
         $this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
-        $this->tpl->printToStdout();
+        if ($this->gui_obj->getObject() instanceof ilObjTest && $this->gui_obj->getObject()->getKioskMode()) {
+            $this->tpl->printToStdout(ilGlobalTemplateInterface::DEFAULT_BLOCK, false, true);
+        } else {
+            $this->tpl->printToStdout();
+        }
     }
 
     public function showRepTree(): void
