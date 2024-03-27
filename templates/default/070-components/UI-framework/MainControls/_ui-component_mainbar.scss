@@ -21,7 +21,7 @@ $il-mainbar-btn-bg-color-hover: $il-main-bg;
 $il-mainbar-btn-color-engaged: $il-neutral-color;
 $il-mainbar-btn-bg-color-engaged: $il-main-bg;
 
-$il-mainbar-btn-icon-filter: brightness(5);
+$il-mainbar-btn-icon-filter: brightness(0) invert(1);
 $il-mainbar-btn-hover-icon-filter: invert(50%);
 $il-mainbar-btn-engaged-icon-filter: invert(50%);
 
