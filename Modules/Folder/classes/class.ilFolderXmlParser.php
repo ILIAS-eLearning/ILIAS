@@ -1,8 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
 
 /**
 * XML  parser for folder xml
@@ -12,7 +25,7 @@ include_once './Services/Xml/classes/class.ilSaxParser.php';
 *
 * @ingroup ModulesFolder
 */
-class ilFolderXmlParser extends ilSaxParser
+class ilFolderXmlParser extends ilContainerBaseXmlParser
 {
     /**
      * @var ilErrorHandling
@@ -129,11 +142,11 @@ class ilFolderXmlParser extends ilSaxParser
                 break;
                 
             case 'Title':
-                $this->getFolder()->setTitle(trim($this->cdata));
+                $this->getFolder()->setTitle($this->trimAndStrip((string) $this->cdata));
                 break;
                 
             case 'Description':
-                $this->getFolder()->setDescription(trim($this->cdata));
+                $this->getFolder()->setDescription($this->trimAndStrip((string) $this->cdata));
                 break;
                 
         }

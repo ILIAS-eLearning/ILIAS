@@ -35,7 +35,7 @@ include_once('./Services/Calendar/classes/class.ilDateTime.php');
  * @extends ilSaxParser
 
  */
-class ilContainerReferenceXmlParser extends ilSaxParser
+class ilContainerReferenceXmlParser extends ilContainerBaseXmlParser
 {
     /**
      * @var ilErrorHandling
@@ -127,6 +127,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
      */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         $ilErr = $this->error;
 
         switch ($a_name) {
@@ -187,6 +188,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
      */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
+        $this->cdata = $this->trimAndStripAttribs($this->cdata);
         switch ($a_name) {
             case "ContainerReference":
                 $this->save();

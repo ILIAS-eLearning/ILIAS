@@ -172,6 +172,7 @@ class SurveyImportParser extends ilSaxParser
     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         $this->depth[$a_xml_parser]++;
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
         $this->characterbuffer = "";
@@ -404,6 +405,11 @@ class SurveyImportParser extends ilSaxParser
         $a_data = $this->characterbuffer;
     }
 
+    protected function getCharacterBuffer() : string
+    {
+        return $this->trimAndStrip((string) $this->characterbuffer);
+    }
+
     /**
     * handler for end of element
     */
@@ -466,14 +472,14 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "startingtime":
-                if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).*/", $this->characterbuffer, $matches)) {
+                if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).*/", $this->getCharacterBuffer(), $matches)) {
                     if (is_object($this->survey)) {
                         $this->survey->setStartDate(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
                     }
                 }
                 break;
             case "endingtime":
-                if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).*/", $this->characterbuffer, $matches)) {
+                if (preg_match("/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}).*/", $this->getCharacterBuffer(), $matches)) {
                     if (is_object($this->survey)) {
                         $this->survey->setEndDate(sprintf("%04d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
                     }
@@ -482,12 +488,12 @@ class SurveyImportParser extends ilSaxParser
             case "description":
                 if ($this->in_survey) {
                     if (is_object($this->survey)) {
-                        $this->survey->setDescription($this->characterbuffer);
+                        $this->survey->setDescription($this->getCharacterBuffer());
                         $this->survey->update(true);
                     }
                 } else {
                     if (is_object($this->activequestion)) {
-                        $this->activequestion->setDescription($this->characterbuffer);
+                        $this->activequestion->setDescription($this->getCharacterBuffer());
                     }
                 }
                 break;
@@ -518,19 +524,19 @@ class SurveyImportParser extends ilSaxParser
             case "author":
                 if ($this->in_survey) {
                     if (is_object($this->survey)) {
-                        $this->survey->setAuthor($this->characterbuffer);
+                        $this->survey->setAuthor($this->getCharacterBuffer());
                     }
                 } else {
                     if (is_object($this->activequestion)) {
-                        $this->activequestion->setAuthor($this->characterbuffer);
+                        $this->activequestion->setAuthor($this->getCharacterBuffer());
                     }
                 }
                 break;
             case "mattext":
-                $this->material[count($this->material) - 1]["text"] = $this->characterbuffer;
+                $this->material[count($this->material) - 1]["text"] = $this->getCharacterBuffer();
                 break;
             case "matimage":
-                $this->material[count($this->material) - 1]["image"] = $this->characterbuffer;
+                $this->material[count($this->material) - 1]["image"] = $this->getCharacterBuffer();
                 break;
             case "material":
                 if ($this->in_survey) {
@@ -564,7 +570,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->material = array();
                 break;
             case "fieldlabel":
-                $this->metadata[count($this->metadata) - 1]["label"] = $this->characterbuffer;
+                $this->metadata[count($this->metadata) - 1]["label"] = $this->getCharacterBuffer();
                 break;
             case "fieldentry":
                 $this->metadata[count($this->metadata) - 1]["entry"] = $this->characterbuffer;
@@ -669,7 +675,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->is_matrix = false;
                 break;
             case "variable":
-                array_push($this->variables, $this->characterbuffer);
+                array_push($this->variables, $this->getCharacterBuffer());
                 break;
             case "variables":
                 if (is_object($this->activequestion)) {
@@ -684,7 +690,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->responses[$this->response_id]["material"] = $this->material;
                 break;
             case "adjective":
-                $this->adjectives[count($this->adjectives) - 1]["text"] = $this->characterbuffer;
+                $this->adjectives[count($this->adjectives) - 1]["text"] = $this->getCharacterBuffer();
                 break;
             case "bipolar_adjectives":
                 if (is_object($this->activequestion)) {
@@ -704,10 +710,10 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "textblock":
-                $this->textblock = $this->characterbuffer;
+                $this->textblock = $this->getCharacterBuffer();
                 break;
             case "questionblocktitle":
-                $this->questionblocktitle = $this->characterbuffer;
+                $this->questionblocktitle = $this->getCharacterBuffer();
                 break;
             case "questionblock":
                 $this->in_questionblock = false;
@@ -770,5 +776,19 @@ class SurveyImportParser extends ilSaxParser
     public function hasError()
     {
         return $this->has_error;
+    }
+
+    protected function trimAndStripAttribs(array $attribs) : array
+    {
+        $ret = [];
+        foreach ($attribs as $k => $v) {
+            $ret[$k] = $this->trimAndStrip((string) $v);
+        }
+        return $ret;
+    }
+
+    protected function trimAndStrip(string $input) : string
+    {
+        return ilUtil::stripSlashes(trim($input));
     }
 }

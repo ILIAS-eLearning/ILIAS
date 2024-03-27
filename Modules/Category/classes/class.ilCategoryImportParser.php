@@ -31,7 +31,7 @@ require_once("./Services/Xml/classes/class.ilSaxParser.php");
 *
 * @ingroup ModulesCategory
 */
-class ilCategoryImportParser extends ilSaxParser
+class ilCategoryImportParser extends ilContainerBaseXmlParser
 {
     /**
      * @var ilRbacAdmin
@@ -141,7 +141,7 @@ class ilCategoryImportParser extends ilSaxParser
                 $this->category = new ilObjCategory;
                 $this->category->setImportId($a_attribs["Id"] . " (#" . $cur_parent . ")");
                 $this->default_language = $a_attribs["DefaultLanguage"];
-                $this->category->setTitle($a_attribs["Id"]);
+                $this->category->setTitle($this->trimAndStrip((string) $a_attribs["Id"]));
                 $this->category->create();
                 $this->category->createReference();
                 $this->category->putInTree($cur_parent);
@@ -149,7 +149,7 @@ class ilCategoryImportParser extends ilSaxParser
                 break;
 
         case "CategorySpec":
-          $this->cur_spec_lang = $a_attribs["Language"];
+          $this->cur_spec_lang = $this->trimAndStrip((string) $a_attribs["Language"]);
           break;
 
         }
@@ -171,8 +171,8 @@ class ilCategoryImportParser extends ilSaxParser
             case "CategorySpec":
                 $is_def = 0;
                 if ($this->cur_spec_lang == $this->default_language) {
-                    $this->category->setTitle($this->cur_title);
-                    $this->category->setDescription($this->cur_description);
+                    $this->category->setTitle($this->trimAndStrip((string) $this->cur_title));
+                    $this->category->setDescription($this->trimAndStrip((string) $this->cur_description));
                     $this->category->update();
                     $is_def = 1;
                 }
@@ -185,11 +185,11 @@ class ilCategoryImportParser extends ilSaxParser
                 break;
 
             case "Title":
-                $this->cur_title = $this->cdata;
+                $this->cur_title = $this->trimAndStrip((string) $this->cdata);
                 break;
 
             case "Description":
-                $this->cur_description = $this->cdata;
+                $this->cur_description = $this->trimAndStrip((string) $this->cdata);
                 break;
         }
 

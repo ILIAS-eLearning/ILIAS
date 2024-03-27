@@ -35,7 +35,7 @@ include_once('./Services/Calendar/classes/class.ilDateTime.php');
  * @extends ilSaxParser
 
  */
-class ilCategoryXmlParser extends ilSaxParser
+class ilCategoryXmlParser extends ilContainerBaseXmlParser
 {
     /**
      * @var ilErrorHandling
@@ -172,19 +172,19 @@ class ilCategoryXmlParser extends ilSaxParser
                 break;
             
             case 'Title':
-                $this->current_translation['title'] = trim($this->cdata);
+                $this->current_translation['title'] = $this->trimAndStrip((string) $this->cdata);
                 
                 if ($this->current_translation['default']) {
-                    $this->getCategory()->setTitle(trim($this->cdata));
+                    $this->getCategory()->setTitle($this->trimAndStrip((string) $this->cdata));
                 }
                 
                 break;
             
             case 'Description':
-                $this->current_translation['description'] = trim($this->cdata);
+                $this->current_translation['description'] = $this->trimAndStrip((string) $this->cdata);
                 
                 if ($this->current_translation['default']) {
-                    $this->getCategory()->setDescription(trim($this->cdata));
+                    $this->getCategory()->setDescription($this->trimAndStrip((string) $this->cdata));
                 }
                 
                 break;
