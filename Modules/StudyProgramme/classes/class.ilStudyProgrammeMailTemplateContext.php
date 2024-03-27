@@ -38,7 +38,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     private const EXPIRE_DATE = "prg_expiry_date";
     private const VALIDITY = "prg_validity";
 
-    private const DATE_FORMAT = 'd-m-Y H:i:s';
+    private const DATE_FORMAT = 'd.m.Y';
 
     protected ilLanguage $lng;
 
@@ -211,7 +211,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = $this->statusToRepr($latest->getProgressTree()->getStatus(), $recipient->getLanguage());
                 break;
             case self::COMPLETION_DATE:
-                $string = $this->date2String($latest->getProgressTree()->getCompletionDate());
+                $string = $this->date2String($latest->getProgressTree()->getCompletionDate(), $recipient);
                 break;
             case self::COMPLETED_BY:
                 $string = '';
@@ -237,7 +237,9 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = (string) $latest->getProgressTree()->getCurrentAmountOfPoints();
                 break;
             case self::DEADLINE:
-                $string = $this->date2String($latest->getProgressTree()->getDeadline());
+                $string = $latest->getProgressTree()->isInProgress() ?
+                    $this->date2String($latest->getProgressTree()->getDeadline(), $recipient) : '';
+
                 break;
             case self::VALIDITY:
                 $string = '-';
@@ -250,7 +252,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             case self::EXPIRE_DATE:
                 $string = '-';
                 if ($latest_successful) {
-                    $string = $this->date2String($latest_successful->getProgressTree()->getValidityOfQualification());
+                    $string = $this->date2String($latest_successful->getProgressTree()->getValidityOfQualification(), $recipient);
                 }
                 break;
             default:
@@ -324,11 +326,16 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function date2String(DateTimeImmutable $date_time = null): string
-    {
+    protected function date2String(
+        DateTimeImmutable $date_time = null,
+        ilObjUser $user = null
+    ): string {
         if (is_null($date_time)) {
             return '';
         }
-        return $date_time->format(self::DATE_FORMAT);
+        if (is_null($user)) {
+            return $date_time->format(self::DATE_FORMAT);
+        }
+        return $user->getDateFormat()->applyTo($date_time);
     }
 }
