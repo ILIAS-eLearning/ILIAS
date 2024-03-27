@@ -29,11 +29,13 @@ class ilConsultationHourUtils
         foreach ($users as $user_id) {
             $next_entry = null;
             $appointments = \ilConsultationHourAppointments::getAppointments($user_id);
+            $category_id = 0;
             foreach ($appointments as $entry) {
                 // find next entry
                 if (ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY)) {
                     continue;
                 }
+                $category_id = ilCalendarCategoryAssignments::_lookupCategories($entry->getEntryId())[0] ?? 0;
                 $booking_entry = new ilBookingEntry($entry->getContextId());
                 if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
                     continue;
@@ -46,6 +48,9 @@ class ilConsultationHourUtils
             }
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
+            if ( $category_id > 0) {
+                $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', $category_id);
+            }
             if ($next_entry instanceof \ilCalendarEntry) {
                 $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', $next_entry->getStart()->get(IL_CAL_DATE));
             }
@@ -58,6 +63,7 @@ class ilConsultationHourUtils
         // Reset control structure links
         $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', '');
         $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', '');
+        $ctrl->setParameterByClass(end($ctrl_class_structure), 'category_id', '');
         return $links;
     }
 
