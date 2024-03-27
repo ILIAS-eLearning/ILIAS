@@ -23,8 +23,6 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id: class.ilGroupXMLParser.php 15678 2008-01-06 20:40:55Z akill $
- *
- * @extends ilSaxParser
  */
 class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
@@ -159,6 +157,8 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     {
         global $DIC;
 
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
+
         $ilErr = $DIC['ilErr'];
 
         if ($this->lom_parsing_active) {
@@ -276,6 +276,8 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip((string) $this->cdata);
+
         if ($this->lom_parsing_active) {
             parent::handlerEndTag($a_xml_parser, $a_name);
         }

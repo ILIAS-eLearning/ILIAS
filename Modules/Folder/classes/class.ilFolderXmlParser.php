@@ -20,7 +20,7 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilFolderXmlParser extends ilSaxParser
+class ilFolderXmlParser extends ilContainerBaseXmlParser
 {
     protected ilErrorHandling $error;
     private ilObject $folder;
@@ -100,11 +100,11 @@ class ilFolderXmlParser extends ilSaxParser
                 break;
 
             case 'Title':
-                $this->getFolder()->setTitle(trim($this->cdata));
+                $this->getFolder()->setTitle($this->trimAndStrip((string) $this->cdata));
                 break;
 
             case 'Description':
-                $this->getFolder()->setDescription(trim($this->cdata));
+                $this->getFolder()->setDescription($this->trimAndStrip((string) $this->cdata));
                 break;
 
         }

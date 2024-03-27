@@ -20,7 +20,7 @@ declare(strict_types=1);
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCategoryImportParser extends ilSaxParser
+class ilCategoryImportParser extends ilContainerBaseXmlParser
 {
     protected ilRbacAdmin $rbacadmin;
     protected ilRbacReview $rbacreview;
@@ -102,6 +102,7 @@ class ilCategoryImportParser extends ilSaxParser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         switch ($a_name) {
             case "Category":
                 $cur_parent = $this->parent[$this->parent_cnt - 1];
@@ -115,9 +116,9 @@ class ilCategoryImportParser extends ilSaxParser
                 $this->parent[$this->parent_cnt++] = $this->category->getRefId();
                 break;
 
-        case "CategorySpec":
-          $this->cur_spec_lang = $a_attribs["Language"];
-          break;
+            case "CategorySpec":
+                $this->cur_spec_lang = $a_attribs["Language"];
+                break;
 
         }
     }
@@ -129,6 +130,7 @@ class ilCategoryImportParser extends ilSaxParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip($this->cdata);
         switch ($a_name) {
             case "Category":
                 unset($this->category, $this->parent[$this->parent_cnt - 1]);

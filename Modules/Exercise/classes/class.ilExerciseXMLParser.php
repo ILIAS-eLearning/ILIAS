@@ -90,6 +90,7 @@ class ilExerciseXMLParser extends ilSaxParser
     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         switch ($a_name) {
             case 'Exercise':
                 if (isset($a_attribs["obj_id"])) {
@@ -124,15 +125,15 @@ class ilExerciseXMLParser extends ilSaxParser
                 }
                 break;
             case 'Marking':
-                 $this->status = $a_attribs["status"];
-                 if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED) {
-                     $this->status = "notgraded";
-                 } elseif ($this->status == ilExerciseXMLWriter::$STATUS_PASSED) {
-                     $this->status = "passed";
-                 } else {
-                     $this->status = "failed";
-                 }
-                 break;
+                $this->status = $a_attribs["status"];
+                if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED) {
+                    $this->status = "notgraded";
+                } elseif ($this->status == ilExerciseXMLWriter::$STATUS_PASSED) {
+                    $this->status = "passed";
+                } else {
+                    $this->status = "failed";
+                }
+                break;
 
         }
     }
@@ -152,17 +153,17 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Title':
-                $this->exercise->setTitle(trim($this->cdata));
-                $this->assignment->setTitle(trim($this->cdata));
+                $this->exercise->setTitle($this->trimAndStrip((string) $this->cdata));
+                $this->assignment->setTitle($this->trimAndStrip((string) $this->cdata));
                 break;
             case 'Description':
-                $this->exercise->setDescription(trim($this->cdata));
+                $this->exercise->setDescription($this->trimAndStrip((string) $this->cdata));
                 break;
             case 'Instruction':
-                $this->assignment->setInstruction(trim($this->cdata));
+                $this->assignment->setInstruction($this->trimAndStrip((string) $this->cdata));
                 break;
             case 'DueDate':
-                $this->assignment->setDeadline(trim($this->cdata));
+                $this->assignment->setDeadLine($this->trimAndStrip((string) $this->cdata));
                 break;
             case 'Member':
                 $this->updateMember($this->usr_id, $this->usr_action);
@@ -170,26 +171,26 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->updateMarking($this->usr_id);
                 break;
             case 'Filename':
-                $this->file_name = trim($this->cdata);
+                $this->file_name = $this->trimAndStrip((string) $this->cdata);
                 break;
             case 'Content':
-                $this->file_content = trim($this->cdata);
+                $this->file_content = $this->trimAndStrip((string) $this->cdata);
                 break;
             case 'File':
-                   $this->updateFile($this->file_name, $this->file_content, $this->file_action);
+                $this->updateFile($this->file_name, $this->file_content, $this->file_action);
                 break;
             case 'Comment':
-                 $this->comment = trim($this->cdata);
-                 break;
+                $this->comment = $this->trimAndStrip((string) $this->cdata);
+                break;
             case 'Notice':
-                 $this->notice = trim($this->cdata);
-                 break;
+                $this->notice = $this->trimAndStrip((string) $this->cdata);
+                break;
             case 'Mark':
-                 $this->mark = trim($this->cdata);
-                 break;
+                $this->mark = $this->trimAndStrip((string) $this->cdata);
+                break;
             case 'Marking':
-                 // see Member end tag
-                 break;
+                // see Member end tag
+                break;
         }
         $this->cdata = '';
     }
@@ -305,5 +306,19 @@ class ilExerciseXMLParser extends ilSaxParser
     public function getAssignment(): ilExAssignment
     {
         return $this->assignment;
+    }
+
+    protected function trimAndStripAttribs(array $attribs): array
+    {
+        $ret = [];
+        foreach ($attribs as $k => $v) {
+            $ret[$k] = $this->trimAndStrip((string) $v);
+        }
+        return $ret;
+    }
+
+    protected function trimAndStrip(string $input): string
+    {
+        return ilUtil::stripSlashes(trim($input));
     }
 }

@@ -133,7 +133,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         array $a_attribs
     ): void {
         global $DIC;
-
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         if ($this->in_metadata) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return;
@@ -273,6 +273,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip((string) $this->cdata);
+
         if ($this->in_metadata) {
             parent::handlerEndTag($a_xml_parser, $a_name);
         }

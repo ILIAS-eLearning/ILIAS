@@ -20,7 +20,7 @@ declare(strict_types=1);
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */
-class ilContainerReferenceXmlParser extends ilSaxParser
+class ilContainerReferenceXmlParser extends ilContainerBaseXmlParser
 {
     public const MODE_CREATE = 1;
     public const MODE_UPDATE = 2;
@@ -74,6 +74,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         string $a_name,
         array $a_attribs
     ): void {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         switch ($a_name) {
             case "ContainerReference":
                 break;
@@ -128,6 +129,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         $a_xml_parser,
         string $a_name
     ): void {
+        $this->cdata = $this->trimAndStrip($this->cdata);
         switch ($a_name) {
             case "ContainerReference":
                 $this->save();

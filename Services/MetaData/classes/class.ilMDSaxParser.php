@@ -120,6 +120,7 @@ class ilMDSaxParser extends ilSaxParser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         if (!$this->getMDParsingStatus()) {
             return;
         }
@@ -658,7 +659,7 @@ class ilMDSaxParser extends ilSaxParser
     // PRIVATE
     public function __getCharacterData(): string
     {
-        return trim($this->md_chr_data);
+        return $this->trimAndStrip($this->md_chr_data);
     }
 
     public function __pushParent(object $md_obj): void
@@ -684,5 +685,19 @@ class ilMDSaxParser extends ilSaxParser
     public function __getParent(): object
     {
         return $this->md_parent[count($this->md_parent) - 1];
+    }
+
+    protected function trimAndStripAttribs(array $attribs): array
+    {
+        $ret = [];
+        foreach ($attribs as $k => $v) {
+            $ret[$k] = $this->trimAndStrip((string) $v);
+        }
+        return $ret;
+    }
+
+    protected function trimAndStrip(string $input): string
+    {
+        return ilUtil::stripSlashes(trim($input));
     }
 }

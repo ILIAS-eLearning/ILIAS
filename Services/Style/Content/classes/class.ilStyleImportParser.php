@@ -92,6 +92,7 @@ class ilStyleImportParser extends ilSaxParser
         string $a_name,
         array $a_attribs
     ): void {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         switch ($a_name) {
             case "Style":
                 $this->current_tag = $a_attribs["Tag"];
@@ -150,6 +151,7 @@ class ilStyleImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name
     ): void {
+        $this->cdata = $this->trimAndStrip($this->cdata);
         switch ($a_name) {
             case "Title":
                 $this->style_obj->setTitle($this->cdata);
@@ -191,5 +193,19 @@ class ilStyleImportParser extends ilSaxParser
         if (!empty($a_data)) {
             $this->cdata .= $a_data;
         }
+    }
+
+    protected function trimAndStripAttribs(array $attribs): array
+    {
+        $ret = [];
+        foreach ($attribs as $k => $v) {
+            $ret[$k] = $this->trimAndStrip((string) $v);
+        }
+        return $ret;
+    }
+
+    protected function trimAndStrip(string $input): string
+    {
+        return ilUtil::stripSlashes(trim($input));
     }
 }
