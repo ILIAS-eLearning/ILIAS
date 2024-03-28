@@ -273,8 +273,16 @@ class ilLocatorGUI
         if ($ltiview->isActive()) {
             $a_frame = "_self";
         }
-        $this->entries[] = array("title" => $a_title,
-            "link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type);
+        $this->entries[] = array(
+            "title" => strip_tags(
+                $a_title,
+                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            ),
+            "link" => $a_link,
+            "frame" => $a_frame,
+            "ref_id" => $a_ref_id,
+            "type" => $type
+        );
     }
 
     public function clearItems(): void
@@ -344,8 +352,8 @@ class ilLocatorGUI
                 $first = false;
             }
         } else {
-//            $loc_tpl->setVariable("NOITEM", "&nbsp;");
-//            $loc_tpl->touchBlock("locator");
+            //            $loc_tpl->setVariable("NOITEM", "&nbsp;");
+            //            $loc_tpl->touchBlock("locator");
         }
         $loc_tpl->setVariable("TXT_BREADCRUMBS", $lng->txt("breadcrumb_navigation"));
 
