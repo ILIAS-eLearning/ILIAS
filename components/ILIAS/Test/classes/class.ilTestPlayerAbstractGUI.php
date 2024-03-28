@@ -810,7 +810,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable($this->getContentBlockName(), $template->get());
     }
 
-    protected function prepareTestPage($presentationMode, $sequenceElement, $questionId)
+    protected function prepareTestPage($sequenceElement, $questionId)
     {
         $this->navigation_history->addItem(
             $this->test_session->getRefId(),
