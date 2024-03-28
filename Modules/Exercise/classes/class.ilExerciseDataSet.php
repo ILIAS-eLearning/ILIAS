@@ -523,6 +523,8 @@ class ilExerciseDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         $a_rec = $this->stripTags($a_rec, ["Instruction"]);
+        $purifier = new ilExcInstructionPurifier();
+        $a_rec["Instruction"] = $purifier->purify((string) ($a_rec["Instruction"] ?? ""));
 
         switch ($a_entity) {
             case "exc":
