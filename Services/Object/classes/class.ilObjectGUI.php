@@ -17,9 +17,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 {
     use CreationCallbackTrait;
 
-    protected const UPLOAD_TYPE_LOCAL = 1;
-    protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
-    protected const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
+    public const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
         '<b>',
         '<i>',
         '<strong>',
@@ -30,6 +28,8 @@ class ilObjectGUI implements ImplementsCreationCallback
         '<strike>',
         '<bdo>'
     ];
+    protected const UPLOAD_TYPE_LOCAL = 1;
+    protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
 
     /**
      * @var ilErrorHandling
