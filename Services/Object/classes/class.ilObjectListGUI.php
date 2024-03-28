@@ -3068,7 +3068,7 @@ class ilObjectListGUI
             }
         }
 
-        $this->title = ilObject::_lookupTitle($this->obj_id);
+        $this->setTitle(ilObject::_lookupTitle($this->obj_id));
         $htpl->setVariable(
             "ACTION_DROP_DOWN",
             $this->insertCommands(false, false, "", true)

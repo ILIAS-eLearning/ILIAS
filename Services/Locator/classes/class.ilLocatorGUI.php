@@ -41,7 +41,7 @@ class ilLocatorGUI
 
     protected $lng;
     protected $entries;
-    
+
     /**
     * Constructor
     *
@@ -72,7 +72,7 @@ class ilLocatorGUI
     {
         $this->textonly = $a_textonly;
     }
-    
+
     public function setOffline($a_offline)
     {
         $this->offline = $a_offline;
@@ -148,7 +148,7 @@ class ilLocatorGUI
                 if ($row["title"] == "ILIAS" && $row["type"] == "root") {
                     $row["title"] = $this->lng->txt("repository");
                 }
-                
+
                 $this->addItem(
                     $row["title"],
                     ilLink::_getLink($row["child"]),
@@ -158,7 +158,7 @@ class ilLocatorGUI
             }
         }
     }
-    
+
     /**
     * add administration tree items
     *
@@ -178,17 +178,17 @@ class ilLocatorGUI
 
         if ($a_ref_id > 0) {
             $path = $tree->getPathFull($a_ref_id);
-            
+
             // add item for each node on path
             foreach ($path as $key => $row) {
                 if (!in_array($row["type"], array("root", "cat", "crs", "fold", "grp"))) {
                     continue;
                 }
-                
+
                 if ($row["child"] == ROOT_FOLDER_ID) {
                     $row["title"] = $lng->txt("repository");
                 }
-                
+
                 $class_name = $objDefinition->getClassName($row["type"]);
                 $class = strtolower("ilObj" . $class_name . "GUI");
                 $ilCtrl->setParameterByClass($class, "ref_id", $row["child"]);
@@ -201,14 +201,14 @@ class ilLocatorGUI
             }
         }
     }
-    
+
     public function addContextItems($a_ref_id, $a_omit_node = false, $a_stop = 0)
     {
         $tree = $this->tree;
-        
+
         if ($a_ref_id > 0) {
             $path = $tree->getPathFull($a_ref_id);
-            
+
             // we want to show the full path, from the major container to the item
             // (folders are not! treated as containers here), at least one parent item
             $r_path = array_reverse($path);
@@ -233,8 +233,8 @@ class ilLocatorGUI
                 if ($first == $row["child"]) {
                     $add_it = true;
                 }
-                
-                
+
+
                 if ($add_it && !$omit[$row["child"]] &&
                     (!$a_omit_node || ($row["child"] != $a_ref_id))) {
                     //echo "-".ilObject::_lookupTitle($row["obj_id"])."-";
@@ -252,7 +252,7 @@ class ilLocatorGUI
             }
         }
     }
-    
+
     /**
     * add locator item
     *
@@ -265,7 +265,7 @@ class ilLocatorGUI
         // LTI
         global $DIC;
         $ltiview = $DIC['lti'];
-        
+
         $ilAccess = $this->access;
 
         if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id)) {
@@ -275,10 +275,18 @@ class ilLocatorGUI
         if ($ltiview->isActive()) {
             $a_frame = "_self";
         }
-        $this->entries[] = array("title" => $a_title,
-            "link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type);
+        $this->entries[] = array(
+            "title" => strip_tags(
+                $a_title,
+                ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+            ),
+            "link" => $a_link,
+            "frame" => $a_frame,
+            "ref_id" => $a_ref_id,
+            "type" => $type
+        );
     }
-    
+
     /**
     * Clear all Items
     */
@@ -286,7 +294,7 @@ class ilLocatorGUI
     {
         $this->entries = array();
     }
-    
+
     /**
     * Get all locator entries.
     */
@@ -294,7 +302,7 @@ class ilLocatorGUI
     {
         return $this->entries;
     }
-    
+
     /**
     * Get locator HTML
     */
@@ -302,13 +310,13 @@ class ilLocatorGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         if ($this->getTextOnly()) {
             $loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true, "Services/Locator");
         } else {
             $loc_tpl = new ilTemplate("tpl.locator.html", true, true, "Services/Locator");
         }
-        
+
         $items = $this->getItems();
         $first = true;
 
@@ -317,11 +325,11 @@ class ilLocatorGUI
                 if (!$first) {
                     $loc_tpl->touchBlock("locator_separator_prefix");
                 }
-                
+
                 if ($item["ref_id"] > 0) {
                     $obj_id = ilObject::_lookupObjId($item["ref_id"]);
                     $type = ilObject::_lookupType($obj_id);
-                    
+
                     if (!$this->getTextOnly()) {
                         $icon_path = ilObject::_getIcon(
                             $obj_id,
@@ -330,7 +338,7 @@ class ilLocatorGUI
                             $this->getOffline()
                         );
                     }
-                    
+
                     $loc_tpl->setCurrentBlock("locator_img");
                     $loc_tpl->setVariable("IMG_SRC", $icon_path);
                     $loc_tpl->setVariable(
@@ -339,7 +347,7 @@ class ilLocatorGUI
                     );
                     $loc_tpl->parseCurrentBlock();
                 }
-                
+
                 $loc_tpl->setCurrentBlock("locator_item");
                 if ($item["link"] != "") {
                     $loc_tpl->setVariable("LINK_ITEM", $item["link"]);
@@ -351,7 +359,7 @@ class ilLocatorGUI
                     $loc_tpl->setVariable("PREFIX", $item["title"]);
                 }
                 $loc_tpl->parseCurrentBlock();
-                
+
                 $first = false;
             }
         } else {
@@ -359,7 +367,7 @@ class ilLocatorGUI
             $loc_tpl->touchBlock("locator");
         }
         $loc_tpl->setVariable("TXT_BREADCRUMBS", $lng->txt("breadcrumb_navigation"));
-        
+
         return trim($loc_tpl->get());
     }
 
@@ -370,7 +378,7 @@ class ilLocatorGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $items = $this->getItems();
         $first = true;
 
@@ -380,13 +388,13 @@ class ilLocatorGUI
                 if (!$first) {
                     $str .= " > ";
                 }
-                
+
                 $str .= $item["title"];
-                
+
                 $first = false;
             }
         }
-        
+
         return $str;
     }
 } // END class.LocatorGUI
