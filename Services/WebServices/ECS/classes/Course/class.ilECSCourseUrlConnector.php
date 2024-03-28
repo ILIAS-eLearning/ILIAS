@@ -39,7 +39,7 @@ class ilECSCourseUrlConnector extends ilECSConnector
 
             $this->addHeader('Content-Type', 'application/json');
             $this->addHeader('Accept', 'application/json');
-            $this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, $a_target_mid);
+            $this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, (string) $a_target_mid);
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_POST, true);

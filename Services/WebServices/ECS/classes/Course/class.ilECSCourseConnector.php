@@ -61,6 +61,7 @@ class ilECSCourseConnector extends ilECSConnector
             // Return json result
             return $ecs_result->getResult();
         } catch (ilCurlConnectionException $e) {
+            $this->logger->error('Error calling ECS service: ' . $e->getMessage());
             throw new ilECSConnectorException('Error calling ECS service: ' . $e->getMessage());
         }
     }
