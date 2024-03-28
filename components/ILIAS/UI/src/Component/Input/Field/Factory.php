@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This is what a factory for input fields looks like.
@@ -797,4 +798,68 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Rating
      */
     public function rating(string $label, ?string $byline = null): Rating;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The resource selector is an input designed to guide and assist users in selecting one or multiple
+     *      resources from a larger dataset. The resource selector encourages explorability while maintaining
+     *      context through different navigational tools. The dataset can be any kind of hierarchical data,
+     *      where all entries may contain nested ones.
+     *   composition: >
+     *      The resource selector is composed of various other components. In its surrounding form, the input
+     *      is displayed as a shy-button, to trigger a modal dialog featuring the actual input.
+     *      The modal dialog primarily consists of a drilldown menu, which represents the selectable resources.
+     *      Resources within the drilldown are represented by a leading icon and a title. The drilldown is
+     *      extended by bulky-buttons to un-/select the corresponding resource. Otherwise the component inherits
+     *      the same characteristics of a standard drilldown menu.
+     *      To maintain context while navigating nested resources, breadcrumbs will be visible above the menu
+     *      which can be used to go back to a certain level in the menu.
+     *      The selection will be visible as an unordered list of resource titles, followed by an icon to
+     *      unselect the resource again. This list will be shown in the modal footer, as a dropdown menu, and
+     *      in the surrounding form near the modal trigger.
+     *   effect: >
+     *      A modal dialog featuring the actual resource selector as a drilldown menu is opened when clicking
+     *      the according shy-buttton in the surrounding form.
+     *      An unordered list of selected resources is relayed into the form when the modal dialog is closed.
+     *      When a resource is selected, the icon changes to illustrate a "selected" state, and the actual
+     *      drilldown menu entry will be darkened so its colouring will be lost. The opposite happens when if
+     *      a menu entry is unselected again.
+     *      Reopening the modal dialog will not loose state, so users can pick up where they left off.
+     *   rivals:
+     *      File input: should be used if resources should be uploaded and selected from the local computer.
+     *      Text input with search mechanism: >
+     *          should be used when users know the exact resource they want to choose and explorability is not
+     *          of importance/in focus.
+     *
+     * context:
+     *   - The Rating Input is used in UI-Forms.
+     *
+     * rules:
+     *   usage:
+     *      1: the resource selector SHOULD be used when discoverability is in focus.
+     *      2: >
+     *          the resource selector SHOULD NOT be used when the user most likely knows exactly what resource
+     *          they want to choose.
+     *      3: >
+     *          the resource provider MUST only return resources which are visible to the current user, it is
+     *          responsible to perform access checks.
+     *   wording:
+     *      1: >
+     *         The label for opening the modal dialog MUST use words to indicate another context will be
+     *         opened/focused, such as "open", "unfold", "switch to" etc.
+     *   accessibility:
+     *      1: The resource selector MUST be operable by keyboard only.
+     * ---
+     * @param \ILIAS\UI\Component\Input\Field\ResourceRetrieval $resource_retrieval
+     * @param string                                            $label
+     * @param string|null                                       $byline
+     * @return \ILIAS\UI\Component\Input\Field\ResourceSelector
+     */
+    public function resourceSelector(
+        ResourceRetrieval $resource_retrieval,
+        string $label,
+        ?string $byline = null
+    ): ResourceSelector;
 }
