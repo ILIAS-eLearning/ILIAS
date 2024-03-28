@@ -157,7 +157,7 @@ switch ($target_type) {
 
     // please migrate to default branch implementation
     case "tst":
-        ilObjTestGUI::_goto($target_id);
+        ilObjTestGUI::_goto($target_id, $target_arr);
         break;
 
     // please migrate to default branch implementation
