@@ -560,7 +560,10 @@ class ilObjectListGUI
     }
     public function setTitle(string $title): void
     {
-        $this->title = $title;
+        $this->title = strip_tags(
+            $title,
+            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+        );
     }
 
     /**
@@ -573,7 +576,10 @@ class ilObjectListGUI
 
     public function setDescription(string $description): void
     {
-        $this->description = $description;
+        $this->description = strip_tags(
+            $description,
+            ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+        );
     }
 
     /**

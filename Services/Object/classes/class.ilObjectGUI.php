@@ -35,7 +35,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 {
     use CreationCallbackTrait;
 
-    protected const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
+    public const ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION = [
         '<b>',
         '<i>',
         '<strong>',
@@ -46,7 +46,6 @@ class ilObjectGUI implements ImplementsCreationCallback
         '<strike>',
         '<bdo>'
     ];
-
     public const ADMIN_MODE_NONE = "";
     public const ADMIN_MODE_SETTINGS = "settings";
     public const ADMIN_MODE_REPOSITORY = "repository";
