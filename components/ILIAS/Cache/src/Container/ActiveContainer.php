@@ -33,17 +33,18 @@ use ILIAS\Refinery\To\Transformation\FloatTransformation;
 final class ActiveContainer implements Container
 {
     private const LOCK_UNTIL = '_lock_until';
-    private const GLUE = '_|||_';
-    private const STRING_PREFIX = 'string' . self::GLUE;
-    private const ARRAY_PREFIX = 'array' . self::GLUE;
-    private const INT_PREFIX = 'int' . self::GLUE;
-    private const BOOL_PREFIX = 'bool' . self::GLUE;
-    private const NULL_PREFIX = 'null' . self::GLUE;
+    private const GLUE = '|||||';
+    private const STRING_PREFIX = 'string';
+    private const ARRAY_PREFIX = 'array';
+    private const INT_PREFIX = 'int';
+    private const BOOL_PREFIX = 'bool';
+    private const NULL_PREFIX = 'null';
     private const TRUE = 'true';
     private const FALSE = 'false';
 
     private \ILIAS\Data\Factory $data_factory;
     private $null_trafo;
+    private string $prefix_pattern;
 
     public function __construct(
         private Request $request,
@@ -55,28 +56,33 @@ final class ActiveContainer implements Container
         $this->null_trafo = new \ILIAS\Refinery\Custom\Transformation(function ($value) {
             return null;
         });
+        $this->prefix_pattern = '(' . implode('|', [
+                preg_quote(self::STRING_PREFIX, '/'),
+                preg_quote(self::ARRAY_PREFIX, '/'),
+                preg_quote(self::INT_PREFIX, '/'),
+                preg_quote(self::BOOL_PREFIX, '/'),
+                preg_quote(self::NULL_PREFIX, '/')
+            ]) . ')';
     }
 
     private function pack(mixed $value): string
     {
         if (is_string($value)) {
-            return self::STRING_PREFIX . $value;
+            return self::STRING_PREFIX . self::GLUE . $value;
         }
         if (is_array($value)) {
-            array_walk_recursive($value, function (&$item): void {
-                $item = $this->pack($item);
-            });
+            $value = $this->packRecursive($value);
 
-            return self::ARRAY_PREFIX . json_encode($value, JSON_THROW_ON_ERROR);
+            return self::ARRAY_PREFIX . self::GLUE . json_encode($value, JSON_THROW_ON_ERROR);
         }
         if (is_int($value)) {
-            return self::INT_PREFIX . $value;
+            return self::INT_PREFIX . self::GLUE . $value;
         }
         if (is_bool($value)) {
-            return self::BOOL_PREFIX . ($value ? self::TRUE : self::FALSE);
+            return self::BOOL_PREFIX . self::GLUE . ($value ? self::TRUE : self::FALSE);
         }
         if (is_null($value)) {
-            return self::NULL_PREFIX;
+            return self::NULL_PREFIX . self::GLUE;
         }
 
         throw new \InvalidArgumentException(
@@ -84,34 +90,72 @@ final class ActiveContainer implements Container
         );
     }
 
+    private function packRecursive(array $value): array
+    {
+        array_walk($value, function (&$item): void {
+            if (is_array($item)) {
+                $item = $this->packRecursive($item);
+            } else {
+                $item = $this->pack($item);
+            }
+        });
+        return $value;
+    }
+
+    private function unprefix(string $value): array
+    {
+        $str = '/^' . $this->prefix_pattern . preg_quote(self::GLUE, '/') . '(.*)/is';
+        if (!preg_match($str, $value, $matches)) {
+            return [self::NULL_PREFIX, null];
+        }
+
+        return [$matches[1], $matches[2]];
+    }
 
     private function unpack(?string $value): string|int|array|bool|null
     {
+        // simple detection
         if ($value === null) {
             return null;
         }
-        if ($value === self::NULL_PREFIX) {
+        if ($value === self::NULL_PREFIX . self::GLUE) {
             return null;
         }
-        if (str_starts_with($value, self::STRING_PREFIX)) {
-            return str_replace(self::STRING_PREFIX, '', $value);
-        }
-        if (str_starts_with($value, self::BOOL_PREFIX)) {
-            return (str_replace(self::BOOL_PREFIX, '', $value) === self::TRUE);
-        }
-        if (str_starts_with($value, self::ARRAY_PREFIX)) {
-            $value = str_replace(self::ARRAY_PREFIX, '', $value);
-            $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            array_walk_recursive($value, function (&$item): void {
-                $item = $this->unpack($item);
-            });
 
-            return $value;
+        // type detection
+        [$type, $unprefixed_value] = $this->unprefix($value);
+
+        switch ($type) {
+            case self::STRING_PREFIX:
+                return $unprefixed_value;
+            case self::BOOL_PREFIX:
+                return $unprefixed_value === self::TRUE;
+            case self::ARRAY_PREFIX:
+                $unprefixed_value = json_decode($unprefixed_value, true, 512);
+                if (!is_array($unprefixed_value)) {
+                    return null;
+                }
+
+                return $this->unpackRecursive($unprefixed_value);
+            case self::INT_PREFIX:
+                return (int) $unprefixed_value;
+            default:
+                return null;
         }
-        if (str_starts_with($value, self::INT_PREFIX)) {
-            return (int) str_replace(self::INT_PREFIX, '', $value);
-        }
+
         return null;
+    }
+
+    private function unpackRecursive(array $value): array
+    {
+        array_walk($value, function (&$item): void {
+            if (is_array($item)) {
+                $item = $this->unpackRecursive($item);
+            } else {
+                $item = $this->unpack($item);
+            }
+        });
+        return $value;
     }
 
     protected function buildFinalTransformation(Transformation $transformation): \ILIAS\Refinery\ByTrying
@@ -127,7 +171,6 @@ final class ActiveContainer implements Container
     {
         return $this->null_trafo;
     }
-
 
     public function isLocked(): bool
     {
