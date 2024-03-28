@@ -407,6 +407,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Taxonomy\Service($this);
     }
 
+    public function infoScreen(): \ILIAS\InfoScreen\Service
+    {
+        return new \ILIAS\InfoScreen\Service($this);
+    }
+
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {
