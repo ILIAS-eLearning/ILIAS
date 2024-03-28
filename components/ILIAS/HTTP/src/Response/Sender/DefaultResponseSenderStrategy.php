@@ -27,6 +27,47 @@ use Psr\Http\Message\ResponseInterface;
  */
 class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 {
+    private const METHOD_FPASSTHRU = 'fpassthru';
+    private const METHOD_READFILE = 'readfile';
+    private string $method;
+    private int $chunk_size;
+    private int $memory_limit;
+
+    public function __construct()
+    {
+        $this->memory_limit = $this->initMemoryLimit();
+        $this->chunk_size = $this->initChunkSize();
+        $this->method = self::METHOD_FPASSTHRU;
+    }
+
+    private function initMemoryLimit(): int
+    {
+        $ini_memory_limit = ini_get('memory_limit');
+        $memory_limit = null;
+        if (preg_match('/^(\d+)(.)$/', $ini_memory_limit, $matches)) {
+            switch (($matches[2] ?? null)) {
+                case 'G':
+                    $memory_limit = (int) $matches[1] * 1024 * 1024 * 1024; // nnnG -> nnn GB
+                    break;
+                case 'M':
+                    $memory_limit = (int) $matches[1] * 1024 * 1024; // nnnM -> nnn MB
+                    break;
+                case 'K':
+                    $memory_limit = (int) $matches[1] * 1024; // nnnK -> nnn KB
+                    break;
+                default:
+                    $memory_limit = (int) $matches[1]; // nnn -> nnn B
+            }
+        }
+
+        return $memory_limit ?? 128 * 1024 * 1024;
+    }
+
+    private function initChunkSize(): int
+    {
+        return (int) round(max($this->memory_limit / 4, 8 * 1024));
+    }
+
     /**
      * Sends the rendered response to the client.
      *
@@ -50,10 +91,17 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         }
 
         //rewind body stream
-        $response->getBody()->rewind();
+        $stream = $response->getBody();
+        $stream->rewind();
+
+        // check body size
+        $body_size = $stream->getSize();
+        if ($body_size > $this->memory_limit) {
+            $this->method = self::METHOD_READFILE;
+        }
 
         //detach psr-7 stream from resource
-        $resource = $response->getBody()->detach();
+        $resource = $stream->detach();
 
         $sendStatus = false;
 
@@ -63,8 +111,27 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
                 ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
             } catch (\Throwable $t) {
             }
+            switch ($this->method) {
+                case self::METHOD_FPASSTHRU:
+                    $sendStatus = fpassthru($resource);
+                    break;
+                case self::METHOD_READFILE:
+                    // more memory friendly than fpassthru
+                    $sendStatus = true;
+                    while (!feof($resource)) {
+                        echo $return = fread($resource, $this->chunk_size);
+                        $sendStatus = $sendStatus && $return !== false;
+                        file_put_contents(
+                            'php://stderr',
+                            sprintf(
+                                "Memory E: %s\n",
+                                memory_get_peak_usage(true) / 1024 / 1024
+                            )
+                        );
 
-            $sendStatus = fpassthru($resource);
+                    }
+                    break;
+            }
 
             //free up resources
             fclose($resource);

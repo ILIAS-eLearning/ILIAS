@@ -23,3 +23,4 @@ global $DIC;
 
 $DIC->ctrl()->callBaseClass();
 $DIC['ilBench']->save();
+$DIC['http']?->close();
