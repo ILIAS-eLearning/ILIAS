@@ -2961,8 +2961,20 @@ class ilObjTestGUI extends ilObjectGUI
 
         $info->addSection($this->lng->txt("tst_general_properties"));
         if ($this->object->getShowInfo()) {
-            $info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
-            $info->addProperty($this->lng->txt("title"), $this->object->getTitle());
+            $info->addProperty(
+                $this->lng->txt("author"),
+                strip_tags(
+                    $this->object->getAuthor(),
+                    ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                )
+            );
+            $info->addProperty(
+                $this->lng->txt("title"),
+                strip_tags(
+                    $this->object->getTitle(),
+                    ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION
+                )
+            );
         }
         if (!$this->object->getOfflineStatus() &&
             $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig()) &&
