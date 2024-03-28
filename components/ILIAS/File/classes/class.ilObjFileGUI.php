@@ -332,7 +332,7 @@ class ilObjFileGUI extends ilObject2GUI
         $title = ($inputs === []) ?
             '' : $inputs[array_key_first($inputs)]->getLabel();
 
-        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/Object");
+        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/ILIASObject");
         $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $title);
 
         $accordion->addItem($tpl->get(), $this->ui->renderer()->render($form));
@@ -350,7 +350,7 @@ class ilObjFileGUI extends ilObject2GUI
         $title = $form->getTitle();
         $form->setTitle(''); // see https://mantis.ilias.de/view.php?id=37786
 
-        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/Services/Object");
+        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/ILIASObject");
         $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $title);
 
         $accordion->addItem($tpl->get(), $form->getHTML());
