@@ -475,6 +475,8 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, array(0 => 'Accept: application/json'));
             $this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
             $this->curl->setOpt(CURLOPT_TIMEOUT_MS, 2000);
+            $this->curl->setOpt(CURLOPT_FORBID_REUSE, true);
+            $this->curl->setOpt(CURLOPT_FRESH_CONNECT, true);
 
             if ($this->logger->isHandling(ilLogLevel::DEBUG)) {
                 $this->curl->setOpt(CURLOPT_VERBOSE, 1);
@@ -519,6 +521,7 @@ class ilECSConnector
         try {
             return $this->curl->exec();
         } catch (ilCurlConnectionException $exc) {
+            $this->logger->error($exc->getMessage());
             throw($exc);
         }
     }
