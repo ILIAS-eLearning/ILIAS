@@ -523,6 +523,8 @@ class ilExerciseDataSet extends ilDataSet
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
         $a_rec = $this->stripTags($a_rec, ["Instruction"]);
+        $purifier = new ilExcInstructionPurifier();
+        $a_rec["Instruction"] = $purifier->purify((string) ($a_rec["Instruction"] ?? ""));
 
         switch ($a_entity) {
             case "exc":
