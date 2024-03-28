@@ -28,6 +28,7 @@ use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
+use ILIAS\Filesystem\Stream\ZIPStream;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -98,6 +99,9 @@ final class StreamDelivery extends BaseDelivery
             $download_file_name,
             $disposition
         );
+        if ($stream instanceof ZIPStream) {
+            $this->response_builder = new PHPResponseBuilder();
+        }
 
         $r = $this->response_builder->buildForStream(
             $this->http->request(),
@@ -159,6 +163,8 @@ final class StreamDelivery extends BaseDelivery
         } else { // handle subrequest, aka file in a ZIP
             $requested_zip = $uri;
             $sub_request = urldecode($sub_request);
+            // remove query
+            $sub_request = explode('?', $sub_request)[0];
             $file_inside_zip_uri = "zip://$requested_zip#$sub_request";
             $file_inside_zip_stream = fopen($file_inside_zip_uri, 'rb');
 
