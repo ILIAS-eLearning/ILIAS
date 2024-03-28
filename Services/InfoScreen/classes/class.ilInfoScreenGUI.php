@@ -571,8 +571,10 @@ class ilInfoScreenGUI
                         }
                     }
                     if ($count_anonymous_reads > 0) {
-                        $this->addProperty($this->lng->txt("readcount_anonymous_users"),
-                            (string) $count_anonymous_reads);
+                        $this->addProperty(
+                            $this->lng->txt("readcount_anonymous_users"),
+                            (string) $count_anonymous_reads
+                        );
                     }
                     if ($count_user_reads > 0) {
                         $this->addProperty($this->lng->txt("readcount_users"), (string) $count_user_reads);
@@ -1257,7 +1259,7 @@ class ilInfoScreenGUI
             foreach ($properties as $p) {
                 $this->addProperty(
                     $p["condition"],
-                    "<a href='" . $p["link"] . "'>" . $p["title"] . "</a>"
+                    "<a href='" . $p["link"] . "'>" . ilUtil::stripSlashes($p["title"]) . "</a>"
                 );
             }
         }
