@@ -164,7 +164,7 @@ class ilECSCourseMappingRule
         $does_match = false;
         $sortable_index = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rule = new ilECSCourseMappingRule($row->rid);
+            $rule = new ilECSCourseMappingRule((int) $row->rid);
             $matches = $rule->matches($course);
             if ($matches === -1) {
                 return '0';
@@ -178,7 +178,7 @@ class ilECSCourseMappingRule
         return "0";
     }
 
-    public static function doMappings($course, $a_sid, $a_mid, $a_ref_id): array
+    public static function doMappings($course, int $a_sid, int $a_mid, int $a_ref_id): array
     {
         global $DIC;
 
@@ -194,7 +194,7 @@ class ilECSCourseMappingRule
         $level = 1;
         $last_level_category = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rule = new ilECSCourseMappingRule($row->rid);
+            $rule = new ilECSCourseMappingRule((int) $row->rid);
             if ($level === 1) {
                 $last_level_category[] = $rule->getRefId();
             }
@@ -202,7 +202,7 @@ class ilECSCourseMappingRule
             $found_new_level = false;
             $new_level_cats = array();
             foreach ($last_level_category as $cat_ref_id) {
-                $refs = $rule->doMapping($course, $cat_ref_id);
+                $refs = $rule->doMapping($course, (int) $cat_ref_id);
                 foreach ($refs as $new_ref_id) {
                     $found_new_level = true;
                     $new_level_cats[] = $new_ref_id;

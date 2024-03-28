@@ -456,7 +456,7 @@ abstract class ilRemoteObjectBase extends ilObject2
                     $raw_value = $timePlace;
                 }
 
-                if ($adv_md_def->importFromECS($type, $raw_value, $id)) {
+                if ($adv_md_def->importFromECS((string) $type, (string) $raw_value, $id)) {
                     $do_save = true;
                 }
             }

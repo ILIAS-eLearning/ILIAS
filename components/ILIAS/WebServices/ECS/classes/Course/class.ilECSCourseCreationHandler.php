@@ -151,7 +151,7 @@ class ilECSCourseCreationHandler
     {
         // Check if course is already created
         $course_id = $course->lectureID;
-        $obj_id = $this->getImportId($course_id);
+        $obj_id = $this->getImportId((int) $course_id);
 
         if ($obj_id) {
             // do update
@@ -199,7 +199,12 @@ class ilECSCourseCreationHandler
         $all_parent_refs = [];
         foreach ($matching_rules as $matching_rule) {
             $this->logger->debug('Handling matching rule: ' . $matching_rule);
-            $parent_refs = ilECSCourseMappingRule::doMappings($course, $this->getServer()->getServerId(), $this->getMid(), $matching_rule);
+            $parent_refs = ilECSCourseMappingRule::doMappings(
+                (int) $course,
+                $this->getServer()->getServerId(),
+                $this->getMid(),
+                $matching_rule
+            );
             // map according mapping rules
             $this->logger->debug('Adding parent references: ' . print_r($parent_refs, true));
             if (count($parent_refs)) {
@@ -214,7 +219,7 @@ class ilECSCourseCreationHandler
         foreach ($all_parent_refs as $category_ref) {
             if ($first) {
                 $this->logger->debug('Creating new course instance in: ' . $category_ref);
-                $this->doSync($a_content_id, $course, ilObject::_lookupObjId($category_ref));
+                $this->doSync($a_content_id, $course, ilObject::_lookupObjId((int) $category_ref));
                 $first = false;
                 continue;
             }
@@ -361,7 +366,7 @@ class ilECSCourseCreationHandler
         $course_id = $course->lectureID;
         $this->course_url->setCmsLectureId($course_id);
 
-        $obj_id = $this->getImportId($course_id);
+        $obj_id = $this->getImportId((int) $course_id);
 
         $this->logger->debug('Found obj_id ' . $obj_id . ' for course_id ' . $course_id);
 
@@ -394,7 +399,7 @@ class ilECSCourseCreationHandler
                     $this->logger->debug('Parallel scenario "groups in courses".');
                     $crs = $this->createCourseData($course);
                     $crs = $this->createCourseReference($crs, $a_parent_obj_id);
-                    $this->setImported($course_id, $crs, $a_content_id);
+                    $this->setImported((int) $course_id, $crs, $a_content_id);
 
                     // Create parallel groups under crs
                     $this->createParallelGroups($a_content_id, $course, $crs->getRefId());
@@ -403,7 +408,7 @@ class ilECSCourseCreationHandler
                 case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
                     $this->logger->debug('Parallel scenario "Courses foreach Lecturer".');
                     // Import empty to store the ecs ressource id (used for course member update).
-                    $this->setImported($course_id, null, $a_content_id);
+                    $this->setImported((int) $course_id, null, $a_content_id);
                     break;
 
                 case ilECSMappingUtils::PARALLEL_ALL_COURSES:
@@ -422,7 +427,7 @@ class ilECSCourseCreationHandler
                     $this->logger->debug('Parallel scenario "One Course".');
                     $crs = $this->createCourseData($course);
                     $this->createCourseReference($crs, $a_parent_obj_id);
-                    $this->setImported($course_id, $crs, $a_content_id);
+                    $this->setImported((int) $course_id, $crs, $a_content_id);
                     break;
             }
         }
@@ -447,7 +452,7 @@ class ilECSCourseCreationHandler
      */
     protected function createParallelCourse($a_content_id, $course, $group, $parent_ref): bool
     {
-        if ($this->getImportId($course->lectureID, $group->id)) {
+        if ($this->getImportId((int) $course->lectureID, (string) $group->id)) {
             $this->logger->debug('Parallel course already created');
             return false;
         }
@@ -465,7 +470,7 @@ class ilECSCourseCreationHandler
         $course_obj->create();
 
         $this->createCourseReference($course_obj, ilObject::_lookupObjId($parent_ref));
-        $this->setImported($course->lectureID, $course_obj, $a_content_id, $group->id);
+        $this->setImported((int) $course->lectureID, $course_obj, $a_content_id, $group->id);
         $this->setObjectCreated(true);
         return true;
     }
@@ -484,7 +489,7 @@ class ilECSCourseCreationHandler
                 $title .= ' (' . $group->title . ')';
             }
 
-            $obj_id = $this->getImportId($course->lectureID, $group->id);
+            $obj_id = $this->getImportId((int) $course->lectureID, (string) $group->id);
             $this->logger->debug('Imported obj id is ' . $obj_id);
             if (!$obj_id) {
                 $this->createParallelCourse($a_content_id, $course, $group, $parent_ref);
@@ -493,11 +498,13 @@ class ilECSCourseCreationHandler
                 if ($course_obj instanceof ilObjCourse) {
                     $this->logger->debug('New title is ' . $title);
                     $course_obj->setTitle($title);
-                    $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
+                    if(!is_null($group->maxParticipants)) {
+                        $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
+                    }
                     $course_obj->update();
                 }
             }
-            $this->addUrlEntry($this->getImportId($course->lectureID, $group->ID));
+            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->ID));
         }
         return true;
     }
@@ -530,7 +537,7 @@ class ilECSCourseCreationHandler
         $group_obj->putInTree($parent_ref);
         $group_obj->setPermissions($parent_ref);
         $group_obj->updateGroupType(ilGroupConstants::GRP_TYPE_CLOSED);
-        $this->setImported($course->lectureID, $group_obj, $a_content_id, $group->id);
+        $this->setImported((int) $course->lectureID, $group_obj, $a_content_id, $group->id);
         $this->setObjectCreated(true);
     }
 
@@ -544,7 +551,7 @@ class ilECSCourseCreationHandler
         $parent_ref = end($parent_refs);
 
         foreach ((array) $course->groups as $group) {
-            $obj_id = $this->getImportId($course->lectureID, $group->id);
+            $obj_id = $this->getImportId((int) $course->lectureID, (string) $group->id);
             $this->logger->debug('Imported obj id is ' . $obj_id);
             if (!$obj_id) {
                 $this->createParallelGroup($a_content_id, $course, $group, $parent_ref);
@@ -554,11 +561,13 @@ class ilECSCourseCreationHandler
                     $title = $group->title !== '' ? $group->title : $course->title;
                     $this->logger->debug('New title is ' . $title);
                     $group_obj->setTitle($title);
-                    $group_obj->setMaxMembers((int) $group->maxParticipants);
+                    if(!is_null($group->maxParticipants)) {
+                        $group_obj->setMaxMembers((int) $group->maxParticipants);
+                    }
                     $group_obj->update();
                 }
             }
-            $this->addUrlEntry($this->getImportId($course->lectureID, $group->id));
+            $this->addUrlEntry($this->getImportId((int)$course->lectureID, (string)$group->id));
         }
     }
 
@@ -648,8 +657,8 @@ class ilECSCourseCreationHandler
 
         $import->setSubId((string) $a_sub_id);
         $import->setMID($this->getMid());
-        $import->setEContentId($a_ecs_id);
-        $import->setContentId($a_content_id);
+        $import->setEContentId((string) $a_ecs_id);
+        $import->setContentId((string) $a_content_id);
         $import->setImported(true);
         $import->save();
         return true;
