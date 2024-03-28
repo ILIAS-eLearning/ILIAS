@@ -150,7 +150,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // check for changed answer when user wants to navigate
         // this creates a form submit with hidden redirection url
-        $('a').click(self.checkNavigation);
+        $('a').not('.il-maincontrols-metabar > li > a').click(self.checkNavigation);
 
         // add the current answering status when form is submitted
         // this is needed for marking questions and requesting hints

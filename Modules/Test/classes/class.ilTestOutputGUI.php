@@ -379,7 +379,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
         $questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 
-        $this->prepareTestPage($presentationMode, $sequence_element, $questionId);
+        $this->prepareTestPage($sequence_element, $questionId);
 
         $navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
