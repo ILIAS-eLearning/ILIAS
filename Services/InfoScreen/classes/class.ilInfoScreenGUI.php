@@ -602,8 +602,11 @@ class ilInfoScreenGUI
                     $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
                 } elseif ($ownerObj->hasPublicProfile()) {
                     $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
-                    $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName(),
-                        $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+                    $this->addProperty(
+                        $lng->txt("owner"),
+                        $ownerObj->getPublicName(),
+                        $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML")
+                    );
                 } else {
                     $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());
                 }
@@ -1416,7 +1419,7 @@ class ilInfoScreenGUI
             foreach ($properties as $p) {
                 $this->addProperty(
                     $p["condition"],
-                    "<a href='" . $p["link"] . "'>" . $p["title"] . "</a>"
+                    "<a href='" . $p["link"] . "'>" . ilUtil::stripSlashes($p["title"]) . "</a>"
                 );
             }
         }
@@ -1436,8 +1439,7 @@ class ilInfoScreenGUI
         if (is_object($a_obj)) {
             $act = new ilObjectActivation();
             $act->read($a_obj->getRefId());
-            if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION)
-            {
+            if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION) {
                 $this->addProperty(
                     $this->lng->txt('rep_activation_access'),
                     ilDatePresentation::formatPeriod(
