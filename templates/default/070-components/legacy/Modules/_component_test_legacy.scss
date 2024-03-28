@@ -1,5 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics/_layout_spacing-variables"as *;
+@use "../../../070-components/legacy/component_alert" as alert;
 
 /* not yet refactored code from former ta.css */
 
@@ -575,13 +576,14 @@ div.ilc_Page.readonly textarea[disabled]
 
 .tstAutosaveMsg
 {
-	font-style: italic;
-	border: 1px #666 solid;
-	background-color: #ffffe0;
 	position:fixed;
 	z-index:99999999999;
-	top:0;
-	left:0;
+	top:$il-margin-xlarge-vertical;
+	right:$il-margin-xlarge-horizontal;
+	box-shadow: $il-shadow--large;
+	&:empty {
+		display: none;
+	}
 }
 
 .textarea {
