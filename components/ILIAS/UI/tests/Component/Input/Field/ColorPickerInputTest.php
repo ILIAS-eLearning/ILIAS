@@ -72,7 +72,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
             <input id="id_1" type="color" name="name_0" value=""/>
             <div class="help-block">byline</div>
@@ -97,7 +97,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
             <input id="id_1" type="color" name="name_0" value=""/>
             <div class="help-block">byline</div>
@@ -122,7 +122,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label
             <span class="asterisk">*</span></label>
             <div class="col-sm-8 col-md-9 col-lg-10">
             <input id="id_1" type="color" name="name_0" value=""/>
@@ -148,7 +148,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
             <input id="id_1" type="color" name="name_0" value="value_0"/>
             <div class="help-block">byline</div>

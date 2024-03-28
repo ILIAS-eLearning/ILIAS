@@ -27,6 +27,20 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
 {
     public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
+        if (in_array('DateTimeFieldInput', $contexts)
+            && in_array('StandardFilterContainerInput', $contexts)) {
+            return new DateTimeFilterContextRenderer(
+                $this->ui_factory,
+                $this->tpl_factory,
+                $this->lng,
+                $this->js_binding,
+                $this->refinery,
+                $this->image_path_resolver,
+                $this->data_factory,
+                $this->help_text_retriever,
+                $this->upload_limit_resolver
+            );
+        }
         if (in_array('StandardFilterContainerInput', $contexts)) {
             return new FilterContextRenderer(
                 $this->ui_factory,

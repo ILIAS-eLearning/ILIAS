@@ -37,7 +37,6 @@ class Select extends FormInput implements C\Input\Field\Select
      * @var mixed
      */
     protected $value;
-    private bool $complex = false;
 
     public function __construct(
         DataFactory $data_factory,
@@ -97,6 +96,6 @@ class Select extends FormInput implements C\Input\Field\Select
      */
     public function isComplex(): bool
     {
-        return $this->complex;
+        return false;
     }
 }
