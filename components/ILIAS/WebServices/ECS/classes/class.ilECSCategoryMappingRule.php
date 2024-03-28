@@ -371,8 +371,8 @@ class ilECSCategoryMappingRule
             $part_string .= '"';
 
             $part_id_arr = explode('_', $part_id);
-            $name = ilECSCommunityReader::getInstanceByServerId((int) $part_id_arr[0])
-                ->getParticipantNameByMid((int) $part_id_arr[1]);
+            $name = (count($part_id_arr) === 2) ? ilECSCommunityReader::getInstanceByServerId((int) $part_id_arr[0])
+                ->getParticipantNameByMid((int) $part_id_arr[1]) : "Broken mapping entry in database";
             if ($name) {
                 $part_string .= $name;
             } else {
