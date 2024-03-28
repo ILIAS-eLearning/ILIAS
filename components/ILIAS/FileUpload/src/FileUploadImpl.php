@@ -113,12 +113,12 @@ final class FileUploadImpl implements FileUpload
         $filesystem = $this->selectFilesystem($location);
         $tempResults = [];
 
-        if ($uploadResult->getStatus()->getCode() == ProcessingStatus::REJECTED) {
+        if ($uploadResult->getStatus()->getCode() === ProcessingStatus::REJECTED) {
             return false;
         }
 
         try {
-            $path = rtrim($destination, "/") . '/' . ($file_name == "" ? $uploadResult->getName() : $file_name);
+            $path = rtrim($destination, "/") . '/' . ($file_name === "" ? $uploadResult->getName() : $file_name);
             if ($override_existing && $filesystem->has($path)) {
                 $filesystem->delete($path);
             }
@@ -149,7 +149,7 @@ final class FileUploadImpl implements FileUpload
         $tempResults = [];
 
         foreach ($this->uploadResult as $key => $uploadResult) {
-            if ($uploadResult->getStatus()->getCode() == ProcessingStatus::REJECTED) {
+            if ($uploadResult->getStatus()->getCode() === ProcessingStatus::REJECTED) {
                 continue;
             }
 

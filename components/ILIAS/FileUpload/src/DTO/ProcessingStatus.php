@@ -35,7 +35,6 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
  */
 final class ProcessingStatus
 {
-    use ScalarTypeCheckAware;
     /**
      * Upload is ok
      */
@@ -45,12 +44,16 @@ final class ProcessingStatus
      */
     public const REJECTED = 2;
     /**
+     * Upload is pending
+     */
+    public const PENDING = 3;
+    /**
      * Upload got denied by a processor, the upload will be removed immediately
      */
     public const DENIED = 4;
+
     private int $code;
     private string $message;
-
 
     /**
      * ProcessingStatus constructor.
@@ -62,34 +65,24 @@ final class ProcessingStatus
      * @throws \InvalidArgumentException Thrown if the given code is not OK or REJECTED. The
      *                                   exception can also be thrown if the given arguments are not
      *                                   of the correct type.
-     * @since 5.3
      */
     public function __construct(int $code, string $reason)
     {
-        $this->intTypeCheck($code, 'code');
-        $this->stringTypeCheck($reason, 'reason');
-
-        if ($code !== self::OK && $code !== self::REJECTED && $code !== self::DENIED) {
-            throw new \InvalidArgumentException('Invalid upload status code received. The code must be OK or REJECTED.');
+        if (!in_array($code, [self::OK, self::REJECTED, self::DENIED, self::PENDING], true)) {
+            throw new \InvalidArgumentException(
+                'Invalid upload status code received. The code must be OK or REJECTED.'
+            );
         }
 
         $this->code = $code;
         $this->message = $reason;
     }
 
-
-    /**
-     * @since 5.3
-     */
     public function getCode(): int
     {
         return $this->code;
     }
 
-
-    /**
-     * @since 5.3
-     */
     public function getMessage(): string
     {
         return $this->message;
