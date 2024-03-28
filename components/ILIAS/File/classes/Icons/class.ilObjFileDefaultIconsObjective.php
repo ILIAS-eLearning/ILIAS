@@ -69,7 +69,12 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
      */
     public function getPreconditions(Environment $environment): array
     {
-        return ilResourceStorageMigrationHelper::getPreconditions();
+        return array_merge(
+            ilResourceStorageMigrationHelper::getPreconditions(),
+            [
+                new \ilDatabaseUpdateStepsExecutedObjective(new \ilFileObjectDatabaseObjective())
+            ]
+        );
     }
 
     /**

@@ -124,6 +124,7 @@ class ilResourceStorageMigrationHelper
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB80()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90()),
             new ilStorageContainersExistingObjective()
         ];
@@ -322,8 +323,7 @@ class ilResourceStorageMigrationHelper
     public function moveDirectoryToContainerResource(
         string $absolute_path_to_directory,
         int $owner_user_id,
-    ): ?ResourceIdentification
-    {
+    ): ?ResourceIdentification {
         // check if directory exists
         if (!is_dir($absolute_path_to_directory)) {
             return null;
