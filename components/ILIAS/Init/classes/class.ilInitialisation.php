@@ -1085,6 +1085,18 @@ class ilInitialisation
         self::initILIAS();
     }
 
+    public static function reInitUser(): void
+    {
+        if (ilContext::initClient() && ilContext::hasUser()) {
+            self::initSession();
+            self::initUser();
+
+            if (ilContext::supportsPersistentSessions()) {
+                self::resumeUserSession();
+            }
+        }
+    }
+
     /**
      * ilias initialisation
      */
