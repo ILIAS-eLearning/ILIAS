@@ -63,34 +63,21 @@ class ilFavouritesListGUI
             }
         }
         if (count($item_groups) > 0) {
-            $tpl = new ilTemplate("tpl.favourites.html", true, true, "Services/Repository/Favourites");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "view", "0");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "col_side", "center");
             $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "block_type", "pditems");
             // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
-            $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
-                $this->lng->txt('rep_configure'),
-                $this->ui->factory()->legacy('PH')
-            )->withAdditionalOnLoadCode(function ($id) {
-                return "document.body.appendChild(document.getElementById('$id'));";
-            });
-            $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
-                $this->ctrl->getLinkTargetByClass(
-                    [ilDashboardGUI::class, ilColumnGUI::class, ilSelectedItemsBlockGUI::class],
-                    'removeFromDeskRoundtrip'
-                ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
-            );
+            $configureModal = $favoritesManager->getConfigureModal();
 
             $config_item = $f->item()->standard(
                 $f->button()->shy(
                     $this->lng->txt("rep_configure"),
-                    $roundtrip_modal->getShowSignal()
+                    $configureModal->getShowSignal()
                 )
             );
             array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));
             $panel = $f->panel()->secondary()->listing("", $item_groups);
-            $tpl->setVariable("FAV_CONTENT", $this->ui->renderer()->render([$panel, $roundtrip_modal]));
-            return $tpl->get();
+            return $this->ui->renderer()->render([$panel, $configureModal]);
         }
 
         return $favoritesManager->getNoItemFoundContent();

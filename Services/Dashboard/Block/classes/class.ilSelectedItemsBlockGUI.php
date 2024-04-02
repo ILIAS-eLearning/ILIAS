@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Services\Dashboard\Block\BlockDTO;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * @ilCtrl_IsCalledBy ilSelectedItemsBlockGUI: ilColumnGUI
@@ -110,5 +111,27 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function getRemoveMultipleActionText(): string
     {
         return $this->lng->txt('pd_remove_multiple');
+    }
+
+    public function getConfigureModal(): RoundTrip
+    {
+        $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
+            $this->lng->txt('rep_configure'),
+            $this->ui->factory()->legacy('PH')
+        )->withAdditionalOnLoadCode(function ($id) {
+            return "document.body.appendChild(document.getElementById('$id'));
+                        // append a script tag
+                        let script = document.body.appendChild(document.createElement('script'));
+                        script.src = 'Services/Dashboard/Block/js/ReplaceModalContent.js';
+                        document.body.appendChild(script);       
+                ";
+        });
+        $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
+            $this->ctrl->getLinkTargetByClass(
+                [ilDashboardGUI::class, ilColumnGUI::class, $this::class],
+                'removeFromDeskRoundtrip'
+            ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+        );
+        return $roundtrip_modal;
     }
 }
