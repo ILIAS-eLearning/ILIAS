@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 class ilForumXMLParser extends ilSaxParser
 {
+    /**
+     * @var array<int, list<int>>
+     */
+    public static array $style_map = [];
+
     private string $entity = '';
     private array $mapping = [
         'frm' => [],
@@ -41,6 +46,7 @@ class ilForumXMLParser extends ilSaxParser
     private ?int $lastHandledForumId = null;
     private ?int $lastHandledThreadId = null;
     private ?int $lastHandledPostId = null;
+    private ?int $last_handled_style_id = null;
     private array $forumArray = [];
     private array $postArray = [];
     private array $threadArray = [];
@@ -50,6 +56,8 @@ class ilForumXMLParser extends ilSaxParser
     private array $user_id_mapping = [];
     private array $mediaObjects = [];
 
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
     public function __construct(private ilObjForum $forum, string $a_xml_data, private ilImportMapping $importMapping)
     {
         global $DIC;
@@ -58,6 +66,10 @@ class ilForumXMLParser extends ilSaxParser
         $this->aobject = new ilObjUser(ANONYMOUS_USER_ID);
 
         parent::__construct();
+
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
 
         $this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>' . $a_xml_data);
     }
@@ -124,6 +136,10 @@ class ilForumXMLParser extends ilSaxParser
             case 'MediaObject':
                 $this->mediaObjects[] = $a_attribs;
                 break;
+        }
+
+        if (isset($a_attribs['Style'])) {
+            $this->last_handled_style_id = (int) $a_attribs['Style'];
         }
     }
 
@@ -324,6 +340,11 @@ class ilForumXMLParser extends ilSaxParser
                         'frm:' . $this->forumArray['ObjId'],
                         'frm:' . $this->forum->getId()
                     );
+
+                    if ($this->last_handled_style_id) {
+                        self::$style_map[$this->last_handled_style_id][] = $newObjProp->getObjId();
+                        $this->last_handled_style_id = null;
+                    }
 
                     $this->forumArray = [];
                 }
