@@ -122,7 +122,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+<form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
    <div class="il-standard-form-header clearfix">
       <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
    </div>
@@ -173,7 +173,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+<form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
    <div class="il-standard-form-header clearfix">
       <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
    </div>
@@ -206,7 +206,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+<form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
    <div class="il-standard-form-header clearfix">
       <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
    </div>
@@ -268,7 +268,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+            <form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
                 <div class="il-standard-form-header clearfix">
                     <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
@@ -328,7 +328,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($form));
         $expected = $this->brutallyTrimHTML('
-            <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+            <form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
                 <div class="il-standard-form-header clearfix">
                     <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
@@ -362,7 +362,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($form));
 
         $expected = $this->brutallyTrimHTML('
-<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+<form role="form" id="id_2" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
     <div class="il-standard-form-header clearfix">
         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
         <div class="il-standard-form-required">
