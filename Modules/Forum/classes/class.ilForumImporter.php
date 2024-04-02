@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Importer class for forums
- * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ModulesForum
- */
 class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 {
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
@@ -30,6 +25,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
     public function init(): void
     {
         global $DIC;
+
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
@@ -66,17 +62,15 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
             ilForumPage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
         }
 
-        $styleMapping = $a_mapping->getMappingsOfEntity('Modules/Forum', 'style');
-        foreach ($styleMapping as $newForumId => $oldStyleId) {
-            $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
-            if ($newForumId > 0 && $newStyleId > 0) {
-                $frm = ilObjectFactory::getInstanceByObjId((int) $newForumId, false);
-                if (!($frm instanceof ilObjForum)) {
-                    continue;
+        $style_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
+        foreach ($style_map as $old_style_id => $new_style_id) {
+            if (isset(ilForumXMLParser::$style_map[$old_style_id]) &&
+                is_array(ilForumXMLParser::$style_map[$old_style_id])) {
+                foreach (ilForumXMLParser::$style_map[$old_style_id] as $new_frm_id) {
+                    $this->content_style_domain
+                        ->styleForObjId($new_frm_id)
+                        ->updateStyleId((int) $new_style_id);
                 }
-                $this->content_style_domain
-                    ->styleForObjId($newForumId)
-                    ->updateStyleId($newStyleId);
             }
         }
     }
