@@ -10584,10 +10584,19 @@ lti#:#field_provider_xml#:#XML-File
 lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.
 lti#:#form_import_provider#:#Import Global Provider
 lti#:#gbl_roles_to_users#:#Global Role assigned to LTI Users
-lti#:#global_provider_subtab#:#Global Providers for all Users
-lti#:#grade_activityProgress_completed#:#completed
-lti#:#grade_activityProgress_passed#:#passed
-lti#:#grade_all_verbs#:#all status information
+lti#:#global_provider_subtab#:#Global Providers/Tools for all Users
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress
+lti#:#grade_activity_progress_completed#:#Completed
+lti#:#grade_activity_progress_initialized#:#Initialized
+lti#:#grade_activity_progress_inprogress#:#In Progress
+lti#:#grade_activity_progress_started#:#Started
+lti#:#grade_activity_progress_submitted#:#Submitted
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)
+lti#:#grade_grading_progress_pending#:#Final Grade is pending
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention
 lti#:#highscore_achieved_ts#:#Date
 lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.
 lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking
@@ -10798,13 +10807,13 @@ lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Settings
 lti#:#tab_statements#:#Learning Experiences
-lti#:#tbl_grade_activityProgress#:#Status Selection
-lti#:#tbl_grade_activityProgress_select#:#Status
+lti#:#tbl_grade_activity_progress#:#Activity Progress
 lti#:#tbl_grade_actor#:#User
 lti#:#tbl_grade_date#:#Date
-lti#:#tbl_grade_object#:#Object
+lti#:#tbl_grade_grading_progress#:#Grading Progress
 lti#:#tbl_grade_period#:#Period
 lti#:#tbl_grade_score#:#Score
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS
 lti#:#tbl_lti_prov_all_categories#:#All Categories
 lti#:#tbl_lti_prov_availability#:#Availability
 lti#:#tbl_lti_prov_category#:#Category

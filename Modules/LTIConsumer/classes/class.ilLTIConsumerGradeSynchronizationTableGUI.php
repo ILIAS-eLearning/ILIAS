@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Component\Modal\RoundTrip;
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumerGradeSynchronizationTableGUI
@@ -38,16 +36,12 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
     private ilLanguage $language;
 
     /**
-     * @param ilLTIConsumerGradeSynchronizationGUI $a_parent_obj
-     * @param string                                                $a_parent_cmd
-     * @param bool                                                  $isMultiActorReport
      * @throws ilCtrlException
      */
     public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $this->dic = $DIC;
-        $DIC->language()->loadLanguageModule('cmix');
         $this->language = $DIC->language();
 
         $this->isMultiActorReport = $isMultiActorReport;
@@ -63,28 +57,24 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->initFilter();
 
-        $this->setExternalSegmentation(true);
+        $this->setExternalSegmentation(false);
         $this->setExternalSorting(true);
 
-        $this->setDefaultOrderField('date');
+        $this->setDefaultOrderField('lti_timestamp');
         $this->setDefaultOrderDirection('desc');
     }
 
     protected function initColumns(): void
     {
-        $this->addColumn($this->language->txt('tbl_grade_date'), 'date');
+        $this->addColumn($this->language->txt('tbl_grade_date'), 'lti_timestamp');
 
         if ($this->isMultiActorReport) {
             $this->addColumn($this->language->txt('tbl_grade_actor'), 'actor');
         }
-
-        $this->addColumn($this->language->txt('tbl_grade_object'), 'object'); //label otherwise id
-
-        $this->addColumn($this->language->txt('tbl_grade_activityProgress'), 'verb'); //activityProgress
-        //        gradingProgress necessary?
-        $this->addColumn($this->language->txt('tbl_grade_score'), 'score');
-
-        $this->addColumn('', '', '1%');
+        $this->addColumn($this->language->txt('tbl_grade_score'), 'score_given');
+        $this->addColumn($this->language->txt('tbl_grade_activity_progress'), '');
+        $this->addColumn($this->language->txt('tbl_grade_grading_progress'), '');
+        $this->addColumn($this->language->txt('tbl_grade_stored'), '');
     }
 
     public function initFilter(): void
@@ -100,18 +90,36 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
         }
 
         $options = array(
-            '' => $this->language->txt('grade_all_verbs'),
-            'completed' => $this->language->txt('grade_activityProgress_completed'),
-            'passed' => $this->language->txt('grade_activityProgress_passed'),
+            '' => $this->language->txt('grade_activity_progress_all'),
+            'Initialized' => $this->language->txt('grade_activity_progress_initialized'),
+            'Started' => $this->language->txt('grade_activity_progress_started'),
+            'InProgress' => $this->language->txt('grade_activity_progress_inprogress'),
+            'Submitted' => $this->language->txt('grade_activity_progress_submitted'),
+            'Completed' => $this->language->txt('grade_activity_progress_completed')
         );
 
-        $si = new ilSelectInputGUI($this->language->txt('tbl_grade_activityProgress_select'), "verb");
+        $si = new ilSelectInputGUI($this->language->txt('tbl_grade_activity_progress'), "activity_progress");
         $si->setOptions($options);
         $this->addFilterItem($si);
         $si->readFromSession();
-        $this->filter["verb"] = $si->getValue();
+        $this->filter["activity_progress"] = $si->getValue();
 
-        $dp = new ilCmiXapiDateDurationInputGUI($this->language->txt('tbl_grade_period'), 'period');
+        $options = array(
+            '' => $this->language->txt('grade_grading_progress_all'),
+            'NotReady' => $this->language->txt('grade_grading_progress_notready'),
+            'Failed' => $this->language->txt('grade_grading_progress_failed'),
+            'Pending' => $this->language->txt('grade_grading_progress_pending'),
+            'PendingManual' => $this->language->txt('grade_grading_progress_pendingmanual'),
+            'FullyGraded' => $this->language->txt('grade_grading_progress_fullygraded')
+        );
+
+        $si = new ilSelectInputGUI($this->language->txt('tbl_grade_grading_progress'), "grading_progress");
+        $si->setOptions($options);
+        $this->addFilterItem($si);
+        $si->readFromSession();
+        $this->filter["grading_progress"] = $si->getValue();
+
+        $dp = new ilDateDurationInputGUI($this->language->txt('tbl_grade_period'), 'period');
         $dp->setShowTime(true);
         $this->addFilterItem($dp);
         $dp->readFromSession();
@@ -120,15 +128,14 @@ class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('STMT_DATE', $a_set['lti_timestamp']);
-        $usr = new ilObjUser((int) $a_set['usr_id']);
-        $this->tpl->setVariable('STMT_ACTOR', $usr->getFullname());
-
-        $this->tpl->setVariable('STMT_OBJECT', $this->language->txt('grade_grading_' . $a_set['grading_progress']));
-
-        $this->tpl->setVariable('STMT_VERB', $this->language->txt('grade_activity_' . $a_set['activity_progress']));
-
+        $this->tpl->setVariable('STMT_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['lti_timestamp'], IL_CAL_DATETIME)));
+        if ($this->isMultiActorReport) {
+            $this->tpl->setVariable('STMT_ACTOR', $a_set['actor']);
+        }
         $this->tpl->setVariable('STMT_SCORE', $a_set['score_given'] . ' / ' . $a_set['score_maximum']);
+        $this->tpl->setVariable('STMT_ACTIVITY_PROGRESS', $this->language->txt('grade_activity_progress_' . strtolower($a_set['activity_progress'])));
+        $this->tpl->setVariable('STMT_GRADING_PROGRESS', $this->language->txt('grade_grading_progress_' . strtolower($a_set['grading_progress'])));
+        $this->tpl->setVariable('STMT_STORED', ilDatePresentation::formatDate(new ilDateTime($a_set['stored'], IL_CAL_DATETIME)));
     }
 
 }

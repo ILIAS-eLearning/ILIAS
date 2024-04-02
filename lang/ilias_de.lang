@@ -10585,9 +10585,18 @@ lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consum
 lti#:#form_import_provider#:#Globalen Provider bzw. globales Tool importieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
 lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
-lti#:#grade_activityProgress_completed#:#vollständig bearbeitet
-lti#:#grade_activityProgress_passed#:#bestanden
-lti#:#grade_all_verbs#:#alle Statusangaben
+lti#:#grade_activity_progress_all#:#alle Angaben zum Aktivitätsfortschritt
+lti#:#grade_activity_progress_completed#:#vollständig bearbeitet (Completed)
+lti#:#grade_activity_progress_initialized#:#begonnen (Initialized)
+lti#:#grade_activity_progress_inprogress#:#in Bearbeitung (InProgress)
+lti#:#grade_activity_progress_started#:#gestartet (Started)
+lti#:#grade_activity_progress_submitted#:#eingereicht (Submitted)
+lti#:#grade_grading_progress_all#:#alle Angaben zum Benotungsfortschritt
+lti#:#grade_grading_progress_failed#:#Die Benotung konnte nicht abgeschlossen werden (Failed).
+lti#:#grade_grading_progress_fullygraded#:#Der Benotungsprozess ist abgeschlossen.
+lti#:#grade_grading_progress_notready#:#Es fand keine Benotung statt (NotReady).
+lti#:#grade_grading_progress_pending#:#Die Endnote steht noch aus.
+lti#:#grade_grading_progress_pendingmanual#:#Die Endnote steht noch aus; erfordert menschliche Intervention.
 lti#:#highscore_achieved_ts#:#Datum
 lti#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
 lti#:#highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -10798,13 +10807,13 @@ lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen
 lti#:#tab_statements#:#Lernerfahrungen
-lti#:#tbl_grade_activityProgress#:#Auswahl Status
-lti#:#tbl_grade_activityProgress_select#:#Status
-lti#:#tbl_grade_actor#:#Benutzer
+lti#:#tbl_grade_activity_progress#:#Aktivitätsfortschritt
+lti#:#tbl_grade_actor#:#Name
 lti#:#tbl_grade_date#:#Datum
-lti#:#tbl_grade_object#:#Objekt
+lti#:#tbl_grade_grading_progress#:#Benotungsfortschritt
 lti#:#tbl_grade_period#:#Zeitraum
 lti#:#tbl_grade_score#:#Punkte
+lti#:#tbl_grade_stored#:#übermittelt an ILIAS
 lti#:#tbl_lti_prov_all_categories#:#Alle Kategorien
 lti#:#tbl_lti_prov_availability#:#Verfügbarkeit
 lti#:#tbl_lti_prov_category#:#Kategorie
