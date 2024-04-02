@@ -215,7 +215,13 @@ class ilResourceStorageMigrationHelper
         ?Closure $file_name_callback = null,
         ?Closure $revision_name_callback = null
     ): ?ResourceIdentification {
-        $open_path = fopen($absolute_path, 'rb');
+        try {
+            // in some cases fopen throws a warning instead of returning false
+            $open_path = fopen($absolute_path, 'rb');
+        } catch (Throwable $e) {
+            return null;
+        }
+
         if ($open_path === false) {
             return null;
         }
