@@ -20,6 +20,7 @@
 declare(strict_types=1);
 
 use Pimple\Container;
+use ILIAS\components\OrgUnit\ARHelper\DropdownBuilder;
 
 class ilOrgUnitLocalDIC
 {
@@ -61,8 +62,8 @@ class ilOrgUnitLocalDIC
         $dic['refinery'] = static fn(): \ILIAS\Refinery\Factory => $DIC['refinery'];
         $dic['access'] = static fn(): \ilAccessHandler => $DIC['ilAccess'];
         $dic['lng'] = static fn(): \ilLanguage => $DIC['lng'];
-        $dic['dropdownbuilder'] = static fn($d): \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder =>
-            new  \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder(
+        $dic['dropdownbuilder'] = static fn($d): DropdownBuilder =>
+            new  DropdownBuilder(
                 $d['ui.factory'],
                 $d['ui.renderer'],
                 $d['lng']
