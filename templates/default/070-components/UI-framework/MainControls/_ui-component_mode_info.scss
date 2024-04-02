@@ -11,7 +11,7 @@ $il-mode-info-border: 3px solid $il-mode-info-color;
 $il-mode-info-height: 35px;
 $il-mode-info-text-color: white;
 $il-mode-info-zindex: 1010;
-$il-mode-info-shadow: 20px 10px 30px rgba(0, 0, 0, .15);
+$il-mode-info-shadow: $il-shadow--large;
 
 .c-mode-info {
   display: flex;

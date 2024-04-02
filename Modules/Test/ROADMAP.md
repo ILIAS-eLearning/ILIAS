@@ -34,6 +34,7 @@ Depending on development ressources, funding and approval, some new features are
 * UI Forms: Length of text fields not shorter than answer text. (see: [Mantis 35243](https://mantis.ilias.de/view.php?id=35243#c87241))
 * Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
 * Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
+* Auto-save messages should use UI components (e.g. toast), so a consistent UI/UX is used and easier to maintain throughout the entire system.
 
 ## Kiosk-Mode
 * current kiosk-mode enforces the header to be removed without it (the header) being a UI-Component.
