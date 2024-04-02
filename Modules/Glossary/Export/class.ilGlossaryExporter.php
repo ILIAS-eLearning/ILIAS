@@ -24,12 +24,16 @@
 class ilGlossaryExporter extends ilXmlExporter
 {
     private ilGlossaryDataSet $ds;
+    protected \ILIAS\Glossary\Metadata\MetadataManager $metadata;
 
     public function init(): void
     {
+        global $DIC;
+
         $this->ds = new ilGlossaryDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
+        $this->metadata = $DIC->glossary()->internal()->domain()->metadata();
     }
 
     public function getXmlExportTailDependencies(
@@ -103,7 +107,7 @@ class ilGlossaryExporter extends ilXmlExporter
                 $rec_ids = $this->getActiveAdvMDRecords($id);
                 if (count($rec_ids)) {
                     foreach ($rec_ids as $rec_id) {
-                        $advmd_ids[] = $id . ":" . $rec_id;
+                        $advmd_ids[] = $id . ":" . $rec_id->getRecordId();
                     }
                 }
             }
@@ -138,6 +142,14 @@ class ilGlossaryExporter extends ilXmlExporter
 
     protected function getActiveAdvMDRecords(int $a_id): array
     {
+        $active = [];
+        foreach (ilObject::_getAllReferences($a_id) as $ref_id) {
+            foreach ($this->metadata->getActiveAdvMDRecords($ref_id) as $rec) {
+                $active[$rec->getRecordId()] = $rec;
+            }
+        }
+        return $active;
+
         $active = array();
         // selected globals
         $sel_globals = ilAdvancedMDRecord::getObjRecSelection($a_id, "term");

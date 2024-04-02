@@ -38,6 +38,10 @@ class ilGlossaryAdvMetaDataAdapter
         $this->glo_ref_id = $a_glo_ref_id;
     }
 
+    public function getActiveRecords(): array
+    {
+        return ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_ref_id, "term");
+    }
 
     /**
      * Get all advanced metadata fields
