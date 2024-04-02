@@ -34,6 +34,22 @@ class ilForumXMLWriter extends ilXmlWriter
     private ?string $target_dir_relative;
     private ?string $target_dir_absolute;
 
+    private \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function __construct(
+        string $version = '1.0',
+        string $outEnc = 'utf-8',
+        string $inEnc = 'utf-8'
+    ) {
+        global $DIC;
+
+        parent::__construct($version, $outEnc, $inEnc);
+
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
+    }
+
     public function setForumId(int $id): void
     {
         $this->forum_id = $id;
@@ -64,7 +80,12 @@ class ilForumXMLWriter extends ilXmlWriter
         $res = $ilDB->query($query_frm);
         $row = $ilDB->fetchObject($res);
 
-        $this->xmlStartTag("Forum", null);
+        $style = $this->content_style_domain->styleForObjId((int) (int) $row->obj_id);
+        $attributes = [
+            'Style' => $style->getStyleId()
+        ];
+
+        $this->xmlStartTag("Forum", $attributes);
 
         $this->xmlElement("Id", null, (int) $row->top_pk);
         $this->xmlElement("ObjId", null, (int) $row->obj_id);
