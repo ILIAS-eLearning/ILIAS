@@ -28,6 +28,7 @@ use ILIAS\Glossary\Flashcard\FlashcardShuffleManager;
 use ILIAS\Glossary\Presentation\PresentationManager;
 use ILIAS\Glossary\Taxonomy\TaxonomyManager;
 use ILIAS\components\ILIAS\Glossary\Table\TableManager;
+use ILIAS\Glossary\Metadata\MetadataManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -83,6 +84,11 @@ class InternalDomainService
     public function flashcardShuffle(): FlashcardShuffleManager
     {
         return new FlashcardShuffleManager();
+    }
+
+    public function metadata(): MetadataManager
+    {
+        return new MetadataManager();
     }
 
     public function presentation(\ilObjGlossary $glossary, int $user_id = 0): PresentationManager
