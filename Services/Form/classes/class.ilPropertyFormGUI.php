@@ -537,8 +537,10 @@ class ilPropertyFormGUI extends ilFormGUI
 
             $this->tpl->setCurrentBlock("header");
             // required top
-            $this->tpl->setCurrentBlock("required_text_top");
-            $this->tpl->setVariable("TXT_REQUIRED_TOP", $lng->txt("required_field"));
+            if ($this->required_text) {
+                $this->tpl->setCurrentBlock("required_text_top");
+                $this->tpl->setVariable("TXT_REQUIRED_TOP", $lng->txt("required_field"));
+            }
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
