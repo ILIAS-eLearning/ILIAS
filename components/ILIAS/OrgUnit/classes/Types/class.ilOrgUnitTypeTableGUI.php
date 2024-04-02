@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder;
+use ILIAS\components\OrgUnit\ARHelper\DropdownBuilder;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
