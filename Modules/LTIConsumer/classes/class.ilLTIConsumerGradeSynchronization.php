@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilObjLTIConsumerResult
+ * Class ilLTIConsumerGradeSynchronization
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  *
  * @package     Modules/LTIConsumer
  */
+
 class ilLTIConsumerGradeSynchronization
 {
     public int $id;
@@ -35,18 +36,6 @@ class ilLTIConsumerGradeSynchronization
      * @var float|null
      */
     public ?float $result = null;
-
-    /**
-     * Fill the properties with data from an array
-     * @param array assoc data
-     */
-    //    protected function fillData(array $data): void
-    //    {
-    //        $this->id = (int) $data['id'];
-    //        $this->obj_id = (int) $data['obj_id'];
-    //        $this->usr_id = (int) $data['usr_id'];
-    //        $this->result = (float) $data['result'];
-    //    }
 
 
     public function getId(): int
@@ -69,22 +58,40 @@ class ilLTIConsumerGradeSynchronization
         return $this->result;
     }
 
-    /**
-     * @param $objId
-     * @return ilLTIConsumerResult[]
-     */
-    public static function getGradesForObject(int $objId, ?int $usrID = null): array
+    public static function getGradesForObject(int $objId, ?int $usrID = null, ?string $activity_progress = null, ?string $grading_progress = null, ?ilDateTime $startDate = null, ?ilDateTime $endDate = null): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $query = 'SELECT * FROM lti_consumer_grades'
             . ' WHERE obj_id = ' . $DIC->database()->quote($objId, 'integer');
 
+        if ($usrID != null) {
+            $query .= ' AND usr_id = ' . $DIC->database()->quote($usrID, 'integer');
+        }
+
+        if ($activity_progress != null) {
+            $query .= ' AND activity_progress = ' . $DIC->database()->quote($activity_progress, 'text');
+        }
+
+        if ($grading_progress != null) {
+            $query .= ' AND grading_progress = ' . $DIC->database()->quote($grading_progress, 'text');
+        }
+
+        if ($startDate != null && $startDate->get(IL_CAL_DATETIME) != null) {
+            $query .= ' AND lti_timestamp >= ' . $DIC->database()->quote($startDate->get(IL_CAL_DATETIME), 'timestamp');
+        }
+
+        if ($endDate != null && $endDate->get(IL_CAL_DATETIME) != null) {
+            $query .= ' AND lti_timestamp <= ' . $DIC->database()->quote($endDate->get(IL_CAL_DATETIME), 'timestamp');
+        }
+
+        $query .= ' ORDER BY lti_timestamp DESC';
+
         $res = $DIC->database()->query($query);
 
         $results = [];
 
-        if ($row = $DIC->database()->fetchAssoc($res)) {
+        while ($row = $DIC->database()->fetchAssoc($res)) {
             $results[] = $row;
         }
 
