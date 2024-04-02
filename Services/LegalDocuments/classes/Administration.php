@@ -431,7 +431,7 @@ class Administration
     public function requireEditable(): void
     {
         if (!$this->config->editable()) {
-            throw new Exception('Access denied.');
+            $this->container['ilErr']->raiseError($this->container->language()->txt('permission_denied'), $this->container['ilErr']->WARNING);
         }
     }
 
