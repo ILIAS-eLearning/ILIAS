@@ -7039,6 +7039,9 @@ div.alert ul > li:before {
   position: relative;
   padding: 9px 15px;
 }
+.modal-body .il-standard-form {
+  padding: 0;
+}
 .modal-body .il-standard-form .il-standard-form-header + .il-section-input {
   margin-top: 0;
 }

@@ -167,6 +167,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	padding: $modal-inner-padding;
 
 	  .il-standard-form {
+		  padding: 0;
 		  .il-standard-form-header + .il-section-input {
 			  margin-top: 0;
 		  }
