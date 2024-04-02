@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumerGradeSynchronizationFilter
@@ -38,23 +38,16 @@ class ilLTIConsumerGradeSynchronizationFilter
 
     protected string $orderDirection = "";
 
-    protected ?ilCmiXapiUser $actor = null;
+    protected ?int $actor = null;
 
-    protected ?string $verb = null;
+    protected ?string $activity_progress = null;
 
-    protected ?ilCmiXapiDateTime $startDate = null;
+    protected ?string $grading_progress = null;
 
-    protected ?ilCmiXapiDateTime $endDate = null;
+    protected ?ilDateTime $startDate = null;
 
-    public function getActivityId(): string
-    {
-        return $this->activityId;
-    }
+    protected ?ilDateTime $endDate = null;
 
-    public function setActivityId(string $activityId): void
-    {
-        $this->activityId = $activityId;
-    }
 
     public function getLimit(): int
     {
@@ -96,42 +89,52 @@ class ilLTIConsumerGradeSynchronizationFilter
         $this->orderDirection = $orderDirection;
     }
 
-    public function getActor(): ?\ilCmiXapiUser
+    public function getActor(): ?int
     {
         return $this->actor;
     }
 
-    public function setActor(\ilCmiXapiUser $actor): void
+    public function setActor(int $actor): void
     {
         $this->actor = $actor;
     }
 
-    public function getVerb(): ?string
+    public function getActivityProgress(): ?string
     {
-        return $this->verb;
+        return $this->activity_progress;
     }
 
-    public function setVerb(string $verb): void
+    public function setActivityProgress(string $activityProgress): void
     {
-        $this->verb = $verb;
+        $this->activity_progress = $activityProgress;
     }
 
-    public function getStartDate(): ?\ilCmiXapiDateTime
+    public function getGradingProgress(): ?string
+    {
+        return $this->grading_progress;
+    }
+
+    public function setGradingProgress(string $gradingProgress): void
+    {
+        $this->grading_progress = $gradingProgress;
+    }
+
+    public function getStartDate(): ?\ilDateTime
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\ilCmiXapiDateTime $startDate): void
+    public function setStartDate(\ilDateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
-    public function getEndDate(): ?\ilCmiXapiDateTime
+    public function getEndDate(): ?\ilDateTime
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\ilCmiXapiDateTime $endDate): void
+    public function setEndDate(\ilDateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
