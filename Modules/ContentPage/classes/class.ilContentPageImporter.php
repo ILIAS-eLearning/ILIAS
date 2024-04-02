@@ -26,6 +26,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
 {
     protected ilContentPageDataSet $ds;
     private PageMetricsService $pageMetricsService;
+    private \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function init(): void
     {
@@ -34,6 +35,10 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
         $this->ds->setImportDirectory($this->getImportDirectory());
+
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
 
         $this->pageMetricsService = new PageMetricsService(
             new PageMetricsRepositoryImp($DIC->database()),
@@ -67,15 +72,15 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
             }
         }
 
-        $styleMapping = $a_mapping->getMappingsOfEntity('Modules/ContentPage', 'style');
-        foreach ($styleMapping as $newCopaId => $oldStyleId) {
-            $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
-            if ($newCopaId > 0 && $newStyleId > 0) {
-                $copa = ilObjectFactory::getInstanceByObjId((int) $newCopaId, false);
-                if (!$copa || !($copa instanceof ilObjContentPage)) {
-                    continue;
+        $style_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
+        foreach ($style_map as $old_style_id => $new_style_id) {
+            if (isset(ilContentPageDataSet::$style_map[$old_style_id]) &&
+                is_array(ilContentPageDataSet::$style_map[$old_style_id])) {
+                foreach (ilContentPageDataSet::$style_map[$old_style_id] as $new_copa_id) {
+                    $this->content_style_domain
+                        ->styleForObjId($new_copa_id)
+                        ->updateStyleId((int) $new_style_id);
                 }
-                $copa->update();
             }
         }
     }
