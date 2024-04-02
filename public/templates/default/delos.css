@@ -6997,7 +6997,6 @@ div.alert ul > li:before {
   color: white;
   background-color: #2c2c2c;
   opacity: 1;
-  border: 1px solid #dddddd;
 }
 
 .modal-open .modal {
