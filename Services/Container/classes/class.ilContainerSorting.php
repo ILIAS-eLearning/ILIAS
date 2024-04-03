@@ -407,7 +407,7 @@ class ilContainerSorting
         }
         $items = [];
         foreach ($a_type_positions as $key => $position) {
-            if ($key == "blocks") {
+            if ($key === "blocks") {
                 $this->saveBlockPositions($position);
             } elseif (!is_array($position)) {
                 $items[$key] = ((float) $position) * 100;
