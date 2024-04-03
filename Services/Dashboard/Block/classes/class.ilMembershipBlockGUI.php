@@ -38,7 +38,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
         return $this->renderer->render(
             $this->factory->panel()->standard(
                 $this->getTitle(),
-                $this->factory->legacy($this->lng->txt("rep_mo_mem_dash"))
+                $this->factory->legacy($this->lng->txt('rep_mo_mem_dash'))
             )
         );
     }

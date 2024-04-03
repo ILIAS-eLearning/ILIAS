@@ -20,5 +20,5 @@ declare(strict_types=1);
 
 interface ilPDSelectedItemsBlockProvider
 {
-    public function getItems(array $object_type_white_list = array()): array;
+    public function getItems(array $object_type_white_list = []): array;
 }
