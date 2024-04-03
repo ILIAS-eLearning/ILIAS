@@ -200,7 +200,8 @@ class ilLPStatusCollection extends ilLPStatus
 
                     if ($isGrouping) {
                         foreach ($tmp_users as $tmp_user_id) {
-                            ++$gr_failed_users_num[$tmp_user_id];
+                            $gr_failed_users_num[$tmp_user_id] =
+                                ($gr_failed_users_num[$tmp_user_id] ?? 0) + 1;
                         }
                     } else {
                         // One item failed is sufficient for status failed.
