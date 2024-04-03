@@ -124,10 +124,9 @@ class ilObjectContentStyleSettingsGUI
         $lng->loadLanguageModule("style");
 
         $form = new ilPropertyFormGUI();
-        $fixed_style = (int) $settings->get("fixed_content_style_id");
-        if ($fixed_style > 0) {
+        if ($this->object_manager->globalFixed()) {
             $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
+            $st->setValue($this->object_manager->getGlobalFixedTitle() . " (" .
                 $lng->txt("global_fixed") . ")");
             $form->addItem($st);
         } else {
@@ -136,36 +135,34 @@ class ilObjectContentStyleSettingsGUI
             $st_styles[0] = $lng->txt("default");
             ksort($st_styles);
 
-            if ($style_id > 0) {
-                // individual style
-                if ($this->object_manager->isOwned($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $form->addItem($st);
+            // individual style
+            if ($this->object_manager->hasEffectiveIndividualStyle($style_id)) {
+                $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
+                $st->setValue(ilObject::_lookupTitle($style_id));
+                $form->addItem($st);
 
-                    if ($this->isContainer()) {
-                        $cb = new ilCheckboxInputGUI($lng->txt("style_support_reuse"), "support_reuse");
-                        $cb->setInfo($lng->txt("style_support_reuse_info"));
-                        $cb->setChecked($this->container_manager->getReuse());
-                        $form->addItem($cb);
-                        $form->addCommandButton(
-                            "saveIndividualStyleSettings",
-                            $lng->txt("save")
-                        );
-                    }
-
+                if ($this->isContainer()) {
+                    $cb = new ilCheckboxInputGUI($lng->txt("style_support_reuse"), "support_reuse");
+                    $cb->setInfo($lng->txt("style_support_reuse_info"));
+                    $cb->setChecked($this->container_manager->getReuse());
+                    $form->addItem($cb);
                     $form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("style_edit_style")
-                    );
-                    $form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("style_delete_style")
+                        "saveIndividualStyleSettings",
+                        $lng->txt("save")
                     );
                 }
+
+                $form->addCommandButton(
+                    "editStyle",
+                    $lng->txt("style_edit_style")
+                );
+                $form->addCommandButton(
+                    "deleteStyle",
+                    $lng->txt("style_delete_style")
+                );
             }
 
-            if ($style_id <= 0 || !$this->object_manager->isOwned($style_id)) {
+            if ($this->object_manager->canSelectStyle($style_id)) {
                 $style_sel = new ilSelectInputGUI(
                     $lng->txt("style_current_style"),
                     "style_id"
@@ -262,9 +259,7 @@ class ilObjectContentStyleSettingsGUI
 
         $form = $this->initStylePropertiesForm();
         $form->checkInput();
-        if ($settings->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->current_style_id)
-                || $this->current_style_id == 0)) {
+        if ($this->object_manager->canSelectStyle($this->current_style_id)) {
             $style_id = (int) $form->getInput("style_id");
             $this->updateStyleId($style_id);
             $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
