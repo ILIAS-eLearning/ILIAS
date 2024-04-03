@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace XapiProxy;
 
@@ -67,14 +67,15 @@ class ilInitialisation extends \ilInitialisation
     /**
      * Function; initGlobal($a_name, $a_class, $a_source_file)
      *  Derive from protected to public...
-     * @param string      $a_class
-     * @param string|null $a_source_file
-     * @see \ilInitialisation::initGlobal($a_name, $a_class, $a_source_file)
+     * @see \ilInitialisation::initGlobal()
      */
-    //    public static function initGlobal(string $a_name, string $a_class, ?string $a_source_file = null) : void
-    public static function initGlobal($a_name, $a_class, $a_source_file = null): void
-    {
-        parent::initGlobal($a_name, $a_class, $a_source_file);
+    public static function initGlobal(
+        string $a_name,
+        $a_class,
+        ?string $a_source_file = null,
+        ?bool $destroy_existing = false
+    ): void {
+        parent::initGlobal($a_name, $a_class, $a_source_file, $destroy_existing);
     }
 
     /**
