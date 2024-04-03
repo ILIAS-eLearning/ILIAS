@@ -55,7 +55,7 @@ class ilAchievementsGUI
             case "illearningprogressgui":
                 $main_tpl->setTitle($lng->txt("learning_progress"));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_trac.svg"));
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
+                $new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
 
@@ -92,7 +92,7 @@ class ilAchievementsGUI
                 break;
 
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd == "show") {
                     $this->$cmd();
                 }
                 $this->main_tpl->printToStdout();
