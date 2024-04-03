@@ -723,13 +723,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     /**
      * @param BlockDTO[] $data
      */
-    private function sortByTitle(array $data, bool $asc = true): array
+    private function sortByTitle(array $data): array
     {
         uasort(
             $data,
-            static fn(BlockDTO $left, BlockDTO $right): int => $asc ?
-                strcmp($left->getTitle(), $right->getTitle()) :
-                strcmp($right->getTitle(), $left->getTitle())
+            static fn(BlockDTO $left, BlockDTO $right): int => strcmp($left->getTitle(), $right->getTitle())
         );
         return $data;
     }
