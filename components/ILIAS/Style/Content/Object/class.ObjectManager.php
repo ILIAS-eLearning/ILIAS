@@ -195,4 +195,42 @@ class ObjectManager
     {
         return $this->object_repo->isOwned($this->obj_id, $style_id);
     }
+
+    public function globalFixed(): bool
+    {
+        $fixed_style = (int) $this->settings->get("fixed_content_style_id");
+        if ($fixed_style > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getGlobalFixedTitle(): string
+    {
+        if ($this->globalFixed()) {
+            $fixed_style = (int) $this->settings->get("fixed_content_style_id");
+            return ilObject::_lookupTitle($fixed_style);
+        }
+        return "";
+    }
+
+    public function hasEffectiveIndividualStyle(int $current_style): bool
+    {
+        if ($this->globalFixed()) {
+            return false;
+        }
+        if ($current_style > 0 && $this->isOwned($current_style)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function canSelectStyle(int $current_style): bool
+    {
+        if ($this->globalFixed() || $this->hasEffectiveIndividualStyle($current_style)) {
+            return false;
+        }
+        return true;
+    }
+
 }
