@@ -2380,7 +2380,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
             $template->setVariable("QUESTION_ID", $question_gui->object->getId());
-            $result_output = $question_gui->getSolutionOutput(0, null, false, true, false, $this->object->getShowSolutionFeedback());
+            $result_output = $question_gui->getSolutionOutput(0, null, false, true, false, false);
             $template->setVariable("SOLUTION_OUTPUT", $result_output);
             $template->parseCurrentBlock("question");
             $counter++;

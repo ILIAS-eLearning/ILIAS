@@ -165,9 +165,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
 
-        $user_solution = $this->getUserAnswer($active_id, $pass);
 
         if (($active_id > 0) && (!$show_correct_solution)) {
+            $user_solution = $this->getUserAnswer($active_id, $pass);
             $solution = $user_solution;
         } else {
             $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
