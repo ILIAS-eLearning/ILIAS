@@ -1270,6 +1270,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             );
         }
 
+        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
         $out[] = $this->getTable();
         $this->tpl->setContent(implode('', $out));
     }
