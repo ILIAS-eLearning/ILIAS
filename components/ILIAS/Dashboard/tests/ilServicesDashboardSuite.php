@@ -22,9 +22,6 @@ use PHPUnit\Framework\TestSuite;
 
 require_once 'vendor/composer/vendor/autoload.php';
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilServicesDashboardSuite extends TestSuite
 {
     public static function suite()
@@ -32,7 +29,7 @@ class ilServicesDashboardSuite extends TestSuite
         $suite = new self();
 
         require_once('./components/ILIAS/Dashboard/tests/DashboardViewSettingsTest.php');
-        $suite->addTestSuite('DashboardViewSettingsTest');
+        $suite->addTestSuite(DashboardViewSettingsTest::class);
 
         return $suite;
     }

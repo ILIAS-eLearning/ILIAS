@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Dashboard\Access;
 
+use ilDBConstants;
 use ilDBInterface;
 use ilRbacSystem;
 
@@ -46,7 +47,7 @@ class DashboardAccess
                 AND object_data.type = %s
                 AND object_reference.ref_id = tree.child
                 AND object_reference.obj_id = object_data.obj_id',
-                ['integer', 'text'],
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
                 [SYSTEM_FOLDER_ID, 'dshs']
             );
             $rec = $this->db->fetchAssoc($set);
