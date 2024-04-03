@@ -53,7 +53,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
             'od.type',
             $objTypes,
             false,
-            'text'
+            ilDBConstants::T_TEXT
         );
 
         $res = $this->db->queryF(
@@ -107,7 +107,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
                 LEFT JOIN object_translation trans ON trans.obj_id = od.obj_id AND trans.lang_code = %s
                 WHERE ua.usr_id = %s
             ",
-            ['text', 'integer', 'integer', 'text', 'integer'],
+            [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
             ['y', 1, $this->recoveryFolderId, $actorLanguageCode, $user->getId()]
         );
 

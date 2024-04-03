@@ -425,7 +425,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $cmd = $this->ctrl->getCmd('getHTML');
 
         switch ($next_class) {
-            case 'ilcommonactiondispatchergui':
+            case strtolower(ilCommonActionDispatcherGUI::class):
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 if ($gui instanceof ilCommonActionDispatcherGUI) {
                     $this->ctrl->forwardCommand($gui);
@@ -472,7 +472,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         if ($this->http->request()->getQueryParams()['manage'] ?? false) {
             $this->ctrl->redirect($this, 'manage');
         }
-        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+        $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
     /**

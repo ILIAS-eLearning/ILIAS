@@ -83,7 +83,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
         switch ($this->ctrl->getNextClass($this)) {
-            case 'ilpermissiongui':
+            case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -112,9 +112,9 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
                 [],
-                'ilpermissiongui'
+                ilPermissionGUI::class
             );
         }
     }
@@ -303,9 +303,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
         $pres_options = array_column(
             array_map(
-                /**
-                 * @return array{0: string, 1: string}
-                 */
                 static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
                 array_keys($ops),
                 $ops

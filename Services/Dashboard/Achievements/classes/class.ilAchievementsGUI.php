@@ -52,14 +52,14 @@ class ilAchievementsGUI
 
 
         switch ($next_class) {
-            case 'illearningprogressgui':
+            case strtolower(ilLearningProgressGUI::class):
                 $main_tpl->setTitle($lng->txt('learning_progress'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_trac.svg'));
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
 
-            case 'illearninghistorygui':
+            case strtolower(ilLearningHistoryGUI::class):
                 $main_tpl->setTitle($lng->txt('lhist_learning_history'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_lhist.svg'));
                 $lhistgui = new ilLearningHistoryGUI();
@@ -67,7 +67,7 @@ class ilAchievementsGUI
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilpersonalskillsgui':
+            case strtolower(ilPersonalSkillsGUI::class):
                 $main_tpl->setTitle($lng->txt('skills'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_skmg.svg'));
                 $skgui = new ilPersonalSkillsGUI();
@@ -75,7 +75,7 @@ class ilAchievementsGUI
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilbadgeprofilegui':
+            case strtolower(ilBadgeProfileGUI::class):
                 $main_tpl->setTitle($lng->txt('obj_bdga'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_bdga.svg'));
                 $bgui = new ilBadgeProfileGUI();
@@ -83,7 +83,7 @@ class ilAchievementsGUI
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilusercertificategui':
+            case strtolower(ilUserCertificateGUI::class):
                 $main_tpl->setTitle($lng->txt('obj_cert'));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_cert.svg'));
                 $cgui = new ilUserCertificateGUI();
@@ -107,7 +107,7 @@ class ilAchievementsGUI
         $gui_classes = $this->getGUIClasses();
         $first_service = current($this->achievements->getActiveServices());
         if ($first_service) {
-            $ctrl->redirectByClass(['ildashboardgui', 'ilachievementsgui', $gui_classes[$first_service]]);
+            $ctrl->redirectByClass([ilDashboardGUI::class, ilAchievementsGUI::class, $gui_classes[$first_service]]);
         }
     }
 
@@ -152,7 +152,7 @@ class ilAchievementsGUI
         ];
 
         foreach ($links as $k => $v) {
-            $links[$k]['link'] = $ctrl->getLinkTargetByClass(['ildashboardgui', 'ilachievementsgui', $gui_classes[$k]]);
+            $links[$k]['link'] = $ctrl->getLinkTargetByClass([ilDashboardGUI::class, ilAchievementsGUI::class, $gui_classes[$k]]);
         }
 
         return $links;
