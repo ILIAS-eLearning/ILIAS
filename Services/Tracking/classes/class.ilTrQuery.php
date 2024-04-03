@@ -327,7 +327,7 @@ class ilTrQuery
             $a_order_field = "login";
         } elseif (substr($a_order_field, 0, 4) == "udf_") {
             $udf_order = $a_order_field;
-            $a_order_field = null;
+            $a_order_field = '';
         }
         $result = self::executeQueries(
             $queries,
