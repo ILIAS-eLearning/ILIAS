@@ -44,7 +44,6 @@ class ilAchievements
 
     public function __construct()
     {
-        /** @var Container $DIC */
         global $DIC;
 
         $this->setting = $DIC->settings();

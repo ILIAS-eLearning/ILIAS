@@ -61,8 +61,8 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->help = $DIC['ilHelp'];
-        $tpl = $DIC['tpl'];
+        $this->help = $DIC->help();
+        $tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
@@ -103,21 +103,21 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, 'show');
         switch ($next_class) {
-            case 'ilpersonalprofilegui':
+            case strtolower(ilPersonalProfileGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $profile_gui = new ilPersonalProfileGUI();
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
-            case 'ilpersonalsettingsgui':
+            case strtolower(ilPersonalSettingsGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $settings_gui = new ilPersonalSettingsGUI();
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
 
-            case 'ilcalendarpresentationgui':
+            case strtolower(ilCalendarPresentationGUI::class):
                 $this->getStandardTemplates();
                 $this->displayHeader();
                 $this->tpl->setTitle($this->lng->txt('calendar'));
@@ -127,7 +127,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
 
-            case 'ilpdnotesgui':
+            case strtolower(ilPDNotesGUI::class):
                 if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments')) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
@@ -140,14 +140,14 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
 
-            case 'ilpdnewsgui':
+            case strtolower(ilPDNewsGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $pd_news_gui = new ilPDNewsGUI();
                 $this->ctrl->forwardCommand($pd_news_gui);
                 break;
 
-            case 'ilcolumngui':
+            case strtolower(ilColumnGUI::class):
                 if (strtolower($cmdClass = $this->ctrl->getCmdClass()) === strtolower(ilSelectedItemsBlockGUI::class)) {
                     $gui = new $cmdClass();
                     $ret = $this->ctrl->forwardCommand($gui);
@@ -162,7 +162,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $column_gui = new ilColumnGUI('pd');
                 $this->show();
                 break;
-            case 'ilcontactgui':
+            case strtolower(ilContactGUI::class):
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     throw new ilPermissionException($this->lng->txt('msg_no_perm_read'));
                 }
@@ -174,13 +174,13 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
-            case 'ilpersonalworkspacegui':
+            case strtolower(ilPersonalWorkspaceGUI::class):
                 $wsgui = new ilPersonalWorkspaceGUI();
                 $this->ctrl->forwardCommand($wsgui);
                 $this->tpl->printToStdout();
                 break;
 
-            case 'ilportfoliorepositorygui':
+            case strtolower(ilPortfolioRepositoryGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $pfgui = new ilPortfolioRepositoryGUI();
@@ -188,7 +188,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
 
-            case 'ilachievementsgui':
+            case strtolower(ilAchievementsGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $achievegui = new ilAchievementsGUI();
@@ -200,7 +200,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $mstgui = new ilMyStaffGUI();
                 $this->ctrl->forwardCommand($mstgui);
                 break;
-            case 'ilgroupuseractionsgui':
+            case strtolower(ilGroupUserActionsGUI::class):
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $ggui = new ilGroupUserActionsGUI();
@@ -362,34 +362,34 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToProfile(): void
     {
-        $this->ctrl->redirectByClass('ilpersonalprofilegui');
+        $this->ctrl->redirectByClass(ilPersonalProfileGUI::class);
     }
 
     public function jumpToPortfolio(): void
     {
         $cmd = '';
         if ($this->requested_dsh != '') {
-            $this->ctrl->setParameterByClass('ilportfoliorepositorygui', 'shr_id', $this->requested_dsh);
+            $this->ctrl->setParameterByClass(ilPortfolioRepositoryGUI::class, 'shr_id', $this->requested_dsh);
             $cmd = 'showOther';
         }
 
         if ($this->requested_prt_id > 0) {
-            $this->ctrl->setParameterByClass('ilobjportfoliogui', 'prt_id', $this->requested_prt_id);
-            $this->ctrl->setParameterByClass('ilobjportfoliogui', 'gtp', $this->requested_gtp);
-            $this->ctrl->redirectByClass(['ilportfoliorepositorygui', 'ilobjportfoliogui'], 'preview');
+            $this->ctrl->setParameterByClass(ilObjPortfolioGUI::class, 'prt_id', $this->requested_prt_id);
+            $this->ctrl->setParameterByClass(ilObjPortfolioGUI::class, 'gtp', $this->requested_gtp);
+            $this->ctrl->redirectByClass([ilPortfolioRepositoryGUI::class, ilObjPortfolioGUI::class], 'preview');
         } else {
-            $this->ctrl->redirectByClass('ilportfoliorepositorygui', $cmd);
+            $this->ctrl->redirectByClass(ilPortfolioRepositoryGUI::class, $cmd);
         }
     }
 
     public function jumpToSettings(): void
     {
-        $this->ctrl->redirectByClass('ilpersonalsettingsgui');
+        $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
     }
 
     public function jumpToNews(): void
     {
-        $this->ctrl->redirectByClass('ilpdnewsgui');
+        $this->ctrl->redirectByClass(ilPDNewsGUI::class);
     }
 
     public function jumpToCalendar(): void
@@ -409,26 +409,26 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setParameter($this, 'cal_agenda_per', $cal_period);
         }
 
-        $this->ctrl->redirectByClass('ilcalendarpresentationgui');
+        $this->ctrl->redirectByClass(ilCalendarPresentationGUI::class);
     }
 
     public function jumpToWorkspace(): void
     {
         $cmd = '';
         if ($this->requested_dsh != '') {
-            $this->ctrl->setParameterByClass('ilpersonalworkspacegui', 'shr_id', $this->requested_dsh);
+            $this->ctrl->setParameterByClass(ilPersonalWorkspaceGUI::class, 'shr_id', $this->requested_dsh);
             $cmd = 'share';
         }
 
         if ($this->requested_wsp_id > 0) {
-            $this->ctrl->setParameterByClass('ilpersonalworkspacegui', 'wsp_id', $this->requested_wsp_id);
+            $this->ctrl->setParameterByClass(ilPersonalWorkspaceGUI::class, 'wsp_id', $this->requested_wsp_id);
         }
 
         if ($this->requested_gtp) {
-            $this->ctrl->setParameterByClass('ilpersonalworkspacegui', 'gtp', $this->requested_gtp);
+            $this->ctrl->setParameterByClass(ilPersonalWorkspaceGUI::class, 'gtp', $this->requested_gtp);
         }
 
-        $this->ctrl->redirectByClass('ilpersonalworkspacegui', $cmd);
+        $this->ctrl->redirectByClass(ilPersonalWorkspaceGUI::class, $cmd);
     }
 
     protected function jumpToMyStaff(): void
@@ -438,12 +438,12 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function jumpToBadges(): void
     {
-        $this->ctrl->redirectByClass(['ilAchievementsGUI', 'ilbadgeprofilegui']);
+        $this->ctrl->redirectByClass([ilAchievementsGUI::class, ilBadgeProfileGUI::class]);
     }
 
     public function jumpToSkills(): void
     {
-        $this->ctrl->redirectByClass('ilpersonalskillsgui');
+        $this->ctrl->redirectByClass(ilPersonalSkillsGUI::class);
     }
 
     public function displayHeader(): void
