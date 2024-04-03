@@ -37,7 +37,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableNotes(bool $active = true): void
     {
-        $this->settings->set("disable_notes", (int) !$active);
+        $this->settings->set("disable_notes", $active ? '0' : '1');
     }
 
     public function ifCommentsEnabled(): bool
@@ -47,7 +47,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableComments(bool $active = true): void
     {
-        $this->settings->set("disable_comments", (int) !$active);
+        $this->settings->set("disable_comments", $active ? '0' : '1');
     }
 
     public function ifAuthorsCanDelete(): bool
@@ -57,7 +57,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableAuthorsCanDelete(bool $active = true): void
     {
-        $this->settings->set("comments_del_user", (int) $active);
+        $this->settings->set("comments_del_user", $active ? '1' : '0');
     }
 
     public function ifTutorsCanDelete(): bool
@@ -67,7 +67,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableTutorsCanDelete(bool $active = true): void
     {
-        $this->settings->set("comments_del_tutor", (int) $active);
+        $this->settings->set("comments_del_tutor", $active ? '1' : '0');
     }
 
     public function getCommentsNotificationRecipients(): string
@@ -87,7 +87,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableLearningHistory(bool $active = true): void
     {
-        $this->settings->set("enable_learning_history", (int) $active);
+        $this->settings->set("enable_learning_history", $active ? '1' : '0');
     }
 
     public function ifChatViewerEnabled(): bool
@@ -97,7 +97,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableChatViewer(bool $active = true): void
     {
-        $this->settings->set("block_activated_chatviewer", (int) $active);
+        $this->settings->set("block_activated_chatviewer", $active ? '1' : '0');
     }
 
     public function getSystemMessagePresentation(): int
@@ -107,7 +107,7 @@ class ilPersonalDesktopSettingsRepository
 
     public function updateSystemMessagePresentation(int $mode): void
     {
-        $this->settings->set("pd_sys_msg_mode", $mode);
+        $this->settings->set("pd_sys_msg_mode", (string) $mode);
     }
 
     public function ifForumDrafts(): bool
@@ -117,6 +117,6 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableForumDrafts(bool $active = true): void
     {
-        $this->settings->set("block_activated_pdfrmpostdraft", (int) $active);
+        $this->settings->set("block_activated_pdfrmpostdraft", $active ? '1' : '0');
     }
 }
