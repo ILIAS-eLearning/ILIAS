@@ -25,25 +25,16 @@ use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 {
-    private \ilGlobalTemplateInterface $main_tpl;
     private \ilObjectDefinition $objectDefintion;
-    private \ILIAS\HTTP\Services $http;
-    private \ilCtrlInterface $ctrl;
-    private \ilLanguage $lng;
+
     protected \ilOrgUnitPermissionDBRepository $permissionRepo;
 
     public function __construct()
     {
-        global $DIC;
-
         parent::__construct();
 
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        global $DIC;
         $this->objectDefintion = $DIC["objDefinition"];
-        $this->http = $DIC->http();
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->permissionRepo = $dic["repo.Permissions"];
     }
@@ -73,7 +64,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
             $this->objectDefintion
         );
         if ($ilOrgUnitDefaultPermissionFormGUI->saveObject()) {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_permission_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_permission_saved'), true);
             $this->cancel();
         }
 
@@ -84,7 +75,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     {
         static $id;
         if (!$id) {
-            $id =  $this->http->request()->getQueryParams()['arid'];
+            $id = $this->http->request()->getQueryParams()['arid'];
         }
 
         return (int) $id;

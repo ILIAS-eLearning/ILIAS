@@ -19,6 +19,8 @@
 namespace ILIAS\components\OrgUnit\ARHelper;
 
 use ILIAS\DI\Container;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Interface BaseCommands
@@ -38,14 +40,15 @@ abstract class BaseCommands
     public const CMD_CANCEL = "cancel";
     public const AR_ID = "arid";
 
-    private \ilLanguage $lng;
-    private \ilCtrl $ctrl;
+    protected \ilLanguage $lng;
+    protected \ilCtrl $ctrl;
     private \ilTabsGUI $tabsGUI;
     private \ilAccess $access;
-    private \ILIAS\HTTP\Services $http;
-    private \ilGlobalTemplateInterface $tpl;
-
+    protected \ILIAS\HTTP\Services $http;
+    protected \ilGlobalTemplateInterface $tpl;
     protected ?BaseCommands $parent_gui = null;
+    protected ?URLBuilderToken $action_token = null;
+    protected Refinery $refinery;
 
     protected function __construct()
     {
@@ -58,6 +61,8 @@ abstract class BaseCommands
         $this->access = $DIC->access();
         $this->http = $DIC->http();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->refinery = $DIC['refinery'];
+
     }
 
     public function getParentGui(): ?BaseCommands
@@ -110,6 +115,16 @@ abstract class BaseCommands
         $this->lng->loadLanguageModule("orgu");
 
         $cmd = $this->ctrl->getCmd(self::CMD_INDEX);
+
+        if ($this->action_token &&
+            $this->query->has($this->action_token->getName())
+        ) {
+            $cmd = $this->query->retrieve(
+                $this->action_token->getName(),
+                $this->refinery->to()->string()
+            );
+        }
+
         $next_class = $this->ctrl->getNextClass();
         if ($next_class) {
             foreach ($this->getPossibleNextClasses() as $class) {

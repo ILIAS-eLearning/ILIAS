@@ -20,6 +20,14 @@
 declare(strict_types=1);
 
 use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Table;
 
 /**
  * Class ilOrgUnitPositionGUI
@@ -35,19 +43,25 @@ class ilOrgUnitPositionGUI extends BaseCommands
     public const CMD_ASSIGN = 'assign';
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\UI\Component\Link\Factory $link_factory;
-    private ilCtrl $ctrl;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
     protected \ilOrgUnitPositionDBRepository $positionRepo;
     protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+    protected DataFactory $data_factory;
+
+    protected array $query_namespace;
+    protected URLBuilder $url_builder;
+    protected URLBuilderToken $row_id_token;
+
+    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
+    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post;
+    protected ServerRequestInterface $request;
 
     public function __construct()
     {
         $dic = ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
         $this->assignmentRepo = $dic["repo.UserAssignments"];
-        $this->ctrl = $dic['ctrl'];
-        $this->lng = $dic['lng'];
 
         $to_int = $dic['refinery']->kindlyTo()->int();
         $ref_id = $dic['query']->retrieve('ref_id', $to_int);
@@ -57,7 +71,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
         global $DIC;
         $this->toolbar = $DIC->toolbar();
-        $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->initRequest(
             $DIC->http(),
@@ -68,6 +81,26 @@ class ilOrgUnitPositionGUI extends BaseCommands
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
+
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+
+        $this->data_factory = new DataFactory();
+        $this->query = $DIC->http()->wrapper()->query();
+        $this->post = $DIC->http()->wrapper()->post();
+        $this->request = $DIC->http()->request();
+
+        $here_uri = $this->data_factory->uri(
+            $this->request->getUri()->__toString()
+        );
+        $this->url_builder = new URLBuilder($here_uri);
+        $this->query_namespace = ['orgu', 'posedit'];
+        list($url_builder, $action_token, $row_id_token) =
+            $this->url_builder->acquireParameters($this->query_namespace, "action", "posid");
+        $this->url_builder = $url_builder;
+        $this->action_token = $action_token;
+        $this->row_id_token = $row_id_token;
+
     }
 
     protected function getPossibleNextClasses(): array
@@ -85,25 +118,55 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function index(): void
     {
-        $url = $this->ctrl->getLinkTarget($this, self::CMD_ADD);
+        $url = $this->getSinglePosLinkTarget(self::CMD_ADD, 0);
         $link = $this->link_factory->standard(
             $this->lng->txt('add_position'),
             $url
         );
         $this->toolbar->addComponent($link);
 
-        $table = new ilOrgUnitPositionTableGUI($this, self::CMD_INDEX);
-        $this->setContent($table->getHTML());
+        $table = $this->getTable()->withRequest($this->request);
+        $this->tpl->setContent($this->ui_renderer->render($table));
+    }
+
+    protected function getTable(): Table\Data
+    {
+        $columns = [
+            'title' => $this->ui_factory->table()->column()->text($this->lng->txt("title")),
+            'description' => $this->ui_factory->table()->column()->text($this->lng->txt("description")),
+            'authorities' => $this->ui_factory->table()->column()->status($this->lng->txt("authorities")),
+
+        ];
+
+        $actions = [
+            'edit' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('edit'),
+                $this->url_builder->withParameter($this->action_token, "edit"),
+                $this->row_id_token
+            ),
+            'delete' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('delete'),
+                $this->url_builder->withParameter($this->action_token, "confirmDeletion"),
+                $this->row_id_token
+            ),
+        ];
+
+        return $this->ui_factory->table()
+            ->data('', $columns, $this->positionRepo)
+            ->withId('orgu_positions')
+            ->withActions($actions);
     }
 
     protected function add(): void
     {
-        $form = new ilOrgUnitPositionFormGUI($this, $this->positionRepo->create());
+        $position = $this->positionRepo->create();
+        $form = new ilOrgUnitPositionFormGUI($this, $position);
         $this->tpl->setContent($form->getHTML());
     }
 
     protected function create(): void
     {
+        $this->redirectIfCancelled();
         $form = new ilOrgUnitPositionFormGUI($this, $this->positionRepo->create());
         if ($form->saveObject() === true) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_position_created'), true);
@@ -125,6 +188,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function update(): void
     {
+        $this->redirectIfCancelled();
         $position = $this->getPositionFromRequest();
         $form = new ilOrgUnitPositionFormGUI($this, $position);
         $form->setValuesByPost();
@@ -134,6 +198,24 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
 
         $this->tpl->setContent($form->getHTML());
+    }
+
+    protected function redirectIfCancelled() {
+        if($this->post->has('cmd')) {
+            $cmd = $this->post->retrieve(
+                'cmd',
+                $this->refinery->custom()->transformation(
+                    fn($v) => array_key_first($v)
+                )
+            );
+            if($cmd === SELF::CMD_CANCEL) {
+                $url = $this->url_builder
+                    ->withParameter($this->action_token, self::CMD_INDEX)
+                    ->buildURI()
+                    ->__toString();
+                $this->ctrl->redirectToURL($url);
+            }
+        }
     }
 
     protected function assign(): void
@@ -209,16 +291,50 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function getPositionFromRequest(): ?ilOrgUnitPosition
     {
-        return $this->positionRepo->getSingle($this->int(self::AR_ID), 'id');
+        if($this->query->has($this->row_id_token->getName())) {
+            $id = $this->query->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+            );
+            return $this->positionRepo->getSingle($id, 'id');
+        }
+        throw new \Exception('no position from request');
+        //return $this->positionRepo->getSingle($this->int(self::AR_ID), 'id');
     }
 
+    protected function getPosIdFromQuery(): int
+    {
+        if($this->query->has($this->row_id_token->getName())) {
+            return $this->query->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+            );
+        }
+        throw new \Exception('no position-id in query');
+    }
+
+    public function getSinglePosLinkTarget(string $action, int $pos_id = null): string
+    {
+        $target_id = $pos_id !== null ? [$pos_id] : [$this->getPosIdFromQuery()];
+        return $this->url_builder
+            ->withParameter($this->row_id_token, $target_id)
+            ->withParameter($this->action_token, $action)
+            ->buildURI()->__toString();
+    }
 
     public function addSubTabs(): void
     {
         $this->ctrl->saveParameter($this, 'arid');
         $this->ctrl->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
-        $this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl
-                                                      ->getLinkTarget($this, self::CMD_EDIT));
+        $this->pushSubTab(
+            self::SUBTAB_SETTINGS
+            $this->getSinglePosLinkTarget(self::CMD_EDIT)
+        );
+        $this->pushSubTab(
+            'TODO: ' .self::SUBTAB_PERMISSIONS
+            $this->getSinglePosLinkTarget(self::CMD_INDEX)
+        );
+
         $this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl
                                                          ->getLinkTargetByClass(
                                                              ilOrgUnitDefaultPermissionGUI::class,

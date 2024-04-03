@@ -17,19 +17,22 @@
  */
 declare(strict_types=1);
 
-class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
+use ILIAS\UI\Component\Table;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+
+class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\DataRetrieval
 {
     public const TABLE_NAME = 'il_orgu_positions';
     private const TABLE_NAME_UA = 'il_orgu_ua';
-    protected ilDBInterface $db;
-    protected ilOrgUnitAuthorityDBRepository $authorityRepo;
-    protected ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
-    public function __construct(ilDBInterface $db, ilOrgUnitAuthorityDBRepository $authorityRepo, ilOrgUnitUserAssignmentDBRepository $assignmentRepo)
-    {
-        $this->db = $db;
-        $this->authorityRepo = $authorityRepo;
-        $this->assignmentRepo = $assignmentRepo;
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilOrgUnitAuthorityDBRepository $authorityRepo,
+        protected ilOrgUnitUserAssignmentDBRepository $assignmentRepo,
+        protected ilLanguage $lng
+    ) {
+        $this->lng->loadLanguageModule('orgu');
     }
 
     /**
@@ -101,6 +104,15 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
         }
 
         return $ret;
+    }
+
+    protected function getAllPositionsCount(): int
+    {
+        $query = 'SELECT id, title, description, core_position, core_identifier FROM' . PHP_EOL
+            . self::TABLE_NAME . PHP_EOL
+            . 'WHERE 1';
+        $res = $this->db->query($query);
+        return $this->db->numRows($res);
     }
 
     /**
@@ -301,5 +313,73 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
             $authority = $this->authorityRepo->get($id, 'id');
             return array_shift($authority);
         }
+    }
+
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        return $this->getAllPositionsCount();
+    }
+
+    public function getRows(
+        Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        foreach ($this->getAllPositions() as $pos) {
+            $row_id = (string)$pos->getId();
+            $record = [
+                'title' => $pos->getTitle(),
+                'description' => $pos->getDescription(),
+                'authorities' => implode("<br>", $this->getAuthorityDescription($pos->getAuthorities())),
+                'is_core_position' => $pos->isCorePosition(),
+            ];
+
+            yield $row_builder->buildDataRow($row_id, $record)
+                ->withDisabledAction('delete', $record['is_core_position']);
+            ;
+        }
+    }
+
+    private function getAuthorityDescription(array $authorities): array
+    {
+        $lang_keys = [
+            'in',
+            'over',
+            'scope_' . ilOrgUnitAuthority::SCOPE_SAME_ORGU,
+            'scope_' . ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS,
+            'over_' . ilOrgUnitAuthority::OVER_EVERYONE,
+        ];
+        $t = [];
+        foreach ($lang_keys as $key) {
+            $t[$key] = $this->lng->txt($key);
+        }
+
+        $authority_description = [];
+        foreach ($authorities as $authority) {
+            switch ($authority->getOver()) {
+                case ilOrgUnitAuthority::OVER_EVERYONE:
+                    $over_txt = $t["over_" . $authority->getOver()];
+                    break;
+                default:
+                    $over_txt = $this
+                        ->getSingle($authority->getOver(), 'id')
+                        ->getTitle();
+                    break;
+            }
+
+            $authority_description[] = implode(" ", [
+                $t["over"],
+                $over_txt,
+                $t["in"],
+                $t["scope_" . $authority->getScope()]
+            ]);
+        }
+
+        return $authority_description;
     }
 }
