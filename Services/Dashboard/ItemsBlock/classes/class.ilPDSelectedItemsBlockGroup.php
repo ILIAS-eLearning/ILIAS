@@ -23,7 +23,7 @@ class ilPDSelectedItemsBlockGroup
     protected bool $has_icon = false;
     protected string $icon_path = '';
     protected string $label = '';
-    protected array $items = array();
+    protected array $items = [];
 
     public function getLabel(): string
     {

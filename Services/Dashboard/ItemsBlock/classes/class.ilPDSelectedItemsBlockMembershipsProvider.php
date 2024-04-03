@@ -42,8 +42,8 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
 
     protected function getObjectsByMembership(array $objTypes = []): array
     {
-        $short_desc = $this->settings->get("rep_shorten_description");
-        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+        $short_desc = $this->settings->get('rep_shorten_description');
+        $short_desc_max_length = (int) $this->settings->get('rep_shorten_description_length');
 
         if (!is_array($objTypes) || $objTypes === []) {
             $objTypes = $this->repository->getValidObjectTypes();
@@ -56,7 +56,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $parentRefId = $item->getParentRefId();
             $title = $item->getTitle();
             $parentTreeLftValue = $item->getParentLftTree();
-            $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
+            $parentTreeLftValue = sprintf('%010d', $parentTreeLftValue);
 
             if (!$this->access->checkAccess('visible', '', $refId)) {
                 continue;
@@ -94,7 +94,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         return $references;
     }
 
-    public function getItems(array $object_type_white_list = array()): array
+    public function getItems(array $object_type_white_list = []): array
     {
         return $this->getObjectsByMembership($object_type_white_list);
     }

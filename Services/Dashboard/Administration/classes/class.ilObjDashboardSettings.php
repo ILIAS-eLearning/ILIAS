@@ -24,7 +24,7 @@ class ilObjDashboardSettings extends ilObject
         int $a_id = 0,
         bool $a_call_by_reference = true
     ) {
-        $this->type = "dshs";
+        $this->type = 'dshs';
         parent::__construct($a_id, $a_call_by_reference);
     }
 }

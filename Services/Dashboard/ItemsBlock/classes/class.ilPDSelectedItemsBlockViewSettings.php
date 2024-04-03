@@ -253,7 +253,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getActiveSortingsByView(int $view): array
     {
         $val = $this->settings->get('pd_active_sort_view_' . $view);
-        if ($val === "" || $val === null) {
+        if ($val === '' || $val === null) {
             $active_sortings = $this->getAvailableSortOptionsByView($view);
         } else {
             $active_sortings = unserialize($val, ['allowed_classes' => false]);
@@ -543,12 +543,12 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enableLearningSequences(bool $status): void
     {
-        $this->settings->set('disable_learning_sequences', $status ? "0" : "1");
+        $this->settings->set('disable_learning_sequences', $status ? '0' : '1');
     }
 
     public function enableStudyProgrammes(bool $status): void
     {
-        $this->settings->set('disable_study_programmes', $status ? "0" : "1");
+        $this->settings->set('disable_study_programmes', $status ? '0' : '1');
     }
 
     public function getViewName(int $view): string
