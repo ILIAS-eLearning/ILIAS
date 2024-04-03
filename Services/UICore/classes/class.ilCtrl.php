@@ -1162,7 +1162,7 @@ class ilCtrl implements ilCtrlInterface
         }
 
         /** @var array{path: string|null, query: string[]|null} $parsed_url */
-        $parsed_url = parse_url($url);
+        $parsed_url = parse_url(str_replace('&amp;', '&', $url));
         parse_str(($parsed_url['query'] ?? ''), $query_parameters);
 
         // update the given parameter or add it to the list.
