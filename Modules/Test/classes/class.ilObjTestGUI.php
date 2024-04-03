@@ -2195,6 +2195,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $table_gui->setData($this->object->getTestQuestions());
 
+        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId(), '_qst');
+
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());
@@ -2959,13 +2961,40 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     * @param integer $a_target The reference id of the test
     * @access	public
     */
-    public static function _goto($a_target)
+    public static function _goto($a_target, array $target_parts)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+
+        if (isset($target_parts[2]) && $target_parts[2] === 'qst' &&
+            $ilAccess->checkAccess('write', '', (int) $a_target)) {
+            /** @var ilObjTest $tst */
+            $tst = ilObjectFactory::getInstanceByRefId((int) $a_target);
+            if ($tst->isFixedTest()) {
+                $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', $a_target);
+                $DIC->ctrl()->redirectByClass(
+                    __CLASS__,
+                    'questions'
+                );
+                $DIC->ctrl()->redirectByClass('ilObjTestGUI', 'questions');
+            } elseif ($tst->isRandomTest()) {
+                $DIC->ctrl()->setParameterByClass(ilTestRandomQuestionSetConfigGUI::class, 'ref_id', $a_target);
+                $DIC->ctrl()->redirectByClass([
+                    __CLASS__,
+                    ilTestRandomQuestionSetConfigGUI::class
+                ]);
+            } elseif ($tst->isDynamicTest()) {
+                $target = $DIC->ctrl()->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
+                $DIC->ctrl()->setParameterByClass(ilObjTestDynamicQuestionSetConfigGUI::class, 'ref_id', $a_target);
+                $DIC->ctrl()->redirectByClass([
+                    __CLASS__,
+                    ilObjTestDynamicQuestionSetConfigGUI::class
+                ]);
+            }
+        }
 
         if ($ilAccess->checkAccess("read", "", $a_target) || $ilAccess->checkAccess("visible", "", $a_target)) {
             $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', $a_target);
