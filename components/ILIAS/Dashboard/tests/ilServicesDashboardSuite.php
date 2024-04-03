@@ -31,8 +31,8 @@ class ilServicesDashboardSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Dashboard/tests/DashboardViewSettingsTest.php");
-        $suite->addTestSuite("DashboardViewSettingsTest");
+        require_once('./components/ILIAS/Dashboard/tests/DashboardViewSettingsTest.php');
+        $suite->addTestSuite('DashboardViewSettingsTest');
 
         return $suite;
     }

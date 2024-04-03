@@ -32,82 +32,82 @@ class ilPersonalDesktopSettingsRepository
 
     public function ifNotesEnabled(): bool
     {
-        return !$this->settings->get("disable_notes");
+        return !$this->settings->get('disable_notes');
     }
 
     public function enableNotes(bool $active = true): void
     {
-        $this->settings->set("disable_notes", $active ? '0' : '1');
+        $this->settings->set('disable_notes', $active ? '0' : '1');
     }
 
     public function ifCommentsEnabled(): bool
     {
-        return !$this->settings->get("disable_comments");
+        return !$this->settings->get('disable_comments');
     }
 
     public function enableComments(bool $active = true): void
     {
-        $this->settings->set("disable_comments", $active ? '0' : '1');
+        $this->settings->set('disable_comments', $active ? '0' : '1');
     }
 
     public function ifAuthorsCanDelete(): bool
     {
-        return (bool) $this->settings->get("comments_del_user", '0');
+        return (bool) $this->settings->get('comments_del_user', '0');
     }
 
     public function enableAuthorsCanDelete(bool $active = true): void
     {
-        $this->settings->set("comments_del_user", $active ? '1' : '0');
+        $this->settings->set('comments_del_user', $active ? '1' : '0');
     }
 
     public function ifTutorsCanDelete(): bool
     {
-        return (bool) $this->settings->get("comments_del_tutor", '1');
+        return (bool) $this->settings->get('comments_del_tutor', '1');
     }
 
     public function enableTutorsCanDelete(bool $active = true): void
     {
-        $this->settings->set("comments_del_tutor", $active ? '1' : '0');
+        $this->settings->set('comments_del_tutor', $active ? '1' : '0');
     }
 
     public function getCommentsNotificationRecipients(): string
     {
-        return (string) $this->settings->get("comments_noti_recip");
+        return (string) $this->settings->get('comments_noti_recip');
     }
 
     public function updateCommentsNotificationRecipients(string $recipients): void
     {
-        $this->settings->set("comments_noti_recip", $recipients);
+        $this->settings->set('comments_noti_recip', $recipients);
     }
 
     public function ifLearningHistoryEnabled(): bool
     {
-        return (bool) $this->settings->get("enable_learning_history");
+        return (bool) $this->settings->get('enable_learning_history');
     }
 
     public function enableLearningHistory(bool $active = true): void
     {
-        $this->settings->set("enable_learning_history", $active ? '1' : '0');
+        $this->settings->set('enable_learning_history', $active ? '1' : '0');
     }
 
     public function ifChatViewerEnabled(): bool
     {
-        return (bool) $this->settings->get("block_activated_chatviewer");
+        return (bool) $this->settings->get('block_activated_chatviewer');
     }
 
     public function enableChatViewer(bool $active = true): void
     {
-        $this->settings->set("block_activated_chatviewer", $active ? '1' : '0');
+        $this->settings->set('block_activated_chatviewer', $active ? '1' : '0');
     }
 
     public function getSystemMessagePresentation(): int
     {
-        return (int) $this->settings->get("pd_sys_msg_mode");
+        return (int) $this->settings->get('pd_sys_msg_mode');
     }
 
     public function updateSystemMessagePresentation(int $mode): void
     {
-        $this->settings->set("pd_sys_msg_mode", (string) $mode);
+        $this->settings->set('pd_sys_msg_mode', (string) $mode);
     }
 
     public function ifForumDrafts(): bool
@@ -117,6 +117,6 @@ class ilPersonalDesktopSettingsRepository
 
     public function enableForumDrafts(bool $active = true): void
     {
-        $this->settings->set("block_activated_pdfrmpostdraft", $active ? '1' : '0');
+        $this->settings->set('block_activated_pdfrmpostdraft', $active ? '1' : '0');
     }
 }

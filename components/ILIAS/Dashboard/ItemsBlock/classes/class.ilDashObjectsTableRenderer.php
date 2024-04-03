@@ -30,11 +30,11 @@ class ilDashObjectsTableRenderer
     public function render(array $groupedItems): string
     {
         $cnt = 0;
-        $html = "";
+        $html = '';
         foreach ($groupedItems as $group) {
             $items = $group->getItems();
             if (count($items) > 0) {
-                $table = new ilDashObjectsTableGUI($this->parent_gui, "render", $cnt++);
+                $table = new ilDashObjectsTableGUI($this->parent_gui, 'render', $cnt++);
                 $table->setTitle($group->getLabel());
                 $table->setData($group->getItems());
                 $html .= $table->getHTML();
