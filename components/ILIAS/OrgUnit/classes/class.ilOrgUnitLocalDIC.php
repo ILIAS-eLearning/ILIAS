@@ -44,7 +44,8 @@ class ilOrgUnitLocalDIC
         $dic['repo.Positions'] = static fn($dic) => new ilOrgUnitPositionDBRepository(
             $DIC['ilDB'],
             $dic['repo.Authorities'],
-            $dic['repo.UserAssignments']
+            $dic['repo.UserAssignments'],
+            $dic['lng']
         );
         $dic['repo.OperationContexts'] = static fn($dic) => new ilOrgUnitOperationContextDBRepository($DIC['ilDB']);
         $dic['repo.Operations'] = static fn($dic) => new ilOrgUnitOperationDBRepository(
