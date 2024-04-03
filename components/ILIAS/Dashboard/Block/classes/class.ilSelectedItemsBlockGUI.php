@@ -38,12 +38,12 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function emptyHandling(): string
     {
         $this->lng->loadLanguageModule('rep');
-        $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
+        $txt = $this->lng->txt('rep_fav_intro1') . '<br>';
         $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),
             $this->getRepositoryTitle()
-        ) . "<br>";
-        $txt .= $this->lng->txt("rep_fav_intro3");
+        ) . '<br>';
+        $txt .= $this->lng->txt('rep_fav_intro3');
         $mbox = $this->ui->factory()->messageBox()->info($txt);
         $mbox = $mbox->withLinks(
             [

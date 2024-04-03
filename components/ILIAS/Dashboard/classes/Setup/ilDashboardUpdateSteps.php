@@ -56,7 +56,7 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
             'value' => ['text', '0']
         ]);
 
-        $sql = "SELECT * FROM settings WHERE keyword = %s";
+        $sql = 'SELECT * FROM settings WHERE keyword = %s';
         for ($view = 0; $view <= 4; $view++) {
             if ($this->db->numRows($this->db->queryF($sql, ['text'], ['pd_active_pres_view_' . $view])) === 0) {
                 $this->db->insert('settings', [

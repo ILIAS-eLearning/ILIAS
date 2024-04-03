@@ -57,7 +57,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         );
 
         $res = $this->db->queryF(
-            "
+            '
                 SELECT DISTINCT
                     od.obj_id,
                     objr.ref_id,
@@ -106,7 +106,7 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
                 LEFT JOIN crs_settings ON crs_settings.obj_id = od.obj_id
                 LEFT JOIN object_translation trans ON trans.obj_id = od.obj_id AND trans.lang_code = %s
                 WHERE ua.usr_id = %s
-            ",
+            ',
             ['text', 'integer', 'integer', 'text', 'integer'],
             ['y', 1, $this->recoveryFolderId, $actorLanguageCode, $user->getId()]
         );

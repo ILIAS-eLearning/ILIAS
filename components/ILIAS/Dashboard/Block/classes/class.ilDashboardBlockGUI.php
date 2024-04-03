@@ -60,7 +60,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
-        $this->objDefinition = $DIC["objDefinition"];
+        $this->objDefinition = $DIC['objDefinition'];
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
@@ -171,7 +171,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('components/ILIAS/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
-        $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()["item_ref_id"] ?? 0);
+        $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
@@ -311,7 +311,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 $title = $this->lng->txt('objs_' . $type_title);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($type_title);
-                $title = $pl->txt("objs_" . $type_title);
+                $title = $pl->txt('objs_' . $type_title);
             }
 
             foreach ($data as $item) {
@@ -437,7 +437,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                     return $this->{$cmd . 'Object'}();
                 }
         }
-        return "";
+        return '';
     }
 
     public function viewDashboardObject(): void
@@ -499,14 +499,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function addToDeskObject(): void
     {
         $this->favourites_manager->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_added_to_favourites'), true);
         $this->returnToContext();
     }
 
     public function removeFromDeskObject(): void
     {
         $this->favourites_manager->remove($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_removed_from_favourites'), true);
         $this->returnToContext();
     }
 
@@ -624,7 +624,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     protected function renderManageList(array $grouped_items): string
     {
-        $this->ctrl->setParameter($this, "manage", "1");
+        $this->ctrl->setParameter($this, 'manage', '1');
         $title = '';
         if (
             $this->viewSettings->isSelectedItemsViewActive() ||
@@ -692,12 +692,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $class = $this->objDefinition->getClassName($a_type);
         if (!$class) {
-            throw new ilException(sprintf("Could not find a class for object type: %s", $a_type));
+            throw new ilException(sprintf('Could not find a class for object type: %s', $a_type));
         }
 
         $location = $this->objDefinition->getLocation($a_type);
         if (!$location) {
-            throw new ilException(sprintf("Could not find a class location for object type: %s", $a_type));
+            throw new ilException(sprintf('Could not find a class location for object type: %s', $a_type));
         }
 
         $full_class = 'ilObj' . $class . 'ListGUI';
