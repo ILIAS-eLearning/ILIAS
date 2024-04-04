@@ -116,7 +116,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
             }
         } else {
             $solution = $result->getSolutionForKey($index);
-            $isTrue = $this->compare($comperator, $solution["value"]);
+            $isTrue = $this->compare($comperator, $solution["value"] ?? "");
         }
 
         return $isTrue;
