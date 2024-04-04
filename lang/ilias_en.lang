@@ -17474,7 +17474,7 @@ wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all
 wiki#:#wiki_page_list_mode#:#Type of List
 wiki#:#wiki_page_list_mode_ordered#:#Numbered
 wiki#:#wiki_page_list_mode_unordered#:#Not numbered
-wiki#:#wiki_page_lists#:#Page Lists
+wiki#:#wiki_page_lists#:#Pages Overview
 wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.
 wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)
 wiki#:#wiki_page_status_blocked#:#Page is read-only.
