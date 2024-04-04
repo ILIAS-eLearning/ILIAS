@@ -121,28 +121,3 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 #tst_pass_details_overview tr {
     scroll-margin-top: 30px;
 }
-
-//
-// test result
-//
-
-.il-table-presentation-desclist.inline .il-listing-characteristic-value-row {
-    display: flex;
-    width: auto;
-    padding-right: $il-padding-xxxlarge-horizontal;
-}
-
-.il-table-presentation-desclist.inline  .il-listing-characteristic-value {
-    display: flex;
-    .il-listing-characteristic-value-item {
-        padding-left: $il-padding-small-horizontal;
-    }
-}
-
-.il-listing-characteristic-value-label, .il-listing-characteristic-value-item {
-    width: fit-content;
-}
-
-.il-listing-characteristic-value-row.clearfix {
-    border-top: none;
-}
