@@ -49,7 +49,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\Data) {
             return $this->renderDataTable($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\DataRow) {
+        if ($component instanceof Component\Table\DataRow
+            && !$component instanceof Component\Table\OrderingRow
+        ) {
             return $this->renderDataRow($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Ordering) {
@@ -552,7 +554,7 @@ class Renderer extends AbstractComponentRenderer
 
 
     protected function fillCells(
-        Component\Table\Row $row,
+        Component\Table\DataRow $row,
         Template $cell_tpl,
         RendererInterface $default_renderer
     ) {

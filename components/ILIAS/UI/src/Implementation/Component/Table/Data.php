@@ -43,33 +43,8 @@ class Data extends AbstractTable implements T\Data
     public const VIEWCONTROL_KEY_PAGINATION = 'range';
     public const VIEWCONTROL_KEY_ORDERING = 'order';
     public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
-
     public const STORAGE_ID_PREFIX = self::class . '_';
 
-    /**
-     * @var array<string, Column>
-     */
-    protected array $columns = [];
-
-    /**
-     * @var array<string, Action>
-     */
-    protected array $actions_single = [];
-
-    /**
-     * @var array<string, Action>
-     */
-    protected array $actions_multi = [];
-
-    /**
-     * @var array<string, Action>
-     */
-    protected array $actions_std = [];
-
-    protected Signal $multi_action_signal;
-    protected Signal $selection_signal;
-    protected Signal $async_action_signal;
-    protected ?ServerRequestInterface $request = null;
     protected int $number_of_rows = 800;
     /**
      * @var string[]

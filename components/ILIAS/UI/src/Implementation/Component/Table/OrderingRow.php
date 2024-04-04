@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 
-class OrderingRow extends Row implements T\OrderingRow
+class OrderingRow extends DataRow implements T\OrderingRow
 {
     protected int $position;
 

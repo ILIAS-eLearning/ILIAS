@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Ordering extends AbstractTable implements T\Ordering

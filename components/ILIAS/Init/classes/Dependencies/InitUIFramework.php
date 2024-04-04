@@ -146,7 +146,7 @@ class InitUIFramework
                 $c["ui.data_factory"],
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],
-                $c["ui.storage"]
+                $c["ui.storage"],
                 $data_row_builder,
                 $ordering_row_builder
             );

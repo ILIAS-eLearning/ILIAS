@@ -23,7 +23,7 @@ namespace ILIAS\UI\Component\Table;
 use  ILIAS\UI\Component\Table\Column\Column;
 use  ILIAS\UI\Component\Table\Action\Action;
 
-interface OrderingRow extends Row
+interface OrderingRow extends DataRow
 {
     public function withPosition(int $position_index): self;
 

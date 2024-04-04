@@ -20,6 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
-interface DataRow extends Row
+use  ILIAS\UI\Component\Table\Column\Column;
+use  ILIAS\UI\Component\Table\Action\Action;
+use  ILIAS\UI\Component\Component;
+
+interface DataRow extends Component
 {
+    public function getId(): string;
+
+    /**
+     * Refer to an Action by its id and disable it for this row/record only.
+     */
+    public function withDisabledAction(string $action_id, bool $disable = true): static;
+
+    /**
+     * @return array<string, Column>
+     */
+    public function getColumns(): array;
+
+    /**
+     * @return array<string, Action>
+     */
+    public function getActions(): array;
+
+    public function getCellContent(string $col_id): string|Component;
 }
