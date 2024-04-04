@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilUserPasswordManager
- * @author  Michael Jansen <mjansen@databay.de>
- * @package ServicesUser
- */
+declare(strict_types=1);
+
 class ilUserPasswordManager
 {
     private const MIN_SALT_SIZE = 16;
@@ -165,7 +160,10 @@ class ilUserPasswordManager
 
     public function verifyPassword(ilObjUser $user, string $raw): bool
     {
-        $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
+        $encoder = $this->getEncoderFactory()->getEncoderByName(
+            $user->getPasswordEncodingType() ?? '',
+            true
+        );
         if ($this->getEncoderName() !== $encoder->getName()) {
             if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
