@@ -3388,7 +3388,7 @@ class ilObjSurvey extends ilObject
         foreach ($questionblocks as $key => $value) {
             $questionblock = self::_getQuestionblock($key);
             $questionblock_id = self::_addQuestionblock(
-                $questionblock["title"],
+                (string) $questionblock["title"],
                 (int) $questionblock["owner_fi"],
                 (bool) $questionblock["show_questiontext"],
                 (bool) $questionblock["show_blocktitle"],
