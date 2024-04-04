@@ -8,7 +8,7 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 * Separating the Test-Player from the Questions and the Question-Pool.
 * Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it [Mantis 33596](https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
 
-## Roadmap in 2023
+## Roadmap in 2024
 
 Among other challenges, we are planning to use the given developing budget from the ILIAS Community Members for the following tasks:
 
@@ -22,8 +22,9 @@ Among other challenges, we are planning to use the given developing budget from 
 		* Infrastructure setup for the replacement
 		* Conversion of the Long-Menu-Question to UI-Forms as pilot
 	* Use of IRSS in T&A
-5. Feasibility study Test in Learning sequence - Transfer Exam View to General Kiosk Mode
-6. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
+5. Research possible successor for TinyMCE
+6. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
+7. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
 
 Depending on development ressources, funding and approval, some new features are conceivable in 2023 (e.g. option for a failing attempt).
 
@@ -36,10 +37,6 @@ Depending on development ressources, funding and approval, some new features are
 * Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
 * Auto-save messages should use UI components (e.g. toast), so a consistent UI/UX is used and easier to maintain throughout the entire system.
 
-## Kiosk-Mode
-* current kiosk-mode enforces the header to be removed without it (the header) being a UI-Component.
-* In consequence, a test_kiosk_header.css is neccessary to hide whitespace (https://mantis.ilias.de/view.php?id=36161)
-* This SHOULD be removed in favor of a concept with better integration.
 
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
