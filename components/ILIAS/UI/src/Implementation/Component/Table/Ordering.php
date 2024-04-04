@@ -22,10 +22,12 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\Data\URI;
 
 class Ordering extends AbstractTable implements T\Ordering
 {
     protected bool $ordering_disabled = false;
+    protected ?URI $target_url = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -64,5 +66,17 @@ class Ordering extends AbstractTable implements T\Ordering
     public function isOrderingDisabled(): bool
     {
         return $this->ordering_disabled;
+    }
+
+    public function withTargetURL(URI $url): self
+    {
+        $clone = clone $this;
+        $clone->target_url = $url;
+        return $clone;
+    }
+
+    public function getTargetURL(): ?URI
+    {
+        return $this->target_url;
     }
 }

@@ -6,17 +6,12 @@ namespace ILIAS\UI\examples\Table\Ordering;
 
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
-use ILIAS\UI\URLBuilder;
-use Psr\Http\Message\ServerRequestInterface;
 
 function disabled()
 {
     global $DIC;
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
-    $df = new \ILIAS\Data\Factory();
-    $refinery = $DIC['refinery'];
-    $request = $DIC->http()->request();
 
     $columns = [
         'id' => $f->table()->column()->number("ID"),

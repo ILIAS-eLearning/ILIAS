@@ -622,7 +622,6 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
-        ;
 
         if(!$component->isOrderingDisabled()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
@@ -634,6 +633,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable('ID', $tableid);
+        $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
 

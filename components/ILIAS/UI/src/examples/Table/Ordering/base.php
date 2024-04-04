@@ -17,6 +17,7 @@ function base()
     $df = new \ILIAS\Data\Factory();
     $refinery = $DIC['refinery'];
     $request = $DIC->http()->request();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     /**
      * Define Columns for the Table; see Data Table for a more extensive exmaple.
@@ -104,7 +105,9 @@ function base()
     $table = $f->table()->ordering('ordering table', $columns, $data_retrieval)
         ->withActions($actions);
 
-    if ($request->getMethod() == "POST") {
+    if ($request->getMethod() == "POST"
+        && !$request_wrapper->has('external') // do not listen to 3rd example
+    ) {
         $table = $table->withRequest($request);
     }
 
