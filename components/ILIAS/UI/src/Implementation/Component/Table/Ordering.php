@@ -25,6 +25,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Ordering extends AbstractTable implements T\Ordering
 {
+    protected bool $ordering_disabled = false;
+
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         protected OrderingRowBuilder $row_builder,
@@ -50,5 +52,17 @@ class Ordering extends AbstractTable implements T\Ordering
     public function getDataBinding(): T\OrderingBinding
     {
         return $this->binding;
+    }
+
+    public function withOrderingDisabled(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->ordering_disabled = $flag;
+        return $clone;
+    }
+
+    public function isOrderingDisabled(): bool
+    {
+        return $this->ordering_disabled;
     }
 }

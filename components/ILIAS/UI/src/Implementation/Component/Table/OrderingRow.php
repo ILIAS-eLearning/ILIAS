@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Table as T;
 class OrderingRow extends DataRow implements T\OrderingRow
 {
     protected int $position;
+    protected bool $ordering_disabled = false;
 
     public function withPosition(int $position_index): self
     {
@@ -36,5 +37,17 @@ class OrderingRow extends DataRow implements T\OrderingRow
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    public function withOrderingDisabled(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->ordering_disabled = $flag;
+        return $clone;
+    }
+
+    public function isOrderingDisabled(): bool
+    {
+        return $this->ordering_disabled;
     }
 }

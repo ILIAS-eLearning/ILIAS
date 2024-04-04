@@ -532,6 +532,10 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
+        if($component->isOrderingDisabled()) {
+            return $cell_tpl->get();
+        }
+
         $namesource = new class () implements NameSource {
             public function getNewName(): string
             {
@@ -610,22 +614,27 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.orderingtable.html", true, true);
         $component = $this->registerActions($component);
-        $component = $component->withAdditionalOnLoadCode(
-            static fn($id): string => "il.UI.table.data.get('{$id}').dragsortable();"
-        );
 
-        $tableid = $this->bindJavaScript($component);
+        if(!$component->isOrderingDisabled()) {
+            $component = $component->withAdditionalOnLoadCode(
+                static fn($id): string => "il.UI.table.data.get('{$id}').dragsortable();"
+            );
+        }
+
+        $tableid = $this->bindJavaScript($component) ?? $this->createId();
+        ;
+
+        if(!$component->isOrderingDisabled()) {
+            $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
+                ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
+                    function() {document.querySelector('#$tableid form').submit();return false;});");
+
+            $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
+            $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
+        }
+
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
-        $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
-
-        $submit = $this->getUIFactory()->button()->primary($this->txt('sorting_save'), "")
-            ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
-                function() {document.querySelector('#$tableid form').submit();return false;});");
-
-        $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
-
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
 
         $columns = $component->getColumns();
@@ -656,7 +665,9 @@ class Renderer extends AbstractComponentRenderer
         $rows = iterator_to_array($rows);
         $r = [];
         foreach ($rows as $idx => $row) {
-            $r[] = $row->withPosition($idx);
+            $r[] = $row
+                ->withPosition($idx)
+                ->withOrderingDisabled($component->isOrderingDisabled());
         }
 
         $this->renderActionsHeader($default_renderer, $component, $tpl);
@@ -676,8 +687,6 @@ class Renderer extends AbstractComponentRenderer
 
         return $tpl->get();
     }
-
-
 
     /**
      * @inheritdoc

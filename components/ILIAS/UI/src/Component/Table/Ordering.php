@@ -33,4 +33,9 @@ interface Ordering extends Table
     public function withActions(array $actions): static;
 
     public function withRequest(ServerRequestInterface $request): static;
+
+    /**
+     * Turns ordering capabilites off/on.
+     */
+    public function withOrderingDisabled(bool $flag): self;
 }

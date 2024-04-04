@@ -29,6 +29,8 @@ function base()
 
     /**
      * Define Actions for the Table; see Data Table for a more extensive exmaple.
+     * Please note that the actions are optional, you may use the OrderingTable
+     * without Actions and Checkboxes.
      */
     $url_builder = new URLBuilder($df->uri($request->getUri()->__toString()));
     $query_params_namespace = ['orderingtable', 'example'];
@@ -63,7 +65,7 @@ function base()
             I\OrderingRowBuilder $row_builder
         ): \Generator {
             $records = array_values($this->records);
-            foreach ($this->records as $idx => $record) {
+            foreach ($this->records as $position_index => $record) {
                 $row_id = (string)$record['id'];
                 yield $row_builder->buildRow($row_id, $record);
             }
