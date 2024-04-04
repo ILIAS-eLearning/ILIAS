@@ -3389,10 +3389,10 @@ class ilObjSurvey extends ilObject
             $questionblock = self::_getQuestionblock($key);
             $questionblock_id = self::_addQuestionblock(
                 $questionblock["title"],
-                $questionblock["owner_fi"],
-                $questionblock["show_questiontext"],
-                $questionblock["show_blocktitle"],
-                $questionblock["compress_view"]
+                (int) $questionblock["owner_fi"],
+                (bool) $questionblock["show_questiontext"],
+                (bool) $questionblock["show_blocktitle"],
+                (bool) $questionblock["compress_view"]
             );
             $questionblocks[$key] = $questionblock_id;
         }
