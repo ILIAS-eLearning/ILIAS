@@ -200,7 +200,12 @@ class ASS_MarkSchema
         if ($result->numRows() > 0) {
             /** @noinspection PhpAssignmentInConditionInspection */
             while ($data = $this->db->fetchAssoc($result)) {
-                $this->addMarkStep($data["short_name"], $data["official_name"], (float) $data["minimum_level"], (int) $data["passed"]);
+                $this->addMarkStep(
+                    $data["short_name"] ?? '',
+                    $data["official_name"] ?? '',
+                    (float) $data["minimum_level"],
+                    (int) $data["passed"]
+                );
             }
         }
     }
