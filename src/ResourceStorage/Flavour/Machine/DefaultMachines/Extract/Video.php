@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
  */
 class Video extends General implements Extractor
 {
-    private const BLACK_PICTURE_THRESHOLD = 90;
+    private const BLACK_PICTURE_THRESHOLD = 99;
 
     public function readImage(\Imagick $img, Stream $stream, PagesToExtract $definition): \Imagick
     {
@@ -73,6 +73,11 @@ class Video extends General implements Extractor
         }
 
         return $img;
+    }
+
+    public function getTargetFormat(): string
+    {
+        return 'jpg';
     }
 
     private function isPreviewMostlyBlack(string $image_blob): bool

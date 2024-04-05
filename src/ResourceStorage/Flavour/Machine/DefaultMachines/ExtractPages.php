@@ -122,11 +122,18 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
         $max_size = $for_definition->getMaxSize();
         $img->resetIterator();
 
+        // create gif if needed
+        $gif = $target_format === 'gif' ? new \Imagick() : null;
+        if ($gif !== null) {
+            $gif->setFormat('GIF');
+        }
+
         for ($x = 0; ($x < $for_definition->getMaxPages() && $x < $img->getNumberImages()); $x++) {
             $img->setIteratorIndex($x);
             $img->setImageAlphaChannel($alpha_channel);
             $img->setImageBackgroundColor($target_background);
             $img->setImageFormat($target_format);
+
             if ($remove_color !== null) {
                 $img->transparentPaintImage($remove_color, 0, 0, false);
             }
@@ -146,7 +153,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
                 $img->setImageCompressionQuality($quality);
                 $img->stripImage();
 
-                $yield = $yield = $img->resizeImage(
+                $yield = $img->resizeImage(
                     (int) $columns,
                     (int) $rows,
                     \Imagick::FILTER_MITCHELL,
@@ -154,14 +161,38 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
                 );
             }
 
-            if ($yield) {
+            if ($yield && $gif === null) {
                 yield new Result(
                     $for_definition,
                     Streams::ofString($img->getImageBlob()),
                     $x,
                     $for_definition->persist()
                 );
+            } elseif ($yield && $gif !== null) {
+                $gif->addImage($img->getImage());
+                $gif->setImageDelay(50);
             }
+        }
+
+        if ($gif !== null) {
+            $gif->setImageFormat('gif');
+            $gif->setIteratorIndex(0);
+            $gif->setImageIterations(0); // 0 means infinite loop
+            [$columns, $rows] = $this->calculateWidthHeightFromImage($gif, $max_size);
+            $gif->thumbnailImage(
+                (int) $columns,
+                (int) $rows,
+                true,
+                $for_definition->isFill()
+            );
+
+            yield new Result(
+                $for_definition,
+                Streams::ofString($gif->getImagesBlob()),
+                1,
+                $for_definition->persist()
+            );
+            $gif->destroy();
         }
         $img->destroy();
     }
