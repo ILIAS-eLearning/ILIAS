@@ -20,7 +20,12 @@ namespace ILIAS\components\OrgUnit\ARHelper;
 
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Interface BaseCommands
@@ -29,6 +34,7 @@ use ILIAS\UI\URLBuilderToken;
 abstract class BaseCommands
 {
     public const CMD_INDEX = "index";
+    public const CMD_DEFAULT_PERMISSIONS = "defaultPermissions";
     public const CMD_ADD = "add";
     public const CMD_CREATE = "create";
     public const CMD_EDIT = "edit";
@@ -47,8 +53,19 @@ abstract class BaseCommands
     protected \ILIAS\HTTP\Services $http;
     protected \ilGlobalTemplateInterface $tpl;
     protected ?BaseCommands $parent_gui = null;
+
+    protected array $query_namespace;
+    protected URLBuilder $url_builder;
     protected ?URLBuilderToken $action_token = null;
+    protected ?URLBuilderToken $row_id_token;
+    protected DataFactory $data_factory;
     protected Refinery $refinery;
+    protected ServerRequestInterface $request;
+    protected \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
+
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+
 
     protected function __construct()
     {
@@ -62,7 +79,23 @@ abstract class BaseCommands
         $this->http = $DIC->http();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->refinery = $DIC['refinery'];
+        $this->query = $DIC->http()->wrapper()->query();
+        $this->request = $DIC->http()->request();
+        $this->data_factory = new DataFactory();
 
+        $here_uri = $this->data_factory->uri(
+            $this->request->getUri()->__toString()
+        );
+        $this->url_builder = new URLBuilder($here_uri);
+        $this->query_namespace = ['orgu', 'posedit'];
+        list($url_builder, $action_token, $row_id_token) =
+            $this->url_builder->acquireParameters($this->query_namespace, "action", "posid");
+        $this->url_builder = $url_builder;
+        $this->action_token = $action_token;
+        $this->row_id_token = $row_id_token;
+
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
     }
 
     public function getParentGui(): ?BaseCommands
@@ -185,5 +218,16 @@ abstract class BaseCommands
 
     public function addSubTabs(): void
     {
+    }
+
+    protected function getPosIdFromQuery(): int
+    {
+        if($this->query->has($this->row_id_token->getName())) {
+            return $this->query->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+            );
+        }
+        throw new \Exception('no position-id in query');
     }
 }
