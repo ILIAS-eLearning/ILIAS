@@ -26,18 +26,18 @@ use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitPositionFormGUI extends \ilPropertyFormGUI
 {
     public const F_AUTHORITIES = "authorities";
-    protected \ilOrgUnitPosition $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
     protected \ilOrgUnitPositionDBRepository $positionRepo;
 
-    protected BaseCommands $parent_gui;
     protected \ILIAS\DI\Container $DIC;
     protected \ilLanguage $lng;
     protected \ilCtrl $ctrl;
 
-    public function __construct(BaseCommands $parent_gui, \ilOrgUnitPosition $object)
-    {
+    public function __construct(
+        protected ?BaseCommands $parent_gui,
+        protected \ilOrgUnitPosition $object
+    ) {
         global $DIC;
 
         $dic = ilOrgUnitLocalDIC::dic();
