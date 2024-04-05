@@ -27,6 +27,12 @@ use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\SVG;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\General;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\PDF;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract\Video;
+use ILIAS\ResourceStorage\Flavour\Engine\FFMpegEngine;
+use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngineWithOptionalFFMpeg;
 
 /**
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -34,8 +40,9 @@ use ILIAS\ResourceStorage\Information\FileInformation;
  */
 class ExtractPages extends AbstractMachine implements FlavourMachine
 {
+    use ImageSizeCalculator;
+
     public const ID = 'extract_pages';
-    public const PREVIEW_IMAGE_FORMAT = 'jpg';
     private bool $high_quality = false;
 
     public function getId(): string
@@ -45,7 +52,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
 
     public function dependsOnEngine(): ?string
     {
-        return ImagickEngine::class;
+        return ImagickEngineWithOptionalFFMpeg::class;
     }
 
     public function canHandleDefinition(FlavourDefinition $definition): bool
@@ -78,27 +85,26 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
             $quality = $for_definition->getQuality();
         }
 
-        // Source specific settings
-        $target_format = self::PREVIEW_IMAGE_FORMAT;
-        $target_background = new \ImagickPixel('white');
-        $alpha_channel = \Imagick::ALPHACHANNEL_REMOVE;
-        $remove_color = null;
-        $resolution = 72;
-        $pattern = false;
+        $extractor = new General();
 
+        $mime_type = $information->getMimeType();
         switch (true) {
-            case ($this->isSVG($information)):
-                $target_format = 'png64';
-                $target_background = new \ImagickPixel('none');
-                $alpha_channel = \Imagick::ALPHACHANNEL_ACTIVATE;
-                $resolution = 96;
-                $remove_color = new \ImagickPixel('transparent');
-                $pattern = true;
+            case ($mime_type === 'image/svg+xml' || $mime_type === 'image/svg'):
+                $extractor = new SVG();
                 break;
-            case ($information->getMimeType() === 'application/pdf'):
-                $resolution = 96; // way better previews for PDFs. Must be set before reading the file
+            case (strpos($mime_type, 'video') !== false):
+                $extractor = new Video();
+                break;
+            case ($mime_type === 'application/pdf'):
+                $extractor = new PDF();
                 break;
         }
+
+        $target_format = $extractor->getTargetFormat();
+        $target_background = $extractor->getBackground();
+        $alpha_channel = $extractor->getAlphaChannel();
+        $remove_color = $extractor->getRemoveColor();
+        $resolution = $extractor->getResolution();
 
         // General Image Settings
         $img->setResolution($resolution, $resolution);
@@ -106,35 +112,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
 
         // Read source image
         try {
-            if ($this->isSVG($information)) {
-                $img->readImageBlob(
-                    $this->prescaleSVG((string) $stream, $for_definition->getMaxSize())
-                );
-                if ($pattern) {
-                    $pattern = new \Imagick();
-                    $x = 10;
-                    $pattern->readImageBlob(
-                        '<?xml version="1.0" encoding="UTF-8"?><svg id="Ebene_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '
-                        . ($x * 2) . ' ' . ($x * 2) . '"><defs><style>.cls-1{fill:#afafaf;}.cls-1,.cls-2{stroke-width:0px;}.cls-2{fill:#e8e8e8;}</style></defs><g id="Ebene_1-2"><rect class="cls-1" width="'
-                        . $x . '" height="' . $x . '"/><rect class="cls-2" y="' . $x . '" width="' . $x . '" height="' . $x
-                        . '"/><rect class="cls-1" x="' . $x . '" y="' . $x . '" width="' . $x . '" height="' . $x
-                        . '"/><rect class="cls-2" x="' . $x . '" width="' . $x . '" height="' . $x . '"/></g></svg>'
-                    );
-                    $pattern = $img->textureImage($pattern);
-                    $pattern->compositeImage(
-                        $img,
-                        \Imagick::COMPOSITE_OVER,
-                        0,
-                        0
-                    );
-                    $img = $pattern;
-                    $target_format = self::PREVIEW_IMAGE_FORMAT;
-                }
-            } else {
-                $resource = $stream->detach();
-                fseek($resource, 0);
-                $img->readImageFile($resource);
-            }
+            $img = $extractor->readImage($img, $stream, $for_definition);
         } catch (\ImagickException $e) {
             // due to possible security risks, gs disabled access to files, see e.g. https://en.linuxportal.info/tutorials/troubleshooting/how-to-fix-errors-from-imagemagick-imagick-conversion-system-security-policy
             return;
@@ -144,11 +122,18 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
         $max_size = $for_definition->getMaxSize();
         $img->resetIterator();
 
+        // create gif if needed
+        $gif = $target_format === 'gif' ? new \Imagick() : null;
+        if ($gif !== null) {
+            $gif->setFormat('GIF');
+        }
+
         for ($x = 0; ($x < $for_definition->getMaxPages() && $x < $img->getNumberImages()); $x++) {
             $img->setIteratorIndex($x);
             $img->setImageAlphaChannel($alpha_channel);
             $img->setImageBackgroundColor($target_background);
             $img->setImageFormat($target_format);
+
             if ($remove_color !== null) {
                 $img->transparentPaintImage($remove_color, 0, 0, false);
             }
@@ -168,7 +153,7 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
                 $img->setImageCompressionQuality($quality);
                 $img->stripImage();
 
-                $yield = $yield = $img->resizeImage(
+                $yield = $img->resizeImage(
                     (int) $columns,
                     (int) $rows,
                     \Imagick::FILTER_MITCHELL,
@@ -176,86 +161,39 @@ class ExtractPages extends AbstractMachine implements FlavourMachine
                 );
             }
 
-            if ($yield) {
+            if ($yield && $gif === null) {
                 yield new Result(
                     $for_definition,
                     Streams::ofString($img->getImageBlob()),
                     $x,
                     $for_definition->persist()
                 );
+            } elseif ($yield && $gif !== null) {
+                $gif->addImage($img->getImage());
+                $gif->setImageDelay(50);
             }
+        }
+
+        if ($gif !== null) {
+            $gif->setImageFormat('gif');
+            $gif->setIteratorIndex(0);
+            $gif->setImageIterations(0); // 0 means infinite loop
+            [$columns, $rows] = $this->calculateWidthHeightFromImage($gif, $max_size);
+            $gif->thumbnailImage(
+                (int) $columns,
+                (int) $rows,
+                true,
+                $for_definition->isFill()
+            );
+
+            yield new Result(
+                $for_definition,
+                Streams::ofString($gif->getImagesBlob()),
+                1,
+                $for_definition->persist()
+            );
+            $gif->destroy();
         }
         $img->destroy();
     }
-
-    private function calculateWidthHeight(float $original_width, float $original_height, int $max_size): array
-    {
-        if ($original_width === $original_height) {
-            return [$max_size, $max_size];
-        }
-
-        if ($original_width > $original_height) {
-            $columns = $max_size;
-            $rows = (float) ($max_size * $original_height / $original_width);
-            return [$columns, $rows];
-        }
-
-        $columns = (float) ($max_size * $original_width / $original_height);
-        $rows = $max_size;
-        return [$columns, $rows];
-    }
-
-    private function calculateWidthHeightFromImage(\Imagick $original, int $max_size): array
-    {
-        return $this->calculateWidthHeight(
-            $original->getImageWidth(),
-            $original->getImageHeight(),
-            $max_size
-        );
-    }
-
-    /**
-     * @description SVGs usually become extremely poou in quality when converted, because they start from a much too
-     * small original size and are therefore extremely scaled, so we temporarily write the size for the SVG so that it
-     * already corresponds to the desired size
-     */
-    private function prescaleSVG(string $svg_content, int $max_length): string
-    {
-        try {
-            $dom = new \DOMDocument();
-            $dom->loadXML($svg_content);
-            $svg = $dom->documentElement;
-
-            // Get Viewbox if available
-            $viewbox = $svg->getAttribute('viewBox');
-            if ($viewbox === '') {
-                return $svg_content;
-            }
-            $viewbox = explode(' ', $viewbox);
-            $width = (float) ($viewbox[2] ?? 0);
-            $height = (float) ($viewbox[3] ?? 0);
-
-            if ($width === 0 || $height === 0) {
-                return $svg_content;
-            }
-
-            [$new_width, $new_height] = $this->calculateWidthHeight(
-                ceil($width),
-                ceil($height),
-                $max_length
-            );
-            $svg->setAttribute('width', (string) $new_width);
-            $svg->setAttribute('height', (string) $new_height);
-
-            return $dom->saveXML($svg);
-        } catch (\Throwable $e) {
-            return $svg_content;
-        }
-    }
-
-    private function isSVG(FileInformation $information): bool
-    {
-        return $information->getMimeType() === 'image/svg+xml' || $information->getMimeType() === 'image/svg';
-    }
-
 }

@@ -23,22 +23,36 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class DefaultEngines
+class FFMpegEngine implements Engine
 {
-    private array $engines = [
-        NoEngine::class,
-        GDEngine::class,
-        ImagickEngine::class,
-        FFMpegEngine::class,
-        ImagickEngineWithOptionalFFMpeg::class,
+    use PHPMemoryLimit;
+
+    protected array $supported = [
+        'mp4',
+        'webm',
+        'mov',
+        'avi',
+        'flv',
+        'wmv',
+        'mkv',
+        'm4v',
     ];
 
     public function __construct()
     {
     }
 
-    public function get(): array
+    public function supports(string $suffix): bool
     {
-        return $this->engines;
+        if (!$this->isRunning()) {
+            return false;
+        }
+        return in_array(strtolower($suffix), $this->supported, true);
     }
+
+    public function isRunning(): bool
+    {
+        return defined('PATH_TO_FFMPEG');
+    }
+
 }

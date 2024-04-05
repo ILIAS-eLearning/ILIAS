@@ -18,27 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Flavour\Engine;
+namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract;
+
+use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
+use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
+use ILIAS\Filesystem\Stream\Stream;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class DefaultEngines
+interface Extractor
 {
-    private array $engines = [
-        NoEngine::class,
-        GDEngine::class,
-        ImagickEngine::class,
-        FFMpegEngine::class,
-        ImagickEngineWithOptionalFFMpeg::class,
-    ];
+    public function readImage(\Imagick $img, Stream $stream, PagesToExtract $definition): \Imagick;
 
-    public function __construct()
-    {
-    }
+    public function getResolution(): int;
 
-    public function get(): array
-    {
-        return $this->engines;
-    }
+    public function getTargetFormat(): string;
+
+    public function getBackground(): \ImagickPixel;
+
+    public function getRemoveColor(): ?\ImagickPixel;
+
+    public function getAlphaChannel(): int;
 }

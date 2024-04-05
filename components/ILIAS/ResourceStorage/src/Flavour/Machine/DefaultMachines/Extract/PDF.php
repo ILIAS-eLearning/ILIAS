@@ -18,27 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Flavour\Engine;
+namespace ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\Extract;
+
+use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class DefaultEngines
+class PDF extends General implements Extractor
 {
-    private array $engines = [
-        NoEngine::class,
-        GDEngine::class,
-        ImagickEngine::class,
-        FFMpegEngine::class,
-        ImagickEngineWithOptionalFFMpeg::class,
-    ];
-
-    public function __construct()
+    public function getResolution(): int
     {
+        return 96;
     }
 
-    public function get(): array
-    {
-        return $this->engines;
-    }
 }

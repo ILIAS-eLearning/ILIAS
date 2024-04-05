@@ -26,7 +26,6 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
 class ImagickEngine implements Engine
 {
     use PHPMemoryLimit;
-
     protected array $whitelist = [
         'jpg',
         'jpeg',
