@@ -795,7 +795,9 @@ abstract class ilContainerContentGUI
                         $js_tpl->setVariable("ASYNCH_ID", $unique_id);
                         $js_tpl->setVariable("ASYNCH_TRIGGER_ID", $unique_id);
                         $js_tpl->parseCurrentBlock();
-                        $html .= "<script>" . $js_tpl->get() . "</script>";
+                        if (is_string($html)) {
+                            $html .= "<script>" . $js_tpl->get() . "</script>";
+                        }
                         // ...end
 
 
