@@ -35,6 +35,8 @@ class Factory
         $this->engines_strings = array_merge($additional_engines, [
             ImagickEngine::class,
             GDEngine::class,
+            FFMpegEngine::class,
+            ImagickEngineWithOptionalFFMpeg::class,
             NoEngine::class
         ]);
     }
@@ -42,7 +44,7 @@ class Factory
     public function get(FlavourMachine $machine): ?Engine
     {
         $depends_on = $machine->dependsOnEngine();
-        if (!in_array($depends_on, $this->engines_strings)) {
+        if (!in_array($depends_on, $this->engines_strings, true)) {
             return null;
         }
         if (isset($this->engines[$depends_on])) {

@@ -39,6 +39,7 @@ use ILIAS\ResourceStorage\Flavour\Machine\NullMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngineWithOptionalFFMpeg;
 
 /**
  * Class FlavourMachineTest
@@ -105,7 +106,7 @@ class FlavourMachineTest extends AbstractBaseTest
     public function definitionsToMachines(): array
     {
         return [
-            [new PagesToExtract(true), ExtractPages::class, ImagickEngine::class],
+            [new PagesToExtract(true), ExtractPages::class, ImagickEngineWithOptionalFFMpeg::class],
             [new CropToSquare(), CropSquare::class, GDEngine::class],
             [new FitToSquare(), FitSquare::class, GDEngine::class],
             [new ToGreyScale(), MakeGreyScale::class, GDEngine::class],

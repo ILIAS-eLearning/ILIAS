@@ -23,22 +23,24 @@ namespace ILIAS\ResourceStorage\Flavour\Engine;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class DefaultEngines
+class ImagickEngineWithOptionalFFMpeg extends ImagickEngine
 {
-    private array $engines = [
-        NoEngine::class,
-        GDEngine::class,
-        ImagickEngine::class,
-        FFMpegEngine::class,
-        ImagickEngineWithOptionalFFMpeg::class,
-    ];
+    private FFMpegEngine $ffmpeg;
+
+    protected array $supported;
 
     public function __construct()
     {
+        parent::__construct();
+        $this->ffmpeg = new FFMpegEngine();
     }
 
-    public function get(): array
+    public function supports(string $suffix): bool
     {
-        return $this->engines;
+        if ($this->ffmpeg->isRunning() && $this->ffmpeg->supports($suffix)) {
+            return true;
+        }
+
+        return in_array(strtolower($suffix), $this->supported, true);
     }
 }
