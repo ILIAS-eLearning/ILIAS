@@ -677,7 +677,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
-        if ($maxStep !== null) {
+        if ($maxStep > 0) {
             $data = $ilDB->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 array("integer", "integer", "integer","integer"),

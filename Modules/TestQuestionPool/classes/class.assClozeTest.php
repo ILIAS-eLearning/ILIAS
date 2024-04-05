@@ -1729,7 +1729,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
-        if ($maxStep !== null) {
+        if ($maxStep > 0) {
             $data = $ilDB->queryF(
                 "
 				SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type
