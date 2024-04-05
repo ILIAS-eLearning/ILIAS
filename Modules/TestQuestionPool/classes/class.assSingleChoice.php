@@ -1233,7 +1233,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
-        if ($maxStep !== null) {
+        if ($maxStep > 0) {
             $data = $ilDB->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 ["integer", "integer", "integer","integer"],
