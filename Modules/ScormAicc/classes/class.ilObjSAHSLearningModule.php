@@ -1368,6 +1368,7 @@ class ilObjSAHSLearningModule extends ilObject
             $setTarget = "";
         }
 
+
         //todo : replace LinkButton - but target needed
         //        $button = $this->ui->factory()->button()->primary(
         //            $this->lng->txt("view"),
@@ -1375,7 +1376,7 @@ class ilObjSAHSLearningModule extends ilObject
         //        );
 
         $button = ilLinkButton::getInstance();
-        $button->setCaption("view");
+        $button->setCaption("start_lm");//view
         $button->setPrimary(true);
         $button->setUrl($setUrl);
         $button->setTarget($setTarget);

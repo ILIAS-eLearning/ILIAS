@@ -804,7 +804,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilCtrl = $DIC->ctrl();
 
         $ilTabs->addSubTabTarget(
-            "cont_settings",
+            "general",
             $this->ctrl->getLinkTarget($this, "properties"),
             array("edit", ""),
             get_class($this)
