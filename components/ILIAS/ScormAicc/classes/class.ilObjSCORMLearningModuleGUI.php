@@ -90,7 +90,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         // view
         $ilToolbar->addButtonInstance($this->object->getViewButton());
-//        $ilToolbar->addComponent($this->object->getViewButton());
+        //        $ilToolbar->addComponent($this->object->getViewButton());
 
         // lm properties
         $this->initPropertiesForm();
@@ -117,6 +117,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
+        $ti->setCols(40);
+        $ti->setRows(2);
         $this->form->addItem($ti);
 
         // SCORM-type
