@@ -4511,6 +4511,8 @@ common#:#lm_added#:#ILIAS-Lernmodul angelegt
 common#:#lm_new#:#Neues ILIAS-Lernmodul anlegen
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
+common#:#lm_type_scorm2004_info#:#Dies sind neuere Versionen von SCORM mit deutlich erweiterter Funktionalität. Das Lernmodul öffnet sich in einem iFrame.
+common#:#lm_type_scorm_info#:#Dies ist die am weitesten verbreitete Version von SCORM. Das Lernmodul öffnet sich in einem Frame.
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lo#:#Lernmodul
@@ -5469,7 +5471,8 @@ common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#sad#:#Sad
 common#:#sahs#:#Lernmodul SCORM
 common#:#sahs_added#:#SCORM-Lernmodul angelegt
-common#:#sahs_export_file#:#aus ILIAS exportierte SCORM-Archiv-Datei
+common#:#sahs_export_file#:#ILIAS-XML-Exportdatei (.zip)
+common#:#sahs_export_file_info#:#Nutzen Sie diese Option für eine ZIP-Datei, die direkt aus ILIAS exportiert wurde. Die Datei hat typischerweise Titel wie 1675257903__4105__sahs_132295.zip.
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
