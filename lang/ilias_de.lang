@@ -7325,8 +7325,7 @@ content#:#seq_error#:#Es ist ein interner Ausnahmefehler im Sequencer aufgetrete
 content#:#seq_toc#:#Bitte wählen Sie eine Lektion aus der Übersicht auf der linken Seite.
 content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
-content#:#stop_user_offline_mode#:#Offline-Modus beenden
-content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
+content#:#start_lm#:#Lernmodul starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
 copa#:#copa_activation_online_info#:#Die Inhaltsseite ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls haben nur Personen mit dem Recht „Einstellungen bearbeiten“ Zugriff auf das Objekt.
