@@ -86,10 +86,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //        $lng->loadLanguageModule("style");
 
         $this->setSettingsSubTabs();
-        $ilTabs->setSubTabActive('cont_settings');
+        $ilTabs->setSubTabActive('general');//cont_settings
 
         // view
         $ilToolbar->addButtonInstance($this->object->getViewButton());
+//        $ilToolbar->addComponent($this->object->getViewButton());
 
         // lm properties
         $this->initPropertiesForm();
@@ -529,8 +530,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $reload_manifest = preg_replace($check, $replace, $new_manifest);
 
         //do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
-        if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(utf8_encode($new_manifest), $old_manifest) == 0 ||
-            strcmp($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest), $old_manifest) == 0) {
+        if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(mb_convert_encoding($new_manifest, "UTF-8", mb_detect_encoding($new_manifest)), $old_manifest) == 0 ||
+            strcmp($reload_manifest, $old_manifest) == 0 || strcmp(mb_convert_encoding($reload_manifest, "UTF-8", mb_detect_encoding($reload_manifest)), $old_manifest) == 0) {
 
             //get exisiting module version
             $module_version = $this->object->getModuleVersion() + 1;
@@ -568,7 +569,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             exit;
         }
 
-        if ($source_is_copy) {
+        if (isset($source_is_copy)) {
             unlink($source);
         }
 
