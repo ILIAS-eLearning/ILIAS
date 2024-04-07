@@ -154,10 +154,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_open"), "open_mode");
         $op0 = new ilRadioOption($this->lng->txt("cont_open_normal"), "0");
+        $op0->setInfo($this->lng->txt("cont_open_normal_info"));
         $radg->addOption($op0);
         $op1 = new ilRadioOption($this->lng->txt("cont_open_iframe"), "1");
+        $op1->setInfo($this->lng->txt("cont_open_iframe_info"));
         $radg->addOption($op1);
         $op2 = new ilRadioOption($this->lng->txt("cont_open_window"), "5");
+        $op2->setInfo($this->lng->txt("cont_open_window_info"));
         $radg->addOption($op2);
 
         // width

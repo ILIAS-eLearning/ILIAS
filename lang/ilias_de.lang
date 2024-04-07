@@ -6811,17 +6811,17 @@ content#:#cont_numbered_list#:#Nummerierte Liste
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_objectives#:#Ergebnisse zu Lernzielen speichern
 content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist. Damit reduzieren Sie die Speicherung von personenbezogenen Daten und erhöhen die Performanz.
-content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne Internet-Anbindung im SCORM-Offline-Player. Dazu wird das Lernmodul über das &#x25bc;-Menü  heruntergeladen und mit einem Add-on des Browsers Firefox dargestellt. Nach dem Bearbeiten des Lernmoduls müssen Benutzer über die Option 'Offline-Modus' ihre Lernstandsdaten in ILIAS importieren.
-content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
-content#:#cont_open_iframe#:#Öffnet im selben Fenster (iFrame) unterhalb des ILIAS-Hauptmenüs
-content#:#cont_open_normal#:#Öffnet in einem neuen Tab oder ersatzweise in einem neuem Fenster ohne ILIAS Hauptmenü
-content#:#cont_open_window#:#Öffnet zwingend in einem neuen Fenster ohne ILIAS-Hauptmenü
+content#:#cont_open_iframe#:#Im iFrame
+content#:#cont_open_iframe_info#:#Das Lernmodul startet im selben Fenster (iFrame) neben dem ILIAS-Hauptmenü.
+content#:#cont_open_normal#:#In einem neuen Tab
+content#:#cont_open_normal_info#:#Das Lernmodul startet in einem neuen Tab oder ersatzweise in einem neuem Fenster ohne ILIAS-Hauptmenü.
+content#:#cont_open_window#:#Immer im neuen Fenster
+content#:#cont_open_window_info#:#Das Lernmodul startet zwingend in einem neuen Fenster ohne ILIAS-Hauptmenü.
 content#:#cont_operation_not_allowed#:#Diese Aktion ist nicht erlaubt
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
@@ -7225,7 +7225,7 @@ content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_version#:#Version
 content#:#cont_versions#:#Versionen
 content#:#cont_whole_glossary#:#Gesamtes Glossar
-content#:#cont_width#:#Breite
+content#:#cont_width#:#Breite in Pixel
 content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt werden. In der Praxis hat sich eine Breite von 950 Pixeln und eine Höhe von 650 Pixeln bewährt. Wenn keine Angabe gemacht wird, bestimmt der Browser die Fenstergröße.
 content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
 content#:#cont_wiki_page#:#Wiki-Seite
