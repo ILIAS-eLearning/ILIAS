@@ -7319,8 +7319,7 @@ content#:#seq_error#:#An internal error in the sequencer occurred.
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.
 content#:#set_public_mode#:#Set public access mode
 content#:#st#:#Chapter
-content#:#stop_user_offline_mode#:#Stop offline mode
-content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
+content#:#start_lm#:#Launch Learning Module
 content#:#text_repr#:#Text Representation
 content#:#text_repr_info#:#Used for image ‘alt’ attribute.
 copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.
