@@ -4511,6 +4511,8 @@ common#:#lm_added#:#ILIAS Learning Module added
 common#:#lm_new#:#New ILIAS Learning Module
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
+common#:#lm_type_scorm2004_info#:#These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame.
+common#:#lm_type_scorm_info#:#This is the most widely used version of SCORM. The learning module is launched in a frame.
 common#:#lng#:#Language
 common#:#lngf#:#Languages
 common#:#lo#:#Learning Object
@@ -5469,7 +5471,8 @@ common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#sad#:#Sad
 common#:#sahs#:#Learning Module SCORM
 common#:#sahs_added#:#SCORM Learning Module added
-common#:#sahs_export_file#:#ILIAS exported SCORM archive file
+common#:#sahs_export_file#:#ILIAS XML Export File (.zip)
+common#:#sahs_export_file_info#:#Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip.
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
