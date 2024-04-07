@@ -143,6 +143,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
+        $ti->setCols(40);
+        $ti->setRows(2);
         $this->form->addItem($ti);
 
         // SCORM-type
