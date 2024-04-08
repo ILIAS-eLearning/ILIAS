@@ -118,9 +118,9 @@ class ilECSRemoteUserRepository
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return new ilECSRemoteUser(
                 $remoteUserId,
-                $row->sid,
-                $row->mid,
-                $row->usr_id,
+                (int) $row->sid,
+                (int) $row->mid,
+                (int) $row->usr_id,
                 $row->remote_usr_id
             );
         }
