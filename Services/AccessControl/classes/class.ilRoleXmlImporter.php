@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Description of class
@@ -33,10 +36,8 @@ class ilRoleXmlImporter
     private ilRbacAdmin $rbacadmin;
     private ilRbacReview $rbacreview;
     private ilLanguage $language;
+    private Refinery $refinery;
 
-    /**
-     * Constructor
-     */
     public function __construct(int $a_role_folder_id = 0)
     {
         global $DIC;
@@ -45,6 +46,7 @@ class ilRoleXmlImporter
         $this->rbacreview = $DIC->rbac()->review();
         $this->rbacadmin = $DIC->rbac()->admin();
         $this->language = $DIC->language();
+        $this->refinery = $DIC['refinery'];
 
         $this->role_folder = $a_role_folder_id;
     }
@@ -99,8 +101,14 @@ class ilRoleXmlImporter
         $import_id = (string) $role['id'];
         $this->logger->info('Importing role with import_id: ' . $import_id);
         $this->initRole($import_id);
-        $this->getRole()->setTitle(trim((string) $role->title));
-        $this->getRole()->setDescription(trim((string) $role->description));
+
+        $trafo = $this->refinery->in()->series([
+            $this->refinery->kindlyTo()->string(),
+            $this->refinery->string()->stripTags()
+        ]);
+
+        $this->getRole()->setTitle($trafo->transform($role->title ?? ''));
+        $this->getRole()->setDescription($trafo->transform($role->description ?? ''));
 
         $this->logger->info('Current role import id: ' . $this->getRole()->getImportId());
 
