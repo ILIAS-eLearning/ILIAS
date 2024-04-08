@@ -6195,7 +6195,7 @@ content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
 content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
-content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
+content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird der zuletzt besuchte Abschnitt angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_auto_time#:#Wartezeit Animation
@@ -6783,7 +6783,7 @@ content#:#cont_no_read#:#Kein Lesezugriff
 content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner „%s“.
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
-content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden, wenn das SCORM-Lernmodul ausreichende Funktionalität zum Unterbrechen, Beenden und Navigieren mitbringt.
+content#:#cont_nomenu_info#:#Falls das SCORM-Lernmodul eigene Möglichkeiten zum Beenden und Navigieren mitbringt, kann das von der SCORM-Spezifikation vorgesehene obere Navigationsmenü ausgeblendet werden.
 content#:#cont_none#:#Keine
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
