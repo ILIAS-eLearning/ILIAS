@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 
+use ILIAS\UI\Component\Table;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+
 /**
  * Class ilOrgUnitUserAssignmentGUI
  * @author       Fabian Schmid <fs@studer-raimann.ch>
@@ -42,7 +46,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     {
         global $DIC;
 
-        parent::__construct();
+        parent::__construct(['orgu', 'staff']);
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
@@ -109,7 +113,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         // Tables
         $html = '';
+        $tables = [];
+
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
+            $tables[] = $this->getStaffTable($ilOrgUnitPosition);
+
             $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI(
                 $this,
                 self::CMD_INDEX,
@@ -117,7 +125,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             );
             $html .= $ilOrgUnitUserAssignmentTableGUI->getHTML();
         }
-        $this->setContent($html);
+        $this->setContent(
+            $this->ui_renderer->render($tables)
+            . '<hr><hr>'
+            . $html
+        );
     }
 
     protected function assignmentsRecursive(): void
@@ -137,6 +149,38 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
         $this->setContent($html);
     }
+
+
+    protected function getStaffTable(ilOrgUnitPosition $position): Table\Data
+    {
+        $columns = [
+            'login' => $this->ui_factory->table()->column()->text($this->lng->txt("login")),
+            'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt("firstname")),
+            'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt("lastname")),
+        ];
+
+        $actions = [
+            'remove' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('remove'),
+                $this->url_builder->withParameter($this->action_token, "remove"),
+                $this->row_id_token
+            ),
+        ];
+
+        return $this->ui_factory->table()
+            ->data($position->getTitle(), $columns, $this->assignmentRepo)
+            ->withId('orgu_positions')
+            ->withActions($actions)
+            ->withAdditionalParameters([
+                'position_id' => $position->getId(),
+                'orgu_ids' => [$this->getParentRefId()]
+            ])
+            ->withRequest($this->request);
+    }
+
+
+
+
 
     protected function confirm(): void
     {

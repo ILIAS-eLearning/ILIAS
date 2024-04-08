@@ -54,7 +54,6 @@ abstract class BaseCommands
     protected \ilGlobalTemplateInterface $tpl;
     protected ?BaseCommands $parent_gui = null;
 
-    protected array $query_namespace;
     protected URLBuilder $url_builder;
     protected ?URLBuilderToken $action_token = null;
     protected ?URLBuilderToken $row_id_token;
@@ -67,8 +66,9 @@ abstract class BaseCommands
     protected UIRenderer $ui_renderer;
 
 
-    protected function __construct()
-    {
+    protected function __construct(
+        protected array $query_namespace = ['orgu', 'posedit']
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -87,9 +87,8 @@ abstract class BaseCommands
             $this->request->getUri()->__toString()
         );
         $this->url_builder = new URLBuilder($here_uri);
-        $this->query_namespace = ['orgu', 'posedit'];
         list($url_builder, $action_token, $row_id_token) =
-            $this->url_builder->acquireParameters($this->query_namespace, "action", "posid");
+            $this->url_builder->acquireParameters($this->query_namespace, "action", "rowid");
         $this->url_builder = $url_builder;
         $this->action_token = $action_token;
         $this->row_id_token = $row_id_token;
@@ -220,7 +219,7 @@ abstract class BaseCommands
     {
     }
 
-    protected function getPosIdFromQuery(): int
+    protected function getRowIdFromQuery(): int
     {
         if($this->query->has($this->row_id_token->getName())) {
             return $this->query->retrieve(
