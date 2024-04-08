@@ -6301,10 +6301,6 @@ content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht g
 content#:#cont_cp_question_diff_formats_info#:#Beachten Sie bitte, dass einige Formatierungen in Content-Modulen nicht unterstützt werden.
 content#:#cont_create_link#:#Link erzeugen
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Bewertung###Modified as part of gender mainstreaming activities for ILIAS 8
-content#:#cont_credit_mode_info#:#Dem Lernmodul wird über cmi.core.credit mitgeteilt, ob die erzielte Leistung (bestanden/nicht bestanden und Punktzahl) für die Bewertung erwünscht (credit) oder nicht erwünscht ist (no-credit). Es ist Aufgabe des Lernmoduls, diese Anweisung adäquat zu interpretieren.
-content#:#cont_credit_off#:#Ohne Bewertung
-content#:#cont_credit_on#:#Mit Bewertung (bestanden | nicht bestanden)
 content#:#cont_credits#:#Punkte
 content#:#cont_current_chapter#:#Aktuelles Kapitel
 content#:#cont_current_lang#:#Aktuelle Sprache
@@ -6980,15 +6976,15 @@ content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
 content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
 content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
-content#:#cont_sc_auto_review_2004#:#Daten speichern
-content#:#cont_sc_auto_review_completed#:#nicht speichern ab Status 'vollständig bearbeitet'
-content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status 'vollständig bearbeitet' und 'bestanden'
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden'
-content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
-content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
-content#:#cont_sc_auto_review_no#:#immer (empfohlen)
-content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
-content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
+content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
+content#:#cont_sc_auto_review_completed#:#ab Status „vollständig bearbeitet”
+content#:#cont_sc_auto_review_completed_and_passed#:#ab Status „vollständig bearbeitet” und „bestanden”
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
+content#:#cont_sc_auto_review_completed_or_passed#:#ab Status „vollständig bearbeitet” oder „bestanden”
+content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht haben, wird dieser festgeschrieben. Benutzer können den Status später nicht mehr ändern.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
+content#:#cont_sc_auto_review_no#:#nie (entspricht SCORM-Spezifikation)
+content#:#cont_sc_auto_review_passed#:#ab Status „bestanden”
+content#:#cont_sc_auto_review_passed_or_failed#:#ab Status „bestanden” oder „nicht bestanden”
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
@@ -6998,8 +6994,10 @@ content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId
 content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
 content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjId des Lernmoduls
 content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefId des Lernmoduls
-content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
-content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
+content#:#cont_sc_less_mode_browse#:#Vorschaumodus
+content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ gesetzt.
+content#:#cont_sc_less_mode_normal#:#Lernmodus
+content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
 content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
 content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
@@ -7019,7 +7017,7 @@ content#:#cont_sc_stat_incomplete#:#Nicht vollständig
 content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
-content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
+content#:#cont_sc_store_if_previous_score_was_lower#:#wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
 content#:#cont_sc_usession_info#:#Es werden regelmäßig Anfragen an ILIAS gesendet, damit der Benutzer in der Plattform weiter eingeloggt bleibt. ILIAS würde sonst die Bearbeitung des SCORM-Lernmoduls nicht als Aktivität werten und die ILIAS-Sitzung beenden. Dadurch gingen Bearbeitungsdaten verloren.
