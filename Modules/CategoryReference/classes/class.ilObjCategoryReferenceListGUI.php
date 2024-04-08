@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\ContainerReference\StandardGUIRequest;
 
@@ -111,9 +111,9 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         $target_title = ilContainerReference::_lookupTitle($obj_id);
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
-        $this->deleted = $tree->isDeleted($target_ref_id);
+        $this->deleted = !$target_ref_id || $tree->isDeleted($target_ref_id);
 
-        parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
+        parent::initItem((int) $target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         $this->commands = ilObjCategoryReferenceAccess::_getCommands($this->reference_ref_id);
