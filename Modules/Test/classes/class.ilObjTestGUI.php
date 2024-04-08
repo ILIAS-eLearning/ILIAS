@@ -3435,6 +3435,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->tabs_gui,
             $this->access,
             $this->db,
+            $this->rbac_system
         );
     }
 }
