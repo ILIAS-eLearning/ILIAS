@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Component\Item\Item;
@@ -44,6 +45,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected Services $http;
+    protected Factory $refinery;
     protected ilObjectService $objectService;
     protected ilFavouritesManager $favourites;
     protected ilTree $tree;
@@ -61,6 +63,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->access = $DIC->access();
         $this->ui = $DIC->ui();
         $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->objectService = $DIC->object();
         $this->favourites = new ilFavouritesManager();
         $this->tree = $DIC->repositoryTree();
@@ -400,7 +403,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     public function confirmedUnsubscribe(): void
     {
-        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        $refIds = $this->http->wrapper()->post()->retrieve(
+            'ref_id',
+            $this->refinery->to()->listOf($this->refinery->kindlyTo()->int())
+        );
         if (0 === count($refIds)) {
             $this->ctrl->redirect($this, 'manage');
         }
