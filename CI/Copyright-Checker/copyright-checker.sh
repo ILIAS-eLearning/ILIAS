@@ -68,6 +68,10 @@ function is_copyright_valid() {
     offset=3
   fi
 
+  if [[ "$(cat $file)" == *"declare(strict_types=1);"* ]]; then
+    offset=$((2 + ${offset}))
+  fi
+
   for copyright_line in "${COPYRIGHT_LINES[@]}"; do
     local line_to_check="$(sed "${offset}q;d" "${file}")"
     if ! [ "${copyright_line}" = "${line_to_check}" ]; then
