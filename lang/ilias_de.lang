@@ -10669,7 +10669,7 @@ lti#:#lti_con_prov_availability_existing#:#nur für bestehende Objekte
 lti#:#lti_con_prov_availability_non#:#nicht verfügbar
 lti#:#lti_con_prov_category#:#Kategorie
 lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein LTI-Konsument-Objekt erstellt wird.
-lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
+lti#:#lti_con_prov_custom_params#:#Definition der Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
 lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter
