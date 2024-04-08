@@ -382,6 +382,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //title
         $this->form->setTitle($this->lng->txt("import_sahs"));
 
+        $this->form->setDescription($this->lng->txt("import_sahs_info"));
+
         // SCORM-type
         $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
         $ne->setValue($this->lng->txt("lm_type_" . ilObjSAHSLearningModule::_lookupSubType($this->object->getID())));
