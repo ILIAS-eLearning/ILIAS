@@ -6195,7 +6195,7 @@ content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_to_parent#:#Assign to Parent
 content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
-content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
+content#:#cont_auto_last_visited_info#:#When the SCORM learning module is opened again, the last section visited is displayed.
 content#:#cont_auto_suspend#:#Safeguard tracking data
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -6783,7 +6783,7 @@ content#:#cont_no_read#:#No read permission
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a sub-folder '%s'.
 content#:#cont_no_text#:#No Text
 content#:#cont_nomenu#:#Hide Top Navigation Bar
-content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
+content#:#cont_nomenu_info#:#If the SCORM learning module has its own options for exiting and navigating, the top navigation menu required by the SCORM specification can be hidden.
 content#:#cont_none#:#None
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
