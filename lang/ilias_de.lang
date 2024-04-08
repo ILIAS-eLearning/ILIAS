@@ -2040,13 +2040,13 @@ auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie f�
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
-auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
-auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenId-Connect-Attributen
+auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -2060,17 +2060,17 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_discovery_error#:#Die Discovery URL konnte nicht abgerufen werden. Fehler: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenID Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#Folgende Werte sind keine gültigen Scopes: %s
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenID Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenID Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenID Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_provider#:#Provider-URL
@@ -3153,7 +3153,7 @@ cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist
 cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-ID. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
@@ -6195,7 +6195,7 @@ content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
 content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
-content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird der zuletzt besuchte Abschnitt angezeigt.
+content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_auto_time#:#Wartezeit Animation
@@ -6282,7 +6282,7 @@ content#:#cont_col_ordering#:#Spaltenanordnung
 content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_commented_by#:#Kommentiert von
 content#:#cont_comments#:#Kommentare erlauben
-content#:#cont_comments_info#:#SCORM 2004-Lernmodule erlauben Benutzern, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
+content#:#cont_comments_info#:#Im SCORM 2004-Lernmodul können Kommentare (comments) eingegeben und gespeichert werden.
 content#:#cont_confirm_delete#:#Wollen Sie diese Inhalte wirklich löschen?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
@@ -6708,7 +6708,7 @@ content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
 content#:#cont_lpe_dpro_agreement_link#:#Link zur Datenschutzerklärung
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Login-Maske
-content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
+content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 content#:#cont_lpe_openid_login_form#:#OpenID-Login-Maske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
 content#:#cont_lpe_saml_login#:#SAML-Login
@@ -6810,7 +6810,7 @@ content#:#cont_objectives#:#Ergebnisse zu Lernzielen speichern
 content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist. Damit reduzieren Sie die Speicherung von personenbezogenen Daten und erhöhen die Performanz.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
-content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
+content#:#cont_online_info#:#Personen mit Leserecht können auf das Lernmodul zugreifen.
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Im iFrame
@@ -6981,19 +6981,19 @@ content#:#cont_sc_auto_review_completed#:#ab Status „vollständig bearbeitet�
 content#:#cont_sc_auto_review_completed_and_passed#:#ab Status „vollständig bearbeitet” und „bestanden”
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
 content#:#cont_sc_auto_review_completed_or_passed#:#ab Status „vollständig bearbeitet” oder „bestanden”
-content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht haben, wird dieser festgeschrieben. Benutzer können den Status später nicht mehr ändern.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
+content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht hat, wird dieser festgeschrieben. Der Status kann später nicht mehr geändert werden.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
 content#:#cont_sc_auto_review_no#:#nie (entspricht SCORM-Spezifikation)
 content#:#cont_sc_auto_review_passed#:#ab Status „bestanden”
 content#:#cont_sc_auto_review_passed_or_failed#:#ab Status „bestanden” oder „nicht bestanden”
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
-content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserID (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserID zuzüglich Obj-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserID zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich Obj-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_less_mode_browse#:#Vorschaumodus
 content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ gesetzt.
 content#:#cont_sc_less_mode_normal#:#Lernmodus
@@ -7020,7 +7020,7 @@ content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_store_if_previous_score_was_lower#:#wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
-content#:#cont_sc_usession_info#:#Es werden regelmäßig Anfragen an ILIAS gesendet, damit der Benutzer in der Plattform weiter eingeloggt bleibt. ILIAS würde sonst die Bearbeitung des SCORM-Lernmoduls nicht als Aktivität werten und die ILIAS-Sitzung beenden. Dadurch gingen Bearbeitungsdaten verloren.
+content#:#cont_sc_usession_info#:#Um das automatische Ausloggen und den Verlust von Bearbeitungsdaten zu verhindern, sendet das Lernmodul regelmäßig Anfragen an ILIAS. Die Bearbeitung des SCORM-Lernmoduls würde ansonsten nicht als Aktivität gewertet und die ILIAS-Sitzung beendet werden.
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
@@ -7051,7 +7051,7 @@ content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_selection#:#Auswahl
 content#:#cont_self_assessment#:#Selbsttests
 content#:#cont_sequencing#:#Sequencing & Navigation
-content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur interaktiven Steuerung der Navigationsmöglichkeiten von Benutzern innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen. <br />Prüfen Sie zunächst, ob Ihr Lernmodul solche Angaben zu 'Sequencing & Navigation' überhaupt enthält. Dies ist nur selten der Fall.
+content#:#cont_sequencing_info#:#Bei Lernmodulen mit Angaben zu „Sequencing & Navigation“ aktiviert diese Einstellung die Vorgaben zur interaktiven Steuerung der Navigationsmöglichkeiten innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen.
 content#:#cont_set_alignment#:#Ausrichtung setzen
 content#:#cont_set_layout#:#Layout setzen
 content#:#cont_set_link#:#Verweis ändern
@@ -7403,7 +7403,7 @@ cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Komponente
-cron#:#cron_job_id#:#Id
+cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Letzter Durchlauf
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
 cron#:#cron_result#:#Ergebnis
@@ -8979,7 +8979,7 @@ ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
 ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überprüfen Sie Ihre Eingabe.
-ecs#:#ecs_err_invalid_type#:#Bitte geben Sie eine gültige Kategorie-Objekt-Id an.
+ecs#:#ecs_err_invalid_type#:#Bitte geben Sie eine gültige Kategorie-Objekt-ID an.
 ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attributwerte.
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
 ecs#:#ecs_event_appointment#:#Veranstaltungstermin
@@ -10618,7 +10618,7 @@ ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
 ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
-ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
+ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-ID ein.
 ldap#:#ldap_escapedn#:#DN maskieren
 ldap#:#ldap_escapedn_info#:#Wenn aktiviert, werden reservierte Zeichen im "Distinguished Name (DN)" für Abfragen von Gruppenzugehörigkeiten maskiert.
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
@@ -10659,7 +10659,7 @@ ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, 
 ldap#:#ldap_moment_sync#:#Synchronisierungsart
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
 ldap#:#ldap_plugin#:#Zuweisung über Plugin
-ldap#:#ldap_plugin_id#:#Plugin-Id
+ldap#:#ldap_plugin_id#:#Plugin-ID
 ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein.
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
@@ -10981,7 +10981,7 @@ lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-ID. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
@@ -11136,7 +11136,7 @@ lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Titel
 lti#:#lti_con_prov_url#:#URL des Providers
 lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
-lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-ID des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
 lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
 lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
@@ -12203,7 +12203,7 @@ meta#:#meta_has_version#:#..hat Version...
 meta#:#meta_hierarchical#:#Hierarchisch
 meta#:#meta_high#:#Hoch
 meta#:#meta_higher_education#:#Hochschulbildung
-meta#:#meta_id#:#Id
+meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_identifier_plural#:#Kennungen
@@ -13161,9 +13161,9 @@ prg#:#last_edited_by#:#Zuletzt bearbeitet von
 prg#:#mail_assignments#:#Mail an zugewiesene Benutzer
 prg#:#mails_foreign_assignment_failed#:#Die ausgewählten Zuweisungen sind nicht im aktuellen Kontext; Mails sollten nur auf der obersten Ebene des Studienprogramms verschickt werden:
 prg#:#manage_assignments#:#Zuweisungen verwalten
-prg#:#membership_source_id#:#Id
-prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
-prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#membership_source_id#:#ID
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-ID</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-ID</b>
 prg#:#membership_source_type#:#Quelle
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
@@ -13191,7 +13191,7 @@ prg#:#msg_update_from_settings_failed#:#Aktualisierung nicht erfolgreich:
 prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_permission_to_update_certificate#:#Sie haben keine Berechtigung Zertifikate zu aktualisieren.
-prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+prg#:#no_srctype_or_id#:#ID und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#optgrp_label_restart#:#Wiederaufnahme
 prg#:#optgrp_label_validity#:#Ablauf
@@ -15015,7 +15015,7 @@ scormdebug#:#i_gray#:#grau: von ILIAS korrigierter Fehler
 scormdebug#:#i_green#:#gr&uuml;n: in Ordnung
 scormdebug#:#i_orange#:#orange: Achtung bitte!
 scormdebug#:#i_red#:#rot: Fehler!
-scormdebug#:#id_learning_module#:#Id des Lernmoduls
+scormdebug#:#id_learning_module#:#ID des Lernmoduls
 scormdebug#:#log_for#:#Protokoll f&uuml;r das Lernmodul
 scormdebug#:#milliseconds#:#Millisekunden
 scormdebug#:#missing_API-calls#:#Folgende API-Aufrufe fehlen:
@@ -15075,7 +15075,7 @@ scormtrac#:#counter_incorrect#:#Aufgabe falsch beantwortet (Anzahl TN)
 scormtrac#:#counter_incorrect_percent#:#Prozentsatz falsch Antwortender
 scormtrac#:#counter_other#:#weder richtig noch falsch Antwortende
 scormtrac#:#counter_other_percent#:#Prozentsatz weder richtig noch falsch Antwortender
-scormtrac#:#cp_node_id#:#Id des Kapitels
+scormtrac#:#cp_node_id#:#ID des Kapitels
 scormtrac#:#credit#:#credit
 scormtrac#:#delivery_speed#:#learner_preference.delivery_speed
 scormtrac#:#existingSCOs#:#Anzahl bestehender SCOs
@@ -15085,17 +15085,17 @@ scormtrac#:#exportselectedinteractions#:#Report zu Kapitel-Aufgaben (interaction
 scormtrac#:#exportselectedobjectives#:#Report zu Kapitel-Lernzielen (objectives)
 scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#exportselectedsuccess#:#Basis-Report zum Lernmodul insgesamt
-scormtrac#:#id#:#Id
+scormtrac#:#id#:#ID
 scormtrac#:#identifierref#:#SCO-Identifier
 scormtrac#:#interaction_description#:#Beschreibung der Aufgabe
-scormtrac#:#interaction_id#:#Id der Aufgabe
+scormtrac#:#interaction_id#:#ID der Aufgabe
 scormtrac#:#interaction_value#:#Ergebnis der Aufgabe %s:
 scormtrac#:#latency#:#latency: Zeitdauer
 scormtrac#:#latency_seconds#:#latency: Zeitdauer in Sekunden
 scormtrac#:#launch_data#:#launch_data: Daten beim Start des SCO
 scormtrac#:#learner_response#:#learner_response: Antwort
 scormtrac#:#lesson_status#:#lesson_status: Status der Bearbeitung
-scormtrac#:#lm_id#:#Id des Lernmoduls
+scormtrac#:#lm_id#:#ID des Lernmoduls
 scormtrac#:#lm_title#:#Titel des Lernmoduls
 scormtrac#:#lvalue#:#Key
 scormtrac#:#measure#:#Status: Maß
@@ -15109,7 +15109,7 @@ scormtrac#:#rvalue#:#Value
 scormtrac#:#satisfied#:#Status: satisfied
 scormtrac#:#scaled#:#score.scaled: erreichte Punktzahl als Dezimalbruch
 scormtrac#:#scaled_passing_score#:#scaled_passing_score: zum Bestehen erforderliche Punktzahl als Dezimalbruch
-scormtrac#:#sco_id#:#Id des Kapitels
+scormtrac#:#sco_id#:#ID des Kapitels
 scormtrac#:#sco_marked_for_learning_progress#:#relevant für den Lernstand
 scormtrac#:#sco_title#:#Titel des Kapitels
 scormtrac#:#scope#:#Anwendungsbereich
@@ -15374,11 +15374,11 @@ shib#:#shib_ilias_role#:#ILIAS-Rollenname
 shib#:#shib_local_role#:#Lokale Rolle
 shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
 shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
-shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-Id ein.
+shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-ID ein.
 shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS-Rolle aus.
 shib#:#shib_new_rule#:#Neue Regel anlegen
 shib#:#shib_plugin#:#Zuordnung durch Plugin
-shib#:#shib_plugin_id#:#Plugin-Id
+shib#:#shib_plugin_id#:#Plugin-ID
 shib#:#shib_plugin_info#:#Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln.
 shib#:#shib_remove_deprecated#:#Unberechtigte Rollen entfernen
 shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS-Rollenzuordnung
@@ -17091,7 +17091,7 @@ trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_read_count#:#Zugriffe
 trac#:#trac_read_count_spent_seconds#:#Bearbeitungszeit / Zugriffe
 trac#:#trac_reference#:#Referenzen
-trac#:#trac_reference_ids_column#:#Referenz-Ids
+trac#:#trac_reference_ids_column#:#Referenz-IDs
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen

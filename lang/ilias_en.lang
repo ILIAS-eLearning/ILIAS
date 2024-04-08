@@ -3145,7 +3145,7 @@ cmix#:#conf_privacy_comment_default#:#Indication to user
 cmix#:#conf_privacy_ident#:#User identification
 cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -3173,7 +3173,7 @@ cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings
 cmix#:#conf_remarks#:#Internal comments
 cmix#:#conf_title#:#Title
 cmix#:#conf_user_ident#:#User identification
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress
+cmix#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -5112,7 +5112,7 @@ common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
-common#:#object_id#:#Object-Id
+common#:#object_id#:#Object-ID
 common#:#object_imported#:#Object imported
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
@@ -6701,8 +6701,8 @@ content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
-content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form
+content#:#cont_lpe_openid_connect_login#:#OpenID Connect Login
+content#:#cont_lpe_openid_login_form#:#OpenID Login Form
 content#:#cont_lpe_registration_link#:#New Registration Link
 content#:#cont_lpe_saml_login#:#SAML Login
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
@@ -6980,13 +6980,13 @@ content#:#cont_sc_auto_review_passed#:#if achieved status is passed
 content#:#cont_sc_auto_review_passed_or_failed#:#if achieved status is passed or failed
 content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2
 content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004
-content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.
-content#:#cont_sc_id_setting_user_id#:#ILIAS User Id (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User Id plus ObjId of the Learning Module
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User Id plus RefId of the Learning Module
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefID or ObjID may be useful for learning modules that connect to an external server.
+content#:#cont_sc_id_setting_user_id#:#ILIAS User ID (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User ID plus ObjID of the Learning Module
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User ID plus RefID of the Learning Module
 content#:#cont_sc_id_setting_user_login#:#ILIAS Login Name
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjId of the Learning Module
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefId of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjID of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefID of the Learning Module
 content#:#cont_sc_less_mode_browse#:#Preview mode
 content#:#cont_sc_less_mode_browse_info#:#The SCORM mode is set to "browse".
 content#:#cont_sc_less_mode_normal#:#Learn mode
@@ -7396,7 +7396,7 @@ cron#:#cron_action_run_success#:#Cron-Job run successfully.
 cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Component
-cron#:#cron_job_id#:#Id
+cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Last Run
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
 cron#:#cron_result#:#Result
@@ -10653,7 +10653,7 @@ ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will
 ldap#:#ldap_moment_sync#:#Type of Synchronization
 ldap#:#ldap_new_role_assignment#:#Add New Role ➜ Group Assignment
 ldap#:#ldap_plugin#:#Assignment by Plugin
-ldap#:#ldap_plugin_id#:#Plugin Id
+ldap#:#ldap_plugin_id#:#Plugin ID
 ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
@@ -10970,7 +10970,7 @@ lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#User identification
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -10990,7 +10990,7 @@ lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwis
 lti#:#conf_privacy_name_none#:#No one
 lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
 lti#:#conf_user_ident#:#User identification
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
+lti#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formated as an email adress.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
 lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -11130,11 +11130,11 @@ lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Title
 lti#:#lti_con_prov_url#:#URL of Provider
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
+lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-ID with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
 lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
 lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.
+lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity ID is unique! If nothing is entered here, the Activity ID can be entered in LTI Consumer. The Activity ID could be requested from the LTI Provider.
 lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint
@@ -13156,7 +13156,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#mail_assignments#:#Mail to assigned Users
 prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.
 prg#:#manage_assignments#:#Manage Assignments
-prg#:#membership_source_id#:#Id
+prg#:#membership_source_id#:#ID
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#membership_source_type#:#Source
@@ -13186,7 +13186,7 @@ prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_permission_to_update_certificate#:#You have no permission to update certificates.
-prg#:#no_srctype_or_id#:#Id and type may not be empty.
+prg#:#no_srctype_or_id#:#ID and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#optgrp_label_restart#:#Restart
@@ -15377,7 +15377,7 @@ shib#:#shib_missing_plugin_id#:#Please enter a valid plugin id.
 shib#:#shib_missing_role#:#Please select one role.
 shib#:#shib_new_rule#:#Add new Rule
 shib#:#shib_plugin#:#Assignment by Plugin
-shib#:#shib_plugin_id#:#Plugin Id
+shib#:#shib_plugin_id#:#Plugin ID
 shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
 shib#:#shib_remove_deprecated#:#Deassign Deprecated Roles
 shib#:#shib_role_ass_table#:#New Rule for Role Assignments
@@ -17090,7 +17090,7 @@ trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
 trac#:#trac_reference#:#References
-trac#:#trac_reference_ids_column#:#Reference-Ids
+trac#:#trac_reference_ids_column#:#Reference-IDs
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
 trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
@@ -17233,7 +17233,7 @@ user#:#ldoc_accepted_content#:#Accepted Content
 user#:#ldoc_not_accepted_yet#:#Not accepted yet
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
-user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist
 user#:#restrict_user_access#:#Restricted Search in User Accounts
 user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.
 user#:#roles_without_starting_point#:#Roles without defined starting point:
