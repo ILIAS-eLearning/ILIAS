@@ -32,7 +32,6 @@ declare(strict_types=1);
 class ilObjSAHSLearningModule extends ilObject
 {
     private string $api_func_prefix = 'LMS';
-    private string $credit_mode = 'credit';
     private string $lesson_mode = 'normal';
     private int $style_id = 0;
     private string $auto_review = 'n';
@@ -135,7 +134,6 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setAPIAdapterName((string) $lm_rec["api_adapter"]);
             $this->setDefaultLessonMode((string) $lm_rec["default_lesson_mode"]);
             $this->setAPIFunctionsPrefix((string) $lm_rec["api_func_prefix"]);
-            $this->setCreditMode((string) $lm_rec["credit"]);
             $this->setSubType((string) $lm_rec["c_type"]);
             //            $this->setEditable(false);
             $this->setStyleSheetId((int) $lm_rec["stylesheet"]);
@@ -341,15 +339,13 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getCreditMode(): string
     {
-        return $this->credit_mode;
-    }
-
-    /**
-     * set credit mode
-     */
-    public function setCreditMode(string $a_credit_mode): void
-    {
-        $this->credit_mode = $a_credit_mode;
+        $learningProgress = ilObjectLP::getInstance($this->getID());
+        $currentMode = $learningProgress->getCurrentMode();
+        if ($currentMode === ilLPObjSettings::LP_MODE_SCORM || $currentMode === ilLPObjSettings::LP_MODE_SCORM_PACKAGE) {
+            return "credit";
+        } else {
+            return "no-credit";
+        }
     }
 
     /**
@@ -1204,7 +1200,6 @@ class ilObjSAHSLearningModule extends ilObject
             $new_obj->setMaxAttempt($this->getMaxAttempt());
             $new_obj->setModuleVersion($this->getModuleVersion());
             $new_obj->setModuleVersion(1);
-            $new_obj->setCreditMode($this->getCreditMode());
             $new_obj->setAssignedGlossary($this->getAssignedGlossary());
             $new_obj->setTries($this->getTries());
             $new_obj->setSession($this->getSession());
