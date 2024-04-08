@@ -28,7 +28,6 @@ class ilPageEditorSettings
     protected static array $option_groups = array(
         "lm" => array("lm"),
         "wiki" => array("wpg"),
-        "scorm" => array("sahs"),
         "glo" => array("gdf"),
         "test" => array("qpl"),
         "rep" => array("cont"),

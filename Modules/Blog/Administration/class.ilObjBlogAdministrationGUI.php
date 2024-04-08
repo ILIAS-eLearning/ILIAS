@@ -182,20 +182,6 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $cb_prop->setChecked((int) $blga_set->get("est_reading_time"));
         $form->addItem($cb_prop);
 
-        /*
-        $mask = new ilCheckboxInputGUI($lng->txt("blog_allow_html"), "mask");
-        $mask->setInfo($lng->txt("blog_allow_html_info"));
-        $mask->setChecked($blga_set->get("mask", false));
-        $form->addItem($mask);*/
-
-        $gui = ilAdministrationSettingsFormHandler::getSettingsGUIInstance("adve");
-        $ne = new ilNonEditableValueGUI($lng->txt("blog_allow_html"), "", true);
-        $this->ctrl->setParameter($gui, "ref_id", $gui->getObject()->getRefId());
-        $link = $this->ctrl->getLinkTarget($gui);
-        $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
-        $form->addItem($ne);
-
-
         return $form;
     }
 }
