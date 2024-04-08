@@ -334,14 +334,13 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
             $row_id = (string)$pos->getId();
             $record = [
                 'title' => $pos->getTitle(),
-                'description' => $pos->getDescription(),
+                'description' => $pos->getDescription() . 'dd',
                 'authorities' => implode("<br>", $this->getAuthorityDescription($pos->getAuthorities())),
                 'is_core_position' => $pos->isCorePosition(),
             ];
 
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction('delete', $record['is_core_position']);
-            ;
         }
     }
 

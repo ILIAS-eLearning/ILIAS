@@ -148,13 +148,13 @@ class ilOrgUnitPositionGUI extends BaseCommands
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_PERMISSIONS);
-        $form = $this->getDefaultPermissionsForm($this->getPosIdFromQuery());
+        $form = $this->getDefaultPermissionsForm($this->getRowIdFromQuery());
         $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     protected function updateDefaultPermissions(): void
     {
-        $form = $this->getDefaultPermissionsForm($this->getPosIdFromQuery())
+        $form = $this->getDefaultPermissionsForm($this->getRowIdFromQuery())
             ->withRequest($this->request);
         if($form->getData()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_permission_saved'), true);
@@ -311,13 +311,13 @@ class ilOrgUnitPositionGUI extends BaseCommands
 
     protected function getPositionFromRequest(): ilOrgUnitPosition
     {
-        $id = $this->getPosIdFromQuery();
+        $id = $this->getRowIdFromQuery();
         return $this->positionRepo->getSingle($id, 'id');
     }
 
     public function getSinglePosLinkTarget(string $action, int $pos_id = null): string
     {
-        $target_id = $pos_id !== null ? [$pos_id] : [$this->getPosIdFromQuery()];
+        $target_id = $pos_id !== null ? [$pos_id] : [$this->getRowIdFromQuery()];
         return $this->url_builder
             ->withParameter($this->row_id_token, $target_id)
             ->withParameter($this->action_token, $action)
@@ -342,7 +342,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
             'title' => $this->ui_factory->table()->column()->text($this->lng->txt("title")),
             'description' => $this->ui_factory->table()->column()->text($this->lng->txt("description")),
             'authorities' => $this->ui_factory->table()->column()->status($this->lng->txt("authorities")),
-
         ];
 
         $actions = [

@@ -17,7 +17,11 @@
  */
 declare(strict_types=1);
 
-class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentRepository
+use ILIAS\UI\Component\Table;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+
+class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentRepository, Table\DataRetrieval
 {
     public const TABLE_NAME = 'il_orgu_ua';
     protected ilDBInterface $db;
@@ -395,5 +399,42 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
             'usr_id' => $assignment->getUserId(),
             'position_id' => $assignment->getPositionId()
         ));
+    }
+
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        //TODO: use $this->db->numRows($res); instead of count
+        $orgu_ids = $additional_parameters['orgu_ids'];
+        $position_id = $additional_parameters['position_id'];
+        return count($this->getUsersByOrgUnitsAndPosition($orgu_ids, $position_id));
+    }
+
+    public function getRows(
+        Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        $orgu_ids = $additional_parameters['orgu_ids'];
+        $position_id = $additional_parameters['position_id'];
+
+        //TODO: add order and range
+        foreach ($this->getUsersByOrgUnitsAndPosition($orgu_ids, $position_id) as $usr_id) {
+
+            $usr = new ilObjUser($usr_id);
+            $row_id = (string)$position_id . '_' . $usr_id;
+            $record = [
+                'login' => $usr->getLogin(),
+                'firstname' => $usr->getFirstname(),
+                'lastname' => $usr->getLastname(),
+            ];
+
+            yield $row_builder->buildDataRow($row_id, $record);
+            //                ->withDisabledAction('delete', $record['is_core_position'])
+        }
     }
 }
