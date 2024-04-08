@@ -361,7 +361,8 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     public function reachedPointsDataProvider(): array
     {
         return [
-            "float" => [25.0, 25.0],
+            "float X.0" => [25.0, 25.0],
+            "float X.Y" => [25.3, 25.3],
             "int" => [25, 25.0]
         ];
     }
