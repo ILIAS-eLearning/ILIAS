@@ -394,7 +394,7 @@ class Data extends Table implements T\Data, JSBindable
      */
     public function applyViewControls(
         array $filter_data,
-        array $additional_parameters
+        ?array $additional_parameters = []
     ): array {
         $table = $this;
         $total_count = $this->getDataRetrieval()->getTotalRowCount($filter_data, $additional_parameters);
@@ -410,9 +410,7 @@ class Data extends Table implements T\Data, JSBindable
         }
 
         return [
-            $table
-                ->withFilter($filter_data)
-                ->withAdditionalParameters($additional_parameters),
+            $table->withFilter($filter_data),
             $view_controls
         ];
     }
