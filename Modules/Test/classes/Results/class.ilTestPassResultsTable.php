@@ -185,7 +185,7 @@ class ilTestPassResultsTable
 
             $important_fields = [
                 $lng->txt('question_id') => (string)$question->getId(),
-                $lng->txt('question_type') => $question->getType(),
+                $lng->txt('question_type') => $lng->txt($question->getType()),
                 $lng->txt('points') => sprintf(
                     '%s/%s (%s%%)',
                     (string)$question->getUserScore(),
