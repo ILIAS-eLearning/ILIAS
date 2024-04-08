@@ -6738,9 +6738,6 @@ content#:#cont_numbered_list#:#Numbered List
 content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_objectives#:#Store Learning Objectives Data
 content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.
-content#:#cont_offline_mode_allow#:#Enable Offline Mode
-content#:#cont_offline_mode_allow_info#:#Users can use the learning module without connecting to the Internet in the SCORM Offline Player. They download the learning module using the &#x25bc;-menu. The learning module is presented with an add-on to the Firefox browser. The tracking data are transferred when the user clicks on ‘finish offline mode’.
-content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.
