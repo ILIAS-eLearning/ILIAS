@@ -911,14 +911,14 @@ assessment#:#msg_number_of_terms_too_low#:#用語数は定義数と等しいか�
 assessment#:#msg_poly_added#:#多角形の追加
 assessment#:#msg_questions_moved#:#問題の移動
 assessment#:#msg_rect_added#:#長方形の追加
-assessment#:#msg_score_settings_modified_and_recalc#:#Your changes were saved and the results recalculated correspondingly.###14 02 2024 new variable
-assessment#:#msg_score_settings_not_modified#:#Your changes were not saved.###14 02 2024 new variable
+assessment#:#msg_score_settings_modified_and_recalc#:#変更は保存されて結果は準じて再計算されました。
+assessment#:#msg_score_settings_not_modified#:#変更は保存されていません。
 assessment#:#msg_selected_for_move#:#移動用に選択した問題
 assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question#:#次
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
-assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
+assessment#:#no_manual_feedback_export_info#:#マニュアルフィードバックはエクスポートされません。
 assessment#:#no_passed_mark#:#合格のマークを1つはセットしなけれなりません! 採点尺度が保存されませんでした。
 assessment#:#no_question_selected_for_move#:#移動する問題の最低一つにチェックしてください!
 assessment#:#no_questions_available#:#問題がありません!
@@ -1078,7 +1078,7 @@ assessment#:#qpl_skl_sub_tab_quest_assign#:#問題/能力割り当て
 assessment#:#qpl_skl_sub_tab_usages#:#割り当て間隔
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#問題が別のリポジトリオブジェクトから挿入されました。オリジナルの問題を能力割り当ての現状構成へ更新しますか?
 assessment#:#qpl_tab_competences#:#能力
-assessment#:#qst_error_text_too_long#:#One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:###21 06 2023 new variable
+assessment#:#qst_error_text_too_long#:#間違いとしてマークされた複数のテキスト要素は長すぎます。間違いとしてマークされるテキスト要素の最大数は150文字です。
 assessment#:#qst_essay_allready_written_words#:#入力した文字数:
 assessment#:#qst_essay_chars_remaining#:#残り文字数:
 assessment#:#qst_essay_wordcounter_enabled#:#カウント文字数
@@ -1434,11 +1434,11 @@ assessment#:#tst_form_dynamic_question_set_config#:#問題選択の継続
 assessment#:#tst_gap_analysis#:#ギャップ分析
 assessment#:#tst_general_properties#:#全般プロパティ
 assessment#:#tst_header_participant#:#結果:
-assessment#:#tst_header_participant_no_answer#:#Question - not answered###14 02 2024 new variable
+assessment#:#tst_header_participant_no_answer#:#問題-未回答
 assessment#:#tst_header_solution#:#正解:
 assessment#:#tst_heading_scoring#:#採点
 assessment#:#tst_hide_pagecontents#:#ページコンテンツを非表示
-assessment#:#tst_hide_pagecontents_desc#:#"ページ編集"ボタン経由の実際のテキスト前後に位置するILIASコンテンツは結果ビューにも印刷にも出力されません。。
+assessment#:#tst_hide_pagecontents_desc#:#ページ編集ボタン経由の実際のテキスト前後に位置するILIASコンテンツは結果ビューにも印刷にも出力されません。。
 assessment#:#tst_hide_side_list#:#問題一覧を表示しない
 assessment#:#tst_highscore_achieved_ts#:#日付
 assessment#:#tst_highscore_achieved_ts_description#:#テストデータの含まれる列は順位に含まれます。
@@ -1540,7 +1540,7 @@ assessment#:#tst_mark_minimum_level#:#最低レベル (%中)
 assessment#:#tst_mark_official_form#:#正式書式
 assessment#:#tst_mark_passed#:#合格
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#シンプル評価尺度を作成
-assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes.###28 11 2023 new variable
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#このテストの現状のマークスキーマを進める場合は、全てのローカル変更を削除するので、シンプルマークスキーマで置換えられます。
 assessment#:#tst_mark_short_form#:#略式書式
 assessment#:#tst_max_allowed_users_heading#:#テストの同時最大ユーザ数に達しました
 assessment#:#tst_max_allowed_users_message#:#テストの同時最大ユーザ数に達しました。 後でやり直すかもしくはテストを再開してください。 受験中のユーザのだれかが %s 以上中断すると入力できるようになる場合があります。ご理解ありがとうございます。
@@ -1649,7 +1649,7 @@ assessment#:#tst_password_form#:#テストパスワードを入力
 assessment#:#tst_password_introduction#:#テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。
 assessment#:#tst_percent_solved#:#正解率
 assessment#:#tst_player_answer_saved_and_locked#:#回答は保存されてロックされ変更できなくなります。
-assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
+assessment#:#tst_please_select_source_pool#:#問題集を選択してください。
 assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナを選択してください。
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
@@ -2449,7 +2449,7 @@ blog#:#blog_settings#:#ブログ管理
 blog#:#blog_settings_navigation#:#ナビゲーション列
 blog#:#blog_show_latest#:#最終投稿/ドラフトを表示
 blog#:#blog_show_print_view#:#印刷ビューを表示
-blog#:#blog_starting_page#:#Starting Page###28 11 2023 new variable
+blog#:#blog_starting_page#:#開始ページ
 blog#:#blog_style#:#ブログスタイル
 blog#:#blog_task_publishing_draft_title#:#ドラフト "%s" の公開
 blog#:#blog_toggle_draft#:#告知を取り消す
@@ -2745,7 +2745,7 @@ certificate#:#certificate_settings#:#証明書設定
 certificate#:#certificate_short_name#:#短いタイトルの証明書ファイル
 certificate#:#certificate_short_name_description#:#証明書の名前用の短いタイトルを入力してください。短いタイトルは証明書名 YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdfの一部になります。
 certificate#:#certificate_text#:#証明書テキスト
-certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.###28 07 2023 new variable
+certificate#:#certificate_text_info#:#認証テキストを入力してください。ILIAS管理内のWYSIWYGエディタが無効の場合は、テキストをフォーマットするXHTMLを使用することができます。
 certificate#:#certificate_unit_description#:#10mm又は3inの例のように値[cm|mm|in|pt|pc|px|em]の単位を入力
 certificate#:#certificate_usage#:#ILIASJavaサーバーが稼働中の場合は、証明書の使用法のみ利用可能である事に注意願います。Javaサーバーの設定はILIASWebサービスの管理メインページにあります。
 certificate#:#certificate_var_max_points#:#46
@@ -2818,7 +2818,7 @@ chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#選択のunit '%s' の最大値は: %sです。
 chatroom#:#chat_deletion_section_head#:#古いメッセージの削除
 chatroom#:#chat_enable_history#:#履歴を有効化
-chatroom#:#chat_enable_history_info#:#"履歴"タブ内の過去のパブリックチャットメッセージの読込みとエクスポートを誰でもできます。プライベートルーム内のメッセージは招待ユーザに限りアクセス可能です。
+chatroom#:#chat_enable_history_info#:#履歴タブ内の過去のパブリックチャットメッセージの読込みとエクスポートを誰でもできます。プライベートルーム内のメッセージは招待ユーザに限りアクセス可能です。
 chatroom#:#chat_error_log_info#:#チャットサーバのエラーログファイルの絶対チャットサーバパスを定義してください。(例: /var/www/ilias/data/chat_error.log). パスが定義されていない場合は、チャットサーバはチャットサーバディレクトリ内にファイルを作成します。
 chatroom#:#chat_https_cert_info#:#SSL認定ファイルへの絶対サーバパスを定義してください(例: /etc/ssl/certs/server.pem)
 chatroom#:#chat_https_dhparam_info#:#Diffie Hellmanパラメータの(例 生成経路: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )のネゴシエーション用に使用されるファイル (例: /etc/ssl/private/dhparam.pem)への,絶対サーバパスを定義してください。
@@ -3967,7 +3967,7 @@ common#:#err_auth_mode_inactive#:#認証方式が使用可能になっていま�
 common#:#err_auth_soap_no_ilias_user#:#ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_check_input#:#設定は保存されませんでした。入力を確認してください。
 common#:#err_count_param#:#理由：パラメーターカウントの間違い
-common#:#err_double_entries#:#Reason: Duplicate Entries###28 11 2023 new variable
+common#:#err_double_entries#:#理由: 重複エントリー
 common#:#err_in_line#:#ライン中のエラー
 common#:#err_inactive#:#アカウントが使用可能になっていません。アクセスするにはシステム管理者へ連絡してください。
 common#:#err_inactive_login_attempts#:#ログイン回数が失敗回数を大きく超えたためにアカウントは無効になっています。管理者へアカウントの再解除が必要であることを通知するには、このページのフッターに記載されている'テクニカルサポートへコンタクト'をクリックします。
@@ -5604,10 +5604,10 @@ common#:#soap_user_administration_desc#:#オンにするとILIASはSOAP経由で
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#サービスで使用されるilias wsdlファイルのpathを入力してください。この欄を空欄にすると次のpathは初期設定:%sが使用されます。
 common#:#sort_ascending#:#昇順に並び替え
-common#:#sort_ascending_long#:#Change Sort Direction to Ascending###17 05 2023 new variable
+common#:#sort_ascending_long#:#昇順へ並び替えを変更
 common#:#sort_by_this_column#:#この列を並び替え
 common#:#sort_descending#:#降順に並び替え
-common#:#sort_descending_long#:#Change Sort Direction to Descending###17 05 2023 new variable
+common#:#sort_descending_long#:#降順へ並び替えを変更
 common#:#sort_inherit_prefix#:#初期設定
 common#:#sorting_asc#:#昇順
 common#:#sorting_creation_header#:#作成日順
@@ -5863,7 +5863,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#挿入アクションを実行
 common#:#usrimport_no_update_ext_account_exists#:#更新アクションが実行できません。外部アカウントが既に存在します。
 common#:#usrimport_with_specified_role_not_permitted#:#指定した役割のインポートはアクセス許可されません。
 common#:#usrimport_wrong_file_count#:#インポートフォルダーにたくさんファイルがありすぎます。もう一度やり直してください。
-common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#システムアカウントでもanonymousアカウントでもないのはインポートを通して変更可能です。
 common#:#usrimport_xml_attribute_missing#:#要素 "%1$s" の属性 "%2$s" がありません。
 common#:#usrimport_xml_attribute_value_illegal#:#要素 "%1$s" の属性 "%2$s" の値 "%3$s" がありません。
 common#:#usrimport_xml_attribute_value_inapplicable#:#要素"%1$s"の属性 "%2$s"の値"%3$s"はアクション"%4$s"には不適切です。
@@ -7234,7 +7234,7 @@ copa#:#copa_prop_reading_time#:#読み取り時間
 copa#:#copa_value_reading_time_f_p#:#%s 分
 copa#:#copa_value_reading_time_f_s#:#%s 分
 copa#:#obj_copa_duplicate#:#コンテンツページを複製
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###14 02 2024 new variable
+copg#:#copg_active_to_small#:#この日付は開始日よりも高くする必要があります。
 copg#:#copg_allow_html#:#HTML/Javascriptを有効にする
 copg#:#copg_allow_html_info#:#ユーザはHTMLまたはJavascriptページコンテンツを利用できます。セキュリティ事項に影響する可能性があります。信頼に欠けるユーザによる機能の利用可能性がある場合は有効にしてはいけません。HTMLコンテンツの追加するサポートは将来バージョンで打ち切る可能性があります。
 copg#:#copg_an_error_occured#:#エラーが発生しました。
@@ -7245,24 +7245,24 @@ copg#:#copg_cron_keep_entries#:#最少を継続
 copg#:#copg_cron_keep_entries_info#:#この数字は、削除期間よりも古かった場合に継続される最小エントリーです。
 copg#:#copg_days#:#日にち
 copg#:#copg_details#:#詳細
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###17 01 2024 new variable
+copg#:#copg_edit_iframe_title#:#ページエディタのテキスト編集
 copg#:#copg_entries#:#エントリー
 copg#:#copg_error#:#Error
 copg#:#copg_error_occured_modal#:#ページ処理中にエラー発生。保存した状態前に戻るには"ページの再読み込み"を押す。
 copg#:#copg_est_reading_time#:#予測読込み時間
 copg#:#copg_history_cleanup_cron#:#ページエディター履歴のクリーンアップ
 copg#:#copg_history_cleanup_cron_info#:#ページ履歴から過去のエントリーを削除
-copg#:#copg_more_character_formats#:#More Styles for Characters###17 01 2024 new variable
+copg#:#copg_more_character_formats#:#文字用の他のスタイル
 copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_par_format_selection#:#図書式選択
+copg#:#copg_pc_mob_does_not_exist#:#このメディア オブジェクトは存在しません。
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
 copg#:#copg_reload_page#:#ページの再読み込み
-copg#:#copg_remove_formats#:#Remove Formatting###17 01 2024 new variable
+copg#:#copg_remove_formats#:#書式を削除
 copg#:#copg_sec_link_info#:#全セクションのリンクを設定するには他のインタラクティブ要素がセクション内に含まれない事を確認して下さい。そうでないと動作が不安定になります。
 copg#:#copg_snippet_cannot_be_edited#:#これは定義済みコンテンツスニペットなのでここでは編集できません。
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###14 02 2024 new variable
+copg#:#copg_unsupported_media_type#:#このメディアオブジェクトは未サポートのメディアタイプがあります。
 copg#:#copg_x_minutes#:#%s 分
 cpad#:#cpad_reading_time_status#:#読込み時間
 cpad#:#cpad_reading_time_status_desc#:#有効にすると、コンテンツページオブジェクトの読込み予測時間が確定して表示されます。
@@ -7392,6 +7392,7 @@ crs#:#crs_course_period_not_valid#:#コース期間設定が有効ではあり�
 crs#:#crs_course_status_of_users#:#ユーザの合格状況
 crs#:#crs_create_date#:#作成日
 crs#:#crs_custom_user_fields#:#関連ユーザデータのコース
+crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###08 04 2024 new variable
 crs#:#crs_dates#:#日付
 crs#:#crs_deactivate_notification#:#通知をオフ
 crs#:#crs_delete_objectve_sure#:#本当に選択した学習目標を削除しますか?
@@ -7586,9 +7587,9 @@ crs#:#crs_members_groups#:#グループのメンバーシップ
 crs#:#crs_members_map#:#コースメンバーのマップ
 crs#:#crs_members_print_title#:#コースメンバー
 crs#:#crs_min_one_admin#:#このコース割当てのための管理者が一人は必要です。
-crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#The limited registration period can not be defined if the "No Self-enrolment" setting is active.###14 02 2024 new variable
-crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups###28 07 2023 new variable
-crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.###28 07 2023 new variable
+crs#:#crs_msg_no_self_registration_period_if_self_enrolment_disabled#:#限定登録期間は"自己入会なし"設定が有効の場合定義できません。
+crs#:#crs_my_courses_groups_enabled#:#マイコースとグループ
+crs#:#crs_my_courses_groups_enabled_info#:#有効にすると'マイコースとグループ'セクションは表示されます。
 crs#:#crs_new_status#:#新しいステータスは次の通り:
 crs#:#crs_new_subscription#:#コース "%s"へユーザ が登録されました
 crs#:#crs_new_subscription_body#:#%sさんをコース "%s"へ登録しました。
@@ -7914,7 +7915,7 @@ crs#:#events#:#セッション
 crs#:#export_members#:#受講者をエクスポート
 crs#:#grouping_change_assignment#:#割当て変更
 crs#:#grp_grp_already_assigned#:#既にグループのこのグループ化されたメンバーです。
-crs#:#grp_not_all_users_assigned_msg#:#%s user(s) assigned as group member(s), %s user(s) were already in the group.###14 02 2024 new variable
+crs#:#grp_not_all_users_assigned_msg#:#グループメンバーに割当ての % ユーザと %s ユーザは既にグループに存在します。
 crs#:#mem_cron_min_members_intro#:#次のコースとグループは(まだ)最小メンバー数に達していません。
 crs#:#mem_cron_min_members_reason#:#メンバータブ内の通知をアクティブにしているのでこのメッセージを受領します。
 crs#:#mem_cron_min_members_subject#:#コース/グループ: 最小メンバ数ーチェック
@@ -7991,8 +7992,8 @@ dash#:#dash_studyprogramme#:#マイ学習プログラム
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#セクション‘マイコースとグループ’
 dash#:#dash_view_favourites#:#‘Favourites’セクション
-dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.###28 07 2023 new variable
-dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.###28 07 2023 new variable
+dash#:#favourites_disabled_info#:#お気に入りへ追加は非アクティブになります。リポジトリ設定内部でこれを変更できます。
+dash#:#memberships_disabled_info#:#サブスクリプションは非アクティブになります。リポジトリ設定内部でこれを変更できます。
 dateplaner#:#Fr_long#:#金曜日
 dateplaner#:#Fr_short#:#金
 dateplaner#:#Mo_long#:#月曜日
@@ -8147,8 +8148,8 @@ dateplaner#:#cal_create#:#作成
 dateplaner#:#cal_created_appointment#:#新規予定を作成しました。
 dateplaner#:#cal_created_milestone#:#マイルストーンを追加しました。
 dateplaner#:#cal_created_milestone_resp_q#:#マイルストーンを追加しました。マイルストーンに一致する責任あるユーザを選択してください。
-dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
-dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_description#:#有効にすると、カレンダータイプ"Webカレンダー"の予定は、一定の間隔のあとで自動的に同期されます。
+dateplaner#:#cal_cronjob_remote_title#:#外部カレンダー同期
 dateplaner#:#cal_crs_info#:#コース情報
 dateplaner#:#cal_crs_new_notification_body#:#コース"%s"へ新しい予定が作成されました。
 dateplaner#:#cal_crs_new_notification_sub#:#コース"%s"の新しい予定
@@ -8201,7 +8202,7 @@ dateplaner#:#cal_edit_category#:#カレンダーを編集
 dateplaner#:#cal_edit_milestone#:#マイルストーンを編集
 dateplaner#:#cal_edit_recurrences#:#日程を編集
 dateplaner#:#cal_edit_single#:#この日程を編集
-dateplaner#:#cal_edit_single_or_all_info#:#Do you want to edit only this appointment or all in its series?###28 11 2023 new variable
+dateplaner#:#cal_edit_single_or_all_info#:#この予定のみを編集しますかそれとも一連のもの全てですか。
 dateplaner#:#cal_enable_group_milestones#:#マイルストーンを利用する
 dateplaner#:#cal_enable_group_milestones_desc#:#カレンダー上でマイルストーン計画が利用可能になります。
 dateplaner#:#cal_err_invalid_notification_rcps#:#通知受信者リストが無効です。ILIASユーザアカウント名もしくは有効なメールアドレスのどちらかを選択してください。
@@ -8232,7 +8233,7 @@ dateplaner#:#cal_grp_others#:#その他
 dateplaner#:#cal_grp_personal#:#パーソナル
 dateplaner#:#cal_ical_infoscreen#:#購読
 dateplaner#:#cal_ical_url#:#iCal-URL
-dateplaner#:#cal_ical_url_google#:#iCal-URL for Google Calendar###28 11 2023 new variable
+dateplaner#:#cal_ical_url_google#:#グーグルカレンダ―用のiCAL-URL
 dateplaner#:#cal_import_appointments#:#アポイントをインポート
 dateplaner#:#cal_import_file#:#ファイルをインポート
 dateplaner#:#cal_import_file_info#:#カレンダアポイントの入ったファイルを選択します。
@@ -8267,7 +8268,7 @@ dateplaner#:#cal_on_the#:#暦日:
 dateplaner#:#cal_open_calendar#:#カレンダーを開く
 dateplaner#:#cal_origin#:#起点
 dateplaner#:#cal_owner#:#オーナー
-dateplaner#:#cal_period#:#Period###21 06 2023 new variable
+dateplaner#:#cal_period#:#期間
 dateplaner#:#cal_rec_err_limit#:#正しい予定の番号を入力してください。
 dateplaner#:#cal_recurrence_confirm_deletion#:#繰返しの予定を削除するか繰返しの予定を完了するか決定してください。
 dateplaner#:#cal_recurrences#:#繰返し
@@ -8363,7 +8364,7 @@ dateplaner#:#cal_weekly#:#毎週
 dateplaner#:#cal_where#:#ロケーション
 dateplaner#:#cal_year_s#:#年
 dateplaner#:#cal_yearly#:#年間
-dateplaner#:#consultation_hours_block_title#:#Consultation Hours###17 01 2024 new variable
+dateplaner#:#consultation_hours_block_title#:#相談時間
 dateplaner#:#created#:#作成済
 dateplaner#:#crs_cal_activation_end#:#コースの終了
 dateplaner#:#crs_cal_activation_start#:#コースの開始
@@ -8819,6 +8820,8 @@ ecs#:#ecs_cms_tree_synchronized#:#ツリーが同期が完了しました。
 ecs#:#ecs_communities#:#受講者
 ecs#:#ecs_confirm_delete_tree#:#このキャンパス管理ツリーへの全ての割り当てを本当に削除しますか?
 ecs#:#ecs_connection_settings#:#コネクション設定
+ecs#:#ecs_consent_modal_title#:#Consent for data transfer###08 04 2024 new variable
+ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###08 04 2024 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECSタスクスケジューラ
 ecs#:#ecs_cron_task_scheduler_info#:#ECSタスクはスケジューラー設定に沿って実行されます。ECSサーバ構成時に限り必要です。
 ecs#:#ecs_crs_alloc#:#コース割当て
@@ -8847,9 +8850,16 @@ ecs#:#ecs_err_missing_value#:#入力:属性値をチェックしてください�
 ecs#:#ecs_error_extract_serial#:#証明書のシリアル番号を読み込む事ができません。クライアント証明書のpathをチェックしてください。
 ecs#:#ecs_event_appointment#:#イベントログ
 ecs#:#ecs_export#:#コースリリース
+ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###08 04 2024 new variable
+ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###08 04 2024 new variable
+ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###08 04 2024 new variable
+ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###08 04 2024 new variable
+ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###08 04 2024 new variable
 ecs#:#ecs_export_created_body_a#:#新コースがリリースされました
 ecs#:#ecs_export_disabled#:#このコースをリリースしてはいけません
 ecs#:#ecs_export_enabled#:#このコースをリリース
+ecs#:#ecs_export_local_account#:#Local ILIAS accounts###08 04 2024 new variable
+ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###08 04 2024 new variable
 ecs#:#ecs_export_obj_settings#:#コースリリース設定
 ecs#:#ecs_export_types#:#エクスポート可のオブジェクトタイプ
 ecs#:#ecs_field_begin#:#始める
@@ -8872,6 +8882,10 @@ ecs#:#ecs_file_export#:#ファイルをリリース
 ecs#:#ecs_file_export_disabled#:#このファイルをリリースしない
 ecs#:#ecs_file_export_enabled#:#このファイルをリリース
 ecs#:#ecs_file_export_obj_settings#:#ファイルリリース設定
+ecs#:#ecs_firstname#:#First name###08 04 2024 new variable
+ecs#:#ecs_form_consent#:#Consent###08 04 2024 new variable
+ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###08 04 2024 new variable
+ecs#:#ecs_form_target_platform#:#Target system###08 04 2024 new variable
 ecs#:#ecs_general_info#:#全般情報
 ecs#:#ecs_glo_export#:#索引リリース
 ecs#:#ecs_glo_export_disabled#:#この索引をリリースしない
@@ -8884,20 +8898,27 @@ ecs#:#ecs_grp_export_enabled#:#このグループをリリース
 ecs#:#ecs_grp_export_obj_settings#:#グループリリース設定
 ecs#:#ecs_ignore_field#:#この欄の　エクスポート/更新 を無効
 ecs#:#ecs_import#:#インポート
+ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###08 04 2024 new variable
+ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###08 04 2024 new variable
 ecs#:#ecs_import_cms#:#キャンパス管理
 ecs#:#ecs_import_id#:#インポート ID
 ecs#:#ecs_import_id_info#:#新コースリンクが作成される場所のカテゴリIDを入力してください
 ecs#:#ecs_import_types#:#インポート可のオブジェクトタイプ
+ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###08 04 2024 new variable
+ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###08 04 2024 new variable
 ecs#:#ecs_imported_content#:#インポートされたE-コンテンツ
 ecs#:#ecs_imported_from#:#インポート先
+ecs#:#ecs_institution#:#Institution###08 04 2024 new variable
 ecs#:#ecs_invalid_import_type_cms#:#キャンパス管理インポートタイプは一度しか選択できません。
 ecs#:#ecs_key_password#:#キーパスワード
+ecs#:#ecs_lastname#:#Last name###08 04 2024 new variable
 ecs#:#ecs_lm_export#:#ラーニングモジュールリリース
 ecs#:#ecs_lm_export_disabled#:#このラーニングモジュールをリリースしない
 ecs#:#ecs_lm_export_enabled#:#このラーニングモジュールをリリース
 ecs#:#ecs_lm_export_obj_settings#:#ラーニングモジュールリリース設定
 ecs#:#ecs_local_information#:#今後の情報
 ecs#:#ecs_local_settings#:#ローカル設定
+ecs#:#ecs_login#:#Username or External user account###08 04 2024 new variable
 ecs#:#ecs_mapping_crs#:#コースのマッピング
 ecs#:#ecs_mapping_exp_tbl#:#ILIAS拡張メタデータをECSデータへマッピング
 ecs#:#ecs_mapping_rcrs#:#リモートコースのマッピング
@@ -8923,6 +8944,8 @@ ecs#:#ecs_node_mapping_status_3#:#マッピングしない
 ecs#:#ecs_not_configured#:#未構成
 ecs#:#ecs_not_published#:#認定が選択されていません。
 ecs#:#ecs_notifications#:#通知
+ecs#:#ecs_outgoing_user_credentials#:#User attribute###08 04 2024 new variable
+ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###08 04 2024 new variable
 ecs#:#ecs_part_settings#:#受験者設定:
 ecs#:#ecs_participants#:#受講者
 ecs#:#ecs_participants_infos#:#今後の情報
@@ -9011,7 +9034,7 @@ etal#:#notification_talks_removed#:#次のアポイントはキャンセルさ�
 etal#:#notification_talks_subject#:#招待: %s
 etal#:#notification_talks_subject_update#:#更新: %s
 etal#:#notification_talks_updated#:#次のアポイントはキャンセルされました。
-etal#:#pending_talks_warning#:#The following pending talk appointments will be replaced:###28 11 2023 new variable
+etal#:#pending_talks_warning#:#次の保留中のトーク予定は変更されます:
 etal#:#talk_serial#:#Talk Serial
 etal#:#tals_add#:#Talksを追加
 etal#:#tals_new#:#新しいトーク
@@ -9034,7 +9057,7 @@ exc#:#exc_adopt_group_teams_conflict#:#ユーザ"%1$s"はすでにグループ"%
 exc#:#exc_adopt_group_teams_no_members#:#メンバーなし
 exc#:#exc_after_submission#:#提出後
 exc#:#exc_all_new_files_offered_already#:#全ての新しいファイルはダウンロード用に既に提示されています。さらにダウンロードするには以下のアクションリンクをクリックしてください。
-exc#:#exc_ass_submission_zip#:#提出
+exc#:#exc_ass_submission_zip#:#Submission
 exc#:#exc_ass_team_wiki#:#チームWikiの割当て
 exc#:#exc_assignment#:#課題（Assignment）
 exc#:#exc_assignment_type#:#提出のタイプ
@@ -9359,7 +9382,7 @@ exc#:#exc_tbl_comment#:#評価ステートメント
 exc#:#exc_tbl_feedback_time#:#評価日
 exc#:#exc_tbl_filter_has_no_submission#:#まだ提出していない
 exc#:#exc_tbl_filter_has_submission#:#提出済
-exc#:#exc_tbl_filter_submission#:#提出
+exc#:#exc_tbl_filter_submission#:#Submission
 exc#:#exc_tbl_individual_deadline#:#個別期限
 exc#:#exc_tbl_mark#:#マーク
 exc#:#exc_tbl_notice#:#指導教員用の注釈
@@ -9463,7 +9486,7 @@ exercise#:#exc_notgraded#:#未評価
 exercise#:#exc_passed#:#合格
 exercise#:#exc_send_mail#:#メールで送る
 exercise#:#exc_start_date_should_be_before_end_date#:#開始時間は終了前にならなければなりません。
-exercise#:#exc_your_submission#:#提出
+exercise#:#exc_your_submission#:#Submission
 exp#:#exp_create_file#:#エクスポートファイルを作成
 exp#:#exp_error_disabled#:#コンテナのエクスポート機能は使用できません。システム管理者へ相談できます。
 exp#:#exp_error_too_many_objects#:#エクスポートは許容オブジェクト最大数 (%1)を超えています。もっと少ないオブジェクト数を選択して下さい。
@@ -9858,6 +9881,7 @@ grp#:#grp_create_new_grp_in#:#%1'内に新区グループを作成
 grp#:#grp_create_or_use_existing#:#既存のグループへユーザを追加するか新規グループを追加希望しますか?
 grp#:#grp_created_and_user_been_added#:#グループの作成とユーザーを追加しました。
 grp#:#grp_custom_user_fields#:#関連ユーザデータのグループ
+grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###08 04 2024 new variable
 grp#:#grp_deactivate_notification#:#通知をオフ
 grp#:#grp_edit_members#:#受講者を編集
 grp#:#grp_enable_map#:#グループmapを有効
@@ -9918,7 +9942,7 @@ grp#:#grp_members#:#メンバー
 grp#:#grp_members_deleted#:#メンバーを削除しました
 grp#:#grp_members_map#:#グループ メンバーのMap
 grp#:#grp_members_print_title#:#グループメンバ
-grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
+grp#:#grp_min_one_admin#:#このグループには管理者が一人は必要です。
 grp#:#grp_missing_grp_type#:#グループタイプを選んでください。
 grp#:#grp_missing_password#:#グループパスワードを入力してください。
 grp#:#grp_new_status#:#新しいステータス
@@ -10342,13 +10366,13 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定
 lm#:#lm_btn_lp_toggle_state_not_completed#:#完了を設定
 lm#:#lm_copy#:#ラーニングモジュールをコピー
-lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
-lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
+lm#:#lm_edit_chapters#:#章を編集
+lm#:#lm_edit_lm_settings#:#学習モジュール設定を編集
 lm#:#lm_est_reading_time#:#予測読込み時間
 lm#:#lm_est_reading_time_info#:#リポジトリ内の学習モジュール予測読込み時間が確定されて表示できます。
-lm#:#lm_page_added#:#Page has been added.###28 11 2023 new variable
+lm#:#lm_page_added#:#ページが追加されました。
 lm#:#lm_page_type_lm#:#LMページ
-lm#:#lm_pages_added#:#Pages have been added.###28 11 2023 new variable
+lm#:#lm_pages_added#:#ページが追加されました。
 lm#:#lm_save_titles#:#タイトルは保存されました。
 lng#:#language_detection#:#言語検知
 lng#:#lng_disable_language_detection#:#言語検知を無効化
@@ -10393,8 +10417,8 @@ lso#:#abstract_img#:#要約のイメージ
 lso#:#avail_time_period#:#期間
 lso#:#completed_steps#:#通過ステップ
 lso#:#condition_always#:#常時
-lso#:#cont_ed_insert_lsocurriculum#:#Insert Learning Sequence Curriculum###17 01 2024 new variable
-lso#:#cont_ed_insert_lsostartbutton#:#Insert Learning Sequence Start Button###17 01 2024 new variable
+lso#:#cont_ed_insert_lsocurriculum#:#学習シーケンスカリキュラムを挿入
+lso#:#cont_ed_insert_lsostartbutton#:#学習シーケンススタートボタンを挿入
 lso#:#curriculum#:#完了
 lso#:#delete_confirmation#:#失敗
 lso#:#entries_deleted#:#カリキュラム
@@ -10447,7 +10471,7 @@ lso#:#lso_members_gallery#:#学習シーケンスメンバーギャラリー
 lso#:#lso_members_print_title#:#学習シーケンスメンバー
 lso#:#lso_min_one_admin#:#この学習シーケンスに対して一人は管理者を割当てる必要があります。
 lso#:#lso_msg_member_assigned#:#ユーザは学習シーケンスメンバーとして割当てられました。
-lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
+lso#:#lso_multidownload_not_available#:#ダウンロード中の複数のオブジェクトは、現在、学習シーケンスオブジェクトには利用できません。
 lso#:#lso_new_status#:#新しいステータスは:
 lso#:#lso_notification#:#通知
 lso#:#lso_notification_explanation_admin#:#通知を有効にしている学習シーケンス管理者なのでILIASからメール受信します。
@@ -10524,7 +10548,7 @@ lti#:#conf_user_ident_il_uuid_ext_account#:#メールアドレスでフォーマ
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#これはコール毎に識別されますが、ユーザに関して直接結論される事を許容される事があります。
 lti#:#conf_user_ident_il_uuid_login#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
 lti#:#conf_user_ident_il_uuid_login_info#:#これはコール毎に識別されますが、ILIASユーザに関して直接結論される事を許容される事があります。
-lti#:#conf_user_ident_il_uuid_user_id#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合されたILIASユーザID user id combined with a unique ILIAS platform id formated as an email adress.###31 03 2023 new variable
+lti#:#conf_user_ident_il_uuid_user_id#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合されたILIASユーザID 
 lti#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎に識別されますが、ユーザに関して直接結論される事はありません。
 lti#:#conf_user_ident_info#:#標準は通常メールアドレスです。ユニークなILIASプラットフォームIDは:
 lti#:#conf_user_ident_real_email#:#E-Mail Address
@@ -10546,9 +10570,18 @@ lti#:#field_provider_xml_info#:#https://www.imsglobal.org/specs/lti/xml　準拠
 lti#:#form_import_provider#:#Global Providerをインポート
 lti#:#gbl_roles_to_users#:#LTIユーザへ割当るグローバル役割
 lti#:#global_provider_subtab#:#全ユーザのGlobal Providers
-lti#:#grade_activityProgress_completed#:#完了
-lti#:#grade_activityProgress_passed#:#通過
-lti#:#grade_all_verbs#:#全ステータス情報
+lti#:#grade_activity_progress_all#:#All Information on Activity Progress###08 04 2024 new variable
+lti#:#grade_activity_progress_completed#:#Completed###08 04 2024 new variable
+lti#:#grade_activity_progress_initialized#:#Initialized###08 04 2024 new variable
+lti#:#grade_activity_progress_inprogress#:#In Progress###08 04 2024 new variable
+lti#:#grade_activity_progress_started#:#Started###08 04 2024 new variable
+lti#:#grade_activity_progress_submitted#:#Submitted###08 04 2024 new variable
+lti#:#grade_grading_progress_all#:#All Information on Grading Progress###08 04 2024 new variable
+lti#:#grade_grading_progress_failed#:#The Grading could not complete (Failed)###08 04 2024 new variable
+lti#:#grade_grading_progress_fullygraded#:#The Grading Process is completed###08 04 2024 new variable
+lti#:#grade_grading_progress_notready#:#No Grading Process is occurring (NotReady)###08 04 2024 new variable
+lti#:#grade_grading_progress_pending#:#Final Grade is pending###08 04 2024 new variable
+lti#:#grade_grading_progress_pendingmanual#:#Final Grade is pending; requires Human Intervention###08 04 2024 new variable
 lti#:#highscore_achieved_ts#:#Date
 lti#:#highscore_achieved_ts_description#:#日付の入った列はランキングに含まれます。
 lti#:#highscore_all_tables#:#受講者指針のランクとトップランク
@@ -10601,7 +10634,7 @@ lti#:#lti_add_own_provider#:#自身のプロバイダー(全ユーザ用では�
 lti#:#lti_admin#:#LTI管理者
 lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダーの使用歴(ゴミ箱内の可能性)があるので削除できませんでした。
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
-lti#:#lti_con_content_item#:#ディープリンクのサポートDeep Linking###31 03 2023 new variable
+lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
 lti#:#lti_con_grade_synchronization#:#拡張Grading Services
 lti#:#lti_con_grade_synchronization_info#:#LTIツールは'AssignmentとGrade Services'を提案する必要があります。
@@ -10624,10 +10657,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
-lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
-lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params#:#オプションパラメータ
+lti#:#lti_con_prov_dyn_reg_params_info#:#ここに例としてツール内のターゲットオブジェクト参照を指定できます。
 lti#:#lti_con_prov_dyn_reg_url#:#ツールのURLを登録
-lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#注意: 全てのツールがダイナミック登録をサポートしているわけではありません。
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -10676,7 +10709,7 @@ lti#:#lti_con_tool_url#:#Login URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
-lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
+lti#:#lti_con_version_1.3_before_id#:#ツールによる提供されるデータ入入力後にダイナミック登録がサポートされていない場合は、ツールで入力すべき追加データが表示されます。
 lti#:#lti_confirm_delete_providers#:#本当に次のプロバイダーを削除しますか?
 lti#:#lti_consumer#:#リリース用
 lti#:#lti_consumer_created#:#Consumer作成
@@ -10745,7 +10778,7 @@ lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceとmastery sco
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
 lti#:#prefix#:#Prefix
-lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
+lti#:#prefix_info#:#この拡張子はユーザ名(login)です。ユーザ名のユニークさを確実にします。また、LTI consumer / platformのユーザ割り当てを楽にします。
 lti#:#provider_info#:#使用したプロバイダー
 lti#:#settings_subtab#:#設定
 lti#:#show_statements#:#学習履歴を表示
@@ -10759,13 +10792,13 @@ lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定
 lti#:#tab_statements#:#学習履歴
-lti#:#tbl_grade_activityProgress#:#ステータス選択
-lti#:#tbl_grade_activityProgress_select#:#Status
+lti#:#tbl_grade_activity_progress#:#Activity Progress###08 04 2024 new variable
 lti#:#tbl_grade_actor#:#User
 lti#:#tbl_grade_date#:#Date
-lti#:#tbl_grade_object#:#Object
+lti#:#tbl_grade_grading_progress#:#Grading Progress###08 04 2024 new variable
 lti#:#tbl_grade_period#:#期間
 lti#:#tbl_grade_score#:#点数
+lti#:#tbl_grade_stored#:#Transmitted to ILIAS###08 04 2024 new variable
 lti#:#tbl_lti_prov_all_categories#:#全カテゴリー
 lti#:#tbl_lti_prov_availability#:#利用期間
 lti#:#tbl_lti_prov_category#:#カテゴリー
@@ -10944,7 +10977,7 @@ mail#:#mail_notification_membership_section#:#メンバーシップ
 mail#:#mail_notification_subject#:# 受信トレイの新しいメール
 mail#:#mail_notify_orphaned#:#通知メール
 mail#:#mail_notify_orphaned_info#:#ここで1以上の値を入力するとILIASは内部メールの削除前にemailをユーザへ送信します。外部e-mail受信が可能であること確認してください。
-mail#:#mail_operation_on_invalid_folder#:#The operation cannot be executed, the folder given in the server request is invalid. Please contact an administrator.###19 03 2024 new variable
+mail#:#mail_operation_on_invalid_folder#:#サーバ要求に対するフォルダが無効につき操作を実行できません。管理者へコンタクトしてください。
 mail#:#mail_options_saved#:#オプションが保存されました
 mail#:#mail_orphaned_mails#:#旧または孤立メールを削除
 mail#:#mail_orphaned_mails_desc#:#古いまたは孤立メールを削除
@@ -10991,7 +11024,7 @@ mail#:#mail_smtp_status_info#:#有効にするとILIASはPHP runtime(mail() func
 mail#:#mail_smtp_user#:#ユーザ
 mail#:#mail_subject_prefix#:#メール件名
 mail#:#mail_subject_prefix_info#:#自動生成される発信メール件名の行の部分へ挿入するテキストを入力します。
-mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
+mail#:#mail_subject_too_long#:#件名が長すぎます。
 mail#:#mail_sure_delete#:#本当にマークされたメールを削除しますか?
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
@@ -11325,16 +11358,16 @@ meta#:#md_advanced#:#メタデータ詳細
 meta#:#md_aria_language_selection#:#言語選択
 meta#:#md_copyright#:#著作権
 meta#:#md_copyright_add#:#著作権のプリセットを追加
-meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
-meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
-meta#:#md_copyright_default#:#Default###14 02 2024 new variable
+meta#:#md_copyright_alt_text#:#テキスト表現
+meta#:#md_copyright_alt_text_info#:#イメージ'alt'属性用に使用
+meta#:#md_copyright_default#:#Default
 meta#:#md_copyright_edit#:#著作権のプリセットを編集
 meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
-meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
-meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
-meta#:#md_copyright_link#:#URL###23 10 2023 new variable
-meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
+meta#:#md_copyright_full_name#:#Full Name
+meta#:#md_copyright_image_link#:#Image URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#ライセンスへのリンク
 meta#:#md_copyright_preview#:#著作権(プレビュー)
 meta#:#md_copyright_selection#:#著作権初期値
 meta#:#md_copyright_settings#:#著作権設定
@@ -11356,7 +11389,14 @@ meta#:#md_used#:#利用
 meta#:#meta_accessibility_restrictions#:#アクセシビリティー規制
 meta#:#meta_active#:#アクティブ
 meta#:#meta_add#:#追加
+meta#:#meta_advmd_select_delete_option#:#Delete This Entry###08 04 2024 new variable
+meta#:#meta_advmd_select_first_position_identifier#:#First###08 04 2024 new variable
+meta#:#meta_advmd_select_new_option#:#Add New Entry###08 04 2024 new variable
+meta#:#meta_advmd_select_option_position#:#Position###08 04 2024 new variable
+meta#:#meta_advmd_select_option_value#:#Value###08 04 2024 new variable
 meta#:#meta_advmd_select_options#:#エントリー
+meta#:#meta_advmd_select_options_edit#:#Edit Entries###08 04 2024 new variable
+meta#:#meta_advmd_select_position_identifier#:#After %s###08 04 2024 new variable
 meta#:#meta_annotation#:#注釈
 meta#:#meta_atomic#:#原子
 meta#:#meta_author#:#著者
@@ -11965,7 +12005,7 @@ mme#:#move_to_top_item#:#トップアイテムへ移動
 mme#:#msg_languages_added#:#言語を追加しました
 mme#:#msg_moved#:#アイテムは正しく移動されました。
 mme#:#msg_not_moved#:#アイテムを移動できませんでしたので有効な親を選択してください。
-mme#:#msg_ref_id_not_callable#:#This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported.###28 11 2023 new variable
+mme#:#msg_ref_id_not_callable#:#このレファレンスIDをメインメニューに使用する事はできません。マガジン内のターゲットに限りサポートされます。
 mme#:#msg_restore_confirm#:#全カスタム項目と翻訳は削除されて全標準項目が工場出荷値へリセットされます。カスタマイズ化全ては消去されます。
 mme#:#msg_restored#:#メインメニューを完全にリセット
 mme#:#msg_subitem_deleted#:#アイテムを削除しました。
@@ -12244,7 +12284,7 @@ obj#:#obj_activation#:#アクティベーション
 obj#:#obj_activation_list_gui#:#アベイラビリティ
 obj#:#obj_add_languages#:#言語を追加
 obj#:#obj_additional_langs#:#追加言語
-obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###28 11 2023 new variable
+obj#:#obj_conf_delete_lang#:#それらの言語のタイトルと説明表示を本当に停止しますか？
 obj#:#obj_cont_transl_deactivated#:#ページ編集用の翻訳は解除されました。
 obj#:#obj_copy_progress#:#進捗をコピー
 obj#:#obj_deactivate_content_lang#:#ページ編集用の翻訳を解除
@@ -12536,7 +12576,7 @@ poll#:#poll_activation_online_info#:#オフラインの場合は管理者のみ�
 poll#:#poll_add#:#投票を追加
 poll#:#poll_anonymous_warning#:#投票結果の中にあなたの名前はありません。
 poll#:#poll_answer#:#回答
-poll#:#poll_answer_selected_alt_text#:#Selected###17 01 2024 new variable
+poll#:#poll_answer_selected_alt_text#:#選択済
 poll#:#poll_answers#:#予想回答
 poll#:#poll_barchart#:#棒グラフ
 poll#:#poll_block_message_already_voted#:#この投票にすでに投票済です。
@@ -12681,8 +12721,8 @@ prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
 prg#:#prg_cancel#:#キャンセル
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
-prg#:#prg_change_deadline#:#Change deadline###28 07 2023 new variable
-prg#:#prg_change_expire_date#:#Change expire date###28 07 2023 new variable
+prg#:#prg_change_deadline#:#締切を変更
+prg#:#prg_change_expire_date#:#期限を変更　
 prg#:#prg_changed_by#:#更新者
 prg#:#prg_completed_by_subnodes#:#サブプログラム
 prg#:#prg_completion_by#:#完了者
@@ -12733,7 +12773,7 @@ prg#:#prg_mark_accredited#:#認定マーク
 prg#:#prg_mark_accredited_multi_success#:#新任の選択されたユーザをマーク
 prg#:#prg_mark_accredited_success#:#ユーザ用プログラムノードを正しく認定しました
 prg#:#prg_mark_not_relevant_multi_success#:#関連の選択されたユーザのマークを外す
-prg#:#prg_mark_relevant#:#Mark Relevant###28 07 2023 new variable
+prg#:#prg_mark_relevant#:#関連をマーク
 prg#:#prg_mark_relevant_multi_success#:#関連の選択されたユーザをマーク
 prg#:#prg_more_objects_without_read_permission#:#権限がないので目標以上に含まれる学習プログラムを見ることができません。
 prg#:#prg_multi_change_deadline#:#締切日を変更
@@ -12825,7 +12865,7 @@ prg#:#prg_type_msg_unable_delete#:#次の学習プログラム: %sにまだ割�
 prg#:#prg_unmark_accredited#:#適切化マーク解除
 prg#:#prg_unmark_accredited_multi_success#:#新任の選択されたユーザのマークを外す
 prg#:#prg_unmark_accredited_success#:#ユーザ用のプログラムノードを正しく適切化解除しました
-prg#:#prg_unmark_relevant#:#Unmark Relevant###28 07 2023 new variable
+prg#:#prg_unmark_relevant#:#関連をマーク解除
 prg#:#prg_update_from_current_plan#:#現在のプランを更新
 prg#:#prg_update_from_current_plan_not_possible#:#現状の計画の更新はできません
 prg#:#prg_update_from_current_plan_partitial_success#:#現在の計画の一部を更新
@@ -12929,7 +12969,7 @@ prtf#:#prtf_decl_authorship#:#著作者宣言
 prtf#:#prtf_default_portfolio#:#マイプロファイル
 prtf#:#prtf_delete_assignment#:#割当てを削除
 prtf#:#prtf_delete_assignment_sure#:#次の割当てを本当に削除しますか?
-prtf#:#prtf_download_submission#:#提出をダウンローロ
+prtf#:#prtf_download_submission#:#提出をダウンロード
 prtf#:#prtf_edit_content#:#コンテンツを編集
 prtf#:#prtf_edit_data#:#データを編集
 prtf#:#prtf_edit_embedded_blog#:#ブログ "%s"を編集
@@ -13327,9 +13367,9 @@ rbac#:#crs_visible#:#コースを表示
 rbac#:#crs_write#:#ユーザはコース設定編集と内容管理ができます
 rbac#:#crsr_copy#:#コースリンクをコピー
 rbac#:#crsr_delete#:#コースリンクを削除
-rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings###28 07 2023 new variable
+rbac#:#crsr_edit_learning_progress#:#ユーザは学習進捗設定を変更できます。
 rbac#:#crsr_edit_permission#:#アクセス権限設定を変更
-rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users###28 07 2023 new variable
+rbac#:#crsr_read_learning_progress#:#ユーザは他のユーザの学修進捗を表示できます。
 rbac#:#crsr_visible#:#コースリンクを表示
 rbac#:#crsr_write#:#コースリンクを編集
 rbac#:#crss_edit_permission#:#ユーザはコース管理のアクセス権設定変更ができます
@@ -13600,7 +13640,7 @@ rbac#:#mobs_visible#:#メディアオブジェクト・集管理を表示
 rbac#:#mobs_write#:#ユーザはメディアオブジェクト・集管理の設定を編集できます
 rbac#:#moderate#:#モデレート
 rbac#:#moderate_frm#:#モデレータ役
-rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
+rbac#:#msg_anonymous_cannot_be_assigned#:#匿名は役割を割り当てることができません。
 rbac#:#msg_no_roles_of_type#:#選択したフィルタ設定には利用可能な役割がありません
 rbac#:#news_add_news#:#ニュースを追加
 rbac#:#nots_edit_permissions#:#ユーザは通知管理のアクセス権設定変更ができます。
@@ -13761,7 +13801,7 @@ rbac#:#rbac_create_role#:#新しい役割を作成
 rbac#:#rbac_create_rolt#:#新しい役割テンプレートを作成
 rbac#:#rbac_create_sahs#:#SCORM/AICCラーニングモジュールを作成
 rbac#:#rbac_create_sess#:#セクションを作成
-rbac#:#rbac_create_skee#:#Create Competence Tree###28 11 2023 new variable
+rbac#:#rbac_create_skee#:#Competence ツリーを作成
 rbac#:#rbac_create_spl#:#サーベイ質問集を作成
 rbac#:#rbac_create_svy#:#サーベイを作成
 rbac#:#rbac_create_tst#:#テストを作成
@@ -13937,17 +13977,17 @@ rbac#:#sess_read#:#セッションを読込む
 rbac#:#sess_read_learning_progress#:#ユーザは他のユーザの学習進捗を閲覧できます。
 rbac#:#sess_visible#:#セッションを表示
 rbac#:#sess_write#:#セッションを編集
-rbac#:#skee_copy#:#User can copy Competence Tree (currently not available)###28 11 2023 new variable
-rbac#:#skee_delete#:#User can delete Competence Tree###28 11 2023 new variable
-rbac#:#skee_edit_permission#:#User can change permission settings of Competence Tree administration###28 11 2023 new variable
-rbac#:#skee_manage_comp#:#User can edit Competences in Competence Tree###28 11 2023 new variable
-rbac#:#skee_manage_comp_temp#:#User can edit Competence Templates in Competence Tree###28 11 2023 new variable
-rbac#:#skee_manage_profiles#:#User can edit Competence Profiles in Competence Tree###28 11 2023 new variable
-rbac#:#skee_read#:#User has read access to administration of Competence Tree###28 11 2023 new variable
-rbac#:#skee_read_comp#:#User has read access to Competences and Competence Templates in Competence Tree###28 11 2023 new variable
-rbac#:#skee_read_profiles#:#User has read access to Competence Profiles in Competence Tree###28 11 2023 new variable
-rbac#:#skee_visible#:#Competence Tree is visible###28 11 2023 new variable
-rbac#:#skee_write#:#User can edit settings of Competence Tree###28 11 2023 new variable
+rbac#:#skee_copy#:#ユーザはCompetence ツリーをコピーできます(現在利用不可)
+rbac#:#skee_delete#:#ユーザはCompetence ツリーを削除できます。
+rbac#:#skee_edit_permission#:#ユーザはCompetence ツリー管理のアクセス権を変更できます。
+rbac#:#skee_manage_comp#:#ユーザはCompetence ツリーを変更できます。
+rbac#:#skee_manage_comp_temp#:#ユーザはCompetence ツリーテンプレートを変更できます。
+rbac#:#skee_manage_profiles#:#ユーザはCompetence ツリー内のCompetenceプロファイルを変更できます。
+rbac#:#skee_read#:#ユーザはCompetence ツリー管理へ読込アクセス権があります。
+rbac#:#skee_read_comp#:#ユーザはCompetence ツリーのCmpetenceテンプレートの読込アクセス権があります。
+rbac#:#skee_read_profiles#:#ユーザはCompetence内のCompetence プロファイルの読込アクセス権があります。
+rbac#:#skee_visible#:#Competence ツリーを表示
+rbac#:#skee_write#:#ユーザはCompetence ツリーの設定を変更できます。
 rbac#:#skmg_edit_permission#:#アクセス権設定の変更
 rbac#:#skmg_read#:#能力管理への読み込みアクセス
 rbac#:#skmg_visible#:#能力管理が表示されます
@@ -14515,7 +14555,7 @@ scormtrac#:#exportselectedinteractions#:#インタラクション別基本レポ
 scormtrac#:#exportselectedobjectives#:#目標別レポート
 scormtrac#:#exportselectedraw#:#CMI (RAW)データ
 scormtrac#:#exportselectedsuccess#:#履修別基本レポート
-scormtrac#:#id#:#ID###17 05 2023 new variable
+scormtrac#:#id#:#ID
 scormtrac#:#identifierref#:#SCO-識別子
 scormtrac#:#interaction_description#:#インタラクションの説明
 scormtrac#:#interaction_id#:#インタラクションのID
@@ -14864,7 +14904,7 @@ skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次の
 skmg#:#skmg_cont_profiles_info#:#この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
-skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
+skmg#:#skmg_count_references#:#参照したcompetence数:
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
 skmg#:#skmg_create_skill_category#:#能力カテゴリを作成
 skmg#:#skmg_create_skill_template#:#能力テンプレートを作成
@@ -14906,7 +14946,7 @@ skmg#:#skmg_list_skills#:#能力をリスト
 skmg#:#skmg_local_assignment_profiles#:#グローバルプロファイルのローカル割当を許可
 skmg#:#skmg_lp_triggers_level#:#完了によりトリガーされました
 skmg#:#skmg_materials#:#教材
-skmg#:#skmg_materials_resources#:#Learning Materials###28 07 2023 new variable
+skmg#:#skmg_materials_resources#:#学修教材
 skmg#:#skmg_new_level#:#新規レベル
 skmg#:#skmg_new_sktr#:#新規能力テンプレートレファレンス
 skmg#:#skmg_next_step#:#次のステップ
@@ -14927,9 +14967,9 @@ skmg#:#skmg_previous_step#:#以前の設定
 skmg#:#skmg_profile#:#プロファイル
 skmg#:#skmg_really_delete_levels#:#次の能力レベルを本当に削除しますか?
 skmg#:#skmg_really_remove_skills#:#一覧から次の能力を本当に削除しますか?
-skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course###28 07 2023 new variable
-skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets###28 07 2023 new variable
-skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group###28 07 2023 new variable
+skmg#:#skmg_recommended_learning_material_crs#:#このコースのターゲットをアーカイブ
+skmg#:#skmg_recommended_learning_material_global#:#ターゲットをアーカイブ
+skmg#:#skmg_recommended_learning_material_grp#:#このグループのターゲットをアーカイブ
 skmg#:#skmg_recommended_learning_material_info#:#次の学習教材の一つだけを選択。そのComptence目標達成に取り組んで下さい。
 skmg#:#skmg_refresh_view#:#リフレッシュ
 skmg#:#skmg_remove_levels#:#レベル削除
@@ -14967,8 +15007,8 @@ skmg#:#skmg_skill_needs_self_eval#:#あなたの能力目標をわかるため�
 skmg#:#skmg_skill_needs_self_eval_box#:#このプロファイル一つも自己評価を実行されていない事に注意願います。
 skmg#:#skmg_skill_no_needs_impr#:#能力レベルは選択したプロファイルに適合します。
 skmg#:#skmg_skill_no_needs_impr_info#:#このComptenceの目標を達成しました。
-skmg#:#skmg_skill_overview#:#Overview###28 07 2023 new variable
-skmg#:#skmg_skill_profile_records#:#Competence Records###28 07 2023 new variable
+skmg#:#skmg_skill_overview#:#概要
+skmg#:#skmg_skill_profile_records#:#Competence 記録
 skmg#:#skmg_skill_profiles#:#プロファイル
 skmg#:#skmg_skill_template#:#能力テンプレート
 skmg#:#skmg_skill_templates#:#能力テンプレート
@@ -16076,7 +16116,7 @@ survey#:#svy_mail_send_confirmation#:#参加確認を送る
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#列設定は合計100%にする必要があります。
 survey#:#svy_max_sum_score#:#最高累計点数
 survey#:#svy_neutral_answer#:#中立回答用のテキスト("未定"、"わからない"など)
-survey#:#svy_no_appraisees_found#:#No appraisees with feedbacks found.###28 11 2023 new variable
+survey#:#svy_no_appraisees_found#:#フィードバック評価対象者がいません
 survey#:#svy_notification_tutor_results#:#サーベイ結果の含まれる1通のメール
 survey#:#svy_notification_tutor_results_alert#:#これは終了日が必須です。
 survey#:#svy_notification_tutor_results_info#:#データ終了するとcronjobはそれに添付する詳細サーベイ結果と合わせてメールを送ります。
@@ -16157,7 +16197,7 @@ svy#:#svy_finish_survey#:#サーベイ'%1'を修了
 svy#:#svy_invite_participants#:#参加者を招待
 svy#:#svy_link_to_svy#:#サーベイへのリンク
 svy#:#svy_part_overview#:#概要
-svy#:#svy_placeholders_label#:#Verfügbare Platzhalter###14 02 2024 new variable
+svy#:#svy_placeholders_label#:#利用可能なワイルドカード
 svy#:#svy_print_selection#:#印刷ビュー選択
 svy#:#svy_remove_all_participants#:#全参加者を削除
 svy#:#svy_remove_participants#:#参加者を削除
@@ -16652,7 +16692,7 @@ user#:#clipboard_remove_btn#:#クリップボードから削除
 user#:#clipboard_table_title#:#クリップボード(ユーザアカウント)
 user#:#clipboard_user_added#:#クリップボードへ選択のユーザを追加しました
 user#:#confirm_delete_starting_point#:#このルールを本当に消去しますか？
-user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
+user#:#confirm_logout_for_email_change#:#emailが変更されています。変更完了するにはパスワードが必要になります。よって、システムからログアウトして5分以内に再度ログインする必要があります。すべの変更はログアウト前に保存されます。
 user#:#create_starting_point#:#ルールを作成
 user#:#criteria#:#判定基準
 user#:#del_mail_body#:#%1$sさん, %3$s時点で%2$sへあなたは長期間ログインしていません。そのためアカウントは%4$s日以内に削除されます。アカウント削除を回避するには再度ログインし直す必要があります。
@@ -16660,7 +16700,7 @@ user#:#del_mail_subject#:#(ILIAS) アカウントは削除されます。
 user#:#delete_inactive_user_accounts_frequency#:#間隔
 user#:#delete_inactive_user_accounts_frequency_desc#:#削除とメール配布間隔をテストします。
 user#:#editing_this_role#:#役割
-user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
+user#:#email_could_not_be_changed#:#email変更要求は完了できませんでした。
 user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ
@@ -16765,7 +16805,7 @@ user#:#user_prompting_recurrence#:#更新催促
 user#:#user_prompting_settings#:#更新設定
 user#:#user_public_profile_info#:#どのパーソナルデータをプロファイルへ表示してどのユーザがプロファイルへ訪問できるかを選択してください。
 user#:#user_publish_options#:#プロファイルを公開
-user#:#user_role_selection#:#Role Selection###28 11 2023 new variable
+user#:#user_role_selection#:#役割選択
 user#:#user_role_starting_point#:#ユーザ - 開始点
 user#:#user_save_continue#:#保存して継続
 user#:#user_save_ordering_and_titles#:#順番とタイトルを保存
