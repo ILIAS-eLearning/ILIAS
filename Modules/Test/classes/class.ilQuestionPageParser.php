@@ -746,7 +746,11 @@ class ilQuestionPageParser extends ilMDSaxParser
                         if (!$this->in_media_object) {
                             $this->current_object->setImportId($a_attribs["Entry"]);
                         }
-                        $this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
+                        // #40680 add a link target only if it is an internal ILIAS link
+                        // Export from IMS UCAN sets something like 'IMSm-i1e79762'
+                        if (substr($a_attribs["Entry"], 0, 3) == 'il_') {
+                            $this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
+                        }
                     }
                     if ($this->in_file_item) {
                         if (!isset($this->file_item_mapping[$a_attribs["Entry"]])
