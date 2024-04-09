@@ -1335,10 +1335,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchObject($result);
             $this->setTestId($data->test_id);
-            if (strlen($this->getAuthor()) == 0) {
-                $this->saveAuthorToMetadata($data->author);
+
+            if ($data->author) {
+                if(strlen($this->getAuthor()) == 0) {
+                    $this->saveAuthorToMetadata($data->author);
+                }
+                $this->setAuthor($data->author);
             }
-            $this->setAuthor($data->author);
+
             $this->setIntroductionEnabled($data->intro_enabled);
             $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data->introduction, 1));
             $this->setShowInfo($data->showinfo);
@@ -6139,7 +6143,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access public
     * @see $author
     */
-    public function setAuthor($author = "")
+    public function setAuthor(string $author = "")
     {
         $this->author = $author;
     }
@@ -6153,7 +6157,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access private
     * @see $author
     */
-    public function saveAuthorToMetadata($a_author = "")
+    public function saveAuthorToMetadata(string $a_author = "")
     {
         $md = new ilMD($this->getId(), 0, $this->getType());
         $md_life = $md->getLifecycle();
