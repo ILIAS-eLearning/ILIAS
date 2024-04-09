@@ -616,7 +616,7 @@ class ilForum
                 }
             }
 
-            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getTreeId()]);
+            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getThreadId()]);
         } else {
             for ($i = 0; $i < $dead_pos; $i++) {
                 $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_pk = %s', ['integer'], [$deleted_post_ids[$i]]);
