@@ -247,6 +247,7 @@ class assKprimChoiceImport extends assQuestionImport
         $feedbackSetting = $item->getMetadataEntry('feedback_setting');
         if (!is_null($feedbackSetting)) {
             $this->object->feedbackOBJ->saveSpecificFeedbackSetting($this->object->getId(), $feedbackSetting);
+            $this->object->setSpecificFeedbackSetting($feedbackSetting);
         }
 
         // handle the import of media objects in XHTML code
