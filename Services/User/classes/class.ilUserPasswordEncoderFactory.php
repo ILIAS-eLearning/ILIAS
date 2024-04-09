@@ -121,18 +121,18 @@ class ilUserPasswordEncoderFactory
     /**
      * @throws ilUserException
      */
-    public function getEncoderByName(string $name): ilPasswordEncoder
+    public function getEncoderByName(?string $name): ilPasswordEncoder
     {
-        if (!isset($this->supported_encoders[$name])) {
-            if (!$this->getDefaultEncoder()) {
-                throw new ilUserException('No default encoder specified, fallback not possible.');
-            } elseif (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
-                throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
-            }
-
-            return $this->supported_encoders[$this->getDefaultEncoder()];
+        if ($name !== null && isset($this->supported_encoders[$name])) {
+            return $this->supported_encoders[$name];
         }
 
-        return $this->supported_encoders[$name];
+        if (!$this->getDefaultEncoder()) {
+            throw new ilUserException('No default encoder specified, fallback not possible.');
+        } elseif (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
+            throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
+        }
+
+        return $this->supported_encoders[$this->getDefaultEncoder()];
     }
 }
