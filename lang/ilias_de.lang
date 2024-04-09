@@ -782,6 +782,7 @@ assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit ident
 assessment#:#imagemap#:#Imagemap
 assessment#:#import_question#:#Fragen importieren
 assessment#:#imported#:#importiert
+assessment#:#in_the_range#:#Innerhalb des Bereichs
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#insert_after#:#Einfügen hinter
@@ -953,7 +954,6 @@ assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der
 assessment#:#ordertext#:#Anzuordnender Text
 assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte den Trenner %s anstelle der Leerzeichen.
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
-assessment#:#in_the_range#:#Innerhalb des Bereichs
 assessment#:#output#:#Ausgabe
 assessment#:#output_mode#:#Ausgabemodus
 assessment#:#parseQuestion#:#Frage analysieren

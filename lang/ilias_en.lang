@@ -783,6 +783,7 @@ assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions
 assessment#:#imagemap#:#Image Map
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
+assessment#:#in_the_range#:#In the range
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
@@ -954,7 +955,6 @@ assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here
 assessment#:#ordertext#:#Ordering Text
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.
 assessment#:#out_of_range#:#Out of range
-assessment#:#in_the_range#:#In the range
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
 assessment#:#parseQuestion#:#Parse Question
