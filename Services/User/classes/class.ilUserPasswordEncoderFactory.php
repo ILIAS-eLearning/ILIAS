@@ -128,21 +128,21 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder
      * @throws ilUserException
      */
-    public function getEncoderByName(string $name, bool $get_default_on_mismatch = false): ilPasswordEncoder
+    public function getEncoderByName(?string $name, bool $get_default_on_mismatch = false): ilPasswordEncoder
     {
-        if (!isset($this->encoders[$name])) {
-            if (!$get_default_on_mismatch) {
-                throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
-            } elseif (!$this->getDefaultEncoder()) {
-                throw new ilUserException('No default encoder specified, fallback not possible.');
-            } elseif (!isset($this->encoders[$this->getDefaultEncoder()])) {
-                throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
-            }
-
-            return $this->encoders[$this->getDefaultEncoder()];
+        if ($name !== null && isset($this->encoders[$name])) {
+            return $this->encoders[$name];
         }
 
-        return $this->encoders[$name];
+        if (!$get_default_on_mismatch) {
+            throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
+        } elseif (!$this->getDefaultEncoder()) {
+            throw new ilUserException('No default encoder specified, fallback not possible.');
+        } elseif (!isset($this->encoders[$this->getDefaultEncoder()])) {
+            throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
+        }
+
+        return $this->encoders[$this->getDefaultEncoder()];
     }
 
     /**
