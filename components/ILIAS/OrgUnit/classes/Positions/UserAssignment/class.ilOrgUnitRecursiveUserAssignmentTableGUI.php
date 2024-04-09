@@ -129,7 +129,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 }
                 $data[$usr_id]['orgu_assignments'][] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
                 $data[$usr_id]['view_lp'] = $permission_view_lp || $data[$usr_id]['view_lp'];
-                if(! array_key_exists('active', $data[$usr_id])) {
+                if(!array_key_exists('active', $data[$usr_id])) {
                     $data[$usr_id]["active"] = \ilObjUser::_lookupActive($usr_id);
                 }
             }
@@ -203,7 +203,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 'remove',
                 $this->ctrl->getLinkTargetByClass(
                     ilOrgUnitUserAssignmentGUI::class,
-                    ilOrgUnitUserAssignmentGUI::CMD_CONFIRM_RECURSIVE
+                    'confirmRecursive' //ilOrgUnitUserAssignmentGUI::CMD_CONFIRM_RECURSIVE
                 ),
                 $this->access->checkAccess("write", "", $this->orgu_ref_id)
             );

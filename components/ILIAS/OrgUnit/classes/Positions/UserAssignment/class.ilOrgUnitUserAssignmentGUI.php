@@ -21,8 +21,6 @@ declare(strict_types=1);
 use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 
 use ILIAS\UI\Component\Table;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 
 /**
  * Class ilOrgUnitUserAssignmentGUI
@@ -33,25 +31,25 @@ use ILIAS\UI\URLBuilderToken;
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
 {
-    public const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
     public const SUBTAB_ASSIGNMENTS = 'user_assignments';
     public const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
-    private \ilGlobalTemplateInterface $main_tpl;
+    public const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
+    public const CMD_REMOVE_CONFIRM = 'confirmRemove';
+    public const CMD_REMOVE = 'remove';
+    public const CMD_REMOVE_RECURSIVELY_CONFIRM = 'confirmRemoveRecursively';
+    public const CMD_REMOVE_RECURSIVE = "removeRecursive";
+    public const CMD_SHOW_LP = 'showLearningProgress';
+
     private ilToolbarGUI $toolbar;
-    private ilAccessHandler $access;
     private \ilOrgUnitPositionDBRepository $positionRepo;
     private \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     public function __construct()
     {
-        global $DIC;
-
         parent::__construct(['orgu', 'staff']);
 
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        global $DIC;
         $this->toolbar = $DIC->toolbar();
-        $this->access = $DIC->access();
-
 
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
@@ -69,7 +67,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
                 (int) filter_input(INPUT_GET, "ref_id", FILTER_SANITIZE_NUMBER_INT)
             )
         ) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
 
@@ -116,7 +114,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $tables = [];
 
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
-            $tables[] = $this->getStaffTable($ilOrgUnitPosition);
+            $tables[] = $this->getStaffTable($ilOrgUnitPosition, [$this->getParentRefId()], false);
 
             $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI(
                 $this,
@@ -138,7 +136,46 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
         // Tables
         $html = '';
+        $tables = [];
+
+
+        $orgu_tree = ilObjOrgUnitTree::_getInstance();
+        $orgu_ref_id = $this->getParentRefId();
+        $permission_access_staff_recursive = [];
+        // maybe any parent gives us recursive permission
+        (int) $root = (int) ilObjOrgUnit::getRootOrgRefId();
+        $parent = (int) $orgu_tree->getParent($orgu_ref_id);
+
+        while ($parent !== $root) {
+            if (ilObjOrgUnitAccess::_checkAccessStaffRec($parent)) {
+                array_merge(
+                    $permission_access_staff_recursive = $permission_access_staff_recursive,
+                    $orgu_tree->getAllChildren($parent)
+                );
+            }
+            $parent = (int) $orgu_tree->getParent($parent);
+        }
+
+        foreach ($orgu_tree->getAllChildren($orgu_ref_id) as $ref_id) {
+            $recursive = in_array($ref_id, $permission_access_staff_recursive);
+            if (!$recursive) {
+                // ok, so no permission from above, lets check local permissions
+                if (true || ilObjOrgUnitAccess::_checkAccessStaffRec($ref_id)) {
+                    // update recursive permissions
+                    $permission_access_staff_recursive = array_merge(
+                        $permission_access_staff_recursive,
+                        $orgu_tree->getAllChildren($ref_id)
+                    );
+                } elseif (!ilObjOrgUnitAccess::_checkAccessStaff($ref_id)) {
+                    // skip orgus in which one may not view the staff
+                    continue;
+                }
+            }
+        }
+
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
+            $tables[] = $this->getStaffTable($ilOrgUnitPosition, $permission_access_staff_recursive, true);
+
             $ilOrgUnitRecursiveUserAssignmentTableGUI =
                 new ilOrgUnitRecursiveUserAssignmentTableGUI(
                     $this,
@@ -147,82 +184,48 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
                 );
             $html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
         }
-        $this->setContent($html);
+        $this->setContent(
+            $this->ui_renderer->render($tables)
+            . '<hr><hr>'
+            . $html
+        );
     }
 
-
-    protected function getStaffTable(ilOrgUnitPosition $position): Table\Data
+    protected function confirmRemove(bool $recursive = false): void
     {
-        $columns = [
-            'login' => $this->ui_factory->table()->column()->text($this->lng->txt("login")),
-            'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt("firstname")),
-            'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt("lastname")),
-        ];
+        list($position_id, $usr_id) = $this->getPositionAndUserIdFromTableQuery();
 
-        $actions = [
-            'remove' => $this->ui_factory->table()->action()->single(
-                $this->lng->txt('remove'),
-                $this->url_builder->withParameter($this->action_token, "remove"),
-                $this->row_id_token
-            ),
-        ];
+        $id = implode('_', [(string)$position_id, (string)$usr_id]);
+        $usr_name = ilObjUser::_lookupLogin($usr_id);
+        $pos_name = $this->positionRepo->getSingle($position_id, 'id')->getTitle();
 
-        return $this->ui_factory->table()
-            ->data($position->getTitle(), $columns, $this->assignmentRepo)
-            ->withId('orgu_positions')
-            ->withActions($actions)
-            ->withAdditionalParameters([
-                'position_id' => $position->getId(),
-                'orgu_ids' => [$this->getParentRefId()]
-            ])
-            ->withRequest($this->request);
+        $item = $this->ui_factory->modal()->interruptiveItem()
+            ->keyValue($id, $usr_name, $pos_name);
+
+        $del_command = $recursive ? self::CMD_REMOVE_RECURSIVE : self::CMD_REMOVE;
+        $action = $this->url_builder
+            ->withParameter($this->row_id_token, $id)
+            ->withParameter($this->action_token, $del_command)
+            ->buildURI()->__toString();
+
+        echo($this->ui_renderer->renderAsync([
+            $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('remove_user'),
+                sprintf($this->lng->txt('msg_confirm_remove_user'), $pos_name),
+                $action
+            )->withAffectedItems([$item])
+        ]));
+        exit();
     }
 
-
-
-
-
-    protected function confirm(): void
+    protected function confirmRemoveRecursively(): void
     {
-        $confirmation = $this->getConfirmationGUI();
-        $confirmation->setConfirm($this->lng->txt('remove_user'), self::CMD_DELETE);
-
-        $this->setContent($confirmation->getHTML());
+        $this->confirmRemove(true);
     }
 
-    protected function confirmRecursive(): void
+    protected function remove(): void
     {
-        $confirmation = $this->getConfirmationGUI();
-        $confirmation->setConfirm($this->lng->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
-
-        $this->setContent($confirmation->getHTML());
-    }
-
-    protected function getConfirmationGUI(): ilConfirmationGUI
-    {
-        $this->ctrl->saveParameter($this, 'position_id');
-        $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl->getFormAction($this));
-        $confirmation->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-
-        $params = $this->http->request()->getQueryParams();
-        $usr_id = $params['usr_id'];
-        $position_id = $params['position_id'];
-
-        $types = $this->positionRepo->getArray('id', 'title');
-        $position_title = $types[$position_id];
-
-        $confirmation->setHeaderText(sprintf($this->lng->txt('msg_confirm_remove_user'), $position_title));
-        $confirmation->addItem('usr_id', $usr_id, ilObjUser::_lookupLogin((int) $usr_id));
-
-        return $confirmation;
-    }
-
-    protected function delete(): void
-    {
-        $params = $this->http->request()->getQueryParams();
-        $usr_id = (int) $_POST['usr_id'];
-        $position_id = (int) $params['position_id'];
+        list($position_id, $usr_id) = $this->getPositionAndUserIdFromTableQuery();
 
         $assignment = $this->assignmentRepo->find(
             $usr_id,
@@ -230,27 +233,108 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             $this->getParentRefId()
         );
         if (!$assignment) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found_to_delete"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found_to_delete"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
         $this->assignmentRepo->delete($assignment);
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('remove_successful'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('remove_successful'), true);
         $this->cancel();
     }
 
-    protected function deleteRecursive(): void
+    protected function removeRecursive(): void
     {
-        $r = $this->http->request();
-        $assignments = $this->assignmentRepo
-            ->getByUserAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id']);
-
+        list($position_id, $usr_id) = $this->getPositionAndUserIdFromTableQuery();
+        $assignments = $this->assignmentRepo->getByUserAndPosition($usr_id, $position_id);
         foreach ($assignments as $assignment) {
             $this->assignmentRepo->delete($assignment);
         }
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('remove_successful'), true);
-        $this->cancel();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('remove_successful'), true);
+        $this->assignmentsRecursive();
     }
+
+    protected function showLearningProgress(): void
+    {
+        list($position_id, $usr_id) = $this->getPositionAndUserIdFromTableQuery();
+        $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $usr_id);
+        $target = $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class, "");
+        $this->ctrl->redirectToURL($target);
+    }
+
+    protected function getStaffTable(
+        ilOrgUnitPosition $position,
+        array $orgu_ids,
+        bool $recursive = false
+    ): Table\Data {
+        $columns = [
+            'login' => $this->ui_factory->table()->column()->text($this->lng->txt("login")),
+            'firstname' => $this->ui_factory->table()->column()->text($this->lng->txt("firstname")),
+            'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt("lastname")),
+            'active' => $this->ui_factory->table()->column()->boolean(
+                $this->lng->txt("active"),
+                $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ok.svg', '', 'small'),
+                $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_not_ok.svg', '', 'small')
+            )->withIsOptional(true, false),
+        ];
+
+        $remove_cmd = self::CMD_REMOVE_CONFIRM;
+        if($recursive) {
+            $remove_cmd = self::CMD_REMOVE_RECURSIVELY_CONFIRM;
+            $columns['orgu_title'] = $this->ui_factory->table()->column()->text($this->lng->txt("obj_orgu"));
+        }
+
+        $actions = [
+            'remove' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('remove'),
+                $this->url_builder->withParameter($this->action_token, $remove_cmd),
+                $this->row_id_token
+            )->withAsync(),
+
+            'show_learning_progress' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('show_learning_progress'),
+                $this->url_builder->withParameter($this->action_token, self::CMD_SHOW_LP),
+                $this->row_id_token
+            ),
+        ];
+
+        $lp_visible = array_filter(
+            $orgu_ids,
+            fn($id) => $this->access->checkAccess("view_learning_progress", "", $id)
+        );
+
+        return $this->ui_factory->table()
+            ->data($position->getTitle(), $columns, $this->assignmentRepo)
+            ->withId(implode('.', ['orgustaff',$this->getParentRefId(),$position->getId()]))
+            ->withActions($actions)
+            ->withAdditionalParameters([
+                'position_id' => $position->getId(),
+                'orgu_ids' => $orgu_ids,
+                'lp_visible_ref_ids' => $lp_visible
+            ])
+            ->withRequest($this->request);
+    }
+
+    /**
+     * @return array<int, int> position_id, user_id
+     */
+    protected function getPositionAndUserIdFromTableQuery(): array
+    {
+        if($this->query->has($this->row_id_token->getName())) {
+            return $this->query->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->custom()->transformation(
+                    function ($v) {
+                        $id = is_array($v) ? array_shift($v) : $v;
+                        return array_map('intval', explode('_', $id));
+                    }
+                )
+            );
+        }
+        throw new \Exception('no position/user id in query');
+    }
+
+
+
 
     protected function cancel(): void
     {
@@ -260,7 +344,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function addStaff(): void
     {
         if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
@@ -274,21 +358,21 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
 
         if (!count($user_ids)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
         $position_id = (int) ($_POST['user_type'] ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
@@ -298,26 +382,26 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function addStaffFromSearch(array $user_ids, ?string $user_type = null): void
     {
         if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
         if (!count($user_ids)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
         $position_id = (int) ($user_type ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
         foreach ($user_ids as $user_id) {
             $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
