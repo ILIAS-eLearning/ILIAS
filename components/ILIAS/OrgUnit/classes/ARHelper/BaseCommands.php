@@ -40,16 +40,14 @@ abstract class BaseCommands
     public const CMD_EDIT = "edit";
     public const CMD_UPDATE = "update";
     public const CMD_CONFIRM = "confirm";
-    public const CMD_CONFIRM_RECURSIVE = "confirmRecursive";
     public const CMD_DELETE = "delete";
-    public const CMD_DELETE_RECURSIVE = "deleteRecursive";
     public const CMD_CANCEL = "cancel";
     public const AR_ID = "arid";
 
     protected \ilLanguage $lng;
     protected \ilCtrl $ctrl;
     private \ilTabsGUI $tabsGUI;
-    private \ilAccess $access;
+    protected \ilAccess $access;
     protected \ILIAS\HTTP\Services $http;
     protected \ilGlobalTemplateInterface $tpl;
     protected ?BaseCommands $parent_gui = null;
