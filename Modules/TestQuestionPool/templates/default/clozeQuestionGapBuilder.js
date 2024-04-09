@@ -1,3 +1,18 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 const ClozeGlobals = {
   clone_active: -1,
   active_gap: -1,
@@ -1470,7 +1485,7 @@ var ClozeGapCombinationBuilder = (function () {
           if (pos === value) {
             $.each(obj_inner_values.values, (l, value) => {
               const cleaned_answer_value = value.answer.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-              buildOptionsValue += `<option value="${value.answer}">${cleaned_answer_value}</option>`;
+              buildOptionsValue += `<option value="${value.answer}">${(obj_inner_values.type === 'numeric') ? ClozeSettings.intherange_text : cleaned_answer_value}</option>`;
             });
             if (obj_inner_values.type == 'numeric') {
               buildOptionsValue += `<option value="out_of_bound">${ClozeSettings.outofbound_text}</option>`;

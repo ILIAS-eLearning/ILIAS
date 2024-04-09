@@ -783,6 +783,7 @@ assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions
 assessment#:#imagemap#:#Image Map
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
+assessment#:#in_the_range#:#In the range
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
