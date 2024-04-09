@@ -1,10 +1,22 @@
-<div class="panel panel-primary panel-flex">
+<div class="panel panel-primary panel-flex<!-- BEGIN panel_expandable --> panel-expandable<!-- END panel_expandable -->">
 	<div class="panel-heading ilHeader">
-		<div class="panel-title"><h2>{TITLE}</h2></div>
+		<!-- BEGIN title -->
+		<div class="panel-title">
+			<h2>{TITLE}</h2>
+		</div>
+		<!-- END title -->
+		<!-- BEGIN opener -->
+		<div class="panel-opener" data-toggle="collapse" data-target="#{BODY_ID}">
+			<h2>
+				<div class="panel-collapse-button">{COLLAPSE_BUTTON}</div>
+				<div class="panel-expand-button">{EXPAND_BUTTON}</div>
+			</h2>
+		</div>
+		<!-- END opener -->
 		<!-- BEGIN vc_container -->
 		<div class="panel-viewcontrols l-bar__space-keeper"><!-- BEGIN view_controls -->{VIEW_CONTROL}<!-- END view_controls --></div>
 		<!-- END vc_container -->
 		<div class="panel-controls">{ACTIONS}</div>
 	</div>
-	<div class="panel-body">{BODY}</div>
+	<div class="panel-body<!-- BEGIN body_expandable --> panel-body-expandable collapse {BODY_EXPANDED}" id="{BODY_ID}<!-- END body_expandable -->">{BODY}</div>
 </div>

@@ -50,6 +50,11 @@ interface Factory
      *      1: Standard Panels MAY contain a Section View Control to change the current presentation of the content.
      *      2: Standard Panels MAY contain a Pagination View Control to display data in chunks.
      *      3: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+     *
+     *   interaction:
+     *      1: >
+     *         Standard Panels MAY be expandable to make the content collapsible. Standard Panels MAY also get
+     *         asynchronous expand and collapse actions to e.g. store the expanded status of the Component in the session.
      * ---
      * @param string $title
      * @param Component[]|Component

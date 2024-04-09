@@ -38,6 +38,12 @@ interface Factory
      *      This Listing is composed of title and a set of Item Groups. Additionally an
      *      optional dropdown to select the number/types of items
      *      to be shown at the top of the Listing.
+     *
+     * rules:
+     *   interaction:
+     *      1: >
+     *         Standard Listing Panels MAY be expandable to make the Item Groups collapsible. Standard Panels MAY also get
+     *         asynchronous expand and collapse actions to e.g. store the expanded status of the Component in the session.
      * ---
      * @param string $title Title of the Listing
      * @param \ILIAS\UI\Component\Item\Group[] $item_groups Item groups

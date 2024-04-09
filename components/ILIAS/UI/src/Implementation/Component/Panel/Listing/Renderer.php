@@ -25,6 +25,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Implementation\Render\Template as Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -63,12 +64,12 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Template $tpl
     ): Template {
+        $f = $this->getUIFactory();
         $title = $component->getTitle();
         $actions = $component->getActions();
         $view_controls = $component->getViewControls();
 
         if ($title !== "" || $actions || $view_controls) {
-            $tpl->setVariable("TITLE", $title);
             if ($actions) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }
@@ -79,10 +80,51 @@ class Renderer extends AbstractComponentRenderer
                     $tpl->parseCurrentBlock();
                 }
             }
-            $tpl->setCurrentBlock("heading");
-            $tpl->parseCurrentBlock();
+            if ($component->isExpandable()) {
+                $tpl->touchBlock("panel_expandable");
+                $tpl->touchBlock("body_expandable");
+
+                $component = $component->withAdditionalOnLoadCode(
+                    function ($id) {
+                        return "il.UI.panel.initExpandable();";
+                    }
+                );
+                $id = $this->bindJavaScript($component);
+                if ($id === null) {
+                    $id = $this->createId();
+                }
+                $tpl->setVariable("BODY_ID", $id . "_body");
+
+                $collapse_action = $component->getCollapseAction();
+                $opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $component->getTitle(), "")
+                                     ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+					il.UI.panel.onCollapseCmd(event, '$id', '$collapse_action');
+					event.preventDefault();
+			    });");
+                $tpl->setVariable("COLLAPSE_BUTTON", $default_renderer->render($opener_collapse));
+
+                $expand_action = $component->getExpandAction();
+                $opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $component->getTitle(), "")
+                                   ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
+					il.UI.panel.onExpandCmd(event, '$id', '$expand_action');
+					event.preventDefault();
+			    });");
+                $tpl->setVariable("EXPAND_BUTTON", $default_renderer->render($opener_expand));
+
+                if ($component->isExpanded()) {
+                    $tpl->setVariable("BODY_EXPANDED", "in");
+                }
+            } else {
+                $tpl->setVariable("TITLE", $title);
+            }
         }
         return $tpl;
+    }
+
+    public function registerResources (ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('./src/UI/templates/js/Panel/panel.js');
     }
 
     /**
