@@ -77,7 +77,7 @@ class ilLMTracker
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->user = $DIC->user();
         $this->user_id = $a_user_id;
-        $this->refinery = $refinery;
+        $this->refinery = $DIC['refinery'];
 
         if ($a_by_obj_id) {
             $this->lm_ref_id = 0;
