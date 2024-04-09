@@ -48,12 +48,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->user_id = (int) $a_user_id;
         $this->setId('objownmgmt'); // #16373
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn($lng->txt("title"), "title");
         $this->addColumn($lng->txt("path"), "path");
         $this->addColumn($lng->txt("action"), "");
@@ -62,20 +62,20 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.obj_ownership_row.html", "Services/Object");
         $this->setDisableFilterHiding(true);
-        
+
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-            
+
         $this->initItems($a_data);
     }
-    
+
     protected function initItems($a_data)
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
-                
+
         $data = array();
-        
+
         if (is_array($a_data) && sizeof($a_data)) {
             if (!$this->user_id) {
                 $is_admin = $ilAccess->checkAccess("visible", "", SYSTEM_FOLDER_ID);
@@ -108,12 +108,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 
         $this->setData($data);
     }
-    
+
     public function fillRow($row)
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
-                
+
         // #11050
         if (!$objDefinition->isPlugin($row["type"])) {
             $txt_type = $lng->txt("obj_" . $row["type"]);
@@ -121,32 +121,32 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
             include_once("./Services/Component/classes/class.ilPlugin.php");
             $txt_type = ilObjectPlugin::lookupTxtById($row["type"], "obj_" . $row["type"]);
         }
-        
-        $this->tpl->setVariable("TITLE", $row["title"]);
+
+        $this->tpl->setVariable("TITLE", strip_tags($row["title"], ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
         $this->tpl->setVariable("ALT_ICON", $txt_type);
         $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $row["type"]));
         $this->tpl->setVariable("PATH", $row["path"]);
-        
+
         if ($row["readable"]) {
             $this->tpl->setCurrentBlock("actions");
             $this->tpl->setVariable("ACTIONS", $this->buildActions($row["ref_id"], $row["type"]));
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     protected function buildActions($a_ref_id, $a_type)
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
-        
+
         include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
         $agui = new ilAdvancedSelectionListGUI();
         $agui->setId($this->id . "-" . $a_ref_id);
         $agui->setListTitle($lng->txt("actions"));
-        
+
         $ilCtrl->setParameter($this->parent_obj, "ownid", $a_ref_id);
-                
+
         include_once "Services/Link/classes/class.ilLink.php";
         $agui->addItem(
             $lng->txt("show"),
@@ -156,7 +156,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
             "",
             "_blank"
         );
-        
+
         $agui->addItem(
             $lng->txt("move"),
             "",
@@ -165,7 +165,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
             "",
             ""
         );
-        
+
         $agui->addItem(
             $lng->txt("change_owner"),
             "",
@@ -174,7 +174,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
             "",
             ""
         );
-        
+
         if (!in_array($a_type, array("crsr", "catr", "grpr")) && $objDefinition->allowExport($a_type)) {
             $agui->addItem(
                 $lng->txt("export"),
@@ -185,7 +185,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
                 ""
             );
         }
-        
+
         $agui->addItem(
             $lng->txt("delete"),
             "",
@@ -194,12 +194,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
             "",
             ""
         );
-        
+
         $ilCtrl->setParameter($this->parent_obj, "ownid", "");
-                            
+
         return $agui->getHTML();
     }
-    
+
     protected function buildPath($a_ref_id)
     {
         $tree = $this->tree;
@@ -215,7 +215,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
                 $path .= " &raquo; " . $data['title'];
             }
         }
-        
+
         return $path;
     }
 }
