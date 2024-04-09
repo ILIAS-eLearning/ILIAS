@@ -568,6 +568,7 @@ class ilForum
             );
         }
 
+        $affected_user_ids[] = $post->getPosAuthorId();
         $deleted_post_ids = $this->deletePostTree($p_node);
 
         $obj_history = new ilForumDraftsHistory();
@@ -621,6 +622,7 @@ class ilForum
                     }
                 } catch (Exception $e) {
                 }
+                $affected_user_ids[] = (int) $posrec['pos_author_id'];
             }
 
             $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$p_node['tree']]);
@@ -724,7 +726,7 @@ class ilForum
                 [
                     'obj_id' => $this->getForumId(),
                     'ref_id' => $this->getForumRefId(),
-                    'post' => $post
+                    'user_ids' => $affected_user_ids
                 ]
             );
         }

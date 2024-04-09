@@ -398,12 +398,13 @@ class ilForumAppEventListener implements ilAppEventListener
                         break;
 
                     case 'afterPostDeletion':
-                        $post = $a_parameter['post'];
+                        foreach ($a_parameter['user_ids'] as $user_id) {
+                            ilLPStatusWrapper::_updateStatus(
+                                $a_parameter['obj_id'],
+                                $user_id
+                            );
+                        }
 
-                        ilLPStatusWrapper::_updateStatus(
-                            $a_parameter['obj_id'],
-                            $post->getPosAuthorId()
-                        );
                         break;
 
                     case 'savedAsDraft':
