@@ -204,7 +204,7 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
             }
 
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
+            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints((float) $row["points"]);
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setObligationsAnswered($row["obligations_answered"]);
 
             if ($row["questioncount"] == 0) {
