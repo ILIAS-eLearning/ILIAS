@@ -26,6 +26,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -93,6 +94,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected UIRenderer $ui_renderer;
     protected HTTPServices $http;
     protected ilHelpGUI $help;
+    protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
     protected SkillService $skills_service;
     protected InternalRequestService $testrequest;
@@ -118,6 +120,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->db = $DIC['ilDB'];
         $this->logging_services = $DIC->logger();
         $this->help = $DIC['ilHelp'];
+        $this->global_screen = $DIC['global_screen'];
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
@@ -753,6 +756,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->db,
                     $this->user,
                     $this->refinery->random(),
+                    $this->global_screen
                 );
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());

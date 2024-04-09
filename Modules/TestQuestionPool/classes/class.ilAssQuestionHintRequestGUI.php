@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+
 /**
  * GUI class for management/output of hint requests during test session
  *
@@ -44,6 +46,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         private ilLanguage $lng,
         private ilGlobalTemplateInterface $tpl,
         protected ilTabsGUI $tabs,
+        private GlobalScreen $global_screen
     ) {
 
         parent::__construct($question_gui);
@@ -74,6 +77,11 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     private function showListCmd(): void
     {
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('show_requested_question_hints')
+        );
+
         $question_hint_list = $this->question_hint_tracking->getRequestedHintsList();
 
         $table = new ilAssQuestionHintsTableGUI(
@@ -100,6 +108,15 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
         $question_hint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
 
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->parent_gui->getObject()->getTitle() . ' - ' . sprintf(
+                $this->lng->txt('tst_question_hints_form_header_edit'),
+                $question_hint->getIndex(),
+                $this->request->int('sequence') ?? 0
+            )
+        );
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth('100%');
@@ -113,7 +130,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $num_existing_requests = $this->question_hint_tracking->getNumExistingRequests();
 
         if ($num_existing_requests > 1) {
-            $form->addCommandButton(self::CMD_SHOW_LIST, $this->lng->txt('button_show_requested_question_hints'));
+            $form->addCommandButton(self::CMD_SHOW_LIST, $this->lng->txt('show_requested_question_hints'));
         }
 
         // form input: hint text
@@ -133,10 +150,15 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 
     private function confirmRequestCmd(): void
     {
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->parent_gui->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_question_hints_confirm_request')
+        );
+
         try {
             $next_requestable_hint = $this->question_hint_tracking->getNextRequestableHint();
         } catch (ilTestNoNextRequestableHintExistsException $e) {
-            $this->c->redirect($this, self::CMD_BACK_TO_QUESTION);
+            $this->ctrl->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
 
         $confirmation = new ilConfirmationGUI();

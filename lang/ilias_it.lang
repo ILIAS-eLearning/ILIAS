@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Torna al test
 assessment#:#baseunit#:#Unità base
 assessment#:#button_request_next_question_hint#:#Richiesta prossimo suggerimento
 assessment#:#button_request_question_hint#:#Richiesta suggerimento
-assessment#:#button_show_requested_question_hints#:#Mostra suggerimento richiestp
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Sospendi il test
 assessment#:#cannot_edit_marks#:#Ci sono utenti che hanno gia' eseguito il test. E' possibile solamente modificare i voti se la data del report e' stata abilitata ma non e' ancora stata raggiunta.
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
+assessment#:#show_requested_question_hints#:#Mostra suggerimento richiesto
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#skip_question#:#Non rispondere e Avanti

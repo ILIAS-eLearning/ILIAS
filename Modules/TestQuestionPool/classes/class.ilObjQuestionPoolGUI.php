@@ -21,11 +21,11 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
-use ILIAS\DI\UIServices as UIServices;
 use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -62,6 +62,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected RBACServices $rbac;
     protected ilComponentLogger $log;
     protected ilHelpGUI $help;
+    protected GlobalScreen $global_screen;
     protected ilComponentFactory $component_factory;
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $navigation_history;
@@ -81,6 +82,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->rbac = $DIC->rbac();
         $this->log = $DIC['ilLog'];
         $this->help = $DIC['ilHelp'];
+        $this->global_screen = $DIC['global_screen'];
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
@@ -232,7 +234,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->lng,
                     $ilDB,
                     $ilUser,
-                    $randomGroup
+                    $randomGroup,
+                    $this->global_screen
                 );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());

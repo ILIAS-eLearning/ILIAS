@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Natrag na pozivajući test
 assessment#:#baseunit#:#Osnovna jedinica
 assessment#:#button_request_next_question_hint#:#Zatraži sljedeći savjet za odgovor
 assessment#:#button_request_question_hint#:#Zatraži odgovor
-assessment#:#button_show_requested_question_hints#:#Prikaži zatražene savjete za odgovore
 assessment#:#by#:#po
 assessment#:#cancel_test#:#Prekini test
 assessment#:#cannot_edit_marks#:#Već postoje učenici koji su završili test. Oznake možete promijeniti samo ako je omogućen datum izvještavanja o rezultatima, a datum izvještavanja je u budućnosti.
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
+assessment#:#show_requested_question_hints#:#Prikaži zatražene savjete za odgovore
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
 assessment#:#shuffle_answers#:#Pomiješaj odgovore
 assessment#:#skip_question#:#Nemoj odgovoriti i dalje

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Test\InternalRequestService;
 
+use ILIAS\GlobalScreen\Services as GlobalScreen;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -43,7 +45,8 @@ class ilTestPasswordProtectionGUI
         private ilLanguage $lng,
         private ilTestPlayerAbstractGUI $parent_gui,
         private ilTestPasswordChecker $password_checker,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private GlobalScreen $global_screen
     ) {
     }
 
@@ -95,12 +98,14 @@ class ilTestPasswordProtectionGUI
 
     private function showPasswordFormCmd(): void
     {
-        $msg = $this->buildPasswordMsg();
-        $form = $this->buildPasswordForm();
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->parentGUI->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
+        );
 
         $this->tpl->setVariable(
             $this->parent_gui->getContentBlockName(),
-            $msg . $this->ctrl->getHTML($form)
+            $this->buildPasswordMsg() . $this->ctrl->getHTML($this->buildPasswordForm())
         );
     }
 
