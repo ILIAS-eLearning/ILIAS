@@ -284,8 +284,6 @@ abstract class ilPlugin
 
         $this->readEventListening();
 
-        $this->readEventListening();
-
         // set last update version to current version
         $this->component_repository->setCurrentPluginVersion(
             $this->getPluginInfo()->getId(),
