@@ -592,7 +592,6 @@ assessment#:#backtocallingtest#:#Tillbaka till testet
 assessment#:#baseunit#:#Basenhet
 assessment#:#button_request_next_question_hint#:#Förfrågan om nästa lösning
 assessment#:#button_request_question_hint#:#Förfrågan om lösning
-assessment#:#button_show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#by#:#till
 assessment#:#cancel_test#:#Test av avbrott
 assessment#:#cannot_edit_marks#:#Testet har redan genomförts av deltagarna. Du kan bara ändra bedömningen om ett datum har fastställts för resultatutmatningen som för närvarande fortfarande ligger i framtiden.
@@ -1219,6 +1218,7 @@ assessment#:#show_detailed_results#:#Detaljerade testresultat (poängsatt testk�
 assessment#:#show_examview_html#:#På skärmen
 assessment#:#show_examview_pdf#:#PDF nedladdning
 assessment#:#show_pass_overview#:#Resultatöversikt (poängsatt provkörning)
+assessment#:#show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#show_user_answers#:#Answers (poängsatt testkörning)
 assessment#:#showinfo#:#Visa testets egenskaper
 assessment#:#showinfo_desc#:#Användare visas alla testegenskaper på fliken "Info", t.ex. ordning, betyg eller resultatutmatning.

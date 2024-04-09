@@ -161,7 +161,7 @@ class ilAssQuestionRelatedNavigationBarGUI
             if ($this->doesHintRequestsExist()) {
                 $navTpl->setCurrentBlock("button_show_requested_question_hints");
                 $navTpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", $this->getHintListCmd());
-                $navTpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $this->lng->txt("button_show_requested_question_hints"));
+                $navTpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $this->lng->txt("show_requested_question_hints"));
                 $navTpl->parseCurrentBlock();
 
                 $parseQuestionRelatedNavigation = true;

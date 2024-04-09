@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Retour au test
 assessment#:#baseunit#:#Unité de Base
 assessment#:#button_request_next_question_hint#:#Indice Suivant
 assessment#:#button_request_question_hint#:#Recourir à un indice
-assessment#:#button_show_requested_question_hints#:#Montrer un indice
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Suspendre le Test
 assessment#:#cannot_edit_marks#:#Des utilisateurs ont déjà entamé le test. Vous pouvez seulement modifier les appréciations si une date de communication des scores a été définie et qu'elle n'est pas encore atteinte.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Afficher les résultats détaillés de l'ut
 assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumission du test.
 assessment#:#show_examview_pdf#:#Utiliser la vue examen pour les fichiers PDF chargés automatiquement.
 assessment#:#show_pass_overview#:#Afficher les Résultats
+assessment#:#show_requested_question_hints#:#Montrer un indice
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
 assessment#:#showinfo#:#Afficher l'introduction complète
 assessment#:#showinfo_desc#:#Si cochée, la page d'introduction est présentée entièrement (en incluant les paramètres du test). Si non cochée, seul le message d'introduction (s'il existe) et les paramètres requis sont affichés sur la page d'information du test

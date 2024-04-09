@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Tagasi koostatava testi juurde
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#poolt
 assessment#:#cancel_test#:#Katkesta test
 assessment#:#cannot_edit_marks#:#See test on juba mõnede kasutajate poolt käivitatud. Sa saad muuta vaid hindeid, kui on aktiveeritud testitulemuste esitamise tähtaeg ja see pole veel käes.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgi
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
 assessment#:#showinfo#:#Näita kogu testi infolehte
 assessment#:#showinfo_desc#:#Kui on märgistatud, on kogu testi infoleht kuvatud (k.a testi seaded). Kui on märgistamata, on kuvatud vaid sissejuhatav tekst (kui on olemas) ja seaded on kuvatud testi infolehel.

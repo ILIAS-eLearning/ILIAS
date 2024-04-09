@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#呼び出し中のテストに戻る
 assessment#:#baseunit#:#ベースユニット
 assessment#:#button_request_next_question_hint#:#次のヒントを要求
 assessment#:#button_request_question_hint#:#ヒントを要求
-assessment#:#button_show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#by#:#ユーザ名
 assessment#:#cancel_test#:#テスト中断
 assessment#:#cannot_edit_marks#:#既にテストを実行した学習者がいます。スコア報告日が有効でまだ報告日になっていない場合はマーク変更だけができます。
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスし
 assessment#:#show_examview_html#:#画面上に
 assessment#:#show_examview_pdf#:#PDFダウンロード
 assessment#:#show_pass_overview#:#マークした試験状況を表示
+assessment#:#show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#showinfo#:#全テストプロパティの表示
 assessment#:#showinfo_desc#:#ユーザは"Info"タブのテストプロパティの全リスト(例:点数とレポートの情報)へ表示されます。

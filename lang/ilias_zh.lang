@@ -576,7 +576,6 @@ assessment#:#backtocallingtest#:#返回测试
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#请求下一个提示
 assessment#:#button_request_question_hint#:#请求提示
-assessment#:#button_show_requested_question_hints#:#显示请求的提示
 assessment#:#by#:#由
 assessment#:#cancel_test#:#取消考试
 assessment#:#cannot_edit_marks#:#已经有学生在进行测试。如果分数报告日期被启用并且报告日期还没有到，您只能标记变更内容。
@@ -1203,6 +1202,7 @@ assessment#:#show_detailed_results#:#展示用户的详细结果(已标注通过
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#展示已标注通过的概况
+assessment#:#show_requested_question_hints#:#显示请求的提示
 assessment#:#show_user_answers#:#展示用户的已标注答案
 assessment#:#showinfo#:#展示完整的信息页面
 assessment#:#showinfo_desc#:#如果勾选了，将会展示完整的测试页面（包括测试属性）。如果未勾选，则仅在测试信息页面展示介绍文本（如果有效的话）和所需的属性。

@@ -195,6 +195,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
     protected function show()
     {
+        global $DIC;
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->object->getTitle() . ' - ' . $this->lng->txt('tst_results_overview')
+        );
+
         $html = $this->buildToolbar('review_nav_top')->getHTML();
         $html .= $this->buildUserReviewOutput() . '<br />';
         $html .= $this->buildToolbar('review_nav_bottom')->getHTML();

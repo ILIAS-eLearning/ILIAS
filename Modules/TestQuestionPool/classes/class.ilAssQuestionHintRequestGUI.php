@@ -103,6 +103,12 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
+        $lng = $DIC['lng'];
+
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->parentGUI->getObject()->getTitle() . ' - ' . $lng->txt('show_requested_question_hints')
+        );
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
 
@@ -149,7 +155,14 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
 
-        // build form
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->parentGUI->getObject()->getTitle() . ' - ' . sprintf(
+                $lng->txt('tst_question_hints_form_header_edit'),
+                $questionHint->getIndex(),
+                $this->request->int('sequence') ?? 0
+            )
+        );
 
         $form = new ilPropertyFormGUI();
 
@@ -168,7 +181,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $numExistingRequests = $this->questionHintTracking->getNumExistingRequests();
 
         if ($numExistingRequests > 1) {
-            $form->addCommandButton(self::CMD_SHOW_LIST, $lng->txt('button_show_requested_question_hints'));
+            $form->addCommandButton(self::CMD_SHOW_LIST, $lng->txt('show_requested_question_hints'));
         }
 
         // form input: hint text
@@ -200,6 +213,11 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
+
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->parentGUI->getObject()->getTitle() . ' - ' . $lng->txt('tst_question_hints_confirm_request')
+        );
 
         try {
             $nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();

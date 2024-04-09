@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Terug naar de toets
 assessment#:#baseunit#:#Basiseenheid
 assessment#:#button_request_next_question_hint#:#Volgende hint vragen
 assessment#:#button_request_question_hint#:#Hint vragen
-assessment#:#button_show_requested_question_hints#:#Toon gevraagde hints
 assessment#:#by#:#door
 assessment#:#cancel_test#:#Annuleer de toets
 assessment#:#cannot_edit_marks#:#De toets is al gestart door deelnemers. Je kunt enkel de punten aanpassen als de rapporteringsdatum ingeschakeld is en als de rapporteringsdatum nog niet bereikt is.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruik
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
 assessment#:#show_examview_pdf#:#Toon examenbeeld in een automatisch geddownloade PDF.
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
+assessment#:#show_requested_question_hints#:#Toon gevraagde hints
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#showinfo#:#Toon de volledige informatiepagina
 assessment#:#showinfo_desc#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.

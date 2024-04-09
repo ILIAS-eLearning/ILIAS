@@ -591,7 +591,6 @@ assessment#:#backtocallingtest#:#Torna al test
 assessment#:#baseunit#:#Unità base
 assessment#:#button_request_next_question_hint#:#Richiesta prossimo suggerimento
 assessment#:#button_request_question_hint#:#Richiesta suggerimento
-assessment#:#button_show_requested_question_hints#:#Mostra suggerimento richiesta
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Sospendi il test
 assessment#:#cannot_edit_marks#:#Ci sono utenti che hanno gia' eseguito il test. E' possibile solamente modificare i voti se la data del report e' stata abilitata ma non e' ancora stata raggiunta.
@@ -1218,6 +1217,7 @@ assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (sv
 assessment#:#show_examview_html#:#Mostra la vista dell'esame nella pagina di invio del test.
 assessment#:#show_examview_pdf#:#Mostra la vista dell'esame in un PDF scaricato automaticamente.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
+assessment#:#show_requested_question_hints#:#Mostra suggerimento richiesta
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#showinfo#:#Mostra la Information Page completa
 assessment#:#showinfo_desc#:#Se selezionato, la Pagina Info Test viene mostrata (incluse le proprietà del test). Se non selezionato, solo il testo di introduzione (se disponibile) e le proprietà richieste verranno mostrate sulla Pagina Info Test.<br />

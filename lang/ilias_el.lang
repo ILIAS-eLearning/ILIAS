@@ -578,7 +578,6 @@ assessment#:#backtocallingtest#:#Πίσω στο διαγώνισμα
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#με
 assessment#:#cancel_test#:#Αναβολή του διαγωνίσματος
 assessment#:#cannot_edit_marks#:#Υπάρχουν ήδη μαθητευόμενοι που κάνουν το διαγώνισμα. Μπορείτε ν' αλλάξετε τους βαθμούς αν έχει ενεργοποιηθεί η ημερομηνία αναφοράς βαθμολογίας και δεν έχει φθάσει αυτή η ημερομηνία.
@@ -1205,6 +1204,7 @@ assessment#:#show_detailed_results#:#Εμφάνιση λεπτομερειών �
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Εμφάνιση γενικής εικόνας αποτελεσμάτων του Χρήστη
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#Εμφάνιση απαντήσεων του Χρήστη
 assessment#:#showinfo#:#Παρουσιάστε την πλήρη σελιδα πληροφοριών
 assessment#:#showinfo_desc#:#Εάν τικαριστεί, η πλήρης σελίδα πληροφοριών του τέστ θα εμφανιστεί(περιλαμβανομένων των ιδιοτήτων του τέστ). Εάν δέν τικαριστεί, μόνο το εισαγωγικό κείμενο (εφόσον υπάρχει)και οι απαιτούμενες ιδιότητες θα εμφανιστούν στη σελιδα πληροφοριών του τέστ

@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Назад к вызванному тесту
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Приостановить тест
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Показать подробные рез�
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#showinfo#:#Показать полную информационную странцу
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page.

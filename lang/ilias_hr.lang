@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Natrag na pozivajući test
 assessment#:#baseunit#:#Osnovna jedinica
 assessment#:#button_request_next_question_hint#:#Zatraži sljedeći savjet za odgovor
 assessment#:#button_request_question_hint#:#Zatraži odgovor
-assessment#:#button_show_requested_question_hints#:#Prikaži zatražene savjete za odgovore
 assessment#:#by#:#po
 assessment#:#cancel_test#:#Prekini test
 assessment#:#cannot_edit_marks#:#Već postoje učenici koji su završili test. Oznake možete promijeniti samo ako je omogućen datum izvještavanja o rezultatima, a datum izvještavanja je u budućnosti.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Prikaži detaljne rezultate korisnika (ocij
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_examview_pdf#:#Preuzimanje PDF-a
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
+assessment#:#show_requested_question_hints#:#Prikaži zatražene savjete za odgovore
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
 assessment#:#showinfo#:#Prikaži sve karakterstike testa
 assessment#:#showinfo_desc#:#Korisnicima će se na kartici ‘Info’ prikazati sve karakteristike testa, npr. informacije o bodovima te izvješće o rezultatima.

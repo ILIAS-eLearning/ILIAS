@@ -592,7 +592,6 @@ assessment#:#backtocallingtest#:#Vissza a teszthez
 assessment#:#baseunit#:#Alapmértékegység
 assessment#:#button_request_next_question_hint#:#Következő segítség kérése
 assessment#:#button_request_question_hint#:#Segítség kérése
-assessment#:#button_show_requested_question_hints#:#Kért segítség megjelenítése
 assessment#:#by#:#Létrehozta
 assessment#:#cancel_test#:#Teszt felfüggesztése
 assessment#:#cannot_edit_marks#:#Néhány felhasználók már kitöltötte a tesztet. Az érdemjegyeket csak akkor módosíthatja, ha a 'Hozzáférés a teszteredményekhez' dátum be van állítva és az jövőbeni.
@@ -1219,6 +1218,7 @@ assessment#:#show_detailed_results#:#Figyelembe vett tesztkitöltés részletes 
 assessment#:#show_examview_html#:#Képernyőn
 assessment#:#show_examview_pdf#:#PDF letöltés
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
+assessment#:#show_requested_question_hints#:#Kért segítség megjelenítése
 assessment#:#show_user_answers#:#Figyelembe vett tesztkitöltés válaszainak megjelenítése
 assessment#:#showinfo#:#Az összes teszttulajdonság megjelenítése
 assessment#:#showinfo_desc#:#Az összes teszttulajdonság felsorolása jelenik meg először a felhasználónak, mint például információ a pontozásról, vagy az eredmények megjelenítéséről.

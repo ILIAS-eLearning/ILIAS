@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Zpět k vyvolávacímu testu
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#podle
 assessment#:#cancel_test#:#Přerušit test
 assessment#:#cannot_edit_marks#:#Již jsou tu studenti, kteří test spustili. Známky můžete měnit pouze je-li zapnuto datum hlášení hodnocení a toto datum doposud nenastalo.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Z
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
 assessment#:#showinfo#:#Zobrazit úplnou stránku informací
 assessment#:#showinfo_desc#:#Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu.

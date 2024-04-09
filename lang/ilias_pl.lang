@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#baseunit#:#Jednostka podstawowa
 assessment#:#button_request_next_question_hint#:#Zażądaj następnej podpowiedzi
 assessment#:#button_request_question_hint#:#Zażądaj podpowiedzi
-assessment#:#button_show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj test
 assessment#:#cannot_edit_marks#:#Są uczniowie, którzy uruchomili test. Możesz tylko zawiesić ocenę, jeśli jest włączona data raportu punktacji, a data raportu jeszcze nie minęła.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Szczegółowe wyniki testu (oceniony przebi
 assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_examview_pdf#:#Pobieranie PDF
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
+assessment#:#show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
 assessment#:#showinfo#:#Pokaż pełną stronę informacyjną
 assessment#:#showinfo_desc#:#Jeśli zaznaczone, pełna strona informacja testu będzie wyświetlona (w tym właściwości testu). Jeżeli odznaczone, tylko wstępne wiadomości (jeśli są dostępne) i wymagane właściwości pojawią się na stronie informacyjnej testu.

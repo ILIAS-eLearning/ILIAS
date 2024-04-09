@@ -62,23 +62,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->initAssessmentSettings();
 
-        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
-            $this->object->getKioskMode()
-        );
-        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
-            $this->object->getTitle()
-        );
-        $instance_name =  $DIC['ilSetting']->get('short_inst_name');
-        if (trim($instance_name) === '') {
-            $instance_name = 'ILIAS';
-        }
-        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
-            $instance_name
-        );
-
         $testSessionFactory = new ilTestSessionFactory($this->object);
         $this->testSession = $testSessionFactory->getSession($this->testrequest->raw('active_id'));
 
@@ -91,6 +74,27 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
         $this->testSequence->loadFromDb();
         $this->testSequence->loadQuestions();
+
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
+            $this->object->getKioskMode()
+        );
+        $title = $this->object->getTitle();
+        if (($sequence_index = $this->getSequenceElementParameter()) !== null) {
+            $title .= ' - ' . $this->lng->txt('question') . $sequence_index;
+        }
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $title
+        );
+        $instance_name =  $DIC['ilSetting']->get('short_inst_name');
+        if (trim($instance_name) === '') {
+            $instance_name = 'ILIAS';
+        }
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
+            $instance_name
+        );
 
         $this->questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
 

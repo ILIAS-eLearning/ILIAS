@@ -1052,6 +1052,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function showFinalStatementCmd()
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->object->getTitle() . ' - ' . $this->lng->txt('final_statement')
+        );
+
         $template = new ilTemplate("tpl.il_as_tst_final_statement.html", true, true, "Modules/Test");
         $this->ctrl->setParameter($this, "skipfinalstatement", 1);
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
@@ -1588,6 +1595,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $help->setScreenIdComponent("tst");
         $help->setScreenId("assessment");
         $help->setSubScreenId("question_summary");
+
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->getObject()->getTitle() . ' - ' . $this->lng->txt('question_summary')
+        );
 
         if ($fullpage) {
             $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");

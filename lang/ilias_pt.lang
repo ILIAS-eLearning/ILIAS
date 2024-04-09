@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Voltar ao teste vocacional
 assessment#:#baseunit#:#Unidade base
 assessment#:#button_request_next_question_hint#:#Pedir próxima sugestão
 assessment#:#button_request_question_hint#:#Pedir sugestão
-assessment#:#button_show_requested_question_hints#:#Mostrar sugestões pedidas
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar o teste
 assessment#:#cannot_edit_marks#:#Já há alunos que fizeram o teste. Pode apenas alterar as marcas se estiver ativada uma data do relatório da pontuação e se a data do relatório ainda não foi alcançada.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Mostrar resultados detalhados do utilizador
 assessment#:#show_examview_html#:#No ecrã
 assessment#:#show_examview_pdf#:#Download de PDF
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
+assessment#:#show_requested_question_hints#:#Mostrar sugestões pedidas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#showinfo#:#Mostrar todas as propriedades de teste
 assessment#:#showinfo_desc#:#Os utilizadores terão uma lista completa das propriedades do teste no separador ‘Informação’, isto é informação sobre a pontuação e relatórios.

@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Teste gitmek için geri dön
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Sonraki İpucunu İste
 assessment#:#button_request_question_hint#:#İpucu İste
-assessment#:#button_show_requested_question_hints#:#İstenen İpuçlarını Göster
 assessment#:#by#:#ile
 assessment#:#cancel_test#:#Testi Askıya Al
 assessment#:#cannot_edit_marks#:#Bu testi yapmış öğrenciler var. Eğer puan raporlama tarihi etkin ve henüz gelmediyse sadece not açıklamasını değiştirebilirsiniz.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Kullanıcının detaylı sonuçlarını gö
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Geçti İşaretlilere Genel Bakışı Göster
+assessment#:#show_requested_question_hints#:#İstenen İpuçlarını Göster
 assessment#:#show_user_answers#:#Kullanıcının işaretli cevaplarını göster
 assessment#:#showinfo#:#Detaylı Bilgi Sayfasını Göster
 assessment#:#showinfo_desc#:#Seçiliyse, detaylı test bilgi sayfası gösterilir (test özellikleri eklenerek). Eğer işaretli değilse, yalnızca tanıtım mesajı (varsa) ve gerekli özellikler Test Bilgi Sayfası üzerinde gösterilecektir.

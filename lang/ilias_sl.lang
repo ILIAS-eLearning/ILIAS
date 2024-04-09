@@ -591,7 +591,6 @@ assessment#:#backtocallingtest#:#Nazaj na odprti test
 assessment#:#baseunit#:#Osnovna enota
 assessment#:#button_request_next_question_hint#:#Zahtevaj naslednji namig glede rešitve
 assessment#:#button_request_question_hint#:#Zahtevaj namig glede rešitve
-assessment#:#button_show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#by#:#po
 assessment#:#cancel_test#:#Prekini test
 assessment#:#cannot_edit_marks#:#Udeleženci so že opravili test. Oceno lahko spremenite samo, če je bil nastavljen datum poročila o rezultatih, ki je trenutno še v prihodnosti.
@@ -1218,6 +1217,7 @@ assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravlj
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_examview_pdf#:#Prenos PDF
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
+assessment#:#show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#showinfo#:#Prikaži lastnosti testa
 assessment#:#showinfo_desc#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.

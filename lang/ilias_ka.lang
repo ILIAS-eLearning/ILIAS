@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#უკან დარეკვის ტეს
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#გვერდით
 assessment#:#cancel_test#:#ტესტის შეჩერება
 assessment#:#cannot_edit_marks#:#უკვე არიან სტუდენტები ვინც გაიარა ტესტი. თქვენ მხოლოდ შეგიძლიათ შეცვალოთ ნიშნები თუ მაჩვენებლის
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#აჩვენენ მომხმარ
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#აჩვენე შეფასებული ჩაბარების მიმოხილვა
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#აჩვენე მომხმარებელთა შეფასებული პასუხები
 assessment#:#showinfo#:#აჩვენე მთლიანი ინფორმაციის გვერდი
 assessment#:#showinfo_desc#:#თუ შემოწმებულია, შესრულებული ტესტის ინფორმაციის გვერდი გამოჩნდება (ტესტის პარამეტრების ჩათვლით). თუ შესამოწმებელია მხოლოდ შესავალი ტექსტი და მოთხოვნილი პარამეტრები გამოჩნდება ტესტის ინფორმაციის გვერდზე

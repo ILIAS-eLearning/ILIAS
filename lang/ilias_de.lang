@@ -592,7 +592,6 @@ assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
-assessment#:#button_show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
@@ -1219,6 +1218,7 @@ assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Tes
 assessment#:#show_examview_html#:#Am Bildschirm
 assessment#:#show_examview_pdf#:#PDF-Download
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
+assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#showinfo#:#Testeigenschaften anzeigen
 assessment#:#showinfo_desc#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.

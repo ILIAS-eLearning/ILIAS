@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Tilbage til testen
 assessment#:#baseunit#:#Base Unit###16 09 2013 new variable
 assessment#:#button_request_next_question_hint#:#Få næste tip
 assessment#:#button_request_question_hint#:#Få tip
-assessment#:#button_show_requested_question_hints#:#Vis givne tips
 assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#Vis detaljerede besvarelser
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###16 09 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###16 09 2013 new variable
 assessment#:#show_pass_overview#:#Vis overblik for de markerede besvarelser
+assessment#:#show_requested_question_hints#:#Vis givne tips
 assessment#:#show_user_answers#:#Vis de markerede besvarelser
 assessment#:#showinfo#:#Vis den komplette informationsside
 assessment#:#showinfo_desc#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.

@@ -577,7 +577,6 @@ assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#by
 assessment#:#cancel_test#:#تعلیق تست
 assessment#:#cannot_edit_marks#:#در حال حاضر کاربرانی وجود دارند که تست را گذرانده اند. تنها زمانی می توانید نمره ها را تغییر دهید که تاریخ گزارش نمره فعال باشد و تاریخ گزارش هنوز نرسیده باشد.
@@ -1204,6 +1203,7 @@ assessment#:#show_detailed_results#:#نمایش نتایج دقیق کاربر
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#نمایش مرور کلی دوره انتخاب شده
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#نمایش پاسخهای کاربر انتخاب شده
 assessment#:#showinfo#:#نمایش کامل صفحه اطلاعات
 assessment#:#showinfo_desc#:#اگر انتخاب شده باشد، صفحه اطلاعات تست بطور کامل نشان داده خواهد شد. اگر انتخاب نشده باشد، ، فقط متن دستورالعمل و ویژگی های مورد نیاز نمایش داده خواهد شد.

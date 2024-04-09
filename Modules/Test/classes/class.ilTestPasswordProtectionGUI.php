@@ -131,6 +131,12 @@ class ilTestPasswordProtectionGUI
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         require_once 'Services/Form/classes/class.ilPasswordInputGUI.php';
 
+        global $DIC;
+        $DIC->globalScreen()->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->parentGUI->getObject()->getTitle() . ' - ' . $this->lng->txt('tst_password_form')
+        );
+
         $msg = $this->buildPasswordMsg();
         $form = $this->buildPasswordForm();
 
