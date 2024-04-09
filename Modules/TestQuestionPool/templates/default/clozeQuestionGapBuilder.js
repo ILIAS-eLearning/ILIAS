@@ -1485,7 +1485,7 @@ var ClozeGapCombinationBuilder = (function () {
           if (pos === value) {
             $.each(obj_inner_values.values, (l, value) => {
               const cleaned_answer_value = value.answer.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-              buildOptionsValue += `<option value="${value.answer}">${(obj_inner_values.type === 'numeric') ? ClozeSettings.intherange_text : cleaned_answer_value}</option>`;
+              buildOptionsValue += `<option value="${value.answer}">${(obj_inner_values.type === 'numeric') ? ClozeSettings.inrange_text : cleaned_answer_value}</option>`;
             });
             if (obj_inner_values.type == 'numeric') {
               buildOptionsValue += `<option value="out_of_bound">${ClozeSettings.outofbound_text}</option>`;
