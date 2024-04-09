@@ -251,13 +251,17 @@ class ilQuestionPageParser extends ilMDSaxParser
         // incoming internal links
         $done = [];
         foreach ($this->link_targets as $link_target) {
+            $parsed = $this->parseLinkTarget((string) $link_target);
+            if (!isset($parsed)) {
+                continue;
+            }
             //echo "doin link target:".$link_target.":<br>";
-            $link_arr = explode("_", $link_target);
-            $target_inst = $link_arr[1];
-            $target_type = $link_arr[2];
-            $target_id = $link_arr[3];
-            //echo "<br>-".$target_type."-".$target_id."-".$target_inst."-";
-            $sources = ilInternalLink::_getSourcesOfTarget($target_type, $target_id, $target_inst);
+            $sources = ilInternalLink::_getSourcesOfTarget(
+                $parsed['target_type'],
+                $parsed['target_id'],
+                $parsed['target_inst']
+            );
+
             foreach ($sources as $key => $source) {
                 //echo "got source:".$key.":<br>";
                 if (in_array($key, $done)) {
@@ -514,7 +518,10 @@ class ilQuestionPageParser extends ilMDSaxParser
                 $this->glossary_term->setGlossaryId($this->glossary_object->getId());
                 $this->glossary_term->setLanguage($a_attribs["Language"]);
                 $this->glossary_term->setImportId($a_attribs["Id"]);
-                $this->link_targets[$a_attribs["Id"]] = $a_attribs["Id"];
+                $parsed = $this->parseLinkTarget((string) $a_attribs["Id"]);
+                if (isset($parsed)) {
+                    $this->link_targets[$a_attribs["Id"]] = $a_attribs["Id"];
+                }
                 break;
 
             case "Definition":
@@ -741,7 +748,12 @@ class ilQuestionPageParser extends ilMDSaxParser
                         if (!$this->in_media_object) {
                             $this->current_object->setImportId($a_attribs["Entry"]);
                         }
-                        $this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
+                        // #40680 add a link target only if it is an internal ILIAS link
+                        // Export from IMS UCAN sets something like 'IMSm-i1e79762'
+                        $parsed = $this->parseLinkTarget($a_attribs["Entry"]);
+                        if (isset($parsed)) {
+                            $this->link_targets[$a_attribs["Entry"]] = $a_attribs["Entry"];
+                        }
                     }
                     if ($this->in_file_item) {
                         if (!isset($this->file_item_mapping[$a_attribs["Entry"]])
@@ -1380,5 +1392,29 @@ class ilQuestionPageParser extends ilMDSaxParser
     public function getGlossaryTermMap(): array
     {
         return $this->glossary_term_map;
+    }
+
+    /**
+     * Parse a string the get the elements of a link target
+     * Return null if the string is not a link target
+     * @return array{target_inst: int, target_type: string, target_id: int}|null
+     */
+    private function parseLinkTarget(string $identifier): ?array
+    {
+        $link_arr = explode('_', $identifier);
+
+        if (count($link_arr) !== 4
+            || $link_arr[0] !== 'il'
+            || !is_numeric($link_arr[1])
+            || !is_numeric($link_arr[3])
+        ) {
+            return null;
+        }
+
+        return [
+          'target_inst' => (int) $link_arr[1],
+          'target_type' => (string) $link_arr[2],
+          'target_id' => (int) $link_arr[3]
+        ];
     }
 }
