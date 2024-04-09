@@ -42,8 +42,8 @@ use ILIAS\UI\Component\Image\Image;
 class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     public const TEST_PLAYER_KIOSK_MODE_ENABLED = 'test_player_kiosk_mode_enabled';
-    public const TEST_PLAYER_TITLE = 'test_player_kiosk_mode_title';
-    public const TEST_PLAYER_SHORT_TITLE = 'test_player_kiosk_mode_instance_name';
+    public const TEST_PLAYER_TITLE = 'test_player_title';
+    public const TEST_PLAYER_SHORT_TITLE = 'test_player_instance_name';
 
 
     public function isInterestedInContexts(): ContextCollection

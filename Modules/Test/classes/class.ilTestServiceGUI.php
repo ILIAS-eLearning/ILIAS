@@ -1020,7 +1020,6 @@ class ilTestServiceGUI
             $user = new ilObjUser();
             $user->setLastname($this->lng->txt("deleted_user"));
         }
-        $title_matric = "";
         if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == false))) {
             $template->setCurrentBlock("user_matric");
             $template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
@@ -1029,7 +1028,6 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
             $template->parseCurrentBlock();
             $template->touchBlock("user_matric_separator");
-            $title_matric = " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
@@ -1041,7 +1039,6 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
             $template->parseCurrentBlock();
             $template->touchBlock("user_clientip_separator");
-            $title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
         }
 
         $template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));

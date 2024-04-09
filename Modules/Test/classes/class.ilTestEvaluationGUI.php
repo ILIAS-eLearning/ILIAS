@@ -104,52 +104,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return $ret;
     }
 
-    public function &getHeaderNames(): array
-    {
-        $headernames = array();
-        if ($this->object->getAnonymity()) {
-            array_push($headernames, $this->lng->txt("counter"));
-        } else {
-            array_push($headernames, $this->lng->txt("name"));
-            array_push($headernames, $this->lng->txt("login"));
-        }
-        $additionalFields = $this->object->getEvaluationAdditionalFields();
-        if (count($additionalFields)) {
-            foreach ($additionalFields as $fieldname) {
-                array_push($headernames, $this->lng->txt($fieldname));
-            }
-        }
-        array_push($headernames, $this->lng->txt("tst_reached_points"));
-        array_push($headernames, $this->lng->txt("tst_mark"));
-        if ($this->object->getECTSOutput()) {
-            array_push($headernames, $this->lng->txt("ects_grade"));
-        }
-        array_push($headernames, $this->lng->txt("tst_answered_questions"));
-        array_push($headernames, $this->lng->txt("working_time"));
-        array_push($headernames, $this->lng->txt("detailed_evaluation"));
-        return $headernames;
-    }
-
-    public function &getHeaderVars(): array
-    {
-        $headervars = array();
-        if ($this->object->getAnonymity()) {
-            array_push($headervars, "counter");
-        } else {
-            array_push($headervars, "name");
-            array_push($headervars, "login");
-        }
-        array_push($headervars, "resultspoints");
-        array_push($headervars, "resultsmarks");
-        if ($this->object->getECTSOutput()) {
-            array_push($headervars, "ects_grade");
-        }
-        array_push($headervars, "qworkedthrough");
-        array_push($headervars, "timeofwork");
-        array_push($headervars, "");
-        return $headervars;
-    }
-
     /**
      * @deprecated command is not used any longer
      */
