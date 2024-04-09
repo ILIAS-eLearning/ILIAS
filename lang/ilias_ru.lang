@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Назад к вызванному тесту
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Приостановить тест
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -1154,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Показать подробные результаты пользователя (Отмеченные как пройденные)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#shuffle_answers#:#Перемешать ответы
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable

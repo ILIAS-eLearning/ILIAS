@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Tagasi koostatava testi juurde
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#poolt
 assessment#:#cancel_test#:#Katkesta test
 assessment#:#cannot_edit_marks#:#See test on juba mõnede kasutajate poolt käivitatud. Sa saad muuta vaid hindeid, kui on aktiveeritud testitulemuste esitamise tähtaeg ja see pole veel käes.
@@ -1154,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgistatud sooritus)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
 assessment#:#shuffle_answers#:#Sega vastuseid
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable

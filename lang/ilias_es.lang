@@ -544,7 +544,6 @@ assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#baseunit#:#Unidad Base
 assessment#:#button_request_next_question_hint#:#Solicitar siguiente sugerencia
 assessment#:#button_request_question_hint#:#Solicitar sugerencia
-assessment#:#button_show_requested_question_hints#:#Mostrar sugerencias solicitadas
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
 assessment#:#cannot_edit_marks#:#Hay usuarios que ejecutaron el test. Sólo puede cambiar las calificaciones si se habilitó una fecha de informe de resultados y dicha fecha no ha sido alcanzada.
@@ -1156,6 +1155,7 @@ assessment#:#show_answer_overview#:#Mostrar resumen de respuesta
 assessment#:#show_detailed_results#:#Mostrar datos detallados del usuario (Marked Pass)
 assessment#:#show_examview_html#:#Mostrar vista del examen del test en la página de entrega.
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
+assessment#:#show_requested_question_hints#:#Mostrar sugerencias solicitadas
 assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
 assessment#:#shuffle_answers#:#Barajar respuestas
 assessment#:#skip_question#:#No responder y Siguiente

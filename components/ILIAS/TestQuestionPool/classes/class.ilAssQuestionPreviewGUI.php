@@ -20,6 +20,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Transformation;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -63,6 +64,7 @@ class ilAssQuestionPreviewGUI
         private ilDBInterface $db,
         private ilObjUser $user,
         private RandomGroup $randomGroup,
+        private GlobalScreen $global_screen
     ) {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
@@ -181,7 +183,8 @@ class ilAssQuestionPreviewGUI
                     $this->ctrl,
                     $this->lng,
                     $this->tpl,
-                    $this->tabs
+                    $this->tabs,
+                    $this->global_screen
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;

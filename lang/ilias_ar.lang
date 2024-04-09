@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -1154,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User's Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable

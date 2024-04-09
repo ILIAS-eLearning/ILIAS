@@ -802,11 +802,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     */
     public function showFinalStatementCmd()
     {
-        $template = new ilTemplate("tpl.il_as_tst_final_statement.html", true, true, "components/ILIAS/Test");
-        $this->ctrl->setParameter($this, "skipfinalstatement", 1);
-        $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
-        $template->setVariable("FINALSTATEMENT", $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
-        $template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->object->getTitle() . ' - ' . $this->lng->txt('final_statement')
+        );
+
+        $template = new ilTemplate('tpl.il_as_tst_final_statement.html', true, true, 'components/ILIAS/Test');
+        $this->ctrl->setParameter($this, 'skipfinalstatement', 1);
+        $template->setVariable('FORMACTION', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
+        $template->setVariable('FINALSTATEMENT', $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
+        $template->setVariable('BUTTON_CONTINUE', $this->lng->txt('btn_next'));
         $this->tpl->setVariable($this->getContentBlockName(), $template->get());
     }
 
@@ -1281,6 +1286,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->help->setSubScreenId("question_summary");
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "components/ILIAS/Test");
+
+        $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->getObject()->getTitle() . ' - ' . $this->lng->txt('question_summary')
+        );
 
         if ($obligations_info
             && $this->object->areObligationsEnabled()

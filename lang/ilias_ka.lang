@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#უკან დარეკვის ტეს
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#გვერდით
 assessment#:#cancel_test#:#ტესტის შეჩერება
 assessment#:#cannot_edit_marks#:#უკვე არიან სტუდენტები ვინც გაიარა ტესტი. თქვენ მხოლოდ შეგიძლიათ შეცვალოთ ნიშნები თუ მაჩვენებლის
@@ -1154,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#აჩვენენ მომხმარებლის დეტალური შედეგი ( შეფასებული ჩაბარება)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#აჩვენე შეფასებული ჩაბარების მიმოხილვა
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#აჩვენე მომხმარებელთა შეფასებული პასუხები
 assessment#:#shuffle_answers#:#პასუხების არევა
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable

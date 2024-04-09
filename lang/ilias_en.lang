@@ -554,7 +554,6 @@ assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
@@ -1206,6 +1205,7 @@ assessment#:#show_examview_html#:#On screen
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next
