@@ -146,6 +146,7 @@ class ilSCORMPresentationGUI
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
         $this->tpl->setVariable("TITLE", $this->slm->getTitle());
+        $this->tpl->setVariable("ICON", ilUtil::getImagePath("favicon.ico", ""));
         $this->tpl->setVariable("API_LINK", $api_link);
         $this->tpl->printToStdout("DEFAULT", false, true);
 
