@@ -785,7 +785,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+        $user_solution = [];
+        if ($pass !== null) {
+            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+        }
 
         if (($active_id > 0) && (!$show_correct_solution)) {
             $user_solution["active_id"] = $active_id;
