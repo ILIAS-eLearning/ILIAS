@@ -283,7 +283,11 @@ abstract class ilDataSet
                     ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
                     $sdir = realpath($c);
                     $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                    ilFileUtils::rCopy($sdir, $tdir);
+                    try {
+                        ilFileUtils::rCopy($sdir, $tdir);
+                    } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+                        $this->ds_log->error($e->getMessage());
+                    }
                     $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
                     $this->dircnt++;
                 }
