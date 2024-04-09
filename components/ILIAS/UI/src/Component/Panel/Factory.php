@@ -48,6 +48,11 @@ interface Factory
      *
      *   composition:
      *      1: Standard Panels MAY contain one or more View Controls.
+     *
+     *   interaction:
+     *      1: >
+     *         Standard Panels MAY be expandable to make the content collapsible. Standard Panels MAY also get
+     *         asynchronous expand and collapse actions to e.g. store the expanded status of the Component in the session.
      * ---
      * @param string $title
      * @param Component[]|Component
