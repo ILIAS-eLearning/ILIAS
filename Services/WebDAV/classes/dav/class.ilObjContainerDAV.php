@@ -60,11 +60,11 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function createFile($name, $data = null)
     {
         if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
-            $size = $this->request->getHeader("Content-Length")[0];
+            $size = $this->request->getHeader("Content-Length")[0] ?? 0;
             if ($size > ilUtil::getUploadSizeLimitBytes()) {
                 throw new Exception\Forbidden('File is too big');
             }
-            
+
             // Check if file has valid extension
             if ($this->dav_helper->isValidFileNameWithValidFileExtension($name)) {
                 if ($this->childExists($name)) {
@@ -136,7 +136,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             throw new Forbidden();
         }
     }
-    
+
     /**
      * Returns a specific child node, referenced by its name
      *
@@ -164,7 +164,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                 // Check if names matches
                 if ($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name) {
                     $child_exists = true;
-                    
+
                     // Check if user has permission to read this object
                     if ($this->checkReadAndVisibleAccessForObj($child_ref)) {
                         $child_node = $this->dav_helper->createDAVObjectForRefId($child_ref);
@@ -172,16 +172,16 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                 }
             }
         }
-        
+
         // There exists 1 or more nodes with this name. Return last found node.
         if (!is_null($child_node)) {
             return $child_node;
         }
-        
+
         // There is no davable object with the same name. Sorry for you...
         throw new Sabre\DAV\Exception\NotFound("$name not found");
     }
-    
+
     /**
      * Returns an array with all the child nodes
      *
@@ -225,7 +225,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
 
         return $child_nodes;
     }
-    
+
     /**
      * Checks if a child-node with the specified name exists
      *
@@ -252,7 +252,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                 }
             }
         }
-        
+
         return false;
     }
 
@@ -260,7 +260,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     {
         return $this->repo_helper->checkAccess("visible", $child_ref) && $this->repo_helper->checkAccess("read", $child_ref);
     }
-    
+
     /**
      * Return the type for child collections of this collection
      * For courses, groups and folders the type is 'fold'

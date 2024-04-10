@@ -238,14 +238,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             throw new Exception\Forbidden('File is too big');
         }
 
-        /**
-         * Sadly we need this to avoid creating multiple versions on a single
-         * upload, because of the behaviour of some clients.
-         */
-        if ($size === 0) {
-            return null;
-        }
-
         $stream = Streams::ofResource($a_data);
 
         if ($a_file_action === 'replace') {
