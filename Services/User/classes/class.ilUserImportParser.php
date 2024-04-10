@@ -1773,7 +1773,7 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "Gender":
-                if (!in_array(strtolower($this->cdata), ['n', 'm', 'f'])) {
+                if (!in_array(strtolower($this->cdata), ['n', 'm', 'f', ''])) {
                     $this->logFailure(
                         $this->userObj->getLogin(),
                         sprintf($lng->txt("usrimport_xml_element_content_illegal"), "Gender", $this->stripTags($this->cdata))
