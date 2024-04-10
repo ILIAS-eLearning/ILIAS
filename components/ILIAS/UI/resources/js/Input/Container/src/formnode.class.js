@@ -27,7 +27,7 @@ export default class FormNode {
   /**
    * @type {HTMLElement[]}
    */
-  #fields;
+  #htmlFields;
 
   /**
    * @param {string} name
@@ -36,7 +36,14 @@ export default class FormNode {
   constructor(name) {
     this.#name = name;
     this.#nodes = [];
-    this.#fields = [];
+    this.#htmlFields = [];
+  }
+
+  /**
+   * @return {string}
+   */
+  getName() {
+    return this.#name;
   }
 
   /**
@@ -45,21 +52,6 @@ export default class FormNode {
    */
   addNode(node) {
     this.#nodes[node.getName()] = node;
-  }
-
-  /**
-   * @param {HTMLElement} field
-   * @return {void}
-   */
-  addField(field) {
-    this.#fields.push(field);
-  }
-
-  /**
-   * @return {string}
-   */
-  getName() {
-    return this.#name;
   }
 
   /**
@@ -84,10 +76,18 @@ export default class FormNode {
   }
 
   /**
+   * @param {HTMLElement} htmlField
+   * @return {void}
+   */
+  addHtmlField(htmlField) {
+    this.#htmlFields.push(htmlField);
+  }
+
+  /**
    * @return {HTMLElement[]}
    */
-  getFields() {
-    return this.#fields;
+  getHtmlFields() {
+    return this.#htmlFields;
   }
 
   /**
@@ -96,14 +96,14 @@ export default class FormNode {
   getValues() {
     const values = [];
 
-    this.#fields.forEach(
-      (field) => {
-        if (field.type === 'checkbox' || field.type === 'radio') {
-          if (field.checked) {
-            values.push(field.value);
+    this.#htmlFields.forEach(
+      (htmlField) => {
+        if (htmlField.type === 'checkbox' || htmlField.type === 'radio') {
+          if (htmlField.checked) {
+            values.push(htmlField.value);
           }
         } else {
-          values.push(field.value);
+          values.push(htmlField.value);
         }
       },
     );

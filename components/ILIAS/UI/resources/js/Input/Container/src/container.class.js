@@ -44,9 +44,9 @@ export default class Container {
    * @return {void}
    */
   #buildTree() {
-    const fields = this.#component.querySelectorAll(SEARCH);
-    fields.forEach((field) => {
-      this.#register(this.#nodes, field.name.split('/'), field);
+    const htmlFields = this.#component.querySelectorAll(SEARCH);
+    htmlFields.forEach((htmlField) => {
+      this.#register(this.#nodes, htmlField.name.split('/'), htmlField);
     });
   }
 
@@ -73,38 +73,38 @@ export default class Container {
     if (nameparts.length > 0) {
       this.#register(current, nameparts, component);
     } else {
-      current.addField(component);
+      current.addHtmlField(component);
     }
   }
 
   /**
-   * @param {string} [fieldName]
+   * @param {string} [htmlFieldName]
    * @return {FormNode}
    */
-  node(fieldName) {
+  node(htmlFieldName) {
     let node = this.#nodes;
-    if (fieldName === '' || fieldName === undefined) {
+    if (htmlFieldName === '' || htmlFieldName === undefined) {
       return node.getNodeByName(node.getNodeNames().shift());
     }
-    fieldName.split('/').forEach((n) => { node = node.getNodeByName(n); });
+    htmlFieldName.split('/').forEach((n) => { node = node.getNodeByName(n); });
     return node;
   }
 
   /**
-   * @param {string} [fieldName]
+   * @param {string} [htmlFieldName]
    * @return {Array}
    */
-  getValues(fieldName) {
-    const node = this.node(fieldName);
+  getValues(htmlFieldName) {
+    const node = this.node(htmlFieldName);
     return this.#getValuesRecursively(node, null);
   }
 
   /**
-   * @param {string} [fieldName]
+   * @param {string} [htmlFieldName]
    * @return {Array}
    */
-  getValuesFlat(fieldName) {
-    const node = this.node(fieldName);
+  getValuesFlat(htmlFieldName) {
+    const node = this.node(htmlFieldName);
     return this.#getValuesFlat(node, null, null);
   }
 
@@ -149,15 +149,15 @@ export default class Container {
     let subnodes = node.getNodeNames();
 
     // optional groups:
-    if (node.getFields().length > 0 && node.getValues().length === 0) {
+    if (node.getHtmlFields().length > 0 && node.getValues().length === 0) {
       subnodes = []; // or, equally: return values;
     }
     // switchable groups
-    if (node.getFields().length > 0
-      && node.getFields().filter((f) => f.type === 'radio').length === node.getFields().length
+    if (node.getHtmlFields().length > 0
+      && node.getHtmlFields().filter((f) => f.type === 'radio').length === node.getHtmlFields().length
     ) {
       subnodes = [];
-      const index = node.getFields().findIndex((f) => f.value === node.getValues().shift());
+      const index = node.getHtmlFields().findIndex((f) => f.value === node.getValues().shift());
       if (node.getNodeNames().length > index && index > -1) {
         subnodes = [node.getNodeNames()[index]];
       }

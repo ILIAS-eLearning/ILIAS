@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 
 import ContainerFactory from '../../../../src/templates/js/Input/Container/src/container.factory.js';
@@ -32,7 +32,7 @@ function loadMockedDom(file) {
   return doc;
 }
 
-describe('Container components are there', () => {
+describe('Input\\Container components are there', () => {
   it('ContainerFactory', () => {
     expect(ContainerFactory).to.not.be.undefined;
   });
@@ -44,15 +44,15 @@ describe('Container components are there', () => {
   });
 });
 
-describe('Container', () => {
+describe('Input\\Container', () => {
   before(async () => {
     global.doc = await loadMockedDom('containertest_simple.html');
-    global.containerSimple = new Container(doc.querySelector('#test_container_id'));
+    global.containerSimple = new Container(global.doc.querySelector('#test_container_id'));
   });
 
   it('is build and provides a FormNode', () => {
-    expect(containerSimple).to.be.an.instanceOf(Container);
-    expect(containerSimple.node()).to.be.an.instanceOf(FormNode);
+    expect(global.containerSimple).to.be.an.instanceOf(Container);
+    expect(global.containerSimple.node()).to.be.an.instanceOf(FormNode);
   });
 
   it('provides a flat list of FormNodes and values', () => {
@@ -62,12 +62,12 @@ describe('Container', () => {
       'form/input_1': ['value_2'],
       'form/input_2': ['value_3'],
     };
-    expect(Object.keys(containerSimple.getValuesFlat())).to.eql(Object.keys(expected));
-    expect(Object.values(containerSimple.getValuesFlat())).to.eql(Object.values(expected));
+    expect(Object.keys(global.containerSimple.getValuesFlat())).to.eql(Object.keys(expected));
+    expect(Object.values(global.containerSimple.getValuesFlat())).to.eql(Object.values(expected));
   });
 
   it('provides a tree of FormNodes and values', async () => {
-    const values = containerSimple.getValues();
+    const values = global.containerSimple.getValues();
     expect(values.form.input_0).to.eql(['value_1']);
     expect(values.form.input_1).to.eql(['value_2']);
     expect(values.form.input_2).to.eql(['value_3']);
@@ -109,7 +109,11 @@ describe('Container', () => {
       'form/input_0/input_4': [],
       'form/input_0/input_4/input_5': ['value_2.1'],
     };
-    expect(Object.keys(containerSwitchableGroup2.getValuesFlat())).to.eql(Object.keys(expected2));
-    expect(Object.values(containerSwitchableGroup2.getValuesFlat())).to.eql(Object.values(expected2));
+    expect(
+      Object.keys(containerSwitchableGroup2.getValuesFlat()),
+    ).to.eql(Object.keys(expected2));
+    expect(
+      Object.values(containerSwitchableGroup2.getValuesFlat()),
+    ).to.eql(Object.values(expected2));
   });
 });
