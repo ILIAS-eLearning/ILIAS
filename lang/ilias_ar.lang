@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#اضافة كتلة نص
 survey#:#add_material#:#Add Material
 survey#:#add_phrase#:#Add Phrase
-survey#:#adm_no_special_users#:#لم يتم تعريف مستخدمين مخصصين يستطيعون اجراء المسح اكثر من مرة واحدة
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.

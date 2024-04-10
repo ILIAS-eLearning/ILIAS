@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Textová otázka
 survey#:#add_heading#:#Přidat textový blok
 survey#:#add_material#:#Přidat materál
 survey#:#add_phrase#:#Přidat frázi
-survey#:#adm_no_special_users#:#Zde nejsou určeni zvláštní uživatelé, kteří jsou schopni projít anketou více než jednou.
 survey#:#already_completed_survey#:#Toto anketu již máte provedenu! Do této ankety nemůžete vstoupit znovu.
 survey#:#anonymization#:#Anonymizace
 survey#:#anonymize_anonymous_introduction#:#Tato anketa anonymizuje všechna uživatelská data. K zajištění přístupu do této ankety, musíte vložit řetězec 32 znaků, který obdržíte od autora/obsluhy této ankety<br />Vložte jej prosím do textového pole dole.

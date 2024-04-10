@@ -15944,7 +15944,6 @@ survey#:#SurveyTextQuestion#:#短文
 survey#:#add_heading#:#添加标题
 survey#:#add_material#:#添加材料
 survey#:#add_phrase#:#添加词组(短语)
-survey#:#adm_no_special_users#:#没有定义能够不止一次的运行一个调查的指定用户。
 survey#:#already_completed_survey#:#您已经完成此调查！不能再次进入这个调查。
 survey#:#anonymization#:#匿名化
 survey#:#anonymize_anonymous_introduction#:#这个调查匿名化所有用户数据。授权您访问这个调查，您必须使用一个32位字符串，您可以从这个调查的创建者/维护者那里接收<br/>请在下面的文本字段中输入它。

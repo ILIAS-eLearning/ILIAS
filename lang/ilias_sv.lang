@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Ange fri text
 survey#:#add_heading#:#Lägg till bildtext
 survey#:#add_material#:#Lägg till material
 survey#:#add_phrase#:# Lägg till fras
-survey#:#adm_no_special_users#:#Det finns inga speciella användare definierade som kan genomföra undersökningar flera gånger.
 survey#:#already_completed_survey#:#Du har redan slutfört undersökningen! En undersökning kan inte genomföras en andra gång.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#För att ge dig tillgång till denna undersökning måste du använda en 5-siffrig åtkomstnyckel som du kommer att få från den person som ansvarar för denna undersökning.<br />Ange denna åtkomstnyckel i textfältet ovan.

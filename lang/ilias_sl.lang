@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Vnesi poljubno besedilo
 survey#:#add_heading#:#Dodaj napis
 survey#:#add_material#:#Dodaj gradivo
 survey#:#add_phrase#:#Dodaj besedno zvezo
-survey#:#adm_no_special_users#:#Niso določeni posebni uporabniki, ki lahko anketo izpolnijo več kot enkrat.
 survey#:#already_completed_survey#:#Anketo ste že izpolnili! Ankete ne morete izpolniti znova.
 survey#:#anonymization#:#Anonimizacija
 survey#:#anonymize_anonymous_introduction#:#Za dostop do ankete morate uporabiti 5-mestno kodo ankete, ki jo lahko dobite od odgovorne osebe za to anketo.<br/>Vnesite jo v zgornje polje z besedilom.

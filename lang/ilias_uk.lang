@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Essay###25 02 2007 new variable
 survey#:#add_heading#:#Додати заголовок
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Додати фразу
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Ви вдало завершили опитування! Ви не можете пройти опитування знову.###28 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###25 02 2007 new variable
 survey#:#anonymize_anonymous_introduction#:#Це опитування анонімізує усі дані користувача. Для надання вам доступу до опитування, ви маєте використати 32 символи, які ви маєте отримати з власника/підтримувача цього опитування<br />Будь ласка введіть їх в текстове поле внизу.
