@@ -27,6 +27,8 @@ use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ilLanguage;
+use ILIAS\Data\ImagePurpose;
+use ILIAS\UI\Component\Input\Field\Image;
 
 /**
  * Class Factory
@@ -194,6 +196,16 @@ class Factory implements I\Factory
             $metadata_input,
             $byline
         );
+    }
+
+    public function image(
+        UploadHandler $upload_handler,
+        ImagePurpose $image_purpose,
+        string $label,
+        ?string $byline = null,
+        FormInput $metadata_input = null
+    ): Image {
+        throw new \ILIAS\UI\NotImplementedException();
     }
 
     /**
