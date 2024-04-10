@@ -1177,13 +1177,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $global_roles_assignment_info = null;
         $local_roles_assignment_info = null;
 
-        $importParser = new ilUserImportParser(
+        $import_parser = new ilUserImportParser(
             $xml_file_full_path,
             IL_VERIFY
         );
-        $importParser->startParsing();
+        $import_parser->startParsing();
 
-        $message = $this->verifyXmlData($importParser);
+        $message = $this->verifyXmlData($import_parser);
 
         $xml_file_name = explode(
             "/",
@@ -1195,15 +1195,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $roles_import_count = $ui->input()->field()->numeric($this->lng->txt("num_users"))
                                  ->withDisabled(true)
-                                 ->withValue($importParser->getUserCount());
+                                 ->withValue($import_parser->getUserCount());
 
-        $importParser = new ilUserImportParser(
+        $import_parser = new ilUserImportParser(
             $xml_file_full_path,
             IL_EXTRACT_ROLES
         );
-        $importParser->startParsing();
+        $import_parser->startParsing();
         // Extract the roles
-        $roles = $importParser->getCollectedRoles();
+        $roles = $import_parser->getCollectedRoles();
 
         // get global roles
         $all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
@@ -1632,27 +1632,28 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData(ilUserImportParser $importParser): string
+    public function verifyXmlData(ilUserImportParser $import_parser): string
     {
         global $DIC;
 
         $filesystem = $DIC->filesystem()->storage();
 
         $import_dir = $this->getImportDir();
-        switch ($importParser->getErrorLevel()) {
+        switch ($import_parser->getErrorLevel()) {
             case IL_IMPORT_SUCCESS:
                 return '';
             case IL_IMPORT_WARNING:
-                return $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
+                return $import_parser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
             case IL_IMPORT_FAILURE:
                 $filesystem->deleteDir($import_dir);
-                $this->ilias->raiseError(
-                    $this->lng->txt("verification_failed") . $importParser->getProtocolAsHTML(
-                        $this->lng->txt("verification_failure_log")
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('verification_failed') . $import_parser->getProtocolAsHTML(
+                        $this->lng->txt('verification_failure_log')
                     ),
-                    $this->ilias->error_obj->MESSAGE
+                    true
                 );
-                return '';
+                $this->ctrl->redirectByClass(self::class, 'importUserForm');
         }
     }
 
@@ -1741,12 +1742,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        $importParser = new ilUserImportParser(
+        $import_parser = new ilUserImportParser(
             $xml_path,
             IL_USER_IMPORT,
             $rule
         );
-        $importParser->setFolderId($this->getUserOwnerId());
+        $import_parser->setFolderId($this->getUserOwnerId());
 
         // Catch hack attempts
         // We check here again, if the role folders are in the tree, and if the
@@ -1801,28 +1802,28 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if (isset($result['send_mail'])) {
-            $importParser->setSendMail($result['send_mail'][0]);
+            $import_parser->setSendMail($result['send_mail'][0]);
         }
 
-        $importParser->setRoleAssignment($role_assignment);
-        $importParser->startParsing();
+        $import_parser->setRoleAssignment($role_assignment);
+        $import_parser->startParsing();
 
         // purge user import directory
         $filesystem->deleteDir($import_dir);
 
-        switch ($importParser->getErrorLevel()) {
+        switch ($import_parser->getErrorLevel()) {
             case IL_IMPORT_SUCCESS:
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_imported"), true);
                 break;
             case IL_IMPORT_WARNING:
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_imported_with_warnings") . $importParser->getProtocolAsHTML(
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_imported_with_warnings") . $import_parser->getProtocolAsHTML(
                     $this->lng->txt("import_warning_log")
                 ), true);
                 break;
             case IL_IMPORT_FAILURE:
                 $this->ilias->raiseError(
-                    $this->lng->txt("user_import_failed")
-                    . $importParser->getProtocolAsHTML($this->lng->txt("import_failure_log")),
+                    $this->lng->txt('user_import_failed')
+                    . $import_parser->getProtocolAsHTML($this->lng->txt('import_failure_log')),
                     $this->ilias->error_obj->MESSAGE
                 );
                 break;
