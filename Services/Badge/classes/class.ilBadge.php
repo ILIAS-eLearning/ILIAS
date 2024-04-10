@@ -335,6 +335,9 @@ class ilBadge
         }
     }
 
+    /**
+     * @throws ilException
+     */
     public function importImage(
         string $a_name,
         string $a_file
@@ -344,6 +347,10 @@ class ilBadge
             copy($a_file, $this->getImagePath()); // #18280
 
             $this->update();
+        } else {
+            throw new ilException(
+                $this->lng->txt("file_not_found")
+            );
         }
     }
 

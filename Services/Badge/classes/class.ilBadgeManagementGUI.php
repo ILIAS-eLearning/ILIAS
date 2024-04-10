@@ -384,11 +384,19 @@ class ilBadgeManagementGUI
 
             $badge->create();
 
-            if ($form->getInput("img_mode") === "up") {
-                $badge->uploadImage($_FILES["img"]);
-            } else {
-                $tmpl = new ilBadgeImageTemplate($form->getInput("tmpl"));
-                $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
+
+
+            try {
+                if ($form->getInput("img_mode") === "up") {
+                    $badge->uploadImage($_FILES["img"]);
+                } else {
+                    $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
+                    $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
+                }
+            } catch (Exception $ex) {
+                $badge->delete();
+                $this->tpl->setOnScreenMessage('failure', $lng->txt($ex->getMessage(), true));
+                $ilCtrl->redirect($this, "listBadges");
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
@@ -483,7 +491,12 @@ class ilBadgeManagementGUI
 
             $badge->update();
 
-            $badge->uploadImage($_FILES["img"]);
+            try {
+                $badge->uploadImage($_FILES["img"]);
+            } catch (Exception $ex) {
+                $this->tpl->setOnScreenMessage('failure', $lng->txt($ex->getMessage(), true));
+                $ilCtrl->redirect($this, "listBadges");
+            }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listBadges");
