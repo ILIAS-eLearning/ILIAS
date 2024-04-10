@@ -8769,42 +8769,150 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $testsettings = unserialize($test_defaults["defaults"]);
         $this->mark_schema = unserialize($test_defaults["marks"]);
 
-        $this->setTitleOutput($testsettings["TitleOutput"]);
-        $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
-        $this->setIntroduction($testsettings["Introduction"] ?? '');
-        $this->setFinalStatement($testsettings["FinalStatement"] ?? '');
-        $this->setShowInfo($testsettings["ShowInfo"]);
-        $this->setForceJS($testsettings["ForceJS"]);
-        $this->setCustomStyle($testsettings["CustomStyle"]);
-        $this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
-        $this->setSequenceSettings($testsettings["SequenceSettings"]);
-        $this->setScoreReporting($testsettings["ScoreReporting"]);
-        $this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
-        $this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
-        $this->setAnswerFeedback($testsettings["AnswerFeedback"]);
-        $this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
-        $this->setResultsPresentation($testsettings["ResultsPresentation"]);
-        $this->setAnonymity($testsettings["Anonymity"]);
-        $this->setShowCancel($testsettings["ShowCancel"]);
-        $this->setShuffleQuestions($testsettings["Shuffle"]);
-        $this->setShowMarker($testsettings["ShowMarker"]);
-        $this->setReportingDate($testsettings["ReportingDate"]);
-        $this->setNrOfTries($testsettings["NrOfTries"]);
-        $this->setBlockPassesAfterPassedEnabled((bool) ($testsettings['BlockAfterPassed'] ?? 0));
-        $this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
-        $this->setRedirectionMode($testsettings['redirection_mode']);
-        $this->setRedirectionUrl($testsettings['redirection_url']);
-        $this->setProcessingTime($testsettings["ProcessingTime"]);
-        $this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
-        $this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
-        $this->setStartingTimeEnabled($testsettings["StartingTimeEnabled"]);
-        $this->setStartingTime($testsettings["StartingTime"]);
-        $this->setKiosk($testsettings["Kiosk"]);
-        $this->setEndingTimeEnabled($testsettings["EndingTimeEnabled"]);
-        $this->setEndingTime($testsettings["EndingTime"]);
-        $this->setECTSOutput($testsettings["ECTSOutput"]);
-        $this->setECTSFX($testsettings["ECTSFX"]);
-        $this->setECTSGrades($testsettings["ECTSGrades"]);
+        if (array_key_exists('TitleOutput', $testsettings)) {
+            $this->setTitleOutput($testsettings['TitleOutput']);
+        }
+
+        if (array_key_exists('IntroEnabled', $testsettings)) {
+            $this->setIntroductionEnabled($testsettings['IntroEnabled']);
+        }
+
+        if (array_key_exists('Introduction', $testsettings)) {
+            $this->setIntroduction($testsettings['Introduction'] ?? '');
+        }
+
+        if (array_key_exists('FinalStatement', $testsettings)) {
+            $this->setFinalStatement($testsettings['FinalStatement'] ?? '');
+        }
+
+        if (array_key_exists('ShowInfo', $testsettings)) {
+            $this->setShowInfo($testsettings['ShowInfo']);
+        }
+
+        if (array_key_exists('ForceJS', $testsettings)) {
+            $this->setForceJS($testsettings['ForceJS']);
+        }
+
+        if (array_key_exists('CustomStyle', $testsettings)) {
+            $this->setCustomStyle($testsettings['CustomStyle']);
+        }
+
+        if (array_key_exists('ShowFinalStatement', $testsettings)) {
+            $this->setShowFinalStatement($testsettings['ShowFinalStatement']);
+        }
+
+        if (array_key_exists('SequenceSettings', $testsettings)) {
+            $this->setSequenceSettings($testsettings['SequenceSettings']);
+        }
+
+        if (array_key_exists('ScoreReporting', $testsettings)) {
+            $this->setScoreReporting($testsettings['ScoreReporting']);
+        }
+
+        if (array_key_exists('SpecificAnswerFeedback', $testsettings)) {
+            $this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
+        }
+
+        if (array_key_exists('InstantFeedbackSolution', $testsettings)) {
+            $this->setInstantFeedbackSolution($testsettings['InstantFeedbackSolution']);
+        }
+
+        if (array_key_exists('AnswerFeedback', $testsettings)) {
+            $this->setAnswerFeedback($testsettings['AnswerFeedback']);
+        }
+
+        if (array_key_exists('AnswerFeedbackPoints', $testsettings)) {
+            $this->setAnswerFeedbackPoints($testsettings['AnswerFeedbackPoints']);
+        }
+
+        if (array_key_exists('ResultsPresentation', $testsettings)) {
+            $this->setResultsPresentation($testsettings['ResultsPresentation']);
+        }
+
+        if (array_key_exists('Anonymity', $testsettings)) {
+            $this->setAnonymity($testsettings['Anonymity']);
+        }
+
+        if (array_key_exists('ShowCancel', $testsettings)) {
+            $this->setShowCancel($testsettings['ShowCancel']);
+        }
+
+        if (array_key_exists('Shuffle', $testsettings)) {
+            $this->setShuffleQuestions($testsettings['Shuffle']);
+        }
+
+        if (array_key_exists('ShowMarker', $testsettings)) {
+            $this->setShowMarker($testsettings['ShowMarker']);
+        }
+
+        if (array_key_exists('ReportingDate', $testsettings)) {
+            $this->setReportingDate($testsettings['ReportingDate']);
+        }
+
+        if (array_key_exists('NrOfTries', $testsettings)) {
+            $this->setNrOfTries($testsettings['NrOfTries']);
+        }
+
+        if (array_key_exists('BlockAfterPassed', $testsettings)) {
+            $this->setBlockPassesAfterPassedEnabled($testsettings['BlockAfterPassed']);
+        }
+
+        if (array_key_exists('UsePreviousAnswers', $testsettings)) {
+            $this->setUsePreviousAnswers($testsettings['UsePreviousAnswers']);
+        }
+
+        if (array_key_exists('redirection_mode', $testsettings)) {
+            $this->setRedirectionMode($testsettings['redirection_mode']);
+        }
+
+        if (array_key_exists('redirection_url', $testsettings)) {
+            $this->setRedirectionUrl($testsettings['redirection_url']);
+        }
+
+        if (array_key_exists('ProcessingTime', $testsettings)) {
+            $this->setProcessingTime($testsettings['ProcessingTime']);
+        }
+
+        if (array_key_exists('ResetProcessingTime', $testsettings)) {
+            $this->setResetProcessingTime($testsettings['ResetProcessingTime']);
+        }
+
+        if (array_key_exists('EnableProcessingTime', $testsettings)) {
+            $this->setEnableProcessingTime($testsettings['EnableProcessingTime']);
+        }
+
+        if (array_key_exists('StartingTimeEnabled', $testsettings)) {
+            $this->setStartingTimeEnabled($testsettings['StartingTimeEnabled']);
+        }
+
+        if (array_key_exists('StartingTime', $testsettings)) {
+            $this->setStartingTime($testsettings['StartingTime']);
+        }
+
+        if (array_key_exists('Kiosk', $testsettings)) {
+            $this->setKiosk($testsettings['Kiosk']);
+        }
+
+        if (array_key_exists('EndingTimeEnabled', $testsettings)) {
+            $this->setEndingTimeEnabled($testsettings['EndingTimeEnabled']);
+        }
+
+        if (array_key_exists('EndingTime', $testsettings)) {
+            $this->setEndingTime($testsettings['EndingTime']);
+        }
+
+        if (array_key_exists('ECTSOutput', $testsettings)) {
+            $this->setECTSOutput($testsettings['ECTSOutput']);
+        }
+
+        if (array_key_exists('ECTSFX', $testsettings)) {
+            $this->setECTSFX($testsettings['ECTSFX']);
+        }
+
+        if (array_key_exists('ECTSGrades', $testsettings)) {
+            $this->setECTSGrades($testsettings['ECTSGrades']);
+        }
+
         if (isset($testsettings["isRandomTest"])) {
             if ($testsettings["isRandomTest"]) {
                 $this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
@@ -8815,12 +8923,29 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setQuestionSetType($testsettings["questionSetType"]);
         }
 
-        $this->setMailNotification($testsettings["mailnotification"]);
-        $this->setMailNotificationType($testsettings["mailnottype"]);
-        $this->setExportSettings($testsettings['exportsettings']);
-        $this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
-        $this->setObligationsEnabled($testsettings["obligations_enabled"]);
-        $this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
+        if (array_key_exists('mailnotification', $testsettings)) {
+            $this->setMailNotification($testsettings['mailnotification']);
+        }
+
+        if (array_key_exists('mailnottype', $testsettings)) {
+            $this->setMailNotificationType($testsettings['mailnottype']);
+        }
+
+        if (array_key_exists('exportsettings', $testsettings)) {
+            $this->setExportSettings($testsettings['exportsettings']);
+        }
+
+        if (array_key_exists('ListOfQuestionsSettings', $testsettings)) {
+            $this->setListOfQuestionsSettings($testsettings['ListOfQuestionsSettings']);
+        }
+
+        if (array_key_exists('obligations_enabled', $testsettings)) {
+            $this->setObligationsEnabled($testsettings['obligations_enabled']);
+        }
+
+        if (array_key_exists('offer_question_hints', $testsettings)) {
+            $this->setOfferingQuestionHintsEnabled($testsettings['offer_question_hints']);
+        }
 
         if (isset($testsettings['examid_in_kiosk'])) {
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
@@ -8828,35 +8953,121 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
         }
 
-        $this->setEnableExamview($testsettings['enable_examview']);
-        $this->setShowExamviewHtml($testsettings['show_examview_html']);
-        $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
-        $this->setEnableArchiving($testsettings['enable_archiving']);
-        $this->setSignSubmission($testsettings['sign_submission']);
-        $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
-        $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
-        $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
-        $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
-        $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
-        $this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
-        $this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
-        $this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
-        $this->setRedirectionMode($testsettings['redirection_mode']);
-        $this->setRedirectionUrl($testsettings['redirection_url']);
-        $this->setAutosave($testsettings['autosave']);
-        $this->setAutosaveIval($testsettings['autosave_ival']);
-        $this->setPasswordEnabled($testsettings['password_enabled']);
-        $this->setPassword($testsettings['password']);
-        $this->setFixedParticipants($testsettings['fixed_participants']);
-        $this->setLimitUsersEnabled($testsettings['limit_users_enabled']);
-        $this->setAllowedUsers($testsettings['allowedusers']);
-        $this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
-        $this->setUsePreviousAnswers($testsettings['use_previous_answers']);
-        $this->setActivationLimited($testsettings['activation_limited']);
-        $this->setActivationStartingTime($testsettings['activation_start_time']);
-        $this->setActivationEndingTime($testsettings['activation_end_time']);
-        $this->setActivationVisibility($testsettings['activation_visibility']);
-        $this->setPassWaiting($testsettings['pass_waiting']);
+        if (array_key_exists('enable_examview', $testsettings)) {
+            $this->setEnableExamview($testsettings['enable_examview']);
+        }
+
+        if (array_key_exists('show_examview_html', $testsettings)) {
+            $this->setShowExamviewHtml($testsettings['show_examview_html']);
+        }
+
+        if (array_key_exists('show_examview_pdf', $testsettings)) {
+            $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
+        }
+
+        if (array_key_exists('enable_archiving', $testsettings)) {
+            $this->setEnableArchiving($testsettings['enable_archiving']);
+        }
+
+        if (array_key_exists('sign_submission', $testsettings)) {
+            $this->setSignSubmission($testsettings['sign_submission']);
+        }
+
+        if (array_key_exists('char_selector_availability', $testsettings)) {
+            $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
+        }
+
+        if (array_key_exists('char_selector_definition', $testsettings)) {
+            $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
+        }
+
+        if (array_key_exists('skill_service', $testsettings)) {
+            $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
+        }
+
+        if (array_key_exists('show_grading_status', $testsettings)) {
+            $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
+        }
+
+        if (array_key_exists('show_grading_mark', $testsettings)) {
+            $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
+        }
+
+        if (array_key_exists('follow_qst_answer_fixation', $testsettings)) {
+            $this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
+        }
+
+        if (array_key_exists('inst_fb_answer_fixation', $testsettings)) {
+            $this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
+        }
+
+        if (array_key_exists('force_inst_fb', $testsettings)) {
+            $this->setForceInstantFeedbackEnabled($testsettings['force_inst_fb']);
+        }
+
+        if (array_key_exists('redirection_mode', $testsettings)) {
+            $this->setRedirectionMode($testsettings['redirection_mode']);
+        }
+
+        if (array_key_exists('redirection_url', $testsettings)) {
+            $this->setRedirectionUrl($testsettings['redirection_url']);
+        }
+
+        if (array_key_exists('autosave', $testsettings)) {
+            $this->setAutosave($testsettings['autosave']);
+        }
+
+        if (array_key_exists('autosave_ival', $testsettings)) {
+            $this->setAutosaveIval($testsettings['autosave_ival']);
+        }
+
+        if (array_key_exists('password_enabled', $testsettings)) {
+            $this->setPasswordEnabled($testsettings['password_enabled']);
+        }
+
+        if (array_key_exists('password', $testsettings)) {
+            $this->setPassword($testsettings['password']);
+        }
+
+        if (array_key_exists('fixed_participants', $testsettings)) {
+            $this->setFixedParticipants($testsettings['fixed_participants']);
+        }
+
+        if (array_key_exists('limit_users_enabled', $testsettings)) {
+            $this->setLimitUsersEnabled($testsettings['limit_users_enabled']);
+        }
+
+        if (array_key_exists('allowedusers', $testsettings)) {
+            $this->setAllowedUsers($testsettings['allowedusers']);
+        }
+
+        if (array_key_exists('alloweduserstimegap', $testsettings)) {
+            $this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
+        }
+
+        if (array_key_exists('use_previous_answers', $testsettings)) {
+            $this->setUsePreviousAnswers($testsettings['use_previous_answers']);
+        }
+
+        if (array_key_exists('activation_limited', $testsettings)) {
+            $this->setActivationLimited($testsettings['activation_limited']);
+        }
+
+        if (array_key_exists('activation_start_time', $testsettings)) {
+            $this->setActivationStartingTime($testsettings['activation_start_time']);
+        }
+
+        if (array_key_exists('activation_end_time', $testsettings)) {
+            $this->setActivationEndingTime($testsettings['activation_end_time']);
+        }
+
+        if (array_key_exists('activation_visibility', $testsettings)) {
+            $this->setActivationVisibility($testsettings['activation_visibility']);
+        }
+
+        if (array_key_exists('pass_waiting', $testsettings)) {
+            $this->setPassWaiting($testsettings['pass_waiting']);
+        }
 
         $settings = $this->getScoreSettings();
         $exam_id_in_results = false;
