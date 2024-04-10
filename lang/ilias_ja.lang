@@ -15200,7 +15200,6 @@ survey#:#SurveyTextQuestion#:#小論文
 survey#:#add_heading#:#テキストブロックを追加
 survey#:#add_material#:#教材を追加
 survey#:#add_phrase#:#フレーズを追加
-survey#:#adm_no_special_users#:#複数回サーベイを実行する事のできる特定ユーザはいません。
 survey#:#already_completed_survey#:#サーベイは既に終わっています! 再度のサーベイはできません。
 survey#:#anonymization#:#匿名化
 survey#:#anonymize_anonymous_introduction#:#サーベイへのアクセス保証するには、このサーベイの作者または維持者から受け取る事のできる5文字サーベイコードを使用しなければなりません。<br />以下のテキスト欄にそれを入力してください。

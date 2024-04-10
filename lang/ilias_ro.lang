@@ -15106,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_heading#:#Adaugati titlu de paragraf
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Adaugati fraza
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.###05 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.###10 Jul 2006 content changed

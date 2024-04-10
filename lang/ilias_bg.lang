@@ -15103,7 +15103,6 @@ survey#:#SurveyTextQuestion#:#Essay###25 02 2007 new variable
 survey#:#add_heading#:#Добавяне на заглавие
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Добавяне на фраза
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Вече завършихте Обзора! Не можете да влезете в него отново.###28 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###25 02 2007 new variable
 survey#:#anonymize_anonymous_introduction#:#Този обзор анонимизира всички потребителски данни. За да получите достъп до обзора, трябва да използвате 32-знаков обзорен код, който можете да получите от създателя/поддържащия този обзор<br />Моля, въведете го в текстовото поле отдолу.

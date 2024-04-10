@@ -15106,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#add_heading#:#Añadir cabecera
 survey#:#add_material#:#Añadir contenido relacionado
 survey#:#add_phrase#:#Añadir conjunto
-survey#:#adm_no_special_users#:#No hay usuarios especiales definidos que puedan realizar la encuesta más de una vez.
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
 survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 5 caracteres que puede recibir del autor/evaluador de la encuesta<br />Por favor introdúzcalo en el campo texto siguiente

@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Szkic
 survey#:#add_heading#:#Dodaj nagłówek
 survey#:#add_material#:#Dodaj materiał
 survey#:#add_phrase#:#Dodaj frazę
-survey#:#adm_no_special_users#:#Nie zdefiniowano żadnych właściwych użytkowników, którzy mogliby przeprowadzać kilkakrotnie ankiety.
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
 survey#:#anonymization#:#Anonimowość
 survey#:#anonymize_anonymous_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, musisz użyć 32-znakowego kodu, który otrzymasz z kreatora ankiety<br />Podaj go w poniższym polu tekstowym.

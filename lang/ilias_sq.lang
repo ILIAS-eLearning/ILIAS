@@ -15106,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_heading#:#Shto titull
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Shto frazë
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Tanimë keni kompletuar kuestionerin! Nuk mund të filloni këtë kuestioner përsëri.###05 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, duhet të përdorni kodin 32-karakteresh që merret nga krijuesi/mbajtësi i kuestionerit<br/> Ju lutem shënoni atë në fushën për tekst me poshtë.###10 Jul 2006 content changed

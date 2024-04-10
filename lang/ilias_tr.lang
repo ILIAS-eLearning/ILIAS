@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Kompozisyon
 survey#:#add_heading#:#Başlık ekle
 survey#:#add_material#:#Add Malzeme
 survey#:#add_phrase#:#Add Öbek
-survey#:#adm_no_special_users#:#kereden fazla bir anket çalışabilirler tanımlanan özel bir kullanıcı vardır.
 survey#:#already_completed_survey#:#Zaten anket bitirdim! Yine ankete girmek mümkün değildir.
 survey#:#anonymization#:#Kriptolojitabanlı
 survey#:#anonymize_anonymous_introduction#:#Bu anket tüm kullanıcı verilerini anonimleştirir. Eğer anketi erişim vermek için, size bu anketi oluşturan / sürdürücü alabileceğiniz 5 karakter detaylar kodu kullanmanız gerekir <br /> Yukarıdaki metin alanına girin.

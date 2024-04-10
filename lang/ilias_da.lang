@@ -15106,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Fritekst
 survey#:#add_heading#:#Tilføj retning
 survey#:#add_material#:#Tilføj materiale
 survey#:#add_phrase#:#Tilføj sætning
-survey#:#adm_no_special_users#:#Der er pt. ingen specielle brugere som kan gennemføre afstemninger mere end en gang.
 survey#:#already_completed_survey#:#Du har allerede afsluttet undersøgelsen! Det er ikke muligt at gentage den.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#Denne undersøgelse anonymiserer alle brugerdata. For at få adgang til at besvare skal du derfor anvende en 32-karakterer lang adganskode som du modtager af den der har lavet undersøgelsen.<br />Indtast i feltet nedenfor.

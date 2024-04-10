@@ -15106,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Esszékérdés
 survey#:#add_heading#:#Címsor létrehozása
 survey#:#add_material#:#Segédanyag hozzáadása
 survey#:#add_phrase#:#Választípus hozzáadása
-survey#:#adm_no_special_users#:#Nincs olyan speciális felhasználó, aki több mint egyszer futtathatna kérdőívet.
 survey#:#already_completed_survey#:#Már befejezte a kérdőív kitöltését. Nem léphet bele többször.
 survey#:#anonymization#:#Névtelenség
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív névtelenül kezel minden felhasználói adatot.<br/>A kérdőív eléréséhez 5 karakteres kérdőívkódot kell megadnia, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg kódját a fenti szövegmezőben.

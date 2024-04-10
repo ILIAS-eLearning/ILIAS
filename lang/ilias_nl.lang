@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Open tekst
 survey#:#add_heading#:#Koptekst toevoegen
 survey#:#add_material#:#Materiaal toevoegen
 survey#:#add_phrase#:#Zin toevoegen
-survey#:#adm_no_special_users#:#Er zijn geen speciale gebruikers gedefinieerd die een enquête meer dan eens kunnen uitvoeren.
 survey#:#already_completed_survey#:#Je hebt de enquête reeds gedaan. Je kan dit niet meer opnieuw invullen.
 survey#:#anonymization#:#Anonimiteit
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.

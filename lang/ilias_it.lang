@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Saggio (testo libero)
 survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_material#:#Aggiungi Materiale
 survey#:#add_phrase#:#Aggiungi la frase
-survey#:#adm_no_special_users#:#Non sono stati definiti utenti speciali abilitati ad eseguire un sondaggio più di una volta.
 survey#:#already_completed_survey#:#Hai già completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymization#:#Anonimizzazione
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.

@@ -16049,7 +16049,6 @@ survey#:#SurveyTextQuestion#:#Freitext eingeben
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#add_material#:#Material hinzufügen
 survey#:#add_phrase#:#Phrase hinzufügen
-survey#:#adm_no_special_users#:#Es sind keine speziellen Benutzer definiert, die Umfragen mehrfach durchführen können.
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.

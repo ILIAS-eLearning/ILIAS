@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Essee
 survey#:#add_heading#:#Lisa päis
 survey#:#add_material#:#Lisa materjal
 survey#:#add_phrase#:#Lisa fraas
-survey#:#adm_no_special_users#:#Pole määratud erikasutajaid, kel on võimalik küsitlusele rohkem kui korra vastata.
 survey#:#already_completed_survey#:#Sa oled küsitluse juba lõpetanud! Küsitlusse siseneda pole enam võimalik.
 survey#:#anonymization#:#Anonüümsus
 survey#:#anonymize_anonymous_introduction#:#See küsitlus muudab anonüümseks kõikide kasutajate andmed. Kindlustamaks ligipääsu küsitlusele, pead kasutama 32 märgist koosnevat küsitluskoodi, mille võid saada selle testi haldaja/looja käest. <br />Palun sisesta see allpool olevale tekstiväljale.

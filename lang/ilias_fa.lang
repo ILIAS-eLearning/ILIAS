@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#مقاله
 survey#:#add_heading#:#اضافه کردن بلوک متن
 survey#:#add_material#:#Add Material
 survey#:#add_phrase#:#Add Phrase
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#بی نام سازی
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.

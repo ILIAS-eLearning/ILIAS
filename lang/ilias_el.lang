@@ -15107,7 +15107,6 @@ survey#:#SurveyTextQuestion#:#Δοκίμιο
 survey#:#add_heading#:#Προσθήκη επικεφαλίδας
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Προσθήκη φράσης
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#Έχετε ήδη ολοκληρώσει την έρευνα! Δεν μπορείτε να μπείτε στην έρευνα ξανά.
 survey#:#anonymization#:#Ανωνυμότητα
 survey#:#anonymize_anonymous_introduction#:#Η έρευνα αυτή αποκρύπτει τις πληροφορίες χρηστών. Για να αποκτήσετε πρόσβαση στην έρευνα, πρέπει να χρησιμοποιήσετε ένα κωδικό 32 χαρακτήρων τον οποίο θα λάβετε από το δημιουργό/διαχειριστή της έρευνας<br />Παρακαλώ εισάγετέ τον στο παρακάτω πεδίο κειμένου.

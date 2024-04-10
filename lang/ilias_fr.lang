@@ -15863,7 +15863,6 @@ survey#:#SurveyTextQuestion#:#Texte libre
 survey#:#add_heading#:#Ajouter Introduction
 survey#:#add_material#:#Ajouter de la matière
 survey#:#add_phrase#:#Ajouter Modèle de Réponse
-survey#:#adm_no_special_users#:#Pas d'utilisateurs spéciaux définis capables d'exécuter l'enquête plus d'une fois.
 survey#:#already_completed_survey#:#Vous avez déjà répondu au sondage ! Vous ne pouvez pas y répondre à nouveau.
 survey#:#anonymization#:#Anonymat
 survey#:#anonymize_anonymous_introduction#:#Ce sondage préserve l'anonymat. Pour avoir accès au sondage, vous devez utiliser un code de 5 caractères que le créateur ou responsable du sondage a dû vous envoyer.<br />Veuillez entrer ce code dans le champ ci-dessous.

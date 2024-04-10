@@ -15108,7 +15108,6 @@ survey#:#SurveyTextQuestion#:#Essay###25 02 2007 new variable
 survey#:#add_heading#:#Thêm tiêu đề
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Thêm cụm từ
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Bạn đã hoàn thành khảo sát! Bạn không thể vào khảo sát lần nữa.
 survey#:#anonymization#:#Anonymization###25 02 2007 new variable
 survey#:#anonymize_anonymous_introduction#:#Khảo sát này vô danh hóa tất cả thông tin người sử dụng. Để truy cập khảo sát, bạn phải sử dụng mã khảo sát 32-ký tự do người tạo/người duy trì khảo sát này cung cấp<br />Hãy nhập vào ô phía dưới.
