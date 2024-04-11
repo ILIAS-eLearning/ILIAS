@@ -429,9 +429,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Conceptual Changes: [yvseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+      , [catenglaender](https://docu.ilias.de/goto_docu_usr_79291.html)
     * Authority to Sign off Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+      , [catenglaender](https://docu.ilias.de/goto_docu_usr_79291.html)
     * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+      , [yvseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
     * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
     * Assignee for Security Reports: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
