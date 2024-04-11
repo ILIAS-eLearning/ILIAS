@@ -71,6 +71,9 @@ class ilLegalDocumentsAdministrationGUI
 
     public function history(): void
     {
+        if (!$this->admin->canReadUserAdministration()) {
+            $this->container['ilErr']->raiseError($this->container->language()->txt('permission_denied'), $this->container['ilErr']->WARNING);
+        }
         $this->container->tabs()->activateTab('history');
         $this->admin->setContent($this->config->legalDocuments()->history()->table(
             $this,
@@ -254,10 +257,15 @@ class ilLegalDocumentsAdministrationGUI
      */
     public function tabs(array $run_after = []): void
     {
-        $this->admin->tabs($this->admin->defaultTabs(
-            $this->ctrlTo('getLinkTargetByClass', 'documents'),
-            $this->ctrlTo('getLinkTargetByClass', 'history')
-        ), $run_after);
+        $this->admin->tabs([
+            $this->tab('documents', $this->ui->txt('agreement_documents_tab_label')),
+            $this->tab('history', $this->ui->txt('acceptance_history'), $this->admin->canReadUserAdministration()),
+        ], $run_after);
+    }
+
+    private function tab(string $cmd, string $label, bool $can_access = true): array
+    {
+        return [$cmd, $label, $this->ctrlTo('getLinkTargetByClass', $cmd), $can_access];
     }
 
     public function admin(): Administration
