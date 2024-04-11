@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Services\Badge\ilBadgeException;
+
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
@@ -319,7 +321,7 @@ class ilBadge
     }
 
     /**
-     * @throws ilException
+     * @throws ilBadgeException
      */
     public function uploadImage(
         array $a_upload_meta
@@ -329,14 +331,19 @@ class ilBadge
             $this->setImage($a_upload_meta["name"]);
             $path = $this->getImagePath();
 
-            if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path)) {
-                $this->update();
+            try {
+                if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path)) {
+                    $this->update();
+                }
+            } catch (ilException $ex) {
+                throw ilBadgeException::moveUploadedBadgeImageFailed($this, $ex);
             }
+
         }
     }
 
     /**
-     * @throws ilException
+     * @throws ilBadgeException
      */
     public function importImage(
         string $a_name,
@@ -348,9 +355,7 @@ class ilBadge
 
             $this->update();
         } else {
-            throw new ilException(
-                $this->lng->txt("file_not_found")
-            );
+            throw ilBadgeException::uploadedBadgeImageFileNotFound($this);
         }
     }
 
