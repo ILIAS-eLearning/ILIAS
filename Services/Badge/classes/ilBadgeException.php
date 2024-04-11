@@ -38,13 +38,13 @@ class BadgeException extends ilException
 
     }
 
-    public static function uploadedBadgeImageFileNotFound(ilBadge $badge, ?ilException $previousException = null): self
+    public static function uploadedBadgeImageFileNotFound(ilBadge $badge, ?ilException $previous_exception = null): self
     {
-        return new self(self::EXCEPTION_FILE_NOT_FOUND, $badge, $previousException);
+        return new self(self::EXCEPTION_FILE_NOT_FOUND, $badge, $previous_exception);
     }
 
-    public static function moveUploadedBadgeImageFailed(ilBadge $badge, ?ilException $previousException = null): self
+    public static function moveUploadedBadgeImageFailed(ilBadge $badge, ?ilException $previous_exception = null): self
     {
-        return new self(self::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED, $badge, $previousException);
+        return new self(self::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED, $badge, $previous_exception);
     }
 }
