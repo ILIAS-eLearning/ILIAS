@@ -58,7 +58,7 @@ class ilPRGActionNoteBuilder
 
     public function getNoteFor(int $prg_obj_id): string
     {
-        $ass = $this->getLatestAssignment($prg_obj_id);
+        $ass = $this->repo_assignment->getLatestAssignment($prg_obj_id, $this->usr_id);
         $instruction = '';
         $icon = 'page_editor/icon_pean.svg';
         $dealine_str = '';
@@ -113,18 +113,6 @@ class ilPRGActionNoteBuilder
         $this->tpl->setVariable("ICON", $icon);
         $this->tpl->setVariable("NOTE_TEXT", $this->lng->txt($instruction) . $dealine_str);
         return $this->tpl->get();
-    }
-
-    protected function getLatestAssignment(int $prg_obj_id): ?ilPRGAssignment
-    {
-        $assignments = $this->repo_assignment->getForUserOnNode($this->usr_id, $prg_obj_id);
-        usort(
-            $assignments,
-            fn(ilPRGAssignment $a, ilPRGAssignment $b)
-            => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
-        );
-        $assignments = array_reverse($assignments);
-        return $assignments ? current($assignments) : null;
     }
 
     protected function sortByDeadline(array $progresses): array
