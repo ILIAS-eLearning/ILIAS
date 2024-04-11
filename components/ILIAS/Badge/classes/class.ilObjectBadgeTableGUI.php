@@ -132,7 +132,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                 'container_deleted' => (bool) ($badge_item['deleted'] ?? false),
                 'container_id' => (int) $badge_item['parent_id'],
                 'container_type' => $badge_item['parent_type'],
-                'renderer' => fn () => $this->tile->asTitle(
+                'renderer' => fn() => $this->tile->asTitle(
                     $this->tile->modalContent(new ilBadge((int) $badge_item['id']))
                 )
             ];
