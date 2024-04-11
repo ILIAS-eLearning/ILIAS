@@ -46,7 +46,6 @@ interface IndividualAssessmentAccessHandler
     public function mayViewAnyUser(): bool;
     public function mayViewAllUsers(): bool;
     public function mayGradeAnyUser(): bool;
-    public function mayGradeAllUsers(): bool;
     public function mayGradeUser(int $user_id): bool;
     public function mayViewUser(int $user_id): bool;
     public function mayAmendAllUsers(): bool;
