@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\GlobalHttpState;
@@ -77,7 +77,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $cmd = $this->ctrl->getCmd();
 
         if (
-            (defined('USER_FOLDER_ID') && !$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) ||
+            (!defined('USER_FOLDER_ID') || !$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) &&
             !$this->rbacsystem->checkAccess('read', $this->tos->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
