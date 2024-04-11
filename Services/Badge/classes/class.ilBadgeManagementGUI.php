@@ -395,8 +395,8 @@ class ilBadgeManagementGUI
                     $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
                     $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
                 }
-            } catch (BadgeException $ex) {
-                switch ($ex->getCode()) {
+            } catch (BadgeException $e) {
+                switch ($e->getCode()) {
                     case BadgeException::EXCEPTION_FILE_NOT_FOUND:
                         $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_uploaded_image_file_not_found'), true);
                         break;
@@ -501,8 +501,8 @@ class ilBadgeManagementGUI
 
             try {
                 $badge->uploadImage($_FILES["img"]);
-            } catch (BadgeException $ex) {
-                if ($ex->getCode() === BadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED) {
+            } catch (BadgeException $e) {
+                if ($e->getCode() === BadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED) {
                     $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_update_image_processing_failed'), true);
                 }
                 $ilCtrl->redirect($this, "listBadges");
