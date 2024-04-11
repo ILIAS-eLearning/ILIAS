@@ -3186,7 +3186,9 @@ cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings
 cmix#:#conf_remarks#:#Internal comments
 cmix#:#conf_title#:#Title
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects. If the xAPI proxy is deactivated, this LRS type is not available for cmi5 objects. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.
+cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.
+cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.
+cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.
 cmix#:#conf_user_ident#:#User identification
 cmix#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
@@ -3267,10 +3269,10 @@ cmix#:#launch_url_info#:#Insert here the Internet address by adding http:// or h
 cmix#:#log_options#:#Options for the display of transmitted data
 cmix#:#lrs_authentication#:#Authentication
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
-cmix#:#no_substatements_label#:#Do not store substatements
+cmix#:#no_substatements_label#:#Suppress sub-statements
 cmix#:#online_info#:#This makes the object visible and usable for the users.
 cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.
-cmix#:#only_moveon_label#:#Save learning success data only
+cmix#:#only_moveon_label#:#Save statements with selected verbs only
 cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
 cmix#:#passed_label#:#Statements with the verb 'passed'
 cmix#:#privacy_options#:#Options for data security

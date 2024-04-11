@@ -3185,7 +3185,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich. Wird der xAPI-Proxy deaktiviert, so steht dieser LRS-Typ nicht für cmi5-Objekte zur Verfügung. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Identifikation der Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.zulassen.
@@ -3266,10 +3268,10 @@ cmix#:#launch_url_info#:#Geben Sie hier die Internetadresse ein und fügen Sie h
 cmix#:#log_options#:#Optionen zur Anzeige der übertragenen Daten
 cmix#:#lrs_authentication#:#Authentifizierung
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
-cmix#:#no_substatements_label#:#Substatements nicht speichern
+cmix#:#no_substatements_label#:#Substatements unterdrücken
 cmix#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 cmix#:#only_moveon_info#:#Diese Option steht nur für den ILIAS-LRS-Proxy zur Verfügung! Es werden ausschließlich Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). <br />Der Ressource wird der Eindruck vermittelt, dass alle Statements vom LRS gespeichert worden sind. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit der Organisation, welche diese Ressource anbietet, abgesprochen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
-cmix#:#only_moveon_label#:#Nur Daten zum Lernerfolg speichern
+cmix#:#only_moveon_label#:#Nur Statements mit ausgewählten Verben speichern
 cmix#:#passed_info#:#Die Aktivität wurde bis zu einem vorher festgelegten Grad der Zufriedenheit erfolgreich bestanden.
 cmix#:#passed_label#:#Statements mit dem Verb 'passed'
 cmix#:#privacy_options#:#Optionen zum Datenschutz
