@@ -2189,6 +2189,7 @@ badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 badge#:#badge_create#:#Create Badge
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -2237,6 +2238,8 @@ badge#:#badge_template_types#:#Valid Types
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific
 badge#:#badge_types#:#Types
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_valid#:#Valid until
 badge#:#criteria#:#Criteria
