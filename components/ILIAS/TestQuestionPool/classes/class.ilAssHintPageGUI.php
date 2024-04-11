@@ -36,8 +36,7 @@ class ilAssHintPageGUI extends ilPageObjectGUI
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
         parent::__construct("qht", $a_id, $a_old_nr);
-        $this->setTemplateTargetVar('ADM_CONTENT');
-        $this->setTemplateOutput(true);
+        $this->setTemplateOutput(false);
     }
 
     public function preview(): string
