@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Services\Badge\ilBadgeException;
+
 /**
  * Class ilBadgeManagementGUI
  *
@@ -393,9 +395,15 @@ class ilBadgeManagementGUI
                     $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
                     $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
                 }
-            } catch (Exception $ex) {
+            } catch (ilBadgeException $ex) {
+                switch ($ex->getCode()) {
+                    case ilBadgeException::EXCEPTION_FILE_NOT_FOUND:
+                        $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_uploaded_image_file_not_found'), true);
+                        break;
+                    case ilBadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED:
+                        $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_create_image_processing_failed'), true);
+                }
                 $badge->delete();
-                $this->tpl->setOnScreenMessage('failure', $lng->txt($ex->getMessage(), true));
                 $ilCtrl->redirect($this, "listBadges");
             }
 
@@ -493,8 +501,10 @@ class ilBadgeManagementGUI
 
             try {
                 $badge->uploadImage($_FILES["img"]);
-            } catch (Exception $ex) {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt($ex->getMessage(), true));
+            } catch (ilBadgeException $ex) {
+                if ($ex->getCode() === ilBadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED) {
+                    $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_update_image_processing_failed'), true);
+                }
                 $ilCtrl->redirect($this, "listBadges");
             }
 

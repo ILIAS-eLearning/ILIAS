@@ -2184,6 +2184,7 @@ badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öff
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
+badge#:#badge_create_image_processing_failed#:#Der Badge konnte nicht angelegt werden, beim verarbeiten des Bildes trat ein Fehler auf.
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
@@ -2232,6 +2233,8 @@ badge#:#badge_template_types#:#Gültige Typen
 badge#:#badge_template_types_all#:#Alle
 badge#:#badge_template_types_specific#:#Bestimmte
 badge#:#badge_types#:#Typen
+badge#:#badge_update_image_processing_failed#:#Der Badge konnte nicht aktualisiert werden, beim verarbeiten des Bildes trat ein Fehler auf.
+badge#:#badge_uploaded_image_file_not_found#:#Es konnte kein hochgeladenes Bild für den Badge gefunden werden.
 badge#:#badge_user_profile#:#Profil veröffentlicht###Modified as part of gender mainstreaming activities for ILIAS 8
 badge#:#badge_valid#:#Gültig bis
 bgtask#:#bgtask_blocked#:#Laufender Download
