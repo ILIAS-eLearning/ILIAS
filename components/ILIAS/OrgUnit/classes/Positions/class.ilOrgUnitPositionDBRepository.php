@@ -87,11 +87,18 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
      *
      * @return ilOrgUnitPosition[]
      */
-    public function getAllPositions(): array
-    {
+    public function getAllPositions(
+        Range $range = null,
+        Order $order = null
+    ): array {
+        $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
+        $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';
+
         $query = 'SELECT id, title, description, core_position, core_identifier FROM' . PHP_EOL
             . self::TABLE_NAME . PHP_EOL
-            . 'WHERE 1';
+            . $sql_order_part . PHP_EOL
+            . $sql_range_part;
+
         $res = $this->db->query($query);
         $ret = [];
         while ($rec = $this->db->fetchAssoc($res)) {
@@ -108,9 +115,7 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
 
     protected function getAllPositionsCount(): int
     {
-        $query = 'SELECT id, title, description, core_position, core_identifier FROM' . PHP_EOL
-            . self::TABLE_NAME . PHP_EOL
-            . 'WHERE 1';
+        $query = 'SELECT id FROM ' . self::TABLE_NAME;
         $res = $this->db->query($query);
         return $this->db->numRows($res);
     }
@@ -330,7 +335,7 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
-        foreach ($this->getAllPositions() as $pos) {
+        foreach ($this->getAllPositions($range, $order) as $pos) {
             $row_id = (string)$pos->getId();
             $record = [
                 'title' => $pos->getTitle(),

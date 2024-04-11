@@ -42,7 +42,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
     protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
     protected \ilOrgUnitPermissionDBRepository $permissionRepo;
     protected \ilObjectDefinition $objectDefinition;
-
     protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post;
 
 
@@ -341,7 +340,8 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $columns = [
             'title' => $this->ui_factory->table()->column()->text($this->lng->txt("title")),
             'description' => $this->ui_factory->table()->column()->text($this->lng->txt("description")),
-            'authorities' => $this->ui_factory->table()->column()->status($this->lng->txt("authorities")),
+            'authorities' => $this->ui_factory->table()->column()->status($this->lng->txt("authorities"))
+                ->withIsSortable(false),
         ];
 
         $actions = [
