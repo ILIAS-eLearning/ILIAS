@@ -50,19 +50,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
-
-        $this->tpl->addOnloadCode(
-            "let form = document.getElementById('form_orderinghorizontal');
-            let button = form.querySelector('input[name=\"cmd[save]\"]');
-            if (form && button) {
-                form.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
-                        e.preventDefault();
-                        form.requestSubmit(button);
-                    }
-                })
-            }"
-        );
     }
 
     /**
