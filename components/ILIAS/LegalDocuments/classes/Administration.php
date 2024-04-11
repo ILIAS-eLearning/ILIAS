@@ -258,19 +258,11 @@ class Administration
     public function tabs(array $tabs, array $run_after = []): void
     {
         foreach ($tabs as $tab) {
-            $this->container->tabs()->addTab(...$tab);
+            $this->addTab(...$tab);
             if (isset($run_after[$tab[0]])) {
                 $run_after[$tab[0]]();
             }
         }
-    }
-
-    public function defaultTabs(string $documents_link, string $history_link): array
-    {
-        return [
-            ['documents', $this->ui->txt('agreement_documents_tab_label'), $documents_link],
-            ['history', $this->ui->txt('acceptance_history'), $history_link],
-        ];
     }
 
     public function uploadContent(): string
@@ -455,5 +447,17 @@ class Administration
     public function isValidHTML(string $string): bool
     {
         return (new ValidHTML())->isTrue($string);
+    }
+
+    public function canReadUserAdministration(): bool
+    {
+        return $this->container->rbac()->system()->checkAccess('read', USER_FOLDER_ID);
+    }
+
+    private function addTab(string $id, string $text, string $link, bool $can_access = true): void
+    {
+        if ($can_access) {
+            $this->container->tabs()->addTab($id, $text, $link);
+        }
     }
 }
