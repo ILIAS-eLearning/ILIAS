@@ -412,7 +412,6 @@ class ilBadgeManagementGUI
                     $badge->delete();
                     $ilCtrl->redirect($this, "listBadges");
                 }
-
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
