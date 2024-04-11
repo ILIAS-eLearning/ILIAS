@@ -396,15 +396,23 @@ class ilBadgeManagementGUI
                     $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
                 }
             } catch (BadgeException $e) {
+                $delete = false;
                 switch ($e->getCode()) {
                     case BadgeException::EXCEPTION_FILE_NOT_FOUND:
                         $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_uploaded_image_file_not_found'), true);
+                        $delete = true;
                         break;
                     case BadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED:
                         $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_create_image_processing_failed'), true);
+                        $delete = true;
+                        break;
                 }
-                $badge->delete();
-                $ilCtrl->redirect($this, "listBadges");
+
+                if ($delete) {
+                    $badge->delete();
+                    $ilCtrl->redirect($this, "listBadges");
+                }
+
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
@@ -504,8 +512,8 @@ class ilBadgeManagementGUI
             } catch (BadgeException $e) {
                 if ($e->getCode() === BadgeException::EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED) {
                     $this->tpl->setOnScreenMessage('failure', $lng->txt('badge_update_image_processing_failed'), true);
+                    $ilCtrl->redirect($this, "listBadges");
                 }
-                $ilCtrl->redirect($this, "listBadges");
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
