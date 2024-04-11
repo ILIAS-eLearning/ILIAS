@@ -83,14 +83,6 @@ class TableManager
         return new ProfileUserAssignmentTable($profile, $tree_access_manager);
     }
 
-    public function getSelfEvaluationTable(
-        int $top_skill_id,
-        int $tref_id,
-        int $basic_skill_id
-    ): SelfEvaluationTable {
-        return new SelfEvaluationTable($top_skill_id, $tref_id, $basic_skill_id);
-    }
-
     public function getAssignMaterialsTable(
         int $top_skill_id,
         int $tref_id,

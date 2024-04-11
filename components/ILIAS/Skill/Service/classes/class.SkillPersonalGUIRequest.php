@@ -106,19 +106,6 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->bool("mat_res");
     }
 
-    public function getTableSelfEvaluationAction(): string
-    {
-        return $this->getTableAction("skl_self_evaluation_table_action");
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getTableSelfEvaluationLevelIds(): array
-    {
-        return $this->getTableIds("skl_self_evaluation_table_level_ids");
-    }
-
     public function getTableAssignMaterialsAction(): string
     {
         return $this->getTableAction("skl_assign_materials_table_action");
