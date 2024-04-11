@@ -33,7 +33,7 @@ class BadgeException extends ilException
 
     public function __construct(int $code, ilBadge $badge, ?ilException $previousException)
     {
-        parent::__construct("", $code, $previousException);
+        parent::__construct('', $code, $previousException);
         $this->badge = $badge;
 
     }
