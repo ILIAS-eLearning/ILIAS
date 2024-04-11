@@ -23,13 +23,6 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
 
 /**
- * Class ilParticipantsTestResultsGUI
- *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Modules/Test
- *
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssSpecFeedbackPageGUI
@@ -43,13 +36,14 @@ class ilParticipantsTestResultsGUI
     public const CMD_CONFIRM_DELETE_SELECTED_USER_RESULTS = 'deleteSingleUserResults';
     public const CMD_PERFORM_DELETE_SELECTED_USER_RESULTS = 'confirmDeleteSelectedUserData';
 
-    protected ?ilObjTest $test_obj = null;
-    protected ?ilTestQuestionSetConfig $question_set_config = null;
-    protected ?ilTestAccess $test_access = null;
-    protected ?ilTestObjectiveOrientedContainer $objective_parent = null;
+    private ?ilObjTest $test_obj = null;
+    private ?ilTestQuestionSetConfig $question_set_config = null;
+    private ?ilTestAccess $test_access = null;
+    private ?ilTestObjectiveOrientedContainer $objective_parent = null;
+
 
     public function __construct(
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private ilLanguage $lng,
         private ilDBInterface $db,
         private ilObjUser $user,
@@ -59,7 +53,9 @@ class ilParticipantsTestResultsGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private \ILIAS\HTTP\GlobalHttpState $http,
+        private \ILIAS\Refinery\Factory $refinery,
     ) {
     }
 
@@ -93,7 +89,7 @@ class ilParticipantsTestResultsGUI
         return $this->test_access;
     }
 
-    public function setTestAccess(ilTestAccess $test_access)
+    public function setTestAccess(ilTestAccess $test_access): void
     {
         $this->test_access = $test_access;
     }
@@ -127,8 +123,21 @@ class ilParticipantsTestResultsGUI
                 $this->{$command}();
         }
     }
+    /**
+     * @return list<int>
+     */
+    private function getUserIdsFromPost(): array
+    {
+        return $this->http->wrapper()->post()->retrieve(
+            'chbUser',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+    }
 
-    protected function forwardToEvaluationGUI(): void
+    private function forwardToEvaluationGUI(): void
     {
         $gui = new ilTestEvaluationGUI($this->getTestObj());
         $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
@@ -138,7 +147,7 @@ class ilParticipantsTestResultsGUI
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function buildTableGUI(): ilParticipantsTestResultsTableGUI
+    private function buildTableGUI(): ilParticipantsTestResultsTableGUI
     {
         $table_gui = new ilParticipantsTestResultsTableGUI(
             $this,
@@ -150,7 +159,7 @@ class ilParticipantsTestResultsGUI
         return $table_gui;
     }
 
-    protected function showParticipantsCmd()
+    private function showParticipantsCmd(): void
     {
         ilSession::clear("show_user_results");
 
@@ -211,7 +220,7 @@ class ilParticipantsTestResultsGUI
         $this->main_tpl->setContent($table_gui->getHTML());
     }
 
-    protected function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar)
+    private function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar): void
     {
         $delete_all_results_btn = $this->ui_factory->button()->standard($this->lng->txt('delete_all_user_data'), $this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
         $toolbar->addComponent($delete_all_results_btn);
@@ -220,7 +229,7 @@ class ilParticipantsTestResultsGUI
     /**
      * Asks for a confirmation to delete all user data of the test object
      */
-    protected function deleteAllUserResultsCmd(): void
+    private function deleteAllUserResultsCmd(): void
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -234,7 +243,7 @@ class ilParticipantsTestResultsGUI
     /**
      * Deletes all user data for the test object
      */
-    protected function confirmDeleteAllUserResultsCmd(): void
+    private function confirmDeleteAllUserResultsCmd(): void
     {
         $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter(
             $this->getTestObj()->getRefId()
@@ -253,10 +262,10 @@ class ilParticipantsTestResultsGUI
     /**
      * Asks for a confirmation to delete selected user data of the test object
      */
-    protected function deleteSingleUserResultsCmd(): void
+    private function deleteSingleUserResultsCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (!is_array($users) || count($users) === 0) {
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids === []) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
             $this->ctrl->redirect($this);
         }
@@ -273,7 +282,7 @@ class ilParticipantsTestResultsGUI
         $participant_data = new ilTestParticipantData($this->db, $this->lng);
         $participant_data->setParticipantAccessFilter($access_filter);
 
-        $participant_data->setActiveIdsFilter((array) $users);
+        $participant_data->setActiveIdsFilter($usr_ids);
 
         $participant_data->load($this->getTestObj()->getTestId());
 
@@ -299,14 +308,15 @@ class ilParticipantsTestResultsGUI
     /**
      * Deletes the selected user data for the test object
      */
-    protected function confirmDeleteSelectedUserDataCmd(): void
+    private function confirmDeleteSelectedUserDataCmd(): void
     {
-        if (isset($_POST["chbUser"]) && is_array($_POST["chbUser"]) && count($_POST["chbUser"])) {
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
             $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 
             $participant_data = new ilTestParticipantData($this->db, $this->lng);
             $participant_data->setParticipantAccessFilter($access_filter);
-            $participant_data->setActiveIdsFilter($_POST["chbUser"]);
+            $participant_data->setActiveIdsFilter($usr_ids);
 
             $participant_data->load($this->getTestObj()->getTestId());
 
@@ -321,11 +331,11 @@ class ilParticipantsTestResultsGUI
     /**
      * Shows the pass overview and the answers of one ore more users for the scored pass
      */
-    protected function showDetailedResultsCmd(): void
+    private function showDetailedResultsCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $results_href = $this->ctrl->getLinkTargetByClass(
             [ilTestResultsGUI::class, ilParticipantsTestResultsGUI::class, ilTestEvaluationGUI::class],
@@ -337,11 +347,11 @@ class ilParticipantsTestResultsGUI
     /**
      * Shows the answers of one ore more users for the scored pass
      */
-    protected function showUserAnswersCmd(): void
+    private function showUserAnswersCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $this->showUserResults(false, true);
     }
@@ -349,11 +359,11 @@ class ilParticipantsTestResultsGUI
     /**
      * Shows the pass overview of the scored pass for one ore more users
      */
-    protected function showPassOverviewCmd(): void
+    private function showPassOverviewCmd(): void
     {
-        $users = $this->testrequest->raw('chbUser');
-        if (is_array($users) && count($users) > 0) {
-            ilSession::set('show_user_results', $users);
+        $usr_ids = $this->getUserIdsFromPost();
+        if ($usr_ids !== []) {
+            ilSession::set('show_user_results', $usr_ids);
         }
         $this->showUserResults(true, false);
     }
@@ -361,26 +371,33 @@ class ilParticipantsTestResultsGUI
     /**
      * Shows the pass overview of the scored pass for one ore more users
      */
-    protected function showUserResults($show_pass_details, $show_answers, $show_reached_points = false): void
+    private function showUserResults($show_pass_details, $show_answers, $show_reached_points = false): void
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
 
         $show_user_results = ilSession::get("show_user_results");
 
-        if (!is_array($show_user_results) || count($show_user_results) == 0) {
+        if (!is_array($show_user_results) || count($show_user_results) === 0) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_PARTICIPANTS);
         }
 
-
-        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results);
+        $template = $this->createUserResults(
+            $show_pass_details,
+            $show_answers,
+            $show_reached_points,
+            $show_user_results
+        );
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());
             $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
             if ($this->getTestObj()->getShowSolutionAnswersOnly()) {
-                $this->main_tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+                $this->main_tpl->addCss(
+                    ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"),
+                    "print"
+                );
             }
         }
     }

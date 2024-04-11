@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as RefineryFactory;
 
 /**
  * Class ilTestArchiver
@@ -109,6 +111,8 @@ class ilTestArchiver
     protected UIRenderer $ui_renderer;
     protected ilAccess $access;
     protected InternalRequestService $testrequest;
+    protected GlobalHttpState $http;
+    protected RefineryFactory $refinery;
 
     protected ilTestHTMLGenerator $html_generator;
 
@@ -134,6 +138,8 @@ class ilTestArchiver
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->access = $DIC['ilAccess'];
         $this->testrequest = $DIC->test()->internal()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $ilias = $DIC['ilias'];
 
@@ -381,7 +387,9 @@ class ilTestArchiver
             $this->ui_factory,
             $this->ui_renderer,
             new ilTestParticipantAccessFilterFactory($this->access),
-            $this->testrequest
+            $this->testrequest,
+            $this->http,
+            $this->refinery
         );
         $gui->setTestObj($test);
 
