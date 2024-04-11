@@ -571,7 +571,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     A File Input is used to upload a single file using the native
+     *     A File Input is used to upload one or multiple files, using the native
      *     filebrowser of a browser or Drag&Drop.
      *   composition: >
      *     A File Input is composed as a Dropzone and a list of files. The
