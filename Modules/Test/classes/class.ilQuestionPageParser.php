@@ -1415,7 +1415,7 @@ class ilQuestionPageParser extends ilMDSaxParser
      * Return null if the string is not a link target
      * @return array{target_inst: int, target_type: string, target_id: int}|null
      */
-    public function parseLinkTarget(string $identifier): ?array
+    private function parseLinkTarget(string $identifier): ?array
     {
         $link_arr = explode('_', $identifier);
 
