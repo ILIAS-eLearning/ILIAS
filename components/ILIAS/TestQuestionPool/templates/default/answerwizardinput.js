@@ -21,16 +21,16 @@ var AnswerWizardInput = {
 
   initEvents(rootel) {
     const that = this;
-    $(rootel).find(`button.${this.tag_button}_add .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_add .glyph`).click((e) => {
       that.addRow(e);
     });
-    $(rootel).find(`button.${this.tag_button}_remove .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_remove .glyph`).click((e) => {
       that.removeRow(e);
     });
-    $(rootel).find(`button.${this.tag_button}_up .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_up .glyph`).click((e) => {
       that.moveRowUp(e);
     });
-    $(rootel).find(`button.${this.tag_button}_down .glyph`).click((e) => {
+    $(rootel).find(`.${this.tag_button}_down .glyph`).click((e) => {
       that.moveRowDown(e);
     });
   },
