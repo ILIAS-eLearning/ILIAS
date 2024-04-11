@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Services\Badge\ilBadgeException;
+use ILIAS\Services\Badge\BadgeException;
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -321,7 +321,7 @@ class ilBadge
     }
 
     /**
-     * @throws ilBadgeException
+     * @throws BadgeException
      */
     public function uploadImage(
         array $a_upload_meta
@@ -336,14 +336,14 @@ class ilBadge
                     $this->update();
                 }
             } catch (ilException $ex) {
-                throw ilBadgeException::moveUploadedBadgeImageFailed($this, $ex);
+                throw BadgeException::moveUploadedBadgeImageFailed($this, $ex);
             }
 
         }
     }
 
     /**
-     * @throws ilBadgeException
+     * @throws BadgeException
      */
     public function importImage(
         string $a_name,
@@ -355,7 +355,7 @@ class ilBadge
 
             $this->update();
         } else {
-            throw ilBadgeException::uploadedBadgeImageFileNotFound($this);
+            throw BadgeException::uploadedBadgeImageFileNotFound($this);
         }
     }
 

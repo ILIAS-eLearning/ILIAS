@@ -25,7 +25,7 @@ use ilBadge;
 use ilException;
 use Throwable;
 
-class ilBadgeException extends ilException
+class BadgeException extends ilException
 {
     public const EXCEPTION_FILE_NOT_FOUND = 1;
     public const EXCEPTION_MOVE_UPLOADED_IMAGE_FAILED = 2;
