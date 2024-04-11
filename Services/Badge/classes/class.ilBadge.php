@@ -332,7 +332,7 @@ class ilBadge
             $path = $this->getImagePath();
 
             try {
-                if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], $this->getImagePath(false), $path)) {
+                if (ilFileUtils::moveUploadedFile($a_upload_meta['tmp_name'], $this->getImagePath(false), $path)) {
                     $this->update();
                 }
             } catch (ilException $ex) {
