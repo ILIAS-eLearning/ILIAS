@@ -2983,10 +2983,7 @@ chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
-chatroom#:#history_by_day#:#Daily History
-chatroom#:#history_by_session#:#Session History
 chatroom#:#history_byday_title#:#Show Conversation per Day
-chatroom#:#history_bysession_title#:#Show Conversation per Session
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection

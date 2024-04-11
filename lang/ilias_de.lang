@@ -2981,10 +2981,7 @@ chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#hint_display_past_msgs#:#Anzahl vergangener Beiträge, die beim Betreten des Chatraums angezeigt werden. Durch die Eingabe von „0“ wird die Anzeige deaktiviert.
-chatroom#:#history_by_day#:#Tagesverlauf
-chatroom#:#history_by_session#:#Sitzungverlauf
 chatroom#:#history_byday_title#:#Zeitraum auswählen
-chatroom#:#history_bysession_title#:#Sitzung auswählen
 chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum „%s“
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server

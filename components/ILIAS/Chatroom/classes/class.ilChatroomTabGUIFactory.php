@@ -302,18 +302,6 @@ class ilChatroomTabGUIFactory
                 'link' => $DIC->ctrl()->getLinkTarget($this->gui, 'history-byday'),
                 'permission' => 'read',
                 'enabled' => $room ? $room->getSetting('enable_history') : false,
-                'subtabs' => [
-                    'byday' => [
-                        'lng' => 'history_by_day',
-                        'link' => $DIC->ctrl()->getLinkTarget($this->gui, 'history-byday'),
-                        'permission' => 'read'
-                    ],
-                    'bysession' => [
-                        'lng' => 'history_by_session',
-                        'link' => $DIC->ctrl()->getLinkTarget($this->gui, 'history-bysession'),
-                        'permission' => 'read'
-                    ]
-                ]
             ],
             'info' => [
                 'lng' => 'info_short',
