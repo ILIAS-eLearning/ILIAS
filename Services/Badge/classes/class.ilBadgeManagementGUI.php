@@ -392,7 +392,7 @@ class ilBadgeManagementGUI
                 if ($form->getInput('img_mode') === 'up') {
                     $badge->uploadImage($_FILES['img']);
                 } else {
-                $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
+                    $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
                     $badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
                 }
             } catch (BadgeException $e) {

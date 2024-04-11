@@ -70,7 +70,7 @@ class ilBadgeWAC implements ilWACCheckingClass
         \ILIAS\DI\Container $DIC,
         int $badge_id,
         bool $has_global_badge_administration_access
-    ) : bool {
+    ): bool {
         // If the acting user still does not have access, check if the image is used in an object badge type
         $badge = new ilBadge($badge_id);
         if ($badge->getParentId() > 0) {
@@ -102,7 +102,7 @@ class ilBadgeWAC implements ilWACCheckingClass
         return $has_access;
     }
 
-    private function isAssignedBadge(\ILIAS\DI\Container $DIC, int $badge_id) : bool
+    private function isAssignedBadge(\ILIAS\DI\Container $DIC, int $badge_id): bool
     {
         // First, check all badge assignments of the current user for a match
         $badges_of_user = ilBadgeAssignment::getInstancesByUserId($DIC->user()->getId());
@@ -115,7 +115,7 @@ class ilBadgeWAC implements ilWACCheckingClass
         return false;
     }
 
-    private function isAssignedBadgeOfPublishedUserProfile(\ILIAS\DI\Container $DIC, int $badge_id) : bool
+    private function isAssignedBadgeOfPublishedUserProfile(\ILIAS\DI\Container $DIC, int $badge_id): bool
     {
         // It seems the badge is not  assigned to the curent user, so check if the profile of the badge user is made visible
         $assignments = ilBadgeAssignment::getInstancesByBadgeId($badge_id);

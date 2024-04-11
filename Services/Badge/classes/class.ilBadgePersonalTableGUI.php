@@ -106,7 +106,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                 "parent_title" => $parent ? $parent["title"] : null,
                 "parent" => $parent,
                 "active" => (bool) $ass->getPosition(),
-                "renderer" => fn () => $this->tile->asTitle(
+                "renderer" => fn() => $this->tile->asTitle(
                     $this->tile->modalContentWithAssignment($badge, $ass)
                 ),
             );

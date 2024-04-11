@@ -76,7 +76,7 @@ class PresentationHeaderTest extends TestCase
         )->willReturnOnConsecutiveCalls('list URL', 'manage URL');
 
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $language->method('txt')->willReturnCallback(static fn (string $name): string => $name);
+        $language->method('txt')->willReturnCallback(static fn(string $name): string => $name);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $container->expects(self::once())->method('toolbar')->willReturn($toolbar);
