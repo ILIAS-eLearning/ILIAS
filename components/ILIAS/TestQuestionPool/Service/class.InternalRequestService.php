@@ -129,6 +129,18 @@ class InternalRequestService
         return $this->get($key, $no_transform);
     }
 
+    public function float(string $key): float
+    {
+        $t = $this->refinery->kindlyTo()->float();
+        return $this->get($key, $t) ?? 0.0;
+    }
+
+    public function string(string $key): string
+    {
+        $t = $this->refinery->kindlyTo()->string();
+        return $this->get($key, $t) ?? '';
+    }
+
     public function getParsedBody()
     {
         return $this->http->request()->getParsedBody();
