@@ -335,8 +335,8 @@ class ilBadge
                 if (ilFileUtils::moveUploadedFile($a_upload_meta['tmp_name'], $this->getImagePath(false), $path)) {
                     $this->update();
                 }
-            } catch (ilException $ex) {
-                throw BadgeException::moveUploadedBadgeImageFailed($this, $ex);
+            } catch (ilException $e) {
+                throw BadgeException::moveUploadedBadgeImageFailed($this, $e);
             }
 
         }
