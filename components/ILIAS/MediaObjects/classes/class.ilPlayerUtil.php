@@ -78,21 +78,6 @@ class ilPlayerUtil
         return self::getLocalMediaElementJsPath();
     }
 
-    public static function getFlashVideoPlayerDirectory(): string
-    {
-        return "public/node_modules/mediaelement/build";
-    }
-
-    public static function getFlashVideoPlayerFilename(
-        bool $a_fullpath = false
-    ): string {
-        $file = "flashmediaelement.swf";
-        if ($a_fullpath) {
-            return self::getFlashVideoPlayerDirectory() . "/" . $file;
-        }
-        return $file;
-    }
-
     public static function copyPlayerFilesToTargetDirectory(
         string $a_target_dir
     ): void {
