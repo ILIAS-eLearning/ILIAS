@@ -63,7 +63,6 @@ abstract class BaseCommands
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
 
-
     protected function __construct(
         protected array $query_namespace = ['orgu', 'posedit']
     ) {

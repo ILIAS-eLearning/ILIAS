@@ -99,9 +99,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
 
-        // Header
         $types = $this->positionRepo->getArray('id', 'title');
-
         $this->ctrl->setParameterByClass(ilRepositorySearchGUI::class, 'addusertype', 'staff');
         ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
             'auto_complete_name' => $this->lng->txt('user'),
@@ -109,38 +107,20 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             'submit_name' => $this->lng->txt('add'),
         ));
 
-        // Tables
-        $html = '';
         $tables = [];
-
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
             $tables[] = $this->getStaffTable($ilOrgUnitPosition, [$this->getParentRefId()], false);
-
-            $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI(
-                $this,
-                self::CMD_INDEX,
-                $ilOrgUnitPosition
-            );
-            $html .= $ilOrgUnitUserAssignmentTableGUI->getHTML();
         }
-        $this->setContent(
-            $this->ui_renderer->render($tables)
-            . '<hr><hr>'
-            . $html
-        );
+        $this->setContent($this->ui_renderer->render($tables));
     }
 
     protected function assignmentsRecursive(): void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
-        // Tables
-        $html = '';
-        $tables = [];
 
-
-        $orgu_tree = ilObjOrgUnitTree::_getInstance();
         $orgu_ref_id = $this->getParentRefId();
+        $orgu_tree = ilObjOrgUnitTree::_getInstance();
         $permission_access_staff_recursive = [];
         // maybe any parent gives us recursive permission
         (int) $root = (int) ilObjOrgUnit::getRootOrgRefId();
@@ -173,22 +153,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             }
         }
 
+        $tables = [];
         foreach ($this->positionRepo->getPositionsForOrgUnit($this->getParentRefId()) as $ilOrgUnitPosition) {
             $tables[] = $this->getStaffTable($ilOrgUnitPosition, $permission_access_staff_recursive, true);
-
-            $ilOrgUnitRecursiveUserAssignmentTableGUI =
-                new ilOrgUnitRecursiveUserAssignmentTableGUI(
-                    $this,
-                    self::CMD_ASSIGNMENTS_RECURSIVE,
-                    $ilOrgUnitPosition
-                );
-            $html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
         }
-        $this->setContent(
-            $this->ui_renderer->render($tables)
-            . '<hr><hr>'
-            . $html
-        );
+        $this->setContent($this->ui_renderer->render($tables));
     }
 
     protected function confirmRemove(bool $recursive = false): void
@@ -332,9 +301,6 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
         throw new \Exception('no position/user id in query');
     }
-
-
-
 
     protected function cancel(): void
     {

@@ -469,7 +469,6 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
                         && ilObjUserTracking::_enabledUserRelatedData()
                     )
                 );
-
         }
     }
 }
