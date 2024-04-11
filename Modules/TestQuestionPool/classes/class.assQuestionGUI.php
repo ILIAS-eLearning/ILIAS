@@ -235,6 +235,24 @@ abstract class assQuestionGUI
 
             default:
                 $cmd = $this->ctrl->getCmd('editQuestion');
+
+                if ($cmd === 'editQuestion') {
+                    $this->tpl->addOnloadCode("
+                            let form = document.querySelector('#ilContentContainer form');
+                            let button = form.querySelector('input[name=\"cmd[save]\"]');
+                            if (form && button) {
+                                form.addEventListener('keydown', function (e) {
+                                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                                        e.preventDefault();
+                                        form.requestSubmit(button);
+                                    }
+                                })
+                            }
+                        ");
+                    $this->editQuestion();
+                    return;
+                }
+
                 if (method_exists($this, $cmd)) {
                     $this->$cmd();
                     return;
