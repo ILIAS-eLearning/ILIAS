@@ -232,9 +232,23 @@ abstract class assQuestionGUI
                     case 'addST':
                     case 'addPG':
                     case 'addGIT':
-                        $ret = $this->$cmd();
+                        $this->$cmd();
                         break;
-
+                    case 'editQuestion':
+                        $this->tpl->addOnloadCode("
+                            let form = document.querySelector('#ilContentContainer form');
+                            let button = form.querySelector('input[name=\"cmd[save]\"]');
+                            if (form && button) {
+                                form.addEventListener('keydown', function (e) {
+                                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                                        e.preventDefault();
+                                        form.requestSubmit(button);
+                                    }
+                                })
+                            }
+                        ");
+                        $this->editQuestion();
+                        break;
                     default:
                         if (method_exists($this, $cmd)) {
                             $this->$cmd();
