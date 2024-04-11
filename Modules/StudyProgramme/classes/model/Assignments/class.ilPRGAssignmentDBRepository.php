@@ -176,7 +176,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->db->manipulate($query);
     }
 
-
     public function get(int $id): ilPRGAssignment
     {
         $ass = $this->read([
@@ -346,7 +345,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         return $assignments;
     }
 
-
     public function getRiskyToFail(
         array $programmes_and_due,
         bool $discard_formerly_notified = true
@@ -391,8 +389,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         ));
         return $assignments;
     }
-
-
 
     protected function query($filter): ilDBStatement
     {
@@ -475,7 +471,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         yield $ass;
     }
 
-
     protected function prebuildProgressesForAssingment(int $assignment_id): array
     {
         $q = 'SELECT * FROM ' . self::PROGRESS_TABLE
@@ -522,7 +517,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         return $ass;
     }
 
-
     protected function buildProgressTreeFor(int $node_obj_id): ilPRGProgress
     {
         $children = array_filter(
@@ -547,7 +541,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $pgs->setSubnodes($pgss);
         return $pgs;
     }
-
 
     protected function getRefIdFor(int $obj_id): int
     {
@@ -604,7 +597,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
         return $pgs;
     }
-
 
     /**
      * @deprecated; fix ilObjUser::lookupOrgUnitsRepresentation
@@ -753,7 +745,6 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->db->manipulate($q);
     }
 
-
     public function storeExpiryInfoSentFor(ilPRGAssignment $ass): void
     {
         $where = [
@@ -810,5 +801,53 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
             self::PROGRESS_FIELD_MAIL_SENT_RISKYTOFAIL => ['null', null]
         ];
         $this->db->update(self::PROGRESS_TABLE, $values, $where);
+    }
+
+    public function getLatestAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
+    {
+        $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
+        if($assignments === []) {
+            return null;
+        }
+        usort(
+            $assignments,
+            fn(ilPRGAssignment $a, ilPRGAssignment $b)
+            => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
+        );
+        $assignments = array_reverse($assignments);
+        return current($assignments);
+    }
+
+    public function getLongestValidAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
+    {
+        $assignments = $this->getForUserOnNode($usr_id, $root_prg_obj_id);
+        if($assignments === []) {
+            return null;
+        }
+
+        $now = new \DateTimeImmutable();
+        $valid = array_filter($assignments, fn($ass) => $ass->getProgressTree()->hasValidQualification($now));
+        if($valid === []) {
+            return null;
+        }
+
+        $unlimited = array_filter($valid, fn($ass) => $ass->getProgressTree()->getValidityOfQualification() === null);
+        if($unlimited !== []) {
+            usort(
+                $unlimited,
+                fn(ilPRGAssignment $a, ilPRGAssignment $b)
+                => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
+            );
+            $unlimited = array_reverse($unlimited);
+            return current($unlimited);
+        }
+
+        usort(
+            $valid,
+            fn(ilPRGAssignment $a, ilPRGAssignment $b)
+            => $a->getProgressTree()->getValidityOfQualification() <=> $b->getProgressTree()->getValidityOfQualification()
+        );
+        $valid = array_reverse($valid);
+        return current($valid);
     }
 }

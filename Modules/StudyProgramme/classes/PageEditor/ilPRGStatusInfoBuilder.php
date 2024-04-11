@@ -67,8 +67,8 @@ class ilPRGStatusInfoBuilder
         $icon = 'standard/icon_not_ok.svg';
         $restart_date = null;
 
-        $assignments = $this->getUserAssignments($prg_obj_id);
-        $ass = $this->getLongestValidAssignment($assignments) ?? $this->getLatestAssignment($assignments);
+        $ass = $this->repo_assignment->getLongestValidAssignment($prg_obj_id, $this->usr_id)
+            ?? $this->repo_assignment->getLatestAssignment($prg_obj_id, $this->usr_id);
 
         if ($ass) {
             $pgs = $ass->getProgressTree();
@@ -108,56 +108,6 @@ class ilPRGStatusInfoBuilder
             $this->tpl->setVariable("EDIT_QUALIFICATION", $this->lng->txt("pc_prgstatus_edit_qualification") . " " . $restart_date);
         }
         return $this->tpl->get();
-    }
-
-    /**
-     * @return ilPRGAssignment[]
-     */
-    protected function getUserAssignments(int $prg_obj_id): array
-    {
-        return $this->repo_assignment->getForUserOnNode($this->usr_id, $prg_obj_id);
-    }
-
-    /**
-     * @param  ilPRGAssignment[] $assignments
-     */
-    protected function getLongestValidAssignment(array $assignments): ?ilPRGAssignment
-    {
-        $now = new \DateTimeImmutable();
-        $valid = array_filter($assignments, fn($ass) => $ass->getProgressTree()->hasValidQualification($now));
-        if($valid === []) {
-            return null;
-        }
-
-        $unlimited = array_filter($valid, fn($ass) => $ass->getProgressTree()->getValidityOfQualification() === null);
-        if($unlimited !== []) {
-            return $this->getLatestAssignment($unlimited);
-        }
-
-        usort(
-            $valid,
-            fn(ilPRGAssignment $a, ilPRGAssignment $b)
-            => $a->getProgressTree()->getValidityOfQualification() <=> $b->getProgressTree()->getValidityOfQualification()
-        );
-        $valid = array_reverse($valid);
-        return current($valid);
-    }
-
-    /**
-     * @param  ilPRGAssignment[] $assignments
-     */
-    protected function getLatestAssignment(array $assignments): ?ilPRGAssignment
-    {
-        if($assignments === []) {
-            return null;
-        }
-        usort(
-            $assignments,
-            fn(ilPRGAssignment $a, ilPRGAssignment $b)
-            => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
-        );
-        $assignments = array_reverse($assignments);
-        return current($assignments);
     }
 
     protected function getRestartPeriodOfProgrammeNode(int $prg_obj_id): ?DateInterval

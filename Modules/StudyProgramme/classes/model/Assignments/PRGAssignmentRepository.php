@@ -84,5 +84,21 @@ interface PRGAssignmentRepository
         bool $discard_formerly_notified = true
     ): array;
 
+    /**
+     * @return ilPRGAssignment[]
+     */
     public function getExpiredAndNotInvalidated(): array;
+
+    /**
+     * Get the user's assignment on a prg that was created last
+     */
+    public function getLatestAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment;
+
+    /**
+     * Get the user's assignment on a prg with the longest lasting qualification.
+     * If there is more than one assignment with e.g. unlimited qualification,
+     * the valid assignment that was created (not finished) last is returned.
+     */
+    public function getLongestValidAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment;
+
 }

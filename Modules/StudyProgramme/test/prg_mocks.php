@@ -136,6 +136,14 @@ trait AssignmentRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
+    public function getLatestAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function getLongestValidAssignment(int $root_prg_obj_id, int $usr_id): ?ilPRGAssignment
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
 }
 
 trait SettingsRepoMockNIFT
