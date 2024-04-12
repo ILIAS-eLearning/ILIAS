@@ -40,13 +40,7 @@ class PresentationManager
 
     public function isHelpActive(): bool
     {
-        if ($this->user->getLanguage() !== "de") {
-            return false;
-        }
-        if ($this->module->isAuthoringMode()) {
-            return true;
-        }
-        return (count($this->module->getActiveModules()) > 0);
+        return $this->module->isHelpActive();
     }
 
     public function showTool(): bool
@@ -59,10 +53,7 @@ class PresentationManager
 
     public function showTooltips(): bool
     {
-        if ($this->settings->get("help_mode") === "1") {
-            return false;
-        }
-        return $this->isHelpActive();
+        return $this->module->areTooltipsActive();
     }
 
 }

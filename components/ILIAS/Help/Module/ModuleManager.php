@@ -100,6 +100,14 @@ class ModuleManager
         return (count($this->getActiveModules()) > 0);
     }
 
+    public function areTooltipsActive(): bool
+    {
+        if ($this->settings->get("help_mode") === "1") {
+            return false;
+        }
+        return $this->isHelpActive();
+    }
+
     public function isAuthoringMode(): bool
     {
         return ($this->getAuthoringLMId() > 0);
