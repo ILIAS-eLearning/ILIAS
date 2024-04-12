@@ -305,6 +305,7 @@ class ilBookingObjectGUI
         $desc = new ilTextAreaInputGUI($lng->txt("description"), "desc");
         $desc->setCols(70);
         $desc->setRows(15);
+        $desc->setMaxNumOfChars(1000);
         $form_gui->addItem($desc);
 
         $file = new ilFileInputGUI($lng->txt("book_additional_info_file"), "file");
