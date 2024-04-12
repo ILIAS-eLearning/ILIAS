@@ -258,7 +258,7 @@ class SurveyImportParser extends ilSaxParser
                     "value" => $a_attribs["value"],
 
                     // might be missing in old export files
-                    "conjunction" => (int) $a_attribs["conjuction"]
+                    "conjunction" => (int) ($a_attribs["conjuction"] ?? 0)
                 );
                 break;
             case "question":
