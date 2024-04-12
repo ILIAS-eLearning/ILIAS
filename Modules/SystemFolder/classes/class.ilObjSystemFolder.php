@@ -86,7 +86,7 @@ class ilObjSystemFolder extends ilObject
         while ($row = $ilDB->fetchObject($r)) {
             $data["Fobject"][$num] = array("title" => $row->title,
                                            "desc" => ilStr::shortenTextExtended(
-                                               $row->description,
+                                               (string) $row->description,
                                                ilObject::DESC_LENGTH,
                                                true
                                            ),
