@@ -228,7 +228,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $form->addItem($item);
 
         $sectionHeader = new ilFormSectionHeaderGUI();
-        $sectionHeader->setTitle($DIC->language()->txt('sect_privacy_options'));
+        $sectionHeader->setTitle($DIC->language()->txt('privacy_options'));
         $form->addItem($sectionHeader);
 
         $useProxy = new ilCheckboxInputGUI($DIC->language()->txt('conf_use_proxy'), 'use_proxy');

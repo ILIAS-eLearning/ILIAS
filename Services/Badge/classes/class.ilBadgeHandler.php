@@ -97,7 +97,8 @@ class ilBadgeHandler
             $a_components = null;
         }
         $this->settings->set(
-            'components', $a_components !== null
+            'components',
+            $a_components !== null
             ? serialize(array_unique($a_components))
             : ''
         );
@@ -200,7 +201,8 @@ class ilBadgeHandler
             $a_types = null;
         }
         $this->settings->set(
-            'inactive_types', $a_types !== null
+            'inactive_types',
+            $a_types !== null
             ? serialize(array_unique($a_types))
             : ''
         );

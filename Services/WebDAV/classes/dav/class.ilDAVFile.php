@@ -98,8 +98,14 @@ class ilDAVFile implements IFile
             return $file_dav->put($data, $name);
         }
 
-        $stream = Streams::ofResource($data);
+        $file = null;
+        if (stream_get_meta_data($data)['stream_type'] === 'TEMP') {
+            $file = ilFileUtils::ilTempnam() . $name;
+            file_put_contents($file, $data);
+            $data = fopen($file, 'r');
+        }
 
+        $stream = Streams::ofResource($data);
         $title = $this->obj->getTitle();
 
         if ($this->versioning_enabled === true ||
@@ -113,6 +119,9 @@ class ilDAVFile implements IFile
         $this->obj->update();
 
         $stream->close();
+        if ($file !== null) {
+            unlink($file);
+        }
 
         return $this->getETag();
     }

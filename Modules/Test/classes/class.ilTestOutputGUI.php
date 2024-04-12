@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
-
 /**
  * Output class for assessment test execution
  *
@@ -77,7 +75,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->handlePasswordProtectionRedirect();
 
-
         $instance_name = $this->settings->get('short_inst_name') ?? '';
         if (trim($instance_name) === '') {
             $instance_name = 'ILIAS';
@@ -90,9 +87,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
             $this->object->getKioskMode()
         );
+
+        $title = $this->object->getTitle();
+        if (($sequence_index = $this->getSequenceElementParameter()) !== null) {
+            $title .= ' - ' . $this->lng->txt('question') . $sequence_index;
+        }
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->object->getTitle()
+            $title
         );
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
@@ -142,7 +144,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->ctrl,
                     $this->lng,
                     $this->tpl,
-                    $this->tabs
+                    $this->tabs,
+                    $this->global_screen
                 );
 
                 // fau: testNav - save the 'answer changed' status for viewing hint requests
@@ -161,7 +164,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->lng,
                     $this,
                     $this->passwordChecker,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->global_screen
                 );
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;

@@ -749,29 +749,29 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 );
                 $DIC->toolbar()->addComponent($button);
             } else {
-                //                $launchButton = ilLinkButton::getInstance();
-                //                $launchButton->setPrimary(true);
-                //                $launchButton->setCaption('launch');
-                //
-                //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
-                //                    $launchButton->setTarget('_blank');
-                //                }
-                //
-                //                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
-                //                    ilCmiXapiLaunchGUI::class
-                //                ));
-                //
-                //                $DIC->toolbar()->addButtonInstance($launchButton);
+                $launchButton = ilLinkButton::getInstance();
+                $launchButton->setPrimary(true);
+                $launchButton->setCaption('launch');
+
+                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
+                    $launchButton->setTarget('_blank');
+                }
+
+                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
+                    ilCmiXapiLaunchGUI::class
+                ));
+
+                $DIC->toolbar()->addButtonInstance($launchButton);
 
                 //todo
                 //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
                 //                    setTarget('_blank');
                 //                }
-                $button = $DIC->ui()->factory()->button()->primary(
-                    $this->lng->txt('launch'),
-                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
-                );
-                $DIC->toolbar()->addComponent($button);
+                //                $button = $DIC->ui()->factory()->button()->primary(
+                //                    $this->lng->txt('launch'),
+                //                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
+                //                );
+                //                $DIC->toolbar()->addComponent($button);
             }
 
             /**

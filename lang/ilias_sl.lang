@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Nazaj na odprti test
 assessment#:#baseunit#:#Osnovna enota
 assessment#:#button_request_next_question_hint#:#Zahtevaj naslednji namig glede rešitve
 assessment#:#button_request_question_hint#:#Zahtevaj namig glede rešitve
-assessment#:#button_show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#by#:#po
 assessment#:#cancel_test#:#Prekini test
 assessment#:#cannot_edit_marks#:#Udeleženci so že opravili test. Oceno lahko spremenite samo, če je bil nastavljen datum poročila o rezultatih, ki je trenutno še v prihodnosti.
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
+assessment#:#show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#shuffle_answers#:#Pomešaj odgovore
 assessment#:#skip_question#:#Ne odgovarjaj in naprej
@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Vnesi poljubno besedilo
 survey#:#add_heading#:#Dodaj napis
 survey#:#add_material#:#Dodaj gradivo
 survey#:#add_phrase#:#Dodaj besedno zvezo
-survey#:#adm_no_special_users#:#Niso določeni posebni uporabniki, ki lahko anketo izpolnijo več kot enkrat.
 survey#:#already_completed_survey#:#Anketo ste že izpolnili! Ankete ne morete izpolniti znova.
 survey#:#anonymization#:#Anonimizacija
 survey#:#anonymize_anonymous_introduction#:#Za dostop do ankete morate uporabiti 5-mestno kodo ankete, ki jo lahko dobite od odgovorne osebe za to anketo.<br/>Vnesite jo v zgornje polje z besedilom.

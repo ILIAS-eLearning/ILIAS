@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#baseunit#:#Jednostka podstawowa
 assessment#:#button_request_next_question_hint#:#Zażądaj następnej podpowiedzi
 assessment#:#button_request_question_hint#:#Zażądaj podpowiedzi
-assessment#:#button_show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj test
 assessment#:#cannot_edit_marks#:#Są uczniowie, którzy uruchomili test. Możesz tylko zawiesić ocenę, jeśli jest włączona data raportu punktacji, a data raportu jeszcze nie minęła.
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
+assessment#:#show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#skip_question#:#Nie udzielaj odpowiedzi i przejdź do następnego pytania
@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Szkic
 survey#:#add_heading#:#Dodaj nagłówek
 survey#:#add_material#:#Dodaj materiał
 survey#:#add_phrase#:#Dodaj frazę
-survey#:#adm_no_special_users#:#Nie zdefiniowano żadnych właściwych użytkowników, którzy mogliby przeprowadzać kilkakrotnie ankiety.
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
 survey#:#anonymization#:#Anonimowość
 survey#:#anonymize_anonymous_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, musisz użyć 32-znakowego kodu, który otrzymasz z kreatora ankiety<br />Podaj go w poniższym polu tekstowym.

@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Tilbage til testen
 assessment#:#baseunit#:#Base Unit###16 09 2013 new variable
 assessment#:#button_request_next_question_hint#:#Få næste tip
 assessment#:#button_request_question_hint#:#Få tip
-assessment#:#button_show_requested_question_hints#:#Vis givne tips
 assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.###
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Vis overblik for de markerede besvarelser
+assessment#:#show_requested_question_hints#:#Vis givne tips
 assessment#:#show_user_answers#:#Vis de markerede besvarelser
 assessment#:#shuffle_answers#:#Bland svar
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Fritekst
 survey#:#add_heading#:#Tilføj retning
 survey#:#add_material#:#Tilføj materiale
 survey#:#add_phrase#:#Tilføj sætning
-survey#:#adm_no_special_users#:#Der er pt. ingen specielle brugere som kan gennemføre afstemninger mere end en gang.
 survey#:#already_completed_survey#:#Du har allerede afsluttet undersøgelsen! Det er ikke muligt at gentage den.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#Denne undersøgelse anonymiserer alle brugerdata. For at få adgang til at besvare skal du derfor anvende en 32-karakterer lang adganskode som du modtager af den der har lavet undersøgelsen.<br />Indtast i feltet nedenfor.

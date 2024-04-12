@@ -209,34 +209,26 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->form->addItem($sh);
 
         // lesson mode
-        $options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
-                "browse" => $this->lng->txt("cont_sc_less_mode_browse"));
-        $si = new ilSelectInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
-        $si->setOptions($options);
-        $this->form->addItem($si);
+        $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
+        $op0 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_normal"), "normal");
+        $op0->setInfo($this->lng->txt("cont_sc_less_mode_normal_info"));
+        $radg->addOption($op0);
+        $op1 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_browse"), "browse");
+        $op1->setInfo($this->lng->txt("cont_sc_less_mode_browse_info"));
+        $radg->addOption($op1);
 
-        // credit mode
-        $options = array("credit" => $this->lng->txt("cont_credit_on"),
-            "no_credit" => $this->lng->txt("cont_credit_off"));
-        $si = new ilSelectInputGUI($this->lng->txt("cont_credit_mode"), "credit_mode");
-        $si->setOptions($options);
-        $si->setInfo($this->lng->txt("cont_credit_mode_info"));
-        $this->form->addItem($si);
 
         // set lesson mode review when completed
         $options = array(
             "n" => $this->lng->txt("cont_sc_auto_review_no"),
-//			"r" => $this->lng->txt("cont_sc_auto_review_completed_not_failed_or_passed"),
-//			"p" => $this->lng->txt("cont_sc_auto_review_passed"),
-//			"q" => $this->lng->txt("cont_sc_auto_review_passed_or_failed"),
-//			"c" => $this->lng->txt("cont_sc_auto_review_completed"),
-//			"d" => $this->lng->txt("cont_sc_auto_review_completed_and_passed"),
             "y" => $this->lng->txt("cont_sc_auto_review_completed_or_passed"),
             );
         $si = new ilSelectInputGUI($this->lng->txt("cont_sc_auto_review_2004"), "auto_review");
         $si->setOptions($options);
         // $si->setInfo($this->lng->txt("cont_sc_auto_review_info_12"));
-        $this->form->addItem($si);
+        $op0->addSubItem($si);
+        // end lesson mode
+        $this->form->addItem($radg);
 
         // mastery_score
         if ($this->object->getMasteryScoreValues() != "") {
@@ -360,7 +352,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $values["cobj_auto_last_visited"] = $this->object->getAuto_last_visited();
         $values["auto_continue"] = $this->object->getAutoContinue();
         $values["lesson_mode"] = $this->object->getDefaultLessonMode();
-        $values["credit_mode"] = $this->object->getCreditMode();
         $values["auto_review"] = $this->object->getAutoReviewChar();
         $values["mastery_score"] = $this->object->getMasteryScore();
         $values["cobj_session"] = $this->object->getSession();
@@ -390,6 +381,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->form = new ilPropertyFormGUI();
         //title
         $this->form->setTitle($this->lng->txt("import_sahs"));
+
+        $this->form->setDescription($this->lng->txt("import_sahs_info"));
 
         // SCORM-type
         $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
@@ -627,7 +620,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setAutoContinue($this->dic->http()->wrapper()->post()->has('auto_continue'));
             //            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
-            $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setAutoReview(ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string())));
             $this->object->setSession($this->dic->http()->wrapper()->post()->has('cobj_session'));
             $this->object->setInteractions($this->dic->http()->wrapper()->post()->has('cobj_interactions'));

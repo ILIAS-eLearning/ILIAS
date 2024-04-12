@@ -53,8 +53,8 @@ class TileTest extends TestCase
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $parent = $this->getMockBuilder(BadgeParent::class)->disableOriginalConstructor()->getMock();
         $modal = $this->getMockBuilder(Modal::class)->disableOriginalConstructor()->getMock();
-        $sign_file = static fn (string $x): string => '';
-        $format_date = static fn (int $x): string => '';
+        $sign_file = static fn(string $x): string => '';
+        $format_date = static fn(int $x): string => '';
 
         $this->assertInstanceOf(Tile::class, new Tile($container, $parent, $modal, $sign_file, $format_date));
     }
@@ -91,7 +91,7 @@ class TileTest extends TestCase
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $parent = $this->getMockBuilder(BadgeParent::class)->disableOriginalConstructor()->getMock();
         $modal = $this->getMockBuilder(Modal::class)->disableOriginalConstructor()->getMock();
-        $format_date = fn (int $x): string => 'Dummy';
+        $format_date = fn(int $x): string => 'Dummy';
         $sign_file = function (string $path) use ($signed_file, $badge_image_path): string {
             $this->assertSame($badge_image_path, $path);
             return $signed_file;
@@ -136,7 +136,7 @@ class TileTest extends TestCase
         );
 
         $language->method('txt')->willReturnCallback(
-            static fn (string $lang_key) => 'Translated: ' . $lang_key
+            static fn(string $lang_key) => 'Translated: ' . $lang_key
         );
 
         $container->method('ui')->willReturn($ui);

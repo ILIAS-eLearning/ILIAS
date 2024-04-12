@@ -36,7 +36,8 @@ class ilTestPasswordProtectionGUITest extends ilTestBaseTestCase
             $this->createMock(ilLanguage::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
             $this->createMock(ilTestPasswordChecker::class),
-            $this->createMock(ILIAS\Test\InternalRequestService::class)
+            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\GlobalScreen\Services::class)
         );
     }
 

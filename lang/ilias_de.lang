@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
-assessment#:#button_show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
@@ -1203,6 +1202,7 @@ assessment#:#show_examview_html#:#Am Bildschirm
 assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
+assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#skip_question#:#Nicht antworten und weiter
@@ -2037,13 +2037,13 @@ auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie f�
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
-auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
-auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenId-Connect-Attributen
+auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -2057,17 +2057,17 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_discovery_error#:#Die Discovery URL konnte nicht abgerufen werden. Fehler: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenID Connect Anmeldeskript.
 auth#:#auth_oidc_settings_invalid_scopes#:#Folgende Werte sind keine gültigen Scopes: %s
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenID Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenID Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenID Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_provider#:#Provider-URL
@@ -2185,6 +2185,7 @@ badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
 badge#:#badge_create#:#Badge erstellen
+badge#:#badge_create_image_processing_failed#:#Der Badge konnte nicht angelegt werden, beim Verarbeiten des Bildes trat ein Fehler auf.
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
@@ -2233,6 +2234,8 @@ badge#:#badge_template_types#:#Gültige Typen
 badge#:#badge_template_types_all#:#Alle
 badge#:#badge_template_types_specific#:#Bestimmte
 badge#:#badge_types#:#Typen
+badge#:#badge_update_image_processing_failed#:#Der Badge konnte nicht aktualisiert werden, beim verarbeiten des Bildes trat ein Fehler auf.
+badge#:#badge_uploaded_image_file_not_found#:#Es konnte kein hochgeladenes Bild für den Badge gefunden werden.
 badge#:#badge_user_profile#:#Profil veröffentlicht###Modified as part of gender mainstreaming activities for ILIAS 8
 badge#:#badge_valid#:#Gültig bis
 badge#:#criteria#:#Kriterium
@@ -3111,8 +3114,11 @@ cmix#:#completed_info#:#Die Aktivität wurde normal beendet oder abgeschlossen.
 cmix#:#completed_label#:#Statements mit dem Verb 'completed'
 cmix#:#conf_availability#:#Verwendbarkeit
 cmix#:#conf_availability_0#:#nicht verwendbar / deaktiviert
+cmix#:#conf_availability_0_info#:#Bestehende xAPI/cmi5-Objekte, die diesen LRS-Typ verwenden, sind nicht mehr benutzbar.
 cmix#:#conf_availability_1#:#ausschließlich in bestehenden Objekten
+cmix#:#conf_availability_1_info#:#Dieser LRS-Typ wird beim Anlegen neuer xAPI/cmi5-Objekte nicht angeboten. Bestehende xAPI/cmi5-Objekte, die diesen Typ verwenden, können weiterhin Daten schreiben oder lesen. Nutzen Sie diese Option, um zu einem späteren Zeitpunkt Daten im angebundenen LRS löschen zu können.
 cmix#:#conf_availability_2#:#in neuen und bestehenden Objekten
+cmix#:#conf_availability_2_info#:#Dieser LRS-Typ kann beim Anlegen von xAPI/cmi5-Objekten ausgewählt werden.
 cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
 cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
@@ -3145,24 +3151,24 @@ cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. 
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
-cmix#:#conf_privacy_ident#:#Benutzeridentifikation
+cmix#:#conf_privacy_ident#:#Identifikation der Person
 cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
 cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Dies ist identisch mit jedem Aufruf, mit maximal 80 Zeichen deutlich kürzer als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse auf den ILIAS-Benutzer.
-cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die Identifikation ist identisch bei jedem Aufruf. Mit maximal 80 Zeichen ist sie kürzer, als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse das ILIAS-Konto und die zugehörige Person.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
 cmix#:#conf_privacy_name#:#Anmeldename
 cmix#:#conf_privacy_name_firstname#:#Vorname
 cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
@@ -3179,18 +3185,22 @@ cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht ä
 cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
-cmix#:#conf_user_ident#:#Benutzeridentifikation
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_use_proxy#:#xAPI-Proxy
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_user_ident#:#Identifikation der Person
+cmix#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.zulassen.
 cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
+cmix#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die Identifikation ist identisch bei jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person.
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
 cmix#:#conf_user_name#:#Anmeldename
 cmix#:#conf_user_name_firstname#:#Vorname
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
@@ -3202,7 +3212,7 @@ cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders
 cmix#:#conf_user_name_none#:#Keiner
 cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
-cmix#:#content_privacy_ident#:#Benutzeridentifikation
+cmix#:#content_privacy_ident#:#Identifikation der Person
 cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
@@ -3259,10 +3269,10 @@ cmix#:#launch_url_info#:#Geben Sie hier die Internetadresse ein und fügen Sie h
 cmix#:#log_options#:#Optionen zur Anzeige der übertragenen Daten
 cmix#:#lrs_authentication#:#Authentifizierung
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
-cmix#:#no_substatements_label#:#Substatements nicht speichern
+cmix#:#no_substatements_label#:#Substatements unterdrücken
 cmix#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 cmix#:#only_moveon_info#:#Diese Option steht nur für den ILIAS-LRS-Proxy zur Verfügung! Es werden ausschließlich Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). <br />Der Ressource wird der Eindruck vermittelt, dass alle Statements vom LRS gespeichert worden sind. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit der Organisation, welche diese Ressource anbietet, abgesprochen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
-cmix#:#only_moveon_label#:#Nur Daten zum Lernerfolg speichern
+cmix#:#only_moveon_label#:#Nur Statements mit ausgewählten Verben speichern
 cmix#:#passed_info#:#Die Aktivität wurde bis zu einem vorher festgelegten Grad der Zufriedenheit erfolgreich bestanden.
 cmix#:#passed_label#:#Statements mit dem Verb 'passed'
 cmix#:#privacy_options#:#Optionen zum Datenschutz
@@ -4357,6 +4367,7 @@ common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Fragen in den Fragenpool importieren
 common#:#import_sahs#:#SCORM-Lernmodul importieren
+common#:#import_sahs_info#:#Zum Korrigieren von Tippfehlern oder Bildern nutzen Sie die Möglichkeit, über das Dateiverzeichnis einzelne Dateien zu ersetzen. Laden Sie hier einen SCORM-Export aus Ihrem Autorenwerkzeug hoch und nicht eine ILIAS Exportdatei. Stellen Sie sicher, dass Ihr Autorenwerkzeug die IDs in der Manifest-Datei beibehalten hat. Achtung: Auch beliebte Autorenwerkzeuge können das nicht. SCORM-Lernmodule bestimmter Autorenwerkzeuge verwerfen erzielte Lernerdaten, wenn Sie die Anzahl der Antwortoptionen von Fragen ändern oder neue Fragen einfügen. Prüfen Sie in einer Testinstallation, ob bereits erzielte Lernstände beim Wiederaufruf bereits gestarteter Lernmodule möglich sind.
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -5911,7 +5922,7 @@ common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
 common#:#usrimport_cant_delete#:#Kann „Delete“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann „Insert“ Aktion nicht ausführen. ILIAS-Konto ist bereits in der Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann „Update“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
-common#:#usrimport_conflict_handling_info#:#Bei der Option „Aktualisieren bei Konflikt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
+common#:#usrimport_conflict_handling_info#:#Bei der Option „Insert/Update Aktion wird automatisch ermittelt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank möglicherweise. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
 common#:#usrimport_form_not_evaluabe#:#Das Formular konnte nicht ausgelesen werden.
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
@@ -6195,7 +6206,7 @@ content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
 content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
-content#:#cont_auto_last_visited_info#:#Dem Benutzer wird beim erneuten Aufrufen des SCORM-Lernmoduls das zuletzt besuchte SCO oder Asset angezeigt.
+content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_auto_time#:#Wartezeit Animation
@@ -6282,7 +6293,7 @@ content#:#cont_col_ordering#:#Spaltenanordnung
 content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_commented_by#:#Kommentiert von
 content#:#cont_comments#:#Kommentare erlauben
-content#:#cont_comments_info#:#SCORM 2004-Lernmodule erlauben Benutzern, im Lernmodul Kommentare zu verfassen. Diese Option aktiviert das Eingeben und Speichern der Kommentare (comments).
+content#:#cont_comments_info#:#Im SCORM 2004-Lernmodul können Kommentare (comments) eingegeben und gespeichert werden.
 content#:#cont_confirm_delete#:#Wollen Sie diese Inhalte wirklich löschen?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
@@ -6301,10 +6312,6 @@ content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht g
 content#:#cont_cp_question_diff_formats_info#:#Beachten Sie bitte, dass einige Formatierungen in Content-Modulen nicht unterstützt werden.
 content#:#cont_create_link#:#Link erzeugen
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Bewertung###Modified as part of gender mainstreaming activities for ILIAS 8
-content#:#cont_credit_mode_info#:#Dem Lernmodul wird über cmi.core.credit mitgeteilt, ob die erzielte Leistung (bestanden/nicht bestanden und Punktzahl) für die Bewertung erwünscht (credit) oder nicht erwünscht ist (no-credit). Es ist Aufgabe des Lernmoduls, diese Anweisung adäquat zu interpretieren.
-content#:#cont_credit_off#:#Ohne Bewertung
-content#:#cont_credit_on#:#Mit Bewertung (bestanden | nicht bestanden)
 content#:#cont_credits#:#Punkte
 content#:#cont_current_chapter#:#Aktuelles Kapitel
 content#:#cont_current_lang#:#Aktuelle Sprache
@@ -6712,7 +6719,7 @@ content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
 content#:#cont_lpe_dpro_agreement_link#:#Link zur Datenschutzerklärung
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Login-Maske
-content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
+content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 content#:#cont_lpe_openid_login_form#:#OpenID-Login-Maske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
 content#:#cont_lpe_saml_login#:#SAML-Login
@@ -6731,7 +6738,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_mastery_score_12#:#mastery_score überschreiben
 content#:#cont_mastery_score_12_info#:#Sofern ein SCO nicht selbstständig einen Status bestimmt, gilt ein SCO als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den mastery_score - erreicht hat. Diesen Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
 content#:#cont_mastery_score_2004#:#scaled_passing_score überschreiben
-content#:#cont_mastery_score_2004_info#:#Zentrale Lernziele dieses Lernmoduls gelten als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den scaled_passing_score - erreicht hat. Diesen als Prozentsatz anzugebenden Wert können Sie hier überschreiben um z.B. das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
+content#:#cont_mastery_score_2004_info#:#Zentrale Lernziele dieses Lernmoduls gelten als bestanden wenn der erzielte Punktestand mindestens einen bestimmten Wert - den scaled_passing_score - erreicht hat. Diesen als Prozentsatz anzugebenden Wert können Sie hier überschreiben, z.B. um das Anforderungsniveau abzusenken. Ist das Feld leer, gelten die Angaben im SCORM-Manifest. Hier sind folgende Werte vorgesehen:
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
@@ -6783,7 +6790,7 @@ content#:#cont_no_read#:#Kein Lesezugriff
 content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner „%s“.
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
-content#:#cont_nomenu_info#:#Das obere Navigationsmenü kann ausgeblendet werden, wenn das SCORM-Lernmodul ausreichende Funktionalität zum Unterbrechen, Beenden und Navigieren mitbringt.
+content#:#cont_nomenu_info#:#Falls das SCORM-Lernmodul eigene Möglichkeiten zum Beenden und Navigieren mitbringt, kann das von der SCORM-Spezifikation vorgesehene obere Navigationsmenü ausgeblendet werden.
 content#:#cont_none#:#Keine
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
@@ -6814,7 +6821,7 @@ content#:#cont_objectives#:#Ergebnisse zu Lernzielen speichern
 content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sicher sind, dass der korrekte Ablauf dieses Lernmoduls gewährleistet ist. Damit reduzieren Sie die Speicherung von personenbezogenen Daten und erhöhen die Performanz.
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
-content#:#cont_online_info#:#Nur wenn das SCORM-Lernmodul online geschaltet ist, können Benutzer auf das Lernmodul zugreifen. Wenn nicht ist das SCORM-Lernmodul nur für Personen mit Bearbeitungsrechten verfügbar.
+content#:#cont_online_info#:#Personen mit Leserecht können auf das Lernmodul zugreifen.
 content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Im iFrame
@@ -6980,26 +6987,28 @@ content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
 content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
 content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
-content#:#cont_sc_auto_review_2004#:#Daten speichern
-content#:#cont_sc_auto_review_completed#:#nicht speichern ab Status 'vollständig bearbeitet'
-content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status 'vollständig bearbeitet' und 'bestanden'
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden'
-content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
-content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
-content#:#cont_sc_auto_review_no#:#immer (empfohlen)
-content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
-content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
+content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
+content#:#cont_sc_auto_review_completed#:#ab Status „vollständig bearbeitet”
+content#:#cont_sc_auto_review_completed_and_passed#:#ab Status „vollständig bearbeitet” und „bestanden”
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
+content#:#cont_sc_auto_review_completed_or_passed#:#ab Status „vollständig bearbeitet” oder „bestanden”
+content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht hat, wird dieser festgeschrieben. Der Status kann später nicht mehr geändert werden.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
+content#:#cont_sc_auto_review_no#:#nie (entspricht SCORM-Spezifikation)
+content#:#cont_sc_auto_review_passed#:#ab Status „bestanden”
+content#:#cont_sc_auto_review_passed_or_failed#:#ab Status „bestanden” oder „nicht bestanden”
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
-content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_id#:#ILIAS-UserID (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserID zuzüglich ObjID des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserID zuzüglich RefID des Lernmoduls
 content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefId des Lernmoduls
-content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
-content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjID des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefID des Lernmoduls
+content#:#cont_sc_less_mode_browse#:#Vorschaumodus
+content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ gesetzt.
+content#:#cont_sc_less_mode_normal#:#Lernmodus
+content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
 content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
 content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
@@ -7019,10 +7028,10 @@ content#:#cont_sc_stat_incomplete#:#Nicht vollständig
 content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
-content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
+content#:#cont_sc_store_if_previous_score_was_lower#:#wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_sc_title#:#Titel
 content#:#cont_sc_usession#:#Automatische Abmeldung aus ILIAS verhindern
-content#:#cont_sc_usession_info#:#Es werden regelmäßig Anfragen an ILIAS gesendet, damit der Benutzer in der Plattform weiter eingeloggt bleibt. ILIAS würde sonst die Bearbeitung des SCORM-Lernmoduls nicht als Aktivität werten und die ILIAS-Sitzung beenden. Dadurch gingen Bearbeitungsdaten verloren.
+content#:#cont_sc_usession_info#:#Um das automatische Ausloggen und den Verlust von Bearbeitungsdaten zu verhindern, sendet das Lernmodul regelmäßig Anfragen an ILIAS. Die Bearbeitung des SCORM-Lernmoduls würde ansonsten nicht als Aktivität gewertet und die ILIAS-Sitzung beendet werden.
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_sc_version_info#:#Die laufende Nummer wird automatisch aus dem Versionsmanagement des Lernmoduls gelesen.
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
@@ -7053,7 +7062,7 @@ content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_selection#:#Auswahl
 content#:#cont_self_assessment#:#Selbsttests
 content#:#cont_sequencing#:#Sequencing & Navigation
-content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur interaktiven Steuerung der Navigationsmöglichkeiten von Benutzern innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen. <br />Prüfen Sie zunächst, ob Ihr Lernmodul solche Angaben zu 'Sequencing & Navigation' überhaupt enthält. Dies ist nur selten der Fall.
+content#:#cont_sequencing_info#:#Bei Lernmodulen mit Angaben zu „Sequencing & Navigation“ aktiviert diese Einstellung die Vorgaben zur interaktiven Steuerung der Navigationsmöglichkeiten innerhalb des Lernmoduls in Abhängigkeit von Ereignissen oder Ergebnissen.
 content#:#cont_set_alignment#:#Ausrichtung setzen
 content#:#cont_set_layout#:#Layout setzen
 content#:#cont_set_link#:#Verweis ändern
@@ -7405,7 +7414,7 @@ cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Komponente
-cron#:#cron_job_id#:#Id
+cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Letzter Durchlauf
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
 cron#:#cron_result#:#Ergebnis
@@ -8981,7 +8990,7 @@ ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
 ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überprüfen Sie Ihre Eingabe.
-ecs#:#ecs_err_invalid_type#:#Bitte geben Sie eine gültige Kategorie-Objekt-Id an.
+ecs#:#ecs_err_invalid_type#:#Bitte geben Sie eine gültige Kategorie-Objekt-ID an.
 ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attributwerte.
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
 ecs#:#ecs_event_appointment#:#Veranstaltungstermin
@@ -10610,7 +10619,7 @@ ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
 ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
-ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
+ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-ID ein.
 ldap#:#ldap_escapedn#:#DN maskieren
 ldap#:#ldap_escapedn_info#:#Wenn aktiviert, werden reservierte Zeichen im "Distinguished Name (DN)" für Abfragen von Gruppenzugehörigkeiten maskiert.
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
@@ -10651,7 +10660,7 @@ ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, 
 ldap#:#ldap_moment_sync#:#Synchronisierungsart
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
 ldap#:#ldap_plugin#:#Zuweisung über Plugin
-ldap#:#ldap_plugin_id#:#Plugin-Id
+ldap#:#ldap_plugin_id#:#Plugin-ID
 ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein.
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
@@ -10965,18 +10974,18 @@ lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
-lti#:#conf_privacy_ident#:#Benutzeridentifikation
+lti#:#conf_privacy_ident#:#Identifikation der Person
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Diese Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse aufs ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
-lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
 lti#:#conf_privacy_name#:#Anmeldename
 lti#:#conf_privacy_name_firstname#:#Vorname
 lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
@@ -10987,16 +10996,16 @@ lti#:#conf_privacy_name_lastname#:#Titel und Nachname
 lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_privacy_name_none#:#Keiner
 lti#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
-lti#:#conf_user_ident#:#Benutzeridentifikation
-lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_user_ident#:#Identifikation der Person
+lti#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+lti#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert..
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
-lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
 lti#:#conf_user_name#:#Anmeldename
 lti#:#conf_user_name_firstname#:#Vorname
 lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
@@ -11068,8 +11077,8 @@ lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider 
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
 lti#:#lti_action_edit_provider#:#Provider bearbeiten
-lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
-lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
+lti#:#lti_action_reset_provider_to_user_scope#:#Globalen Provider bzw. Tool zu lokalem Provider bzw. Tool ändern
+lti#:#lti_action_reset_providers_to_user_scope#:#Globale Provider bzw. Tools zu lokalen Providern bzw. Tools ändern
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
 lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
 lti#:#lti_admin#:#LTI-Rolle „Administrator“
@@ -11084,7 +11093,7 @@ lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
-lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
+lti#:#lti_con_prov_always_learner#:#Eingeschränkte Rechte
 lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Die Kursadministration könnte im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
@@ -11093,18 +11102,18 @@ lti#:#lti_con_prov_availability_existing#:#nur für bestehende Objekte
 lti#:#lti_con_prov_availability_non#:#nicht verfügbar
 lti#:#lti_con_prov_category#:#Kategorie
 lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein LTI-Konsument-Objekt erstellt wird.
-lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
+lti#:#lti_con_prov_custom_params#:#Definition der Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
 lti#:#lti_con_prov_external_provider#:#Externer Provider
-lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider wird den Nutzern ein Hinweis angezeigt. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
+lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. Tool wird ein Hinweis angezeigt. Die Rechte zum Löschen persönlicher Daten durch die ILIAS-Administration sind bei externen Providern in der Regel nicht gegeben.
 lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
 lti#:#lti_con_prov_has_outcome_service#:#Provider unterstützt Outcome Service
 lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Der Provider gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
 lti#:#lti_con_prov_hints#:#Hinweise
 lti#:#lti_con_prov_icon#:#Icon
-lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
-lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Benutzerbildern sind beim Start des LTI-Konsumenten enthalten.
+lti#:#lti_con_prov_inc_usr_pic#:#Profilbild senden
+lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Profilbildern sind beim Start des LTI-Konsumenten enthalten.
 lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
 lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie der Kurs- oder Gruppenadministration angehören.
 lti#:#lti_con_prov_instructor_name#:#Name von Lehrenden
@@ -11122,13 +11131,13 @@ lti#:#lti_con_prov_privacy_setting_force#:#Die Einstellungen sind für Objekte n
 lti#:#lti_con_prov_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 lti#:#lti_con_prov_privacy_settings#:#Datenschutzeinstellungen
 lti#:#lti_con_prov_provider_key_global#:#Vordefinierter Key und Secret
-lti#:#lti_con_prov_provider_key_global_info#:#Wenn nicht gesetzt, müssen Benutzer Key und Secret hinzufügen, um den Provider zu nutzen.
+lti#:#lti_con_prov_provider_key_global_info#:#Das Objekt kann ohne weitere Anmeldung direkt genutzt werden.
 lti#:#lti_con_prov_remarks#:#Interne Bemerkungen
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Titel
 lti#:#lti_con_prov_url#:#URL des Providers
 lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
-lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-ID des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
 lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
 lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
@@ -11200,8 +11209,8 @@ lti#:#lti_settings_form#:#Objekteinstellungen
 lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
 lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für alle Anwender übernommen
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
-lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
-lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
+lti#:#lti_success_reset_to_usr_def#:#Erfolgreich geändert zu lokalem Provider bzw. Tool
+lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich geändert zu lokalen Providern bzw. Tools
 lti#:#lti_tutor#:#LTI-Rolle „Teaching Assistant“ / „Mentor“
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
@@ -11253,8 +11262,8 @@ lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
 lti#:#usage_subtab#:#Verwendung
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
 lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
-lti#:#user_lng#:#Benutzersprache
-lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
+lti#:#user_lng#:#Sprache
+lti#:#user_provider_subtab#:#Lokal definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
@@ -11790,7 +11799,7 @@ meta#:#md_adv_record_lng_table_lng#:#Sprache
 meta#:#md_adv_records#:#Enthaltene Datensätze
 meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
 meta#:#md_adv_scope#:#Gültigkeitsbereich
-meta#:#md_adv_scope_info#:#Die Nutzung dieses benutzerdefinierten Metadatensatzes wird auf Teilbereiche des Magazins beschränkt.
+meta#:#md_adv_scope_info#:#Die Nutzung dieses Metadatensatzes auf Teilbereiche des Magazins beschränken.
 meta#:#md_adv_scope_list_header#:#Beschränkt auf:
 meta#:#md_adv_scope_objects#:#Datensatz wirksam ab
 meta#:#md_adv_searchable#:#Durchsuchbar
@@ -12187,7 +12196,7 @@ meta#:#meta_has_version#:#..hat Version...
 meta#:#meta_hierarchical#:#Hierarchisch
 meta#:#meta_high#:#Hoch
 meta#:#meta_higher_education#:#Hochschulbildung
-meta#:#meta_id#:#Id
+meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_identifier_plural#:#Kennungen
@@ -13146,9 +13155,9 @@ prg#:#last_edited_by#:#Zuletzt bearbeitet von
 prg#:#mail_assignments#:#Mail an zugewiesene Benutzer
 prg#:#mails_foreign_assignment_failed#:#Die ausgewählten Zuweisungen sind nicht im aktuellen Kontext; Mails sollten nur auf der obersten Ebene des Studienprogramms verschickt werden:
 prg#:#manage_assignments#:#Zuweisungen verwalten
-prg#:#membership_source_id#:#Id
-prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
-prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#membership_source_id#:#ID
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-ID</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-ID</b>
 prg#:#membership_source_type#:#Quelle
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
@@ -13176,7 +13185,7 @@ prg#:#msg_update_from_settings_failed#:#Aktualisierung nicht erfolgreich:
 prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
 prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
 prg#:#no_permission_to_update_certificate#:#Sie haben keine Berechtigung Zertifikate zu aktualisieren.
-prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+prg#:#no_srctype_or_id#:#ID und Typ dürfen nicht leer sein.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm aus --
 prg#:#optgrp_label_restart#:#Wiederaufnahme
@@ -13353,7 +13362,7 @@ prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
 prg#:#prg_type_assign_amd_sets#:#Erweiterten Metadatensatz zuweisen
 prg#:#prg_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadatensätze
-prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
+prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte vordefinierte Metadatensätze oder Symbole zu verwenden.
 prg#:#prg_type_custom_icon#:#Individuelles Icon
 prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
 prg#:#prg_type_edit#:#Typ editieren
@@ -15004,7 +15013,7 @@ scormdebug#:#i_gray#:#grau: von ILIAS korrigierter Fehler
 scormdebug#:#i_green#:#gr&uuml;n: in Ordnung
 scormdebug#:#i_orange#:#orange: Achtung bitte!
 scormdebug#:#i_red#:#rot: Fehler!
-scormdebug#:#id_learning_module#:#Id des Lernmoduls
+scormdebug#:#id_learning_module#:#ID des Lernmoduls
 scormdebug#:#log_for#:#Protokoll f&uuml;r das Lernmodul
 scormdebug#:#milliseconds#:#Millisekunden
 scormdebug#:#missing_API-calls#:#Folgende API-Aufrufe fehlen:
@@ -15064,7 +15073,7 @@ scormtrac#:#counter_incorrect#:#Aufgabe falsch beantwortet (Anzahl TN)
 scormtrac#:#counter_incorrect_percent#:#Prozentsatz falsch Antwortender
 scormtrac#:#counter_other#:#weder richtig noch falsch Antwortende
 scormtrac#:#counter_other_percent#:#Prozentsatz weder richtig noch falsch Antwortender
-scormtrac#:#cp_node_id#:#Id des Kapitels
+scormtrac#:#cp_node_id#:#ID des Kapitels
 scormtrac#:#credit#:#credit
 scormtrac#:#delivery_speed#:#learner_preference.delivery_speed
 scormtrac#:#existingSCOs#:#Anzahl bestehender SCOs
@@ -15074,17 +15083,17 @@ scormtrac#:#exportselectedinteractions#:#Report zu Kapitel-Aufgaben (interaction
 scormtrac#:#exportselectedobjectives#:#Report zu Kapitel-Lernzielen (objectives)
 scormtrac#:#exportselectedraw#:#Rohdaten
 scormtrac#:#exportselectedsuccess#:#Basis-Report zum Lernmodul insgesamt
-scormtrac#:#id#:#Id
+scormtrac#:#id#:#ID
 scormtrac#:#identifierref#:#SCO-Identifier
 scormtrac#:#interaction_description#:#Beschreibung der Aufgabe
-scormtrac#:#interaction_id#:#Id der Aufgabe
+scormtrac#:#interaction_id#:#ID der Aufgabe
 scormtrac#:#interaction_value#:#Ergebnis der Aufgabe %s:
 scormtrac#:#latency#:#latency: Zeitdauer
 scormtrac#:#latency_seconds#:#latency: Zeitdauer in Sekunden
 scormtrac#:#launch_data#:#launch_data: Daten beim Start des SCO
 scormtrac#:#learner_response#:#learner_response: Antwort
 scormtrac#:#lesson_status#:#lesson_status: Status der Bearbeitung
-scormtrac#:#lm_id#:#Id des Lernmoduls
+scormtrac#:#lm_id#:#ID des Lernmoduls
 scormtrac#:#lm_title#:#Titel des Lernmoduls
 scormtrac#:#lvalue#:#Key
 scormtrac#:#measure#:#Status: Maß
@@ -15098,7 +15107,7 @@ scormtrac#:#rvalue#:#Value
 scormtrac#:#satisfied#:#Status: satisfied
 scormtrac#:#scaled#:#score.scaled: erreichte Punktzahl als Dezimalbruch
 scormtrac#:#scaled_passing_score#:#scaled_passing_score: zum Bestehen erforderliche Punktzahl als Dezimalbruch
-scormtrac#:#sco_id#:#Id des Kapitels
+scormtrac#:#sco_id#:#ID des Kapitels
 scormtrac#:#sco_marked_for_learning_progress#:#relevant für den Lernstand
 scormtrac#:#sco_title#:#Titel des Kapitels
 scormtrac#:#scope#:#Anwendungsbereich
@@ -15363,11 +15372,11 @@ shib#:#shib_ilias_role#:#ILIAS-Rollenname
 shib#:#shib_local_role#:#Lokale Rolle
 shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
 shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
-shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-Id ein.
+shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-ID ein.
 shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS-Rolle aus.
 shib#:#shib_new_rule#:#Neue Regel anlegen
 shib#:#shib_plugin#:#Zuordnung durch Plugin
-shib#:#shib_plugin_id#:#Plugin-Id
+shib#:#shib_plugin_id#:#Plugin-ID
 shib#:#shib_plugin_info#:#Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln.
 shib#:#shib_remove_deprecated#:#Unberechtigte Rollen entfernen
 shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS-Rollenzuordnung
@@ -16037,7 +16046,6 @@ survey#:#SurveyTextQuestion#:#Freitext eingeben
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#add_material#:#Material hinzufügen
 survey#:#add_phrase#:#Phrase hinzufügen
-survey#:#adm_no_special_users#:#Es sind keine speziellen Benutzer definiert, die Umfragen mehrfach durchführen können.
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
@@ -17080,7 +17088,7 @@ trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_read_count#:#Zugriffe
 trac#:#trac_read_count_spent_seconds#:#Bearbeitungszeit / Zugriffe
 trac#:#trac_reference#:#Referenzen
-trac#:#trac_reference_ids_column#:#Referenz-Ids
+trac#:#trac_reference_ids_column#:#Referenz-IDs
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen

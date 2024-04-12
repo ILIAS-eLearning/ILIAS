@@ -82,7 +82,7 @@ class TileViewTest extends TestCase
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
 
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $language->method('txt')->willReturnCallback(static fn (string $name): string => $name);
+        $language->method('txt')->willReturnCallback(static fn(string $name): string => $name);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $container->method('http')->willReturn($http);
@@ -94,7 +94,7 @@ class TileViewTest extends TestCase
         $tile = $this->getMockBuilder(Tile::class)->disableOriginalConstructor()->getMock();
         $head = $this->getMockBuilder(PresentationHeader::class)->disableOriginalConstructor()->getMock();
 
-        $assignments_of_user = static fn () => [];
+        $assignments_of_user = static fn() => [];
         $tile = new TileView($container, 'Some class.', $tile, $head, $assignments_of_user);
 
         $this->assertEquals('', $tile->show());

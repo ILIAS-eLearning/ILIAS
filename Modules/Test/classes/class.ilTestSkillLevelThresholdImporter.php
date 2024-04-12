@@ -111,13 +111,13 @@ class ilTestSkillLevelThresholdImporter
             $importSkillBaseId = $this->getImportMappingRegistry()->getMapping(
                 'Modules/Test',
                 'skl_base_id_reverse',
-                $skillData['skill_base_id']
+                (string) $skillData['skill_base_id']
             );
 
             $importSkillTrefId = $this->getImportMappingRegistry()->getMapping(
                 'Modules/Test',
                 'skl_tref_id_reverse',
-                $skillData['skill_tref_id']
+                (string) $skillData['skill_tref_id']
             );
 
             $levelThresholds = $this->getImportThresholdList()->getThresholdsByImportSkill(
@@ -129,8 +129,8 @@ class ilTestSkillLevelThresholdImporter
 
             if (count($levelThresholds) != count($existingLevels)) {
                 $this->getFailedThresholdImportSkillList()->addSkill(
-                    $skillData['skill_base_id'],
-                    $skillData['skill_tref_id']
+                    (int) $skillData['skill_base_id'],
+                    (int) $skillData['skill_tref_id']
                 );
 
                 continue;
@@ -144,8 +144,8 @@ class ilTestSkillLevelThresholdImporter
 
                 if ($importLevelThreshold->getOrderIndex() != $existingLevelData['nr']) {
                     $this->getFailedThresholdImportSkillList()->addSkill(
-                        $skillData['skill_base_id'],
-                        $skillData['skill_tref_id']
+                        (int) $skillData['skill_base_id'],
+                        (int) $skillData['skill_tref_id']
                     );
 
                     continue(2);

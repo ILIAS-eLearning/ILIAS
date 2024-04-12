@@ -464,7 +464,7 @@ class ilTestQuestionNavigationGUI
             $this->renderSubmitButton(
                 $tpl,
                 $this->getShowHintsCommand(),
-                $this->lng->txt('button_show_requested_question_hints')
+                $this->lng->txt('show_requested_question_hints')
             );
         }
 

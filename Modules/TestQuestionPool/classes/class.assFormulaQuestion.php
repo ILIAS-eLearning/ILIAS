@@ -156,7 +156,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
 
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $resObj = new assFormulaQuestionResult($result, null, null, 0, -1, null, 1, 1, true);
+                $resObj = new assFormulaQuestionResult($result, null, null, 0, null, null, 1, 1, true);
                 $this->addResult($resObj);
             }
         }
@@ -610,7 +610,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 $tmp_result_unit = null;
             }
 
-            $formula = str_replace(",", ".", $result->getFormula());
+            $formula = null;
+            if ($result->getFormula() !== null) {
+                $formula = str_replace(",", ".", $result->getFormula());
+            }
 
             $ilDB->insert("il_qpl_qst_fq_res", array(
                 "result_id" => array("integer", $next_id),

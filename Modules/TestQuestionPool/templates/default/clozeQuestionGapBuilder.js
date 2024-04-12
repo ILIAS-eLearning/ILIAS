@@ -11,7 +11,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 const ClozeGlobals = {
   clone_active: -1,
@@ -1514,7 +1515,7 @@ var ClozeGapCombinationBuilder = (function () {
       $('#create_gap_combination').clone().attr({
         id: 'create_gap_combination_in_form',
         name: 'create_gap_combination_in_form',
-        class: 'btn btn-default btn-sm',
+        class: 'btn btn-default',
       }).prependTo(ClozeGlobals.form_footer_buttons);
       $('#create_gap_combination_in_form').on('click', () => {
         const position = ClozeSettings.gaps_combination.length;

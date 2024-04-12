@@ -556,7 +556,6 @@ assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
@@ -1204,6 +1203,7 @@ assessment#:#show_examview_html#:#On screen
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next
@@ -2186,6 +2186,7 @@ badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 badge#:#badge_create#:#Create Badge
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -2234,6 +2235,8 @@ badge#:#badge_template_types#:#Valid Types
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific
 badge#:#badge_types#:#Types
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_valid#:#Valid until
 badge#:#criteria#:#Criteria
@@ -3112,8 +3115,11 @@ cmix#:#completed_info#:#Indicates the actor finished or concluded the activity n
 cmix#:#completed_label#:#Statements with the verb 'completed'
 cmix#:#conf_availability#:#Availability
 cmix#:#conf_availability_0#:#Not available
+cmix#:#conf_availability_0_info#:#Existing xAPI/cmi5 objects that use this LRS type can no longer be used.
 cmix#:#conf_availability_1#:#Existing ones allowed
+cmix#:#conf_availability_1_info#:#This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time.
 cmix#:#conf_availability_2#:#New producible
+cmix#:#conf_availability_2_info#:#This LRS type can be selected when creating xAPI/cmi5 objects.
 cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
@@ -3149,7 +3155,7 @@ cmix#:#conf_privacy_comment_default#:#Indication to user
 cmix#:#conf_privacy_ident#:#User identification
 cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -3180,8 +3186,12 @@ cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings
 cmix#:#conf_remarks#:#Internal comments
 cmix#:#conf_title#:#Title
+cmix#:#conf_use_proxy#:#xAPI-Proxy
+cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.
+cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.
+cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.
 cmix#:#conf_user_ident#:#User identification
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress
+cmix#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -3260,10 +3270,10 @@ cmix#:#launch_url_info#:#Insert here the Internet address by adding http:// or h
 cmix#:#log_options#:#Options for the display of transmitted data
 cmix#:#lrs_authentication#:#Authentication
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
-cmix#:#no_substatements_label#:#Do not store substatements
+cmix#:#no_substatements_label#:#Suppress sub-statements
 cmix#:#online_info#:#This makes the object visible and usable for the users.
 cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.
-cmix#:#only_moveon_label#:#Save learning success data only
+cmix#:#only_moveon_label#:#Save statements with selected verbs only
 cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
 cmix#:#passed_label#:#Statements with the verb 'passed'
 cmix#:#privacy_options#:#Options for data security
@@ -4357,6 +4367,7 @@ common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_sahs#:#Import SCORM Package
+common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
@@ -5120,7 +5131,7 @@ common#:#object#:#Object
 common#:#object_added#:#Object added
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
-common#:#object_id#:#Object-Id
+common#:#object_id#:#Object-ID
 common#:#object_imported#:#Object imported
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
@@ -5911,7 +5922,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Insert/Update action will be followed strictly’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Insert/Update action will be detected automatically’ is selected, ILIAS may update the database if an action can not be performed otherwise. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
@@ -6196,7 +6207,7 @@ content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_to_parent#:#Assign to Parent
 content#:#cont_auto_glossaries#:#Auto-Linked Glossaries
 content#:#cont_auto_last_visited#:#Continue with Chapter Last Visited
-content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
+content#:#cont_auto_last_visited_info#:#When the SCORM learning module is opened again, the last section visited is displayed.
 content#:#cont_auto_suspend#:#Safeguard tracking data
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 content#:#cont_auto_time#:#Auto Animation Waiting Time
@@ -6302,10 +6313,6 @@ content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplic
 content#:#cont_cp_question_diff_formats_info#:#Please note that some formatting is not supported in content modules.
 content#:#cont_create_link#:#Create Link
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Grading Tracking Status
-content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.
-content#:#cont_credit_off#:#Tracking Status not graded
-content#:#cont_credit_on#:#Grade Tracking Status (Passed or Failed)
 content#:#cont_credits#:#Credits
 content#:#cont_current_chapter#:#Current Chapter
 content#:#cont_current_lang#:#Current Language
@@ -6713,8 +6720,8 @@ content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form
-content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form
+content#:#cont_lpe_openid_connect_login#:#OpenID Connect Login
+content#:#cont_lpe_openid_login_form#:#OpenID Login Form
 content#:#cont_lpe_registration_link#:#New Registration Link
 content#:#cont_lpe_saml_login#:#SAML Login
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
@@ -6784,7 +6791,7 @@ content#:#cont_no_read#:#No read permission
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a sub-folder '%s'.
 content#:#cont_no_text#:#No Text
 content#:#cont_nomenu#:#Hide Top Navigation Bar
-content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.
+content#:#cont_nomenu_info#:#If the SCORM learning module has its own options for exiting and navigating, the top navigation menu required by the SCORM specification can be hidden.
 content#:#cont_none#:#None
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
@@ -6981,26 +6988,28 @@ content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_saving#:#Saving...
 content#:#cont_sc_auto_continue#:#Redirect Users
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
-content#:#cont_sc_auto_review_2004#:#Store Data
-content#:#cont_sc_auto_review_completed#:#keep tracking data if achieved status is completed
-content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achieved status is completed and passed
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
-content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the Tracking Status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
-content#:#cont_sc_auto_review_no#:#always (recommended)
-content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
-content#:#cont_sc_auto_review_passed_or_failed#:#keep tracking data if achieved status is passed or failed
+content#:#cont_sc_auto_review_2004#:#End data recording
+content#:#cont_sc_auto_review_completed#:#if achieved status is completed
+content#:#cont_sc_auto_review_completed_and_passed#:#if achieved status is completed and passed
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#if achieved status is completed or passed, but not failed
+content#:#cont_sc_auto_review_completed_or_passed#:#if achieved status is completed or passed
+content#:#cont_sc_auto_review_info_2004#:#If users have reached a status selected here for an SCO (Sharable Content Object), this status is fixed. Users can no longer change the status later.<br />If the learning module uses 'Sequencing & Navigation' according to SCORM 2004, the option "Never (complies to SCORM specification)" should be selected.
+content#:#cont_sc_auto_review_no#:#never (complies with SCORM specification)
+content#:#cont_sc_auto_review_passed#:#if achieved status is passed
+content#:#cont_sc_auto_review_passed_or_failed#:#if achieved status is passed or failed
 content#:#cont_sc_id_setting#:#student_id according to SCORM 1.2
 content#:#cont_sc_id_setting_2004#:#learner_id according to SCORM 2004
-content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server.
-content#:#cont_sc_id_setting_user_id#:#ILIAS User Id (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User Id plus ObjId of the Learning Module
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User Id plus RefId of the Learning Module
+content#:#cont_sc_id_setting_info#:#In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefID or ObjID may be useful for learning modules that connect to an external server.
+content#:#cont_sc_id_setting_user_id#:#ILIAS User ID (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS User ID plus ObjID of the Learning Module
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS User ID plus RefID of the Learning Module
 content#:#cont_sc_id_setting_user_login#:#ILIAS Login Name
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjId of the Learning Module
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefId of the Learning Module
-content#:#cont_sc_less_mode_browse#:#Browse
-content#:#cont_sc_less_mode_normal#:#Normal
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS Login Name plus ObjID of the Learning Module
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS Login Name plus RefID of the Learning Module
+content#:#cont_sc_less_mode_browse#:#Preview mode
+content#:#cont_sc_less_mode_browse_info#:#The SCORM mode is set to "browse".
+content#:#cont_sc_less_mode_normal#:#Learn mode
+content#:#cont_sc_less_mode_normal_info#:#The SCORM mode is set to "normal".
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.
 content#:#cont_sc_name_setting#:#student_name according to SCORM 1.2
 content#:#cont_sc_name_setting_2004#:#learner_name according to SCORM 2004
@@ -7020,7 +7029,7 @@ content#:#cont_sc_stat_incomplete#:#Incomplete
 content#:#cont_sc_stat_not_attempted#:#Not attempted
 content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_stat_running#:#Running
-content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
+content#:#cont_sc_store_if_previous_score_was_lower#:#if achieved score in previous attempt was higher or equal
 content#:#cont_sc_title#:#title
 content#:#cont_sc_usession#:#Prevent from Logging-Out Automatically
 content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
@@ -7406,7 +7415,7 @@ cron#:#cron_action_run_success#:#Cron-Job run successfully.
 cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Component
-cron#:#cron_job_id#:#Id
+cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Last Run
 cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.
 cron#:#cron_result#:#Result
@@ -10652,7 +10661,7 @@ ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will
 ldap#:#ldap_moment_sync#:#Type of Synchronization
 ldap#:#ldap_new_role_assignment#:#Add New Role ➜ Group Assignment
 ldap#:#ldap_plugin#:#Assignment by Plugin
-ldap#:#ldap_plugin_id#:#Plugin Id
+ldap#:#ldap_plugin_id#:#Plugin ID
 ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not. This should be disabled if you are using an active directory server.
@@ -10969,7 +10978,7 @@ lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#User identification
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -10989,7 +10998,7 @@ lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwis
 lti#:#conf_privacy_name_none#:#No one
 lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
 lti#:#conf_user_ident#:#User identification
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
+lti#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formated as an email adress.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
 lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
@@ -11129,11 +11138,11 @@ lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Title
 lti#:#lti_con_prov_url#:#URL of Provider
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
+lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-ID of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-ID with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
 lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
 lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.
+lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity ID is unique! If nothing is entered here, the Activity ID can be entered in LTI Consumer. The Activity ID could be requested from the LTI Provider.
 lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint
@@ -13147,7 +13156,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#mail_assignments#:#Mail to assigned Users
 prg#:#mails_foreign_assignment_failed#:#Selected assignments are not in current context. Mails should be sent from Study Programme's top node.
 prg#:#manage_assignments#:#Manage Assignments
-prg#:#membership_source_id#:#Id
+prg#:#membership_source_id#:#ID
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#membership_source_type#:#Source
@@ -13177,7 +13186,7 @@ prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
 prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_permission_to_update_certificate#:#You have no permission to update certificates.
-prg#:#no_srctype_or_id#:#Id and type may not be empty.
+prg#:#no_srctype_or_id#:#ID and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#obj_prg_select#:#-- Please select a study programme --
 prg#:#optgrp_label_restart#:#Restart
@@ -15368,7 +15377,7 @@ shib#:#shib_missing_plugin_id#:#Please enter a valid plugin id.
 shib#:#shib_missing_role#:#Please select one role.
 shib#:#shib_new_rule#:#Add new Rule
 shib#:#shib_plugin#:#Assignment by Plugin
-shib#:#shib_plugin_id#:#Plugin Id
+shib#:#shib_plugin_id#:#Plugin ID
 shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
 shib#:#shib_remove_deprecated#:#Deassign Deprecated Roles
 shib#:#shib_role_ass_table#:#New Rule for Role Assignments
@@ -16038,7 +16047,6 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#add_material#:#Add Material
 survey#:#add_phrase#:#Add Phrase
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
@@ -17081,7 +17089,7 @@ trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
 trac#:#trac_reference#:#References
-trac#:#trac_reference_ids_column#:#Reference-Ids
+trac#:#trac_reference_ids_column#:#Reference-IDs
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
 trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
@@ -17217,7 +17225,7 @@ user#:#ldoc_accepted_content#:#Accepted Content
 user#:#ldoc_not_accepted_yet#:#Not accepted yet
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
-user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
+user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist
 user#:#restrict_user_access#:#Restricted Search in User Accounts
 user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.
 user#:#roles_without_starting_point#:#Roles without defined starting point:

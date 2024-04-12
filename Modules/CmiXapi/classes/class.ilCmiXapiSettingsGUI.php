@@ -265,27 +265,154 @@ class ilCmiXapiSettingsGUI
         }
 
         if (!$this->object->isSourceTypeExternal()) {
-            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $sectionHeader = new ilFormSectionHeaderGUI();
-                $sectionHeader->setTitle($this->language->txt('sect_learning_progress_options'));
-                $form->addItem($sectionHeader);
-                $bypassProxy = new ilRadioGroupInputGUI($this->language->txt('conf_bypass_proxy'), 'bypass_proxy');
-                $bypassProxy->setInfo($this->language->txt('conf_bypass_proxy_info'));
-                $opt1 = new ilRadioOption($this->language->txt('conf_bypass_proxy_disabled'), "0");
-                $bypassProxy->addOption($opt1);
-                $opt2 = new ilRadioOption($this->language->txt('conf_bypass_proxy_enabled'), "1");
-                $bypassProxy->addOption($opt2);
-                $bypassProxy->setValue((string) ((int) $this->object->isBypassProxyEnabled()));
-                //$bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
-                $form->addItem($bypassProxy);
-                if ($this->object->getLrsType()->isBypassProxyEnabled()) {
-                    $bypassProxy->setDisabled(true);
-                }
+            //            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+            $sectionHeader = new ilFormSectionHeaderGUI();
+            $sectionHeader->setTitle($this->language->txt('privacy_options'));
+            $form->addItem($sectionHeader);
+
+            $useProxy = new ilCheckboxInputGUI($this->language->txt('conf_use_proxy'), 'use_proxy');
+            $useProxy->setInfo($this->language->txt('conf_use_proxy_info_xapi'));
+            if($this->object->isBypassProxyEnabled() == false) {
+                $useProxy->setChecked(true);
+            }
+            //                if ($this->object->getLrsType()->getForcePrivacySettings()) {
+            //                    $useProxy->setDisabled(true);
+            //                }
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $useProxy->setChecked(true);
+                $useProxy->setDisabled(true);
+                $useProxy->setInfo($this->language->txt('conf_use_proxy_info_cmi5'));
             }
 
-            $item = new ilFormSectionHeaderGUI();
-            $item->setTitle($this->language->txt("privacy_options"));
-            $form->addItem($item);
+            //                $bypassProxy = new ilRadioGroupInputGUI($this->language->txt('conf_bypass_proxy'), 'bypass_proxy');
+            //                $bypassProxy->setInfo($this->language->txt('conf_bypass_proxy_info'));
+            //                $opt1 = new ilRadioOption($this->language->txt('conf_bypass_proxy_disabled'), "0");
+            //                $bypassProxy->addOption($opt1);
+            //                $opt2 = new ilRadioOption($this->language->txt('conf_bypass_proxy_enabled'), "1");
+            //                $bypassProxy->addOption($opt2);
+            //                $bypassProxy->setValue((string) ((int) $this->object->isBypassProxyEnabled()));
+            //                //$bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
+            //                $form->addItem($bypassProxy);
+            //                if ($this->object->getLrsType()->isBypassProxyEnabled()) {
+            //                    $bypassProxy->setDisabled(true);
+            //                }
+            $item = new ilCheckboxInputGUI($this->language->txt('only_moveon_label'), 'only_moveon');
+            $item->setInfo($this->language->txt('only_moveon_info'));
+            $item->setChecked($this->object->getOnlyMoveon());
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('achieved_label'), 'achieved');
+            $subitem->setInfo($this->language->txt('achieved_info'));
+            $subitem->setChecked($this->object->getAchieved());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('answered_label'), 'answered');
+            $subitem->setInfo($this->language->txt('answered_info'));
+            $subitem->setChecked($this->object->getAnswered());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('completed_label'), 'completed');
+            $subitem->setInfo($this->language->txt('completed_info'));
+            $subitem->setChecked($this->object->getCompleted());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('failed_label'), 'failed');
+            $subitem->setInfo($this->language->txt('failed_info'));
+            $subitem->setChecked($this->object->getFailed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('initialized_label'), 'initialized');
+            $subitem->setInfo($this->language->txt('initialized_info'));
+            $subitem->setChecked($this->object->getInitialized());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('passed_label'), 'passed');
+            $subitem->setInfo($this->language->txt('passed_info'));
+            $subitem->setChecked($this->object->getPassed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('progressed_label'), 'progressed');
+            $subitem->setInfo($this->language->txt('progressed_info'));
+            $subitem->setChecked($this->object->getProgressed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $subitem = new ilCheckboxInputGUI($this->language->txt('satisfied_label'), 'satisfied');
+                $subitem->setInfo($this->language->txt('satisfied_info'));
+                $subitem->setChecked($this->object->getSatisfied());
+                if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                    $subitem->setDisabled(true);
+                }
+                $item->addSubItem($subitem);
+
+                $subitem = new ilCheckboxInputGUI($this->language->txt('terminated_label'), 'terminated');
+                $subitem->setInfo($this->language->txt('terminated_info'));
+                $subitem->setChecked($this->object->getTerminated());
+                if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                    $subitem->setDisabled(true);
+                }
+                $item->addSubItem($subitem);
+            }
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $item->setDisabled(true);
+            }
+            $useProxy->addSubItem($item);
+
+            $item = new ilCheckboxInputGUI($this->language->txt('hide_data_label'), 'hide_data');
+            $item->setInfo($this->language->txt('hide_data_info'));
+            $item->setChecked($this->object->getHideData());
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('timestamp_label'), 'timestamp');
+            $subitem->setInfo($this->language->txt('timestamp_info'));
+            $subitem->setChecked($this->object->getTimestamp());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            $subitem = new ilCheckboxInputGUI($this->language->txt('duration_label'), 'duration');
+            $subitem->setInfo($this->language->txt('duration_info'));
+            $subitem->setChecked($this->object->getDuration());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $subitem->setDisabled(true);
+            }
+            $item->addSubItem($subitem);
+
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $item->setDisabled(true);
+            }
+            //$form->addItem($item);
+            $useProxy->addSubItem($item);
+
+            $item = new ilCheckboxInputGUI($this->language->txt('no_substatements_label'), 'no_substatements');
+            $item->setInfo($this->language->txt('no_substatements_info'));
+            $item->setChecked($this->object->getNoSubstatements());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $item->setDisabled(true);
+            }
+            $useProxy->addSubItem($item);
+
+            $form->addItem($useProxy);
+            //            }
 
             $userIdent = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_ident'), 'privacy_ident');
             $op = new ilRadioOption(
@@ -372,119 +499,6 @@ class ilCmiXapiSettingsGUI
                 $userName->setDisabled(true);
             }
 
-            $item = new ilCheckboxInputGUI($this->language->txt('only_moveon_label'), 'only_moveon');
-            $item->setInfo($this->language->txt('only_moveon_info'));
-            $item->setChecked($this->object->getOnlyMoveon());
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('achieved_label'), 'achieved');
-            $subitem->setInfo($this->language->txt('achieved_info'));
-            $subitem->setChecked($this->object->getAchieved());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('answered_label'), 'answered');
-            $subitem->setInfo($this->language->txt('answered_info'));
-            $subitem->setChecked($this->object->getAnswered());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('completed_label'), 'completed');
-            $subitem->setInfo($this->language->txt('completed_info'));
-            $subitem->setChecked($this->object->getCompleted());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('failed_label'), 'failed');
-            $subitem->setInfo($this->language->txt('failed_info'));
-            $subitem->setChecked($this->object->getFailed());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('initialized_label'), 'initialized');
-            $subitem->setInfo($this->language->txt('initialized_info'));
-            $subitem->setChecked($this->object->getInitialized());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('passed_label'), 'passed');
-            $subitem->setInfo($this->language->txt('passed_info'));
-            $subitem->setChecked($this->object->getPassed());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('progressed_label'), 'progressed');
-            $subitem->setInfo($this->language->txt('progressed_info'));
-            $subitem->setChecked($this->object->getProgressed());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $subitem = new ilCheckboxInputGUI($this->language->txt('satisfied_label'), 'satisfied');
-                $subitem->setInfo($this->language->txt('satisfied_info'));
-                $subitem->setChecked($this->object->getSatisfied());
-                if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                    $subitem->setDisabled(true);
-                }
-                $item->addSubItem($subitem);
-
-                $subitem = new ilCheckboxInputGUI($this->language->txt('terminated_label'), 'terminated');
-                $subitem->setInfo($this->language->txt('terminated_info'));
-                $subitem->setChecked($this->object->getTerminated());
-                if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                    $subitem->setDisabled(true);
-                }
-                $item->addSubItem($subitem);
-            }
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $item->setDisabled(true);
-            }
-            $form->addItem($item);
-
-            $item = new ilCheckboxInputGUI($this->language->txt('hide_data_label'), 'hide_data');
-            $item->setInfo($this->language->txt('hide_data_info'));
-            $item->setChecked($this->object->getHideData());
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('timestamp_label'), 'timestamp');
-            $subitem->setInfo($this->language->txt('timestamp_info'));
-            $subitem->setChecked($this->object->getTimestamp());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            $subitem = new ilCheckboxInputGUI($this->language->txt('duration_label'), 'duration');
-            $subitem->setInfo($this->language->txt('duration_info'));
-            $subitem->setChecked($this->object->getDuration());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $subitem->setDisabled(true);
-            }
-            $item->addSubItem($subitem);
-
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $item->setDisabled(true);
-            }
-            $form->addItem($item);
-
-            $item = new ilCheckboxInputGUI($this->language->txt('no_substatements_label'), 'no_substatements');
-            $item->setInfo($this->language->txt('no_substatements_info'));
-            $item->setChecked($this->object->getNoSubstatements());
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $item->setDisabled(true);
-            }
-            $form->addItem($item);
         }
 
         $item = new ilRadioGroupInputGUI($this->language->txt('conf_delete_data'), 'delete_data');
@@ -604,13 +618,18 @@ class ilCmiXapiSettingsGUI
                 $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
             }
 
-            if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
-                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                    $this->object->setBypassProxyEnabled(false);
+            //            if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $this->object->setBypassProxyEnabled(false);
+            } else {
+                //                    $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
+                if ((bool) $form->getInput("use_proxy") == false) {
+                    $this->object->setBypassProxyEnabled(true);
                 } else {
-                    $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
+                    $this->object->setBypassProxyEnabled(false);
                 }
             }
+            //            }
 
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
                 $this->object->setPrivacyIdent((int) $form->getInput('privacy_ident'));

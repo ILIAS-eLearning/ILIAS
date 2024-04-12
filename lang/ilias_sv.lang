@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Tillbaka till testet
 assessment#:#baseunit#:#Basenhet
 assessment#:#button_request_next_question_hint#:#Förfrågan om nästa lösning
 assessment#:#button_request_question_hint#:#Förfrågan om lösning
-assessment#:#button_show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#by#:#till
 assessment#:#cancel_test#:#Test av avbrott
 assessment#:#cannot_edit_marks#:#Testet har redan genomförts av deltagarna. Du kan bara ändra bedömningen om ett datum har fastställts för resultatutmatningen som för närvarande fortfarande ligger i framtiden.
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#På skärmen
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###21 11 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###21 11 2023 new variable
 assessment#:#show_pass_overview#:#Resultatöversikt (poängsatt provkörning)
+assessment#:#show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#show_user_answers#:#Answers (poängsatt testkörning)
 assessment#:#shuffle_answers#:#Svar från Shuffle
 assessment#:#skip_question#:#Svara inte och fortsätt
@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Ange fri text
 survey#:#add_heading#:#Lägg till bildtext
 survey#:#add_material#:#Lägg till material
 survey#:#add_phrase#:# Lägg till fras
-survey#:#adm_no_special_users#:#Det finns inga speciella användare definierade som kan genomföra undersökningar flera gånger.
 survey#:#already_completed_survey#:#Du har redan slutfört undersökningen! En undersökning kan inte genomföras en andra gång.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#För att ge dig tillgång till denna undersökning måste du använda en 5-siffrig åtkomstnyckel som du kommer att få från den person som ansvarar för denna undersökning.<br />Ange denna åtkomstnyckel i textfältet ovan.

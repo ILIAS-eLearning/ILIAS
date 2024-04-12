@@ -73,6 +73,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_http();
         $this->addGlobal_ilRbacAdmin();
         $this->addGlobal_objectService();
+        $this->addGlobal_GlobalScreenService();
 
         $this->testObj = new ilObjTestGUI();
     }

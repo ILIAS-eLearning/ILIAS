@@ -555,7 +555,6 @@ assessment#:#backtocallingtest#:#Mbrapa në testin qëllimor
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#nga
 assessment#:#cancel_test#:#Anulo testin
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
@@ -1198,6 +1197,7 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.###
 assessment#:#show_old_concluding_remarks#:#Show old concluding remarks###12 12 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###12 12 2023 new variable
 assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
 assessment#:#shuffle_answers#:#Përziej përgjigjet
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15945,7 +15945,6 @@ survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_heading#:#Shto titull
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Shto frazë
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Tanimë keni kompletuar kuestionerin! Nuk mund të filloni këtë kuestioner përsëri.###05 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Ky kuestioner anonimizon të gjithë të dhënat e shfrytëzuesve. Për të pasur qasje në kuestioner, duhet të përdorni kodin 32-karakteresh që merret nga krijuesi/mbajtësi i kuestionerit<br/> Ju lutem shënoni atë në fushën për tekst me poshtë.###10 Jul 2006 content changed

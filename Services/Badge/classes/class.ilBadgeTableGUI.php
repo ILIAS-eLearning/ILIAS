@@ -123,7 +123,7 @@ class ilBadgeTableGUI extends ilTable2GUI
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
                 "manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
-                "renderer" => fn () => $this->tile->asTitle($this->tile->modalContent($badge)),
+                "renderer" => fn() => $this->tile->asTitle($this->tile->modalContent($badge)),
             );
         }
 

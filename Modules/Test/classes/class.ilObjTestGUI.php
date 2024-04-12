@@ -26,6 +26,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -93,6 +94,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected UIRenderer $ui_renderer;
     protected HTTPServices $http;
     protected ilHelpGUI $help;
+    protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
     protected SkillService $skills_service;
     protected InternalRequestService $testrequest;
@@ -118,6 +120,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->db = $DIC['ilDB'];
         $this->logging_services = $DIC->logger();
         $this->help = $DIC['ilHelp'];
+        $this->global_screen = $DIC['global_screen'];
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
@@ -753,6 +756,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->db,
                     $this->user,
                     $this->refinery->random(),
+                    $this->global_screen
                 );
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
@@ -2312,7 +2316,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     *
     * @access	public
     */
-    public function printobject()
+    public function printObject()
     {
         if (!$this->access->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
@@ -2356,18 +2360,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle()));
         $template->setVariable("PRINT_TEST", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_print")));
         $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
-        $used_relative_dates = ilDatePresentation::useRelativeDates();
         $template->setVariable(
             "VALUE_PRINT_DATE",
             ilDatePresentation::formatDate(new ilDateTime($print_date, IL_CAL_UNIX))
         );
-        $use = ilDatePresentation::setUseRelativeDates($used_relative_dates);
         $template->setVariable(
             "TXT_MAXIMUM_POINTS",
             ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_maximum_points"))
         );
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilLegacyFormElementsUtil::prepareFormOutput($max_points));
-
         $this->tpl->setVariable("PRINT_CONTENT", $template->get());
     }
 

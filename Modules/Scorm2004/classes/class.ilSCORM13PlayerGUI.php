@@ -383,7 +383,9 @@ class ilSCORM13PlayerGUI
             if ($session_timeout > $min_idle) {
                 $session_timeout = $min_idle;
             }
-            $session_timeout -= 10; //buffer
+            if ($session_timeout > 10) { //buffer
+                $session_timeout -= 10;
+            }
         } else {
             $session_timeout = 0;
         }

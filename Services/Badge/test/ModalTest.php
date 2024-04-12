@@ -90,7 +90,7 @@ class ModalTest extends TestCase
         $content->method('badge')->willReturn($badge);
         $content->method('properties')->willReturn($properties);
 
-        $modal = new Modal($container, fn (string $file): string => '/');
+        $modal = new Modal($container, fn(string $file): string => '/');
 
         $this->assertSame([$image_component, $divider_component, $item_component], $modal->components($content));
     }

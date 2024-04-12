@@ -569,9 +569,8 @@ abstract class ilAssQuestionFeedback
 
         $mode = ($this->ctrl->isAsynch()) ? "presentation" : $this->getPageObjectOutputMode();
 
+        /** @var ilPageObjectGUI $pageObjectGUI */
         $pageObjectGUI = new $cl($page_object_id);
-        $pageObjectGUI->setOutputMode($mode);
-
         return $pageObjectGUI->presentation($mode);
     }
 

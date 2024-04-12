@@ -155,7 +155,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
     public function getViewTitleModification(CalledContexts $called_contexts): ?ViewTitleModification
     {
-        if (!$this->isKioskModeEnabled($called_contexts)) {
+        if (!$called_contexts->current()->getAdditionalData()->exists(self::TEST_PLAYER_VIEW_TITLE)) {
             return null;
         }
 
