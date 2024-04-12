@@ -73,17 +73,32 @@ class ilCmiXapiAppEventListener
 
     private static function onServiceUserDeleteUser(array $parameter): void
     {
-        /* nicht testbar aktuell
         $usr_id = $parameter['usr_id'];
         $model = ilCmiXapiDelModel::init();
 
         // null or array with objIds, if are going to need more
         $xapiObjUser = $model->getXapiObjIdForUser($usr_id);
         if(!is_null($xapiObjUser)) {
-            // add user as deleted
-            $model->setXapiUserAsDeleted($usr_id);
+            for ((int) $i = 0; $i < count($xapiObjUser); $i++) {
+                $xapiObject = $model->getXapiObjectData($xapiObjUser[$i]);
+                if(!is_null($xapiObject)) {
+                    if ((int) $xapiObject['delete_data'] != 0) {
+                        if((int) $xapiObject['delete_data'] < 10) {
+                            //remove only ident
+                            $model->removeCmixUsersForObjectAndUser($xapiObjUser[$i], $usr_id);
+                        } else {
+                            // add obj as deleted
+                            $model->setXapiObjAsDeletedForUser($xapiObjUser[$i], $xapiObject['lrs_type_id'], $xapiObject['activity_id'], $usr_id);
+                        }
+                    }
+                }
+            }
         }
-        */
+
+        //       if(!is_null($xapiObjUser)) {
+        //            // add user as deleted
+        //            $model->setXapiUserAsDeleted($usr_id);
+        //        }
     }
 
     private static function onServiceObjectDeleteOrToTrash(array $parameter): void
@@ -111,26 +126,42 @@ class ilCmiXapiAppEventListener
 
     private static function removeMembers(string $src_type, array $parameter): void
     {
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+
         $usr_id = $parameter['usr_id'];
-        $id = $parameter['obj_id'];
+        $crs_id = $parameter['obj_id'];
         if (
             $src_type === 'grp' || $src_type === 'crs'
         ) {
-            $ref_ids = ilObject::_getAllReferences($id);
-            $id = array_shift($ref_ids);
-        }
-        //stimmt so nicht: brauche array mit IDs
-        if (ilObject::_lookupType($id, true) !== "cmix") {
-            return;
-        }
+            $crs_ref_ids = ilObject::_getAllReferences($crs_id);
+            $idc = array_shift($crs_ref_ids);
 
-        //        $model = ilCmiXapiDelModel::init();
-        //        $objId = (int) $parameter['obj_id'];
-        //        $xapiObject = $model->getXapiObjectData($objId);
-        //        if( !is_null($xapiObject) ) {
-        //            // add obj as deleted
-        //            $model->setXapiObjAsDeleted($objId, $xapiObject['lrs_type_id'], $xapiObject['activity_id']);
-        //        }
+            //Todo check Verknüpfungen?
+            $ref_ids = $tree->getSubTreeIds($idc);
+            for ((int) $i = 0; $i < count($ref_ids); $i++) {
+                if (ilObject::_lookupType($ref_ids[$i], true) == "cmix") {
+                    $objId = ilObject::_lookupObjectId($ref_ids[$i]);
+                    $model = ilCmiXapiDelModel::init();
+                    $xapiObject = $model->getXapiObjectData($objId);
+                    if(!is_null($xapiObject)) {
+                        $xapiObjUser = $model->getXapiObjIdForUser($usr_id);
+                        if(!is_null($xapiObjUser)) {
+                            // add user as deleted
+                            if ((int) $xapiObject['delete_data'] != 0) {
+                                if ((int) $xapiObject['delete_data'] < 10) {
+                                    //remove only ident
+                                    $model->removeCmixUsersForObjectAndUser($objId, $usr_id);
+                                } else {
+                                    // add obj as deleted
+                                    $model->setXapiObjAsDeletedForUser($objId, $xapiObject['lrs_type_id'], $xapiObject['activity_id'], $usr_id);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
