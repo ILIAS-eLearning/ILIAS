@@ -10,6 +10,10 @@
 class ilFavouritesManager
 {
     /**
+     * @var bool
+     */
+    protected $globally_activated;
+    /**
      * @var ilFavouritesDBRepository
      */
     protected $repo;
@@ -19,6 +23,9 @@ class ilFavouritesManager
      */
     public function __construct(ilFavouritesDBRepository $repo = null)
     {
+        global $DIC;
+
+        $this->globally_activated = ($DIC->settings()->get('rep_favourites', '0') === '1');
         $this->repo = is_null($repo)
             ? new ilFavouritesDBRepository()
             : $repo;
@@ -54,6 +61,9 @@ class ilFavouritesManager
      */
     public function ifIsFavourite(int $user_id, int $ref_id) : bool
     {
+        if (!$this->isGloballyActivated()) {
+            return false;
+        }
         return $this->repo->ifIsFavourite($user_id, $ref_id);
     }
 
@@ -68,6 +78,11 @@ class ilFavouritesManager
         $this->repo->loadData($user_id, $ref_ids);
     }
 
+    public function isGloballyActivated() : bool
+    {
+        return $this->globally_activated;
+    }
+
     /**
      * Get favourits of user
      *
@@ -77,6 +92,9 @@ class ilFavouritesManager
      */
     public function getFavouritesOfUser(int $user_id, array $a_types = null) : array
     {
+        if (!$this->isGloballyActivated()) {
+            return [];
+        }
         return $this->repo->getFavouritesOfUser($user_id, $a_types);
     }
 
