@@ -17,13 +17,12 @@ il.LearningModule = {
 	},
 
 	hideNextNavigation: function () {
-		console.log("HIDE NEXT");
-		document.querySelectorAll(".ilToolbar .nav .ilToolbarStickyItem:nth-of-type(3) .btn").
+		document.querySelectorAll(".c-toolbar .c-toolbar__item--sticky:nth-of-type(3) .btn").
 			forEach(el => { el.disabled = true; });
 	},
 
 	showNextNavigation: function () {
-		document.querySelectorAll(".ilToolbar .nav .ilToolbarStickyItem:nth-of-type(3) .btn").
+		document.querySelectorAll(".c-toolbar .c-toolbar__item--sticky:nth-of-type(3) .btn").
 		forEach(el => { el.disabled = false; });
 	},
 
