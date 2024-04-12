@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\MetaData\Copyright\RendererInterface;
-use ILIAS\UI\Renderer as UIRenderer;
+declare(strict_types=1);
+
 use ILIAS\MetaData\Copyright\Renderer;
 use ILIAS\MetaData\Copyright\CopyrightData;
 use ILIAS\Data\URI;
@@ -413,8 +411,8 @@ class ilMDCopyrightSelectionEntry
 
         $res = $this->db->query($query);
         while ($row = $this->db->fetchObject($res)) {
-            $this->setTitle($row->title);
-            $this->setDescription($row->description);
+            $this->setTitle($row->title ?? '');
+            $this->setDescription($row->description ?? '');
 
             $data = self::getCopyrightDataFromRow($row);
             $this->setCopyrightData(
@@ -441,7 +439,7 @@ class ilMDCopyrightSelectionEntry
 
         $res = $this->db->query($query);
         $row = $this->db->fetchObject($res);
-        $this->usage = (int) $row->used;
+        $this->usage = (int) ($row->used ?? 0);
     }
 
     public static function createIdentifier(int $a_entry_id): string
