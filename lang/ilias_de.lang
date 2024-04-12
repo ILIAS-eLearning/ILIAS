@@ -3215,6 +3215,8 @@ cmix#:#content_privacy_ident#:#Identifikation der Person
 cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
+cmix#:#cron_xapi_del#:#xAPI/cmi5 Daten im Learning Record Store löschen
+cmix#:#cron_xapi_del_desc#:#Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht.
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.

@@ -154,65 +154,6 @@ class ilCmiXapiDelCron extends ilCronJob
             => wenn's für alle Objekte, die der User genutzt hat, gelöscht wurde: Zeile in xapidel_user löschen
             => Zeile in Tabelle xapidel_object löschen
 
-
-
-        */
-
-
-        //user deleted
-        //SELECT distinct LRS credentials for all objs  - ACHTUNG Plugin-Version beachten!
-        //SELECT usr_id FROM xapidel_user
-        //usr_ids=..
-        //SELECT obj_id, user_cred WHERE user_id in (usr_ids)
-        //delete in lrs - wenn nicht in separate log-tabelle schreiben
-        //delete xxcf_users WHERE obj_id and user_cred
-        //if numrows for usr_id =0 DELETE FROM xapidel_user WHERE usr_id=%s
-
-        //Hinweis auf negative Auswirkungen von lrs-typ-Änderungen für Lösch vorgänge
-
-        //object deleted
-        //SELECT activity_id, lrs_cred FROM xapidel_obj, xxcf_data_types WHERE xxcf_data_types.type_id = xapidel_obj.type_d //ACHTUNG: endpoint_use egal, lrs_type_id genutzt?
-
-
-        //lrs_type_id deleted???
-
-        /*
-        if( !$this->hasLrsType() )
-        {
-            ilLoggerFactory::getRootLogger()->alert('No lrs type configured!');
-            $cronResult->setStatus(ilCronJobResult::STATUS_INVALID_CONFIGURATION);
-            return $cronResult;
-        }
-        */
-        // $lpChangesQueue = new ilxapidelChangesQueue();
-        // $lpChangesQueue->load();
-
-        // $statementListBuilder = new ilxapidelXapiStatementListBuilder(ilLoggerFactory::getRootLogger(), $this->getLrsType());
-        // $statementList = $statementListBuilder->buildStatementsList($lpChangesQueue);
-        /*
-        $lrsRequest = new ilxapidelXapiRequest(
-            ilLoggerFactory::getRootLogger(),
-            $this->getLrsType()->getLrsEndpointStatementsLink(),
-            $this->getLrsType()->getLrsKey(),
-            $this->getLrsType()->getLrsSecret()
-        );
-
-        if( $lrsRequest->send($statementList) )
-        {
-            if( $lpChangesQueue->hasEntries() )
-            {
-                $lpChangesQueue->delete();
-                $cronResult->setStatus(ilCronJobResult::STATUS_OK);
-            }
-            else
-            {
-                $cronResult->setStatus(ilCronJobResult::STATUS_NO_ACTION);
-            }
-        }
-        else
-        {
-            $cronResult->setStatus(ilCronJobResult::STATUS_FAIL);
-        }
         */
 
         // Fall 1:
@@ -254,46 +195,35 @@ class ilCmiXapiDelCron extends ilCronJob
         $newDeletedUsers = $this->model->getNewDeletedUsers();
         foreach ($newDeletedUsers as $deletedUser) {
             $usrId = $deletedUser['usr_id'];
+            $objId = $deletedUser['obj_id'];
             // set user to updated
             $this->model->setUserAsUpdated($usrId);
-            // get all objects of deleted user
-            $xapiObjects = $this->model->getXapiObjectsByUser($usrId);
-            $usrObjectsDone = true;
-            foreach ($xapiObjects as $xapiObject) {
-                $objId = $xapiObject['obj_id'];
-                // check if all object data already successfully deleted in previous step within this run, because object was also deleted
-                if (in_array($objId, $deletedObjectData)) {
-                    $this->log->debug("nothing to do, because of complete object data deletion in previous step");
-                    continue;
-                }
-                $deleteRequest = new ilCmiXapiStatementsDeleteRequest(
-                    (int) $xapiObject['obj_id'],
-                    (int) $xapiObject['lrs_type_id'],
-                    (string) $xapiObject['activity_id'],
-                    $usrId,
-                    ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_OWN
-                );
-                $done = $deleteRequest->delete();
-                // entry in xxcf_users is already deleted from ilXapiCmi5StatementsDeleteRequest
-                if ($done) {
-                    $this->log->debug("deleted object " . (string) $objId . " data for user " . (string) $usrId);
-                } else {
-                    $this->log->debug("error deleting object " . (string) $objId . " data for user " . (string) $usrId);
-                    $usrObjectsDone = false;
-                }
-            } // EOF foreach ($xapiObjects as $xapiObject)
-
-            if ($usrObjectsDone) {
-                $this->model->deleteUserEntry($usrId);
+            $xapiObject = $this->model->getXapiObjectData($objId);
+            // check if all object data already successfully deleted in previous step within this run, because object was also deleted
+            if (in_array($objId, $deletedObjectData)) {
+                $this->log->debug("nothing to do, because of complete object data deletion in previous step");
+                continue;
+            }
+            $deleteRequest = new ilCmiXapiStatementsDeleteRequest(
+                (int) $objId,
+                (int) $xapiObject['lrs_type_id'],
+                (string) $xapiObject['activity_id'],
+                $usrId,
+                ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_OWN
+            );
+            $done = $deleteRequest->delete();
+            // entry in xxcf_users is already deleted from ilXapiCmi5StatementsDeleteRequest
+            if ($done) {
+                $this->model->deleteUserEntry($usrId, $objId);
+                $this->log->debug("deleted object " . (string) $objId . " data for user " . (string) $usrId);
             } else {
-                $this->model->resetUpdatedXapiUser($usrId);
+                $this->log->debug("error deleting object " . (string) $objId . " data for user " . (string) $usrId);
+                $this->model->resetUpdatedXapiUser($usrId, $objId);
                 $allDone = false;
             }
         }
 
-        // Fall 3 wird noch gebraucht?
-
-        // maybe more detailled success/fail messages?
+        // Fall 3 wird noch gebraucht? NEIN
 
         if ($allDone) {
             $cronResult->setStatus(ilCronJobResult::STATUS_OK);

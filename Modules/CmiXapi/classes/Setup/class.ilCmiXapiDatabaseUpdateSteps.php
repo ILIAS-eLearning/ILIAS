@@ -242,4 +242,17 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("cmix_del_object", array("obj_id", "type_id", "activity_id"));
         }
     }
+    public function step_17(): void
+    {
+        if (!$this->db->tableColumnExists('cmix_del_user', 'obj_id')) {
+            $this->db->addTableColumn('cmix_del_user', 'obj_id', array(
+                'type' => 'integer',
+                'length' => 4,
+                'notnull' => true
+            ));
+            $this->db->manipulate('DELETE FROM cmix_del_user');
+            $this->db->dropPrimaryKey('cmix_del_user');
+            $this->db->addPrimaryKey('cmix_del_user', array('usr_id','obj_id'));
+        }
+    }
 }

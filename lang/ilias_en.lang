@@ -3216,6 +3216,8 @@ cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS-Type
 cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store
+cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.

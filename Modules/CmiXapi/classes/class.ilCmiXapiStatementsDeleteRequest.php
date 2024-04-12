@@ -63,9 +63,6 @@ class ilCmiXapiStatementsDeleteRequest
         ?string $scope = self::DELETE_SCOPE_FILTERED,
         ?ilCmiXapiStatementsReportFilter $filter = null
     ) {
-        if ((int)ILIAS_VERSION_NUMERIC < 6) { // only in plugin
-            require_once __DIR__ . '/../XapiProxy/vendor/autoload.php';
-        }
         $this->objId = $obj_id;
         $this->lrsType = new ilCmiXapiLrsType($type_id);
         $this->activityId = $activity_id;
