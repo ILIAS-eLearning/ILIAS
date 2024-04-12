@@ -139,7 +139,7 @@ class ilPDNewsGUI
         }
         asort($conts);
         foreach ($conts as $ref_id => $title) {
-            $contexts[$ref_id] = $title . " (" . (int) $cnt[$ref_id] . ")";
+            $contexts[$ref_id] = $title . " (" . (int) ($cnt[$ref_id] ?? 0) . ")";
         }
 
 
