@@ -672,11 +672,11 @@ abstract class ilContainerContentGUI
             (int) $a_item_data['obj_id']
         ));
         $item_list_gui->initItem(
-            $a_item_data['ref_id'],
-            $a_item_data['obj_id'],
-            $a_item_data['type'],
-            $a_item_data['title'],
-            $a_item_data['description']
+            (int) $a_item_data['ref_id'],
+            (int) $a_item_data['obj_id'],
+            (string) $a_item_data['type'],
+            (string) $a_item_data['title'],
+            (string) $a_item_data['description']
         );
 
         // actions
