@@ -208,7 +208,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "") {
+                if (($int_link["Anchor"] ?? "") != "") {
                     $anc = $int_link["Anchor"];
                     $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
