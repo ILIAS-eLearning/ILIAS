@@ -2909,7 +2909,7 @@ s     */
                 $this->db->quote($a_old_nr, "integer") . "," .
                 $this->db->quote($u["template"], "integer") . "," .
                 $this->db->quote($u["stype"], "text") . "," .
-                $this->db->quote($u["sname"], "text") .
+                $this->db->quote(ilStr::subStr($u["sname"], 0, 30), "text") .
                 ")");
         }
     }
