@@ -17,7 +17,7 @@
  *********************************************************************/
 
 // still needed, since constants are defined in ilUserDefinedFields
-include_once dirname(__FILE__) . '/class.ilUserDefinedFields.php';
+require_once __DIR__ . '/class.ilUserDefinedFields.php';
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
