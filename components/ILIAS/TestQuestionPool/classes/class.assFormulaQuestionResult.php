@@ -604,10 +604,12 @@ class assFormulaQuestionResult
             return;
         }
 
-        $this->range_min = (float) $range_min;
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+        $this->range_min = (float) $math->evaluate($range_min);
     }
 
-    public function getRangeMin(): float
+    public function getRangeMin(): ?float
     {
         return $this->range_min;
     }
@@ -626,10 +628,13 @@ class assFormulaQuestionResult
         if ($range_max === null) {
             return;
         }
-        $this->range_max = (float) $range_max;
+
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+        $this->range_max = (float) $math->evaluate($range_max);
     }
 
-    public function getRangeMax(): float
+    public function getRangeMax(): ?float
     {
         return $this->range_max;
     }

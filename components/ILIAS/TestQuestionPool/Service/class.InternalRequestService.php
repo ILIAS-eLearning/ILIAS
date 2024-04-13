@@ -20,6 +20,8 @@ namespace ILIAS\TestQuestionPool;
 
 use ILIAS\Repository\BaseGUIRequest;
 
+use ILIAS\Refinery\ConstraintViolationException;
+
 class InternalRequestService
 {
     use BaseGUIRequest;
@@ -129,10 +131,14 @@ class InternalRequestService
         return $this->get($key, $no_transform);
     }
 
-    public function float(string $key): float
+    public function float(string $key): ?float
     {
         $t = $this->refinery->kindlyTo()->float();
-        return $this->get($key, $t) ?? 0.0;
+        try {
+            return $this->get($key, $t) ?? 0.0;
+        } catch (ConstraintViolationException $e) {
+            return 0.0;
+        }
     }
 
     public function string(string $key): string
