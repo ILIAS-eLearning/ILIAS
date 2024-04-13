@@ -714,7 +714,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable()) {
+        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable() && $this->checkPermissionBool("read")) {
             // TODO : check if this is the correct query
             // p.e. switched to another privacyIdent before: user exists but not with the new privacyIdent
             // re_check for isSourceTypeExternal
