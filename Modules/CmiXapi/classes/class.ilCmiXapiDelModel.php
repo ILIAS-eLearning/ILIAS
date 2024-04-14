@@ -221,12 +221,24 @@ class ilCmiXapiDelModel
             $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, $usrId, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
             $xapiDelete->delete();
         } else {
-            $values = [
-                'usr_id' => ['integer', $usrId],
-                'obj_id' => ['integer', $objId],
-                'added' => ['timestamp', date('Y-m-d H:i:s')]
-            ];
-            $this->db->insert(self::DB_DEL_USERS, $values);
+            $counter = 0;
+            $result = $this->db->queryF(
+                'SELECT count(*) as counter FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
+                ['integer', 'integer'],
+                [$usrId, $objId]
+            );
+            while($row = $this->db->fetchAssoc($result)) {
+                $counter = $row['counter'];
+            }
+
+            if ($counter == 0) {
+                $values = [
+                    'usr_id' => ['integer', $usrId],
+                    'obj_id' => ['integer', $objId],
+                    'added' => ['timestamp', date('Y-m-d H:i:s')]
+                ];
+                $this->db->insert(self::DB_DEL_USERS, $values);
+            }
         }
     }
 
