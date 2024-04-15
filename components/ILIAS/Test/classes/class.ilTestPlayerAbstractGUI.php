@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Access\ParticipantAccess;
+
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -66,8 +68,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ilias->raiseError($this->lng->txt('cannot_execute_test'), $this->ilias->error_obj->MESSAGE);
         }
 
-        if (ilObjTestAccess::_lookupOnlineTestAccess($this->getObject()->getId(), $this->user->getId()) !== true
-            || $this->object->isIpAllowedToAccessTest($_SERVER['REMOTE_ADDR']) !== true) {
+        $participant_access = (new ilTestAccess($this->object->getRefId()))->isParticipantAllowed(
+            $this->object->getId(),
+            $this->user->getId()
+        );
+        if ($participant_access !== ParticipantAccess::ALLOWED) {
             $this->ilias->raiseError($this->lng->txt('user_wrong_clientip'), $this->ilias->error_obj->MESSAGE);
         }
     }
