@@ -61,7 +61,7 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         );
 
         $shy_modal = $consent_gui->getTitleLink();
-        if (!strlen($shy_modal)) {
+        if ($shy_modal === '') {
             parent::insertTitle();
             return;
         }
