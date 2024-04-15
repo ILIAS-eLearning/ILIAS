@@ -65,7 +65,7 @@ class shibConfig
     protected bool $update_data_conv = false;
     protected string $user_default_role = '4';
     protected bool $activate_new = false;
-    protected static ?shibConfig $cache = null;
+    protected static ?\shibConfig $cache = null;
 
     protected function __construct()
     {
@@ -79,10 +79,6 @@ class shibConfig
             if ($str !== null) {
                 $this->{$field} = $str;
             }
-        }
-
-        if (!in_array(strtolower($this->getGender()), ['n', 'm', 'f'])) {
-            $this->setGender('');
         }
     }
 
