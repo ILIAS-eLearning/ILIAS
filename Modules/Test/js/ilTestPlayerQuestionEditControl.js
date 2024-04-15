@@ -421,8 +421,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // keep default behavior for links that open in another window
         // (fullscreen view of media objects)
-        if (target && target !== '_self' && target !== '_parent' && target !== '_top')
-        {
+        if (target && target !== '_self' && target !== '_parent' && target !== '_top') {
            return true;
         }
 
@@ -434,14 +433,11 @@ il.TestPlayerQuestionEditControl = new function() {
         // check explictly again at navigation
        detectFormChange();
 
-        if (id == 'tst_mark_question_action')           // marking the question is always possible
-        {
+        if (href.indexOf('markQuestion') !== -1) {
             navUrl = href;
             toggleQuestionMark();
             return false;
-        }
-        else if( config.nextQuestionLocks && cmd == 'nextQuestion' )
-        {
+        } else if ( config.nextQuestionLocks && cmd == 'nextQuestion' ) {
             // remember the url for saveWithNavigation()
             navUrl = href;
 
@@ -452,16 +448,11 @@ il.TestPlayerQuestionEditControl = new function() {
               return false;
             }
 
-            if( !answerChanged && !answered )
-            {
+            if (!answerChanged && !answered) {
                 showFollowupQuestionLocksEmptyAnswerModal();
-            }
-            else if( $('#tst_next_locks_changed_modal').length > 0 )
-            {
+            } else if( $('#tst_next_locks_changed_modal').length > 0 ) {
                 showFollowupQuestionLocksCurrentAnswerModal();
-            }
-            else
-            {
+            } else {
                 saveWithNavigation();
             }
             e.preventDefault();
@@ -472,7 +463,6 @@ il.TestPlayerQuestionEditControl = new function() {
             && href                                     // link is not an anchor
             && href.charAt(0) != '#'                    // link is not a fragment
             && id != 'tst_discard_answer_action'        // link is not the 'discard answer' button
-
             && id != 'tst_revert_changes_action'        // link is not the 'revert changes' action
             && id != 'tst_discard_solution_action'      // link is not the 'discard solution' action
         ) {
@@ -481,17 +471,14 @@ il.TestPlayerQuestionEditControl = new function() {
 
             if ($('#tst_save_on_navigation_modal').length > 0) {
                 showNavigationModal();
-            }
-            else {
+            } else {
                 saveWithNavigation();
             }
 
             // prevent the default event handler
             e.preventDefault();
             return false;
-        }
-        else
-        {
+        } else {
           e.preventDefault();
           window.location.replace(href);
           return false;

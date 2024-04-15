@@ -70,15 +70,6 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionTreeVisible());
     }
 
-    public function testQuestionSelectionButtonEnabled(): void
-    {
-        $this->testObj->setQuestionSelectionButtonEnabled(false);
-        $this->assertFalse($this->testObj->isQuestionSelectionButtonEnabled());
-
-        $this->testObj->setQuestionSelectionButtonEnabled(true);
-        $this->assertTrue($this->testObj->isQuestionSelectionButtonEnabled());
-    }
-
     public function testFinishTestButtonEnabled(): void
     {
         $this->testObj->setFinishTestButtonEnabled(false);
