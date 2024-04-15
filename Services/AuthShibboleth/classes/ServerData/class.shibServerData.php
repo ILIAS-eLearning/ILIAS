@@ -1,44 +1,53 @@
 <?php
-require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class shibServerData
- *
+ * @deprecated
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class shibServerData extends shibConfig
 {
+    /**
+     * @var \shibServerData|null
+     */
+    protected static $server_cache;
 
     /**
-     * @var bool
+     * @noinspection MagicMethodsValidityInspection
+     * @noinspection PhpMissingParentConstructorInspection
      */
-    protected static $cache = null;
-
-
-    /**
-     * @param array $data
-     */
-    protected function __construct($data)
+    protected function __construct(array $data)
     {
-        $shibConfig = shibConfig::getInstance();
-        foreach (array_keys(get_class_vars('shibConfig')) as $field) {
-            $str = $shibConfig->getValueByKey($field);
+        $shib_config = shibConfig::getInstance();
+        foreach (array_keys(get_class_vars(shibConfig::class)) as $field) {
+            $str = $shib_config->getValueByKey($field);
             if ($str !== null) {
-                $this->{$field} = $data[$str];
+                $this->{$field} = $data[$str] ?? '';
             }
         }
     }
 
-
-    /**
-     * @return bool|\shibServerData
-     */
-    public static function getInstance()
+    public static function getInstance() : \shibConfig
     {
-        if (!isset(self::$cache)) {
-            self::$cache = new self($_SERVER);
+        if (!isset(self::$server_cache)) {
+            self::$server_cache = new self($_SERVER);
         }
 
-        return self::$cache;
+        return self::$server_cache;
     }
 }
