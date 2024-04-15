@@ -5,8 +5,6 @@ refactoring.
 
 ## Short Term
 - Apply Sustainability Package from PHP8-Refactoring
-- Allow common settings to be accessed as Kitchensink-Forms. The previous access
-ilPropertyForms will be deprecated.
 
 ## Mid Term
 
@@ -15,10 +13,12 @@ ilPropertyForms will be deprecated.
 - Move all used UI-Elements to Kitchensink
 - Removal of static methods
 - Consolidation of ilObject and ilObject2 as well as ilObjectGUI and ilObject2GUI
-- Provide Individual Titles for all views of an object in coordination with `ilCtrl`
+- Provide individual iitles for all views of an object in coordination with `ilCtrl`
 and `GlobalScreen`. Right now many views don't have an individual and distinguishable
 title. This is not an issue that can be solved by the object alone, but in order to
 not loose sight of it, it is put on this ROADMAP.
+- Clarify and Refactoring Process for copying object and providing consistent
+landing pages after the copy process.
 
 
 ## Long Term
