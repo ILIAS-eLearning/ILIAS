@@ -94,8 +94,11 @@ class ilPersonalSettingsGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $DIC['ilDB'],
+            $DIC['tpl'],
+            $DIC['lng'],
             $DIC['tree'],
             $DIC['rbacreview'],
+            $DIC['rbacsystem'],
             $this->settings
         );
         $this->entered_new_password = $this->request->getNewPassword();
