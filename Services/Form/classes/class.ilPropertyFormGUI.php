@@ -536,13 +536,12 @@ class ilPropertyFormGUI extends ilFormGUI
             }
 
             // required top
-            if ($this->required_text) {
-                $this->tpl->setCurrentBlock("header");
+            $this->tpl->setCurrentBlock("header");
+            if ($this->checkForRequiredField()) {
                 $this->tpl->setCurrentBlock("required_text_top");
                 $this->tpl->setVariable("TXT_REQUIRED_TOP", $lng->txt("required_field"));
                 $this->tpl->parseCurrentBlock();
             }
-
             $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
             //$this->tpl->setVariable("LABEL", $this->getTopAnchor());
             $this->tpl->setVariable("TXT_DESCRIPTION", $this->getDescription());
@@ -1062,5 +1061,26 @@ class ilPropertyFormGUI extends ilFormGUI
                 }
             }
         }
+    }
+
+    protected function checkForRequiredField(): bool
+    {
+        foreach ($this->items as $item) {
+            if ($item->getType() != "hidden") {
+                if ($this->getMode() == "subform") {
+                    if (!$this->hideRequired($item->getType())) {
+                        if ($item->getRequired()) {
+                            return true;
+                        }
+                    }
+                } elseif (!$this->hideRequired($item->getType())) {
+                    if ($item->getRequired()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
