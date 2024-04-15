@@ -171,7 +171,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 <div class="il-filter enabled" id="id_1">
     <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
-		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
+		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -184,8 +184,8 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
-		</span>
-		<span class="il-filter-bar-toggle">
+		</div>
+		<div class="il-filter-bar-toggle">
 		    <div class="il-toggle-item">
                 <button class="il-toggle-button on" id="id_6" aria-pressed="false">
                     <span class="il-toggle-label-on">toggle_on</span>
@@ -193,7 +193,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     <span class="il-toggle-switch"></span>
                 </button>
 			</div>
-		</span>
+		</div>
         </div>
         <div class="il-filter-inputs-active clearfix collapse in">
             <span id="1"></span>
@@ -307,7 +307,7 @@ EOT;
 <div class="il-filter disabled" id="id_1">
     <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
-		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
+		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -320,8 +320,8 @@ EOT;
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
-		</span>
-		<span class="il-filter-bar-toggle">
+		</div>
+		<div class="il-filter-bar-toggle">
             <div class="il-toggle-item">
                 <button class="il-toggle-button off" id="id_6" aria-pressed="false">
                     <span class="il-toggle-label-on">toggle_on</span>
@@ -329,7 +329,7 @@ EOT;
                     <span class="il-toggle-switch"></span>
                 </button>
 			</div>
-		</span>
+		</div>
         </div>
         <div class="il-filter-inputs-active clearfix collapse in">
             <span id="1"></span>
@@ -443,7 +443,7 @@ EOT;
 <div class="il-filter enabled" id="id_1">
     <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
-		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
+		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
@@ -456,8 +456,8 @@ EOT;
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
-		</span>
-		<span class="il-filter-bar-toggle">
+		</div>
+		<div class="il-filter-bar-toggle">
 		    <div class="il-toggle-item">
                 <button class="il-toggle-button on" id="id_6" aria-pressed="false">
                     <span class="il-toggle-label-on">toggle_on</span>
@@ -465,7 +465,7 @@ EOT;
                     <span class="il-toggle-switch"></span>
                 </button>
 			</div>
-		</span>
+		</div>
         </div>
         <div class="il-filter-inputs-active clearfix collapse ">
             <span id="1"></span>
@@ -579,7 +579,7 @@ EOT;
 <div class="il-filter disabled" id="id_1">
     <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
-		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
+		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
@@ -592,8 +592,8 @@ EOT;
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
-		</span>
-		<span class="il-filter-bar-toggle">
+		</div>
+		<div class="il-filter-bar-toggle">
 		    <div class="il-toggle-item">
                 <button class="il-toggle-button off" id="id_6" aria-pressed="false">
                     <span class="il-toggle-label-on">toggle_on</span>
@@ -601,7 +601,7 @@ EOT;
                     <span class="il-toggle-switch"></span>
                 </button>
 			</div>
-		</span>
+		</div>
         </div>
         <div class="il-filter-inputs-active clearfix collapse ">
             <span id="1"></span>
