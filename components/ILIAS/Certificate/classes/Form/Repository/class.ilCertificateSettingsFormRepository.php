@@ -41,6 +41,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private readonly WrapperFactory $httpWrapper;
     private readonly Refinery $refinery;
     private readonly ilObjCertificateSettings $global_certificate_settings;
+    private readonly ilGlobalTemplateInterface $page_template;
 
     public function __construct(
         private readonly int $objectId,
@@ -65,6 +66,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $this->httpWrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+        $this->page_template = $DIC->ui()->mainTemplate();
 
         $this->ui_factory = $ui_factory ?? $DIC->ui()->factory();
         $this->ui_renderer = $ui_renderer ?? $DIC->ui()->renderer();
@@ -124,9 +126,19 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $_FILES['certificate_import']['name']
             );
             if ($result) {
+                $this->page_template->setOnScreenMessage(
+                    $this->page_template::MESSAGE_TYPE_SUCCESS,
+                    $this->language->txt('saved_successfully'),
+                    true
+                );
                 $this->ctrl->redirect($certificateGUI, 'certificateEditor');
             } else {
-                $import->setAlert($this->language->txt('certificate_error_import'));
+                $this->page_template->setOnScreenMessage(
+                    $this->page_template::MESSAGE_TYPE_FAILURE,
+                    $this->language->txt('certificate_error_import'),
+                    true
+                );
+                $this->ctrl->redirect($certificateGUI, 'certificateEditor');
             }
         }
         $form->addItem($import);

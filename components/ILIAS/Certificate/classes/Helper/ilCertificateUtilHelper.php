@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
-use ILIAS\Filesystem\Util\Convert\LegacyImages;
-use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Unzip;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * Just a wrapper class to create Unit Test for other classes.
@@ -75,6 +75,9 @@ class ilCertificateUtilHelper
         return ilUtil::stripSlashes($string);
     }
 
+    /**
+     * @param list<Streams> $streams
+     */
     public function zipAndDeliver(array $streams, string $download_filename): void
     {
         $this->delivery->delivery()->attached(
@@ -88,13 +91,16 @@ class ilCertificateUtilHelper
         return ilFileUtils::getDir($copyDirectory);
     }
 
-    public function unzip(string $file, bool $overwrite): void
+    public function unzip(string $file, string $zip_output_path, bool $overwrite): Unzip
     {
-        $this->archives->unzip(
-            $file,
+        return $this->archives->unzip(
+            Streams::ofResource(fopen($file, 'rb')),
             $this->archives->unzipOptions()
                            ->withOverwrite($overwrite)
-        )->extract();
+                           ->withZipOutputPath($zip_output_path)
+                           ->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
+
+        );
     }
 
     public function delDir(string $path): void
