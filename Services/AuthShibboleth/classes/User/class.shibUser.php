@@ -93,6 +93,7 @@ class shibUser extends ilObjUser
             $this->setLanguage($this->shibServerData->getLanguage());
         }
         $this->setDescription($this->getEmail());
+        $this->assignUdfData();
     }
 
 
@@ -125,8 +126,26 @@ class shibUser extends ilObjUser
         $this->setTimeLimitFrom(time());
         $this->setTimeLimitUntil(time());
         $this->setActive(true);
+        $this->assignUdfData();
     }
 
+    public function assignUdfData()
+    {
+        include_once("./Services/User/classes/class.ilUserDefinedFields.php");
+        include_once("./Services/User/classes/class.ilUserDefinedData.php");
+        $udata = new ilUserDefinedData($this->getId());
+
+        $definitions = ilUserDefinedFields::_getInstance();
+        foreach ($definitions->getDefinitions() as $definition) {
+            $field_update = $this->ilias->getSetting('shib_update_udf_' . $definition['field_name']);
+            $field_name = $this->ilias->getSetting('shib_udf_' . $definition['field_name']);
+            if ($field_update && isset($_SERVER[$field_name])) {
+                $udata->set('f_'. $definition['field_id'], $_SERVER[$field_name]);
+            }
+            $udata->update();
+            $this->readUserDefinedFields();
+        }
+    }
 
     public function create()
     {

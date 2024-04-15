@@ -282,9 +282,30 @@ class ilAuthShibbolethSettingsGUI
                 $propertys->addItem($fields[$setting]["check"]);
             }
         }
+
+        $this->initUserDefinedFields();
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $text_form = new ilTextInputGUI($definition['field_name']);
+            $text_form->setPostVar('shib[udf_' . $definition['field_name'] . ']');
+            $text_form->setValue($settings['shib_udf_'. $definition['field_name']]);
+            $text_form->setSize(32);
+            $text_form->setMaxLength(255);
+            $propertys->addItem($text_form);
+
+            $checkbox_form = new ilCheckboxInputGUI("");
+            $checkbox_form->setPostVar('shib[update_udf_' . $definition['field_name'] . ']');
+            $checkbox_form->setChecked($settings['shib_update_udf_' . $definition['field_name']]);
+            $checkbox_form->setOptionTitle($this->lng->txt("shib_update"));
+            $propertys->addItem($checkbox_form);
+        }
         $this->tpl->setContent($propertys->getHTML());
     }
 
+    private function initUserDefinedFields()
+    {
+        include_once("./Services/User/classes/class.ilUserDefinedFields.php");
+        $this->udf = ilUserDefinedFields::_getInstance();
+    }
 
     public function save()
     {
@@ -336,6 +357,13 @@ class ilAuthShibbolethSettingsGUI
             $this->ilias->setSetting("shib_active", "1");
             $this->ilias->setSetting("shibboleth_active", "1");
         }
+
+        $this->initUserDefinedFields();
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $this->ilias->setSetting('shib_udf_' . $definition['field_name'], trim($_POST['shib']['udf_' . $definition['field_name']]));
+            $this->ilias->setSetting('shib_update_udf_' . $definition['field_name'], trim($_POST['shib']['update_udf_' . $definition['field_name']]));
+        }
+
         $this->ilias->setSetting("shib_user_default_role", $_POST["shib"]["user_default_role"]);
         $this->ilias->setSetting("shib_hos_type", $_POST["shib"]["hos_type"]);
         $this->ilias->setSetting("shib_federation_name", $_POST["shib"]["federation_name"]);
