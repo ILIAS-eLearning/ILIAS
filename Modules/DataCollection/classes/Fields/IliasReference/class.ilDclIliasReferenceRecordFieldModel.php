@@ -74,8 +74,10 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getExportValue(): string
     {
-        $link = ilLink::_getStaticLink($this->getValue());
-
-        return $link;
+        $value = (int) $this->getValue();
+        if ($value <= 0) {
+            return '';
+        }
+        return ilLink::_getStaticLink($value);
     }
 }
