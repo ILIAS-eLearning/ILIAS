@@ -1359,14 +1359,18 @@ class ilObjLTIConsumer extends ilObject2
     {
         global $DIC;
         $auth = $DIC->http()->request()->getHeader("Authorization");
+        //        self::getLogger()->dump($auth);
         if (count($auth) < 1) {
             self::sendResponseError(405, "missing Authorization header");
         }
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
+            //            self::getLogger()->error("405, missing required Authorization Baerer token in ".$auth[0]);
             self::sendResponseError(405, "missing required Authorization Baerer token");
         }
+
         $token = $matches[1];
+        //        self::getLogger()->dump($token);
         return self::getTokenObject($token);
     }
 
