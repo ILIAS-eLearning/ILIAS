@@ -90,37 +90,44 @@ class ilCertificateTemplateImportAction
     ): bool {
         $importPath = $this->createArchiveDirectory($installationID);
 
-        $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
+        $clean_up_import_dir = function () use (&$importPath) {
+            if ($this->filesystem->hasDir($importPath)) {
+                $this->filesystem->deleteDir($importPath);
+            }
+        };
 
+        $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
         if (!$result) {
-            $this->filesystem->deleteDir($importPath);
+            $clean_up_import_dir();
             return false;
         }
 
-        $this->utilHelper->unzip(
+        $destination_dir = $rootDir . $importPath;
+        $unzip = $this->utilHelper->unzip(
             $rootDir . $importPath . $filename,
+            $destination_dir,
             true
         );
 
-        $subDirectoryName = str_replace('.zip', '', strtolower($filename)) . '/';
-        $subDirectoryAbsolutePath = $rootDir . $importPath . $subDirectoryName;
-
-        $copyDirectory = $importPath;
-        if (is_dir($subDirectoryAbsolutePath)) {
-            $copyDirectory = $subDirectoryAbsolutePath;
+        $unzipped = $unzip->extract();
+        if (!$unzipped) {
+            $clean_up_import_dir();
+            return false;
         }
 
-        $directoryInformation = $this->utilHelper->getDir($copyDirectory);
+        if ($this->filesystem->has($importPath . $filename)) {
+            $this->filesystem->delete($importPath . $filename);
+        }
 
         $xmlFiles = 0;
-        foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') === 0 && str_contains((string) $file['entry'], '.xml')) {
+        $contents = $this->filesystem->listContents($importPath);
+        foreach ($contents as $file) {
+            if ($file->isFile() && str_contains($file->getPath(), '.xml')) {
                 $xmlFiles++;
             }
         }
 
         if (0 === $xmlFiles) {
-            $this->filesystem->deleteDir($importPath);
             return false;
         }
 
@@ -130,58 +137,58 @@ class ilCertificateTemplateImportAction
         $newVersion = $currentVersion + 1;
         $backgroundImagePath = $certificate->getBackgroundImagePath();
         $cardThumbnailImagePath = $certificate->getThumbnailImagePath();
-
         $xsl = $certificate->getCertificateContent();
 
-        foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') === 0) {
-                $filePath = $importPath . $subDirectoryName . $file['entry'];
-                if (str_contains((string) $file['entry'], '.xml')) {
-                    $xsl = $this->filesystem->read($filePath);
-                    // as long as we cannot make RPC calls in a given directory, we have
-                    // to add the complete path to every url
-                    $xsl = preg_replace_callback(
-                        "/url\([']{0,1}(.*?)[']{0,1}\)/",
-                        function (array $matches) use ($rootDir): string {
-                            $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
-                            $fileName = basename($matches[1]);
+        foreach ($contents as $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
 
-                            if ('[BACKGROUND_IMAGE]' === $fileName) {
-                                $basePath = '';
-                            } elseif ($basePath !== '') {
-                                $basePath .= '/';
-                            }
+            if (str_contains($file->getPath(), '.xml')) {
+                $xsl = $this->filesystem->read($file->getPath());
+                // as long as we cannot make RPC calls in a given directory, we have
+                // to add the complete path to every url
+                $xsl = preg_replace_callback(
+                    "/url\([']{0,1}(.*?)[']{0,1}\)/",
+                    function (array $matches) use ($rootDir): string {
+                        $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
+                        $fileName = basename($matches[1]);
 
-                            return 'url(' . $basePath . $fileName . ')';
-                        },
-                        $xsl
-                    );
-                } elseif (str_contains((string) $file['entry'], '.jpg')) {
-                    $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-                    $newPath = $this->certificatePath . $newBackgroundImageName;
-                    $this->filesystem->copy($filePath, $newPath);
+                        if ('[BACKGROUND_IMAGE]' === $fileName) {
+                            $basePath = '';
+                        } elseif ($basePath !== '') {
+                            $basePath .= '/';
+                        }
 
-                    $backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
-                    // upload of the background image, create a thumbnail
+                        return 'url(' . $basePath . $fileName . ')';
+                    },
+                    $xsl
+                );
+            } elseif (str_contains($file->getPath(), '.jpg')) {
+                $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
+                $newPath = $this->certificatePath . $newBackgroundImageName;
+                $this->filesystem->copy($file->getPath(), $newPath);
 
-                    $backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
+                $backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
+                // upload of the background image, create a thumbnail
 
-                    $thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
+                $backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
 
-                    $originalImagePath = $rootDir . $newPath;
-                    $this->utilHelper->convertImage(
-                        $originalImagePath,
-                        $thumbnailImagePath,
-                        "100"
-                    );
-                } elseif (str_contains((string) $file['entry'], '.svg')) {
-                    $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
-                    $newPath = $this->certificatePath . $newCardThumbnailName;
+                $thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
 
-                    $this->filesystem->copy($filePath, $newPath);
+                $originalImagePath = $rootDir . $newPath;
+                $this->utilHelper->convertImage(
+                    $originalImagePath,
+                    $thumbnailImagePath,
+                    '100'
+                );
+            } elseif (str_contains($file->getPath(), '.svg')) {
+                $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
+                $newPath = $this->certificatePath . $newCardThumbnailName;
 
-                    $cardThumbnailImagePath = $this->certificatePath . $newCardThumbnailName;
-                }
+                $this->filesystem->copy($file->getPath(), $newPath);
+
+                $cardThumbnailImagePath = $this->certificatePath . $newCardThumbnailName;
             }
         }
 
@@ -216,7 +223,7 @@ class ilCertificateTemplateImportAction
 
         $this->templateRepository->save($template);
 
-        $this->filesystem->deleteDir($importPath);
+        $clean_up_import_dir();
 
         return true;
     }
@@ -232,6 +239,9 @@ class ilCertificateTemplateImportAction
         $certificateId = $this->objectId;
 
         $dir = $this->certificatePath . time() . '__' . $installationID . '__' . $type . '__' . $certificateId . '__certificate/';
+        if ($this->filesystem->hasDir($dir)) {
+            $this->filesystem->deleteDir($dir);
+        }
         $this->filesystem->createDir($dir);
 
         return $dir;

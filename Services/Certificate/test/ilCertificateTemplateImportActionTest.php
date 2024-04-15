@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\DTO\Metadata;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -37,7 +39,11 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $filesystem
             ->expects($this->once())
-            ->method('deleteDir');
+            ->method('listContents')
+            ->willReturn([
+                new Metadata('certificate.xml', 'file'),
+                new Metadata('background.jpg', 'file'),
+            ]);
 
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -55,22 +61,14 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
+        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
+                      ->disableOriginalConstructor()
+                      ->getMock();
+        $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
-            ->method('unzip');
-
-        $utilHelper
-            ->method('getDir')
-            ->willReturn([
-                [
-                    'type' => 'file',
-                    'entry' => 'background.jpg'
-                ],
-                [
-                    'type' => 'file',
-                    'entry' => 'certificate.xml'
-                ]
-            ]);
+            ->method('unzip')
+            ->willReturn($unzip);
 
         $utilHelper
             ->expects($this->once())
@@ -82,7 +80,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateImportAction(
             100,
-            'some/path/certiicate.xml',
+            'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
@@ -118,7 +116,10 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $filesystem
             ->expects($this->once())
-            ->method('deleteDir');
+            ->method('listContents')
+            ->willReturn([
+                new Metadata('certificate.xml', 'file')
+            ]);
 
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -136,18 +137,14 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
+        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
+                      ->disableOriginalConstructor()
+                      ->getMock();
+        $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
-            ->method('unzip');
-
-        $utilHelper
-            ->method('getDir')
-            ->willReturn([
-                [
-                    'type' => 'file',
-                    'entry' => 'certificate.xml'
-                ]
-            ]);
+            ->method('unzip')
+            ->willReturn($unzip);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -155,7 +152,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateImportAction(
             100,
-            'some/path/certiicate.xml',
+            'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
@@ -189,10 +186,6 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $filesystem = $this->getMockBuilder(ILIAS\Filesystem\Filesystem::class)
             ->getMock();
 
-        $filesystem
-            ->expects($this->once())
-            ->method('deleteDir');
-
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
@@ -206,12 +199,18 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->method('moveUploadedFile')
             ->willReturn(true);
 
+        $unzip = $this->getMockBuilder(\ILIAS\Filesystem\Util\Archive\Unzip::class)
+                      ->disableOriginalConstructor()
+                      ->getMock();
+        $unzip->expects($this->once())->method('extract')->willReturn(true);
         $utilHelper
             ->expects($this->once())
-            ->method('unzip');
+            ->method('unzip')
+            ->willReturn($unzip);
 
-        $utilHelper
-            ->method('getDir')
+        $filesystem
+            ->expects($this->once())
+            ->method('listContents')
             ->willReturn([]);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
@@ -220,7 +219,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateImportAction(
             100,
-            'some/path/certiicate.xml',
+            'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
@@ -255,10 +254,6 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $filesystem = $this->getMockBuilder(ILIAS\Filesystem\Filesystem::class)
             ->getMock();
 
-        $filesystem
-            ->expects($this->once())
-            ->method('deleteDir');
-
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
@@ -278,7 +273,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateImportAction(
             100,
-            'some/path/certiicate.xml',
+            'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
