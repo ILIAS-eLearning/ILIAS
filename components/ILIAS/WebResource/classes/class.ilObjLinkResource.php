@@ -76,7 +76,7 @@ class ilObjLinkResource extends ilObject
             !$this->getWebLinkRepo()->doesListExist() &&
             $this->getWebLinkRepo()->doesOnlyOneItemExist()
         ) {
-            $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
+            $item = $this->getWebLinkRepo()->getAllItemsAsContainer()->getFirstItem();
             $draft = new ilWebLinkDraftItem(
                 $item->isInternal(),
                 $title,
