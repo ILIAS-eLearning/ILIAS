@@ -43,19 +43,19 @@ class assFormulaQuestionVariable
 
     public function getRandomValue()
     {
-        if ($this->getPrecision() === 0) {
-            if (!$this->isIntPrecisionValid(
+        if ($this->getPrecision() === 0
+            && !$this->isIntPrecisionValid(
                 $this->getIntprecision(),
                 $this->getRangeMin(),
                 $this->getRangeMax()
-            )) {
-                global $DIC;
-                $lng = $DIC['lng'];
-                $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                    "failure",
-                    $lng->txt('err_divider_too_big')
-                );
-            }
+            )
+        ) {
+            global $DIC;
+            $lng = $DIC['lng'];
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                "failure",
+                $lng->txt('err_divider_too_big')
+            );
         }
 
         $mul = ilMath::_pow(10, $this->getPrecision());
@@ -91,8 +91,11 @@ class assFormulaQuestionVariable
         $this->setValue($this->getRandomValue());
     }
 
-    public function isIntPrecisionValid($int_precision, $min_range, $max_range)
+    public function isIntPrecisionValid(?int $int_precision, float $min_range, float $max_range)
     {
+        if ($int_precision === null) {
+            return false;
+        }
         $min_abs = abs($min_range);
         $max_abs = abs($max_range);
         $bigger_abs = $max_abs > $min_abs ? $max_abs : $min_abs;
@@ -147,7 +150,9 @@ class assFormulaQuestionVariable
 
     public function setRangeMin(string $range_min): void
     {
-        $this->range_min = (float) $range_min;
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+        $this->range_min = (float) $math->evaluate($range_min);
     }
 
     public function getRangeMin(): float
@@ -157,7 +162,9 @@ class assFormulaQuestionVariable
 
     public function setRangeMax(string $range_max): void
     {
-        $this->range_max = (float) $range_max;
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+        $this->range_max = (float) $math->evaluate($range_max);
     }
 
     public function getRangeMax(): float

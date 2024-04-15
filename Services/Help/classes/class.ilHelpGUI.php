@@ -372,7 +372,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "") {
+                if (($int_link["Anchor"] ?? "") != "") {
                     $anc = $int_link["Anchor"];
                     $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
@@ -551,16 +551,21 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         return $this->internal()->domain()->module()->isHelpActive();
     }
 
+    public function areTooltipsActive(): bool
+    {
+        return $this->internal()->domain()->module()->areTooltipsActive();
+    }
+
     public function savePersonalSettingFromLegacyForm(ilPropertyFormGUI $form): void
     {
-        if ($this->isHelpActive()) {
+        if ($this->areTooltipsActive()) {
             $this->user->setPref('hide_help_tt', (string) (int) !$form->getInput('help_tooltips'));
         }
     }
 
     public function addPersonalSettingToLegacyForm(ilPropertyFormGUI $form): void
     {
-        if ($this->isHelpActive()) {
+        if ($this->areTooltipsActive()) {
             $this->lng->loadLanguageModule('help');
             $cb = new ilCheckboxInputGUI($this->lng->txt('help_toggle_tooltips'), 'help_tooltips');
             $cb->setChecked(!($this->user->prefs['hide_help_tt'] ?? false));

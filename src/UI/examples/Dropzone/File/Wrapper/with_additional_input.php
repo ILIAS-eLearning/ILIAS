@@ -11,11 +11,15 @@ function with_additional_input()
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $wrapper = $DIC->http()->wrapper()->query();
+
+    $submit_flag = 'dropzone_wrapper_with_additional_input';
+    $post_url = "{$request->getUri()}&$submit_flag";
 
     $dropzone = $factory
         ->dropzone()->file()->wrapper(
             'Upload your files here',
-            '#',
+            $post_url,
             $factory->messageBox()->info('Drag and drop files onto me!'),
             $factory->input()->field()->file(
                 new \ilUIAsyncDemoFileUploadHandlerGUI(),
@@ -29,7 +33,7 @@ function with_additional_input()
 
     // please use ilCtrl to generate an appropriate link target
     // and check it's command instead of this.
-    if ('POST' === $request->getMethod()) {
+    if ($wrapper->has($submit_flag)) {
         $dropzone = $dropzone->withRequest($request);
         $data = $dropzone->getData();
     } else {

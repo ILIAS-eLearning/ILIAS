@@ -88,12 +88,13 @@ class ilCmiXapiDelModel
         ]);
     }
 
-    public function resetUpdatedXapiUser(int $usrId)
+    public function resetUpdatedXapiUser(int $usrId, int $objId)
     {
         $this->db->update(self::DB_DEL_USERS, [
             'updated' => ['timestamp', null]
         ], [
-            'usr_id' => ['integer', $usrId]
+            'usr_id' => ['integer', $usrId],
+            'obj_id' => ['integer', $objId]
         ]);
     }
 
@@ -145,12 +146,12 @@ class ilCmiXapiDelModel
         return $data;
     }
 
-    public function deleteUserEntry($usrId)
+    public function deleteUserEntry($usrId, $objId)
     {
         $this->db->manipulateF(
-            'DELETE FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s',
-            ['integer'],
-            [$usrId]
+            'DELETE FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
+            ['integer', 'integer'],
+            [$usrId, $objId]
         );
     }
 
@@ -200,19 +201,47 @@ class ilCmiXapiDelModel
 
     public function setXapiObjAsDeleted(int $objId, int $typeId, string $actId): void
     {
-        $values = [
-            'obj_id' => ['integer', $objId],
-            'type_id' => ['integer', $typeId],
-            'activity_id' => ['string', $actId],
-            'added' => ['timestamp', date('Y-m-d H:i:s')]
-        ];
-        $this->db->insert(self::DB_DEL_OBJ, $values);
-
         if(!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
             $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, null, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
             $xapiDelete->delete();
+        } else {
+            $values = [
+                'obj_id' => ['integer', $objId],
+                'type_id' => ['integer', $typeId],
+                'activity_id' => ['string', $actId],
+                'added' => ['timestamp', date('Y-m-d H:i:s')]
+            ];
+            $this->db->insert(self::DB_DEL_OBJ, $values);
         }
     }
+
+    public function setXapiObjAsDeletedForUser(int $objId, int $typeId, string $actId, int $usrId): void
+    {
+        if(!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
+            $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, $usrId, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
+            $xapiDelete->delete();
+        } else {
+            $counter = 0;
+            $result = $this->db->queryF(
+                'SELECT count(*) as counter FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
+                ['integer', 'integer'],
+                [$usrId, $objId]
+            );
+            while($row = $this->db->fetchAssoc($result)) {
+                $counter = $row['counter'];
+            }
+
+            if ($counter == 0) {
+                $values = [
+                    'usr_id' => ['integer', $usrId],
+                    'obj_id' => ['integer', $objId],
+                    'added' => ['timestamp', date('Y-m-d H:i:s')]
+                ];
+                $this->db->insert(self::DB_DEL_USERS, $values);
+            }
+        }
+    }
+
 
     public function setXapiObjAsUpdated(int $objId)
     {
@@ -242,7 +271,16 @@ class ilCmiXapiDelModel
             [$objId]
         );
         $this->log->debug('cmix_users deleted for objId=' . (string) $objId);
+    }
 
+    public function removeCmixUsersForObjectAndUser(int $objId, int $usrId): void
+    {
+        $this->db->manipulateF(
+            'DELETE FROM cmix_users WHERE obj_id = %s AND usr_id = %s',
+            ['integer','integer'],
+            [$objId,$usrId]
+        );
+        $this->log->debug('cmix_user with usrId ' . (string) $usrId . ' deleted for objId=' . (string) $objId);
     }
 
 }

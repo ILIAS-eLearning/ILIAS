@@ -94,22 +94,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionSelectionButtonEnabled(): bool
-    {
-        return $this->questionSelectionButtonEnabled;
-    }
-
-    /**
-     * @param boolean $questionSelectionButtonEnabled
-     */
-    public function setQuestionSelectionButtonEnabled($questionSelectionButtonEnabled)
-    {
-        $this->questionSelectionButtonEnabled = $questionSelectionButtonEnabled;
-    }
-
-    /**
-     * @return boolean
-     */
     public function isFinishTestButtonEnabled(): bool
     {
         return $this->finishTestButtonEnabled;
@@ -177,10 +161,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
             $this->addPassOverviewButton();
         }
 
-        if ($this->isQuestionSelectionButtonEnabled()) {
-            $this->addQuestionSelectionButton();
-        }
-
         if ($this->isSuspendTestButtonEnabled()) {
             $this->addSuspendTestButton();
         }
@@ -194,8 +174,13 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     {
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('cancel_test'),
-            $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SUSPEND_TEST)
+            ''
+        )->withAdditionalOnLoadCode(
+            $this->buildCheckNavigationClosure(
+                $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SUSPEND_TEST)
+            )
         );
+
         $this->addComponent($button);
     }
 
@@ -203,17 +188,13 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     {
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('question_summary_btn'),
-            $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::QUESTION_SUMMARY)
+            ''
+        )->withAdditionalOnLoadCode(
+            $this->buildCheckNavigationClosure(
+                $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::QUESTION_SUMMARY)
+            )
         );
-        $this->addComponent($button);
-    }
 
-    private function addQuestionSelectionButton()
-    {
-        $button = $this->ui->factory()->button()->standard(
-            $this->lng->txt('tst_change_dyn_test_question_selection'),
-            $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SHOW_QUESTION_SELECTION)
-        );
         $this->addComponent($button);
     }
 
@@ -227,12 +208,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
         $button = $this->getStandardOrPrimaryFinishButtonInstance();
         return $button->withAdditionalOnLoadCode(
-            static function (string $id) use ($target): string {
-                return "document.getElementById('$id').addEventListener('click', "
-                    . '(e) => {'
-                    . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
-                    . '});';
-            }
+            $this->buildCheckNavigationClosure($target)
         );
     }
 
@@ -243,5 +219,15 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
 
         return $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), '');
+    }
+
+    private function buildCheckNavigationClosure(string $target): Closure
+    {
+        return static function (string $id) use ($target): string {
+            return "document.getElementById('$id').addEventListener('click', "
+                . '(e) => {'
+                . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
+                . '});';
+        };
     }
 }

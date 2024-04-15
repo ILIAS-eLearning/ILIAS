@@ -86,7 +86,9 @@ class ilObjSCORMInitData
             if ($session_timeout > $min_idle) {
                 $session_timeout = $min_idle;
             }
-            $session_timeout -= 10; //buffer
+            if ($session_timeout > 10) { //buffer
+                $session_timeout -= 10;
+            }
         }
         $b_autoReview = 'false';
         if ($slm_obj->getAutoReview()) {

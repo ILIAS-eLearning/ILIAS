@@ -714,7 +714,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable()) {
+        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable() && $this->checkPermissionBool("read")) {
             // TODO : check if this is the correct query
             // p.e. switched to another privacyIdent before: user exists but not with the new privacyIdent
             // re_check for isSourceTypeExternal
@@ -749,29 +749,29 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 );
                 $DIC->toolbar()->addComponent($button);
             } else {
-                //                $launchButton = ilLinkButton::getInstance();
-                //                $launchButton->setPrimary(true);
-                //                $launchButton->setCaption('launch');
-                //
-                //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
-                //                    $launchButton->setTarget('_blank');
-                //                }
-                //
-                //                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
-                //                    ilCmiXapiLaunchGUI::class
-                //                ));
-                //
-                //                $DIC->toolbar()->addButtonInstance($launchButton);
+                $launchButton = ilLinkButton::getInstance();
+                $launchButton->setPrimary(true);
+                $launchButton->setCaption('launch');
+
+                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
+                    $launchButton->setTarget('_blank');
+                }
+
+                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
+                    ilCmiXapiLaunchGUI::class
+                ));
+
+                $DIC->toolbar()->addButtonInstance($launchButton);
 
                 //todo
                 //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
                 //                    setTarget('_blank');
                 //                }
-                $button = $DIC->ui()->factory()->button()->primary(
-                    $this->lng->txt('launch'),
-                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
-                );
-                $DIC->toolbar()->addComponent($button);
+                //                $button = $DIC->ui()->factory()->button()->primary(
+                //                    $this->lng->txt('launch'),
+                //                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
+                //                );
+                //                $DIC->toolbar()->addComponent($button);
             }
 
             /**

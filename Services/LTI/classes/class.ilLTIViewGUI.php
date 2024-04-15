@@ -163,13 +163,36 @@ class ilLTIViewGUI
         }
 
         $this->findEffectiveRefId();
-        $ref_id = $this->effectiveRefId;
         // ???
+        if (
+            (
+                $this->wrapper->query()->has('baseClass') &&
+                $this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()) === 'ilDashboardGUI'
+            )
+            &&
+            (
+                $this->wrapper->query()->has('cmd') &&
+                $this->wrapper->query()->retrieve('cmd', $this->kindlyTo->string()) === 'jumpToSelectedItems'
+            )
+        ) {
+            $this->log->debug("jumpToSelectedItems");
+            if (ilSession::get('lti_ref_id_at_init') != "") {
+                $this->effectiveRefId = (int) ilSession::get('lti_ref_id_at_init');
+                ilSession::set('lti_ref_id_at_init', "");
+            }
+        }
+
+        $ref_id = $this->effectiveRefId;
         if (empty($ref_id)) {
+            $this->log->debug("empty ref_id");
             return 0;
         }
 
         $this->log->debug("Effective ref_id: " . $ref_id);
+        //check
+        ilSession::set('lti_ref_id_at_init', (string) $ref_id);
+
+
         // context_id = ref_id in request
         if (ilSession::has('lti_' . $ref_id . '_post_data')) {
             $this->log->debug("lti context session exists for " . $ref_id);
@@ -227,6 +250,7 @@ class ilLTIViewGUI
                     }
                 }
             }
+
             if ($ref_id > 0 && $obj_type != '') {
                 if (
                     (

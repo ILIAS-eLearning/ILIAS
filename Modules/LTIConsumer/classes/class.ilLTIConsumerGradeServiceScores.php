@@ -62,10 +62,10 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $scope = ilLTIConsumerGradeService::SCOPE_GRADESERVICE_SCORE;
         try {
-            $token = $this->checkTool(array($scope));
-            if (is_null($token)) {
-                throw new Exception('invalid request', 401);
-            }
+            //            $token = $this->checkTool(array($scope));
+            //            if (is_null($token)) {
+            //                throw new Exception('invalid request', 401);//ToDo
+            //            }
 
             // Bug in Moodle as tool provider, should accept only "204 No Content" but schedules grade sync task will notices a failed status if not exactly 200
             // see: http://www.imsglobal.org/spec/lti-ags/v2p0#score-service-scope-and-allowed-http-methods
