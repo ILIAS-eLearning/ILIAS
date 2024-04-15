@@ -85,20 +85,20 @@ class Service
         $this->endpoint = $endpoint;
     }
 
-//    /**
-//     * Get tool consumer.
-//     *
-//     * @deprecated Use getPlatform() instead
-//     * @see Service::getPlatform()
-//     *
-//     * @return ToolConsumer Consumer for this service
-//     */
-//    public function getConsumer()
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\Service::getConsumer() has been deprecated; please use ceLTIc\LTI\Service::getPlatform() instead.',
-//            true);
-//        return $this->getPlatform();
-//    }
+    //    /**
+    //     * Get tool consumer.
+    //     *
+    //     * @deprecated Use getPlatform() instead
+    //     * @see Service::getPlatform()
+    //     *
+    //     * @return ToolConsumer Consumer for this service
+    //     */
+    //    public function getConsumer()
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\Service::getConsumer() has been deprecated; please use ceLTIc\LTI\Service::getPlatform() instead.',
+    //            true);
+    //        return $this->getPlatform();
+    //    }
 
     /**
      * Get platform.
@@ -173,7 +173,10 @@ class Service
                 $header = $this->platform->signServiceRequest($url, $method, $this->mediaType, $body);
             }
             // Connect to platform and parse JSON response
-            $this->http = new HttpMessage($url, $method, $body, $header);
+            //UK changed from
+            //            $this->http = new HttpMessage($url, $method, $body, $header);
+            // to
+            $this->http = new \ILIAS\LTI\ToolProvider\Http\HttpMessage($url, $method, $body, $header);
             if ($this->http->send() && !empty($this->http->response)) {
                 $this->http->responseJson = json_decode($this->http->response);
                 $this->http->ok = !is_null($this->http->responseJson);
