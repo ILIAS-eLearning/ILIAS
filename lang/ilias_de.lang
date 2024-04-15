@@ -12553,7 +12553,7 @@ pdfgen#:#header_type#:#Kopfzeile
 pdfgen#:#html#:#Html
 pdfgen#:#image_scale#:#Bildskalierung
 pdfgen#:#javascript_delay#:#Javascript Verzögerung
-pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
+pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 500ms sollte in den meisten Fällen ausreichen.
 pdfgen#:#low_quality#:#Niedrige Qualität
 pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
 pdfgen#:#margin#:#Rand

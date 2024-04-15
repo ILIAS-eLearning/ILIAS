@@ -12553,7 +12553,7 @@ pdfgen#:#header_type#:#Header
 pdfgen#:#html#:#Html
 pdfgen#:#image_scale#:#Image scale
 pdfgen#:#javascript_delay#:#Javascript delay
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
+pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 500ms should suffice in most cases.
 pdfgen#:#low_quality#:#Low quality
 pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
 pdfgen#:#margin#:#Margin 345
