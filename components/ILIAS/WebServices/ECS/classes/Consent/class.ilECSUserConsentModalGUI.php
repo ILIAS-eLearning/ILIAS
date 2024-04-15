@@ -35,8 +35,8 @@ class ilECSUserConsentModalGUI
     public const CMD_RENDER_MODAL = 'renderConsentModal';
     public const CMD_SAVE_CONSENT = 'saveConsent';
 
-    protected const TRGIGGER_TYPE_SHY = 1;
-    protected const TRGIGGER_TYPE_STANDARD = 2;
+    protected const TRIGGER_TYPE_SHY = 1;
+    protected const TRIGGER_TYPE_STANDARD = 2;
     protected const TRIGGER_TYPE_CARD = 3;
 
     private int $usr_id;
@@ -116,7 +116,7 @@ class ilECSUserConsentModalGUI
         ) {
             return '';
         }
-        $components = $this->getConsentModalComponents(self::TRGIGGER_TYPE_SHY);
+        $components = $this->getConsentModalComponents(self::TRIGGER_TYPE_SHY);
         return $this->ui_renderer->render($components);
     }
 
@@ -174,7 +174,7 @@ class ilECSUserConsentModalGUI
     }
 
     protected function getConsentModalComponents(
-        int $a_trigger_type = self::TRGIGGER_TYPE_STANDARD
+        int $a_trigger_type = self::TRIGGER_TYPE_STANDARD
     ): array {
         $form = $this->initConsentForm();
         $form_id = 'form_' . $form->getId();
@@ -212,14 +212,14 @@ class ilECSUserConsentModalGUI
         }
 
         $button = null;
-        if ($a_trigger_type === self::TRGIGGER_TYPE_STANDARD) {
+        if ($a_trigger_type === self::TRIGGER_TYPE_STANDARD) {
             $button = $this->ui_factory->button()->standard(
                 $this->lng->txt($this->remote_object->getType() . '_call'),
                 '#'
             )->withOnClick(
                 $modal->getShowSignal()
             );
-        } elseif ($a_trigger_type === self::TRGIGGER_TYPE_SHY) {
+        } elseif ($a_trigger_type === self::TRIGGER_TYPE_SHY) {
             $button = $this->ui_factory->button()->shy(
                 $this->remote_object->getTitle(),
                 '#'
@@ -233,18 +233,20 @@ class ilECSUserConsentModalGUI
     protected function saveConsent(ilPropertyFormGUI $form): bool
     {
         $consented = (bool) ($this->request->getParsedBody()['consent'] ?? 0);
+        $ref_id_hidden = (int) ($this->request->getParsedBody()['consented_ref_id'] ?? 0);
+        $ref_type_hidden = (string) ($this->request->getParsedBody()['consented_type'] ?? '');
         if ($consented) {
             $this->consents->add($this->server_id, $this->mid);
             $this->ctrl->setParameterByClass(
-                $this->getGUIClassName(),
+                $ref_type_hidden,
                 'ref_id',
-                $this->ref_id
+                $ref_id_hidden
             );
             $this->ctrl->redirectToURL(
                 $this->ctrl->getLinkTargetByClass(
                     [
                         ilRepositoryGUI::class,
-                        $this->getGUIClassName()
+                        $ref_type_hidden
                     ],
                     'call'
                 )
@@ -260,6 +262,12 @@ class ilECSUserConsentModalGUI
         $form->setId(uniqid('form', false));
         $form->setFormAction('#');
 
+        $ref_id_hidden = new ilHiddenInputGUI('consented_ref_id');
+        $ref_id_hidden->setValue((string) $this->ref_id);
+        $form->addItem($ref_id_hidden);
+        $ref_type_hidden = new ilHiddenInputGUI('consented_type');
+        $ref_type_hidden->setValue($this->getGUIClassName());
+        $form->addItem($ref_type_hidden);
         $title = new ilNonEditableValueGUI(
             $this->lng->txt('title'),
             'title'

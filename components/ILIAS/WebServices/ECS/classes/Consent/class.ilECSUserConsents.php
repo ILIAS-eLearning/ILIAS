@@ -30,7 +30,7 @@ class ilECSUserConsents
 
     private int $usr_id;
     /**
-     * @var array<int, ilECSUserConsent>
+     * @var array<string, ilECSUserConsent>
      */
     private array $consents = [];
 
@@ -91,7 +91,7 @@ class ilECSUserConsents
             );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->consents["{$row->server_id}:{$row->usr_id}"] = new ilECSUserConsent(
+            $this->consents["{$row->server_id}:{$row->mid}"] = new ilECSUserConsent(
                 (int) $row->usr_id,
                 (int) $row->server_id,
                 (int) $row->mid
