@@ -89,7 +89,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory(): void
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessageMatches('/' . ilLocalPasswordEncoderFactory::class . '/');
+        $this->expectExceptionMessageMatches('/' . preg_quote(ilLocalPasswordManager::class, '/') . '/');
 
         new ilLocalPasswordManager([
             'password_encoder' => 'md5',
@@ -120,7 +120,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
             'encoder_factory' => $factory_mock,
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $this->assertInstanceOf('ilUserPasswordManager', $password_manager);
+        $this->assertInstanceOf(ilLocalPasswordManager::class, $password_manager);
         $this->assertEquals('md5', $password_manager->getEncoderName());
         $this->assertEquals($factory_mock, $password_manager->getEncoderFactory());
 
