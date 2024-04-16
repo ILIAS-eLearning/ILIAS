@@ -23,11 +23,11 @@ declare(strict_types=1);
  */
 class ilAchievementsGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilAchievements $achievements;
-    protected ilLanguage $lng;
-    protected ilTabsGUI $tabs;
-    private ilGlobalTemplateInterface $main_tpl;
+    protected readonly ilCtrl $ctrl;
+    protected readonly ilAchievements $achievements;
+    protected readonly ilLanguage $lng;
+    protected readonly ilTabsGUI $tabs;
+    protected readonly ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {

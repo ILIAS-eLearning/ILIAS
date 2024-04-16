@@ -47,12 +47,12 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_LEARNING_SEQUENCES
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function initData(): void
@@ -106,7 +106,7 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
         return false;
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
         return 'pdlern';
     }
@@ -135,7 +135,7 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function removeMultipleEnabled(): bool
+    final public function removeMultipleEnabled(): bool
     {
         return true;
     }
