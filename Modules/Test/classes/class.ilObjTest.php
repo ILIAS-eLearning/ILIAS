@@ -2939,7 +2939,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $name = "";
         if (strlen($firstname . $lastname . $title) == 0) {
-            $name = $this->lng->txt("deleted_user");
+            $name = $this->lng->txt('deleted_user');
         } else {
             if ($user_id == ANONYMOUS_USER_ID) {
                 $name = $lastname;
