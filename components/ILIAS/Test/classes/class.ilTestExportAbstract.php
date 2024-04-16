@@ -26,25 +26,18 @@ abstract class ilTestExportAbstract
     protected ilTestEvaluationData $complete_data;
     protected array $aggregated_data;
     protected array $additionalFields;
-    protected ilObjTest $test_obj;
     protected ilLanguage $lng;
-    protected string $filter_key_participants;
-    protected string $filtertext;
-    protected bool $passedonly;
 
     public function __construct(
-        ilObjTest $test_obj,
-        string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
-        string $filtertext = '',
-        bool $passedonly = false,
+        protected ilObjTest $test_obj,
+        protected string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
+        protected string $filtertext = '',
+        protected bool $passedonly = false,
+        protected bool $scoredonly = false,
         ilLanguage $lng = null
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->test_obj = $test_obj;
-        $this->filter_key_participants = $filter_key_participants;
-        $this->filtertext = $filtertext;
-        $this->passedonly = $passedonly;
         $this->lng = $lng ?? $DIC['lng'];
         $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filter_key_participants, $this->filtertext);
         $this->aggregated_data = $this->test_obj->getAggregatedResultsData();
@@ -65,16 +58,15 @@ abstract class ilTestExportAbstract
         $rows = [];
         foreach ($this->complete_data->getParticipants() as $active_id => $userdata) {
             $datarow = $headerrow;
-            $remove = false;
-            if ($this->passedonly && !$this->complete_data->getParticipant($active_id)->getPassed()) {
+            if ($this->passedonly && !$userdata->getPassed()) {
                 continue;
             }
             $datarow2 = [];
             if ($test_obj->getAnonymity()) {
                 $datarow2[] = $counter;
             } else {
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getName();
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getLogin();
+                $datarow2[] = $userdata->getName();
+                $datarow2[] = $userdata->getLogin();
             }
             if (count($this->additionalFields)) {
                 $userfields = ilObjUser::_lookupFields($userdata->getUserID());
@@ -90,22 +82,22 @@ abstract class ilTestExportAbstract
                     }
                 }
             }
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getReached();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getMaxpoints();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getMark();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getNumberOfQuestions();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0;
-            $time = $this->complete_data->getParticipant($active_id)->getTimeOfWork();
+            $datarow2[] = $userdata->getReached();
+            $datarow2[] = $userdata->getMaxpoints();
+            $datarow2[] = $userdata->getMark();
+            $datarow2[] = $userdata->getQuestionsWorkedThrough();
+            $datarow2[] = $userdata->getNumberOfQuestions();
+            $datarow2[] = $userdata->getQuestionsWorkedThroughInPercent() / 100.0;
+            $time = $userdata->getTimeOfWork();
             $time_seconds = $time;
             $time_hours = floor($time_seconds / 3600);
             $time_seconds -= $time_hours * 3600;
             $time_minutes = floor($time_seconds / 60);
             $time_seconds -= $time_minutes * 60;
             $datarow2[] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
-            $time = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $this->complete_data->getParticipant(
+            $time = $userdata->getQuestionsWorkedThrough() ? $this->complete_data->getParticipant(
                 $active_id
-            )->getTimeOfWork() / $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
+            )->getTimeOfWork() / $userdata->getQuestionsWorkedThrough() : 0;
             $time_seconds = $time;
             $time_hours = floor($time_seconds / 3600);
             $time_seconds -= $time_hours * 3600;
@@ -113,8 +105,8 @@ abstract class ilTestExportAbstract
             $time_seconds -= $time_minutes * 60;
             $datarow2[] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
 
-            $fv = $this->complete_data->getParticipant($active_id)->getFirstVisit();
-            $lv = $this->complete_data->getParticipant($active_id)->getLastVisit();
+            $fv = $userdata->getFirstVisit();
+            $lv = $userdata->getLastVisit();
             foreach ([$fv, $lv] as $ts) {
                 if ($ts) {
                     $visit = ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX));
@@ -125,7 +117,7 @@ abstract class ilTestExportAbstract
             }
 
             $median = $this->complete_data->getStatistics()->getStatistics()->median();
-            $pct = $this->complete_data->getParticipant($active_id)->getMaxpoints() ? $median / $this->complete_data->getParticipant(
+            $pct = $userdata->getMaxpoints() ? $median / $this->complete_data->getParticipant(
                 $active_id
             )->getMaxpoints() * 100.0 : 0;
             $mark = $test_obj->getMarkSchema()->getMatchingMark($pct);
@@ -135,52 +127,61 @@ abstract class ilTestExportAbstract
             }
             $datarow2[] = $mark_short_name;
             $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank(
-                $this->complete_data->getParticipant($active_id)->getReached()
+                $userdata->getReached()
             );
             $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->rank_median();
             $datarow2[] = $this->complete_data->getStatistics()->getStatistics()->count();
             $datarow2[] = $median;
 
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getPassCount();
-            $datarow2[] = $this->complete_data->getParticipant($active_id)->getFinishedPasses();
+            $datarow2[] = $userdata->getPassCount();
+            $datarow2[] = $userdata->getFinishedPasses();
             if ($test_obj->getPassScoring() === ilObjTest::SCORE_BEST_PASS) {
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getBestPass() + 1;
+                $datarow2[] = $userdata->getBestPass() + 1;
             } else {
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getLastPass() + 1;
+                $datarow2[] = $userdata->getLastPass() + 1;
             }
-            for ($pass = 0; $pass <= $this->complete_data->getParticipant($active_id)->getLastPass(); $pass++) {
+            $shown_pass = 0;
+            for ($pass = 0; $pass <= $userdata->getLastPass(); $pass++) {
                 $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
-                if ($finishdate > 0) {
-                    if ($pass > 0) {
-                        for ($i = 1, $iMax = count($headerrow); $i < $iMax; $i++) {
-                            $datarow2[] = "";
-                            $datarow[] = "";
-                        }
+
+                if ($finishdate < 1
+                    || $this->scoredonly && $pass !== $userdata->getScoredPass()) {
+                    continue;
+                }
+
+                if ($shown_pass > 0) {
+                    for ($i = 1, $iMax = count($headerrow); $i < $iMax; $i++) {
+                        $datarow2[] = "";
                         $datarow[] = "";
                     }
-                    $datarow2[] = $pass + 1;
-                    if (is_object($this->complete_data->getParticipant($active_id)) && is_array(
-                        $evaluated_questions = $this->complete_data->getParticipant($active_id)->getQuestions($pass)
-                    )) {
-                        $questions = $this->orderQuestions($evaluated_questions);
-                        foreach ($questions as $question) {
-                            $question_data = $this->complete_data->getParticipant($active_id)->getPass(
-                                $pass
-                            )->getAnsweredQuestionByQuestionId($question["id"]);
-                            if (is_null($question_data)) {
-                                $question_data = ['reached' => 0];
-                            }
-                            $datarow2[] = $question_data["reached"];
-                            $datarow[] = preg_replace("/<.*?>/", "", $this->complete_data->getQuestionTitle($question["id"]));
-                        }
-                    }
-                    if (($counter === 1 && $pass === 0) || $test_obj->isRandomTest()) {
-                        $rows[] = $datarow;
-                    }
-                    $datarow = array();
-                    $rows[] = $datarow2;
-                    $datarow2 = array();
+                    $datarow[] = "";
                 }
+                $datarow2[] = $pass + 1;
+                if (is_object($userdata)
+                    && is_array(
+                        $evaluated_questions = $userdata->getQuestions($pass)
+                    )
+                ) {
+                    $questions = $this->orderQuestions($evaluated_questions);
+                    foreach ($questions as $question) {
+                        $question_data = $userdata->getPass(
+                            $pass
+                        )->getAnsweredQuestionByQuestionId($question["id"]);
+                        if (is_null($question_data)) {
+                            $question_data = ['reached' => 0];
+                        }
+                        $datarow2[] = $question_data["reached"];
+                        $datarow[] = preg_replace("/<.*?>/", "", $this->complete_data->getQuestionTitle($question["id"]));
+                    }
+                }
+                if (($counter === 1 && $shown_pass === 0) || $test_obj->isRandomTest()) {
+                    $rows[] = $datarow;
+                }
+                $datarow = [];
+
+                $rows[] = $datarow2;
+                $datarow2 = [];
+                $shown_pass++;
             }
             $counter++;
         }

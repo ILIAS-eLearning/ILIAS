@@ -23,7 +23,6 @@ declare(strict_types=1);
  */
 class ilExcelTestExport extends ilTestExportAbstract
 {
-    protected bool $scoredonly;
     protected ilAssExcelFormatHelper $worksheet;
 
     public function __construct(
@@ -36,7 +35,7 @@ class ilExcelTestExport extends ilTestExportAbstract
     ) {
         $this->scoredonly = $scoredonly;
         $this->worksheet = new ilAssExcelFormatHelper();
-        parent::__construct($test_obj, $filter_key_participants, $filtertext, $passedonly, $lng);
+        parent::__construct($test_obj, $filter_key_participants, $filtertext, $passedonly, $scoredonly, $lng);
     }
 
     public function withResultsPage(): self
