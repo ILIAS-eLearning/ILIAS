@@ -26,8 +26,8 @@ use ILIAS\UI\Implementation\Crawler\ExamplesYamlParser;
 class TestRailXMLWriter
 {
     use TestrailCaseIds;
-    protected const SHOW = 'anzeigen';
-    protected const VALIDATE = 'validieren';
+    protected const SHOW = 'show';
+    protected const VALIDATE = 'validate';
     protected const BASE = 'UIBASE';
     protected const OPEN = 'open';
     protected const PREPARE = 'prepare';
