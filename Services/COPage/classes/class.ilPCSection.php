@@ -197,7 +197,7 @@ class ilPCSection extends ilPageContent
     public function getPermissionRefId(): int
     {
         $id = explode("_", $this->getAttribute("PermissionRefId"));
-        if (in_array($id[1], array("", 0, IL_INST_ID))) {
+        if (isset($id[3]) && in_array($id[1], array("", 0, IL_INST_ID))) {
             return (int) $id[3];
         }
         return 0;
