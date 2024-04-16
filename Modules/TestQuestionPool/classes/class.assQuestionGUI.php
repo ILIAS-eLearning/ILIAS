@@ -234,20 +234,11 @@ abstract class assQuestionGUI
                     case 'addGIT':
                         $this->$cmd();
                         break;
+                    case 'save':
+                    case 'saveReturn':
                     case 'editQuestion':
-                        $this->tpl->addOnloadCode("
-                            let form = document.querySelector('#ilContentContainer form');
-                            let button = form.querySelector('input[name=\"cmd[save]\"]');
-                            if (form && button) {
-                                form.addEventListener('keydown', function (e) {
-                                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
-                                        e.preventDefault();
-                                        form.requestSubmit(button);
-                                    }
-                                })
-                            }
-                        ");
-                        $this->editQuestion();
+                        $this->addSaveOnEnterOnLoadCode();
+                        $this->$cmd();
                         break;
                     default:
                         if (method_exists($this, $cmd)) {
@@ -2046,4 +2037,19 @@ abstract class assQuestionGUI
         $this->parent_type_is_lm = $flag;
     }
 
+    protected function addSaveOnEnterOnLoadCode(): void
+    {
+        $this->tpl->addOnloadCode("
+            let form = document.querySelector('#ilContentContainer form');
+            let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
+    }
 }
