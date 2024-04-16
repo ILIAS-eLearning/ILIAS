@@ -52,6 +52,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     protected function callSpecialQuestionCommands(string $cmd): void
     {
         if (preg_match('/suggestrange_(\$r\d+)/', $cmd, $matches)) {
+            $this->addSaveOnEnterOnLoadCode();
             $this->suggestRange($matches[1]);
         }
     }
@@ -736,6 +737,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function parseQuestion(): void
     {
         $this->writePostData();
+        $this->addSaveOnEnterOnLoadCode();
         $this->editQuestion();
     }
 
