@@ -2672,6 +2672,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         while ($row = $this->db->fetchAssoc($result)) {
                             $tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
 
+                            if (
+                                !isset($row["question_fi"], $row["points"], $row["sequence"]) ||
+                                !is_numeric($row["question_fi"]) || !is_numeric($row["points"]) || !is_numeric($row["sequence"])
+                            ) {
+                                continue;
+                            }
+
                             $data->getParticipant($active_id)->addQuestion(
                                 (int) $row["original_id"],
                                 (int) $row["question_fi"],
