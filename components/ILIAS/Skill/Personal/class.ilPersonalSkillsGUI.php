@@ -68,7 +68,6 @@ class ilPersonalSkillsGUI
      * @var int[]
      */
     protected array $trigger_objects_filter = [];
-    protected string $intro_text = "";
 
     /**
      * @var string[]
@@ -293,16 +292,6 @@ class ilPersonalSkillsGUI
     public function setTriggerObjectsFilter(array $trigger_objects_filter): void
     {
         $this->trigger_objects_filter = $trigger_objects_filter;
-    }
-
-    public function setIntroText(string $a_val): void
-    {
-        $this->intro_text = $a_val;
-    }
-
-    public function getIntroText(): string
-    {
-        return $this->intro_text;
     }
 
     /**
@@ -1421,14 +1410,6 @@ class ilPersonalSkillsGUI
             }
         }
 
-        $intro_html = "";
-        if ($this->getIntroText() != "") {
-            $pan = ilPanelGUI::getInstance();
-            $pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
-            $pan->setBody($this->getIntroText());
-            $intro_html = $pan->getHTML();
-        }
-
         //		$this->setTabs("list_skills");
 
         if ($a_user_id == 0) {
@@ -1502,15 +1483,16 @@ class ilPersonalSkillsGUI
         $all_chart_html = $this->getBarChartHTML($bc_skills);
 
         if (!empty($all_chart_html)) {
-            $pan = ilPanelGUI::getInstance();
-            $pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
-            $pan->setBody($all_chart_html);
-            $all_chart_html = $pan->getHTML();
+            $pan = $this->ui_fac->panel()->standard(
+                $lng->txt("skmg_bar_charts"),
+                $this->ui_fac->legacy($all_chart_html)
+            );
+            $all_chart_html = $this->ui_ren->render($pan);
         }
 
         // list skills
 
-        return $intro_html . $all_chart_html . $html;
+        return $all_chart_html . $html;
     }
 
     /**
