@@ -18,24 +18,23 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\UserGUIRequest;
 use ILIAS\DI\LoggingServices;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Component\Input\Field\Password;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
+use ILIAS\User\UserGUIRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * GUI class for personal profile
- * @author Alexander Killing <killing@leifos.de>
+ * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI
  */
 class ilPersonalSettingsGUI
 {
     private ilPropertyFormGUI $form;
-    private string $entered_new_password;
-    private string $entered_current_password;
-    private string $password_error;
-    private ilUserDefinedFields $user_defined_fields;
-    private string $upload_error;
     private UserGUIRequest $request;
     private ilGlobalTemplateInterface $tpl;
     private UIFactory $ui_factory;
@@ -54,15 +53,12 @@ class ilPersonalSettingsGUI
     private ilStyleDefinition $style_definition;
     private ilNavigationHistory $navigation_history;
     private ilUserSettingsConfig $user_settings_config;
-
     private ilUserStartingPointRepository $starting_point_repository;
 
     public function __construct()
     {
-        /** @var ILIAS\DI\Container $DIC */
+        /* @var ILIAS\DI\Container $DIC */
         global $DIC;
-
-        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
         $this->tpl = $DIC['tpl'];
         $this->ui_factory = $DIC['ui.factory'];
@@ -80,8 +76,6 @@ class ilPersonalSettingsGUI
         $this->rbac_system = $DIC['rbacsystem'];
         $this->style_definition = $DIC['styleDefinition'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
-        $this->upload_error = '';
-        $this->password_error = '';
         $this->lng->loadLanguageModule('user');
         $this->ctrl->saveParameter($this, 'user_page');
 
@@ -101,8 +95,6 @@ class ilPersonalSettingsGUI
             $DIC['rbacsystem'],
             $this->settings
         );
-        $this->entered_new_password = $this->request->getNewPassword();
-        $this->entered_current_password = $this->request->getCurrentPassword();
     }
 
     /**
@@ -122,11 +114,12 @@ class ilPersonalSettingsGUI
                 $this->tabs->activateTab('mail_settings');
                 $this->setHeader();
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
-                break;
 
+                break;
             default:
                 $cmd = $this->ctrl->getCmd('showGeneralSettings');
                 $this->$cmd();
+
                 break;
         }
     }
@@ -135,8 +128,8 @@ class ilPersonalSettingsGUI
     {
         $this->help->setScreenIdComponent('user');
 
-        $showPassword = $a_cmd == 'showPassword';
-        $showGeneralSettings = $a_cmd == 'showGeneralSettings';
+        $showPassword = $a_cmd === 'showPassword';
+        $showGeneralSettings = $a_cmd === 'showGeneralSettings';
 
         $this->tabs->addTarget(
             'general_settings',
@@ -158,8 +151,8 @@ class ilPersonalSettingsGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
-            && $this->settings->get('show_mail_settings')) {
+        if ($this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) &&
+            $this->settings->get('show_mail_settings')) {
             $this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
 
             $this->tabs->addTarget(
@@ -186,7 +179,7 @@ class ilPersonalSettingsGUI
     }
 
     public function showPassword(
-        bool $a_no_init = false,
+        Form $form = null,
         bool $hide_form = false
     ): void {
         $this->initSubTabs('showPersonalData');
@@ -203,63 +196,81 @@ class ilPersonalSettingsGUI
             $this->tpl->setOnScreenMessage('info', sprintf($msg, $password_age));
         }
 
-        if (!$a_no_init && !$hide_form) {
-            $this->initPasswordForm();
+        if (!$form && !$hide_form) {
+            $form = $this->getPasswordForm();
         }
-        $this->tpl->setContent(!$hide_form ? $this->form->getHTML() : '');
+        $this->tpl->setContent(!$hide_form ? $this->ui_renderer->render($form) : '');
         $this->tpl->printToStdout();
     }
 
-    public function initPasswordForm(): void
-    {
-        $this->form = new ilPropertyFormGUI();
-
+    public function getPasswordForm(
+        ServerRequestInterface $request = null,
+        array $errors = []
+    ): Form {
+        $items = [];
         if ($this->allowPasswordChange()) {
             $pw_info_set = false;
-            if ($this->user->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
-                // current password
-                $cpass = new ilPasswordInputGUI($this->lng->txt('current_password'), 'current_password');
-                $cpass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-                $cpass->setRetype(false);
-                $cpass->setSkipSyntaxCheck(true);
+            if ((int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_LOCAL) {
+                $cpass = $this->ui_factory->input()->field()->password(
+                    $this->lng->txt('current_password'),
+                    ilSecuritySettingsChecker::getPasswordRequirementsInfo()
+                );
+
                 $pw_info_set = true;
-                // only if a password exists.
                 if ($this->user->getPasswd()) {
-                    $cpass->setRequired(true);
+                    $cpass = $cpass->withRequired(true);
                 }
-                $this->form->addItem($cpass);
+                $cpass = $cpass->withRevelation(true);
+                $cpass_error = $errors['current_password'] ?? [];
+                if ($cpass_error !== []) {
+                    $cpass = $cpass->withError(implode('<br>', $cpass_error));
+                }
+
+                $items['current_password'] = $cpass;
             }
 
             // new password
-            $ipass = new ilPasswordInputGUI($this->lng->txt('desired_password'), 'new_password');
+            $ipass = $this->ui_factory->input()->field()->password(
+                $this->lng->txt('desired_password'),
+            );
             if ($pw_info_set === false) {
-                $ipass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
+                $ipass = $ipass->withByline(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             }
-            $ipass->setRequired(true);
-            $ipass->setUseStripSlashes(false);
-
-            $this->form->addItem($ipass);
-            $this->form->addCommandButton('savePassword', $this->lng->txt('save'));
+            $ipass = $ipass->withRequired(true);
+            $ipass = $ipass->withRevelation(true);
+            $ipass_error = $errors['new_password'] ?? [];
+            if ($ipass_error !== []) {
+                $ipass = $ipass->withError(implode('<br>', $ipass_error));
+            }
+            $items['new_password'] = $ipass;
 
             switch ($this->user->getAuthMode(true)) {
                 case ilAuthUtils::AUTH_LOCAL:
-                    $this->form->setTitle($this->lng->txt('chg_password'));
-                    break;
+                    $title = $this->lng->txt('chg_password');
 
+                    break;
                 case ilAuthUtils::AUTH_SHIBBOLETH:
                 case ilAuthUtils::AUTH_CAS:
                     if (ilDAVActivationChecker::_isActive()) {
-                        $this->form->setTitle($this->lng->txt('chg_ilias_and_webfolder_password'));
+                        $title = $this->lng->txt('chg_ilias_and_webfolder_password');
                     } else {
-                        $this->form->setTitle($this->lng->txt('chg_ilias_password'));
+                        $title = $this->lng->txt('chg_ilias_password');
                     }
+
                     break;
                 default:
-                    $this->form->setTitle($this->lng->txt('chg_ilias_password'));
+                    $title = $this->lng->txt('chg_ilias_password');
+
                     break;
             }
-            $this->form->setFormAction($this->ctrl->getFormAction($this));
+            $section = $this->ui_factory->input()->field()->section($items, $title);
+            $items = ['password' => $section];
         }
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getLinkTarget($this, 'savePassword'),
+            $items
+        )->withSubmitLabel($this->lng->txt('save'));
     }
 
     /**
@@ -267,7 +278,7 @@ class ilPersonalSettingsGUI
      */
     protected function allowPasswordChange(): bool
     {
-        if (\ilSession::get('used_external_auth_mode')) {
+        if (ilSession::get('used_external_auth_mode')) {
             return false;
         }
 
@@ -276,57 +287,74 @@ class ilPersonalSettingsGUI
             return true;
         }
 
-        return \ilAuthUtils::isPasswordModificationHidden()
-            && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired());
+        return ilAuthUtils::isPasswordModificationHidden() &&
+            ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired());
     }
 
     public function savePassword(): void
     {
         if (!$this->allowPasswordChange()) {
             $this->ctrl->redirect($this, 'showPersonalData');
+
             return;
         }
 
-        $this->initPasswordForm();
-        if ($this->form->checkInput()) {
-            $cp = $this->form->getItemByPostVar('current_password');
-            $np = $this->form->getItemByPostVar('new_password');
+        $form = $this->getPasswordForm()->withRequest($this->request->getRequest());
+        $section = $form->getInputs()['password'];
+        /** @var Password $cp
+         * @var Password $np
+         */
+        $cp = $section->getInputs()['current_password'];
+        $np = $section->getInputs()['new_password'];
+        $errors = ['current_password' => [], 'new_password' => []];
+
+        $entered_current_password = $cp->getValue();
+        $entered_new_password = $np->getValue();
+
+        if (!$form->getError()) {
+            $data = $form->getData();
+            /** @var Section $section */
             $error = false;
 
-            if ($this->user->getAuthMode(true) == ilAuthUtils::AUTH_LOCAL) {
-                if (!ilUserPasswordManager::getInstance()->verifyPassword($this->user, $this->entered_current_password)) {
+            if ((int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_LOCAL) {
+                if (!ilUserPasswordManager::getInstance()->verifyPassword(
+                    $this->user,
+                    $entered_current_password
+                )) {
                     $error = true;
-                    $cp->setAlert($this->lng->txt('passwd_wrong'));
+                    $errors['current_password'][] = $this->lng->txt('passwd_wrong');
                 }
             }
 
-            if (!ilSecuritySettingsChecker::isPassword($this->entered_new_password, $custom_error)) {
+            if (!ilSecuritySettingsChecker::isPassword($entered_new_password, $custom_error)) {
                 $error = true;
-                if ($custom_error != '') {
-                    $np->setAlert($custom_error);
+                if ($custom_error !== '') {
+                    $errors['new_password'][] = $custom_error;
                 } else {
-                    $np->setAlert($this->lng->txt('passwd_invalid'));
+                    $errors['new_password'][] = $this->lng->txt('passwd_invalid');
                 }
             }
             $error_lng_var = '';
             if (!ilSecuritySettingsChecker::isPasswordValidForUserContext(
-                $this->entered_new_password,
+                $entered_new_password,
                 $this->user,
                 $error_lng_var
             )) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-                $np->setAlert($this->lng->txt($error_lng_var));
+                $errors['new_password'][] = $this->lng->txt($error_lng_var);
                 $error = true;
             }
-            if (($this->user->isPasswordExpired() || $this->user->isPasswordChangeDemanded())
-                && $this->entered_current_password == $this->entered_new_password) {
+            if (
+                $entered_current_password === $entered_new_password &&
+                ($this->user->isPasswordExpired() || $this->user->isPasswordChangeDemanded())
+            ) {
                 $error = true;
-                $np->setAlert($this->lng->txt('new_pass_equals_old_pass'));
+                $errors['new_password'][] = $this->lng->txt('new_pass_equals_old_pass');
             }
 
             if (!$error) {
-                $this->user->resetPassword($this->entered_new_password, $this->entered_new_password);
-                if ($this->entered_current_password != $this->entered_new_password) {
+                $this->user->resetPassword($entered_new_password, $entered_new_password);
+                if ($entered_current_password !== $entered_new_password) {
                     $this->user->setLastPasswordChangeToNow();
                     $this->user->setPasswordPolicyResetStatus(false);
                     $this->user->update();
@@ -339,13 +367,14 @@ class ilPersonalSettingsGUI
                     ilUtil::redirect($target);
                 } else {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
-                    $this->showPassword(true, true);
+                    $this->showPassword(null, true);
+
                     return;
                 }
             }
         }
-        $this->form->setValuesByPost();
-        $this->showPassword(true);
+
+        $this->showPassword($this->getPasswordForm($this->request->getRequest(), $errors));
     }
 
     public function workWithUserSetting(string $setting): bool
@@ -401,14 +430,17 @@ class ilPersonalSettingsGUI
 
         // skin/style
         if ($this->userSettingVisible('skin_style')) {
-            $skins = $this->style_definition->getAllSkins();
+            $skins = $this->style_definition::getAllSkins();
             if (is_array($skins)) {
                 $si = new ilSelectInputGUI($this->lng->txt('skin_style'), 'skin_style');
 
                 $options = [];
                 foreach ($skins as $skin) {
                     foreach ($skin->getStyles() as $style) {
-                        if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId()) || $style->isSubstyle()) {
+                        if (!ilSystemStyleSettings::_lookupActivatedStyle(
+                            $skin->getId(),
+                            $style->getId()
+                        ) || $style->isSubstyle()) {
                             continue;
                         }
 
@@ -429,7 +461,7 @@ class ilPersonalSettingsGUI
         if ($this->userSettingVisible('hits_per_page')) {
             $si = new ilSelectInputGUI($this->lng->txt('hits_per_page'), 'hits_per_page');
 
-            $hits_options = [10,15,20,30,40,50,100,9999];
+            $hits_options = [10, 15, 20, 30, 40, 50, 100, 9999];
             $options = [];
 
             foreach ($hits_options as $hits_option) {
@@ -455,7 +487,6 @@ class ilPersonalSettingsGUI
         $lv->setValue($last_visited);
         $this->form->addItem($lv);
 
-
         if (ilSessionReminder::isGloballyActivated()) {
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
             $cb->setInfo($this->lng->txt('session_reminder_info'));
@@ -463,15 +494,23 @@ class ilPersonalSettingsGUI
             $cb->setChecked((bool) $this->user->getPref('session_reminder_enabled'));
 
             $expires = ilSession::getSessionExpireValue();
-            $lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
-            $lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilDatePresentation::secondsToString($expires, true)));
+            $lead_time_gui = new ilNumberInputGUI(
+                $this->lng->txt('session_reminder_lead_time'),
+                'session_reminder_lead_time'
+            );
+            $lead_time_gui->setInfo(
+                sprintf(
+                    $this->lng->txt('session_reminder_lead_time_info'),
+                    ilDatePresentation::secondsToString($expires, true)
+                )
+            );
 
             $min_value = ilSessionReminder::MIN_LEAD_TIME;
             $max_value = max($min_value, ($expires / 60) - 1);
 
             $current_user_value = $this->user->getPref('session_reminder_lead_time');
             if ($current_user_value < $min_value ||
-               $current_user_value > $max_value) {
+                $current_user_value > $max_value) {
                 $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
             }
             $value = min(
@@ -555,8 +594,10 @@ class ilPersonalSettingsGUI
                 if ($start_ref_id) {
                     $start_obj_id = ilObject::_lookupObjId($start_ref_id);
                     if ($start_obj_id) {
-                        $repobj_id->setInfo($this->lng->txt('obj_' . ilObject::_lookupType($start_obj_id)) .
-                            ': ' . ilObject::_lookupTitle($start_obj_id));
+                        $repobj_id->setInfo(
+                            $this->lng->txt('obj_' . ilObject::_lookupType($start_obj_id)) .
+                            ': ' . ilObject::_lookupTitle($start_obj_id)
+                        );
                     }
                 }
             }
@@ -575,7 +616,7 @@ class ilPersonalSettingsGUI
         if ($this->form->checkInput()
             && $this->checkPersonalStartingPoint()) {
             if ($this->workWithUserSetting('skin_style')) {
-                //set user skin and style
+                // set user skin and style
                 if ($this->form->getInput('skin_style') != '') {
                     $sknst = explode(':', $this->form->getInput('skin_style'));
 
@@ -612,7 +653,10 @@ class ilPersonalSettingsGUI
 
             if (ilSessionReminder::isGloballyActivated()) {
                 $this->user->setPref('session_reminder_enabled', $this->form->getInput('session_reminder_enabled'));
-                $this->user->setPref('session_reminder_lead_time', (string) $this->form->getInput('session_reminder_lead_time'));
+                $this->user->setPref(
+                    'session_reminder_lead_time',
+                    (string) $this->form->getInput('session_reminder_lead_time')
+                );
             }
 
             if ($this->starting_point_repository->isPersonalStartingPointEnabled()) {
@@ -635,7 +679,11 @@ class ilPersonalSettingsGUI
             $user_settings->setTimeFormat((int) $this->form->getInput('time_format'));
             $user_settings->save();
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txtlng('common', 'msg_obj_modified', $this->user->getLanguage()), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txtlng('common', 'msg_obj_modified', $this->user->getLanguage()),
+                true
+            );
 
             $this->ctrl->redirect($this, 'showGeneralSettings');
         }
@@ -771,7 +819,6 @@ class ilPersonalSettingsGUI
 
         $message = $ntf->composeAndGetMessage($this->user->getId(), null, 'read', true);
         $subject = $this->lng->txt('user_delete_own_account_email_subject');
-
 
         // send notification
         $user_email = $this->user->getEmail();
