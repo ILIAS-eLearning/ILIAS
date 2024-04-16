@@ -442,7 +442,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         int $a_term_id = 0,
         bool $a_get_html = false,
         bool $render_term = true,
-        string $a_page_mode = ilPageObjectGUI::PRESENTATION
+        string $a_page_mode = ilPageObjectGUI::PRESENTATION,
+        bool $render_page_container = true
     ): string {
         $ilUser = $this->user;
         $ilAccess = $this->access;
@@ -498,6 +499,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         }
 
         $def_tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
+
+        if ($render_page_container) {
+            $def_tpl->touchBlock("page_container_1");
+            $def_tpl->touchBlock("page_container_2");
+        }
 
         if ($render_term) {
             $def_tpl->setVariable("TXT_TERM", $term->getTerm());
