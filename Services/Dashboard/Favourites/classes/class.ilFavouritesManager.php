@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Manages favourites, currently the interface for other components, needs discussion
  *
