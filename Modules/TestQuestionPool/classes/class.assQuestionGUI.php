@@ -2114,6 +2114,9 @@ abstract class assQuestionGUI
         $this->tpl->addOnloadCode("
             let form = document.querySelector('#ilContentContainer form');
             let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (button === null) {
+                button = form.querySelector('input[name=\"cmd[saveFQ]\"]');
+            };
             if (form && button) {
                 form.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' && e.target.type !== 'textarea') {
