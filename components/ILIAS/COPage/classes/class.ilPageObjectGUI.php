@@ -1146,7 +1146,6 @@ class ilPageObjectGUI
             if ($this->getEnabledPageFocus()) {
                 $tpl->touchBlock("page_focus");
             }
-
             // presentation
             if ($this->isPageContainerToBeRendered()) {
                 $tpl->touchBlock("page_container_1");
