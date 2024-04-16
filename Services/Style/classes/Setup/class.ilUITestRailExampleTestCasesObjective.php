@@ -50,7 +50,9 @@ class ilUITestRailExampleTestCasesObjective extends Setup\Artifact\BuildArtifact
 
         $path = __DIR__ . '/templates/testrail.case.xml';
         $tpl = new ilTemplate($path, true, true);
-        $testcases = new TestRailXMLWriter($tpl);
+        $parser = new Crawler\ExamplesYamlParser();
+        $testcases = new TestRailXMLWriter($tpl, $parser);
+
         $environment = $environment->withResource(self::TESTCASEWRITER, $testcases);
 
         parent::achieve($environment);
