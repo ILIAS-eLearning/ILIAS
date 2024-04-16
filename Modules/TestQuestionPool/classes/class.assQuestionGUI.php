@@ -219,23 +219,8 @@ abstract class assQuestionGUI
                     $this->suggestedsolution();
                     return;
                 }
-
-                if ($cmd === 'editQuestion') {
-                    $this->tpl->addOnloadCode("
-                            let form = document.querySelector('#ilContentContainer form');
-                            let button = form.querySelector('input[name=\"cmd[save]\"]');
-                            if (button === null) {
-                                button = form.querySelector('input[name=\"cmd[saveFQ]\"]');
-                            };
-                            if (form && button) {
-                                form.addEventListener('keydown', function (e) {
-                                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
-                                        e.preventDefault();
-                                        form.requestSubmit(button);
-                                    }
-                                })
-                            }
-                        ");
+                if (in_array($cmd, ['save', 'saveReturn', 'editQuestion'])) {
+                    $this->addSaveOnEnterOnLoadCode();
                     $this->editQuestion();
                     return;
                 }
@@ -2122,5 +2107,21 @@ abstract class assQuestionGUI
             true,
             self::ALLOWED_PLAIN_TEXT_TAGS
         );
+    }
+
+    protected function addSaveOnEnterOnLoadCode(): void
+    {
+        $this->tpl->addOnloadCode("
+            let form = document.querySelector('#ilContentContainer form');
+            let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }
+        ");
     }
 }
