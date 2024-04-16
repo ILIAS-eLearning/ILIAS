@@ -101,7 +101,7 @@ class ilTermListTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("obj_glo"));
         }
 
-        $this->addColumn($this->lng->txt("actions"), "", "1");
+        $this->addColumn($this->lng->txt("actions"));
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
