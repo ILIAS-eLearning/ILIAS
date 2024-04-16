@@ -100,7 +100,7 @@ class ilTermListTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("obj_glo"));
         }
 
-        $this->addColumn("", "", "1");
+        $this->addColumn($this->lng->txt("actions"));
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -204,7 +204,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", "");
 
                 $list->setId("act_term_" . $a_set["id"]);
-                $list->setListTitle($this->lng->txt("actions"));
+                $list->setListTitle("");
                 $this->tpl->setVariable("ACTIONS", $list->getHTML());
             }
         }
