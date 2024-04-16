@@ -13,7 +13,7 @@ refactoring.
 - Move all used UI-Elements to Kitchensink
 - Removal of static methods
 - Consolidation of ilObject and ilObject2 as well as ilObjectGUI and ilObject2GUI
-- Provide individual iitles for all views of an object in coordination with `ilCtrl`
+- Provide individual Titles for all views of an object in coordination with `ilCtrl`
 and `GlobalScreen`. Right now many views don't have an individual and distinguishable
 title. This is not an issue that can be solved by the object alone, but in order to
 not loose sight of it, it is put on this ROADMAP.
