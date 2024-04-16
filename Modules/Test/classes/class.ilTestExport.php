@@ -168,7 +168,7 @@ abstract class ilTestExport
         fwrite($file, $data);
         fclose($file);
 
-        $worksheet = (new ilExcelTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', true, false))
+        $worksheet = (new ilExcelTestExport($this->test_obj, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
             ->withResultsPage()
             ->withUserPages()
             ->getContent();
