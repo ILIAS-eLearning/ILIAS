@@ -63,6 +63,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
                 $columns,
                 $this
             )
+            ->withId(self::class . '_' . $this->mailing_list->getId())
             ->withActions($actions)
             ->withRequest($this->request);
     }

@@ -71,6 +71,7 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 $columns,
                 $this
             )
+            ->withId(self::class)
             ->withActions($actions)
             ->withRequest($this->request);
     }
