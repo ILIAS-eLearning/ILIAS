@@ -572,7 +572,8 @@ class ilPersonalSettingsGUI
     public function saveGeneralSettings(): void
     {
         $this->initGeneralSettingsForm();
-        if ($this->form->checkInput()) {
+        if ($this->form->checkInput()
+            && $this->checkPersonalStartingPoint()) {
             if ($this->workWithUserSetting('skin_style')) {
                 //set user skin and style
                 if ($this->form->getInput('skin_style') != '') {
@@ -641,6 +642,22 @@ class ilPersonalSettingsGUI
 
         $this->form->setValuesByPost();
         $this->showGeneralSettings(true);
+    }
+
+    private function checkPersonalStartingPoint(): bool
+    {
+        if (!$this->starting_point_repository->isPersonalStartingPointEnabled()
+            || (int) $this->form->getInput('usr_start') !== ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+            return true;
+        }
+
+        $ref_id = $this->form->getInput('usr_start_ref_id');
+        if (!is_numeric($ref_id) || !ilObject::_exists((int) $ref_id, true)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_ref_id_not_exist'), true);
+            return false;
+        }
+
+        return true;
     }
 
     protected function deleteOwnAccountStep1(): void
