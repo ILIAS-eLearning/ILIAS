@@ -149,9 +149,13 @@ class ilTestEvaluationData
                     $this->getTest()->buildName($row['usr_id'], $row['firstname'], $row['lastname'], $row['title'])
                 );
 
-                $this->getParticipant($row['active_fi'])->setLogin($row['login']);
+                if ($row['login'] !== null) {
+                    $this->getParticipant($row['active_fi'])->setLogin($row['login']);
+                }
 
-                $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
+                if ($row['usr_id'] !== null) {
+                    $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
+                }
 
                 $this->getParticipant($row['active_fi'])->setSubmitted((bool) $row['submitted']);
 
