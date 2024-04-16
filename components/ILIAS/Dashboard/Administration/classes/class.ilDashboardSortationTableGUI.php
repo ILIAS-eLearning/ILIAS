@@ -23,17 +23,17 @@ use ILIAS\UI\Renderer;
 
 class ilDashboardSortationTableGUI extends ilTable2GUI
 {
-    private Renderer $uiRenderer;
-    private Factory $uiFactory;
-    private ilPDSelectedItemsBlockViewSettings $viewSettings;
-    private ilDashboardSidePanelSettingsRepository $side_panel_settings;
+    protected readonly Renderer $ui_renderer;
+    protected readonly Factory $ui_factory;
+    protected readonly ilPDSelectedItemsBlockViewSettings $view_settings;
+    protected readonly ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjectGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($DIC->user());
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings($DIC->user());
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->lng->loadLanguageModule('mme');
@@ -58,17 +58,17 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     public function initData(): void
     {
         $data[] = [
-            'position' => $this->uiRenderer->render(
-                $this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt('dash_main_panel'))
+            'position' => $this->ui_renderer->render(
+                $this->ui_factory->divider()->horizontal()->withLabel($this->lng->txt('dash_main_panel'))
             ),
             'title' => '',
             'active_checkbox' => ''
         ];
 
         $position = 0;
-        foreach ($this->viewSettings->getViewPositions() as $presentation_view) {
+        foreach ($this->view_settings->getViewPositions() as $presentation_view) {
             $presentation_cb = new ilCheckboxInputGUI('', 'main_panel[enable][' . $presentation_view . ']');
-            $presentation_cb->setChecked($this->viewSettings->isViewEnabled($presentation_view));
+            $presentation_cb->setChecked($this->view_settings->isViewEnabled($presentation_view));
             $presentation_cb->setValue('1');
             $presentation_cb->setDisabled(
                 $presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT
@@ -80,14 +80,14 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
 
             $data[] = [
                 'position' => $position_input->render(),
-                'title' => $this->lng->txt('dash_enable_' . $this->viewSettings->getViewName($presentation_view)),
+                'title' => $this->lng->txt('dash_enable_' . $this->view_settings->getViewName($presentation_view)),
                 'active_checkbox' => $presentation_cb->render()
             ];
         }
 
         $data[] = [
-            'position' => $this->uiRenderer->render(
-                $this->uiFactory->divider()->horizontal()->withLabel($this->lng->txt('dash_side_panel'))
+            'position' => $this->ui_renderer->render(
+                $this->ui_factory->divider()->horizontal()->withLabel($this->lng->txt('dash_side_panel'))
             ),
             'title' => '',
             'active_checkbox' => ''

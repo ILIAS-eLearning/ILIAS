@@ -28,12 +28,12 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 
     public function initViewSettings(): void
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+        $this->view_settings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
             ilPDSelectedItemsBlockConstants::VIEW_MY_STUDYPROGRAMME
         );
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
     }
 
     public function emptyHandling(): string
@@ -107,7 +107,7 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
         return $this->visible_on_pd_mode;
     }
 
-    public function getBlockType(): string
+    final public function getBlockType(): string
     {
         return 'pdprg';
     }
@@ -116,7 +116,7 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
     {
     }
 
-    public function removeMultipleEnabled(): bool
+    final public function removeMultipleEnabled(): bool
     {
         return false;
     }
