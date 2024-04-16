@@ -401,10 +401,13 @@ class ilUserUtil
         }
 
         if ($current === self::START_REPOSITORY_OBJ
-            && !$rbacsystem->checkAccessOfUser(
-                $ilUser->getId(),
-                'read',
-                $ref_id
+            && (
+                $ref_id === null
+                    || !$rbacsystem->checkAccessOfUser(
+                        $ilUser->getId(),
+                        'read',
+                        $ref_id
+                    )
             )
         ) {
             $tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
