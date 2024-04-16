@@ -21,6 +21,7 @@ declare(strict_types=1);
 require_once(dirname(__FILE__) . '/templates/testrail.case_ids.php');
 
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry;
+use ILIAS\UI\Implementation\Crawler\ExamplesYamlParser;
 
 class TestRailXMLWriter
 {
@@ -34,7 +35,8 @@ class TestRailXMLWriter
     protected SimpleXMLElement $xml;
 
     public function __construct(
-        protected \ilTemplate $case_tpl
+        protected \ilTemplate $case_tpl,
+        protected ExamplesYamlParser $parser
     ) {
         $this->xml = new SimpleXMLElement('<?xml version="1.0"?><sections></sections>');
     }
@@ -154,7 +156,7 @@ class TestRailXMLWriter
         $this->addCase(
             $xml_parent_node,
             $this->maybeGetCaseId($section . '/' . $component_name, self::SHOW),
-            $section . ' - ' . $component_name . ': anzeigen',
+            $section . ' - ' . $component_name . ': ' . self::SHOW,
             $preconditions,
             $steps,
             $expected
@@ -173,7 +175,7 @@ class TestRailXMLWriter
         $this->addCase(
             $xml_parent_node,
             $this->maybeGetCaseId($section . '/' . $component_name, self::VALIDATE),
-            $section . ' - ' . $component_name . ': validieren',
+            $section . ' - ' . $component_name . ': ' . self::VALIDATE,
             $preconditions,
             $steps,
             $expected
@@ -217,27 +219,9 @@ class TestRailXMLWriter
         $expected_show = '';
         foreach(array_keys($examples) as $idx => $example) {
             $expected_show = $expected_show . "\n**" . $idx + 1 . '. ' . ucfirst(str_replace('_', ' ', $example)) . '**';
-            $lines = file($examples[$example]);
-
-            $append = false;
-            $expected_txt = [];
-            foreach($lines as $line) {
-                if(str_starts_with($line, ' */')) {
-                    $append = false;
-                }
-                if($append) {
-                    $expected_txt[] = trim(substr($line, 2));
-                }
-                if(str_starts_with($line, ' * Expected Output: >')) {
-                    $append = true;
-                }
-
-            }
-            if($expected_txt !== []) {
-                $expected_show = $expected_show
-                    . "\n"
-                    . implode("\n", $expected_txt)
-                    . "\n";
+            $docs = $this->parser->parseYamlStringArrayFromFile($examples[$example]);
+            if(array_key_exists('expected output', $docs)) {
+                $expected_show .= "\n" . $docs['expected output'] . "\n";
             }
         }
         return $expected_show;
