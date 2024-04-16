@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Breadcrumbs;
 
 /**
- * Expected Output: >
- *  ILIAS zeigt Ihnen eine Reihe von klickbaren Einträgen an,
- *  die von einfachen Pfeilen (>) getrennt werden.
+ * ---
+ * description: >
+ *   Example showing how to construct Breadcrumbs with an array of Links
+ *   and extending the Breadcrumbs afterwards.
+ *
+ * expected output: >
+ *   ILIAS shows two rows of clickable links separated by simple arrows (>).
+ *   The second row has one more entry than the first one.
+ * ---
  */
 function breadcrumbs()
 {
