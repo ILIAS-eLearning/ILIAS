@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilExcelTestExport extends ilTestExportAbstract
 {
-    private bool $bestonly;
+    protected bool $scoredonly;
     protected ilAssExcelFormatHelper $worksheet;
 
     public function __construct(
@@ -31,10 +31,10 @@ class ilExcelTestExport extends ilTestExportAbstract
         string $filter_key_participants = ilTestEvaluationData::FILTER_BY_NONE,
         string $filtertext = '',
         bool $passedonly = false,
-        bool $bestonly = true,
+        bool $scoredonly = true,
         ilLanguage $lng = null
     ) {
-        $this->bestonly = $bestonly;
+        $this->scoredonly = $scoredonly;
         $this->worksheet = new ilAssExcelFormatHelper();
         parent::__construct($test_obj, $filter_key_participants, $filtertext, $passedonly, $lng);
     }
@@ -52,7 +52,7 @@ class ilExcelTestExport extends ilTestExportAbstract
 
         $datarows = $this->getDatarows($this->test_obj);
         foreach ($datarows as $row => $data) {
-            if ($this->bestonly && $row % 2 === 0) {
+            if ($this->scoredonly && $row % 2 === 0) {
                 for ($col = 0, $colMax = count($header_row); $col < $colMax; $col++) {
                     $data[$col] = "";
                 }
@@ -110,7 +110,7 @@ class ilExcelTestExport extends ilTestExportAbstract
             } else {
                 $resultsheet = $this->worksheet->addSheet($username);
             }
-            if ($this->bestonly) {
+            if ($this->scoredonly) {
                 $passes = [$userdata->getScoredPassObject()];
             } else {
                 $passes = $userdata->getPasses();
@@ -124,7 +124,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                     $passCount + 1,
                     $userdata->getName()
                 ) .
-                    (!$this->bestonly && $userdata->getScoredPass() === $passCount ? " " .
+                    (!$this->scoredonly && $userdata->getScoredPass() === $passCount ? " " .
                     $this->lng->txt("exp_best_pass") .
                     " (" . ($this->test_obj->getPassScoring() ? $this->lng->txt(
                         'tst_pass_scoring_best'
