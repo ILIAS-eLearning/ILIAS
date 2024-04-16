@@ -174,7 +174,7 @@ abstract class ilTestExportAbstract
                         $datarow[] = preg_replace("/<.*?>/", "", $this->complete_data->getQuestionTitle($question["id"]));
                     }
                 }
-                if ($counter === 1 || $test_obj->isRandomTest()) {
+                if (($counter === 1 && $shown_pass === 0) || $test_obj->isRandomTest()) {
                     $rows[] = $datarow;
                 }
                 $datarow = [];
