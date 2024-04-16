@@ -1,30 +1,30 @@
 <!-- BEGIN preconditions -->
-* Sie befinden sich auf der Test-Installation im Bereich **Administration → Layout und Navigation → Layout → Delos → Dokumentation**.
+You are in the test installation in the section **Administration → Layout and Navigation → Layout → Delos → Documentation**.
 <!-- END preconditions -->
 
 <!-- BEGIN steps_show -->
-1. ILIAS zeigt Ihnen links einen Baum mit den UI-Komponenten an.
-2. Klicken Sie auf das kleine Dreieck vor {SECTION} und dann weiter bis {CLICKPATH}.
-3. ILIAS öffnet die Dokumentation der UI-Komponente mit der Überschrift {TITLE}.
-4. Überprüfen Sie die verschiedenen Abschnitte mit der Überschrift &quot;Example&quot;.
+1. ILIAS shows the tree with the UI components on the left.
+2. Click on the small triangle in front of {SECTION} and then continue to {CLICKPATH}.
+3. ILIAS opens the documentation of the UI component with the heading {TITLE}.
+4. Check the various sections with the heading &quot;Example&quot;.
 <!-- END steps_show -->
 
 <!-- BEGIN steps_validate -->
-1. ILIAS zeigt Ihnen links einen Baum mit den UI-Komponenten an.
-2. Klicken Sie auf das kleine Dreieck vor {SECTION} und dann weiter bis {CLICKPATH}.
-3. ILIAS öffnet die Dokumentation der UI-Komponente mit der Überschrift {TITLE}.
-4. Drücken Sie **Strg + Shift + I**.
-5. Klicken Sie auf das **HTML-Validator Icon**. Klicken Sie / wählen Sie **W3C Online**. 
-6. Jetzt tunnelt die Extension das HTML der Seite zu der offiziellen Valdiator Page und bringt die Ergebnisse zurück. 
+1. ILIAS shows the tree with the UI components on the left.
+2. Click on the small triangle in front of {SECTION} and then continue to {CLICKPATH}.
+3. ILIAS opens the documentation of the UI component with the heading {TITLE}.
+4. Press **Ctrl + Shift + I**.
+5. Click on the **HTML-Validator Icon**. Click/select **W3C Online**. 
+6. Now the extension tunnels the HTML of the page to the official validator page and returns the results.
 <!-- END steps_validate -->
 
 <!-- BEGIN expected_show -->
-Es werden {EXAMPLE_COUNTER} Beispiele angezeigt.
+{EXAMPLE_COUNTER} examples are displayed.
 {EXPECTED}
 <!-- END expected_show -->
 
 <!-- BEGIN expected_validate -->
-* Sie erhalten keinen Fehler. Warnungen können Sie ignorieren, aber Sie dürfen keine Fehler erhalten.
+* You do not receive any errors. You can ignore warnings, but you must not receive any errors.
 <!-- END expected_validate -->
 
 <!-- BEGIN suite_title -->
@@ -39,44 +39,44 @@ Test cases for Kitchen Sink elements.
 <!-- END suite_description -->
 
 <!-- BEGIN suite_case_open_title -->
-UI Components in der Administration öffnen
+Open UI Components in the Administration
 <!-- END suite_case_open_title -->
 
 <!-- BEGIN suite_case_open_precond -->
-* Sie benötigen Administrationsrechte für den Bereich &quot;Layout&quot;. 
-  Wenden Sie sich ggf. an den Test-Manager unter: fabian@ilias.de
+* You need administration rights for the &quot;Layout&quot; area. 
+  If necessary, please contact the Test Manager at: fabian@ilias.de
 <!-- END suite_case_open_precond -->
 
 <!-- BEGIN suite_case_open_steps -->
-1. Öffnen Sie das Menü **Administration → Layout und Navigation → Layout**.
-2. ILIAS öffnet den Bereich **Layout** im Reiter **System-Styles**.
-3. Öffnen Sie in der Zeile **Delos** das **Aktionen**-Menü und klicken Sie auf den Eintrag **Dokumentation öffnen**.
+1. Open the menu **Administration → Layout and Navigation → Layout**.
+2. ILIAS opens the **Layout** area in the **System Styles** tab.
+3. Open the **Actions** menu in the **Delos** line and click on the **Open Documentation** entry.
 <!-- END suite_case_open_steps -->
 
 <!-- BEGIN suite_case_open_expected -->
-* ILIAS öffnet die Dokumentation der UI-Komponenten. 
-* Alle Testfälle zu den Komponenten werden in diesem Bereich durchgeführt. 
-  Sie beginnen mit der Durchführung der Testfälle immer auf diesem Screen.
+* ILIAS opens the documentation of the UI Components. 
+* All test cases for the components are executed in this area. 
+  You always start running the test cases on this screen.
 <!-- END suite_case_open_expected -->
 
 <!-- BEGIN suite_case_validate_title -->
-Vorarbeiten: HTML-Validator einrichten
+Preliminary task: Set up HTML Validator
 <!-- END suite_case_validate_title -->
 
 <!-- BEGIN suite_case_validate_precond -->
-* Sie benötigen Administrationsrechte für den Bereich &quot;Layout&quot;. 
-  Wenden Sie sich ggf. an den Test-Manager unter: fabian@ilias.de
+* You need administration rights for the &quot;Layout&quot; area. 
+  If necessary, please contact the Test Manager at: fabian@ilias.de
 <!-- END suite_case_validate_precond -->
 
 <!-- BEGIN suite_case_validate_steps -->
-1. Öffnen Sie den Firefox. 
-2. Öffnen Sie auf auf auf das Aktionsmenü oben rechts (drei kleine Linien) und dann auf den Eintrag **Add-ons and themes**. 
-3. Suchen Sie nach dem HTML Validator (von Marc Gueury). 
-4. Fügen Sie ihn zu ihrem Firefox hinzu. (klicken Sie auf den Titel und dann auf die Schaltfläche **Add to Firefox**).
-5. Berechtigen Sie den Validator auf die Dateien der besuchten Webseiten zuzugreifen. 
-6. Es erscheint ein neues kleines Icon oben rechts in Ihrem Browser. 
+1. Open Firefox. 
+2. Click on the action menu at the top right (three small lines) and then on the entry **Add-ons and themes**. 
+3. Search for HTML Validator (by Marc Gueury). 
+4. Add it to your Firefox. (Click on the title and then on the **Add to Firefox** button).
+5. Authorize the validator to access the files of the websites visited. 
+6. A small new icon will appear in the top right-hand corner of your browser.
 <!-- END suite_case_validate_steps -->
 
 <!-- BEGIN suite_case_validate_expected -->
-Wen Sie die Validtor-Extension installiert haben, setzen Sie diesen Testfall auf bestanden. 
+Once you have installed the Validtor extension, set this test case to passed.
 <!-- END suite_case_validate_expected -->
