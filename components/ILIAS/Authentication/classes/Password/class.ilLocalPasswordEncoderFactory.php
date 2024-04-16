@@ -18,14 +18,25 @@
 
 declare(strict_types=1);
 
-class ilUserPasswordEncoderFactory
+namespace ILIAS\Authentication\Password;
+
+use ilArgon2idPasswordEncoder;
+use ilBcryptPasswordEncoder;
+use ilBcryptPhpPasswordEncoder;
+use ilMd5PasswordEncoder;
+use ilPasswordEncoder;
+use ilPasswordException;
+use ilUserException;
+
+class ilLocalPasswordEncoderFactory
 {
     private ?string $default_encoder = null;
+
     /** @var array<string, ilPasswordEncoder> Array of supported encoders */
     private array $supported_encoders = [];
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])
@@ -35,6 +46,7 @@ class ilUserPasswordEncoderFactory
                 switch (strtolower($key)) {
                     case 'default_password_encoder':
                         $this->setDefaultEncoder($value);
+
                         break;
                 }
             }
@@ -44,7 +56,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>    $config
      * @return list<ilPasswordEncoder>
      * @throws ilPasswordException
      */
@@ -59,7 +71,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed> $config
      * @throws ilPasswordException
      */
     private function initEncoders(array $config): void
@@ -93,7 +105,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param list<ilPasswordEncoder> $supported_encoders
+     * @param  list<ilPasswordEncoder> $supported_encoders
      * @throws ilUserException
      */
     public function setSupportedEncoders(array $supported_encoders): void
@@ -101,10 +113,7 @@ class ilUserPasswordEncoderFactory
         $this->supported_encoders = [];
         foreach ($supported_encoders as $encoder) {
             if (!($encoder instanceof ilPasswordEncoder) || !$encoder->isSupportedByRuntime()) {
-                throw new ilUserException(sprintf(
-                    'One of the passed encoders is not valid: %s.',
-                    print_r($encoder, true)
-                ));
+                throw new ilUserException(sprintf('One of the passed encoders is not valid: %s.', print_r($encoder, true)));
             }
             $this->supported_encoders[$encoder->getName()] = $encoder;
         }
@@ -129,7 +138,8 @@ class ilUserPasswordEncoderFactory
 
         if (!$this->getDefaultEncoder()) {
             throw new ilUserException('No default encoder specified, fallback not possible.');
-        } elseif (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
+        }
+        if (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
             throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
         }
 

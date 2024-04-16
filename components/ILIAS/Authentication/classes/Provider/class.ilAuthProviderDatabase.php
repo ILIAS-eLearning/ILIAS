@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\Password\ilLocalPasswordManager;
+
 class ilAuthProviderDatabase extends ilAuthProvider
 {
     private bool $verify_password = true;
@@ -52,7 +54,7 @@ class ilAuthProviderDatabase extends ilAuthProvider
                 return false;
             }
 
-            if (!$this->verify_password || ilUserPasswordManager::getInstance()->verifyPassword($user, $this->getCredentials()->getPassword())) {
+            if (!$this->verify_password || ilLocalPasswordManager::getInstance()->verifyPassword($user, $this->getCredentials()->getPassword())) {
                 $this->getLogger()->debug('Successfully authenticated user: ' . $this->getCredentials()->getUsername());
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
                 $status->setAuthenticatedUserId($user->getId());

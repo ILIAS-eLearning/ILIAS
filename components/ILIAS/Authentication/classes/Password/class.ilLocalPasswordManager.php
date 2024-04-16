@@ -18,13 +18,23 @@
 
 declare(strict_types=1);
 
-class ilUserPasswordManager
+namespace ILIAS\Authentication\Password;
+
+use ilAuthUtils;
+use ilDBInterface;
+use ilFileUtils;
+use ilObjUser;
+use ilPasswordException;
+use ilPasswordUtils;
+use ilSession;
+use ilSetting;
+use ilUserException;
+
+class ilLocalPasswordManager
 {
     private const MIN_SALT_SIZE = 16;
-
     private static ?self $instance = null;
-
-    private ?ilUserPasswordEncoderFactory $encoderFactory = null;
+    private ?ilLocalPasswordEncoderFactory $encoderFactory = null;
     private ?ilSetting $settings = null;
     private ?ilDBInterface $db = null;
     private ?string $encoderName = null;
@@ -32,7 +42,7 @@ class ilUserPasswordManager
     /**
      * Please use the singleton method for instance creation
      * The constructor is still public because of the unit tests
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed> $config
      * @throws ilUserException
      */
     public function __construct(array $config = [])
@@ -42,32 +52,30 @@ class ilUserPasswordManager
                 switch (strtolower($key)) {
                     case 'settings':
                         $this->setSettings($value);
+
                         break;
                     case 'db':
                         $this->setDb($value);
+
                         break;
                     case 'password_encoder':
                         $this->setEncoderName($value);
+
                         break;
                     case 'encoder_factory':
                         $this->setEncoderFactory($value);
+
                         break;
                 }
             }
         }
 
         if (!$this->getEncoderName()) {
-            throw new ilUserException(sprintf(
-                '"password_encoder" must be set in %s.',
-                print_r($config, true)
-            ));
+            throw new ilUserException(sprintf('"password_encoder" must be set in %s.', print_r($config, true)));
         }
 
-        if (!($this->getEncoderFactory() instanceof ilUserPasswordEncoderFactory)) {
-            throw new ilUserException(sprintf(
-                '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
-                print_r($config, true)
-            ));
+        if (!$this->getEncoderFactory() instanceof ilLocalPasswordEncoderFactory) {
+            throw new ilUserException(sprintf('"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.', print_r($config, true)));
         }
     }
 
@@ -84,23 +92,27 @@ class ilUserPasswordManager
             return self::$instance;
         }
 
-        $password_manager = new ilUserPasswordManager(
+        $password_manager = new ilLocalPasswordManager(
             [
-                'encoder_factory' => new ilUserPasswordEncoderFactory(
+                'encoder_factory' => new ilLocalPasswordEncoderFactory(
                     [
-                        'default_password_encoder' => 'bcryptphp', // bcrypt (native PHP impl.) is still the default for the factory
-                        'memory_cost' => 19_456, // Recommended: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
+                        'default_password_encoder' => 'bcryptphp',
+                        // bcrypt (native PHP impl.) is still the default for the factory
+                        'memory_cost' => 19_456,
+                        // Recommended: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
                         'ignore_security_flaw' => true,
                         'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
-                'password_encoder' => 'argon2id', // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
+                'password_encoder' => 'argon2id',
+                // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
                 'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
                 'db' => $DIC->database(),
             ]
         );
 
         self::$instance = $password_manager;
+
         return self::$instance;
     }
 
@@ -124,12 +136,12 @@ class ilUserPasswordManager
         $this->encoderName = $encoderName;
     }
 
-    public function getEncoderFactory(): ?ilUserPasswordEncoderFactory
+    public function getEncoderFactory(): ?ilLocalPasswordEncoderFactory
     {
         return $this->encoderFactory;
     }
 
-    public function setEncoderFactory(ilUserPasswordEncoderFactory $encoderFactory): void
+    public function setEncoderFactory(ilLocalPasswordEncoderFactory $encoderFactory): void
     {
         $this->encoderFactory = $encoderFactory;
     }
@@ -159,6 +171,7 @@ class ilUserPasswordManager
         if ($this->getEncoderName() !== $encoder->getName()) {
             if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
+
                 return true;
             }
         } elseif ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
@@ -185,5 +198,20 @@ class ilUserPasswordManager
             ['integer', 'text'],
             [1, 'local']
         );
+    }
+
+    public function allowPasswordChange(ilObjUser $user): bool
+    {
+        if (ilSession::get('used_external_auth_mode')) {
+            return false;
+        }
+
+        $status = ilAuthUtils::isPasswordModificationEnabled($user->getAuthMode(true));
+        if ($status) {
+            return true;
+        }
+
+        return ilAuthUtils::isPasswordModificationHidden() &&
+            ($user->isPasswordChangeDemanded() || $user->isPasswordExpired());
     }
 }
