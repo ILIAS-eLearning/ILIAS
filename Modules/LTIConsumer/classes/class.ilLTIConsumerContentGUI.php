@@ -411,6 +411,8 @@ class ilLTIConsumerContentGUI
         $nonce = $loginData['nonce'];
         $prompt = $loginData['prompt'];
 
+        $desc = '';
+
         $ok = !empty($scope) && !empty($responsetype) && !empty($clientid) &&
             !empty($redirecturi) && !empty($loginhint) &&
             !empty($nonce) && (ilSession::get('lti_message_hint') != null);
@@ -482,8 +484,15 @@ class ilLTIConsumerContentGUI
             $desc = 'Invalid prompt';
         }
         if ($ok) {
+            ilObjLTIConsumer::getLogger()->debug("no error");
             return null;
         } else {
+            $err = "error '" . $error . "'";
+            if ($desc != '') {
+                $err .= " with description: " . $desc;
+            }
+            ilObjLTIConsumer::getLogger()->error($err);
+            ilObjLTIConsumer::getLogger()->dump($loginData);
             return $error;
         }
     }
