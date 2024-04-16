@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Panel\Listing\Standard;
 
 /**
- * Base
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Image\Standard;
 
 /**
- * Base Example for rendering an Image
+ * ---
+ * description: >
+ *   Base example for rendering an Image
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

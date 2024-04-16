@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Standard;
 
 /**
- * Example for rendering a standard Progress Meter with maximum configuration
+ * ---
+ * description: >
+ *   Example for rendering a standard Progress Meter with maximum configuration
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function maximum_configuration()
 {

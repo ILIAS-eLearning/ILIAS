@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\Input\ViewControl\Pagination;
 
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

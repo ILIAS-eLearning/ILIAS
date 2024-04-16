@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Player\Audio;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MessageBox\Success;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function success()
 {
     global $DIC;

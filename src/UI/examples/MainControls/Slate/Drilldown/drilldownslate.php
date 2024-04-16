@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\MainControls\Slate\Drilldown;
 
 use ILIAS\UI\examples\Menu\Drilldown;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function drilldownslate()
 {
     global $DIC;

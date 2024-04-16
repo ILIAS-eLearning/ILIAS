@@ -11,6 +11,12 @@ use ILIAS\Data\Order;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

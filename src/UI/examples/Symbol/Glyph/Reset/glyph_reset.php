@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Symbol\Glyph\Reset;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function glyph_reset()
 {
     global $DIC;

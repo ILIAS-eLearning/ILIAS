@@ -5,9 +5,17 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field;
 
 /**
- * Example showing an Input with an optional dedicated name which is used as NAME attribute on the rendered input.
- * This option is available for all Input/Fields. Inputs without a dedicated name will get an auto-generated name.
- * Please see the interface of withDedicatedName() for further details on naming.
+ */
+/**
+ * ---
+ * description: >
+ *   Example showing an Input with an optional dedicated name which is used as NAME attribute on the rendered input.
+ *   This option is available for all Input/Fields. Inputs without a dedicated name will get an auto-generated name.
+ *   Please see the interface of withDedicatedName() for further details on naming.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_dedicated_name()
 {

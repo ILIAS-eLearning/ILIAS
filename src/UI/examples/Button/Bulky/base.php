@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Button\Bulky;
 
-//Note the exact look of the Bulky Buttons is mostly defined by the
-//surrounding container.
+/**
+ * ---
+ * note: >
+ *   The exact look of the Bulky Buttons is mostly defined by the surrounding container.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

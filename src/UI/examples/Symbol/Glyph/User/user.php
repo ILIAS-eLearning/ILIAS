@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Symbol\Glyph\User;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function user()
 {
     global $DIC;

@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Symbol\Glyph\Filter;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function filter()
 {
     global $DIC;

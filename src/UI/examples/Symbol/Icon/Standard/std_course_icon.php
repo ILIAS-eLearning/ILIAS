@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Examples\Symbol\Icon\Standard;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function std_course_icon()
 {
     global $DIC;

@@ -14,6 +14,12 @@ if ($request_wrapper->has('async_ref') && $request_wrapper->retrieve('async_ref'
     exit();
 }
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function expandable_async_repo($ref = null)
 {
     global $DIC;

@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\Input\ViewControl\Sortation;
 
 use ILIAS\Data\Order;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

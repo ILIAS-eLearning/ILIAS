@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Group;
 
 /**
- * Example showing how groups can be used to attach transformation and constraints on
- * multiple fields at once. Note that groups do not have a defined way of outputting
- * validations errors. This is context dependant.
+ * ---
+ * description: >
+ *   Example showing how groups can be used to attach transformation and constraints on
+ *   multiple fields at once. Note that groups do not have a defined way of outputting
+ *   validations errors. This is context dependant.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

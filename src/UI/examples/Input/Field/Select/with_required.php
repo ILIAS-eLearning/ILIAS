@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Select;
 
 /**
- * Base example showing how to plug a Select into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug a Select into a form
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_required()
 {

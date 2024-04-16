@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Password;
 
 /**
- * Example of how to create and render a basic password field and attach it to a form.
+ * ---
+ * description: >
+ *   Example of how to create and render a basic password field and attach it to a form.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Standard;
 
 /**
- * Example for rendering a standard Progress Meter when the required value was reached
+ * ---
+ * description: >
+ *   Example for rendering a standard Progress Meter when the required value was reached
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function user_reached_required()
 {

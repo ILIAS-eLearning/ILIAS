@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 /**
- * A Pagination with one page only will render as empty string
+ * ---
+ * expected output: >
+ *   A Pagination with one page only will render as empty string
+ * ---
  */
 function no_pages()
 {

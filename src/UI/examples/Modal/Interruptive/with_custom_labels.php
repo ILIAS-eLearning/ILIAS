@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
 /**
- * An example showing how you can set a custom label for the
- * modals action- and cancel-button.
+ * ---
+ * description: >
+ *   An example showing how you can set a custom label for the
+ *   modals action- and cancel-button.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_custom_labels()
 {

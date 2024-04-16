@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Url;
 
 /**
- * This example shows how to create and render a basic input field and attach it to a form.
- * It does not contain any data processing.
+ * ---
+ * description: >
+ *   This example shows how to create and render a basic input field and attach it to a form.
+ *   It does not contain any data processing.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

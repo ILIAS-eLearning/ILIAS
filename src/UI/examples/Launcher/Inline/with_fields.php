@@ -9,8 +9,12 @@ use ILIAS\Data\Result;
 use ILIAS\UI\Component\Launcher\Launcher;
 
 /**
- * In this example, the Launcher is configured with inputs;
- * a Modal containing a Form will open upon clicking the launch-button.
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ *   In this example, the Launcher is configured with inputs;
+ *   a Modal containing a Form will open upon clicking the launch-button.
+ * ---
  */
 function with_fields()
 {

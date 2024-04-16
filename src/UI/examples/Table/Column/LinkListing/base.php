@@ -8,6 +8,12 @@ use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base(): string
 {
     global $DIC;

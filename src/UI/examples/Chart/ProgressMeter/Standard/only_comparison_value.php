@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Standard;
 
 /**
- * Example for rendering a standard Progress Meter with an comparison value only
+ * ---
+ * description: >
+ *   Example for rendering a standard Progress Meter with an comparison value only
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function only_comparison_value()
 {

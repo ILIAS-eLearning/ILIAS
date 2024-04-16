@@ -11,6 +11,12 @@ use ILIAS\UI\Component\Entity\Entity;
 use ILIAS\UI\Component\Listing\Entity\Mapping;
 use ILIAS\Data\Range;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;

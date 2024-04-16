@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Mini;
 
 /**
- * Example for rendering a mini Progress Meter with minimum configuration
+ * ---
+ * description: >
+ *   Example for rendering a mini Progress Meter with minimum configuration
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

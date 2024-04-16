@@ -8,6 +8,12 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Renderer;
 use ILIAS\DI\Container;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function ui(): string
 {
     global $DIC;
