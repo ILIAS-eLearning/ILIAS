@@ -1066,7 +1066,9 @@ class ilPropertyFormGUI extends ilFormGUI
     protected function checkForRequiredField(): bool
     {
         foreach ($this->items as $item) {
-            if ($item->getType() != "hidden") {
+            if ($item instanceof ilFormSectionHeaderGUI) {
+                return false;
+            } elseif ($item->getType() != "hidden") {
                 if ($this->getMode() == "subform") {
                     if (!$this->hideRequired($item->getType())) {
                         if ($item->getRequired()) {
