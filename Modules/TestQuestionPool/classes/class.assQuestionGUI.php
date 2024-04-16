@@ -221,7 +221,7 @@ abstract class assQuestionGUI
                 }
                 if (in_array($cmd, ['save', 'saveReturn', 'editQuestion'])) {
                     $this->addSaveOnEnterOnLoadCode();
-                    $this->editQuestion();
+                    $this->$cmd();
                     return;
                 }
                 if (method_exists($this, $cmd)) {
