@@ -397,10 +397,13 @@ class ilUserUtil
         }
 
         if ($current === self::START_REPOSITORY_OBJ
-            && !$rbacsystem->checkAccessOfUser(
-                $ilUser->getId(),
-                'read',
-                $ref_id
+            && (
+                $ref_id === null
+                    || !$rbacsystem->checkAccessOfUser(
+                        $ilUser->getId(),
+                        'read',
+                        $ref_id
+                    )
             )
         ) {
             $tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
@@ -459,7 +462,7 @@ class ilUserUtil
     /**
      * Get ref id of starting object
      */
-    public static function getStartingObject(): int
+    public static function getStartingObject(): ?int
     {
         global $DIC;
 
@@ -585,7 +588,7 @@ class ilUserUtil
     /**
      * Get ref id of personal starting object
      */
-    public static function getPersonalStartingObject(): int
+    public static function getPersonalStartingObject(): ?int
     {
         global $DIC;
 
