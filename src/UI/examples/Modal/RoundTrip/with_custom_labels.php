@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Modal\RoundTrip;
 
 /**
- * An example showing how you can set a custom label for the
- * modals cancel-button.
+ * ---
+ * description: >
+ *   An example showing how you can set a custom label for the
+ *   modals cancel-button.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_custom_labels()
 {

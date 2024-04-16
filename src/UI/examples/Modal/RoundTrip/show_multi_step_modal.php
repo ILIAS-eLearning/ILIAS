@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\Modal\RoundTrip;
 
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function show_multi_step_modal()
 {
     global $DIC;

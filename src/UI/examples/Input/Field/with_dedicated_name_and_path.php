@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field;
 
 /**
- * Example showing Inputs with dedicated names that are contained within a named group.
- * The name of the group is added to the 'path' and included in the name of the sub-inputs.
+ * ---
+ * description: >
+ *   Example showing Inputs with dedicated names that are contained within a named group.
+ *   The name of the group is added to the 'path' and included in the name of the sub-inputs.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_dedicated_name_and_path()
 {

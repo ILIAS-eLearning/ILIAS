@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Table\Presentation;
 
 /**
- * You can also leave out "further fields" and use alignments instead,
- * add one or more Blocks and Layouts to the content of the row and add an leading image.
+ * ---
+ * description: >
+ *   You can also leave out "further fields" and use alignments instead,
+ *   add one or more Blocks and Layouts to the content of the row and add an leading image.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base1()
 {

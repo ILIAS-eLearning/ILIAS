@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Duration;
 
 /**
- * Base example showing how to plug date-inputs into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug date-inputs into a form
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

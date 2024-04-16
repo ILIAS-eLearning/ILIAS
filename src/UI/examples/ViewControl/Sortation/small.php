@@ -4,7 +4,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
-//This can be used, when space is very scarce and the label can not be displayed
+/**
+ * ---
+ * description: >
+ *   This can be used, when space is very scarce and the label can not be displayed
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function small()
 {
     //Loading factories

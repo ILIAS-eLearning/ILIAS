@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Group;
 
 /**
- * Example showing how disabled groups can be used.
+ * ---
+ * description: >
+ *   Example showing how disabled groups can be used.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function disabled()
 {

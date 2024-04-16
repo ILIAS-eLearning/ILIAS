@@ -9,6 +9,12 @@ use Psr\Http\Message\RequestInterface;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\MainControls\MainBar;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function ui_mainbar(): string
 {
     global $DIC;

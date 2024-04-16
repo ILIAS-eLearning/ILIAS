@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\Link\Standard;
 
 use ILIAS\UI\Component\Link\Relationship;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function with_relationships()
 {
     global $DIC;

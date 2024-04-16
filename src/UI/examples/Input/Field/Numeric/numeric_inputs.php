@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Numeric;
 
 /**
- * Base example showing how to plug a numeric input into a form
+ * ---
+ * description: >
+ *   Base example showing how to plug a numeric input into a form
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function numeric_inputs()
 {

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Container\Form\Standard;
 
 /**
- * Example showing a Form with required fields. An explaining hint is displayed below the Form.
+ * ---
+ * description: >
+ *   Example showing a Form with required fields. An explaining hint is displayed below the Form.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_required_input()
 {

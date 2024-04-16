@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\ViewControl\Mode;
 
 /**
- * Base example performing a page reload if active view is changed.
+ * ---
+ * description: >
+ *   Base example performing a page reload if active view is changed.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

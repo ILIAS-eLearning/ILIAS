@@ -6,13 +6,18 @@ namespace ILIAS\UI\examples\MainControls\SystemInfo;
 
 use ILIAS\UI\Component\MainControls\ModeInfo;
 
+/**
+ * ---
+ * description: >
+ *   This example show how the UI-Elements itself looks like. For a full
+ *   example use the example of the UI-Component Layout\Page\Standard.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function long_text()
 {
-    //
-    // This example show how the UI-Elements itself looks like. For a full
-    // example use the example of the UI-Component Layout\Page\Standard.
-    //
-
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();

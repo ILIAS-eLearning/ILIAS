@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Button\Toggle;
 
 /**
- * This example provides the given button with an unavailable action. Note
- * that the disabled attribute is set in the DOM. No action must be fired, even
- * if done by keyboard
+ * ---
+ * description: >
+ *   This example provides the given button with an unavailable action. Note
+ *   that the disabled attribute is set in the DOM. No action must be fired,
+ *   even if done by keyboard.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function unavailable_action()
 {

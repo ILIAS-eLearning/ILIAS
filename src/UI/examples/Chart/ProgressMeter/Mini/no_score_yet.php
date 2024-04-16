@@ -5,7 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\Mini;
 
 /**
- * Example for rendering a mini Progress Meter when no score is given
+ * ---
+ * description: >
+ *   Example for rendering a mini Progress Meter when no score is given
+ *
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function no_score_yet()
 {

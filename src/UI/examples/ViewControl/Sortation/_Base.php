@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
-//Base example, show-casing how this control is used if firing leads to some
-//Reload of the page
+/**
+ * ---
+ * description: >
+ *   Base example, show-casing how this control is used if firing leads to some
+ *   reload of the page
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function _Base()
 {
     //Loading factories

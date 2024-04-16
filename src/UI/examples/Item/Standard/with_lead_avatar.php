@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Item\Standard;
 
 /**
- * With Lead Avatar
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_lead_avatar()
 {

@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\File;
 
 /**
- * Example of how to create and render a file input field and attach it to a form.
+ * ---
+ * description: >
+ *   Example of how to create and render a file input field and attach it to a form.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

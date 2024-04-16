@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\FixedSize;
 
 /**
- * Example for rendering a fixed size Progress Meter when a specific score was reached
+ * ---
+ * description: >
+ *   Example for rendering a fixed size Progress Meter when a specific score was reached
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function user_reached_required()
 {

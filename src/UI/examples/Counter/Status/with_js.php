@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Counter\Status;
 
 /**
- * Note, counters also offer an interface for manipulations through JS.
- * Checkout: src/UI/templates/js/Counter/counter.js for a complete spec.
+ * ---
+ * note: >
+ *   Counters also offer an interface for manipulations through JS.
+ *   Checkout src/UI/templates/js/Counter/counter.js for a complete spec.
+ * Example Usage: >
+ *   //Step 1: Get the counter Object
+ *   var counter = il.UI.counter.getCounterObject($some_jquery_object);
+ *   //Step 2: Do stuff with the counter Object
+ *   var novelty_count = counter.setNoveltyCount(3).getNoveltyCount(); //novelty count should be 3
+ *   novelty_count = counter.setNoveltyToStatus().getNoveltyCount(); //novelty count should be 0, status count 3
  *
- *
- * Example Usage:
- * //Step 1: Get the counter Object
- * var counter = il.UI.counter.getCounterObject($some_jquery_object);
- * //Step 2: Do stuff with the counter Object
- * var novelty_count = counter.setNoveltyCount(3).getNoveltyCount(); //novelty count should be 3
- * novelty_count = counter.setNoveltyToStatus().getNoveltyCount(); //novelty count should be 0, status count 3
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_js()
 {

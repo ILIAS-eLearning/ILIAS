@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\OptionalGroup;
 
 /**
- * Example showing how a dependant group (aka sub form) might be attached to a checkbox.
+ * ---
+ * description: >
+ *   Example showing how a dependant group (aka sub form) might be attached to a checkbox.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function base()
 {

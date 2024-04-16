@@ -11,8 +11,14 @@ use ILIAS\Data\Order;
 use Generator;
 
 /**
- * Example showing a data table without any data and hence no entries, which
- * will automatically display an according message.
+ * ---
+ * description: >
+ *   Example showing a data table without any data and hence no entries, which
+ *   will automatically display an according message.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function without_data(): string
 {

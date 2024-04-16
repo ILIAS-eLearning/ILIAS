@@ -6,11 +6,19 @@ namespace ILIAS\UI\examples\MainControls\SystemInfo;
 
 use ILIAS\Data\URI;
 
+/**
+ * ---
+ * description: >
+ *   This example show how the UI-Elements itself looks like. For a full
+ *   example use the example of the UI-Component Layout\Page\Standard.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function simple()
 {
     //
-    // This example show how the UI-Elements itself looks like. For a full
-    // example use the example of the UI-Component Layout\Page\Standard.
     //
 
     global $DIC;

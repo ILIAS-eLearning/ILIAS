@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Chart\ProgressMeter\FixedSize;
 
 /**
- * Example for rendering a fixed size Progress Meter with maximum configuration
+ * ---
+ * description: >
+ *   Example for rendering a fixed size Progress Meter with maximum configuration
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function maximum_configuration()
 {

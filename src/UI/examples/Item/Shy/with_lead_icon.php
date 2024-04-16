@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\Item\Shy;
 
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function with_lead_icon()
 {
     global $DIC;

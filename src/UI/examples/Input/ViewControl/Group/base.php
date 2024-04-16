@@ -8,6 +8,12 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base(): string
 {
     global $DIC;

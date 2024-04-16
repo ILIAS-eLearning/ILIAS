@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Textarea;
 
 /**
- * This example shows how to create and render a basic textarea field with minimum and maximum number of characters limit.
- * the input is attached to a form.
+ * ---
+ * description: >
+ *   This example shows how to create and render a basic textarea field with
+ *   minimum and maximum number of characters limit.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_limits()
 {
