@@ -16,12 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilFavouritesDBRepository
 {
-    /** @var array<string, bool>  */
+    /** @var array<string, bool> */
     public static array $is_desktop_item = [];
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -40,7 +42,6 @@ class ilFavouritesDBRepository
             : $tree;
     }
 
-
     // Add favourite
     public function add(int $user_id, int $ref_id): void
     {
@@ -49,19 +50,19 @@ class ilFavouritesDBRepository
         $type = ilObject::_lookupType($ref_id, true);
 
         $item_set = $db->queryF(
-            "SELECT * FROM desktop_item WHERE " .
-            "item_id = %s AND type = %s AND user_id = %s",
-            ["integer", "text", "integer"],
+            'SELECT * FROM desktop_item WHERE ' .
+            'item_id = %s AND type = %s AND user_id = %s',
+            ['integer', 'text', 'integer'],
             [$ref_id, $type, $user_id]
         );
 
         // only insert if item is not already on desktop
         if (!$db->fetchAssoc($item_set)) {
             $db->manipulateF(
-                "INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES " .
-                " (%s,%s,%s,%s)",
-                ["integer", "text", "integer", "text"],
-                [$ref_id, $type, $user_id, ""]
+                'INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ' .
+                ' (%s,%s,%s,%s)',
+                ['integer', 'text', 'integer', 'text'],
+                [$ref_id, $type, $user_id, '']
             );
         }
     }
@@ -72,13 +73,12 @@ class ilFavouritesDBRepository
         $db = $this->db;
 
         $db->manipulateF(
-            "DELETE FROM desktop_item WHERE " .
-            " item_id = %s AND user_id = %s",
-            ["integer", "integer"],
+            'DELETE FROM desktop_item WHERE ' .
+            ' item_id = %s AND user_id = %s',
+            ['integer', 'integer'],
             [$ref_id, $user_id]
         );
     }
-
 
     /**
      * Get all desktop items of user and specified type
@@ -92,77 +92,78 @@ class ilFavouritesDBRepository
         $ilDB = $this->db;
 
         if (is_null($a_types)) {
-            $item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type " .
-                " FROM desktop_item it, object_reference oref " .
-                ", object_data obj" .
-                " WHERE " .
-                "it.item_id = oref.ref_id AND " .
-                "oref.obj_id = obj.obj_id AND " .
-                "it.user_id = %s", ["integer"], [$user_id]);
+            $item_set = $ilDB->queryF('SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ' .
+                ' FROM desktop_item it, object_reference oref ' .
+                ', object_data obj' .
+                ' WHERE ' .
+                'it.item_id = oref.ref_id AND ' .
+                'oref.obj_id = obj.obj_id AND ' .
+                'it.user_id = %s', ['integer'], [$user_id]);
             $items = $all_parent_path = [];
             while ($item_rec = $ilDB->fetchAssoc($item_set)) {
-                if ($item_rec["type"] !== "rolf" &&
-                    $item_rec["type"] !== "itgr" &&
-                    $tree->isInTree((int) $item_rec["ref_id"])) { // due to bug 11508
-                    $parent_ref = $tree->getParentId((int) $item_rec["ref_id"]);
+                if ($item_rec['type'] !== 'rolf' &&
+                    $item_rec['type'] !== 'itgr' &&
+                    $tree->isInTree((int) $item_rec['ref_id'])) { // due to bug 11508
+                    $parent_ref = $tree->getParentId((int) $item_rec['ref_id']);
 
                     if (!isset($all_parent_path[$parent_ref])) {
                         if ($parent_ref > 0) {	// workaround for #0023176
                             $node = $tree->getNodeData($parent_ref);
-                            $all_parent_path[$parent_ref] = $node["title"];
+                            $all_parent_path[$parent_ref] = $node['title'];
                         } else {
-                            $all_parent_path[$parent_ref] = "";
+                            $all_parent_path[$parent_ref] = '';
                         }
                     }
 
                     $parent_path = $all_parent_path[$parent_ref];
 
-                    $title = ilObject::_lookupTitle($item_rec["obj_id"]);
-                    $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
-                    $items[$parent_path . $title . $item_rec["ref_id"]] =
+                    $title = ilObject::_lookupTitle($item_rec['obj_id']);
+                    $desc = ilObject::_lookupDescription($item_rec['obj_id']);
+                    $items[$parent_path . $title . $item_rec['ref_id']] =
                         [
-                            "ref_id" => (int) $item_rec["ref_id"],
-                            "obj_id" => (int) $item_rec["obj_id"],
-                            "type" => $item_rec["type"],
-                            "title" => $title,
-                            "description" => $desc,
-                            "parent_ref" => (int) $parent_ref
+                            'ref_id' => (int) $item_rec['ref_id'],
+                            'obj_id' => (int) $item_rec['obj_id'],
+                            'type' => $item_rec['type'],
+                            'title' => $title,
+                            'description' => $desc,
+                            'parent_ref' => (int) $parent_ref
                         ];
                 }
             }
         } else {
             $items = [];
             foreach ($a_types as $a_type) {
-                if ($a_type === "itgr") {
+                if ($a_type === 'itgr') {
                     continue;
                 }
                 $item_set = $ilDB->queryF(
-                    "SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item it, object_reference oref " .
-                    ", object_data obj WHERE " .
-                    "it.item_id = oref.ref_id AND " .
-                    "oref.obj_id = obj.obj_id AND " .
-                    "it.type = %s AND " .
-                    "it.user_id = %s " .
-                    "ORDER BY title",
-                    ["text", "integer"],
+                    'SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item it, object_reference oref ' .
+                    ', object_data obj WHERE ' .
+                    'it.item_id = oref.ref_id AND ' .
+                    'oref.obj_id = obj.obj_id AND ' .
+                    'it.type = %s AND ' .
+                    'it.user_id = %s ' .
+                    'ORDER BY title',
+                    ['text', 'integer'],
                     [$a_type, $user_id]
                 );
 
                 while ($item_rec = $ilDB->fetchAssoc($item_set)) {
-                    $title = ilObject::_lookupTitle($item_rec["obj_id"]);
-                    $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
-                    $items[$title . $a_type . $item_rec["ref_id"]] =
+                    $title = ilObject::_lookupTitle($item_rec['obj_id']);
+                    $desc = ilObject::_lookupDescription($item_rec['obj_id']);
+                    $items[$title . $a_type . $item_rec['ref_id']] =
                         [
-                            "ref_id" => (int) $item_rec["ref_id"],
-                            "obj_id" => (int) $item_rec["obj_id"],
-                            "type" => $a_type,
-                            "title" => $title,
-                            "description" => $desc
+                            'ref_id' => (int) $item_rec['ref_id'],
+                            'obj_id' => (int) $item_rec['obj_id'],
+                            'type' => $a_type,
+                            'title' => $title,
+                            'description' => $desc
                         ];
                 }
             }
         }
         ksort($items);
+
         return $items;
     }
 
@@ -170,22 +171,23 @@ class ilFavouritesDBRepository
     public function ifIsFavourite(int $user_id, int $ref_id): bool
     {
         $db = $this->db;
-
-        if (!isset(self::$is_desktop_item[$user_id . ":" . $ref_id])) {
+        $user_identification = $user_id . ':' . $ref_id;
+        if (!isset(self::$is_desktop_item[$user_identification])) {
             $item_set = $db->queryF(
-                "SELECT item_id FROM desktop_item WHERE " .
-                "item_id = %s AND user_id = %s",
-                ["integer", "integer"],
+                'SELECT item_id FROM desktop_item WHERE ' .
+                'item_id = %s AND user_id = %s',
+                ['integer', 'integer'],
                 [$ref_id, $user_id]
             );
 
             if ($db->fetchAssoc($item_set)) {
-                self::$is_desktop_item[$user_id . ":" . $ref_id] = true;
+                self::$is_desktop_item[$user_identification] = true;
             } else {
-                self::$is_desktop_item[$user_id . ":" . $ref_id] = false;
+                self::$is_desktop_item[$user_identification] = false;
             }
         }
-        return self::$is_desktop_item[$user_id . ":" . $ref_id];
+
+        return self::$is_desktop_item[$user_identification];
     }
 
     // Load favourites data
@@ -198,21 +200,23 @@ class ilFavouritesDBRepository
 
         $load_ref_ids = [];
         foreach ($ref_ids as $ref_id) {
-            if (!isset(self::$is_desktop_item[$user_id . ":" . $ref_id])) {
+            $user_identification = $user_id . ':' . $ref_id;
+            if (!isset(self::$is_desktop_item[$user_identification])) {
                 $load_ref_ids[] = $ref_id;
             }
         }
 
         if (count($load_ref_ids) > 0) {
-            $item_set = $db->query("SELECT item_id FROM desktop_item WHERE " .
-                $db->in("item_id", $load_ref_ids, false, "integer") .
-                " AND user_id = " . $db->quote($user_id, "integer"));
+            $item_set = $db->query('SELECT item_id FROM desktop_item WHERE ' .
+                $db->in('item_id', $load_ref_ids, false, 'integer') .
+                ' AND user_id = ' . $db->quote($user_id, 'integer'));
             while ($r = $db->fetchAssoc($item_set)) {
-                self::$is_desktop_item[$user_id . ":" . $r["item_id"]] = true;
+                self::$is_desktop_item[$user_id . ':' . $r['item_id']] = true;
             }
             foreach ($load_ref_ids as $ref_id) {
-                if (!isset(self::$is_desktop_item[$user_id . ":" . $ref_id])) {
-                    self::$is_desktop_item[$user_id . ":" . $ref_id] = false;
+                $user_identification = $user_id . ':' . $ref_id;
+                if (!isset(self::$is_desktop_item[$user_identification])) {
+                    self::$is_desktop_item[$user_id . ':' . $ref_id] = false;
                 }
             }
         }
@@ -224,9 +228,9 @@ class ilFavouritesDBRepository
         $db = $this->db;
 
         $db->manipulateF(
-            "DELETE FROM desktop_item WHERE " .
-            " item_id = %s",
-            ["integer"],
+            'DELETE FROM desktop_item WHERE ' .
+            ' item_id = %s',
+            ['integer'],
             [$ref_id]
         );
     }
@@ -237,9 +241,9 @@ class ilFavouritesDBRepository
         $db = $this->db;
 
         $db->manipulateF(
-            "DELETE FROM desktop_item WHERE " .
-            " user_id = %s",
-            ["integer"],
+            'DELETE FROM desktop_item WHERE ' .
+            ' user_id = %s',
+            ['integer'],
             [$user_id]
         );
     }

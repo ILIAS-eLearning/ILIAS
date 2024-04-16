@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilFavouritesListGUI
 {
-    protected \ILIAS\DI\UIServices $ui;
+    protected ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
 
@@ -42,7 +42,7 @@ class ilFavouritesListGUI
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("rep");
+        $this->lng->loadLanguageModule('rep');
     }
 
     public function render(): string
@@ -63,20 +63,22 @@ class ilFavouritesListGUI
             }
         }
         if (count($item_groups) > 0) {
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "view", "0");
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "col_side", "center");
-            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, "block_type", "pditems");
-
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'view', '0');
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'col_side', 'center');
+            $ctrl->setParameterByClass(ilSelectedItemsBlockGUI::class, 'block_type', 'pditems');
             // see PR discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/5247/files
+            $configureModal = $favoritesManager->getConfigureModal();
+
             $config_item = $f->item()->standard(
-                $f->link()->standard(
-                    $this->lng->txt("rep_configure"),
-                    $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilSelectedItemsBlockGUI"], "manage")
+                $f->button()->shy(
+                    $this->lng->txt('rep_configure'),
+                    $configureModal->getShowSignal()
                 )
             );
-            array_unshift($item_groups, $f->item()->group($this->lng->txt(""), [$config_item]));
-            $panel = $f->panel()->secondary()->listing("", $item_groups);
-            return $this->ui->renderer()->render([$panel]);
+            array_unshift($item_groups, $f->item()->group($this->lng->txt(''), [$config_item]));
+            $panel = $f->panel()->secondary()->listing('', $item_groups);
+
+            return $this->ui->renderer()->render([$panel, $configureModal]);
         }
 
         return $favoritesManager->getNoItemFoundContent();

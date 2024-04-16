@@ -13038,6 +13038,7 @@ pd#:#pd_ended#:#Beendet
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
+pd#:#pd_no_items_to_manage#:#Keine Objekte zum Entfernen verfügbar.
 pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
