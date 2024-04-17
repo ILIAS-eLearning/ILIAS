@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="mep">
 	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
@@ -30,8 +30,8 @@
 			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" /> 
 			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO" />
-			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
-			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT caption, location, text_representation FROM media_item
@@ -61,8 +61,8 @@
 			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
-			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
-			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="lm">
 	<Document type="default">
-		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
-		<xi:include href="../../Modules/File/LuceneFileListDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/File/LuceneFileListDataSource.xml" />
 		<DataSource type="JDBC" action="create">
 			<Query>
 				SELECT title,content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type 
@@ -25,7 +25,7 @@
 			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
-			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+			<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
