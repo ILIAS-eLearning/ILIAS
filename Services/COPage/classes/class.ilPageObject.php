@@ -1547,7 +1547,7 @@ s     */
     /**
      * Validate the page content agains page DTD
      */
-    public function validateDom(): ?array
+    public function validateDom(bool $throw = false): ?array
     {
         $this->stripHierIDs();
 
@@ -1555,7 +1555,7 @@ s     */
         //libxml_disable_entity_loader(false);
 
         $error = null;
-        $this->dom->validate($error);
+        $this->dom->validate($error, $throw);
         return $error;
     }
 
@@ -2404,6 +2404,11 @@ s     */
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
 
+        $errors = $this->validateDom(true);
+        if (!empty($errors)) {
+            $this->setXMLContent("<PageObject></PageObject>");
+        }
+
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
 
@@ -2448,6 +2453,11 @@ s     */
 
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
+
+        $errors = $this->validateDom(true);
+        if (!empty($errors)) {
+            $this->setXMLContent("<PageObject></PageObject>");
+        }
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);

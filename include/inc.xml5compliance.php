@@ -163,10 +163,15 @@ class php4DOMDocument
     }
 
     // ##added
-    public function validate(&$error)
+    public function validate(&$error, bool $throw = false)
     {
-        $ok = $this->myDOMDocument->validate();
-
+        try {
+            $ok = $this->myDOMDocument->validate();
+        } catch (Exception $e) {
+            if ($throw) {
+                throw $e;
+            }
+        }
         if (!$ok) {
             $error = array(array("0", "Unknown Error"));
 
