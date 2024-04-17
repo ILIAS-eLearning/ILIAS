@@ -57,7 +57,7 @@ class DomUtil
         return $doc;
     }
 
-    public function validate(\DOMDocument $doc, ?string &$error): void
+    public function validate(\DOMDocument $doc, ?string &$error, $throw = false): void
     {
         $ok = $doc->validate();
 
@@ -68,6 +68,9 @@ class DomUtil
                 $err = libxml_get_last_error();
 
                 if (is_object($err)) {
+                    if ($throw) {
+                        throw new \ilCOPageException($err->message);
+                    }
                     $error = array(array($err->code, $err->message));
                 }
             }
