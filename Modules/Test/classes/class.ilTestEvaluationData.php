@@ -152,13 +152,10 @@ class ilTestEvaluationData
                 if ($row['login'] !== null) {
                     $this->getParticipant($row['active_fi'])->setLogin($row['login']);
                 }
-
                 if ($row['usr_id'] !== null) {
                     $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
                 }
-
                 $this->getParticipant($row['active_fi'])->setSubmitted((bool) $row['submitted']);
-
                 $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
