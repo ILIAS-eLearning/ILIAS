@@ -186,7 +186,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     continue;
                 }
 
-                /* @var $userdata ilTestEvaluationUserData */
+                /** @var ilTestEvaluationUserData $userdata */
                 $userdata = $found_participants[$active_id];
 
                 $remove = false;
