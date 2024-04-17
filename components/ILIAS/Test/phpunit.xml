@@ -11,7 +11,7 @@
         </report>
     </coverage>
     <testsuite name="ilModulesTestSuite">
-        <file>./test/ilModulesTestSuite.php</file>
+        <file>./tests/ilModulesTestSuite.php</file>
     </testsuite>
     <logging>
         <testdoxHtml outputFile="build/dox.html"/>

@@ -35,11 +35,11 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilSetting();
     }
 
     public function testConstruct(): void
     {
-        $this->markTestSkipped("See https://mantis.ilias.de/view.php?id=41125");
         $this->testObj = new ilObjTestVerificationGUI(
             0,
             1,
@@ -50,7 +50,6 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
 
     public function testGetType(): void
     {
-        $this->markTestSkipped("See https://mantis.ilias.de/view.php?id=41125");
         $this->testObj = new ilObjTestVerificationGUI(
             0,
             1,
