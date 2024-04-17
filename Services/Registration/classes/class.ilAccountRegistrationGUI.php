@@ -580,7 +580,6 @@ class ilAccountRegistrationGUI
         // local roles from code
         if ($this->code_was_used && is_array($code_local_roles)) {
             foreach (array_unique($code_local_roles) as $local_role_obj_id) {
-                $local_role_obj_id = $local_role_obj_id;
                 // is given role (still) valid?
                 if (ilObject::_lookupType($local_role_obj_id) === "role") {
                     $this->rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
