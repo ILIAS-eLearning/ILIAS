@@ -451,6 +451,8 @@ class ilAccountRegistrationGUI
 
         $this->code_was_used = false;
         $code_has_access_limit = false;
+        
+        /** @var list<int>|null $code_local_roles */
         $code_local_roles = [];
         if ($this->code_enabled) {
             $code_local_roles = $code_has_access_limit = null;
@@ -465,9 +467,12 @@ class ilAccountRegistrationGUI
 
                 // handle code attached local role(s) and access limitation
                 $code_data = ilRegistrationCode::getCodeData($code);
-                if ($code_data["role_local"]) {
+                if (isset($code_data['role_local']) && is_string($code_data['role_local'])) {
                     // need user id before we can assign role(s)
-                    $code_local_roles = explode(";", $code_data["role_local"]);
+                    $code_local_roles = array_filter(array_map(
+                        static fn (string $value): int => (int) $value,
+                        explode(';', $code_data['role_local'])
+                    ));
                 }
                 if ($code_data["alimit"]) {
                     // see below
