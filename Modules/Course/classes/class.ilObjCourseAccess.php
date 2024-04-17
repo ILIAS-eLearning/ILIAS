@@ -344,7 +344,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $registration_possible = true;
 
         // Limited registration
-        if ($info['reg_info_type'] == ilCourseConstants::SUBSCRIPTION_LIMITED) {
+        if (($info['reg_info_type'] ?? 0) == ilCourseConstants::SUBSCRIPTION_LIMITED) {
             $dt = new ilDateTime(time(), IL_CAL_UNIX);
             if (ilDateTime::_before($dt, $info['reg_info_start'])) {
                 $info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_start');
@@ -357,7 +357,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 $info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
                 $info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
             }
-        } elseif ($info['reg_info_type'] == ilCourseConstants::SUBSCRIPTION_UNLIMITED) {
+        } elseif (($info['reg_info_type'] ?? 0) == ilCourseConstants::SUBSCRIPTION_UNLIMITED) {
             $registration_possible = true;
         } else {
             $registration_possible = false;
@@ -365,7 +365,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
             $info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
         }
 
-        if ($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible) {
+        if (($info['reg_info_mem_limit'] ?? false) && $info['reg_info_max_members'] && $registration_possible) {
             // Check for free places
             $part = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $ilUser->getId());
 
