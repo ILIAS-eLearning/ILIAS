@@ -2405,9 +2405,6 @@ s     */
         $dom_doc = $this->getDomDoc();
 
         $errors = $this->validateDom(true);
-        if (!empty($errors)) {
-            $this->setXMLContent("<PageObject></PageObject>");
-        }
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
@@ -2455,9 +2452,6 @@ s     */
         $dom_doc = $this->getDomDoc();
 
         $errors = $this->validateDom(true);
-        if (!empty($errors)) {
-            $this->setXMLContent("<PageObject></PageObject>");
-        }
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
