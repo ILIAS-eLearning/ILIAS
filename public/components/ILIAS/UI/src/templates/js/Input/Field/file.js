@@ -551,6 +551,7 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			for (let i = 0; i < dropzones[input_id].files.length; ++i) {
+				dropzones[input_id].options.current_file_count -= 1;
 				let file = dropzones[input_id].files[i];
 				let file_id_input = $(`#${file.input_id}`);
 				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
@@ -558,6 +559,7 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			dropzones[input_id].removeAllFiles();
+			maybeToggleActionButtonAndErrorMessage(input_id);
 		}
 
 		/**
