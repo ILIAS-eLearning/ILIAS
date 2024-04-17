@@ -113,3 +113,5 @@ trac#:#gradebook_mark_gradebook#:#Item can be marked directly in the gradebook
 trac#:#gradebook_mark_children#:#Learning progress is deteremined by its children
 trac#:#gradebook_mark_automated#:#Learning progress is set in the item itself
 trac#:#itgr#:#Item Group
+assessment#:#feedback_incomplete_solution#:#At least one answer is not correct / number of tries exceeded.
+assessment#:#feedback_incomplete_solution_hint#:#At least one answer is not correct and more tries available.
