@@ -1727,14 +1727,15 @@ abstract class ilPageObject
      * Validate the page content agains page DTD
      * @return    array        Error array.
      */
-    public function validateDom()
+    public function validateDom(bool $throw = false)
     {
         $this->stripHierIDs();
 
         // possible fix for #14820
         libxml_disable_entity_loader(false);
 
-        @$this->dom->validate($error);
+        $error = null;
+        $this->dom->validate($error, $throw);
         //var_dump($this->dom); exit;
         return $error;
     }
@@ -2582,6 +2583,8 @@ abstract class ilPageObject
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
 
+        $errors = $this->validateDom(true);
+
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
 
@@ -2627,6 +2630,7 @@ abstract class ilPageObject
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
 
+        $errors = $this->validateDom(true);
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
 
