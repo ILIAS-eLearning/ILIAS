@@ -649,7 +649,7 @@ class ilLMPageObject extends ilLMObject
         // JKN PATCH START
         $from = " FROM page_question pq JOIN lm_tree t ON (t.lm_id = " . $ilDB->quote($a_lm_id, "integer") .
         " AND pq.page_id = t.child and pq.page_parent_type = " . $ilDB->quote("lm", "text") . ") " .
-        "WHERE t.lm_id = " . $ilDB->quote($a_lm_id, "integer");
+        "WHERE t.lm_id = " . $ilDB->quote($a_lm_id, "integer") . " AND pq.page_lang = " . $ilDB->quote($a_lang, "text");
 
         $ot = ilObjectTranslation::getInstance($a_lm_id);
         $languages = $ot->getLanguages();
