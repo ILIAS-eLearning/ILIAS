@@ -1,6 +1,7 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../070-components/UI-framework/Button/ui-component_button" as *;
+@use "../../../050-layout/layout_container-query" as container-query;
 
 
 //== View Control
@@ -143,5 +144,15 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	}
 	input[type="number"] {
 		width: 5rem;
+	}
+}
+
+// container queries - change design when viewcontrol is in a narrow toolbar
+.panel-viewcontrols {
+	@include container-query.set-container-context(toolbar);
+	@include container-query.style-in-context(toolbar) {
+		.il-viewcontrol-sortation .label {
+			display: none;
+		}
 	}
 }

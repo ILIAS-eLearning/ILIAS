@@ -1,0 +1,65 @@
+////
+/// Container queries can be used to change the appearance of children when the container width is below a certain size.
+/// This is an alternative/additional tool to media queries which only measure the width of a screen.
+/// @group layout-tools
+////
+
+@use "sass:map";
+@use "../050-layout/standardpage/" as l;
+
+/// List of allowed container queries and the width below which the layout should break to a compact design.
+/// @type Map
+/// @prop {Numbers} compact-card switch to very compact card/item design (e.g. for 4+ column grid) below
+/// @prop {Numbers} sidebar switch to condensed sidebar design (e.g. in slate) below
+/// @prop {Numbers} wide-card switch to slightly condensed card/item design (e.g. for 2 column grid) below
+/// @prop {Numbers} toolbar switch an entire toolbar to a condensed design below
+$container-query-contexts: (
+    compact-card: 300px,
+    sidebar: l.$il-standard-page-slate-width,
+    wide-card: 600px,
+    toolbar: 600px,
+);
+
+$_error-invalid-query-context: "Must pick valid container query name from map of allowed contexts: #{map.keys($container-query-contexts)}";
+
+/// Use this mixin for a container whose width should influence the design/layout of children
+/// @param {String} $container-context from Container Query Contexts Map
+/// @output name of container query context
+/// @throw if $container-context is not from predefined list
+/// @example scss - Use in a toolbar
+///     .my-toolbar {
+///         @include set-container-context(toolbar);
+///     }
+@mixin set-container-context($container-context) {
+    @if map.has-key($container-query-contexts, $container-context) {
+        container-name: $container-context;
+        container-type: inline-size;
+    } @else {
+        @error $_error-invalid-query-context;
+    }
+}
+
+/// Use this mixin to style a container's child inside the content
+/// @param {String} $container-context from Container Query Contexts Map
+/// @content responsive container child styling here
+/// @throw if $container-context is not from predefined list
+/// @example scss - Use in a toolbar
+///     .my-toolbar {
+///         @include set-container-context(toolbar);
+///         @include style-in-context(toolbar) {
+///             .my-toolbar-element {
+///                 // make padding smaller when toolbar is narrow
+///                 padding: $il-margin-xs-vertical $il-margin-horizontal;
+///             }
+///         }
+///     }
+@mixin style-in-context($container-context) {
+    @if map.has-key($container-query-contexts, $container-context) {
+        $breakpoint: map.get($container-query-contexts, $container-context);
+        @container #{$container-context} (width <= #{$breakpoint}) {
+            @content;
+        }
+    } @else {
+        @error $_error-invalid-query-context;
+    }
+}
