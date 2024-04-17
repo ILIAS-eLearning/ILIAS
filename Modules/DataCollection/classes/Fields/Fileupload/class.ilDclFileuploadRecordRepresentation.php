@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 
 /**
  * Class ilDclFileuploadRecordRepresentation
@@ -46,7 +47,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
                 "sendFile"
             ) . '">' . $value['name'] . '</a>';
         } else {
-            if (!ilObject2::_exists((int)$value) || ilObject2::_lookupType($value, false) != "file") {
+            if (!ilObject2::_exists((int) $value) || ilObject2::_lookupType((int) $value, false) !== 'file') {
                 return "";
             }
         }
@@ -109,7 +110,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             return $value;
         }
 
-        if (!ilObject2::_exists((int)$value) || ilObject2::_lookupType($value) != "file") {
+        if (!ilObject2::_exists((int) $value) || ilObject2::_lookupType((int) $value) !== 'file') {
             return "";
         }
 
