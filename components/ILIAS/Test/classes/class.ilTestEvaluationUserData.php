@@ -33,7 +33,7 @@ class ilTestEvaluationUserData
 {
     private $questionTitles;
     public string $name;
-    public string $login;
+    public string $login = '';
     public int $user_id;
     protected bool $submitted;
     public float $reached;
@@ -106,10 +106,10 @@ class ilTestEvaluationUserData
 
     public function getLogin(): string
     {
-        return $this->login ?? '';
+        return $this->login;
     }
 
-    public function setLogin($login): void
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }

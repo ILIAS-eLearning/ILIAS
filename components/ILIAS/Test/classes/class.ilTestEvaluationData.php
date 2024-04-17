@@ -91,7 +91,7 @@ class ilTestEvaluationData
     protected function loadRows(): array
     {
         $query = '
-			SELECT			usr_data.usr_id,
+			SELECT			tst_active.user_fi AS usr_id,
 							usr_data.firstname,
 							usr_data.lastname,
 							usr_data.title,
@@ -153,12 +153,8 @@ class ilTestEvaluationData
                     $this->getParticipant($row['active_fi'])->setLogin($row['login']);
                 }
 
-                if ($row['usr_id'] !== null) {
-                    $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
-                }
-
+                $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
                 $this->getParticipant($row['active_fi'])->setSubmitted((bool) $row['submitted']);
-
                 $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
