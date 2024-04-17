@@ -35,7 +35,7 @@ class ilTestEvaluationUserData
     private $questionTitles;
     public string $name;
     public string $login = '';
-    public int $user_id;
+    public ?int $user_id = null;
     protected bool $submitted;
     public float $reached;
     public float $maxpoints;
