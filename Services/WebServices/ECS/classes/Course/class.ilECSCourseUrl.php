@@ -67,7 +67,7 @@ class ilECSCourseUrl
     /**
      * Send urls to ecs
      */
-    public function send(ilECSSetting $setting, $ecs_receiver_mid): void
+    public function send(ilECSSetting $setting, int $ecs_receiver_mid): void
     {
         try {
             $con = new ilECSCourseUrlConnector($setting);

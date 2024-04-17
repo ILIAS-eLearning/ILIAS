@@ -148,7 +148,7 @@ class ilECSCourseMappingRule
      * Check if rule matches
      * @return string 0 if not matches; otherwise rule_id_index @see matches
      */
-    public static function isMatching($course, $a_sid, $a_mid, $a_ref_id): string
+    public static function isMatching($course, int $a_sid, int $a_mid, int $a_ref_id): string
     {
         global $DIC;
 
@@ -192,7 +192,7 @@ class ilECSCourseMappingRule
         $res = $ilDB->query($query);
 
         $level = 1;
-        $last_level_category = array();
+        $last_level_category = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rule = new ilECSCourseMappingRule((int) $row->rid);
             if ($level === 1) {
@@ -200,7 +200,7 @@ class ilECSCourseMappingRule
             }
 
             $found_new_level = false;
-            $new_level_cats = array();
+            $new_level_cats = [];
             foreach ($last_level_category as $cat_ref_id) {
                 $refs = $rule->doMapping($course, (int) $cat_ref_id);
                 foreach ($refs as $new_ref_id) {
@@ -275,11 +275,10 @@ class ilECSCourseMappingRule
      * Check if rule matches
      * @return int -1 does not match, 0 matches with disabled filter, >0 matches xth index in course attribute value.
      */
-    public function matches($course): int
+    private function matches($course): int
     {
         if ($this->isFilterEnabled()) {
             $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
-            $this->logger->dump($values);
             $index = 0;
             foreach ($values as $value) {
                 $index++;

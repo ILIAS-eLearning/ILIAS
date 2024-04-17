@@ -200,7 +200,7 @@ class ilECSCourseCreationHandler
         foreach ($matching_rules as $matching_rule) {
             $this->logger->debug('Handling matching rule: ' . $matching_rule);
             $parent_refs = ilECSCourseMappingRule::doMappings(
-                (int) $course,
+                $course,
                 $this->getServer()->getServerId(),
                 $this->getMid(),
                 $matching_rule

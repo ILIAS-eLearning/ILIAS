@@ -31,9 +31,9 @@ class ilECSCourseMemberAssignment
     private int $server;
     private int $mid;
     private int $cms_id;
-    private int $cms_sub_id = 0;
+    private ?int $cms_sub_id = 0;
     private int $obj_id;
-    private string $uid;
+    private ?string $uid;
     private bool $status = false;
 
 
@@ -113,7 +113,7 @@ class ilECSCourseMemberAssignment
         $ilDB = $DIC['ilDB'];
 
         if (is_null($a_cms_sub_id)) {
-            $cms_sub_id_query = 'AND cms_sub_id IS NULL ';
+            $cms_sub_id_query = 'AND (cms_sub_id IS NULL or cms_sub_id = 0) ';
         } else {
             $cms_sub_id_query = 'AND cms_sub_id = ' . $ilDB->quote($a_cms_sub_id, 'integer') . ' ';
         }
@@ -141,7 +141,7 @@ class ilECSCourseMemberAssignment
         $ilDB = $DIC['ilDB'];
 
         if (is_null($a_cms_sub_id)) {
-            $cms_sub_id_query = 'AND cms_sub_id IS NULL ';
+            $cms_sub_id_query = 'AND (cms_sub_id IS NULL or cms_sub_id = 0) ';
         } else {
             $cms_sub_id_query = 'AND cms_sub_id = ' . $ilDB->quote($a_cms_sub_id, 'integer') . ' ';
         }
@@ -205,7 +205,7 @@ class ilECSCourseMemberAssignment
         $this->cms_sub_id = $a_id;
     }
 
-    public function getCmsSubId(): int
+    public function getCmsSubId(): ?int
     {
         return $this->cms_sub_id;
     }
@@ -225,7 +225,7 @@ class ilECSCourseMemberAssignment
         $this->uid = $a_id;
     }
 
-    public function getUid(): string
+    public function getUid(): ?string
     {
         return $this->uid;
     }
@@ -275,7 +275,7 @@ class ilECSCourseMemberAssignment
     }
 
     /**
-     * Update assignemt
+     * Update assignment
      */
     public function update(): bool
     {
@@ -322,9 +322,13 @@ class ilECSCourseMemberAssignment
             $this->setServer((int) $row->sid);
             $this->setMid((int) $row->mid);
             $this->setCmsId((int) $row->cms_id);
-            $this->setCmsSubId((int) $row->cms_sub_id);
+            if (!is_null($row->cms_sub_id)) {
+                $this->setCmsSubId((int) $row->cms_sub_id);
+            }
             $this->setObjId((int) $row->obj_id);
-            $this->setUid($row->usr_id);
+            if (!is_null($row->usr_id)) {
+                $this->setUid($row->usr_id);
+            }
             $this->setStatus((bool) $row->status);
         }
         return true;

@@ -28,7 +28,7 @@ class ilECSCourseUrlConnector extends ilECSConnector
      * Send url of newly created courses to ecs
      * @throws ilECSConnectorException
      */
-    public function addUrl(ilECSCourseUrl $url, $a_target_mid): void
+    public function addUrl(ilECSCourseUrl $url, int $a_target_mid): void
     {
         $this->logger->info(__METHOD__ . ': Add new course url ...');
 
