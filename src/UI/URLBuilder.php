@@ -164,7 +164,9 @@ class URLBuilder
      */
     public function withParameter(URLBuilderToken $token, $value): self
     {
-        assert(ist_string($value) || is_array($value));
+        if(! is_string($value) && ! is_array($value)) {
+            throw new \InvalidArgumentException('Parameter must be of type string or array');
+        }
         $this->checkToken($token);
         $clone = clone $this;
         $clone->params[$token->getName()] = $value;

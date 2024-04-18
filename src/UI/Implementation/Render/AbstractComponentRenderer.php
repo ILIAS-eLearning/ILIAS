@@ -71,7 +71,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      */
     public function registerResources(ResourceRegistry $registry): void
     {
-        $registry->register('./src/UI/templates/js/Core/ui.js');
         $registry->register('./src/UI/templates/js/Core/dist/core.js');
     }
 
