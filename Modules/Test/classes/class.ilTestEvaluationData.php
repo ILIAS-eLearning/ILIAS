@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -204,7 +205,7 @@ class ilTestEvaluationData
                 $this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
             }
 
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
+            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints((float) $row["points"]);
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setObligationsAnswered($row["obligations_answered"]);
 
             if ($row["questioncount"] == 0) {

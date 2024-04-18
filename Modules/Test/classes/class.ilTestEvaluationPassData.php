@@ -62,9 +62,9 @@ class ilTestEvaluationPassData
     /**
     * Reached points
     *
-    * @var int
+    * @var float
     */
-    private $reachedpoints;
+    private float $reachedpoints = 0.0;
 
     /**
     * Number of answered questions
@@ -130,12 +130,12 @@ class ilTestEvaluationPassData
         $this->nrOfAnsweredQuestions = $nrOfAnsweredQuestions;
     }
 
-    public function getReachedPoints(): int
+    public function getReachedPoints(): float
     {
         return $this->reachedpoints;
     }
 
-    public function setReachedPoints($reachedpoints)
+    public function setReachedPoints(float $reachedpoints): void
     {
         $this->reachedpoints = $reachedpoints;
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestEvaluationUserDataTest
@@ -346,13 +346,33 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $this->assertEquals(5, $this->testObj->getQuestionCount());
     }
 
-    public function testReachedPoints(): void
+    /**
+     * @dataProvider reachedPointsDataProvider
+     */
+    public function testReachedPoints($input, float $expected): void
     {
         $pass = new ilTestEvaluationPassData();
-        $pass->setReachedPoints(25);
+        $pass->setReachedPoints($input);
         $this->testObj->addPass(0, $pass);
 
-        $this->assertEquals(25, $this->testObj->getReachedPoints());
+        $this->assertEquals($expected, $this->testObj->getReachedPoints());
+    }
+
+    public function reachedPointsDataProvider(): array
+    {
+        return [
+            "float X.0" => [25.0, 25.0],
+            "float X.Y" => [25.3, 25.3],
+            "int" => [25, 25.0]
+        ];
+    }
+
+    public function testGetUninitializedReachedPoints(): void
+    {
+        $pass = new ilTestEvaluationPassData();
+        $this->testObj->addPass(0, $pass);
+
+        $this->assertEquals(0.0, $this->testObj->getReachedPoints());
     }
 
     public function testGetAvailablePoints(): void
