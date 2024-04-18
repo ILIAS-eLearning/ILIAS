@@ -646,7 +646,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                          'local' => false,
                          'usr_id' => $id);
         }
-        if (($fields[1] == $this->settings->get('inst_id', "0")) and ($user = ilObjUser::_lookupName($fields[3]))) {
+        if (($fields[1] == $this->settings->get('inst_id', "0")) and ($user = ilObjUser::_lookupName((int) $fields[3]))) {
             if (strlen($user['login'])) {
                 return array('imported' => false,
                              'local' => true,
