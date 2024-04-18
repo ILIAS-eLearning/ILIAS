@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,18 +18,16 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-namespace ILIAS\UI\Component\Input\Container\ViewControl;
-
-use ILIAS\UI\Component\Input\Input;
-use ILIAS\UI\Component\Triggerer;
-use ILIAS\UI\Component\Input\ViewControl\ViewControl as LegacyViewControlInput;
-
+namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes the basis of all View Control Inputs.
+ * This is a legacy support of Component\Input\Field\FilterInput 
+ * that has been moved to Component\Input\Container\Filter\FilterInput.
+ * 
+ * Please always hint to \ILIAS\UI\Component\Input\Container\Filter\FilterInput
+ * 
+ * @deprecated removed in 9
  */
-interface ViewControlInput extends Input, Triggerer, LegacyViewControlInput
+interface FilterInput
 {
 }

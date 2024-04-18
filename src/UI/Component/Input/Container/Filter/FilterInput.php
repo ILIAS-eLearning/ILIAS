@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\FilterInput as LegacyFilterInput;
 
 /**
  * This interface must be implemented by all Inputs that support
@@ -32,7 +33,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  *
  * @author killing@leifos.de
  */
-interface FilterInput extends FormInput
+interface FilterInput extends FormInput, LegacyFilterInput
 {
     /**
      * Is this input complex and must be rendered in a Popover when using it in a Filter?

@@ -24,6 +24,8 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Component;
 use InvalidArgumentException;
 
+use ILIAS\UI\Component\Input\Field\Input as LegacyFieldInput;
+
 /**
  * This describes commonalities between all inputs.
  *
@@ -43,7 +45,7 @@ use InvalidArgumentException;
  * into other types of data. This means, that e.g. the value of an input could
  * be some id, while the content could be some object referenced by that id.
  */
-interface Input extends Component
+interface Input extends Component, LegacyFieldInput
 {
     /**
      * Get the value that is displayed in the input client side.
