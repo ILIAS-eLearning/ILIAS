@@ -283,7 +283,7 @@ class ilStyleDefinition
                             $DIC->refinery()->kindlyTo()->string()
                         );
                         $target_arr = explode('_', $target);
-                        $ref_id = $target_arr[1];
+                        $ref_id = $target_arr[1] ?? '';
                     }
 
                     // check whether any ref id assigns a new style
