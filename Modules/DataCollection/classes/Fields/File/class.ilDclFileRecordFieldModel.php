@@ -46,7 +46,7 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getRecordRepresentation(): ?ilDclBaseRecordRepresentation
     {
-        return new ilDclFileRecordPresentation($this);
+        return new ilDclFileRecordRepresentation($this);
     }
 
     public function parseValue($value)
