@@ -163,17 +163,40 @@ class ilLTIViewGUI
         }
 
         $this->findEffectiveRefId();
+
+        if (
+            (
+                $this->wrapper->query()->has('baseClass') &&
+                $this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()) === 'ilDashboardGUI'
+            )
+            &&
+            (
+                $this->wrapper->query()->has('cmd') &&
+                $this->wrapper->query()->retrieve('cmd', $this->kindlyTo->string()) === 'jumpToSelectedItems'
+            )
+        ) {
+            $this->log->debug("jumpToSelectedItems");
+            if (ilSession::get('lti_ref_id_at_init') != "") {
+                $this->effectiveRefId = (int) ilSession::get('lti_ref_id_at_init');
+                ilSession::set('lti_ref_id_at_init', "");
+            }
+        }
+
         $ref_id = $this->effectiveRefId;
-        // ???
         if (empty($ref_id)) {
+            $this->log->debug("empty ref_id");
             return 0;
         }
 
         $this->log->debug("Effective ref_id: " . $ref_id);
+        //check
+        ilSession::set('lti_ref_id_at_init', (string) $ref_id);
+
+
         // context_id = ref_id in request
         if (ilSession::has('lti_' . $ref_id . '_post_data')) {
             $this->log->debug("lti context session exists for " . $ref_id);
-//            return $ref_id;
+            //            return $ref_id;
         }
         // sub item request
         $this->log->debug("ref_id not exists as context_id, walking tree backwards to find a valid context_id");
@@ -241,7 +264,7 @@ class ilLTIViewGUI
                 ) {
                     return $context_id;
                 }
-//                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                //                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $redirect = $this->link_dir . "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $context_id;
                 $this->log->debug("redirect: " . $redirect);
                 ilUtil::redirect($redirect);
@@ -379,7 +402,7 @@ class ilLTIViewGUI
         //ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER); // needed?
         $auth = $this->dic['ilAuthSession'];
         //$auth->logout(); // needed?
-//        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
+        //        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
         $auth->setExpired(true);
         session_destroy();
         ilUtil::setCookie("ilClientId", "");
