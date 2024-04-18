@@ -684,7 +684,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        // TODO: general access checks (!)
+        $ilErr = $DIC['ilErr'];
 
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
@@ -725,23 +725,32 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             case strtolower(ilLearningProgressGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_LEARNING_PROGRESS);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->WARNING);
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_LEARNING_PROGRESS);
 
-                $gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
-                    $this->object->getRefId()
-                );
+                    $gui = new ilLearningProgressGUI(
+                        ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                        $this->object->getRefId()
+                    );
 
-                $DIC->ctrl()->forwardCommand($gui);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
             case strtolower(ilObjectMetaDataGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
+                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_write"), $ilErr->WARNING);
+                } else {
 
-                $gui = new ilObjectMetaDataGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
+
+                    $gui = new ilObjectMetaDataGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
                 break;
 
             case strtolower(ilPermissionGUI::class):
@@ -754,8 +763,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             case strtolower(ilLTIConsumerSettingsGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
-                if ($this->object instanceof ilObjLTIConsumer) {
+                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_write"), $ilErr->WARNING);
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
+
                     $gui = new ilLTIConsumerSettingsGUI($obj, $this->ltiAccess);
                     $DIC->ctrl()->forwardCommand($gui);
                 }
@@ -763,37 +775,54 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             case strtolower(ilLTIConsumerXapiStatementsGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_STATEMENTS);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->WARNING);
+                } else {
 
-                $gui = new ilLTIConsumerXapiStatementsGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $DIC->tabs()->activateTab(self::TAB_ID_STATEMENTS);
+
+                    $gui = new ilLTIConsumerXapiStatementsGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
             case strtolower(ilLTIConsumerScoringGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_SCORING);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->WARNING);
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_SCORING);
 
-                $gui = new ilLTIConsumerScoringGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $gui = new ilLTIConsumerScoringGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
             case strtolower(ilLTIConsumerGradeSynchronizationGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_GRADE_SYNCHRONIZATION);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->WARNING);
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_GRADE_SYNCHRONIZATION);
 
-                $gui = new ilLTIConsumerGradeSynchronizationGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $gui = new ilLTIConsumerGradeSynchronizationGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
             case strtolower(ilLTIConsumerContentGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->WARNING);
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
 
-                $gui = new ilLTIConsumerContentGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $gui = new ilLTIConsumerContentGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
