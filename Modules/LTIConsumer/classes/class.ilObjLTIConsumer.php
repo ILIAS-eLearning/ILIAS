@@ -873,7 +873,7 @@ class ilObjLTIConsumer extends ilObject2
             $launch_vars['custom_' . $key] = $value;
         }
 
-        if ($this->getProvider()->isGradeSynchronization()) {
+        if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
             include_once("Modules/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
