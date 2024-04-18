@@ -400,27 +400,27 @@ class ilUserUtil
             $calendar_string = "&cal_view=" . $cal_view . "&cal_agenda_per=" . $cal_period;
         }
 
-        if ($current === self::START_REPOSITORY_OBJ
+        if ($current == self::START_REPOSITORY_OBJ
             && (
                 $ref_id === null
-                    || !$rbacsystem->checkAccessOfUser(
-                        $ilUser->getId(),
-                        'read',
-                        $ref_id
-                    )
+                || !$rbacsystem->checkAccessOfUser(
+                    $ilUser->getId(),
+                    'read',
+                    $ref_id
+                )
             )
         ) {
             $tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
             $current = self::START_REPOSITORY;
         }
 
-        if ($current === self::START_REPOSITORY
+        if ($current == self::START_REPOSITORY
                 && !$rbacsystem->checkAccessOfUser(
                     $ilUser->getId(),
                     'read',
                     $tree->getRootId()
                 )
-            || $current === self::START_PD_CALENDAR
+            || $current == self::START_PD_CALENDAR
                 && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
             $current = self::START_PD_OVERVIEW;
