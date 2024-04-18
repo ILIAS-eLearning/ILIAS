@@ -104,8 +104,10 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Duration):
                 return $this->renderDurationField($component, $default_renderer);
 
-            case ($component instanceof F\Group):
             case ($component instanceof F\Link):
+                return $this->renderLinkField($component, $default_renderer);
+
+            case ($component instanceof F\Group):
                 return $default_renderer->render($component->getInputs());
 
             case ($component instanceof F\Text):
@@ -177,6 +179,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ID", $id_pointing_to_input);
             $tpl->parseCurrentBlock();
         }
+
+        $type = str_replace(' ', '', $component->getCanonicalName());
+        $tpl->setVariable("TYPE", $type);
 
         $label = $component->getLabel();
         $tpl->setVariable("LABEL", $label);
@@ -261,6 +266,13 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
+    protected function renderLinkField(F\Link $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.link.html", true, true);
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputs()));
+        return $this->wrapInFormContext($component, $tpl->get());
+    }
+
     protected function renderTextField(F\Text $component): string
     {
         $tpl = $this->getTemplate("tpl.text.html", true, true);
@@ -327,7 +339,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.radio.html", true, true);
+        $tpl = $this->getTemplate("tpl.switchable_group.html", true, true);
 
         /**
          * @var $component F\SwitchableGroup
