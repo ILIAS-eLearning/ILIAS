@@ -85,15 +85,17 @@ class ilLTIConsumerContentGUI
      */
     protected function launch() : void
     {
-        if ($this->object->isLaunchMethodEmbedded()) {
-            $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'Modules/LTIConsumer');
-            $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
-                $this,
-                self::CMD_SHOW_EMBEDDED
-            ));
-            $this->dic->ui()->mainTemplate()->setContent($tpl->get());
-        } else {
-            $this->dic->toolbar()->addText($this->getStartButtonTxt11());
+        if ($this->dic->access()->checkAccess('read', '', $this->object->getRefId())) {
+            if ($this->object->isLaunchMethodEmbedded()) {
+                $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'Modules/LTIConsumer');
+                $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
+                    $this,
+                    self::CMD_SHOW_EMBEDDED
+                ));
+                $this->dic->ui()->mainTemplate()->setContent($tpl->get());
+            } else {
+                $this->dic->toolbar()->addText($this->getStartButtonTxt11());
+            }
         }
     }
 

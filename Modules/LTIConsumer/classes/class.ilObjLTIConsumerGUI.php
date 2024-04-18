@@ -448,11 +448,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 break;
                 
             case strtolower(ilObjectMetaDataGUI::class):
-                
-                $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
-                
-                $gui = new ilObjectMetaDataGUI($this->object);
-                $DIC->ctrl()->forwardCommand($gui);
+
+                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                    $DIC['ilErr']->raiseError($DIC->language()->txt("msg_no_perm_write"));
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
+
+                    $gui = new ilObjectMetaDataGUI($this->object);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
                 break;
             
             case strtolower(ilPermissionGUI::class):
@@ -464,11 +468,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 break;
                 
             case strtolower(ilLTIConsumerSettingsGUI::class):
-                
-                $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
-                
-                $gui = new ilLTIConsumerSettingsGUI($this->object, $this->ltiAccess);
-                $DIC->ctrl()->forwardCommand($gui);
+
+                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                    $DIC['ilErr']->raiseError($DIC->language()->txt("msg_no_perm_write"));
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
+
+                    $gui = new ilLTIConsumerSettingsGUI($this->object, $this->ltiAccess);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
                 break;
             
             case strtolower(ilLTIConsumerXapiStatementsGUI::class):
@@ -491,10 +499,14 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             
             case strtolower(ilLTIConsumerContentGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
+                if (!$DIC->access()->checkAccess('read', '', $this->object->getRefId())) {
+                    $DIC['ilErr']->raiseError($DIC->language()->txt("msg_no_perm_read"));
+                } else {
+                    $DIC->tabs()->activateTab(self::TAB_ID_CONTENT);
 
-                $gui = new ilLTIConsumerContentGUI($this->object);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $gui = new ilLTIConsumerContentGUI($this->object);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
 
                 break;
 
