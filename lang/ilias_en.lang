@@ -11091,6 +11091,7 @@ lti#:#lti_con_content_item_url#:#Content URL
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_info#:#Entering this URL avoids the need to enter an RSA key.
 lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-Key
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key

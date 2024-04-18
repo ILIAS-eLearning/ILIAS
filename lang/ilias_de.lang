@@ -11090,6 +11090,7 @@ lti#:#lti_con_content_item_url#:#Inhalts-URL
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_info#:#Die Angabe dieser URL erspart die Eingabe eines RSA-Schlüssels.
 lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
