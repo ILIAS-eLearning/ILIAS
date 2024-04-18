@@ -337,10 +337,23 @@ class ilStudyProgrammeUserTable
         $type = ilObject::_lookupType($obj_id);
         switch ($type) {
             case 'usr':
-            case 'prg':
                 return ilObject::_lookupTitle($obj_id);
+            case 'prg':
+                $title = ilObject::_lookupTitle($obj_id);
+                if(ilObject::_isInTrash(ilObjStudyProgramme::getRefIdFor($obj_id))) {
+                    return sprintf('(%s)', $title);
+                }
+                return $title;
             case 'crsr':
-                return ilContainerReference::_lookupTitle($obj_id);
+                $title = ilContainerReference::_lookupTitle($obj_id);
+                if(ilObject::_isInTrash(
+                    ilObjStudyProgramme::getRefIdFor(
+                        ilContainerReference::_lookupTargetId($obj_id)
+                    )
+                )) {
+                    return sprintf('(%s)', $title);
+                }
+                return $title;
         }
 
         if ($del = ilObjectDataDeletionLog::get($obj_id)) {
