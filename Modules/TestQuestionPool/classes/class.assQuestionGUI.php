@@ -1131,30 +1131,42 @@ abstract class assQuestionGUI
     /**
      * @param   int|null  $pass      Active pass
      */
-    public function getGenericFeedbackOutput(int $active_id, $pass): string
+    public function getGenericFeedbackOutput(int $active_id, ?int $pass): string
     {
-        $output = "";
+        $output = '';
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
-        if (strlen($manual_feedback)) {
+        if ($manual_feedback !== '') {
             return $manual_feedback;
         }
 
         $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
         $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-        if (strlen($correct_feedback . $incorrect_feedback)) {
-            $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
-            $max_points = $this->object->getMaximumPoints();
-            if ($reached_points == $max_points) {
-                $output = $correct_feedback;
-            } else {
-                $output = $incorrect_feedback;
-            }
+        if ($correct_feedback . $incorrect_feedback !== '') {
+            $output = $this->genericFeedbackOutputBuilder($correct_feedback, $incorrect_feedback, $active_id, $pass);
         }
 
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
         }
         return $this->object->prepareTextareaOutput($output, true);
+    }
+
+    protected function genericFeedbackOutputBuilder(
+        string $feedback_correct,
+        string $feedback_incorrect,
+        int $active_id,
+        ?int $pass
+    ): string {
+        if ($pass === null) {
+            return '';
+        }
+        $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+        $max_points = $this->object->getMaximumPoints();
+        if ($reached_points == $max_points) {
+            return $feedback_correct;
+        }
+
+        return $feedback_incorrect;
     }
 
     public function getGenericFeedbackOutputForCorrectSolution(): string

@@ -1158,14 +1158,8 @@ JS;
         $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
 
         $output = '';
-        if (strlen($correct_feedback . $incorrect_feedback)) {
-            $reached_points = $this->object->calculateReachedPoints($active_id, $pass);
-            $max_points = $this->object->getMaximumPoints();
-            if ($reached_points == $max_points) {
-                $output .= $correct_feedback;
-            } else {
-                $output .= $incorrect_feedback;
-            }
+        if ($correct_feedback . $incorrect_feedback !== '') {
+            $output = $this->genericFeedbackOutputBuilder($correct_feedback, $incorrect_feedback, $active_id, $pass);
         }
         //$test = new ilObjTest($this->object->active_id);
         return $this->object->prepareTextareaOutput($output, true);
