@@ -173,7 +173,9 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         $retype_value = ($this->getUseStripSlashes())
             ? $this->str($this->getPostVar() . "_retype")
             : $this->raw($this->getPostVar() . "_retype");
-
+        if ($pass_value === null) {
+            $pass_value = '';
+        }
         if ($this->getRequired() && trim($pass_value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
@@ -214,7 +216,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput(): string
+    public function getInput(): ?string
     {
         if ($this->getUseStripSlashes()) {
             return $this->str($this->getPostVar());
