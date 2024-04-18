@@ -13227,6 +13227,7 @@ prg#:#prg_autoassignment#:#(automatisch)
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
+prg#:#prg_cancel_acknowledge_completed_courses#:#Keine Kurse anerkennen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_change_deadline#:#Stichtag anpassen
 prg#:#prg_change_expire_date#:#Ablauf der Qualifikation anpassen

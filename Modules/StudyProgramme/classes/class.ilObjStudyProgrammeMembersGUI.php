@@ -384,7 +384,7 @@ class ilObjStudyProgrammeMembersGUI
         );
         $tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
         $tpl->setVariable("CAPTION_ADD", $this->lng->txt("btn_next"));
-        $tpl->setVariable("CAPTION_CANCEL", $this->lng->txt("cancel"));
+        $tpl->setVariable("CAPTION_CANCEL", $this->lng->txt("prg_cancel_acknowledge_completed_courses"));
         $tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
         $tpl->setVariable("CANCEL_CMD", "view");
         $tpl->setVariable("ADD_CMD", "confirmedAcknowledgeCourses");

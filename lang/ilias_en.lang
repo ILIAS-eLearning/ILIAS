@@ -13228,6 +13228,7 @@ prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_change_deadline#:#Change deadline
 prg#:#prg_change_expire_date#:#Change expire date
