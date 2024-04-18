@@ -2079,6 +2079,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
 
+        $testSession = new ilTestSession();
+        $testSession->loadFromDb($activeId);
+
+        if ($testSession->isSubmitted()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
+            $this->redirectBackToParticipantsScreen();
+        }
+
         if (($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime())
             && !$this->object->endingTimeReached()
             && !$this->object->isMaxProcessingTimeReached(
@@ -2117,21 +2125,27 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $participantData->setParticipantAccessFilter($accessFilter);
         $participantData->load($this->object->getTestId());
 
-        if (in_array($activeId, $participantData->getActiveIds())) {
-            $testSession = new ilTestSession();
-            $testSession->loadFromDb($activeId);
-
-            assQuestion::_updateTestPassResults(
-                $activeId,
-                $testSession->getPass(),
-                $this->object->areObligationsEnabled(),
-                null,
-                $this->object->getId()
-            );
-
-            $this->finishTestPass($activeId, $this->object->getId());
+        if (!in_array($activeId, $participantData->getActiveIds())) {
+            $this->redirectBackToParticipantsScreen();
         }
 
+        $testSession = new ilTestSession();
+        $testSession->loadFromDb($activeId);
+
+        if ($testSession->isSubmitted()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
+            $this->redirectBackToParticipantsScreen();
+        }
+
+        assQuestion::_updateTestPassResults(
+            $activeId,
+            $testSession->getPass(),
+            $this->object->areObligationsEnabled(),
+            null,
+            $this->object->getId()
+        );
+
+        $this->finishTestPass($activeId, $this->object->getId());
 
         $this->redirectBackToParticipantsScreen();
     }
