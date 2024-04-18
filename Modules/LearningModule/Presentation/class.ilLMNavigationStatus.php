@@ -109,7 +109,7 @@ class ilLMNavigationStatus
             $active = ilLMPage::_lookupActive(
                 $obj_id,
                 $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
+                (bool) $this->lm_set->get("time_scheduled_page_activation")
             );
 
             if (!$active &&
@@ -145,7 +145,7 @@ class ilLMNavigationStatus
                     $active = ilLMPage::_lookupActive(
                         $page_id,
                         $this->lm->getType(),
-                        $this->lm_set->get("time_scheduled_page_activation")
+                        (bool) $this->lm_set->get("time_scheduled_page_activation")
                     );
                 }
             }
@@ -225,7 +225,7 @@ class ilLMNavigationStatus
                 $active = ilLMPage::_lookupActive(
                     $c_id,
                     $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
+                    (bool) $this->lm_set->get("time_scheduled_page_activation")
                 );
             }
 
