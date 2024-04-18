@@ -374,6 +374,13 @@ abstract class ilPageObject
         $res = xpath_eval($xpc, $path);
         if (count($res->nodeset) == 1) {
             $this->node = $res->nodeset[0];
+        } else {
+            $mess = "No PageObject Node found: " . $this->getParentType() . ", " . $this->getId() . ", " . $this->getXMLContent(true);
+            if (defined('DEVMODE') && DEVMODE) {
+                throw new ilCOPageException($mess);
+            } else {
+                $this->log->error($mess);
+            }
         }
 
         if (empty($error)) {
@@ -2408,7 +2415,6 @@ s     */
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
-
         // create object
         $this->db->insert("page_object", array(
             "page_id" => array("integer", $this->getId()),
@@ -2652,7 +2658,6 @@ s     */
             $iel = $this->containsDeactivatedElements($content);
             $this->log->debug("checking internal links");
             $inl = $this->containsIntLinks($content);
-
             $this->db->update("page_object", array(
                 "content" => array("clob", $content),
                 "parent_id" => array("integer", $this->getParentId()),
