@@ -165,6 +165,7 @@ class php4DOMDocument
     // ##added
     public function validate(&$error, bool $throw = false)
     {
+        $ok = false;
         try {
             $ok = $this->myDOMDocument->validate();
         } catch (Exception $e) {

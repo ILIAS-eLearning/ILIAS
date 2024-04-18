@@ -56,7 +56,7 @@ class UIWrapper
                          document.querySelector('#$id').setAttribute('data-copg-ed-component', '$component');
                          document.querySelector('#$id').setAttribute('data-copg-ed-action', '$action'); ";
                 if ($aria_label !== "") {
-                    $code.= "document.querySelector('#$id').setAttribute('aria-label', '$aria_label'); ";
+                    $code .= "document.querySelector('#$id').setAttribute('aria-label', '$aria_label'); ";
                 }
                 foreach ($data as $key => $val) {
                     $code .= "\n document.querySelector('#$id').setAttribute('data-copg-ed-par-$key', '$val');";
@@ -188,7 +188,14 @@ class UIWrapper
 
         if ($updated !== true) {
             if (is_array($updated)) {
-                $error = implode("<br />", $updated);
+                $error = "";
+                foreach ($updated as $u) {
+                    if (is_array($u)) {
+                        $error .= implode("<br />", $u);
+                    } else {
+                        $error .= "<br />" . $u;
+                    }
+                }
             } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
@@ -214,7 +221,7 @@ class UIWrapper
         return new Response($data);
     }
 
-    protected function getOnloadCode(\ilPageObjectGUI $page_gui) : string
+    protected function getOnloadCode(\ilPageObjectGUI $page_gui): string
     {
         $page = $page_gui->getPageObject();
         $defs = \ilCOPagePCDef::getPCDefinitions();
