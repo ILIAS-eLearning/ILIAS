@@ -1121,13 +1121,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
 
         $info->addProperty(
-            $DIC->language()->txt("conf_privacy_name"),
-            $DIC->language()->txt('conf_privacy_name_' . ilObjCmiXapiGUI::getPrivacyNameString($this->object->getProvider()->getPrivacyName()))
+            $DIC->language()->txt("clti_privacy_name"),
+            $DIC->language()->txt('clti_privacy_name_' . ilObjCmiXapiGUI::getPrivacyNameString($this->object->getProvider()->getPrivacyName()))
         );
 
         $info->addProperty(
-            $DIC->language()->txt("conf_privacy_ident"),
-            $DIC->language()->txt('conf_privacy_ident_' . ilObjCmiXapiGUI::getPrivacyIdentString($this->object->getProvider()->getPrivacyIdent()))
+            $DIC->language()->txt("clti_privacy_ident"),
+            $DIC->language()->txt('clti_privacy_ident_' . ilObjCmiXapiGUI::getPrivacyIdentString($this->object->getProvider()->getPrivacyIdent()))
         );
         if ($this->object->getProvider()->isExternalProvider()) {
             $info->addProperty(

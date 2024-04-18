@@ -3151,8 +3151,6 @@ cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
 cmix#:#conf_privacy_ident#:#Identifikation der Person
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
@@ -10975,48 +10973,32 @@ lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
-lti#:#conf_privacy_ident#:#Identifikation der Person
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Diese Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse aufs ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
-lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
-lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
-lti#:#conf_privacy_name#:#Anmeldename
-lti#:#conf_privacy_name_firstname#:#Vorname
-lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
-lti#:#conf_privacy_name_fullname#:#Vollständiger Name
-lti#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
-lti#:#conf_privacy_name_lastname#:#Titel und Nachname
-lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
-lti#:#conf_privacy_name_none#:#Keiner
-lti#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
-lti#:#conf_user_ident#:#Identifikation der Person
-lti#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-lti#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert..
-lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
-lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
-lti#:#conf_user_name#:#Anmeldename
-lti#:#conf_user_name_firstname#:#Vorname
-lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
-lti#:#conf_user_name_fullname#:#Vollständiger Name
-lti#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
-lti#:#conf_user_name_lastname#:#Titel und Nachname
-lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
-lti#:#conf_user_name_none#:#Keiner
-lti#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
+lti#:#clti_privacy_ident#:#Identifikation der Person
+lti#:#clti_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
+lti#:#clti_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
+lti#:#clti_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#clti_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Diese Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse aufs ILIAS-Konto und die zugehörige Person zu.
+lti#:#clti_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#clti_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
+lti#:#clti_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#clti_privacy_ident_il_uuid_sha256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
+lti#:#clti_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
+lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#Die Identifikation ist identisch bei jedem Aufruf. Mit maximal 80 Zeichen ist sie kürzer, als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse das ILIAS-Konto und die zugehörige Person.
+lti#:#clti_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
+lti#:#clti_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+lti#:#clti_privacy_ident_real_email#:#E-Mail-Adresse
+lti#:#clti_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
+lti#:#clti_privacy_name#:#Anmeldename
+lti#:#clti_privacy_name_firstname#:#Vorname
+lti#:#clti_privacy_name_firstname_info#:#Sendet den Vornamen.
+lti#:#clti_privacy_name_fullname#:#Vollständiger Name
+lti#:#clti_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+lti#:#clti_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
+lti#:#clti_privacy_name_lastname#:#Titel und Nachname
+lti#:#clti_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+lti#:#clti_privacy_name_none#:#Keiner
+lti#:#clti_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
 lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#field_provider_xml#:#XML-Datei
@@ -11087,6 +11069,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste
+lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11221,6 +11205,7 @@ lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als a
 lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden
 lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#Dieses Präfix wird dem Anmeldenamen vorangestellt. Damit ist die Eindeutigkeit von Anmeldenamen gewährleistet. Auch wird die Zuordnung von Benutzern zu LTI Konsumenten / Pattformen erleichtert.
 lti#:#provider_info#:#Benutzter Provider
 lti#:#settings_subtab#:#Einstellungen
 lti#:#show_statements#:#Lernerfahrungen anzeigen
@@ -11229,6 +11214,7 @@ lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
 lti#:#tab_content#:#Inhalt
+lti#:#tab_grade_synchronization#:#Erweiterte Benotungsdienste
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
 lti#:#tab_settings#:#Einstellungen

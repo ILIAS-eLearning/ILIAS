@@ -3152,8 +3152,6 @@ cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
 cmix#:#conf_privacy_comment_default#:#Indication to user
 cmix#:#conf_privacy_ident#:#User identification
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
@@ -10976,48 +10974,32 @@ lti#:#act_lti_for_obj_type#:#Activate LTI for Type of Object
 lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.
 lti#:#auth_lti#:#LTI Auth
-lti#:#conf_privacy_ident#:#User identification
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
-lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
-lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
-lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
-lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-lti#:#conf_privacy_ident_real_email#:#E-Mail Address
-lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
-lti#:#conf_privacy_name#:#User name
-lti#:#conf_privacy_name_firstname#:#First name
-lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
-lti#:#conf_privacy_name_fullname#:#Entire name
-lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name
-lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.
-lti#:#conf_privacy_name_lastname#:#Title and last name
-lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
-lti#:#conf_privacy_name_none#:#No one
-lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name
-lti#:#conf_user_ident#:#User identification
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-lti#:#conf_user_ident_real_email#:#E-Mail Address
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
-lti#:#conf_user_name#:#User name
-lti#:#conf_user_name_firstname#:#First name
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
-lti#:#conf_user_name_fullname#:#Entire name
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.
-lti#:#conf_user_name_lastname#:#Title and last name
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
-lti#:#conf_user_name_none#:#No one
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name
+lti#:#clti_privacy_ident#:#User identification
+lti#:#clti_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+lti#:#clti_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#clti_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
+lti#:#clti_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+lti#:#clti_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.
+lti#:#clti_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
+lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
+lti#:#clti_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
+lti#:#clti_privacy_ident_real_email#:#E-Mail Address
+lti#:#clti_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+lti#:#clti_privacy_name#:#User name
+lti#:#clti_privacy_name_firstname#:#First name
+lti#:#clti_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS
+lti#:#clti_privacy_name_fullname#:#Entire name
+lti#:#clti_privacy_name_fullname_info#:#Sends title, first name and last name
+lti#:#clti_privacy_name_info#:#Sending an user name is usually not required.
+lti#:#clti_privacy_name_lastname#:#Title and last name
+lti#:#clti_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+lti#:#clti_privacy_name_none#:#No one
+lti#:#clti_privacy_name_none_info#:#Sends '-' instead of a name
 lti#:#consumers#:#Consumers
 lti#:#description_info#:#The description will be shown below the title.
 lti#:#field_provider_xml#:#XML-File
@@ -11088,6 +11070,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#lti_con_content_item#:#Support for Deep Linking
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Advanced Grading Services
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11222,6 +11206,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible and usable for the users.
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.
 lti#:#provider_info#:#Used Provider
 lti#:#settings_subtab#:#Settings
 lti#:#show_statements#:#Display Learning Experiences
@@ -11230,6 +11215,7 @@ lti#:#subtab_certificate#:#Certificate
 lti#:#subtab_object_settings#:#Object Settings
 lti#:#subtab_provider_settings#:#LTI Provider Settings
 lti#:#tab_content#:#Content
+lti#:#tab_grade_synchronization#:#Advanced Grading Services
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
 lti#:#tab_settings#:#Settings

@@ -230,54 +230,54 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader->setTitle($lng->txt('lti_con_prov_privacy_settings'));
         $this->addItem($sectionHeader);
 
-        $item = new ilRadioGroupInputGUI($lng->txt('conf_privacy_ident'), 'privacy_ident');
+        $item = new ilRadioGroupInputGUI($lng->txt('clti_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_user_id'),
+            $lng->txt('clti_privacy_ident_il_uuid_user_id'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_USER_ID
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_user_id_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_user_id_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_login'),
+            $lng->txt('clti_privacy_ident_il_uuid_login'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_LOGIN
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_login_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_login_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_ext_account'),
+            $lng->txt('clti_privacy_ident_il_uuid_ext_account'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_ext_account_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_sha256'),
+            $lng->txt('clti_privacy_ident_il_uuid_sha256'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_sha256_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_sha256_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_sha256url'),
+            $lng->txt('clti_privacy_ident_il_uuid_sha256url'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_sha256url_info'));
         $item->addOption($op);
 
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_random'),
+            $lng->txt('clti_privacy_ident_il_uuid_random'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_random_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_random_info'));
         $item->addOption($op);
 
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_real_email'),
+            $lng->txt('clti_privacy_ident_real_email'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_real_email_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_real_email_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
+            $lng->txt('clti_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
@@ -290,21 +290,21 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->setInfo($lng->txt('lti_con_prov_instructor_email_info'));
         $this->addItem($item);
 
-        $item = new ilRadioGroupInputGUI($lng->txt('conf_privacy_name'), 'privacy_name');
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
-        $op->setInfo($lng->txt('conf_privacy_name_none_info'));
+        $item = new ilRadioGroupInputGUI($lng->txt('clti_privacy_name'), 'privacy_name');
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
+        $op->setInfo($lng->txt('clti_privacy_name_none_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_firstname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_firstname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_lastname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_lastname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_fullname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyName());
-        $item->setInfo($lng->txt('conf_privacy_name_info'));
+        $item->setInfo($lng->txt('clti_privacy_name_info'));
         $item->setRequired(false);
         $this->addItem($item);
 
@@ -624,54 +624,54 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader->setTitle($lng->txt('lti_con_prov_privacy_settings'));
         $this->addItem($sectionHeader);
 
-        $item = new ilRadioGroupInputGUI($lng->txt('conf_privacy_ident'), 'privacy_ident');
+        $item = new ilRadioGroupInputGUI($lng->txt('clti_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_user_id'),
+            $lng->txt('clti_privacy_ident_il_uuid_user_id'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_USER_ID
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_user_id_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_user_id_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_login'),
+            $lng->txt('clti_privacy_ident_il_uuid_login'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_LOGIN
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_login_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_login_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_ext_account'),
+            $lng->txt('clti_privacy_ident_il_uuid_ext_account'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_ext_account_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_sha256'),
+            $lng->txt('clti_privacy_ident_il_uuid_sha256'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_sha256_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_sha256_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_sha256url'),
+            $lng->txt('clti_privacy_ident_il_uuid_sha256url'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_sha256url_info'));
         $item->addOption($op);
 
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_il_uuid_random'),
+            $lng->txt('clti_privacy_ident_il_uuid_random'),
             (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_il_uuid_random_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_il_uuid_random_info'));
         $item->addOption($op);
 
         $op = new ilRadioOption(
-            $lng->txt('conf_privacy_ident_real_email'),
+            $lng->txt('clti_privacy_ident_real_email'),
             (string) ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
-        $op->setInfo($lng->txt('conf_privacy_ident_real_email_info'));
+        $op->setInfo($lng->txt('clti_privacy_ident_real_email_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
+            $lng->txt('clti_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
@@ -684,21 +684,21 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->setInfo($lng->txt('lti_con_prov_instructor_email_info'));
         $this->addItem($item);
 
-        $item = new ilRadioGroupInputGUI($lng->txt('conf_privacy_name'), 'privacy_name');
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
-        $op->setInfo($lng->txt('conf_privacy_name_none_info'));
+        $item = new ilRadioGroupInputGUI($lng->txt('clti_privacy_name'), 'privacy_name');
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
+        $op->setInfo($lng->txt('clti_privacy_name_none_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_firstname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_firstname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_lastname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_lastname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($lng->txt('conf_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
-        $op->setInfo($lng->txt('conf_privacy_name_fullname_info'));
+        $op = new ilRadioOption($lng->txt('clti_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
+        $op->setInfo($lng->txt('clti_privacy_name_fullname_info'));
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyName());
-        $item->setInfo($lng->txt('conf_privacy_name_info'));
+        $item->setInfo($lng->txt('clti_privacy_name_info'));
         $item->setRequired(false);
         $this->addItem($item);
 
