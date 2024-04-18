@@ -22,6 +22,18 @@ export default class ContainerFactory {
   #instances = [];
 
   /**
+   * @type {Object<string, class>}
+   */
+  #transforms;
+
+  /**
+   * @param {Object<string,Class>} transforms
+   */
+  constructor(transforms) {
+    this.#transforms = transforms;
+  }
+
+  /**
    * @param {string} componentId
    * @return {void}
    */
@@ -31,7 +43,7 @@ export default class ContainerFactory {
     if (this.#instances[componentId] !== undefined) {
       throw new Error(`Container with id '${componentId}' has already been registered.`);
     }
-    this.#instances[componentId] = new Container(component);
+    this.#instances[componentId] = new Container(this.#transforms, component);
   }
 
   /**

@@ -17,62 +17,78 @@ export default class FormNode {
   /**
    * @type {string}
    */
-  #name;
+  #label;
 
   /**
-   * @type {Array<string, FormNode>}
+   * @type {string}
    */
-  #nodes;
+  #type;
+
+  /**
+   * @type {string}
+   */
+  #id;
+
+  /**
+   * @type {FormNode[]}
+   */
+  #children;
 
   /**
    * @type {HTMLElement[]}
    */
   #htmlFields;
 
+  #transforms;
+
   /**
    * @param {string} name
+   * @param {string} type
    * @return {void}
    */
-  constructor(name) {
-    this.#name = name;
-    this.#nodes = [];
+  constructor(label, type, id) {
+    this.#label = label;
+    this.#type = type;
+    this.#id = id;
+
+    this.#children = [];
     this.#htmlFields = [];
   }
 
   /**
    * @return {string}
    */
-  getName() {
-    return this.#name;
+  getId() {
+    return this.#id;
+  }
+
+  /**
+   * @return {string}
+   */
+  getLabel() {
+    return this.#label;
+  }
+
+  /**
+   * @return {string}
+   */
+  getType() {
+    return this.#type;
   }
 
   /**
    * @param {FormNode} node
    * @return {void}
    */
-  addNode(node) {
-    this.#nodes[node.getName()] = node;
+  addChildNode(node) {
+    this.#children.push(node);
   }
 
   /**
-   * @return {Array<string, FormNode>}
+   * @return {FormNode[]}
    */
-  getNodes() {
-    return this.#nodes;
-  }
-
-  /**
-   * @return {string[]}
-   */
-  getNodeNames() {
-    return Object.keys(this.#nodes);
-  }
-
-  /**
-   * @return {FormNode}
-   */
-  getNodeByName(name) {
-    return this.#nodes[name];
+  getAllChildren() {
+    return this.#children;
   }
 
   /**
@@ -107,7 +123,33 @@ export default class FormNode {
         }
       },
     );
-
     return values;
+  }
+
+  /**
+   * @param {Class} transforms
+   */
+  setTransforms(transforms) {
+    this.#transforms = transforms;
+  }
+
+  /**
+   * @return {FormNode[]}
+   */
+  getChildren() {
+    if (this.#transforms && this.#transforms.childrenTransform) {
+      return this.#transforms.childrenTransform(this);
+    }
+    return this.getAllChildren();
+  }
+
+  /**
+  * @return {Array}
+  */
+  getValuesRepresentation() {
+    if (this.#transforms && this.#transforms.valueTransform) {
+      return this.#transforms.valueTransform(this);
+    }
+    return this.getValues();
   }
 }
