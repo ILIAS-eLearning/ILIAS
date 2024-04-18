@@ -91,6 +91,8 @@ class ilTestResultsFactory
             $usr_score = $qresult['reached'];
             $workedthrough = (bool)$qresult['workedthrough'];
             $answered = (bool)$qresult['answered'];
+            $requested_hints = (int)$qresult['requested_hints'];
+
 
             $question_gui = $test_obj->createQuestionGUI("", $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $pass_id);
@@ -168,6 +170,7 @@ class ilTestResultsFactory
                 $feedback,
                 $workedthrough,
                 $answered,
+                $requested_hints,
                 $recapitulation
             );
         }

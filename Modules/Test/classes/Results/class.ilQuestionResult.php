@@ -39,6 +39,7 @@ class ilQuestionResult
         protected string $feedback,
         protected bool $workedthrough,
         protected bool $answered,
+        protected int $requested_hints,
         protected ?string $content_for_recapitulation
     ) {
     }
@@ -104,5 +105,9 @@ class ilQuestionResult
     public function getContentForRecapitulation(): ?string
     {
         return $this->content_for_recapitulation;
+    }
+    public function getNumberOfRequestedHints(): int
+    {
+        return $this->requested_hints;
     }
 }
