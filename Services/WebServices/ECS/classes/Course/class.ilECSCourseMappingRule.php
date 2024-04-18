@@ -227,15 +227,15 @@ class ilECSCourseMappingRule
         }
         $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
 
-        $childs = $this->tree->getChildsByType($parent_ref, 'cat');
+        $children = $this->tree->getChildsByType($parent_ref, 'cat');
         $category_references = [];
         foreach ($values as $value) {
             $found = false;
-            foreach ($childs as $child) {
+            foreach ($children as $child) {
                 // category already created
                 if (strcmp($child['title'], $value) === 0) {
                     $found = true;
-                    $category_references[] = $child['child'];
+                    $category_references[] = (int) $child['child'];
                     break;
                 }
             }

@@ -219,7 +219,7 @@ class ilECSCourseCreationHandler
         foreach ($all_parent_refs as $category_ref) {
             if ($first) {
                 $this->logger->debug('Creating new course instance in: ' . $category_ref);
-                $this->doSync($a_content_id, $course, ilObject::_lookupObjId((int) $category_ref));
+                $this->doSync($a_content_id, $course, ilObject::_lookupObjId($category_ref));
                 $first = false;
                 continue;
             }
@@ -232,7 +232,7 @@ class ilECSCourseCreationHandler
     /**
      * Create course reference objects
      */
-    protected function createCourseReferenceObjects($a_parent_ref_id): void
+    protected function createCourseReferenceObjects(int $a_parent_ref_id): void
     {
         $this->logger->debug('Created new course reference in : ' . ilObject::_lookupTitle(ilObject::_lookupObjId($a_parent_ref_id)));
         foreach ($this->getCreatedCourses() as $ref_id) {
