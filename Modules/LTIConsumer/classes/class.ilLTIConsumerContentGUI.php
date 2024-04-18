@@ -359,6 +359,12 @@ class ilLTIConsumerContentGUI
         $launchContextId = $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
 
+        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+        );
+
         $cmixUser = $this->cmixUser;
         return $this->object->buildLaunchParametersLTI13(
             $cmixUser,
@@ -368,7 +374,8 @@ class ilLTIConsumerContentGUI
             $nonce,
             $launchContextType,
             $launchContextId,
-            $launchContextTitle
+            $launchContextTitle,
+            $returnUrl
         );
     }
 
