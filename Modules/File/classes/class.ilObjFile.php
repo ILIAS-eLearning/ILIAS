@@ -137,6 +137,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->setResourceId($i->serialize());
             $this->initImplementation();
         }
+        $this->enableNotification();
         $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
@@ -159,6 +160,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
             $this->setPageCount((int) $result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
         }
+        $this->enableNotification();
         $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
@@ -174,6 +176,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         } else {
             throw new LogicException('only files with existing resource and revision can be replaced');
         }
+        $this->enableNotification();
         $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
@@ -193,6 +196,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
             $this->setPageCount((int) $result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
         }
+        $this->enableNotification();
         $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
