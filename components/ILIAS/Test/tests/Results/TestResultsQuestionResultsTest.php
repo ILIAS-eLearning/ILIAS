@@ -37,6 +37,7 @@ class QuestionResultTest extends TestCase
             $feedback = 'give it another try',
             $worked_through = true,
             $answered = true,
+            $requested_hints = 2,
             $recapitulation = 'some recap'
         );
 
@@ -51,5 +52,6 @@ class QuestionResultTest extends TestCase
         $this->assertTrue($qr->isWorkedThrough());
         $this->assertTrue($qr->isAnswered());
         $this->assertEquals($recapitulation, $qr->getContentForRecapitulation());
+        $this->assertEquals($requested_hints, $qr->getNumberOfRequestedHints());
     }
 }
