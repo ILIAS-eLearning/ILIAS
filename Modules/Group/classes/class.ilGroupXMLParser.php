@@ -587,7 +587,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($id_data = $this->parseId($user)) {
                     if ($id_data['local'] or $id_data['imported']) {
                         $this->participants->add($id_data['usr_id'], ilParticipants::IL_GRP_ADMIN);
-                        if (in_array($user, (array) $this->group_data['notifications'])) {
+                        if (isset($this->group_data['notifications']) && in_array($user, (array) $this->group_data['notifications'])) {
                             $this->participants->updateNotification($id_data['usr_id'], true);
                         }
                     }
