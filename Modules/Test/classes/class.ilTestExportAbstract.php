@@ -68,20 +68,23 @@ abstract class ilTestExportAbstract
                 $datarow2[] = $userdata->getName();
                 $datarow2[] = $userdata->getLogin();
             }
-            if (count($this->additionalFields)) {
+
+            $userfields = [];
+            if ($userdata->getUserID() !== null) {
                 $userfields = ilObjUser::_lookupFields($userdata->getUserID());
-                foreach ($this->additionalFields as $fieldname) {
-                    if (strcmp($fieldname, "gender") === 0) {
-                        $datarow2[] = $userfields[$fieldname] !== '' ? $this->lng->txt(
-                            'gender_' . $userfields[$fieldname]
-                        ) : '';
-                    } elseif (strcmp($fieldname, "exam_id") === 0) {
-                        $datarow2[] = $userdata->getExamIdFromScoredPass();
-                    } else {
-                        $datarow2[] = $userfields[$fieldname];
-                    }
+            }
+            foreach ($this->additionalFields as $fieldname) {
+                if ($fieldname === 'gender') {
+                    $datarow2[] = isset($userfields[$fieldname]) && $userfields[$fieldname] !== ''
+                        ? $this->lng->txt('gender_' . $userfields[$fieldname])
+                        : '';
+                } elseif ($fieldname === 'exam_id') {
+                    $datarow2[] = $userdata->getExamIdFromScoredPass();
+                } else {
+                    $datarow2[] = $userfields[$fieldname] ?? '';
                 }
             }
+
             $datarow2[] = $userdata->getReached();
             $datarow2[] = $userdata->getMaxpoints();
             $datarow2[] = $userdata->getMark();
