@@ -242,7 +242,14 @@ class UIWrapper
 
         if ($updated !== true) {
             if (is_array($updated)) {
-                $error = implode("<br />", $updated);
+                $error = "";
+                foreach ($updated as $u) {
+                    if (is_array($u)) {
+                        $error .= implode("<br />", $u);
+                    } else {
+                        $error .= "<br />" . $u;
+                    }
+                }
             } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
