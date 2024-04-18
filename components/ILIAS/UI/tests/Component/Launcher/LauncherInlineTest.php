@@ -109,9 +109,17 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             $target
         );
     }
-    protected function getMessageBox(): I\MessageBox\MessageBox
+
+    /**
+     * @return array{C\MessageBox\MessageBox, string}
+     */
+    protected function getMessageBox(): array
     {
-        return new I\MessageBox\MessageBox(C\MessageBox\MessageBox::INFO, 'message');
+        $html = sha1(C\MessageBox\MessageBox::class);
+        $stub = $this->createMock(C\MessageBox\MessageBox::class);
+        $stub->method('getCanonicalName')->willReturn($html);
+
+        return [$stub, $html];
     }
 
     public function testLauncherInlineConstruction(): void
@@ -130,7 +138,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
 
     public function testLauncherInlineBasicModifier(): void
     {
-        $msg = $this->getMessageBox();
+        [$msg] = $this->getMessageBox();
         $icon = $this->getIconFactory()->standard('course', 'some icon');
         $some_submit_label = 'some submit label';
         $some_cancel_label = 'some cancel label';
@@ -159,7 +167,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $field = $ff->checkbox('Understood', 'ok');
         $group = $ff->group([$field]);
         $evaluation = fn(Result $result, Launcher & $launcher) => true;
-        $instruction = $this->getMessageBox();
+        [$instruction] = $this->getMessageBox();
         $l = $this->getLauncher()
             ->withInputs($group, $evaluation, $instruction);
 
@@ -188,7 +196,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $ff = $this->getInputFactory();
         $group = $ff->group([$ff->checkbox('Understood', 'ok')]);
         $evaluation = fn(Result $result, Launcher & $launcher) => true;
-        $msg = $this->getMessageBox();
+        [$msg, $msg_html] = $this->getMessageBox();
         $icon = $this->getIconFactory()->standard('course', 'some icon');
 
         $l = $this->getLauncher()
@@ -204,9 +212,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $expected = <<<EXP
 <div class="c-launcher c-launcher--inline" id="">
     <div class="c-launcher__status">
-        <div class="c-launcher__status__message">
-            <div class="alert alert-info" role="status">
-                <div class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">info_message</a></div>message</div>
+        <div class="c-launcher__status__message">$msg_html
         </div>
         <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/standard/icon_default.svg" alt="some icon"/></div>
     </div>
@@ -222,9 +228,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                         <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
                         <h1 class="modal-title">different label</h1>
                     </div>
-                    <div class="modal-body">
-                        <div class="alert alert-info" role="status">
-                            <div class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">info_message</a></div>message</div>
+                    <div class="modal-body">$msg_html
                         <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
                             <div class="form-group row">
                                 <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
@@ -245,7 +249,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     </div>
 </div>
 EXP;
-        $r = $this->getDefaultRenderer();
+        $r = $this->getDefaultRenderer(null, [$msg]);
         $actual = $r->render($l);
         $this->assertEquals(
             $this->brutallyTrimSignals($this->brutallyTrimHTML($expected)),
