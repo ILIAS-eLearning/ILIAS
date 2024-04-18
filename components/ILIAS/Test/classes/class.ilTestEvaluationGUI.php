@@ -1876,7 +1876,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $testSession = new ilTestSession();
-        $testSession->loadFromDb($activeId);
+        $testSession->loadFromDb($active_id);
 
         if ($testSession->isSubmitted()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
