@@ -71,7 +71,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                             <div class=\"help-block\">$byline</div>
@@ -97,7 +97,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <div class=\"help-block alert alert-danger\" aria-describedby=\"id_1\" role=\"alert\">$error</div>
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
@@ -122,7 +122,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
@@ -146,7 +146,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                            <input id=\"$id\" type=\"url\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
@@ -169,7 +169,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
@@ -192,7 +192,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                         <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />
                         </div>

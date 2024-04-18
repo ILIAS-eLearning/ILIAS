@@ -389,14 +389,14 @@ class GroupInputTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
+            <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">input1</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <input id="id_1" type="text" class="form-control form-control-sm" />
                 <div class="help-block">in 1</div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">input2</label>
+            <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">input2</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <input id="id_2" type="text" class="form-control form-control-sm" />
                 <div class="help-block">in 2</div>

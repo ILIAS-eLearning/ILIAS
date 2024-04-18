@@ -73,13 +73,13 @@ class LinkInputTest extends ILIAS_UI_TestBase
 
         $expected = '
             <div class="form-group row">
-                <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_label</label>
+                <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input id="id_1" type="text" name="name_0/label_1" class="form-control form-control-sm" />
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_url</label>
+                <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">ui_link_url</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input id="id_2" type="url" name="name_0/url_2" class="form-control form-control-sm" />
                 </div>

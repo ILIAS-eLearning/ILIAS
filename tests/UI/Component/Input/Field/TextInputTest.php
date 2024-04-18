@@ -72,7 +72,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10">
       <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />		
       <div class="help-block">byline</div>
@@ -95,7 +95,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
    <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">an_error</div>
       <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />
@@ -117,7 +117,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" class="form-control form-control-sm" /></div>
 </div>
 ');
@@ -136,7 +136,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" value="value" name="name_0" class="form-control form-control-sm" /></div>
 </div>
 ');
@@ -155,7 +155,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" value="0" name="name_0" class="form-control form-control-sm" /></div>
 </div>
 ');
@@ -173,7 +173,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>	
    <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" class="form-control form-control-sm" /></div>
 </div>
 ');
@@ -191,7 +191,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10"><input id="id_1" type="text" name="name_0" disabled="disabled" class="form-control form-control-sm" /></div>
 </div>
 ');
@@ -226,7 +226,7 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
+   <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>	
    <div class="col-sm-8 col-md-9 col-lg-10">				<input id="id_1" type="text" name="name_0" maxlength="8"  class="form-control form-control-sm" />					</div>
 </div>
 ');

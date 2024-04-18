@@ -136,7 +136,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\"></textarea>
@@ -164,7 +164,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"$min\"></textarea>
@@ -191,7 +191,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex= \"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" maxlength=\"$max\"></textarea>
@@ -222,7 +222,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
@@ -250,7 +250,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\">$value</textarea>
@@ -278,7 +278,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"help-block alert alert-danger\" aria-describedby=\"$id\" role=\"alert\">an_error</div>
                     <div class=\"ui-input-textarea\">
@@ -305,7 +305,7 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = "
             <div class=\"form-group row\">
-                <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                <label tabindex=\"0\" for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" disabled=\"disabled\"></textarea>

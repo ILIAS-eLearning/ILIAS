@@ -154,7 +154,7 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
     <div class="il-section-input-header"><h2>test_scoring</h2></div>
 
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_text_count_system</label>
+        <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">tst_text_count_system</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <div id="id_1" class="il-input-radio">
 
@@ -174,7 +174,7 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
     </div>
 
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_score_cutting</label>
+        <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">tst_score_cutting</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <div id="id_2" class="il-input-radio">
 
@@ -194,7 +194,7 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
     </div>
 
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_scoring</label>
+        <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_scoring</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <div id="id_3" class="il-input-radio">
                 <div class="form-control form-control-sm il-input-radiooption">
@@ -263,12 +263,12 @@ EOT;
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>test_results</h2></div>
         <div class="form-group row">
-            <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
+            <label tabindex="0" for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <input type="checkbox" id="id_8" value="checked" class="form-control form-control-sm" />
                 <div class="help-block">tst_results_access_enabled_desc</div>
                 <div class="form-group row">
-                    <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_setting<span class="asterisk">*</span></label>
+                    <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_setting<span class="asterisk">*</span></label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <div id="id_2" class="il-input-radio">
                             <div class="form-control form-control-sm il-input-radiooption">
@@ -291,7 +291,7 @@ EOT;
                                 <input type="radio" id="id_2_3_opt" value="3" />
                                 <label for="id_2_3_opt">tst_results_access_date</label>
                                 <div class="form-group row">
-                                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
+                                    <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
                                         <div class="input-group date il-input-datetime">
                                             <input id="id_3" type="datetime-local" class="form-control form-control-sm" />
@@ -305,28 +305,28 @@ EOT;
             </div>
 
             <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_status</label>
+                <label tabindex="0" for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_status</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_4" value="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_results_grading_opt_show_status_desc</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_mark</label>
+                <label tabindex="0" for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_mark</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_5" value="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_results_grading_opt_show_mark_desc</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_details</label>
+                <label tabindex="0" for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_details</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_6" value="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_results_grading_opt_show_details_desc</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_deletion</label>
+                <label tabindex="0" for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_deletion</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_7" value="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_pass_deletion_allowed</div>
@@ -364,45 +364,45 @@ EOT;
     <div class="il-section-input-header"><h2>tst_results_details_options</h2></div>
 
     <div class="form-group row">
-        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
+        <label tabindex="0" for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_1" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_results_print_best_solution_info</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
+        <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_2" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
+        <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_3" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
+        <label tabindex="0" for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_4" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
+        <label tabindex="0" for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_5" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
+        <label tabindex="0" for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_6" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
+        <label tabindex="0" for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_7" value="checked" checked="checked" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
         </div>
     </div>
@@ -430,13 +430,13 @@ EOT;
     <div class="il-section-input-header"><h2>tst_results_gamification</h2></div>
 
     <div class="form-group row">
-        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
+        <label tabindex="0" for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_10" value="checked" class="form-control form-control-sm" />
             <div class="help-block">tst_highscore_description</div>
 
             <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_mode<span class="asterisk">*</span></label>
+                <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_mode<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_2" class="il-input-radio">
                         <div class="form-control form-control-sm il-input-radiooption">
@@ -461,7 +461,7 @@ EOT;
             </div>
 
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_top_num<span class="asterisk">*</span></label>
+                <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_top_num<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input id="id_3" type="number" value="10" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_top_num_description</div>
@@ -469,42 +469,42 @@ EOT;
             </div>
 
             <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_anon</label>
+                <label tabindex="0" for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_anon</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_4" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_anon_description</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_achieved_ts</label>
+                <label tabindex="0" for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_achieved_ts</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_5" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_achieved_ts_description</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_score</label>
+                <label tabindex="0" for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_score</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_6" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_score_description</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_percentage</label>
+                <label tabindex="0" for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_percentage</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_7" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_percentage_description</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_hints</label>
+                <label tabindex="0" for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_hints</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_8" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_hints_description</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_wtime</label>
+                <label tabindex="0" for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_wtime</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <input type="checkbox" id="id_9" value="checked" checked="checked" class="form-control form-control-sm" />
                     <div class="help-block">tst_highscore_wtime_description</div>
