@@ -687,8 +687,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        // TODO: general access checks (!)
-
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
             $this->addHeaderAction();
@@ -742,10 +740,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             case strtolower(ilObjectMetaDataGUI::class):
 
-                $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
+                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                    $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('permission_denied'), true);
+                } else {
 
-                $gui = new ilObjectMetaDataGUI($obj);
-                $DIC->ctrl()->forwardCommand($gui);
+                    $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
+
+                    $gui = new ilObjectMetaDataGUI($obj);
+                    $DIC->ctrl()->forwardCommand($gui);
+                }
                 break;
 
             case strtolower(ilPermissionGUI::class):
