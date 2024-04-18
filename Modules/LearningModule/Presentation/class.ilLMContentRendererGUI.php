@@ -252,7 +252,7 @@ class ilLMContentRendererGUI
                     $lm_pg_obj->getId(),
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
-                    $this->lm_set->get("time_scheduled_page_activation"),
+                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                     false,
                     0,
                     $this->lang
