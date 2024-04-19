@@ -10493,7 +10493,7 @@ irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
 irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
-irss#:#home_directoryStammverzeichnis
+irss#:#home_directory#:#Stammverzeichnis
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
 irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
