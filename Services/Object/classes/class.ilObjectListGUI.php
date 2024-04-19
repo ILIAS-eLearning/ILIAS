@@ -2913,7 +2913,7 @@ class ilObjectListGUI
         $content = $this->tpl->get();
         $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $content);
         if ($this->context === self::CONTEXT_REPOSITORY
-            && $this->requested_cmd === "view"
+            && ($this->requested_cmd === "view" || $this->requested_cmd === "" || $this->requested_cmd === "render")
             && $file_upload_dropzone->isUploadAllowed($this->type)
         ) {
             return $file_upload_dropzone->getDropzoneHtml();
