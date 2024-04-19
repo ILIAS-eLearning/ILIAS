@@ -99,7 +99,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $a_only_user_anwers = false
     ): array {
         if (is_array($a_working_data)) {
-            $user_answer = $a_working_data[0];
+            $user_answer = $a_working_data[0] ?? null;
         }
 
         $options = array();
