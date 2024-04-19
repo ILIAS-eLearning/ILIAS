@@ -41,6 +41,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class LocalUserPasswordSettingsGUI
 {
+    private const NEW_PASSWORD = 'new_password';
+    private const CURRENT_PASSWORD = 'current_password';
+
     private readonly ServerRequestInterface $request;
     private readonly ilErrorHandling $error;
     private readonly Refinery $refinery;
@@ -119,7 +122,7 @@ class LocalUserPasswordSettingsGUI
             $pw_info_set = false;
             if ((int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_LOCAL) {
                 $cpass = $this->ui_factory->input()->field()->password(
-                    $this->lng->txt('current_password'),
+                    $this->lng->txt(self::CURRENT_PASSWORD),
                     ilSecuritySettingsChecker::getPasswordRequirementsInfo()
                 );
 
@@ -128,7 +131,7 @@ class LocalUserPasswordSettingsGUI
                     $cpass = $cpass->withRequired(true);
                 }
                 $cpass = $cpass->withRevelation(true);
-                $cpass_error = $errors['current_password'] ?? [];
+                $cpass_error = $errors[self::CURRENT_PASSWORD] ?? [];
                 if ($cpass_error !== []) {
                     $cpass = $cpass->withError(implode('<br>', $cpass_error));
                 }
@@ -143,7 +146,7 @@ class LocalUserPasswordSettingsGUI
                     }, $this->lng->txt('passwd_wrong'))
                 );
 
-                $items['current_password'] = $cpass;
+                $items[self::CURRENT_PASSWORD] = $cpass;
             }
 
             // new password
@@ -155,7 +158,7 @@ class LocalUserPasswordSettingsGUI
             }
             $ipass = $ipass->withRequired(true);
             $ipass = $ipass->withRevelation(true);
-            $ipass_error = $errors['new_password'] ?? [];
+            $ipass_error = $errors[self::NEW_PASSWORD] ?? [];
             if ($ipass_error !== []) {
                 $ipass = $ipass->withError(implode('<br>', $ipass_error));
             }
@@ -192,7 +195,7 @@ class LocalUserPasswordSettingsGUI
                     }
                 )
             );
-            $items['new_password'] = $ipass;
+            $items[self::NEW_PASSWORD] = $ipass;
 
             switch ($this->user->getAuthMode(true)) {
                 case ilAuthUtils::AUTH_LOCAL:
@@ -237,20 +240,20 @@ class LocalUserPasswordSettingsGUI
          * @var PasswordInput $cp
          * @var PasswordInput $np
          */
-        $cp = $section->getInputs()['current_password'];
-        $np = $section->getInputs()['new_password'];
-        $errors = ['current_password' => [], 'new_password' => []];
+        $cp = $section->getInputs()[self::CURRENT_PASSWORD];
+        $np = $section->getInputs()[self::NEW_PASSWORD];
+        $errors = [self::CURRENT_PASSWORD => [], self::NEW_PASSWORD => []];
 
         if (!$form->getError()) {
             $data = $form->getData();
             $error = false;
             if ($cp->getError()) {
                 $error = true;
-                $errors['current_password'][] = $cp->getError();
+                $errors[self::CURRENT_PASSWORD][] = $cp->getError();
             }
             if ($np->getError()) {
                 $error = true;
-                $errors['new_password'][] = $np->getError();
+                $errors[self::NEW_PASSWORD][] = $np->getError();
             }
 
             $entered_current_password = $cp->getValue();
@@ -261,7 +264,7 @@ class LocalUserPasswordSettingsGUI
                 ($this->user->isPasswordExpired() || $this->user->isPasswordChangeDemanded())
             ) {
                 $error = true;
-                $errors['new_password'][] = $this->lng->txt('new_pass_equals_old_pass');
+                $errors[self::NEW_PASSWORD][] = $this->lng->txt('new_pass_equals_old_pass');
             }
 
             if (!$error) {

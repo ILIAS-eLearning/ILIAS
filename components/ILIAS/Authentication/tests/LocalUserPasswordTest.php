@@ -21,11 +21,9 @@ declare(strict_types=1);
 use ILIAS\Authentication\Password\LocalUserPasswordEncoderFactory;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use org\bovigo\vfs;
+use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';
-require_once __DIR__ . '/ilUserBaseTest.php';
-
-class LocalUserPasswordTest extends ilUserBaseTest
+class LocalUserPasswordTest extends TestCase
 {
     private const PASSWORD = 'password';
     private const ENCODED_PASSWORD = 'encoded';
@@ -66,7 +64,7 @@ class LocalUserPasswordTest extends ilUserBaseTest
      */
     public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation(): void
     {
-        $this->assertException(ilUserException::class);
+        $this->expectException(ilUserException::class);
         new LocalUserPasswordManager(['data_directory' => $this->getTestDirectoryUrl()]);
     }
 
@@ -75,7 +73,7 @@ class LocalUserPasswordTest extends ilUserBaseTest
      */
     public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutFactory(): void
     {
-        $this->assertException(ilUserException::class);
+        $this->expectException(ilUserException::class);
         new LocalUserPasswordManager([
             'password_encoder' => 'md5',
             'data_directory' => $this->getTestDirectoryUrl()
@@ -405,7 +403,7 @@ class LocalUserPasswordTest extends ilUserBaseTest
      */
     public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderWasInjected(): void
     {
-        $this->assertException(ilUserException::class);
+        $this->expectException(ilUserException::class);
         $factory = new LocalUserPasswordEncoderFactory([
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
@@ -418,7 +416,7 @@ class LocalUserPasswordTest extends ilUserBaseTest
      */
     public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndNoDefaultEncoderWasSpecifiedInFallbackMode(): void
     {
-        $this->assertException(ilUserException::class);
+        $this->expectException(ilUserException::class);
         $factory = new LocalUserPasswordEncoderFactory([
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
@@ -431,7 +429,7 @@ class LocalUserPasswordTest extends ilUserBaseTest
      */
     public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndTheDefaultEncoderDoesNotMatchOneOfTheSupportedEncodersInFallbackMode(): void
     {
-        $this->assertException(ilUserException::class);
+        $this->expectException(ilUserException::class);
         $factory = new LocalUserPasswordEncoderFactory([
             'default_password_encoder' => 'phpunit',
             'data_directory' => $this->getTestDirectoryUrl()

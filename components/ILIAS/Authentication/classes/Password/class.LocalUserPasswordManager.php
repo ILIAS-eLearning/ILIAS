@@ -33,6 +33,7 @@ use ilUserException;
 class LocalUserPasswordManager
 {
     private const MIN_SALT_SIZE = 16;
+
     private static ?self $instance = null;
     private ?LocalUserPasswordEncoderFactory $encoderFactory = null;
     private ?ilSetting $settings = null;
@@ -71,18 +72,17 @@ class LocalUserPasswordManager
         }
 
         if (!$this->getEncoderName()) {
-            throw new ilUserException(
-                sprintf('"password_encoder" must be set in %s.', print_r($config, true))
-            );
+            throw new ilUserException(sprintf(
+                '"password_encoder" must be set in %s.',
+                print_r($config, true)
+            ));
         }
 
         if (!$this->getEncoderFactory() instanceof LocalUserPasswordEncoderFactory) {
-            throw new ilUserException(
-                sprintf(
-                    '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
-                    print_r($config, true)
-                )
-            );
+            throw new ilUserException(sprintf(
+                '"encoder_factory" must be instance of LocalUserPasswordEncoderFactory and set in %s.',
+                print_r($config, true)
+            ));
         }
     }
 
@@ -103,16 +103,16 @@ class LocalUserPasswordManager
             [
                 'encoder_factory' => new LocalUserPasswordEncoderFactory(
                     [
-                        'default_password_encoder' => 'bcryptphp',
                         // bcrypt (native PHP impl.) is still the default for the factory
-                        'memory_cost' => 19_456,
+                        'default_password_encoder' => 'bcryptphp',
                         // Recommended: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
+                        'memory_cost' => 19_456,
                         'ignore_security_flaw' => true,
                         'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
-                'password_encoder' => 'argon2id',
                 // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
+                'password_encoder' => 'argon2id',
                 'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
                 'db' => $DIC->database(),
             ]

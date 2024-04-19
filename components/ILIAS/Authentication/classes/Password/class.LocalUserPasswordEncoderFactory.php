@@ -113,9 +113,10 @@ class LocalUserPasswordEncoderFactory
         $this->supported_encoders = [];
         foreach ($supported_encoders as $encoder) {
             if (!($encoder instanceof ilPasswordEncoder) || !$encoder->isSupportedByRuntime()) {
-                throw new ilUserException(
-                    sprintf('One of the passed encoders is not valid: %s.', print_r($encoder, true))
-                );
+                throw new ilUserException(sprintf(
+                    'One of the passed encoders is not valid: %s.',
+                    print_r($encoder, true)
+                ));
             }
             $this->supported_encoders[$encoder->getName()] = $encoder;
         }
@@ -141,6 +142,7 @@ class LocalUserPasswordEncoderFactory
         if (!$this->getDefaultEncoder()) {
             throw new ilUserException('No default encoder specified, fallback not possible.');
         }
+
         if (!isset($this->supported_encoders[$this->getDefaultEncoder()])) {
             throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
         }
