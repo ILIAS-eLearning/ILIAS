@@ -387,13 +387,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             $row = $this->question->getRow($i);
             $row_title = $row->title;
 
-            $a_row[] = $answer_map[$row_title];
+            $a_row[] = $answer_map[$row_title] ?? null;
             if ($this->question->getSubtype() === 0) {
-                $a_row[] = $answer_map[$row_title . "|scale"];    // see #20646
+                $a_row[] = $answer_map[$row_title . "|scale"] ?? null;    // see #20646
             }
 
             if ($row->other) {
-                $a_row[] = $answer_map[$row_title . "|txt"];
+                $a_row[] = $answer_map[$row_title . "|txt"] ?? null;
             }
 
             // mc

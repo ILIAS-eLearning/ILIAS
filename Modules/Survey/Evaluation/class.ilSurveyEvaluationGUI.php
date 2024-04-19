@@ -594,7 +594,7 @@ class ilSurveyEvaluationGUI
             $a_excel->setCell($a_excel_row, 0, $this->lng->txt("freetext_answers"));
 
             // mc/sc
-            if (!is_array($a_text_answers[""])) {
+            if (!is_array($a_text_answers[""] ?? null)) {
                 $a_excel->setColors("B" . $a_excel_row . ":C" . $a_excel_row, self::EXCEL_SUBTITLE);
                 $a_excel->setCell($a_excel_row, 1, $this->lng->txt("title"));
                 $a_excel->setCell($a_excel_row++, 2, $this->lng->txt("answer"));
@@ -607,7 +607,7 @@ class ilSurveyEvaluationGUI
 
             foreach ($a_text_answers as $var => $items) {
                 foreach ($items as $item) {
-                    if (!is_array($a_text_answers[""])) {
+                    if (!is_array($a_text_answers[""] ?? null)) {
                         $a_excel->setCell($a_excel_row, 1, $var);
                         $a_excel->setCell($a_excel_row++, 2, $item);
                     } else {
