@@ -115,7 +115,7 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
                 $this->pg_obj,
                 $this->hier_id,
                 $this->pc_id,
-                (int) $form->getInput("page_templ")
+                $form->getInput("page_templ")
             );
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {

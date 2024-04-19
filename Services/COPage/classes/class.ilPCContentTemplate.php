@@ -37,7 +37,7 @@ class ilPCContentTemplate extends ilPageContent
         parent::setNode($a_node);		// this is the PageContent node
     }
 
-    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, int $a_page_templ): void
+    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, string $a_page_templ): void
     {
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);
