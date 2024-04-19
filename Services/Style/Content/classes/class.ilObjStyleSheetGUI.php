@@ -1485,7 +1485,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $this->style_request->getTempType()
             );
             foreach ($scs as $k => $type) {
-                $values[$k . "_class"] = $t["classes"][$k];
+                $values[$k . "_class"] = $t["classes"][$k] ?? "";
             }
             $this->form_gui->setValuesByArray($values);
         }
