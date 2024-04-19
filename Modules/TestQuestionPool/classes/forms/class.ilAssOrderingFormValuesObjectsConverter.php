@@ -157,22 +157,22 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         return $postVar;
     }
 
-    protected function needsConvertToValues($elementsOrValues): bool
+    protected function needsConvertToValues($elements_or_values): bool
     {
-        if (!count($elementsOrValues)) {
+        if (!count($elements_or_values)) {
             return false;
         }
 
-        return (current($elementsOrValues) instanceof ilAssOrderingElement);
+        return (current($elements_or_values) instanceof ilAssOrderingElement);
     }
 
-    public function manipulateFormInputValues(array $inputValues): array
+    public function manipulateFormInputValues(array $input_values): array
     {
-        if ($this->needsConvertToValues($inputValues)) {
-            $inputValues = $this->collectValuesFromElements($inputValues);
+        if ($this->needsConvertToValues($input_values)) {
+            $input_values = $this->collectValuesFromElements($input_values);
         }
 
-        return $inputValues;
+        return $input_values;
     }
 
     protected function collectValuesFromElements(array $elements): array
