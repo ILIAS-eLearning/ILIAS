@@ -377,8 +377,8 @@ class ilObjUserGUI extends ilObjectGUI
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
 
-        if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id) and
-            !$rbacsystem->checkAccess('cat_administrate_users', $this->usrf_ref_id)) {
+        if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id)
+            && !$rbacsystem->checkAccess('cat_administrate_users', $this->usrf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -401,12 +401,13 @@ class ilObjUserGUI extends ilObjectGUI
         $ilUser = $DIC['ilUser'];
         $rbacadmin = $DIC['rbacadmin'];
         $rbacsystem = $DIC['rbacsystem'];
+        $rbacreview = $DIC['rbacreview'];
 
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         // User folder
-        if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id) &&
-            !$ilAccess->checkAccess('cat_administrate_users', "", $this->usrf_ref_id)) {
+        if (!$rbacsystem->checkAccess('create_usr', $this->usrf_ref_id)
+            && !$ilAccess->checkAccess('cat_administrate_users', "", $this->usrf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -424,7 +425,13 @@ class ilObjUserGUI extends ilObjectGUI
 
             // checks passed. save user
             $userObj = $this->loadValuesFromForm();
-            $userObj->setPasswd($this->form_gui->getInput('passwd'), IL_PASSWD_PLAIN);
+
+            if ($ilUser->getId() === (int) SYSTEM_USER_ID
+                || !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($this->object->getId()))
+                || in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+                $userObj->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+            }
+
             $userObj->setTitle($userObj->getFullname());
             $userObj->setDescription($userObj->getEmail());
 
@@ -1113,25 +1120,25 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->form_gui->addItem($lo);
 
-        // passwords
-        // @todo: do not show passwords, if there is not a single auth, that
-        // allows password setting
-        $pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
-        $pw->setUseStripSlashes(false);
-        $pw->setSize(32);
-        $pw->setMaxLength(80); // #17221
-        $pw->setValidateAuthPost("auth_mode");
-        if ($a_mode == "create") {
-            $pw->setRequiredOnAuth(true);
+        if ($this->user->getId() === (int) SYSTEM_USER_ID
+            || !in_array(SYSTEM_ROLE_ID, $this->rbacreview->assignedRoles($this->object->getId()))
+            || in_array(SYSTEM_ROLE_ID, $this->rbacreview->assignedRoles($this->user->getId()))) {
+
+            // passwords
+            // @todo: do not show passwords, if there is not a single auth, that
+            // allows password setting
+            $pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
+            $pw->setUseStripSlashes(false);
+            $pw->setSize(32);
+            $pw->setMaxLength(80); // #17221
+            $pw->setValidateAuthPost("auth_mode");
+            if ($a_mode == "create") {
+                $pw->setRequiredOnAuth(true);
+            }
+            $pw->setInfo(ilUtil::getPasswordRequirementsInfo());
+            $this->form_gui->addItem($pw);
+            // @todo: invisible/hidden passwords
         }
-        if ($this->user->getId() !== (int) SYSTEM_USER_ID
-            && in_array(SYSTEM_ROLE_ID, $this->rbacreview->assignedRoles($this->object->getId()))
-            && !in_array(SYSTEM_ROLE_ID, $this->rbacreview->assignedRoles($this->user->getId()))) {
-            $pw->setDisabled(true);
-        }
-        $pw->setInfo(ilUtil::getPasswordRequirementsInfo());
-        $this->form_gui->addItem($pw);
-        // @todo: invisible/hidden passwords
 
         // external account
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
