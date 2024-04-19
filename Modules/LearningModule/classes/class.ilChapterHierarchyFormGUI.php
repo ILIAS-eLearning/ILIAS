@@ -258,7 +258,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
             $active = ilLMPage::_lookupActive(
                 $a_item["node_id"],
                 $this->lm_type,
-                $lm_set->get("time_scheduled_page_activation")
+                (bool) $lm_set->get("time_scheduled_page_activation")
             );
 
             // is page scheduled?
@@ -311,7 +311,8 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
             }
             return $lng->txt("pg");
         }
-        return $lng->txt("st");;
+        return $lng->txt("st");
+        ;
     }
 
     /**
