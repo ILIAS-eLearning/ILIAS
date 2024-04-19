@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 use ILIAS\DI\LoggingServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
-use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * GUI class for personal profile
@@ -53,7 +53,7 @@ class ilPersonalSettingsGUI
 
     public function __construct()
     {
-        /* @var ILIAS\DI\Container $DIC */
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tpl = $DIC['tpl'];
@@ -145,7 +145,8 @@ class ilPersonalSettingsGUI
                     [
                         ilDashboardGUI::class,
                         self::class,
-                        LocalUserPasswordSettingsGUI::class],
+                        LocalUserPasswordSettingsGUI::class
+                    ],
                     'showPassword'
                 ),
                 '',
@@ -155,8 +156,10 @@ class ilPersonalSettingsGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) &&
-            $this->settings->get('show_mail_settings')) {
+        if (
+            $this->settings->get('show_mail_settings') &&
+            $this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
+        ) {
             $this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
 
             $this->tabs->addTarget(
@@ -168,7 +171,7 @@ class ilPersonalSettingsGUI
         }
 
         if ($this->settings->get('user_delete_own_account') &&
-            $this->user->getId() != SYSTEM_USER_ID) {
+            $this->user->getId() !== SYSTEM_USER_ID) {
             $this->tabs->addTab(
                 'delacc',
                 $this->lng->txt('user_delete_own_account'),
@@ -242,10 +245,10 @@ class ilPersonalSettingsGUI
                 $options = [];
                 foreach ($skins as $skin) {
                     foreach ($skin->getStyles() as $style) {
-                        if (!ilSystemStyleSettings::_lookupActivatedStyle(
-                            $skin->getId(),
-                            $style->getId()
-                        ) || $style->isSubstyle()) {
+                        if (
+                            !ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId()) ||
+                            $style->isSubstyle()
+                        ) {
                             continue;
                         }
 
@@ -270,7 +273,7 @@ class ilPersonalSettingsGUI
             $options = [];
 
             foreach ($hits_options as $hits_option) {
-                $hstr = ($hits_option == 9999)
+                $hstr = ($hits_option === 9999)
                     ? $this->lng->txt('no_limit')
                     : $hits_option;
                 $options[$hits_option] = $hstr;
@@ -314,8 +317,7 @@ class ilPersonalSettingsGUI
             $max_value = max($min_value, ($expires / 60) - 1);
 
             $current_user_value = $this->user->getPref('session_reminder_lead_time');
-            if ($current_user_value < $min_value ||
-                $current_user_value > $max_value) {
+            if ($current_user_value < $min_value || $current_user_value > $max_value) {
                 $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
             }
             $value = min(
@@ -425,8 +427,10 @@ class ilPersonalSettingsGUI
                 if ($this->form->getInput('skin_style') != '') {
                     $sknst = explode(':', $this->form->getInput('skin_style'));
 
-                    if ($this->user->getPref('style') != $sknst[1] ||
-                        $this->user->getPref('skin') != $sknst[0]) {
+                    if (
+                        $this->user->getPref('style') != $sknst[1] ||
+                        $this->user->getPref('skin') != $sknst[0]
+                    ) {
                         $this->user->setPref('skin', $sknst[0]);
                         $this->user->setPref('style', $sknst[1]);
                     }
@@ -451,7 +455,7 @@ class ilPersonalSettingsGUI
             $this->user->setPref('store_last_visited', $this->form->getInput('store_last_visited'));
             if ((int) $this->form->getInput('store_last_visited') > 0) {
                 $this->navigation_history->deleteDBEntries();
-                if ((int) $this->form->getInput('store_last_visited') == 2) {
+                if ((int) $this->form->getInput('store_last_visited') === 2) {
                     $this->navigation_history->deleteSessionEntries();
                 }
             }
@@ -516,11 +520,11 @@ class ilPersonalSettingsGUI
     protected function deleteOwnAccountStep1(): void
     {
         if (!(bool) $this->settings->get('user_delete_own_account') ||
-            $this->user->getId() == SYSTEM_USER_ID) {
+            $this->user->getId() === SYSTEM_USER_ID) {
             $this->ctrl->redirect($this, 'showGeneralSettings');
         }
 
-        // too make sure
+        // to make sure
         $this->user->removeDeletionFlag();
 
         $this->setHeader();
@@ -566,9 +570,11 @@ class ilPersonalSettingsGUI
 
     protected function deleteOwnAccountStep2(): void
     {
-        if (!(bool) $this->settings->get('user_delete_own_account') ||
-            $this->user->getId() == SYSTEM_USER_ID ||
-            !$this->user->hasDeletionFlag()) {
+        if (
+            !(bool) $this->settings->get('user_delete_own_account') ||
+            $this->user->getId() === SYSTEM_USER_ID ||
+            !$this->user->hasDeletionFlag()
+        ) {
             $this->ctrl->redirect($this, 'showGeneralSettings');
         }
 
@@ -599,9 +605,11 @@ class ilPersonalSettingsGUI
 
     protected function deleteOwnAccountStep3(): void
     {
-        if (!(bool) $this->settings->get('user_delete_own_account') ||
-            $this->user->getId() == SYSTEM_USER_ID ||
-            !$this->user->hasDeletionFlag()) {
+        if (
+            !(bool) $this->settings->get('user_delete_own_account') ||
+            $this->user->getId() === SYSTEM_USER_ID ||
+            !$this->user->hasDeletionFlag()
+        ) {
             $this->ctrl->redirect($this, 'showGeneralSettings');
         }
 

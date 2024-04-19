@@ -71,11 +71,18 @@ class LocalUserPasswordManager
         }
 
         if (!$this->getEncoderName()) {
-            throw new ilUserException(sprintf('"password_encoder" must be set in %s.', print_r($config, true)));
+            throw new ilUserException(
+                sprintf('"password_encoder" must be set in %s.', print_r($config, true))
+            );
         }
 
         if (!$this->getEncoderFactory() instanceof LocalUserPasswordEncoderFactory) {
-            throw new ilUserException(sprintf('"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.', print_r($config, true)));
+            throw new ilUserException(
+                sprintf(
+                    '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
+                    print_r($config, true)
+                )
+            );
         }
     }
 
@@ -152,12 +159,23 @@ class LocalUserPasswordManager
         $user->setPasswordEncodingType($encoder->getName());
         if ($encoder->requiresSalt()) {
             $user->setPasswordSalt(
-                substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(self::MIN_SALT_SIZE))), 0, 22)
+                substr(
+                    str_replace(
+                        '+',
+                        '.',
+                        base64_encode(ilPasswordUtils::getBytes(self::MIN_SALT_SIZE))
+                    ),
+                    0,
+                    22
+                )
             );
         } else {
             $user->setPasswordSalt(null);
         }
-        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), ilObjUser::PASSWD_CRYPTED);
+        $user->setPasswd(
+            $encoder->encodePassword($raw, (string) $user->getPasswordSalt()),
+            ilObjUser::PASSWD_CRYPTED
+        );
     }
 
     public function isEncodingTypeSupported(string $name): bool

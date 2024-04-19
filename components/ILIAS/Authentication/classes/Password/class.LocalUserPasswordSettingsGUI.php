@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Authentication\Password;
 
+use Closure;
 use ilAuthUtils;
 use ilCtrlInterface;
 use ilDAVActivationChecker;
+use ilErrorHandling;
 use ilGlobalTemplateInterface;
 use ILIAS\Data\Password;
-use ILIAS\Export\ImportStatus\Exception\ilException;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
@@ -37,11 +38,11 @@ use ilObjUser;
 use ilSecuritySettingsChecker;
 use ilSession;
 use Psr\Http\Message\ServerRequestInterface;
-use Closure;
 
 class LocalUserPasswordSettingsGUI
 {
     private readonly ServerRequestInterface $request;
+    private readonly ilErrorHandling $error;
     private readonly Refinery $refinery;
     private readonly UIFactory $ui_factory;
     private readonly UIRenderer $ui_renderer;
@@ -56,6 +57,7 @@ class LocalUserPasswordSettingsGUI
         global $DIC;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->error = $DIC->error();
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -74,7 +76,7 @@ class LocalUserPasswordSettingsGUI
                 if (method_exists($this, $cmd)) {
                     $this->$cmd();
                 } else {
-                    throw new ilException('');
+                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
 
                 break;
@@ -89,7 +91,10 @@ class LocalUserPasswordSettingsGUI
         // check whether password of user have to be changed
         // due to first login or password of user is expired
         if ($this->user->isPasswordChangeDemanded()) {
-            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('password_change_on_first_login_demand'));
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_INFO,
+                $this->lng->txt('password_change_on_first_login_demand')
+            );
         } elseif ($this->user->isPasswordExpired()) {
             $msg = $this->lng->txt('password_expired');
             $password_age = $this->user->getPasswordAge();
@@ -99,7 +104,9 @@ class LocalUserPasswordSettingsGUI
         if (!$form && !$hide_form) {
             $form = $this->getPasswordForm();
         }
-        $this->tpl->setContent(!$hide_form ? $this->ui_renderer->render($form) : $this->ui_renderer->render($message_box));
+        $this->tpl->setContent(
+            !$hide_form ? $this->ui_renderer->render($form) : $this->ui_renderer->render($message_box)
+        );
         $this->tpl->printToStdout();
     }
 
@@ -126,7 +133,7 @@ class LocalUserPasswordSettingsGUI
                     $cpass = $cpass->withError(implode('<br>', $cpass_error));
                 }
                 $cpass = $cpass->withAdditionalTransformation(
-                    $this->refinery->custom()->constraint(function (Password $value) {
+                    $this->refinery->custom()->constraint(function (Password $value): bool {
                         return
                             ((int) $this->user->getAuthMode(true) !== ilAuthUtils::AUTH_LOCAL) ||
                             LocalUserPasswordManager::getInstance()->verifyPassword(
@@ -153,10 +160,9 @@ class LocalUserPasswordSettingsGUI
                 $ipass = $ipass->withError(implode('<br>', $ipass_error));
             }
             $ipass = $ipass->withAdditionalTransformation(
-                $this->refinery->custom()->constraint(function (Password $value) {
+                $this->refinery->custom()->constraint(function (Password $value): bool {
                     return ilSecuritySettingsChecker::isPassword($value->toString(), $custom_error);
-                }, function (Closure $txt, Password $value) {
-
+                }, function (Closure $txt, Password $value): string {
                     $custom_error = '';
                     !ilSecuritySettingsChecker::isPassword($value->toString(), $custom_error);
                     if ($custom_error !== '' && $custom_error !== null) {
@@ -168,14 +174,14 @@ class LocalUserPasswordSettingsGUI
             );
             $ipass = $ipass->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    function (Password $value) {
+                    function (Password $value): bool {
                         return ilSecuritySettingsChecker::isPasswordValidForUserContext(
                             $value->toString(),
                             $this->user,
                             $error_lng_var
                         );
                     },
-                    function (Closure $cls, Password $value) {
+                    function (Closure $cls, Password $value): string {
                         ilSecuritySettingsChecker::isPasswordValidForUserContext(
                             $value->toString(),
                             $this->user,
@@ -227,7 +233,8 @@ class LocalUserPasswordSettingsGUI
 
         $form = $this->getPasswordForm()->withRequest($this->request);
         $section = $form->getInputs()['password'];
-        /** @var PasswordInput $cp
+        /**
+         * @var PasswordInput $cp
          * @var PasswordInput $np
          */
         $cp = $section->getInputs()['current_password'];
@@ -266,12 +273,20 @@ class LocalUserPasswordSettingsGUI
                 }
 
                 if (ilSession::get('orig_request_target')) {
-                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
+                    $this->tpl->setOnScreenMessage(
+                        $this->tpl::MESSAGE_TYPE_SUCCESS,
+                        $this->lng->txt('saved_successfully'),
+                        true
+                    );
                     $target = ilSession::get('orig_request_target');
                     ilSession::set('orig_request_target', '');
                     $this->ctrl->redirectToURL($target);
                 } else {
-                    $this->showPassword(null, true, $this->ui_factory->messageBox()->success($this->lng->txt('saved_successfully')));
+                    $this->showPassword(
+                        null,
+                        true,
+                        $this->ui_factory->messageBox()->success($this->lng->txt('saved_successfully'))
+                    );
 
                     return;
                 }

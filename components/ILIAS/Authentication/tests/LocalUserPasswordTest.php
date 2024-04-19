@@ -25,7 +25,7 @@ use org\bovigo\vfs;
 require_once __DIR__ . '/../../../../vendor/composer/vendor/autoload.php';
 require_once __DIR__ . '/ilUserBaseTest.php';
 
-class ilLocalUserPasswordTest extends ilUserBaseTest
+class LocalUserPasswordTest extends ilUserBaseTest
 {
     private const PASSWORD = 'password';
     private const ENCODED_PASSWORD = 'encoded';
