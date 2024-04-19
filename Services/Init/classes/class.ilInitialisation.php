@@ -975,7 +975,6 @@ class ilInitialisation
                 $DIC->refinery()->always('')
             ])
         );
-
         $script = "login.php?" . $target . "client_id=" . $client_id;
         $script .= $session_expired ? "&session_expired=1" : "";
 
@@ -1362,7 +1361,6 @@ class ilInitialisation
             if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
                 ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
             }
-
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
             if (self::blockedAuthentication($current_script)) {
