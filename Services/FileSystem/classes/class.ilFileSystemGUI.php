@@ -119,6 +119,10 @@ class ilFileSystemGUI
 
     public function isValidSuffix(string $a_suffix): bool
     {
+        if (empty($a_suffix)) {
+            return true;
+        }
+
         if (is_array($this->getForbiddenSuffixes()) && in_array($a_suffix, $this->getForbiddenSuffixes())) {
             return false;
         }
@@ -861,7 +865,7 @@ class ilFileSystemGUI
             // unlink forbidden file types
             foreach ($diff_r as $f => $d) {
                 $pi = pathinfo($f);
-                if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"]))) {
+                if (!is_dir($f) && !$this->isValidSuffix(strtolower($pi["extension"] ?? ''))) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_some_invalid_file_types_removed") . " (" . $pi["extension"] . ")", true);
                     unlink($f);
                 }
