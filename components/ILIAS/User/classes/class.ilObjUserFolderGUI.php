@@ -939,8 +939,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             )
         );
         if (
-            !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId()) &&
-            !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
+            !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
+            && !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             return;
