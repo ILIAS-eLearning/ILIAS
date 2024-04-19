@@ -1835,20 +1835,28 @@ class ilObjMediaObject extends ilObject
             if (ilExternalMediaAnalyzer::isYoutube($st_item->getLocation())) {
                 $st_item->setFormat("video/youtube");
                 $par = ilExternalMediaAnalyzer::extractYoutubeParameters($st_item->getLocation());
-                $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
-                $this->setTitle($meta["title"] ?? "");
-                $description = str_replace("\n", "", $meta["description"] ?? "");
+                try {
+                    $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
+                    $this->setTitle($meta["title"] ?? "");
+                    $description = str_replace("\n", "", $meta["description"] ?? "");
+                } catch (Exception $e) {
+                    $this->setTitle($st_item->getLocation());
+                    $description = "";
+                }
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
                 $st_item->setDuration((int) ($meta["duration"] ?? 0));
-                $url = parse_url($meta["thumbnail_url"] ?? "");
-                $file = basename($url["path"]);
-                copy(
-                    $meta["thumbnail_url"],
-                    ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
-                    pathinfo($file, PATHINFO_EXTENSION)
-                );
+                $thumbnail_url = $meta["thumbnail_url"] ?? "";
+                $url = parse_url($thumbnail_url);
+                if ($thumbnail_url !== "") {
+                    $file = basename($url["path"]);
+                    copy(
+                        $meta["thumbnail_url"],
+                        ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
+                        pathinfo($file, PATHINFO_EXTENSION)
+                    );
+                }
             }
         }
     }

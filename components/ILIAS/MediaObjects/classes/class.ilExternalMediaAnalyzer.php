@@ -202,7 +202,6 @@ class ilExternalMediaAnalyzer
     public static function getYoutubeMetadata(string $vid): array
     {
         $json_url = 'https://www.youtube.com/oembed?url=http%3A//youtube.com/watch%3Fv%3D' . $vid . '&format=json';
-
         $curl = curl_init($json_url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
