@@ -55,7 +55,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
                 $active = ilLMPage::_lookupActive(
                     $a_node["child"],
                     $this->lm->getType(),
-                    $lm_set->get("time_scheduled_page_activation")
+                    (bool) $lm_set->get("time_scheduled_page_activation")
                 );
 
                 // is page scheduled?
@@ -100,7 +100,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             $active = ilLMPage::_lookupActive(
                 $a_node["child"],
                 $this->lm->getType(),
-                $lm_set->get("time_scheduled_page_activation")
+                (bool) $lm_set->get("time_scheduled_page_activation")
             );
 
             if (!$active) {
