@@ -15,6 +15,11 @@ processed by the ILIAS project.
       - [in](#in)
         * [series](#series)
         * [parallel](#parallel)
+      - [encode](#encode)
+        * [htmlSpecialCharsAsEntities](#htmlSpecialCharsAsEntities)
+        * [htmlAttributeValue](#htmlAttributeValue)
+        * [json](#json)
+        * [url](#url)
   * [Custom Transformation](#custom-transformation)
     + [DeriveApplyToFromTransform](#deriveapplytofromtransform)
       - [Error Handling](#error-handling)
@@ -253,9 +258,75 @@ The result will be an array of results of each transformation.
 In this case this is an array with an `integer` and a `string`
 value.
 
+##### encode
+
+The `encode` group is a group which encodes a given UTF-8 string to be used in different context while retaining it's meaning.
+These transformations can be used to prevent Cross-Site-Scripting.
+
+###### htmlSpecialCharsAsEntities
+
+This transformation ensures that the given string can be used within HTML content without injecting HTML tags.
+This can be used when using templates where the content of the variable is not safe:
+
+```php
+$template = new ilTemplate('tpl.dummy.html', true, true);
+$template->setVariable('TITLE', $refinery->encode()->htmlSpecialCharsAsEntities()->transform($foo));
+```
+
+tpl.dummy.html:
+```html
+<h1>{TITLE}</h1>
+```
+
+Please keep in mind that the context where the variable in the template is used **is relevant**.
+When the variable is used e.g. as an attribute value use the [htmlAttributeValue](#htmlAttributeValue) transformation instead.
+
+###### htmlAttributeValue
+
+HTML attribute values are more restricted than HTML content. This transformation ensures that the transformed string can be safely used as an HTML attribute value.
+
+This is can be used for example in the UI Renderer classes to ensure that strings from ui components cannot be used to inject HTML:
+```php
+$template = new ilTemplate('tpl.dummy.html', true, true);
+$template->setVariable('HREF', $refinery->encode()->htmlAttributeValue()->transform($component->getAction()));
+```
+
+tpl.dummy.html:
+```html
+<a href="{HREF}">Foo</a>
+```
+
+###### json
+
+This tranformation is a wrapper around `json_encode` but ensures that the correct flags are set, to circumvent common pitfalls.
+These flags ensure that the text can also be embedded in (X)HTML.
+Please note that the transformed strings don't need to be in a JS string when embedding in JS (`const foo = {FOO};` instead of `const foo = JSON.parse('{FOO}');`).
+```php
+$template = new ilTemplate('tpl.dummy.html', true, true);
+$template->setVariable('FOO', $refinery->encode()->json()->transform($foo));
+```
+
+tpl.dummy.html:
+```html
+<script>
+foo({FOO});
+</script>
+```
+
+###### url
+
+This transformation can be used to encode a given string which can be used in an URL.
+This is a wrapper around `rawurlencode`.
+This can be used to encode a string as a valid URL component, which will not be misinterpreted as URL delimiters.
+The transformation prevents a value to change other URL parameters & values or the target url path.
+
+```php
+$link = $ctrl->setParameterByClass(FooGUI::class, 'bar', $refinery->encode()->url()->transform($foobar));
+```
+
 ##### Custom
 
-The `Custom` group contains of `Transformations` and `Constraints`
+The `Custom` group contains `Transformations` and `Constraints`
 that can be used to create individual transformations and constraints.
 
 ##### Logical

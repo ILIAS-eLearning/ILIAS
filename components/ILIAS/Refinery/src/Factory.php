@@ -152,6 +152,11 @@ class Factory
         return new URI\Group();
     }
 
+    public function encode(): Encode\Group
+    {
+        return new Encode\Group();
+    }
+
     /**
      * Accepts Transformations and uses first successful one.
      * @param Transformation[] $transformations
