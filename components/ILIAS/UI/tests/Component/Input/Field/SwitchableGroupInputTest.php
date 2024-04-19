@@ -428,13 +428,13 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $html = $r->render($sg);
         $expected = <<<EOT
 <div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+    <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
     <div class="col-sm-8 col-md-9 col-lg-10">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g1_opt" value="g1" /><label for="id_1_g1_opt"></label>
                 <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
+                    <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_2" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some field</div>
@@ -444,7 +444,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" value="g2" /><label for="id_1_g2_opt"></label>
                 <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
+                    <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_3" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some other field</div>
@@ -473,13 +473,13 @@ EOT;
         $html = $r->render($sg->withValue('g2'));
         $expected = <<<EOT
 <div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+    <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
     <div class="col-sm-8 col-md-9 col-lg-10">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g1_opt" value="g1" /><label for="id_1_g1_opt"></label>
                 <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
+                    <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_2" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some field</div>
@@ -489,7 +489,7 @@ EOT;
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_g2_opt" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
                 <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
+                    <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_3" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some other field</div>
@@ -530,13 +530,13 @@ EOT;
 
         $expected = <<<EOT
 <div class="form-group row">
-    <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+    <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
     <div class="col-sm-8 col-md-9 col-lg-10">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_0_opt" value="0" /><label for="id_1_0_opt"></label>
                 <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
+                    <label tabindex="0" for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">f</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_2" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some field</div>
@@ -546,7 +546,7 @@ EOT;
             <div class="form-control form-control-sm il-input-radiooption">
                 <input type="radio" id="id_1_1_opt" value="1" checked="checked" /><label for="id_1_1_opt"></label>
                 <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
+                    <label tabindex="0" for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">f2</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <input id="id_3" type="text" class="form-control form-control-sm" />
                         <div class="help-block">some other field</div>

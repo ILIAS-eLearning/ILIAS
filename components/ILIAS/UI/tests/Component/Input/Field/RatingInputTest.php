@@ -75,7 +75,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             '<div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
 
                     <fieldset class="input-group il-input-rating" id="id_1">
@@ -123,7 +123,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             '<div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <label tabindex="0" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
 
                     <fieldset class="input-group il-input-rating disabled" id="id_1">

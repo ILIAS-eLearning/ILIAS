@@ -130,7 +130,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                         <div class=\"c-input-markdown\">
                             <div class=\"c-input-markdown__controls\">
@@ -186,7 +186,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                         <div class=\"c-input-markdown\">
                             <div class=\"c-input-markdown__controls\">
@@ -245,7 +245,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                         <div class=\"c-input-markdown\">
                             <div class=\"c-input-markdown__controls\">
@@ -303,7 +303,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                         <div class=\"c-input-markdown\">
                             <div class=\"c-input-markdown__controls\">
@@ -360,7 +360,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                         <div class=\"c-input-markdown\">
                             <div class=\"c-input-markdown__controls\">
@@ -418,7 +418,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML(
             "
                 <div class=\"form-group row\">
-                    <label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                    <label tabindex=\"0\" for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
                     <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"help-block alert alert-danger\" aria-describedby=\"id_1\" role=\"alert\">$error</div>
                         <div class=\"c-input-markdown\">
