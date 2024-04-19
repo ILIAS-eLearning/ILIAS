@@ -295,7 +295,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 array($question_id)
             );
             while ($row = $ilDB->fetchAssoc($result)) {
-                $this->addRow($row["title"], $row['other'], (string) ($row['label'] ?? ""));
+                $this->addRow((string) $row["title"], (string) $row['other'], (string) ($row['label'] ?? ""));
             }
         }
         parent::loadFromDb($question_id);
