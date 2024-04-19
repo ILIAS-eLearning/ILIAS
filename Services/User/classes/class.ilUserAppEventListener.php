@@ -29,13 +29,14 @@ class ilUserAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $user_starting_point_repository = new ilUserStartingPointRepository(
             $DIC['ilUser'],
             $DIC['ilDB'],
             $DIC['tpl'],
-            $DIC['lng'],
+            $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],
             $DIC['rbacsystem'],
