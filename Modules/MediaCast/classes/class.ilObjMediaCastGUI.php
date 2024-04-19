@@ -90,7 +90,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
 
         foreach (MimeType::getExt2MimeMap() as $mt) {
-//            $this->mimeTypes[$mt] = $mt;
+            //            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);
 
@@ -149,12 +149,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 break;
 
             case "ilexportgui":
-//				$this->prepareOutput();
+                //				$this->prepareOutput();
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
+                //				$this->tpl->show();
                 break;
 
             case 'ilpermissiongui':
@@ -207,7 +207,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 }
                 $this->$cmd();
 
-            break;
+                break;
         }
         $this->addHeaderAction();
     }
@@ -1194,13 +1194,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
             ilObjMediaCast::AUTOPLAY_INACT => $lng->txt("mcst_autoplay_inactive")
         );
         $si = new ilSelectInputGUI($lng->txt("mcst_autoplay"), "autoplaymode");
+        $si->setInfo($lng->txt("mcst_autoplay_info"));
         $si->setOptions($options);
         $si->setValue($this->object->getAutoplayMode());
         $vc_opt->addSubItem($si);
 
         // number of initial videos
         $ti = new ilNumberInputGUI($lng->txt("mcst_nr_videos"), "nr_videos");
-        $ti->setValue($this->object->getNumberInitialVideos());
+        $ti->setValue(max(1, $this->object->getNumberInitialVideos()));
+        $ti->setMinValue(1);
         $ti->setSize(2);
         $vc_opt->addSubItem($ti);
 

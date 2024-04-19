@@ -11163,6 +11163,7 @@ mcst#:#mcst_automatic_detection#:#Automatic Detection
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
@@ -11179,7 +11180,7 @@ mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
 mcst#:#mcst_duration#:#Play Time
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
+mcst#:#mcst_duration_info#:#If this value is 00:00:00, ILIAS could not determine the play time automatically. In this case, please enter the correct value manually.
 mcst#:#mcst_edit_item#:#Edit Mediacast Item
 mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_extract_preview_image#:#Extract Preview Image

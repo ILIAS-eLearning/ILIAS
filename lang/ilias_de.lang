@@ -11163,6 +11163,7 @@ mcst#:#mcst_automatic_detection#:#Automatisch
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
+mcst#:#mcst_autoplay_info#:#Startet beim Erreichen des Endes eines Videos automatisch das nächste Video. Youtube-Videos unterstützen dieses Verhalten nicht.
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
@@ -11179,7 +11180,7 @@ mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_downloadable#:#Download-Link
 mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
 mcst#:#mcst_duration#:#Laufzeit
-mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
+mcst#:#mcst_duration_info#:#Falls dieser Wert auf Null steht, konnte die Laufzeit nicht automatisch bestimmt werden. Bitte tragen Sie dann die Laufzeit manuell ein.
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
 mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
