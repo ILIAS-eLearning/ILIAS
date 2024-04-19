@@ -419,16 +419,16 @@ class ilUserUtil
             || $current === self::START_PD_CALENDAR
                 && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
+            $log->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $current));
             $current = self::START_PD_OVERVIEW;
 
             // #10715 - if 1 is disabled overview will display the current default
             if ($ilSetting->get('disable_my_offers') == 0 &&
                 $ilSetting->get('disable_my_memberships') == 0 &&
                 $ilSetting->get('personal_items_default_view') == 1) {
+                $log->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $current));
                 $current = self::START_PD_SUBSCRIPTION;
             }
-
-            $log->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $current));
         }
 
         switch ($current) {
