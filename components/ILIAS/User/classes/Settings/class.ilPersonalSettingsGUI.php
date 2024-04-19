@@ -95,7 +95,7 @@ class ilPersonalSettingsGUI
             $this->user,
             $DIC['ilDB'],
             $DIC['tpl'],
-            $DIC['lng'],
+            $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],
             $DIC['rbacsystem'],

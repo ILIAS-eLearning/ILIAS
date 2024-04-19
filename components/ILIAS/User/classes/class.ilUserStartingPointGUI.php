@@ -77,7 +77,7 @@ class ilUserStartingPointGUI
             $this->user,
             $this->db,
             $this->tpl,
-            $this->lng,
+            $DIC->logger(),
             $this->tree,
             $this->rbac_review,
             $this->rbac_system,
