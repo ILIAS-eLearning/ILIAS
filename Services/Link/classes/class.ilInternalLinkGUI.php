@@ -171,7 +171,7 @@ class ilInternalLinkGUI
             case "PortfolioPage":
             case "PortfolioTemplatePage":
                 if ($this->parent_ref_id === 0 && $this->parent_obj_id === 0
-                    && $def_type === $this->parent_type[$this->base_link_type]) {
+                    && $def_type === ($this->parent_type[$this->base_link_type] ?? "")) {
                     $this->parent_ref_id = $this->default_parent_ref_id;
                     $this->parent_obj_id = $this->default_parent_obj_id;
                     $ctrl->setParameter($this, "link_par_obj_id", $this->parent_obj_id);
@@ -264,7 +264,7 @@ class ilInternalLinkGUI
         $ilCtrl = $this->ctrl;
 
 
-        $parent_type = $this->parent_type[$this->base_link_type];
+        $parent_type = $this->parent_type[$this->base_link_type] ?? "";
         if ((in_array($this->base_link_type, array("GlossaryItem", "WikiPage", "PageObject", "StructureObject"), true) &&
             ($this->parent_ref_id === 0))
             ||
@@ -386,7 +386,7 @@ class ilInternalLinkGUI
 
                 break;
 
-            // chapter link
+                // chapter link
             case "StructureObject":
 
                 // check whether current object matchs to type
@@ -424,7 +424,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
                 break;
 
-            // glossary item link
+                // glossary item link
             case "GlossaryItem":
                 $glossary = new ilObjGlossary($this->parent_ref_id, true);
 
@@ -454,7 +454,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
                 break;
 
-            // media object
+                // media object
             case "Media":
                 //$tpl->setVariable("TARGET2", " target=\"content\" ");
                 // content object id = 0 --> get clipboard objects
@@ -580,7 +580,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
                 break;
 
-            // wiki page link
+                // wiki page link
             case "WikiPage":
                 $wiki_id = ilObject::_lookupObjId($this->parent_ref_id);
                 $wpages = ilWikiPage::getAllWikiPages($wiki_id);
@@ -610,7 +610,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
                 break;
 
-            // Portfolio page link
+                // Portfolio page link
             case "PortfolioPage":
             case "PortfolioTemplatePage":
                 $prtf_id = $this->parent_obj_id;
@@ -639,12 +639,12 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
                 break;
 
-            // repository item
+                // repository item
             case "RepositoryItem":
                 $tpl->setVariable("LINK_HELP_CONTENT", $this->selectRepositoryItem());
                 break;
 
-            // file download link
+                // file download link
             case "File":
                 if (!isset($this->uploaded_file)) {
                     $tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
@@ -654,7 +654,7 @@ class ilInternalLinkGUI
                 }
                 break;
 
-            // file download link
+                // file download link
             case "User":
                 $tpl->setVariable("LINK_HELP_CONTENT", $this->addUser());
                 break;
@@ -805,7 +805,7 @@ class ilInternalLinkGUI
         //$ilCtrl->setParameter($this, "target_type", $a_type);
         $exp = new ilLinkTargetObjectExplorerGUI($this, "getTargetExplorer", $this->link_type);
 
-        $a_type = $this->parent_type[$this->base_link_type];
+        $a_type = $this->parent_type[$this->base_link_type] ?? "";
 
         $white = array("root", "cat", "crs", "fold", "grp");
 
@@ -846,14 +846,14 @@ class ilInternalLinkGUI
 
         $output = $this->getTargetExplorer();
 
-        $tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_" . $this->parent_type[$this->base_link_type]));
+        $tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_" . ($this->parent_type[$this->base_link_type] ?? "")));
 
         $tpl->setVariable("EXPLORER", $output);
         $tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, "resetLinkList", "", true));
         $tpl->setVariable("BTN_RESET", "resetLinkList");
         $tpl->setVariable("TXT_RESET", $this->lng->txt("back"));
 
-        if ($this->parent_type[$this->base_link_type] === "mep") {
+        if (($this->parent_type[$this->base_link_type] ?? "") === "mep") {
             $tpl->setCurrentBlock("sel_clipboard");
             $this->ctrl->setParameter($this, "do", "set");
             if ($ilCtrl->isAsynch()) {
