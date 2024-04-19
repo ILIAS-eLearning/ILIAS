@@ -387,7 +387,7 @@ class ilFileVersionsGUI
 
         $this->file->rollback($version_id);
 
-        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), ''), true);
+        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), (string) $version_id), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
