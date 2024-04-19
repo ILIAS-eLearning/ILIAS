@@ -157,8 +157,8 @@ class ilPersonalSettingsGUI
         }
 
         if (
-            $this->settings->get('show_mail_settings') &&
-            $this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
+            $this->settings->get('show_mail_settings')
+            && $this->rbac_system->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
         ) {
             $this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
 
@@ -170,8 +170,10 @@ class ilPersonalSettingsGUI
             );
         }
 
-        if ($this->settings->get('user_delete_own_account') &&
-            $this->user->getId() !== SYSTEM_USER_ID) {
+        if (
+            $this->settings->get('user_delete_own_account') &&
+            $this->user->getId() !== SYSTEM_USER_ID
+        ) {
             $this->tabs->addTab(
                 'delacc',
                 $this->lng->txt('user_delete_own_account'),

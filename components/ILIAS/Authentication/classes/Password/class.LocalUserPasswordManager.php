@@ -229,7 +229,7 @@ class LocalUserPasswordManager
             return true;
         }
 
-        return ilAuthUtils::isPasswordModificationHidden() &&
-            ($user->isPasswordChangeDemanded() || $user->isPasswordExpired());
+        return ilAuthUtils::isPasswordModificationHidden()
+            && ($user->isPasswordChangeDemanded() || $user->isPasswordExpired());
     }
 }
