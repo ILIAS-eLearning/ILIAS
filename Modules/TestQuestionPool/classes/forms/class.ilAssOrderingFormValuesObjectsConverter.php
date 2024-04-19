@@ -153,13 +153,13 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         return $postVar;
     }
 
-    protected function needsConvertToValues($elementsOrValues)
+    protected function needsConvertToValues($elements_or_values)
     {
-        if (!count($elementsOrValues)) {
+        if (!count($elements_or_values)) {
             return false;
         }
 
-        return (current($elementsOrValues) instanceof ilAssOrderingElement);
+        return (current($elements_or_values) instanceof ilAssOrderingElement);
     }
 
     public function manipulateFormInputValues($elementsOrValues)
