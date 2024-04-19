@@ -28,7 +28,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Authentication\Password\ilLocalPasswordManager;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -1956,7 +1956,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     protected function forceUserPasswordResetObject(): void
     {
-        ilLocalPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
+        LocalUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
         $this->lng->loadLanguageModule('ps');
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);

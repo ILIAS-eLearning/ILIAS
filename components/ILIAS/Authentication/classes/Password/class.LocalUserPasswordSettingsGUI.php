@@ -24,27 +24,32 @@ use ilAuthUtils;
 use ilCtrlInterface;
 use ilDAVActivationChecker;
 use ilGlobalTemplateInterface;
+use ILIAS\Data\Password;
+use ILIAS\Export\ImportStatus\Exception\ilException;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
-use ILIAS\UI\Component\Input\Field\Password;
+use ILIAS\UI\Component\Input\Field\Password as PasswordInput;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ilLanguage;
 use ilObjUser;
 use ilSecuritySettingsChecker;
 use ilSession;
-use ilUtil;
 use Psr\Http\Message\ServerRequestInterface;
+use Closure;
 
-class ilLocalPasswordSettingsGUI
+class LocalUserPasswordSettingsGUI
 {
-    private ServerRequestInterface $request;
-    private UIFactory $ui_factory;
-    private UIRenderer $ui_renderer;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilObjUser $user;
-    private ilCtrlInterface $ctrl;
-    private ilLocalPasswordManager $password_manager;
+    private readonly ServerRequestInterface $request;
+    private readonly Refinery $refinery;
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilLanguage $lng;
+    private readonly ilObjUser $user;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly LocalUserPasswordManager $password_manager;
 
     public function __construct()
     {
@@ -52,11 +57,12 @@ class ilLocalPasswordSettingsGUI
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->request = $DIC->http()->request();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->password_manager = ilLocalPasswordManager::getInstance();
+        $this->password_manager = LocalUserPasswordManager::getInstance();
         $this->lng->loadLanguageModule('user');
     }
 
@@ -65,7 +71,11 @@ class ilLocalPasswordSettingsGUI
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             default:
-                $this->$cmd();
+                if (method_exists($this, $cmd)) {
+                    $this->$cmd();
+                } else {
+                    throw new ilException('');
+                }
 
                 break;
         }
@@ -73,22 +83,23 @@ class ilLocalPasswordSettingsGUI
 
     public function showPassword(
         Form $form = null,
-        bool $hide_form = false
+        bool $hide_form = false,
+        MessageBox $message_box = null
     ): void {
         // check whether password of user have to be changed
         // due to first login or password of user is expired
         if ($this->user->isPasswordChangeDemanded()) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('password_change_on_first_login_demand'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('password_change_on_first_login_demand'));
         } elseif ($this->user->isPasswordExpired()) {
             $msg = $this->lng->txt('password_expired');
             $password_age = $this->user->getPasswordAge();
-            $this->tpl->setOnScreenMessage('info', sprintf($msg, $password_age));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, sprintf($msg, $password_age));
         }
 
         if (!$form && !$hide_form) {
             $form = $this->getPasswordForm();
         }
-        $this->tpl->setContent(!$hide_form ? $this->ui_renderer->render($form) : '');
+        $this->tpl->setContent(!$hide_form ? $this->ui_renderer->render($form) : $this->ui_renderer->render($message_box));
         $this->tpl->printToStdout();
     }
 
@@ -114,6 +125,16 @@ class ilLocalPasswordSettingsGUI
                 if ($cpass_error !== []) {
                     $cpass = $cpass->withError(implode('<br>', $cpass_error));
                 }
+                $cpass = $cpass->withAdditionalTransformation(
+                    $this->refinery->custom()->constraint(function (Password $value) {
+                        return
+                            ((int) $this->user->getAuthMode(true) !== ilAuthUtils::AUTH_LOCAL) ||
+                            LocalUserPasswordManager::getInstance()->verifyPassword(
+                                $this->user,
+                                $value->toString()
+                            );
+                    }, $this->lng->txt('passwd_wrong'))
+                );
 
                 $items['current_password'] = $cpass;
             }
@@ -131,6 +152,40 @@ class ilLocalPasswordSettingsGUI
             if ($ipass_error !== []) {
                 $ipass = $ipass->withError(implode('<br>', $ipass_error));
             }
+            $ipass = $ipass->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(function (Password $value) {
+                    return ilSecuritySettingsChecker::isPassword($value->toString(), $custom_error);
+                }, function (Closure $txt, Password $value) {
+
+                    $custom_error = '';
+                    !ilSecuritySettingsChecker::isPassword($value->toString(), $custom_error);
+                    if ($custom_error !== '' && $custom_error !== null) {
+                        return $custom_error;
+                    }
+
+                    return $this->lng->txt('passwd_invalid');
+                })
+            );
+            $ipass = $ipass->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    function (Password $value) {
+                        return ilSecuritySettingsChecker::isPasswordValidForUserContext(
+                            $value->toString(),
+                            $this->user,
+                            $error_lng_var
+                        );
+                    },
+                    function (Closure $cls, Password $value) {
+                        ilSecuritySettingsChecker::isPasswordValidForUserContext(
+                            $value->toString(),
+                            $this->user,
+                            $error_lng_var
+                        );
+
+                        return $this->lng->txt($error_lng_var ?? '');
+                    }
+                )
+            );
             $items['new_password'] = $ipass;
 
             switch ($this->user->getAuthMode(true)) {
@@ -172,48 +227,28 @@ class ilLocalPasswordSettingsGUI
 
         $form = $this->getPasswordForm()->withRequest($this->request);
         $section = $form->getInputs()['password'];
-        /** @var Password $cp
-         * @var Password $np
+        /** @var PasswordInput $cp
+         * @var PasswordInput $np
          */
         $cp = $section->getInputs()['current_password'];
         $np = $section->getInputs()['new_password'];
         $errors = ['current_password' => [], 'new_password' => []];
 
-        $entered_current_password = $cp->getValue();
-        $entered_new_password = $np->getValue();
-
         if (!$form->getError()) {
             $data = $form->getData();
             $error = false;
-
-            if ((int) $this->user->getAuthMode(true) === ilAuthUtils::AUTH_LOCAL) {
-                if (!ilLocalPasswordManager::getInstance()->verifyPassword(
-                    $this->user,
-                    $entered_current_password
-                )) {
-                    $error = true;
-                    $errors['current_password'][] = $this->lng->txt('passwd_wrong');
-                }
+            if ($cp->getError()) {
+                $error = true;
+                $errors['current_password'][] = $cp->getError();
+            }
+            if ($np->getError()) {
+                $error = true;
+                $errors['new_password'][] = $np->getError();
             }
 
-            if (!ilSecuritySettingsChecker::isPassword($entered_new_password, $custom_error)) {
-                $error = true;
-                if ($custom_error !== '') {
-                    $errors['new_password'][] = $custom_error;
-                } else {
-                    $errors['new_password'][] = $this->lng->txt('passwd_invalid');
-                }
-            }
-            $error_lng_var = '';
-            if (!ilSecuritySettingsChecker::isPasswordValidForUserContext(
-                $entered_new_password,
-                $this->user,
-                $error_lng_var
-            )) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-                $errors['new_password'][] = $this->lng->txt($error_lng_var);
-                $error = true;
-            }
+            $entered_current_password = $cp->getValue();
+            $entered_new_password = $np->getValue();
+
             if (
                 $entered_current_password === $entered_new_password &&
                 ($this->user->isPasswordExpired() || $this->user->isPasswordChangeDemanded())
@@ -231,13 +266,12 @@ class ilLocalPasswordSettingsGUI
                 }
 
                 if (ilSession::get('orig_request_target')) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
                     $target = ilSession::get('orig_request_target');
                     ilSession::set('orig_request_target', '');
-                    ilUtil::redirect($target);
+                    $this->ctrl->redirectToURL($target);
                 } else {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
-                    $this->showPassword(null, true);
+                    $this->showPassword(null, true, $this->ui_factory->messageBox()->success($this->lng->txt('saved_successfully')));
 
                     return;
                 }

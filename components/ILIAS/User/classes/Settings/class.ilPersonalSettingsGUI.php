@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\Authentication\Password\ilLocalPasswordSettingsGUI;
+use ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI;
 use ILIAS\DI\LoggingServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
-use ILIAS\Authentication\Password\ilLocalPasswordManager;
+use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
 /**
  * GUI class for personal profile
  * @author       Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI, ILIAS\Authentication\Password\ilLocalPasswordSettingsGUI
+ * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI, ILIAS\Authentication\Password\LocalUserPasswordSettingsGUI
  */
 class ilPersonalSettingsGUI
 {
@@ -107,11 +107,11 @@ class ilPersonalSettingsGUI
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
 
                 break;
-            case strtolower(ilLocalPasswordSettingsGUI::class):
+            case strtolower(LocalUserPasswordSettingsGUI::class):
                 $this->initSubTabs('showPersonalData');
                 $this->tabs->activateTab('password');
                 $this->setHeader();
-                $this->ctrl->forwardCommand(new ilLocalPasswordSettingsGUI());
+                $this->ctrl->forwardCommand(new LocalUserPasswordSettingsGUI());
 
                 break;
             default:
@@ -138,14 +138,14 @@ class ilPersonalSettingsGUI
             $showGeneralSettings
         );
 
-        if (ilLocalPasswordManager::getInstance()->allowPasswordChange($this->user)) {
+        if (LocalUserPasswordManager::getInstance()->allowPasswordChange($this->user)) {
             $this->tabs->addTarget(
                 'password',
                 $this->ctrl->getLinkTargetByClass(
                     [
                         ilDashboardGUI::class,
                         self::class,
-                        ilLocalPasswordSettingsGUI::class],
+                        LocalUserPasswordSettingsGUI::class],
                     'showPassword'
                 ),
                 '',

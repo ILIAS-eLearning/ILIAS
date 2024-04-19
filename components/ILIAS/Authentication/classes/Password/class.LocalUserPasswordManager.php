@@ -30,11 +30,11 @@ use ilSession;
 use ilSetting;
 use ilUserException;
 
-class ilLocalPasswordManager
+class LocalUserPasswordManager
 {
     private const MIN_SALT_SIZE = 16;
     private static ?self $instance = null;
-    private ?ilLocalPasswordEncoderFactory $encoderFactory = null;
+    private ?LocalUserPasswordEncoderFactory $encoderFactory = null;
     private ?ilSetting $settings = null;
     private ?ilDBInterface $db = null;
     private ?string $encoderName = null;
@@ -74,7 +74,7 @@ class ilLocalPasswordManager
             throw new ilUserException(sprintf('"password_encoder" must be set in %s.', print_r($config, true)));
         }
 
-        if (!$this->getEncoderFactory() instanceof ilLocalPasswordEncoderFactory) {
+        if (!$this->getEncoderFactory() instanceof LocalUserPasswordEncoderFactory) {
             throw new ilUserException(sprintf('"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.', print_r($config, true)));
         }
     }
@@ -92,9 +92,9 @@ class ilLocalPasswordManager
             return self::$instance;
         }
 
-        $password_manager = new ilLocalPasswordManager(
+        $password_manager = new LocalUserPasswordManager(
             [
-                'encoder_factory' => new ilLocalPasswordEncoderFactory(
+                'encoder_factory' => new LocalUserPasswordEncoderFactory(
                     [
                         'default_password_encoder' => 'bcryptphp',
                         // bcrypt (native PHP impl.) is still the default for the factory
@@ -136,12 +136,12 @@ class ilLocalPasswordManager
         $this->encoderName = $encoderName;
     }
 
-    public function getEncoderFactory(): ?ilLocalPasswordEncoderFactory
+    public function getEncoderFactory(): ?LocalUserPasswordEncoderFactory
     {
         return $this->encoderFactory;
     }
 
-    public function setEncoderFactory(ilLocalPasswordEncoderFactory $encoderFactory): void
+    public function setEncoderFactory(LocalUserPasswordEncoderFactory $encoderFactory): void
     {
         $this->encoderFactory = $encoderFactory;
     }

@@ -28,7 +28,7 @@ use ilPasswordEncoder;
 use ilPasswordException;
 use ilUserException;
 
-class ilLocalPasswordEncoderFactory
+class LocalUserPasswordEncoderFactory
 {
     private ?string $default_encoder = null;
 
