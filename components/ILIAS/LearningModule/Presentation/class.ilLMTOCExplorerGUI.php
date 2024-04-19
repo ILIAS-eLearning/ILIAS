@@ -88,7 +88,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->activation_data = $this->activation_repo->get(
             "lm",
             $page_ids,
-            $this->lm_set->get("time_scheduled_page_activation"),
+            (bool) $this->lm_set->get("time_scheduled_page_activation"),
             $this->lang
         );
         $this->initVisibilityData($this->tree->readRootId());
@@ -191,7 +191,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 $a_node["child"],
                 $this->lm->getPageHeader(),
                 $this->lm->isActiveNumbering(),
-                $this->lm_set->get("time_scheduled_page_activation"),
+                (bool) $this->lm_set->get("time_scheduled_page_activation"),
                 true,
                 $this->lm->getId(),
                 $this->lang,
@@ -232,7 +232,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
             $active = ilLMPage::_lookupActive(
                 $a_node["child"],
                 $this->lm->getType(),
-                $lm_set->get("time_scheduled_page_activation")
+                (bool) $lm_set->get("time_scheduled_page_activation")
             );
 
             // is page scheduled?
@@ -294,7 +294,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                     $active = ilLMPage::_lookupActive(
                         $a_node["child"],
                         $this->lm->getType(),
-                        $this->lm_set->get("time_scheduled_page_activation")
+                        (bool) $this->lm_set->get("time_scheduled_page_activation")
                     );
 
                     if ($a_node["child"] > 0 && !$active) {
@@ -340,7 +340,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     {
         if (!$this->getOfflineMode()) {
             return $this->linker->getLink("", $a_node["child"]);
-        //return parent::buildLinkTarget($a_node_id, $a_type);
+            //return parent::buildLinkTarget($a_node_id, $a_type);
         } else {
             if ($a_node["type"] != "pg") {
                 // get next activated page
@@ -350,7 +350,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                     $active = ilLMPage::_lookupActive(
                         $a_node["child"],
                         $this->lm->getType(),
-                        $this->lm_set->get("time_scheduled_page_activation")
+                        (bool) $this->lm_set->get("time_scheduled_page_activation")
                     );
 
                     if ($a_node["child"] > 0 && !$active) {
