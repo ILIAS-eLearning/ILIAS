@@ -1100,7 +1100,7 @@ abstract class assQuestionGUI
 
     protected function populateTaxonomyFormSection(ilPropertyFormGUI $form): void
     {
-        if (count($this->getTaxonomyIds())) {
+        if ($this->getTaxonomyIds() !== []) {
             // this is needed by ilTaxSelectInputGUI in some cases
             ilOverlayGUI::initJavaScript();
 
