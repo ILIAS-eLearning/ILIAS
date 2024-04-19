@@ -541,7 +541,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $body = $this->request->getParsedBody();
 
         // save sorting
-        if (is_array($body["order"])) {
+        if (is_array($body["order"] ?? null)) {
             foreach ($body["order"] as $k => $v) {
                 ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $v);
             }
@@ -549,7 +549,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         }
 
         // save titles
-        if (is_array($body["title"])) {
+        if (is_array($body["title"] ?? null)) {
             foreach ($body["title"] as $k => $v) {
                 ilTaxonomyNode::writeTitle(
                     (int) $k,
