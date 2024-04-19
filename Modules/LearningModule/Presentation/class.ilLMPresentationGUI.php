@@ -1038,7 +1038,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                                     $row["child"],
                                     ilLMObject::CHAPTER_TITLE,
                                     $this->lm->isActiveNumbering(),
-                                    $this->lm_set->get("time_scheduled_page_activation"),
+                                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                                     false,
                                     0,
                                     $this->lang
@@ -1463,7 +1463,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $active = ilLMPage::_lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
+                (bool) $this->lm_set->get("time_scheduled_page_activation")
             );
 
             if ($node["type"] == "pg" &&
@@ -1483,7 +1483,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $node["obj_id"],
                             $this->lm->getPageHeader(),
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             0,
                             $this->lang
@@ -1514,7 +1514,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $node["obj_id"],
                             ilLMObject::CHAPTER_TITLE,
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             0,
                             $this->lang
@@ -1557,7 +1557,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $this->requested_obj_id,
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
-                    $this->lm_set->get("time_scheduled_page_activation"),
+                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
                     false,
                     0,
                     $this->lang
@@ -1757,7 +1757,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $active = ilLMPage::_lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
+                (bool) $this->lm_set->get("time_scheduled_page_activation")
             );
             if ($node["type"] == "pg" && !$active) {
                 continue;
@@ -1805,7 +1805,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $chapter_title = $chap->_getPresentationTitle(
                         $node["obj_id"],
                         $this->lm->isActiveNumbering(),
-                        $this->lm_set->get("time_scheduled_page_activation"),
+                        (bool) $this->lm_set->get("time_scheduled_page_activation"),
                         0,
                         $this->lang
                     );
@@ -1862,7 +1862,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $lm_pg_obj->getId(),
                             $this->lm->getPageHeader(),
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             0,
                             $this->lang
@@ -2096,7 +2096,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $node2["obj_id"],
                             ilLMObject::CHAPTER_TITLE,
                             $this->lm->isActiveNumbering(),
-                            $this->lm_set->get("time_scheduled_page_activation"),
+                            (bool) $this->lm_set->get("time_scheduled_page_activation"),
                             false,
                             0,
                             $this->lang
