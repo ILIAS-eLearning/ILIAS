@@ -4235,8 +4235,8 @@ s     */
         int $a_right
     ): array {
         // get page objects
-        $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
-        $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
+        $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left, $this->getLanguage());
+        $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right, $this->getLanguage());
         $this->preparePageForCompare($l_page);
         $this->preparePageForCompare($r_page);
         $l_hashes = $l_page->getPageContentsHashes();
