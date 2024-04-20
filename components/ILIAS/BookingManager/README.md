@@ -15,6 +15,7 @@ This section documents the general concepts and structures of the Booking Manage
 ## Assignment by Preferences
 
 - All participants have to select a fixed number (no more, no less) of preferences. This ensures equal probability of their choice for being selected.
+- The assignment process is only started once automatically to avoid parallel processing. In case of any issues, the process can be restarted under "Reservations > Run Assignment Process". See https://mantis.ilias.de/view.php?id=35684.
 
 **Assignment Procedure**
 
