@@ -553,7 +553,7 @@ class ilSurveyExecutionGUI
             } else {
                 $this->run_manager->setPreviewData(
                     $data["question_id"],
-                    $question->saveUserInput($this->raw_post_data, $this->getCurrentRunId(), true)
+                    $question->saveUserInput($this->raw_post_data, 0, true)
                 );
             }
             return 0;
