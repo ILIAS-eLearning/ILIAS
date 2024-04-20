@@ -55,11 +55,11 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
             if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
-                $usage["hist_nr"] = array($usage["hist_nr"]);
+                $usage["hist_nr"] = array($usage["hist_nr"] ?? 0);
                 $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
             } else {
                 $agg_usages[$usage["type"] . ":" . $usage["id"]]["hist_nr"][] =
-                    $usage["hist_nr"];
+                    $usage["hist_nr"] ?? 0;
             }
         }
 
