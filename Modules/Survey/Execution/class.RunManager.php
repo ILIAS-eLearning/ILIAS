@@ -96,6 +96,8 @@ class RunManager
         int $user_id,
         string $code = ""
     ): void {
+        debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+        exit;
         if ($this->feature_config->usesAppraisees() && $this->appraisee_id === 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
