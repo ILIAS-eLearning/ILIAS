@@ -64,14 +64,14 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     {
         global $DIC;
         $this->logger = ilLoggerFactory::getLogger('ltis');
-//        $this->initialize();
+        //        $this->initialize();
         if (empty($dataConnector)) {
             $dataConnector = ilLTIDataConnector::getDataConnector();
         }
         $this->dataConnector = $dataConnector;
-//        parent::__construct($dataConnector);
+        //        parent::__construct($dataConnector);
         $this->setParameterConstraint('resource_link_id', true, 50, array('basic-lti-launch-request'));
-        $this->setParameterConstraint('user_id', true, 64, array('basic-lti-launch-request'));
+        $this->setParameterConstraint('user_id', true, 128, array('basic-lti-launch-request'));
         $this->setParameterConstraint('roles', true, null, array('basic-lti-launch-request'));
         $this->setParameterConstraint('lis_person_contact_email_primary', true, 80, array('basic-lti-launch-request'));
     }

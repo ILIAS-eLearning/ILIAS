@@ -144,6 +144,7 @@ class ilLTIConsumerContentGUI
                 "document.ltiAuthForm.submit();\n" .
                 "//]]>\n" .
                 "</script>\n";
+            //ilObjLTIConsumer::getLogger()->dump($r);
             return $r;
         }
         return null;
@@ -221,7 +222,7 @@ class ilLTIConsumerContentGUI
             return "";
         }
         $this->initCmixUser();
-        $user_ident = ilCmiXapiUser::getIdentAsId($this->object->getProvider()->getPrivacyIdent(), $this->dic->user());//$this->cmixUser->getUsrIdent();
+        $user_ident = $this->cmixUser->getUsrIdent();
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
@@ -267,7 +268,7 @@ class ilLTIConsumerContentGUI
     protected function getEmbeddedAutoStartFormular(): string
     {
         $this->initCmixUser();
-        $user_ident = ilCmiXapiUser::getIdentAsId($this->object->getProvider()->getPrivacyIdent(), $this->dic->user());//$this->cmixUser->getUsrIdent();
+        $user_ident = $this->cmixUser->getUsrIdent();
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
@@ -459,7 +460,7 @@ class ilLTIConsumerContentGUI
                 $this->user->getId(),
                 $this->object->getProvider()->getPrivacyIdent()
             );
-            $user_ident = ilCmiXapiUser::getIdentAsId($this->object->getProvider()->getPrivacyIdent(), $this->dic->user());//$cmixUser->getUsrIdent();
+            $user_ident = $cmixUser->getUsrIdent();
             // required?
             //            if ($user_ident == '' || $user_ident == null) {
             //                $user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $this->dic->user());

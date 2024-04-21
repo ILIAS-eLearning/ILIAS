@@ -84,7 +84,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $score = json_decode($requestData);
         //prüfe Userid
-        $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $score->userId);
+        $userId = self::getUsrIdForObjectAndUsrIdent($objId, $score->userId);
         if ($userId == null) {
             ilObjLTIConsumer::getLogger()->debug('User not available');
             throw new Exception('User not available', 404);
@@ -191,6 +191,28 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             return true;
         }
         return false;
+    }
+
+    protected static function getUsrIdForObjectAndUsrIdent(int $objId, string $userIdent): ?int
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $atExist = strpos($userIdent, '@');
+
+        $query = "SELECT usr_id FROM cmix_users WHERE obj_id = " . $DIC->database()->quote($objId, 'integer');
+
+        if ($atExist > 1) {
+            $query .= " AND usr_ident = " . $DIC->database()->quote($userIdent, 'text');
+        } else { //LTI 1.1
+            $query .= " AND" . $DIC->database()->like('usr_ident', 'text', $userIdent . '@%');
+        }
+        $res = $DIC->database()->query($query);
+
+        $usrId = null;
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $usrId = (int) $row['usr_id'];
+        }
+
+        return $usrId;
     }
 
 }

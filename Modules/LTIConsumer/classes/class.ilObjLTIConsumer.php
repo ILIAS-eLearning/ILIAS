@@ -819,7 +819,7 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdent($this->getProvider()->getPrivacyIdent(), $DIC->user()); //was: getIdentAsId
 
         $emailPrimary = $cmixUser->getUsrIdent();
 
@@ -873,7 +873,7 @@ class ilObjLTIConsumer extends ilObject2
             $launch_vars['custom_' . $key] = $value;
         }
 
-        if ($this->getProvider()->isGradeSynchronization()) {
+        if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
             include_once("Modules/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
@@ -940,7 +940,7 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user()); //was: getIdentAsId
         $emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(self::getIliasHttpPath());
@@ -1070,7 +1070,7 @@ class ilObjLTIConsumer extends ilObject2
         }
         $privateKey = self::getPrivateKey();
         $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
-        $newParms = array();
+        $newParms = $parms;//was array();
         $newParms['id_token'] = $jwt;
         return $newParms;
     }
@@ -1359,14 +1359,18 @@ class ilObjLTIConsumer extends ilObject2
     {
         global $DIC;
         $auth = $DIC->http()->request()->getHeader("Authorization");
+        //        self::getLogger()->dump($auth);
         if (count($auth) < 1) {
             self::sendResponseError(405, "missing Authorization header");
         }
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
+            //            self::getLogger()->error("405, missing required Authorization Baerer token in ".$auth[0]);
             self::sendResponseError(405, "missing required Authorization Baerer token");
         }
+
         $token = $matches[1];
+        //        self::getLogger()->dump($token);
         return self::getTokenObject($token);
     }
 

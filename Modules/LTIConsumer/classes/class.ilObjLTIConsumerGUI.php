@@ -410,7 +410,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $redirectUrl = $DIC->ctrl()->getLinkTarget($this, 'contentSelectionRequest');
 
         if (!ilSession::has('lti13_login_data')) {
-            $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+            $userIdLTI = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user()); //was: getIdentAsId
             //$emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
             $ltiMessageHint = (string) $ref_id . ":" . CLIENT_ID . ":" . base64_encode($redirectUrl);
             $tplLogin = new ilTemplate("tpl.lti_initial_login.html", true, true, "Modules/LTIConsumer");
