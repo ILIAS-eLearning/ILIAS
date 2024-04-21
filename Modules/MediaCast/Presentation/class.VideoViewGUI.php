@@ -94,6 +94,8 @@ class VideoViewGUI
         $toolbar = $this->toolbar;
         $lng = $this->lng;
 
+        $video_cnt = count($this->video_sequence->getVideos());
+
         $mcst_settings = \ilMediaCastSettings::_getInstance();
 
         $autoplay = $this->getAutoplay();
@@ -101,29 +103,37 @@ class VideoViewGUI
         $factory = $this->ui->factory();
         $renderer = $this->ui->renderer();
 
-        $back = $factory->button()->standard("<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>", "")
-                  ->withOnLoadCode(function ($id) {
-                      return
-                          "$(\"#$id\").click(function() { il.VideoWidget.previous(\"" . $this->video_wrapper_id . "\"); return false;});";
-                  });
-        $next = $factory->button()->standard("<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>", "")
-                  ->withOnLoadCode(function ($id) {
-                      return
-                          "$(\"#$id\").click(function() { il.VideoWidget.next(\"" . $this->video_wrapper_id . "\"); return false;});";
-                  });
+        if ($video_cnt > 1) {
+            $back = $factory->button()->standard(
+                "<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>",
+                ""
+            )
+                            ->withOnLoadCode(function ($id) {
+                                return
+                                    "$(\"#$id\").click(function() { il.VideoWidget.previous(\"" . $this->video_wrapper_id . "\"); return false;});";
+                            });
+            $next = $factory->button()->standard(
+                "<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>",
+                ""
+            )
+                            ->withOnLoadCode(function ($id) {
+                                return
+                                    "$(\"#$id\").click(function() { il.VideoWidget.next(\"" . $this->video_wrapper_id . "\"); return false;});";
+                            });
 
-        $toolbar->addStickyItem($back);
+            $toolbar->addStickyItem($back);
 
-        $dd = $this->getDropdown();
-        if (!is_null($dd)) {
-            $toolbar->addStickyItem($dd);
+            $dd = $this->getDropdown();
+            if (!is_null($dd)) {
+                $toolbar->addStickyItem($dd);
+            }
+
+            $toolbar->addStickyItem($next);
         }
 
-        $toolbar->addStickyItem($next);
-
         // autoplay
-        if ($this->media_cast->getAutoplayMode() != \ilObjMediaCast::AUTOPLAY_NO) {
-            //$toolbar->addSeparator();
+        if ($this->media_cast->getAutoplayMode() !== \ilObjMediaCast::AUTOPLAY_NO && $video_cnt > 1) {
+            $toolbar->addSeparator();
             $s = new SignalGenerator();
             $autoplay_on = $s->create();
             $autoplay_off = $s->create();
@@ -138,7 +148,7 @@ class VideoViewGUI
                 });");
         }
 
-        if ($this->rss_link !== "") {
+        if ($video_cnt > 0 && $this->rss_link !== "") {
             $f = $this->ui->factory();
             $actions = [
                 $f->link()->standard(
@@ -152,6 +162,10 @@ class VideoViewGUI
 
     protected function getAutoplay(): bool
     {
+        $video_cnt = count($this->video_sequence->getVideos());
+        if ($video_cnt <= 1) {
+            return false;
+        }
         $autoplay = ($this->user->existsPref("mcst_autoplay"))
             ? (bool) $this->user->getPref("mcst_autoplay")
             : ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_ACT);
@@ -245,7 +259,6 @@ class VideoViewGUI
         );
 
         $tpl->setVariable("PANEL", $panel_html);
-
         // previous items / next items links
         if ($has_items) {
             $tpl->setVariable(
@@ -283,16 +296,19 @@ class VideoViewGUI
             $item_content = $renderer->render($item);
             $item_content = str_replace("\n", "", $item_content);
 
+            $init_videos = $this->media_cast->getNumberInitialVideos() > 0
+                ? $this->media_cast->getNumberInitialVideos()
+                : 1;
+
             $this->tpl->addOnLoadCode(
                 "il.VideoPlaylist.init('mcst_playlist', 'mcst_video', " . json_encode(
                     $items
                 ) . ", '$item_content', " . ($autoplay ? "true" : "false") . ", " .
-                (int) $this->media_cast->getNumberInitialVideos(
-                ) . ", '" . $this->completed_callback . "', '" . $this->autoplay_callback . "', " . ((int) $mcst_settings->getVideoCompletionThreshold()) . ");"
+                (int) $init_videos . ", '" . $this->completed_callback . "', '" . $this->autoplay_callback . "', " . ((int) $mcst_settings->getVideoCompletionThreshold()) . ");"
             );
 
             if (count($items) === 1) {
-                return "";
+                return " ";
             }
 
             return $tpl->get();

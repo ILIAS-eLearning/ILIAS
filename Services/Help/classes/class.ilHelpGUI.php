@@ -330,11 +330,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
             } else {
                 $a_tpl->addOnLoadCode("il.Help.listHelp(null);", 3);
             }
-
-
-            if ($ilUser->getPref("hide_help_tt")) {
-                $a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);
-            }
         }
     }
 

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\LoggingServices;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ilMyStaffAccess;
 
@@ -60,7 +61,7 @@ class ilUserStartingPointRepository
         private readonly ilObjUser $user,
         private readonly ilDBInterface $db,
         private ilGlobalTemplateInterface $tpl,
-        private readonly ilLanguage $lng,
+        private readonly LoggingServices $log,
         private readonly ilTree $tree,
         private readonly ilRbacReview $rbac_review,
         private readonly ilRbacSystem $rbac_system,
@@ -416,8 +417,8 @@ class ilUserStartingPointRepository
                 )
             )
         ) {
+            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = self::START_REPOSITORY;
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt(('permission_denied')));
         }
 
         if ($starting_point['type'] === self::START_REPOSITORY
@@ -429,8 +430,8 @@ class ilUserStartingPointRepository
             || $starting_point['type'] === self::START_PD_CALENDAR
                 && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
+            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
             $starting_point['type'] = $this->getFallbackStartingPointType();
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt(('permission_denied')));
         }
 
         if ($starting_point['type'] === self::START_REPOSITORY) {
