@@ -819,7 +819,7 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdent($this->getProvider()->getPrivacyIdent(), $DIC->user()); //was: getIdentAsId
 
         $emailPrimary = $cmixUser->getUsrIdent();
 
@@ -940,7 +940,7 @@ class ilObjLTIConsumer extends ilObject2
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user()); //was: getIdentAsId
         $emailPrimary = ilCmiXapiUser::getIdent($provider->getPrivacyIdent(), $DIC->user());
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(self::getIliasHttpPath());
@@ -1070,7 +1070,7 @@ class ilObjLTIConsumer extends ilObject2
         }
         $privateKey = self::getPrivateKey();
         $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
-        $newParms = array();
+        $newParms = $parms;//was array();
         $newParms['id_token'] = $jwt;
         return $newParms;
     }
