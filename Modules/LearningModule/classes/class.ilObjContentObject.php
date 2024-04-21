@@ -2193,7 +2193,7 @@ class ilObjContentObject extends ilObject
             foreach ($terms as $t) {
                 if (is_int(stripos($c, $t["term"]))) {
                     $found_pages[$p["id"]]["terms"][] = $t;
-                    if (!is_object($found_pages[$p["id"]]["page"])) {
+                    if (!is_object($found_pages[$p["id"]]["page"] ?? null)) {
                         $found_pages[$p["id"]]["page"] = $pg;
                     }
                 }
