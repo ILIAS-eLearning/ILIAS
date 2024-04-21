@@ -1515,7 +1515,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $cl_str = "";
                 $listed = array();
                 foreach ($classes as $cl) {
-                    if ($cl != "" && !$listed[$cl]) {
+                    if ($cl != "" && !($listed[$cl] ?? false)) {
                         $cl_str .= '<div>- ' .
                             $cl . "</div>";
                         $listed[$cl] = true;
