@@ -350,6 +350,7 @@ class ilSessionDataSet extends ilDataSet
                 switch ($a_schema_version) {
                     case '5.4.0':
                     case '7.0':
+                    case '9.0':
                         if (isset($a_rec['MailMembers'])) {
                             $newObj->setMailToMembersType((int) $a_rec['MailMembers']);
                         }
@@ -365,10 +366,11 @@ class ilSessionDataSet extends ilDataSet
                         if (isset($a_rec['RegistrationNotificationOption'])) {
                             $newObj->setRegistrationNotificationOption((string) $a_rec['RegistrationNotificationOption']);
                         }
-                        $this->applyDidacticTemplate($newObj, (int) $a_rec['Type']);
+                        $this->applyDidacticTemplate($newObj, (int) ($a_rec['Type'] ?? 0));
                         // no break
                     case "5.0.0":
                     case "5.1.0":
+                    default:
                         $newObj->setRegistrationType((int) ($a_rec["Registration"] ?? 0));
 
                         $newObj->enableRegistrationUserLimit((int) ($a_rec["LimitedRegistration"] ?? 0));
@@ -382,22 +384,6 @@ class ilSessionDataSet extends ilDataSet
                         if (isset($a_rec["AutoWait"])) {
                             $newObj->setWaitingListAutoFill((bool) ($a_rec["AutoWait"] ?? false));
                         }
-                        break;
-                    case '5.4.0':
-                    case '7.0':
-                    case '9.0':
-                    default:
-                        if (isset($a_rec['MailMembers'])) {
-                            $newObj->setMailToMembersType((int) ($a_rec['MailMembers'] ?? 0));
-                        }
-                        if (isset($a_rec['ShowMembers'])) {
-                            $newObj->setShowMembers((bool) ($a_rec['ShowMembers'] ?? false));
-                        }
-                        if (isset($a_rec['ShowCannotPart'])) {
-                            $newObj->enableCannotParticipateOption((bool) ($a_rec['show_cannot_part'] ?? false));
-                            break;
-                        }
-                        $this->applyDidacticTemplate($newObj, (int) ($a_rec['Type'] ?? 0));
                         break;
                 }
 
