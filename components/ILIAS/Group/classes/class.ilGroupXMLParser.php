@@ -632,12 +632,13 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     public function parseId(string $a_id): array
     {
         $fields = explode('_', $a_id);
+        $usr_id = (int) $fields[3];
 
         if (!is_array($fields) or
            $fields[0] != 'il' or
            !is_numeric($fields[1]) or
            $fields[2] != 'usr' or
-           !is_numeric($fields[3])) {
+           !is_numeric($usr_id)) {
             return [];
         }
         if ($id = ilObjUser::_getImportedUserId($a_id)) {
@@ -645,11 +646,11 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                          'local' => false,
                          'usr_id' => $id);
         }
-        if (($fields[1] == $this->settings->get('inst_id', "0")) and ($user = ilObjUser::_lookupName((int) $fields[3]))) {
+        if (($fields[1] == $this->settings->get('inst_id', "0")) and ($user = ilObjUser::_lookupName($usr_id))) {
             if (strlen($user['login'])) {
                 return array('imported' => false,
                              'local' => true,
-                             'usr_id' => $fields[3]);
+                             'usr_id' => $usr_id);
             }
         }
         $this->log->warning('Parsing id failed: ' . $a_id);
