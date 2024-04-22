@@ -27,7 +27,9 @@ when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.
 subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
 However, this has not been decided yet and is thus most certainly up for discussion.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen).
+
+The need for a title section component was also discovered while discussing [this PR for the Test & Assessment kiosk mode header](https://github.com/ILIAS-eLearning/ILIAS/pull/7311). This shows that there are use cases beyond the content page title and actions that should be taken into account. Maybe the UI Entity could serve as inspiration for how properties and actions in a title sections could be arranged with effective visual weighting by relevance and semantic grouping.
 
 ### Tabs and Sub Tabs (advanced, variable)
 Note that a major part of the work for this Components will be to setup a comprehensive set of rules on the naming of 
