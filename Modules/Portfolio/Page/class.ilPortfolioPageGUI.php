@@ -37,6 +37,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected array $additional = array();
     protected array $export_material = array("js" => array(), "images" => array(), "files" => array());
     protected static int $initialized = 0;
+    protected static bool $calender_initialized = false;
     protected int $requested_ppage;
 
     public function __construct(
@@ -640,7 +641,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $a_group_ids = null;
         }
         ilCalendarCategories::_getInstance()->setCHUserId($user_id);
-        ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, 0, true);
+        if (!self::$calender_initialized) {
+            ilCalendarCategories::_getInstance()->initialize(
+                ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION,
+                0,
+                true
+            );
+            self::$calender_initialized = true;
+        }
 
         $seed = $this->port_request->getCalendarSeed();
         if ($seed === "") {
