@@ -34,14 +34,14 @@
 /install_client.php
 
 # Directories
-/public/data
+/public
 /Customizing/global
 /Customizing/clients
 virtual-data
 /vendor/composer/vendor
 
 # Node Modules
-/public/node_modules
+node_modules
 /components/ILIAS/Chatroom/chat/node_modules
 
 # cli
