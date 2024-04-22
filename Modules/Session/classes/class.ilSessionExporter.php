@@ -116,13 +116,6 @@ class ilSessionExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
-            "9.0" => [
-                "namespace" => "http://www.ilias.de/xml/Modules/Session/sess",
-                "xsd_file" => "ilias_sess_9.xsd",
-                "uses_dataset" => true,
-                "min" => "9.0",
-                "max" => ""
-            ],
             "4.1.0" => [
                 "namespace" => "http://www.ilias.de/Modules/Session/sess/4_1",
                 "xsd_file" => "ilias_sess_4_1.xsd",
@@ -156,8 +149,15 @@ class ilSessionExporter extends ilXmlExporter
                 "xsd_file" => "ilias_sess_7.xsd",
                 "uses_dataset" => true,
                 "min" => "7.0",
-                "max" => ""
+                "max" => "8.99"
             ],
+            "9.0" => [
+                "namespace" => "http://www.ilias.de/xml/Modules/Session/sess",
+                "xsd_file" => "ilias_sess_9.xsd",
+                "uses_dataset" => true,
+                "min" => "9.0",
+                "max" => ""
+            ]
         ];
     }
 }
