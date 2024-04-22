@@ -287,41 +287,47 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             return;
         }
 
-        $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $_POST['num_req_answers']);
-        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) ($_POST["export_essay_qst_with_html"] ?? '0'));
-        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"] ?? []);
+        $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $form->getInput('num_req_answers'));
+        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml(
+            (bool) ($form->getInput('export_essay_qst_with_html') ?? '0')
+        );
+        $this->getAssessmentFolder()->_setManualScoring($form->getInput('chb_manual_scoring') ?? []);
         $question_types = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
         foreach ($question_types as $name => $row) {
-            if (!isset($_POST["chb_allowed_questiontypes"]) || !in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
+            if (!$form->getItemByPostVar('chb_allowed_questiontypes') ||
+                !in_array($row["question_type_id"], $form->getInput('chb_allowed_questiontypes'))) {
                 $forbidden_types[] = (int) $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->_setForbiddenQuestionTypes($forbidden_types);
-        $this->getAssessmentFolder()->setScoringAdjustmentEnabled((bool) ($_POST['chb_scoring_adjust'] ?? '0'));
+        $this->getAssessmentFolder()->setScoringAdjustmentEnabled(
+            (bool) ($form->getInput('chb_scoring_adjust') ?? '0')
+        );
         $scoring_types = [];
         foreach ($question_types as $name => $row) {
-            if (isset($_POST["chb_scoring_adjustment"]) && in_array($row["question_type_id"], $_POST["chb_scoring_adjustment"])) {
+            if ($form->getItemByPostVar('chb_scoring_adjustment') &&
+                in_array($row["question_type_id"], $form->getInput('chb_scoring_adjustment'))) {
                 $scoring_types[] = $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->setScoringAdjustableQuestions($scoring_types);
-        if (!isset($_POST['ass_process_lock'])) {
+        if (!$form->getInput('ass_process_lock')) {
             $this->getAssessmentFolder()->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
         } elseif (in_array(
-            $_POST['ass_process_lock_mode'],
+            $form->getInput('ass_process_lock_mode'),
             ilObjAssessmentFolder::getValidAssessmentProcessLockModes(),
             true
         )) {
-            $this->getAssessmentFolder()->setAssessmentProcessLockMode($_POST['ass_process_lock_mode']);
+            $this->getAssessmentFolder()->setAssessmentProcessLockMode($form->getInput('ass_process_lock_mode'));
         }
 
         $assessmentSetting = new ilSetting('assessment');
         $assessmentSetting->set('use_javascript', '1');
-        if (strlen($_POST['imap_line_color']) == 6) {
-            $assessmentSetting->set('imap_line_color', ilUtil::stripSlashes($_POST['imap_line_color']));
+        if (strlen($form->getInput('imap_line_color') ?? '') === 6) {
+            $assessmentSetting->set('imap_line_color', ilUtil::stripSlashes($form->getInput('imap_line_color')));
         }
-        $assessmentSetting->set('user_criteria', ilUtil::stripSlashes($_POST['user_criteria']));
+        $assessmentSetting->set('user_criteria', ilUtil::stripSlashes($form->getInput('user_criteria')));
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
@@ -537,12 +543,21 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
      */
     public function deleteLogObject(): void
     {
-        if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"]))) {
-            $this->getAssessmentFolder()->deleteLogEntries($_POST["chb_test"]);
+        $test_ids = $this->post_wrapper->retrieve(
+            'chb_test',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+
+        if ($test_ids !== []) {
+            $this->getAssessmentFolder()->deleteLogEntries($test_ids);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("ass_log_deleted"));
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("ass_log_delete_no_selection"));
         }
+
         $this->logAdminObject();
     }
 
