@@ -650,7 +650,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             if (strlen($user['login'])) {
                 return array('imported' => false,
                              'local' => true,
-                             'usr_id' => $fields[3]);
+                             'usr_id' => (int) $fields[3]);
             }
         }
         $this->log->warning('Parsing id failed: ' . $a_id);
