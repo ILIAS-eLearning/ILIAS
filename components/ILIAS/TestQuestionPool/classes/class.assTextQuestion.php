@@ -556,7 +556,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $points = 0;
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }

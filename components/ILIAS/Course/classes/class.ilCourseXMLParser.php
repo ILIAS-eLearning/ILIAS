@@ -499,11 +499,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                  * This needs to be before MDUpdateListener, since otherwise container settings are
                  * overwritten by ilContainer::update in MDUpdateListener, see #24733.
                  */
+                $this->course_obj->readContainerSettings();
                 if ($this->getMode() === self::MODE_SOAP) {
                     $this->course_obj->MDUpdateListener('General');
                     $this->adv_md_handler->save();
                 }
-                $this->course_obj->readContainerSettings();
                 $this->course_obj->update();
                 break;
 

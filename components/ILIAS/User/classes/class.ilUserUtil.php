@@ -209,7 +209,7 @@ class ilUserUtil
             $DIC['ilUser'],
             $DIC['ilDB'],
             $DIC['tpl'],
-            $DIC['lng'],
+            $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],
             $DIC['rbacsystem'],

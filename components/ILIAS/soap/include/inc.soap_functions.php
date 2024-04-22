@@ -349,7 +349,7 @@ class ilSoapFunctions
     /**
      * @return soap_fault|SoapFault|string|null
      */
-    public static function addGroup(string $sid, int $target_id, int $group_xml)
+    public static function addGroup(string $sid, int $target_id, string $group_xml)
     {
         $soa = new ilSoapGroupAdministration();
         return $soa->addGroup($sid, $target_id, $group_xml);

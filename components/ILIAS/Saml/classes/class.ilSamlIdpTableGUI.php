@@ -66,6 +66,7 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 $this->getColumnDefinition(),
                 $this
             )
+            ->withId(self::class)
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }

@@ -939,8 +939,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             )
         );
         if (
-            !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId()) &&
-            !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
+            !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
+            && !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
             return;
@@ -1101,18 +1101,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $got_globals = false;
         $global_selects = [];
         foreach ($roles as $role_id => $role) {
-            if ($role['type'] == 'Global') {
+            if ($role['type'] === 'Global') {
+                $select_options = [];
                 if (!$got_globals) {
-                    $got_globals = true;
-
                     $global_roles_assignment_info = $this->ui_factory->input()->field()
                         ->text($this->lng->txt('roles_of_import_global'))
                         ->withDisabled(true)
                         ->withValue($this->lng->txt('assign_global_role'));
+                } else {
+                    $select_options[] = $this->lng->txt('usrimport_ignore_role');
                 }
 
-                //select options for new form input to still have both ids
-                $select_options = [];
                 foreach ($gl_roles as $key => $value) {
                     $select_options[$role_id . '-' . $key] = $value;
                 }
@@ -1152,7 +1151,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             );
                             break;
 
-                        default:
+                        case 'User':
                             $pre_select = array_search(
                                 'User',
                                 $select_options
@@ -1166,9 +1165,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $role['name'],
                         $select_options
                     )
-                    ->withValue($pre_select)
-                    ->withRequired(true);
-                $global_selects[] = $select;
+                    ->withValue($pre_select);
+
+                if (!$got_globals) {
+                    $got_globals = true;
+                    $global_selects[] = $select->withRequired(true);
+                } else {
+                    $global_selects[] = $select;
+                }
             }
         }
 
@@ -1359,7 +1363,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt('file_info')
         );
 
-        $form_action = $this->ctrl->getFormActionByClass('ilObjUserFolderGui', 'importUsers');
+        $form_action = $this->ctrl->getFormActionByClass(self::class, 'importUsers');
 
         $form_elements = [
             'file_info' => $file_info_section
@@ -1524,47 +1528,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         if (count($file_list) > 1) {
             $this->filesystem->deleteDir($import_dir);
-            $this->ilias->raiseError(
-                $this->lng->txt('usrimport_wrong_file_count'),
-                $this->ilias->error_obj->MESSAGE
-            );
-            if ($this->inAdministration()) {
-                $this->ctrl->redirect(
-                    $this,
-                    'view'
-                );
-            } else {
-                $this->ctrl->redirectByClass(
-                    'ilobjcategorygui',
-                    'listUsers'
-                );
-            }
-        } else {
-            $xml_file = $file_list[0]->getPath();
+            $this->tpl->setOnScreenMessage($this->lng->txt('usrimport_wrong_file_count'), true);
+            $this->redirectAfterImport();
         }
+        $xml_file = $file_list[0]->getPath();
 
         //Need full path to xml file to initialise form
         $xml_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
-        if ($this->user_request->isPost()) {
-            $form = $this->initUserRoleAssignmentForm($xml_path)[0]->withRequest($this->user_request->getRequest());
-            $result = $form->getData();
-        } else {
-            $this->ilias->raiseError(
-                $this->lng->txt('usrimport_form_not_evaluabe'),
-                $this->ilias->error_obj->MESSAGE
-            );
-            if ($this->inAdministration()) {
-                $this->ctrl->redirect(
-                    $this,
-                    'view'
-                );
-            } else {
-                $this->ctrl->redirectByClass(
-                    'ilobjcategorygui',
-                    'listUsers'
-                );
-            }
+        if (!$this->user_request->isPost()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('usrimport_form_not_evaluabe'), true);
+            $this->redirectAfterImport();
+        }
+
+        $form = $this->initUserRoleAssignmentForm($xml_path)[0]->withRequest($this->user_request->getRequest());
+        $result = $form->getData();
+
+        if ($result === null) {
+            $this->tpl->setContent($this->ui_renderer->render($form));
+            return;
         }
 
         $rule = $result['conflict_action'][0] ?? 1;
@@ -1619,10 +1601,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                                     && !ilObjRole::_getAssignUsersStatus($role_id))
                             ) {
                                 $this->filesystem->deleteDir($import_dir);
-                                $this->ilias->raiseError(
+                                $this->tpl->setOnScreenMessage(
+                                    'failure',
                                     $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                                    $this->ilias->error_obj->MESSAGE
+                                    true
                                 );
+                                $this->redirectAfterImport();
                             }
                         }
                     } else {
@@ -1636,11 +1620,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                                 $rolf[0]
                             )) {
                             $this->filesystem->deleteDir($import_dir);
-                            $this->ilias->raiseError(
+                            $this->tpl->setOnScreenMessage(
+                                'failure',
                                 $this->lng->txt('usrimport_with_specified_role_not_permitted'),
-                                $this->ilias->error_obj->MESSAGE
+                                true
                             );
-                            return;
+                            $this->redirectAfterImport();
                         }
                     }
                 }
@@ -1676,11 +1661,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
                 break;
             case ilUserImportParser::IL_IMPORT_FAILURE:
-                $this->ilias->raiseError(
-                    $this->lng->txt('user_import_failed')
-                    . $import_parser->getProtocolAsHTML($this->lng->txt('import_failure_log')),
-                    $this->ilias->error_obj->MESSAGE
-                );
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_import_failed'), true);
+                $this->redirectAfterImport();
                 break;
         }
 
@@ -3840,6 +3822,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 return [['generalSettings', $fields]];
         }
         return [];
+    }
+
+    private function redirectAfterImport(): void
+    {
+        if ($this->inAdministration()) {
+            $this->ctrl->redirect(
+                $this,
+                'view'
+            );
+        }
+
+        $this->ctrl->redirectByClass(
+            'ilobjcategorygui',
+            'listUsers'
+        );
     }
 
     protected function addToClipboardObject(): void

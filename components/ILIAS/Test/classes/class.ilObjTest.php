@@ -4731,10 +4731,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getTextAnswer($active_id, $question_id, $pass = null): string
     {
-        $res = "";
         if (($active_id) && ($question_id)) {
-            if (is_null($pass)) {
+            if ($pass === null) {
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
+            }
+            if ($pass === null) {
+                return '';
             }
             $result = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
@@ -4742,11 +4744,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 [$active_id, $question_id, $pass]
             );
             if ($result->numRows() == 1) {
-                $row = $this->db->fetchAssoc($result);
-                $res = $row["value1"];
+                return $row["value1"];
             }
         }
-        return $res;
+        return '';
     }
 
     /**

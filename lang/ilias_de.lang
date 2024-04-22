@@ -10493,7 +10493,7 @@ irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
 irss#:#file_size#:#Dateigrösse (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigrösse > MB
 irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
-irss#:#home_directoryStammverzeichnis
+irss#:#home_directory#:#Stammverzeichnis
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
 irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
@@ -11614,6 +11614,7 @@ mcst#:#mcst_automatic_detection#:#Automatisch
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
+mcst#:#mcst_autoplay_info#:#Startet beim Erreichen des Endes eines Videos automatisch das nächste Video. Youtube-Videos unterstützen dieses Verhalten nicht.
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_confirm_deletion#:#Löschbestätigung
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
@@ -11631,7 +11632,7 @@ mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_downloadable#:#Download-Link
 mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
 mcst#:#mcst_duration#:#Laufzeit
-mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
+mcst#:#mcst_duration_info#:#Falls dieser Wert auf Null steht, konnte die Laufzeit nicht automatisch bestimmt werden. Bitte tragen Sie dann die Laufzeit manuell ein.
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
 mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_gallery#:#Kacheln
@@ -13235,6 +13236,7 @@ prg#:#prg_autoassignment#:#(automatisch)
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
+prg#:#prg_cancel_acknowledge_completed_courses#:#Keine Kurse anerkennen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_change_deadline#:#Stichtag anpassen
 prg#:#prg_change_expire_date#:#Ablauf der Qualifikation anpassen

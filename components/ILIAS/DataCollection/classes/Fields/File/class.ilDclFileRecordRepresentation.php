@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @noinspection AutoloadingIssuesInspection
  */
-class ilDclFileRecordPresentation extends ilDclBaseRecordRepresentation
+class ilDclFileRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     use ilDclFileFieldHelper;
 

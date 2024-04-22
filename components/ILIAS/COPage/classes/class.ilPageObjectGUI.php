@@ -2751,8 +2751,8 @@ class ilPageObjectGUI
         $this->setBackToHistoryTabs();
 
         $pg = $this->obj;
-        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
-        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"), $pg->getLanguage());
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"), $pg->getLanguage());
 
         $compare = $this->compare->compare(
             $this->getPageObject(),

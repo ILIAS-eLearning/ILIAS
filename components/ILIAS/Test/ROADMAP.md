@@ -22,6 +22,7 @@ Among other challenges, we are planning to use the given developing budget from 
 		* Infrastructure setup for the replacement
 		* Conversion of the Long-Menu-Question to UI-Forms as pilot
 	* Use of IRSS in T&A
+    * Further reduction of access and use of request variables (GPCR)
 5. Research possible successor for TinyMCE
 6. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
 7. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project

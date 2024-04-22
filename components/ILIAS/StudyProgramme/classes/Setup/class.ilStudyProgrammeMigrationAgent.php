@@ -58,13 +58,21 @@ class ilStudyProgrammeMigrationAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilScormAiccDatabaseUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Component StudyProgramme',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAssignmentTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammePCStatusInfoUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeUDFDefinitionUpdateSteps())
+        );
     }
 
     public function getMigrations(): array
     {
         return [
-            new PRGUpdateRestartedSourceMigration(),
             new PRGUpdateCompletionByMigration()
         ];
     }

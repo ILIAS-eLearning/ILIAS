@@ -1240,13 +1240,15 @@ EOT;
             ilObjMediaCast::AUTOPLAY_INACT => $lng->txt("mcst_autoplay_inactive")
         );
         $si = new ilSelectInputGUI($lng->txt("mcst_autoplay"), "autoplaymode");
+        $si->setInfo($lng->txt("mcst_autoplay_info"));
         $si->setOptions($options);
         $si->setValue($this->object->getAutoplayMode());
         $vc_opt->addSubItem($si);
 
         // number of initial videos
         $ti = new ilNumberInputGUI($lng->txt("mcst_nr_videos"), "nr_videos");
-        $ti->setValue($this->object->getNumberInitialVideos());
+        $ti->setValue(max(1, $this->object->getNumberInitialVideos()));
+        $ti->setMinValue(1);
         $ti->setSize(2);
         $vc_opt->addSubItem($ti);
 
