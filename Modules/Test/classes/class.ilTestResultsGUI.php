@@ -25,6 +25,8 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\QuestionInfoService;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilTestResultsGUI
@@ -70,7 +72,8 @@ class ilTestResultsGUI
         private UIRenderer $ui_renderer,
         private SkillService $skills_service,
         private InternalRequestService $testrequest,
-        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        private QuestionInfoService $questioninfo,
+        private GlobalHttpState $http
     ) {
     }
 
@@ -170,7 +173,9 @@ class ilTestResultsGUI
                     $this->ui_factory,
                     $this->ui_renderer,
                     new ilTestParticipantAccessFilterFactory($this->access),
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->http,
+                    $this->refinery
                 );
                 $gui->setTestObj($this->getTestObj());
                 $gui->setQuestionSetConfig($this->getQuestionSetConfig());
