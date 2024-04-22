@@ -498,7 +498,7 @@ class ilMDEducational extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
+            $time_arr = ilMDUtils::_LOMDurationToArray((string) $row->typical_learning_time);
             if (!count($time_arr)) {
                 return 0;
             }
