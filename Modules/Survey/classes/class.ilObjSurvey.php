@@ -4693,13 +4693,13 @@ class ilObjSurvey extends ilObject
      */
     public function getAnonymousIdByCode(
         string $a_code
-    ): int {
+    ): ?int {
         $ilDB = $this->db;
         $set = $ilDB->query("SELECT anonymous_id FROM svy_anonymous" .
                 " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
                 " AND survey_key = " . $ilDB->quote($a_code, "text"));
         $res = $ilDB->fetchAssoc($set);
-        return $res["anonymous_id"];
+        return $res["anonymous_id"] ?? null;
     }
 
     /**
