@@ -7276,7 +7276,7 @@ div.alert ul > li:before {
 }
 .panel-secondary .il-panel-listing-std-container > h2, .panel-secondary .panel-body h4 {
   display: block;
-  padding: 6px 0;
+  padding: 3px 0;
   font-size: 0.875rem;
   color: #161616;
   margin: 0;
