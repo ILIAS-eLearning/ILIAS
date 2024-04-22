@@ -52,7 +52,8 @@ class ilStaticComponentRepositoryExistsObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment): array
     {
         return [
-            new ilComponentBuildComponentInfoObjective()
+            new ilComponentBuildComponentInfoObjective(),
+            new ilComponentBuildPluginInfoObjective(),
         ];
     }
 
