@@ -124,7 +124,7 @@ class ilExcelTestExport extends ilTestExportAbstract
                     $userdata->getName()
                 ) .
                     (!$this->scoredonly && $userdata->getScoredPass() === $passCount ? " " .
-                    $this->lng->txt("exp_best_pass") .
+                    $this->lng->txt("exp_scored_test_run") .
                     " (" . ($this->test_obj->getPassScoring() ? $this->lng->txt(
                         'tst_pass_scoring_best'
                     ) : $this->lng->txt('tst_pass_scoring_last')) . ")" : "");
