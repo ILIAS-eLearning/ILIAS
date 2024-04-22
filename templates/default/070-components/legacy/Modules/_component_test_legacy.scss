@@ -4,11 +4,6 @@
 
 /* not yet refactored code from former ta.css */
 
-.kiosk {
-	padding: 2em;
-	background-color: #fafafa;
-}
-
 .fullwidth_invisible {
 	background-color: transparent !important;
 }
@@ -26,6 +21,18 @@
 	margin-right: auto;
 	font-weight: bold;
 	font-size: 150%;
+}
+
+.il-pagetitle {
+	.l-bar__space-keeper {
+		--l-bar__element__margin-bottom: #{$il-margin-xs-vertical};
+		font-size: $il-font-size-base;
+		font-weight: $il-font-weight-base;
+	}
+	.il-test-kiosk-head__participant-name {
+		font-size: $il-font-size-xlarge;
+		font-weight: $il-font-weight-bold;
+	}
 }
 
 .col2 {
@@ -61,27 +68,6 @@
 	padding: 5px;
 	background: #E2FFC7; /* Fallback IE 6-8 */
 	background: rgba(226, 255, 199, .4);
-}
-
-#kioskOptions {
-	clear: both;
-	overflow: hidden;
-	width: 100%;
-	border-top: 1px #aaa solid;
-	border-bottom: 1px #aaa solid;
-	margin-bottom: 1em;
-	padding: 1em 0;
-}
-
-#kioskTestTitle {
-	float: left;
-	width: 50%;
-}
-
-#kioskParticipant {
-	float: right;
-	text-align: right;
-	width: 50%;
 }
 
 .print {
