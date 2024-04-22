@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Forum;
+
+use ilCtrl;
+use Generator;
+use ilObjUser;
+use ilDateTime;
+use ilLanguage;
+use ilObjForum;
+use ilObjForumGUI;
+use ilForumPostDraft;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ilDatePresentation;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\Data as DataTable;
+use Psr\Http\Message\ServerRequestInterface as HttpRequest;
+
+/**
+ * Class ilForumDraftsTableGUI
+ * @author Nadia Matuschek <nmatuschek@databay.de>
+ */
+class ForumDraftsTable implements DataRetrieval
+{
+    private ?array $records = null;
+
+    public function __construct(
+        private readonly ilObjForum $forum,
+        private readonly UIFactory $ui_factory,
+        private readonly HttpRequest $request,
+        private readonly ilLanguage $lng,
+        private readonly string $parent_cmd,
+        private readonly ilCtrl $ctrl,
+        private readonly DataFactory $data_factory,
+        private readonly ilObjUser $user,
+        private readonly bool $mayEdit,
+        private readonly ilObjForumGUI $parent_object,
+    ) {
+    }
+
+    public function getRows(
+        \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters,
+    ): Generator {
+        $records = $this->getRecords($range, $order);
+        foreach ($records as $record) {
+            yield $row_builder->buildDataRow((string) $record['draft_id'], $record);
+        }
+    }
+
+    public function initRecords(): void
+    {
+        global $DIC;
+        if ($this->records === null) {
+            $this->records = [];
+            $drafts = ilForumPostDraft::getThreadDraftData(
+                $this->user->getId(),
+                ilObjForum::lookupForumIdByObjId($this->forum->getId())
+            );
+            $selected_draft_ids = [];
+            if ($DIC->http()->wrapper()->post()->has('draft_ids')) {
+                $selected_draft_ids = $DIC->http()->wrapper()->post()->retrieve(
+                    'draft_ids',
+                    $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
+                );
+            }
+            foreach ($drafts as $draft) {
+                if (!isset($draft['draft_id'], $draft['subject'], $draft['post_update'])) {
+                    continue;
+                }
+                $draft_id = $draft['draft_id'];
+                $this->records[$draft_id] = ['draft_id' => $draft_id];
+                if ($this->mayEdit) {
+                    $this->ctrl->setParameter($this->parent_object, 'draft_id', $draft_id);
+                    $url = $this->ctrl->getLinkTarget($this->parent_object, 'editThreadDraft');
+                    $this->records[$draft_id]['draft'] = $this->ui_factory->link()->standard($draft['subject'], $url ?? '');
+                    $this->ctrl->setParameter($this->parent_object, 'draft_id', null);
+                } else {
+                    $this->records[$draft_id]['draft'] = $draft['subject'];
+                }
+
+                $date = ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_DATETIME));
+                $this->records[$draft_id]['edited_on'] = $date;
+            }
+        }
+    }
+
+    public function getComponent(): DataTable
+    {
+        $query_params_namespace = ['forum', 'drafts', 'delete'];
+        $uri = $this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(ilObjForumGUI::class, 'confirmDeleteThreadDrafts')
+        );
+        $url_builder = new URLBuilder($uri);
+        [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
+            $query_params_namespace,
+            'table_action',
+            'draft_ids'
+        );
+
+        return $this->ui_factory->table()
+            ->data(
+                $this->lng->txt(
+                    'frm_drafts_' . substr(
+                        md5($this->parent_cmd),
+                        0,
+                        3
+                    ) . '_' . $this->forum->getId()
+                ),
+                $this->getColumns(),
+                $this
+            )
+            ->withRequest($this->request)
+            ->withActions(
+                [
+                    $this->ui_factory->table()->action()->multi(
+                        $this->lng->txt('delete'),
+                        $url_builder->withParameter($action_parameter_token, 'delete'),
+                        $row_id_token
+                    )
+                ]
+            )
+        ;
+    }
+
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+    {
+        $this->initRecords();
+
+        return count((array) $this->records);
+    }
+
+    private function sortedRecords(array $records, Order $order): array
+    {
+        return $records;
+    }
+
+    private function getRecords(Range $range, Order $order): array
+    {
+        $this->initRecords();
+        $records = $this->sortedRecords($this->records, $order);
+
+        return $this->limitRecords($records, $range);
+    }
+
+    private function limitRecords(array $records, Range $range): array
+    {
+        return array_slice($records, $range->getStart(), $range->getLength());
+    }
+
+    private function getColumns(): array
+    {
+        return [
+            'draft' => $this->ui_factory->table()->column()->link($this->lng->txt('drafts')),
+            'edited_on' => $this->ui_factory->table()->column()->text($this->lng->txt('edited_on'))
+        ];
+    }
+}
