@@ -365,8 +365,8 @@ abstract class ActiveRecord
         $records = is_array($records) ? $records : array();
         foreach ($records as $rec) {
             foreach ($this->getArrayForConnector() as $k => $v) {
-                $waked = $this->wakeUp($k, $rec->{$k});
-                $this->{$k} = ($waked === null) ? $rec->{$k} : $waked;
+                $waked = $this->wakeUp($k, $rec->{$k} ?? null);
+                $this->{$k} = $waked ?? $rec->{$k} ?? null;
             }
             arObjectCache::store($this);
         }
