@@ -34,14 +34,11 @@ use ilDatePresentation;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\Data as DataTable;
-use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 
-/**
- * Class ilForumDraftsTableGUI
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
 class ForumDraftsTable implements DataRetrieval
 {
     private ?array $records = null;
@@ -49,7 +46,8 @@ class ForumDraftsTable implements DataRetrieval
     public function __construct(
         private readonly ilObjForum $forum,
         private readonly UIFactory $ui_factory,
-        private readonly HttpRequest $request,
+        private readonly HttpServices $http,
+        private readonly Refinery $refinery,
         private readonly ilLanguage $lng,
         private readonly string $parent_cmd,
         private readonly ilCtrl $ctrl,
@@ -76,20 +74,22 @@ class ForumDraftsTable implements DataRetrieval
 
     public function initRecords(): void
     {
-        global $DIC;
         if ($this->records === null) {
             $this->records = [];
             $drafts = ilForumPostDraft::getThreadDraftData(
                 $this->user->getId(),
                 ilObjForum::lookupForumIdByObjId($this->forum->getId())
             );
-            $selected_draft_ids = [];
-            if ($DIC->http()->wrapper()->post()->has('draft_ids')) {
-                $selected_draft_ids = $DIC->http()->wrapper()->post()->retrieve(
-                    'draft_ids',
-                    $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
-                );
-            }
+            $selected_draft_ids = $this->http->wrapper()->post()->retrieve(
+                'draft_ids',
+                $this->refinery->byTrying(
+                    [
+                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                        $this->refinery->always([])
+                    ]
+                )
+            );
+
             foreach ($drafts as $draft) {
                 if (!isset($draft['draft_id'], $draft['subject'], $draft['post_update'])) {
                     continue;
@@ -136,7 +136,7 @@ class ForumDraftsTable implements DataRetrieval
                 $this->getColumns(),
                 $this
             )
-            ->withRequest($this->request)
+            ->withRequest($this->http->request())
             ->withActions(
                 [
                     $this->ui_factory->table()->action()->multi(
@@ -156,17 +156,11 @@ class ForumDraftsTable implements DataRetrieval
         return count((array) $this->records);
     }
 
-    private function sortedRecords(array $records, Order $order): array
-    {
-        return $records;
-    }
-
     private function getRecords(Range $range, Order $order): array
     {
         $this->initRecords();
-        $records = $this->sortedRecords($this->records, $order);
 
-        return $this->limitRecords($records, $range);
+        return $this->limitRecords($this->records, $range);
     }
 
     private function limitRecords(array $records, Range $range): array
@@ -177,8 +171,12 @@ class ForumDraftsTable implements DataRetrieval
     private function getColumns(): array
     {
         return [
-            'draft' => $this->ui_factory->table()->column()->link($this->lng->txt('drafts')),
-            'edited_on' => $this->ui_factory->table()->column()->text($this->lng->txt('edited_on'))
+            'draft' => $this->ui_factory->table()->column()->link($this->lng->txt('drafts'))->withIsSortable(
+                false
+            )->withIsSortable(false),
+            'edited_on' => $this->ui_factory->table()->column()->text($this->lng->txt('edited_on'))->withIsSortable(
+                false
+            )->withIsSortable(false)
         ];
     }
 }

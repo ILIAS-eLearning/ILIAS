@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Input\ViewControl\Sortation;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Forum\ForumDraftsTable;
 
 /**
  * Class ilObjForumGUI
@@ -1121,10 +1122,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ilObjForum::lookupForumIdByObjId($this->object->getId())
         );
         if ($drafts !== []) {
-            $table = new \ILIAS\Forum\ForumDraftsTable(
+            $table = new ForumDraftsTable(
                 $this->object,
                 $this->ui_factory,
-                $this->request,
+                $this->http,
+                $this->refinery,
                 $this->lng,
                 $cmd,
                 $this->ctrl,
@@ -2007,43 +2009,38 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $draft_ids = [];
-        if ($this->http->wrapper()->query()->has('forum_drafts_delete_draft_ids')) {
+        $draft_ids = $this->http->wrapper()->query()->retrieve(
+            'forum_drafts_delete_draft_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+
+        if ($draft_ids === []) {
             $draft_ids = $this->http->wrapper()->query()->retrieve(
                 'forum_drafts_delete_draft_ids',
                 $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                     $this->refinery->always([])
                 ])
             );
-        }
-
-        if ($draft_ids === []) {
-            if ($this->http->wrapper()->query()->has('forum_drafts_delete_draft_ids')) {
-                $draft_ids = $this->http->wrapper()->query()->retrieve(
-                    'forum_drafts_delete_draft_ids',
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                        $this->refinery->always([])
-                    ])
-                );
-            }
 
             if (!isset($draft_ids[0]) || $draft_ids[0] !== 'ALL_OBJECTS') {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_at_least_one_thread'));
                 $this->showThreadsObject();
                 return;
-            } else {
-                $draft_ids = array_map(
-                    static function (array $draft): int {
-                        return $draft['draft_id'] ?? 0;
-                    },
-                    ilForumPostDraft::getThreadDraftData(
-                        $this->user->getId(),
-                        ilObjForum::lookupForumIdByObjId($this->object->getId())
-                    )
-                );
             }
+
+            $draft_ids = array_map(
+                static function (array $draft): int {
+                    return $draft['draft_id'] ?? 0;
+                },
+                ilForumPostDraft::getThreadDraftData(
+                    $this->user->getId(),
+                    ilObjForum::lookupForumIdByObjId($this->object->getId())
+                )
+            );
         }
 
         $confirmation = new ilConfirmationGUI();
