@@ -55,6 +55,7 @@ This part of the documentation deals with concepts and business rules, for techn
 ## Result Presentation
 
 * **Privacy** (with/without names): The setting only affects the result presentation. No user names, account names or emails will be shown if privacy is activated (without names).
+* **Access** Users need either "write" or "read results" permission to gain general access to the result views. Participants (without the permissions mentioned before) will get access to the results according to settings of the survey.
 * **Competences**
   * Results screen lists all profiles of the user. If other competences are used an additional dropdown "All competences of survey".
   * The "All competences of survey" view will show all competences that are assigned to the survey.
