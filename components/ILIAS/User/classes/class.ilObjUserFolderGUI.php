@@ -1101,18 +1101,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $got_globals = false;
         $global_selects = [];
         foreach ($roles as $role_id => $role) {
-            if ($role['type'] == 'Global') {
+            if ($role['type'] === 'Global') {
+                $select_options = [];
                 if (!$got_globals) {
-                    $got_globals = true;
-
                     $global_roles_assignment_info = $this->ui_factory->input()->field()
                         ->text($this->lng->txt('roles_of_import_global'))
                         ->withDisabled(true)
                         ->withValue($this->lng->txt('assign_global_role'));
+                } else {
+                    $select_options[] = $this->lng->txt('usrimport_ignore_role');
                 }
 
-                //select options for new form input to still have both ids
-                $select_options = [];
                 foreach ($gl_roles as $key => $value) {
                     $select_options[$role_id . '-' . $key] = $value;
                 }
@@ -1166,9 +1165,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $role['name'],
                         $select_options
                     )
-                    ->withValue($pre_select)
-                    ->withRequired(true);
-                $global_selects[] = $select;
+                    ->withValue($pre_select);
+
+                if (!$got_globals) {
+                    $got_globals = true;
+                    $global_selects[] = $select->withRequired(true);
+                } else {
+                    $global_selects[] = $select;
+                }
             }
         }
 
