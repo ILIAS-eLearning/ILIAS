@@ -151,7 +151,7 @@ class ilSoapAdministration
 
     protected function initIlias(): void
     {
-        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP || ilContext::getType() === ilContext::CONTEXT_SOAP_WITHOUT_CLIENT) {
             try {
                 require_once("Services/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
@@ -259,8 +259,7 @@ class ilSoapAdministration
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("Services/Init/classes/class.ilInitialisation.php");
-        ilInitialisation::initILIAS();
+        $this->initIlias();
 
         $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
         require_once("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
@@ -283,8 +282,7 @@ class ilSoapAdministration
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("Services/Init/classes/class.ilInitialisation.php");
-        ilInitialisation::initILIAS();
+        $this->initIlias();
 
         $clientdir = ILIAS_WEB_DIR . "/" . $clientid;
         require_once("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
