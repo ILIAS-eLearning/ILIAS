@@ -964,26 +964,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function getTestPlayerTitle(): string
     {
-        $test_title = $this->object->getShowKioskModeTitle() ? $this->object->getTitle() : '';
-        $user_name = $this->object->getShowKioskModeParticipant() ? $this->user->getFullname() : '';
-        $exam_id = '';
+        $titleContent = $this->ui_factory->listing()->property();
+
+        if ($this->object->getShowKioskModeParticipant()) {
+            $testParticipantNameLabel = $this->lng->txt("conf_user_name");
+            // this is a placeholder solution with inline html tags to differentiate the different elements
+            // should be removed when a title component with grouping and visual weighting is available
+            // see:  https://github.com/ILIAS-eLearning/ILIAS/pull/7311
+            $testParticipantNameValue = "<span class='il-test-kiosk-head__participant-name'>" . $this->user->getFullname() . "</span>";
+            $titleContent = $titleContent->withProperty($testParticipantNameLabel, $testParticipantNameValue, false);
+        }
+
         if ($this->object->isShowExamIdInTestPassEnabled()) {
-            $exam_id = $this->lng->txt("exam_id")
-            . ' '
-            . ilObjTest::buildExamId(
+            $testExamIdLabel = $this->lng->txt("exam_id_label");
+            $testExamIdValue = ilObjTest::buildExamId(
                 $this->test_session->getActiveId(),
                 $this->test_session->getPass(),
                 $this->object->getId()
             );
+            $titleContent = $titleContent->withProperty($testExamIdLabel, $testExamIdValue);
         }
 
-        $layout = $this->ui_factory->layout()->alignment()->vertical(
-            $this->ui_factory->legacy($test_title),
-            $this->ui_factory->layout()->alignment()->horizontal()->dynamicallyDistributed(
-                $this->ui_factory->legacy($user_name),
-                $this->ui_factory->legacy($exam_id)
-            )
-        );
-        return $this->ui_renderer->render($layout);
+        if ($this->object->getShowKioskModeTitle()) {
+            $testNameLabel = $this->lng->txt("test");
+            $testNameValue = $this->object->getTitle();
+            $titleContent = $titleContent->withProperty($testNameLabel, $testNameValue, false);
+        }
+
+        return $this->ui_renderer->render($titleContent);
     }
 }

@@ -1751,6 +1751,12 @@ th {
 }
 
 /* Responsive container system from Bootstrap 5 has been removed */
+:root {
+  --l-bar__gap--elements: 6px;
+  --l-bar__gap--groups: 15px;
+  --l-bar__element__margin-bottom: 9px;
+}
+
 .l-bar__space-keeper,
 .l-bar__group {
   display: flex;
@@ -1760,7 +1766,7 @@ th {
 }
 
 .l-bar__space-keeper:not(:empty) {
-  margin-bottom: -9px;
+  margin-bottom: calc(-1 * var(--l-bar__element__margin-bottom));
 }
 .l-bar__space-keeper:not(:empty).l-bar__space-keeper--space-between {
   justify-content: space-between;
@@ -1768,7 +1774,7 @@ th {
 
 .l-bar__space-keeper > .l-bar__element,
 .l-bar__group > .l-bar__element {
-  margin-bottom: 9px;
+  margin-bottom: var(--l-bar__element__margin-bottom);
 }
 .l-bar__space-keeper > .l-bar__element:last-child,
 .l-bar__group > .l-bar__element:last-child {
@@ -1777,12 +1783,12 @@ th {
 
 .l-bar__group > .l-bar__element,
 .l-bar__space-keeper > .l-bar__element {
-  margin-right: 6px;
+  margin-right: var(--l-bar__gap--elements);
 }
 
 .l-bar__space-keeper > .l-bar__group,
 .l-bar__group > .l-bar__group {
-  margin-right: 15px;
+  margin-right: var(--l-bar__gap--groups);
 }
 .l-bar__space-keeper > .l-bar__group:last-child,
 .l-bar__group > .l-bar__group:last-child {
@@ -5189,8 +5195,8 @@ div.il-system-infos {
 }
 
 .il-logo {
-  width: 50%;
   height: 45px;
+  overflow: hidden;
   justify-self: start;
   display: flex;
   align-items: center;
@@ -5203,7 +5209,8 @@ div.il-system-infos {
   font-weight: 600;
   display: flex;
   font-size: 1rem;
-  align-items: flex-end;
+  align-items: center;
+  min-height: 100%;
   padding-left: 35px;
   color: #161616;
 }
@@ -13323,11 +13330,6 @@ div.ilSurveyPageEditActionMenu {
 }
 
 /* not yet refactored code from former ta.css */
-.kiosk {
-  padding: 2em;
-  background-color: #fafafa;
-}
-
 .fullwidth_invisible {
   background-color: transparent !important;
 }
@@ -13345,6 +13347,16 @@ div.ilSurveyPageEditActionMenu {
   margin-right: auto;
   font-weight: bold;
   font-size: 150%;
+}
+
+.il-pagetitle .l-bar__space-keeper {
+  --l-bar__element__margin-bottom: 1px;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.il-pagetitle .il-test-kiosk-head__participant-name {
+  font-size: 1.115rem;
+  font-weight: 600;
 }
 
 .col2 {
@@ -13379,27 +13391,6 @@ div.ilSurveyPageEditActionMenu {
   padding: 5px;
   background: #E2FFC7; /* Fallback IE 6-8 */
   background: rgba(226, 255, 199, 0.4);
-}
-
-#kioskOptions {
-  clear: both;
-  overflow: hidden;
-  width: 100%;
-  border-top: 1px #aaa solid;
-  border-bottom: 1px #aaa solid;
-  margin-bottom: 1em;
-  padding: 1em 0;
-}
-
-#kioskTestTitle {
-  float: left;
-  width: 50%;
-}
-
-#kioskParticipant {
-  float: right;
-  text-align: right;
-  width: 50%;
 }
 
 .print {
