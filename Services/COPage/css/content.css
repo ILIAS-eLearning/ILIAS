@@ -88,12 +88,6 @@ a.ilc_rte_mlink_RTELink:hover {
   color: #FFFFFF;
   text-decoration: none !important;
 }
-a.ilc_rte_mlink_RTELinkDisabled {
-  background-color: ;
-}
-a.ilc_rte_mlink_RTELinkDisabled:hover {
-  background-color: ;
-}
 a.ilc_rte_texp_RTETreeCollapsed {
   background-image: url("../../../libs/ilias/Style/basic_style/images/arrow_right.svg");
   background-repeat: no-repeat;
@@ -168,7 +162,6 @@ a.ilc_section_Additional {
   padding-left: 20px;
   margin-top: 40px;
   margin-bottom: 10px;
-  background-color: ;
   position: relative;
   border-width: 2px;
   border-color: #4C6586;
@@ -205,7 +198,6 @@ a.ilc_section_AdvancedKnowledge {
   border-width: 2px;
   border-color: #4C6586;
   border-style: solid;
-  background-color: ;
   padding-left: 20px;
   padding-right: 30px;
   padding-top: 35px;
@@ -302,10 +294,6 @@ div.ilc_page_bnav_BottomNavigation {
   margin: 0px;
   color: #4C6586;
   border-color: #F9F9F9;
-}
-div.ilc_section_Button:hover,
-a.ilc_section_Button:hover {
-  background-color: ;
 }
 div.ilc_section_Card,
 a.ilc_section_Card {
@@ -452,7 +440,6 @@ a.ilc_section_Example {
   margin-bottom: 10px;
   margin-top: 40px;
   position: relative;
-  background-color: ;
   border-width: 2px;
   border-color: #4C6586;
   border-style: solid;
@@ -571,7 +558,6 @@ div.ilc_flist_head_FileListHeading {
 div.ilc_sco_fmess_FinalMessage {
   margin: 100px;
   text-align: center;
-  background-color: ;
   border-style: none;
   border-width: 1px;
   padding: 50px;
@@ -582,7 +568,6 @@ div.ilc_page_fn_Footnote {
   margin-top: 5px;
 }
 div.ilc_glo_overlay_GlossaryOverlay {
-  background-color: ;
   border-style: none;
   padding-top: 5px;
   border-width: 2px;
@@ -801,7 +786,6 @@ a.ilc_section_Remark {
   border-width: 2px;
   position: relative;
   border-color: #4C6586;
-  background-color: ;
   border-radius: 3px;
   position: relative !important;
   padding-right: 30px;
@@ -863,7 +847,6 @@ a.ilc_section_Special {
   padding-bottom: 20px;
   padding-top: 20px;
   padding-right: 20px;
-  background-color: ;
 }
 div.ilc_question_Standard {
   padding-left: 30px;
@@ -873,7 +856,6 @@ div.ilc_question_Standard {
   margin-top: 20px;
   margin-bottom: 10px;
   padding-top: 30px;
-  background-color: ;
   padding-right: 160px;
 }
 div.ilc_qover_StatusMessage {
@@ -885,7 +867,6 @@ div.ilc_qtitle_Title {
   font-weight: normal;
 }
 div.ilc_sco_title_Title {
-  border-color: ;
   border-bottom-style: solid;
   border-bottom-width: 2px;
   padding-bottom: 3px;
@@ -907,7 +888,8 @@ div.ilc_va_ihead_VAccordIHead:hover {
   background-color: #E2E8EF;
   background-position: 15px center;
 }
-em.ilc_em_Emph {
+em.ilc_em_Emph,
+span.ilc_text_inline_Emph {
   font-style: italic;
 }
 figure.ilc_media_cont_MediaContainer {
@@ -1331,7 +1313,6 @@ li.ilc_qordli_OrderListItem {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  background-color: ;
   margin-right: 0px;
   cursor: move;
   padding: 10px;
@@ -1342,7 +1323,6 @@ li.ilc_qordli_OrderListItemHorizontal {
   margin-bottom: 5px;
   margin-right: 10px;
   padding: 10px;
-  background-color: ;
   cursor: move;
 }
 li.ilc_list_item_Pointer {
@@ -1447,14 +1427,14 @@ span.ilc_text_inline_Quotation {
   color: #CDDC39;
   font-size: 114%;
 }
-strong.ilc_strong_Strong {
+strong.ilc_strong_Strong,
+span.ilc_text_inline_Strong {
   font-weight: bold;
 }
 table.ilc_table_StandardTable {
   border-collapse: collapse;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: ;
   border-color: #9EADBA;
 }
 td.ilc_table_cell_Cell1,
@@ -1545,7 +1525,6 @@ th.ilc_table_cell_TransparentH {
   padding-right: 10px;
   padding-left: 10px;
   border-style: solid;
-  border-color: ;
   border-width: 1px;
 }
 textarea.ilc_qlinput_LongTextInput {

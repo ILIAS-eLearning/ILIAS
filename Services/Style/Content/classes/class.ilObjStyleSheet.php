@@ -1412,6 +1412,12 @@ class ilObjStyleSheet extends ilObject
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
                     fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
+                if ($tag[0]["type"] == "strong") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
+                if ($tag[0]["type"] == "em") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
                 if ($tag[0]["type"] == "text_block") {
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
                 }
