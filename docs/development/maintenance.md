@@ -1507,6 +1507,7 @@ of ILIAS. The file contains the following fields:
 	* Authority to Sign off Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to Sign off Code Changes: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
         , [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+        , [tjoussen](https://docu.ilias.de/goto_docu_usr_103745.html)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* Testcases: SIG E-Assessment
