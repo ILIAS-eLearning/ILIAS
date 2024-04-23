@@ -25,7 +25,7 @@ namespace ILIAS\Component\Resource;
  */
 class PublicAssetManager
 {
-    public const REGEXP = '%^(/\w+)+$%';
+    public const REGEXP = '%^(/[\w-]+)+$%';
 
     public const DONT_PURGE = ["data", "Customizing"];
 
