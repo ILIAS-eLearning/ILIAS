@@ -13922,7 +13922,7 @@ rep#:#rep_intro3#:#Cliquer sur le bouton <i>%s</i> à  côté de la liste de sé
 rep#:#rep_intro4#:#Dans le formulaire suivant, saisir un titre et une description, et cliquez sur  <i>%s</i>.
 rep#:#rep_intro5#:#En cliquant sur le titre de la catégorie, vous entrez à l'intérieur de celle-ci.
 rep#:#rep_intro6#:#Après ces opérations, vous pourrez ajouter toutes les ressources que vous souhaitez à votre catégorie.
-rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.###07 02 2020 new variable
+rep#:#rep_mo_mem_dash#:#Vous n'êtes actuellement pas encore membre d'un cours ou d'un groupe.
 rep#:#rep_multiple_reference_deletion_instruction#:#Veuillez sélectionner celles que vous souhaitez aussi supprimer :
 rep#:#rep_multiple_reference_deletion_intro#:#D'autres références existent pour cet objet.
 rep#:#rep_new_item_group_add#:#Ajouter Groupe
