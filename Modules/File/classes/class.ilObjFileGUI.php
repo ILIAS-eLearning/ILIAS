@@ -836,19 +836,19 @@ class ilObjFileGUI extends ilObject2GUI
 
     protected function toggleLearningProgress(): void
     {
-        if (!ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId())) {
-            ilLPStatus::writeStatus(
-                $this->object->getId(),
-                $this->user->getId(),
-                ilLPStatus::LP_STATUS_COMPLETED_NUM
-            );
-        } else {
-            ilLPStatus::writeStatus(
-                $this->object->getId(),
-                $this->user->getId(),
-                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
-            );
-        }
+        ilLearningProgress::_tracProgress(
+            $this->user->getId(),
+            $this->obj_id,
+            $this->ref_id,
+            'file'
+        );
+
+        $lp_marks = new ilLPMarks($this->obj_id, $this->user->getId());
+        $lp_marks->setCompleted(!ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId()));
+        $lp_marks->update();
+
+        ilLPStatusWrapper::_updateStatus($this->obj_id, $this->user->getId());
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, 'infoScreen');
     }
