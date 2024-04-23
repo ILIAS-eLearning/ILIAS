@@ -154,7 +154,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 require_once("Services/Init/classes/class.ilPasswordAssistanceGUI.php");
                 return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
 
-            case "ilaccessibilitycontrolconceptgui":
+            case strtolower(ilAccessibilityControlConceptGUI::class):
                 return $this->ctrl->forwardCommand(new ilAccessibilityControlConceptGUI());
 
             default:
