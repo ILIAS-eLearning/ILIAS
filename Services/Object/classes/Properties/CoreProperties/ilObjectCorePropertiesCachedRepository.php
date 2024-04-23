@@ -40,7 +40,6 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
     public function __construct(
         private readonly ilDBInterface $database,
         private readonly ilObjectDefinition $obj_definition,
-        private readonly UIServices $ui,
         private readonly ResourceStorageService $storage_services,
         private readonly ilObjectTileImageStakeholder $storage_stakeholder,
         private readonly ilObjectTileImageFlavourDefinition $flavour_definition,
@@ -90,7 +89,6 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
                     $object_id,
                     $data['type'],
                     array_shift($data),
-                    $this->ui->factory()->image(),
                     $this->storage_services,
                     $this->storage_stakeholder,
                     $this->flavour_definition,

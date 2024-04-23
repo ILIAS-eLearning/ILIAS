@@ -66,7 +66,6 @@ class ilObjectDIC extends PimpleContainer
             => new \ilObjectCorePropertiesCachedRepository(
                 $DIC['ilDB'],
                 $DIC['objDefinition'],
-                $DIC->ui(),
                 $DIC['resource_storage'],
                 $c['tile_image_stackholder'],
                 new ilObjectTileImageFlavourDefinition(),

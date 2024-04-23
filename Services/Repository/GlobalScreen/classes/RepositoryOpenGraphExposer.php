@@ -172,6 +172,7 @@ final class RepositoryOpenGraphExposer extends AbstractModificationProvider
 
     protected function getPresentationImage(\ilObject $object): OGImage
     {
+        $image_factory = $this->dic->ui()->factory()->image();
         $image = $this->getDefaultImage();
         if (!$this->fetch_tile_image) {
             return $image;
@@ -180,8 +181,8 @@ final class RepositoryOpenGraphExposer extends AbstractModificationProvider
             // Use the tile image if available
             $tile_image = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
             if ($tile_image !== null && $tile_image->getRid() !== null) {
-                $uri_string = $tile_image->getImage()->getAdditionalHighResSources()['960']
-                    ?? $tile_image->getImage()->getSource();
+                $uri_string = $tile_image->getImage($image_factory)->getAdditionalHighResSources()['960']
+                    ?? $tile_image->getImage($image_factory)->getSource();
 
                 $image = $this->data->openGraphMetadata()->image(
                     $this->data->uri($uri_string),

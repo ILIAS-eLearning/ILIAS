@@ -36,7 +36,6 @@ class ilObjectTileImage
         private int $object_id,
         private ?string $obj_type,
         private ?string $rid,
-        private ImageFactory $image_factory,
         private ResourceStorageServices $storage_services,
         private ilObjectTileImageStakeholder $storage_stakeholder,
         private ilObjectTileImageFlavourDefinition $flavour_definition,
@@ -56,12 +55,13 @@ class ilObjectTileImage
         return $clone;
     }
 
-    public function getImage(): Image
-    {
+    public function getImage(
+        ImageFactory $image_factory
+    ): Image {
         if ($this->rid !== null
             && $this->rid !== ''
             && ($resource = $this->storage_services->manage()->find($this->rid)) !== null
-            && ($from_IRSS = $this->getImageFromIRSS($resource)) !== null
+            && ($from_IRSS = $this->getImageFromIRSS($image_factory, $resource)) !== null
         ) {
             return $from_IRSS;
         }
@@ -74,7 +74,7 @@ class ilObjectTileImage
             (
                 $specific_tile_image = $this->object_type_specific_property_providers->getObjectTypeSpecificTileImage(
                     $this->object_id,
-                    $this->image_factory,
+                    $image_factory,
                     $this->storage_services
                 )
             ) !== null) {
@@ -83,13 +83,15 @@ class ilObjectTileImage
 
         $path = \ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->obj_type . '.svg');
         if (is_file($path)) {
-            return $this->image_factory->responsive($path, '');
+            return $image_factory->responsive($path, '');
         }
-        return $this->image_factory->responsive(\ilUtil::getImagePath('cont_tile/cont_tile_default.svg'), '');
+        return $image_factory->responsive(\ilUtil::getImagePath('cont_tile/cont_tile_default.svg'), '');
     }
 
-    private function getImageFromIRSS(ResourceIdentification $resource): ?Image
-    {
+    private function getImageFromIRSS(
+        ImageFactory $image_factory,
+        ResourceIdentification $resource
+    ): ?Image {
         $flavour = $this->storage_services->flavours()->get($resource, $this->flavour_definition);
         $urls = $this->storage_services->consume()->flavourUrls($flavour)->getURLsAsArray();
         if($urls === []) {
@@ -103,7 +105,7 @@ class ilObjectTileImage
             return null;
         }
 
-        $image = $this->image_factory->responsive($urls[count($available_widths)], '');
+        $image = $image_factory->responsive($urls[count($available_widths)], '');
         return array_reduce(
             $available_widths,
             function ($carry, $size) use ($urls) {

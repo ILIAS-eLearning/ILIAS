@@ -3390,7 +3390,7 @@ class ilObjectListGUI
     private function getTileImage(): Image
     {
         return $this->object_properties->getPropertyTileImage()
-            ->getTileImage()->getImage();
+            ->getTileImage()->getImage($this->ui->factory()->image());
     }
 
     /**
