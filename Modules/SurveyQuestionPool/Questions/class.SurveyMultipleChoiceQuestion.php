@@ -95,7 +95,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
+                    $this->categories->addCategory((string) $data["title"], (int) $data["other"], (int) $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
         }
