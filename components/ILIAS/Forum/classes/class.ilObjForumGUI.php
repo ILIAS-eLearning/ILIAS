@@ -1125,8 +1125,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $table = new ForumDraftsTable(
                 $this->object,
                 $this->ui_factory,
-                $this->http,
-                $this->refinery,
+                $this->httpRequest,
                 $this->lng,
                 $cmd,
                 $this->ctrl,
