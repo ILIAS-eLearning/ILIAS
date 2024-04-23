@@ -227,7 +227,9 @@ final class SVGBlacklistPreProcessor implements PreProcessor
                 }
                 foreach ($node->childNodes as $child) {
                     if ($child instanceof \DOMElement) {
-                        $attributes_looper($child, $closure);
+                        if(!$attributes_looper($child, $closure)) {
+                            return false;
+                        }
                     }
                 }
                 return true;
