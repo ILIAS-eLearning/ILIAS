@@ -149,6 +149,12 @@ class ilExerciseMembers
         // delete all delivered files of the member
         ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
 
+        // delete individual deadline/starting time entries
+        foreach (ilExAssignment::getInstancesByExercise($this->exc->getId()) as $ass) {
+            $idl = ilExcIndividualDeadline::getInstance($ass->getId(), $a_usr_id, false);
+            $idl->delete();
+        }
+
         // @todo: delete all assignment associations (and their files)
     }
 
