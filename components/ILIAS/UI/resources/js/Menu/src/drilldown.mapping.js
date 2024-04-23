@@ -25,7 +25,6 @@ export default class DropdownMapping {
     MENU_BRANCH: 'c-drilldown__branch',
     MENU_LEAF: 'c-drilldown__leaf',
     FILTER: 'c-drilldown__filter',
-    MENU_FILTERED: 'c-drilldown--filtered',
     ACTIVE: 'c-drilldown__menulevel--engaged',
     ACTIVE_ITEM: 'c-drilldown__menuitem--engaged',
     ACTIVE_PARENT: 'c-drilldown__menulevel--engagedparent',
@@ -91,7 +90,7 @@ export default class DropdownMapping {
           this.#getLeavesOfList(sublist, leafBuilder),
         );
         this.#addLevelId(sublist, level.id);
-        this.#registerHandler(sublist, clickHandler, level.id);
+        DropdownMapping.registerHandler(sublist, clickHandler, level.id);
         this.#elements.levels[level.id] = sublist;
       },
     );
@@ -136,15 +135,15 @@ export default class DropdownMapping {
      * @return {object}
      */
   #getLeavesOfList(list, leafBuilder) {
-    const leaf_elements = list.querySelectorAll(`:scope >.${this.#classes.MENU_LEAF}`);
+    const leafElements = list.querySelectorAll(`:scope >.${this.#classes.MENU_LEAF}`);
     const leaves = [];
-    leaf_elements.forEach(
-      (leaf_element, index) => {
+    leafElements.forEach(
+      (leafElement, index) => {
         leaves.push(
           leafBuilder(
             index,
-            leaf_element.firstElementChild.innerText
-          )
+            leafElement.firstElementChild.innerText,
+          ),
         );
       },
     );
@@ -157,9 +156,9 @@ export default class DropdownMapping {
      * @param {string} elementId
      * @returns {void}
      */
-  #registerHandler(list, handler, elementId) {
+  static registerHandler(list, handler, elementId) {
     const headerElement = list.previousElementSibling;
-    if (headerElement=== null) {
+    if (headerElement === null) {
       return;
     }
     headerElement.addEventListener('click', () => { handler(elementId); });
@@ -187,10 +186,6 @@ export default class DropdownMapping {
       activeLevel.classList.add(this.#classes.ACTIVE_PARENT);
     }
 
-    if (activeLevel.parentElement !== null) {
-
-    }
-
     const lower = this.#elements.levels[elementId].children[0].children[0];
     lower.focus();
   }
@@ -204,7 +199,7 @@ export default class DropdownMapping {
     const leaves = this.#elements.dd.querySelectorAll(`.${this.#classes.MENU_LEAF}`);
     const filteredItemsIds = filteredItems.map((v) => v.id);
     const topLevelItems = this.#elements.dd.querySelectorAll(
-      `.${this.#classes.MENU} > ul > .${this.#classes.MENU_BRANCH}`
+      `.${this.#classes.MENU} > ul > .${this.#classes.MENU_BRANCH}`,
     );
 
     this.#elements.levels.forEach(
@@ -219,7 +214,7 @@ export default class DropdownMapping {
       (element) => {
         const elemRef = element;
         elemRef.classList.remove(this.#classes.FILTERED);
-      }
+      },
     );
 
     if (filteredItems.length === 0) {
@@ -229,7 +224,7 @@ export default class DropdownMapping {
           const elemRef = element;
           elemRef.firstElementChild.disabled = false;
           elemRef.classList.remove(this.#classes.FILTERED);
-        }
+        },
       );
       this.correctRightColumnPositionAndHeight('0');
       return;
@@ -247,24 +242,26 @@ export default class DropdownMapping {
 
     filteredItemsIds.forEach(
       (id, index) => {
-        const [element] = [...levels].filter((level) => level.getAttribute(this.#classes.ID_ATTRIBUTE) === id);
-        const element_children = element.querySelectorAll(`:scope >.${this.#classes.MENU_LEAF}`);
-        filteredItems[index].leaves.forEach(
-          (leaf) => element_children[leaf.index].classList.add(this.#classes.FILTERED)
+        const [element] = [...levels].filter(
+          (level) => level.getAttribute(this.#classes.ID_ATTRIBUTE) === id,
         );
-      }
+        const elementChildren = element.querySelectorAll(`:scope >.${this.#classes.MENU_LEAF}`);
+        filteredItems[index].leaves.forEach(
+          (leaf) => elementChildren[leaf.index].classList.add(this.#classes.FILTERED),
+        );
+      },
     );
 
     topLevelItems.forEach(
       (element) => {
-        const filtered_elements = element.querySelectorAll(
-          `.${this.#classes.MENU_LEAF}:not(.${this.#classes.FILTERED})`
+        const filteredElements = element.querySelectorAll(
+          `.${this.#classes.MENU_LEAF}:not(.${this.#classes.FILTERED})`,
         );
-        if (filtered_elements.length === 0) {
+        if (filteredElements.length === 0) {
           const elemRef = element;
           elemRef.classList.add(this.#classes.FILTERED);
         }
-      }
+      },
     );
   }
 
@@ -282,7 +279,6 @@ export default class DropdownMapping {
     this.#elements.header.firstElementChild.replaceWith(headerElement);
     if (headerParentElement !== null) {
       this.#elements.header.children[1].replaceWith(headerParentElement);
-      return;
     }
   }
 
@@ -307,7 +303,7 @@ export default class DropdownMapping {
    * @return {void
    */
   correctRightColumnPositionAndHeight(levelId) {
-    var elem = this.#elements.levels[levelId];
+    let elem = this.#elements.levels[levelId];
     const menu = this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
     const height = this.#elements.dd.querySelector(`.${this.#classes.MENU}`).offsetHeight;
     if (height === 0) {
@@ -327,13 +323,13 @@ export default class DropdownMapping {
         eRef.style.removeProperty('height');
       },
     );
-    if (levelId  === '0') {
+    if (levelId === '0') {
       elem = elem.querySelector(`:scope > .${this.#classes.MENU_BRANCH} > ul`);
     }
     if (elem.offsetHeight === 0) {
       return;
     }
     elem.style.top = `-${elem.offsetTop}px`;
-    elem.style.height = height +'px';
+    elem.style.height = `${height}px`;
   }
 }

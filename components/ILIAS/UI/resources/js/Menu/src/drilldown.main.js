@@ -50,12 +50,10 @@ export default class Drilldown {
     this.#mapping.parseLevel(
       (headerDisplayElement, parent, leaves) => this.#model
         .addLevel(headerDisplayElement, parent, leaves),
-      (index, text) => {
-        return this.#model.buildLeaf(index, text);
-      },
+      (index, text) => this.#model.buildLeaf(index, text),
       (levelId) => {
         this.#engageLevel(levelId);
-      }
+      },
     );
 
     this.#engageLevel(this.#persistence.read());

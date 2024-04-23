@@ -152,7 +152,7 @@ export default class DrilldownModel {
           (leaf) => {
             const leafRef = leaf;
             if (value === '') {
-              leafRef.filtered =  false;
+              leafRef.filtered = false;
               return;
             }
             if (leafRef.text.toLowerCase().includes(value) === false) {
