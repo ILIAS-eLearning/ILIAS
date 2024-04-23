@@ -154,7 +154,9 @@ class ilObjFileGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        $suffix = ilObjFileAccess::getListGUIData($this->obj_id)["suffix"] ?? "";
+        $info = (new ilObjFileInfoRepository())->getByObjectId($this->obj_id);
+
+        $suffix = $info->getSuffix();
         $path_file_icon = $this->icon_repo->getIconFilePathBySuffix($suffix);
         $this->tpl->setTitleIcon($path_file_icon);
 
@@ -564,8 +566,12 @@ class ilObjFileGUI extends ilObject2GUI
 
         $title = $title_and_description->getTitle();
         // bugfix mantis 26045:
-        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        $title = '' === trim($title) ? $filename : $this->object->checkFileExtension($filename, $title);
+        $filename = $this->object->getFileName();
+        if (trim($title) === '') {
+            $title = $filename;
+        }
+        $title = $this->object->appendSuffixToTitle($title, $filename);
+
         $this->object->handleChangedObjectTitle($title);
 
         $description = $title_and_description->getLongDescription();

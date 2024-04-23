@@ -29,6 +29,7 @@ use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -289,7 +290,7 @@ class ilFileVersionsGUI
 
         // only add unzip button if the current revision is a zip.
         if (null !== $this->current_revision &&
-            ilObjFileAccess::isZIP($this->current_revision->getInformation()->getMimeType())
+            in_array($this->current_revision->getInformation()->getMimeType(), [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED], true)
         ) {
             $btn_unzip = $this->ui->factory()->button()->standard(
                 $this->lng->txt('unzip'),
