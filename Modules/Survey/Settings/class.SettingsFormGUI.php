@@ -470,7 +470,7 @@ class SettingsFormGUI
         $mailnotification->setChecked($survey->getMailNotification());
 
         // addresses
-        $mailaddresses = new \ilTextInputGUI($lng->txt("mailaddresses"), "mailaddresses");
+        $mailaddresses = new \ilTextInputGUI($lng->txt("survey_notification_tutor_recipients"), "mailaddresses");
         $mailaddresses->setValue($survey->getMailAddresses());
         $mailaddresses->setSize(80);
         $mailaddresses->setInfo($lng->txt('mailaddresses_info'));

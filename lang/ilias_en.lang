@@ -15698,7 +15698,7 @@ survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
 survey#:#mail_sent_short#:#Sent
 survey#:#mail_survey_codes#:#Mail access codes or messages
 survey#:#mailaddresses#:#Recipient addresses
-survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
+survey#:#mailaddresses_info#:#Enter a comma separated list of tutor account names who will receive a notification on finished surveys.
 survey#:#mailnotification#:#Seperate E-Mail for Each Finished Survey
 survey#:#mailparticipantdata#:#Additional participant data
 survey#:#mailparticipantdata_info#:#This information will be precede the automatically included results section of the notification mail.
