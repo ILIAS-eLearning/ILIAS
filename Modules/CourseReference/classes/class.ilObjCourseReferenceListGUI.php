@@ -212,13 +212,13 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
             case 'editReference':
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"] ?? null);
                 return $cmd_link;
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"] ?? null);
                 return $cmd_link;
         }
     }
