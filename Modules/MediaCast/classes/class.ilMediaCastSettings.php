@@ -24,9 +24,10 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilMediaCastSettings
 {
-    private array $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
+    private array $supported_suffixes = ["mp4", "mp3", "webm", "jpg", "jpeg", "png", "gif", "svg"];
     private array $supported_mime_types = [
         "video/mp4" => "video/mp4",
+        "video/webm" => "video/webm",
         "audio/mpeg" => "audio/mpeg",
         "image/jpeg" => "image/jpeg",
         "image/png" => "image/png",
