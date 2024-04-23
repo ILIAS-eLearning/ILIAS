@@ -11053,13 +11053,16 @@ lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.
+lti#:#lti_13_authentication_url#:#Authentication Request URL
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_token_url#:#Access Token URL
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -11095,6 +11098,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -11163,6 +11170,8 @@ lti#:#lti_custom_new#:#Create Own Provider Settings
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_dyn_reg_add_tool#:#Add
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
