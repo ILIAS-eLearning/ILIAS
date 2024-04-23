@@ -98,7 +98,7 @@ function buildFactory(doc) {
     }
   };
 
-  return new DrilldownFactory(doc, jquery, il);
+  return new DrilldownFactory(doc, ResizeObserverMock, jquery, il);
 }
 
 describe('Drilldown', () => {
@@ -114,7 +114,6 @@ describe('Drilldown', () => {
     expect(f.init).to.be.an('function');
   });
   it('dom is correct after init', () => {
-    global.ResizeObserver = ResizeObserverMock;
     const doc = buildDocument();
     const f = buildFactory(doc);
     f.init('id_2', () => { return; }, 'id_2');

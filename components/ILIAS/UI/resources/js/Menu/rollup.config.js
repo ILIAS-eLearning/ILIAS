@@ -6,7 +6,7 @@ export default {
   external: [
     'jquery',
     'ilias',
-    'document'
+    'document',
   ],
   input: './src/drilldown.js',
   output: {
@@ -14,16 +14,17 @@ export default {
     format: 'iife',
     banner: copyright,
     globals: {
+      document: 'document',
+      ResizeObserver: 'ResizeObserver',
       jquery: '$',
       ilias: 'il',
-      document: 'document'
     },
     plugins: [
       terser({
         format: {
           comments: preserveCopyright,
-        }
-      })
-    ]
-  }
+        },
+      }),
+    ],
+  },
 };

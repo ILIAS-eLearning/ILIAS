@@ -30,6 +30,11 @@ export default class DrilldownFactory {
   #document;
 
   /**
+   * @type {ResizeObserver}
+   */
+  #resizeObserver;
+
+  /**
    * @type {jQuery}
    */
   #jQuery;
@@ -41,11 +46,13 @@ export default class DrilldownFactory {
 
   /**
    * @param {DOMDocument} document
+   * @param {ResizeObserver} resizeObserver
    * @param {jQuery} jQuery
    * @param {object} il
    */
-  constructor(document, jQuery, il) {
+  constructor(document, resizeObserver, jQuery, il) {
     this.#document = document;
+    this.#resizeObserver = resizeObserver;
     this.#jQuery = jQuery;
     this.#il = il;
   }
@@ -70,7 +77,7 @@ export default class DrilldownFactory {
       this.#jQuery,
       new DrilldownPersistence(new this.#il.Utilities.CookieStorage(persistanceId)),
       new DrilldownModel(),
-      new DrilldownMapping(this.#document, drilldownId),
+      new DrilldownMapping(this.#document, this.#resizeObserver, drilldownId),
       backSignal,
     );
   }

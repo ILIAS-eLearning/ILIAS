@@ -38,8 +38,8 @@ export default class DropdownMapping {
   };
 
   /**
-     * @type {object}
-     */
+   * @type {object}
+   */
   #elements = {
     dd: null,
     header: null,
@@ -52,18 +52,25 @@ export default class DropdownMapping {
   #document;
 
   /**
-     * @param {DOMDocument} document
-     * @param {string} dropdownId
-     */
-  constructor(document, dropdownId) {
+   * @type {ResizeObserver}
+   */
+  #resizeObserver;
+
+  /**
+   * @param {DOMDocument} document
+   * @param {ResizeObserver} resizeObserver
+   * @param {string} dropdownId
+   */
+  constructor(document, resizeObserver, dropdownId) {
     this.#document = document;
+    this.#resizeObserver = resizeObserver;
     this.#elements.dd = document.getElementById(dropdownId);
     [this.#elements.header] = this.#elements.dd.getElementsByTagName(this.#classes.HEADER_TAG);
   }
 
   /**
-     * @returns {HTMLUnorderedListElement}
-     */
+   * @returns {HTMLUnorderedListElement}
+   */
   #getMenuContainer() {
     return this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
   }
@@ -307,7 +314,7 @@ export default class DropdownMapping {
     const menu = this.#elements.dd.querySelector(`.${this.#classes.MENU}`);
     const height = this.#elements.dd.querySelector(`.${this.#classes.MENU}`).offsetHeight;
     if (height === 0) {
-      const triggerResize = new ResizeObserver((element) => {
+      const triggerResize = new this.#resizeObserver((element) => {
         if (element[0].target.offsetHeight > 0) {
           this.correctRightColumnPositionAndHeight(levelId);
           triggerResize.unobserve(menu);
