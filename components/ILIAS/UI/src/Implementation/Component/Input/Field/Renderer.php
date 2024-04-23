@@ -836,8 +836,9 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('assets/css/tagify.css');
         $registry->register('assets/js/tagInput.js');
 
-        $registry->register('assets/js/input.js');
+        $registry->register('assets/js/dropzone.min.js');
         $registry->register('assets/js/dropzone.js');
+        $registry->register('assets/js/input.js');
         $registry->register('assets/js/file.js');
         $registry->register('assets/js/groups.js');
         $registry->register('assets/js/dynamic_inputs_renderer.js');
