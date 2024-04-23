@@ -64,13 +64,15 @@ interface UIModifier
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id
+        int $user_id,
+        \ilTemplate $eval_tpl
     ): void;
 
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id
+        int $user_id,
+        \ilTemplate $eval_tpl
     ): void;
 
     public function setResultsCompetenceToolbar(

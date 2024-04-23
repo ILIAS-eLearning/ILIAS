@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\UI\Component\Modal;
+
 /**
  * Survey evaluation graphical output
  *
@@ -636,50 +639,111 @@ class ilSurveyEvaluationGUI
         $this->ctrl->redirect($this, 'evaluation');
     }
 
-    /**
-     * get modal html
-     * @throws ilCtrlException
-     */
-    protected function buildExportModal(
-        string $a_id,
-        string $a_cmd
-    ): string {
-        $tpl = $this->tpl;
+    protected function buildExportButtonAndModal(
+        string $export_cmd
+    ): void {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $toolbar = $this->toolbar;
+        $ui_fac = $this->gui->ui()->factory();
 
-        $form_id = "svymdfrm";
+        $ctrl->setParameter($this, "export_cmd", $export_cmd);
+        $modal = $this->getExportModal();
+        $button = $ui_fac->button()->standard(
+            $lng->txt("export"),
+            "#"
+        )->withOnClick($modal->getShowSignal());
 
-        // hide modal on form submit
-        $tpl->addOnLoadCode('$("#form_' . $form_id . '").submit(function() { $("#' . $a_id . '").modal("hide"); });');
+        $toolbar->addComponent($button);
+        $toolbar->addComponent($modal);
+    }
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setId($a_id);
-        $modal->setHeading(($this->lng->txt("svy_export_format")));
+    protected function getExportModal(): Modal\RoundTrip | Form\Standard
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $ui_fac = $this->gui->ui()->factory();
 
-        $form = new ilPropertyFormGUI();
-        $form->setId($form_id);
-        $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
+        $post_url = $ctrl->getFormAction($this, "validateAndSubmitExportForm");
 
-        $format = new ilSelectInputGUI($this->lng->txt("filetype"), "export_format");
-        $format->setOptions(array(
-            self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
-            self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
-            ));
-        $form->addItem($format);
+        $inputs["export_format"] = $ui_fac->input()->field()->select(
+            $lng->txt("filetype"),
+            [
+                \ilSurveyEvaluationGUI::TYPE_XLS => $lng->txt("exp_type_excel"),
+                \ilSurveyEvaluationGUI::TYPE_SPSS => $lng->txt("exp_type_csv")
+            ]
+        )
+        //->withValue(\ilSurveyEvaluationGUI::TYPE_XLS)
+        ->withRequired(true);
 
-        $label = new ilSelectInputGUI($this->lng->txt("title"), "export_label");
-        $label->setOptions(array(
-            'label_only' => $this->lng->txt('export_label_only'),
-            'title_only' => $this->lng->txt('export_title_only'),
-            'title_label' => $this->lng->txt('export_title_label')
-            ));
-        $form->addItem($label);
+        $inputs["export_label"] = $ui_fac->input()->field()->select(
+            $lng->txt("title"),
+            [
+                "label_only" => $lng->txt("export_label_only"),
+                "title_only" => $lng->txt("export_title_only"),
+                "title_label" => $lng->txt("export_title_label")
+            ]
+        )
+        //->withValue("label_only")
+        ->withRequired(true);
 
-        $form->addCommandButton($a_cmd, $this->lng->txt("export"));
-        $form->setPreventDoubleSubmission(false);
+        $modal = $ui_fac->modal()->roundtrip(
+            $lng->txt("svy_export_format"),
+            null,
+            $inputs,
+            $post_url
+        )
+        ->withSubmitLabel($lng->txt("export"));
 
-        $modal->setBody($form->getHTML());
+        return $modal;
+    }
 
-        return $modal->getHTML();
+    protected function validateAndSubmitExportForm(): void
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $tabs = $this->tabs;
+        $toolbar = $this->toolbar;
+        $request = $this->request;
+        $ui_request = $this->gui->http()->request();
+
+        $export_cmd = $request->getExportCmd();
+        $ctrl->setParameter($this, "export_cmd", $export_cmd);
+        $modal = $this->getExportModal();
+        if ("POST" === $ui_request->getMethod()) {
+            $modal = $modal->withRequest($ui_request);
+            $data = $modal->getData();
+            if ($data) {
+                $ctrl->setParameter($this, "export_format", $data["export_format"]);
+                $ctrl->setParameter($this, "export_label", $data["export_label"]);
+                $ctrl->redirect($this, $export_cmd);
+            } else {
+                switch ($export_cmd) {
+                    case "exportData":
+                        $tabs->activateSubTab("svy_eval_cumulated");
+                        $this->evaluation();
+                        return;
+                    case "exportDetailData":
+                        $tabs->activateSubTab("svy_eval_detail");
+                        $this->evaluationdetails();
+                        return;
+                    case "exportEvaluationUser":
+                        $toolbar->addComponent($modal->withOnLoad($modal->getShowSignal()));
+                        $tabs->activateSubTab("svy_eval_user");
+                        $this->evaluationuser();
+                        return;
+                }
+            }
+        }
+
+        switch ($export_cmd) {
+            case "exportData":
+                $ctrl->redirect($this, "evaluation");
+            case "exportDetailData":
+                $ctrl->redirect($this, "evaluationdetails");
+            case "exportEvaluationUser":
+                $ctrl->redirect($this, "evaluationuser");
+        }
     }
 
     protected function openEvaluation(): void
@@ -749,13 +813,15 @@ class ilSurveyEvaluationGUI
             $this->ui_modifier->setResultsDetailToolbar(
                 $this->object,
                 $ilToolbar,
-                $this->user->getId()
+                $this->user->getId(),
+                $eval_tpl
             );
         } else {
             $this->ui_modifier->setResultsOverviewToolbar(
                 $this->object,
                 $ilToolbar,
-                $this->user->getId()
+                $this->user->getId(),
+                $eval_tpl
             );
         }
 
@@ -1076,9 +1142,6 @@ class ilSurveyEvaluationGUI
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
-
-        $modal = "";
         $appr_id = null;
         $data = [];
 
@@ -1087,13 +1150,7 @@ class ilSurveyEvaluationGUI
         }
 
         if (!$this->object->get360Mode() || $appr_id) {
-            $modal_id = "svy_ev_exp";
-            $modal = $this->buildExportModal($modal_id, "exportevaluationuser");
-
-            $this->gui->button(
-                $this->lng->txt("export"),
-                "#"
-            )->onClick('$(\'#' . $modal_id . '\').modal(\'show\')')->toToolbar();
+            $this->buildExportButtonAndModal("exportEvaluationUser");
 
             $ilToolbar->addSeparator();
 
@@ -1112,7 +1169,7 @@ class ilSurveyEvaluationGUI
 
         $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
         $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML() . $modal);
+        $this->tpl->setContent($table_gui->getHTML());
     }
 
     public function competenceEval(): void
@@ -1257,8 +1314,6 @@ class ilSurveyEvaluationGUI
      */
     public function sumscore(): void
     {
-        $ilToolbar = $this->toolbar;
-
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() !== ilObjSurvey::MODE_SELF_EVAL) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
@@ -1266,11 +1321,6 @@ class ilSurveyEvaluationGUI
         }
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
-
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
-
-        $modal_id = "svy_ev_exp";
-        $modal = $this->buildExportModal($modal_id, "exportevaluationuser");
 
         $this->gui->button(
             $this->lng->txt("print"),
@@ -1282,7 +1332,7 @@ class ilSurveyEvaluationGUI
         $sum_scores = $this->getSumScores($finished_ids);
         $table_gui = new ilSumScoreTableGUI($this, 'sumscore', $this->object->hasAnonymizedResults());
         $table_gui->setSumScores($sum_scores);
-        $this->tpl->setContent($table_gui->getHTML() . $modal);
+        $this->tpl->setContent($table_gui->getHTML());
     }
 
     /**
