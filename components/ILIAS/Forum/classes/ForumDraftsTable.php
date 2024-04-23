@@ -34,10 +34,9 @@ use ilDatePresentation;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\Component\Table\Data as DataTable;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Table\Data as DataTable;
 
 class ForumDraftsTable implements DataRetrieval
 {
@@ -165,6 +164,12 @@ class ForumDraftsTable implements DataRetrieval
         return array_slice($records, $range->getStart(), $range->getLength());
     }
 
+    /**
+     * @return array{
+     *     draft: \ILIAS\UI\Component\Table\Column\Link,
+     *     edited_on: \ILIAS\UI\Component\Table\Column\Text
+     * }
+     */
     private function getColumns(): array
     {
         return [
