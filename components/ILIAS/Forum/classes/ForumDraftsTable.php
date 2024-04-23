@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Forum;
 
-use ilCtrl;
 use Generator;
 use ilObjUser;
 use ilDateTime;
 use ilLanguage;
 use ilObjForum;
 use ilObjForumGUI;
+use ilCtrlInterface;
 use ilForumPostDraft;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
@@ -35,22 +35,22 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\Data as DataTable;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ForumDraftsTable implements DataRetrieval
 {
+    /** @var array{draft_id: int, draft: string, edited_on: string}[]|null */
     private ?array $records = null;
 
     public function __construct(
         private readonly ilObjForum $forum,
         private readonly UIFactory $ui_factory,
-        private readonly HttpServices $http,
-        private readonly Refinery $refinery,
+        private readonly ServerRequestInterface $httpRequest,
         private readonly ilLanguage $lng,
         private readonly string $parent_cmd,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly DataFactory $data_factory,
         private readonly ilObjUser $user,
         private readonly bool $mayEdit,
@@ -79,15 +79,6 @@ class ForumDraftsTable implements DataRetrieval
             $drafts = ilForumPostDraft::getThreadDraftData(
                 $this->user->getId(),
                 ilObjForum::lookupForumIdByObjId($this->forum->getId())
-            );
-            $selected_draft_ids = $this->http->wrapper()->post()->retrieve(
-                'draft_ids',
-                $this->refinery->byTrying(
-                    [
-                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                        $this->refinery->always([])
-                    ]
-                )
             );
 
             foreach ($drafts as $draft) {
@@ -126,17 +117,16 @@ class ForumDraftsTable implements DataRetrieval
 
         return $this->ui_factory->table()
             ->data(
-                $this->lng->txt(
-                    'frm_drafts_' . substr(
-                        md5($this->parent_cmd),
-                        0,
-                        3
-                    ) . '_' . $this->forum->getId()
-                ),
+                $this->lng->txt('drafts'),
                 $this->getColumns(),
                 $this
             )
-            ->withRequest($this->http->request())
+            ->withId('frm_drafts_' . substr(
+                md5($this->parent_cmd),
+                0,
+                3
+            ) . '_' . $this->forum->getId())
+            ->withRequest($this->httpRequest)
             ->withActions(
                 [
                     $this->ui_factory->table()->action()->multi(
@@ -156,6 +146,9 @@ class ForumDraftsTable implements DataRetrieval
         return count((array) $this->records);
     }
 
+    /**
+     * @return array{draft_id: int, draft: string, edited_on: string}[]
+     */
     private function getRecords(Range $range, Order $order): array
     {
         $this->initRecords();
@@ -163,6 +156,10 @@ class ForumDraftsTable implements DataRetrieval
         return $this->limitRecords($this->records, $range);
     }
 
+    /**
+     * @param  array{draft_id: int, draft: string, edited_on: string}[] $records
+     * @return array{draft_id: int, draft: string, edited_on: string}[]
+     */
     private function limitRecords(array $records, Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
