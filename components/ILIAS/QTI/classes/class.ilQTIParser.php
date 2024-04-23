@@ -534,6 +534,9 @@ class ilQTIParser extends ilSaxParser
             case "resprocessing":
                 $this->resprocessingBeginTag($a_attribs);
                 break;
+            case assQuestionExport::ITEM_SOLUTIONHINT:
+                $this->solutionhint['points'] = (float)$a_attribs['points'];
+                break;
         }
     }
 
