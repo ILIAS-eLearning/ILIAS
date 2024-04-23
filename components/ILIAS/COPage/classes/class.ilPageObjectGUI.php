@@ -1082,7 +1082,7 @@ class ilPageObjectGUI
         // needed for overlays in iim
         ilOverlayGUI::initJavascript();
 
-        ilPlayerUtil::initMediaElementJs($main_tpl);
+        //ilPlayerUtil::initMediaElementJs($main_tpl);
 
         // init template
         if ($this->getOutputMode() == "edit") {
@@ -1455,8 +1455,6 @@ class ilPageObjectGUI
         $paste = (ilEditClipboard::getAction() == "copy" &&
             $this->getOutputMode() == "edit");
 
-        $flv_video_player = ilPlayerUtil::getFlashVideoPlayerFilename(true);
-
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
@@ -1513,7 +1511,6 @@ class ilPageObjectGUI
                          'enable_amd_page_list' => $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
-                         'flv_video_player' => $flv_video_player,
                          'page_perma_link' => $this->getPagePermaLink(),
                          'activated_protection' =>
                             ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",

@@ -24,7 +24,7 @@
  */
 class ilPlayerUtil
 {
-    public static function getLocalMediaElementJsPath(): array
+    protected static function getLocalMediaElementJsPath(): array
     {
         return [
             "./assets/js/mediaelement-and-player.min.js",
@@ -78,19 +78,9 @@ class ilPlayerUtil
         return self::getLocalMediaElementJsPath();
     }
 
-    public static function getFlashVideoPlayerDirectory(): string
+    public static function getMediaPlayerDirectory(): string
     {
         return "public/node_modules/mediaelement/build";
-    }
-
-    public static function getFlashVideoPlayerFilename(
-        bool $a_fullpath = false
-    ): string {
-        $file = "flashmediaelement.swf";
-        if ($a_fullpath) {
-            return self::getFlashVideoPlayerDirectory() . "/" . $file;
-        }
-        return $file;
     }
 
     public static function copyPlayerFilesToTargetDirectory(

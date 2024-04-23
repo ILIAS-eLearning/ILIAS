@@ -1577,7 +1577,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $a_tpl->addJavaScript(iljQueryUtil::getLocalMaphilightPath());
         $a_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
-        ilPlayerUtil::initMediaElementJs($a_tpl);
+        //ilPlayerUtil::initMediaElementJs($a_tpl);
     }
 
     public function setPropertiesSubTabs(

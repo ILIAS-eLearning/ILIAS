@@ -241,40 +241,6 @@ class LMHtmlExport
             $this->exportHTMLPages();
         }
 
-        // keep this for some time for reference...
-        /*
-        $services_dir = $a_target_dir."/components/ILIAS";
-        ilUtil::makeDir($services_dir);
-        $media_service_dir = $services_dir."/MediaObjects";
-        ilUtil::makeDir($media_service_dir);
-        $flv_dir = $a_target_dir."/".ilPlayerUtil::getFlashVideoPlayerDirectory();
-        ilUtil::makeDirParents($flv_dir);
-        $mp3_dir = $media_service_dir."/flash_mp3_player";
-        ilUtil::makeDir($mp3_dir);
-        ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
-        ilExplorerBaseGUI::createHTMLExportDirs($a_target_dir);
-        ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
-
-        // js files
-        ilUtil::makeDir($a_target_dir.'/js');
-        ilUtil::makeDir($a_target_dir.'/js/yahoo');
-        ilUtil::makeDir($a_target_dir.'/css');
-        foreach (self::getSupplyingExportFiles($a_target_dir) as $f)
-        {
-            if ($f["source"] != "")
-            {
-                ilUtil::makeDirParents(dirname($f["target"]));
-                copy($f["source"], $f["target"]);
-            }
-        }*/
-
-        // template workaround: reset of template
-        /*
-                $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-                $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-                $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        */
-
         $this->resetUserLanguage();
 
         $this->addSupplyingExportFiles();
