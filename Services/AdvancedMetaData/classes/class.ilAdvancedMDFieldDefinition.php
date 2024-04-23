@@ -890,7 +890,7 @@ abstract class ilAdvancedMDFieldDefinition
     public function toXML(ilXmlWriter $a_writer): void
     {
         $a_writer->xmlStartTag('Field', array(
-            'id' => $this->generateImportId($this->getFieldId()),
+            'id' => $this->getImportId(),
             'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
             'fieldType' => self::getTypeString($this->getType())
         ));

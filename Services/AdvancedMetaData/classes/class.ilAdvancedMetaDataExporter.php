@@ -62,7 +62,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
                     if (!$element->isNull()) {
                         $def = $defs[$element_id];
                         $items[$rec_id][] = array(
-                            'id' => $def->generateImportId($def->getFieldId()),
+                            'id' => $def->getImportId(),
                             'sub_type' => $sub_type,
                             'sub_id' => $sub_id,
                             'value' => $def->getValueForXML($element)
