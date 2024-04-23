@@ -400,7 +400,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             if ($this->question->getSubtype() === 1) {
                 for ($index = 0; $index < $this->question->getColumnCount(); $index++) {
                     $col = $this->question->getColumn($index);
-                    $a_row[] = $answer_map[$row_title . "|" . $col->scale];
+                    $a_row[] = $answer_map[$row_title . "|" . $col->scale] ?? null;
                 }
             }
         }
