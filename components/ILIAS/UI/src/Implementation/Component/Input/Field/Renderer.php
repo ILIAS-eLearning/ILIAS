@@ -749,6 +749,7 @@ class Renderer extends AbstractComponentRenderer
 
         $section_tpl->setVariable("INPUTS", $inputs_html);
         $section_tpl->setVariable("LABEL", $section->getLabel());
+        $id = $this->bindJSandApplyId($section, $section_tpl);
 
         if ($section->getByline() !== null) {
             $section_tpl->setCurrentBlock("byline");
