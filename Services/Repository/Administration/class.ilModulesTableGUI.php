@@ -67,7 +67,7 @@ class ilModulesTableGUI extends ilTable2GUI
             "tpl.table_row_module.html",
             "Services/Repository/Administration"
         );
-        $this->setLimit(10000);
+        $this->setLimit(9999);
         $this->setExternalSorting(true);
 
         $this->getComponents();
