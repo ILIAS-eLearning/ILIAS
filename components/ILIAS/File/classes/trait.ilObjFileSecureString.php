@@ -54,7 +54,7 @@ trait ilObjFileSecureString
             $title .= "." . $suffix;
         }
 
-        return $this->secure($title);
+        return $this->secure(rtrim($title, "."));
     }
 
     protected function ensureSuffixInBrackets(string $title, ?string $suffix = null): string
