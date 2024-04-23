@@ -60,7 +60,7 @@ class ilMediaImageUtil
                 $size = getimagesize($a_location);
             }
         }
-        if (!isset($size)) {
+        if (!isset($size) || $size === false) {
             $size = [0,0];
         }
         return $size;
