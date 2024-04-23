@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\FileUpload\Exception\IllegalStateException;
 
 /**
  * This class represents a file property in a property form.
@@ -34,6 +36,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected array $forbidden_suffixes = [];
     protected array $suffixes = [];
     protected string $value = "";
+    protected \ILIAS\FileUpload\FileUpload $upload_service;
 
     public function __construct(
         string $a_title = "",
@@ -43,6 +46,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $this->lng = $DIC->language();
         $lng = $DIC->language();
+        $this->upload_service = $DIC->upload();
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("file");
@@ -153,6 +157,15 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
     public function checkInput(): bool
     {
+        if (!$this->upload_service->hasBeenProcessed()) {
+            try {
+                $this->upload_service->process();
+            } catch (IllegalStateException $e) {
+                $this->setAlert($e->getMessage());
+                return false;
+            }
+        }
+
         $lng = $this->lng;
 
         // #18756
