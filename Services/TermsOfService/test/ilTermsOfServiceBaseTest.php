@@ -23,6 +23,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Class ilTermsOfServiceBaseTest
@@ -41,6 +42,10 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
         $this->setGlobalVariable(
             'ilCtrl',
             $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
+        );
+        $this->setGlobalVariable(
+            'upload',
+            $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock()
         );
 
         parent::setUp();
