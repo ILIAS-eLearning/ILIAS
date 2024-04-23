@@ -93,7 +93,7 @@ trait ilObjFileMetadata
         if (!is_object($md_gen = $md->getGeneral())) {
             return false;
         }
-        $title = $this->checkFileExtension($this->getFileName(), $md_gen->getTitle());
+        $title = $this->appendSuffixToTitle($md_gen->getTitle(), $this->getFileName());
         $md_gen->setTitle($title);
         $md_gen->update();
 

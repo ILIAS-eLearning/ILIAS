@@ -50,9 +50,10 @@ interface ilObjFileImplementationInterface
     public function getMaxVersion(): int;
 
     /**
+     * @param bool $inline
      * @deprecated
      */
-    public function sendFile(?int $a_hist_entry_id = null): void;
+    public function sendFile(?int $a_hist_entry_id = null, bool $inline = true): void;
 
     public function handleChangedObjectTitle(string $new_title): void;
 

@@ -20,6 +20,7 @@ use ILIAS\HTTP\Services;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Class ilFileVersionsGUI
@@ -123,7 +124,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-            // no break
+                // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -240,7 +241,7 @@ class ilFileVersionsGUI
 
         // only add unzip button if the current revision is a zip.
         if (null !== $current_file_revision &&
-            ilObjFileAccess::isZIP($current_file_revision->getInformation()->getMimeType())
+            in_array($current_file_revision->getInformation()->getMimeType(), [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED], true)
         ) {
             $unzip_button = ilLinkButton::getInstance();
             $unzip_button->setCaption($this->lng->txt('unzip'), false);

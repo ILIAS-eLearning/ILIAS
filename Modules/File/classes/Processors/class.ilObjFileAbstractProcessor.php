@@ -65,7 +65,16 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         if ($this->page_counter->isAvailable()) {
             $file_obj->setPageCount($this->page_counter->extractAmountOfPagesByRID($rid) ?? 0);
         }
-        $title = $revision->getInformation()->getTitle();
+
+        $file_name = $revision->getInformation()->getTitle();
+        $title = $file_obj->appendSuffixToTitle(
+            empty($options[self::OPTION_FILENAME]) ? $file_name : $options[self::OPTION_FILENAME],
+            $file_name
+        );
+
+        $revision->setTitle($title);
+        $this->storage->manage()->updateRevision($revision);
+
         if (!$this->policy->isValidExtension($revision->getInformation()->getSuffix())) {
             $this->invalid_file_names[] = $title;
         }

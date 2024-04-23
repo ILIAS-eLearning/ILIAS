@@ -139,26 +139,19 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     public static function _lookupFileSize(int $a_id, bool $by_reference = true): int
     {
         try {
-            $obj = new ilObjFile($a_id, $by_reference);
-            return $obj->getFileSize();
+            $info_repo = new ilObjFileInfoRepository();
+            if ($by_reference) {
+                $info = $info_repo->getByRefId($a_id);
+            } else {
+                $info = $info_repo->getByObjId($a_id);
+            }
+
+            return $info->getFileSize()->inBytes();
         } catch (Throwable $t) {
             return 0;
         }
     }
 
-    /**
-     * Returns true, if the specified file shall be displayed inline in the browser.
-     */
-    public static function _isFileInline(string $a_file_name): bool
-    {
-        if (self::$inline_file_extensions === []) {
-            $settings = new ilSetting('file_access');
-            self::$inline_file_extensions = explode(" ", $settings->get('inline_file_extensions'));
-        }
-        $extension = self::_getFileExtension($a_file_name);
-
-        return in_array($extension, self::$inline_file_extensions);
-    }
 
     /**
      * Gets the file extension of the specified file name.
@@ -291,70 +284,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
-        global $DIC;
-
-        $DIC->language()->loadLanguageModule('file');
-
-        self::$preload_list_gui_data = [];
-
-        $set = $DIC->database()->query("SELECT obj_id,max(hdate) latest" . " FROM history"
-            . " WHERE obj_type = " . $DIC->database()->quote("file", "text") . " AND "
-            . $DIC->database()->in("obj_id", $obj_ids, "", "integer") . " GROUP BY obj_id");
-        while ($row = $DIC->database()->fetchAssoc($set)) {
-            self::$preload_list_gui_data[(int) $row["obj_id"]]["date"] = $row["latest"];
-        }
-
-        $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
-            . $DIC->database()->in("file_id", $obj_ids, "", "integer"));
-        while ($row = $DIC->database()->fetchAssoc($set)) {
-            self::$preload_list_gui_data[(int) $row["file_id"]]["size"] = $row["file_size"] ?? 0;
-            self::$preload_list_gui_data[(int) $row["file_id"]]["version"] = $row["version"];
-            self::$preload_list_gui_data[(int) $row["file_id"]]["page_count"] = $row["page_count"];
-            self::$preload_list_gui_data[(int) $row["file_id"]]["rid"] = $row["rid"];
-        }
-
-        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
-            'file_id',
-            $obj_ids,
-            false,
-            'integer'
-        ));
-        $rids = [];
-
-        while ($row = $DIC->database()->fetchObject($res)) {
-            $rids[(int) $row->file_id] = $row->rid;
-        }
-        $DIC->resourceStorage()->preload($rids);
-
-        foreach ($rids as $file_id => $rid) {
-            if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
-                $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
-                self::$preload_list_gui_data[(int) $file_id]["title"] = $max->getTitle();
-                self::$preload_list_gui_data[(int) $file_id]["mime"] = $max->getInformation()->getMimeType();
-                self::$preload_list_gui_data[(int) $file_id]["version"] = $max->getVersionNumber();
-                self::$preload_list_gui_data[(int) $file_id]["size"] = $max->getInformation()->getSize() ?? 0;
-                self::$preload_list_gui_data[(int) $file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
-            }
-        }
+        $info = new ilObjFileInfoRepository();
+        $info->preloadData($obj_ids);
     }
 
-    public static function getListGUIData(int $a_obj_id): array
-    {
-        if (isset(self::$preload_list_gui_data[$a_obj_id])) {
-            return self::$preload_list_gui_data[$a_obj_id];
-        }
-        self::_preloadData([$a_obj_id], []);
-        return self::$preload_list_gui_data[$a_obj_id] ?? [];
-    }
-
-    public static function isZIP(?string $type): bool
-    {
-        return in_array(
-            $type ?? '',
-            [
-                MimeType::APPLICATION__ZIP,
-                MimeType::APPLICATION__X_ZIP_COMPRESSED
-            ]
-        );
-    }
 }

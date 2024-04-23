@@ -67,7 +67,7 @@ class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
         return 0;
     }
 
-    public function sendFile(?int $a_hist_entry_id = null): void
+    public function sendFile(?int $a_hist_entry_id = null, bool $inline = true): void
     {
     }
 

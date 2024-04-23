@@ -141,7 +141,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            // repository permissions
+                // repository permissions
             case 'ilpermissiongui':
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
@@ -161,7 +161,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            // personal workspace permissions
+                // personal workspace permissions
             case "ilworkspaceaccessgui":
                 $ilTabs->activateTab("id_permissions");
                 $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
@@ -366,7 +366,8 @@ class ilObjFileGUI extends ilObject2GUI
         if (self::UPLOAD_ORIGIN_DROPZONE === $origin) {
             $dropzone = new ilObjFileUploadDropzone($this->parent_id);
             $dropzone = $dropzone->getDropzone()->withRequest($this->request);
-            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;;
+            $files = $dropzone->getData()[self::PARAM_FILES] ?? null;
+            ;
         } else {
             $form = $this->initUploadForm()->withRequest($this->request);
             $files = $form->getData()[self::PARAM_FILES] ?? null;
@@ -391,8 +392,8 @@ class ilObjFileGUI extends ilObject2GUI
             if (null !== $rid) {
                 try {
                     $processor->process($rid, [
-                        ilObjFileProcessorInterface::OPTION_FILENAME => $file_data[ilObjFileProcessorInterface::OPTION_FILENAME],
-                        ilObjFileProcessorInterface::OPTION_DESCRIPTION => $file_data[ilObjFileProcessorInterface::OPTION_DESCRIPTION],
+                        ilObjFileProcessorInterface::OPTION_FILENAME => $file_data[ilObjFileProcessorInterface::OPTION_FILENAME] ?? null,
+                        ilObjFileProcessorInterface::OPTION_DESCRIPTION => $file_data[ilObjFileProcessorInterface::OPTION_DESCRIPTION] ?? null,
                     ]);
                 } catch (Throwable $t) {
                     $errors = true;
@@ -462,12 +463,11 @@ class ilObjFileGUI extends ilObject2GUI
 
         $title = $form->getInput('title');
         // bugfix mantis 26045:
-        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        if (strlen(trim($title)) == 0) {
+        $filename =  $this->object->getFileName();
+        if (trim($title) === '') {
             $title = $filename;
-        } else {
-            $title = $this->object->checkFileExtension($filename, $title);
         }
+        $title = $this->object->appendSuffixToTitle($title, $filename);
 
         $this->object->handleChangedObjectTitle($title);
         $this->object->setDescription($form->getInput('description'));

@@ -42,6 +42,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
     public const OBJECT_TYPE = "file";
+    protected ilObjFileInfo $file_info;
 
     protected ilObjFileImplementationInterface $implementation;
 
@@ -80,6 +81,22 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->log = ilLoggerFactory::getLogger(self::OBJECT_TYPE);
 
         parent::__construct($a_id, $a_call_by_reference);
+        $this->initFileInfo($a_id, $a_call_by_reference);
+    }
+
+    protected function initFileInfo(int $id, bool $is_ref_id): void
+    {
+        $repository = new ilObjFileInfoRepository(true);
+        if ($is_ref_id) {
+            $this->file_info = $repository->getByRefId($id);
+        } else {
+            $this->file_info = ($repository)->getByObjectId($id);
+        }
+    }
+
+    public function getPresentationTitle(): string
+    {
+        return $this->file_info->getHeaderTitle();
     }
 
     protected function initImplementation(): void
@@ -90,6 +107,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->max_version = $resource->getMaxRevision();
             $this->version = $resource->getMaxRevision();
         }
+        $this->initFileInfo($this->getId(), false);
     }
 
     public function updateObjectFromCurrentRevision(): void
@@ -102,7 +120,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true): void
     {
-        $this->setTitle($r->getTitle());
+        $this->initFileInfo($this->getId(), false);
+        $this->setTitle(
+            $this->ensureSuffix(
+                $r->getTitle(),
+                $this->extractSuffixFromFilename($r->getInformation()->getTitle())
+            )
+        );
         $this->setFileName($r->getInformation()->getTitle());
         $this->update();
         if ($create_previews) {
@@ -110,16 +134,17 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
-    private function appendSuffixToTitle(string $title, string $filename): string
+    public function appendSuffixToTitle(string $title, string $filename): string
     {
-        // bugfix mantis 0026160 && 0030391
-        $title_info = new SplFileInfo($title);
-        $filename_info = new SplFileInfo($filename);
+        $suffix = $this->file_info->getSuffix();
+        $filename_suffix = $this->extractSuffixFromFilename($filename);
+        if (empty($suffix) || $suffix !== $filename_suffix) {
+            $suffix = $filename_suffix;
+        }
 
-        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
-        $extension = $filename_info->getExtension();
+        $title = $this->ensureSuffix($title, $suffix);
 
-        return $filename . '.' . $extension;
+        return $title;
     }
 
     /**
@@ -328,6 +353,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function handleChangedObjectTitle(string $new_title): void
     {
+        $new_title = $this->ensureSuffix($new_title, $this->file_info->getSuffix());
         $this->setTitle($new_title);
         $this->implementation->handleChangedObjectTitle($new_title);
     }
@@ -419,6 +445,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function beforeUpdate(): bool
     {
+        $this->setTitle($this->ensureSuffix($this->getTitle(), $this->file_info->getSuffix()));
+
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->updateMetaData();
@@ -431,7 +459,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         // check, if file is used somewhere
         $usages = $this->getUsages();
-        return count($usages) == 0;
+        return count($usages) === 0;
     }
 
     protected function doDelete(): void
@@ -543,17 +571,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->implementation->deleteVersions($a_hist_entry_ids);
     }
 
-    public function sendFile(?int $a_hist_entry_id = null): void
+    public function sendFile(?int $a_hist_entry_id = null, bool $inline = true): void
     {
-        $this->implementation->sendFile($a_hist_entry_id);
-    }
+        $info = (new ilObjFileInfoRepository())->getByObjectId($this->getId());
 
-    /**
-     * @deprecated
-     */
-    public function isInline(): bool
-    {
-        return ilObjFileAccess::_isFileInline($this->getTitle());
+        $this->implementation->sendFile($a_hist_entry_id, $info->shouldDeliverInline());
     }
 
     /**
@@ -594,21 +616,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function checkFileExtension(string $new_filename, string $new_title): string
     {
-        $fileExtension = ilObjFileAccess::_getFileExtension($new_filename);
-        $titleExtension = ilObjFileAccess::_getFileExtension($new_title);
-        if ($titleExtension != $fileExtension && strlen($fileExtension) > 0) {
-            // remove old extension
-            $pi = pathinfo($this->getFileName());
-            $suffix = $pi["extension"];
-            if ($suffix != "") {
-                if (substr($new_title, strlen($new_title) - strlen($suffix) - 1) == "." . $suffix) {
-                    $new_title = substr($new_title, 0, strlen($new_title) - strlen($suffix) - 1);
-                }
-            }
-            $new_title .= '.' . $fileExtension;
-        }
-
-        return $new_title;
+        return $this->appendSuffixToTitle($new_title, $new_filename);
     }
 
     /**

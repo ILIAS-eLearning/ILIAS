@@ -91,9 +91,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         return dirname($stream->getMetadata('uri'));
     }
 
-    public function sendFile(?int $a_hist_entry_id = null): void
+    public function sendFile(?int $a_hist_entry_id = null, bool $inline = true): void
     {
-        if ($this->isInline($a_hist_entry_id)) {
+        if ($inline) {
             $consumer = $this->storage->consume()->inline($this->resource->getIdentification());
         } else {
             $consumer = $this->storage->consume()->download($this->resource->getIdentification());
@@ -115,17 +115,6 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         $consumer->run();
     }
 
-    private function isInline(int $a_hist_entry_id = null): bool
-    {
-        try {
-            $revision = $a_hist_entry_id ?
-                $this->resource->getSpecificRevision($a_hist_entry_id) :
-                $this->resource->getCurrentRevision();
-            return \ilObjFileAccess::_isFileInline($revision->getTitle());
-        } catch (Exception $e) {
-            return false;
-        }
-    }
 
     public function deleteVersions(?array $a_hist_entry_ids = null): void
     {
