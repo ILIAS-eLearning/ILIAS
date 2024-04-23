@@ -1721,7 +1721,7 @@ class ilInitialisation
         }
 
         if (
-            (strtolower($requestCmdClass ?? "") === "ilaccessibilitycontrolconceptgui")
+            (strtolower($requestCmdClass ?? "") === strtolower(ilAccessibilityControlConceptGUI::class))
         ) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
             return true;
