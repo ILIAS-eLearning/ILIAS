@@ -4787,7 +4787,6 @@ common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings fro
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_reserved_prefix#:#The prefix ‘il_’ is reserved for automatically generated roles. Please choose another name
 common#:#msg_roleassignment_changed#:#Role assignment changed
-common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects and functions.
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
@@ -5841,6 +5840,10 @@ common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#uploading#:#Uploading...
 common#:#uri#:#URI
