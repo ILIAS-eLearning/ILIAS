@@ -42,8 +42,12 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/Counter/dist/counter.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropdown/dropdown.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("dropzone/dist/min/dropzone.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Dropzone/File/dropzone.js");
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Image/dist/image.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
@@ -92,9 +96,22 @@ class UI implements Component\Component
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("@yaireo/tagify/dist/tagify.css");
+        /*
+        those are contributed by MediaObjects
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("mediaelement/build/mediaelement-and-player.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("./node_modules/mediaelement/build/mediaelementplayer.min.css");
+        */
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("mediaelement/build/renderers/vimeo.min.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
+
 
         // This is included via anonymous classes as a testament to the fact, that
-        // the templates-folder should probably be move to some component.
+        // the templates-folder should probably be moved to some component.
         $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {

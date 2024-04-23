@@ -28,7 +28,7 @@ class ilPlayerUtil
     {
         return [
             "./assets/js/mediaelement-and-player.min.js",
-            "./assets/js/renderers/vimeo.min.js"
+            "./assets/js/vimeo.min.js"
         ];
     }
 
