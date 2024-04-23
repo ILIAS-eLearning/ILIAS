@@ -16,10 +16,17 @@ export default class DrilldownFactory {
   #document;
 
   /**
-   * @param {DOMDocument} document
+   * @type {jQuery}
    */
-  construct(document) {
+  #jQuery;
+
+  /**
+   * @param {DOMDocument} document
+   * @param {jQuery} jQuery
+   */
+  constructor(document, jQuery) {
     this.#document = document;
+    this.#jQuery = jQuery;
   }
 
   /**
@@ -30,15 +37,19 @@ export default class DrilldownFactory {
    * @throws {Error} if the input was already initialized.
    */
   init(drilldownId, backSignal, persistanceId) {
-    if (undefined !== this.#instances[drilldownId]) {
+    if (this.#instances[drilldownId] !== undefined) {
       throw new Error(`Drilldown with id '${drilldownId}' has already been initialized.`);
     }
 
+    if (this.#document.getElementById(drilldownId) === null) {
+      return;
+    }
+
     this.#instances[drilldownId] = new Drilldown(
-      $,
+      this.#jQuery,
       new DrilldownPersistance(new il.Utilities.CookieStorage(persistanceId)),
       new DrilldownModel(),
-      new DrilldownMapping(document, drilldownId),
+      new DrilldownMapping(this.#document, drilldownId),
       backSignal,
     );
   }

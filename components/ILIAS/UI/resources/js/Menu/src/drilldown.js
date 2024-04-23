@@ -14,9 +14,10 @@
  */
 
 import il from 'ilias';
+import $ from 'jquery';
 import document from 'document';
 import DrilldownFactory from './drilldown.factory';
 
 il.UI = il.UI || {};
 il.UI.menu = il.UI.menu || {};
-il.UI.menu.drilldown = new DrilldownFactory(document);
+il.UI.menu.drilldown = new DrilldownFactory(document, $);
