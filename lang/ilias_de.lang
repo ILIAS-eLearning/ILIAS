@@ -3441,7 +3441,7 @@ common#:#add_condition#:#Neue Vorbedingung erstellen
 common#:#add_entry#:#Eintragen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_member_role#:#Mitgliederrolle hinzufügen
-common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
+common#:#add_new_user_defined_field#:#Neues Feld anlegen
 common#:#add_note#:#Notiz hinzufügen
 common#:#add_parameter#:#Neuer Parameter
 common#:#add_remove_edit_entries_of_main_menu#:#Hinzufügen, entfernen oder bearbeiten von Einträgen im Hauptmenü
@@ -5850,8 +5850,8 @@ common#:#user_avatar_of#:#Profilbild von
 common#:#user_cant_receive_mail#:#%1$s – Benutzer hat keine Berechtigung, das Mailsystem zu benutzen.
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
-common#:#user_defined_fields#:#Benutzerdefinierte Felder
-common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
+common#:#user_defined_fields#:#Zusätzliche Felder
+common#:#user_defined_list#:#Übersicht zusätzliche Felder
 common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
