@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import Drilldown from './drilldown.main';
-import DrilldownPersistance from './drilldown.persistence';
+import DrilldownPersistence from './drilldown.persistence';
 import DrilldownModel from './drilldown.model';
 import DrilldownMapping from './drilldown.mapping';
 
@@ -21,12 +21,19 @@ export default class DrilldownFactory {
   #jQuery;
 
   /**
+   * @type {object}
+   */
+  #il;
+
+  /**
    * @param {DOMDocument} document
    * @param {jQuery} jQuery
+   * @param {object} il
    */
-  constructor(document, jQuery) {
+  constructor(document, jQuery, il) {
     this.#document = document;
     this.#jQuery = jQuery;
+    this.#il = il;
   }
 
   /**
@@ -47,7 +54,7 @@ export default class DrilldownFactory {
 
     this.#instances[drilldownId] = new Drilldown(
       this.#jQuery,
-      new DrilldownPersistance(new il.Utilities.CookieStorage(persistanceId)),
+      new DrilldownPersistence(new this.#il.Utilities.CookieStorage(persistanceId)),
       new DrilldownModel(),
       new DrilldownMapping(this.#document, drilldownId),
       backSignal,
