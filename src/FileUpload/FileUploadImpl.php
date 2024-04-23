@@ -90,7 +90,7 @@ final class FileUploadImpl implements FileUpload
      * @description This is the very last thing we can do if a preprocessor DENIEs an upload. This is a hard removal,
      * not beautiful, but it works.
      */
-    private function hardRemoveUpload(string $identifier): void
+    private function hardRemoveUpload(string $identifier, string $rejection_message): void
     {
         // we delete the file from the temporary directory and remove it from the global $_FILES array
         $file_stream = $this->uploadStreams[$identifier];
@@ -99,7 +99,7 @@ final class FileUploadImpl implements FileUpload
         unlink($uri);
         unset($this->uploadStreams[$identifier]);
         unset($_FILES[$identifier]);
-        throw new IllegalStateException("File upload removed due to security reasons.");
+        throw new IllegalStateException($rejection_message);
     }
 
     /**
@@ -290,7 +290,7 @@ final class FileUploadImpl implements FileUpload
 
                 // we do discard if the result is a DENIED that there is no further pissibility to process the file.
                 if ($processingResult->getCode() === ProcessingStatus::DENIED) {
-                    $this->hardRemoveUpload($identifier);
+                    $this->hardRemoveUpload($identifier, $processingResult->getMessage());
                     continue;
                 }
 
