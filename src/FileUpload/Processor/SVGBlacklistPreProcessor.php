@@ -124,7 +124,7 @@ final class SVGBlacklistPreProcessor implements PreProcessor
         ?string $rejection_message = null,
         ?string $additional_message_script = null,
         ?string $additional_message_base64 = null,
-        ?string $additional_message_elements = null,
+        ?string $additional_message_elements = null
     ) {
         $this->rejection_message = $rejection_message ?? $this->rejection_message;
         $this->rejection_message_script = $additional_message_script ?? 'contains script tags';
