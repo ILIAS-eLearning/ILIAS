@@ -24,8 +24,10 @@ function small()
     $s = $f->viewControl()->sortation($options, 'oldest')
         ->withTargetURL($DIC->http()->request()->getRequestTarget(), 'sortation');
 
-    return
-    '<div style="border:1px; width:100px;">'
-    . $renderer->render($s)
-    . '</div>';
+    $item = $f->item()->standard("See the Viewcontrol in a toolbar")
+            ->withDescription("When space is limited, the label will be omitted.");
+    return $renderer->render(
+        $f->panel()->standard("Small space ", [$item])
+            ->withViewControls([$s])
+    );
 }

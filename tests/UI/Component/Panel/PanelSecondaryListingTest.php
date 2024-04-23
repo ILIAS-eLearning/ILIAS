@@ -190,7 +190,10 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols  l-bar__space-keeper">
             <div class="dropdown il-viewcontrol  il-viewcontrol-sortation l-bar__element">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort A<span class="caret"></span></button>
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">
+                    <span class="label">vc_sort A</span>
+                    <span class="caret"></span>
+                </button>
                 <ul id="_ctrl" class="dropdown-menu">
                     <li class="selected"><button class="btn btn-link" data-action="?sortation=a" id="id_1">A</button></li>
                     <li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button></li>

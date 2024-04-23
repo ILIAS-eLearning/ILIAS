@@ -74,8 +74,6 @@ class SortationTest extends ILIAS_UI_TestBase
         $signal = $generator->create();
         $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
         $this->assertEquals('internal_rating', $s->withSelected('internal_rating')->getSelected());
-        $this->assertFalse($s->isHiddenLabel());
-        $this->assertTrue($s->withHiddenlabel(true)->isHiddenLabel());
     }
 
     public function testRendering(): void
@@ -86,7 +84,10 @@ class SortationTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Most Recent<span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">
+        <span class="label">vc_sort Most Recent</span>
+        <span class="caret"></span>
+    </button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
         <li class="selected"><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
@@ -107,7 +108,10 @@ EOT;
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Most Recent<span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">
+        <span class="label">vc_sort Most Recent</span>
+        <span class="caret"></span>
+    </button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
         <li class="selected"><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
@@ -140,7 +144,10 @@ EOT;
 
         $expected = <<<EOT
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element"$id>
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}">vc_sort Best<span class="caret"></span></button>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}">
+        <span class="label">vc_sort Best</span>
+        <span class="caret"></span>
+    </button>
     <ul id="{$id_ctrl}" class="dropdown-menu">
         <li class="selected"><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>

@@ -124,8 +124,7 @@ class ViewControlSortationTest extends ViewControlBaseTest
             'B' => new Order('opt', 'DESC')
         ];
         $vc = $this->buildVCFactory()->sortation($options)
-            ->withOnChange((new SignalGenerator())->create())
-            ->withr;
+            ->withOnChange((new SignalGenerator())->create());
 
         $expected = $this->brutallyTrimHTML('
 <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="id_3">
