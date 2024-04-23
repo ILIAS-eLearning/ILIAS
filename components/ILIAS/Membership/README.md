@@ -22,7 +22,7 @@ the following conditions:
   - The setting 'Limit Number of Members' is enabled, and 'Minimum Number'
   is set greater than zero.
   - The 'Start' of the course's/group's 'Period of Event' is either not
-  set or is in the past.
+  set or is in the future.
   - If the setting 'Latest Exit Date' is set, it is in the past. If it is not
   set, the 'End' of the 'Limited Registration Period' is set and in the past.
 - The previous conditions are evaluated when the cron job is executed.
