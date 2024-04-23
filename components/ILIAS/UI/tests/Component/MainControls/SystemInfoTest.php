@@ -209,7 +209,8 @@ EOT;
 
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
+        array $with_stub_renderings = [],
+        array $with_additional_contexts = [],
     ): TestDefaultRenderer {
         return parent::getDefaultRenderer(new class () implements JavaScriptBinding {
             public function createId(): string

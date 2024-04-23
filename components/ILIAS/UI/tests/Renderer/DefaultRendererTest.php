@@ -30,6 +30,9 @@ use ILIAS\UI\Component\Test\JSTestComponent;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Render;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 
 class DefaultRendererTest extends ILIAS_UI_TestBase
 {
@@ -68,48 +71,77 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals(array("test.js"), $this->resource_registry->resources);
     }
 
-    public function testWithAdditionalContextClones(): void
+    /**
+     * Simulates the rendering chain and tests if the contexts are properly stacked.
+     * DefaultRenderer -> ConcreteRenderer -> DefaultRenderer -> ConcreteRenderer ...
+     */
+    public function testRenderingChainAndContextStack(): void
     {
-        $dr = $this->getDefaultRenderer();
-        $component = new TestComponent("foo");
-        $dr2 = $dr->withAdditionalContext($component);
-        $this->assertNotSame($dr, $dr2);
-    }
+        $component1 = new TestComponent("component1");
+        $component2 = new TestComponent("component2");
+        $component3 = new TestComponent("component3");
+        $glue = '.';
 
-    public function testGetContexts(): void
-    {
-        $dr = $this->getDefaultRenderer();
-        $c1 = new TestComponent("foo");
-        $c2 = new TestComponent("bar");
-        $dr2 = $dr
-            ->withAdditionalContext($c1)
-            ->withAdditionalContext($c2);
-        $this->assertEquals([], $dr->_getContexts());
-        $this->assertEquals([$c1, $c2], $dr2->_getContexts());
-    }
+        $component_renderer = $this->createMock(ComponentRenderer::class);
+        $component_renderer->method('render')->willReturnCallback(
+            static function (TestComponent $component, DefaultRenderer $renderer) use (
+                $component1,
+                $component2,
+                $component3,
+                $glue
+            ) {
+                return match ($component->text) {
+                    $component1->text => $component1->text . $glue . $renderer->render($component2),
+                    $component2->text => $component2->text . $glue . $renderer->render($component3),
+                    $component3->text => $component3->text,
+                };
+            }
+        );
 
-    public function testPassesContextsToComponentRendererLoader(): void
-    {
-        $loader = $this
-            ->getMockBuilder(Loader::class)
-            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
-            ->getMock();
+        $renderer = new class ($component_renderer) extends DefaultRenderer {
+            public array $context_history = [];
 
-        $renderer = new TestDefaultRenderer($loader);
+            public function __construct(
+                protected ComponentRenderer $component_renderer
+            ) {
+            }
 
-        $c1 = new TestComponent("foo");
-        $c2 = new TestComponent("bar");
+            protected function getRendererFor(Component $component): ComponentRenderer
+            {
+                return $this->component_renderer;
+            }
 
-        $renderer = $renderer
-            ->withAdditionalContext($c1)
-            ->withAdditionalContext($c2);
+            protected function pushContext(Component $component): void
+            {
+                parent::pushContext($component);
+                $this->context_history[] = $this->getContexts();
+            }
 
-        $loader
-            ->expects($this->once())
-            ->method("getRendererFor")
-            ->with($c1, [$c1, $c2]);
+            protected function popContext(): void
+            {
+                parent::popContext();
+                $this->context_history[] = $this->getContexts();
+            }
+        };
 
-        $renderer->_getRendererFor($c1);
+        $expected_context_history = [
+            [$component1],
+            [$component1, $component2],
+            [$component1, $component2, $component3],
+            [$component1, $component2],
+            [$component1],
+            []
+        ];
+
+        $expected_html =
+            $component1->text . $glue .
+            $component2->text . $glue .
+            $component3->text;
+
+        $html = $renderer->render($component1);
+
+        $this->assertEquals($expected_context_history, $renderer->context_history);
+        $this->assertEquals($expected_html, $html);
     }
 
     public function testRender(): void
@@ -176,22 +208,10 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $this->component_renderer = $this->createMock(ComponentRenderer::class);
         $component = $this->createMock(C\Component::class);
 
-        $renderer = new class ($this) extends DefaultRenderer {
-            public function __construct(
-                protected DefaultRendererTest $self
-            ) {
-            }
+        $loader = $this->createMock(Loader::class);
+        $loader->method('getRendererFor')->willReturn($this->component_renderer);
 
-            protected function getRendererFor(ILIAS\UI\Component\Component $component): ComponentRenderer
-            {
-                return $this->self->component_renderer;
-            }
-
-            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
-            {
-                return "";
-            }
-        };
+        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding());
 
         $this->component_renderer->expects($this->once())
             ->method("render")
@@ -209,22 +229,10 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $component = $this->createMock(C\Component::class);
         $root = $this->createMock(Renderer::class);
 
-        $renderer = new class ($this) extends DefaultRenderer {
-            public function __construct(
-                protected DefaultRendererTest $self
-            ) {
-            }
+        $loader = $this->createMock(Loader::class);
+        $loader->method('getRendererFor')->willReturn($this->component_renderer);
 
-            protected function getRendererFor(ILIAS\UI\Component\Component $component): ComponentRenderer
-            {
-                return $this->self->component_renderer;
-            }
-
-            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
-            {
-                return "";
-            }
-        };
+        $renderer = new TestDefaultRenderer($loader, $this->getJavaScriptBinding());
 
         $this->component_renderer->expects($this->once())
             ->method("render")

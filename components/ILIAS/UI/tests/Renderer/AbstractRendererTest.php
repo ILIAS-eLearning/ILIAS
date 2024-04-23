@@ -167,11 +167,6 @@ namespace {
         {
             return '';
         }
-
-        public function withAdditionalContext(C\Component $context): Renderer
-        {
-            return $this;
-        }
     }
 
     class AbstractRendererTest extends ILIAS_UI_TestBase

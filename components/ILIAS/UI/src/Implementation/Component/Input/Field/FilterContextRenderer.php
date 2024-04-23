@@ -197,11 +197,11 @@ class FilterContextRenderer extends Renderer
         $input = array_shift($inputs); //from
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $first_input_id = $this->bindJSandApplyId($input, $tpl);
-        $input_html = $default_renderer->withAdditionalContext($input)->render($input);
+        $input_html = $default_renderer->render($input);
 
         $input = array_shift($inputs) //until
         ->withAdditionalPickerconfig(['useCurrent' => false]);
-        $input_html .= $default_renderer->withAdditionalContext($input)->render($input);
+        $input_html .= $default_renderer->render($input);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $id = $this->bindJSandApplyId($component, $tpl);

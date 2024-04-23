@@ -261,7 +261,8 @@ class InitUIFramework
         };
         $c["ui.renderer"] = function ($c) {
             return new ILIAS\UI\Implementation\DefaultRenderer(
-                $c["ui.component_renderer_loader"]
+                $c["ui.component_renderer_loader"],
+                $c["ui.javascript_binding"],
             );
         };
         $c["ui.component_renderer_loader"] = function ($c) {
