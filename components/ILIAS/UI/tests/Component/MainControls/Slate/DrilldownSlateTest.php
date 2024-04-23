@@ -92,7 +92,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
         $expected = '
             <div class="il-maincontrols-slate disengaged" id="id_4">
                 <div class="il-maincontrols-slate-content" data-replace-marker="content">
-                    <div class="c-drilldown" id="id_2">
+                    <section class="c-drilldown" id="id_2">
                         <header class="c-drilldown__header--showbacknav">
                             <div></div>
                             <div></div>
@@ -112,7 +112,7 @@ class DrilldownSlateTest extends ILIAS_UI_TestBase
                         <div class="c-drilldown__menu">
                             <ul aria-live="polite" aria-label="ddmenu"></ul>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
         ';
