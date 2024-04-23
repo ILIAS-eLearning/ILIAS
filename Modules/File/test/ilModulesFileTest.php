@@ -86,6 +86,7 @@ class ilModulesFileTest extends TestCase
 
     /**
      * @preserveGlobalState disabled
+     * @runInSeparateProcess
      */
     public function testAppendStream(): void
     {
