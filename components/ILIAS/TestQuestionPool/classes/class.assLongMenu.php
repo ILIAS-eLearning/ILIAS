@@ -595,6 +595,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
     {
         $answer = $this->questionpool_request->getStringArrayAnswer('answer');
 
+        if ($answer === null) {
+            return [];
+        }
+
         foreach ($answer as $key => $value) {
             $solutionSubmit[$key] = $value;
         }
