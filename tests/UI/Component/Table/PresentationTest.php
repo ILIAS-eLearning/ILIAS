@@ -174,6 +174,8 @@ class PresentationTest extends TableTestBase
                               <div class="l-bar__group">
                                   <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
                               </div>
+                          </div>
+                          <div class="l-bar__space-keeper">
                               <div class="l-bar__group">
                                   <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
                               </div>
@@ -269,8 +271,7 @@ EXP;
                 <div class="row">
                     <div class="il-table-presentation-row-header col-lg col-sm-12">
                         <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
-                        <div class="il-table-presentation-row-header-fields">
-                            <div class="l-bar__space-keeper"></div>
+                        <div class="il-table-presentation-row-header-fields">                  
                             <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>
                     </div>
