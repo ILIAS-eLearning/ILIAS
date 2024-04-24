@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Data\Factory as DataFactory;
@@ -33,6 +35,7 @@ class TestLogViewer
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly ServerRequestInterface $request,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
@@ -50,6 +53,7 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this->question_repo,
             $this->ui_factory,
             $this->data_factory,
             $this->lng,

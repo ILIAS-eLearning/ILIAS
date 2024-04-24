@@ -183,15 +183,18 @@ class RequestDataCollector
 
         return $p->retrieve(
             $key,
-            $r->container()->mapValues(
-                $r->in()->series(
-                    [
-                        $r->kindlyTo()->string(),
-                        $r->custom()->transformation(
-                            fn($v) => trim($v)
-                        )
-                    ]
-                )
+            $r->byTrying(
+                $r->container()->mapValues(
+                    $r->in()->series(
+                        [
+                            $r->kindlyTo()->string(),
+                            $r->custom()->transformation(
+                                fn($v) => trim($v)
+                            )
+                        ]
+                    )
+                ),
+                $r->always(null)
             )
         );
     }
