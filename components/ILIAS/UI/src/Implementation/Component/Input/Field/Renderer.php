@@ -182,6 +182,7 @@ class Renderer extends AbstractComponentRenderer
 
         $type = str_replace(' ', '', $component->getCanonicalName());
         $tpl->setVariable("TYPE", $type);
+        $tpl->setVariable("NAME", $component->getName());
 
         $label = $component->getLabel();
         $tpl->setVariable("LABEL", $label);
