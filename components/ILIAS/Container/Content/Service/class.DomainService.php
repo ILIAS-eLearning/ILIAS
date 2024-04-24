@@ -31,6 +31,7 @@ use ILIAS\Container\Content\ItemBlock\ItemBlockSequenceGenerator;
  */
 class DomainService
 {
+    protected \ILIAS\COPage\PC\Resources\ResourcesManager $copage_resources;
     protected \ILIAS\Repository\Clipboard\ClipboardManager $repo_clipboard;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
@@ -71,6 +72,7 @@ class DomainService
         $this->domain_service = $domain_service;
         $this->item_repo = $this->repo_service->content()->item();
         $this->mode_repo = $this->repo_service->content()->mode();
+        $this->copage_resources = $DIC->copage()->internal()->domain()->pc()->resources();
     }
 
     /**
@@ -248,6 +250,7 @@ class DomainService
         return new ItemBlockSequenceGenerator(
             $this->data_service->content(),
             $this->domain_service,
+            $this->copage_resources,
             $container,
             $block_sequence,
             $item_set_manager,

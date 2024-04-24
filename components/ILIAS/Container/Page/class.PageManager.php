@@ -56,4 +56,31 @@ class PageManager
 
         return $html;
     }
+
+    public function getDom(): ?\DOMDocument
+    {
+        $settings = $this->domain_service->settings();
+        $user = $this->domain_service->user();
+
+        if (!$settings->get("enable_cat_page_edit") || $this->container->filteredSubtree()) {
+            return null;
+        }
+
+        // if page does not exist, return nothing
+        if (!\ilPageUtil::_existsAndNotEmpty(
+            "cont",
+            $this->container->getId()
+        )) {
+            return null;
+        }
+
+        // get page object
+        $ot = \ilObjectTranslation::getInstance($this->container->getId());
+        $lang = $ot->getEffectiveContentLang($user->getCurrentLanguage(), "cont");
+        $page_gui = new \ilContainerPageGUI($this->container->getId(), 0, $lang);
+        $page = $page_gui->getPageObject();
+        $page->buildDom();
+        return $page->getDomDoc();
+    }
+
 }

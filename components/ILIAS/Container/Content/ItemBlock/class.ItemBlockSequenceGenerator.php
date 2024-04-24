@@ -26,6 +26,7 @@ use ILIAS\Container\Content\BlockSequencePart;
 use ILIAS\Container\Content\ItemSetManager;
 use ILIAS\Container\Content;
 use ILIAS\Container\InternalDomainService;
+use ILIAS\COPage\PC\Resources\ResourcesManager;
 
 /**
  * Generates concrete blocks with items
@@ -34,6 +35,7 @@ use ILIAS\Container\InternalDomainService;
  */
 class ItemBlockSequenceGenerator
 {
+    protected ResourcesManager $copage_resources;
     protected bool $include_empty_blocks;
     protected Content\ModeManager $mode_manager;
     protected \ilAccessHandler $access;
@@ -56,6 +58,7 @@ class ItemBlockSequenceGenerator
     public function __construct(
         DataService $data_service,
         InternalDomainService $domain_service,
+        ResourcesManager $copage_resources,
         \ilContainer $container,
         BlockSequence $block_sequence,
         ItemSetManager $item_set_manager,
@@ -64,6 +67,7 @@ class ItemBlockSequenceGenerator
         $this->access = $domain_service->access();
         $this->data_service = $data_service;
         $this->domain_service = $domain_service;
+        $this->copage_resources = $copage_resources;
         $this->block_sequence = $block_sequence;
         $this->item_set_manager = $item_set_manager;
         $this->container = $container;
@@ -398,36 +402,15 @@ class ItemBlockSequenceGenerator
      */
     public function getPageEmbeddedBlockIds(): array
     {
-        $ids = [];
         $page = $this->domain_service->page($this->container);
-        $container_page_html = $page->getHtml();
+        $dom = $page->getDom();
 
-        $type_grps = $this->getGroupedObjTypes();
-        // iterate all types
-        foreach ($type_grps as $type => $v) {
-            // set template (overall or type specific)
-            if (is_int(strpos($container_page_html, "[list-" . $v . "]"))) {
-                $ids[] = $v;
-            }
+        $ids = [];
+
+        if ($dom) {
+            $ids = $this->copage_resources->getResourceIds($dom);
         }
 
-        $type = "_other";
-        if (is_int(strpos($container_page_html, "[list-" . $type . "]"))) {
-            $ids[] = $type;
-        }
-        $type = "_lobj";
-        if (is_int(strpos($container_page_html, "[list-" . $type . "]"))) {
-            $ids[] = $type;
-        }
-        // determine item groups
-        while (preg_match('~\[(item-group-([0-9]*))\]~i', $container_page_html, $found)) {
-            $ids[] = $found[2];
-            $container_page_html = preg_replace(
-                '~\[' . $found[1] . '\]~i',
-                "",
-                $container_page_html
-            );
-        }
         return $ids;
     }
 }

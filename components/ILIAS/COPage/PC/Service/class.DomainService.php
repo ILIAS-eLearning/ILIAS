@@ -29,6 +29,7 @@ use ILIAS\COPage\Link\LinkManager;
 use ILIAS\COPage\PC\FileList\FileListManager;
 use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
 use ILIAS\COPage\PC\Question\QuestionManager;
+use ILIAS\COPage\PC\Resources\ResourcesManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -94,4 +95,10 @@ class DomainService
             $this->domain_service
         );
     }
+
+    public function resources(): ResourcesManager
+    {
+        return new ResourcesManager();
+    }
+
 }
