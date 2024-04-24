@@ -29,7 +29,7 @@ use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Refinery\Transformation;
 
-class ilTestSetupAgent extends NullAgent
+class TestSetupAgent extends NullAgent
 {
     use HasNoNamedObjective;
 
