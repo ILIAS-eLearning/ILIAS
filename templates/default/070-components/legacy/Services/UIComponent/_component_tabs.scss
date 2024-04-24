@@ -72,7 +72,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 
 		> a {
 			border-radius: 0;
-			padding: $il-padding-base-vertical $il-padding-small-horizontal;
+			padding: $il-padding-base-vertical $il-padding-base;
 			font-size: ($il-font-size-small);
 
 			&:hover {
