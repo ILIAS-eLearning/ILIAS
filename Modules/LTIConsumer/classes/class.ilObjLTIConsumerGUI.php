@@ -449,7 +449,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 
             case strtolower(ilObjectMetaDataGUI::class):
 
-                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                if (!$DIC->access()->checkAccess('write', '', $this->object->getRefId())) {
                     $DIC['ilErr']->raiseError($DIC->language()->txt("msg_no_perm_write"));
                 } else {
                     $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
@@ -469,7 +469,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 
             case strtolower(ilLTIConsumerSettingsGUI::class):
 
-                if (!$DIC->access()->checkAccess('edit', '', $this->object->getRefId())) {
+                if (!$DIC->access()->checkAccess('write', '', $this->object->getRefId())) {
                     $DIC['ilErr']->raiseError($DIC->language()->txt("msg_no_perm_write"));
                 } else {
                     $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
