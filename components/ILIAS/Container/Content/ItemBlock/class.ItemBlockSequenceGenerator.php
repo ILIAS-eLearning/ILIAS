@@ -262,6 +262,7 @@ class ItemBlockSequenceGenerator
                         $ref_ids[] = (int) $data["ref_id"];
                     }
                 }
+                $this->accumulateRefIds($ref_ids);
                 yield $this->data_service->itemBlock(
                     "_lobj",
                     $part,
@@ -330,6 +331,7 @@ class ItemBlockSequenceGenerator
         if (!$this->has_other_block) {
             return null;
         }
+
         $remaining_ref_ids = array_filter(
             $this->item_set_manager->getAllRefIds(),
             fn($i) => (!isset($this->accumulated_ref_ids[$i]) && !$this->item_set_manager->isSideBlockItem($i))

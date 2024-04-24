@@ -10,7 +10,7 @@ This file documents the main internal technical concepts. There is currently no 
 - **ItemBlock**: A concrete block filled with items (ref IDs). Holds information on items (ref id), block ID, embedded in page status, position, block limit exhausted status.
 - **ItemBlockSequence**: The concrete sequence of blocks in a container view, filled with items.
 
-## Manager
+## Domain
 
 ### ByTypeViewManager implements ViewManager (and similar)
 
@@ -26,6 +26,7 @@ This manager needs to be implemented by each container view that provides a sepa
   - checks visible permission for items
   - in the case of sessions this still holds hidden "previous" and "next" sessions
 - determines block sorting, item sorting is mostly done in ItemSetManager, except for item group subitems (is done also here)
+- collects items of all blocks (except "other") to filter them out of the "other" block (see accumulateRefIds() in code), to avoid redundant rendering in the "other" block
 - api
   - getSequence() : ItemBlockSequence
 
@@ -97,7 +98,7 @@ This manager needs to be implemented by each container view that provides a sepa
     - -> renderHelperCustomBlock, renderHelperTypeBlock (render block into block template)
   - -> renderDetails() (needed ???)
 - provides closures (for the ContentGUI classes) to manipulate the output
-  - used be ContainerSessionsContentGUI to show links to previous/next and hide previous/next session items
+  - used by ContainerSessionsContentGUI to show links to previous/next and hide previous/next session items
   - setBlockPrefixClosure
   - setBlockPostfixClosure
   - setItemHiddenClosure
