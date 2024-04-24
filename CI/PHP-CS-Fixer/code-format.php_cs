@@ -22,6 +22,7 @@ return (new PhpCsFixer\Config())
 	->setRules([
         '@PSR12' => true,
         'strict_param' => false,
+        'cast_spaces' => true,
         'concat_space' => ['spacing' => 'one'],
         'function_typehint_space' => true
 	])
