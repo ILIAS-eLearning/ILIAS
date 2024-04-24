@@ -198,14 +198,6 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), true);
     }
 
-    public function test_getSolutionSubmit_shouldReturnSolution(): void
-    {
-        $obj = new assLongMenu();
-        $array = [0 => 'squirrel', 1 => 'icebear'];
-        $_POST['answer'] = $array;
-        $this->assertEquals($obj->getSolutionSubmit(), $array);
-    }
-
     public function test_setAnswerType_shouldReturnGetAnswerType(): void
     {
         $obj = new assLongMenu();

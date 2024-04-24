@@ -65,7 +65,7 @@ class assQuestionGUITest extends assBaseTestCase
             public function getPreview(
                 bool $show_question_only = false,
                 bool $show_inline_feedback = false
-            ): void {
+            ): string {
             }
 
             public function getTestOutput(
@@ -74,7 +74,7 @@ class assQuestionGUITest extends assBaseTestCase
                 bool $is_question_postponed = false,
                 array|bool $user_post_solutions = false,
                 bool $show_specific_inline_feedback = false
-            ): void {
+            ): string {
             }
         };
     }
