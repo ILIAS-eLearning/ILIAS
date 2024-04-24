@@ -649,7 +649,7 @@ class ilLOEditorGUI
             $assignment = new ilLOTestAssignment($assign_id);
 
             $obj_id = ilObject::_lookupObjId($assignment->getTestRefId());
-            $confirm->addItem('tst[]', $assign_id, ilObject::_lookupTitle($obj_id));
+            $confirm->addItem('tst[]', (string) $assign_id, ilObject::_lookupTitle($obj_id));
         }
 
         $this->tpl->setContent($confirm->getHTML());
@@ -702,7 +702,7 @@ class ilLOEditorGUI
 
         foreach ($tests as $tst_id) {
             $obj_id = ilObject::_lookupObjId($tst_id);
-            $confirm->addItem('tst[]', $tst_id, ilObject::_lookupTitle($obj_id));
+            $confirm->addItem('tst[]', (string) $tst_id, ilObject::_lookupTitle($obj_id));
         }
         $this->tpl->setContent($confirm->getHTML());
 
