@@ -103,7 +103,7 @@ class ilTestTabsManager
     public function __construct(
         private ilTabsGUI $tabs,
         private ilLanguage $lng,
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private RequestWrapper $wrapper,
         private Refinery $refinery,
         private ilAccess $access,
@@ -456,7 +456,8 @@ class ilTestTabsManager
             $this->tabs->addTab(
                 self::TAB_ID_TEST,
                 $this->lng->txt('test'),
-                $this->ctrl->getLinkTargetByClass([
+                $this->ctrl->getLinkTargetByClass(
+                    [
                     ilObjTestGUI::class, ilTestScreenGUI::class],
                     ilTestScreenGUI::DEFAULT_CMD
                 )

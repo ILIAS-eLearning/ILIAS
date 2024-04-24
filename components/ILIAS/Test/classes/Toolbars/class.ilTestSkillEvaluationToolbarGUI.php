@@ -31,7 +31,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
     private int $selectedEvaluationMode;
 
     public function __construct(
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         parent::__construct();
     }

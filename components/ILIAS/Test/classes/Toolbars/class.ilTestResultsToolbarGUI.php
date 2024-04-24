@@ -26,7 +26,7 @@ declare(strict_types=1);
  */
 class ilTestResultsToolbarGUI extends ilToolbarGUI
 {
-    public ilCtrl $ctrl;
+    public ilCtrlInterface $ctrl;
     public ilGlobalTemplateInterface $tpl;
 
     private ?string $certificateLinkTarget = null;
@@ -34,7 +34,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
     private ?string $hideBestSolutionsLinkTarget = null;
     private array $participantSelectorOptions = [];
 
-    public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
+    public function __construct(ilCtrlInterface $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
     {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;

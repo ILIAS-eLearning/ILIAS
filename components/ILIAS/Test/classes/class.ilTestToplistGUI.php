@@ -30,7 +30,7 @@ class ilTestToplistGUI
     public function __construct(
         private ilObjTest $test_obj,
         private ilTestTopList $toplist,
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
         private ilObjUser $user,

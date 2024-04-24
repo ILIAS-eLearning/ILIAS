@@ -52,7 +52,7 @@ class ilTestSkillEvaluationGUI
 
     public function __construct(
         private readonly ilObjTest $test_obj,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,

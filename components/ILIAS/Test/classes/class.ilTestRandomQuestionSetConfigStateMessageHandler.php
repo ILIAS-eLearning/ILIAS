@@ -53,7 +53,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         private ilLanguage $lng,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private ilCtrl $ctrl
+        private ilCtrlInterface $ctrl
     ) {
         $this->validationFailed = false;
         $this->validationReports = [];

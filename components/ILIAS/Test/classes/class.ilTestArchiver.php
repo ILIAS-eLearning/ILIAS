@@ -114,7 +114,7 @@ class ilTestArchiver
     public function __construct(
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilObjUser $user,
         private readonly ilTabsGUI $tabs,
         private readonly ilToolbarGUI $toolbar,

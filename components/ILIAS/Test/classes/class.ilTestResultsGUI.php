@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Skill\Service\SkillService;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\TestQuestionPool\QuestionInfoService;
-use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
  * Class ilTestResultsGUI
@@ -57,7 +58,7 @@ class ilTestResultsGUI
     public function __construct(
         private ilObjTest $testObj,
         private ilTestQuestionSetConfig $question_set_config,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilAccess $access,
         private readonly ilDBInterface $db,
         private readonly Refinery $refinery,

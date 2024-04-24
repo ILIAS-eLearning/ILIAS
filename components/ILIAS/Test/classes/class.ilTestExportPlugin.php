@@ -38,7 +38,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     );
     private \ilGlobalTemplateInterface $main_tpl;
     private \ilLanguage $lng;
-    private \ilCtrl $ctrl;
+    private \ilCtrlInterface $ctrl;
 
     public function __construct(
         \ilDBInterface $db,

@@ -35,7 +35,7 @@ class ilTestLearningObjectivesStatusGUI
 
     public function __construct(
         private ilLanguage $lng,
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private RequestDataCollector $testrequest

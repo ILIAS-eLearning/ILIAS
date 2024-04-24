@@ -55,7 +55,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $this->questionAssignmentColumnsEnabled = $questionAssignmentColumnsEnabled;
     }
 
-    public function __construct($parentOBJ, $testId, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
+    public function __construct($parentOBJ, $testId, $parentCmd, ilCtrlInterface $ctrl, ilLanguage $lng)
     {
         $this->setId('tst_skl_lev_thr_' . $testId);
         parent::__construct($parentOBJ, $parentCmd);

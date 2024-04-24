@@ -57,7 +57,7 @@ class ilTestScreenGUI
         private readonly UIRenderer $ui_renderer,
         private readonly ilLanguage $lng,
         private readonly Refinery $refinery,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly HTTPServices $http,
         private readonly ilTabsGUI $tabs,
