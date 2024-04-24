@@ -45,6 +45,7 @@ class ilMyTestResultsGUITest extends ilTestBaseTestCase
             $this->objective_parent,
             $this->createMock(ilLanguage::class),
             $this->createMock(ilCtrlInterface::class),
+            $this->createMock(ilGlobalTemplateInterface::class),
             $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class)
         );
@@ -53,25 +54,5 @@ class ilMyTestResultsGUITest extends ilTestBaseTestCase
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilMyTestResultsGUI::class, $this->testObj);
-    }
-
-    public function testTestObj(): void
-    {
-        $this->assertEquals($this->test, $this->testObj->getTestObj());
-    }
-
-    public function testTestAccess(): void
-    {
-        $this->assertEquals($this->access, $this->testObj->getTestAccess());
-    }
-
-    public function testTestSession(): void
-    {
-        $this->assertEquals($this->session, $this->testObj->getTestSession());
-    }
-
-    public function testObjectiveParent(): void
-    {
-        $this->assertEquals($this->objective_parent, $this->testObj->getObjectiveParent());
     }
 }

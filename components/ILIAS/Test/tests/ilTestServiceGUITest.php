@@ -81,12 +81,6 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $this->assertEquals($mock, $this->testObj->getObjectiveOrientedContainer());
     }
 
-    public function testGetCommand(): void
-    {
-        $cmd = 'testCmd';
-        $this->assertEquals($cmd, $this->testObj->getCommand($cmd));
-    }
-
     /**
      * @dataProvider buildFixedShufflerSeedDataProvider
      */

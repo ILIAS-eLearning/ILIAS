@@ -48,10 +48,10 @@ class MarkTest extends TestCase
     {
         // Arrange
         $expected = "Esther";
-        $this->ass_mark->setShortName($expected);
+        $ass_mark = $this->ass_mark->withShortName($expected);
 
         // Act
-        $actual = $this->ass_mark->getShortName();
+        $actual = $ass_mark->getShortName();
 
         // Assert
         $this->assertEquals(
@@ -67,11 +67,11 @@ class MarkTest extends TestCase
     public function testGetWithPassed()
     {
         // Arrange
-        $expected = 1;
-        $this->ass_mark->setPassed($expected);
+        $expected = true;
+        $ass_mark = $this->ass_mark->withPassed($expected);
 
         // Act
-        $actual = $this->ass_mark->getPassed();
+        $actual = $ass_mark->getPassed();
 
         // Assert
         $this->assertEquals(
@@ -88,10 +88,10 @@ class MarkTest extends TestCase
     {
         // Arrange
         $expected = "Esther The Tester";
-        $this->ass_mark->setOfficialName($expected);
+        $ass_mark = $this->ass_mark->withOfficialName($expected);
 
         // Act
-        $actual = $this->ass_mark->getOfficialName();
+        $actual = $ass_mark->getOfficialName();
 
         // Assert
         $this->assertEquals(
@@ -108,10 +108,10 @@ class MarkTest extends TestCase
     {
         // Arrange
         $expected = 50;
-        $this->ass_mark->setMinimumLevel($expected);
+        $ass_mark = $this->ass_mark->withMinimumLevel($expected);
 
         // Act
-        $actual = $this->ass_mark->getMinimumLevel();
+        $actual = $ass_mark->getMinimumLevel();
 
         // Assert
         $this->assertEquals(
@@ -135,10 +135,10 @@ class MarkTest extends TestCase
     {
         // Arrange
         $expected = 100;
-        $this->ass_mark->setMinimumLevel($expected);
+        $ass_mark = $this->ass_mark->withMinimumLevel($expected);
 
         // Act
-        $actual = $this->ass_mark->getMinimumLevel();
+        $actual = $ass_mark->getMinimumLevel();
 
         // Assert
         $this->assertEquals(
@@ -157,10 +157,10 @@ class MarkTest extends TestCase
     {
         // Arrange
         $expected = 1E-14;
-        $this->ass_mark->setMinimumLevel($expected);
+        $ass_mark = $this->ass_mark->withMinimumLevel($expected);
 
         // Act
-        $actual = $this->ass_mark->getMinimumLevel();
+        $actual = $ass_mark->getMinimumLevel();
 
         // Assert
         $this->assertEquals(
@@ -181,9 +181,9 @@ class MarkTest extends TestCase
 
         // Arrange
         $expected = -1;
-        $this->ass_mark->setMinimumLevel($expected);
+        $ass_mark = $this->ass_mark->withMinimumLevel($expected);
 
         // Act
-        $actual = $this->ass_mark->getMinimumLevel();
+        $actual = $ass_mark->getMinimumLevel();
     }
 }

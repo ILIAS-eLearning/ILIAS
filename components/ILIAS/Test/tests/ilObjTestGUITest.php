@@ -61,7 +61,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilDB();
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_tree();
-        $this->addGlobal_http();
         $this->addGlobal_ilLocator();
         $this->addGlobal_ilUser();
         $this->addGlobal_ilAccess();
@@ -83,7 +82,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_skillService();
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilObjDataCache();
-        $this->addGlobal_http();
         $this->addGlobal_ilRbacAdmin();
         $this->addGlobal_objectService();
         $this->addGlobal_GlobalScreenService();

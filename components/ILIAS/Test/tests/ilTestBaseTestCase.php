@@ -59,25 +59,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilComponentFactory();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
-
-        $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
-
-        $http_mock = $this
-            ->getMockBuilder(\ILIAS\HTTP\Services::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['request', 'wrapper'])->getMock();
-
-        $request_mock = $this
-            ->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getParsedBody'])->getMock();
-        $request_mock->method('getParsedBody')->willReturn(array());
-        $http_mock->method('request')->willReturn($request_mock);
-
-        $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
-        $http_mock->method('wrapper')->willReturn($wrapper_mock);
-
-        $this->setGlobalVariable('http', $http_mock);
+        $this->addGlobal_http();
 
         parent::setUp();
     }

@@ -18,12 +18,12 @@
 
 namespace Setup;
 
+use ILIAS\Test\Setup\ilTestSetupAgent;
+
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Objective\NullObjective;
 use ilTestBaseTestCase;
-use ILIAS\Test\Setup\ilTestSetupAgent;
-use ILIAS\Setup\ObjectiveCollection;
 
 class ilTestSetupAgentTest extends ilTestBaseTestCase
 {
