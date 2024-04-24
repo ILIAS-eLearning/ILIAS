@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
@@ -62,7 +65,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
         StaticURLServices $static_url,
-        \ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $properties_repository,
+        GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
         DataRowBuilder $row_builder,
         array $environment
@@ -101,11 +104,11 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
     public function toStorage(): array
     {
         return [
-            'ref_id' => [\ilDBConstants::T_INTEGER , $this->getTestRefId()],
-            'qst_id' => [\ilDBConstants::T_INTEGER , $this->getQuestionId()],
-            'admin_id' => [\ilDBConstants::T_INTEGER , $this->getAdministratorId()],
-            'interaction_type' => [\ilDBConstants::T_TEXT , $this->getInteractionType()->value],
-            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->getModificationTimestamp()],
+            'ref_id' => [\ilDBConstants::T_INTEGER , $this->test_ref_id],
+            'qst_id' => [\ilDBConstants::T_INTEGER , $this->question_id],
+            'admin_id' => [\ilDBConstants::T_INTEGER , $this->admin_id],
+            'interaction_type' => [\ilDBConstants::T_TEXT , $this->interaction_type->value],
+            'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
             'additional_data' => [\ilDBConstants::T_CLOB , serialize($this->additional_data)]
         ];
     }
