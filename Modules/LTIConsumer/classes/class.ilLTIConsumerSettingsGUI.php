@@ -129,7 +129,7 @@ class ilLTIConsumerSettingsGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $access = $DIC->access();
 
-        if (!$access->checkAccess('edit', '', $this->object->getRefId())) {
+        if (!$access->checkAccess('write', '', $this->object->getRefId())) {
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('permission_denied'), true);
         } else {
 
