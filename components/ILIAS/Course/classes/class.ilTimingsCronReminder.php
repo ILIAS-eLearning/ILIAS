@@ -253,7 +253,7 @@ class ilTimingsCronReminder extends ilCronJob
     {
         $has_elements = false;
         foreach ($objects as $object_id => $object_details) {
-            if ($object_details['type'] == 'fold') {
+            if ($object_details['type'] != 'fold') {
                 $tpl->setCurrentBlock('items');
                 $tpl->setVariable('HREF', $object_details['url']);
                 $tpl->setVariable('ITEM_TITLE', $object_details['title']);
