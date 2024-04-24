@@ -33,7 +33,7 @@ class Test implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = fn() =>
-            new \ilTestSetupAgent(
+            new \ILIAS\Test\Setup\TestSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
