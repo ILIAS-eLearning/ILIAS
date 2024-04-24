@@ -226,12 +226,14 @@ class ilTreeTrashQueries
                 '%' . $filter['title'] . '%'
             ) . ' ';
         }
+
+        // #33781 use an explizit date format to really include the 'to' date because it can be interpreted as 'xxxx-xx-xx 00:00:00'
         if (
             $filter['deleted']['from'] instanceof \ilDate &&
             $filter['deleted']['to'] instanceof \ilDate) {
             $query .= ('AND deleted BETWEEN ' .
                 $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' AND ' .
-                $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ');
+                $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE) . " 23:59:59", \ilDBConstants::T_TEXT) . ' ');
         } elseif ($filter['deleted']['from'] instanceof \ilDate) {
             $query .= 'AND deleted >= ' . $this->db->quote(
                 $filter['deleted']['from']->get(IL_CAL_DATE),
@@ -239,7 +241,7 @@ class ilTreeTrashQueries
             ) . ' ';
         } elseif ($filter['deleted']['to'] instanceof \ilDate) {
             $query .= 'AND deleted <= ' . $this->db->quote(
-                $filter['deleted']['to']->get(IL_CAL_DATE),
+                $filter['deleted']['to']->get(IL_CAL_DATE) . " 23:59:59",
                 \ilDBConstants::T_TEXT
             ) . ' ';
         }
