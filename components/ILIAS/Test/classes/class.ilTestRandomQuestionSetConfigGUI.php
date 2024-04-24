@@ -342,9 +342,6 @@ class ilTestRandomQuestionSetConfigGUI
     private function buildGeneralConfigFormGUI(bool $disabled = false): ilTestRandomQuestionSetGeneralConfigFormGUI
     {
         $form = new ilTestRandomQuestionSetGeneralConfigFormGUI(
-            $this->ctrl,
-            $this->lng,
-            $this->test_obj,
             $this,
             $this->question_set_config
         );
