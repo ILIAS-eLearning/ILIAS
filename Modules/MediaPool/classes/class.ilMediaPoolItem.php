@@ -124,7 +124,7 @@ class ilMediaPoolItem
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->setType($rec["type"]);
-            $this->setForeignId($rec["foreign_id"]);
+            $this->setForeignId((int) $rec["foreign_id"]);
             $this->setTitle($rec["title"]);
             $this->setImportId((string) $rec["import_id"]);
         }
