@@ -2056,7 +2056,11 @@ abstract class assQuestionGUI
             let button = form.querySelector('input[name=\"cmd[save]\"]');
             if (form && button) {
                 form.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                    if (e.key === 'Enter'
+                        && e.target.type !== 'textarea'
+                        && e.target.type !== 'submit'
+                        && e.target.type !== 'file'
+                    ) {
                         e.preventDefault();
                         form.requestSubmit(button);
                     }
