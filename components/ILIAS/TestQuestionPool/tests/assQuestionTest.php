@@ -41,21 +41,24 @@ class assQuestionTest extends assBaseTestCase
                 return true;
             }
 
-            public function saveWorkingData(int $active_id, int $pass, bool $authorized = true): bool
+            public function saveWorkingData(int $active_id, ?int $pass = null, bool $authorized = true): bool
             {
                 return true;
             }
 
-            public function getAdditionalTableName()
+            public function getAdditionalTableName(): string
             {
             }
 
-            public function getAnswerTableName()
+            public function getAnswerTableName(): string
             {
             }
 
-            public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float|array
-            {
+            public function calculateReachedPoints(
+                int $active_id,
+                ?int $pass = null,
+                bool $authorizedSolution = true
+            ): float {
             }
 
             public function getQuestionType(): string
