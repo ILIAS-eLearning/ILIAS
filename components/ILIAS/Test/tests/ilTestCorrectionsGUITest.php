@@ -39,7 +39,6 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilDB();
         $this->addGlobal_ilHelp();
         $this->addGlobal_ilTabs();
-        $this->addGlobal_http();
         $this->addGlobal_refinery();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();

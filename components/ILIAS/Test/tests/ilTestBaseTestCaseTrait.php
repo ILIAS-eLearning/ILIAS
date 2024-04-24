@@ -22,7 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
-use ILIAS\HTTP\Services;
+use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\UI\Implementation\Factory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;

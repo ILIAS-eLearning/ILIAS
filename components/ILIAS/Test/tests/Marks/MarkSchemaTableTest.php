@@ -18,32 +18,32 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\Marks\MarkSchemaTable;
+use ILIAS\Test\Scoring\Marks\MarkSchema;
+
 /**
- * Class ilAssQuestionPageCommandForwarderTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
+class MarkSchemaTableTest extends ilTestBaseTestCase
 {
-    private ilAssQuestionPageCommandForwarder $testObj;
-    private ilObjTest $test;
+    private MarkSchemaTable $table;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->test = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilAssQuestionPageCommandForwarder(
-            $this->test,
+        $this->table = new MarkSchemaTable(
+            $this->createMock(MarkSchema::class),
+            true,
             $this->createMock(ilLanguage::class),
-            $this->createMock(ilCtrlInterface::class),
-            $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
-            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+            $this->createMock(\ILIAS\UI\URLBuilder::class),
+            $this->createMock(\ILIAS\UI\URLBuilderToken::class),
+            $this->createMock(\ILIAS\UI\URLBuilderToken::class),
+            $this->createMock(ILIAS\UI\Factory::class),
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilAssQuestionPageCommandForwarder::class, $this->testObj);
+        $this->assertInstanceOf(MarkSchemaTable::class, $this->table);
     }
 }

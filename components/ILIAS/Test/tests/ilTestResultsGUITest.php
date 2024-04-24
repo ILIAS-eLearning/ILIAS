@@ -41,7 +41,6 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         $this->addGlobal_tpl();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
-        $this->addGlobal_http();
 
         $this->testObj = new ilTestResultsGUI(
             $this->createMock(ilObjTest::class),

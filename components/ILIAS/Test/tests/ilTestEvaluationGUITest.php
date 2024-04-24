@@ -39,7 +39,6 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
-        $this->addGlobal_http();
         $this->addGlobal_ilErr();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_ilUser();
