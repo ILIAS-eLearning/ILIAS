@@ -220,7 +220,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $id = "pg:";
         if (!in_array($pc_id, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pc_id]);
-            $id = $hier_ids[$pc_id] . ":" . $pc_id;
+            $id = ($hier_ids[$pc_id] ?? "") . ":" . $pc_id;
         }
         return $id;
     }
