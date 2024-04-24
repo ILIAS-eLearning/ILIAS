@@ -552,6 +552,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $role_arr = explode(',', $roles);
         foreach ($role_arr as $role_name) {
             $role_name = trim($role_name);
+            $role_name = str_replace('http://purl.imsglobal.org/vocab/lis/v2/membership#', '', $role_name);
             switch ($role_name) {
                 case 'Administrator':
                     $this->getLogger()->info('Administrator role handling');
@@ -564,6 +565,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                     break;
 
                 case 'Instructor':
+                case 'Mentor':
+                case 'TeachingAssistant':
                     $this->getLogger()->info('Instructor role handling');
                     $this->getLogger()->info('Tutor role for request: ' . $obj_settings->getTutorRole());
                     if ($obj_settings->getTutorRole()) {

@@ -10,8 +10,8 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - A message can be delivered internally or externally or both, depending on the settings of the respective recipient account.
 - The personal selection can be made in the "Avatar > Settings > Mail Settings > Incoming Mail" setting.
 - Other components in ILIAS might use the "Mail Service" to send emails to external email addresses disregarding
-  that setting. Other components in ILIAS might use the channelled message delivery (internally, external, or both)
-  of the internal API without considering any permission. Please check the documentation of the respective component.
+  that setting. Other components in ILIAS might use the channeled message delivery (internal, external, or both)
+  of the internal API without considering any permissions. Please check the documentation of the respective component.
 - An account with "Edit Settings" permissions for "Administration > User and Roles >
   Roles > RoleTitle > Default Permissions > Administration Permission > Mail" can remove the
   permission "Internal Mail: User can use internal mail system" for all accounts of that role. Without
@@ -31,7 +31,7 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - For each message created in the "Mail Service" the ID of the account that created the message is stored
   along with the entered message data like **subject**, **body**, **attachments**, **recipients**,
   **placeholder information** and an additional **datetime** information. For every recipient of internal mail this
-  message is copied. The purpose of this data being stored is to assign the mail to the respectice accounts and present
+  message is copied. The purpose of this data being stored is to assign the mail to the respective accounts and present
   them in ILIAS user interface.
 - The "Mail Service" distinguishes between the "user_id" (means: "Owner"), and the "sender_id" (means: "Sender"). The
   purpose is, that each party gets a copy of the message. For each copy, the "user_id" is substituted by the ID of the
@@ -45,9 +45,9 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
   a configurable linebreak and finally a flag whether daily summaries of internal emails should be sent to
   the external email addresses of the user (if the corresponding cron job is enabled in the administration).
 - ILIAS affords accounts with default mail folders to organize mails. Accounts can create custom folders for
-  further structruring of mails. The ID of the account is used as a reference here to present the folders in the ILIAS
+  further structuring of mails. The ID of the account is used as a reference here to present the folders in the ILIAS
   user interface accordingly.
-- Other componetns like the course can delegate messages to the "Mail Service". The "Mail Service" in turn
+- Other components like the course can delegate messages to the "Mail Service". The "Mail Service" in turn
   delegates the message delivery to the [`BackgroundTasks`](../../src/BackgroundTasks/README.md) to bulk-send
   the mails. All data is passed through this asynchronous queue and thus stored temporarily.
   Please check the privacy documentation of the corresponding service for further details.
@@ -80,10 +80,10 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - For internal mails the "Mail Service" does not provide any kind of export in ILIAS.
 - Of course emails delivered externally by "SMTP" or "Sendmail" are the responsibility of the respective email clients.
   - The "FROM" header used for sending external emails is built from the globally configured
-  email address and the configured name placeholder, which may include the full name presentation, the firstname and the lastname.
-  - If the "Use Gloal Reply-To" setting in "Administration > Communication > Mail > Settings > External E-Mails"
+    email address and the configured name placeholder, which may include the full name presentation, the firstname and the lastname.
+  - If the "Use Global Reply-To" setting in "Administration > Communication > Mail > Settings > External E-Mails"
     is disabled, the user's email address and its full name are used as the "Reply-To" header in user created emails.
     Otherwise, the global reply-to address is used.
   - If a message is composed by using composite recipient strings, e.g. a group/role of users, the "BCC" header is used to
-  include the email addresses of all recipients, so that email addresses are not disclosed. If there is only one final
-  external recipient, the "TO" header is used instead.
+    include the email addresses of all recipients, so that email addresses are not disclosed. If there is only one final
+    external recipient, the "TO" header is used instead.

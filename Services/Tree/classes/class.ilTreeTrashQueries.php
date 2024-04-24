@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -215,7 +216,7 @@ class ilTreeTrashQueries
             $query .= 'and ' . $this->db->like(
                 'type',
                 \ilDBConstants::T_TEXT,
-                $filter['type'] . '%'
+                $filter['type']
             ) . ' ';
         }
         if (isset($filter['title'])) {
@@ -225,12 +226,14 @@ class ilTreeTrashQueries
                 '%' . $filter['title'] . '%'
             ) . ' ';
         }
+
+        // #33781 use an explizit date format to really include the 'to' date because it can be interpreted as 'xxxx-xx-xx 00:00:00'
         if (
             $filter['deleted']['from'] instanceof \ilDate &&
             $filter['deleted']['to'] instanceof \ilDate) {
             $query .= ('AND deleted BETWEEN ' .
                 $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' AND ' .
-                $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ');
+                $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE) . " 23:59:59", \ilDBConstants::T_TEXT) . ' ');
         } elseif ($filter['deleted']['from'] instanceof \ilDate) {
             $query .= 'AND deleted >= ' . $this->db->quote(
                 $filter['deleted']['from']->get(IL_CAL_DATE),
@@ -238,7 +241,7 @@ class ilTreeTrashQueries
             ) . ' ';
         } elseif ($filter['deleted']['to'] instanceof \ilDate) {
             $query .= 'AND deleted <= ' . $this->db->quote(
-                $filter['deleted']['to']->get(IL_CAL_DATE),
+                $filter['deleted']['to']->get(IL_CAL_DATE) . " 23:59:59",
                 \ilDBConstants::T_TEXT
             ) . ' ';
         }
@@ -247,6 +250,8 @@ class ilTreeTrashQueries
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
                 $query .= 'AND deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
+            } else {
+                $query .= 'AND 1=2 ';
             }
         }
 
