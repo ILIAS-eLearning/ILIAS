@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilMyTestResultsGUI
  *
@@ -41,7 +44,7 @@ class ilMyTestResultsGUI
         private readonly ilTestSession $test_session,
         private readonly ilTestObjectiveOrientedContainer $objective_parent,
         private readonly ilLanguage $lng,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest

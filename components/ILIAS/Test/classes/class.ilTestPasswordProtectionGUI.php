@@ -40,7 +40,7 @@ class ilTestPasswordProtectionGUI
     private string $next_command_cmd;
 
     public function __construct(
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
         private ilTestPlayerAbstractGUI $parent_gui,

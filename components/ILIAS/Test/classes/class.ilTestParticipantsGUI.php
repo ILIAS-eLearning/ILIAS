@@ -57,7 +57,7 @@ class ilTestParticipantsGUI
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
         protected ilLanguage $lng,
-        protected ilCtrl $ctrl,
+        protected ilCtrlInterface $ctrl,
         protected ilDBInterface $db,
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,

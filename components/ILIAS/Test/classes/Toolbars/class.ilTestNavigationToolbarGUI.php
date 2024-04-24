@@ -39,7 +39,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     protected bool $user_pass_overview_button_enabled = false;
 
     public function __construct(
-        protected ilCtrl $ctrl,
+        protected ilCtrlInterface $ctrl,
         protected ilTestPlayerAbstractGUI $player_gui
     ) {
         parent::__construct();

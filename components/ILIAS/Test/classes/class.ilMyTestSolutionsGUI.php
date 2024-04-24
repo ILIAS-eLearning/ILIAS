@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 /**
  * Class ilMyTestSolutionsGUI
  *
@@ -38,7 +41,7 @@ class ilMyTestSolutionsGUI
         private readonly ilTestAccess $test_access,
         private readonly ilTestObjectiveOrientedContainer $objective_parent,
         private readonly ilLanguage $lng,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly GeneralQuestionPropertiesRepository $questionrepository,
         private readonly RequestDataCollector $testrequest
@@ -49,11 +52,6 @@ class ilMyTestSolutionsGUI
     {
         /* @var ILIAS\DI\Container $DIC */
         global $DIC;
-
-        if (!$DIC->ctrl()->getCmd()) {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);
-        }
 
         switch ($DIC->ctrl()->getNextClass()) {
             case "iltestevaluationgui":

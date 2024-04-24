@@ -121,7 +121,7 @@ class TestDIC extends PimpleContainer
             new TestLogViewer(
                 $c['logging.repository'],
                 $c['logging.logger'],
-                $DIC->http()->request(),
+                $DIC['http']->request(),
                 $DIC->uiService(),
                 $DIC['ui.factory'],
                 $DIC['lng']

@@ -30,8 +30,6 @@ use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Logging\TestAdministrationInteraction;
-use ILIAS\Test\Logging\TestScoringInteraction;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;

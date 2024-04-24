@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Marks;
 
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Logging\TestAdministrationInteraction;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -52,7 +51,7 @@ class MarkSchemaGUI
         private \ilObjTest $test,
         private \ilObjUser $active_user,
         private \ilLanguage $lng,
-        private \ilCtrl $ctrl,
+        private \ilCtrlInterface $ctrl,
         private \ilGlobalTemplateInterface $tpl,
         private \ilToolbarGUI $toolbar,
         private \ilTabsGUI $tabs,

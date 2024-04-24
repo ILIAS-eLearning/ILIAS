@@ -47,7 +47,7 @@ class ilTestCorrectionsGUI
 
     public function __construct(
         private readonly ilDBInterface $database,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilAccessHandler $access,
         private readonly ilLanguage $language,
         private readonly ilTabsGUI $tabs,

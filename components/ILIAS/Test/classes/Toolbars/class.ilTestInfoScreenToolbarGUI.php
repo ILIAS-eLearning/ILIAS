@@ -52,7 +52,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         private ilTestSession $test_session,
         private ilDBInterface $db,
         private ilAccessHandler $access,
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         protected ilLanguage $lng,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,

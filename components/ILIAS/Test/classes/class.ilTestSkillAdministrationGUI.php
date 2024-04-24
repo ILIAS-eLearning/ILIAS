@@ -35,7 +35,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilTestSkillAdministrationGUI
 {
     public function __construct(
-        private ilCtrl $ctrl,
+        private ilCtrlInterface $ctrl,
         private ilAccessHandler $access,
         private ilTabsGUI $tabs,
         private ilGlobalTemplateInterface $tpl,

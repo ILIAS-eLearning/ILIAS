@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 
 /**
  * Class ilTestAccess
@@ -33,7 +35,7 @@ class ilTestAccess
     protected ilAccessHandler $access;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
-    protected ilObjTestMainSettingsDatabaseRepository $main_settings_repository;
+    protected MainSettingsDatabaseRepository $main_settings_repository;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
@@ -46,7 +48,7 @@ class ilTestAccess
         $this->lng = $DIC['lng'];
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->access = $DIC->access();
-        $this->main_settings_repository = ilTestDIC::dic()['main_settings_repository'];
+        $this->main_settings_repository = TestDIC::dic()['settings.main.repository'];
     }
 
     public function getAccess(): ilAccessHandler

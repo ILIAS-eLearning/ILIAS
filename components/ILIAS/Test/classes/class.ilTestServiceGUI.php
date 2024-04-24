@@ -65,7 +65,7 @@ class ilTestServiceGUI
     protected readonly ilErrorHandling $error;
     protected ilAccess $access;
     protected readonly HTTPServices $http;
-    protected readonly ilCtrl $ctrl;
+    protected readonly ilCtrlInterface $ctrl;
     protected readonly ilToolbarGUI $toolbar;
     protected readonly ilTabsGUI $tabs;
     protected readonly ilObjectDataCache $obj_cache;
