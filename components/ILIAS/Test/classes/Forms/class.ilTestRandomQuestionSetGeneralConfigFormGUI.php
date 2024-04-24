@@ -30,41 +30,24 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {
-    public ilObjTest $testOBJ;
+    protected bool $edit_mode_enabled = true;
 
-    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
-
-    public ilTestRandomQuestionSetConfig $questionSetConfig;
-
-    protected bool $editModeEnabled = true;
-
-    /**
-     * @param ilCtrl $ctrl
-     * @param ilLanguage $lng
-     * @param ilObjTest $testOBJ
-     * @param ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI
-     * @param ilTestRandomQuestionSetConfig $questionSetConfig
-     */
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
-    {
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        // Bugfix for mantis: 0015081
-        $this->lng->loadLanguageModule('form');
-        $this->testOBJ = $testOBJ;
-        $this->questionSetConfigGUI = $questionSetConfigGUI;
-        $this->questionSetConfig = $questionSetConfig;
+    public function __construct(
+        private ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI,
+        private ilTestRandomQuestionSetConfig $questionSetConfig
+    ) {
         parent::__construct();
+        $this->lng->loadLanguageModule('form');
     }
 
     public function isEditModeEnabled(): bool
     {
-        return $this->editModeEnabled;
+        return $this->edit_mode_enabled;
     }
 
-    public function setEditModeEnabled(bool $editModeEnabled): void
+    public function setEditModeEnabled(bool $edit_mode_enabled): void
     {
-        $this->editModeEnabled = $editModeEnabled;
+        $this->edit_mode_enabled = $edit_mode_enabled;
     }
 
     public function build(): void
