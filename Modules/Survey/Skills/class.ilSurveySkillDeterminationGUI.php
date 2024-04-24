@@ -23,9 +23,9 @@
  */
 class ilSurveySkillDeterminationGUI
 {
+    protected ilGlobalTemplateInterface $tpl;
     protected ilObjSurvey $survey;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
 
@@ -34,7 +34,7 @@ class ilSurveySkillDeterminationGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->survey = $a_survey;
