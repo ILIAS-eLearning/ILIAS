@@ -866,8 +866,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             )->withViewControls($view_control);
         }
 
-
-
         $default_html = $this->renderer->render($vc_container);
         $modals = $this->renderer->render($this->modal_collection);
         $forwarder = new ilForumPageCommandForwarder(
@@ -5922,8 +5920,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
                 $items[] = $this->uiFactory->button()->shy($this->lng->txt($lng_id), $url);
             }
-            $action_menu = $this->uiFactory->dropdown()->standard($items);
-            $render_content = [$action_menu];
+
+            $dropdown = $this->uiFactory->dropdown()->standard($items);
+            $render_action_buttons = [$dropdown];
             if (isset($primary_action, $primary_action_language_id)) {
                 if ($primary_action_language_id === 'activate_post') {
                     $action_button = $this->addActivationFormModal($node);
@@ -5933,9 +5932,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         $primary_action
                     );
                 }
-                array_unshift($render_content, $action_button);
+                $tpl->setVariable('MAIN_ACTION', $this->uiRenderer->render($action_button));
             }
-            $tpl->setVariable('COMMANDS', $this->uiRenderer->render($render_content));
+            $tpl->setVariable('DROPDOWN_ACTIONS', $this->uiRenderer->render($render_action_buttons));
         }
     }
 
