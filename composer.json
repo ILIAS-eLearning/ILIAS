@@ -64,11 +64,11 @@
 		"dflydev/fig-cookies": "^3.1",
 		"symfony/yaml": "^6.4",
 		"symfony/console": "^6.4",
-		"simplesamlphp/simplesamlphp": "^2.2.0"
+		"simplesamlphp/simplesamlphp": "^2.2.0",
+		"phpunit/phpunit": "^10.5"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",
-		"phpunit/phpunit": "^10.5",
 		"phpstan/phpstan": "^1.10",
 		"mikey179/vfsstream": "^1.6",
 		"captainhook/captainhook": "^5.16",
