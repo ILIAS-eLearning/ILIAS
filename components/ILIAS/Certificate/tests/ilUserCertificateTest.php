@@ -58,7 +58,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
         $this->assertSame(1, $userCertificate->getVersion());
         $this->assertSame('v5.4.0', $userCertificate->getIliasVersion());
         $this->assertTrue($userCertificate->isCurrentlyActive());
-        $this->assertSame('/some/where/background.jpg', $userCertificate->getBackgroundImagePath());
+        $this->assertSame('/some/where/background.jpg', $userCertificate->getBackgroundImageIdentification());
         $this->assertSame(140, $userCertificate->getId());
         $this->assertSame('11111111-2222-3333-4444-555555555555', $userCertificate->getCertificateId()->asString());
     }

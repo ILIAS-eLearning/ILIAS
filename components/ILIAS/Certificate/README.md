@@ -58,7 +58,7 @@ If the ILIAS system will be upgraded from a ILIAS version <=5.3.0
 a migration MUST be executed.
 See the [migration](#migration) chapter for more information.
 
-Currently only a the newest version of a user certificate will
+Currently only the newest version of a user certificate will
 be shown in the GUI.
 Previous certificate are also stored in the database,
 but are not displayed in the GUI.
@@ -71,9 +71,9 @@ with a delay.
   Due to the fact that learning progress events can be raised for different users
   and different context objects in a very short amount of time
   this can lead to response delays in the GUI.
-* Creating user certificates via the cron job is recommended for sytems
+* Creating user certificates via the cron job is recommended for systems
   with a high user workload.
-  This approach stores an reminder of the learning progress event into a
+  This approach stores a reminder of the learning progress event into a
   queue.
   The cron job will process the queue on execution.
   To avoid high latencies we recommend to execute the cron job in a
@@ -88,7 +88,7 @@ and the [Java Server](#java-server) must be configured.
 A default background image can be added that will be used as default
 image for every certificate authority.
 
-Additionally the `Learning Progress` MUST be activated for the Module/Service
+Additionally, the `Learning Progress` MUST be activated for the Module/Service
 to create new user certificates.
 
 ### Java Server
@@ -339,7 +339,7 @@ $version              = 2;
 $iliasVerion          = 'v5.4.0';
 $createdTimestamp     = time();
 $currentlyActive      = true;
-$backgroundImagePath  = '/data/somone/certifcates/course/200/background_2.jpg';
+$backgroundImageIdentification  = 'a_id'
 
 $template = new ilCertificateTemplate(
 	$obj_id,
@@ -351,7 +351,7 @@ $template = new ilCertificateTemplate(
 	$iliasVersion,
 	$createdTimestamp,
 	$currentlyActive,
-	$backgroundImagePath
+	$backgroundImageIdentification
 );
 
 $repository = new ilCertificateTemplateDatabaseRepository($database);
@@ -400,7 +400,7 @@ copy process of an Service/Module.
 
 #### Delete
 
-The delete action will activated via a button
+The delete action will be activated via a button
 in the template form.
 
 Custom delete action can be created by implementing
@@ -444,7 +444,7 @@ into the [queue](#cron-queue-classes).
 ## API
 
 This service also provides an API to fetch data related to the certificates.
-Currently an endpoint is provided to fetch user certificate related data.
+Currently, an endpoint is provided to fetch user certificate related data.
 
 Public API classes:
 * `Certificate\API\UserCertificateAPI`

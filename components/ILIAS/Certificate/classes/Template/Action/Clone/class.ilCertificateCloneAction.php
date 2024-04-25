@@ -19,9 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -30,39 +31,18 @@ class ilCertificateCloneAction
 {
     private readonly Filesystem $fileSystem;
     private readonly ilCertificateObjectHelper $objectHelper;
-    private readonly string $global_certificate_path;
-    private readonly ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         private readonly ilDBInterface $database,
         private readonly ilCertificatePathFactory $pathFactory,
         private readonly ilCertificateTemplateRepository $templateRepository,
-        private readonly string $webDirectory = CLIENT_WEB_DIR,
-        ?Filesystem $fileSystem = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilObjCertificateSettings $global_certificate_settings = null,
-        string $global_certificate_path = null
     ) {
-        if (null === $fileSystem) {
-            global $DIC;
-            $fileSystem = $DIC->filesystem()->web();
-        }
-        $this->fileSystem = $fileSystem;
-
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        if (!$global_certificate_settings) {
-            $global_certificate_settings = new ilObjCertificateSettings();
-        }
-        $this->global_certificate_settings = $global_certificate_settings;
-
-        if (null === $global_certificate_path) {
-            $global_certificate_path = $this->global_certificate_settings->getDefaultBackgroundImagePath(true);
-        }
-        $this->global_certificate_path = $global_certificate_path;
     }
 
     /**
@@ -95,68 +75,6 @@ class ilCertificateCloneAction
 
         /** @var ilCertificateTemplate $template */
         foreach ($templates as $template) {
-            $backgroundImagePath = $template->getBackgroundImagePath();
-            $backgroundImageFile = basename($backgroundImagePath);
-            $backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
-
-            $newBackgroundImage = '';
-            $newBackgroundImageThumbnail = '';
-            if ($this->global_certificate_path !== $backgroundImagePath) {
-                if ($this->fileSystem->has($backgroundImagePath) &&
-                    !$this->fileSystem->hasDir($backgroundImagePath)
-                ) {
-                    $newBackgroundImage = $certificatePath . $backgroundImageFile;
-                    $newBackgroundImageThumbnail = str_replace(
-                        $webDir,
-                        '',
-                        $this->getBackgroundImageThumbPath($certificatePath)
-                    );
-                    if ($this->fileSystem->has($newBackgroundImage) &&
-                        !$this->fileSystem->hasDir($newBackgroundImage)
-                    ) {
-                        $this->fileSystem->delete($newBackgroundImage);
-                    }
-
-                    $this->fileSystem->copy(
-                        $backgroundImagePath,
-                        $newBackgroundImage
-                    );
-                }
-
-                if (
-                    $newBackgroundImageThumbnail !== '' &&
-                    $this->fileSystem->has($backgroundImageThumbnail) &&
-                    !$this->fileSystem->hasDir($backgroundImageThumbnail)
-                ) {
-                    if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
-                        !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
-                    ) {
-                        $this->fileSystem->delete($newBackgroundImageThumbnail);
-                    }
-
-                    $this->fileSystem->copy(
-                        $backgroundImageThumbnail,
-                        $newBackgroundImageThumbnail
-                    );
-                }
-            } else {
-                $newBackgroundImage = $this->global_certificate_path;
-            }
-
-            $newCardThumbImage = '';
-            $cardThumbImagePath = $template->getThumbnailImagePath();
-
-            if ($this->fileSystem->has($cardThumbImagePath) && !$this->fileSystem->hasDir($cardThumbImagePath)) {
-                $newCardThumbImage = $certificatePath . basename($cardThumbImagePath);
-                if ($this->fileSystem->has($newCardThumbImage) && !$this->fileSystem->hasDir($newCardThumbImage)) {
-                    $this->fileSystem->delete($newCardThumbImage);
-                }
-                $this->fileSystem->copy(
-                    $cardThumbImagePath,
-                    $newCardThumbImage
-                );
-            }
-
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
                 $this->objectHelper->lookupType($newObject->getId()),
@@ -167,8 +85,8 @@ class ilCertificateCloneAction
                 $iliasVersion,
                 time(),
                 $template->isCurrentlyActive(),
-                $newBackgroundImage,
-                $newCardThumbImage
+                $template->getBackgroundImageIdentification(),
+                $template->getThumbnailImageIdentification()
             );
 
             $this->templateRepository->save($newTemplate);
@@ -189,15 +107,5 @@ class ilCertificateCloneAction
         $sql = 'SELECT 1 FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
         return (bool) $this->database->fetchAssoc($this->database->query($sql));
-    }
-
-    private function getBackgroundImageName(): string
-    {
-        return "background.jpg";
-    }
-
-    private function getBackgroundImageThumbPath(string $certificatePath): string
-    {
-        return $this->webDirectory . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }
 }

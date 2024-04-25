@@ -368,8 +368,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                     'ilias_version' => 'v5.4.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => true,
-                    'background_image_path' => '/some/where/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ],
                 [
                     'id' => 30,
@@ -382,8 +382,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                     'ilias_version' => 'v5.3.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => false,
-                    'background_image_path' => '/some/where/else/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/else/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ]
             ]],
         ];

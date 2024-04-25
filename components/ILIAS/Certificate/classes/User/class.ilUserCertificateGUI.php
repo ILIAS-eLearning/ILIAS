@@ -18,10 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\Filesystem\Filesystem;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
@@ -69,7 +71,8 @@ class ilUserCertificateGUI
         ?ilAccessHandler $access = null,
         ?Filesystem $filesystem = null,
         ?ilHelpGUI $help = null,
-        ?ilDBInterface $db = null
+        ?ilDBInterface $db = null,
+        ?IRSS $irss = null
     ) {
         global $DIC;
 
@@ -86,6 +89,7 @@ class ilUserCertificateGUI
         $this->userCertificateRepository = $userCertificateRepository ?? new ilUserCertificateRepository(null, $this->certificateLogger);
         $this->help = $help ?? $DIC->help();
         $this->db = $db ?? $DIC->database();
+        $this->irss = $irss ?? $DIC->resourceStorage();
 
         $this->language->loadLanguageModule('cert');
     }
@@ -155,21 +159,20 @@ class ilUserCertificateGUI
                 ->viewControl()
                 ->sortation($sortationOptions)
                 ->withLabel($this->language->txt($this->sortationOptions[$sorting]))
-                ->withTargetURL($this->ctrl->getLinkTarget($this, 'applySortation'), 'sort_by');
+                ->withTargetURL($this->ctrl->getLinkTarget($this, 'applySortation'), 'sort_by')
+            ;
             $uiComponents[] = $sortViewControl;
 
             foreach ($data['items'] as $certificateData) {
-                $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilFileUtils::getWebspaceDir() . $thumbnailImagePath;
-                if ($thumbnailImagePath === null
-                    || $thumbnailImagePath === ''
-                    || !$this->filesystem->has($thumbnailImagePath)
-                ) {
-                    $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
+                $thumbnail_image_identification = $certificateData['thumbnail_image_identification'];
+                $thumb_rid = $this->irss->manage()->find($thumbnail_image_identification);
+                $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
+                if ($thumb_rid instanceof ResourceIdentification) {
+                    $imagePath = $this->irss->consume()->src($thumb_rid)->getSrc(true);
                 }
 
                 $cardImage = $this->uiFactory->image()->standard(
-                    ilWACSignedPath::signFile($imagePath),
+                    $imagePath,
                     $certificateData['title']
                 );
 
@@ -193,7 +196,8 @@ class ilUserCertificateGUI
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
                     ->icon()
-                    ->standard($certificateData['obj_type'], $certificateData['obj_type']);
+                    ->standard($certificateData['obj_type'], $certificateData['obj_type'])
+                ;
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
@@ -202,6 +206,7 @@ class ilUserCertificateGUI
                         $objectTitle = $this->uiRenderer->render(
                             $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
                         );
+
                         break;
                     }
                 }
@@ -223,7 +228,8 @@ class ilUserCertificateGUI
                 $card = $this->uiFactory
                     ->card()
                     ->standard($certificateData['title'], $cardImage)
-                    ->withSections($sections);
+                    ->withSections($sections)
+                ;
 
                 $cards[] = $card;
             }
@@ -277,16 +283,13 @@ class ilUserCertificateGUI
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
             if ($userCertificate->getUserId() !== $this->user->getId()) {
-                throw new ilException(sprintf(
-                    'User "%s" tried to access certificate: "%s"',
-                    $this->user->getLogin(),
-                    $userCertificateId
-                ));
+                throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $this->user->getLogin(), $userCertificateId));
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
             $this->template->setOnScreenMessage('failure', $this->language->txt('cert_error_no_access'));
             $this->listCertificates();
+
             return;
         }
 

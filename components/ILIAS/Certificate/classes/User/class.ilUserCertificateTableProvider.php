@@ -23,6 +23,8 @@ declare(strict_types=1);
  */
 class ilUserCertificateTableProvider
 {
+    public const TABLE_NAME = 'il_cert_user_cert_new';
+
     public function __construct(
         private readonly ilDBInterface $database,
         private readonly ilLogger $logger,
@@ -31,8 +33,8 @@ class ilUserCertificateTableProvider
     }
 
     /**
-     * @param array<string, mixed> $params
-     * @param array<string, mixed> $filter
+     * @param  array<string, mixed>                      $params
+     * @param  array<string, mixed>                      $filter
      * @return array{cnt: int, items: array<int, array>}
      */
     public function fetchDataSet(int $userId, array $params, array $filter): array
@@ -40,13 +42,13 @@ class ilUserCertificateTableProvider
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
         $sql = 'SELECT 
-  il_cert_user_cert.id,
-  il_cert_user_cert.obj_type,
-  il_cert_user_cert.thumbnail_image_path,
-  il_cert_user_cert.acquired_timestamp,
+  ' . self::TABLE_NAME . '.id,
+  ' . self::TABLE_NAME . '.obj_type,
+  ' . self::TABLE_NAME . '.thumbnail_image_identification,
+  ' . self::TABLE_NAME . '.acquired_timestamp,
   usr_data.firstname,
   usr_data.lastname,
-  il_cert_user_cert.obj_id,
+  ' . self::TABLE_NAME . '.obj_id,
   (CASE
     WHEN (trans.title IS NOT NULL AND LENGTH(trans.title) > 0) THEN trans.title
     WHEN (object_data.title IS NOT NULL AND LENGTH(object_data.title) > 0) THEN object_data.title 
@@ -61,13 +63,13 @@ class ilUserCertificateTableProvider
     ELSE ""
     END
   ) as description
-FROM il_cert_user_cert
-LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+FROM ' . self::TABLE_NAME . '
+LEFT JOIN object_data ON object_data.obj_id = ' . self::TABLE_NAME . '.obj_id
 LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id
 AND trans.lang_code = ' . $this->database->quote($params['language'], 'text') . '
-LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.usr_id
-WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+LEFT JOIN object_data_del ON object_data_del.obj_id = ' . self::TABLE_NAME . '.obj_id
+LEFT JOIN usr_data ON usr_data.usr_id = ' . self::TABLE_NAME . '.usr_id
+WHERE ' . self::TABLE_NAME . '.usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
         if ([] !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);
@@ -102,7 +104,7 @@ WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') 
                 'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
                 'date' => (int) $row['acquired_timestamp'],
-                'thumbnail_image_path' => $row['thumbnail_image_path'],
+                'thumbnail_image_identification' => $row['thumbnail_image_identification'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
@@ -112,7 +114,7 @@ WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') 
         if (isset($params['limit'])) {
             $cnt_sql = '
 				SELECT COUNT(*) cnt
-				FROM il_cert_user_cert
+				FROM ' . self::TABLE_NAME . '
 				WHERE usr_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
             $row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));

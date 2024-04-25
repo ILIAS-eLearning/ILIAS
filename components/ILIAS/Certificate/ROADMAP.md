@@ -5,7 +5,7 @@ symbolize the successful completion of the Service/Module.
 
 This file aims to serve a basic overview of the planned and
 already implemented Features.
-This file should be updated regulary to avoid collision with
+This file should be updated regularly to avoid collision with
 other development processes and give anybody a fair overview
 of the planned features of this service.
 
@@ -56,7 +56,3 @@ foreach (ilObject::_getAllReferences($objectId) as $refId) {
 }
 // ...
 ```
-
-### IRSS Integration
-
-Files should be handled by the IRSS

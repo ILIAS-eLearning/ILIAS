@@ -4443,8 +4443,6 @@ class ilObjTest extends ilObject
             $this->db,
             $pathFactory,
             $templateRepository,
-            CLIENT_WEB_DIR,
-            $this->filesystem_web,
             new ilCertificateObjectHelper()
         );
 

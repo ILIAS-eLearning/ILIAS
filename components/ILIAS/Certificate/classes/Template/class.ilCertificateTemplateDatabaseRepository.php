@@ -28,10 +28,12 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
     private readonly ilLogger $logger;
     private readonly ilObjectDataCache $objectDataCache;
 
+    public const TABLE_NAME = 'il_cert_template_new';
+
     public function __construct(
         private readonly ilDBInterface $database,
-        ?ilLogger $logger = null,
-        ?ilObjectDataCache $objectDataCache = null
+        ilLogger $logger = null,
+        ilObjectDataCache $objectDataCache = null
     ) {
         if (null === $logger) {
             global $DIC;
@@ -52,7 +54,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $objId = $certificateTemplate->getObjId();
 
-        $id = $this->database->nextId('il_cert_template');
+        $id = $this->database->nextId(self::TABLE_NAME);
 
         $this->deactivatePreviousTemplates($objId);
 
@@ -67,22 +69,27 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'ilias_version' => ['text', $certificateTemplate->getIliasVersion()],
             'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
-            'background_image_path' => ['text', $certificateTemplate->getBackgroundImagePath()],
+            'background_image_identification' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
-            'thumbnail_image_path' => ['text', $certificateTemplate->getThumbnailImagePath()]
+            'thumbnail_image_identification' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
         ];
 
-        $this->database->insert('il_cert_template', $columns);
+        $this->database->insert(self::TABLE_NAME, $columns);
 
-        $this->logger->debug(sprintf(
-            'END - certificate template saved with columns: %s',
-            json_encode($columns, JSON_THROW_ON_ERROR)
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - certificate template saved with columns: %s',
+                json_encode($columns, JSON_THROW_ON_ERROR)
+            )
+        );
     }
 
     public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive): int
     {
-        $sql = 'UPDATE il_cert_template SET currently_active = ' . $this->database->quote($currentlyActive, 'integer') .
+        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET currently_active = ' . $this->database->quote(
+            $currentlyActive,
+            'integer'
+        ) .
             ' WHERE id = ' . $this->database->quote($certificateTemplate->getId(), 'integer');
 
         return $this->database->manipulate($sql);
@@ -93,10 +100,11 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $this->logger->debug(sprintf('START - Fetch certificate template with id: "%s"', $templateId));
 
         $sql = '
-SELECT * FROM
-il_cert_template
-WHERE id = ' . $this->database->quote($templateId, 'integer') . '
-ORDER BY version ASC';
+            SELECT * FROM
+            ' . self::TABLE_NAME . '
+            WHERE id = ' . $this->database->quote($templateId, 'integer') . '
+            ORDER BY version ASC
+        ';
 
         $query = $this->database->query($sql);
 
@@ -117,11 +125,12 @@ ORDER BY version ASC';
         $result = [];
 
         $sql = '
-SELECT * FROM
-il_cert_template
-WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-AND deleted = 0
-ORDER BY version ASC';
+            SELECT * FROM
+            ' . self::TABLE_NAME . '
+            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            AND deleted = 0
+            ORDER BY version ASC
+        ';
 
         $query = $this->database->query($sql);
 
@@ -129,11 +138,13 @@ ORDER BY version ASC';
             $result[] = $this->createCertificateTemplate($row);
         }
 
-        $this->logger->debug(sprintf(
-            'END - Fetching of certificate templates for object: "%s" with "%s" results',
-            $objId,
-            count($result)
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - Fetching of certificate templates for object: "%s" with "%s" results',
+                $objId,
+                count($result)
+            )
+        );
 
         return $result;
     }
@@ -145,11 +156,11 @@ ORDER BY version ASC';
         $this->database->setLimit(1);
 
         $sql = '
-SELECT * FROM il_cert_template
-WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-AND deleted = 0
-ORDER BY id DESC
-';
+            SELECT * FROM ' . self::TABLE_NAME . '
+            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            AND deleted = 0
+            ORDER BY id DESC
+        ';
 
         $query = $this->database->query($sql);
 
@@ -168,7 +179,7 @@ ORDER BY id DESC
             '',
             '',
             0,
-            "0",
+            '0',
             0,
             false,
             '',
@@ -184,11 +195,11 @@ ORDER BY id DESC
         $this->logger->debug(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
         $sql = '
-SELECT * FROM il_cert_template
-WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-AND deleted = 0
-AND currently_active = 1
-';
+            SELECT * FROM ' . self::TABLE_NAME . '
+            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            AND deleted = 0
+            AND currently_active = 1
+        ';
 
         $query = $this->database->query($sql);
 
@@ -198,7 +209,7 @@ AND currently_active = 1
             return $this->createCertificateTemplate($row);
         }
 
-        throw new ilCouldNotFindCertificateTemplate((sprintf('NO active certificate template found for: "%s"', $objId)));
+        throw new ilCouldNotFindCertificateTemplate(sprintf('NO active certificate template found for: "%s"', $objId));
     }
 
     public function fetchPreviousCertificate(int $objId): ilCertificateTemplate
@@ -214,7 +225,7 @@ AND currently_active = 1
             '',
             '',
             0,
-            "0",
+            '0',
             0,
             true,
             '',
@@ -236,25 +247,29 @@ AND currently_active = 1
 
     public function deleteTemplate(int $templateId, int $objectId): void
     {
-        $this->logger->debug(sprintf(
-            'START - Set deleted flag for certificate template("%s") for object: "%s"',
-            $templateId,
-            $objectId
-        ));
+        $this->logger->debug(
+            sprintf(
+                'START - Set deleted flag for certificate template("%s") for object: "%s"',
+                $templateId,
+                $objectId
+            )
+        );
 
         $sql = '
-UPDATE il_cert_template
-SET deleted = 1, currently_active = 0
-WHERE id = ' . $this->database->quote($templateId, 'integer') . '
-AND obj_id = ' . $this->database->quote($objectId, 'integer');
+            UPDATE ' . self::TABLE_NAME . '
+            SET deleted = 1, currently_active = 0
+            WHERE id = ' . $this->database->quote($templateId, 'integer') . '
+            AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
         $this->database->manipulate($sql);
 
-        $this->logger->debug(sprintf(
-            'END - Deleted flag set fo certificate template("%s") for object: "%s"',
-            $templateId,
-            $objectId
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - Deleted flag set fo certificate template("%s") for object: "%s"',
+                $templateId,
+                $objectId
+            )
+        );
     }
 
     public function activatePreviousCertificate(int $objId): ilCertificateTemplate
@@ -273,9 +288,9 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
             }
         }
 
-        $sql = 'UPDATE il_cert_template
-SET currently_active = 1
-WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
+        $sql = 'UPDATE ' . self::TABLE_NAME . '
+            SET currently_active = 1
+            WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
         $this->database->manipulate($sql);
 
@@ -286,7 +301,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
         bool $isGlobalLpEnabled,
-        ?int $forRefId = null
+        int $forRefId = null
     ): array {
         $this->logger->debug(
             'START - Fetch all active course certificate templates with disabled learning progress: "%s"'
@@ -308,10 +323,10 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
             $onSettingsForRefId = " AND settings.value IS NOT NULL AND (JSON_CONTAINS(settings.value, '\"{$forRefId}\"', '$') = 1 OR JSON_CONTAINS(settings.value, '{$forRefId}', '$')) ";
         }
 
-        $sql = "
-            SELECT il_cert_template.*
-            FROM il_cert_template
-            INNER JOIN object_data od ON od.obj_id = il_cert_template.obj_id
+        $sql = '
+            SELECT ' . self::TABLE_NAME . '.*
+            FROM ' . self::TABLE_NAME . '
+            INNER JOIN object_data od ON od.obj_id = ' . self::TABLE_NAME . ".obj_id
             INNER JOIN settings ON settings.module = %s AND settings.keyword = {$this->database->concat(
             [
                 [$this->database->quote('cert_subitems_', 'text'), 'text'],
@@ -319,9 +334,9 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
             ],
             false
         )} $onSettingsForRefId $joinLpSettings
-            WHERE il_cert_template.obj_type = %s
-            AND il_cert_template.currently_active = %s
-            " . $whereLpSettings;
+            WHERE " . self::TABLE_NAME . '.obj_type = %s
+            AND ' . self::TABLE_NAME . '.currently_active = %s
+            ' . $whereLpSettings;
         $query = $this->database->queryF(
             $sql,
             ['text', 'text', 'integer'],
@@ -333,10 +348,12 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
             $result[] = $this->createCertificateTemplate($row);
         }
 
-        $this->logger->debug(sprintf(
-            'END - All active course certificate templates with disabled learning progress: "%s"',
-            json_encode($result, JSON_THROW_ON_ERROR)
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - All active course certificate templates with disabled learning progress: "%s"',
+                json_encode($result, JSON_THROW_ON_ERROR)
+            )
+        );
 
         return $result;
     }
@@ -350,9 +367,11 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 
         $this->database->setLimit(1, 0);
 
-        $sql = 'SELECT * FROM il_cert_template
-WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
-ORDER BY id ASC ';
+        $sql = '
+            SELECT * FROM ' . self::TABLE_NAME . '
+            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            ORDER BY id ASC 
+            ';
 
         $query = $this->database->query($sql);
 
@@ -370,9 +389,9 @@ ORDER BY id ASC ';
         $this->logger->debug(sprintf('START - Deactivate previous certificate template for object: "%s"', $objId));
 
         $sql = '
-UPDATE il_cert_template
-SET currently_active = 0
-WHERE obj_id = ' . $this->database->quote($objId, 'integer');
+            UPDATE ' . self::TABLE_NAME . '
+            SET currently_active = 0
+            WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
         $this->database->manipulate($sql);
 
@@ -381,14 +400,16 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
     public function updateDefaultBackgroundImagePaths(string $old_relative_path, string $new_relative_path): void
     {
-        $this->logger->debug(sprintf(
-            'START - Update all default background image paths from "%s" to "%s"',
-            $old_relative_path,
-            $new_relative_path
-        ));
+        $this->logger->debug(
+            sprintf(
+                'START - Update all default background image paths from "%s" to "%s"',
+                $old_relative_path,
+                $new_relative_path
+            )
+        );
 
         $affected_rows = $this->database->manipulateF(
-            'UPDATE il_cert_template SET background_image_path = %s WHERE currently_active = 1 AND (background_image_path = %s OR background_image_path = %s )',
+            'UPDATE ' . self::TABLE_NAME . ' SET background_image_identification = %s WHERE currently_active = 1 AND (background_image_identification = %s OR background_image_identification = %s )',
             [
                 'text',
                 'text',
@@ -397,34 +418,43 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
             [
                 $new_relative_path,
                 $old_relative_path,
-                '/certificates/default/background.jpg']
+                '/certificates/default/background.jpg'
+            ]
         );
 
-        $this->logger->debug(sprintf(
-            'END - Updated %s certificate templates using old path',
-            $affected_rows
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - Updated %s certificate templates using old path',
+                $affected_rows
+            )
+        );
     }
 
-    public function isBackgroundImageUsed(string $relative_image_path): bool
+    public function isResourceUsed(string $relative_image_identification): bool
     {
-        $this->logger->debug(sprintf(
-            'START - Checking if any certificate template uses background image path "%s"',
-            $relative_image_path
-        ));
+        $this->logger->debug(
+            sprintf(
+                'START - Checking if any certificate template uses resource id "%s"',
+                $relative_image_identification
+            )
+        );
 
         $result = $this->database->queryF(
-            'SELECT EXISTS(SELECT 1 FROM il_cert_template WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
-            ['text'],
-            [$relative_image_path]
+            'SELECT EXISTS(SELECT 1 FROM ' . self::TABLE_NAME . ' WHERE 
+            (background_image_identification = %s OR thumbnail_image_identification = %s)
+             AND currently_active = 1) AS does_exist',
+            ['text', 'text'],
+            [$relative_image_identification, $relative_image_identification]
         );
 
         $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
 
-        $this->logger->debug(sprintf(
-            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
-            $relative_image_path
-        ));
+        $this->logger->debug(
+            sprintf(
+                'END - Image path "%s" is ' . $exists ? 'in use' : 'unused',
+                $relative_image_identification
+            )
+        );
 
         return $exists;
     }
@@ -444,8 +474,8 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
-            (string) $row['background_image_path'],
-            (string) $row['thumbnail_image_path'],
+            (string) $row['background_image_identification'],
+            (string) $row['thumbnail_image_identification'],
             isset($row['id']) ? (int) $row['id'] : null
         );
     }

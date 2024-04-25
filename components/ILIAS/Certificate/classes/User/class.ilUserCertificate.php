@@ -26,8 +26,8 @@ use ILIAS\Certificate\ValueObject\CertificateId;
 class ilUserCertificate
 {
     private readonly int $validUntil;
-    private readonly ?string $backgroundImagePath;
-    private readonly ?string $thumbnailImagePath;
+    private readonly ?string $backgroundImageIdentification;
+    private readonly ?string $thumbnailImageIdentification;
 
     public function __construct(
         private readonly int $patternCertificateId,
@@ -43,13 +43,13 @@ class ilUserCertificate
         private readonly string $iliasVersion,
         private readonly bool $currentlyActive,
         private readonly CertificateId $certificate_id,
-        ?string $backgroundImagePath = null,
-        ?string $thumbnailImagePath = null,
+        ?string $backgroundImageIdentification = null,
+        ?string $thumbnailImageIdentification = null,
         private ?int $id = null
     ) {
         $this->validUntil = (int) $validUntil;
-        $this->backgroundImagePath = (string) $backgroundImagePath;
-        $this->thumbnailImagePath = (string) $thumbnailImagePath;
+        $this->backgroundImageIdentification = (string) $backgroundImageIdentification;
+        $this->thumbnailImageIdentification = (string) $thumbnailImageIdentification;
     }
 
     public function withId(int $id): self
@@ -133,14 +133,14 @@ class ilUserCertificate
         return $this->id;
     }
 
-    public function getBackgroundImagePath(): ?string
+    public function getBackgroundImageIdentification(): string
     {
-        return $this->backgroundImagePath;
+        return $this->backgroundImageIdentification;
     }
 
-    public function getThumbnailImagePath(): string
+    public function getThumbnailImageIdentification(): string
     {
-        return $this->thumbnailImagePath;
+        return $this->thumbnailImageIdentification;
     }
 
     public function getCertificateId(): CertificateId

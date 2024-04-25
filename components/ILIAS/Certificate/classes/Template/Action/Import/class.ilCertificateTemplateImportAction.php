@@ -19,9 +19,11 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -31,7 +33,7 @@ class ilCertificateTemplateImportAction
     private readonly ilCertificateTemplateRepository $templateRepository;
     private readonly ilCertificateObjectHelper $objectHelper;
     private readonly ilCertificateUtilHelper $utilHelper;
-    private readonly ilCertificateBackgroundImageFileService $fileService;
+    private readonly ilCertificateTemplateStakeholder $stakeholder;
 
     public function __construct(
         private readonly int $objectId,
@@ -39,14 +41,14 @@ class ilCertificateTemplateImportAction
         private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilLogger $logger,
         private readonly Filesystem $filesystem,
+        private readonly IRSS $irss,
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilDBInterface $database = null,
-        ?ilCertificateBackgroundImageFileService $fileService = null
     ) {
+        global $DIC;
         if (null === $database) {
-            global $DIC;
             $database = $DIC->database();
         }
 
@@ -64,14 +66,7 @@ class ilCertificateTemplateImportAction
             $utilHelper = new ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
-
-        if (null === $fileService) {
-            $fileService = new ilCertificateBackgroundImageFileService(
-                $certificatePath,
-                $filesystem
-            );
-        }
-        $this->fileService = $fileService;
+        $this->stakeholder = new ilCertificateTemplateStakeholder();
     }
 
     /**
@@ -85,7 +80,7 @@ class ilCertificateTemplateImportAction
         string $zipFile,
         string $filename,
         string $rootDir = CLIENT_WEB_DIR,
-        string $iliasVerision = ILIAS_VERSION_NUMERIC,
+        string $iliasVersion = ILIAS_VERSION_NUMERIC,
         string $installationID = IL_INST_ID
     ): bool {
         $importPath = $this->createArchiveDirectory($installationID);
@@ -99,6 +94,7 @@ class ilCertificateTemplateImportAction
         $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
         if (!$result) {
             $clean_up_import_dir();
+
             return false;
         }
 
@@ -112,6 +108,7 @@ class ilCertificateTemplateImportAction
         $unzipped = $unzip->extract();
         if (!$unzipped) {
             $clean_up_import_dir();
+
             return false;
         }
 
@@ -135,8 +132,6 @@ class ilCertificateTemplateImportAction
 
         $currentVersion = $certificate->getVersion();
         $newVersion = $currentVersion + 1;
-        $backgroundImagePath = $certificate->getBackgroundImagePath();
-        $cardThumbnailImagePath = $certificate->getThumbnailImagePath();
         $xsl = $certificate->getCertificateContent();
 
         foreach ($contents as $file) {
@@ -146,49 +141,17 @@ class ilCertificateTemplateImportAction
 
             if (str_contains($file->getPath(), '.xml')) {
                 $xsl = $this->filesystem->read($file->getPath());
-                // as long as we cannot make RPC calls in a given directory, we have
-                // to add the complete path to every url
-                $xsl = preg_replace_callback(
-                    "/url\([']{0,1}(.*?)[']{0,1}\)/",
-                    function (array $matches) use ($rootDir): string {
-                        $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
-                        $fileName = basename($matches[1]);
-
-                        if ('[BACKGROUND_IMAGE]' === $fileName) {
-                            $basePath = '';
-                        } elseif ($basePath !== '') {
-                            $basePath .= '/';
-                        }
-
-                        return 'url(' . $basePath . $fileName . ')';
-                    },
-                    $xsl
-                );
+                // TODO: wth??
             } elseif (str_contains($file->getPath(), '.jpg')) {
-                $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-                $newPath = $this->certificatePath . $newBackgroundImageName;
-                $this->filesystem->copy($file->getPath(), $newPath);
-
-                $backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
-                // upload of the background image, create a thumbnail
-
-                $backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
-
-                $thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
-
-                $originalImagePath = $rootDir . $newPath;
-                $this->utilHelper->convertImage(
-                    $originalImagePath,
-                    $thumbnailImagePath,
-                    '100'
+                $background_rid = $this->irss->manage()->stream(
+                    $this->filesystem->readStream($file->getPath()),
+                    $this->stakeholder
                 );
             } elseif (str_contains($file->getPath(), '.svg')) {
-                $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
-                $newPath = $this->certificatePath . $newCardThumbnailName;
-
-                $this->filesystem->copy($file->getPath(), $newPath);
-
-                $cardThumbnailImagePath = $this->certificatePath . $newCardThumbnailName;
+                $card_thumbnail_rid = $this->irss->manage()->stream(
+                    $this->filesystem->readStream($file->getPath()),
+                    $this->stakeholder
+                );
             }
         }
 
@@ -201,9 +164,13 @@ class ilCertificateTemplateImportAction
             'sha256',
             implode('', [
                 $xsl,
-                $backgroundImagePath,
+                isset($background_rid) ? $this->irss->manage()->getResource(
+                    $background_rid
+                )->getStorageID() : '',
                 $jsonEncodedTemplateValues,
-                $cardThumbnailImagePath
+                isset($card_thumbnail_rid) ? $this->irss->manage()->getResource(
+                    $card_thumbnail_rid
+                )->getStorageID() : ''
             ])
         );
 
@@ -214,11 +181,11 @@ class ilCertificateTemplateImportAction
             $newHashValue,
             $jsonEncodedTemplateValues,
             $newVersion,
-            $iliasVerision,
+            $iliasVersion,
             time(),
             false,
-            $backgroundImagePath,
-            $cardThumbnailImagePath
+            isset($background_rid) ? $background_rid->serialize() : '',
+            isset($card_thumbnail_rid) ? $card_thumbnail_rid->serialize() : ''
         );
 
         $this->templateRepository->save($template);
@@ -230,7 +197,7 @@ class ilCertificateTemplateImportAction
 
     /**
      * Creates a directory for a zip archive containing multiple certificates
-     * @return string The created archive directory
+     * @return string      The created archive directory
      * @throws IOException
      */
     private function createArchiveDirectory(string $installationID): string
@@ -245,10 +212,5 @@ class ilCertificateTemplateImportAction
         $this->filesystem->createDir($dir);
 
         return $dir;
-    }
-
-    private function getBackgroundImageThumbnailPath(): string
-    {
-        return $this->certificatePath . 'background.jpg.thumb.jpg';
     }
 }

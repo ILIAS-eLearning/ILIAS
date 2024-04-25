@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -30,7 +32,7 @@ class ilUserCertificateZip
         private readonly int $objectId,
         private readonly string $certificatePath,
         private readonly string $webDirectory = CLIENT_WEB_DIR,
-        private readonly string $installionId = IL_INST_ID
+        private readonly string $installationId = IL_INST_ID
     ) {
         // The mapping to types is made to reflect the old behaviour of
         // the adapters
@@ -55,7 +57,8 @@ class ilUserCertificateZip
         $type = ilObject::_lookupType($this->objectId);
         $certificateId = $this->objectId;
 
-        $directory = $this->webDirectory . $this->certificatePath . time() . '__' . $this->installionId . '__' . $type . '__' . $certificateId . '__certificate/';
+        $directory = $this->webDirectory . $this->certificatePath . time() .
+            '__' . $this->installationId . '__' . $type . '__' . $certificateId . '__certificate/';
         ilFileUtils::makeDirParents($directory);
 
         return $directory;
@@ -76,15 +79,16 @@ class ilUserCertificateZip
     }
 
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
     public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true): string
     {
         if (!$this->files_added_to_archive) {
-            throw new \ILIAS\Filesystem\Exception\IOException('No files added to archive directory');
+            throw new IOException('No files added to archive directory');
         }
 
-        $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
+        $zipFile = time(
+        ) . '__' . $this->installationId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
 
         ilFileUtils::zip($dir, $zipFilePath);
