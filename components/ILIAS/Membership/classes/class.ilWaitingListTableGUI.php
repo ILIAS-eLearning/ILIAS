@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -203,7 +203,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     break;
 
                 case 'odf_last_update':
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set['odf_info_txt'] ?? ''));
                     break;
 
                 case 'org_units':
