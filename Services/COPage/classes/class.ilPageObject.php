@@ -365,6 +365,10 @@ abstract class ilPageObject
             return true;
         }
         $options = 0;
+        if ($this->getXMLContent() === "") {
+            $this->setXMLContent("<PageObject></PageObject>");
+        }
+
         //$options = DOMXML_LOAD_VALIDATING;
         //$options = LIBXML_DTDLOAD;
         //$options = LIBXML_NOXMLDECL;
