@@ -278,7 +278,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             . 'ClozeQuestionGapBuilder.Init();'
         );
         $DIC->ui()->mainTemplate()->addJavascript(
-            './components/ILIAS/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
+            'assets/js/clozeQuestionGapBuilder.js'
         );
 
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');

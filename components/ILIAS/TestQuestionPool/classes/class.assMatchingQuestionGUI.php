@@ -785,15 +785,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getPresentationJavascripts(): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $files = array();
 
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
+        if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
 
-        $files[] = 'components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js';
+        $files[] = 'assets/js/ilMatchingQuestion.js';
 
         return $files;
     }

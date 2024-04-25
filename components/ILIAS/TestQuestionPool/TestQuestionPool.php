@@ -36,53 +36,56 @@ class TestQuestionPool implements Component\Component
             new \ilTestQuestionPoolSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "answerwizardinput.js");
+            new Component\Resource\ComponentJS($this, 'answerwizardinput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "answerwizard.js");
+            new Component\Resource\ComponentJS($this, 'answerwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "essaykeywordwizard.js");
+            new Component\Resource\ComponentJS($this, 'essaykeywordwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "multiplechoicewizard.js");
+            new Component\Resource\ComponentJS($this, 'multiplechoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "singlechoicewizard.js");
+            new Component\Resource\ComponentJS($this, 'singlechoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "imagemap.js");
+            new Component\Resource\ComponentJS($this, 'imagemap.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "kprimchoicewizard.js");
+            new Component\Resource\ComponentJS($this, 'kprimchoicewizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilAssKprimChoice.js");
+            new Component\Resource\ComponentJS($this, 'ilAssKprimChoice.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "orderinghorizontal.js");
+            new Component\Resource\ComponentJS($this, 'orderinghorizontal.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "matchingpairwizard.js");
+            new Component\Resource\ComponentJS($this, 'matchingpairwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "identifiedwizardinput.js");
+            new Component\Resource\ComponentJS($this, 'identifiedwizardinput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilMatchingQuestion.js");
+            new Component\Resource\ComponentJS($this, 'ilMatchingQuestion.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilAssMultipleChoice.js");
+            new Component\Resource\ComponentJS($this, 'ilAssMultipleChoice.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "nested_ordering.js");
+            new Component\Resource\ComponentJS($this, 'nested_ordering.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "testQuestionPoolTagInput.js");
+            new Component\Resource\ComponentJS($this, 'testQuestionPoolTagInput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "errortext.js");
+            new Component\Resource\ComponentJS($this, 'errortext.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "longMenuQuestionGapBuilder.js");
+            new Component\Resource\ComponentJS($this, 'clozeQuestionGapBuilder.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "longMenuQuestion.js");
+            new Component\Resource\ComponentJS($this, 'longMenuQuestionGapBuilder.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "longMenuQuestionPlayer.js");
+            new Component\Resource\ComponentJS($this, 'longMenuQuestion.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "matchinginput.js");
+            new Component\Resource\ComponentJS($this, 'longMenuQuestionPlayer.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "bootstrap-tagsinput_2015_25_03.js");
+            new Component\Resource\ComponentJS($this, 'matchinginput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "typeahead_0.11.1.js");
+            new Component\Resource\ComponentJS($this, 'bootstrap-tagsinput_2015_25_03.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule("@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js");
+            new Component\Resource\ComponentJS($this, 'typeahead_0.11.1.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule("nestable2/dist/jquery.nestable.min.js");
+            new Component\Resource\NodeModule('@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule('nestable2/dist/jquery.nestable.min.js');
     }
 }
