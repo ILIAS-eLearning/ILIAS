@@ -14060,8 +14060,8 @@ rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung 
 rbac#:#iass_visible#:#Individuelle Bewertung ist sichtbar
 rbac#:#iass_write#:#Einstellungen der Individuelle Bewertung bearbeiten
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_sess_participant#:#Sitzungsteilnehmer
-rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
+rbac#:#il_sess_participant#:#Sitzungsteilnahme
+rbac#:#il_sess_status_closed#:#Keine Teilnahme an geschlossener Sitzung
 rbac#:#ilias_id#:#ILIAS-ID
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#internal_mail#:#Internes Mail-System
@@ -14504,7 +14504,7 @@ rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#sess_manage_materials#:#Materialzuordnungen verwalten
-rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten
+rbac#:#sess_manage_members#:#Teilnahme an Sitzungen verwalten
 rbac#:#sess_read#:#Lesezugriff auf Sitzungen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_visible#:#Sitzungen sind sichtbar
@@ -14867,7 +14867,7 @@ sahs#:#sahs_insert_special_page#:#Spezialseite einfügen
 sahs#:#sahs_learning_objectives#:#Lernziele
 sahs#:#sahs_list_info#:#Verwenden Sie ein vorangestelltes * für unnummerierte oder ein # für nummerierte Listen
 sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
-sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-E-Mails auf den Lernfortschrittsansichten eines SCORM-Moduls
+sahs#:#sahs_mail_context_lp_info#:#Mails, die aus dem Reiter „Lernfortschritt“ an Lernerinnen und Lerner eines SCORM-Moduls versendet werden
 sahs#:#sahs_new_asset#:#Neues Asset
 sahs#:#sahs_new_chapter#:#Neues Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
@@ -15126,8 +15126,8 @@ scormtrac#:#suspend_data#:#suspend_data: variabler Zwischenspeicher des SCO
 scormtrac#:#total_time#:#total_time: Gesamtzeit
 scormtrac#:#total_time_seconds#:#total_time: Gesamtzeit in Sekunden
 scormtrac#:#tracinteractionitem#:#Zusammenfassender Report der Kapitel-Aufgaben
-scormtrac#:#tracinteractionuser#:#Teilnehmer-bezogener Report zum Kapitel mit Auswertung der Kapitel-Aufgaben
-scormtrac#:#tracinteractionuseranswers#:#Kapitel-Aufgaben pro Teilnehmer (nur Ergebnisse)
+scormtrac#:#tracinteractionuser#:#Personenbezogener Report zum Kapitel mit Auswertung der Aufgaben im SCO
+scormtrac#:#tracinteractionuseranswers#:#Nur Ergebnisse zu Aufgaben im SCO pro Person
 scormtrac#:#user_id#:#ID des ILIAS-Kontos
 scormtrac#:#weighting#:#weighting: Gewichtung
 scov#:#crsv_create#:#SCORM-Zertifikat anlegen
@@ -15267,13 +15267,13 @@ search#:#search_user_search_info_form#:#Anmeldekonten können in der globalen Su
 search#:#search_users#:#Benutzer suchen
 search#:#select_orgu#:#Organisationseinheiten auswählen
 search#:#until#:#bis
-sess#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#il_sess_participant#:#Teilnahme an Sitzung
 sess#:#il_sess_status_open#:#Offene Sitzung
 sess#:#mail_sess_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 sess#:#notification#:#Benachrichtigung
 sess#:#objs_crs_role#:#Kursrollen
 sess#:#objs_grp_role#:#Gruppenrollen
-sess#:#send_mail_participants#:#Alle Teilnehmer der Sitzung
+sess#:#send_mail_participants#:#Angemeldet oder teilgenommen
 sess#:#sess_accept_request#:#Zu Sitzung zulassen
 sess#:#sess_assign#:#Zuordnen
 sess#:#sess_bt_refuse#:#Teilnahme absagen
@@ -15289,36 +15289,36 @@ sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
 sess#:#sess_mail_admins_only#:#Nur für Administration
-sess#:#sess_mail_admins_only_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ können die Funktion „Mail an Teilnehmer” nutzen.
-sess#:#sess_mail_all#:#Für alle Teilnehmer
-sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
-sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung
-sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
+sess#:#sess_mail_admins_only_info#:#Nur Personen mit dem Recht „Mitglieder verwalten“ können die Funktion „Mail an angemeldete Personen” nutzen.
+sess#:#sess_mail_all#:#Für alle
+sess#:#sess_mail_all_info#:#Alle Personen, die sich angemeldet oder teilgenommen haben, können Mails an die anderen senden.
+sess#:#sess_mail_context_participant_info#:#Mails, die aus dem Reiter „Teilnahmen“ oder „Lernfortschritt“ einer Sitzung  versendet werden
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Personen, die angemeldet sind oder teilgenommen haben
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_permanent_link_participants#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin „%s“ zugelassen.
 sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung „%s“
 sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung „%s“ ist abgelehnt worden.
 sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung „%s“
-sess#:#sess_mail_type#:#Mail an Teilnehmer
+sess#:#sess_mail_type#:#Mail an angemeldete Personen
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 sess#:#sess_mem_contacts#:#Kontaktperson
 sess#:#sess_mem_send_mail#:#Mail verschicken
-sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
-sess#:#sess_member_administration#:#Teilnehmerverwaltung
-sess#:#sess_members#:#Teilnehmer
-sess#:#sess_members_gallery#:#Teilnehmergalerie
-sess#:#sess_members_print_title#:#Sitzungsteilnehmer
-sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
+sess#:#sess_mem_tbl_header#:#Teilnahmen in Sitzung
+sess#:#sess_member_administration#:#Verwalten
+sess#:#sess_members#:#Teilnahmen
+sess#:#sess_members_gallery#:#Galerie
+sess#:#sess_members_print_title#:#Teilnahmeliste
+sess#:#sess_msg_applicants_assigned#:#Person wurde für den Sitzungstermin angemeldet.
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
 sess#:#sess_new_registrations#:#Teilnahmeanträge
 sess#:#sess_notification_option#:#Option
 sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
-sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
+sess#:#sess_notification_option_inherit_info#:#Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt.
 sess#:#sess_notification_option_manual#:#Manuell setzen
-sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
+sess#:#sess_notification_option_manual_info#:#Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll.
 sess#:#sess_open#:#Sitzung öffnen
 sess#:#sess_part_filter_participated#:#Nur Teilgenommene
 sess#:#sess_part_filter_registered#:#Nur Angemeldete
@@ -15327,16 +15327,16 @@ sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde 
 sess#:#sess_print_list#:#Liste erstellen
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
-sess#:#sess_reg_cannot_participate_info#:#Benutzer haben auf der "Info-Seite" die Möglichkeit, ihre Teilnahme abzusagen.
+sess#:#sess_reg_cannot_participate_info#:#Personen haben auf der „Info-Seite“ die Möglichkeit, ihre Teilnahme abzusagen.
 sess#:#sess_reg_direct#:#Direkte Anmeldung
-sess#:#sess_reg_direct_info#:#Benutzer müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
+sess#:#sess_reg_direct_info#:#Personen müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_disabled#:#Ohne Anmeldung
-sess#:#sess_reg_disabled_info#:#Optionen zur Anmeldung von Benutzern zur Sitzung werden nicht angeboten.
+sess#:#sess_reg_disabled_info#:#Optionen für die Anmeldung zur Sitzung werden nicht angeboten.
 sess#:#sess_reg_max_members#:#Maximale Anzahl
-sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
-sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
-sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
-sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
+sess#:#sess_reg_max_members_info#:#Eine selbständige Anmeldung über diese Anzahl hinaus ist nicht möglich. Personen mit dem Recht „Mitglieder verwalten“ können weiterhin Personen eintragen.
+sess#:#sess_reg_max_members_short#:#Anzahl der Selbstanmeldungen begrenzen
+sess#:#sess_reg_max_users_exceeded#:#Sie können sich nicht anmelden, da alle Plätze bereits belegt sind.
+sess#:#sess_reg_max_users_exceeded_wl#:#Alle Plätze sind belegt. Sie können sich jedoch in die Warteliste eintragen.
 sess#:#sess_reg_request#:#Teilnahme beantragen
 sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch eine Person mit dem Recht „Mitglieder verwalten“.
 sess#:#sess_reg_tutor#:#Keine Selbstanmeldung möglich
@@ -15344,17 +15344,17 @@ sess#:#sess_reg_tutor_info#:#Nur Personen mit dem Recht „Mitglieder verwalten�
 sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
-sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Anmeldeverfahren "Teilnahme beantragen" benutzt werden, da die Bestätigung so umgangen wird.
+sess#:#sess_reg_waiting_list_autofill_info#:#Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Diese Einstellung nicht in Verbindung mit dem Anmeldeverfahren „Teilnahme beantragen“ benutzen, da die Bestätigung sonst umgangen wird.
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Anzahl erreicht, landen weitere Personen auf einer Warteliste.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_registered_confirm#:#Sie wurden für die Sitzung angemeldet. Ihre Anmeldung muss allerdings noch bestätigt werden. Sie werden benachrichtigt, sobald dies erfolgt ist.
 sess#:#sess_registration_notification#:#Benachrichtigung
-sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
+sess#:#sess_registration_notification_info#:#Im Unterreiter „Verwalten“ können Anmeldekonten ausgewählt werden, die über An- oder Abmeldungen benachrichtigt werden.
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
 sess#:#sess_setting_header_presentation#:#Darstellung
 sess#:#sess_show_members#:#Teilnehmergalerie
-sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
+sess#:#sess_show_participants_info#:#Personen, die sich angemeldet oder an der Sitzung teilgenommen haben, sehen einander in der Galerie im Reiter „Teilnahmen“.
 sess#:#sess_title#:#Titel der Sitzung
 sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
@@ -16077,8 +16077,8 @@ survey#:#codes_created#:#Zugangsschlüssel erzeugt
 survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
-survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Teilnehmerdaten der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie diese Teilnehmer entfernen wollen? Dies löscht alle Umfragedaten für die ausgewählten Benutzer.
+survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen?
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen?
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
@@ -16180,10 +16180,10 @@ survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
-survey#:#evaluation_access#:#Zugriff der Teilnehmer auf die Ergebnisse
-survey#:#evaluation_access_all#:#Alle registrierten ILIAS-Benutzer können auf die Ergebnisse zugreifen
+survey#:#evaluation_access#:#Zugriff auf die Ergebnisse
+survey#:#evaluation_access_all#:#Alle Personen mit ILIAS-Konto
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
-survey#:#evaluation_access_off#:#Teilnehmer haben keinen Zugriff auf Ergebnisse
+survey#:#evaluation_access_off#:#Kein Zugriff auf Ergebnisse
 survey#:#evaluation_access_participants#:#Alle Teilnehmer der Umfrage haben Zugriff auf die Ergebnisse
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
@@ -16237,8 +16237,8 @@ survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Senden an
 survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
-survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
+survey#:#mailparticipantdata#:#Einleitungstext
+survey#:#mailparticipantdata_info#:#Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird
 survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
@@ -16454,7 +16454,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter „Info“ einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter „Teilnehmer“ erzeugt.
+survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Teilnahmeliste > Zugangsschlüssel“.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
@@ -16467,7 +16467,7 @@ survey#:#survey_block_hidden#:#nicht sichtbar
 survey#:#survey_block_visible#:#sichtbar
 survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
 survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
-survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesamte Skalenpunktesumme nicht berechnet.
+survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Person. Achtung: Wenn jemand solche Fragen überspringt, wird die Skalenpunktesumme nicht berechnet.
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
@@ -16517,15 +16517,15 @@ survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da 
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage per Einladung als To-Do auf das Dashboard gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
-survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus Kurs bzw. Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
-survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
-survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet
+survey#:#survey_notification_tutor_setting#:#Eine E-Mail versenden, nachdem alle die Umfrage beendet haben.
+survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet.
 survey#:#survey_order#:#Sortierung
 survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
@@ -16562,11 +16562,11 @@ survey#:#survey_reminder_subject#:#Umfrage „%s“ wurde noch nicht bearbeitet
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
+survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden alle Namen durch Codes ersetzt. Niemand kann die Antworten einer Person sondern nur einem Code zuordnen.
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter „Ergebnisse“ werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
+survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse > Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage „%s“
@@ -16633,14 +16633,14 @@ survey#:#svy_eval_skipped_value_custom_info#:#Geben Sie einen (oder leeren) Wert
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
 survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: „%s“
-survey#:#svy_eval_user#:#Pro Teilnehmer
+survey#:#svy_eval_user#:#Pro Person
 survey#:#svy_eval_view#:#Anzeige
 survey#:#svy_eval_view_charts#:#Grafik
 survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
-survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
-survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht „Einstellungen bearbeiten“) haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
+survey#:#svy_evaluation_access_all_info#:#Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen.
+survey#:#svy_evaluation_access_off_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage.
+survey#:#svy_evaluation_access_participants_info#:#Alle Personen, die an der Umfrage teilgenommen und diese abgeschlossen haben, können anschließend die Ergebnisse einsehen.
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_export_format#:#Umfragen exportieren als
 survey#:#svy_export_pdf#:#Export PDF
@@ -16665,7 +16665,7 @@ survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Antworten
-survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
+survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
@@ -16689,12 +16689,12 @@ survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
 survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
-survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
+survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
 survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
-survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
-survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
+survey#:#svy_results_view_own#:#Eigene Antworten einsehen
+survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung der Umfrage eingesehen werden. Die Antworten sind nicht änderbar.
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
