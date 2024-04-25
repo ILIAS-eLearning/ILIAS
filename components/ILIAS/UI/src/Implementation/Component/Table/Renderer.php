@@ -666,7 +666,7 @@ class Renderer extends AbstractComponentRenderer
         $r = [];
         foreach ($rows as $idx => $row) {
             $r[] = $row
-                ->withPosition($idx)
+                ->withPosition($idx + 1)
                 ->withOrderingDisabled($component->isOrderingDisabled());
         }
 

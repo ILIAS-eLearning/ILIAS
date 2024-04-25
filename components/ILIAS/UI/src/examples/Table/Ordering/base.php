@@ -23,8 +23,7 @@ function base()
      * Define Columns for the Table; see Data Table for a more extensive exmaple.
      */
     $columns = [
-        'id' => $f->table()->column()->number("ID"),
-        'letter' => $f->table()->column()->text("Letter")
+        'word' => $f->table()->column()->text("Word")
             ->withHighlight(true)
     ];
 
@@ -88,13 +87,24 @@ function base()
 
         protected function initRecords(): array
         {
-            $r = range(65, 75);
+            $r = [
+                'A is for apple',
+                'B is for ball',
+                'C is for cat',
+                'D is for dog',
+                'E is for elephant',
+                'F is for fish',
+                'G for gorilla',
+                'H is for home',
+                'I is for insect',
+                'J  is for jumping',
+            ];
             shuffle($r);
 
-            foreach ($r as $id) {
+            foreach ($r as $id => $word) {
                 $records[(string)$id] = [
                     'id' => $id,
-                    'letter' => chr($id)
+                    'word' => $r[$id]
                 ];
             }
             return $records;
