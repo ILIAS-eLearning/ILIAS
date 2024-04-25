@@ -6201,7 +6201,7 @@ content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden. Um beim Wiederaufruf von SCOs bzw. Lernmodulen an vorhandene Lernstände anknüpfen zu können, wird cmi.exit mit dem Wert „suspend“ ergänzt.
 content#:#cont_auto_time#:#Wartezeit Animation
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
@@ -6255,7 +6255,7 @@ content#:#cont_char_style_com#:#Kommentar
 content#:#cont_char_style_quot#:#Zitat
 content#:#cont_characteristic#:#Absatzformat
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
-content#:#cont_check_values_info#:#Das Testwerkzeug prüft die vom SCO geschickten Werte auf Standard-Kompatibilität.<br />Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.<br />
+content#:#cont_check_values_info#:#ILIAS prüft die vom SCO geschickten Werte auf Standard-Kompatibilität. Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise, wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.
 content#:#cont_choose_characteristic#:#Absatzformat auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Absatzformate
@@ -6333,7 +6333,7 @@ content#:#cont_decimal#:#Dezimal
 content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
 content#:#cont_def_layout#:#Standard-Layout
-content#:#cont_def_lesson_mode#:#Bearbeitungsdaten aufzeichnen
+content#:#cont_def_lesson_mode#:#Nutzungsdaten aufzeichnen
 content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
 content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
@@ -6515,7 +6515,7 @@ content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
 content#:#cont_format_cells#:#Zellen formattieren
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
-content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit und auf zu löschende Daten aus.
+content#:#cont_fourth_edition_info#:#Die neueste Version von SCORM 2004 bietet gegenüber der „3rd Edition“ einige Erweiterungen. Diese werden allerdings nur selten genutzt und können sich negativ auf die Performanz auswirken. So kann das Lernmodul Daten bereitstellen, die über SCO-Grenzen hinweg genutzt werden können. Dabei fallen nicht zu löschende Daten an, weshalb wir aus Datenschutzgründen die „3rd Edition“ empfehlen.
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
@@ -6627,8 +6627,8 @@ content#:#cont_insert_subchapter_from_clip#:#Unterkapitel aus Zwischenablage ein
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
-content#:#cont_interactions#:#Ergebnisse der Aufgaben speichern
-content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) werden von Lernmodulen meist nur geschrieben und nicht mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt, erhöht diese Option die Performanz.
+content#:#cont_interactions#:#Ergebnisse aus Aufgaben speichern
+content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben („interactions“) werden von den meisten Lernmodulen nur geschrieben und nie mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt und Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
 content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
 content#:#cont_internal_link#:#interner Link
 content#:#cont_internal_links#:#Interne Links
@@ -6815,7 +6815,7 @@ content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sic
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_online_info#:#Personen mit Leserecht können auf das Lernmodul zugreifen.
-content#:#cont_open#:#Anzeige des Lernmoduls
+content#:#cont_open#:#Starten des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Im iFrame
 content#:#cont_open_iframe_info#:#Das Lernmodul startet im selben Fenster (iFrame) neben dem ILIAS-Hauptmenü.
@@ -6965,7 +6965,7 @@ content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version de
 content#:#cont_roman#:#Römisch I, II, ...
 content#:#cont_roman_s#:#Römisch i, ii, ...
 content#:#cont_rowspan#:#Verbund Reihe
-content#:#cont_rte_settings#:#RTE-Einstellungen
+content#:#cont_rte_settings#:#Einstellungen zur Laufzeitumgebung (SCORM Run-Time Environment)
 content#:#cont_rvalue#:#Wert
 content#:#cont_save_all_titles#:#Titel abspeichern
 content#:#cont_save_positions#:#Reihenfolge speichern
@@ -6981,22 +6981,22 @@ content#:#cont_saving#:#Speichern...
 content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
 content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
 content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
-content#:#cont_sc_auto_review_completed#:#ab Status „vollständig bearbeitet”
-content#:#cont_sc_auto_review_completed_and_passed#:#ab Status „vollständig bearbeitet” und „bestanden”
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
-content#:#cont_sc_auto_review_completed_or_passed#:#ab Status „vollständig bearbeitet” oder „bestanden”
+content#:#cont_sc_auto_review_completed#:#Ab Status „vollständig bearbeitet”
+content#:#cont_sc_auto_review_completed_and_passed#:#Ab Status „vollständig bearbeitet” und „bestanden”
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#Ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
+content#:#cont_sc_auto_review_completed_or_passed#:#Ab Status „vollständig bearbeitet” oder „bestanden”
 content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht hat, wird dieser festgeschrieben. Der Status kann später nicht mehr geändert werden.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
-content#:#cont_sc_auto_review_no#:#nie (entspricht SCORM-Spezifikation)
-content#:#cont_sc_auto_review_passed#:#ab Status „bestanden”
-content#:#cont_sc_auto_review_passed_or_failed#:#ab Status „bestanden” oder „nicht bestanden”
+content#:#cont_sc_auto_review_no#:#Nie (entspricht SCORM-Spezifikation)
+content#:#cont_sc_auto_review_passed#:#Ab Status „bestanden”
+content#:#cont_sc_auto_review_passed_or_failed#:#Ab Status „bestanden” oder „nicht bestanden”
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
-content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
-content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
-content#:#cont_sc_id_setting_user_id#:#ILIAS-UserID (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserID zuzüglich Obj-ID des Lernmoduls
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserID zuzüglich Ref-ID des Lernmoduls
+content#:#cont_sc_id_setting_2004#:#„learner_id“ entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für „student_id“ (SCORM 1.2) bzw. „learner_id“ (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Objekt-ID“ kann für Lernmodule sinnvoll sein, die Daten an einen externen Server übertragen.
+content#:#cont_sc_id_setting_user_id#:#ID des ILIAS-Kontos (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ID des ILIAS-Kontos zuzüglich Objekt-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ID des ILIAS-Kontos zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich Obj-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich Objekt-ID des Lernmoduls
 content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_less_mode_browse#:#Vorschaumodus
 content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ gesetzt.
@@ -7004,11 +7004,11 @@ content#:#cont_sc_less_mode_normal#:#Lernmodus
 content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
 content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
-content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
+content#:#cont_sc_name_setting_2004#:#„learner_name“ entspricht
 content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
-content#:#cont_sc_name_setting_info#:#Der Name der/des Lernenden kann im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass sich die Lernmodule auf einem externen Server befinden, kann es sinnvoll sein, den Namen nicht bekannt zu geben.
+content#:#cont_sc_name_setting_info#:#Namen von Lernenden können im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass Lernmodule Daten an einen externen Server übertragen, ist es aus Gründen des Datenschutzes sinnvoll, die Einstellung „Kein Name“ zu verwenden.
 content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
@@ -7031,7 +7031,7 @@ content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_sco_glossary#:#Glossar
 content#:#cont_score#:#Punkte
 content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
-content#:#cont_scorm_options#:#Aufzeichnung von Bearbeitungsdaten
+content#:#cont_scorm_options#:#Datenerhebung
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_sec_protected#:#Geschützt
@@ -7164,7 +7164,7 @@ content#:#cont_text_xln#:#Externer Link
 content#:#cont_third_and_more#:#3. oder weitere
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
-content#:#cont_time_from_lms_info#:#Um häufig auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.
+content#:#cont_time_from_lms_info#:#Um fallweise auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_to_focus_beginning#:#Zurück zu den Inhalten des Lernziels
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
