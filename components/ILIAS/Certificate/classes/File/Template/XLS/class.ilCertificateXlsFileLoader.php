@@ -25,6 +25,6 @@ class ilCertificateXlsFileLoader
      */
     public function getXlsCertificateContent()
     {
-        return file_get_contents("./components/ILIAS/Certificate/xml/xhtml2fo.xsl");
+        return file_get_contents(__DIR__ . "../components/ILIAS/Certificate/xml/xhtml2fo.xsl");
     }
 }

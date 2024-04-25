@@ -91,4 +91,24 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_7(): void
+    {
+        // TODO: Certificate Image Migrations
+        $this->db->createTable('', [
+            'id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+            'obj_id' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+            'obj_type' => ['type' => 'text', 'length' => 255, 'notnull' => true],
+            'certificate_content' => ['type' => 'clob', 'notnull' => true],
+            'certificate_hash' => ['type' => 'text', 'length' => 255, 'notnull' => true],
+            'template_values' => ['type' => 'clob', 'notnull' => true],
+            'version' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+            'ilias_version' => ['type' => 'text', 'length' => 255, 'notnull' => true],
+            'created_timestamp' => ['type' => 'integer', 'length' => 4, 'notnull' => true],
+            'currently_active' => ['type' => 'integer', 'length' => 1, 'notnull' => true],
+            'background_image_identification' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+            'thumbnail_image_identification' => ['type' => 'text', 'length' => 255, 'notnull' => false],
+            'deleted' => ['type' => 'integer', 'length' => 1, 'notnull' => true],
+        ]);
+    }
 }

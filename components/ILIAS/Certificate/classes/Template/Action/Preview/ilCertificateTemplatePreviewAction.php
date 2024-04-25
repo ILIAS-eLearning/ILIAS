@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -29,10 +32,12 @@ class ilCertificateTemplatePreviewAction
     private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
     private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
     private readonly ilCertificatePdfFileNameFactory $pdfFileNameFactory;
+    private ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         private readonly ilCertificateTemplateRepository $templateRepository,
         private readonly ilCertificatePlaceholderValues $placeholderValuesObject,
+        private readonly IRSS $irss,
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         ?ilObjUser $user = null,
         ?ilCertificateUtilHelper $utilHelper = null,
@@ -42,6 +47,8 @@ class ilCertificateTemplatePreviewAction
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
         global $DIC;
+        // TODO
+        $this->global_certificate_settings = new ilObjCertificateSettings();
 
         if (null === $user) {
             $user = $DIC->user();
@@ -89,7 +96,8 @@ class ilCertificateTemplatePreviewAction
         $xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
 
         $pdf_base64 = $this->rpcClientFactoryHelper
-            ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
+            ->ilFO2PDF('RPCTransformationHandler', $xlsfo)
+        ;
 
         $pdfPresentation = new ilUserCertificatePresentation(
             $template->getObjId(),
@@ -108,7 +116,7 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * Exchanges the variables in the certificate text with given values
-     * @param string                $certificate_text The XSL-FO certificate text
+     * @param  string $certificate_text The XSL-FO certificate text
      * @return string XSL-FO code
      */
     private function exchangeCertificateVariables(
@@ -132,11 +140,14 @@ class ilCertificateTemplatePreviewAction
             $certificate_text
         );
 
-        $backgroundImagePath = $template->getBackgroundImagePath();
+        $identification = $this->irss->manage()->find($template->getBackgroundImageIdentification());
+        if ($identification instanceof ResourceIdentification) {
+            $backgroundImagePath = $this->irss->consume()->src($identification)->getSrc();
+        }
 
         return str_replace(
             '[BACKGROUND_IMAGE]',
-            'file://' . $this->rootDirectory . $backgroundImagePath,
+            $backgroundImagePath ?? '',
             $certificate_text
         );
     }

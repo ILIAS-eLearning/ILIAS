@@ -48,8 +48,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => ['integer', 1],
                 'ilias_version' => ['text', 'v5.4.0'],
                 'currently_active' => ['integer', true],
-                'background_image_path' => ['text', '/some/where/background.jpg'],
-                'thumbnail_image_path' => ['text', '/some/where/thumbnail.svg'],
+                'background_image_identification' => ['text', '/some/where/background.jpg'],
+                'thumbnail_image_identification' => ['text', '/some/where/thumbnail.svg'],
                 'certificate_id' => ['text', '11111111-2222-3333-4444-555555555555'],
             ]
         );
@@ -111,8 +111,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg',
                 'title' => 'Some Title',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ],
@@ -130,8 +130,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'background_image_identification' => '/some/where/else/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg',
                 'title' => 'Someother Title',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
@@ -178,8 +178,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ],
             [
@@ -196,8 +196,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg',
+                'background_image_identification' => '/some/where/else/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
             ]
         );
@@ -270,8 +270,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
@@ -290,8 +290,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
+                'background_image_identification' => '/some/where/else/background.jpg',
+                'thumbnail_image_identification' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
@@ -335,8 +335,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -78,17 +79,21 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $irss = $this->getMockBuilder(IRSS::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
         $action = new ilCertificateTemplateImportAction(
             100,
             'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
+            $irss,
             $templateRepository,
             $objectHelper,
             $utilHelper,
             $database,
-            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -150,17 +155,21 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $irss = $this->getMockBuilder(IRSS::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
         $action = new ilCertificateTemplateImportAction(
             100,
             'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
+            $irss,
             $templateRepository,
             $objectHelper,
             $utilHelper,
             $database,
-            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -217,17 +226,21 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $irss = $this->getMockBuilder(IRSS::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
         $action = new ilCertificateTemplateImportAction(
             100,
             'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
+            $irss,
             $templateRepository,
             $objectHelper,
             $utilHelper,
             $database,
-            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -271,17 +284,21 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $irss = $this->getMockBuilder(IRSS::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+
         $action = new ilCertificateTemplateImportAction(
             100,
             'some/path/certificate.xml',
             $placeholderDescriptionObject,
             $logger,
             $filesystem,
+            $irss,
             $templateRepository,
             $objectHelper,
             $utilHelper,
             $database,
-            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
