@@ -90,6 +90,7 @@ class ilObjFileInfoRepository
 
                 $info = new ilObjFileInfo(
                     $object_titles[$file_id] ?? $max->getTitle(),
+                    $id,
                     $max->getInformation()->getTitle(),
                     $max->getInformation()->getSuffix(),
                     in_array(strtolower($max->getInformation()->getSuffix()), $this->inline_suffixes, true),
@@ -115,6 +116,7 @@ class ilObjFileInfoRepository
         $this->preloadData([$object_id]);
         return self::$cache[$object_id] ?? new ilObjFileInfo(
             'Unknown',
+            null,
             'Unknown',
             '',
             false,
