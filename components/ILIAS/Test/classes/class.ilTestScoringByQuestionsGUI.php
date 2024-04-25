@@ -80,14 +80,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $this->tpl->addJavaScript("assets/js/Basic.js");
         $this->tpl->addJavaScript("assets/js/Form.js");
-        $this->tpl->addJavascript('assets/js/Modal.js');
+        $this->tpl->addJavascript('assets/js/LegacyModal.js');
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this, $this->access);
 
         $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
-        $finalized_filter = (int)$table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $finalized_filter = (int) $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
         $selected_questionData = null;

@@ -289,7 +289,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             ilLinkifyUtil::initLinkify($page);
 
             $page->addJavaScript('assets/js/jquery.ui.touch-punch.js');
-            $page->addJavascript('assets/js/Modal.js');
+            $page->addJavascript('assets/js/LegacyModal.js');
             $page->addJavascript('assets/js/moment-with-locales.min.js');
             $page->addJavascript('assets/js/browser_notifications.js');
             $page->addJavascript('assets/js/onscreenchat-notifications.js');
