@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Input\ViewControl\Sortation;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Forum\ForumDraftsTable;
+use ILIAS\Forum\Drafts\ForumDraftsTable;
 
 /**
  * Class ilObjForumGUI
@@ -2031,7 +2031,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 return;
             }
 
-            $draft_ids = array_map(
+            $draft_ids = array_filter(array_map(
                 static function (array $draft): int {
                     return $draft['draft_id'] ?? 0;
                 },
@@ -2039,7 +2039,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->user->getId(),
                     ilObjForum::lookupForumIdByObjId($this->object->getId())
                 )
-            );
+            ));
         }
 
         $confirmation = new ilConfirmationGUI();
