@@ -160,8 +160,8 @@ class ilYuiUtil
 
         $tpl->addJavaScript("assets/js/button-min.js");
 
-        $tpl->addCss(self::YUI_BASE . "/button/assets/skins/sam/button.css");
-        $tpl->addCss(self::YUI_BASE . "/menu/assets/skins/sam/menu.css");
+        $tpl->addCss("assets/css/button.css");
+        $tpl->addCss("assets/css/menu.css");
     }
 
     /**
@@ -192,6 +192,7 @@ class ilYuiUtil
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
-        $tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
+        $tpl->addCss("assets/css/container.css");
+
     }
 }
