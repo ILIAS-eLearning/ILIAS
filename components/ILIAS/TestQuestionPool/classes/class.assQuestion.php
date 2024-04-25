@@ -3013,15 +3013,14 @@ abstract class assQuestion implements Question
     }
 
     public function answerToParticipantInteraction(
-        int $test_id,
+        int $test_ref_id,
         int $active_id,
         int $pass,
         string $source_ip,
         TestParticipantInteractionTypes $interaction_type
     ): TestParticipantInteraction {
         return new TestParticipantInteraction(
-            $this->lng,
-            $test_id,
+            $test_ref_id,
             $this->id,
             $this->current_user->getId(),
             $source_ip,
@@ -3032,12 +3031,11 @@ abstract class assQuestion implements Question
     }
 
     public function toQuestionAdministrationInteraction(
-        int $test_id,
+        int $test_ref_id,
         TestQuestionAdministrationInteractionTypes $interaction_type
     ): TestQuestionAdministrationInteraction {
         return new TestQuestionAdministrationInteraction(
-            $this->lng,
-            $test_id,
+            $test_ref_id,
             $this->id,
             $this->current_user->getId(),
             $interaction_type,
