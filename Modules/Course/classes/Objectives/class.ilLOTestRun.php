@@ -172,7 +172,7 @@ class ilLOTestRun
         return array_key_exists($a_question_id, $this->questions);
     }
 
-    public function setQuestionResult(int $a_qst_id, int $a_points): void
+    public function setQuestionResult(int $a_qst_id, float $a_points): void
     {
         $this->questions[$a_qst_id] = $a_points;
     }
@@ -186,7 +186,7 @@ class ilLOTestRun
 
         $percentage =
             ($this->getMaxPoints() > 0) ?
-                ($sum_points / $this->getMaxPoints() * 100) :
+                round(($sum_points / $this->getMaxPoints() * 100),0) :
                 100;
 
         return array(
