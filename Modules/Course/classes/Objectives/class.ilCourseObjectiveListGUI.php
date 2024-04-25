@@ -56,7 +56,19 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
             true,
             "Services/Container"
         );
-        $this->initItem($a_ref_id, $a_obj_id, ilObject::_lookupType($a_obj_id), $a_title, $a_description);
+
+        /*
+         * Previously, ilObjectListGUI::initItem was called here, but changes were made
+         * to that method with the assumption that only repository objects would be referenced,
+         * breaking it here for objectives.
+         * Currently, we have to initialize what we need manually, and cross
+         * our fingers that no changes are made to e.g. ilObjectListGUI::insertDescription
+         * or ilObjectListGUI::insertIconsAndCheckboxes that break things again.
+         */
+        $this->ref_id = $a_ref_id;
+        $this->obj_id = $a_obj_id;
+        $this->setTitle($a_title);
+        $this->setDescription($a_description);
 
         $this->insertIconsAndCheckboxes();
         $this->insertTitle();
