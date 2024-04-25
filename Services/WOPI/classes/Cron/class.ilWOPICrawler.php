@@ -106,6 +106,7 @@ class ilWOPICrawler extends ilCronJob
             return $result;
         }
         $result->setMessage($this->language->txt('wopi_crawler_cronjob_success'));
+        $this->app_repository->clear($this->action_repository);
         $this->app_repository->storeCollection($apps, $this->action_repository);
 
         return $result;
