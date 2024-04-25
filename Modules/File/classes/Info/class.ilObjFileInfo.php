@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\Data\DataSize;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -32,6 +33,7 @@ class ilObjFileInfo
 {
     use ilObjFileSecureString;
 
+    protected ?ResourceIdentification $rid;
     protected string $title;
     protected string $file_name;
     protected string $suffix;
@@ -46,6 +48,7 @@ class ilObjFileInfo
 
     public function __construct(
         string $title,
+        ?ResourceIdentification $rid,
         string $file_name,
         string $suffix,
         bool $deliver_inline,
@@ -58,6 +61,7 @@ class ilObjFileInfo
         ?int $page_count
     ) {
         $this->title = $title;
+        $this->rid = $rid;
         $this->file_name = $file_name;
         $this->suffix = $suffix;
         $this->deliver_inline = $deliver_inline;
@@ -88,6 +92,11 @@ class ilObjFileInfo
     public function getSuffix(): string
     {
         return $this->suffix;
+    }
+
+    public function getRID(): ?ResourceIdentification
+    {
+        return $this->rid;
     }
 
     public function shouldDeliverInline(): bool
