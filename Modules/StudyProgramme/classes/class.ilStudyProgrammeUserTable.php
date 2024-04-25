@@ -346,11 +346,10 @@ class ilStudyProgrammeUserTable
                 return $title;
             case 'crsr':
                 $title = ilContainerReference::_lookupTitle($obj_id);
-                if(ilObject::_isInTrash(
-                    ilObjStudyProgramme::getRefIdFor(
-                        ilContainerReference::_lookupTargetId($obj_id)
-                    )
-                )) {
+                $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+                $refs = ilObject::_getAllReferences($target_obj_id);
+                $target_ref_id = array_shift($refs) ?? null;
+                if($target_ref_id === null || ilObject::_isInTrash($target_ref_id)) {
                     return sprintf('(%s)', $title);
                 }
                 return $title;
