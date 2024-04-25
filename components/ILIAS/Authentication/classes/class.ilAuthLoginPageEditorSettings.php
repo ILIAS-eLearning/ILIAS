@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Storage of editor settings
  *
@@ -26,7 +26,6 @@ declare(strict_types=1);
 class ilAuthLoginPageEditorSettings
 {
     public const MODE__UNDEFINED = 0;
-    public const MODE_RTE = 1;
     public const MODE_IPE = 2;
 
     private array $languages = [];
@@ -69,7 +68,6 @@ class ilAuthLoginPageEditorSettings
 
     public function setMode(int $a_mode): void
     {
-        //TODO check for proper mode
         $this->mode = $a_mode;
     }
 
@@ -85,9 +83,6 @@ class ilAuthLoginPageEditorSettings
      */
     public function getIliasEditorLanguage(string $a_langkey): string
     {
-        if ($this->mode !== self::MODE_IPE) {
-            return '';
-        }
         if ($this->isIliasEditorEnabled($a_langkey)) {
             return $a_langkey;
         }
@@ -130,7 +125,7 @@ class ilAuthLoginPageEditorSettings
      */
     public function read(): void
     {
-        $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_RTE));
+        $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_IPE));
 
         // Language settings
         $this->languages = [];

@@ -2158,10 +2158,11 @@ auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users w
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
-auth#:#login_page_activate#:#Activate Editor for Selected Languages
-auth#:#login_page_editor_switched#:#The active page editor has been changed
-auth#:#login_page_switch_ipe#:#Use ILIAS page editor
-auth#:#login_page_switch_rte#:#Use Rich-text editor
+auth#:#language_does_not_exist#:#The selected language does not exist.
+auth#:#login_page#:#Login-Page
+auth#:#login_page_activate#:#Activate Page Design
+auth#:#login_page_deactivate#:#Deactivate Page Design
+auth#:#login_pages#:#Login-Pages
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Online Now
