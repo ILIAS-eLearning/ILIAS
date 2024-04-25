@@ -2158,10 +2158,11 @@ auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiz
 auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
-auth#:#login_page_activate#:#Editor für ausgewählte Sprachen aktivieren
-auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
-auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
-auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
+auth#:#language_does_not_exist#:#Die gewählte Sprache existiert leider nicht.
+auth#:#login_page#:#Sprache der Login-Seite
+auth#:#login_page_activate#:#Seitengestaltung aktivieren
+auth#:#login_page_deactivate#:#Seitengestaltung deaktivieren
+auth#:#login_pages#:#Login-Seiten
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jetzt online

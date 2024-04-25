@@ -804,13 +804,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return $page_editor_html;
         }
 
-        $loginSettings = new ilSetting('login_settings');
-        $information = trim($loginSettings->get('login_message_' . $this->lng->getLangKey()) ?? '');
-
-        if ($information !== '') {
-            $tpl->setVariable('TXT_LOGIN_INFORMATION', $information);
-        }
-
         return $page_editor_html;
     }
 
