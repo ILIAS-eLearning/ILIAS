@@ -1666,7 +1666,13 @@ class ilExSubmission
         // TODO: check archive for broken file
         //copy ($a_file, $a_directory . "/" . $file);
         ilFileUtils::moveUploadedFile($a_file, $file, $a_directory . "/" . $file);
-        ilFileUtils::unzip($a_directory . "/" . $file);
+        $DIC->legacyArchives()->unzip(
+            $a_directory . "/" . $file,
+            null,
+            false,
+            true,
+            false
+        );
         unlink($a_directory . "/" . $file);
         //echo "-".$a_directory . "/" . $file."-";
         // Stores filename and paths into $filearray to check for viruses
