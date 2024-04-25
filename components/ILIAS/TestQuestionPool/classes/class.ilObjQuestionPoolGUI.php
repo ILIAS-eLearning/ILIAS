@@ -459,8 +459,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $ilTabs,
                     $lng,
                     $this->help,
-                    $this->qplrequest,
-                    $this->questionrepository
+                    $this->questionrepository,
+                    true
                 );
                 $ilCtrl->forwardCommand($gui);
 

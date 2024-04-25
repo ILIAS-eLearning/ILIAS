@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 /**
@@ -40,15 +39,15 @@ class ilAssQuestionFeedbackEditingGUI
     protected ?ilAssQuestionFeedback $feedback_obj = null;
 
     public function __construct(
-        protected assQuestionGUI $question_gui,
-        protected ilCtrl $ctrl,
-        protected ilAccessHandler $access,
-        protected ilGlobalTemplateInterface $tpl,
-        protected ilTabsGUI $tabs,
-        protected ilLanguage $lng,
-        protected ilHelpGUI $help,
-        private RequestDataCollector $request_data_collector,
-        private GeneralQuestionPropertiesRepository $questionrepository
+        protected readonly assQuestionGUI $question_gui,
+        protected readonly ilCtrl $ctrl,
+        protected readonly ilAccessHandler $access,
+        protected readonly ilGlobalTemplateInterface $tpl,
+        protected readonly ilTabsGUI $tabs,
+        protected readonly ilLanguage $lng,
+        protected readonly ilHelpGUI $help,
+        private readonly GeneralQuestionPropertiesRepository $questionrepository,
+        private readonly bool $in_pool_context = false
     ) {
         $this->question_obj = $question_gui->getObject();
         $this->feedback_obj = $question_gui->getObject()->feedbackOBJ;
@@ -66,7 +65,7 @@ class ilAssQuestionFeedbackEditingGUI
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
 
-        $this->ctrl->setParameter($this, 'q_id', $this->request_data_collector->getQuestionId());
+        $this->ctrl->setParameter($this, 'q_id', $this->question_gui->getObject()->getId());
 
         $this->setContentStyle();
 
@@ -199,7 +198,7 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request_data_collector->getRefId());
+        $hasWriteAccess = $this->access->checkAccess("write", "", $this->question_gui->getObject()->getObjId());
         $isSelfAssessmentEditingMode = $this->question_obj->getSelfAssessmentEditingMode();
 
         return $hasWriteAccess || $isSelfAssessmentEditingMode;
@@ -214,7 +213,7 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function isSyncAfterSaveRequired(): bool
     {
-        if (!$this->request_data_collector->isset("calling_test")) {
+        if ($this->in_pool_context) {
             return false;
         }
 
