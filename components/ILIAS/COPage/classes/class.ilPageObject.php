@@ -379,6 +379,9 @@ abstract class ilPageObject
             return true;
         }
         $error = null;
+        if ($this->getXMLContent() === "") {
+            $this->setXMLContent("<PageObject></PageObject>");
+        }
         $this->dom = $this->dom_util->docFromString($this->getXMLContent(true), $error);
         $path = "//PageObject";
         if (is_null($this->dom)) {
