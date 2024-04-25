@@ -40,7 +40,9 @@ class Crawler
     {
         $this->crawl_actions = [
             ActionTarget::VIEW->value,
+            ActionTarget::EMBED_VIEW->value,
             ActionTarget::EDIT->value,
+            ActionTarget::EMBED_EDIT->value
         ];
     }
 

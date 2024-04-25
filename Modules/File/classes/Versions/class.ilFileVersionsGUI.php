@@ -170,9 +170,8 @@ class ilFileVersionsGUI
                 );
                 return;
             case strtolower(ilWOPIEmbeddedApplicationGUI::class):
-                $action = $this->action_repo->getActionForSuffix(
-                    $this->current_revision->getInformation()->getSuffix(),
-                    ActionTarget::EDIT
+                $action = $this->action_repo->getEditActionForSuffix(
+                    $this->current_revision->getInformation()->getSuffix()
                 );
 
                 $embeded_application = new EmbeddedApplication(
@@ -302,9 +301,8 @@ class ilFileVersionsGUI
         // Editor
         $suffix = $this->current_revision?->getInformation()?->getSuffix();
 
-        if ($this->action_repo->hasActionForSuffix(
-            $this->current_revision->getInformation()->getSuffix(),
-            ActionTarget::EDIT
+        if ($this->action_repo->hasEditActionForSuffix(
+            $this->current_revision->getInformation()->getSuffix()
         )) {
             $external_editor = $this->ui->factory()
                                         ->button()
