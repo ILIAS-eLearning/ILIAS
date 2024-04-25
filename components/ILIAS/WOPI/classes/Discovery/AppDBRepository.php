@@ -58,9 +58,12 @@ class AppDBRepository implements AppRepository
 
     public function storeCollection(Apps $apps, ActionRepository $action_repository): void
     {
+        $actions = [];
         foreach ($apps->getApps() as $app) {
             $this->store($app, $action_repository);
+            $actions += $app->getActions();
         }
+        $action_repository->clearSuperfluous(...$actions);
     }
 
     public function clear(ActionRepository $action_repository): void

@@ -128,7 +128,7 @@ class ilWOPIAdministrationGUI
                     $this->lng->txt('action') => $action->getName()
                 ]);
             },
-            $this->action_repo->getActionsForTarget(ActionTarget::EDIT)
+            $this->action_repo->getActionsForTargets(ActionTarget::EDIT, ActionTarget::EMBED_EDIT)
         );
 
         $this->maint_tpl->setContent(
@@ -157,7 +157,6 @@ class ilWOPIAdministrationGUI
             } else {
                 $apps = $this->crawler->crawl(new URI($discovery_url));
                 if ($apps !== null) {
-                    $this->app_repo->clear($this->action_repo);
                     $this->app_repo->storeCollection($apps, $this->action_repo);
                 }
             }
