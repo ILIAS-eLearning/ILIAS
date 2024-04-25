@@ -173,7 +173,7 @@ class ObjectiveRenderer
             $acc->setBehaviour(\ilAccordionGUI::FIRST_OPEN);
             $acc->setId("crsobjtv_" . $this->container->getId());
         } else {
-            //            $this->renderer->addCustomBlock('lobj', $lng->txt('crs_objectives'));
+            $this->renderer->addCustomBlock('lobj', $lng->txt('crs_objectives'));
         }
 
         $lur_data = $this->parseLOUserResults();
