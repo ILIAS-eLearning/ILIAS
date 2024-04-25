@@ -71,13 +71,13 @@
 		"jasig/phpcas": "^1.4",
 		"league/commonmark": "^2.3",
 		"ifsnop/mysqldump-php": "2.10",
-		"mustache/mustache": "^2.14"
+		"mustache/mustache": "^2.14",
+		"phpunit/phpunit": "^10.5"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
 		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^3.15",
-		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.16",
 		"captainhook/plugin-composer": "^5.3",
 		"phpstan/phpstan": "^1.10",
@@ -96,7 +96,7 @@
 		],
 		"exclude-from-classmap": [
 			"./components/ILIAS/Migration",
-			"./*/*/lib", "./*/*/*/tests",
+			"./*/*/lib",
 			"./Customizing/**/vendor",
 			"./components/ILIAS/setup_/sql",
 			"./cli/setup.php",

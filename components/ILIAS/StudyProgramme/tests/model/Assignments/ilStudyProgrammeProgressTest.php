@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once(__DIR__ . "/../../../../../../vendor/composer/vendor/autoload.php");
-
 use ILIAS\StudyProgramme\Assignment\Node;
 
 class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
@@ -240,7 +238,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($pgs->hasIndividualModifications());
     }
 
-    public function status(): array
+    public function ilPRGProgressStatus(): array
     {
         return [
             //status, count as 'successful'
@@ -259,7 +257,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForInProgress(int $status): void
     {
