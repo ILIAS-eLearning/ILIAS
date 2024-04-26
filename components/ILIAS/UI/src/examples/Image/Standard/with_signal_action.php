@@ -16,14 +16,14 @@ function with_signal_action()
 
     //Generating and rendering the image and modal
     $image_in_modal = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/mountains.jpg",
+        "assets/ui-examples/imagesImage/mountains.jpg",
         ""
     );
     $page = $f->modal()->lightboxImagePage($image_in_modal, "Nice view");
     $modal = $f->modal()->lightbox($page);
 
     $image = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/imagesImage/HeaderIconLarge.svg",
         "Thumbnail Example"
     )->withAction($modal->getShowSignal());
 

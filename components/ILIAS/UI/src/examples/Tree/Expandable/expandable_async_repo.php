@@ -83,7 +83,7 @@ function expandable_async_repo($ref = null)
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
-    $image = $f->image()->responsive("components/ILIAS/UI/src/examples/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
+    $image = $f->image()->responsive("assets/ui-examples/images/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
     $page = $f->modal()->lightboxImagePage($image, 'Mountains');
     $modal = $f->modal()->lightbox($page);
 

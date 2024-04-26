@@ -18,10 +18,10 @@ function with_additional_high_resolution_source(): string
 
     $image = $factory
         ->image()
-        ->responsive('components/ILIAS/UI/src/examples/Image/mountains-144w.jpg', 'Mountains')
-        ->withAdditionalHighResSource('components/ILIAS/UI/src/examples/Image/mountains-301w.jpg', 100)
-        ->withAdditionalHighResSource('components/ILIAS/UI/src/examples/Image/mountains-602w.jpg', 300)
-        ->withAdditionalHighResSource('components/ILIAS/UI/src/examples/Image/mountains.jpg', 500);
+        ->responsive('assets/ui-examples/images/Image/mountains-144w.jpg', 'Mountains')
+        ->withAdditionalHighResSource('assets/ui-examples/images/Image/mountains-301w.jpg', 100)
+        ->withAdditionalHighResSource('assets/ui-examples/images/Image/mountains-602w.jpg', 300)
+        ->withAdditionalHighResSource('assets/ui-examples/images/Image/mountains.jpg', 500);
 
     $card = $factory->card()->standard('Mountains', $image);
 

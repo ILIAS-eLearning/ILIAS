@@ -18,7 +18,7 @@ function with_additional_on_load_code()
 
     //Generating and rendering the image and modal
     $image = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/imagesImage/HeaderIconLarge.svg",
         "Thumbnail Example"
     )->withAction("#")
      ->withAdditionalOnLoadCode(function ($id) {

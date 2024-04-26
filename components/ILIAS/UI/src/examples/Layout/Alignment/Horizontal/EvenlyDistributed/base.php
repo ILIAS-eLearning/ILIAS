@@ -10,7 +10,7 @@ function base()
     $ui_factory = $DIC['ui.factory'];
     $renderer = $DIC['ui.renderer'];
     $tpl = $DIC['tpl'];
-    $tpl->addCss('components/ILIAS/UI/src/examples/Layout/Alignment/alignment_examples.css');
+    $tpl->addCss('assets/ui-examples/css/alignment_examples.css');
 
     $edl = $ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
         $ui_factory->legacy('<div class="example_block fullheight blue">Example Block</div>'),
