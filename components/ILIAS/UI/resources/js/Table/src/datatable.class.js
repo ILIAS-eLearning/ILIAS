@@ -310,7 +310,9 @@ export default class DataTable {
   }
 
   dragsortable() {
-    this.#table.rows.forEach((row) => this.#addDraglisteners(row));
+    const rows = Array.from(this.#table.rows);
+    rows.shift(); //exclude header
+    rows.forEach((row) => this.#addDraglisteners(row));
   }
 
   #addDraglisteners(row) {
@@ -323,10 +325,20 @@ export default class DataTable {
     this.#tmpDragRow = event.target;
   }
 
+  #isDraggedElementValidRow(){
+    return this.#tmpDragRow instanceof HTMLElement
+      && this.#tmpDragRow.tagName == 'TR'
+      && this.#tmpDragRow.classList.contains('c-table-data__row');
+  }
   dragover(event) {
+    if(! this.#isDraggedElementValidRow()) {
+      return;
+    }
+
     const e = event;
     e.preventDefault();
     const rows = Array.from(this.#table.rows);
+    rows.shift(); //exclude header
     const target = e.target.closest('tr');
     if (rows.indexOf(target) > rows.indexOf(this.#tmpDragRow)) {
       target.after(this.#tmpDragRow);
@@ -337,7 +349,7 @@ export default class DataTable {
   }
 
   resortAfterDrag() {
-    let pos = 0;
+    let pos = 10;
     this.#table.querySelectorAll('input[type="number"]').forEach(
       (input) => {
         this.#jquery(input).val(pos);
