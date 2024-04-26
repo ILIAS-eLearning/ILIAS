@@ -91,7 +91,7 @@ class ilTestCorrectionsGUI
     {
         $this->tabs->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
 
-        if ($this->testOBJ->isFixedTest()) {
+        if ($this->test_obj->isFixedTest()) {
             $rendered_gui_component = $this->ui_renderer->render(
                 $this->table
                     ->getTableComponent($this->getQuestions())

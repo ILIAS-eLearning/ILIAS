@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
