@@ -32,7 +32,7 @@ class ilPdfGenerator
 
     public function __construct(
         private readonly ilUserCertificateRepository $certificateRepository,
-        private IRSS $irss = null,
+        private ?IRSS $irss = null,
         ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
         ?ilLanguage $lng = null,
