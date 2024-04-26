@@ -3318,7 +3318,7 @@ common#:#angry#:#Angry###10 11 2018 new variable
 common#:#anonymous#:#Anonüümne
 common#:#answers#:#vastused
 common#:#any_language#:#Kõik keeled
-common#:#apache_auth#:#<img src="templates/default/images/idkaart.gif" alt="Log with id card" onclick="setTimeout('document.forms[\'formlogin\'].submit()',1250);">
+common#:#apache_auth#:#<img src="assets/images/idkaart.gif" alt="Log with id card" onclick="setTimeout('document.forms[\'formlogin\'].submit()',1250);">
 common#:#application_completed#:#Rakendus on valmis
 common#:#application_date#:#Rakenduse kuupäev
 common#:#applications#:#Rakendused

@@ -146,15 +146,15 @@ function base()
         ): \Generator {
             $records = $this->getRecords($range, $order);
             foreach ($records as $idx => $record) {
-                $row_id = (string)$record['usr_id'];
+                $row_id = (string) $record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;
 
                 $icons = [
-                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_checked.svg', '', 'small'),
-                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small'),
-                    $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_x.svg', '', 'small'),
+                    $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
+                    $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small'),
+                    $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_x.svg', '', 'small'),
                 ];
                 $icon = $icons[2];
                 if($record['achieve'] > 80) {

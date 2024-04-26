@@ -12,7 +12,7 @@ function nested()
     $tpl = $DIC['tpl'];
     $tpl->addCss('components/ILIAS/UI/src/examples/Layout/Alignment/alignment_examples.css');
 
-    $icon = $ui_factory->image()->standard("templates/default/images/logo/HeaderIconResponsive.svg", "ilias");
+    $icon = $ui_factory->image()->standard("assets/images/logo/HeaderIconResponsive.svg", "ilias");
     $blocks = [
         $ui_factory->legacy('<div class="example_block fullheight blue">Example Block</div>'),
         $icon,

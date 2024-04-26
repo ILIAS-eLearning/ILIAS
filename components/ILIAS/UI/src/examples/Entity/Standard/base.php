@@ -50,9 +50,9 @@ function base()
 
     // If no more seats are available
     $blocking = ($av_data['Available Seats'] === 0)
-        ? $blocking->withProperty("Available Seats", (string)$av_data['Available Seats']) : $blocking;
+        ? $blocking->withProperty("Available Seats", (string) $av_data['Available Seats']) : $blocking;
     $availability = ($av_data['Available Seats'] > 0)
-        ? $availability->withProperty("Available Seats", (string)$av_data['Available Seats']) : $availability;
+        ? $availability->withProperty("Available Seats", (string) $av_data['Available Seats']) : $availability;
 
     // all remaining availability properties
     $availability = $availability->withProperty("Available", $av_data['Available']);
@@ -75,7 +75,7 @@ function base()
     ;
 
     $status = $f->legacy(
-        $renderer->render($f->symbol()->icon()->custom('./templates/default/images/learning_progress/in_progress.svg', 'incomplete'))
+        $renderer->render($f->symbol()->icon()->custom('./assets/images/learning_progress/in_progress.svg', 'incomplete'))
         . ' in progress'
     );
 

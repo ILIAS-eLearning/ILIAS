@@ -137,7 +137,7 @@ named like the `image_directory` attribute of the style tag in the
 `template.xml` file.
 
 E.g. if you want to replace the default icon for categories
-`templates/default/images/standard/icon_cat.sfg`, and your template file defines
+`public/assets/images/standard/icon_cat.sfg`, and your template file defines
 `image_directory = "images"` as in the example above, the new version must be
 stored as `Customizing/global/skin/myskin/mystyle/images/icon_cat.svg`.
 

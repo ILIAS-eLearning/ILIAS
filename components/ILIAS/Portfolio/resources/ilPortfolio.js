@@ -1,6 +1,6 @@
 ilPortfolio = {
-  img_closed: 'templates/default/images/nav/tree_col.svg',
-  img_open: 'templates/default/images/nav/tree_exp.svg',
+  img_closed: 'assets/images/nav/tree_col.svg',
+  img_open: 'assets/images/nav/tree_exp.svg',
   init() {
     $('a.ilPCMyCoursesToggle').on('click', function (e) {
       // #15509

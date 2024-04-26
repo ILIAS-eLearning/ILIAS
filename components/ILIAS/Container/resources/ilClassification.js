@@ -75,7 +75,7 @@ il.Classification = {
 
   loader(element_id) {
     const loadergif = document.createElement('img');
-    loadergif.src = './templates/default/images/media/loader.svg';
+    loadergif.src = './assets/images/media/loader.svg';
     loadergif.style.position = 'absolute';
     const el = document.getElementById(element_id);
     if (el) {

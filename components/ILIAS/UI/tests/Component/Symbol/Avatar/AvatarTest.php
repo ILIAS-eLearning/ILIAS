@@ -29,7 +29,7 @@ use ILIAS\UI\Implementation as I;
  */
 class AvatarTest extends ILIAS_UI_TestBase
 {
-    protected const ICON_PATH = __DIR__ . "/../../../../../../../templates/default/images/";
+    protected const ICON_PATH = __DIR__ . "/../../../../../../../assets/images/";
 
     private function getAvatarFactory(): Factory
     {

@@ -164,7 +164,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     {
         list($position_id, $usr_id) = $this->getPositionAndUserIdFromTableQuery();
 
-        $id = implode('_', [(string)$position_id, (string)$usr_id]);
+        $id = implode('_', [(string) $position_id, (string) $usr_id]);
         $usr_name = ilObjUser::_lookupLogin($usr_id);
         $pos_name = $this->positionRepo->getSingle($position_id, 'id')->getTitle();
 
@@ -241,8 +241,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             'lastname' => $this->ui_factory->table()->column()->text($this->lng->txt("lastname")),
             'active' => $this->ui_factory->table()->column()->boolean(
                 $this->lng->txt("active"),
-                $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ok.svg', '', 'small'),
-                $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_not_ok.svg', '', 'small')
+                $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', '', 'small'),
+                $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', '', 'small')
             )->withIsOptional(true, false),
         ];
 
