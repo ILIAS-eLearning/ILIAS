@@ -23,7 +23,9 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\StaticURL\Services as StaticURLServices;
+use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
@@ -31,7 +33,7 @@ class TestScoringInteraction implements TestUserInteraction
 {
     public const IDENTIFIER = 'si';
 
-    private int $unique_id;
+    private int $id;
 
     /**
     * @param array<string label_lang_var => mixed value> $additional_data
@@ -50,7 +52,7 @@ class TestScoringInteraction implements TestUserInteraction
 
     public function getUniqueIdentifier(): ?string
     {
-        return self::TEXTUAL_REPRESENATION . '_' . $this->unique_id;
+        return self::IDENTIFIER . '_' . $this->id;
     }
 
     public function withId(int $id): self
@@ -65,6 +67,7 @@ class TestScoringInteraction implements TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -73,27 +76,36 @@ class TestScoringInteraction implements TestUserInteraction
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
-                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'date_and_time' => new \DateTimeImmutable("@{$this->modification_timestamp}", $environment['timezone']),
                 'corresponding_test' => $ui_factory->link()->standard(
                     \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', $this->test_ref_id)
+                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
                 ),
-                'author' => \ilUserUtil::getNamePresentation(
+                'admin' => \ilUserUtil::getNamePresentation(
                     $this->admin_id,
                     false,
                     false,
-                    false,
+                    '',
                     true
                 ),
                 'participant' => \ilUserUtil::getNamePresentation(
                     $this->pax_id,
                     false,
                     false,
-                    false,
+                    '',
                     true
                 ),
                 'ip' => '',
-                'question' => $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                'question' => $ui_renderer->render(
+                    $ui_factory->link()->standard(
+                        $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                        $static_url->builder()->build(
+                            'tst',
+                            new ReferenceId($this->test_ref_id),
+                            ['qst', $this->question_id]
+                        )->__toString()
+                    )
+                ),
                 'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
                 'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
             ]
@@ -114,7 +126,7 @@ class TestScoringInteraction implements TestUserInteraction
             'pax_id' => [\ilDBConstants::T_INTEGER , $this->pax_id],
             'interaction_type' => [\ilDBConstants::T_TEXT , $this->interaction_type->value],
             'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
-            'additional_data' => [\ilDBConstants::T_CLOB , serialize($this->additional_data)]
+            'additional_data' => [\ilDBConstants::T_CLOB , json_encode($this->additional_data)]
         ];
     }
 }

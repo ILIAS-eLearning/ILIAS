@@ -23,7 +23,9 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\StaticURL\Services as StaticURLServices;
+use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
@@ -31,7 +33,7 @@ class TestError implements TestUserInteraction
 {
     public const IDENTIFIER = 'te';
 
-    private int $unique_id;
+    private int $id;
 
     public function __construct(
         private readonly int $test_ref_id,
@@ -47,7 +49,7 @@ class TestError implements TestUserInteraction
 
     public function getUniqueIdentifier(): ?string
     {
-        return self::TEXTUAL_REPRESENATION . '_' . $this->unique_id;
+        return self::IDENTIFIER . '_' . $this->id;
     }
 
     public function withId(int $id): self
@@ -62,6 +64,7 @@ class TestError implements TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -76,7 +79,7 @@ class TestError implements TestUserInteraction
                 $this->admin_id,
                 false,
                 false,
-                false,
+                '',
                 true
             );
         }
@@ -86,24 +89,36 @@ class TestError implements TestUserInteraction
                 $this->pax_id,
                 false,
                 false,
-                false,
+                '',
                 true
             );
         }
 
         if ($this->question_id !== null) {
-            $question = $properties_repository->getForQuestionId($this->question_id)->getTitle();
+            $question = $ui_renderer->render(
+                $ui_factory->link()->standard(
+                    $properties_repository->getForQuestionId($this->question_id)->getTitle(),
+                    $static_url->builder()->build(
+                        'tst',
+                        new ReferenceId($this->test_ref_id),
+                        ['qst', $this->question_id]
+                    )->__toString()
+                )
+            );
         }
 
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
-                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'date_and_time' => new \DateTimeImmutable(
+                    "@{$this->modification_timestamp}",
+                    $environment['timezone']
+                ),
                 'corresponding_test' => $ui_factory->link()->standard(
                     \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', $this->test_ref_id)
+                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
                 ),
-                'author' => $admin,
+                'admin' => $admin,
                 'participant' => $pax,
                 'ip' => '',
                 'question' => $question,

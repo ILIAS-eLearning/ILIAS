@@ -23,7 +23,9 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\StaticURL\Services as StaticURLServices;
+use ILIAS\Data\ReferenceId;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
@@ -48,7 +50,7 @@ class TestAdministrationInteraction implements TestUserInteraction
 
     public function getUniqueIdentifier(): ?string
     {
-        return self::TEXTUAL_REPRESENATION . '_' . $this->unique_id;
+        return self::IDENTIFIER . '_' . $this->id;
     }
 
     public function withId(int $id): self
@@ -63,6 +65,7 @@ class TestAdministrationInteraction implements TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -71,16 +74,16 @@ class TestAdministrationInteraction implements TestUserInteraction
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
-                'date_and_time' => new \DateTimeImmutable($this->modification_timestamp, $environment['timezone']),
+                'date_and_time' => new \DateTimeImmutable("@{$this->modification_timestamp}", $environment['timezone']),
                 'corresponding_test' => $ui_factory->link()->standard(
                     \ilObject::_lookupTitle($test_obj_id),
-                    $static_url->builder()->build('tst', $this->test_ref_id)
+                    $static_url->builder()->build('tst', new ReferenceId($this->test_ref_id))->__toString()
                 ),
-                'author' => \ilUserUtil::getNamePresentation(
+                'admin' => \ilUserUtil::getNamePresentation(
                     $this->admin_id,
                     false,
                     false,
-                    false,
+                    '',
                     true
                 ),
                 'participant' => '',
@@ -104,7 +107,7 @@ class TestAdministrationInteraction implements TestUserInteraction
             'admin_id' => [\ilDBConstants::T_INTEGER , $this->admin_id],
             'interaction_type' => [\ilDBConstants::T_TEXT , $this->interaction_type->value],
             'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
-            'additional_data' => [\ilDBConstants::T_CLOB , serialize($this->additional_data)]
+            'additional_data' => [\ilDBConstants::T_CLOB , json_encode($this->additional_data)]
         ];
     }
 }

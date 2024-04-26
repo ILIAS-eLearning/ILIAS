@@ -122,10 +122,13 @@ class TestDIC extends PimpleContainer
                 $c['logging.repository'],
                 $c['logging.logger'],
                 $c['question.general_properties.repository'],
-                $DIC['http']->request(),
+                $DIC->http()->request(),
+                $DIC['static_url'],
                 $DIC->uiService(),
                 $DIC['ui.factory'],
-                $DIC['lng']
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilUser']
             );
 
         $dic['question.general_properties.repository'] = static fn($c): GeneralQuestionPropertiesRepository =>

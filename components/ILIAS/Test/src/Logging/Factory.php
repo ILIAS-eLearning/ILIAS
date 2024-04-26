@@ -44,15 +44,15 @@ class Factory
     ): TestAdministrationInteraction {
         if (($type = TestAdministrationInteractionTypes::tryFrom($db_values->interaction_type)) === null) {
             throw new \ilTestException(
-                sprintf(self::NONEXISTENT_TYPE_MSG, [$db_values->id, $db_values->interaction_type])
+                sprintf(self::NONEXISTENT_TYPE_MSG, $db_values->id, $db_values->interaction_type)
             );
         }
         return (new TestAdministrationInteraction(
             $db_values->ref_id,
             $db_values->admin_id,
             $type,
-            $db_values->modification_timestamp,
-            $db_values->additional_data
+            $db_values->modification_ts,
+            json_decode($db_values->additional_data, true) ?? []
         )
         )->withId($db_values->id);
     }
@@ -79,7 +79,7 @@ class Factory
     ): TestQuestionAdministrationInteraction {
         if (($type = TestQuestionAdministrationInteractionTypes::tryFrom($db_values->interaction_type)) === null) {
             throw new \ilTestException(
-                sprintf(self::NONEXISTENT_TYPE_MSG, [$db_values->id, $db_values->interaction_type])
+                sprintf(self::NONEXISTENT_TYPE_MSG, $db_values->id, $db_values->interaction_type)
             );
         }
         return (new TestQuestionAdministrationInteraction(
@@ -87,8 +87,8 @@ class Factory
             $db_values->qst_id,
             $db_values->admin_id,
             $type,
-            $db_values->modification_timestamp,
-            $db_values->additional_data
+            $db_values->modification_ts,
+            json_decode($db_values->additional_data, true) ?? []
         ))->withId($db_values->id);
     }
 
@@ -115,7 +115,7 @@ class Factory
     ): TestParticipantInteraction {
         if (($type = TestParticipantInteractionTypes::tryFrom($db_values->interaction_type)) === null) {
             throw new \ilTestException(
-                sprintf(self::NONEXISTENT_TYPE_MSG, [$db_values->id, $db_values->interaction_type])
+                sprintf(self::NONEXISTENT_TYPE_MSG, $db_values->id, $db_values->interaction_type)
             );
         }
         return (new TestParticipantInteraction(
@@ -124,8 +124,8 @@ class Factory
             $db_values->pax_id,
             $db_values->source_ip,
             $type,
-            $db_values->modification_timestamp,
-            $db_values->additional_data
+            $db_values->modification_ts,
+            json_decode($db_values->additional_data, true) ?? []
         ))->withId($db_values->id);
     }
 
@@ -153,7 +153,7 @@ class Factory
     ): TestScoringInteraction {
         if (($type = TestScoringInteractionTypes::tryFrom($db_values->interaction_type)) === null) {
             throw new \ilTestException(
-                sprintf(self::NONEXISTENT_TYPE_MSG, [$db_values->id, $db_values->interaction_type])
+                sprintf(self::NONEXISTENT_TYPE_MSG, $db_values->id, $db_values->interaction_type)
             );
         }
         return (new TestScoringInteraction(
@@ -162,8 +162,8 @@ class Factory
             $db_values->admin_id,
             $db_values->pax_id,
             $type,
-            $db_values->modification_timestamp,
-            $db_values->additional_data
+            $db_values->modification_ts,
+            json_decode($db_values->additional_data, true) ?? []
         ))->withId($db_values->id);
     }
 
@@ -190,7 +190,7 @@ class Factory
     {
         if (($type = TestErrorTypes::tryFrom($db_values->interaction_type)) === null) {
             throw new \ilTestException(
-                sprintf(self::NONEXISTENT_TYPE_MSG, [$db_values->id, $db_values->interaction_type])
+                sprintf(self::NONEXISTENT_TYPE_MSG, $db_values->id, $db_values->interaction_type)
             );
         }
 
@@ -200,7 +200,7 @@ class Factory
             $db_values->admin_id,
             $db_values->pax_id,
             $type,
-            $db_values->modification_timestamp,
+            $db_values->modification_ts,
             $db_values->error_message
         ))->withId($db_values->id);
     }

@@ -24,7 +24,9 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -37,9 +39,12 @@ class TestLogViewer
         private readonly TestLogger $logger,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly ServerRequestInterface $request,
+        private readonly StaticURLServices $static_url,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
-        private readonly \ilLanguage $lng
+        private readonly UIRenderer $ui_renderer,
+        private readonly \ilLanguage $lng,
+        private readonly \ilObjUser $current_user
     ) {
         $this->data_factory = new DataFactory();
     }
@@ -55,12 +60,15 @@ class TestLogViewer
             $this->logger,
             $this->question_repo,
             $this->ui_factory,
+            $this->ui_renderer,
             $this->data_factory,
             $this->lng,
+            $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
-            $ref_id
+            $this->current_user,
+            $ref_id,
         );
 
         $filter = $log_table->getFilter($this->ui_service);
@@ -71,22 +79,65 @@ class TestLogViewer
         ];
     }
 
-    public function getLegacyLogTableForObjId(\ilObjectGUI $parent_gui, int $obj_id): \ilAssessmentFolderLogTableGUI
+    public function getLegacyLogExportForObjId(?int $obj_id = null): string
     {
-        $table_gui = new \ilAssessmentFolderLogTableGUI($parent_gui, 'logs');
         $log_output = $this->logging_repository->getLegacyLogsForObjId($obj_id);
 
-        array_walk($log_output, static function (&$row) use ($parent_gui) {
-            $row['location_href'] = '';
-            $row['location_txt'] = '';
-            if (is_numeric($row['ref_id']) && $row['ref_id'] > 0) {
-                $row['location_href'] = ilLink::_getLink((int) $row['ref_id'], 'tst');
-                $row['location_txt'] = $parent_gui->lng->txt("perma_link");
-            }
-        });
+        $users = [];
+        $csv = [];
+        $separator = ';';
+        $header_row = [
+            $this->lng->txt('assessment_log_datetime'),
+            $this->lng->txt('user'),
+            $this->lng->txt('assessment_log_text'),
+            $this->lng->txt('question')
+        ];
 
-        $table_gui->setData($log_output);
-        return $table_gui;
+        $csv[] = $this->processCSVRow($header_row);
+        foreach ($log_output as $log) {
+            if (!array_key_exists($log['user_fi'], $users)) {
+                $users[$log['user_fi']] = \ilObjUser::_lookupName((int) $log['user_fi']);
+            }
+            $title = '';
+            if ($log['question_fi']) {
+                $title = $this->lng->txt('assessment_log_question') . ': '
+                    . $this->questionrepository->getForQuestionId((int) $log['question_fi'])->getTitle();
+            }
+
+            if ($title === '' && $log['original_fi']) {
+                $title = $this->lng->txt('assessment_log_question') . ': '
+                    . $this->questionrepository->getForQuestionId((int) $log['original_fi'])->getTitle();
+            }
+
+            $content_row = [];
+            $date = new \ilDateTime((int) $log['tstamp'], IL_CAL_UNIX);
+            $content_row[] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d H:i');
+            $content_row[] = trim($users[$log['user_fi']]['title'] . ' '
+                . $users[$log['user_fi']]['firstname'] . ' ' . $users[$log['user_fi']]['lastname']);
+            $content_row[] = trim($log['logtext']);
+            $content_row[] = $title;
+            $csv[] = $this->processCSVRow($content_row);
+        }
+        $csvoutput = '';
+        foreach ($csv as $row) {
+            $csvoutput .= implode($separator, $row) . "\n";
+        }
+        return $csvoutput;
+    }
+
+    public function processCSVRow(
+        array $row
+    ): array {
+        $result_row = [];
+        foreach ($row as $colindex => $entry) {
+            if (strpos($entry, '"') !== false) {
+                $entry = str_replace('"', '""', $entry);
+
+            }
+            $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            $result_row[$colindex] = mb_convert_encoding('"' . $entry . '"', 'ISO-8859-1', 'UTF-8');
+        }
+        return $result_row;
     }
 
 }
