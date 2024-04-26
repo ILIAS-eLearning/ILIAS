@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\QuestionPoolLinkedTitleBuilder;
+use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
 
 /**
 *
@@ -48,6 +48,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function __construct(
         ilObjTestGUI|ilTestCorrectionsGUI $parent_obj,
         string $parent_cmd,
+        private string $child_class,
         private string $child_cmd,
         private ilAccessHandler $access,
         private UIFactory $ui_factory,
@@ -282,24 +283,23 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function getPreviewLink(array $row_data): string
     {
-        $target_class = get_class($this->getParentObject());
         $this->ctrl->setParameterByClass(
-            $target_class,
+            $this->child_class,
             'ref_id',
             current(ilObject::_getAllReferences($row_data['obj_fi']))
         );
 
         $this->ctrl->setParameterByClass(
-            $target_class,
+            $this->child_class,
             'q_id',
             $row_data['question_id']
         );
 
         $question_href = $this->ctrl->getLinkTargetByClass(
-            $target_class,
+            [ilObjTestGUI::class, $this->child_class],
             $this->child_cmd
         );
-        $this->ctrl->clearParameterByClass($target_class, 'q_id');
+        $this->ctrl->clearParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id');
 
         return $question_href;
     }
