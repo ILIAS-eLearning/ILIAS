@@ -1328,7 +1328,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_tpl->setBanner($banner);
         $a_tpl->setTitleIcon($ppic);
         $a_tpl->setTitle($this->object->getTitle());
-        $a_tpl->setDescription($name);
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
+            $a_tpl->setDescription($this->object->getDescription());
+        } else {
+            $a_tpl->setDescription($name);
+        }
     }
 
     /**
