@@ -16,8 +16,8 @@
 
 (function ($) {
   const iconsByType = {
-    user: 'templates/default/images/standard/icon_usr.svg',
-    room: 'templates/default/images/standard/icon_chtr.svg',
+    user: 'assets/images/standard/icon_usr.svg',
+    room: 'assets/images/standard/icon_chtr.svg',
   };
 
   const inArray = function (ar, value) {

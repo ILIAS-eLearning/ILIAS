@@ -58,7 +58,7 @@ class ilSystemStyleConfig
     /**
      * Path to images directory of delos
      */
-    protected string $default_images_path = '../templates/default/images/';
+    protected string $default_images_path = '../assets/images/';
 
     /**
      * Path to fonts directory of delos

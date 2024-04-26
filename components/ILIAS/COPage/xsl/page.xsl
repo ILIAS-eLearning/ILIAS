@@ -4087,7 +4087,7 @@
 <xsl:template match="Curriculum">
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-lso-curriculum">
-			<img class="icon pewl medium" src="./templates/default/images/page_editor/icon_pewl.svg" alt="curriculum" />
+			<img class="icon pewl medium" src="./assets/images/page_editor/icon_pewl.svg" alt="curriculum" />
 			<div>Curriculum</div>
 		</div>
 	</xsl:if>

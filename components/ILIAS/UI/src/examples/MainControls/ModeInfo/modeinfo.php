@@ -65,8 +65,8 @@ function renderModeInfoFullscreenMode(\ILIAS\DI\Container $dic)
         $f->mainControls()->mainBar()->withAdditionalEntry("entry1", $slate),
         $f->breadcrumbs([]),
         $f->image()->responsive("assets/images/logo/HeaderIcon.svg", "ILIAS"),
-        $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS"),
-        "./templates/default/images/logo/favicon.ico",
+        $f->image()->responsive("assets/images/logo/HeaderIconResponsive.svg", "ILIAS"),
+        "./assets/images/logo/favicon.ico",
         $dic->ui()->factory()->toast()->container(),
         $dic->ui()->factory()->mainControls()->footer([], "Footer"),
         'UI PAGE MODE INFO DEMO', //page title

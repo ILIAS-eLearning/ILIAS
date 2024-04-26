@@ -55,7 +55,7 @@ function ilBlockJSHandler(block_id, sUrl) {
   obj = document.getElementById(`${block_id}_loader`);
   if (obj) {
     const loadergif = document.createElement('img');
-    loadergif.src = './templates/default/images/media/loader.svg';
+    loadergif.src = './assets/images/media/loader.svg';
     loadergif.border = 0;
     $(loadergif).css('position', 'absolute');
     obj.appendChild(loadergif);

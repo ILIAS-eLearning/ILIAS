@@ -45,7 +45,7 @@ function renderFullDemoPage(\ILIAS\DI\Container $dic)
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("assets/images/logo/HeaderIcon.svg", "ILIAS");
-    $responsive_logo = $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("assets/images/logo/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer);
@@ -60,7 +60,7 @@ function renderFullDemoPage(\ILIAS\DI\Container $dic)
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        "./templates/default/images/logo/favicon.ico",
+        "./assets/images/logo/favicon.ico",
         $tc,
         $footer,
         'UI PAGE DEMO', //page title
