@@ -131,7 +131,20 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
             $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 
-        $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
+        $lng_code = ilObjUser::_lookupLanguage($userId);
+        $course_translation = $courseObject->getObjectTranslation();
+        $title = $courseObject->getTitle();
+        if ($course_translation instanceof ilObjectTranslation) {
+            $languages = $course_translation->getLanguages();
+            foreach ($languages as $trans) {
+                if ($trans->getLanguageCode() === $lng_code) {
+                    $title = $trans->getTitle();
+                    break;
+                }
+            }
+        }
+
+        $placeholders['COURSE_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($title);
 
         return $placeholders;
     }

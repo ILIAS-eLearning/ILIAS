@@ -157,6 +157,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $userDefinePlaceholderMock,
             1
         );
+        $placeHolderObject->setUserLanguage($language);
 
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 

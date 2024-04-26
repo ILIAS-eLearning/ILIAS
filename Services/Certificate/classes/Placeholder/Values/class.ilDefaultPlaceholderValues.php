@@ -33,6 +33,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilLanguage $language;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
+    private readonly ilLanguage $user_language;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -111,7 +112,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         if (!$user instanceof ilObjUser) {
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
         }
-
+        $user_lng = $this->getUserLanguage($user);
         $placeholder = $this->placeholder;
 
         $placeholder['USER_LOGIN'] = $this->utilHelper->prepareFormOutput((trim($user->getLogin())));
@@ -123,7 +124,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $salutation = '';
         $gender = $user->getGender();
         if (trim($gender) !== '' && strtolower($gender) !== 'n') {
-            $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
+            $salutation = $this->utilHelper->prepareFormOutput($user_lng->txt("salutation_" . trim($gender)));
         }
 
         $placeholder['USER_SALUTATION'] = $salutation;
@@ -208,5 +209,24 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             $previewPlacholderValues,
             $this->userDefinedFieldsPlaceholderValues->getPlaceholderValuesForPreview($userId, $objId)
         );
+    }
+
+    private function getUserLanguage(ilObjUser $user): ilLanguage
+    {
+        if ($this->user_language instanceof ilLanguage) {
+            return $this->user_language;
+        }
+        $language = new ilLanguage($user->getLanguage());
+        $language->loadLanguageModule('certificate');
+        $this->user_language = $language;
+        return $language;
+    }
+
+    /**
+     * @internal
+     */
+    public function setUserLanguage(ilLanguage $language): void
+    {
+        $this->user_language = $language;
     }
 }
