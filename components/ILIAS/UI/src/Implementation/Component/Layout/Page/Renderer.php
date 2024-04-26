@@ -172,12 +172,13 @@ class Renderer extends AbstractComponentRenderer
                 iljQueryUtil::getLocaljQueryPath(),
                 'assets/js/Basic.js',
                 ilUIFramework::BOOTSTRAP_JS,
-                './node_modules/jquery-migrate/jquery-migrate.min.js',
+                './assets/js/jquery.js',
+                './assets/js/jquery-migrate.min.js',
             ];
 
             array_unshift($js_files, ...$additional_js_files);
 
-            $css_files[] = ['file' => './templates/default/delos.css'];
+            $css_files[] = ['file' => './assets/css/delos.css'];
         }
 
         foreach ($js_files as $js_file) {

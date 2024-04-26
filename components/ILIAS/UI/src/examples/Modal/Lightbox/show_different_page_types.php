@@ -9,7 +9,7 @@ function show_different_page_types()
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
-    $image = $factory->image()->responsive('components/ILIAS/UI/src/examples/Image/mountains.jpg', 'Nice view on some mountains');
+    $image = $factory->image()->responsive('assets/ui-examples/images/Image/mountains.jpg', 'Nice view on some mountains');
     $page = $factory->modal()->lightboxImagePage(
         $image,
         'Mountains',
@@ -18,7 +18,7 @@ function show_different_page_types()
 
     $page2 = $factory->modal()->lightboxTextPage('Some text content you have to agree on!', 'User Agreement');
 
-    $image2 = $factory->image()->responsive('components/ILIAS/UI/src/examples/Image/sanfrancisco.jpg', 'The golden gate bridge');
+    $image2 = $factory->image()->responsive('assets/ui-examples/images/Image/sanfrancisco.jpg', 'The golden gate bridge');
     $page3 = $factory->modal()->lightboxImagePage(
         $image2,
         'San Francisco',
@@ -30,7 +30,7 @@ function show_different_page_types()
         'Data Privacy Statement'
     );
 
-    $image3 = $factory->image()->responsive('components/ILIAS/UI/src/examples/Image/ski.jpg', 'Skiing');
+    $image3 = $factory->image()->responsive('assets/ui-examples/images/Image/ski.jpg', 'Skiing');
     $page5 = $factory->modal()->lightboxImagePage(
         $image3,
         'Ski Fun',

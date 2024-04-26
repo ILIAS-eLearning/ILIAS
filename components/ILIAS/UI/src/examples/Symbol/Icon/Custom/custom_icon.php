@@ -12,7 +12,7 @@ function custom_icon()
 
     $buffer = array();
 
-    $path = './components/ILIAS/UI/src/examples/Symbol/Icon/Custom/my_custom_icon.svg';
+    $path = './assets/ui-examples/images/Icon/my_custom_icon.svg';
     $ico = $f->symbol()->icon()->custom($path, 'Example');
 
     $buffer[] = $renderer->render($ico)

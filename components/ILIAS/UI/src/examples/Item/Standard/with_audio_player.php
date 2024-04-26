@@ -27,7 +27,7 @@ function with_audio_player(): string
             "Length" => "00:00:26"))
         ->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.")
         ->withLeadImage($f->image()->responsive(
-            "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+            "assets/ui-examples/images/Image/HeaderIconLarge.svg",
             "Thumbnail Example"
         ));
     return $renderer->render($app_item);

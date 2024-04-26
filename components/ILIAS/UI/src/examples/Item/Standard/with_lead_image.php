@@ -24,7 +24,7 @@ function with_lead_image()
             "Location" => "Room 123, Main Street 44, 3012 Bern"))
         ->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.")
         ->withLeadImage($f->image()->responsive(
-            "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+            "assets/ui-examples/images/Image/HeaderIconLarge.svg",
             "Thumbnail Example"
         ));
     return $renderer->render($app_item);

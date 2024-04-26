@@ -176,7 +176,7 @@ function pagedemoMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls
 function pagedemoMainbar(\ILIAS\UI\Factory $f, Renderer $r): MainBar
 {
     $tools_btn = $f->button()->bulky(
-        $f->symbol()->icon()->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/grid.svg', ''),
+        $f->symbol()->icon()->custom('./assets/ui-examples/images/Page/grid.svg', ''),
         'Tools',
         '#'
     );
@@ -209,7 +209,7 @@ function pagedemoMainbar(\ILIAS\UI\Factory $f, Renderer $r): MainBar
 function getDemoEntryRepository(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Combined
 {
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/layers.svg', '')
+        ->custom('./assets/ui-examples/images/Page/layers.svg', '')
         ->withSize('small');
     $slate = $f->maincontrols()->slate()->combined('Repository', $symbol);
 
@@ -267,14 +267,14 @@ function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r): \ILIA
     );
 
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/user.svg', '')
+        ->custom('./assets/ui-examples/images/Page/user.svg', '')
         ->withSize('small');
 
     $slate = $f->maincontrols()->slate()
         ->combined('Personal Workspace', $symbol);
 
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/bookmarks.svg', '')
+        ->custom('./assets/ui-examples/images/Page/bookmarks.svg', '')
         ->withSize('small');
 
     $bookmarks = $f->legacy(implode('<br />', [
@@ -301,7 +301,7 @@ function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r): \ILIA
 function getDemoEntryAchievements(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/achievements.svg', '')
+        ->custom('./assets/ui-examples/images/Page/achievements.svg', '')
         ->withSize('small');
     return $f->maincontrols()->slate()->legacy(
         'Achievements',
@@ -313,7 +313,7 @@ function getDemoEntryAchievements(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\Mai
 function getDemoEntryCommunication(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/communication.svg', '')
+        ->custom('./assets/ui-examples/images/Page/communication.svg', '')
         ->withSize('small');
     return $f->maincontrols()->slate()->legacy(
         'Communication',
@@ -325,7 +325,7 @@ function getDemoEntryCommunication(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\Ma
 function getDemoEntryOrganisation(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Combined
 {
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/organisation.svg', '')
+        ->custom('./assets/ui-examples/images/Page/organisation.svg', '')
         ->withSize('small');
 
     $sf = $f->maincontrols()->slate();
@@ -350,7 +350,7 @@ function getDemoEntryOrganisation(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\Mai
 function getDemoEntryAdministration(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/administration.svg', '')
+        ->custom('./assets/ui-examples/images/Page/administration.svg', '')
         ->withSize('small');
     return $f->maincontrols()->slate()->legacy(
         'Administration',
@@ -364,7 +364,7 @@ function getDemoEntryTools(\ILIAS\UI\Factory $f): array
     $tools = [];
 
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/question.svg', '')
+        ->custom('./assets/ui-examples/images/Page/question.svg', '')
         ->withSize('small');
     $slate = $f->maincontrols()->slate()->legacy(
         'Help',
@@ -384,7 +384,7 @@ function getDemoEntryTools(\ILIAS\UI\Factory $f): array
     $tools['tool1'] = $slate;
 
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/pencil.svg', '')
+        ->custom('./assets/ui-examples/images/Page/pencil.svg', '')
         ->withSize('small');
     $slate = $f->maincontrols()->slate()->legacy(
         'Editor',
@@ -403,7 +403,7 @@ function getDemoEntryTools(\ILIAS\UI\Factory $f): array
     $tools['tool2'] = $slate;
 
     $symbol = $f->symbol()->icon()
-        ->custom('./components/ILIAS/UI/src/examples/Layout/Page/Standard/notebook.svg', '')
+        ->custom('./assets/ui-examples/images/Page/notebook.svg', '')
         ->withSize('small');
     $slate = $f->maincontrols()->slate()->legacy(
         'Initially hidden',

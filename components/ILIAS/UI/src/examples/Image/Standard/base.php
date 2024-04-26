@@ -16,7 +16,7 @@ function base()
 
     //Generating and rendering the image
     $image = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/imagesImage/HeaderIconLarge.svg",
         "Thumbnail Example"
     );
     $html = $renderer->render($image);
