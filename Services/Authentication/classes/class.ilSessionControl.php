@@ -263,8 +263,8 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
 
         $ts = time();
-        $min_idle = (int) $ilSetting->get('session_min_idle', self::DEFAULT_MIN_IDLE) * 60;
-        $max_idle = (int) $ilSetting->get('session_max_idle', self::DEFAULT_MAX_IDLE) * 60;
+        $min_idle = (int) $ilSetting->get('session_min_idle', (string) self::DEFAULT_MIN_IDLE) * 60;
+        $max_idle = (int) $ilSetting->get('session_max_idle', (string) self::DEFAULT_MAX_IDLE) * 60;
 
         $query = "SELECT session_id,expires FROM usr_session WHERE expires >= %s " .
                 "AND (expires - %s) < (%s - %s) " .
