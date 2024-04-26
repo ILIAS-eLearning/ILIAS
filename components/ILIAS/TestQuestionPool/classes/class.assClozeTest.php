@@ -399,7 +399,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 ($eval->e($item->getLowerBound()) !== false && strlen(
                     $item->getLowerBound()
                 ) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
-                ($eval->e($item->getUpperBound() !== false) && strlen(
+                ($eval->e($item->getUpperBound()) !== false && strlen(
                     $item->getUpperBound()
                 ) > 0) ? $item->getUpperBound() : $item->getAnswertext(),
                 (int) $gap->getGapSize()

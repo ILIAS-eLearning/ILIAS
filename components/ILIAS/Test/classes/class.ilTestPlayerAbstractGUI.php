@@ -1440,7 +1440,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                             $this->object->getRefId(),
                             $question_id,
                             $this->user->getId(),
-                            TestParticipantInteractionTypes::TEST_RUN_STARTED,
+                            TestParticipantInteractionTypes::QUESTION_SHOWN,
                             []
                         )
                     );
