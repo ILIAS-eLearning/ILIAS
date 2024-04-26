@@ -76,7 +76,7 @@ class ilObjTest extends ilObject
     protected GeneralQuestionPropertiesRepository $questionrepository;
     private RequestDataCollector $testrequest;
     private MarksRepository $marks_repository;
-    private ?MarkSchema $mark_schema;
+    private ?MarkSchema $mark_schema = null;
     public int $test_id = -1;
     public int $invitation = self::INVITATION_OFF;
     public string $author;
