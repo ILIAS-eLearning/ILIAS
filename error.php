@@ -21,11 +21,14 @@ try {
     $tpl->setContent($local_tpl->get());
     $tpl->printToStdout();
 } catch (Exception $e) {
+    header("HTTP/1.1 500 Internal Server Error");
     if (defined('DEVMODE') && DEVMODE) {
         throw $e;
     }
 
     if (!($e instanceof \PDOException)) {
         die($e->getMessage());
+    } else {
+        die('Database Connection Failed.');
     }
 }
