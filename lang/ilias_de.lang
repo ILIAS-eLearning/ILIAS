@@ -781,6 +781,7 @@ assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit ident
 assessment#:#imagemap#:#Imagemap
 assessment#:#import_question#:#Fragen importieren
 assessment#:#imported#:#importiert
+assessment#:#in_range#:#Innerhalb des Bereichs
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#insert_after#:#Einfügen hinter

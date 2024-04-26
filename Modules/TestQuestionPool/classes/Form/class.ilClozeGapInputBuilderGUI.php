@@ -264,6 +264,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             . ',gap_backup           : []'
             . ',unused_gaps_comb     : []'
             . ',outofbound_text      : ' . '"' . $lng->txt('out_of_range') . '"'
+            . ',inrange_text      : ' . '"' . $lng->txt('in_range') . '"'
             . ',combination_error    : ' . '"' . $lng->txt('please_select') . '"'
             . ',combination_text     : ' . '"' . $lng->txt('gap_combination') . '"'
             . ',copy_of_combination  : ' . '"' . $lng->txt('copy_of') . ' ' . $lng->txt('gap_combination') . '"'
