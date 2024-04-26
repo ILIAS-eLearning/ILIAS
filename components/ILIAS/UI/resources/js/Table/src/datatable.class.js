@@ -311,7 +311,7 @@ export default class DataTable {
 
   dragsortable() {
     const rows = Array.from(this.#table.rows);
-    rows.shift(); //exclude header
+    rows.shift(); // exclude header
     rows.forEach((row) => this.#addDraglisteners(row));
   }
 
@@ -325,20 +325,22 @@ export default class DataTable {
     this.#tmpDragRow = event.target;
   }
 
-  #isDraggedElementValidRow(){
-    return this.#tmpDragRow instanceof HTMLElement
-      && this.#tmpDragRow.tagName == 'TR'
+  #isDraggedElementValidRow() {
+    return typeof this.#tmpDragRow === 'object'
+      && this.#tmpDragRow.nodeType === 1
+      && this.#tmpDragRow.tagName === 'TR'
       && this.#tmpDragRow.classList.contains('c-table-data__row');
   }
+
   dragover(event) {
-    if(! this.#isDraggedElementValidRow()) {
+    if (!this.#isDraggedElementValidRow()) {
       return;
     }
 
     const e = event;
     e.preventDefault();
     const rows = Array.from(this.#table.rows);
-    rows.shift(); //exclude header
+    rows.shift(); // exclude header
     const target = e.target.closest('tr');
     if (rows.indexOf(target) > rows.indexOf(this.#tmpDragRow)) {
       target.after(this.#tmpDragRow);
