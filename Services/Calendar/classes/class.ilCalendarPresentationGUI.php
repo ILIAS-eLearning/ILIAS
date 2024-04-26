@@ -175,6 +175,7 @@ class ilCalendarPresentationGUI
     protected function initAndRedirectToConsultationHours()
     {
         $visibility = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $this->ref_id);
+        $consultation_hours_initialized = false;
         foreach ($this->cats->getCategoriesInfo() as $info) {
             if (
                 $info["type"] == ilCalendarCategory::TYPE_CH &&
@@ -190,7 +191,13 @@ class ilCalendarPresentationGUI
                 $this->ctrl->redirectToURL(
                     $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
                 );
+                $consultation_hours_initialized = true;
             }
+        }
+        if (!$consultation_hours_initialized) {
+            $this->ctrl->redirectToURL(
+                $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
+            );
         }
     }
 
