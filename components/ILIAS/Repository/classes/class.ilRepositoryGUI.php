@@ -182,7 +182,10 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             if ($this->ctrl->getCmd() === "return") {
                 $this->ctrl->redirectByClass($next_class, "");
             }
-            $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
+
+            if ($this->ctrl->getCmd() !== "showRepTree") {
+                $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
+            }
         }
 
         // commands that are always handled by repository gui
