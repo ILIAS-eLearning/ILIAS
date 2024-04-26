@@ -349,6 +349,7 @@ class ilTestImporter extends ilXmlImporter
     protected function importSkillLevelThresholds(ilImportMapping $mapping, ilAssQuestionSkillAssignmentList $assignmentList, ilObjTest $test_obj, $xmlFile)
     {
         $parser = new ilTestSkillLevelThresholdXmlParser($xmlFile);
+        $parser->initSkillLevelThresholdImportList();
         $parser->startParsing();
 
         $importer = new ilTestSkillLevelThresholdImporter($this->db);
