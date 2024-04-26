@@ -21,14 +21,11 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
-/**
- *
- * @author skergomard
- */
 interface TestUserInteraction
 {
     public function getUniqueIdentifier(): ?string;
@@ -36,8 +33,9 @@ interface TestUserInteraction
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
         StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
+        GeneralQuestionPropertiesRepository $properties_repo,
         UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow;

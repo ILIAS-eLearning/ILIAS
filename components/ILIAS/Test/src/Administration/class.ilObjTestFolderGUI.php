@@ -18,10 +18,15 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogViewer;
+
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @author Helmut Schottmüller <hschottm@gmx.de>
@@ -29,8 +34,12 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  */
 class ilObjTestFolderGUI extends ilObjectGUI
 {
-    private GeneralQuestionPropertiesRepository $questionrepository;
     private RequestDataCollector $testrequest;
+    private TestLogViewer $log_viewer;
+
+    private GeneralQuestionPropertiesRepository $questionrepository;
+
+    private DataFactory $data_factory;
 
     public function __construct(
         $a_data,
@@ -40,9 +49,11 @@ class ilObjTestFolderGUI extends ilObjectGUI
     ) {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
+        $this->data_factory = new DataFactory();
 
         $local_dic = TestDIC::dic();
         $this->testrequest = $local_dic['request_data_collector'];
+        $this->log_viewer = $local_dic['logging.viewer'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->type = "assf";
@@ -277,7 +288,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
             return;
         }
 
-
         $this->getTestFolder()->setSkillTriggeringNumAnswersBarrier();
         $this->getTestFolder()->setExportEssayQuestionsWithHtml(
             (bool) ($form->getInput('export_essay_qst_with_html') ?? '0')
@@ -337,62 +347,13 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $this->logsObject($form);
     }
 
-    /**
-     * Called when the a log should be exported
-     */
-    public function exportLogObject(): void
+    public function exportLegacyLogsObject(): void
     {
-        $form = $this->getLogDataOutputForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->logsObject($form);
-            return;
-        }
+        $csv_output = $this->getTestFolder()->getTestLogViewer()->getLegacyLogExportForObjId();
 
-        $test = (int) $form->getInput('sel_test');
-        $from = $form->getItemByPostVar('log_from')->getDate()->get(IL_CAL_UNIX);
-        $until = $form->getItemByPostVar('log_until')->getDate()->get(IL_CAL_UNIX);
-
-        $csv = [];
-        $separator = ";";
-        $row = [
-            $this->lng->txt("assessment_log_datetime"),
-            $this->lng->txt("user"),
-            $this->lng->txt("assessment_log_text"),
-            $this->lng->txt("question")
-        ];
-
-        $available_tests = ilObjTest::_getAvailableTests(1);
-        $csv[] = ilCSVUtil::processCSVRow($row, true, $separator);
-        $log_output = $this->getTestFolder()->getTestLogViewer()->getLegacyLogsForObjId($test);
-        $users = [];
-        foreach ($log_output as $key => $log) {
-            if (!array_key_exists($log["user_fi"], $users)) {
-                $users[$log["user_fi"]] = ilObjUser::_lookupName((int) $log["user_fi"]);
-            }
-            $title = "";
-            if ($log["question_fi"] || $log["original_fi"]) {
-                $title = $this->questionrepository->getForQuestionId((int) $log["question_fi"])->getTitle();
-                if ($title === '') {
-                    $title = $this->questionrepository->getForQuestionId((int) $log["original_fi"])->getTitle();
-                }
-                $title = $this->lng->txt("assessment_log_question") . ": " . $title;
-            }
-            $csvrow = [];
-            $date = new \ilDateTime((int) $log['tstamp'], IL_CAL_UNIX);
-            $csvrow[] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d H:i');
-            $csvrow[] = trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]);
-            $csvrow[] = trim($log["logtext"]);
-            $csvrow[] = $title;
-            $csv[] = ilCSVUtil::processCSVRow($csvrow, true, $separator);
-        }
-        $csvoutput = "";
-        foreach ($csv as $row) {
-            $csvoutput .= implode($separator, $row) . "\n";
-        }
         ilUtil::deliverData(
-            $csvoutput,
-            str_replace(" ", "_", "log_" . $from . "_" . $until . "_" . $available_tests[$test]) . ".csv"
+            $csv_output,
+            'legacy_logs.csv'
         );
     }
 
@@ -449,88 +410,28 @@ class ilObjTestFolderGUI extends ilObjectGUI
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
-    public function logsObject(ilPropertyFormGUI $form = null): void
+    public function logsObject(): void
     {
         $this->tabs_gui->activateTab('logs');
-
-        $template = new \ilTemplate("tpl.assessment_logs.html", true, true, "components/ILIAS/Test");
-
-        $p_test = 0;
-        $fromdate = 0;
-        $untildate = 0;
-
-        if (!($form instanceof ilPropertyFormGUI)) {
-            $form = $this->getLogDataOutputForm();
-
-            $values = [];
-            if ($this->testrequest->isset('sel_test')) {
-                $p_test = $values['sel_test'] = $this->testrequest->int('sel_test');
-            }
-
-            if ($this->testrequest->isset('log_from')) {
-                $fromdate = $this->testrequest->int('log_from');
-            } else {
-                $fromdate = mktime(0, 0, 0, 1, 1, (int) date('Y'));
-            }
-
-            if ($this->testrequest->isset('log_until')) {
-                $untildate = $this->testrequest->int('log_until');
-            } else {
-                $untildate = time();
-            }
-
-            $values['log_from'] = (new \ilDateTime($fromdate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
-            $values['log_until'] = (new \ilDateTime($untildate, IL_CAL_UNIX))->get(IL_CAL_DATETIME);
-
-            $form->setValuesByArray($values);
-        } else {
-            $fromdate_input = $form->getItemByPostVar('log_from')->getDate();
-            $untildate_input = $form->getItemByPostVar('log_until')->getDate();
-            if ($fromdate_input instanceof ilDateTime && $untildate_input instanceof ilDateTime) {
-                $p_test = (int) $form->getInput('sel_test');
-
-                $fromdate = $fromdate_input->get(IL_CAL_UNIX);
-                $untildate = $untildate_input->get(IL_CAL_UNIX);
-            }
-        }
-
-        $this->ctrl->setParameter($this, 'sel_test', (int) $p_test);
-        $this->ctrl->setParameter($this, 'log_until', (int) $untildate);
-        $this->ctrl->setParameter($this, 'log_from', (int) $fromdate);
-
-        $template->setVariable("FORM", $form->getHTML());
-
-        if ($p_test) {
-            $table_gui = $this->getTestFolder()->getTestLogViewer()->getLegacyLogTableForObjId($this, $p_test);
-            $template->setVariable('LOG', $table_gui->getHTML());
-        }
-        $this->tpl->setVariable("ADM_CONTENT", $template->get());
-    }
-
-    /**
-     * Deletes the log entries for one or more tests
-     */
-    public function deleteLogObject(): void
-    {
-        $test_ids = $this->post_wrapper->retrieve(
-            'chb_test',
-            $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                $this->refinery->always([])
-            ])
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('export_legacy_logs'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'exportLegacyLogs')
+            )
         );
-
-        if ($test_ids !== []) {
-            $this->getTestFolder()->deleteLogEntries($test_ids);
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('ass_log_deleted'));
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ass_log_delete_no_selection'));
-        }
-
-        $this->logAdminObject();
+        $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
+        $query_params_namespace = ['test', 'logging'];
+        list($url_builder, $action_parameter_token, $row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
+            $query_params_namespace,
+            'action',
+            'log_entry'
+        );
+        $table_gui = $this->log_viewer->getLogTable(
+            $url_builder,
+            $action_parameter_token,
+            $row_id_token
+        );
+        $this->tpl->setVariable('ADM_CONTENT', $this->ui_renderer->render($table_gui));
     }
 
     public function getAdminTabs(): void

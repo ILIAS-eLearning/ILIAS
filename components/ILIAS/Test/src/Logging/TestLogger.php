@@ -27,11 +27,11 @@ use ILIAS\Test\Administration\TestLoggingSettings;
 class TestLogger implements LoggerInterface
 {
     private const LOG_ENTRY_TYPES = [
-        'test_administration_interaction' => TestAdministrationInteractionTypes::class,
-        'question_administration_interaction' => TestQuestionAdministrationInteractionTypes::class,
-        'participant_interaction' => TestParticipantInteractionTypes::class,
-        'scoring_interaction' => TestScoringInteractionTypes::class,
-        'test_error' => TestErrorTypes::class
+        TestAdministrationInteraction::IDENTIFIER => TestAdministrationInteractionTypes::class,
+        TestQuestionAdministrationInteraction::IDENTIFIER => TestQuestionAdministrationInteractionTypes::class,
+        TestParticipantInteraction::IDENTIFIER => TestParticipantInteractionTypes::class,
+        TestScoringInteraction::IDENTIFIER => TestScoringInteractionTypes::class,
+        TestError::IDENTIFIER => TestErrorTypes::class
     ];
     public function __construct(
         private readonly TestLoggingSettings $logging_settings,

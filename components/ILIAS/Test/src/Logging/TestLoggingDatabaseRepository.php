@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Logging\LogTable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
@@ -31,6 +32,17 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     public const PARTICIPANT_LOG_TABLE = 'tst_pax_log';
     public const SCORING_LOG_TABLE = 'tst_mark_log';
     public const ERROR_LOG_TABLE = 'tst_error_log';
+
+    private const VIEW_TABLE_TO_DB_TABLES = [
+        LogTable::COLUMN_DATE_TIME => 'modification_ts',
+        LogTable::COLUMN_CORRESPONDING_TEST => 'ref_id',
+        LogTable::COLUMN_ADMIN => 'admin_id',
+        LogTable::COLUMN_PARTICIPANT => 'pax_id',
+        LogTable::COLUMN_SOURCE_IP => 'source_ip',
+        LogTable::COLUMN_QUESTION => 'qst_id',
+        LogTable::COLUMN_LOG_ENTRY_TYPE => 'type',
+        LogTable::COLUMN_INTERACTION_TYPE => 'interaction_type'
+    ];
 
     public function __construct(
         private readonly Factory $factory,
@@ -96,7 +108,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             $interaction_type_filter
         )
         ) {
-            yield from $this->retrieveInteractionsFromDatabase(
+            yield from $this->retrieveInteractions(
                 $valid_types,
                 $range,
                 $order,
@@ -111,6 +123,35 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
                 $interaction_type_filter
             );
         }
+    }
+
+    public function getLogsCount(
+        array $valid_types,
+        ?int $from_filter,
+        ?int $to_filter,
+        ?array $test_filter,
+        ?array $admin_filter,
+        ?array $pax_filter,
+        ?array $question_filter,
+        ?array $ip_filter,
+        ?array $log_entry_type_filter,
+        ?array $interaction_type_filter
+    ): int {
+        $result = $this->db->query(
+            $this->buildCountQuery(
+                $valid_types,
+                $from_filter,
+                $to_filter,
+                $test_filter,
+                $admin_filter,
+                $pax_filter,
+                $question_filter,
+                $ip_filter,
+                $log_entry_type_filter,
+                $interaction_type_filter
+            )
+        );
+        return $this->db->fetchObject($result)->cnt;
     }
 
     public function getLog(
@@ -130,34 +171,24 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         );
     }
 
-    public function getLegacyLogsForObjId(
-        int $obj_id = null,
-        bool $without_student_interactions = false
-    ): array {
+    public function getLegacyLogsForObjId(?int $obj_id): array
+    {
         $log = [];
-        if ($without_student_interactions === true) {
-            $result = $this->db->queryF(
-                'SELECT * FROM ' . self::LEGACY_LOG_TABLE . ' WHERE obj_fi = %s AND test_only = %s ORDER BY tstamp',
-                ['integer', 'text'],
-                [
-                    $obj_id,
-                    1
-                ]
-            );
-        } else {
-            $result = $this->db->queryF(
-                'SELECT * FROM ' . self::LEGACY_LOG_TABLE . ' WHERE obj_fi = %s ORDER BY tstamp',
-                ['integer'],
-                [
-                    $obj_id
-                ]
-            );
+
+        $where = '';
+        if ($obj_id !== null) {
+            $where = ' WHERE obj_fi = ' . $obj_id;
         }
+
+        $result = $this->db->query(
+            'SELECT * FROM ' . self::LEGACY_LOG_TABLE . $where . ' ORDER BY tstamp'
+        );
+
         while ($row = $this->db->fetchAssoc($result)) {
-            if (!array_key_exists($row["tstamp"], $log)) {
-                $log[$row["tstamp"]] = [];
+            if (!array_key_exists($row['tstamp'], $log)) {
+                $log[$row['tstamp']] = [];
             }
-            $log[$row["tstamp"]][] = $row;
+            $log[$row['tstamp']][] = $row;
         }
         krsort($log);
         // flatten array
@@ -246,7 +277,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         return $this->factory->buildErrorFromDBValues($this->db->fetchObject($query));
     }
 
-    private function retrieveInteractionsFromDatabase(
+    private function retrieveInteractions(
         array $valid_types,
         Range $range,
         Order $order,
@@ -261,7 +292,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $interaction_type_filter
     ): \Generator {
         $result = $this->db->query(
-            $this->buildInteractionsQuery(
+            $this->buildInteractionsQueryWithLimitAndOrder(
                 $valid_types,
                 $range,
                 $order,
@@ -277,26 +308,23 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             )
         );
 
-        while ($interaction = $result->fetchObject()) {
+        while ($interaction = $this->db->fetchObject($result)) {
             switch ($interaction->type) {
                 case TestAdministrationInteraction::IDENTIFIER:
                     yield $this->factory->buildTestAdministrationInteractionFromDBValues($interaction);
-
-                    // no break
+                    break;
                 case TestQuestionAdministrationInteraction::IDENTIFIER:
                     yield $this->factory->buildQuestionAdministrationInteractionFromDBValues($interaction);
-
-                    // no break
+                    break;
                 case TestParticipantInteraction::IDENTIFIER:
                     yield $this->factory->buildParticipantInteractionFromDBValues($interaction);
-
-                    // no break
+                    break;
                 case TestScoringInteraction::IDENTIFIER:
                     yield $this->factory->buildScoringInteractionFromDBValues($interaction);
-
-                    // no break
+                    break;
                 case TestError::IDENTIFIER:
                     yield $this->factory->buildErrorFromDBValues($interaction);
+                    break;
             }
         }
     }
@@ -320,10 +348,75 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         return $query;
     }
 
-    private function buildInteractionsQuery(
+    private function buildInteractionsQueryWithLimitAndOrder(
         array $valid_types,
         Range $range,
         Order $order,
+        ?int $from_filter,
+        ?int $to_filter,
+        ?array $test_filter,
+        ?array $admin_filter,
+        ?array $pax_filter,
+        ?array $question_filter,
+        ?array $ip_filter,
+        ?array $log_entry_type_filter,
+        ?array $interaction_type_filter
+    ): string {
+        $query = $this->buildInteractionsQuery(
+            $valid_types,
+            $from_filter,
+            $to_filter,
+            $test_filter,
+            $admin_filter,
+            $pax_filter,
+            $question_filter,
+            $ip_filter,
+            $log_entry_type_filter,
+            $interaction_type_filter
+        );
+
+        $init = PHP_EOL . 'ORDER BY ';
+        $order_by_string = $order->join(
+            $init,
+            static fn(string $ret, string $key, string $value): string => "{$ret} "
+                . self::VIEW_TABLE_TO_DB_TABLES[$key] . " {$value}, ",
+        );
+        if ($order_by_string !== $init) {
+            $query .= mb_substr($order_by_string, 0, -2);
+        }
+        return $query . PHP_EOL . 'LIMIT ' . $range->getStart() . ', ' . $range->getLength();
+    }
+
+    private function buildCountQuery(
+        array $valid_types,
+        ?int $from_filter,
+        ?int $to_filter,
+        ?array $test_filter,
+        ?array $admin_filter,
+        ?array $pax_filter,
+        ?array $question_filter,
+        ?array $ip_filter,
+        ?array $log_entry_type_filter,
+        ?array $interaction_type_filter
+    ): string {
+        return 'SELECT COUNT(*) AS cnt FROM (' . PHP_EOL
+            . $this->buildInteractionsQuery(
+                $valid_types,
+                $from_filter,
+                $to_filter,
+                $test_filter,
+                $admin_filter,
+                $pax_filter,
+                $question_filter,
+                $ip_filter,
+                $log_entry_type_filter,
+                $interaction_type_filter
+            ) . PHP_EOL
+            . ') x';
+    }
+
+    private function buildInteractionsQuery(
+        array $valid_types,
         ?int $from_filter,
         ?int $to_filter,
         ?array $test_filter,
@@ -361,14 +454,13 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             );
         }
 
-        $query_string = implode(PHP_EOL . 'UNION' . PHP_EOL, $query);
-
-        $init = PHP_EOL . ' ORDER BY ';
-        $order_by_string = $order->join($init, fn($ret, $key, $value) => "{$ret} {$key} {$value}, ");
-        if ($order_by_string !== $init) {
-            $query_string .= mb_substr($order_by_string, 0, -2);
-        }
-        return PHP_EOL . ' LIMIT ' . $range->getStart() . ', ' . $range->getLength();
+        return implode(
+            PHP_EOL . 'UNION' . PHP_EOL,
+            array_filter(
+                $query,
+                static fn(?string $select): bool => $select !== null
+            )
+        );
     }
 
     private function buildTableQueryFromFilterValues(
@@ -381,7 +473,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
         ?array $question_filter,
         ?array $ip_filter,
         ?array $interaction_type_filter
-    ): string {
+    ): ?string {
         $table_name = $this->getTableNameForTypeIdentifier($type);
         if ($pax_filter !== null
                 && ($table_name === self::TEST_ADMINISTRATION_LOG_TABLE
@@ -393,7 +485,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             || $question_filter !== null
                 && $table_name === self::TEST_ADMINISTRATION_LOG_TABLE
         ) {
-            return '';
+            return null;
         }
 
         $query = $this->buildSelectForTable($table_name, $type);
@@ -416,24 +508,24 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     {
         switch ($table_name) {
             case self::TEST_ADMINISTRATION_LOG_TABLE:
-                return "SELECT {$type} AS type, id, ref_id, NULL AS qst_id, admin_id, "
-                    . 'NULL AS pax_id, NULL AS source_ip, interaction_type, modified_ts, '
+                return "SELECT '{$type}' AS type, id, ref_id, NULL AS qst_id, admin_id, "
+                    . 'NULL AS pax_id, NULL AS source_ip, interaction_type, modification_ts, '
                     . "additional_data FROM {$table_name}";
             case self::QUESTION_ADMINISTRATION_LOG_TABLE:
-                return "SELECT {$type} AS type, id, ref_id, qst_id, admin_id, "
-                    . 'NULL AS pax_id, NULL AS source_ip, interaction_type, modified_ts, '
+                return "SELECT '{$type}' AS type, id, ref_id, qst_id, admin_id, "
+                    . 'NULL AS pax_id, NULL AS source_ip, interaction_type, modification_ts, '
                     . "additional_data FROM {$table_name}";
             case self::PARTICIPANT_LOG_TABLE:
-                return "SELECT {$type} AS type, id, ref_id, qst_id, NULL AS admin_id, "
-                    . 'pax_id, source_ip, interaction_type, modified_ts, '
+                return "SELECT '{$type}' AS type, id, ref_id, qst_id, NULL AS admin_id, "
+                    . 'pax_id, source_ip, interaction_type, modification_ts, '
                     . "additional_data FROM {$table_name}";
             case self::SCORING_LOG_TABLE:
-                return "SELECT {$type} AS type, id, ref_id, qst_id, admin_id, "
-                    . 'pax_id, NULL AS source_ip, interaction_type, modified_ts, '
+                return "SELECT '{$type}' AS type, id, ref_id, qst_id, admin_id, "
+                    . 'pax_id, NULL AS source_ip, interaction_type, modification_ts, '
                     . "additional_data FROM {$table_name}";
             case self::ERROR_LOG_TABLE:
-                return "SELECT {$type} AS type, id, ref_id, qst_id, admin_id, "
-                    . 'pax_id, NULL AS source_ip, interaction_type, modified_ts, '
+                return "SELECT '{$type}' AS type, id, ref_id, qst_id, admin_id, "
+                    . 'pax_id, NULL AS source_ip, interaction_type, modification_ts, '
                     . "error_message AS additional_data FROM {$table_name}";
         }
     }
@@ -456,22 +548,22 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
             $where[] = 'modification_ts < ' . $to_filter;
         }
         if ($test_filter !== null) {
-            $where[] = $this->db->in('ref_id', $test_filter);
+            $where[] = $this->db->in('ref_id', $test_filter, false, \ilDBConstants::T_INTEGER);
         }
         if ($admin_filter !== null) {
-            $where[] = $this->db->in('admin_id', $admin_filter);
+            $where[] = $this->db->in('admin_id', $admin_filter, false, \ilDBConstants::T_INTEGER);
         }
         if ($pax_filter !== null) {
-            $where[] = $this->db->in('pax_id', $pax_filter);
+            $where[] = $this->db->in('pax_id', $pax_filter, false, \ilDBConstants::T_INTEGER);
         }
         if ($question_filter !== null) {
-            $where[] = $this->db->in('qst_id', $question_filter);
+            $where[] = $this->db->in('qst_id', $question_filter, false, \ilDBConstants::T_INTEGER);
         }
         if ($ip_filter !== null) {
-            $where[] = $this->db->like('source_ip', $ip_filter);
+            $where[] = $this->db->like('source_ip', \ilDBConstants::T_TEXT, $ip_filter);
         }
         if ($interaction_type_filter !== null) {
-            $where[] = $this->db->like('interaction_type', $interaction_type_filter);
+            $where[] = $this->db->like('interaction_type', \ilDBConstants::T_TEXT, $interaction_type_filter);
         }
 
         if ($where === []) {

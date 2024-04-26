@@ -18,9 +18,12 @@
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+
 /**
  *
- * @author skergomard
+ * @admin skergomard
  */
 interface TestLoggingRepository
 {
@@ -35,8 +38,8 @@ interface TestLoggingRepository
      */
     public function getLogs(
         array $valid_types,
-        \ILIAS\Data\Range $range,
-        \ILIAS\Data\Order $order,
+        Range $range,
+        Order $order,
         ?int $from_filter,
         ?int $to_filter,
         ?array $test_filter,
@@ -48,6 +51,19 @@ interface TestLoggingRepository
         ?array $interaction_type_filter
     ): \Generator;
 
+    public function getLogsCount(
+        array $valid_types,
+        ?int $from_filter,
+        ?int $to_filter,
+        ?array $test_filter,
+        ?array $admin_filter,
+        ?array $pax_filter,
+        ?array $question_filter,
+        ?array $ip_filter,
+        ?array $log_entry_type_filter,
+        ?array $interaction_type_filter
+    ): int;
+
     public function getLog(string $unique_identifier): TestUserInteraction;
 
     /**
@@ -55,5 +71,5 @@ interface TestLoggingRepository
      */
     public function deleteLogs(array $unique_identifiers): void;
 
-    public function getLegacyLogsForObjId(int $obj_id = null, bool $without_student_interactions = false): array;
+    public function getLegacyLogsForObjId(?int $obj_id): array;
 }
