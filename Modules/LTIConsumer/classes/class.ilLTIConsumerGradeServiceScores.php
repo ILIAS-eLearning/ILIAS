@@ -115,7 +115,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
                 $score->scoreGiven = null;
             }
         }
-        $result = (float)$score->scoreGiven / (float)$score->scoreMaximum;
+        $result = (float) $score->scoreGiven / (float) $score->scoreMaximum;
         ilObjLTIConsumer::getLogger()->debug("result: " . $result);
 
         $ltiObjRes = new ilLTIConsumerResultService();
@@ -200,7 +200,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $query = "SELECT usr_id FROM cmix_users WHERE obj_id = " . $DIC->database()->quote($objId, 'integer');
 
-        if ($atExist > 1) {
+        if ($atExist > 0) {
             $query .= " AND usr_ident = " . $DIC->database()->quote($userIdent, 'text');
         } else { //LTI 1.1
             $query .= " AND" . $DIC->database()->like('usr_ident', 'text', $userIdent . '@%');
