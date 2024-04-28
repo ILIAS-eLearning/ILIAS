@@ -380,7 +380,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
         $this->form = new ilPropertyFormGUI();
         //title
-        $this->form->setTitle($this->lng->txt("import_sahs"));
+        $this->form->setTitle($this->lng->txt("import_sahs_new"));
 
         $this->form->setDescription($this->lng->txt("import_sahs_info"));
 
