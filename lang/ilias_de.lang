@@ -2269,7 +2269,7 @@ bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Downlo
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
 bibl#:#Type#:#Typ
-bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
 bibl#:#bib_default_address#:#Adresse
 bibl#:#bib_default_author#:#Autor
@@ -2292,7 +2292,7 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Auflage
 bibl#:#bib_default_year#:#Jahr
 bibl#:#bibl_copy#:#Literaturliste kopieren
-bibl#:#bibl_edit#:#Literaturliste bearbeiten
+bibl#:#bibl_edit#:#Einstellungen der Literaturliste
 bibl#:#bibl_filter#:#Filter
 bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#bibl_library_img#:#Bild-URL
@@ -2318,13 +2318,13 @@ bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#field#:#Feld
 bibl#:#fields#:#Felder
 bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
-bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus, für das Sie einen Filter hinzufügen möchten.
-bibl#:#filter_form_title#:#Neuen Filter hinzufügen
-bibl#:#filter_type#:#Filter Typ
+bibl#:#filter_field_info#:#Wählen Sie ein Kriterium aus, das Sie dem Filter hinzufügen möchten.
+bibl#:#filter_form_title#:#Neues Feld hinzufügen
+bibl#:#filter_type#:#Typ
 bibl#:#filter_type_1#:#Textfeld
 bibl#:#filter_type_2#:#Auswahl
 bibl#:#filter_type_3#:#Mehrfachauswahl
-bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#filter_type_info#:#Wählen Sie einen Typ für das Feld aus.
 bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
 bibl#:#msg_filter_info#:#Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen.
