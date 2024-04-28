@@ -2262,8 +2262,8 @@ bgtask#:#bgtask_failure#:#Fehler
 bgtask#:#bgtask_processing#:#Download erzeugen
 bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
-bgtask#:#bgtask_setting_limit#:#Globales Limit
-bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die Summe der Dateigrössen den angegebenen Megabyte-Wert nicht überschreitet.
+bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
+bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
@@ -3993,8 +3993,8 @@ common#:#enable_hist_user_comments_desc#:#Sie können Überarbeitungskommentare 
 common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
-common#:#enable_preview#:#Vorschau aktivieren
-common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
+common#:#enable_preview#:#Vorschau
+common#:#enable_preview_info#:#Für Dateien werden Vorschaubilder angezeigt. Die unterstützten Dateiformate ergeben sich aus der Serverkonfiguration.
 common#:#enable_repository_dnd_upload#:#Im Magazin zulassen
 common#:#enable_repository_dnd_upload_info#:#Ermöglicht das Ziehen von Dateien vom Computer direkt auf ein Magazin-Objekt, um sie dort hochzuladen.
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
@@ -4409,8 +4409,8 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
 common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
-common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
-common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten.
+common#:#inline_file_extensions#:#Im Browser anzeigen
+common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
 common#:#insert#:#Einfügen
 common#:#insert_object_here#:#Objekt hier einfügen
 common#:#inst_id#:#NIC-ID
@@ -4605,8 +4605,8 @@ common#:#mainbar_more_label#:#Mehr
 common#:#manage_members#:#Mitglieder verwalten
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
-common#:#max_previews_per_object#:#Anzahl Vorschaubilder pro Datei
-common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest, die pro Datei erzeugt werden.
+common#:#max_previews_per_object#:#Anzahl Vorschaubilder
+common#:#max_previews_per_object_info#:#Anzahl an Vorschaubildern, die pro Datei angezeigt werden.
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
@@ -5319,7 +5319,7 @@ common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
-common#:#preview_image_size#:#Grösse der Vorschau-Bilder
+common#:#preview_image_size#:#Größe der Vorschaubilder*
 common#:#preview_learner_info#:#Wenn aktiviert, wird der Kurs- und Gruppenadministration die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
@@ -7689,8 +7689,8 @@ crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests e
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 crs#:#crs_mail_all#:#Für alle Mitglieder
 crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
-crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
-crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf dem Reiter „Info“ eines Kurses
+crs#:#crs_mail_context_member_title#:#Kurs: Reiter „Info“
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
@@ -9726,8 +9726,8 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
-file#:#action_download#:#Datei herunterladen
-file#:#action_show#:#Infoseite anzeigen
+file#:#action_download#:#Datei direkt herunterladen
+file#:#action_show#:#Zunächst Reiter „Info“ anzeigen
 file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
@@ -9737,8 +9737,8 @@ file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
 file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
-file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
-file#:#download_ascii_filename_info#:#Ausschließlich ASCII-Zeichen in den Namen heruntergeladener Dateien zulassen. Nicht-ASCII-Zeichen in den Namen der heruntergeladenen Dateien werden durch ein "_" ersetzt. Um alle Zeichen zuzulassen, deaktivieren Sie diese Option.
+file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
+file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
 file#:#file_btn_lp_toggle_state_completed#:#Auf „Nicht bearbeitet“ setzen
 file#:#file_btn_lp_toggle_state_not_completed#:#Auf „Bearbeitet“ setzen
 file#:#file_copy#:#Datei kopieren
@@ -9758,7 +9758,7 @@ file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#important_info#:#Wichtige Informationen
-file#:#important_info_byline#:#Die Angaben werden im Reiter "Info" angezeigt.
+file#:#important_info_byline#:#Die Angaben werden im Reiter „Info“ angezeigt.
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9786,8 +9786,8 @@ file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#on_click_action#:#Klick auf Titel
 file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Die Vorschauversionen der Bilder werden je nach Bedarf verkleinert oder vergrößert, so dass ihre längste Seite der hier eingegebenen Länge (in px) entspricht.
-file#:#preview_persisting#:#Vorschaubilder persistieren
-file#:#preview_persisting_info#:#Generierte Vorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf erzeugt.
+file#:#preview_persisting#:#Vorschaubilder speichern
+file#:#preview_persisting_info#:#Vorschaubilder werden generiert und gespeichert. Sie müssen nicht mehr bei jedem Aufruf neu erzeugt werden. Das verbessert die Performanz.
 file#:#publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
 file#:#replace_file_info#:#Alle früheren Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
@@ -9795,7 +9795,7 @@ file#:#service_settings#:#Weitere Funktionen
 file#:#service_settings_saved#:#Gespeichert
 file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
-file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
+file#:#show_amount_of_downloads_info#:#Die Anzahl der Downloads wird im Reiter „Info“ des Dateiobjekts angezeigt.
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
@@ -10249,7 +10249,7 @@ grp#:#grp_info_agreement#:#Die folgenden Daten können von der Gruppenadministra
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
-grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf dem Reiter „Info“ und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe „%s“.
 grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe „%s“ aufgenommen worden.
@@ -10447,7 +10447,7 @@ iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestan
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_no_entries#:#Keine Einträge gefunden
 iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
@@ -10655,7 +10655,7 @@ ldap#:#ldap_group_search_base#:#Suchbasis
 ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
 ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf dem Reiter „Info“ des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin anzeigen.
 ldap#:#ldap_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu LDAP-Attributen
@@ -13709,7 +13709,7 @@ rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_activate_rating#:#Bewertung aktivieren
-rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
+rating#:#rating_activate_rating_info#:#Das Objekt kann mit 1-5 Sternen bewertet werden.
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
 rating#:#rating_categories#:#Bewertungs-Kategorien
@@ -15329,7 +15329,7 @@ sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde 
 sess#:#sess_print_list#:#Liste erstellen
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
-sess#:#sess_reg_cannot_participate_info#:#Personen haben auf der „Info-Seite“ die Möglichkeit, ihre Teilnahme abzusagen.
+sess#:#sess_reg_cannot_participate_info#:#Personen haben auf dem „Reiter „Info““ die Möglichkeit, ihre Teilnahme abzusagen.
 sess#:#sess_reg_direct#:#Direkte Anmeldung
 sess#:#sess_reg_direct_info#:#Personen müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_disabled#:#Ohne Anmeldung
@@ -16827,7 +16827,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
@@ -16837,7 +16837,7 @@ tagging#:#tagging_search_users#:#Benutzer suchen
 tagging#:#tagging_set_tag#:#Tags setzen
 tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
+tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie den Reiter „Info“ des Objekts und geben dort die Tags ein.
 tagging#:#tagging_tags#:#Tags
 tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 task#:#task_deadline#:#Ende
@@ -17125,7 +17125,7 @@ trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_short_system_load#:#Kurzzeithistorie
 trac#:#trac_show_graph#:#Als Diagrammansicht zeigen
 trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
-trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
+trac#:#trac_show_repository_views_info#:#Auf dem Reiter “Info“ werden die Anzahl der Zugriffe angezeigt.
 trac#:#trac_spent_seconds#:#Zeit
 trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
 trac#:#trac_status#:#Status
