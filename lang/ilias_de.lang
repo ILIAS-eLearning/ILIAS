@@ -4367,7 +4367,8 @@ common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Fragen in den Fragenpool importieren
 common#:#import_sahs#:#SCORM-Lernmodul importieren
-common#:#import_sahs_info#:#Zum Korrigieren von Tippfehlern oder Bildern nutzen Sie die Möglichkeit, über das Dateiverzeichnis einzelne Dateien zu ersetzen. Laden Sie hier einen SCORM-Export aus Ihrem Autorenwerkzeug hoch und nicht eine ILIAS Exportdatei. Stellen Sie sicher, dass Ihr Autorenwerkzeug die IDs in der Manifest-Datei beibehalten hat. Achtung: Auch beliebte Autorenwerkzeuge können das nicht. SCORM-Lernmodule bestimmter Autorenwerkzeuge verwerfen erzielte Lernerdaten, wenn Sie die Anzahl der Antwortoptionen von Fragen ändern oder neue Fragen einfügen. Prüfen Sie in einer Testinstallation, ob bereits erzielte Lernstände beim Wiederaufruf bereits gestarteter Lernmodule möglich sind.
+common#:#import_sahs_info#:#Zum Korrigieren von Tippfehlern oder Bildern nutzen Sie die Möglichkeit, über das Dateiverzeichnis einzelne Dateien zu ersetzen. Laden Sie hier einen SCORM-Export aus Ihrem Autorenwerkzeug hoch und nicht eine ILIAS-Exportdatei. Stellen Sie sicher, dass Ihr Autorenwerkzeug die IDs in der Manifest-Datei beibehalten hat. Achtung: Auch beliebte Autorenwerkzeuge können das nicht. SCORM-Lernmodule bestimmter Autorenwerkzeuge verwerfen erzielte Lernerdaten, wenn Sie die Anzahl der Antwortoptionen von Fragen ändern oder neue Fragen einfügen. Prüfen Sie in einer Testinstallation, ob bereits erzielte Lernstände beim Wiederaufruf bereits gestarteter Lernmodule möglich sind.
+common#:#import_sahs_new#:#Neue Version des SCORM-Lernmoduls importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -6337,11 +6338,11 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug bereitstellen
-content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
-content#:#cont_debug_deactivate12#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
-content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
-content#:#cont_debugging#:#Debugging
+content#:#cont_debug#:#Analysewerkzeug
+content#:#cont_debug_deactivate#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Analysewerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
+content#:#cont_debug_deactivate12#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
+content#:#cont_debug_deactivated#:#Hinweis: Das Analysewerkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
+content#:#cont_debugging#:#Fehlersuche
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
@@ -6642,10 +6643,10 @@ content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_interactions#:#Ergebnisse aus Aufgaben speichern
 content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben („interactions“) werden von den meisten Lernmodulen nur geschrieben und nie mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt und Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
-content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
-content#:#cont_internal_link#:#interner Link
+content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2-Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Wenn Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
+content#:#cont_internal_link#:#Interner Link
 content#:#cont_internal_links#:#Interne Links
-content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml muss identisch sein.
+content#:#cont_invalid_new_module#:#Modul ist nicht kompatibel! Die imsmanifest.xml muss identisch sein.
 content#:#cont_is_visible#:#isvisible
 content#:#cont_item#:#Eintrag
 content#:#cont_keyword#:#Schlagwort
@@ -6991,8 +6992,8 @@ content#:#cont_saved_interactive_image#:#Interaktives Bild gespeichert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
-content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
-content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
+content#:#cont_sc_auto_continue#:#Direkt ins nächste SCO
+content#:#cont_sc_auto_continue_info#:#Nach der letzten Aktivität öffnet ILIAS automatisch das nächste SCO. Diese Möglichkeit bieten nicht alle SCORM-1.2-Lernmodule.
 content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
 content#:#cont_sc_auto_review_completed#:#Ab Status „vollständig bearbeitet”
 content#:#cont_sc_auto_review_completed_and_passed#:#Ab Status „vollständig bearbeitet” und „bestanden”
@@ -7002,7 +7003,7 @@ content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Con
 content#:#cont_sc_auto_review_no#:#Nie (entspricht SCORM-Spezifikation)
 content#:#cont_sc_auto_review_passed#:#Ab Status „bestanden”
 content#:#cont_sc_auto_review_passed_or_failed#:#Ab Status „bestanden” oder „nicht bestanden”
-content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
+content#:#cont_sc_id_setting#:#„student_id“ entspricht
 content#:#cont_sc_id_setting_2004#:#„learner_id“ entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für „student_id“ (SCORM 1.2) bzw. „learner_id“ (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Objekt-ID“ kann für Lernmodule sinnvoll sein, die Daten an einen externen Server übertragen.
 content#:#cont_sc_id_setting_user_id#:#ID des ILIAS-Kontos (Standard)
@@ -7016,7 +7017,7 @@ content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ g
 content#:#cont_sc_less_mode_normal#:#Lernmodus
 content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
-content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
+content#:#cont_sc_name_setting#:#„student_name“ entspricht
 content#:#cont_sc_name_setting_2004#:#„learner_name“ entspricht
 content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
@@ -7323,7 +7324,7 @@ content#:#save_new#:#Speichern und neuer Absatz
 content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
-content#:#scplayer_debugger#:#Testwerkzeug zeigen
+content#:#scplayer_debugger#:#Analysewerkzeug zeigen
 content#:#scplayer_exit#:#Schließen
 content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
@@ -15030,8 +15031,8 @@ scormdebug#:#only_important_API-Calls_shown#:#Es werden aktuell nur wichtige Auf
 scormdebug#:#return_value#:#R&uuml;ckgabe
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 Browser-Cache deaktivieren
 scormdebug#:#scormdebug_disable_cache_info#:#Dies verhindert die Speicherung der SCORM 2004 Javascript-Dateien im Browser-Cache. Bitte nutzen Sie diese Funktion rechtzeitig vor einem Releasewechsel!
-scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
-scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerkzeug deaktiviert.
+scormdebug#:#scormdebug_global_activate#:#SCORM-Analysewerkzeug aktivieren
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Analysewerkzeug aktiviert werden. Bei Deaktivierung des Analysewerkzeugs an dieser Stelle wird bei allen Lernmodulen das Analysewerkzeug deaktiviert.
 scormdebug#:#sent_values_not_checked#:#Gew&auml;hlte Eigenschaft: Vom SCO geschickte Werte werden eingeschr&auml;nkt gepr&uuml;ft
 scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
 scormdebug#:#show_only_important_API-calls#:#Nur wichtige API-Aufrufe anzeigen!
