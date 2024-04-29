@@ -2266,14 +2266,14 @@ bgtask#:#bgtask_failure#:#Fehler
 bgtask#:#bgtask_processing#:#Download erzeugen
 bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
-bgtask#:#bgtask_setting_limit#:#Globales Limit
-bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die Summe der Dateigrössen den angegebenen Megabyte-Wert nicht überschreitet.
+bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
+bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
 bibl#:#Type#:#Typ
-bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
 bibl#:#bib_default_address#:#Adresse
 bibl#:#bib_default_author#:#Autor
@@ -2296,7 +2296,7 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Auflage
 bibl#:#bib_default_year#:#Jahr
 bibl#:#bibl_copy#:#Literaturliste kopieren
-bibl#:#bibl_edit#:#Literaturliste bearbeiten
+bibl#:#bibl_edit#:#Einstellungen der Literaturliste
 bibl#:#bibl_filter#:#Filter
 bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#bibl_library_img#:#Bild-URL
@@ -2322,13 +2322,13 @@ bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#field#:#Feld
 bibl#:#fields#:#Felder
 bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
-bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus, für das Sie einen Filter hinzufügen möchten.
-bibl#:#filter_form_title#:#Neuen Filter hinzufügen
-bibl#:#filter_type#:#Filter Typ
+bibl#:#filter_field_info#:#Wählen Sie ein Kriterium aus, das Sie dem Filter hinzufügen möchten.
+bibl#:#filter_form_title#:#Neues Feld hinzufügen
+bibl#:#filter_type#:#Typ
 bibl#:#filter_type_1#:#Textfeld
 bibl#:#filter_type_2#:#Auswahl
 bibl#:#filter_type_3#:#Mehrfachauswahl
-bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#filter_type_info#:#Wählen Sie einen Typ für das Feld aus.
 bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
 bibl#:#msg_filter_info#:#Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen.
@@ -3981,8 +3981,8 @@ common#:#enable_hist_user_comments_desc#:#Sie können Überarbeitungskommentare 
 common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
-common#:#enable_preview#:#Vorschau aktivieren
-common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
+common#:#enable_preview#:#Vorschau
+common#:#enable_preview_info#:#Für Dateien werden Vorschaubilder angezeigt. Die unterstützten Dateiformate ergeben sich aus der Serverkonfiguration.
 common#:#enable_repository_dnd_upload#:#Im Magazin zulassen
 common#:#enable_repository_dnd_upload_info#:#Ermöglicht das Ziehen von Dateien vom Computer direkt auf ein Magazin-Objekt, um sie dort hochzuladen.
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
@@ -4358,6 +4358,7 @@ common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Fragen in den Fragenpool importieren
 common#:#import_sahs#:#SCORM-Lernmodul importieren
 common#:#import_sahs_info#:#Zum Korrigieren von Tippfehlern oder Bildern nutzen Sie die Möglichkeit, über das Dateiverzeichnis einzelne Dateien zu ersetzen. Laden Sie hier einen SCORM-Export aus Ihrem Autorenwerkzeug hoch und nicht eine ILIAS Exportdatei. Stellen Sie sicher, dass Ihr Autorenwerkzeug die IDs in der Manifest-Datei beibehalten hat. Achtung: Auch beliebte Autorenwerkzeuge können das nicht. SCORM-Lernmodule bestimmter Autorenwerkzeuge verwerfen erzielte Lernerdaten, wenn Sie die Anzahl der Antwortoptionen von Fragen ändern oder neue Fragen einfügen. Prüfen Sie in einer Testinstallation, ob bereits erzielte Lernstände beim Wiederaufruf bereits gestarteter Lernmodule möglich sind.
+common#:#import_sahs_new#:#Neue Version des SCORM-Lernmoduls importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -4398,8 +4399,8 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
 common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
-common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
-common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten.
+common#:#inline_file_extensions#:#Im Browser anzeigen
+common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
 common#:#insert#:#Einfügen
 common#:#insert_object_here#:#Objekt hier einfügen
 common#:#inst_id#:#NIC-ID
@@ -4594,8 +4595,8 @@ common#:#mainbar_more_label#:#Mehr
 common#:#manage_members#:#Mitglieder verwalten
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
-common#:#max_previews_per_object#:#Anzahl Vorschaubilder pro Datei
-common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest, die pro Datei erzeugt werden.
+common#:#max_previews_per_object#:#Anzahl Vorschaubilder
+common#:#max_previews_per_object_info#:#Anzahl an Vorschaubildern, die pro Datei angezeigt werden.
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
@@ -5305,7 +5306,7 @@ common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
-common#:#preview_image_size#:#Grösse der Vorschau-Bilder
+common#:#preview_image_size#:#Größe der Vorschaubilder*
 common#:#preview_learner_info#:#Wenn aktiviert, wird der Kurs- und Gruppenadministration die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
@@ -6325,11 +6326,11 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug bereitstellen
-content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
-content#:#cont_debug_deactivate12#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
-content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
-content#:#cont_debugging#:#Debugging
+content#:#cont_debug#:#Analysewerkzeug
+content#:#cont_debug_deactivate#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Analysewerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
+content#:#cont_debug_deactivate12#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
+content#:#cont_debug_deactivated#:#Hinweis: Das Analysewerkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
+content#:#cont_debugging#:#Fehlersuche
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
@@ -6630,10 +6631,10 @@ content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_interactions#:#Ergebnisse aus Aufgaben speichern
 content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben („interactions“) werden von den meisten Lernmodulen nur geschrieben und nie mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt und Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
-content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
-content#:#cont_internal_link#:#interner Link
+content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2-Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Wenn Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
+content#:#cont_internal_link#:#Interner Link
 content#:#cont_internal_links#:#Interne Links
-content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml muss identisch sein.
+content#:#cont_invalid_new_module#:#Modul ist nicht kompatibel! Die imsmanifest.xml muss identisch sein.
 content#:#cont_is_visible#:#isvisible
 content#:#cont_item#:#Eintrag
 content#:#cont_keyword#:#Schlagwort
@@ -6979,8 +6980,8 @@ content#:#cont_saved_interactive_image#:#Interaktives Bild gespeichert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
-content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
-content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
+content#:#cont_sc_auto_continue#:#Direkt ins nächste SCO
+content#:#cont_sc_auto_continue_info#:#Nach der letzten Aktivität öffnet ILIAS automatisch das nächste SCO. Diese Möglichkeit bieten nicht alle SCORM-1.2-Lernmodule.
 content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
 content#:#cont_sc_auto_review_completed#:#Ab Status „vollständig bearbeitet”
 content#:#cont_sc_auto_review_completed_and_passed#:#Ab Status „vollständig bearbeitet” und „bestanden”
@@ -6990,7 +6991,7 @@ content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Con
 content#:#cont_sc_auto_review_no#:#Nie (entspricht SCORM-Spezifikation)
 content#:#cont_sc_auto_review_passed#:#Ab Status „bestanden”
 content#:#cont_sc_auto_review_passed_or_failed#:#Ab Status „bestanden” oder „nicht bestanden”
-content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
+content#:#cont_sc_id_setting#:#„student_id“ entspricht
 content#:#cont_sc_id_setting_2004#:#„learner_id“ entspricht
 content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für „student_id“ (SCORM 1.2) bzw. „learner_id“ (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Objekt-ID“ kann für Lernmodule sinnvoll sein, die Daten an einen externen Server übertragen.
 content#:#cont_sc_id_setting_user_id#:#ID des ILIAS-Kontos (Standard)
@@ -7004,7 +7005,7 @@ content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ g
 content#:#cont_sc_less_mode_normal#:#Lernmodus
 content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
-content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
+content#:#cont_sc_name_setting#:#„student_name“ entspricht
 content#:#cont_sc_name_setting_2004#:#„learner_name“ entspricht
 content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
@@ -7311,7 +7312,7 @@ content#:#save_new#:#Speichern und neuer Absatz
 content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
-content#:#scplayer_debugger#:#Testwerkzeug zeigen
+content#:#scplayer_debugger#:#Analysewerkzeug zeigen
 content#:#scplayer_exit#:#Schließen
 content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
@@ -7676,8 +7677,8 @@ crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests e
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 crs#:#crs_mail_all#:#Für alle Mitglieder
 crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
-crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
-crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf dem Reiter „Info“ eines Kurses
+crs#:#crs_mail_context_member_title#:#Kurs: Reiter „Info“
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
@@ -9713,8 +9714,8 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
-file#:#action_download#:#Datei herunterladen
-file#:#action_show#:#Infoseite anzeigen
+file#:#action_download#:#Datei direkt herunterladen
+file#:#action_show#:#Zunächst Reiter „Info“ anzeigen
 file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
@@ -9724,8 +9725,8 @@ file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
 file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
-file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
-file#:#download_ascii_filename_info#:#Ausschließlich ASCII-Zeichen in den Namen heruntergeladener Dateien zulassen. Nicht-ASCII-Zeichen in den Namen der heruntergeladenen Dateien werden durch ein "_" ersetzt. Um alle Zeichen zuzulassen, deaktivieren Sie diese Option.
+file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
+file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
 file#:#file_btn_lp_toggle_state_completed#:#Auf „Nicht bearbeitet“ setzen
 file#:#file_btn_lp_toggle_state_not_completed#:#Auf „Bearbeitet“ setzen
 file#:#file_copy#:#Datei kopieren
@@ -9745,7 +9746,7 @@ file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#important_info#:#Wichtige Informationen
-file#:#important_info_byline#:#Die Angaben werden im Reiter "Info" angezeigt.
+file#:#important_info_byline#:#Die Angaben werden im Reiter „Info“ angezeigt.
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9773,8 +9774,8 @@ file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#on_click_action#:#Klick auf Titel
 file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Die Vorschauversionen der Bilder werden je nach Bedarf verkleinert oder vergrößert, so dass ihre längste Seite der hier eingegebenen Länge (in px) entspricht.
-file#:#preview_persisting#:#Vorschaubilder persistieren
-file#:#preview_persisting_info#:#Generierte Vorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf erzeugt.
+file#:#preview_persisting#:#Vorschaubilder speichern
+file#:#preview_persisting_info#:#Vorschaubilder werden generiert und gespeichert. Sie müssen nicht mehr bei jedem Aufruf neu erzeugt werden. Das verbessert die Performanz.
 file#:#publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
 file#:#replace_file_info#:#Alle früheren Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
@@ -9782,7 +9783,7 @@ file#:#service_settings#:#Weitere Funktionen
 file#:#service_settings_saved#:#Gespeichert
 file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
-file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
+file#:#show_amount_of_downloads_info#:#Die Anzahl der Downloads wird im Reiter „Info“ des Dateiobjekts angezeigt.
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
@@ -10236,7 +10237,7 @@ grp#:#grp_info_agreement#:#Die folgenden Daten können von der Gruppenadministra
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
-grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf dem Reiter „Info“ und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe „%s“.
 grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe „%s“ aufgenommen worden.
@@ -10434,7 +10435,7 @@ iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestan
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_no_entries#:#Keine Einträge gefunden
 iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
@@ -10652,7 +10653,7 @@ ldap#:#ldap_group_search_base#:#Suchbasis
 ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
 ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf dem Reiter „Info“ des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin anzeigen.
 ldap#:#ldap_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu LDAP-Attributen
@@ -13714,7 +13715,7 @@ rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_activate_rating#:#Bewertung aktivieren
-rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
+rating#:#rating_activate_rating_info#:#Das Objekt kann mit 1-5 Sternen bewertet werden.
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
 rating#:#rating_categories#:#Bewertungs-Kategorien
@@ -15033,8 +15034,8 @@ scormdebug#:#only_important_API-Calls_shown#:#Es werden aktuell nur wichtige Auf
 scormdebug#:#return_value#:#R&uuml;ckgabe
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 Browser-Cache deaktivieren
 scormdebug#:#scormdebug_disable_cache_info#:#Dies verhindert die Speicherung der SCORM 2004 Javascript-Dateien im Browser-Cache. Bitte nutzen Sie diese Funktion rechtzeitig vor einem Releasewechsel!
-scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
-scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerkzeug deaktiviert.
+scormdebug#:#scormdebug_global_activate#:#SCORM-Analysewerkzeug aktivieren
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Analysewerkzeug aktiviert werden. Bei Deaktivierung des Analysewerkzeugs an dieser Stelle wird bei allen Lernmodulen das Analysewerkzeug deaktiviert.
 scormdebug#:#sent_values_not_checked#:#Gew&auml;hlte Eigenschaft: Vom SCO geschickte Werte werden eingeschr&auml;nkt gepr&uuml;ft
 scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
 scormdebug#:#show_only_important_API-calls#:#Nur wichtige API-Aufrufe anzeigen!
@@ -15331,7 +15332,7 @@ sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde 
 sess#:#sess_print_list#:#Liste erstellen
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
-sess#:#sess_reg_cannot_participate_info#:#Personen haben auf der „Info-Seite“ die Möglichkeit, ihre Teilnahme abzusagen.
+sess#:#sess_reg_cannot_participate_info#:#Personen haben auf dem „Reiter „Info““ die Möglichkeit, ihre Teilnahme abzusagen.
 sess#:#sess_reg_direct#:#Direkte Anmeldung
 sess#:#sess_reg_direct_info#:#Personen müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_disabled#:#Ohne Anmeldung
@@ -16830,7 +16831,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
@@ -16840,7 +16841,7 @@ tagging#:#tagging_search_users#:#Benutzer suchen
 tagging#:#tagging_set_tag#:#Tags setzen
 tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
+tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie den Reiter „Info“ des Objekts und geben dort die Tags ein.
 tagging#:#tagging_tags#:#Tags
 tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 task#:#task_deadline#:#Ende
@@ -17128,7 +17129,7 @@ trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_short_system_load#:#Kurzzeithistorie
 trac#:#trac_show_graph#:#Als Diagrammansicht zeigen
 trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
-trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
+trac#:#trac_show_repository_views_info#:#Auf dem Reiter „Info“ werden die Anzahl der Zugriffe angezeigt.
 trac#:#trac_spent_seconds#:#Zeit
 trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
 trac#:#trac_status#:#Status

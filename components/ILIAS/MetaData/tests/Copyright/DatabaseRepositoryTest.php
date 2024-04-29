@@ -24,9 +24,13 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Data\URI;
 use ILIAS\MetaData\Elements\Data\Data;
+use ILIAS\MetaData\Copyright\Database\NullWrapper;
+use ILIAS\MetaData\Copyright\Database\WrapperInterface;
 
 class DatabaseRepositoryTest extends TestCase
 {
+    protected const NEXT_ID = 123;
+
     protected const ROW_DEFAULT = [
         'entry_id' => 25,
         'title' => 'entry default',
@@ -69,11 +73,56 @@ class DatabaseRepositoryTest extends TestCase
         'alt_text' => 'alt text 2'
     ];
 
-    protected function getMockDB(): \ilDBInterface|MockObject
+    protected function getDBWrapper(array ...$query_results): WrapperInterface
     {
-        $db = $this->createMock(\ilDBInterface::class);
-        $db->method('quote')->willReturnCallback(fn($v) => (string) $v);
-        return $db;
+        return new class (self::NEXT_ID, $query_results) extends NullWrapper {
+            public array $exposed_tables;
+            public array $exposed_queries;
+            public array $exposed_manipulates;
+            public array $exposed_values;
+            public array $exposed_wheres;
+
+            public function __construct(
+                protected int $next_id,
+                protected array $query_results
+            ) {
+            }
+
+            public function nextID(string $table): int
+            {
+                $this->exposed_tables[] = $table;
+                return $this->next_id;
+            }
+
+            public function quoteInteger(int $integer): string
+            {
+                return '~' . $integer . '~';
+            }
+
+            public function query(string $query): \Generator
+            {
+                $this->exposed_queries[] = $query;
+                yield from $this->query_results;
+            }
+
+            public function manipulate(string $query): void
+            {
+                $this->exposed_manipulates[] = $query;
+            }
+
+            public function update(string $table, array $values, array $where): void
+            {
+                $this->exposed_tables[] = $table;
+                $this->exposed_values[] = $values;
+                $this->exposed_wheres[] = $where;
+            }
+
+            public function insert(string $table, array $values): void
+            {
+                $this->exposed_tables[] = $table;
+                $this->exposed_values[] = $values;
+            }
+        };
     }
 
     protected function getMockURI(): URI|MockObject
@@ -81,16 +130,16 @@ class DatabaseRepositoryTest extends TestCase
         return $this->createMock(URI::class);
     }
 
-    protected function getRepo(\ilDBInterface $db): DatabaseRepository
+    protected function getRepo(WrapperInterface $wrapper): DatabaseRepository
     {
         $uri = $this->getMockURI();
 
-        return new class ($db, $uri) extends DatabaseRepository {
+        return new class ($wrapper, $uri) extends DatabaseRepository {
             public function __construct(
-                \ilDBInterface $db,
+                WrapperInterface $wrapper,
                 protected URI|MockObject $uri
             ) {
-                parent::__construct($db);
+                parent::__construct($wrapper);
             }
 
             protected function getURI(string $uri): URI
@@ -104,17 +153,14 @@ class DatabaseRepositoryTest extends TestCase
 
     public function testGetEntry(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with('SELECT * FROM il_md_cpr_selections WHERE entry_id = 5');
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(self::ROW_1);
-
+        $db = $this->getDBWrapper(self::ROW_1);
         $repo = $this->getRepo($db);
 
         $entry = $repo->getEntry(5);
+        $this->assertSame(
+            ['SELECT * ' . 'FROM il_md_cpr_selections WHERE entry_id = ~5~'],
+            $db->exposed_queries
+        );
         $this->assertSame(self::ROW_1['entry_id'], $entry->id());
         $this->assertSame(self::ROW_1['title'], $entry->title());
         $this->assertSame(self::ROW_1['description'], $entry->description());
@@ -131,165 +177,103 @@ class DatabaseRepositoryTest extends TestCase
 
     public function testGetEntryNoLinks(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with('SELECT * FROM il_md_cpr_selections WHERE entry_id = 67');
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(self::ROW_2);
-
+        $db = $this->getDBWrapper(self::ROW_2);
         $repo = $this->getRepo($db);
 
         $entry = $repo->getEntry(67);
+        $this->assertSame(
+            ['SELECT * ' . 'FROM il_md_cpr_selections WHERE entry_id = ~67~'],
+            $db->exposed_queries
+        );
         $this->assertNull($entry->copyrightData()->link());
         $this->assertNull($entry->copyrightData()->imageLink());
     }
 
     public function testGetEntryNoneFound(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with('SELECT * FROM il_md_cpr_selections WHERE entry_id = 5');
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(null);
-
+        $db = $this->getDBWrapper();
         $repo = $this->getRepo($db);
 
         $this->assertEquals(new NullEntry(), $repo->getEntry(5));
+        $this->assertSame(
+            ['SELECT * ' . 'FROM il_md_cpr_selections WHERE entry_id = ~5~'],
+            $db->exposed_queries
+        );
     }
 
     public function testGetDefaultEntry(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with('SELECT * FROM il_md_cpr_selections WHERE is_default = 1');
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(self::ROW_DEFAULT);
-
+        $db = $this->getDBWrapper(self::ROW_DEFAULT);
         $repo = $this->getRepo($db);
+
         $this->assertInstanceOf(EntryInterface::class, $repo->getDefaultEntry());
+        $this->assertSame(
+            ['SELECT * FROM il_md_cpr_selections WHERE is_default = 1'],
+            $db->exposed_queries
+        );
     }
 
     public function testGetAllEntries(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with(
-               'SELECT * FROM il_md_cpr_selections
-            ORDER BY is_default DESC, position ASC'
-           );
-        $four_times = $this->exactly(4);
-        $db->expects($four_times)
-           ->method('fetchAssoc')
-           ->willReturnCallback(function () use ($four_times) {
-               return match ($four_times->getInvocationCount()) {
-                   1 => self::ROW_DEFAULT,
-                   2 => self::ROW_2,
-                   3 => self::ROW_1,
-                   4 => null
-               };
-           });
-
+        $db = $this->getDBWrapper(
+            self::ROW_DEFAULT,
+            self::ROW_2,
+            self::ROW_1
+        );
         $repo = $this->getRepo($db);
 
-        $res = $repo->getAllEntries();
-        $this->assertInstanceOf(EntryInterface::class, $res->current());
-        $res->next();
-        $this->assertInstanceOf(EntryInterface::class, $res->current());
-        $res->next();
-        $this->assertInstanceOf(EntryInterface::class, $res->current());
-        $res->next();
-        $this->assertNull($res->current());
+        $res = iterator_to_array($repo->getAllEntries());
+        $this->assertSame(
+            ['SELECT * FROM il_md_cpr_selections
+            ORDER BY is_default DESC, position ASC'],
+            $db->exposed_queries
+        );
+        $this->assertCount(3, $res);
+        $this->assertInstanceOf(EntryInterface::class, $res[0]);
+        $this->assertInstanceOf(EntryInterface::class, $res[1]);
+        $this->assertInstanceOf(EntryInterface::class, $res[2]);
     }
 
     public function testGetActiveEntries(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with(
-               'SELECT * FROM il_md_cpr_selections
-            ORDER BY is_default DESC, position ASC'
-           );
-        $thrice = $this->exactly(3);
-        $db->expects($thrice)
-           ->method('fetchAssoc')
-           ->willReturnCallback(function () use ($thrice) {
-               return match ($thrice->getInvocationCount()) {
-                   1 => self::ROW_DEFAULT,
-                   2 => self::ROW_2,
-                   3 => null
-               };
-           });
-
+        $db = $this->getDBWrapper(
+            self::ROW_DEFAULT,
+            self::ROW_2
+        );
         $repo = $this->getRepo($db);
 
-        $res = $repo->getAllEntries();
-        $this->assertInstanceOf(EntryInterface::class, $res->current());
-        $res->next();
-        $this->assertInstanceOf(EntryInterface::class, $res->current());
-        $res->next();
-        $this->assertNull($res->current());
+        $res = iterator_to_array($repo->getActiveEntries());
+        $this->assertSame(
+            ['SELECT * FROM il_md_cpr_selections WHERE outdated = 0
+            ORDER BY is_default DESC, position ASC'],
+            $db->exposed_queries
+        );
+        $this->assertCount(2, $res);
+        $this->assertInstanceOf(EntryInterface::class, $res[0]);
+        $this->assertInstanceOf(EntryInterface::class, $res[1]);
     }
 
     public function testDeleteEntry(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('manipulate')
-           ->with('DELETE FROM il_md_cpr_selections WHERE entry_id = 5');
-
+        $db = $this->getDBWrapper();
         $repo = $this->getRepo($db);
 
         $repo->deleteEntry(5);
+        $this->assertSame(
+            ['DELETE ' . 'FROM il_md_cpr_selections WHERE entry_id = ~5~'],
+            $db->exposed_manipulates
+        );
     }
 
     public function testCreateWithLinkImage(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with(
-               'SELECT MAX(position) AS max FROM il_md_cpr_selections WHERE is_default = 0'
-           );
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(['max' => 5]);
-        $db->expects($this->once())
-           ->method('nextId')
-           ->with('il_md_cpr_selections')
-           ->willReturn(123);
-        $db->expects($this->once())
-           ->method('insert')
-           ->with(
-               'il_md_cpr_selections',
-               [
-                   'entry_id' => [\ilDBConstants::T_INTEGER, 123],
-                   'title' => [\ilDBConstants::T_TEXT, 'new title'],
-                   'description' => [\ilDBConstants::T_TEXT, 'new description'],
-                   'is_default' => [\ilDBConstants::T_INTEGER, 0],
-                   'outdated' => [\ilDBConstants::T_INTEGER, 1],
-                   'position' => [\ilDBConstants::T_INTEGER, 6],
-                   'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
-                   'link' => [\ilDBConstants::T_TEXT, 'new link'],
-                   'image_link' => [\ilDBConstants::T_TEXT, 'new image link'],
-                   'image_file' => [\ilDBConstants::T_TEXT, ''],
-                   'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text'],
-                   'migrated' => [\ilDBConstants::T_INTEGER, 1]
-               ]
-           );
+        $db = $this->getDBWrapper(['max' => 5]);
         $uri = $this->getMockURI();
         $uri->method('__toString')->willReturn('new link');
         $img_uri = $this->getMockURI();
         $img_uri->method('__toString')->willReturn('new image link');
-
         $repo = $this->getRepo($db);
+
         $repo->createEntry(
             'new title',
             'new description',
@@ -299,46 +283,43 @@ class DatabaseRepositoryTest extends TestCase
             $img_uri,
             'new alt text'
         );
+        $this->assertSame(
+            ['SELECT MAX(position) AS max FROM il_md_cpr_selections WHERE is_default = 0'],
+            $db->exposed_queries
+        );
+        $this->assertSame(
+            [
+                'il_md_cpr_selections',
+                'il_md_cpr_selections'
+            ],
+            $db->exposed_tables
+        );
+        $this->assertSame(
+            [[
+                'entry_id' => [\ilDBConstants::T_INTEGER, 123],
+                'title' => [\ilDBConstants::T_TEXT, 'new title'],
+                'description' => [\ilDBConstants::T_TEXT, 'new description'],
+                'is_default' => [\ilDBConstants::T_INTEGER, 0],
+                'outdated' => [\ilDBConstants::T_INTEGER, 1],
+                'position' => [\ilDBConstants::T_INTEGER, 6],
+                'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
+                'link' => [\ilDBConstants::T_TEXT, 'new link'],
+                'image_link' => [\ilDBConstants::T_TEXT, 'new image link'],
+                'image_file' => [\ilDBConstants::T_TEXT, ''],
+                'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text'],
+                'migrated' => [\ilDBConstants::T_INTEGER, 1]
+            ]],
+            $db->exposed_values
+        );
     }
 
     public function testCreateWithFileImage(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with(
-               'SELECT MAX(position) AS max FROM il_md_cpr_selections WHERE is_default = 0'
-           );
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(['max' => 5]);
-        $db->expects($this->once())
-           ->method('nextId')
-           ->with('il_md_cpr_selections')
-           ->willReturn(123);
-        $db->expects($this->once())
-           ->method('insert')
-           ->with(
-               'il_md_cpr_selections',
-               [
-                   'entry_id' => [\ilDBConstants::T_INTEGER, 123],
-                   'title' => [\ilDBConstants::T_TEXT, 'new title'],
-                   'description' => [\ilDBConstants::T_TEXT, 'new description'],
-                   'is_default' => [\ilDBConstants::T_INTEGER, 0],
-                   'outdated' => [\ilDBConstants::T_INTEGER, 0],
-                   'position' => [\ilDBConstants::T_INTEGER, 6],
-                   'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
-                   'link' => [\ilDBConstants::T_TEXT, ''],
-                   'image_link' => [\ilDBConstants::T_TEXT, ''],
-                   'image_file' => [\ilDBConstants::T_TEXT, 'new image file'],
-                   'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text'],
-                   'migrated' => [\ilDBConstants::T_INTEGER, 1]
-               ]
-           );
+        $db = $this->getDBWrapper(['max' => 5]);
         $uri = $this->getMockURI();
         $uri->method('__toString')->willReturn('new link');
-
         $repo = $this->getRepo($db);
+
         $repo->createEntry(
             'new title',
             'new description',
@@ -348,12 +329,39 @@ class DatabaseRepositoryTest extends TestCase
             'new image file',
             'new alt text'
         );
+        $this->assertSame(
+            ['SELECT MAX(position) AS max FROM il_md_cpr_selections WHERE is_default = 0'],
+            $db->exposed_queries
+        );
+        $this->assertSame(
+            [
+                'il_md_cpr_selections',
+                'il_md_cpr_selections'
+            ],
+            $db->exposed_tables
+        );
+        $this->assertSame(
+            [[
+                'entry_id' => [\ilDBConstants::T_INTEGER, 123],
+                'title' => [\ilDBConstants::T_TEXT, 'new title'],
+                'description' => [\ilDBConstants::T_TEXT, 'new description'],
+                'is_default' => [\ilDBConstants::T_INTEGER, 0],
+                'outdated' => [\ilDBConstants::T_INTEGER, 0],
+                'position' => [\ilDBConstants::T_INTEGER, 6],
+                'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
+                'link' => [\ilDBConstants::T_TEXT, ''],
+                'image_link' => [\ilDBConstants::T_TEXT, ''],
+                'image_file' => [\ilDBConstants::T_TEXT, 'new image file'],
+                'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text'],
+                'migrated' => [\ilDBConstants::T_INTEGER, 1]
+            ]],
+            $db->exposed_values
+        );
     }
 
     public function testCreateEmptyTitleException(): void
     {
-        $db = $this->createMock(\ilDBInterface::class);
-        $repo = $this->getRepo($db);
+        $repo = $this->getRepo($this->getDBWrapper());
 
         $this->expectException(\ilMDCopyrightException::class);
         $repo->createEntry('');
@@ -361,31 +369,13 @@ class DatabaseRepositoryTest extends TestCase
 
     public function testUpdateWithLinkImage(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('update')
-           ->with(
-               'il_md_cpr_selections',
-               [
-                   'title' => [\ilDBConstants::T_TEXT, 'new title'],
-                   'description' => [\ilDBConstants::T_TEXT, 'new description'],
-                   'outdated' => [\ilDBConstants::T_INTEGER, 1],
-                   'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
-                   'link' => [\ilDBConstants::T_TEXT, 'new link'],
-                   'image_link' => [\ilDBConstants::T_TEXT, 'new image link'],
-                   'image_file' => [\ilDBConstants::T_TEXT, ''],
-                   'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text']
-               ],
-               [
-                   'entry_id' => [\ilDBConstants::T_INTEGER, 9]
-               ]
-           );
+        $db = $this->getDBWrapper();
         $uri = $this->getMockURI();
         $uri->method('__toString')->willReturn('new link');
         $img_uri = $this->getMockURI();
         $img_uri->method('__toString')->willReturn('new image link');
-
         $repo = $this->getRepo($db);
+
         $repo->updateEntry(
             9,
             'new title',
@@ -396,29 +386,32 @@ class DatabaseRepositoryTest extends TestCase
             $img_uri,
             'new alt text'
         );
+        $this->assertSame(
+            ['il_md_cpr_selections'],
+            $db->exposed_tables
+        );
+        $this->assertSame(
+            [[
+                'title' => [\ilDBConstants::T_TEXT, 'new title'],
+                'description' => [\ilDBConstants::T_TEXT, 'new description'],
+                'outdated' => [\ilDBConstants::T_INTEGER, 1],
+                'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
+                'link' => [\ilDBConstants::T_TEXT, 'new link'],
+                'image_link' => [\ilDBConstants::T_TEXT, 'new image link'],
+                'image_file' => [\ilDBConstants::T_TEXT, ''],
+                'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text']
+            ]],
+            $db->exposed_values
+        );
+        $this->assertSame(
+            [['entry_id' => [\ilDBConstants::T_INTEGER, 9]]],
+            $db->exposed_wheres
+        );
     }
 
     public function testUpdateWithFileImage(): void
     {
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('update')
-           ->with(
-               'il_md_cpr_selections',
-               [
-                   'title' => [\ilDBConstants::T_TEXT, 'new title'],
-                   'description' => [\ilDBConstants::T_TEXT, 'new description'],
-                   'outdated' => [\ilDBConstants::T_INTEGER, 0],
-                   'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
-                   'link' => [\ilDBConstants::T_TEXT, 'new link'],
-                   'image_link' => [\ilDBConstants::T_TEXT, ''],
-                   'image_file' => [\ilDBConstants::T_TEXT, 'new image file'],
-                   'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text']
-               ],
-               [
-                   'entry_id' => [\ilDBConstants::T_INTEGER, 9]
-               ]
-           );
+        $db = $this->getDBWrapper();
         $uri = $this->getMockURI();
         $uri->method('__toString')->willReturn('new link');
         $img_uri = $this->getMockURI();
@@ -435,12 +428,32 @@ class DatabaseRepositoryTest extends TestCase
             'new image file',
             'new alt text'
         );
+        $this->assertSame(
+            ['il_md_cpr_selections'],
+            $db->exposed_tables
+        );
+        $this->assertSame(
+            [[
+                'title' => [\ilDBConstants::T_TEXT, 'new title'],
+                'description' => [\ilDBConstants::T_TEXT, 'new description'],
+                'outdated' => [\ilDBConstants::T_INTEGER, 0],
+                'full_name' => [\ilDBConstants::T_TEXT, 'new full name'],
+                'link' => [\ilDBConstants::T_TEXT, 'new link'],
+                'image_link' => [\ilDBConstants::T_TEXT, ''],
+                'image_file' => [\ilDBConstants::T_TEXT, 'new image file'],
+                'alt_text' => [\ilDBConstants::T_TEXT, 'new alt text']
+            ]],
+            $db->exposed_values
+        );
+        $this->assertSame(
+            [['entry_id' => [\ilDBConstants::T_INTEGER, 9]]],
+            $db->exposed_wheres
+        );
     }
 
     public function testUpdateEmptyTitleException(): void
     {
-        $db = $this->createMock(\ilDBInterface::class);
-        $repo = $this->getRepo($db);
+        $repo = $this->getRepo($this->getDBWrapper());
 
         $this->expectException(\ilMDCopyrightException::class);
         $repo->updateEntry(21, '');
@@ -448,60 +461,37 @@ class DatabaseRepositoryTest extends TestCase
 
     public function testReorderEntries(): void
     {
-        $exp1 = [
-            'il_md_cpr_selections',
-            ['position' => [\ilDBConstants::T_INTEGER, 0]],
-            ['entry_id' => [\ilDBConstants::T_INTEGER, 7]]
-        ];
-        $exp2 = [
-            'il_md_cpr_selections',
-            ['position' => [\ilDBConstants::T_INTEGER, 1]],
-            ['entry_id' => [\ilDBConstants::T_INTEGER, 99]]
-        ];
-        $exp3 = [
-            'il_md_cpr_selections',
-            ['position' => [\ilDBConstants::T_INTEGER, 2]],
-            ['entry_id' => [\ilDBConstants::T_INTEGER, 1]]
-        ];
-
-        $db = $this->getMockDB();
-        $db->expects($this->once())
-           ->method('query')
-           ->with(
-               'SELECT entry_id FROM il_md_cpr_selections WHERE is_default = 1'
-           );
-        $db->expects($this->once())
-           ->method('fetchAssoc')
-           ->willReturn(['entry_id' => 5]);
-        $thrice = $this->exactly(3);
-        $db->expects($thrice)
-           ->method('update')
-           ->willReturnCallback(function (string $table_name, array $values, array $where) use ($thrice) {
-               $args = [$table_name, $values, $where];
-               $exp1 = [
-                   'il_md_cpr_selections',
-                   ['position' => [\ilDBConstants::T_INTEGER, 0]],
-                   ['entry_id' => [\ilDBConstants::T_INTEGER, 7]]
-               ];
-               $exp2 = [
-                   'il_md_cpr_selections',
-                   ['position' => [\ilDBConstants::T_INTEGER, 1]],
-                   ['entry_id' => [\ilDBConstants::T_INTEGER, 99]]
-               ];
-               $exp3 = [
-                   'il_md_cpr_selections',
-                   ['position' => [\ilDBConstants::T_INTEGER, 2]],
-                   ['entry_id' => [\ilDBConstants::T_INTEGER, 1]]
-               ];
-               match ($thrice->getInvocationCount()) {
-                   1 => $this->assertEquals($exp1, $args),
-                   2 => $this->assertEquals($exp2, $args),
-                   3 => $this->assertEquals($exp3, $args)
-               };
-               return 1;
-           });
-
+        $db = $this->getDBWrapper(['entry_id' => 5]);
         $repo = $this->getRepo($db);
+
         $repo->reorderEntries(7, 5, 99, 1);
+        $this->assertSame(
+            ['SELECT entry_id FROM il_md_cpr_selections WHERE is_default = 1'],
+            $db->exposed_queries
+        );
+        $this->assertSame(
+            [
+                'il_md_cpr_selections',
+                'il_md_cpr_selections',
+                'il_md_cpr_selections'
+            ],
+            $db->exposed_tables,
+        );
+        $this->assertSame(
+            [
+                ['position' => [\ilDBConstants::T_INTEGER, 0]],
+                ['position' => [\ilDBConstants::T_INTEGER, 1]],
+                ['position' => [\ilDBConstants::T_INTEGER, 2]]
+            ],
+            $db->exposed_values
+        );
+        $this->assertSame(
+            [
+                ['entry_id' => [\ilDBConstants::T_INTEGER, 7]],
+                ['entry_id' => [\ilDBConstants::T_INTEGER, 99]],
+                ['entry_id' => [\ilDBConstants::T_INTEGER, 1]]
+            ],
+            $db->exposed_wheres
+        );
     }
 }
