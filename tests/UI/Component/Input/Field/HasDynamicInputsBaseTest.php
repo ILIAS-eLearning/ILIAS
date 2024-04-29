@@ -22,8 +22,6 @@ namespace ILIAS\Tests\UI\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\Field\HasDynamicInputsBase;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
-use ILIAS\UI\Component\Input\Field\Input;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
@@ -58,7 +56,7 @@ class HasDynamicInputsBaseTest extends TestCase
                 return null;
             }
 
-            protected function isClientSideValueOk($value): bool
+            public function isClientSideValueOk($value): bool
             {
                 return true;
             }
@@ -129,7 +127,7 @@ class HasDynamicInputsBaseTest extends TestCase
      */
     public function testDynamicInputNameGeneration(): void
     {
-        $input_name = 'test_name[form_input_0][]';
+        $input_name = 'test_name[input_0][]';
         $dynamic_input = $this->input->withValue(['', '']);
         $dynamic_input = $dynamic_input->withNameFrom(
             $this->getTestNameSource()
@@ -162,9 +160,9 @@ class HasDynamicInputsBaseTest extends TestCase
         };
     }
 
-    protected function getTestInputTemplate(): Input
+    protected function getTestInputTemplate()
     {
-        return new class ($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
+        return new class ($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\FormInput {
             public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {
@@ -176,7 +174,7 @@ class HasDynamicInputsBaseTest extends TestCase
                 return null;
             }
 
-            protected function isClientSideValueOk($value): bool
+            public function isClientSideValueOk($value): bool
             {
                 return true;
             }

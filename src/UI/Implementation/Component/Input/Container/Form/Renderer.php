@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
@@ -50,13 +50,17 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
+        if ($component->getDedicatedName() !== null) {
+            $tpl->setVariable("NAME", 'name="' . $component->getDedicatedName() . '"');
+        }
 
         $this->maybeAddRequired($component, $tpl);
         $this->addPostURL($component, $tpl);
         $this->maybeAddError($component, $tpl);
 
         $submit_button = $this->getUIFactory()->button()->standard(
-            $component->getSubmitCaption() ?? $this->txt("save"), ""
+            $component->getSubmitCaption() ?? $this->txt("save"),
+            ""
         );
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));

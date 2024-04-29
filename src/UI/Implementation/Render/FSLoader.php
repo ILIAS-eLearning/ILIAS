@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 
 /**
  * Loads renderers for components from the file system.
@@ -78,7 +78,7 @@ class FSLoader implements Loader
         if ($component instanceof Icon) {
             return $this->icon_renderer_factory;
         }
-        if ($component instanceof Input) {
+        if ($component instanceof FormInput) {
             return $this->field_renderer_factory;
         }
         return $this->default_renderer_factory;

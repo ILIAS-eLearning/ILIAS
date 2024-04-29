@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
@@ -36,7 +36,7 @@ class ArrayInputData implements InputData
 
     public function get($name)
     {
-        if (!isset($this->data[$name])) {
+        if (!$this->has($name)) {
             throw new LogicException("'$name' is not contained in provided data.");
         }
 
@@ -46,5 +46,10 @@ class ArrayInputData implements InputData
     public function getOr($name, $default)
     {
         return $this->data[$name] ?? $default;
+    }
+
+    public function has($name): bool
+    {
+        return array_key_exists($name, $this->data);
     }
 }

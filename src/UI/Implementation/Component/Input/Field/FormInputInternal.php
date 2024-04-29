@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,23 +13,19 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Field\FormInput;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Component\Input\InputInternal;
 
 /**
- * This type of input is required by forms.
+ * This interface describes how form inputs are handled internally.
+ * It mostly exists due to PHPUnit tests which need to mock them.
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 interface FormInputInternal extends InputInternal, FormInput
 {
-    /**
-     * Get an input like this one, with a different name.
-     *
-     * @return static
-     */
-    public function withNameFrom(NameSource $source);
 }

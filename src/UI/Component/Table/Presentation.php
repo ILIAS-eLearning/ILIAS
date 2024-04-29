@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
 use Closure;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Presentation Table
  */
-interface Presentation extends Table, HasViewControls
+interface Presentation extends Table, HasViewControls, JavaScriptBindable
 {
     /**
      * Get a table like this with the closure $row_mapping.

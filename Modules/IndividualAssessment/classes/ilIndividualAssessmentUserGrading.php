@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -140,7 +140,7 @@ class ilIndividualAssessmentUserGrading
         bool $may_be_edited = true,
         bool $place_required = false,
         bool $amend = false
-    ): Field\Input {
+    ): \ILIAS\UI\Component\Input\Container\Form\FormInput {
         $name = $input
             ->text($lng->txt('name'), '')
             ->withDisabled(true)

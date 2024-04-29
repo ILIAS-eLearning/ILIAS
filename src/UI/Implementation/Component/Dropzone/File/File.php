@@ -31,11 +31,8 @@ use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\ReplaceSignal;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Component\Closable;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -54,19 +51,27 @@ abstract class File implements FileDropzone
         SignalGeneratorInterface $signal_generator,
         FieldFactory $field_factory,
         NameSource $name_source,
-        FileInput $file_input,
         string $title,
-        string $post_url
+        string $post_url,
+        FileInput $file_input,
+        ?FormInput $additional_input
     ) {
         $this->signal_generator = $signal_generator;
         $this->clear_signal = $signal_generator->create();
+
+        if (null !== $additional_input) {
+            $inputs = [$file_input, $additional_input];
+        } else {
+            $inputs = [$file_input];
+        }
+
         $this->modal = new RoundTrip(
             $signal_generator,
             $field_factory,
             $name_source,
             $title,
             null,
-            [$file_input],
+            $inputs,
             $post_url
         );
     }
@@ -251,5 +256,13 @@ abstract class File implements FileDropzone
     {
         $this->clear_signal = $this->signal_generator->create();
         $this->modal->initSignals();
+    }
+
+    /**
+     * No dedicated name can be set for this subform
+     */
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        return $this;
     }
 }

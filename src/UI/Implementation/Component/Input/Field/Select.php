@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -28,7 +28,7 @@ use Closure;
 /**
  * This implements the select.
  */
-class Select extends Input implements C\Input\Field\Select
+class Select extends FormInput implements C\Input\Field\Select
 {
     protected array $options;
     protected string $label;
@@ -61,7 +61,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return in_array($value, array_keys($this->options)) || $value == "";
     }
@@ -71,6 +71,10 @@ class Select extends Input implements C\Input\Field\Select
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->logical()->sequential([
             $this->refinery->to()->string(),
             $this->refinery->string()->hasMinLength(1)
