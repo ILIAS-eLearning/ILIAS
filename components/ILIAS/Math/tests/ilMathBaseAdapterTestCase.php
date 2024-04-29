@@ -23,7 +23,7 @@ use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 /**
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilMathBaseAdapterTest extends TestCase
+abstract class ilMathBaseAdapterTestCase extends TestCase
 {
     protected const DEFAULT_SCALE = 50;
 
@@ -152,7 +152,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function addData(): array
+    public static function addData(): array
     {
         return [
             ['1', '2', '3', self::DEFAULT_SCALE]
@@ -162,7 +162,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function subData(): array
+    public static function subData(): array
     {
         return [
             ['1', '2', '-1', self::DEFAULT_SCALE]
@@ -172,7 +172,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function mulData(): array
+    public static function mulData(): array
     {
         return [
             'Multiplication with integer operands' => ['1', '2', '2', self::DEFAULT_SCALE],
@@ -184,7 +184,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function divData(): array
+    public static function divData(): array
     {
         return [
             'Division with integer operands' => ['1', '2', '0.5', self::DEFAULT_SCALE],
@@ -196,7 +196,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function modData(): array
+    public static function modData(): array
     {
         return [
             ['1', '2', '1']
@@ -206,7 +206,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function sqrtData(): array
+    public static function sqrtData(): array
     {
         return [
             ['9', '3', self::DEFAULT_SCALE],
@@ -219,7 +219,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function powData(): array
+    public static function powData(): array
     {
         return [
             ['3', '2', '9', self::DEFAULT_SCALE]
@@ -229,7 +229,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @return array
      */
-    public function equalsData(): array
+    public static function equalsData(): array
     {
         return [
             ['3', '3', true, null],
@@ -240,7 +240,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *
      */
-    public function calcData(): array
+    public static function calcData(): array
     {
         return [
             ['3+5', '8', self::DEFAULT_SCALE],

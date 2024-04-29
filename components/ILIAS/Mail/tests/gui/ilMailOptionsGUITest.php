@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory;
  * Class ilMailOptionsGUITest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailOptionsGUITest extends ilMailBaseTest
+class ilMailOptionsGUITest extends ilMailBaseTestCase
 {
     /**
      * @throws ReflectionException

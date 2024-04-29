@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilMailAddressTypesTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressTypesTest extends ilMailBaseTest
+class ilMailAddressTypesTest extends ilMailBaseTestCase
 {
     protected function setUp(): void
     {

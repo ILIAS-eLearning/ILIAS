@@ -22,9 +22,9 @@ declare(strict_types=1);
  * Class ilMailAddressListTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressListTest extends ilMailBaseTest
+class ilMailAddressListTest extends ilMailBaseTestCase
 {
-    public function addressTestProvider(): array
+    public static function addressTestProvider(): array
     {
         return [
             'Username Addresses' => [
@@ -68,7 +68,7 @@ class ilMailAddressListTest extends ilMailBaseTest
         $this->assertCount($numberOfExpectedItems, $list->value());
     }
 
-    public function externalAddressTestProvider(): array
+    public static function externalAddressTestProvider(): array
     {
         return [
             'Username' => [

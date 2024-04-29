@@ -32,7 +32,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getShowAnswerOverview());
     }
 
-    public function getAndWithConcludingRemarksEnabledDataProvider(): array
+    public static function getAndWithConcludingRemarksEnabledDataProvider(): array
     {
         return [
             [true],
@@ -67,7 +67,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getConcludingRemarksText());
     }
 
-    public function getAndWithConcludingRemarksTextDataProvider(): array
+    public static function getAndWithConcludingRemarksTextDataProvider(): array
     {
         return [
             [null],
@@ -88,7 +88,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getConcludingRemarksPageId());
     }
 
-    public function getAndWithConcludingRemarksPageIdDataProvider(): array
+    public static function getAndWithConcludingRemarksPageIdDataProvider(): array
     {
         return [
             [null],
@@ -110,7 +110,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getRedirectionMode());
     }
 
-    public function getAndWithRedirectionModeDataProvider(): array
+    public static function getAndWithRedirectionModeDataProvider(): array
     {
         return [
             [-1],
@@ -131,7 +131,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getRedirectionUrl());
     }
 
-    public function getAndWithRedirectionUrlDataProvider(): array
+    public static function getAndWithRedirectionUrlDataProvider(): array
     {
         return [
             [null],
@@ -152,7 +152,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getMailNotificationContentType());
     }
 
-    public function getAndWithMailNotificationContentTypeDataProvider(): array
+    public static function getAndWithMailNotificationContentTypeDataProvider(): array
     {
         return [
             [-1],
@@ -173,7 +173,7 @@ class ilObjTestSettingsFinishingTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsFinishing->getAlwaysSendMailNotification());
     }
 
-    public function getAndWithAlwaysSendMailNotificationDataProvider(): array
+    public static function getAndWithAlwaysSendMailNotificationDataProvider(): array
     {
         return [
             [true],

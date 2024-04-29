@@ -26,7 +26,7 @@ use ILIAS\LegalDocuments\Conductor;
  * Class ilMailBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilMailBaseTest extends TestCase
+abstract class ilMailBaseTestCase extends TestCase
 {
     private ?Container $dic = null;
 

@@ -58,17 +58,17 @@ class MakeClickableTest extends TestCase
     }
 
 
-    public function provideInputInNewTab(): array
+    public static function provideInputInNewTab(): array
     {
-        return $this->createInput(' target="_blank" rel="noopener"');
+        return self::createInput(' target="_blank" rel="noopener"');
     }
 
-    public function provideInputWithoutAttributes(): array
+    public static function provideInputWithoutAttributes(): array
     {
-        return $this->createInput();
+        return self::createInput();
     }
 
-    public function createInput(string $attributes = ''): array
+    public static function createInput(string $attributes = ''): array
     {
         $templates = [
             'test empty string' => ['', ''],

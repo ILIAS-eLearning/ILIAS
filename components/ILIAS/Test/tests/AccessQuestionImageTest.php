@@ -44,7 +44,7 @@ class AccessQuestionImageTest extends TestCase
         $this->assertFalse($instance->isPermitted($path)->isOk());
     }
 
-    public function invalidPaths(): array
+    public static function invalidPaths(): array
     {
         return [
             ['foo'],
@@ -71,7 +71,7 @@ class AccessQuestionImageTest extends TestCase
         $this->assertSame($is_readable, $result->value());
     }
 
-    public function isPermittedProvider(): array
+    public static function isPermittedProvider(): array
     {
         return [
             'With readable object path.' => [true],

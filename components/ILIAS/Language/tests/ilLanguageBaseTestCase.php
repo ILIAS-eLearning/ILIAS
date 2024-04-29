@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
  * Class ilLanguageBaseTest
  * @author  Sílvia Mariné <silvia.marine@kroepelin-projekte.de>
  */
-abstract class ilLanguageBaseTest extends TestCase
+abstract class ilLanguageBaseTestCase extends TestCase
 {
     protected function setUp(): void
     {

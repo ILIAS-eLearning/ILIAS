@@ -57,7 +57,7 @@ class AdministrationEditLinksTest extends TestCase
         $this->assertSame('my-link', $instance->$method(...$args));
     }
 
-    public function methods(): array
+    public static function methods(): array
     {
         return [
             ['addCriterion', 'targetWithDoc', 1],

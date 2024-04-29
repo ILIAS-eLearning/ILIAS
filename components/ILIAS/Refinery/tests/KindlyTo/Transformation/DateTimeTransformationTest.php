@@ -58,7 +58,7 @@ class DateTimeTransformationTest extends TestCase
         $this->transformation->transform($failingValue);
     }
 
-    public function DateTimeTransformationDataProvider(): array
+    public static function DateTimeTransformationDataProvider(): array
     {
         $now = new DateTimeImmutable();
         return [
@@ -80,7 +80,7 @@ class DateTimeTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider(): array
+    public static function TransformationFailureDataProvider(): array
     {
         return [
             'no_matching_string_format' => ['hello']

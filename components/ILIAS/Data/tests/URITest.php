@@ -106,7 +106,7 @@ class URITest extends TestCase
         $this->assertEquals(null, $uri->getFragment());
     }
 
-    public function provideIPv6addresses(): array
+    public static function provideIPv6addresses(): array
     {
         return [
             // Long form.

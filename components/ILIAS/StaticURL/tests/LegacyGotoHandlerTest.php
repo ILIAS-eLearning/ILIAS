@@ -70,7 +70,7 @@ class LegacyGotoHandlerTest extends Base
         $this->http_mock->method('wrapper')->willReturn(new WrapperFactory($this->request_mock));
     }
 
-    public function urlProvider(): array
+    public static function urlProvider(): array
     {
         return [
             ['https://ilias.domain/goto.php?client_id=unittest&target=impr', 'impr'],

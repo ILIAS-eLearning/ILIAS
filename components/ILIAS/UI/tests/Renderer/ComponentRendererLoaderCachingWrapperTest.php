@@ -81,11 +81,21 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $renderer2 = $this->createMock(ComponentRenderer::class);
         $c1 = $this->getMockBuilder(Component::class)->getMock();
         $c2 = new TestComponent("foo");
+        $consecutive = [
+            [$c1, [], $renderer1],
+            [$c1, [$c2], $renderer2]
+        ];
         $underlying
             ->expects($this->exactly(2))
             ->method("getRendererFor")
-            ->withConsecutive([$c1, [] ], [$c1, [$c2]])
-            ->will($this->onConsecutiveCalls($renderer1, $renderer2));
+            ->willReturnCallback(
+                function ($component, $contexts) use (&$consecutive) {
+                    list($expected_component, $expected_contexts, $return) = array_shift($consecutive);
+                    $this->assertEquals($expected_component, $component);
+                    $this->assertEquals($expected_contexts, $contexts);
+                    return $return;
+                }
+            );
 
         $l = new LoaderCachingWrapper($underlying);
         $r1 = $l->getRendererFor($c1, []);

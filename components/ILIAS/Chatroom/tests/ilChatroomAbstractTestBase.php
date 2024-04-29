@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilChatroomAbstractTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-abstract class ilChatroomAbstractTest extends TestCase
+abstract class ilChatroomAbstractTestBase extends TestCase
 {
     /** @var MockObject&ilChatroom */
     protected $ilChatroomMock;

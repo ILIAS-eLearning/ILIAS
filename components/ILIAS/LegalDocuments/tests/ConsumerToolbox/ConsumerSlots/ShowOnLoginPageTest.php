@@ -57,18 +57,21 @@ class ShowOnLoginPageTest extends TestCase
         $legacy = $this->mock(Legacy::class);
 
         $template = $this->mock(ilTemplate::class);
-        $consecutive_key = ['LABEL', 'HREF'];
-        $consecutive_value = [htmlentities($translated), $url];
-        $template->expects(self::exactly(2))->method('setVariable')->with(
-            $this->callback(function ($value) use (&$consecutive_key) {
-                $this->assertSame(array_shift($consecutive_key), $value);
-                return true;
-            }),
-            $this->callback(function ($value) use (&$consecutive_value) {
-                $this->assertSame(array_shift($consecutive_value), $value);
-                return true;
-            })
-        );
+        $expected = [
+            ['LABEL', htmlentities($translated)],
+            ['HREF', $url]
+        ];
+        $template
+            ->expects(self::exactly(2))
+            ->method('setVariable')
+            ->willReturnCallback(
+                function (string $k, string $v) use (&$expected) {
+                    list($ek, $ev) = array_shift($expected);
+                    $this->assertEquals($ek, $k);
+                    $this->assertEquals($ev, $v);
+                }
+            );
+
         $template->expects(self::once())->method('get')->willReturn('Rendered');
 
         $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [

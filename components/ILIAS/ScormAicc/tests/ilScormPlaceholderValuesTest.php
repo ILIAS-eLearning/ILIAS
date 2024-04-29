@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        global $DIC;
+        $DIC['file_delivery'] = $this->createMock(\ILIAS\FileDelivery\Services::class);
+    }
+
     public function testGetPlaceholderValues(): void
     {
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)

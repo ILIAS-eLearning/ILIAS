@@ -18,17 +18,15 @@
 
 namespace ILIAS\ResourceStorage\Policy;
 
-require_once(__DIR__ . "/../AbstractBaseResourceBuilderTest.php");
-
 use ILIAS\MainMenu\Tests\DummyIDGenerator;
-use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
+use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTestCase;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
 /**
  * Class FileNamePolicyTest
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
+class FileNamePolicyTest extends AbstractBaseResourceBuilderTestCase
 {
     protected function getResourceBuilder(string $denied_ending): ResourceBuilder
     {

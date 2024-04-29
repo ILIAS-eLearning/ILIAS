@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTest
+class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
 {
     private const PASSWORD = 'password';
     private const WRONG_PASSWORD = 'wrong_password';

@@ -32,7 +32,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getNumberOfTries());
     }
 
-    public function getAndWithNumberOfTriesDataProvider(): array
+    public static function getAndWithNumberOfTriesDataProvider(): array
     {
         return [
             [-1],
@@ -53,7 +53,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertTrue($ilObjTestSettingsTestBehaviour->getBlockAfterPassedEnabled());
     }
 
-    public function getAndWithBlockAfterPassedEnabledDataProvider(): array
+    public static function getAndWithBlockAfterPassedEnabledDataProvider(): array
     {
         return [
             [true],
@@ -73,7 +73,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getPassWaiting());
     }
 
-    public function getAndWithPassWaitingDataProvider(): array
+    public static function getAndWithPassWaitingDataProvider(): array
     {
         return [
             [null],
@@ -93,7 +93,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getProcessingTimeEnabled());
     }
 
-    public function getAndWithProcessingTimeEnabledDataProvider(): array
+    public static function getAndWithProcessingTimeEnabledDataProvider(): array
     {
         return [
             [true],
@@ -113,7 +113,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getProcessingTime());
     }
 
-    public function getAndWithProcessingTimeDataProvider(): array
+    public static function getAndWithProcessingTimeDataProvider(): array
     {
         return [
             [null],
@@ -134,7 +134,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getResetProcessingTime());
     }
 
-    public function getAndWithResetProcessingTimeDataProvider(): array
+    public static function getAndWithResetProcessingTimeDataProvider(): array
     {
         return [
             [true],
@@ -154,7 +154,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getKioskMode());
     }
 
-    public function getAndWithKioskModeDataProvider(): array
+    public static function getAndWithKioskModeDataProvider(): array
     {
         return [
             [-1],
@@ -176,7 +176,7 @@ class ilObjTestSettingsTestBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsTestBehaviour->getExamIdInTestPassEnabled());
     }
 
-    public function getAndWithExamIdInTestPassEnabledDataProvider(): array
+    public static function getAndWithExamIdInTestPassEnabledDataProvider(): array
     {
         return [
             [true],

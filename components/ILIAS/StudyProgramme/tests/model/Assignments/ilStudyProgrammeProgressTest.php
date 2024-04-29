@@ -238,7 +238,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($pgs->hasIndividualModifications());
     }
 
-    public function ilPRGProgressStatus(): array
+    public static function ilPRGProgressStatus(): array
     {
         return [
             //status, count as 'successful'
@@ -276,7 +276,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForAccredited($status)
     {
@@ -297,7 +297,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForCompleted($status)
     {
@@ -316,7 +316,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForFailed($status)
     {
@@ -336,7 +336,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider status
+     * @dataProvider ilPRGProgressStatus
      */
     public function testPRGProgressAllowedTransitionsForIrrelevant($status): void
     {

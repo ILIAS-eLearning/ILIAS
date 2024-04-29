@@ -49,7 +49,7 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->assertEquals($IO, $this->testObj->createDefaultCommand($IO));
     }
 
-    public function createDefaultCommandDataProvider()
+    public static function createDefaultCommandDataProvider()
     {
         return [
             [[]],

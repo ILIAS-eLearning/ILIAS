@@ -52,7 +52,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getQuestionTitleOutputMode());
     }
 
-    public function getAndWithQuestionTitleOutputModeDataProvider(): array
+    public static function getAndWithQuestionTitleOutputModeDataProvider(): array
     {
         return [
             [-1],
@@ -73,7 +73,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getAutosaveEnabled());
     }
 
-    public function getAndWithInstantFeedbackDataProvider(): array
+    public static function getAndWithInstantFeedbackDataProvider(): array
     {
         return [
             [false],
@@ -93,7 +93,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getAutosaveInterval());
     }
 
-    public function getAndWithAutosaveIntervalDataProvider(): array
+    public static function getAndWithAutosaveIntervalDataProvider(): array
     {
         return [
             [-1],
@@ -114,7 +114,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getShuffleQuestions());
     }
 
-    public function getAndWithShuffleQuestionsDataProvider(): array
+    public static function getAndWithShuffleQuestionsDataProvider(): array
     {
         return [
             [false],
@@ -134,7 +134,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getQuestionHintsEnabled());
     }
 
-    public function getAndWithQuestionHintsEnabledDataProvider(): array
+    public static function getAndWithQuestionHintsEnabledDataProvider(): array
     {
         return [
             [false],
@@ -154,7 +154,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getInstantFeedbackPointsEnabled());
     }
 
-    public function getAndWithInstantFeedbackPointsEnabledDataProvider(): array
+    public static function getAndWithInstantFeedbackPointsEnabledDataProvider(): array
     {
         return [
             [false],
@@ -174,7 +174,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getInstantFeedbackGenericEnabled());
     }
 
-    public function getAndWithInstantFeedbackGenericEnabledDataProvider(): array
+    public static function getAndWithInstantFeedbackGenericEnabledDataProvider(): array
     {
         return [
             [false],
@@ -194,7 +194,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getInstantFeedbackSpecificEnabled());
     }
 
-    public function getAndWithInstantFeedbackSpecificEnabledDataProvider(): array
+    public static function getAndWithInstantFeedbackSpecificEnabledDataProvider(): array
     {
         return [
             [false],
@@ -214,7 +214,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getInstantFeedbackSolutionEnabled());
     }
 
-    public function getAndWithInstantFeedbackSolutionEnabledDataProvider(): array
+    public static function getAndWithInstantFeedbackSolutionEnabledDataProvider(): array
     {
         return [
             [false],
@@ -234,7 +234,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getForceInstantFeedbackOnNextQuestion());
     }
 
-    public function getAndWithForceInstantFeedbackOnNextQuestionDataProvider(): array
+    public static function getAndWithForceInstantFeedbackOnNextQuestionDataProvider(): array
     {
         return [
             [false],
@@ -254,7 +254,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getLockAnswerOnInstantFeedbackEnabled());
     }
 
-    public function getAndWithLockAnswerOnInstantFeedbackEnabledDataProvider(): array
+    public static function getAndWithLockAnswerOnInstantFeedbackEnabledDataProvider(): array
     {
         return [
             [false],
@@ -274,7 +274,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getLockAnswerOnNextQuestionEnabled());
     }
 
-    public function getAndWithLockAnswerOnNextQuestionEnabledDataProvider(): array
+    public static function getAndWithLockAnswerOnNextQuestionEnabledDataProvider(): array
     {
         return [
             [false],
@@ -294,7 +294,7 @@ class ilObjTestSettingsQuestionBehaviourTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsQuestionBehaviour->getCompulsoryQuestionsEnabled());
     }
 
-    public function getAndWithCompulsoryQuestionsEnabledDataProvider(): array
+    public static function getAndWithCompulsoryQuestionsEnabledDataProvider(): array
     {
         return [
             [false],

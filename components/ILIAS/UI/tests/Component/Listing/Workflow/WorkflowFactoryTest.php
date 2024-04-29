@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
-class WorkflowFactoryTest extends AbstractFactoryTest
+class WorkflowFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "step" => [
                 "context" => false,
                 "rules" => false
@@ -34,5 +34,5 @@ class WorkflowFactoryTest extends AbstractFactoryTest
     ];
 
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Listing\\Workflow\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Listing\\Workflow\\Factory';
 }

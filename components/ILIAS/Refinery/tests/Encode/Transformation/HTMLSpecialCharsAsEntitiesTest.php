@@ -52,7 +52,7 @@ class HTMLSpecialCharsAsEntitiesTest extends TestCase
         (new HTMLSpecialCharsAsEntities())->transform(chr(128));
     }
 
-    public function provideTransformData(): array
+    public static function provideTransformData(): array
     {
         $alpha = implode('', range(ord('A'), ord('z')));
         $numbers = implode('', range(ord('0'), ord('9')));

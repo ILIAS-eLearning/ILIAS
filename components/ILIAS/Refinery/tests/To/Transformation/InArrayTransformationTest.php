@@ -78,7 +78,7 @@ class InArrayTransformationTest extends TestCase
         }
     }
 
-    public function memberProvider(): array
+    public static function memberProvider(): array
     {
         return [
             'Invalid member.' => ['hej', false],

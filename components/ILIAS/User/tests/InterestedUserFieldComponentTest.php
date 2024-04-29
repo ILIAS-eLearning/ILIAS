@@ -24,7 +24,7 @@ use ILIAS\components\User\InterestedUserFieldComponent;
  * Class InterestedUserFieldComponentTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldComponentTest extends ilUserBaseTest
+class InterestedUserFieldComponentTest extends ilUserBaseTestCase
 {
     public function testInterestedUserFieldComponent(): void
     {

@@ -22,14 +22,14 @@ declare(strict_types=1);
  * Class ilMailAddressParserTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressParserTest extends ilMailBaseTest
+class ilMailAddressParserTest extends ilMailBaseTestCase
 {
     private const DEFAULT_HOST = 'ilias';
 
     /**
      * @return array[]
      */
-    public function emailAddressesProvider(): array
+    public static function emailAddressesProvider(): array
     {
         return [
             'Username Addresses' => [
@@ -109,7 +109,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @return array[]
      */
-    public function emailInvalidAddressesProvider(): array
+    public static function emailInvalidAddressesProvider(): array
     {
         return [
             'Trailing Quote in Local Part' => [

@@ -25,7 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * Class AbstractBaseTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractBaseTest extends TestCase
+abstract class AbstractBaseTestCase extends TestCase
 {
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|RequestInterface

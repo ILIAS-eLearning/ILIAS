@@ -28,7 +28,9 @@ class ilLTIToolConsumerTest extends TestCase
 {
     public function testTitle(): void
     {
-        $ltiToolConsumer = new ilLTIPlatform();
+        $ltiToolConsumer = new ilLTIPlatform(
+            $this->createMock(ilLTIDataConnector::class)
+        );
         $testString = str_shuffle(uniqid('abcdefgh'));
         $ltiToolConsumer->setTitle($testString);
 

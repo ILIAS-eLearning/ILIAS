@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
  * Class ilChatroomAbstractTaskTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
+abstract class ilChatroomAbstractTaskTestBase extends ilChatroomAbstractTestBase
 {
     /** @var MockObject&ilChatroomObjectGUI */
     protected $gui;

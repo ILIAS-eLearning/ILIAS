@@ -18,9 +18,9 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
-require_once(__DIR__ . "/../AbstractBaseTest.php");
+require_once(__DIR__ . "/../AbstractTestBase.php");
 
-use ILIAS\ResourceStorage\AbstractBaseTest;
+use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
@@ -29,7 +29,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class RevisionRepositoryTest extends AbstractBaseTest
+class RevisionRepositoryTest extends AbstractTestBase
 {
     /**
      * @var \ILIAS\ResourceStorage\Resource\StorableFileResource|mixed

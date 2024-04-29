@@ -20,7 +20,7 @@ namespace ILIAS\ResourceStorage\Flavours;
 
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\AbstractBaseTest;
+use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
@@ -45,13 +45,13 @@ use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngineWithOptionalFFMpeg;
  * Class FlavourMachineTest
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-require_once __DIR__ . '/../AbstractBaseTest.php';
+require_once __DIR__ . '/../AbstractTestBase.php';
 require_once __DIR__ . '/DummyDefinition.php';
 require_once __DIR__ . '/DummyMachine.php';
 require_once __DIR__ . '/BrokenDummyMachine.php';
 require_once __DIR__ . '/SVGDummyMachine.php';
 
-class FlavourMachineTest extends AbstractBaseTest
+class FlavourMachineTest extends AbstractTestBase
 {
     /**
      * @var ImagickEngine|MockObject
@@ -103,7 +103,7 @@ class FlavourMachineTest extends AbstractBaseTest
         $this->assertEquals(NoEngine::class, $null_machine->dependsOnEngine());
     }
 
-    public function definitionsToMachines(): array
+    public static function definitionsToMachines(): array
     {
         return [
             [new PagesToExtract(true), ExtractPages::class, ImagickEngineWithOptionalFFMpeg::class],
@@ -130,7 +130,7 @@ class FlavourMachineTest extends AbstractBaseTest
         $this->assertSame($machine_instance, $machine_instance_second_get);
     }
 
-    public function machinesToEngines(): array
+    public static function machinesToEngines(): array
     {
         return [
             [ExtractPages::class, ImagickEngine::class],

@@ -25,7 +25,7 @@ use org\bovigo\vfs;
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
+final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTestCase
 {
     /** @var string */
     private const VALID_COSTS = '08';
@@ -84,7 +84,7 @@ final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     /**
      * @return array<string, string[]>
      */
-    public function costsProvider(): array
+    public static function costsProvider(): array
     {
         $data = [];
         for ($i = 4; $i <= 31; ++$i) {

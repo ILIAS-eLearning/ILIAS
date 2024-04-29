@@ -90,7 +90,7 @@ class ilQTIRenderFibTest extends TestCase
         $this->assertEquals('Some input.', $instance->getCharset());
     }
 
-    public function prompts(): array
+    public static function prompts(): array
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [
@@ -105,7 +105,7 @@ class ilQTIRenderFibTest extends TestCase
         ];
     }
 
-    public function fibtypes(): array
+    public static function fibtypes(): array
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [

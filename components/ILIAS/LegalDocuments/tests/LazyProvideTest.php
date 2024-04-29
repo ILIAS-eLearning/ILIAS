@@ -55,7 +55,7 @@ class LazyProvideTest extends TestCase
         $this->assertTrue($called);
     }
 
-    public function methods(): array
+    public static function methods(): array
     {
         return [
             ['withdrawal'],

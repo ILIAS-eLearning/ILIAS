@@ -85,11 +85,20 @@ class ClientIdReadObjectiveTest extends TestCase
             ->with($DATA_DIR)
             ->willReturn($SCAN_RESULT);
 
+        $consecutive = [
+            [$DATA_DIR . "/" . $SOME_DIR, true],
+            [$DATA_DIR . "/" . $SOME_FILE, false]
+        ];
         $mock
             ->expects($this->exactly(2))
             ->method("isDirectory")
-            ->withConsecutive([$DATA_DIR . "/" . $SOME_DIR], [$DATA_DIR . "/" . $SOME_FILE])
-            ->will($this->onConsecutiveCalls(true, false));
+            ->willReturnCallback(
+                function ($path) use (&$consecutive): bool {
+                    list($expected, $return) = array_shift($consecutive);
+                    $this->assertEquals($expected, $path);
+                    return $return;
+                }
+            );
 
         $env
             ->expects($this->once())

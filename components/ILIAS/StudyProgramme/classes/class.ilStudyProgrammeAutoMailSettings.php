@@ -23,14 +23,10 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeAutoMailSettings
 {
-    protected bool $send_re_assigned_mail;
-    protected ?int $reminder_not_restarted_by_user_days;
-    protected ?int $processing_ends_not_successful_days;
-
     public function __construct(
-        bool $send_re_assigned_mail,
-        ?int $reminder_not_restarted_by_user_days,
-        ?int $processing_ends_not_successful_days
+        protected bool $send_re_assigned_mail,
+        protected ?int $reminder_not_restarted_by_user_days,
+        protected ?int $processing_ends_not_successful_days
     ) {
         if (!is_null($reminder_not_restarted_by_user_days) && 1 > $reminder_not_restarted_by_user_days) {
             throw new InvalidArgumentException('Numbers less than 1 are not allowed');
