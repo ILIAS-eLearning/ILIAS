@@ -28,6 +28,9 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
+    private const PARENT_CLASS = 'c-drilldown__branch';
+    private const LEAF_CLASS = 'c-drilldown__leaf';
+
     /**
      * @inheritdoc
      */
@@ -35,51 +38,17 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
-        /**
-         * @var $component Menu\Menu
-         */
-        $html = $this->renderMenu($component, $default_renderer);
-
         if ($component instanceof Menu\Drilldown) {
-            $ui_factory = $this->getUIFactory();
-            $back_signal = $component->getBacklinkSignal();
-            $persistence_id = $component->getPersistenceId();
-            $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
-            $btn = $ui_factory->button()->bulky($glyph, '', '#')
-                                        ->withOnClick($back_signal)
-                                        ->withAriaLabel($this->txt('back'));
-            $back_button_html = $default_renderer->render($btn);
-
-            $component = $component->withAdditionalOnLoadCode(
-                function ($id) use ($back_signal, $persistence_id) {
-                    $params = "'$id', '$back_signal'";
-                    if (is_null($persistence_id)) {
-                        $params .= ", null";
-                    } else {
-                        $params .= ", '$persistence_id'";
-                    }
-                    return "il.UI.menu.drilldown.init($params);";
-                }
-            );
-            $id = $this->bindJavaScript($component);
-
-            $tpl_name = "tpl.drilldown.html";
-            $tpl = $this->getTemplate($tpl_name, true, true);
-            $tpl->setVariable("ID", $id);
-            $tpl->setVariable('TITLE', $component->getLabel());
-            $tpl->setVariable('BACKNAV', $back_button_html);
-            $tpl->setVariable('DRILLDOWN', $html);
-
-            return $tpl->get();
+            return $this->renderDrilldownMenu($component, $default_renderer);
         }
 
-        return $html;
+        return $this->renderStandardMenu($component, $default_renderer);
     }
 
     /**
      * Render a Menu.
      */
-    protected function renderMenu(
+    protected function renderStandardMenu(
         Menu\Menu $component,
         RendererInterface $default_renderer
     ): string {
@@ -90,15 +59,66 @@ class Renderer extends AbstractComponentRenderer
             $label = $default_renderer->render($label);
         }
         $tpl_menu->setVariable('LABEL', $label);
+        $tpl_menu->setVariable('ITEMS', $this->renderMenuItems($component, $default_renderer));
+        return $tpl_menu->get();
+    }
 
+    protected function renderDrilldownMenu(
+        Menu\Drilldown $component,
+        RendererInterface $default_renderer
+    ): string {
+        $items_html = $this->renderMenuItems($component, $default_renderer);
+        $ui_factory = $this->getUIFactory();
+        $back_signal = $component->getBacklinkSignal();
+        $persistence_id = $component->getPersistenceId();
+        $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
+        $btn = $ui_factory->button()->bulky($glyph, '', '#')
+                                    ->withOnClick($back_signal)
+                                    ->withAriaLabel($this->txt('back'));
+        $back_button_html = $default_renderer->render($btn);
+
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($back_signal, $persistence_id) {
+                $params = "'$id', '$back_signal'";
+                if (is_null($persistence_id)) {
+                    $params .= ", null";
+                } else {
+                    $params .= ", '$persistence_id'";
+                }
+                return "il.UI.menu.drilldown.init($params);";
+            }
+        );
+        $id_drilldown = $this->bindJavaScript($component);
+        $id_filter = $this->createId();
+
+        $tpl_name = "tpl.drilldown.html";
+        $tpl = $this->getTemplate($tpl_name, true, true);
+        $tpl->setVariable("ID", $id_drilldown);
+        $tpl->setVariable('LABEL', sprintf($this->txt('filter_nodes_in'), $component->getLabel()));
+        $tpl->setVariable('ARIA_LABEL', $component->getLabel());
+        $tpl->setVariable('ID_FILTER', $id_filter);
+        $tpl->setVariable('BACKNAV', $back_button_html);
+        $tpl->setVariable('DRILLDOWN', $items_html);
+
+        return $tpl->get();
+    }
+
+    protected function renderMenuItems(
+        Menu\Menu $component,
+        RendererInterface $default_renderer
+    ): string {
         $html = '';
         foreach ($component->getItems() as $item) {
             $tpl_item = $this->getTemplate('tpl.menuitem.html', true, true);
+            if ($item instanceof Menu\Sub) {
+                $tpl_item->setVariable('CLASS', self::PARENT_CLASS);
+            } else {
+                $tpl_item->setVariable('CLASS', self::LEAF_CLASS);
+            }
             $tpl_item->setVariable('ITEM', $default_renderer->render($item));
             $html .= $tpl_item->get();
         }
-        $tpl_menu->setVariable('ITEMS', $html);
-        return $tpl_menu->get();
+        return $html;
     }
 
     /**

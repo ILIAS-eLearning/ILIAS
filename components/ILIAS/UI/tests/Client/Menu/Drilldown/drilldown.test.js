@@ -1,134 +1,216 @@
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
 
-import ddmodel from '../../../../resources/js/Menu/src/drilldown.model.js';
-import ddmapping from '../../../../resources/js/Menu/src/drilldown.mapping.js';
-import ddpersistence from '../../../../resources/js/Menu/src/drilldown.persistence.js';
-import dd from '../../../../resources/js/Menu/src/drilldown.main.js';
-import drilldown from '../../../../resources/js/Menu/src/drilldown.instances.js';
+import Drilldown from '../../../../resources/js/Menu/src/drilldown.main';
+import DrilldownFactory from '../../../../resources/js/Menu/src/drilldown.factory';
+import DrilldownPersistence from '../../../../resources/js/Menu/src/drilldown.persistence';
+import DrilldownModel from '../../../../resources/js/Menu/src/drilldown.model';
+import DrilldownMapping from '../../../../resources/js/Menu/src/drilldown.mapping';
 
-describe('drilldown', () => {
-  beforeEach(() => {
-    // init test environment
-    const dom_string = fs.readFileSync('./components/ILIAS/UI/tests/Component/Menu/Drilldown/drilldown_test.html').toString();
-    const doc = new JSDOM(dom_string);
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
 
-    doc.getElementById = (id) => $(`#${id}`)[0];
-    global.document = doc;
-    global.jQuery = require('jquery')(doc.window);
-    global.$ = global.jQuery;
+const parsedHtml = `<section class="c-drilldown" id="id_2">
+    <header class="">
+        <div></div>
+        <div></div>
+        <div class="c-drilldown__filter">
+            <label for="id_3" class="control-label">filter_nodes_in</label>
+            <input id="id_3" type="text" name="" class="form-control">
+        </div>
+        <div class="c-drilldown__backnav">
+            <button class="btn btn-bulky" id="id_1" aria-label="back">
+                <span class="glyph" role="img">
+                    <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                </span>
+                <span class="bulky-label"></span>
+            </button>
+        </div>
+    </header>
+    <div class="c-drilldown__menu">
+        <ul aria-live="polite" aria-label="root" data-ddindex="0" class="c-drilldown__menulevel--engaged c-drilldown__menulevel--engagedparent">
+            <li class="c-drilldown__branch">
+                <button class="c-drilldown__menulevel--trigger" aria-expanded="false">1
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                </button>
+                <ul data-ddindex="1">
+                    <li class="c-drilldown__branch">
+                        <button class="c-drilldown__menulevel--trigger" aria-expanded="false">1.1
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </button>
+                        <ul data-ddindex="2"></ul>
+                    </li>
+                    <li class="c-drilldown__branch">
+                        <button class="c-drilldown__menulevel--trigger" aria-expanded="false">1.2
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </button>
+                        <ul data-ddindex="3"></ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="c-drilldown__branch">
+                <button class="c-drilldown__menulevel--trigger" aria-expanded="false">2
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                </button>
+                <ul data-ddindex="4"></ul>
+            </li>
+        </ul>
+    </div>
+</section>
+`;
 
-    il = {
-      Utilities: {
-        CookieStorage(id) {
-          return {
-            items: {},
-            add(key, value) {
-              this.items[key] = value;
-            },
-            store() {},
-          };
-        },
-      },
+function buildDocument() {
+  const dom_string = fs.readFileSync('./components/ILIAS/UI/tests/Component/Menu/Drilldown/drilldown_test.html').toString();
+  const dom = new JSDOM(
+    dom_string,
+    {
+      url: 'https://localhost',
+    }
+  );
+
+  return dom.window.document;
+}
+
+function buildFactory(doc) {
+  const jquery = (string) => {
+    return {
+      on(event, handler) {
+        return;
+      }
     };
+  };
+
+  const il = {
+    Utilities: {
+      CookieStorage(id) {
+        return {
+          items: {},
+          add(key, value) {
+            this.items[key] = value;
+          },
+          store() {}
+        };
+      }
+    }
+  };
+
+  return new DrilldownFactory(doc, ResizeObserverMock, jquery, il);
+}
+
+describe('Drilldown', () => {
+  it('classes exist', () => {
+    expect(Drilldown).to.not.be.undefined;
+    expect(DrilldownFactory).to.not.be.undefined;
+    expect(DrilldownPersistence).to.not.be.undefined;
+    expect(DrilldownModel).to.not.be.undefined;
+    expect(DrilldownMapping).to.not.be.undefined;
   });
-
-  it('components are defined and provide public interface', () => {
-    expect(ddmodel).to.not.be.undefined;
-    expect(ddmapping).to.not.be.undefined;
-    expect(ddpersistence).to.not.be.undefined;
-    expect(drilldown).to.not.be.undefined;
-    expect(dd).to.not.be.undefined;
-
-    const ddmain = dd();
-    expect(ddmain.init).to.be.an('function');
-    expect(ddmain.engage).to.be.an('function');
+  it('factory has public methods', () => {
+    const f = buildFactory(buildDocument());
+    expect(f.init).to.be.an('function');
   });
-
-  it('model creates levels, engages/disengages properly', () => {
-    const dd_model = ddmodel();
-    const l0 = dd_model.actions.addLevel('root');
-    const l1 = dd_model.actions.addLevel('1', l0.id);
-    const l11 = dd_model.actions.addLevel('11', l1.id);
-    const l2 = dd_model.actions.addLevel('2', l0.id);
-    const l21 = dd_model.actions.addLevel('21', l2.id);
-    const l211 = dd_model.actions.addLevel('211', l21.id);
-
-    expect(l0.label).to.eql('root');
-    expect(l0.id).to.eql('0');
-    expect(l0.parent).to.eql(null);
-
-    expect(l11.label).to.eql('11');
-    expect(l11.id).to.eql('2');
-    expect(l11.parent).to.eql('1');
-
-    expect(dd_model.actions.getCurrent()).to.eql(l0);
-    expect(l1.engaged).to.be.false;
-
-    dd_model.actions.engageLevel(l1.id);
-    expect(l1.engaged).to.be.true;
-    expect(dd_model.actions.getCurrent()).to.eql(l1);
-
-    dd_model.actions.engageLevel(l211.id);
-    expect(l1.engaged).to.be.false;
-    expect(l211.engaged).to.be.true;
-    expect(dd_model.actions.getCurrent()).to.eql(l211);
-    dd_model.actions.upLevel();
-    expect(l21.engaged).to.be.true;
-    expect(l211.engaged).to.be.false;
+  it('dom is correct after init', () => {
+    const doc = buildDocument();
+    const f = buildFactory(doc);
+    f.init('id_2', () => { return; }, 'id_2');
+    assert.equal(doc.body.innerHTML, parsedHtml);
   });
-
-  it('identifies several instances', () => {
-    const id = 'dd_one';
-    const id2 = 'dd_two';
-    const mock = function () {};
-    const ddmock = function (a, b, c) {
-      return { init() {} };
-    };
-    const dd_collection = drilldown(mock, mock, mock, ddmock);
-
-    dd_collection.init(id);
-    expect(dd_collection.instances[id]).to.not.be.undefined;
-
-    dd_collection.init(id2);
-    expect(dd_collection.instances[id2]).to.not.equal(dd_collection.instances[id]);
+  it('buildLeaf returns correct leaf object', () => {
+    const model = new DrilldownModel();
+    assert.deepEqual(model.buildLeaf('1', 'My Leaf'), {index: '1', text: 'My Leaf', filtered: false});
   });
-
-  it('persistence has internal integrity', () => {
-    const p = ddpersistence('id');
-    const value = 'test';
-    p.store(value);
-    expect(p.read()).to.equal(value);
-  });
-
-  it('parses, initializes and engages (dom level) ', () => {
-    const component = drilldown(
-      ddmodel,
-      ddmapping,
-      ddpersistence,
-      dd,
+  it('addLevel returns correct level object', () => {
+    const document = buildDocument();
+    const model = new DrilldownModel();
+    const leaves = [
+      model.buildLeaf('1', 'My first Leaf'),
+      model.buildLeaf('2', 'My second Leaf'),
+      model.buildLeaf('3', 'My third Leaf')
+    ];
+    assert.deepEqual(
+      model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), null, leaves),
+      {
+        id: '0',
+        parent: null,
+        engaged: false,
+        headerDisplayElement: document.querySelector('.c-drilldown__menulevel--trigger'),
+        leaves: [
+          { index: '1', text: 'My first Leaf', filtered: false },
+          { index: '2', text: 'My second Leaf', filtered: false },
+          { index: '3', text: 'My third Leaf', filtered: false }
+        ]
+      }
     );
-    const id = 'id_2';
-    const signal = 'test_backsignal_id_2';
-    const persistence_id = 'id_2_cookie';
-    let menu;
-    const btns = $('.il-drilldown ul li button');
-
-    component.init(id, signal, persistence_id);
-    menu = component.instances[id];
-    expect(menu).to.be.an('object');
-
-    expect($('header h2').html()).to.equal('root');
-    expect(btns[1].className).to.equal('menulevel');
-
-    btns[1].click();
-    expect($('header h2').html()).to.equal('1');
-    expect(btns[1].className).to.equal('menulevel engaged');
-
-    btns[3].click();
-    expect($('header h2').html()).to.equal('1.2');
-    expect(btns[1].className).to.equal('menulevel');
-    expect(btns[3].className).to.equal('menulevel engaged');
+  });
+  it('getCurrent returns engaged', () => {
+    const document = buildDocument();
+    const model = new DrilldownModel();
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), null, []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '0', []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '0', []),
+    model.engageLevel('1');
+    assert.equal(model.getCurrent().id, '1');
+    model.upLevel();
+    assert.equal(model.getCurrent().id, '0');
+  });
+  it('upLevel moves level up', () => {
+    const document = buildDocument();
+    const model = new DrilldownModel();
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), null, []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '0', []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '1', []),
+    model.engageLevel('2');
+    model.upLevel();
+    assert.equal(model.getCurrent().id, '1');
+    model.upLevel();
+    assert.equal(model.getCurrent().id, '0');
+  });
+  it('filtered and get filtered work as expected', () => {
+    const document = buildDocument();
+    const model = new DrilldownModel();
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), null, []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), null, []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '0', []),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '2', [
+      model.buildLeaf('1', 'My first Leaf'),
+      model.buildLeaf('2', 'My second Leaf'),
+      model.buildLeaf('3', 'My third Leaf')
+    ]),
+    model.addLevel(document.querySelector('.c-drilldown__menulevel--trigger'), '2', [
+      model.buildLeaf('1', 'My fourth Leaf'),
+      model.buildLeaf('2', 'My fifth Leaf'),
+      model.buildLeaf('3', 'My sixth Leaf')
+    ]),
+    model.filter({target: {value: 'SECoNd'}});
+    assert.deepEqual(
+      model.getFiltered(),
+      [
+        {
+          id: '3',
+          parent: '2',
+          engaged: false,
+          headerDisplayElement: document.querySelector('.c-drilldown__menulevel--trigger'),
+          leaves: [
+            { index: '1', text: 'My first Leaf', filtered: true },
+            { index: '3', text: 'My third Leaf', filtered: true }
+          ]
+        },
+        {
+          id: '4',
+          parent: '2',
+          engaged: false,
+          headerDisplayElement: document.querySelector('.c-drilldown__menulevel--trigger'),
+          leaves: [
+            { index: '1', text: 'My fourth Leaf', filtered: true },
+            { index: '2', text: 'My fifth Leaf', filtered: true },
+            { index: '3', text: 'My sixth Leaf', filtered: true }
+          ]
+        }
+      ]
+    );
   });
 });
