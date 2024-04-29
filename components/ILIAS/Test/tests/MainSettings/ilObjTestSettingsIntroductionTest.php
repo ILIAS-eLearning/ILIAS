@@ -32,7 +32,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsIntroduction->getIntroductionEnabled());
     }
 
-    public function getAndWithIntroductionEnabledDataProvider(): array
+    public static function getAndWithIntroductionEnabledDataProvider(): array
     {
         return [
             [true],
@@ -52,7 +52,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsIntroduction->getIntroductionText());
     }
 
-    public function getAndWithIntroductionTextDataProvider(): array
+    public static function getAndWithIntroductionTextDataProvider(): array
     {
         return [
             [''],
@@ -72,7 +72,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsIntroduction->getIntroductionPageId());
     }
 
-    public function getAndWithIntroductionPageIdDataProvider(): array
+    public static function getAndWithIntroductionPageIdDataProvider(): array
     {
         return [
             [null],
@@ -94,7 +94,7 @@ class ilObjTestSettingsIntroductionTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsIntroduction->getExamConditionsCheckboxEnabled());
     }
 
-    public function getAndWithExamConditionsCheckboxEnabledDataProvider(): array
+    public static function getAndWithExamConditionsCheckboxEnabledDataProvider(): array
     {
         return [
             [true],

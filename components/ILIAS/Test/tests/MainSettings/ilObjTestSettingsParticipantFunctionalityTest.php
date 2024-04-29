@@ -32,7 +32,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getUsePreviousAnswerAllowed());
     }
 
-    public function getAndWithUsePreviousAnswerAllowedDataProvider(): array
+    public static function getAndWithUsePreviousAnswerAllowedDataProvider(): array
     {
         return [
             [true],
@@ -52,7 +52,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getSuspendTestAllowed());
     }
 
-    public function getAndWithSuspendTestAllowedDataProvider(): array
+    public static function getAndWithSuspendTestAllowedDataProvider(): array
     {
         return [
             [true],
@@ -72,7 +72,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getPostponedQuestionsMoveToEnd());
     }
 
-    public function getAndWithPostponedQuestionsMoveToEndDataProvider(): array
+    public static function getAndWithPostponedQuestionsMoveToEndDataProvider(): array
     {
         return [
             [true],
@@ -92,7 +92,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getQuestionListEnabled());
     }
 
-    public function getAndWithQuestionListEnabledDataProvider(): array
+    public static function getAndWithQuestionListEnabledDataProvider(): array
     {
         return [
             [true],
@@ -112,7 +112,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getUsrPassOverviewMode());
     }
 
-    public function getAndWithUsrPassOverviewModeDataProvider(): array
+    public static function getAndWithUsrPassOverviewModeDataProvider(): array
     {
         return [
             [-1],
@@ -133,7 +133,7 @@ class ilObjTestSettingsParticipantFunctionalityTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsParticipantFunctionality->getQuestionMarkingEnabled());
     }
 
-    public function getAndWithUsrPassOverviewEnabledDataProvider(): array
+    public static function getAndWithUsrPassOverviewEnabledDataProvider(): array
     {
         return [
             [true],

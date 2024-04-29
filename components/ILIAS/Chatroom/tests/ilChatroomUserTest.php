@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilChatroomUserTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-class ilChatroomUserTest extends ilChatroomAbstractTest
+class ilChatroomUserTest extends ilChatroomAbstractTestBase
 {
     /** @var ilObjUser&MockObject */
     protected ilObjUser $ilUserMock;
@@ -178,7 +178,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->assertSame('jdoe', $suggestions['login']);
     }
 
-    public function usernameDataProvider(): array
+    public static function usernameDataProvider(): array
     {
         return [
             ['username', 'username'],

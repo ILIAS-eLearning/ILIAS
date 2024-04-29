@@ -87,7 +87,7 @@ class ilQTIDecvarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function vartypes(): array
+    public static function vartypes(): array
     {
         class_exists(ilQTIDecvar::class); // Force autoload to define the constants.
         return [

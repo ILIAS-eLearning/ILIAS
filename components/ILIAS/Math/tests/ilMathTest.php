@@ -44,7 +44,7 @@ class ilMathTest extends TestCase
     /**
      * @return array<int, array<string>>
      */
-    public function gcdData(): array
+    public static function gcdData(): array
     {
         return [
             ['1254', '5298', '6'],

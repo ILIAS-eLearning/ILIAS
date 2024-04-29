@@ -18,22 +18,22 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
 use ILIAS\UI\Component\Input\Container\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory;
 
-class FilterFactoryTest extends AbstractFactoryTest
+class FilterFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "standard" => [
             "context" => false,
         ]
     ];
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Input\\Container\\Filter\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Input\\Container\\Filter\\Factory';
 
 
     final public function buildFactory(): Factory

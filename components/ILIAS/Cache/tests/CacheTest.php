@@ -171,7 +171,7 @@ class CacheTest extends TestCase
         $this->assertFalse($container->isLocked());
     }
 
-    private function getInvalidLockTimes(): array
+    public static function getInvalidLockTimes(): array
     {
         return [
             [-10],

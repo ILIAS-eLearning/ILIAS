@@ -41,7 +41,7 @@ class ValidHTMLTest extends TestCase
         $this->assertSame($result, $instance->isTrue($text));
     }
 
-    public function textProvider(): array
+    public static function textProvider(): array
     {
         return [
             'Plain Text' => ['phpunit', false],

@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestParticipantAccessFilterFactoryTest extends ilTestBaseTestCase
+class ilTestParticipantAccessFilterTest extends ilTestBaseTestCase
 {
     private ilTestParticipantAccessFilterFactory $testObj;
 
@@ -29,7 +29,9 @@ class ilTestParticipantAccessFilterFactoryTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestParticipantAccessFilterFactory();
+        $this->testObj = new ilTestParticipantAccessFilterFactory(
+            $this->createMock(ilAccessHandler::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,29 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
-class ilWebDAVAccessChildrenFunctionsTraitTest extends TestCase
+abstract class VirusScannerBaseTestCase extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
+        $GLOBALS['DIC'] = new Container();
+
+        parent::setUp();
+    }
+
+    protected function setGlobalVariable(string $name, $value): void
+    {
+        global $DIC;
+
+        $GLOBALS[$name] = $value;
+
+        unset($DIC[$name]);
+        $DIC[$name] = static function (Container $c) use ($name) {
+            return $GLOBALS[$name];
+        };
     }
 }

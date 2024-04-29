@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+require_once("vendor/composer/vendor/autoload.php");
+
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\Testcase;
 use Mockery\MockInterface;
 use org\bovigo\vfs;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,13 +31,8 @@ use Psr\Http\Message\UriInterface;
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
  */
-class ilWACCheckingInstanceTest //extends MockeryTestCase
+class ilWACCheckingInstanceTest extends Testcase
 {
     /**
      * @var vfs\vfsStreamFile
@@ -58,7 +55,7 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
 
         //setup container for HttpServiceAware classes
         $container = new \ILIAS\DI\Container();
-        $container['http'] = fn ($c) => Mockery::mock(Services::class);
+        $container['http'] = fn($c) => Mockery::mock(Services::class);
 
 
         $GLOBALS["DIC"] = $container;
@@ -66,12 +63,6 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
     }
 
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState    disabled
-     * @backupGlobals          disabled
-     * @backupStaticAttributes disabled
-     */
     public function testDeliver(): void
     {
         self::markTestSkipped("WIP");

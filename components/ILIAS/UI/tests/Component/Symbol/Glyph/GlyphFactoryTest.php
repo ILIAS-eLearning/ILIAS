@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once 'components/ILIAS/UI/tests/AbstractFactoryTestCase.php';
 
-class GlyphFactoryTest extends AbstractFactoryTest
+class GlyphFactoryTest extends AbstractFactoryTestCase
 {
-    public array $kitchensink_info_settings = [
+    public static array $kitchensink_info_settings = [
         "collapse" => ["context" => false],
         "expand" => ["context" => false],
         "user" => ["context" => false],
@@ -40,5 +40,5 @@ class GlyphFactoryTest extends AbstractFactoryTest
         "settings" => ["context" => false],
     ];
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';
+    public static string $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';
 }

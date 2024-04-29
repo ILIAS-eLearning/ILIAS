@@ -60,7 +60,7 @@ class EntityTest extends ILIAS_UI_TestBase
         $this->assertEquals([$this->legacy('d')], $entity->withDetails($this->legacy('d'))->getDetails());
     }
 
-    public function getEntityAllowedIdentiferTypes(): array
+    public static function getEntityAllowedIdentiferTypes(): array
     {
         $shy_button = new Button\Shy('the label', '#');
         $shy_link = new Link\Standard('the label', '#');

@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilObjChatroomAdminAccessTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
+class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTestBase
 {
     protected ilObjChatroomAdminAccess $adminAccess;
     /** @var ilRbacSystem&MockObject */

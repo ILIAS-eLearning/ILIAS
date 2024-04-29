@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+require_once("vendor/composer/vendor/autoload.php");
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
@@ -43,7 +45,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
             $entry,
             $rec
         );
-        $this->assertTrue($calc instanceof ilCalendarRecurrenceCalculator);
+        $this->assertInstanceOf(ilCalendarRecurrenceCalculator::class, $calc);
     }
 
     public function testYearly()

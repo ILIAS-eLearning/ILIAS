@@ -23,6 +23,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>
  */
-abstract class ilNotificationsBaseTest extends TestCase
+abstract class ilNotificationsBaseTestCase extends TestCase
 {
 }

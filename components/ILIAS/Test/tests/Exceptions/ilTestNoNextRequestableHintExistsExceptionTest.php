@@ -32,7 +32,7 @@ class ilTestNoNextRequestableHintExistsExceptionTest extends ilTestBaseTestCase
         $this->assertEquals($output['code'], $ilTestNoNextRequestableHintExistsException->getCode());
     }
 
-    public function constructDataProvider(): array
+    public static function constructDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestNoNextRequestableHintExistsException::class, 'code' => -1]],
@@ -60,7 +60,7 @@ class ilTestNoNextRequestableHintExistsExceptionTest extends ilTestBaseTestCase
         ;
     }
 
-    public function exceptionDataProvider(): array
+    public static function exceptionDataProvider(): array
     {
         return [
             [['msg' => '', 'code' => -1], ['msg' => ilTestNoNextRequestableHintExistsException::class, 'code' => -1]],

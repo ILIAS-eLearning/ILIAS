@@ -33,14 +33,14 @@ use PHPUnit\Framework\TestCase;
  * the test express the dependencies explicitly by calling subsequent testing
  * methods. These leads to test methods being executed to often.
  */
-abstract class AbstractFactoryTest extends TestCase
+abstract class AbstractFactoryTestCase extends TestCase
 {
     public const COMPONENT = 1;
     public const FACTORY = 2;
 
     /* This allows to omit checking of certain factory methods, use prudently...
      */
-    private array $omit_factory_methods = [
+    private static array $omit_factory_methods = [
         "helpTopics"
     ];
 
@@ -49,7 +49,7 @@ abstract class AbstractFactoryTest extends TestCase
      * false = may be there, don't check
      * Notice, some properties (MUST/MUST NOT) will always be checked.
      */
-    private array $kitchensink_info_settings_default = [
+    private static array $kitchensink_info_settings_default = [
         'description' => true,
         'background' => false,
         'context' => true,
@@ -65,9 +65,9 @@ abstract class AbstractFactoryTest extends TestCase
 
     // Definitions and Helpers:
 
-    private array $description_categories = ['purpose', 'composition', 'effect', 'rival'];
+    private static array $description_categories = ['purpose', 'composition', 'effect', 'rival'];
 
-    private array $rules_categories = [
+    private static array $rules_categories = [
         'usage',
         'interaction',
         'wording',
@@ -79,7 +79,8 @@ abstract class AbstractFactoryTest extends TestCase
     ];
 
     private Crawler\EntriesYamlParser $yaml_parser;
-    private ReflectionClass $reflection;
+    private static ReflectionClass $reflection;
+    public static string $factory_title = '';
 
     final protected function returnsFactory(array $docstring_data): bool
     {
@@ -97,17 +98,18 @@ abstract class AbstractFactoryTest extends TestCase
         return preg_match("#^(\\\\)?ILIAS\\\\UI\\\\Component\\\\([a-zA-Z]+\\\\)*Factory$#", $name) === 1;
     }
 
-    final public function buildFactoryReflection(): ReflectionClass
+    final public static function buildFactoryReflection(): ReflectionClass
     {
-        return new ReflectionClass($this->factory_title);
+        return new ReflectionClass(static::$factory_title);
     }
 
-    final public function getMethodsProvider(): array
+    final public static function getMethodsProvider(): array
     {
-        $reflection = $this->buildFactoryReflection();
+
+        $reflection = self::buildFactoryReflection();
         return array_filter(
             array_map(function ($element) {
-                if (!in_array($element->getName(), $this->omit_factory_methods)) {
+                if (!in_array($element->getName(), self::$omit_factory_methods)) {
                     return array($element, $element->getName());
                 }
                 return false;
@@ -120,7 +122,7 @@ abstract class AbstractFactoryTest extends TestCase
     public function setUp(): void
     {
         $this->yaml_parser = new Crawler\EntriesYamlParser();
-        $this->reflection = $this->buildFactoryReflection();
+        self::$reflection = $this->buildFactoryReflection();
     }
 
     public function testProperNamespace(): void
@@ -128,14 +130,14 @@ abstract class AbstractFactoryTest extends TestCase
         $message = "TODO: Put your factory into the proper namespace.";
         $this->assertMatchesRegularExpression(
             "#^ILIAS\\\\UI\\\\Component.#",
-            $this->reflection->getNamespaceName(),
+            self::$reflection->getNamespaceName(),
             $message
         );
     }
 
     public function testProperName(): void
     {
-        $name = $this->reflection->getName();
+        $name = self::$reflection->getName();
         $message = "TODO: Give your factory a proper name.";
         $this->assertTrue($this->isFactoryName($name), $message);
     }
@@ -211,7 +213,7 @@ abstract class AbstractFactoryTest extends TestCase
             $standard_case = preg_match($standard_pattern, $return_doc);
 
             // unless they only differ in a type and share a common prefix to their pathes.
-            $namespace_parts = explode("\\", $this->reflection->getNamespaceName());
+            $namespace_parts = explode("\\", self::$reflection->getNamespaceName());
             $typediff_only_pattern = "$regex_head\\\\" . array_pop($namespace_parts) . "#";
             $typediff_only_case = preg_match($typediff_only_pattern, $return_doc);
 
@@ -221,7 +223,7 @@ abstract class AbstractFactoryTest extends TestCase
 
     protected function getRegexFactoryNamespace(): string
     {
-        return str_replace("\\", "\\\\", $this->reflection->getNamespaceName());
+        return str_replace("\\", "\\\\", self::$reflection->getNamespaceName());
     }
 
     /**
@@ -253,10 +255,10 @@ abstract class AbstractFactoryTest extends TestCase
             $message = "TODO ($name): add a description.";
             $this->assertArrayHasKey('description', $docstring_data, $message);
 
-            $desc_fields = implode(", ", $this->description_categories);
+            $desc_fields = implode(", ", static::$description_categories);
             $message = "TODO ($name): the description field should at least contain one of these: $desc_fields.";
             $existing_keys = array_keys($docstring_data["description"]);
-            $existing_expected_keys = array_intersect($this->description_categories, $existing_keys);
+            $existing_expected_keys = array_intersect(static::$description_categories, $existing_keys);
             $this->assertGreaterThanOrEqual(
                 1,
                 $existing_expected_keys,
@@ -333,10 +335,10 @@ abstract class AbstractFactoryTest extends TestCase
             $message = "TODO ($name): add a rules field.";
             $this->assertArrayHasKey('rules', $docstring_data, $message);
 
-            $rules_fields = implode(", ", $this->rules_categories);
+            $rules_fields = implode(", ", static::$rules_categories);
             $message = "TODO ($name): the rules field should at least contain one of these: $rules_fields.";
             $existing_keys = array_keys($docstring_data["rules"]);
-            $existing_expected_keys = array_intersect($this->rules_categories, $existing_keys);
+            $existing_expected_keys = array_intersect(static::$rules_categories, $existing_keys);
             $this->assertGreaterThanOrEqual(
                 1,
                 $existing_expected_keys,
@@ -360,13 +362,13 @@ abstract class AbstractFactoryTest extends TestCase
 
     final public function kitchensinkInfoSettingsMergedWithDefaults(string $name): array
     {
-        if (array_key_exists($name, $this->kitchensink_info_settings)) {
+        if (array_key_exists($name, static::$kitchensink_info_settings)) {
             return array_merge(
-                $this->kitchensink_info_settings_default,
-                $this->kitchensink_info_settings[$name]
+                static::$kitchensink_info_settings_default,
+                static::$kitchensink_info_settings[$name]
             );
         } else {
-            return $this->kitchensink_info_settings_default;
+            return static::$kitchensink_info_settings_default;
         }
     }
 }

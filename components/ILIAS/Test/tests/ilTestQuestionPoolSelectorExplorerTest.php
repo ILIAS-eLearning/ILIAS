@@ -17,6 +17,7 @@
  *********************************************************************/
 
 namespace Test\tests;
+
 use ilObjectDataCache;
 use ilRepositorySelectorExplorerGUI;
 use ilTestBaseTestCase;
@@ -58,7 +59,7 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $this->testObj->getAvailableQuestionPools());
     }
 
-    public function getAndSetAvailableQuestionPoolsDataProvider(): array
+    public static function getAndSetAvailableQuestionPoolsDataProvider(): array
     {
         return [
             [[]],

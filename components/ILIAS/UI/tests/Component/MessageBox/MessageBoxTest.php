@@ -42,7 +42,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         return new IC\Link\Factory();
     }
 
-    public function getMessageboxTypeProvider(): array
+    public static function getMessageboxTypeProvider(): array
     {
         return array( array(C\MessageBox\MessageBox::FAILURE)
         , array(C\MessageBox\MessageBox::SUCCESS)

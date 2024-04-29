@@ -91,7 +91,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $container->withoutToasts()->getToasts());
     }
 
-    public function getToastProvider(): array
+    public static function getToastProvider(): array
     {
         return [
             ['title', 'description', 5000, 500, 'test.php'],

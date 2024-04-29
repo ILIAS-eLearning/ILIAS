@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,16 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilUserBaseTest extends TestCase
+abstract class ilPasswordBaseTestCase extends TestCase
 {
-    protected function assertException(string $exception_class): void
-    {
-        $this->expectException($exception_class);
-    }
 }

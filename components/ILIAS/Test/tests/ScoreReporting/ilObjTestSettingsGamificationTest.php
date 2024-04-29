@@ -39,7 +39,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreEnabled());
     }
 
-    public function getAndWithHighscoreEnabledDataProvider(): array
+    public static function getAndWithHighscoreEnabledDataProvider(): array
     {
         return [
             [true],
@@ -57,7 +57,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreOwnTable());
     }
 
-    public function getAndWithHighscoreOwnTableDataProvider(): array
+    public static function getAndWithHighscoreOwnTableDataProvider(): array
     {
         return [
             [true],
@@ -75,7 +75,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreTopTable());
     }
 
-    public function getAndWithHighscoreTopTableDataProvider(): array
+    public static function getAndWithHighscoreTopTableDataProvider(): array
     {
         return [
             [true],
@@ -93,7 +93,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreTopNum());
     }
 
-    public function getAndWithHighscoreTopNumDataProvider(): array
+    public static function getAndWithHighscoreTopNumDataProvider(): array
     {
         return [
             [-1],
@@ -112,7 +112,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreAnon());
     }
 
-    public function getAndWithHighscoreAnonDataProvider(): array
+    public static function getAndWithHighscoreAnonDataProvider(): array
     {
         return [
             [true],
@@ -130,7 +130,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreAchievedTS());
     }
 
-    public function getAndWithHighscoreAchievedTSDataProvider(): array
+    public static function getAndWithHighscoreAchievedTSDataProvider(): array
     {
         return [
             [true],
@@ -148,7 +148,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreScore());
     }
 
-    public function getAndWithHighscoreScoreDataProvider(): array
+    public static function getAndWithHighscoreScoreDataProvider(): array
     {
         return [
             [true],
@@ -166,7 +166,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscorePercentage());
     }
 
-    public function getAndWithHighscorePercentageDataProvider(): array
+    public static function getAndWithHighscorePercentageDataProvider(): array
     {
         return [
             [true],
@@ -184,7 +184,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreHints());
     }
 
-    public function getAndWithHighscoreHintsDataProvider(): array
+    public static function getAndWithHighscoreHintsDataProvider(): array
     {
         return [
             [true],
@@ -202,7 +202,7 @@ class ilObjTestSettingsGamificationTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsGamification->getHighscoreWTime());
     }
 
-    public function getAndWithHighscoreWTimeDataProvider(): array
+    public static function getAndWithHighscoreWTimeDataProvider(): array
     {
         return [
             [true],

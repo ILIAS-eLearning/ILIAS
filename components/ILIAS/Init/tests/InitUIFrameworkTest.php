@@ -23,6 +23,7 @@ class InitUIFrameworkTest extends TestCase
         $this->dic["lng"]->shouldReceive("loadLanguageModule");
         $this->dic["tpl"] = Mockery::mock("\ilGlobalTemplateInterface");
         $this->dic["refinery"] = Mockery::mock("\ILIAS\Refinery\Factory");
+        $this->dic["help.text_retriever"] = Mockery::mock("\ILIAS\UI\Help\TextRetriever\Echoing");
     }
 
     public function testUIFrameworkInitialization(): void
@@ -65,6 +66,7 @@ class InitUIFrameworkTest extends TestCase
         global $DIC;
         $initial_state = $DIC;
         $DIC = new \ILIAS\DI\Container();
+        $DIC["component.factory"] = $this->createMock(ilComponentFactory::class);
 
         $example_componanent = $this->dic->ui()->factory()->divider()->vertical();
         $example_out = $this->dic->ui()->renderer()->render($example_componanent);

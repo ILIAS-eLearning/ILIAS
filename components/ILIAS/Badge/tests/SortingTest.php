@@ -62,7 +62,7 @@ class SortingTest extends TestCase
         ], array_keys((new Sorting())->options()));
     }
 
-    public function sortProvider(): array
+    public static function sortProvider(): array
     {
         return [
             'Default sort is title_asc' => [[], 'title_asc', 'sort_by_title_asc', 'badge', 'getTitle', ['A', 'a'], ['f', 'G'], ['d', 'c']],

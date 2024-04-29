@@ -24,7 +24,7 @@ require_once __DIR__ . '/bootstrap.php';
  * Class iTinyMCETest
  * @author Jephte Abijuru <jephte.abijuru@minervis.com>
  */
-class ilTinyMCETest extends ilRTEBaseTest
+class ilTinyMCETest extends ilRTEBaseTestCase
 {
     public function testAddPlugin(): void
     {

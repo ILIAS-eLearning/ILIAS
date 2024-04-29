@@ -31,7 +31,7 @@ class NullTransformationTest extends TestCase
         $this->transformation = new NullTransformation();
     }
 
-    public function NullTestDataProvider(): array
+    public static function NullTestDataProvider(): array
     {
         return [
             'empty string' => ['', true],

@@ -25,7 +25,7 @@ use ILIAS\DI\Container;
  * Class InterestedUserFieldChangeListenerTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class InterestedUserFieldChangeListenerTest extends ilUserBaseTest
+class InterestedUserFieldChangeListenerTest extends ilUserBaseTestCase
 {
     private InterestedUserFieldChangeListener $interestedUserFieldChangeListener;
 

@@ -104,7 +104,7 @@ class ImageConversionTest extends TestCase
         $this->assertEquals(200, $getimagesizefromstring[self::H]);
     }
 
-    public function getImageSizesByWidth(): array
+    public static function getImageSizesByWidth(): array
     {
         return [
             [400, 300, self::BY_WIDTH_FINAL, 192],
@@ -155,7 +155,7 @@ class ImageConversionTest extends TestCase
         );
     }
 
-    public function getImageSizesByHeight(): array
+    public static function getImageSizesByHeight(): array
     {
         return [
             [400, 300, self::BY_HEIGHT_FINAL, 1008],
@@ -207,7 +207,7 @@ class ImageConversionTest extends TestCase
         );
     }
 
-    public function getImageSizesByFixed(): array
+    public static function getImageSizesByFixed(): array
     {
         return [
             [1024, 768, 300, 100, true],
@@ -242,7 +242,7 @@ class ImageConversionTest extends TestCase
         $this->assertEquals($final_height, $new_dimensions[self::H]);
     }
 
-    public function getImageOptions(): array
+    public static function getImageOptions(): array
     {
         $options = new ImageOutputOptions();
         return [
@@ -307,7 +307,7 @@ class ImageConversionTest extends TestCase
         $this->assertEquals(75, $options->getQuality()); // original options should not change
     }
 
-    public function getWrongFormats(): array
+    public static function getWrongFormats(): array
     {
         return [
             ['gif'],
@@ -326,7 +326,7 @@ class ImageConversionTest extends TestCase
         $wrong = $options->withFormat($format);
     }
 
-    public function getWrongQualites(): array
+    public static function getWrongQualites(): array
     {
         return [
             [-1],
@@ -390,7 +390,7 @@ class ImageConversionTest extends TestCase
         $this->assertInstanceOf(\Throwable::class, $resized->getThrowableIfAny());
     }
 
-    public function getColors(): array
+    public static function getColors(): array
     {
         return [
             [null],

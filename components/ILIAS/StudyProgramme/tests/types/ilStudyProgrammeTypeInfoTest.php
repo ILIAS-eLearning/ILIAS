@@ -139,17 +139,29 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
             self::VALID_LNG_CODE_1
         );
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(['title'], ['description'], ['meta_l_de'])
-            ->will($this->onConsecutiveCalls('title', 'description', 'meta_l_de'))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'title',
+            'description',
+            'meta_l_de',
+        ];
 
         $field = $obj->toFormInput(
             $f,
             $lng,
             $refinery
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         /** @var ILIAS\UI\Implementation\Component\Input\Field\Text $text */
         $text = $field->getInputs()['title'];
