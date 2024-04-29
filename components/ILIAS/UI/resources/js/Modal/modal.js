@@ -40,7 +40,7 @@ il.UI = il.UI || {};
 		};
 
         var closeModal = function (id) {
-            $('#' + id).modal('close');
+            $('#' + id).modal('hide');
         };
 
         /**
