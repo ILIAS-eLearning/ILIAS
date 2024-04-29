@@ -105,7 +105,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
         $this->assertEquals('No', $instance->$get());
     }
 
-    public function validViews(): array
+    public static function validViews(): array
     {
         return [
             ['Administrator'],
@@ -120,7 +120,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
         ];
     }
 
-    public function switches(): array
+    public static function switches(): array
     {
         return [
             ['hintswitch'],

@@ -56,19 +56,24 @@ class PresentationHeaderTest extends TestCase
         ])->willReturn($mode);
 
         $additional_component = [];
+        $consecutive_expected = [$mode];
         if ($additional) {
-            $additional_component[] = $this->getMockBuilder(Component::class)->getMock();
+            $mock = $this->getMockBuilder(Component::class)->getMock();
+            $additional_component[] = [$mock];
+            $consecutive_expected[] = $mock;
         }
 
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
+        $toolbar
+            ->expects(self::exactly($additional + 1))
+            ->method('addStickyItem')
+            ->willReturnCallback(
+                function ($component) use (&$consecutive_expected) {
+                    $expected = array_shift($consecutive_expected);
+                    $this->assertEquals($expected, $component);
+                }
+            );
 
-        $consecutive_component = [$mode, ...$additional_component];
-        $toolbar->expects(self::exactly($additional + 1))->method('addStickyItem')->with(
-            $this->callback(function ($value) use (&$consecutive_component) {
-                $this->assertSame(array_shift($consecutive_component), $value);
-                return true;
-            })
-        );
 
         $factory = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
         $factory->expects(self::once())->method('viewControl')->willReturn($view_control);
@@ -76,15 +81,22 @@ class PresentationHeaderTest extends TestCase
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
         $ui->method('factory')->willReturn($factory);
 
+        $consecutive = [
+            ['Some class.', 'listBadges', 'list URL'],
+            ['Some class.', 'manageBadges', 'manage URL'],
+        ];
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $consecutive_cmd = ['listBadges', 'manageBadges'];
-        $ctrl->expects(self::exactly(2))->method('getLinkTargetByClass')->with(
-            $this->identicalTo('Some class.'),
-            $this->callback(function ($value) use (&$consecutive_cmd) {
-                $this->assertSame(array_shift($consecutive_cmd), $value);
-                return true;
-            })
-        )->willReturnOnConsecutiveCalls('list URL', 'manage URL');
+        $ctrl
+            ->expects(self::exactly(2))
+            ->method('getLinkTargetByClass')
+            ->willReturnCallback(
+                function ($class, $cmd) use (&$consecutive) {
+                    list($expected_class, $expected_cmd, $ret) = array_shift($consecutive);
+                    $this->assertEquals($class, $expected_class);
+                    $this->assertEquals($cmd, $expected_cmd);
+                    return $ret;
+                }
+            );
 
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $language->method('txt')->willReturnCallback(static fn(string $name): string => $name);
@@ -96,10 +108,10 @@ class PresentationHeaderTest extends TestCase
         $container->method('language')->willReturn($language);
 
         $head = new PresentationHeader($container, 'Some class.');
-        $head->show('tile_view', $additional_component[0] ?? null);
+        $head->show('tile_view', $additional_component[0][0] ?? null);
     }
 
-    public function showProvider(): array
+    public static function showProvider(): array
     {
         return [
             'Without additional component' => [],

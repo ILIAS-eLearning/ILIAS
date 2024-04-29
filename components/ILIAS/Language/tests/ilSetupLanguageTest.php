@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author  Sílvia Mariné <silvia.marine@kroepelin-projekte.de>
  */
 
-class ilSetupLanguageTest extends ilLanguageBaseTest
+class ilSetupLanguageTest extends ilLanguageBaseTestCase
 {
     private ilSetupLanguage $newLangSetupDe;
     private ilSetupLanguage $newLangSetupEs;

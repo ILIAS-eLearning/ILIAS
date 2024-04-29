@@ -119,11 +119,21 @@ class ilLearnerProgressDBTest extends TestCase
             ->expects($this->once())
             ->method('clear')
         ;
+
+        $consecutive = [
+            [100, 'visible', '', 33],
+            [100, 'read', '', 33]
+        ];
         $this->access
             ->expects($this->exactly(2))
             ->method('checkAccessOfUser')
-            ->withConsecutive([100, 'visible', '', 33], [100, 'read', '', 33])
-            ->willReturn(true)
+            ->willReturnCallback(
+                function ($uid, $perm, $cmd, $ref_id) use (&$consecutive) {
+                    $expected = array_shift($consecutive);
+                    $this->assertEquals($expected, [$uid, $perm, $cmd, $ref_id]);
+                    return true;
+                }
+            );
         ;
 
         $this->items_db

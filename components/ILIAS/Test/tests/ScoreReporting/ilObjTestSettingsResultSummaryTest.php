@@ -40,7 +40,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getScoreReporting());
     }
 
-    public function getAndWithScoreReportingDataProvider(): array
+    public static function getAndWithScoreReportingDataProvider(): array
     {
         return [
             [-1],
@@ -59,7 +59,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getScoreReportingEnabled());
     }
 
-    public function getScoreReportingEnabledDataProvider(): array
+    public static function getScoreReportingEnabledDataProvider(): array
     {
         return [
             [false],
@@ -77,7 +77,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getReportingDate());
     }
 
-    public function getAndWithReportingDateDataProvider(): array
+    public static function getAndWithReportingDateDataProvider(): array
     {
         return [
             [null],
@@ -95,7 +95,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowGradingStatusEnabled());
     }
 
-    public function getAndWithShowGradingStatusEnabledDataProvider(): array
+    public static function getAndWithShowGradingStatusEnabledDataProvider(): array
     {
         return [
             [false],
@@ -113,7 +113,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowGradingMarkEnabled());
     }
 
-    public function getAndWithShowGradingMarkEnabledDataProvider(): array
+    public static function getAndWithShowGradingMarkEnabledDataProvider(): array
     {
         return [
             [false],
@@ -131,7 +131,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getPassDeletionAllowed());
     }
 
-    public function getAndWithPassDeletionAllowedDataProvider(): array
+    public static function getAndWithPassDeletionAllowedDataProvider(): array
     {
         return [
             [false],
@@ -149,7 +149,7 @@ class ilObjTestSettingsResultSummaryTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultSummary->getShowPassDetails());
     }
 
-    public function getAndWithShowPassDetailsDataProvider(): array
+    public static function getAndWithShowPassDetailsDataProvider(): array
     {
         return [
             [false],

@@ -16,19 +16,15 @@
  *
  *********************************************************************/
 
-/**
-* Unit tests
-*
-* @author Maximilian Becker <mbecker@databay.de>
-*
-* @ingroup components\ILIASTestQuestionPool
-*/
-class assCHANGEMETest extends assBaseTestCase
-{
-    protected $backupGlobals = false;
+declare(strict_types=1);
 
-    protected function setUp(): void
-    {
-        chdir(__DIR__ . '/../../../../');
-    }
+use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Class ilOnScreenChatBaseTest
+ * @author Michael Jansen <mjansen@databay.de>
+ */
+abstract class ilOnScreenChatBaseTestCase extends TestCase
+{
 }

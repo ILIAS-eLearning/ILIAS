@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>
  */
-class ilNotificationOSDTest extends ilNotificationsBaseTest
+class ilNotificationOSDTest extends ilNotificationsBaseTestCase
 {
     private \ILIAS\Notifications\ilNotificationOSDHandler $handler;
     private ilObjUser $user;

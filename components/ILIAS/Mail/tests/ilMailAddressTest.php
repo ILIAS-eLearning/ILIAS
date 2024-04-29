@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilMailAddressTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddressTest extends ilMailBaseTest
+class ilMailAddressTest extends ilMailBaseTestCase
 {
     private const LOCAL_PART = 'phpunit';
     private const DOMAIN_PART = 'ilias.de';

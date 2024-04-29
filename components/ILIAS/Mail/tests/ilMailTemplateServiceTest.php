@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilMailTemplateServiceTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailTemplateServiceTest extends ilMailBaseTest
+class ilMailTemplateServiceTest extends ilMailBaseTestCase
 {
     /**
      * @throws ReflectionException

@@ -51,7 +51,7 @@ class ilPluginsOverviewTableTest extends TestCase
         $this->assertInstanceOf(ilPluginsOverviewTable::class, $obj);
     }
 
-    public function getImportantFieldData(): array
+    public static function getImportantFieldData(): array
     {
         return [
             [true, true],

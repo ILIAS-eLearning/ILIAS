@@ -39,7 +39,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getResultsPresentation());
     }
 
-    public function getAndWithResultsPresentationDataProvider(): array
+    public static function getAndWithResultsPresentationDataProvider(): array
     {
         return [
             [-1],
@@ -58,7 +58,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowExamIdInTestResults());
     }
 
-    public function getAndShowExamIdInTestResultsDataProvider(): array
+    public static function getAndShowExamIdInTestResultsDataProvider(): array
     {
         return [
             [false],
@@ -76,7 +76,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowPassDetails());
     }
 
-    public function getAndWithShowPassDetailsDataProvider(): array
+    public static function getAndWithShowPassDetailsDataProvider(): array
     {
         return [
             [false],
@@ -94,7 +94,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionPrintview());
     }
 
-    public function getAndWithShowSolutionPrintviewDataProvider(): array
+    public static function getAndWithShowSolutionPrintviewDataProvider(): array
     {
         return [
             [false],
@@ -112,7 +112,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionFeedback());
     }
 
-    public function getAndWithShowSolutionFeedbackDataProvider(): array
+    public static function getAndWithShowSolutionFeedbackDataProvider(): array
     {
         return [
             [false],
@@ -130,7 +130,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionAnswersOnly());
     }
 
-    public function getAndWithShowSolutionAnswersOnlyDataProvider(): array
+    public static function getAndWithShowSolutionAnswersOnlyDataProvider(): array
     {
         return [
             [false],
@@ -148,7 +148,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionSignature());
     }
 
-    public function getAndWithShowSolutionSignatureDataProvider(): array
+    public static function getAndWithShowSolutionSignatureDataProvider(): array
     {
         return [
             [false],
@@ -166,7 +166,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionSuggested());
     }
 
-    public function getAndWithShowSolutionSuggestedDataProvider(): array
+    public static function getAndWithShowSolutionSuggestedDataProvider(): array
     {
         return [
             [false],
@@ -184,7 +184,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getShowSolutionListComparison());
     }
 
-    public function getAndWithShowSolutionListComparisonDataProvider(): array
+    public static function getAndWithShowSolutionListComparisonDataProvider(): array
     {
         return [
             [false],
@@ -202,7 +202,7 @@ class ilObjTestSettingsResultDetailsTest extends ilTestBaseTestCase
         $this->assertEquals($IO, $ilObjTestSettingsResultDetails->getExportSettings());
     }
 
-    public function getAndWithExportSettingsDataProvider(): array
+    public static function getAndWithExportSettingsDataProvider(): array
     {
         return [
             [-1],

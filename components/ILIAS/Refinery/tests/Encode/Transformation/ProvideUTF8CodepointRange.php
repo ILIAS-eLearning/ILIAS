@@ -36,7 +36,7 @@ trait ProvideUTF8CodepointRange
      * @param string[] $ignore
      * @return array<string, {0: string, 1: string, 2: string}>
      */
-    private function oneByteRangeExcept(array $ignore = []): array
+    private static function oneByteRangeExcept(array $ignore = []): array
     {
         $byte_range = range(0, 0xFE);
         $set_names = array_map(fn(int $codepoint) => 'Codepoint: ' . $codepoint, $byte_range);
@@ -46,8 +46,8 @@ trait ProvideUTF8CodepointRange
             array_map(
                 fn(string $chr, int $codepoint) => (
                     ctype_alnum($chr) || in_array($chr, $ignore, true) ?
-                        $this->asDataProviderArgs($chr, 'assertSame') :
-                        $this->asDataProviderArgs($this->isAscii($codepoint) ? $chr : $this->twoByteChar($codepoint), 'assertNotSame')
+                        self::asDataProviderArgs($chr, 'assertSame') :
+                        self::asDataProviderArgs(self::isAscii($codepoint) ? $chr : self::twoByteChar($codepoint), 'assertNotSame')
                 ),
                 array_map(chr(...), $byte_range),
                 $byte_range
@@ -55,7 +55,7 @@ trait ProvideUTF8CodepointRange
         );
     }
 
-    private function isAscii(int $codepoint): bool
+    private static function isAscii(int $codepoint): bool
     {
         return $codepoint <= 127;
     }
@@ -64,7 +64,7 @@ trait ProvideUTF8CodepointRange
      * Convert a Unicode codepoint between 0x80 and 0x7FF to a valid UTF-8 character.
      * This is the range where unicode codepoints are encoded in UTF-8 with two bytes.
      */
-    private function twoByteChar(int $codepoint): string
+    private static function twoByteChar(int $codepoint): string
     {
         return chr($codepoint >> 6 & 0x3f | 0xc0) . chr($codepoint & 0x3f | 0x80);
     }
@@ -73,7 +73,7 @@ trait ProvideUTF8CodepointRange
      * Returns an entry for a dataset of a data provider for a test case with a signature of the form: string $exptected, string $input and string $assertionMethod.
      * @return {0: string, 1: string, 2: string}
      */
-    private function asDataProviderArgs(string $chr, string $method): array
+    private static function asDataProviderArgs(string $chr, string $method): array
     {
         return [$chr, $chr, $method];
     }

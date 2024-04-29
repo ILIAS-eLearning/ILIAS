@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-abstract class AbstractBaseTest extends TestCase
+abstract class AbstractTestBase extends TestCase
 {
     protected \ILIAS\ResourceStorage\DummyIDGenerator $id_generator;
     /**

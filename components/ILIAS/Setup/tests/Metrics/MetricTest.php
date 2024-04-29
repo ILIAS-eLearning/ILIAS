@@ -46,7 +46,7 @@ class MetricTest extends TestCase
         $this->assertEquals($description, $metric->getDescription());
     }
 
-    public function metricProvider(): array
+    public static function metricProvider(): array
     {
         $config = Metrics\Metric::STABILITY_CONFIG;
         $stable = Metrics\Metric::STABILITY_STABLE;
@@ -123,7 +123,7 @@ class MetricTest extends TestCase
         $this->assertEquals($expected, $metric->toYAML());
     }
 
-    public function typedMetricsProvider(): array
+    public static function typedMetricsProvider(): array
     {
         return [
             "bool_true" => [new M(M::STABILITY_STABLE, M::TYPE_BOOL, true), "true"],

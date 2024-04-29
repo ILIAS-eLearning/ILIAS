@@ -19,7 +19,7 @@
 namespace ILIAS\ResourceStorage;
 
 /** @noRector */
-require_once('AbstractBaseTest.php');
+require_once('AbstractTestBase.php');
 /** @noRector */
 require_once('DummyIDGenerator.php');
 
@@ -42,10 +42,10 @@ use Psr\Http\Message\UploadedFileInterface;
 use ILIAS\ResourceStorage\Resource\ResourceType;
 
 /**
- * Class AbstractBaseResourceBuilderTest
+ * Class AbstractBaseResourceBuilderTestCase
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
+abstract class AbstractBaseResourceBuilderTestCase extends AbstractTestBase
 {
     public $flavour_repository;
     /**

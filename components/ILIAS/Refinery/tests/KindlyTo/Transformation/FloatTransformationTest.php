@@ -60,7 +60,7 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function FailingTransformationDataProvider(): array
+    public static function FailingTransformationDataProvider(): array
     {
         return [
             'null' => [null],
@@ -81,7 +81,7 @@ class FloatTransformationTest extends TestCase
         ];
     }
 
-    public function FloatTestDataProvider(): array
+    public static function FloatTestDataProvider(): array
     {
         return [
             'some_float' => [1.0, 1.0],

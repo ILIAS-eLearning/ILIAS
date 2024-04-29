@@ -24,10 +24,10 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\HTTP\Services as HttpServiceImpl;
 
 /**
- * Class ilRTEBaseTest
+ * Class ilRTEBaseTestCase
  * @author Jephte Abijuru <jephte.abijuru@minervis.com>
  */
-abstract class ilRTEBaseTest extends TestCase
+abstract class ilRTEBaseTestCase extends TestCase
 {
     protected function setUp(): void
     {

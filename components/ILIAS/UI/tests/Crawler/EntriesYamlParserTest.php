@@ -24,7 +24,7 @@ include_once("components/ILIAS/UI/tests/Crawler/Fixture/Fixture.php");
 use ILIAS\UI\Implementation\Crawler as Crawler;
 use PHPUnit\Framework\TestCase;
 
-class CrawlerTest extends TestCase
+class EntriesYamlParserTest extends TestCase
 {
     protected Crawler\EntriesYamlParser $parser;
     protected ProperEntryFixture $proper_entry;

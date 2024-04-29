@@ -48,7 +48,7 @@ class UTFNormalTest extends TestCase
         $this->form_kd = $group->utfnormal()->formKD();
     }
 
-    public function stringProvider(): array
+    public static function stringProvider(): array
     {
         // Never ever try to change something on this array :-) e.g. a 'ä' isn't a 'ä' but a 'ä' ;-)
         return [

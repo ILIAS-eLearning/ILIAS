@@ -100,7 +100,7 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $this->assertEquals($return, $method->invoke($ilTestShuffler, $question_id, $pass_id, $active_id));
     }
 
-    public function buildFixedShufflerSeedDataProvider(): array
+    public static function buildFixedShufflerSeedDataProvider(): array
     {
         return [
             [

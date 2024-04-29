@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
 
-class ParallelTest extends TestCase
+class ParallelConstraintsTest extends TestCase
 {
     private DataFactory $df;
     private ILIAS\Language\Language $lng;

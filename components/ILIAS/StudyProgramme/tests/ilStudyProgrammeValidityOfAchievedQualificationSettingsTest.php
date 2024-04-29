@@ -162,45 +162,34 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             true
         );
 
+        $lng_consecutive_calls = [];
         $lng->expects($this->atLeastOnce())
             ->method('txt')
-            ->withConsecutive(
-                ['prg_no_validity_qualification'],
-                ['vq_period_label'],
-                ['validity_qualification_period_desc'],
-                ['validity_qualification_period'],
-                ['vq_date_label'],
-                ['validity_qualification_date_desc'],
-                ['validity_qualification_date'],
-                ['prg_no_restart'],
-                ['restart_period_label'],
-                ['restart_period_desc'],
-                ['restart_recheck_label'],
-                ['restart_recheck_desc'],
-                ['restart_period'],
-                ['optgrp_label_validity'],
-                ['optgrp_label_restart'],
-                ['prg_validity_of_qualification']
-            )
-            ->will($this->onConsecutiveCalls(
-                'prg_no_validity_qualification',
-                'vq_period_label',
-                'validity_qualification_period_desc',
-                'validity_qualification_period',
-                'vq_date_label',
-                'validity_qualification_date_desc',
-                'validity_qualification_date',
-                'prg_no_restart',
-                'restart_period_label',
-                'restart_period_desc',
-                'restart_recheck_label',
-                'restart_recheck_desc',
-                'restart_period',
-                'optgrp_label_validity',
-                'optgrp_label_restart',
-                'prg_validity_of_qualification'
-            ))
-        ;
+            ->willReturnCallback(
+                function ($txt) use (&$lng_consecutive_calls) {
+                    $lng_consecutive_calls[] = $txt;
+                    return $txt;
+                }
+            );
+
+        $expected_consecutive_calls = [
+            'prg_no_validity_qualification',
+            'vq_period_label',
+            'validity_qualification_period_desc',
+            'validity_qualification_period',
+            'vq_date_label',
+            'validity_qualification_date_desc',
+            'validity_qualification_date',
+            'prg_no_restart',
+            'restart_period_label',
+            'restart_period_desc',
+            'restart_recheck_label',
+            'restart_recheck_desc',
+            'restart_period',
+            'optgrp_label_validity',
+            'optgrp_label_restart',
+            'prg_validity_of_qualification'
+        ];
 
         $field = $obj->toFormInput(
             $f,
@@ -208,6 +197,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
             $refinery,
             $df
         );
+
+        $this->assertEquals($expected_consecutive_calls, $lng_consecutive_calls);
 
         $date_value = $field->getInputs()['validity_qualification']->getValue()[1]['vq_date'];
         $date = (new DateTimeImmutable($date_value))->format('Y-m-d');

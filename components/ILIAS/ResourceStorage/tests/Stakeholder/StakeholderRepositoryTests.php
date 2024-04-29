@@ -18,9 +18,9 @@
 
 namespace ILIAS\ResourceStorage\Revision;
 
-require_once(__DIR__ . "/../AbstractBaseTest.php");
+require_once(__DIR__ . "/../AbstractTestBase.php");
 
-use ILIAS\ResourceStorage\AbstractBaseTest;
+use ILIAS\ResourceStorage\AbstractTestBase;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -29,7 +29,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  * Class StakeholderRepositoryTests
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class StakeholderRepositoryTests extends AbstractBaseTest
+class StakeholderRepositoryTests extends AbstractTestBase
 {
     protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository $stakeholder_repository;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;

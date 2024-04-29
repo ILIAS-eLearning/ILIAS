@@ -22,9 +22,7 @@ use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\Data\Result;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 
-require_once('ViewControlBaseTest.php');
-
-class ViewControlNullTest extends ViewControlBaseTest
+class ViewControlNullTest extends ViewControlTestBase
 {
     public function testViewControlFieldNullRendering(): void
     {

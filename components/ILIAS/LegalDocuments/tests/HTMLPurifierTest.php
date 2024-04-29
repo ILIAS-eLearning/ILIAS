@@ -58,7 +58,7 @@ class HTMLPurifierTest extends TestCase
         $this->assertSame($expected, $instance->purify($input));
     }
 
-    public function documents(): array
+    public static function documents(): array
     {
         return [
             'Simple HTML Elements' => [

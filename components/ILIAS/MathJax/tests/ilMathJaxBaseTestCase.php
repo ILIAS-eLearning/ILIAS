@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Base class for al tests
  */
-abstract class ilMathJaxBaseTest extends TestCase
+abstract class ilMathJaxBaseTestCase extends TestCase
 {
     /**
      * Get a config without active settings

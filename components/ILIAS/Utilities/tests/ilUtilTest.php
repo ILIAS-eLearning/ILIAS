@@ -26,6 +26,14 @@ use ILIAS\Refinery\Transformation;
 
 class ilUtilTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        if (!defined("ILIAS_HTTP_PATH")) {
+            define("ILIAS_HTTP_PATH", "http://localhost");
+        }
+    }
+
     /**
      * ilUtil::makeClickable must call the refinery transformation make clickable.
      */
@@ -46,23 +54,41 @@ class ilUtilTest extends TestCase
      */
     public function testMakeClickableWithGotoLinksAndInvalidRefId(string $expected, string $input, array $ref_to_obj, array $obj_to_title): void
     {
-        $wrap_array = static fn (array $array): array => (
-            array_map(static fn (int $x): array => [$x], $array)
+        $wrap_array = static fn(array $array): array => (
+            array_map(static fn(int $x): array => [$x], $array)
         );
 
         $container = $this->mockClickableCall($input, $expected);
 
         $cache = $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock();
 
+        $consecutive_id = [];
+        foreach($ref_to_obj as $k => $v) {
+            $consecutive_id[] = [$k, $v];
+        }
         $cache->expects(self::exactly(count($ref_to_obj)))
-              ->method('lookupObjId')
-              ->withConsecutive(...$wrap_array(array_keys($ref_to_obj)))
-              ->willReturnOnConsecutiveCalls(...array_values($ref_to_obj));
+            ->method('lookupObjId')
+            ->willReturnCallback(
+                function ($id) use (&$consecutive_id) {
+                    list($k, $v) = array_shift($consecutive_id);
+                    $this->assertEquals($k, $id);
+                    return $v;
+                }
+            );
 
+        $consecutive_title = [];
+        foreach($obj_to_title as $k => $v) {
+            $consecutive_title[] = [$k, $v];
+        }
         $cache->expects(self::exactly(count($obj_to_title)))
-              ->method('lookupTitle')
-              ->withConsecutive(...$wrap_array(array_keys($obj_to_title)))
-              ->willReturnOnConsecutiveCalls(...array_values($obj_to_title));
+            ->method('lookupTitle')
+            ->willReturnCallback(
+                function ($id) use (&$consecutive_title) {
+                    list($k, $v) = array_shift($consecutive_title);
+                    $this->assertEquals($k, $id);
+                    return $v;
+                }
+            );
 
         $container->expects(self::exactly(count($ref_to_obj)))->method('offsetGet')->with('ilObjDataCache')->willReturn($cache);
 
@@ -73,7 +99,7 @@ class ilUtilTest extends TestCase
         unset($GLOBALS['DIC']);
     }
 
-    public function provideGotoLinkData(): array
+    public static function provideGotoLinkData(): array
     {
         // Please note that these test cases represent the current state, not necessarily the correct state.
         // For example all anchor attributes are REMOVED and the target is ALWAYS set to target="_self".
@@ -123,12 +149,18 @@ class ilUtilTest extends TestCase
             'With goto_*.html: ' => ['http://localhost/goto_', '.html'],
         ];
 
+        $repeatForFormat = function (string $format, array $values): array {
+            return array_merge(
+                ...array_fill(0, (count(explode('%s', $format)) - 1) / 2, $values)
+            );
+        };
+
         $allTests = [];
         foreach ($linkFormats as $name => $args) {
             foreach ($tests as $key => $array) {
                 $allTests[$name . $key] = array_merge([
-                    sprintf($array[0], ...$this->repeatForFormat($array[0], $args)),
-                    sprintf($array[1], ...$this->repeatForFormat($array[1], $args)),
+                    sprintf($array[0], ...$repeatForFormat($array[0], $args)),
+                    sprintf($array[1], ...$repeatForFormat($array[1], $args)),
                 ], array_slice($array, 2));
             }
         }
@@ -151,12 +183,5 @@ class ilUtilTest extends TestCase
         $container->expects(self::once())->method('refinery')->willReturn($refinery);
 
         return $container;
-    }
-
-    private function repeatForFormat(string $format, array $values): array
-    {
-        return array_merge(
-            ...array_fill(0, (count(explode('%s', $format)) - 1) / 2, $values)
-        );
     }
 }

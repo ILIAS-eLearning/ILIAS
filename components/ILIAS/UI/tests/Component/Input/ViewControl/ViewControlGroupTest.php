@@ -25,9 +25,7 @@ use ILIAS\Data\Range;
 use ILIAS\Data\Result;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 
-require_once('ViewControlBaseTest.php');
-
-class ViewControlGroupTest extends ViewControlBaseTest
+class ViewControlGroupTest extends ViewControlTestBase
 {
     public function testViewControlGroupCreation(): void
     {

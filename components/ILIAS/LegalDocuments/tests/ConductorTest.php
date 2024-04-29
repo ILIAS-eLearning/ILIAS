@@ -328,7 +328,7 @@ class ConductorTest extends TestCase
         ], $instance->userManagementFields($this->mock(ilObjUser::class)));
     }
 
-    public function agreeTypes(): array
+    public static function agreeTypes(): array
     {
         return [
             'Form type' => [ilLegalDocumentsAgreementGUI::class, 'agreement-form'],

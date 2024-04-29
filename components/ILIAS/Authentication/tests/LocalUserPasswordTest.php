@@ -23,7 +23,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use org\bovigo\vfs;
 use PHPUnit\Framework\TestCase;
 
-class LocalUserPasswordTest extends TestCase
+class LocalUserPasswordTest extends ilUserBaseTestCase
 {
     private const PASSWORD = 'password';
     private const ENCODED_PASSWORD = 'encoded';

@@ -117,16 +117,22 @@ class CronJobManagerTest extends TestCase
             $clock_factory
         );
 
-        $consecutive = [true, false];
-        $repository->expects($this->exactly(2))->method('activateJob')->with(
-            $this->identicalTo($job),
-            $this->identicalTo($clock_factory->system()->now()),
-            $this->identicalTo($user),
-            $this->callback(function ($value) use (&$consecutive) {
-                $this->assertSame(array_shift($consecutive), $value);
-                return true;
-            })
-        );
+        $consecutive = [
+            [$job, $clock_factory->system()->now(), $user, true],
+            [$job, $clock_factory->system()->now(), $user, false]
+        ];
+        $repository
+            ->expects($this->exactly(2))
+            ->method('activateJob')
+            ->willReturnCallback(
+                function ($job, $date, $user, $flag) use (&$consecutive): void {
+                    list($ejob, $edate, $euser, $eflag) = array_shift($consecutive);
+                    $this->assertEquals($ejob, $job);
+                    $this->assertEquals($edate, $date);
+                    $this->assertEquals($euser, $user);
+                    $this->assertEquals($eflag, $flag);
+                }
+            );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(
             $db,
@@ -160,16 +166,22 @@ class CronJobManagerTest extends TestCase
             $clock_factory
         );
 
-        $consecutive = [true, false];
-        $repository->expects($this->exactly(2))->method('deactivateJob')->with(
-            $this->identicalTo($job),
-            $this->identicalTo($clock_factory->system()->now()),
-            $this->identicalTo($user),
-            $this->callback(function ($value) use (&$consecutive) {
-                $this->assertSame(array_shift($consecutive), $value);
-                return true;
-            })
-        );
+        $consecutive = [
+            [$job, $clock_factory->system()->now(), $user, true],
+            [$job, $clock_factory->system()->now(), $user, false]
+        ];
+        $repository
+            ->expects($this->exactly(2))
+            ->method('deactivateJob')
+            ->willReturnCallback(
+                function ($job, $date, $user, $flag) use (&$consecutive): void {
+                    list($ejob, $edate, $euser, $eflag) = array_shift($consecutive);
+                    $this->assertEquals($ejob, $job);
+                    $this->assertEquals($edate, $date);
+                    $this->assertEquals($euser, $user);
+                    $this->assertEquals($eflag, $flag);
+                }
+            );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(
             $db,

@@ -300,7 +300,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertTrue($obj->finalized());
     }
 
-    public function fileNamesDataProvider(): array
+    public static function fileNamesDataProvider(): array
     {
         return [
             [''],
@@ -342,7 +342,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertFalse($obj->mayBeFinalized());
     }
 
-    public function positiveLPStatusDataProvider(): array
+    public static function positiveLPStatusDataProvider(): array
     {
         return [
             [ilIndividualAssessmentMembers::LP_COMPLETED],
@@ -425,7 +425,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertFalse($obj->mayBeFinalized());
     }
 
-    public function negativeLPStatusDataProvider(): array
+    public static function negativeLPStatusDataProvider(): array
     {
         return [
             [ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED],

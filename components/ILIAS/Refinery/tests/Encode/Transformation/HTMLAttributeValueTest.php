@@ -56,7 +56,7 @@ class HTMLAttributeValueTest extends TestCase
         (new HTMLAttributeValue())->transform(8);
     }
 
-    public function provideTransformData(): array
+    public static function provideTransformData(): array
     {
         return [
             'Empty string' => ['', '', 'assertSame'],
@@ -71,7 +71,7 @@ class HTMLAttributeValueTest extends TestCase
             'Single space' => ['&#x20;', ' ', 'assertSame'],
             'Encode entities' => ['&amp;quot&#x3B;hello&amp;quot&#x3B;', '&quot;hello&quot;', 'assertSame'],
             'Braces' => ['&#x7B;&#x5B;&#x28;&#x29;&#x5D;&#x7D;', '{[()]}', 'assertSame'],
-            ...$this->oneByteRangeExcept([',', '.', '-', '_']),
+            ...self::oneByteRangeExcept([',', '.', '-', '_']),
         ];
     }
 }

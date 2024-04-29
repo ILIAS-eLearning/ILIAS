@@ -85,19 +85,13 @@ class ilStudyProgrammeSettings
      */
     protected bool $access_ctrl_positions;
 
-    protected ilStudyProgrammeTypeSettings $type_settings;
-    protected ilStudyProgrammeAssessmentSettings $assessment_settings;
-    protected ilStudyProgrammeDeadlineSettings $deadline_settings;
-    protected ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings;
-    protected ilStudyProgrammeAutoMailSettings $automail_settings;
-
     public function __construct(
         int $a_id,
-        ilStudyProgrammeTypeSettings $type_settings,
-        ilStudyProgrammeAssessmentSettings $assessment_settings,
-        ilStudyProgrammeDeadlineSettings $deadline_settings,
-        ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
-        ilStudyProgrammeAutoMailSettings $automail_settings
+        protected ilStudyProgrammeTypeSettings $type_settings,
+        protected ilStudyProgrammeAssessmentSettings $assessment_settings,
+        protected ilStudyProgrammeDeadlineSettings $deadline_settings,
+        protected ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
+        protected ilStudyProgrammeAutoMailSettings $automail_settings
     ) {
         $this->obj_id = $a_id;
         $this->type_settings = $type_settings;
