@@ -146,6 +146,20 @@ class ilMailingLists
         }
     }
 
+    public function deleteLists(): void
+    {
+        $this->db->manipulateF(
+            'DELETE ass FROM addressbook_mlist_ass ass INNER JOIN addressbook_mlist list ON ass.ml_id = list.ml_id WHERE list.user_id = %s',
+            ['integer'],
+            [$this->user->getId()]
+        );
+        $this->db->manipulateF(
+            'DELETE FROM addressbook_mlist WHERE user_id = %s',
+            ['integer'],
+            [$this->user->getId()]
+        );
+    }
+
     public function deleteAssignments(): void
     {
         $this->db->manipulate(
