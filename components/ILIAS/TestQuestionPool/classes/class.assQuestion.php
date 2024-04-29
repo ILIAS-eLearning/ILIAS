@@ -841,7 +841,7 @@ abstract class assQuestion
      */
     public function getSolutionValues($active_id, $pass = null, bool $authorized = true): array
     {
-        if (is_null($pass)) {
+        if ($pass === null && is_numeric($active_id)) {
             $pass = $this->getSolutionMaxPass((int) $active_id);
         }
 
@@ -1699,7 +1699,7 @@ abstract class assQuestion
         $this->points = $points;
     }
 
-    public function getSolutionMaxPass(int $active_id): int
+    public function getSolutionMaxPass(int $active_id): ?int
     {
         return self::_getSolutionMaxPass($this->getId(), $active_id);
     }
@@ -1707,7 +1707,7 @@ abstract class assQuestion
     /**
     * Returns the maximum pass a users question solution
     */
-    public static function _getSolutionMaxPass(int $question_id, int $active_id): int
+    public static function _getSolutionMaxPass(int $question_id, int $active_id): ?int
     {
         // the following code was the old solution which added the non answered
         // questions of a pass from the answered questions of the previous pass
@@ -1720,12 +1720,12 @@ abstract class assQuestion
             array('integer','integer'),
             array($active_id, $question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
-            return (int) $row["maxpass"];
+            return $row["maxpass"];
         }
 
-        return 0;
+        return null;
     }
 
     public static function _isWriteable(int $question_id, int $user_id): bool
@@ -1868,19 +1868,22 @@ abstract class assQuestion
         }
 
         if ($points <= $maxpoints) {
-            if (is_null($pass)) {
+            if ($pass === null) {
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
             }
 
-            // retrieve the already given points
+            $rowsnum = 0;
             $old_points = 0;
-            $result = $ilDB->queryF(
-                "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                array('integer','integer','integer'),
-                array($active_id, $question_id, $pass)
-            );
-            $manual = ($manualscoring) ? 1 : 0;
-            $rowsnum = $result->numRows();
+
+            if ($pass !== null) {
+                $result = $ilDB->queryF(
+                    "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+                    array('integer','integer','integer'),
+                    array($active_id, $question_id, $pass)
+                );
+                $manual = ($manualscoring) ? 1 : 0;
+                $rowsnum = $result->numRows();
+            }
             if ($rowsnum > 0) {
                 $row = $ilDB->fetchAssoc($result);
                 $old_points = $row["points"];
@@ -2777,7 +2780,7 @@ abstract class assQuestion
 
     public function authorizedSolutionExists(int $active_id, ?int $pass): bool
     {
-        if (is_null($pass)) {
+        if ($pass === null) {
             return false;
         }
         $solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);

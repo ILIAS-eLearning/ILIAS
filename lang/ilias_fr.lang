@@ -538,7 +538,6 @@ assessment#:#backtocallingtest#:#Retour au test
 assessment#:#baseunit#:#Unité de Base
 assessment#:#button_request_next_question_hint#:#Indice Suivant
 assessment#:#button_request_question_hint#:#Recourir à un indice
-assessment#:#button_show_requested_question_hints#:#Montrer un indice
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Suspendre le Test
 assessment#:#cannot_edit_marks#:#Des utilisateurs ont déjà entamé le test. Vous pouvez seulement modifier les appréciations si une date de communication des scores a été définie et qu'elle n'est pas encore atteinte.
@@ -1174,6 +1173,7 @@ assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumissi
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks###31 10 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###31 10 2023 new variable
 assessment#:#show_pass_overview#:#Afficher les Résultats
+assessment#:#show_requested_question_hints#:#Montrer un indice
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
 assessment#:#shuffle_answers#:#Mélanger les Réponses
 assessment#:#skip_question#:#Ne pas répondre et passer
@@ -15863,7 +15863,6 @@ survey#:#SurveyTextQuestion#:#Texte libre
 survey#:#add_heading#:#Ajouter Introduction
 survey#:#add_material#:#Ajouter de la matière
 survey#:#add_phrase#:#Ajouter Modèle de Réponse
-survey#:#adm_no_special_users#:#Pas d'utilisateurs spéciaux définis capables d'exécuter l'enquête plus d'une fois.
 survey#:#already_completed_survey#:#Vous avez déjà répondu au sondage ! Vous ne pouvez pas y répondre à nouveau.
 survey#:#anonymization#:#Anonymat
 survey#:#anonymize_anonymous_introduction#:#Ce sondage préserve l'anonymat. Pour avoir accès au sondage, vous devez utiliser un code de 5 caractères que le créateur ou responsable du sondage a dû vous envoyer.<br />Veuillez entrer ce code dans le champ ci-dessous.

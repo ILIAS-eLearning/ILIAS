@@ -154,7 +154,9 @@ class ilObjFileGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        $suffix = ilObjFileAccess::getListGUIData($this->obj_id)["suffix"] ?? "";
+        $info = (new ilObjFileInfoRepository())->getByObjectId($this->obj_id);
+
+        $suffix = $info->getSuffix();
         $path_file_icon = $this->icon_repo->getIconFilePathBySuffix($suffix);
         $this->tpl->setTitleIcon($path_file_icon);
 
@@ -564,8 +566,12 @@ class ilObjFileGUI extends ilObject2GUI
 
         $title = $title_and_description->getTitle();
         // bugfix mantis 26045:
-        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        $title = '' === trim($title) ? $filename : $this->object->checkFileExtension($filename, $title);
+        $filename = $this->object->getFileName();
+        if (trim($title) === '') {
+            $title = $filename;
+        }
+        $title = $this->object->appendSuffixToTitle($title, $filename);
+
         $this->object->handleChangedObjectTitle($title);
 
         $description = $title_and_description->getLongDescription();
@@ -836,19 +842,19 @@ class ilObjFileGUI extends ilObject2GUI
 
     protected function toggleLearningProgress(): void
     {
-        if (!ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId())) {
-            ilLPStatus::writeStatus(
-                $this->object->getId(),
-                $this->user->getId(),
-                ilLPStatus::LP_STATUS_COMPLETED_NUM
-            );
-        } else {
-            ilLPStatus::writeStatus(
-                $this->object->getId(),
-                $this->user->getId(),
-                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
-            );
-        }
+        ilLearningProgress::_tracProgress(
+            $this->user->getId(),
+            $this->obj_id,
+            $this->ref_id,
+            'file'
+        );
+
+        $lp_marks = new ilLPMarks($this->obj_id, $this->user->getId());
+        $lp_marks->setCompleted(!ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId()));
+        $lp_marks->update();
+
+        ilLPStatusWrapper::_updateStatus($this->obj_id, $this->user->getId());
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, 'infoScreen');
     }

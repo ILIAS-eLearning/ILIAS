@@ -52,6 +52,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     protected function callSpecialQuestionCommands(string $cmd): void
     {
         if (preg_match('/suggestrange_(\$r\d+)/', $cmd, $matches)) {
+            $this->addSaveOnEnterOnLoadCode();
             $this->suggestRange($matches[1]);
         }
     }
@@ -72,11 +73,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         $checked = true;
         if (!$hasErrors) {
-            $this->object->setTitle($_POST["title"]);
-            $this->object->setAuthor($_POST["author"]);
-            $this->object->setComment($_POST["comment"]);
-            $questiontext = ilUtil::stripOnlySlashes($_POST["question"]);
-            $this->object->setQuestion($questiontext);
+            $this->object->setTitle($this->request->string('title'));
+            $this->object->setAuthor($this->request->string('author'));
+            $this->object->setComment($this->request->string('comment'));
+            $this->object->setQuestion($this->request->string('question'));
 
             $this->object->parseQuestionText();
             $found_vars = array();
@@ -106,27 +106,25 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 if ($this->object->getVariable($variable) != null) {
                     $varObj = new assFormulaQuestionVariable(
                         $variable,
-                        $_POST["range_min_$variable"],
-                        $_POST["range_max_$variable"],
-                        isset($_POST["unit_$variable"]) ? $this->object->getUnitrepository()->getUnit(
-                            $_POST["unit_$variable"]
+                        str_replace(',', '.', $_POST["range_min_{$variable}"]),
+                        str_replace(',', '.', $_POST["range_max_{$variable}"]),
+                        isset($_POST["unit_{$variable}"]) ? $this->object->getUnitrepository()->getUnit(
+                            $_POST["unit_{$variable}"]
                         ) : null,
-                        $_POST["precision_$variable"],
-                        $_POST["intprecision_$variable"]
+                        (int) $this->request->float("precision_{$variable}"),
+                        (int) $this->request->float("intprecision_{$variable}")
                     );
-                    $varObj->setRangeMinTxt($_POST["range_min_$variable"]);
-                    $varObj->setRangeMaxTxt($_POST["range_max_$variable"]);
                     $this->object->addVariable($varObj);
                 }
             }
 
-            $tmp_form_vars = array();
-            $tmp_quest_vars = array();
+            $tmp_form_vars = [];
+            $tmp_quest_vars = [];
             foreach ($found_results as $result) {
-                $tmp_res_match = preg_match_all("/([$][v][0-9]*)/", $_POST["formula_$result"], $form_vars);
+                $tmp_res_match = preg_match_all('/([$][v][0-9]*)/', $_POST["formula_{$result}"], $form_vars);
                 $tmp_form_vars = array_merge($tmp_form_vars, $form_vars[0]);
 
-                $tmp_que_match = preg_match_all("/([$][v][0-9]*)/", $_POST['question'], $quest_vars);
+                $tmp_que_match = preg_match_all('/([$][v][0-9]*)/', $_POST['question'], $quest_vars);
                 $tmp_quest_vars = array_merge($tmp_quest_vars, $quest_vars[0]);
             }
             $result_has_undefined_vars = array_diff($tmp_form_vars, $found_vars);
@@ -146,38 +144,32 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
             foreach ($found_results as $result) {
-                if (is_object($this->object->getUnitrepository()->getUnit($_POST["unit_$result"]))) {
-                    $tmp_result_unit = $this->object->getUnitrepository()->getUnit($_POST["unit_$result"]);
-                } else {
-                    $tmp_result_unit = null;
-                }
-
                 if ($this->object->getResult($result) != null) {
-                    $use_simple_rating = $this->request->int("rating_advanced_$result") !== 1;
                     $resObj = new assFormulaQuestionResult(
                         $result,
-                        $_POST["range_min_$result"],
-                        $_POST["range_max_$result"],
-                        $_POST["tolerance_$result"],
-                        $tmp_result_unit,
-                        $_POST["formula_$result"],
-                        $_POST["points_$result"],
-                        $_POST["precision_$result"],
-                        $use_simple_rating,
-                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_sign_$result"] : "",
-                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_value_$result"] : "",
-                        $this->request->int("rating_advanced_$result") === 1 ? $_POST["rating_unit_$result"] : "",
-                        $this->request->int("result_type_$result")
+                        str_replace(',', '.', $_POST["range_min_{$result}"]),
+                        str_replace(',', '.', $_POST["range_max_{$result}"]),
+                        $this->request->float("tolerance_{$result}"),
+                        isset($_POST["unit_{$result}"]) ? $this->object->getUnitrepository()->getUnit(
+                            $_POST["unit_{$result}"]
+                        ) : null,
+                        $this->request->string("formula_{$result}"),
+                        $this->request->float("points_{$result}"),
+                        (int) $this->request->float("precision_{$result}"),
+                        $this->request->int("rating_advanced_{$result}") !== 1,
+                        $this->request->int("rating_advanced_{$result}") === 1 ? $this->request->float("rating_sign_{$result}") : null,
+                        $this->request->int("rating_advanced_{$result}") === 1 ? $this->request->float("rating_value_{$result}") : null,
+                        $this->request->int("rating_advanced_{$result}") === 1 ? $this->request->float("rating_unit_{$result}") : null,
+                        $this->request->int("result_type_{$result}")
                     );
-                    $resObj->setRangeMinTxt($_POST["range_min_$result"]);
-                    $resObj->setRangeMaxTxt($_POST["range_max_$result"]);
                     $this->object->addResult($resObj);
-                    if (isset($_POST["units_$result"]) && is_array($_POST["units_$result"])) {
-                        $this->object->addResultUnits($resObj, $_POST["units_$result"]);
+                    if (isset($_POST["units_$result"]) && is_array($_POST["units_{$result}"])) {
+                        $this->object->addResultUnits($resObj, $_POST["units_{$result}"]);
                     }
                 }
             }
             if ($checked == false) {
+                $this->editQuestion();
                 return 1;
             } else {
                 $this->resetSavedPreviewSession();
@@ -615,15 +607,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
                     $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
                     $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
-                    if ($decimal_spots->getValue() == 0) {
-                        if (!$variable->isIntPrecisionValid(
+                    if ($decimal_spots->getValue() == 0
+                        && $min_range->getValue() !== null
+                        && $max_range->getValue() !== null
+                        && !$variable->isIntPrecisionValid(
                             $intPrecision->getValue(),
                             $min_range->getValue(),
                             $max_range->getValue()
-                        )) {
-                            $intPrecision->setAlert($this->lng->txt('err_division'));
-                            $custom_errors = true;
-                        }
+                        )
+                    ) {
+                        $intPrecision->setAlert($this->lng->txt('err_division'));
+                        $custom_errors = true;
                     }
                 }
             }
@@ -743,6 +737,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function parseQuestion(): void
     {
         $this->writePostData();
+        $this->addSaveOnEnterOnLoadCode();
         $this->editQuestion();
     }
 
@@ -783,7 +778,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+        $user_solution = [];
+        if ($pass !== null) {
+            $user_solution = $this->object->getVariableSolutionValuesForPass($active_id, $pass);
+        }
 
         if (($active_id > 0) && (!$show_correct_solution)) {
             $user_solution["active_id"] = $active_id;

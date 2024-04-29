@@ -338,7 +338,12 @@ class ilInitialisation
                 )
             );
             $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new SVGBlacklistPreProcessor($c->language()->txt("msg_security_svg_rejected")));
+            $fileUploadImpl->register(new SVGBlacklistPreProcessor(
+                $c->language()->txt("upload_svg_rejection_message"),
+                $c->language()->txt("upload_svg_rejection_message_script"),
+                $c->language()->txt("upload_svg_rejection_message_base64"),
+                $c->language()->txt("upload_svg_rejection_message_elements")
+            ));
 
             return $fileUploadImpl;
         };

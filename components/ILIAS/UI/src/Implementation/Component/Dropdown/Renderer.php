@@ -98,7 +98,7 @@ class Renderer extends AbstractComponentRenderer
             $id = $this->createId();
         }
         $tpl->setVariable("ID", $id);
-        $tpl->setVariable("ID_MENU", $id."_menu");
+        $tpl->setVariable("ID_MENU", $id . "_menu");
 
     }
 
@@ -108,7 +108,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Dropdown/dropdown.js');
+        $registry->register('assets/js/dropdown.js');
     }
 
     /**

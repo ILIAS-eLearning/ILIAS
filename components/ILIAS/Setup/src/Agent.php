@@ -74,7 +74,7 @@ interface Agent
      *
      * @throw InvalidArgumentException if Config does not match the Agent.
      */
-    public function getBuildArtifactObjective(): Objective;
+    public function getBuildObjective(): Objective;
 
     /**
      * Get the objective to be achieved when status is requested.

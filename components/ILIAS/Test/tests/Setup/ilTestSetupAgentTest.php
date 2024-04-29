@@ -56,7 +56,7 @@ class ilTestSetupAgentTest extends ilTestBaseTestCase
     public function testGetBuildArtifactObjective(): void
     {
         $ilTestSetupAgentTest = new ilTestSetupAgent($this->createMock(Refinery::class));
-        $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getBuildArtifactObjective());
+        $this->assertInstanceOf(NullObjective::class, $ilTestSetupAgentTest->getBuildObjective());
     }
 
     public function testGetMigrations(): void

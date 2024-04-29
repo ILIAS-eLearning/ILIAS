@@ -89,7 +89,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
+                $cumulated[(string) $answer->value] = ($cumulated[(string) $answer->value] ?? 0) + 1;
             }
             foreach ($cumulated as $value => $count) {
                 $perc = sprintf("%.2f", $count / $total * 100) . "%";
@@ -141,7 +141,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
+                $cumulated[(string) $answer->value] = ($cumulated[(string) $answer->value] ?? 0) + 1;
             }
 
             $labels = array();
@@ -188,7 +188,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
+                $cumulated[(string) $answer->value] = ($cumulated[(string) $answer->value] ?? 0) + 1;
             }
             foreach ($cumulated as $value => $count) {
                 $res["rows"][] = array(

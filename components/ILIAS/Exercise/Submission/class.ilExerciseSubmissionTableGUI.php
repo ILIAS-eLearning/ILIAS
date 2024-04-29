@@ -657,7 +657,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);
 
-        $tpl->addJavaScript("components/ILIAS/Exercise/js/ilExcManagement.js");
+        $tpl->addJavaScript("assets/js/ilExcManagement.js");
         $tpl->addOnLoadCode('il.ExcManagement.init("' . $url . '");');
 
         return parent::render() .

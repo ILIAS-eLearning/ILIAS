@@ -184,8 +184,8 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 . '"reindexingRequiredElementsSelectors": ["input:text", "button"], '
                 . '"handleRowCleanUpCallback": function(rowElem) {$(rowElem).find("input:text").val("")}'
                 . '}';
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode("$.extend({}, AnswerWizardInput, IdentifiedWizardInput).init({$config});");
         }
 

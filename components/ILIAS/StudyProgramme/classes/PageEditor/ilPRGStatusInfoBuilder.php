@@ -61,13 +61,14 @@ class ilPRGStatusInfoBuilder
 
     public function getStatusInfoFor(int $prg_obj_id): string
     {
-        $ass = $this->getLatestAssignment($prg_obj_id);
-
         $status = 'pc_prgstatus_status_no_qualification';
         $status_txt = 'pc_prgstatus_text_no_qualification';
         $validity_txt = '';
         $icon = 'standard/icon_not_ok.svg';
         $restart_date = null;
+
+        $ass = $this->repo_assignment->getLongestValidAssignment($prg_obj_id, $this->usr_id)
+            ?? $this->repo_assignment->getLatestAssignment($prg_obj_id, $this->usr_id);
 
         if ($ass) {
             $pgs = $ass->getProgressTree();
@@ -75,7 +76,7 @@ class ilPRGStatusInfoBuilder
             if ($pgs->hasValidQualification($now)) {
                 $status = 'pc_prgstatus_status_valid_qualification';
                 $status_txt = 'pc_prgstatus_unlimited_validation';
-                $icon = 'icon_ok.svg';
+                $icon = 'standard/icon_ok.svg';
             }
 
             if ($validity = $pgs->getValidityOfQualification()) {
@@ -107,18 +108,6 @@ class ilPRGStatusInfoBuilder
             $this->tpl->setVariable("EDIT_QUALIFICATION", $this->lng->txt("pc_prgstatus_edit_qualification") . " " . $restart_date);
         }
         return $this->tpl->get();
-    }
-
-    protected function getLatestAssignment(int $prg_obj_id): ?ilPRGAssignment
-    {
-        $assignments = $this->repo_assignment->getForUserOnNode($this->usr_id, $prg_obj_id);
-        usort(
-            $assignments,
-            fn(ilPRGAssignment $a, ilPRGAssignment $b)
-            => $a->getProgressTree()->getAssignmentDate() <=> $b->getProgressTree()->getAssignmentDate()
-        );
-        $assignments = array_reverse($assignments);
-        return $assignments ? current($assignments) : null;
     }
 
     protected function getRestartPeriodOfProgrammeNode(int $prg_obj_id): ?DateInterval

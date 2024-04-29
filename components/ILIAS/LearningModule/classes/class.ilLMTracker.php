@@ -591,7 +591,7 @@ class ilLMTracker
         $active = ilPageObject::_lookupActive(
             $a_node["child"],
             "lm",
-            $lm_set->get("time_scheduled_page_activation")
+            (bool) $lm_set->get("time_scheduled_page_activation")
         );
 
         if (!$active) {

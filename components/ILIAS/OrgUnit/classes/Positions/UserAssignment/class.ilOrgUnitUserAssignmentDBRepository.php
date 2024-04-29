@@ -17,7 +17,11 @@
  */
 declare(strict_types=1);
 
-class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentRepository
+use ILIAS\UI\Component\Table;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+
+class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentRepository, Table\DataRetrieval
 {
     public const TABLE_NAME = 'il_orgu_ua';
     protected ilDBInterface $db;
@@ -395,5 +399,76 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
             'usr_id' => $assignment->getUserId(),
             'position_id' => $assignment->getPositionId()
         ));
+    }
+
+    protected function getUserDataByOrgUnitsAndPosition(
+        array $orgu_ids,
+        int $position_id,
+        bool $count_only = false,
+        Range $range = null,
+        Order $order = null
+    ) {
+        $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
+        $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';
+
+        $query = 'SELECT usr_id, login, firstname, lastname, active, orgu_id' . PHP_EOL
+            . ', GROUP_CONCAT (od.title SEPARATOR ", ") as orgu_title ' . PHP_EOL
+            . 'FROM ' . self::TABLE_NAME . PHP_EOL
+            . 'JOIN usr_data ud on ud.usr_id = user_id' . PHP_EOL
+            . 'JOIN object_reference oref on oref.ref_id = orgu_id' . PHP_EOL
+            . 'JOIN object_data od on od.obj_id = oref.obj_id' . PHP_EOL
+            . 'WHERE ' . $this->db->in(self::TABLE_NAME . '.orgu_id', $orgu_ids, false, 'integer') . PHP_EOL
+            . 'AND ' . self::TABLE_NAME . '.position_id = ' . $this->db->quote($position_id, 'integer') . PHP_EOL
+            . 'group by login' . PHP_EOL
+            . $sql_order_part . PHP_EOL
+            . $sql_range_part . PHP_EOL
+        ;
+        $res = $this->db->query($query);
+
+        if($count_only) {
+            return $this->db->numRows($res);
+        }
+
+        $users = [];
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $rec['active'] = (bool)$rec['active'];
+            $users[] = $rec;
+        }
+        return $users;
+    }
+
+    public function getTotalRowCount(
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): ?int {
+        $orgu_ids = $additional_parameters['orgu_ids'];
+        $position_id = $additional_parameters['position_id'];
+        return $this->getUserDataByOrgUnitsAndPosition($orgu_ids, $position_id, true);
+    }
+
+    public function getRows(
+        Table\DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): \Generator {
+        $orgu_ids = $additional_parameters['orgu_ids'];
+        $position_id = $additional_parameters['position_id'];
+        $lp_visible = $additional_parameters['lp_visible_ref_ids'];
+
+        foreach ($this->getUserDataByOrgUnitsAndPosition($orgu_ids, $position_id, false, $range, $order) as $record) {
+            $row_id = implode('_', [(string)$position_id, (string)$record['usr_id']]);
+            yield $row_builder->buildDataRow($row_id, $record)
+                ->withDisabledAction(
+                    'show_learning_progress',
+                    !(
+                        in_array($record['orgu_id'], $lp_visible)
+                        && ilObjUserTracking::_enabledLearningProgress()
+                        && ilObjUserTracking::_enabledUserRelatedData()
+                    )
+                );
+        }
     }
 }

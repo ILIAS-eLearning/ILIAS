@@ -888,7 +888,8 @@ div.ilc_va_ihead_VAccordIHead:hover {
   background-color: #E2E8EF;
   background-position: 15px center;
 }
-em.ilc_em_Emph {
+em.ilc_em_Emph,
+span.ilc_text_inline_Emph {
   font-style: italic;
 }
 figure.ilc_media_cont_MediaContainer {
@@ -1426,7 +1427,8 @@ span.ilc_text_inline_Quotation {
   color: #CDDC39;
   font-size: 114%;
 }
-strong.ilc_strong_Strong {
+strong.ilc_strong_Strong,
+span.ilc_text_inline_Strong {
   font-weight: bold;
 }
 table.ilc_table_StandardTable {

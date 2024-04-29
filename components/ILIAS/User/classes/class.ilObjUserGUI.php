@@ -352,8 +352,8 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function createObject(): void
     {
-        if (!$this->rbac_system->checkAccess('create_usr', $this->usrf_ref_id) and
-            !$this->rbac_system->checkAccess('cat_administrate_users', $this->usrf_ref_id)) {
+        if (!$this->rbac_system->checkAccess('create_usr', $this->usrf_ref_id)
+            && !$this->rbac_system->checkAccess('cat_administrate_users', $this->usrf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -367,8 +367,8 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function saveObject(): void
     {
-        if (!$this->rbac_system->checkAccess('create_usr', $this->usrf_ref_id) &&
-            !$this->access->checkAccess('cat_administrate_users', '', $this->usrf_ref_id)) {
+        if (!$this->rbac_system->checkAccess('create_usr', $this->usrf_ref_id)
+            && !$this->access->checkAccess('cat_administrate_users', '', $this->usrf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -387,11 +387,13 @@ class ilObjUserGUI extends ilObjectGUI
             return;
         }
 
-        // @todo: external account; time limit check and savings
-
         // checks passed. save user
         $user_object = $this->loadValuesFromForm();
-        $user_object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+        if ($this->user->getId() === (int) SYSTEM_USER_ID
+            || !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+            || in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
+            $user_object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+        }
         $user_object->setTitle($user_object->getFullname());
         $user_object->setDescription($user_object->getEmail());
 
@@ -969,21 +971,25 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->form_gui->addItem($lo);
 
-        $pw = new ilPasswordInputGUI($this->lng->txt('passwd'), 'passwd');
-        $pw->setUseStripSlashes(false);
-        $pw->setSize(32);
-        $pw->setMaxLength(80);
-        $pw->setValidateAuthPost('auth_mode');
-        if ($a_mode == 'create') {
-            $pw->setRequiredOnAuth(true);
+        if ($this->user->getId() === (int) SYSTEM_USER_ID
+            || !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+            || in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
+            $pw = new ilPasswordInputGUI($this->lng->txt('passwd'), 'passwd');
+            $pw->setUseStripSlashes(false);
+            $pw->setSize(32);
+            $pw->setMaxLength(80);
+            $pw->setValidateAuthPost('auth_mode');
+            if ($a_mode == 'create') {
+                $pw->setRequiredOnAuth(true);
+            }
+            if ($this->user->getId() !== (int) SYSTEM_USER_ID
+                && in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+                && !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
+                $pw->setDisabled(true);
+            }
+            $pw->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
+            $this->form_gui->addItem($pw);
         }
-        if ($this->user->getId() !== (int) SYSTEM_USER_ID
-            && in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
-            && !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
-            $pw->setDisabled(true);
-        }
-        $pw->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-        $this->form_gui->addItem($pw);
 
         if (ilAuthUtils::_isExternalAccountEnabled()) {
             $ext = new ilTextInputGUI($this->lng->txt('user_ext_account'), 'ext_account');

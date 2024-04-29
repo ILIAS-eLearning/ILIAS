@@ -157,10 +157,10 @@ abstract class SurveyQuestionEvaluation
                 $a_results->addAnswer($parsed);
 
                 if ($answer["value"] != "") {
-                    if (!isset($selections[$answer["value"]])) {
-                        $selections[$answer["value"]] = 0;
+                    if (!isset($selections[(string) $answer["value"]])) {
+                        $selections[(string) $answer["value"]] = 0;
                     }
-                    $selections[$answer["value"]]++;
+                    $selections[(string) $answer["value"]]++;
                 }
             }
         }

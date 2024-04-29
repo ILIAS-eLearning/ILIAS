@@ -42,7 +42,7 @@ function base()
                 $row_id = '';
                 $record['i1'] = $this->ui_factory->symbol()->icon()->standard('crs', '', 'small');
                 $record['i2'] = $this->ui_factory->symbol()->icon()->custom(
-                    'templates/default/images/standard/icon_checked.svg',
+                    'assets/images/standard/icon_checked.svg',
                     '',
                     'small'
                 );

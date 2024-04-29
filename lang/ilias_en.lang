@@ -554,7 +554,6 @@ assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
@@ -781,6 +780,7 @@ assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions
 assessment#:#imagemap#:#Image Map
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
+assessment#:#in_range#:#Within range
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
@@ -1128,7 +1128,7 @@ assessment#:#rating_value#:#Rate Value
 assessment#:#rectangle#:#Rectangle
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
-assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...
+assessment#:#redirectAfterSave#:#The maximum working time has been reached. In a few seconds you will be redirected...
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
@@ -1206,6 +1206,7 @@ assessment#:#show_examview_html#:#On screen
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next
@@ -1379,7 +1380,7 @@ assessment#:#tst_enable_questionlist#:#Show 'List of Questions’
 assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.
 assessment#:#tst_ending_time#:#Finishing Time
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
-assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
+assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function 'Limit Duration of Test' (see below). Only then will the test be ended on the server side and each participant's last entry in Essay-Questions automatically saved as auto-save-content.
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
 assessment#:#tst_eval_results_by_pass#:#List of Answers for Pass %s
@@ -2189,6 +2190,7 @@ badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 badge#:#badge_create#:#Create Badge
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -2237,6 +2239,8 @@ badge#:#badge_template_types#:#Valid Types
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific
 badge#:#badge_types#:#Types
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_valid#:#Valid until
 badge#:#criteria#:#Criteria
@@ -2980,10 +2984,7 @@ chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#hint_display_past_msgs#:#Number of previous messages shown when chat room is entered. A value of ‘0’ disables this feature.
-chatroom#:#history_by_day#:#Daily History
-chatroom#:#history_by_session#:#Session History
 chatroom#:#history_byday_title#:#Show Conversation per Day
-chatroom#:#history_bysession_title#:#Show Conversation per Session
 chatroom#:#history_cleared#:#The message history was deleted by a moderator.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
 chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
@@ -4350,6 +4351,7 @@ common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_sahs#:#Import SCORM Package
 common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.
+common#:#import_sahs_new#:#Import New Version of SCORM Package
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
@@ -4770,7 +4772,6 @@ common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings fro
 common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_reserved_prefix#:#The prefix ‘il_’ is reserved for automatically generated roles. Please choose another name
 common#:#msg_roleassignment_changed#:#Role assignment changed
-common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects and functions.
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
@@ -5824,6 +5825,10 @@ common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#uploading#:#Uploading...
 common#:#uri#:#URI
@@ -5904,7 +5909,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Insert/Update action will be followed strictly’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there already is a user with the same login in the database.) When ‘Insert/Update action will be detected automatically’ is selected, ILIAS may update the database if an action can not be performed otherwise. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
@@ -11605,6 +11610,7 @@ mcst#:#mcst_automatic_detection#:#Automatic Detection
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_confirm_deletion#:#Confirm Deletion
 mcst#:#mcst_converted_file#:#File has been converted.
@@ -11622,7 +11628,7 @@ mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
 mcst#:#mcst_duration#:#Play Time
-mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
+mcst#:#mcst_duration_info#:#If this value is 00:00:00, ILIAS could not determine the play time automatically. In this case, please enter the correct value manually.
 mcst#:#mcst_edit_item#:#Edit Mediacast Item
 mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_gallery#:#Tiles
@@ -13029,6 +13035,7 @@ pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
+pd#:#pd_no_items_to_manage#:#No items available for removal.
 pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
@@ -13227,6 +13234,7 @@ prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
 prg#:#prg_change_deadline#:#Change deadline
 prg#:#prg_change_expire_date#:#Change expire date
@@ -15425,6 +15433,7 @@ skmg#:#skmg_assigned_objects#:#Assigned Objects
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
 skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Targets
 skmg#:#skmg_assigned_users#:#Assigned Roles and Users
+skmg#:#skmg_bar_charts#:#Bar Charts
 skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because they are still in use.
 skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
 skmg#:#skmg_cert_skill_title#:#Competence Title
@@ -16048,7 +16057,6 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#add_material#:#Add Material
 survey#:#add_phrase#:#Add Phrase
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
@@ -16232,7 +16240,7 @@ survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
 survey#:#mail_sent_short#:#Sent
 survey#:#mail_survey_codes#:#Mail access codes or messages
 survey#:#mailaddresses#:#Recipient addresses
-survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
+survey#:#mailaddresses_info#:#Enter a comma separated list of tutor account names who will receive a notification on finished surveys.
 survey#:#mailnotification#:#Seperate E-Mail for Each Finished Survey
 survey#:#mailparticipantdata#:#Additional participant data
 survey#:#mailparticipantdata_info#:#This information will be precede the automatically included results section of the notification mail.

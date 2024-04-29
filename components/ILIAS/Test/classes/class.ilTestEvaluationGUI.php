@@ -99,46 +99,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return $ret;
     }
 
-    public function &getHeaderNames(): array
-    {
-        $headernames = [];
-        if ($this->object->getAnonymity()) {
-            array_push($headernames, $this->lng->txt("counter"));
-        } else {
-            array_push($headernames, $this->lng->txt("name"));
-            array_push($headernames, $this->lng->txt("login"));
-        }
-        $additionalFields = $this->object->getEvaluationAdditionalFields();
-        if (count($additionalFields)) {
-            foreach ($additionalFields as $fieldname) {
-                array_push($headernames, $this->lng->txt($fieldname));
-            }
-        }
-        array_push($headernames, $this->lng->txt("tst_reached_points"));
-        array_push($headernames, $this->lng->txt("tst_mark"));
-        array_push($headernames, $this->lng->txt("tst_answered_questions"));
-        array_push($headernames, $this->lng->txt("working_time"));
-        array_push($headernames, $this->lng->txt("detailed_evaluation"));
-        return $headernames;
-    }
-
-    public function &getHeaderVars(): array
-    {
-        $headervars = [];
-        if ($this->object->getAnonymity()) {
-            array_push($headervars, "counter");
-        } else {
-            array_push($headervars, "name");
-            array_push($headervars, "login");
-        }
-        array_push($headervars, "resultspoints");
-        array_push($headervars, "resultsmarks");
-        array_push($headervars, "qworkedthrough");
-        array_push($headervars, "timeofwork");
-        array_push($headervars, "");
-        return $headervars;
-    }
-
     /**
      * @deprecated command should not be used any longer
      */
@@ -208,7 +168,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $eval = new ilTestEvaluationData($this->db, $this->object);
         $eval->setFilterArray($filter_array);
-        $foundParticipants = $eval->getParticipants();
+        $found_participants = $eval->getParticipants();
 
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setActiveIdsFilter($eval->getParticipantIds());
@@ -222,12 +182,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
             foreach ($participantData->getActiveIds() as $active_id) {
-                if (!isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData)) {
+                if (!isset($found_participants[$active_id]) || !($found_participants[$active_id] instanceof ilTestEvaluationUserData)) {
                     continue;
                 }
 
-                /* @var $userdata ilTestEvaluationUserData */
-                $userdata = $foundParticipants[$active_id];
+                /** @var ilTestEvaluationUserData $userdata */
+                $userdata = $found_participants[$active_id];
 
                 $remove = false;
                 if ($passedonly) {
@@ -355,7 +315,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, 'outEvaluation');
         }
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css', 'components/ILIAS/Test'), 'print');
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css'), 'print');
 
         $backBtn = $this->ui_factory->button()->standard($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'outEvaluation'));
         $this->toolbar->addComponent($backBtn);
@@ -560,8 +520,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $eval = $this->object->getCompleteEvaluationData();
         $data = [];
-        $foundParticipants = $eval->getParticipants();
-        if (count($foundParticipants)) {
+        $found_participants = $eval->getParticipants();
+        if ($found_participants !== []) {
             $options = [
                 $this->ui_factory->button()->shy($this->lng->txt('exp_type_excel'), $this->ctrl->getLinkTarget($this, 'excel_all_test_runs_a')),
                 $this->ui_factory->button()->shy($this->lng->txt('exp_type_spss'), $this->ctrl->getLinkTarget($this, 'csv_a'))
@@ -572,7 +532,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $data[] = array(
                 'result' => $this->lng->txt("tst_eval_total_persons"),
-                'value' => count($foundParticipants)
+                'value' => count($found_participants)
             );
             $total_finished = $eval->getTotalFinishedParticipants();
             $data[] = array(
@@ -595,7 +555,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $total_passed_reached = 0;
             $total_passed_max = 0;
             $total_passed_time = 0;
-            foreach ($foundParticipants as $userdata) {
+            foreach ($found_participants as $userdata) {
                 if ($userdata->getPassed()) {
                     $total_passed++;
                     $total_passed_reached += $userdata->getReached();
@@ -636,7 +596,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $answered = 0;
             $reached = 0;
             $max = 0;
-            foreach ($foundParticipants as $userdata) {
+            foreach ($found_participants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
                         $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
@@ -1004,9 +964,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     protected function setCss(): void
     {
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
     }
@@ -1523,55 +1483,49 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $color_class = array("tblrow1", "tblrow2");
         $counter = 0;
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "components/ILIAS/Test");
-        $foundParticipants = $data->getParticipants();
-        if (count($foundParticipants) == 0) {
+        $found_participants = $data->getParticipants();
+        if ($found_participants === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_no_evaluation_data"));
             return;
-        } else {
-            $rows = [];
-            foreach ($data->getQuestionTitles() as $question_id => $question_title) {
-                $answered = 0;
-                $reached = 0;
-                $max = 0;
-                foreach ($foundParticipants as $userdata) {
-                    $pass = $userdata->getScoredPass();
-                    if (is_object($userdata->getPass($pass))) {
-                        $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
-                        if (is_array($question)) {
-                            $answered++;
-                        }
-                    }
-                }
-                $counter++;
-                $this->ctrl->setParameter($this, "qid", $question_id);
-                $question_object = assQuestion::instantiateQuestion($question_id);
-                $download = "";
-                if ($question_object instanceof ilObjFileHandlingQuestionType) {
-                    if ($question_object->hasFileUploads($this->object->getTestId())) {
-                        $download = "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportFileUploadsForAllParticipants") . "\">" . $this->lng->txt("download") . "</a>";
-                    }
-                }
-                array_push(
-                    $rows,
-                    array(
-                        'qid' => $question_id,
-                        'question_title' => $question_title,
-                        'number_of_answers' => $answered,
-                        'output' => "<a target='_blank' href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
-                        'file_uploads' => $download
-                    )
-                );
-            }
-            if (count($rows)) {
-                $table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
-                $table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
-                $table_gui->setData($rows);
-
-                $this->tpl->setVariable("TBL_SINGLE_ANSWERS", $table_gui->getHTML());
-            } else {
-                $this->tpl->setVariable("TBL_SINGLE_ANSWERS", $this->lng->txt("adm_no_special_users"));
-            }
         }
+
+        $rows = [];
+        foreach ($data->getQuestionTitles() as $question_id => $question_title) {
+            $answered = 0;
+            $reached = 0;
+            $max = 0;
+            foreach ($found_participants as $userdata) {
+                $pass = $userdata->getScoredPass();
+                if (is_object($userdata->getPass($pass))) {
+                    $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+                    if (is_array($question)) {
+                        $answered++;
+                    }
+                }
+            }
+            $counter++;
+            $this->ctrl->setParameter($this, "qid", $question_id);
+            $question_object = assQuestion::instantiateQuestion($question_id);
+            $download = '';
+            if ($question_object instanceof ilObjFileHandlingQuestionType
+                && $question_object->hasFileUploads($this->object->getTestId())) {
+                $download = '<a href="' . $this->ctrl->getLinkTarget($this, "exportFileUploadsForAllParticipants") . '">'
+                    . $this->lng->txt('download') . '</a>';
+            }
+            $rows[] = [
+                'qid' => $question_id,
+                'question_title' => $question_title,
+                'number_of_answers' => $answered,
+                'output' => "<a target='_blank' href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
+                'file_uploads' => $download
+            ];
+        }
+
+        $table_gui = new ilResultsByQuestionTableGUI($this, 'singleResults');
+        $table_gui->setTitle($this->lng->txt('tst_answered_questions_test'));
+        $table_gui->setData($rows);
+
+        $this->tpl->setVariable('TBL_SINGLE_ANSWERS', $table_gui->getHTML());
     }
 
     public function outCertificate()
@@ -1921,6 +1875,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
 
+        $testSession = new ilTestSession();
+        $testSession->loadFromDb($active_id);
+
+        if ($testSession->isSubmitted()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
+            $this->redirectBackToParticipantsScreen();
+        }
+
         if (($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime())
             && !$this->object->endingTimeReached()
             && !$this->object->isMaxProcessingTimeReached(
@@ -1956,21 +1918,27 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $participant_data->setParticipantAccessFilter($access_filter);
         $participant_data->load($this->object->getTestId());
 
-        if (in_array($active_id, $participant_data->getActiveIds())) {
-            $testSession = new ilTestSession($this->db, $this->user);
-            $testSession->loadFromDb($active_id);
-
-            $this->object->updateTestPassResults(
-                $active_id,
-                $testSession->getPass(),
-                $this->object->areObligationsEnabled(),
-                null,
-                $this->object->getId()
-            );
-
-            $this->finishTestPass($active_id, $this->object->getId());
+        if (!in_array($active_id, $participant_data->getActiveIds())) {
+            $this->redirectBackToParticipantsScreen();
         }
 
+        $test_session = new ilTestSession($this->db, $this->user);
+        $test_session->loadFromDb($active_id);
+
+        if ($test_session->isSubmitted()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
+            $this->redirectBackToParticipantsScreen();
+        }
+
+        $this->object->updateTestPassResults(
+            $active_id,
+            $test_session->getPass(),
+            $this->object->areObligationsEnabled(),
+            null,
+            $this->object->getId()
+        );
+
+        $this->finishTestPass($active_id, $this->object->getId());
 
         $this->redirectBackToParticipantsScreen();
     }
@@ -2079,7 +2047,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->addCss(\ilUtil::getStyleSheetLocation("filesystem"));
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
-        $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
 
         ilMathJax::getInstance()->includeMathJax($tpl);
 

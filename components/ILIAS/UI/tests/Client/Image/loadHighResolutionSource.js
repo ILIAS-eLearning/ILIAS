@@ -17,7 +17,7 @@
 
 import { assert } from 'chai';
 import loadHighResolutionSource
-  from '../../../../../../components/ILIAS/UI/src/templates/js/Image/src/loadHighResolutionSource';
+  from '../../../resources/js/Image/src/loadHighResolutionSource';
 
 describe('loadHighResolutionSource', () => {
   it('should choose the best possible source.', () => {

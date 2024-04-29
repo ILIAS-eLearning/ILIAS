@@ -135,6 +135,24 @@ class ilPCPlugged extends ilPageContent
         return "";
     }
 
+    protected static function getActivePluginByName(string $name): ?ilPageComponentPlugin
+    {
+        global $DIC;
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
+        $plugin_info = null;
+        try {
+            $plugin_info = $component_repository->getPluginByName($name);
+        } catch (Exception $e) {
+        }
+        if (is_object($plugin_info) && $plugin_info->isActive()) {
+            /** @var ilPageComponentPlugin $plugin_obj */
+            $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
+            return $plugin_obj;
+        }
+        return null;
+    }
+
     /**
      * Handle copied plugged content. This function must, e.g. create copies of
      * objects referenced within the content (e.g. question objects)
@@ -155,36 +173,31 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            try {
-                $plugin_info = $component_repository->getPluginByName($plugin_name);
-                if ($plugin_info->isActive()) {
-                    /** @var ilPageComponentPlugin $plugin_obj */
-                    $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
-                    $plugin_obj->setPageObj($a_page);
+            $plugin_obj = self::getActivePluginByName($plugin_name);
+            if (is_object($plugin_obj)) {
+                $plugin_obj->setPageObj($a_page);
 
-                    $properties = array();
-                    /** @var DOMElement $child */
-                    foreach ($node->childNodes as $child) {
-                        $properties[$child->getAttribute('Name')] = $child->nodeValue;
-                    }
-
-                    // let the plugin copy additional content
-                    // and allow it to modify the saved parameters
-                    $plugin_obj->onClone($properties, $plugin_version);
-
-                    foreach ($node->childNodes as $child) {
-                        $node->removeChild($child);
-                    }
-                    foreach ($properties as $name => $value) {
-                        $child = new DOMElement(
-                            'PluggedProperty',
-                            str_replace("&", "&amp;", $value)
-                        );
-                        $node->appendChild($child);
-                        $child->setAttribute('Name', $name);
-                    }
+                $properties = array();
+                /** @var DOMElement $child */
+                foreach ($node->childNodes as $child) {
+                    $properties[$child->getAttribute('Name')] = $child->nodeValue;
                 }
-            } catch (Exception $e) {
+
+                // let the plugin copy additional content
+                // and allow it to modify the saved parameters
+                $plugin_obj->onClone($properties, $plugin_version);
+
+                foreach ($node->childNodes as $child) {
+                    $node->removeChild($child);
+                }
+                foreach ($properties as $name => $value) {
+                    $child = new DOMElement(
+                        'PluggedProperty',
+                        str_replace("&", "&amp;", $value)
+                    );
+                    $node->appendChild($child);
+                    $child->setAttribute('Name', $name);
+                }
             }
         }
     }
@@ -210,15 +223,9 @@ class ilPCPlugged extends ilPageContent
         foreach ($nodes as $node) {
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
+            $plugin_obj = self::getActivePluginByName($plugin_name);
 
-            $info = null;
-            try {
-                $info = $component_repository->getPluginByName($plugin_name);
-            } catch (InvalidArgumentException $e) {
-            }
-            if (!is_null($info) && $info->isActive()) {
-                /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $component_factory->getPlugin($info->getId());
+            if (is_object($plugin_obj)) {
                 $plugin_obj->setPageObj($page);
 
                 $properties = array();
@@ -235,7 +242,10 @@ class ilPCPlugged extends ilPageContent
                     $node->removeChild($child);
                 }
                 foreach ($properties as $name => $value) {
-                    $child = new DOMElement('PluggedProperty', $value);
+                    $child = new DOMElement(
+                        'PluggedProperty',
+                        str_replace("&", "&amp;", $value)
+                    );
                     $node->appendChild($child);
                     $child->setAttribute('Name', $name);
                 }
@@ -259,10 +269,8 @@ class ilPCPlugged extends ilPageContent
         $plugin_name = $a_node->getAttribute('PluginName');
         $plugin_version = $a_node->getAttribute('PluginVersion');
 
-        $plugin_info = $component_repository->getPluginByName($plugin_name);
-        if ($plugin_info->isActive()) {
-            /** @var ilPageComponentPlugin $plugin_obj */
-            $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
+        $plugin_obj = self::getActivePluginByName($plugin_name);
+        if (is_object($plugin_obj)) {
             $plugin_obj->setPageObj($a_page);
 
             $properties = array();
@@ -308,10 +316,9 @@ class ilPCPlugged extends ilPageContent
                 $plugin_html = '<div class="ilBox">' . $lng->txt("content_plugin_not_activated") . " (" . $plugin_name . ")</div>";
             }
 
-            $plugin_info = $this->component_repository->getPluginByName($plugin_name);
+            $plugin_obj = self::getActivePluginByName($plugin_name);
             $plugin_html = '';
-            if ($plugin_info->isActive()) {
-                $plugin_obj = $this->component_factory->getPlugin($plugin_info->getId());
+            if (is_object($plugin_obj)) {
                 $plugin_obj->setPageObj($this->getPage());
                 $gui_obj = $plugin_obj->getUIClassInstance();
                 $plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);

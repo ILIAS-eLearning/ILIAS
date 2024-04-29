@@ -32,6 +32,15 @@ class GlobalScreen implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilGlobalScreenSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "gs_content.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "GS.js");
     }
 }

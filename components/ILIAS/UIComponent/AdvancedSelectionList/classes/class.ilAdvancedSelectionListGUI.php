@@ -450,7 +450,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return "";
         }
 
-        $this->global_tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        $this->global_tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
 
         $tpl = new ilTemplate(
             "tpl.adv_selection_list.html",

@@ -26,18 +26,18 @@ use ILIAS\components\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitPositionFormGUI extends \ilPropertyFormGUI
 {
     public const F_AUTHORITIES = "authorities";
-    protected \ilOrgUnitPosition $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
     protected \ilOrgUnitPositionDBRepository $positionRepo;
 
-    protected BaseCommands $parent_gui;
     protected \ILIAS\DI\Container $DIC;
     protected \ilLanguage $lng;
     protected \ilCtrl $ctrl;
 
-    public function __construct(BaseCommands $parent_gui, \ilOrgUnitPosition $object)
-    {
+    public function __construct(
+        protected ?BaseCommands $parent_gui,
+        protected \ilOrgUnitPosition $object
+    ) {
         global $DIC;
 
         $dic = ilOrgUnitLocalDIC::dic();
@@ -46,10 +46,12 @@ class ilOrgUnitPositionFormGUI extends \ilPropertyFormGUI
         $this->parent_gui = $parent_gui;
         $this->object = $object;
         $this->lng = $DIC->language();
-
         $this->ctrl = $DIC->ctrl();
-        $this->ctrl->saveParameter($parent_gui, 'arid');
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+
+        $action_cmd = $object->getId() > 0 ? BaseCommands::CMD_UPDATE : BaseCommands::CMD_CREATE;
+        $form_action = $parent_gui->getSinglePosLinkTarget($action_cmd, $object->getId());
+        $this->setFormAction($form_action);
+
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');

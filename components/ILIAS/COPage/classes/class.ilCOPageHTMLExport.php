@@ -78,7 +78,7 @@ class ilCOPageHTMLExport
 
         $this->services_dir = $a_exp_dir . "/components/ILIAS";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
-        $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getFlashVideoPlayerDirectory();
+        $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getMediaPlayerDirectory();
         $this->mp3_dir = $this->media_service_dir . "/flash_mp3_player";
 
         $this->js_dir = $a_exp_dir . '/js';
@@ -132,7 +132,7 @@ class ilCOPageHTMLExport
                 $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
             );
             ilFileUtils::makeDirParents($this->exp_dir . "/components/ILIAS/COPage/css");
-            copy("components/ILIAS/COPage/css/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
+            copy("components/ILIAS/COPage/resources/content.css", $this->exp_dir . "/components/ILIAS/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());

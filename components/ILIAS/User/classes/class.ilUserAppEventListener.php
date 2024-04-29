@@ -29,19 +29,18 @@ class ilUserAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $db = $DIC['ilDB'];
-        $tree = $DIC['tree'];
-        $rbac_review = $DIC['rbacreview'];
-        $settings = $DIC['ilSetting'];
-        $user = $DIC['ilUser'];
         $user_starting_point_repository = new ilUserStartingPointRepository(
-            $user,
-            $db,
-            $tree,
-            $rbac_review,
-            $settings
+            $DIC['ilUser'],
+            $DIC['ilDB'],
+            $DIC['tpl'],
+            $DIC->logger(),
+            $DIC['tree'],
+            $DIC['rbacreview'],
+            $DIC['rbacsystem'],
+            $DIC['ilSetting']
         );
 
         if ('components/ILIAS/Object' === $component && 'beforeDeletion' === $event) {

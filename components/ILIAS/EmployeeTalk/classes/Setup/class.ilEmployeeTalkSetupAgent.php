@@ -51,7 +51,7 @@ final class ilEmployeeTalkSetupAgent implements Setup\Agent
         return new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration');
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Objective\NullObjective();
     }

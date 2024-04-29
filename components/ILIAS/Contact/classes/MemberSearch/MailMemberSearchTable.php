@@ -37,6 +37,7 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
     private ?array $records = null;
 
     public function __construct(
+        private readonly int $ref_id,
         private readonly ilMailMemberSearchDataProvider $provider,
         private readonly ilCtrl $ctrl,
         private readonly ilLanguage $lng,
@@ -59,6 +60,7 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
                 $columns,
                 $this
             )
+            ->withId(self::class . '_' . $this->ref_id)
             ->withActions($actions)
             ->withRequest($this->request);
     }

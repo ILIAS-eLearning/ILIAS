@@ -138,16 +138,18 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
 
         $mock_db->expects($this->exactly(3))
                 ->method('nextId')
-                ->withConsecutive(
-                    [ilWebLinkDatabaseRepository::ITEMS_TABLE],
-                    [ilWebLinkDatabaseRepository::PARAMS_TABLE],
-                    [ilWebLinkDatabaseRepository::PARAMS_TABLE]
-                )
                 ->willReturn(7, 71, 72);
 
+        /*
+         * willReturnCallback is a workaround to replace withConsecutive.
+         * The return value is irrelevant here, but if an unexpected parameter
+         * is passed, an exception will be thrown (instead of an assumption being
+         * broken as before).
+         * These tests should be rewritten to rely much less on PHPUnit for mocking.
+         */
         $mock_db->expects($this->exactly(3))
                 ->method('insert')
-                ->withConsecutive(
+                ->willReturnCallback(fn($table, $data) => match([$table, $data]) {
                     [
                         ilWebLinkDatabaseRepository::PARAMS_TABLE,
                         [
@@ -157,7 +159,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             'name' => ['text', 'name1'],
                             'value' => ['integer', ilWebLinkBaseParameter::VALUES['user_id']]
                         ]
-                    ],
+                    ] => 1,
                     [
                         ilWebLinkDatabaseRepository::PARAMS_TABLE,
                         [
@@ -167,7 +169,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             'name' => ['text', 'name2'],
                             'value' => ['integer', ilWebLinkBaseParameter::VALUES['login']]
                         ]
-                    ],
+                    ] => 2,
                     [
                         ilWebLinkDatabaseRepository::ITEMS_TABLE,
                         [
@@ -181,8 +183,8 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             'create_date' => ['integer', 12345678],
                             'last_update' => ['integer', 12345678]
                         ]
-                    ]
-                );
+                    ] => 3
+                });
 
         $history = Mockery::mock('alias:' . ilHistory::class);
         $history->shouldReceive('_createEntry')
@@ -266,19 +268,20 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()
                         ->getMock();
-
         $mock_db->expects($this->exactly(3))
                 ->method('nextId')
-                ->withConsecutive(
-                    [ilWebLinkDatabaseRepository::ITEMS_TABLE],
-                    [ilWebLinkDatabaseRepository::PARAMS_TABLE],
-                    [ilWebLinkDatabaseRepository::PARAMS_TABLE]
-                )
                 ->willReturn(7, 71, 72);
 
+        /*
+         * willReturnCallback is a workaround to replace withConsecutive.
+         * The return value is irrelevant here, but if an unexpected parameter
+         * is passed, an exception will be thrown (instead of an assumption being
+         * broken as before).
+         * These tests should be rewritten to rely much less on PHPUnit for mocking.
+         */
         $mock_db->expects($this->exactly(2))
                 ->method('insert')
-                ->withConsecutive(
+                ->willReturnCallback(fn($table, $data) => match([$table, $data]) {
                     [
                         ilWebLinkDatabaseRepository::PARAMS_TABLE,
                         [
@@ -288,7 +291,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             'name' => ['text', 'name2'],
                             'value' => ['integer', ilWebLinkBaseParameter::VALUES['login']]
                         ]
-                    ],
+                    ] => 1,
                     [
                         ilWebLinkDatabaseRepository::ITEMS_TABLE,
                         [
@@ -302,8 +305,8 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             'create_date' => ['integer', 12345678],
                             'last_update' => ['integer', 12345678]
                         ]
-                    ]
-                );
+                    ] => 2
+                });
 
         $history = Mockery::mock('alias:' . ilHistory::class);
         $history->shouldReceive('_createEntry')
@@ -587,8 +590,10 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
 
         $repo->expects($this->exactly(2))
              ->method('createItem')
-             ->withConsecutive([$draft_item1], [$draft_item2])
-             ->willReturn($item1, $item2);
+             ->willReturnCallback(fn($item) => match($item) {
+                 $draft_item1 => $item1,
+                 $draft_item2 => $item2
+             });
 
         $this->assertEquals(
             new ilWebLinkItemsContainer(

@@ -220,7 +220,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $id = "pg:";
         if (!in_array($pc_id, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pc_id]);
-            $id = $hier_ids[$pc_id] . ":" . $pc_id;
+            $id = ($hier_ids[$pc_id] ?? "") . ":" . $pc_id;
         }
         return $id;
     }
@@ -296,7 +296,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $sec_node_pc_id = $parent->getDomNode()->getAttribute("PCID");
                 $sec_node_hier_id = $page->getHierIdForPCId($sec_node_pc_id);
                 // all kids of the section
-                $childs_reverse = array_reverse($parent->getDomNode()->firstChild->childNodes);
+                $childs_reverse = array_reverse(iterator_to_array($parent->getDomNode()->firstChild->childNodes));
                 foreach ($childs_reverse as $child) {
                     // unlink kid
                     $child->parentNode->removeChild($child);

@@ -201,7 +201,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                                 $out[] = $this->getCompletionLink($target_obj_id, $completion_by);
                             } else {
                                 $target_obj_id = $completion_by_obj_id;
-                                $out[] = $this->getCompletionLink($target_obj_id, ilObject::_lookupTitle($target_obj_id));
+                                $out[] = $this->getCompletionLink(
+                                    $target_obj_id,
+                                    ilStudyProgrammeUserTable::lookupTitle($completion_by_obj_id)
+                                );
                             }
                         }
                         $completion_by = implode(', ', $out);

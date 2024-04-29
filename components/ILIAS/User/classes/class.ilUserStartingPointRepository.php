@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\LoggingServices;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ilMyStaffAccess;
 
@@ -57,11 +58,14 @@ class ilUserStartingPointRepository
     private bool $current_user_has_access_to_my_staff;
 
     public function __construct(
-        private ilObjUser $user,
-        private ilDBInterface $db,
-        private ilTree $tree,
-        private ilRbacReview $rbac_review,
-        private ilSetting $settings
+        private readonly ilObjUser $user,
+        private readonly ilDBInterface $db,
+        private ilGlobalTemplateInterface $tpl,
+        private readonly LoggingServices $log,
+        private readonly ilTree $tree,
+        private readonly ilRbacReview $rbac_review,
+        private readonly ilRbacSystem $rbac_system,
+        private readonly ilSetting $settings
     ) {
         global $DIC;
         $this->current_user_has_access_to_my_staff = (new ilMyStaffCachedAccessDecorator(
@@ -139,16 +143,12 @@ class ilUserStartingPointRepository
 
     public function onRoleDeleted(ilObjRole $role): void
     {
-        foreach ($this->getRolesWithStartingPoint() as $roleId => $data) {
-            if ((int) $roleId === $role->getId()) {
-                $sp = new self((int) $data['id']);
-                $sp->delete();
-            } elseif (
-                is_null($maybeDeletedRole = ilObjectFactory::getInstanceByObjId((int) $roleId, false)) ||
-                !($maybeDeletedRole instanceof ilObjRole)
+        foreach ($this->getRolesWithStartingPoint() as $role_id => $data) {
+            if ((int) $role_id === $role->getId()
+                || ($maybe_deleted_role = ilObjectFactory::getInstanceByObjId((int) $role_id, false)) === null
+                || !($maybe_deleted_role instanceof ilObjRole)
             ) {
-                $sp = new self((int) $data['id']);
-                $sp->delete();
+                $this->delete((int) $data['id']);
             }
         }
     }
@@ -360,21 +360,25 @@ class ilUserStartingPointRepository
         $valid = array_keys($this->getPossibleStartingPoints());
         $current = (int) $this->settings->get('usr_starting_point');
         if (!$current || !in_array($current, $valid)) {
-            $current = self::START_PD_OVERVIEW;
-
-            if ($this->settings->get('disable_my_offers') === '0' &&
-                $this->settings->get('disable_my_memberships') === '0' &&
-                $this->settings->get('personal_items_default_view') === '1') {
-                $current = self::START_PD_SUBSCRIPTION;
-            }
-
+            $this->getFallbackStartingPointType();
             $this->setSystemDefaultStartingPoint($current);
         }
-        if ($this->user->getId() === ANONYMOUS_USER_ID ||
-            !$this->user->getId()) {
+        if ($this->user->getId() === ANONYMOUS_USER_ID
+            || !$this->user->getId()) {
             $current = self::START_REPOSITORY;
         }
         return $current;
+    }
+
+    private function getFallbackStartingPointType(): int
+    {
+        if ($this->settings->get('disable_my_offers') === '0' &&
+            $this->settings->get('disable_my_memberships') === '0' &&
+            $this->settings->get('personal_items_default_view') === '1') {
+            return self::START_PD_SUBSCRIPTION;
+        }
+
+        return self::START_PD_OVERVIEW;
     }
 
     private function setSystemDefaultStartingPoint(
@@ -397,20 +401,41 @@ class ilUserStartingPointRepository
         }
     }
 
-    public function getStartingPointAsUrl(): string
+    public function getValidAndAccessibleStartingPointAsUrl(): string
     {
         $starting_point = $this->getApplicableStartingPointTypeInfo();
 
-        if ($starting_point['type'] === self::START_REPOSITORY) {
-            $starting_point['object'] = $this->tree->getRootId();
+        if ($starting_point['type'] === self::START_REPOSITORY_OBJ
+            && (
+                $starting_point['object'] === null
+                || !ilObject::_exists($starting_point['object'], true)
+                || $this->tree->isDeleted($starting_point['object'])
+                || !$this->rbac_system->checkAccessOfUser(
+                    $this->user->getId(),
+                    'read',
+                    $starting_point['object']
+                )
+            )
+        ) {
+            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $starting_point['type'] = self::START_REPOSITORY;
         }
 
-        if ($starting_point['type'] === self::START_REPOSITORY_OBJ
-            && ($starting_point['object'] === null
-                || !ilObject::_exists($starting_point['object'], true)
-                || $this->tree->isDeleted($starting_point['object']))
+        if ($starting_point['type'] === self::START_REPOSITORY
+                && !$this->rbac_system->checkAccessOfUser(
+                    $this->user->getId(),
+                    'read',
+                    $this->tree->getRootId()
+                )
+            || $starting_point['type'] === self::START_PD_CALENDAR
+                && !ilCalendarSettings::_getInstance()->isEnabled()
         ) {
-            $starting_point['type'] = self::START_PD_OVERVIEW;
+            $this->log->root()->warning(sprintf('Permission to Starting Point Denied. Starting Point Type: %s.', $starting_point['type']));
+            $starting_point['type'] = $this->getFallbackStartingPointType();
+        }
+
+        if ($starting_point['type'] === self::START_REPOSITORY) {
+            $starting_point['object'] = $this->tree->getRootId();
         }
 
         return $this->getLinkUrlByStartingPointTypeInfo($starting_point);

@@ -26,6 +26,7 @@ use ILIAS\Glossary\Presentation;
  */
 class ilPresentationFullGUI
 {
+    protected \ILIAS\Style\Content\Service $content_style;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -73,6 +74,7 @@ class ilPresentationFullGUI
             ->domain()
             ->presentation($this->glossary);
         $this->filter_service = $DIC->uiService()->filter();
+        $this->content_style = $DIC->contentStyle();
     }
 
     public function executeCommand(): void
@@ -114,6 +116,11 @@ class ilPresentationFullGUI
             $this->glossary->getRefId(),
             $this->ctrl->getLinkTargetByClass("ilGlossaryPresentationGUI", "listTerms"),
             "glo"
+        );
+
+        $this->content_style->gui()->addCss(
+            $this->tpl,
+            $this->glossary->getRefId()
         );
 
         $filter = $this->initFilter();
@@ -185,6 +192,8 @@ class ilPresentationFullGUI
                     $this->request->getRefId(),
                     (int) $term["id"],
                     true,
+                    false,
+                    ilPageObjectGUI::PRESENTATION,
                     false
                 ))
             );

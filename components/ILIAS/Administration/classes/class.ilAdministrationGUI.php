@@ -57,6 +57,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI, ilObjContentPageAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjIndividualAssessmentGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilLPProgressTableGUI
 */
 class ilAdministrationGUI implements ilCtrlBaseClassInterface
 {

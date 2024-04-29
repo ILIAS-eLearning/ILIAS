@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import URLBuilderToken from '../../../../../components/ILIAS/UI/src/templates/js/Core/src/core.URLBuilderToken';
+import URLBuilderToken from '../../resources/js/Core/src/core.URLBuilderToken';
 
 const URLBuilderTokenLength = 24;
 

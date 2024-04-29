@@ -62,6 +62,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data($this->lng->txt('frm_moderators'), $columns, $this)
+            ->withId(self::class . '_' . $this->forum_moderators->getRefId())
             ->withActions($actions)
             ->withRequest($this->request);
     }

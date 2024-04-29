@@ -1412,6 +1412,12 @@ class ilObjStyleSheet extends ilObject
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
                     fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
+                if ($tag[0]["type"] == "strong") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
+                if ($tag[0]["type"] == "em") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
                 if ($tag[0]["type"] == "text_block") {
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
                 }
@@ -1609,23 +1615,23 @@ class ilObjStyleSheet extends ilObject
 
             return $path;
         } else {		// todo: work this out
-            return "../components/ILIAS/COPage/css/content.css";
+            return "./components/ILIAS/COPage/css/content.css";
         }
     }
 
     public static function getContentPrintStyle(): string
     {
-        return "../components/ILIAS/COPage/css/print_content.css";
+        return "./components/ILIAS/COPage/css/print_content.css";
     }
 
     public static function getSyntaxStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/syntaxhighlight.css";
+        return "./components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
     public static function getBaseContentStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/content_base.css";
+        return "./components/ILIAS/COPage/css/content_base.css";
     }
 
     public function update(): bool

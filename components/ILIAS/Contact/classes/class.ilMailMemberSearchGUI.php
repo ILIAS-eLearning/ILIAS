@@ -246,7 +246,7 @@ class ilMailMemberSearchGUI
     {
         $this->tpl->loadStandardTemplate();
         $provider = new ilMailMemberSearchDataProvider($this->getObjParticipants(), $this->ref_id);
-        $tbl = new MailMemberSearchTable($provider, $this->ctrl, $this->lng, $this->ui_factory, $this->http);
+        $tbl = new MailMemberSearchTable($this->ref_id, $provider, $this->ctrl, $this->lng, $this->ui_factory, $this->http);
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }

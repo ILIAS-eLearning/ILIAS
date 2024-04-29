@@ -64,7 +64,7 @@ class ilLMMenuGUI
         // print selection
         if ($this->lm->isActivePrintView() && $access->checkAccess("read", "", $this->lm->getRefId())) {
             if (!$this->offline) {
-                $ui->mainTemplate()->addJavaScript("./components/ILIAS/Form/js/Form.js");
+                $ui->mainTemplate()->addJavaScript("assets/js/Form.js");
                 $modal = $ui->factory()->modal()->roundtrip(
                     $lng->txt("cont_print_view"),
                     $ui->factory()->legacy('some modal')

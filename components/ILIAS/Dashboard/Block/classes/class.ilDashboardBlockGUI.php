@@ -169,7 +169,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->lng->loadLanguageModule('rep');
         $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
-        $this->main_tpl->addJavaScript('components/ILIAS/Dashboard/Block/js/ReplaceModalContent.js');
+        $this->main_tpl->addJavaScript('assets/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();
@@ -616,7 +616,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $bot_tb->setOpenFormTag(false);
 
         $tpl = new ilTemplate('tpl.remove_multiple_modal_id_wrapper.html', true, true, 'components/ILIAS/Dashboard');
-        $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
+        $manageListHTML = $this->renderManageList($grouped_items);
+        if ($manageListHTML) {
+            $tpl->setVariable('CONTENT', $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML());
+        } else {
+            $tpl->setVariable('CONTENT', $this->ui->renderer()->render($this->ui->factory()->messageBox()->info($this->lng->txt('pd_no_items_to_manage'))));
+        }
         $tpl->setVariable('VIEW', $this->viewSettings->getCurrentView());
 
         return $tpl->get();

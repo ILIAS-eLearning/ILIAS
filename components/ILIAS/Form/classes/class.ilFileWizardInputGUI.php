@@ -231,7 +231,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         $a_tpl->parseCurrentBlock();
 
         $main_tpl = $this->tpl;
-        $main_tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
-        $main_tpl->addJavascript("./components/ILIAS/Form/templates/default/filewizard.js");
+        $main_tpl->addJavascript("assets/js/ServiceFormWizardInput.js");
+        $main_tpl->addJavascript("assets/filewizard.js");
     }
 }

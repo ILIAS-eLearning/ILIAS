@@ -31,6 +31,7 @@ use ILIAS\Data\URI;
 use ILIAS\MetaData\Copyright\EntryInterface;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\MetaData\Copyright\Database\Wrapper;
 
 /**
  * @ilCtrl_Calls ilMDCopyrightSelectionGUI: ilMDCopyrightUsageGUI
@@ -83,7 +84,7 @@ class ilMDCopyrightSelectionGUI
             $DIC->ui()->factory(),
             $DIC->resourceStorage()
         );
-        $this->repository = new DatabaseRepository($DIC->database());
+        $this->repository = new DatabaseRepository(new Wrapper($DIC->database()));
 
         $this->lng->loadLanguageModule("meta");
     }

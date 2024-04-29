@@ -46,7 +46,8 @@ class ilAssQuestionHintRequestGUITest extends assBaseTestCase
             $this->createMock(ilCtrl::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilGlobalTemplateInterface::class),
-            $this->createMock(ilTabsGUI::class)
+            $this->createMock(ilTabsGUI::class),
+            $this->createMock(ILIAS\GlobalScreen\Services::class)
         );
     }
 

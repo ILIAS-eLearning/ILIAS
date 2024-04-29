@@ -1,87 +1,66 @@
-var CONST	= require('../Constants');
-var Container = require('../AppContainer');
-var Winston = require('winston');
-var Util = require('util');
-var DateHelper = require('../Helper/Date');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
+const Container = require('../AppContainer');
+const { createLogger, transports, format } = require('winston');
+const DateHelper = require('../Helper/Date');
+
+const timestamp = () => {
+  const t = new Date();
+  return DateHelper.iso8601DatetimeFormat(t) + DateHelper.iso8601TimezoneFormat(t);
+};
+
+const LOG_LEVELS = ['emerg', 'alert', 'crit', 'error', 'warning', 'notice', 'info', 'debug', 'silly'];
 
 /**
  * @param {Function} callback
  */
 module.exports = function SetupEnvironment(result, callback) {
+  const serverConfig = Container.getServerConfig();
+  const logLevel = LOG_LEVELS.includes(serverConfig.log_level) ? serverConfig.log_level : 'info';
 
-	var logFile = 'chat.log';
-	var errorLogFile = 'chatError.log';
-	var serverConfig = Container.getServerConfig();
-	var logLevel = "info";
+  const logger = createLogger({
+    exitOnError: false,
+    transports: [
+      new transports.File({
+	name: 'log',
+	filename: serverConfig.log || 'chat.log',
+	level: logLevel,
+        format: format.combine(
+          format.splat(),
+          format.printf(({level, message, ...meta}) => (
+            `[${timestamp()}] ${level.toUpperCase()} - ${message} ${Object.keys(meta).length === 0 ? '' : `\n\t${JSON.stringify(meta)}`}`
+          ))
+        ),
+      }),
+      new transports.File({
+	name: 'errorlog',
+        level: 'error',
+	filename: serverConfig.error_log || 'chatError.log',
+	handleExceptions: true,
+        format: format.printf(({level, process, stack}) => (
+          `[${timestamp()}] ${level.toUpperCase()} - ${JSON.stringify(process)} \n ${stack}`
+        )),
+      })
+    ],
+  });
 
-	if (serverConfig.log !== undefined && serverConfig.log !== "") {
-		logFile = serverConfig.log;
-	}
+  logger.info('Starting Server!');
+  logger.info('Log Level: ' + logLevel);
 
-	if (serverConfig.error_log !== undefined && serverConfig.error_log !== "") {
-		errorLogFile = serverConfig.error_log;
-	}
+  Container.setLogger(logger);
 
-	if (
-		serverConfig.log_level !== undefined &&
-		typeof serverConfig.log_level === "string" &&
-		["emerg", "alert", "crit", "error", "warning", "notice", "info", "debug", "silly"].includes(serverConfig.log_level)
-	) {
-		logLevel = serverConfig.log_level;
-	}
-
-	var logger = new (Winston.Logger)({
-		transports: [
-			new (Winston.transports.File)({
-				name: 'log',
-				filename: logFile,
-				level: logLevel,
-				json: false,
-				timestamp: function() {
-					const t = new Date();
-					return DateHelper.iso8601DatetimeFormat(t) + DateHelper.iso8601TimezoneFormat(t);
-				},
-				formatter: function(options) {
-					return Util.format(
-							'[%s] %s - %s %s',
-							options.timestamp(),
-							options.level.toUpperCase(),
-							options.message,
-							(options.meta !== undefined && options.meta.length > 0)? '\n\t' + JSON.stringify(options.meta) : '');
-				}
-			})
-		]
-	});
-
-	Winston.handleExceptions(
-		new (Winston.transports.File)({
-			name: 'errorlog',
-			filename: errorLogFile,
-			handleExceptions: true,
-			humanReadableUnhandledException: true,
-			json: false,
-			timestamp: function(){
-				const t = new Date();
-				return DateHelper.iso8601DatetimeFormat(t) + DateHelper.iso8601TimezoneFormat(t);
-			},
-			formatter: function(options) {
-				return Util.format(
-					'[%s] %s - %s \n %s',
-					options.timestamp(),
-					options.level.toUpperCase(),
-					JSON.stringify(options.meta.process),
-					options.meta.stack.join('\n')
-				)
-			}
-		})
-	);
-
-	logger.exitOnError = false;
-	logger.info('Starting Server!');
-	logger.info("Log Level: " + logLevel);
-
-	Container.setLogger(logger);
-
-	callback(null);
+  callback(null);
 };

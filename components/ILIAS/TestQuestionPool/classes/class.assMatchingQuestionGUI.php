@@ -635,11 +635,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js');
+        $this->tpl->addJavaScript('assets/js/ilMatchingQuestion.js');
         $this->tpl->addOnLoadCode('ilMatchingQuestionInit();');
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'components/ILIAS/TestQuestionPool'));
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css'));
 
         $template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "components/ILIAS/TestQuestionPool");
 
@@ -785,15 +785,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function getPresentationJavascripts(): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $files = array();
 
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
+        if ($this->http->agent()->isMobile() || $this->http->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
 
-        $files[] = 'components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js';
+        $files[] = 'assets/js/ilMatchingQuestion.js';
 
         return $files;
     }
@@ -806,11 +804,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavaScript('components/ILIAS/TestQuestionPool/js/ilMatchingQuestion.js');
+        $this->tpl->addJavaScript('assets/js/ilMatchingQuestion.js');
         $this->tpl->addOnLoadCode('ilMatchingQuestionInit();');
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'components/ILIAS/TestQuestionPool'));
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css'));
 
         $template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "components/ILIAS/TestQuestionPool");
 

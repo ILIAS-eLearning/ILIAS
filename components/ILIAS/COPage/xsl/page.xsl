@@ -77,7 +77,6 @@
 <xsl:param name="enable_qover"/>
 <xsl:param name="enable_skills"/>
 <xsl:param name="enable_learning_history"/>
-<xsl:param name="flv_video_player"/>
 <xsl:param name="enable_placeholder"/>
 <xsl:param name="enable_consultation_hours"/>
 <xsl:param name="enable_my_courses"/>
@@ -140,7 +139,7 @@
 				<div class="ilc_page_fn_Footnote">
 				<a>
 				<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
-				<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
+				<span>[<xsl:number count="Footnote" level="any"/>] </span>
 				</a>
 				<xsl:comment>ParStart</xsl:comment>
 				<xsl:apply-templates />
@@ -2637,7 +2636,7 @@
 		</xsl:when>
 
 		<!-- flv, mp4 (mediaelement.js) -->
-		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
+		<xsl:when test = "$type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
 			<video class="ilPageVideo" controls="controls" preload="metadata">
@@ -2687,24 +2686,6 @@
 						</xsl:if>
 					</track>
 				</xsl:for-each>
-				<object type="application/x-shockwave-flash">
-					<xsl:if test="$width != ''">
-						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$height != ''">
-						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$width = '' and $height = ''">
-						<xsl:attribute name="style">width:100%;</xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
-					<param name="movie">
-						<xsl:attribute name="value"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
-					</param>
-					<param name="flashvars">
-						<xsl:attribute name="value">controls=true&amp;file=<xsl:value-of select="$data"/></xsl:attribute>
-					</param>
-				</object>
 			</video>
 			<!-- subtitle workaround -->
 			<xsl:if test="$mode = 'offline'" >
@@ -4106,7 +4087,7 @@
 <xsl:template match="Curriculum">
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-lso-curriculum">
-			<img class="icon pewl medium" src="./templates/default/images/page_editor/icon_pewl.svg" alt="curriculum" />
+			<img class="icon pewl medium" src="./assets/images/page_editor/icon_pewl.svg" alt="curriculum" />
 			<div>Curriculum</div>
 		</div>
 	</xsl:if>
@@ -4161,6 +4142,9 @@
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:if>
+</xsl:template>
+
+<xsl:template match="script">
 </xsl:template>
 
 </xsl:stylesheet>

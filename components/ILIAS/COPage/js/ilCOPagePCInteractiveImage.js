@@ -1,4 +1,3 @@
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,43 +12,38 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
-ilCOPagePCInteractiveImage =
-{
-	/**
+ilCOPagePCInteractiveImage = {
+  /**
 	 * Basic init function
 	 */
-	init: function ()
-	{
-		$("a.mark_cmd").click(this.markerCommand);
-		$("a.ov_cmd").click(this.overlayCommand);
-		$("a.pop_cmd").click(this.popupCommand);
-	},
-	
-	/**
+  init() {
+    $('a.mark_cmd').click(this.markerCommand);
+    $('a.ov_cmd').click(this.overlayCommand);
+    $('a.pop_cmd').click(this.popupCommand);
+  },
+
+  /**
 	 * Marker command
 	 */
-	markerCommand: function (e)
-	{
-		il.COPagePres.startDraggingMarker(e.target.id.substr(5));
-	},
-	
-	/**
+  markerCommand(e) {
+    il.COPagePres.startDraggingMarker(e.target.id.substr(5));
+  },
+
+  /**
 	 * Overlay command
 	 */
-	overlayCommand: function (e)
-	{
-		il.COPagePres.startDraggingOverlay(e.target.id.substr(3));
-	},
-	
-	/**
+  overlayCommand(e) {
+    il.COPagePres.startDraggingOverlay(e.target.id.substr(3));
+  },
+
+  /**
 	 * Popup command
 	 */
-	popupCommand: function (e)
-	{
-		il.COPagePres.startDraggingPopup(e.target.id.substr(4));
-	}
+  popupCommand(e) {
+    il.COPagePres.startDraggingPopup(e.target.id.substr(4));
+  },
 
-}
-il.Util.addOnLoad(function() {ilCOPagePCInteractiveImage.init();});
+};
+il.Util.addOnLoad(() => { ilCOPagePCInteractiveImage.init(); });

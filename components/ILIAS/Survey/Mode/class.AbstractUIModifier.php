@@ -23,6 +23,8 @@ namespace ILIAS\Survey\Mode;
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalService;
+use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\UI\Component\Modal;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -76,7 +78,8 @@ abstract class AbstractUIModifier implements UIModifier
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id
+        int $user_id,
+        \ilTemplate $eval_tpl
     ): void {
         $config = $this->getInternalService()->domain()->modeFeatureConfig($survey->getMode());
         if ($config->usesAppraisees()) {
@@ -90,7 +93,8 @@ abstract class AbstractUIModifier implements UIModifier
         $this->addExportAndPrintButton(
             $survey,
             $toolbar,
-            false
+            false,
+            $eval_tpl
         );
     }
 
@@ -110,7 +114,8 @@ abstract class AbstractUIModifier implements UIModifier
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id
+        int $user_id,
+        \ilTemplate $eval_tpl
     ): void {
         $request = $this->service
             ->gui()
@@ -157,24 +162,18 @@ abstract class AbstractUIModifier implements UIModifier
         $this->addExportAndPrintButton(
             $survey,
             $toolbar,
-            true
+            true,
+            $eval_tpl
         );
     }
 
     protected function addExportAndPrintButton(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        bool $details
+        bool $details,
+        \ilTemplate $eval_tpl
     ): void {
-        $modal_id = "svy_ev_exp";
-        $modal = $this->buildExportModal($modal_id, $details
-            ? 'exportDetailData'
-            : 'exportData');
-
-        $this->gui->button(
-            $this->gui->lng()->txt("export"),
-            "#"
-        )->onClick('$(\'#' . $modal_id . '\').modal(\'show\')')->toToolbar(false, $toolbar);
+        $this->buildExportButtonAndModal($eval_tpl, $details ? "exportDetailData" : "exportData");
 
         $toolbar->addSeparator();
 
@@ -215,52 +214,75 @@ abstract class AbstractUIModifier implements UIModifier
         $button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
         $button->setOmitPreventDoubleSubmission(true);
         $toolbar->addButtonInstance($button);*/
-
-        $toolbar->addText($modal);
     }
 
-    protected function buildExportModal(
-        string $a_id,
-        string $a_cmd
-    ): string {
-        $tpl = $this->service->gui()->mainTemplate();
-        $lng = $this->service->gui()->lng();
-        $ctrl = $this->service->gui()->ctrl();
+    protected function buildExportButtonAndModal(
+        \ilTemplate $eval_tpl,
+        string $export_cmd
+    ): void {
+        $lng = $this->gui->lng();
+        $ctrl = $this->gui->ctrl();
+        $toolbar = $this->gui->toolbar();
+        $ui_fac = $this->gui->ui()->factory();
+        $ui_ren = $this->gui->ui()->renderer();
+        $ui_request = $this->gui->http()->request();
 
-        $form_id = "svymdfrm";
+        $ctrl->setParameterByClass("ilsurveyevaluationgui", "export_cmd", $export_cmd);
+        $modal = $this->getExportModal();
+        $button = $ui_fac->button()->standard(
+            $lng->txt("export"),
+            "#"
+        )->withOnClick($modal->getShowSignal());
 
-        // hide modal on form submit
-        $tpl->addOnLoadCode('$("#form_' . $form_id . '").submit(function() { $("#' . $a_id . '").modal("hide"); });');
+        $toolbar->addComponent($button);
+        if ("POST" === $ui_request->getMethod()
+            && isset($ui_request->getQueryParams()["fallbackCmd"])
+            && $ui_request->getQueryParams()["fallbackCmd"] === "validateAndSubmitExportForm") {
+            $modal = $modal->withRequest($ui_request);
+            $eval_tpl->setVariable("MODAL", $ui_ren->render($modal->withOnLoad($modal->getShowSignal())));
+        } else {
+            $eval_tpl->setVariable("MODAL", $ui_ren->render($modal));
+        }
+    }
 
-        $modal = \ilModalGUI::getInstance();
-        $modal->setId($a_id);
-        $modal->setHeading(($lng->txt("svy_export_format")));
+    protected function getExportModal(): Modal\RoundTrip | Form\Standard
+    {
+        $lng = $this->gui->lng();
+        $ctrl = $this->gui->ctrl();
+        $ui_fac = $this->gui->ui()->factory();
 
-        $form = new \ilPropertyFormGUI();
-        $form->setId($form_id);
-        $form->setFormAction($ctrl->getFormActionByClass("ilsurveyevaluationgui", $a_cmd));
+        $post_url = $ctrl->getFormActionByClass("ilsurveyevaluationgui", "validateAndSubmitExportForm");
 
-        $format = new \ilSelectInputGUI($lng->txt("filetype"), "export_format");
-        $format->setOptions(array(
-            \ilSurveyEvaluationGUI::TYPE_XLS => $lng->txt('exp_type_excel'),
-            \ilSurveyEvaluationGUI::TYPE_SPSS => $lng->txt('exp_type_csv')
-        ));
-        $form->addItem($format);
+        $inputs["export_format"] = $ui_fac->input()->field()->select(
+            $lng->txt("filetype"),
+            [
+                \ilSurveyEvaluationGUI::TYPE_XLS => $lng->txt("exp_type_excel"),
+                \ilSurveyEvaluationGUI::TYPE_SPSS => $lng->txt("exp_type_csv")
+            ]
+        )
+        //->withValue(\ilSurveyEvaluationGUI::TYPE_XLS)
+        ->withRequired(true);
 
-        $label = new \ilSelectInputGUI($lng->txt("title"), "export_label");
-        $label->setOptions(array(
-            'label_only' => $lng->txt('export_label_only'),
-            'title_only' => $lng->txt('export_title_only'),
-            'title_label' => $lng->txt('export_title_label')
-        ));
-        $form->addItem($label);
+        $inputs["export_label"] = $ui_fac->input()->field()->select(
+            $lng->txt("title"),
+            [
+                "label_only" => $lng->txt("export_label_only"),
+                "title_only" => $lng->txt("export_title_only"),
+                "title_label" => $lng->txt("export_title_label")
+            ]
+        )
+        //->withValue("label_only")
+        ->withRequired(true);
 
-        $form->addCommandButton($a_cmd, $lng->txt("export"));
-        $form->setPreventDoubleSubmission(false);
+        $modal = $ui_fac->modal()->roundtrip(
+            $lng->txt("svy_export_format"),
+            null,
+            $inputs,
+            $post_url
+        )
+        ->withSubmitLabel($lng->txt("export"));
 
-        $modal->setBody($form->getHTML());
-
-        return $modal->getHTML();
+        return $modal;
     }
 
     public function addApprSelectionToToolbar(

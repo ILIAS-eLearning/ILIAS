@@ -107,7 +107,7 @@ class ilPCPRGActionNote extends ilPageContent
     protected function getTemplate(): string
     {
         $template = new ilTemplate("tpl.action_note_poeditor_element.html", true, true, 'components/ILIAS/StudyProgramme');
-        $icon = "./templates/default/images/standard/icon_prg.svg";
+        $icon = "./assets/images/standard/icon_prg.svg";
 
         $template->setVariable("ICON", $icon);
         $template->setVariable("ICON_TEXT", $this->lng->txt("study_programme_icon"));

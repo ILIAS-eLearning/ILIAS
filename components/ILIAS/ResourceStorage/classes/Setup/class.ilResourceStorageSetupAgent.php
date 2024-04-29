@@ -70,7 +70,7 @@ class ilResourceStorageSetupAgent implements Agent
         );
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new ilResourceStorageFlavourArtifact();
     }

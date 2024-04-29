@@ -49,7 +49,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
         parent::__construct($label, $http_post_param_name);
 
-        $this->tpl->addJavaScript('components/ILIAS/Mail/js/ilMailComposeFunctions.js');
+        $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
     }
 
     public function getRerenderUrl(): ?string

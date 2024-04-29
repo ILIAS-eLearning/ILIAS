@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Torna al test
 assessment#:#baseunit#:#Unità base
 assessment#:#button_request_next_question_hint#:#Richiesta prossimo suggerimento
 assessment#:#button_request_question_hint#:#Richiesta suggerimento
-assessment#:#button_show_requested_question_hints#:#Mostra suggerimento richiestp
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Sospendi il test
 assessment#:#cannot_edit_marks#:#Ci sono utenti che hanno gia' eseguito il test. E' possibile solamente modificare i voti se la data del report e' stata abilitata ma non e' ancora stata raggiunta.
@@ -1154,6 +1153,7 @@ assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
+assessment#:#show_requested_question_hints#:#Mostra suggerimento richiesto
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#skip_question#:#Non rispondere e Avanti
@@ -15104,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Saggio (testo libero)
 survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_material#:#Aggiungi Materiale
 survey#:#add_phrase#:#Aggiungi la frase
-survey#:#adm_no_special_users#:#Non sono stati definiti utenti speciali abilitati ad eseguire un sondaggio più di una volta.
 survey#:#already_completed_survey#:#Hai già completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymization#:#Anonimizzazione
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.

@@ -303,7 +303,9 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
         $tpl = $this->getTemplate();
         $i = 0;
-        foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
+
+        $identified_multi_values = $this->prepareMultiValuesInput($this->getIdentifiedMultiValues());
+        foreach ($identified_multi_values as $identifier => $value) {
             if ($this->valueHasContentImageSource($value)) {
                 $tpl->setCurrentBlock('image');
 
@@ -402,8 +404,8 @@ $.extend({}, AnswerWizardInput, IdentifiedWizardInput).init(
 );
 JS;
 
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-            $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/identifiedwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/answerwizardinput.js");
+            $this->tpl->addJavascript("asserts/js/identifiedwizardinput.js");
             $this->tpl->addOnLoadCode($init_code);
         }
 
@@ -418,7 +420,7 @@ JS;
     {
         return is_array($value)
             && array_key_exists('src', $value)
-            && strlen($value['src']);
+            && $value['src'] !== '';
     }
 
     /**

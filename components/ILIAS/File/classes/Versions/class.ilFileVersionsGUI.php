@@ -29,6 +29,7 @@ use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -205,6 +206,7 @@ class ilFileVersionsGUI
 
     private function publish(): void
     {
+        $this->file->enableNotification();
         $this->storage->manage()->publish($this->getIdentification());
         $this->file->updateObjectFromCurrentRevision();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
@@ -213,6 +215,7 @@ class ilFileVersionsGUI
 
     private function unpublish(): void
     {
+        $this->file->enableNotification();
         if ($this->current_revision->getVersionNumber() === 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_cant_unpublish'), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
@@ -287,7 +290,7 @@ class ilFileVersionsGUI
 
         // only add unzip button if the current revision is a zip.
         if (null !== $this->current_revision &&
-            ilObjFileAccess::isZIP($this->current_revision->getInformation()->getMimeType())
+            in_array($this->current_revision->getInformation()->getMimeType(), [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED], true)
         ) {
             $btn_unzip = $this->ui->factory()->button()->standard(
                 $this->lng->txt('unzip'),
@@ -385,7 +388,7 @@ class ilFileVersionsGUI
 
         $this->file->rollback($version_id);
 
-        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), ''), true);
+        $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), (string) $version_id), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 

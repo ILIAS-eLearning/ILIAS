@@ -21,24 +21,25 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright;
 
 use ILIAS\Data\URI;
+use ILIAS\MetaData\Copyright\Database\WrapperInterface;
 
 class DatabaseRepository implements RepositoryInterface
 {
-    protected \ilDBInterface $db;
+    protected WrapperInterface $db_wrapper;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(WrapperInterface $db_wrapper)
     {
-        $this->db = $db;
+        $this->db_wrapper = $db_wrapper;
     }
 
     public function getEntry(int $id): EntryInterface
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT * FROM il_md_cpr_selections WHERE entry_id = ' .
-            $this->db->quote($id, \ilDBConstants::T_INTEGER)
+            $this->db_wrapper->quoteInteger($id)
         );
 
-        if ($row = $this->db->fetchAssoc($res)) {
+        foreach ($rows as $row) {
             return $this->entryFromRow($row);
         }
         return new NullEntry();
@@ -46,35 +47,35 @@ class DatabaseRepository implements RepositoryInterface
 
     public function getAllEntries(): \Generator
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT * FROM il_md_cpr_selections
             ORDER BY is_default DESC, position ASC'
         );
 
-        while ($row = $this->db->fetchAssoc($res)) {
+        foreach ($rows as $row) {
             yield $this->entryFromRow($row);
         }
     }
 
     public function getActiveEntries(): \Generator
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT * FROM il_md_cpr_selections WHERE outdated = 0
             ORDER BY is_default DESC, position ASC'
         );
 
-        while ($row = $this->db->fetchAssoc($res)) {
+        foreach ($rows as $row) {
             yield $this->entryFromRow($row);
         }
     }
 
     public function getDefaultEntry(): EntryInterface
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT * FROM il_md_cpr_selections WHERE is_default = 1'
         );
 
-        if ($row = $this->db->fetchAssoc($res)) {
+        foreach ($rows as $row) {
             return $this->entryFromRow($row);
         }
         return new NullEntry();
@@ -83,21 +84,21 @@ class DatabaseRepository implements RepositoryInterface
     protected function entryFromRow(array $row): EntryInterface
     {
         $data = new CopyrightData(
-            $row['full_name'] ?? '',
-            !empty($row['link'] ?? '') ? $this->getURI($row['link']) : null,
-            !empty($row['image_link']) ? $this->getURI($row['image_link']) : null,
-            $row['image_file'] ?? '',
-            $row['alt_text'] ?? '',
+            (string) ($row['full_name'] ?? ''),
+            !empty($row['link'] ?? '') ? $this->getURI((string) $row['link']) : null,
+            !empty($row['image_link']) ? $this->getURI((string) $row['image_link']) : null,
+            (string) ($row['image_file'] ?? ''),
+            (string) ($row['alt_text'] ?? ''),
             $row['is_default'] ? true : false
         );
 
         return new Entry(
-            $row['entry_id'],
-            $row['title'] ?? '',
-            $row['description'] ?? '',
+            (int) $row['entry_id'],
+            (string) ($row['title'] ?? ''),
+            (string) ($row['description'] ?? ''),
             $row['is_default'] ? true : false,
             $row['outdated'] ? true : false,
-            $row['position'] ?? 0,
+            (int) ($row['position'] ?? 0),
             $data
         );
     }
@@ -109,9 +110,9 @@ class DatabaseRepository implements RepositoryInterface
 
     public function deleteEntry(int $id): void
     {
-        $this->db->manipulate(
+        $this->db_wrapper->manipulate(
             'DELETE FROM il_md_cpr_selections WHERE entry_id = ' .
-            $this->db->quote($id, \ilDBConstants::T_INTEGER)
+            $this->db_wrapper->quoteInteger($id)
         );
     }
 
@@ -126,7 +127,7 @@ class DatabaseRepository implements RepositoryInterface
     ): int {
         $this->checkTitle($title);
 
-        $next_id = $this->db->nextId('il_md_cpr_selections');
+        $next_id = $this->db_wrapper->nextId('il_md_cpr_selections');
         if (is_string($image)) {
             $image_link = '';
             $image_file = $image;
@@ -135,7 +136,7 @@ class DatabaseRepository implements RepositoryInterface
             $image_file = '';
         }
 
-        $this->db->insert(
+        $this->db_wrapper->insert(
             'il_md_cpr_selections',
             [
                 'entry_id' => [\ilDBConstants::T_INTEGER, $next_id],
@@ -158,12 +159,13 @@ class DatabaseRepository implements RepositoryInterface
 
     protected function getNextPosition(): int
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT MAX(position) AS max FROM il_md_cpr_selections WHERE is_default = 0'
         );
-        $row = $this->db->fetchAssoc($res);
-
-        return isset($row['max']) ? $row['max'] + 1 : 0;
+        foreach ($rows as $row) {
+            return isset($row['max']) ? ((int) $row['max']) + 1 : 0;
+        }
+        return 0;
     }
 
     public function updateEntry(
@@ -186,7 +188,7 @@ class DatabaseRepository implements RepositoryInterface
             $image_file = '';
         }
 
-        $this->db->update(
+        $this->db_wrapper->update(
             'il_md_cpr_selections',
             [
                 'title' => [\ilDBConstants::T_TEXT, $title],
@@ -228,19 +230,19 @@ class DatabaseRepository implements RepositoryInterface
 
     protected function getDefaultID(): int
     {
-        $res = $this->db->query(
+        $rows = $this->db_wrapper->query(
             'SELECT entry_id FROM il_md_cpr_selections WHERE is_default = 1'
         );
 
-        if ($row = $this->db->fetchAssoc($res)) {
-            return $row['entry_id'] ?? 0;
+        foreach ($rows as $row) {
+            return (int) ($row['entry_id'] ?? 0);
         }
         return 0;
     }
 
     protected function updatePosition(int $id, int $position): void
     {
-        $this->db->update(
+        $this->db_wrapper->update(
             'il_md_cpr_selections',
             ['position' => [\ilDBConstants::T_INTEGER, $position]],
             ['entry_id' => [\ilDBConstants::T_INTEGER, $id]]

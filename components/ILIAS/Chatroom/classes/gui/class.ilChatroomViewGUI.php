@@ -78,11 +78,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     private function setupTemplate(): void
     {
-        $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/chat.js');
-        $this->mainTpl->addJavaScript('components/ILIAS/Chatroom/js/iliaschat.jquery.js');
-        $this->mainTpl->addJavaScript('./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
+        $this->mainTpl->addJavaScript('assets/js/chatroom.js');
+        $this->mainTpl->addJavaScript('assets/js/iliaschat.jquery.js');
+        $this->mainTpl->addJavaScript('assets/js/AdvancedSelectionList.js');
 
-        $this->mainTpl->addCss('components/ILIAS/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('assets/css/chatroom.css');
 
         $this->mainTpl->setPermanentLink($this->gui->getObject()->getType(), $this->gui->getObject()->getRefId());
     }

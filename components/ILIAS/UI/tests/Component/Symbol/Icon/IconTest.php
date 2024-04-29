@@ -30,8 +30,8 @@ use ILIAS\UI\Component\Symbol\Icon\Custom;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
-    public const ICON_PATH = __DIR__ . '/../../../../../../../public/templates/default/images/standard/';
-    public const ICON_PATH_REL = './templates/default/images/';
+    public const ICON_PATH = __DIR__ . '/../../../../../../../public/assets/images/standard/';
+    public const ICON_PATH_REL = './assets/images/';
 
     private function getIconFactory(): I\Component\Symbol\Icon\Factory
     {
@@ -158,10 +158,10 @@ imgtag;
 
     public function testRenderingCustom(): Custom
     {
-        $path = './templates/default/images/standard/icon_fold.svg';
+        $path = './assets/images/standard/icon_fold.svg';
         $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $expected = '<img class="icon custom medium" src="./templates/default/images/standard/icon_fold.svg" alt="Custom"/>';
+        $expected = '<img class="icon custom medium" src="./assets/images/standard/icon_fold.svg" alt="Custom"/>';
         $this->assertEquals($expected, $html);
         return $ico;
     }
@@ -194,11 +194,11 @@ imgtag;
 
     public function testSetCustomLabel(): Custom
     {
-        $path = './templates/default/images/icon_fold.svg';
+        $path = './assets/images/icon_fold.svg';
         $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
         $ico->setLabel("New Custom Icon Label");
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $expected = '<img class="icon custom medium" src="./templates/default/images/icon_fold.svg" alt="New Custom Icon Label"/>';
+        $expected = '<img class="icon custom medium" src="./assets/images/icon_fold.svg" alt="New Custom Icon Label"/>';
         $this->assertEquals($expected, $html);
 
         return $ico;

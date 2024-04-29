@@ -95,7 +95,7 @@ function with_all_view_controls(): string
                         );
     } else {
         $image = $f->image()->responsive(
-            "./templates/default/images/logo/HeaderIcon.svg",
+            "./assets/images/logo/HeaderIcon.svg",
             "Thumbnail Example"
         );
         $content = $f->listing()->descriptive(

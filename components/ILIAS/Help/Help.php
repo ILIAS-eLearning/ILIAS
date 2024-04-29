@@ -32,6 +32,12 @@ class Help implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ILIAS\Help\Setup\Agent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilHelp.js");
     }
 }

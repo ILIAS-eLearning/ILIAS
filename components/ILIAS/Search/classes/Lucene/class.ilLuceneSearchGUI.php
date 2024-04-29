@@ -521,7 +521,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_search.html', 'components/ILIAS/Search');
 
         ilOverlayGUI::initJavascript();
-        $this->tpl->addJavascript("./components/ILIAS/Search/js/Search.js");
+        $this->tpl->addJavascript("assets/js/Search.js");
 
 
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));

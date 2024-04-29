@@ -179,7 +179,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/answerwizardinput.js");
-        $tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/essaykeywordwizard.js");
+        $tpl->addJavascript("assets/js/answerwizardinput.js");
+        $tpl->addJavascript("assets/js/essaykeywordwizard.js");
     }
 }

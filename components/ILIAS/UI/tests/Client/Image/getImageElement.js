@@ -16,7 +16,7 @@
  */
 
 import { assert } from 'chai';
-import getImageElement from '../../../../../../components/ILIAS/UI/src/templates/js/Image/src/getImageElement';
+import getImageElement from '../../../resources/js/Image/src/getImageElement';
 
 class HTMLImageElementMock {
   constructor(id) {

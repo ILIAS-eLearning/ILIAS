@@ -55,7 +55,7 @@ class Agent implements AgentInterface
         return new ilDatabaseUpdateStepsExecutedObjective(new UpdateSteps());
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new ConsumerObjective();
     }

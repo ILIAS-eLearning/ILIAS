@@ -107,7 +107,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Menu/dist/drilldown.js');
+        $registry->register('assets/js/drilldown.js');
     }
 
     /**

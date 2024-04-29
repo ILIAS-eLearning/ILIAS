@@ -11,6 +11,9 @@ In contrast to the behaviour in courses it is possible for group members with pe
 
 ## Mid Term
 - Only group users with permission "edit_permission" or group administrators are allowed to administrate group administrators.
+- The datetimes in the columns "registration_start" and "registration_end" in
+the db table "grp_settings" are saved in the local timezone of the server. They
+should instead be saved in UTC, and existing values corrected accordingly.
 
 ## Long Term
 

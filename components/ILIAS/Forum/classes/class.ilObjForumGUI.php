@@ -28,6 +28,8 @@ use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Input\ViewControl\Sortation;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Forum\Drafts\ForumDraftsTable;
 
 /**
  * Class ilObjForumGUI
@@ -110,7 +112,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->type = 'frm';
         parent::__construct($data, $id, $call_by_reference, false);
 
-        $this->tpl->addJavaScript('./components/ILIAS/JavaScript/js/Basic.js');
+        $this->tpl->addJavaScript('assets/js/Basic.js');
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
@@ -234,7 +236,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
             $interval = ilForumPostDraft::lookupAutosaveInterval();
 
-            $this->tpl->addJavaScript('./components/ILIAS/Forum/js/autosave.js');
+            $this->tpl->addJavaScript('assets/js/autosave_forum.js');
             $autosave_cmd = 'autosaveDraftAsync';
             if ($this->objCurrentPost->getId() === 0 && $this->objCurrentPost->getThreadId() === 0) {
                 $autosave_cmd = 'autosaveThreadDraftAsync';
@@ -1120,19 +1122,25 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ilObjForum::lookupForumIdByObjId($this->object->getId())
         );
         if ($drafts !== []) {
-            $draftsTable = new ilForumDraftsTableGUI(
-                $this,
+            $table = new ForumDraftsTable(
+                $this->object,
+                $this->ui_factory,
+                $this->httpRequest,
+                $this->lng,
                 $cmd,
-                $this->access->checkAccess('add_thread', '', $this->object->getRefId())
+                $this->ctrl,
+                new DataFactory(),
+                $this->user,
+                $this->access->checkAccess('add_thread', '', $this->object->getRefId()),
+                $this
             );
-            $draftsTable->setData($drafts);
             $threadsTemplate = new ilTemplate(
                 'tpl.forums_threads_liste.html',
                 true,
                 true,
                 'components/ILIAS/Forum'
             );
-            $threadsTemplate->setVariable('THREADS_DRAFTS_TABLE', $draftsTable->getHTML());
+            $threadsTemplate->setVariable('THREADS_DRAFTS_TABLE', $this->uiRenderer->render($table->getComponent()));
 
             $draft_modal = $this->factory->modal()->roundtrip(
                 $this->lng->txt("drafts"),
@@ -2000,11 +2008,38 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $draftIds = array_filter((array) ($this->httpRequest->getParsedBody()['draft_ids'] ?? []));
-        if ($draftIds === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_at_least_one_thread'));
-            $this->showThreadsObject();
-            return;
+        $draft_ids = $this->http->wrapper()->query()->retrieve(
+            'forum_drafts_delete_draft_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+
+        if ($draft_ids === []) {
+            $draft_ids = $this->http->wrapper()->query()->retrieve(
+                'forum_drafts_delete_draft_ids',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                    $this->refinery->always([])
+                ])
+            );
+
+            if (!isset($draft_ids[0]) || $draft_ids[0] !== 'ALL_OBJECTS') {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_at_least_one_thread'));
+                $this->showThreadsObject();
+                return;
+            }
+
+            $draft_ids = array_filter(array_map(
+                static function (array $draft): int {
+                    return $draft['draft_id'] ?? 0;
+                },
+                ilForumPostDraft::getThreadDraftData(
+                    $this->user->getId(),
+                    ilObjForum::lookupForumIdByObjId($this->object->getId())
+                )
+            ));
         }
 
         $confirmation = new ilConfirmationGUI();
@@ -2013,7 +2048,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $confirmation->setCancel($this->lng->txt('cancel'), 'showThreads');
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteThreadDrafts');
         $instances = ilForumPostDraft::getDraftInstancesByUserId($this->user->getId());
-        foreach ($draftIds as $draftId) {
+        foreach ($draft_ids as $draftId) {
             if (array_key_exists($draftId, $instances)) {
                 $confirmation->addItem('draft_ids[]', (string) $draftId, $instances[$draftId]->getPostSubject());
             }

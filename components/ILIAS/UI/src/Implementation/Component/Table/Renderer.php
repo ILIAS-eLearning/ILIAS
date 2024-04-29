@@ -225,10 +225,9 @@ class Renderer extends AbstractComponentRenderer
 
         //TODO: Filter
         $filter_data = [];
-        $additional_parameters = [];
         [$component, $view_controls] = $component->applyViewControls(
             $filter_data = [],
-            $additional_parameters = []
+            $component->getAdditionalParameters()
         );
 
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
@@ -313,7 +312,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock('header_cell');
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
 
-            if ($col->isSortable() && ! is_null($sortation_signal)) {
+            if ($col->isSortable() && !is_null($sortation_signal)) {
                 $sort_signal = clone $sortation_signal;
                 $sort_signal->addOption('value', "$col_id:$param_sort_direction");
                 $col_title = $default_renderer->render(
@@ -556,8 +555,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Table/table.min.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/Modal/modal.js');
+        $registry->register('assets/js/table.min.js');
+        $registry->register('assets/js/modal.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

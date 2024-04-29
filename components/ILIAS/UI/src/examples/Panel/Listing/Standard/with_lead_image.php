@@ -14,7 +14,7 @@ function with_lead_image()
     $renderer = $DIC->ui()->renderer();
 
     $image = $f->image()->responsive(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/images/Image/HeaderIconLarge.svg",
         "Thumbnail Example"
     );
     $actions = $f->dropdown()->standard(array(

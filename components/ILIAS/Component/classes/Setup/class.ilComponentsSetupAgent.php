@@ -21,10 +21,18 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Component\Resource\PublicAssetManager;
+use ILIAS\Component\Setup\PublicAssetsBuildObjective;
 
 class ilComponentsSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
+
+    public function __construct(
+        protected PublicAssetManager $public_asset_manager,
+        protected array $public_assets
+    ) {
+    }
 
     /**
      * @inheritdoc
@@ -68,13 +76,21 @@ class ilComponentsSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
-            "Artifacts for Services/Component",
+            "Build Objectives of \\ILIAS\\Component",
             false,
-            new ilComponentBuildComponentInfoObjective(),
-            new ilComponentBuildPluginInfoObjective()
+            new Setup\ObjectiveCollection(
+                "Artifacts for \\ILIAS\\Component",
+                false,
+                new ilComponentBuildComponentInfoObjective(),
+                new ilComponentBuildPluginInfoObjective()
+            ),
+            new PublicAssetsBuildObjective(
+                $this->public_asset_manager,
+                $this->public_assets
+            )
         );
     }
 

@@ -310,7 +310,7 @@ class ilCalendarAppointmentGUI
                 }
             }
 
-            $this->tpl->addJavaScript('./components/ILIAS/Calendar/js/toggle_notification.js');
+            $this->tpl->addJavaScript('assets/js/toggle_notification.js');
             $not = new ilCheckboxInputGUI($this->lng->txt('cal_cg_notification'), 'not');
             $not->setInfo($this->lng->txt('cal_notification_info'));
             $not->setValue('1');

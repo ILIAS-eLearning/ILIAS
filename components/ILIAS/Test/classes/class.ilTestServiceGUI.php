@@ -23,7 +23,6 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\DI\LoggingServices;
@@ -897,7 +896,6 @@ class ilTestServiceGUI
             $user = new ilObjUser();
             $user->setLastname($this->lng->txt("deleted_user"));
         }
-        $title_matric = "";
         if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == false))) {
             $template->setCurrentBlock("user_matric");
             $template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
@@ -906,7 +904,6 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
             $template->parseCurrentBlock();
             $template->touchBlock("user_matric_separator");
-            $title_matric = " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
@@ -1148,9 +1145,9 @@ class ilTestServiceGUI
         $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "components/ILIAS/Test"), "print");
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
         if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "components/ILIAS/Test"), "print");
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css"), "print");
         }
 
         $solution = $this->getCorrectSolutionOutput($active_id, $active_id, $pass, $objectives_list);

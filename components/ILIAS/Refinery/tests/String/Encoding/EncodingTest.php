@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\String\Encoding;
 
-use ILIAS\Tests\Refinery\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class EncodingTest extends TestCase
 {

@@ -47,19 +47,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
-
-        $this->tpl->addOnloadCode(
-            "let form = document.getElementById('form_orderinghorizontal');
-            let button = form.querySelector('input[name=\"cmd[save]\"]');
-            if (form && button) {
-                form.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
-                        e.preventDefault();
-                        form.requestSubmit(button);
-                    }
-                })
-            }"
-        );
     }
 
     /**
@@ -384,7 +371,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $template->setVariable("ERRORTEXT_VALUE", join(',', $selections['user']));
 
         $this->tpl->addOnLoadCode('il.test.player.errortext.init()');
-        $this->tpl->addJavascript('./components/ILIAS/TestQuestionPool/templates/default/errortext.js');
+        $this->tpl->addJavascript('assets/js/errortext.js');
         $questionoutput = $template->get();
 
         if ($show_question_only) {

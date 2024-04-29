@@ -22,17 +22,16 @@ namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\In\Group as In;
 use ILIAS\Language\Language;
 
 class Group
 {
-    private Factory $dataFactory;
-    private \ILIAS\Language\Language $language;
-
-    public function __construct(Factory $dataFactory, \ILIAS\Language\Language $language)
-    {
-        $this->dataFactory = $dataFactory;
-        $this->language = $language;
+    public function __construct(
+        private readonly Factory $dataFactory,
+        private readonly Language $language,
+        private readonly In $in
+    ) {
     }
 
     /**
@@ -69,5 +68,17 @@ class Group
     public function isLessThanOrEqual(int $maximum): Constraint
     {
         return new LessThanOrEqual($maximum, $this->dataFactory, $this->language);
+    }
+
+    /**
+     * Creates a constraint that can be used to check if an integer value is between the given lower and upper bounds.
+     * The ranges are inclusive [$lower_bound, $upper_bound].
+     */
+    public function isBetween(int $lower_bound, int $upper_bound): Constraint
+    {
+        return $this->in->series([
+            $this->isGreaterThanOrEqual($lower_bound),
+            $this->isLessThanOrEqual($upper_bound),
+        ]);
     }
 }

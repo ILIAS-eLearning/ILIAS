@@ -545,7 +545,6 @@ assessment#:#backtocallingtest#:#呼び出し中のテストに戻る
 assessment#:#baseunit#:#ベースユニット
 assessment#:#button_request_next_question_hint#:#次のヒントを要求
 assessment#:#button_request_question_hint#:#ヒントを要求
-assessment#:#button_show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#by#:#ユーザ名
 assessment#:#cancel_test#:#テスト中断
 assessment#:#cannot_edit_marks#:#既にテストを実行した学習者がいます。スコア報告日が有効でまだ報告日になっていない場合はマーク変更だけができます。
@@ -1159,6 +1158,7 @@ assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
+assessment#:#show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#skip_question#:#回答しないで次へ
@@ -15200,7 +15200,6 @@ survey#:#SurveyTextQuestion#:#小論文
 survey#:#add_heading#:#テキストブロックを追加
 survey#:#add_material#:#教材を追加
 survey#:#add_phrase#:#フレーズを追加
-survey#:#adm_no_special_users#:#複数回サーベイを実行する事のできる特定ユーザはいません。
 survey#:#already_completed_survey#:#サーベイは既に終わっています! 再度のサーベイはできません。
 survey#:#anonymization#:#匿名化
 survey#:#anonymize_anonymous_introduction#:#サーベイへのアクセス保証するには、このサーベイの作者または維持者から受け取る事のできる5文字サーベイコードを使用しなければなりません。<br />以下のテキスト欄にそれを入力してください。
