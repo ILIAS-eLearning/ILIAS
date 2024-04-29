@@ -17175,6 +17175,7 @@ ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#filter_nodes_in#:#Filter Nodes in %s
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows

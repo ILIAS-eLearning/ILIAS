@@ -26,7 +26,7 @@ function drilldown()
     $renderer = $DIC->ui()->renderer();
 
     $ico = $f->symbol()->icon()->standard('', '')->withSize('small')->withAbbreviation('+');
-    $image = $f->image()->responsive("assets/ui-examples/images/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
+    $image = $f->image()->responsive("assets/ui-examples/images/Image/mountains.jpg", "Some mountains in the dusk");
     $page = $f->modal()->lightboxImagePage($image, 'Mountains');
     $modal = $f->modal()->lightbox($page);
     $button = $f->button()->bulky($ico->withAbbreviation('>'), 'Modal', '')
