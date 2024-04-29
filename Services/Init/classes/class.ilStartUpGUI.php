@@ -142,7 +142,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $cmd = $this->ctrl->getCmd("processIndexPHP");
         $next_class = $this->ctrl->getNextClass($this);
-
         switch ($next_class) {
             case 'ilLoginPageGUI':
                 break;
@@ -154,6 +153,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             case "ilpasswordassistancegui":
                 require_once("Services/Init/classes/class.ilPasswordAssistanceGUI.php");
                 return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
+
+            case strtolower(ilAccessibilityControlConceptGUI::class):
+                return $this->ctrl->forwardCommand(new ilAccessibilityControlConceptGUI());
 
             default:
                 if (method_exists($this, $cmd)) {
