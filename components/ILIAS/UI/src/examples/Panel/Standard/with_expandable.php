@@ -65,7 +65,7 @@ function with_expandable(): string
     ])
                   ->withActions($actions)
                   ->withViewControls($view_controls)
-                  ->withExpandable(true, "", "");
+                  ->withExpandable(true);
 
     return $renderer->render($std_list);
 }
