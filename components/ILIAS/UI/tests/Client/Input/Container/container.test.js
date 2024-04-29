@@ -16,9 +16,9 @@
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 
-import ContainerFactory from '../../../../src/templates/js/Input/Container/src/container.factory.js';
-import Container from '../../../../src/templates/js/Input/Container/src/container.class.js';
-import FormNode from '../../../../src/templates/js/Input/Container/src/formnode.class.js';
+import ContainerFactory from '../../../../resources/js/Input/Container/src/container.factory.js';
+import Container from '../../../../resources/js/Input/Container/src/container.class.js';
+import FormNode from '../../../../resources/js/Input/Container/src/formnode.class.js';
 
 /**
  * get HTML document from file
