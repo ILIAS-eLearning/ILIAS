@@ -36,7 +36,9 @@ interface Factory
      *   composition: >
      *      Standard Panels consist of a title and a content section. The
      *      structure of this content might be varying from Standard
-     *      Panel to Standard Panel. Standard Panels may contain View Controls and Sub Panels.
+     *      Panel to Standard Panel. The content section can optionally be made collapsible.
+     *      Standard Panels may contain View Controls and Sub Panels. The View Controls will
+     *      be hidden when the Standard Panel is collapsed.
      *   rivals:
      *      Cards: >
      *        Often Cards are used in Decks to display multiple uniformly structured chunks of Data horizontally and vertically.
@@ -53,8 +55,9 @@ interface Factory
      *
      *   interaction:
      *      1: >
-     *         Standard Panels MAY be expandable to make the content collapsible. Standard Panels MAY also get
-     *         asynchronous expand and collapse actions to e.g. store the expanded status of the Component in the session.
+     *         Standard Panels MAY be expandable to make the content collapsible by clicking on the title area.
+     *         Standard Panels MAY also get asynchronous expand and collapse actions to e.g. store the expanded status
+     *         of the Component in the session.
      * ---
      * @param string $title
      * @param Component[]|Component

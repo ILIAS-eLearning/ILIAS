@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component\Panel\IsExpandable as IsExpandableInterface;
+use ILIAS\Data\URI;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Trait for panels which are expandable
@@ -29,13 +31,13 @@ trait IsExpandable
 {
     protected bool $expandable = false;
     protected bool $expanded = false;
-    protected string $expand_action = "";
-    protected string $collapse_action = "";
+    protected URI | Signal | null $expand_action = null;
+    protected URI | Signal | null $collapse_action = null;
 
     public function withExpandable(
         bool $expanded,
-        string $expand_action = "",
-        string $collapse_action = ""
+        URI | Signal | null $expand_action = null,
+        URI | Signal | null $collapse_action = null
     ): IsExpandableInterface {
         /**
          * @var $clone IsExpandableInterface
@@ -48,22 +50,34 @@ trait IsExpandable
         return $clone;
     }
 
+    /**
+     * Is the Panel expandable?
+     */
     public function isExpandable(): bool
     {
         return $this->expandable;
     }
 
+    /**
+     * Is the Panel expanded?
+     */
     public function isExpanded(): bool
     {
         return $this->expanded;
     }
 
-    public function getExpandAction(): string
+    /**
+     * Get the expand action of the Panel
+     */
+    public function getExpandAction(): URI | Signal | null
     {
         return $this->expand_action;
     }
 
-    public function getCollapseAction(): string
+    /**
+     * Get the collapse action of the Panel
+     */
+    public function getCollapseAction(): URI | Signal | null
     {
         return $this->collapse_action;
     }
