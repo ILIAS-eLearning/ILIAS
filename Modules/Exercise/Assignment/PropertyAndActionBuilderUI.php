@@ -623,7 +623,7 @@ class PropertyAndActionBuilderUI
 
 
                     $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
-                    $image_lens = \ilUtil::getImagePath("enlarge.svg");
+                    $image_lens = \ilUtil::getImagePath("media/enlarge.svg");
 
                     $modal = \ilModalGUI::getInstance();
                     $modal->setId($item_id);
