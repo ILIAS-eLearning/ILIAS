@@ -1080,8 +1080,10 @@ class ilForum
         $res = $this->db->queryF($query, $data_types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
             if (
-                'g' === $row['public_profile'] ||
-                (!$this->user->isAnonymous() && in_array($row['public_profile'], ['y', 'g'], true))
+                !in_array($row['public_profile'], [
+                    ilPersonalProfileMode::PROFILE_ENABLED_LOGGED_IN_USERS,
+                    ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL], true)
+                || ($this->user->isAnonymous() && $row['public_profile'] !== ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL)
             ) {
                 $row['lastname'] = '';
                 $row['firstname'] = '';
