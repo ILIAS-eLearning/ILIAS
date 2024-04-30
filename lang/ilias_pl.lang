@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Konto zostaną usunięte
 common#:#delete_inactive_user_accounts#:#Usuń dostępy użytkowników po okresie nieaktywności
 common#:#delete_inactive_user_accounts_desc#:#Jeśli ta opcja jest aktywna, dostępy użytkowników usuwane są w zależności od czasu ostatniego logowania.
 common#:#delete_inactive_user_accounts_include_roles#:#Uwzględnione role
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Dni, które upłynęły od ostatniego logowania
 common#:#delete_inactive_user_accounts_period_desc#:#Konto zostaną usunięte, jeśli od ostatniego logowania minął ten okres czasu.
 common#:#delete_parameter#:#Usuń parametry

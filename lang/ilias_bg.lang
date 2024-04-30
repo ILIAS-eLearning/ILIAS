@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Изтриването �
 common#:#delete_inactive_user_accounts#:#Изтриване на потребителски акаунти
 common#:#delete_inactive_user_accounts_desc#:#Ако е разрешено, потребителските акаунти ще бъдат изтрити в зависимост от датата на последното влизане.
 common#:#delete_inactive_user_accounts_include_roles#:#Включени роли
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Изминали дни от последното влизане
 common#:#delete_inactive_user_accounts_period_desc#:#Изтриването ще бъде извършено, ако този период от време е изтекъл от последното влизане в системата.
 common#:#delete_parameter#:#Изтриване на параметъра

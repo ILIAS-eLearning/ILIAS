@@ -3903,6 +3903,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Uporabniški dostop bo i
 common#:#delete_inactive_user_accounts#:#Izbriši uporabnike, ki se že dolgo niso prijavili
 common#:#delete_inactive_user_accounts_desc#:#Če je aktivirano, bodo uporabniški dostopi izbrisani glede na čas zadnje prijave.
 common#:#delete_inactive_user_accounts_include_roles#:#Upoštevane vloge
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Pretekli dnevi od zadnje prijave
 common#:#delete_inactive_user_accounts_period_desc#:#Uporabniški dostop bo izbrisan, če je minilo toliko dni od zadnje prijave.
 common#:#delete_parameter#:#Izbriši parameter

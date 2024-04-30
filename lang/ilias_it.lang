@@ -3904,6 +3904,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#La cancellazione verrà 
 common#:#delete_inactive_user_accounts#:#Elimina account utente
 common#:#delete_inactive_user_accounts_desc#:#Se abilitato, gli account utente verranno eliminati a seconda della data dell'ultimo accesso.
 common#:#delete_inactive_user_accounts_include_roles#:#Ruoli inclusi
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Giorni trascorsi dall'ultimo accesso
 common#:#delete_inactive_user_accounts_period_desc#:#La cancellazione verrà eseguita se questo periodo di tempo è trascorso dall'ultimo accesso.
 common#:#delete_parameter#:#Cancella Parametro

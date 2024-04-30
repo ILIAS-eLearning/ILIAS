@@ -3904,6 +3904,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#如果已过了不活跃
 common#:#delete_inactive_user_accounts#:#删除用户账号
 common#:#delete_inactive_user_accounts_desc#:#如果启用，用户账号将根据最后登录的日期来删除。
 common#:#delete_inactive_user_accounts_include_roles#:#已包括的角色
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#自从上次登录以来的天数
 common#:#delete_inactive_user_accounts_period_desc#:#如果这个自从上次登录以来的时间片段已经过去，删除动作将被执行。
 common#:#delete_parameter#:#删除参数

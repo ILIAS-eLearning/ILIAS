@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Smazání bude vykonáno
 common#:#delete_inactive_user_accounts#:#Smazat uživatelské účty
 common#:#delete_inactive_user_accounts_desc#:#Pokud je zapnuto, uživatelské účty mohou být smazány v závislosti na datu posledního přihlášení.
 common#:#delete_inactive_user_accounts_include_roles#:#Včetně rolí
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Dny uplynulé od posledního přihlášení
 common#:#delete_inactive_user_accounts_period_desc#:#Smazání bude provedeno, pokud uplyne toto období od posledního přihlášení.
 common#:#delete_parameter#:#Smazat parametr

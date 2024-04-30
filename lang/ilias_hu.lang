@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#A fiókokat akkor törö
 common#:#delete_inactive_user_accounts#:#Régóta be nem jelentkezett ILIAS-fiókok törlése
 common#:#delete_inactive_user_accounts_desc#:#A legutóbbi bejelentkezési dátumától függően törlünk ILIAS-fiókokat.
 common#:#delete_inactive_user_accounts_include_roles#:#Figyelembe vett szerepek
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#A legutóbbi bejelentkezés óta eltelt idő
 common#:#delete_inactive_user_accounts_period_desc#:#A megadott napszám óta be nem jelentkezett összes ILIAS-fiókot töröljük.
 common#:#delete_parameter#:#Paraméter törlése

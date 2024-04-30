@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-kontot raderas om 
 common#:#delete_inactive_user_accounts#:#Radera ILIAS-konton med inloggningar från för länge sedan
 common#:#delete_inactive_user_accounts_desc#:#ILIAS-konton raderas beroende på tidpunkten för den senaste inloggningen.
 common#:#delete_inactive_user_accounts_include_roles#:#Roller som beaktas
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Senaste dagar sedan senaste inloggning
 common#:#delete_inactive_user_accounts_period_desc#:#ILIAS-kontot kommer att raderas om detta antal dagar har förflutit sedan den senaste inloggningen.
 common#:#delete_parameter#:#Radera parameter

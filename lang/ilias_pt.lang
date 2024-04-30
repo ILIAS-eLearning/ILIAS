@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Grupo
 common#:#delete_inactive_user_accounts#:#Link do grupo
 common#:#delete_inactive_user_accounts_desc#:#Se estiver ativado, as contas de utilizador serão apagadas em função da data do último login.
 common#:#delete_inactive_user_accounts_include_roles#:#Funções incluídas
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#Editar link do grupo
 common#:#delete_inactive_user_accounts_period_desc#:#Escolha um grupo para criar um novo link de grupo.
 common#:#delete_parameter#:#Apagar parâmetro

@@ -3905,6 +3905,7 @@ common#:#delete_inactivated_user_accounts_period_desc#:#Deletion will be execute
 common#:#delete_inactive_user_accounts#:#მომხმარებლის ანგარიშების წაშლა
 common#:#delete_inactive_user_accounts_desc#:#თუ გააქტიურებულია, მომხმარებლის ანგარიშები წაიშლება ბოლოს შესვლის თარიღის მიხედვით
 common#:#delete_inactive_user_accounts_include_roles#:#ჩართული პასუხისმგებლობები
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.###30 04 2024 new variable
 common#:#delete_inactive_user_accounts_period#:#გასული დღეები ბოლო შესვლის შემდეგ
 common#:#delete_inactive_user_accounts_period_desc#:#წაშლა მოხდება თუ ეს პერიოდია გასულია ბოლო შესვლის შემდეგ
 common#:#delete_parameter#:#პარამეტრის წაშლა
