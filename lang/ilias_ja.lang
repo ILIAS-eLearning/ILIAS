@@ -767,6 +767,7 @@ assessment#:#identical_scoring_desc#:#選択すると、同じ解答が2度以�
 assessment#:#imagemap#:#イメージマップ
 assessment#:#import_question#:#問題をインポート
 assessment#:#imported#:#インポート完了
+assessment#:#in_range#:#Within range###30 04 2024 new variable
 assessment#:#info_answer_type_change#:#問題にはイメージが既に含まれます。複数解答に対して解答タイプの変更はできません。
 assessment#:#info_text_upload#:#アップロードする回答テキスト(UTF-8)を選択
 assessment#:#insert_after#:#後に挿入
@@ -2170,6 +2171,7 @@ badge#:#badge_badge#:#バッジ
 badge#:#badge_course_lp#:#コースLP
 badge#:#badge_course_lp_invalid#:#次のオブジェクトにはサポートされていないLPモードがあります: %s
 badge#:#badge_create#:#Create Badge###08 04 2024 new variable
+badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.###30 04 2024 new variable
 badge#:#badge_criteria#:#判定基準
 badge#:#badge_crs_merit#:#メリット
 badge#:#badge_deletion_confirmation#:#次のバッジとそれぞれの割当てすべてを本当に削除しますか?
@@ -2218,6 +2220,8 @@ badge#:#badge_template_types#:#有効なタイプ
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#特定の
 badge#:#badge_types#:#タイプ
+badge#:#badge_update_image_processing_failed#:#The badge could not be updated, an error occurred while processing the image.###30 04 2024 new variable
+badge#:#badge_uploaded_image_file_not_found#:#No uploaded image for the badge could be found.###30 04 2024 new variable
 badge#:#badge_user_profile#:#ユーザプロファイル
 badge#:#badge_valid#:#有効期限
 badge#:#criteria#:#Criteria###08 04 2024 new variable
@@ -3096,8 +3100,11 @@ cmix#:#completed_info#:#終了した者または通常通りに完結したア�
 cmix#:#completed_label#:#'completed'の動詞付きステートメント
 cmix#:#conf_availability#:#Availability
 cmix#:#conf_availability_0#:#利用不可
+cmix#:#conf_availability_0_info#:#Existing xAPI/cmi5 objects that use this LRS type can no longer be used.###30 04 2024 new variable
 cmix#:#conf_availability_1#:#許可されているもの
+cmix#:#conf_availability_1_info#:#This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time.###30 04 2024 new variable
 cmix#:#conf_availability_2#:#New producible
+cmix#:#conf_availability_2_info#:#This LRS type can be selected when creating xAPI/cmi5 objects.###30 04 2024 new variable
 cmix#:#conf_bypass_proxy#:#学習進捗の検知
 cmix#:#conf_bypass_proxy_disabled#:#即時にデータを取得するためのxAPI-Proxy
 cmix#:#conf_bypass_proxy_enabled#:#Learning Record Storeをチェックするcronjob
@@ -3131,8 +3138,6 @@ cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。
 cmix#:#conf_privacy_comment_default#:#ユーザへ表示
 cmix#:#conf_privacy_ident#:#ユーザID
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###08 04 2024 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###08 04 2024 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
 cmix#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
@@ -3164,6 +3169,10 @@ cmix#:#conf_privacy_setting_force#:#オブジェクトの設定は変更不可�
 cmix#:#conf_privacy_setting_info#:#プライバシー設定の構成オプション
 cmix#:#conf_remarks#:#内部コメント
 cmix#:#conf_title#:#Title
+cmix#:#conf_use_proxy#:#xAPI-Proxy###30 04 2024 new variable
+cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.###30 04 2024 new variable
+cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.###30 04 2024 new variable
+cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.###30 04 2024 new variable
 cmix#:#conf_user_ident#:#ユーザID
 cmix#:#conf_user_ident_il_uuid_ext_account#:#e-mailドレスとして書式化されたユニークなILIASプラットフォームIDで結合された外部ユーザID
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#これはユーザ毎に識別されますが、ユーザに関して直接結論つけを許容願います。
@@ -3191,6 +3200,8 @@ cmix#:#content_privacy_ident#:#リソースのユーザID
 cmix#:#content_privacy_name#:#リソースのユーザ名
 cmix#:#create_lrs_type_form#:#新しいLRS-Type
 cmix#:#create_registration#:#E-Mail addressを登録
+cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store###30 04 2024 new variable
+cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.###30 04 2024 new variable
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 結果を取得
 cmix#:#cron_xapi_results_evaluation_desc#:#ILIAS xAPI proxyをサポートしないオブジェクトのlearning record storeから全てのxAPI結果を要求
 cmix#:#description_info#:#説明はタイトルの下へ表示されます。
@@ -4341,6 +4352,8 @@ common#:#import_lm#:#ILIAS ラーニングモジュールをインポート
 common#:#import_qpl#:#テスト問題集をインポート
 common#:#import_questions_into_qpl#:#問題集への問題をインポート
 common#:#import_sahs#:#SCORM/AICCパッケージをインポート
+common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.###30 04 2024 new variable
+common#:#import_sahs_new#:#Import New Version of SCORM Package###30 04 2024 new variable
 common#:#import_svy#:#サーベイをインポート
 common#:#import_tst#:#テストをインポート
 common#:#import_users#:#ユーザをインポート
@@ -4761,7 +4774,6 @@ common#:#msg_perm_adopted_from_itself#:#現在の役割/役割テンプレート
 common#:#msg_removed#:#オブジェクトはシステムから削除されました。
 common#:#msg_role_reserved_prefix#:#拡張子 'il_'は自動的に作成される役割として予約されています。他の名前を選択してください。
 common#:#msg_roleassignment_changed#:#役割変更
-common#:#msg_security_svg_rejected#:#File upload removed due to security reasons. The SVG file contains possibily malicious code.###08 04 2024 new variable
 common#:#msg_sysrole_not_deletable#:#システム役割は削除できません
 common#:#msg_sysrole_not_editable#:#システム役割のアクセス権限設定は変更されません。システムの役割はすべてのオブジェクトと機能に割り当てられたユーザへ制限なしのアクセスをすべて許可します。
 common#:#msg_to_many_files#:#選択ファイル数が多すぎます、許容ファイル数:
@@ -4929,6 +4941,7 @@ common#:#obj_iass_duplicate#:#個別アセスメントをコピー
 common#:#obj_iass_select#:#-- 個別アセスメントを一つ選択してください --
 common#:#obj_itgr#:#アイテムグループ
 common#:#obj_ldap_desc#:#グローバルLDAP設定をここで構成します。
+common#:#obj_ldoc#:#Legal Documents###30 04 2024 new variable
 common#:#obj_lhts#:#学習履歴
 common#:#obj_lhts_desc#:#学習履歴設定
 common#:#obj_lm#:#ILIAS ラーニングモジュール
@@ -4971,6 +4984,7 @@ common#:#obj_objf_desc#:#ILIAS オブジェクトタイプとオブジェクト�
 common#:#obj_orgu#:#組織単位
 common#:#obj_orgu_description#:#組織構造の作成と編集
 common#:#obj_page#:#ページ
+common#:#obj_pdfg#:#PDF Generation###30 04 2024 new variable
 common#:#obj_peac#:#アコーディアオン
 common#:#obj_peadl#:#詳細リスト
 common#:#obj_peadt#:#詳細表
@@ -5095,6 +5109,7 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Webリンクの全般設定
 common#:#obj_webr#:#Webリンク
 common#:#obj_webr_duplicate#:#Webリンクリストをコピーする
+common#:#obj_wfe#:#Workflow Engine###30 04 2024 new variable
 common#:#obj_wfld#:#フォルダ
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Wikiをコピー
@@ -5815,6 +5830,10 @@ common#:#upload#:#アップロード
 common#:#upload_error_file_not_found#:#アップロードエラー：ファイルが見つかりません。
 common#:#upload_pending#:#保留
 common#:#upload_settings#:#アップロード設定
+common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#ファイルはアップロードされてチェックされましたので、これからインポートを開始できます。
 common#:#uploading#:#アップロード中…
 common#:#uri#:#URI
@@ -10948,48 +10967,32 @@ lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティ
 lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
-lti#:#conf_privacy_ident#:#ユーザID
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###08 04 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###08 04 2024 new variable
-lti#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合された外部ユーザID
-lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に区別されますが、ILIASユーザに関して直接結論される事を許容される事があります。
-lti#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合されたILIAS Login
-lti#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許容される可能性があります。
-lti#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてユニークなILIASプラットフォームでフォーマットされて結合されたILIASユーザID
-lti#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に区別されますが、ILIASユーザに関して直接結論される事を許容される事があります。
-lti#:#conf_privacy_ident_info#:#標準はメールアドレスが使用されます。ユニークなILIASプラットフォームid:
-lti#:#conf_privacy_ident_real_email#:#E-Mail Address
-lti#:#conf_privacy_ident_real_email_info#:#IDとしてのユーザのE-Mail Addressを送信(警告: E-Mail Addressは複数のユーザで使用されている可能性あり!)
-lti#:#conf_privacy_name#:#ユーザ名
-lti#:#conf_privacy_name_firstname#:#First name
-lti#:#conf_privacy_name_firstname_info#:#ユーザからユーザ名の名前を送信
-lti#:#conf_privacy_name_fullname#:#完全な名前
-lti#:#conf_privacy_name_fullname_info#:#タイトル、名前、姓名を送信
-lti#:#conf_privacy_name_info#:#ユーザ名の送信は通常必須ではありません。
-lti#:#conf_privacy_name_lastname#:#タイトルと姓名
-lti#:#conf_privacy_name_lastname_info#:#ミスター又はMs/Mrs. (特に指示ない限り)と姓名を送信
-lti#:#conf_privacy_name_none#:#該当者なし
-lti#:#conf_privacy_name_none_info#:#名前に替えて'-'を送信
-lti#:#conf_user_ident#:#ユーザ識別
-lti#:#conf_user_ident_il_uuid_ext_account#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#これはコール毎に識別されますが、ユーザに関して直接結論される事を許容される事があります。
-lti#:#conf_user_ident_il_uuid_login#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
-lti#:#conf_user_ident_il_uuid_login_info#:#これはコール毎に識別されますが、ILIASユーザに関して直接結論される事を許容される事があります。
-lti#:#conf_user_ident_il_uuid_user_id#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームIDで結合されたILIASユーザID 
-lti#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎に識別されますが、ユーザに関して直接結論される事はありません。
-lti#:#conf_user_ident_info#:#標準は通常メールアドレスです。ユニークなILIASプラットフォームIDは:
-lti#:#conf_user_ident_real_email#:#E-Mail Address
-lti#:#conf_user_ident_real_email_info#:#IDとしてのユーザのE-Mail Addressを送信(警告: E-Mail Addressは複数のユーザで使用されている可能性あり!)
-lti#:#conf_user_name#:#ユーザ名
-lti#:#conf_user_name_firstname#:#氏名
-lti#:#conf_user_name_firstname_info#:#ILIASからユーザ名の氏名を送信
-lti#:#conf_user_name_fullname#:#フルネーム
-lti#:#conf_user_name_fullname_info#:#タイトル、氏名、姓名を送信
-lti#:#conf_user_name_info#:#ユーザ名の送信は通常必須ではありません。
-lti#:#conf_user_name_lastname#:#タイトルと姓名
-lti#:#conf_user_name_lastname_info#:#Mister または Ms/Mrs. (特に指示がない限り)と姓名を送信
-lti#:#conf_user_name_none#:#該当なし
-lti#:#conf_user_name_none_info#:#名前に代えて '-' を送信
+lti#:#clti_privacy_ident#:#User identification###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address###30 04 2024 new variable
+lti#:#clti_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.###30 04 2024 new variable
+lti#:#clti_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###30 04 2024 new variable
+lti#:#clti_privacy_ident_real_email#:#E-Mail Address###30 04 2024 new variable
+lti#:#clti_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###30 04 2024 new variable
+lti#:#clti_privacy_name#:#User name###30 04 2024 new variable
+lti#:#clti_privacy_name_firstname#:#First name###30 04 2024 new variable
+lti#:#clti_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###30 04 2024 new variable
+lti#:#clti_privacy_name_fullname#:#Entire name###30 04 2024 new variable
+lti#:#clti_privacy_name_fullname_info#:#Sends title, first name and last name###30 04 2024 new variable
+lti#:#clti_privacy_name_info#:#Sending an user name is usually not required.###30 04 2024 new variable
+lti#:#clti_privacy_name_lastname#:#Title and last name###30 04 2024 new variable
+lti#:#clti_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###30 04 2024 new variable
+lti#:#clti_privacy_name_none#:#No one###30 04 2024 new variable
+lti#:#clti_privacy_name_none_info#:#Sends '-' instead of a name###30 04 2024 new variable
 lti#:#consumers#:#Consumer
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#field_provider_xml#:#XML-ファイル
@@ -11040,13 +11043,16 @@ lti#:#launched#:#リソースは既に起動しています。
 lti#:#learning_progress_options#:#学習進捗オプション
 lti#:#lm_only_one_download_per_type#:#パブリックアクセス可能なタイプ(XML, HTML, SCORM)当たり1ファイルしか作成できない事に注意願います。
 lti#:#lti13_hints#:#ヒント
+lti#:#lti_13_authentication_url#:#Authentication Request URL###30 04 2024 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL###30 04 2024 new variable
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#プラットフォーム(comsumer)起動には、次の開始URL、リダイレクトURI、登録URLを入力:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#次のフィールドへ入力する事により起動プラットフォーム(Concumer)から情報を受け取ります。保存するとLTI 1.3機能が利用可能になります。
+lti#:#lti_13_token_url#:#Access Token URL###30 04 2024 new variable
 lti#:#lti_action_accept_provider_as_global#:#全ユーザ用のグローバルプロバイダーとしてプロバイダを承認
 lti#:#lti_action_accept_providers_as_global#:#グローバルとしてプロバイダーを承認
 lti#:#lti_action_delete_providers#:#プロバイダーを削除
@@ -11060,9 +11066,12 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#ディープリンクのサポート
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###30 04 2024 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###30 04 2024 new variable
 lti#:#lti_con_initiate_login_url#:#Login URLを起動
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
+lti#:#lti_con_key_type_jwk_info#:#Entering this URL avoids the need to enter an RSA key.###30 04 2024 new variable
 lti#:#lti_con_key_type_jwk_url#:#URL
 lti#:#lti_con_key_type_rsa#:#RSA-Key
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key
@@ -11079,6 +11088,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###30 04 2024 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###30 04 2024 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###30 04 2024 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###30 04 2024 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -11147,6 +11160,8 @@ lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除
+lti#:#lti_dyn_reg_add_tool#:#Add###30 04 2024 new variable
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###30 04 2024 new variable
 lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
@@ -11193,6 +11208,7 @@ lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceとmastery sco
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###30 04 2024 new variable
 lti#:#provider_info#:#使用したプロバイダー
 lti#:#settings_subtab#:#設定
 lti#:#show_statements#:#学習履歴を表示
@@ -11201,6 +11217,7 @@ lti#:#subtab_certificate#:#履修状況
 lti#:#subtab_object_settings#:#オブジェクト設定
 lti#:#subtab_provider_settings#:#LTI Provider設定
 lti#:#tab_content#:#コンテンツ
+lti#:#tab_grade_synchronization#:#Advanced Grading Services###30 04 2024 new variable
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#ランキング
 lti#:#tab_settings#:#設定
@@ -11577,6 +11594,7 @@ mcst#:#mcst_automatic_detection#:#自動検出
 mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_autoplay_info#:#Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos.###30 04 2024 new variable
 mcst#:#mcst_clear_purpose_title#:#削除
 mcst#:#mcst_confirm_deletion#:#Confirm Deletion###08 04 2024 new variable
 mcst#:#mcst_converted_file#:#ファイルは変換されました。
@@ -13001,6 +13019,7 @@ pd#:#pd_import_personal_data#:#パーソナルデータをインポート
 pd#:#pd_my_memberships_intro#:#ようこそメンバーシップへ
 pd#:#pd_my_memberships_intro2#:#ここはあなたが参加している全コースとグループ用のパーソナルスペースです。現在割当てられているメンバーシップはありません。コースやグループのメンバーになるには2つの方法があります。<br /><ol><li>システム管理者が参加許可してコースやグループに参加する場合</li><li>コースやグループの管理者がメンバーシップを割当てる場合</li></ol><br />いずれの場合も関係するオブジェクトが自動的にこのスペースへ表示されます。
 pd#:#pd_my_memberships_sort_default#:#並び替えオプションの初期値
+pd#:#pd_no_items_to_manage#:#No items available for removal.###30 04 2024 new variable
 pd#:#pd_not_dated#:#Not Dated###08 04 2024 new variable
 pd#:#pd_ongoing#:#継続中
 pd#:#pd_personal_items_default_view#:#表示初期設定
@@ -13199,6 +13218,7 @@ prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_belongs_to#:#所有者
 prg#:#prg_can_not_manage_in_repo#:#ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。
 prg#:#prg_cancel#:#キャンセル
+prg#:#prg_cancel_acknowledge_completed_courses#:#Don't acknowledge any Courses###30 04 2024 new variable
 prg#:#prg_cancel_tree_order#:#ツリー順を解除
 prg#:#prg_change_deadline#:#締切を変更
 prg#:#prg_change_expire_date#:#期限を変更　
