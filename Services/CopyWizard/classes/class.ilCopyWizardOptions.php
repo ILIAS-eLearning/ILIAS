@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @defgroup ServicesCopyWizard Services/CopyWizard
@@ -297,6 +297,18 @@ class ilCopyWizardOptions
         if (!isset($this->options[$a_id]) || !is_array($this->options[$a_id])) {
             return false;
         }
+
+        //remove double entries
+        $this->options[$a_id] = array_map(
+            "unserialize",
+            array_unique(
+                array_map(
+                    "serialize",
+                    $this->options[$a_id]
+                )
+            )
+        );
+        //shift
         $this->options[$a_id] = array_slice($this->options[$a_id], 1);
 
         $this->db->update('copy_wizard_options', array(
