@@ -429,7 +429,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($ilUser->getId() === (int) SYSTEM_USER_ID
                 || !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($this->object->getId()))
                 || in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
-                $userObj->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+                $userObj->setPasswd($this->form_gui->getInput('passwd'), IL_PASSWD_PLAIN);
             }
 
             $userObj->setTitle($userObj->getFullname());
