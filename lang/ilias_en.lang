@@ -29,7 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-    common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
 acc#:#acc_add_document_btn_label#:#Add Document
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
@@ -3900,12 +3899,13 @@ common#:#delete_existing_file#:#Delete Existing File
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
 common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only ILIAS-Accounts assigned to one of the selected Roles will be deleted.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
 common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
 common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only ILIAS accounts assigned to one of the selected roles will be deleted.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_parameter#:#Delete Parameter
