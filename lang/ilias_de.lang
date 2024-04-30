@@ -3403,7 +3403,7 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_at_top#:#Oben
-cntr#:#sorting_new_items_direction#:#Ausrichtung
+cntr#:#sorting_new_items_direction#:#Ausrichtung neuer Objekte
 cntr#:#sorting_new_items_order#:#Reihenfolge
 cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -16752,7 +16752,7 @@ svy#:#svy_all_questions#:#Alle Fragen
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
-svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_invite_participants#:#Als To-Do eintragen für
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
@@ -16765,7 +16765,7 @@ svy#:#svy_selection#:#Auswahl
 svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
-svy#:#svy_status_invited#:#Eingeladen
+svy#:#svy_status_invited#:#Als To-Do eingetragen
 svy#:#svy_user_added_appraisee#:#Umfrage „%1“
 svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
@@ -16773,7 +16773,7 @@ svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
-svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
+svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen

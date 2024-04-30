@@ -7611,7 +7611,7 @@ crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 crs#:#crs_loc_qtest_info#:#Final Test
 crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"
-crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool
+crs#:#crs_loc_rand_assign_qpl#:#Assignment from Question Pool
 crs#:#crs_loc_rand_qpl#:#Available Question Pools
 crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.
 crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
