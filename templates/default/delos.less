@@ -1767,39 +1767,4 @@ div.ilGoogleMap {
 
 }
 
-@import "less/print.less"; 
-
-
-
-//== from 9, layout
-//
-//##
-
-.l-bar__container,
-.l-bar__group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.l-bar__container:not(:empty) {
-    &.l-bar__container--space-between {
-        justify-content: space-between;
-    }
-}
-
-.l-bar__container > .l-bar__group {
-    margin-right: @il-margin-xlarge-horizontal;
-    &:last-child {
-        margin-right: 0;
-    }
-}
-
-.l-bar__container > .l-bar__element,
-.l-bar__group > .l-bar__element {
-    margin-right: @il-margin-xs-horizontal;
-    &:last-child {
-        margin-right: 0;
-    }
-}
+@import "less/print.less";

@@ -6970,6 +6970,26 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   justify-content: space-between;
   flex-flow: row wrap;
 }
+.panel-flex .panel-heading .il-viewcontrol-sortation {
+  flex-shrink: 1;
+  order: 2;
+  margin-right: 9px;
+  margin-left: auto;
+}
+.panel-flex .panel-heading .dropdown {
+  flex-shrink: 1;
+  order: 3;
+}
+.panel-flex .panel-heading .il-viewcontrol-pagination,
+.panel-flex .panel-heading .il-viewcontrol-section {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  order: 4;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 9px;
+}
 .panel-flex .ilHeader {
   display: flex;
 }
@@ -7303,60 +7323,87 @@ input.btn {
     min-width: 0;
   }
 }
-.btn-default {
+.btn-default,
+.btn-ctrl {
   color: white;
   background-color: #4c6586;
   border-color: #4c6586;
 }
 .btn-default:focus,
-.btn-default.focus {
+.btn-ctrl:focus,
+.btn-default.focus,
+.btn-ctrl.focus {
   color: white;
   background-color: #3a4c65;
   border-color: #1e2835;
 }
-.btn-default:hover {
+.btn-default:hover,
+.btn-ctrl:hover {
   color: white;
   background-color: #3a4c65;
   border-color: #36485f;
 }
 .btn-default:active,
+.btn-ctrl:active,
 .btn-default.active,
-.open > .dropdown-toggle.btn-default {
+.btn-ctrl.active,
+.open > .dropdown-toggle.btn-default,
+.open > .dropdown-toggle.btn-ctrl {
   color: white;
   background-color: #3a4c65;
   background-image: none;
   border-color: #36485f;
 }
 .btn-default:active:hover,
+.btn-ctrl:active:hover,
 .btn-default.active:hover,
+.btn-ctrl.active:hover,
 .open > .dropdown-toggle.btn-default:hover,
+.open > .dropdown-toggle.btn-ctrl:hover,
 .btn-default:active:focus,
+.btn-ctrl:active:focus,
 .btn-default.active:focus,
+.btn-ctrl.active:focus,
 .open > .dropdown-toggle.btn-default:focus,
+.open > .dropdown-toggle.btn-ctrl:focus,
 .btn-default:active.focus,
+.btn-ctrl:active.focus,
 .btn-default.active.focus,
-.open > .dropdown-toggle.btn-default.focus {
+.btn-ctrl.active.focus,
+.open > .dropdown-toggle.btn-default.focus,
+.open > .dropdown-toggle.btn-ctrl.focus {
   color: white;
   background-color: #2d3b4f;
   border-color: #1e2835;
 }
 .btn-default.disabled:hover,
+.btn-ctrl.disabled:hover,
 .btn-default[disabled]:hover,
+.btn-ctrl[disabled]:hover,
 fieldset[disabled] .btn-default:hover,
+fieldset[disabled] .btn-ctrl:hover,
 .btn-default.disabled:focus,
+.btn-ctrl.disabled:focus,
 .btn-default[disabled]:focus,
+.btn-ctrl[disabled]:focus,
 fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-ctrl:focus,
 .btn-default.disabled.focus,
+.btn-ctrl.disabled.focus,
 .btn-default[disabled].focus,
-fieldset[disabled] .btn-default.focus {
+.btn-ctrl[disabled].focus,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-ctrl.focus {
   background-color: #4c6586;
   border-color: #4c6586;
 }
-.btn-default .badge {
+.btn-default .badge,
+.btn-ctrl .badge {
   color: #4c6586;
   background-color: white;
 }
-.btn-default:focus-visible {
+.btn-default:focus-visible,
+.btn-ctrl:focus-visible {
   position: relative;
 }
 .btn-primary {
@@ -7911,7 +7958,7 @@ ul.dropdown-menu > li > .btn:focus {
   border: 1px solid #4c6586;
   font-weight: 400;
 }
-.il-viewcontrol-pagination .dropdown-toggle {
+.il-viewcontrol-pagination > .dropdown-toggle {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -7942,143 +7989,37 @@ ul.dropdown-menu > li > .btn:focus {
 .panel-secondary .il-viewcontrol-section .glyphicon {
   font-size: 0.875rem;
 }
-.il-viewcontrol-section,
-.il-viewcontrol-pagination,
-.il-viewcontrol-mode,
-.il-viewcontrol-pagination__sectioncontrol {
+.il-viewcontrols-form {
   display: flex;
-  align-items: center;
-  gap: 3px;
+  gap: 5px;
 }
-.il-viewcontrol-section,
-.il-viewcontrol-pagination,
-.il-viewcontrol-mode {
-  width: fit-content;
-  min-height: 2.6rem;
-  min-width: 2.6rem;
-  border: 1px solid #e2e8ef;
-  padding: 3px;
-  background-color: #e2e8ef;
-  border-radius: 10px;
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-menu {
+  padding: 6px 9px;
 }
-.il-viewcontrol-section > .btn-default,
-.il-viewcontrol-section .btn-group > .btn-default,
-.il-viewcontrol-pagination__sectioncontrol > .btn-default,
-.il-viewcontrol-pagination__num-of-items > .btn-default,
-.il-viewcontrol-pagination > .btn-default,
-.il-viewcontrol-pagination .dropdown > .btn-default,
-.il-viewcontrol-pagination .last > .btn-default,
-.il-viewcontrol-mode > .btn-default,
-.il-viewcontrol-section > .btn-link,
-.il-viewcontrol-section .btn-group > .btn-link,
-.il-viewcontrol-pagination__sectioncontrol > .btn-link,
-.il-viewcontrol-pagination__num-of-items > .btn-link,
-.il-viewcontrol-pagination > .btn-link,
-.il-viewcontrol-pagination .dropdown > .btn-link,
-.il-viewcontrol-pagination .last > .btn-link,
-.il-viewcontrol-mode > .btn-link {
-  @extend .btn-ctrl;
+.il-viewcontrols-form .il-viewcontrol-pagination__sectioncontrol .btn-ctrl {
+  vertical-align: baseline;
+  padding: initial;
+  background-color: initial;
+  border: none;
 }
-.il-viewcontrol-section > .btn-default,
-.il-viewcontrol-section .btn-group > .btn-default,
-.il-viewcontrol-pagination__sectioncontrol > .btn-default,
-.il-viewcontrol-pagination__num-of-items > .btn-default,
-.il-viewcontrol-pagination > .btn-default,
-.il-viewcontrol-pagination .dropdown > .btn-default,
-.il-viewcontrol-pagination .last > .btn-default,
-.il-viewcontrol-mode > .btn-default,
-.il-viewcontrol-section > .btn-link,
-.il-viewcontrol-section .btn-group > .btn-link,
-.il-viewcontrol-pagination__sectioncontrol > .btn-link,
-.il-viewcontrol-pagination__num-of-items > .btn-link,
-.il-viewcontrol-pagination > .btn-link,
-.il-viewcontrol-pagination .dropdown > .btn-link,
-.il-viewcontrol-pagination .last > .btn-link,
-.il-viewcontrol-mode > .btn-link,
-.il-viewcontrol-section > .btn-ctrl,
-.il-viewcontrol-section .btn-group > .btn-ctrl,
-.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl,
-.il-viewcontrol-pagination__num-of-items > .btn-ctrl,
-.il-viewcontrol-pagination > .btn-ctrl,
-.il-viewcontrol-pagination .dropdown > .btn-ctrl,
-.il-viewcontrol-pagination .last > .btn-ctrl,
-.il-viewcontrol-mode > .btn-ctrl {
-  min-height: 1.9rem;
-  min-width: 1.9rem;
-  border-radius: 10px;
-}
-.il-viewcontrol-sortation .btn-default.btn {
-  @extend .btn-ctrl;
-  border-radius: 10px;
-}
-.il-viewcontrol-pagination__sectioncontrol .browse,
-.il-viewcontrol-pagination .browse,
-.il-viewcontrol-section .browse {
-  display: inline-block;
-}
-.il-viewcontrol-section .glyphicon {
-  vertical-align: middle;
-}
-.il-viewcontrol-section .glyphicon::before {
-  top: 0;
-  vertical-align: middle;
-}
-.il-viewcontrol-pagination .glyph .glyphicon {
-  vertical-align: middle;
-}
-.il-viewcontrol-pagination .glyph .glyphicon::before {
-  top: 0;
-  vertical-align: middle;
-}
-.il-viewcontrol-fieldselection .dropdown-menu {
-  padding: 15px 9px;
-}
-.il-viewcontrol-sortation .dropdown-toggle .caret,
-.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret,
-.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret,
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret {
   display: inline;
   border: none;
   vertical-align: initial;
 }
-.il-viewcontrol-sortation .dropdown-toggle .caret:before {
-  content: "\21f5";
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret:before,
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+  font-size: 0.75rem;
 }
-.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret:before {
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret:before {
   font-family: il-icons;
-  font-size: 0.8rem;
   content: "\e900";
 }
-.il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
   font-family: "Glyphicons Halflings";
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   content: "\e105";
-}
-.il-viewcontrol-pagination .engaged,
-.il-viewcontrol-mode .engaged {
-  pointer-events: none;
-  cursor: default;
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row {
-  align-items: center;
-  height: 100%;
-  margin: 0;
-  gap: 9px;
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row label {
-  width: fit-content;
-  margin-left: 9px;
-  margin-bottom: 0;
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row label:after {
-  content: ":";
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row [class*="col-"] {
-  width: auto;
-  flex-grow: 1;
-  padding: 0;
-}
-.il-viewcontrol-pagination__sectioncontrol .form-group.row input[type="number"] {
-  width: 5rem;
 }
 .breadcrumb_wrapper {
   width: 100%;
@@ -11442,7 +11383,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -11507,7 +11448,6 @@ with the il- variable set here.
 /** nagtive or positive contrast color for text and glyph **/
 /** contrast threshold for contrast color **/
 /** three color variants for neutral, important, breaking Head Infos **/
-@il-btn-ctrl-engaged-border : s-color.#4c6586;
 .webui-popover-content {
   display: none;
 }
@@ -20294,27 +20234,4 @@ table.mceToolbar td {
     width: auto !important;
   }
 }
-.l-bar__container,
-.l-bar__group {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.l-bar__container:not(:empty).l-bar__container--space-between {
-  justify-content: space-between;
-}
-.l-bar__container > .l-bar__group {
-  margin-right: 15px;
-}
-.l-bar__container > .l-bar__group:last-child {
-  margin-right: 0;
-}
-.l-bar__container > .l-bar__element,
-.l-bar__group > .l-bar__element {
-  margin-right: 3px;
-}
-.l-bar__container > .l-bar__element:last-child,
-.l-bar__group > .l-bar__element:last-child {
-  margin-right: 0;
-}
+/*# sourceMappingURL=delos.css.map */
