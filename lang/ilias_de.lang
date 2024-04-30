@@ -10195,7 +10195,7 @@ grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe „%s“ aufgeno
 grp#:#grp_admins#:#Gruppenadministration
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zur Gruppe liegt außerhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe „%s“ beigetreten.
 grp#:#grp_agree#:#Zustimmung
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
