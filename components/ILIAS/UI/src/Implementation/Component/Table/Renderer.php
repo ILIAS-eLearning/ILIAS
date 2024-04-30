@@ -617,7 +617,7 @@ class Renderer extends AbstractComponentRenderer
 
         if(!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
-                static fn($id): string => "il.UI.table.data.get('{$id}').dragsortable();"
+                static fn($id): string => "il.UI.table.ordering.init('{$id}');"
             );
         }
 

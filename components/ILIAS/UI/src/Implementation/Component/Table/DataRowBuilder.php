@@ -26,18 +26,6 @@ use ILIAS\UI\Component\Table\Action\Action;
 
 class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
 {
-    public function buildRow(string $id, array $record): T\DataRow
-    {
-        return new DataRow(
-            $this->row_actions !== [],
-            $this->table_has_multiactions,
-            $this->columns,
-            $this->row_actions,
-            $id,
-            $record
-        );
-    }
-
     /**
      * @param array<string, mixed> $record
      */
