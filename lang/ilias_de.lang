@@ -6023,8 +6023,8 @@ common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur 
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
-common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?###12 12 2023 new variable
-common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.###12 12 2023 new variable
+common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihre Zustimmung widerrufen wollen?
+common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihre Zustimmung widerrufen wollen? Dies hat zur Folge, dass Ihr ILIAS-Konto unwiderruflich gelöscht wird.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
@@ -6180,7 +6180,7 @@ content#:#cont_active_to#:#Aktiv bis
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_cell#:#Spalte hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
-content#:#cont_add_definition#:#Add Definition###30 04 2024 new variable
+content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
@@ -7221,7 +7221,7 @@ content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
-content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 12 2023 new variable
+content#:#cont_upload_dir_info#:#Serververzeichnis, aus dem große SCORM- und HTML-Pakete kopiert werden können, anstatt sie über die Oberfläche hochladen zu müssen. Nur ILIAS-Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Pfad ohne abschließenden Schrägstrich an.
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertitel-Dateien (.srt) in einer .zip-Datei für alle Medienobjekte. Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 content#:#cont_uploaded_file#:#Vorhandene Datei
@@ -7303,7 +7303,7 @@ content#:#lm_rate_page#:#Seite bewerten
 content#:#lm_rating#:#Lernmodul bewerten
 content#:#mep_folder_created#:#Ordner wurde angelegt.
 content#:#mob_upload_dir#:#Upload-Verzeichnis
-content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 12 2023 new variable
+content#:#mob_upload_dir_info#:#Serververzeichnis, aus dem mehrere Dateien zur Erstellung von Medienobjekten in Medienpools verwendet werden können. Nur ILIAS-Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Pfad ohne abschließenden Schrägstrich an.
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
