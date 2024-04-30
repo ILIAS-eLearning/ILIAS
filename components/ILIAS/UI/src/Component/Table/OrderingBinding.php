@@ -27,14 +27,9 @@ interface OrderingBinding
     /**
      * This is called by the (ordering-)table to retrieve rows;
      * map data-records to rows using the $row_builder
-     * e.g. yield $row_builder->buildStandardRow($row_id, $record).
+     * e.g. yield $row_builder->buildOrderingRow($row_id, $record).
      */
     public function getRows(
         OrderingRowBuilder $row_builder
     ): Generator;
-
-    /**
-     * @param string[] $ordered the new, ordered list of record-ids
-     */
-    public function withOrder(array $ordered): self;
 }

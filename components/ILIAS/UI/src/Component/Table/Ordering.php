@@ -35,6 +35,11 @@ interface Ordering extends Table
     public function withRequest(ServerRequestInterface $request): static;
 
     /**
+     * @return string[] the row-ids in the current (submitted) order
+     */
+    public function getData(): array;
+
+    /**
      * Turns ordering capabilites off/on.
      */
     public function withOrderingDisabled(bool $flag): self;

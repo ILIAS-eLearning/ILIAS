@@ -27,7 +27,7 @@ class OrderingRowBuilder extends RowBuilder implements T\OrderingRowBuilder
     /**
      * @param array<string, mixed> $record
      */
-    public function buildRow(string $id, array $record): T\OrderingRow
+    public function buildOrderingRow(string $id, array $record): T\OrderingRow
     {
         return new OrderingRow(
             $this->row_actions !== [],

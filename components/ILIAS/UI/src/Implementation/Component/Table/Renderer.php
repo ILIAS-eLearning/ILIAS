@@ -648,17 +648,6 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $binding = $component->getDataBinding();
-
-        if ($request = $component->getRequest()) {
-            $ordered = $request->getParsedBody();
-            asort($ordered, SORT_NUMERIC);
-            $binding = $binding->withOrder(array_keys($ordered));
-
-            $tpl->setVariable('MSG', $default_renderer->render(
-                $this->getUIFactory()->messageBox()->success($this->txt('order_saved'))
-            ));
-        }
-
         $rows = $binding->getRows(
             $component->getRowBuilder()
         );

@@ -25,5 +25,5 @@ interface OrderingRowBuilder
     /**
      * @param array<string, mixed> $record
      */
-    public function buildRow(string $id, array $record): OrderingRow;
+    public function buildOrderingRow(string $id, array $record): OrderingRow;
 }

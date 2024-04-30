@@ -79,4 +79,14 @@ class Ordering extends AbstractTable implements T\Ordering
     {
         return $this->target_url;
     }
+
+    public function getData(): array
+    {
+        if (!$request = $this->getRequest()) {
+            return null;
+        }
+        $ordered = $request->getParsedBody();
+        asort($ordered, SORT_NUMERIC);
+        return array_keys($ordered);
+    }
 }

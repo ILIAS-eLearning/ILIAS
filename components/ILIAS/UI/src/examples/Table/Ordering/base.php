@@ -12,10 +12,22 @@ use Psr\Http\Message\ServerRequestInterface;
 function base()
 {
     global $DIC;
+
+    /**
+     * @var ILIAS\UI\Factory $f;
+     */
     $f = $DIC['ui.factory'];
+
+    /**
+     * @var ILIAS\UI\Renderer $r;
+     */
     $r = $DIC['ui.renderer'];
-    $df = new \ILIAS\Data\Factory();
+
+    /**
+     * @var ILIAS\Refinery\Factory $refinery;
+     */
     $refinery = $DIC['refinery'];
+    $df = new \ILIAS\Data\Factory();
     $request = $DIC->http()->request();
     $request_wrapper = $DIC->http()->wrapper()->query();
 
@@ -67,22 +79,8 @@ function base()
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
                 $row_id = (string)$record['id'];
-                yield $row_builder->buildRow($row_id, $record);
+                yield $row_builder->buildOrderingRow($row_id, $record);
             }
-        }
-
-        /**
-         * $ordered gives an array with the row ids in the new order.
-         */
-        public function withOrder(array $ordered): self
-        {
-            $r = [];
-            foreach ($ordered as $id) {
-                $r[(string)$id] = $this->records[(string)$id];
-            }
-            $clone = clone $this;
-            $clone->records = $r;
-            return $clone;
         }
 
         protected function initRecords(): array
@@ -101,25 +99,44 @@ function base()
             ];
             shuffle($r);
 
-            foreach ($r as $id => $word) {
-                $records[(string)$id] = [
+            foreach ($r as $index => $word) {
+                $id = substr($word, 0, 1);
+                $records[$id] = [
                     'id' => $id,
-                    'word' => $r[$id]
+                    'word' => $r[$index]
                 ];
             }
             return $records;
         }
-    };
 
+        /**
+         * custom method to store the new order; this is just an example.
+         */
+        public function setOrder(array $ordered): void
+        {
+            $r = [];
+            foreach ($ordered as $id) {
+                $r[(string)$id] = $this->records[(string)$id];
+            }
+            $this->records = $r;
+        }
+
+    };
 
     $table = $f->table()->ordering('ordering table', $columns, $data_retrieval)
         ->withActions($actions);
 
+    $out = [];
     if ($request->getMethod() == "POST"
         && !$request_wrapper->has('external') // do not listen to 3rd example
     ) {
         $table = $table->withRequest($request);
+        if($data = $table->getData()) {
+            $out[] = $f->legacy('<pre>' . print_r($data, true) . '</pre>');
+        }
+        $data_retrieval->setOrder($data);
     }
 
-    return $r->render($table);
+    $out[] = $table;
+    return $r->render($out);
 }

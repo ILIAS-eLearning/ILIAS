@@ -11,10 +11,23 @@ use ILIAS\Data\URI;
 function external()
 {
     global $DIC;
+
+    /**
+     * @var ILIAS\UI\Factory $f;
+     */
     $f = $DIC['ui.factory'];
+
+    /**
+     * @var ILIAS\UI\Renderer $r;
+     */
     $r = $DIC['ui.renderer'];
-    $df = new \ILIAS\Data\Factory();
+
+    /**
+     * @var ILIAS\Refinery\Factory $refinery;
+     */
     $refinery = $DIC['refinery'];
+
+    $df = new \ILIAS\Data\Factory();
     $request = $DIC->http()->request();
     $request_wrapper = $DIC->http()->wrapper()->query();
 
@@ -39,19 +52,8 @@ function external()
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
-                yield $row_builder->buildRow((string)$record['id'], $record);
+                yield $row_builder->buildOrderingRow((string)$record['id'], $record);
             }
-        }
-
-        public function withOrder(array $ordered): self
-        {
-            $r = [];
-            foreach ($ordered as $id) {
-                $r[(string)$id] = $this->records[(string)$id];
-            }
-            $clone = clone $this;
-            $clone->records = $r;
-            return $clone;
         }
 
         protected function initRecords(): array
@@ -63,6 +65,18 @@ function external()
                 $records[(string)$id] = ['id' => $id, 'letter' => chr($id)];
             }
             return $records;
+        }
+
+        /**
+         * custom method to store the new order; this is just an example.
+         */
+        public function setOrder(array $ordered): void
+        {
+            $r = [];
+            foreach ($ordered as $id) {
+                $r[(string)$id] = $this->records[(string)$id];
+            }
+            $this->records = $r;
         }
     };
 
@@ -76,18 +90,16 @@ function external()
         ->withTargetURL($target);
 
     /**
-     * Set up an endpoint to itercept and customize ordering.
-     * Optionally omitting the request is but one option;
-     * you may also call call OrderingBinding::withOrder directly,
-     * or just modify the data it relies on.
+     * Set up an endpoint to itercept and customize ordering,
+     * here: store only correct order
      */
     if ($request_wrapper->has('external') &&
         $request_wrapper->retrieve('external', $refinery->kindlyTo()->bool()) === true
     ) {
-        $v = array_keys($request->getParsedBody());
-        if($v === range(65, 68)) {
+        $data = $table->withRequest($request)->getData();
+        if($data === range(65, 68)) {
+            $data_retrieval->setOrder($data);
             $out[] = $f->messageBox()->success("ok. great ordering!");
-            $table = $table->withRequest($request);
         } else {
             $out[] = $f->messageBox()->failure("nah. try again.");
         }

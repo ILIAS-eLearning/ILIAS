@@ -10,7 +10,15 @@ use ILIAS\UI\Component\Table as I;
 function disabled()
 {
     global $DIC;
+
+    /**
+     * @var ILIAS\UI\Factory $f;
+     */
     $f = $DIC['ui.factory'];
+
+    /**
+     * @var ILIAS\UI\Renderer $r;
+     */
     $r = $DIC['ui.renderer'];
 
     $columns = [
@@ -33,12 +41,8 @@ function disabled()
             I\OrderingRowBuilder $row_builder
         ): \Generator {
             foreach (array_values($this->records) as $record) {
-                yield $row_builder->buildRow((string)$record['id'], $record);
+                yield $row_builder->buildOrderingRow((string)$record['id'], $record);
             }
-        }
-
-        public function withOrder(array $ordered): self
-        {
         }
 
         protected function initRecords(): array
