@@ -28,6 +28,6 @@ namespace ILIAS\UI\Component\Input\Field;
  * 
  * @deprecated removed in 9
  */
-interface Input extends FormInput
+interface FormInput
 {
 }
