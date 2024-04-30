@@ -30,21 +30,6 @@ class AdministrationEditLinks implements EditLinks
     {
     }
 
-    public function addCriterion(Document $document): string
-    {
-        return $this->admin->targetWithDoc($this->gui, $document, __FUNCTION__);
-    }
-
-    public function editDocument(Document $document): string
-    {
-        return $this->admin->targetWithDoc($this->gui, $document, __FUNCTION__);
-    }
-
-    public function deleteDocument(Document $document): string
-    {
-        return $this->admin->targetWithDoc($this->gui, $document, __FUNCTION__);
-    }
-
     public function editCriterion(Document $document, Criterion $criterion): string
     {
         return $this->admin->targetWithDocAndCriterion($this->gui, $document, $criterion, __FUNCTION__);

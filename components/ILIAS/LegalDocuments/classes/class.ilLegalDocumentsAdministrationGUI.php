@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
+use ILIAS\LegalDocuments\Table\DocumentsTable;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\Criterion;
@@ -205,7 +206,7 @@ class ilLegalDocumentsAdministrationGUI
         }
 
         $edit_links = $this->config->editable() ? new AdministrationEditLinks($this, $this->admin) : null;
-        $this->admin->setContent($this->config->legalDocuments()->document()->table($this, __FUNCTION__, $edit_links));
+        $this->ui->mainTemplate()->setContent($this->config->legalDocuments()->document()->table($this, $edit_links)->render());
     }
 
     public function deleteDocuments(): void

@@ -28,6 +28,7 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\Condition;
 use ILIAS\LegalDocuments\Legacy\Table;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
+use ILIAS\LegalDocuments\Table\DocumentsTable;
 use ILIAS\LegalDocuments\Table\DocumentTable;
 use ILIAS\LegalDocuments\Table\EditableDocumentTable;
 use ILIAS\LegalDocuments\Value\Document;
@@ -52,11 +53,7 @@ class ProvideDocument
     public const CRITERION_ALREADY_EXISTS = 'Criterion already exists.';
     public const CRITERION_WOULD_NEVER_MATCH = 'Criterion would never match.';
 
-    /** @var Closure(object, string, TableInterface): Table */
-    private readonly Closure $create_table_gui;
-
     /**
-     * @param null|Closure(object, string, TableInterface): Table $create_table_gui
      * @param array<ConditionDefinition> $conditions
      * @param array<string, Closure(CriterionContent): Component $content_as_component
      */
@@ -66,27 +63,25 @@ class ProvideDocument
         private readonly SelectionMap $conditions,
         private readonly array $content_as_component,
         private readonly Container $container,
-        ?Closure $create_table_gui = null
     ) {
-        $this->create_table_gui = $create_table_gui ?? fn($gui, $command, $t) => new Table($gui, $command, $t);
     }
 
-    public function table(object $gui, string $command, ?EditLinks $edit_links = null): Component
+    public function table(object $gui, ?EditLinks $edit_links = null): DocumentsTable
     {
-        $t = new DocumentTable(
+        return new DocumentsTable(
             fn($criterion) => $this->toCondition($criterion)->asComponent(),
             $this->document_repository,
-            new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language()),
-            new DocumentModal($this->container->ui(), $this->contentAsComponent(...))
+            new UI(
+                $this->id,
+                $this->container->ui()->factory(),
+                $this->container->ui()->mainTemplate(),
+                $this->container->language()
+            ),
+            new DocumentModal($this->container->ui(), $this->contentAsComponent(...)),
+            $gui,
+            $edit_links,
+            $this->container
         );
-
-        if ($edit_links !== null) {
-            $t = new EditableDocumentTable($t, $edit_links);
-        }
-
-        $table = ($this->create_table_gui)($gui, $command, $t);
-
-        return $this->container->ui()->factory()->legacy($table->getHTML());
     }
 
     public function chooseDocumentFor(ilObjUser $user): Result

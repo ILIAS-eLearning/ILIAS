@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\LegalDocuments\Value\Criterion;
@@ -49,6 +51,8 @@ class Administration
 {
     /** @var Closure(): Confirmation */
     private readonly Closure $confirmation;
+    private WrapperFactory $http_wrapper;
+    private Factory $refinery;
 
     /**
      * @param null|Closure(): Confirmation $confirmation
@@ -57,9 +61,13 @@ class Administration
         private readonly Config $config,
         private readonly Container $container,
         private readonly UI $ui,
-        ?Closure $confirmation = null
+        ?Closure $confirmation = null,
+        ?WrapperFactory $http_wrapper = null,
+        ?Factory $refinery = null
     ) {
         $this->confirmation = $confirmation ?? fn() => new Confirmation($this->container->language());
+        $this->http_wrapper = $http_wrapper ?? $this->container->http()->wrapper(); 
+        $this->refinery = $refinery ?? $this->container->refinery();
     }
 
     /**
@@ -125,7 +133,28 @@ class Administration
 
     public function retrieveIds(): array
     {
-        return $this->container->http()->wrapper()->post()->retrieve('ids', $this->container->refinery()->to()->listOf($this->container->refinery()->kindlyTo()->int()));
+        $ids = $this->container->http()->wrapper()->post()->retrieve(
+            'ids',
+            $this->container->refinery()->byTrying([
+                $this->container->refinery()->to()->listOf(
+                    $this->container->refinery()->kindlyTo()->int()
+                ),
+                $this->container->refinery()->always(null)
+            ])
+        );
+
+        if (!$ids) {
+            //Try reading from UI-Table action
+            $ids = $this->http_wrapper->query()->retrieve(
+                'legal_document_id',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([]),
+                ])
+            );
+        }
+
+        return $ids ?: [];
     }
 
     /**
@@ -222,9 +251,27 @@ class Administration
      */
     public function currentDocument(): Result
     {
+        $doc_id = $this->http_wrapper->query()->retrieve(
+            'doc_id',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always(null),
+            ])
+        );
+        if (!$doc_id) {
+            //Try reading from UI-Table action
+            $doc_id = $this->http_wrapper->query()->retrieve(
+                'legal_document_id',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([]),
+                ])
+            );
+            $doc_id = $doc_id === [] ? null : $doc_id[array_key_first($doc_id)];
+        }
+
         $repo = $this->config->legalDocuments()->document()->repository();
-        $doc_id = $this->container->http()->request()->getQueryParams()['doc_id'] ?? null;
-        return $this->container->refinery()->kindlyTo()->int()->applyTo(new Ok($doc_id))->then($repo->find(...));
+        return $this->refinery->kindlyTo()->int()->applyTo(new Ok($doc_id))->then($repo->find(...));
     }
 
     public function criterionForm(string $url, Document $document, $criterion = null)
