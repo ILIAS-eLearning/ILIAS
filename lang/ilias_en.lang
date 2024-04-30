@@ -6293,6 +6293,7 @@ content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
 content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.

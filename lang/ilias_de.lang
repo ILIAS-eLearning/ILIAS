@@ -6292,6 +6292,7 @@ content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
 content#:#cont_disable_def_feedback#:#Standard-Feedback deaktivieren
 content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feedback nach der Beantwortung von Fragen.
+content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
 content#:#cont_download#:#Download
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
