@@ -21,6 +21,7 @@ import replaceContent from './core.replaceContent';
 import URLBuilder from './core.URLBuilder';
 import URLBuilderToken from './core.URLBuilderToken';
 
+il = il || {};
 il.UI = il.UI || {};
 il.UI.core = il.UI.core || {};
 

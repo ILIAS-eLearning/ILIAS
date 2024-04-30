@@ -12,6 +12,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
+
+var il = il || {};
 (function (il, $) {
     'use strict';
 
