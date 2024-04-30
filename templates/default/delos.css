@@ -8995,34 +8995,62 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .c-table-data__table {
   background-color: white;
 }
+.c-table-data__table-wrapper {
+  box-shadow: inset 0 0 1px 1px #dddddd;
+  background-color: #f0f0f0;
+}
 .c-table-data__cell {
   background-color: white;
   padding: 6px 12px;
   border: 1px solid #dddddd;
 }
-.c-table-data__row:hover td.c-table-data__cell {
-  background-color: #f0f0f0;
+.c-table-data__cell--multiaction {
+  padding-bottom: 9px;
+}
+@media only screen and (min-width: 768px) {
+  .c-table-data__row:hover td.c-table-data__cell {
+    background-color: #f0f0f0;
+  }
 }
 th.c-table-data__cell {
   padding: 0;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 3;
 }
-th.c-table-data__cell.c-table-data__header__rowselection {
-  padding: 12px 12px;
-  text-align: center;
+@media only screen and (min-width: 768px) {
+  th.c-table-data__cell {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  th.c-table-data__cell.c-table-data__header__rowselection {
+    padding: 12px 12px;
+    text-align: center;
+    position: sticky;
+    left: -2px;
+    z-index: 4;
+    background: #ffffff;
+    background: linear-gradient(90deg, #ffffff 85%, rgba(255, 255, 255, 0) 100%);
+  }
+  th.c-table-data__cell.c-table-data__header__rowaction {
+    padding: 12px 12px;
+  }
 }
-th.c-table-data__cell:after {
-  position: absolute;
-  content: "";
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(180deg, #00000021, transparent);
-  z-index: 3;
+@media only screen and (min-width: 768px) {
+  .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    top: 32px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  th.c-table-data__cell:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(180deg, #00000021, transparent);
+    z-index: 3;
+  }
 }
 .c-table-data__header__resize-wrapper {
   padding: 12px 12px;
@@ -9048,15 +9076,17 @@ th.c-table-data__cell:after {
   min-width: 50px;
   text-align: center;
 }
-.c-table-data__rowselection:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  right: -5px;
-  height: 100%;
-  width: 5px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.12941176), transparent);
-  z-index: 2;
+@media only screen and (min-width: 768px) {
+  .c-table-data__rowselection:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -5px;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.12941176), transparent);
+    z-index: 2;
+  }
 }
 .c-table-data__rowselection,
 .c-table-data__multiaction-triggerer {
@@ -9066,18 +9096,8 @@ th.c-table-data__cell:after {
   z-index: 2;
 }
 .c-table-data__multiaction-triggerer {
+  margin-top: 6px;
   width: fit-content;
-}
-.c-table-data__rowselection,
-.c-table-data__multiaction-triggerer {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 2;
-}
-.c-table-data__multiaction-triggerer {
-  padding-top: 6px;
-  padding-left: 12px;
 }
 .c-table-data__cell--link .c-table-data__header__resize-wrapper,
 .c-table-data__cell--linklisting .c-table-data__header__resize-wrapper,
@@ -9112,11 +9132,56 @@ td.c-table-data__cell--number {
 td.c-table-data__cell--highlighted {
   background-color: #f9f9f9;
 }
-.c-table-data__row:hover td.c-table-data__cell--highlighted {
-  background-color: #dedede;
+@media only screen and (min-width: 768px) {
+  .c-table-data__row:hover td.c-table-data__cell--highlighted {
+    background-color: #dedede;
+  }
 }
 .c-table-data__cell__col-title {
   display: none;
+}
+@media only screen and (max-width: 768px) {
+  .c-table-data .c-table-data__table,
+  .c-table-data tbody,
+  .c-table-data .c-table-data__cell {
+    width: 100%;
+    display: block;
+    border: none;
+  }
+  .c-table-data tr.c-table-data__row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .c-table-data tr.c-table-data__row {
+    border-top: 1px solid #dddddd;
+    padding: 15px 0 15px;
+  }
+  .c-table-data .c-table-data__table {
+    border-bottom: 1px solid #dddddd;
+  }
+  .c-table-data thead {
+    display: none;
+  }
+  .c-table-data .c-table-data__cell__col-title {
+    display: inline;
+    font-weight: bold;
+  }
+  .c-table-data td.c-table-data__cell--email,
+  .c-table-data td.c-table-data__cell--number {
+    text-align: inherit;
+  }
+  .c-table-data td.c-table-data__cell--highlighted {
+    font-size: 1.5rem;
+    background-color: inherit;
+  }
+  .c-table-data .c-table-data__rowselection,
+  .c-table-data .c-table-data__rowaction {
+    order: -1;
+    width: auto;
+  }
+  .c-table-data .c-table-data__rowaction {
+    margin-left: auto;
+  }
 }
 .il-workflow {
   word-break: break-word;
