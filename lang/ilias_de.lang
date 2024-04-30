@@ -2037,7 +2037,7 @@ auth#:#auth_err_login_attempts_deactivation#:#Das ILIAS-Konto wurde wegen zu vie
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_login_editor#:#Loginseite bearbeiten
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
@@ -3405,7 +3405,7 @@ cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filt
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
-cntr#:#cntr_text_media_editor#:#Seite gestalten
+cntr#:#cntr_text_media_editor#:#Seite bearbeiten
 cntr#:#cntr_view_by_type#:#Gruppiert nach Typen
 cntr#:#cntr_view_info_by_type#:#Alle Objekte eines Typs werden in einer eigenen Liste dargestellt.
 cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezeigt. Objekte, die keinen Sitzungen zugeordnet sind, werden darunter aufgelistet.
@@ -12840,7 +12840,7 @@ obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefü
 obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
-obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
+obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite bearbeiten") kann separat aktiviert werden.
 obj#:#obj_multilinguality#:#Mehrsprachigkeit
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
