@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +17,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -125,7 +125,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertIsArray($f->mode($this->actions, $this->aria_label)->getLabelledActions());
     }
 
-    public function testViewControlModeRender(): void
+    public function test_render_viewcontrol_mode(): void
     {
         $f = $this->getViewControlFactory();
         $r = $this->getDefaultRenderer();
@@ -139,7 +139,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
             $activate_first_item = true;
         }
 
-        $expected = "<div class=\"il-viewcontrol-mode l-bar__element\" aria-label=\"" . $this->aria_label . "\" role=\"" . $this->role . "\">";
+        $expected = "<div class=\"btn-group il-viewcontrol-mode\" aria-label=\"" . $this->aria_label . "\" role=\"" . $this->role . "\">";
         foreach ($this->actions as $label => $action) {
             if ($activate_first_item) {
                 $expected .= "<button class=\"btn btn-default engaged\" aria-label=\"$label\" aria-pressed=\"true\" data-action=\"$action\" id=\"id_1\">$label</button>";
@@ -172,10 +172,10 @@ class ViewControlTest extends ILIAS_UI_TestBase
     protected function getSectionExpectedHTML(): string
     {
         return <<<EOT
-<div class="il-viewcontrol-section l-bar__element">
-    <a class="btn btn-ctrl browse previous" href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    <button class="btn btn-default" data-action="">Today</button>
-    <a class="btn btn-ctrl browse next" href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2"><span class="glyphicon glyphicon-chevron-right"></span></a>
+<div class="il-viewcontrol-section">
+<a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<button class="btn btn-default" data-action="">Today</button>
+<a class="btn btn-default " href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
     }

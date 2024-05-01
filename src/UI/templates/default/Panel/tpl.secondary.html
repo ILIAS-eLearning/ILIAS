@@ -1,13 +1,12 @@
 <div class="panel panel-secondary panel-flex">
 	<!-- BEGIN heading -->
 	<div class="panel-heading ilHeader">
-		<div class="panel-title"><h2>{TITLE}</h2></div>
-		<div class="panel-controls">{ACTIONS}</div>
+		<h2>{TITLE}</h2>
+		{ACTIONS}
+		<!-- BEGIN view_controls -->
+			{VIEW_CONTROL}
+		<!-- END view_controls -->
 	</div>
-	<!-- BEGIN vc_container -->
-	<div class="panel-viewcontrols l-bar__container"><!-- BEGIN view_controls -->{VIEW_CONTROL}<!-- END view_controls --></div>
-	<!-- END vc_container -->
-	
 	<!-- END heading -->
 
 	<div class="panel-body">
