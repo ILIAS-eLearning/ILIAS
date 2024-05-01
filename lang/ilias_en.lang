@@ -347,6 +347,8 @@ administration#:#vc_information#:#Show Version Control Information
 administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
+adn#:#action_confirm_delete#:#Delete Notifications
+adn#:#action_confirm_delete_msg#:#Would you like to delete the following notification(s)?
 adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 adn#:#btn_cancel#:#Cancel
@@ -384,7 +386,7 @@ adn#:#msg_show_to_all_languages#:#Show to all languages
 adn#:#msg_show_to_all_roles#:#Show to all roles
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
 adn#:#msg_success_created#:#Notification created
-adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_deleted#:#Notification(s) sucessfully deleted
 adn#:#msg_success_duplicated#:#Notification sucessfully duplicated
 adn#:#msg_success_reset#:#Notification reset
 adn#:#msg_success_updated#:#Notification updated

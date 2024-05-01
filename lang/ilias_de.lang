@@ -346,6 +346,8 @@ administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+adn#:#action_confirm_delete#:#Ankündigung(en) löschen
+adn#:#action_confirm_delete_msg#:#Möchten Sie die folgende(n) Ankündigung(en) löschen?
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 adn#:#btn_cancel#:#Abbrechen
@@ -383,7 +385,7 @@ adn#:#msg_show_to_all_languages#:#Allen Sprachen anzeigen
 adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
 adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
 adn#:#msg_success_created#:#Ankündigung erstellt
-adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_deleted#:#Ankündigung(en) erfolgreich gelöscht
 adn#:#msg_success_duplicated#:#Ankündigung erfolgreich dupliziert
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
 adn#:#msg_success_updated#:#Ankündigung aktualisiert
