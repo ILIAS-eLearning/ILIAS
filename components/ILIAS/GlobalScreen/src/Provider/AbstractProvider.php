@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Provider;
 
@@ -64,14 +65,19 @@ abstract class AbstractProvider implements Provider
         if ($this->provider_name_cache !== "" && is_string($this->provider_name_cache)) {
             return $this->provider_name_cache;
         }
+
         $reflector = new \ReflectionClass($this);
 
-        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
+        $parts = explode(
+            DIRECTORY_SEPARATOR,
+            str_replace(rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/components/', '', dirname($reflector->getFileName()))
+        );
 
-        preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
+        $parts = array_filter($parts, static function ($part) {
+            $ignore = ['GlobalScreen', 'Provider', 'classes', 'GS'];
+            return $part !== '' && !in_array($part, $ignore, true);
+        });
 
-        $this->provider_name_cache = isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : self::class : self::class;
-
-        return $this->provider_name_cache;
+        return $this->provider_name_cache = implode('/', $parts);
     }
 }
