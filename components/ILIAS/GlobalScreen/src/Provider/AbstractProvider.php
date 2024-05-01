@@ -68,9 +68,11 @@ abstract class AbstractProvider implements Provider
 
         $reflector = new \ReflectionClass($this);
 
+        $dirname = dirname($reflector->getFileName());
+        $after_components = substr($dirname, strpos($dirname, '/components/') + strlen('/components/'));
         $parts = explode(
             DIRECTORY_SEPARATOR,
-            str_replace(rtrim(ILIAS_ABSOLUTE_PATH, '/') . '/components/', '', dirname($reflector->getFileName()))
+            $after_components
         );
 
         $parts = array_filter($parts, static function ($part) {
