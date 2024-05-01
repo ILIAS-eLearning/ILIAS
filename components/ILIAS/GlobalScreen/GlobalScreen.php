@@ -47,9 +47,6 @@ class GlobalScreen implements Component\Component
             new Component\Resource\Endpoint($this, "notify.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "toggle.php");
-
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "GS.js");
     }
 }
