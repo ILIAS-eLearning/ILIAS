@@ -134,16 +134,16 @@ class ilHistoryTableGUI extends ilTable2GUI
      */
     protected function createInfoText(array $a_set): string
     {
-        $info_params = explode(",", $a_set["info_params"]);
+        $info_params = explode(",", (string) $a_set["info_params"]);
 
         switch ($this->getObjType()) {
             case "lm":
-                $info_text = $this->lng->txt("hist_" . str_replace(":", "_", $a_set["obj_type"]) .
-            "_" . $a_set["action"]);
+                $info_text = $this->lng->txt("hist_" . str_replace(":", "_", (string) $a_set["obj_type"]) .
+            "_" . (string) $a_set["action"]);
                 break;
             default:
                 $info_text = $this->lng->txt("hist_" . str_replace(":", "_", $this->getObjType()) .
-                    "_" . $a_set["action"]);
+                    "_" . (string) $a_set["action"]);
                 break;
         }
 
