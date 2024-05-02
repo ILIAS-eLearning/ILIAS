@@ -87,11 +87,11 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
     public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item, Closure $current): Closure
     {
         return function () use ($item, $current): bool {
-            $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
             if (!$item->hasRoleBasedVisibility()) {
                 return $current();
             }
             if (!empty($item->getGlobalRoleIDs())) {
+                $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
                 foreach ($roles_of_current_user as $role_of_current_user) {
                     if (in_array((int) $role_of_current_user, $item->getGlobalRoleIDs(), true)) {
                         return $current();
