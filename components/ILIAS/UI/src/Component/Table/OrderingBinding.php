@@ -30,6 +30,7 @@ interface OrderingBinding
      * e.g. yield $row_builder->buildOrderingRow($row_id, $record).
      */
     public function getRows(
-        OrderingRowBuilder $row_builder
+        OrderingRowBuilder $row_builder,
+        array $visible_column_ids
     ): Generator;
 }

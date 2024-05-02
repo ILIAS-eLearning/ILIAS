@@ -615,6 +615,14 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.orderingtable.html", true, true);
         $component = $this->registerActions($component);
 
+        [$component, $view_controls] = $component->applyViewControls();
+
+        $rows = $component->getDataBinding()->getRows(
+            $component->getRowBuilder(),
+            array_keys($component->getVisibleColumns()),
+        );
+
+
         if(!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.ordering.init('{$id}');"
@@ -626,7 +634,7 @@ class Renderer extends AbstractComponentRenderer
         if(!$component->isOrderingDisabled()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
-                    function() {document.querySelector('#$tableid form').submit();return false;});");
+                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
 
             $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
             $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
@@ -635,9 +643,15 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
 
-        $columns = $component->getColumns();
+        /*
+        $total_number_of_cols = count($component->getVisibleColumns()) + 2; // + selection column and action dropdown column
+        $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
+        */
+        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
+        $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+
+        $columns = $component->getVisibleColumns();
         foreach ($columns as $col_id => $col) {
             $col_title = $col->getTitle();
             $tpl->setCurrentBlock('header_cell');
@@ -647,10 +661,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $binding = $component->getDataBinding();
-        $rows = $binding->getRows(
-            $component->getRowBuilder()
-        );
         $rows = iterator_to_array($rows);
         $r = [];
         foreach ($rows as $idx => $row) {

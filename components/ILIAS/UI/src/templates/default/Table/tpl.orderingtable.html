@@ -1,13 +1,13 @@
 <div class="c-table-ordering" id="{ID}">
 
-	{MSG}
 
-	<form method="post" action="{TARGET_URL}">
+	<!-- BEGIN header_title -->
+	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
+	<!-- END header_title -->
 
-		<!-- BEGIN header_title -->
-		<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
-		<!-- END header_title -->
+	<div class="viewcontrols">{VIEW_CONTROLS}</div>
 
+	<form method="post" class="c-table-ordering__form" action="{TARGET_URL}">
 		<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
 
 			<thead>
@@ -49,7 +49,6 @@
 			</tbody>
 
 		</table>
-
 	</form>
 
 

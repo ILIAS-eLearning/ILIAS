@@ -23,21 +23,32 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Input\ViewControl;
+use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 
 class Ordering extends AbstractTable implements T\Ordering
 {
+    public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
+    public const STORAGE_ID_PREFIX = self::class . '_';
+
     protected bool $ordering_disabled = false;
     protected ?URI $target_url = null;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
+        ViewControl\Factory $view_control_factory,
+        ViewControlContainer\Factory $view_control_container_factory,
         protected OrderingRowBuilder $row_builder,
         string $title,
         array $columns,
-        protected T\OrderingBinding $binding
+        protected T\OrderingBinding $binding,
+        \ArrayAccess $storage
     ) {
         parent::__construct(
             $signal_generator,
+            $view_control_factory,
+            $view_control_container_factory,
+            $storage,
             $title,
             $columns
         );
@@ -48,7 +59,7 @@ class Ordering extends AbstractTable implements T\Ordering
         return $this->row_builder
             ->withMultiActionsPresent($this->hasMultiActions())
             ->withSingleActions($this->getSingleActions())
-            ->withVisibleColumns($this->getColumns());
+            ->withVisibleColumns($this->getVisibleColumns());
     }
 
     public function getDataBinding(): T\OrderingBinding
@@ -88,5 +99,35 @@ class Ordering extends AbstractTable implements T\Ordering
         $ordered = $request->getParsedBody();
         asort($ordered, SORT_NUMERIC);
         return array_keys($ordered);
+    }
+
+    /**
+     * @return array<self, ViewControlContainer\ViewControl>
+     */
+    public function applyViewControls(): array
+    {
+        $table = $this;
+        $view_controls = $this->getViewControls();
+
+        if ($request = $this->getRequest()) {
+            $view_controls = $this->applyValuesToViewcontrols($view_controls, $request);
+            $data = $view_controls->getData();
+            $table = $table
+                ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
+        }
+
+        return [
+            $table,
+            $view_controls
+        ];
+    }
+
+    protected function getViewControls(): ViewControlContainer\ViewControl
+    {
+        $view_controls = [
+            self::VIEWCONTROL_KEY_FIELDSELECTION => $this->getViewControlFieldSelection(),
+        ];
+        $view_controls = array_filter($view_controls);
+        return $this->view_control_container_factory->standard($view_controls);
     }
 }

@@ -34,7 +34,6 @@ use ILIAS\Data\Range;
 use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
-use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 
 class Data extends AbstractTable implements T\Data
 {
@@ -46,53 +45,36 @@ class Data extends AbstractTable implements T\Data
     public const STORAGE_ID_PREFIX = self::class . '_';
 
     protected int $number_of_rows = 800;
-    /**
-     * @var string[]
-     */
-    protected ?array $selected_optional_column_ids = null;
+
     protected ?Range $range = null;
     protected ?Order $order = null;
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
-    protected ?string $id = null;
 
     /**
      * @param array<string, Column> $columns
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        protected ViewControl\Factory $view_control_factory,
-        protected ViewControlContainer\Factory $view_control_container_factory,
+        ViewControl\Factory $view_control_factory,
+        ViewControlContainer\Factory $view_control_container_factory,
         protected DataFactory $data_factory,
         protected DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
         protected T\DataRetrieval $data_retrieval,
-        protected \ArrayAccess $storage
+        \ArrayAccess $storage
     ) {
         parent::__construct(
             $signal_generator,
+            $view_control_factory,
+            $view_control_container_factory,
+            $storage,
             $title,
             $columns
         );
-
-        $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
         $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);
         $this->range = $data_factory->range(0, $this->number_of_rows);
-    }
-
-    /**
-     * @param array<string, Column> $columns
-     * @return array<string>
-     */
-    private function filterVisibleColumnIds(array $columns): array
-    {
-        return array_keys(
-            array_filter(
-                $columns,
-                static fn($c): bool => $c->isInitiallyVisible()
-            )
-        );
     }
 
     private function initialOrder(): string
@@ -173,62 +155,6 @@ class Data extends AbstractTable implements T\Data
         return $this->additional_parameters;
     }
 
-    /**
-     * @param string[] $selected_optional_column_ids
-     */
-    public function withSelectedOptionalColumns(?array $selected_optional_column_ids): self
-    {
-        $clone = clone $this;
-        $clone->selected_optional_column_ids = $selected_optional_column_ids;
-        return $clone;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSelectedOptionalColumns(): array
-    {
-        if (is_null($this->selected_optional_column_ids)) {
-            return array_keys($this->getInitiallyVisibleColumns());
-        }
-        return $this->selected_optional_column_ids;
-    }
-
-    /**
-     * @return array<int, Column>
-     */
-    protected function getOptionalColumns(): array
-    {
-        return array_filter(
-            $this->getColumns(),
-            static fn($c): bool => $c->isOptional()
-        );
-    }
-
-    /**
-     * @return array<int, Column>
-     */
-    protected function getInitiallyVisibleColumns(): array
-    {
-        return array_filter(
-            $this->getOptionalColumns(),
-            static fn($c): bool => $c->isInitiallyVisible()
-        );
-    }
-
-    /**
-     * @return array<string, Column>
-     */
-    public function getVisibleColumns(): array
-    {
-        $visible_optional_columns = $this->getSelectedOptionalColumns();
-        return array_filter(
-            $this->getColumns(),
-            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $visible_optional_columns, true),
-            ARRAY_FILTER_USE_BOTH
-        );
-    }
-
     public function getRowBuilder(): DataRowBuilder
     {
         return $this->data_row_builder
@@ -237,32 +163,6 @@ class Data extends AbstractTable implements T\Data
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
-    protected function getStorageData(): ?array
-    {
-        if (null !== ($storage_id = $this->getStorageId())) {
-            return $this->storage[$storage_id] ?? null;
-        }
-        return null;
-    }
-
-    protected function setStorageData(array $data): void
-    {
-        if (null !== ($storage_id = $this->getStorageId())) {
-            $this->storage[$storage_id] = $data;
-        }
-    }
-
-    protected function applyValuesToViewcontrols(
-        ViewControlContainer\ViewControl $view_controls,
-        ServerRequestInterface $request
-    ): ViewControlContainer\ViewControl {
-        $stored_values = new ArrayInputData($this->getStorageData() ?? []);
-        $view_controls = $view_controls
-            ->withStoredInput($stored_values)
-            ->withRequest($request);
-        $this->setStorageData($view_controls->getComponentInternalValues());
-        return $view_controls;
-    }
 
     /**
      * @return array<self, ViewControlContainer\ViewControl>
@@ -341,38 +241,4 @@ class Data extends AbstractTable implements T\Data
         return $this->view_control_factory->sortation($sort_options);
     }
 
-    protected function getViewControlFieldSelection(): ?ViewControl\FieldSelection
-    {
-        $optional_cols = $this->getOptionalColumns();
-        if ($optional_cols === []) {
-            return null;
-        }
-
-        return $this->view_control_factory
-            ->fieldSelection(array_map(
-                static fn($c): string => $c->getTitle(),
-                $optional_cols
-            ))
-            ->withValue($this->getSelectedOptionalColumns());
-    }
-
-    public function withId(string $id): self
-    {
-        $clone = clone $this;
-        $clone->id = $id;
-        return $clone;
-    }
-
-    protected function getStorageId(): ?string
-    {
-        if (null !== ($id = $this->getId())) {
-            return self::STORAGE_ID_PREFIX . $id;
-        }
-        return null;
-    }
-
-    protected function getId(): ?string
-    {
-        return $this->id;
-    }
 }

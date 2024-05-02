@@ -36,7 +36,9 @@ function base()
      */
     $columns = [
         'word' => $f->table()->column()->text("Word")
-            ->withHighlight(true)
+            ->withHighlight(true),
+        'phrase' => $f->table()->column()->text("Phrase")
+            ->withIsOptional(true, false)
     ];
 
     /**
@@ -74,7 +76,8 @@ function base()
         }
 
         public function getRows(
-            I\OrderingRowBuilder $row_builder
+            I\OrderingRowBuilder $row_builder,
+            array $visible_column_ids
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
@@ -86,24 +89,26 @@ function base()
         protected function initRecords(): array
         {
             $r = [
-                'A is for apple',
-                'B is for ball',
-                'C is for cat',
-                'D is for dog',
-                'E is for elephant',
-                'F is for fish',
-                'G for gorilla',
-                'H is for home',
-                'I is for insect',
-                'J  is for jumping',
+                ['A is for apple', 'it’s red and its green'],
+                ['B is for ball', 'and it bounces between'],
+                ['C is for cat', 'it’s licking its paws'],
+                ['D is for dog', 'it loves playing with balls'],
+                ['E is for elephant', 'bigger than me'],
+                ['F is for fish', 'he’s missing the sea'],
+                ['G for gorilla', 'he’s big and he’s strong'],
+                ['H is for home', 'and that’s where I belong'],
+                ['I is for insect', 'flying around'],
+                ['J  is for jumping', 'jump up and down'],
             ];
             shuffle($r);
 
-            foreach ($r as $index => $word) {
+            foreach ($r as $record) {
+                list($word, $phrase) = $record;
                 $id = substr($word, 0, 1);
                 $records[$id] = [
                     'id' => $id,
-                    'word' => $r[$index]
+                    'word' => $word,
+                    'phrase' => $phrase,
                 ];
             }
             return $records;
@@ -124,13 +129,13 @@ function base()
     };
 
     $table = $f->table()->ordering('ordering table', $columns, $data_retrieval)
-        ->withActions($actions);
+        ->withActions($actions)
+        ->withRequest($request);
 
     $out = [];
     if ($request->getMethod() == "POST"
         && !$request_wrapper->has('external') // do not listen to 3rd example
     ) {
-        $table = $table->withRequest($request);
         if($data = $table->getData()) {
             $out[] = $f->legacy('<pre>' . print_r($data, true) . '</pre>');
         }

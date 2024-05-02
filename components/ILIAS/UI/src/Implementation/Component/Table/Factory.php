@@ -100,10 +100,13 @@ class Factory implements T\Factory
     ): T\Ordering {
         return new Ordering(
             $this->signal_generator,
+            $this->view_control_factory,
+            $this->view_control_container_factory,
             $this->ordering_row_builder,
             $title,
             $columns,
-            $binding
+            $binding,
+            $this->storage
         );
     }
 }

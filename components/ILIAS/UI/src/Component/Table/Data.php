@@ -54,7 +54,7 @@ interface Data extends Table
      * and are not included here)
      * @param string[]  $selected_optional_column_ids
      */
-    public function withSelectedOptionalColumns(array $selected_optional_column_ids): self;
+    public function withSelectedOptionalColumns(array $selected_optional_column_ids): static;
 
     public function withOrder(?Order $order): self;
     public function withRange(?Range $range): self;
@@ -65,5 +65,5 @@ interface Data extends Table
      * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.
      * Set an Id to enable the storage and identify the distinct table.
      */
-    public function withId(string $id): self;
+    public function withId(string $id): static;
 }

@@ -48,7 +48,8 @@ function external()
         }
 
         public function getRows(
-            I\OrderingRowBuilder $row_builder
+            I\OrderingRowBuilder $row_builder,
+            array $visible_column_ids
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $position_index => $record) {
@@ -87,7 +88,8 @@ function external()
      */
     $target = (new URI((string)$request->getUri()))->withParameter('external', true);
     $table = $f->table()->ordering('sort the letters', $columns, $data_retrieval)
-        ->withTargetURL($target);
+        ->withTargetURL($target)
+        ->withRequest($request);
 
     /**
      * Set up an endpoint to itercept and customize ordering,

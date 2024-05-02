@@ -43,4 +43,18 @@ interface Ordering extends Table
      * Turns ordering capabilites off/on.
      */
     public function withOrderingDisabled(bool $flag): self;
+
+    /**
+     * Not all columns are neccessarily visible; "selected optional" is the
+     * positive list of shown columns (the non-optional columns are always shown
+     * and are not included here)
+     * @param string[]  $selected_optional_column_ids
+     */
+    public function withSelectedOptionalColumns(array $selected_optional_column_ids): static;
+
+    /**
+     * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.
+     * Set an Id to enable the storage and identify the distinct table.
+     */
+    public function withId(string $id): static;
 }

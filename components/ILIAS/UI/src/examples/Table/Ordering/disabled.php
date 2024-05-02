@@ -21,6 +21,8 @@ function disabled()
      */
     $r = $DIC['ui.renderer'];
 
+    $request = $DIC->http()->request();
+
     $columns = [
         'id' => $f->table()->column()->number("ID"),
         'letter' => $f->table()->column()->text("Letter")
@@ -38,7 +40,8 @@ function disabled()
         }
 
         public function getRows(
-            I\OrderingRowBuilder $row_builder
+            I\OrderingRowBuilder $row_builder,
+            array $visible_column_ids
         ): \Generator {
             foreach (array_values($this->records) as $record) {
                 yield $row_builder->buildOrderingRow((string)$record['id'], $record);
@@ -57,7 +60,8 @@ function disabled()
      * Disable the ordering (e.g. due to missing permissions)
      */
     $table = $f->table()->ordering('ordering table with disabled ordering', $columns, $data_retrieval)
-        ->withOrderingDisabled(true);
+        ->withOrderingDisabled(true)
+        ->withRequest($request);
 
     return $r->render($table);
 }
