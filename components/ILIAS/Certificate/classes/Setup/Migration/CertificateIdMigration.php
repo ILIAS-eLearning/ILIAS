@@ -79,8 +79,9 @@ class CertificateIdMigration implements Migration
      */
     public function step(Environment $environment): void
     {
+        $this->db->setLimit(self::NUMBER_OF_CERTS_PER_STEP);
         $result = $this->db->query(
-            'SELECT id, template_values FROM il_cert_user_cert WHERE certificate_id IS NULL LIMIT ' . self::NUMBER_OF_CERTS_PER_STEP
+            'SELECT id, template_values FROM il_cert_user_cert WHERE certificate_id IS NULL'
         );
 
         while($row = $this->db->fetchAssoc($result)) {
