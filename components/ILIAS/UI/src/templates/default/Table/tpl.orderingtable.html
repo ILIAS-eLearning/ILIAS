@@ -46,25 +46,28 @@
 					{CELLS}
 				</tr>
 				<!-- END row -->
+				
+				<tr>
+					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{COLUMN_COUNT}">
+						<div class="l-bar__space-keeper">
+							<!-- BEGIN multi_action -->
+							<div class="l-bar__element">
+								<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+								{MULTI_ACTION_ALL_MODAL}
+								<!-- END multi_action -->
+							</div>
+							<div class="l-bar__element">
+							{FORM_BUTTONS}
+							</div>
+						</div>
+					</td>
+				</tr>
+
 			</tbody>
 
 		</table>
 	</form>
 
-
-	<div class="l-bar__container">
-		
-		<!-- BEGIN multi_action -->
-		<div class="c-table-data__multiaction-triggerer l-bar__element">{MULTI_ACTION_TRIGGERER}</div>
-		
-		<!-- END multi_action -->
-		<div class="l-bar__element">
-		{FORM_BUTTONS}
-		</div>
-
-	</div>
-
-	{MULTI_ACTION_ALL_MODAL}
 
 	<div class="c-table-data__async_modal_container"></div>
 

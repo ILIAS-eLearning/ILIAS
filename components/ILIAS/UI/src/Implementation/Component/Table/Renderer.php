@@ -630,8 +630,10 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
+        $total_number_of_cols = count($component->getVisibleColumns());
 
         if(!$component->isOrderingDisabled()) {
+            $total_number_of_cols = $total_number_of_cols + 1;
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
                     function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
@@ -643,11 +645,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
-
-        /*
-        $total_number_of_cols = count($component->getVisibleColumns()) + 2; // + selection column and action dropdown column
-        $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
-        */
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
@@ -673,6 +670,7 @@ class Renderer extends AbstractComponentRenderer
         $this->appendTableRows($tpl, $r, $default_renderer);
 
         if ($component->hasMultiActions()) {
+            $total_number_of_cols = $total_number_of_cols + 2;
             $multi_actions = $component->getMultiActions();
             $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $tableid);
             $multi_actions_dropdown = $this->buildMultiActionsDropdown(
@@ -684,6 +682,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
         }
 
+        $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
         return $tpl->get();
     }
 
