@@ -60,8 +60,8 @@ class AppDBRepository implements AppRepository
     {
         $actions = [];
         foreach ($apps->getApps() as $app) {
+            $actions = array_merge($actions, $app->getActions());
             $this->store($app, $action_repository);
-            $actions += $app->getActions();
         }
         $action_repository->clearSuperfluous(...$actions);
     }
