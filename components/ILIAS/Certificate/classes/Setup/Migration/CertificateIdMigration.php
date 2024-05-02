@@ -35,7 +35,7 @@ use ILIAS\Data\UUID\Factory;
 
 class CertificateIdMigration implements Migration
 {
-    public const NUMBER_OF_STEPS = 10000;
+    public const NUMBER_OF_STEPS = 5;
     public const NUMBER_OF_CERTS_PER_STEP = 100000;
 
     private ilDBPdoInterface $db;
