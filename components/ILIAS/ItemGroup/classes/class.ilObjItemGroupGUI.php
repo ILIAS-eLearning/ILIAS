@@ -465,7 +465,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
             $new_obj->applyDidacticTemplate($dtpl_id);
         }
 
-        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_object->getRefId());
+        $this->ctrl->setParameterByClass(self::class, 'ref_id', $new_obj->getRefId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirectByClass(self::class, "listMaterials");
     }
