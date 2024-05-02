@@ -97,7 +97,7 @@ class ilUserCertificateRepository
             'currently_active' => ['integer', (int) $userCertificate->isCurrentlyActive()],
             'background_image_path' => ['text', $userCertificate->getBackgroundImagePath()],
             'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()],
-            'certificate_id' => ['text', $userCertificate->getCertificateId()->get()]
+            'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
         ];
 
         $this->logger->debug(sprintf(

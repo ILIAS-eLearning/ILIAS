@@ -244,7 +244,7 @@ class CertificateOverviewTable implements DataRetrieval
 
             $table_rows[] = [
                 'id' => $certificate->getId(),
-                'certificate_id' => $certificate->getCertificateId()->get(),
+                'certificate_id' => $certificate->getCertificateId()->asString(),
                 'issue_date' => $certificate->getAcquiredTimestamp(),
                 'object' => $objectTitle,
                 'obj_id' => (string) $certificate->getObjId(),

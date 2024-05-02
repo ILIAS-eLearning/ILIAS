@@ -51,7 +51,7 @@ class CertificateId
         $this->certificate_id = $certificate_id;
     }
 
-    public function get(): string
+    public function asString(): string
     {
         return $this->certificate_id;
     }

@@ -261,7 +261,7 @@ class ilCertificateCron extends ilCronJob
         $certificateContent = $template->getCertificateContent();
 
         $placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);
-        $placeholderValues['CERTIFICATE_ID'] = $cert_id->get();
+        $placeholderValues['CERTIFICATE_ID'] = $cert_id->asString();
 
         $this->logger->debug(sprintf(
             'Values for placeholders: "%s"',
