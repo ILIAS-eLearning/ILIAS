@@ -31,7 +31,8 @@ class Action
         private int $id,
         private string $name,
         private string $extension,
-        private URI $launcher_url
+        private URI $launcher_url,
+        private string $url_appendix = ''
     ) {
     }
 
@@ -59,6 +60,11 @@ class Action
     public function getLauncherUrl(): URI
     {
         return $this->launcher_url;
+    }
+
+    public function getUrlAppendix(): string
+    {
+        return $this->url_appendix;
     }
 
 }

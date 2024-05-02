@@ -28,6 +28,8 @@ use ILIAS\Data\URI;
 class ActionDBRepository implements ActionRepository
 {
     private const TABLE_NAME = 'wopi_action';
+    private array $edit_actions = [ActionTarget::EDIT, ActionTarget::EMBED_EDIT];
+    private array $view_actions = [ActionTarget::VIEW, ActionTarget::EMBED_VIEW];
 
     public function __construct(
         private \ilDBInterface $db
@@ -45,7 +47,7 @@ class ActionDBRepository implements ActionRepository
 
     public function hasEditActionForSuffix(string $suffix): bool
     {
-        foreach ([ActionTarget::EDIT, ActionTarget::EMBED_EDIT] as $action_target) {
+        foreach ($this->edit_actions as $action_target) {
             if ($this->hasActionForSuffix($suffix, $action_target)) {
                 return true;
             }
@@ -55,7 +57,7 @@ class ActionDBRepository implements ActionRepository
 
     public function hasViewActionForSuffix(string $suffix): bool
     {
-        foreach ([ActionTarget::VIEW, ActionTarget::EMBED_VIEW] as $action_target) {
+        foreach ($this->view_actions as $action_target) {
             if ($this->hasActionForSuffix($suffix, $action_target)) {
                 return true;
             }
@@ -79,7 +81,7 @@ class ActionDBRepository implements ActionRepository
 
     public function getEditActionForSuffix(string $suffix): ?Action
     {
-        foreach ([ActionTarget::EDIT, ActionTarget::EMBED_EDIT] as $action_target) {
+        foreach ($this->edit_actions as $action_target) {
             $action = $this->getActionForSuffix($suffix, $action_target);
             if ($action !== null) {
                 return $action;
@@ -90,7 +92,7 @@ class ActionDBRepository implements ActionRepository
 
     public function getViewActionForSuffix(string $suffix): ?Action
     {
-        foreach ([ActionTarget::VIEW, ActionTarget::EMBED_VIEW] as $action_target) {
+        foreach ($this->view_actions as $action_target) {
             $action = $this->getActionForSuffix($suffix, $action_target);
             if ($action !== null) {
                 return $action;
@@ -158,7 +160,8 @@ class ActionDBRepository implements ActionRepository
             (int) $row['id'],
             (string) $row['name'],
             (string) $row['ext'],
-            new URI((string) $row['urlsrc'])
+            new URI((string) $row['urlsrc']),
+            $row['url_appendix'] ?? null
         );
     }
 
@@ -201,13 +204,14 @@ class ActionDBRepository implements ActionRepository
             ['integer'],
             [$action->getId()]
         )->numRows() === 0) {
-            $next_id = (int)$this->db->nextId(self::TABLE_NAME);
+            $next_id = (int) $this->db->nextId(self::TABLE_NAME);
             $this->db->insert(self::TABLE_NAME, [
                 'id' => ['integer', $next_id],
                 'name' => ['text', $action->getName()],
                 'ext' => ['text', strtolower($action->getExtension())],
                 'urlsrc' => ['text', $action->getLauncherUrl()],
                 'app_id' => ['integer', $for_app->getId()],
+                'url_appendix' => ['text', $action->getUrlAppendix()],
             ]);
             $action = $action->withId($next_id);
         } else {
@@ -216,6 +220,7 @@ class ActionDBRepository implements ActionRepository
                 'ext' => ['text', strtolower($action->getExtension())],
                 'urlsrc' => ['text', $action->getLauncherUrl()],
                 'app_id' => ['integer', $for_app->getId()],
+                'url_appendix' => ['text', $action->getUrlAppendix()],
             ], [
                 'id' => ['integer', $action->getId()],
             ]);
