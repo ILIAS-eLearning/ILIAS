@@ -248,7 +248,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $parent_ref_id = $this->tree->getParentId($this->object->getRefId());
         $parent_type = ilObject::_lookupType($parent_ref_id, true);
         $parent_gui_class = 'ilObj' . $this->obj_definition->getClassName($parent_type) . 'GUI';
-        $parent_gui = new $parent_gui_class($parent_ref_id, true, false);
+        $parent_gui = new $parent_gui_class('', $parent_ref_id, true, false);
         $types = $parent_gui->getCreatableObjectTypes();
         foreach (array_merge(['itgr', 'sess' ], $this->obj_definition->getSideBlockTypes()) as $type_to_remove) {
             unset($types[$type_to_remove]);
