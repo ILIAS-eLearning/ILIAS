@@ -711,8 +711,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
                     $varObj = new assFormulaQuestionVariable($data["variable"], $data["range_min"], $data["range_max"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["varprecision"], $data["intprecision"]);
-                    $varObj->setRangeMinTxt($data['range_min_txt']);
-                    $varObj->setRangeMaxTxt($data['range_max_txt']);
                     $this->addVariable($varObj);
                 }
             }
@@ -726,8 +724,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 while ($data = $ilDB->fetchAssoc($result)) {
                     $resObj = new assFormulaQuestionResult($data["result"], $data["range_min"], $data["range_max"], $data["tolerance"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["formula"], $data["points"], $data["resprecision"], $data["rating_simple"], $data["rating_sign"], $data["rating_value"], $data["rating_unit"]);
                     $resObj->setResultType($data['result_type']);
-                    $resObj->setRangeMinTxt($data['range_min_txt']);
-                    $resObj->setRangeMaxTxt($data['range_max_txt']);
                     $this->addResult($resObj);
                 }
             }
@@ -921,7 +917,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             );
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
