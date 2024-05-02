@@ -89,4 +89,18 @@ class ilWOPIDB90 implements \ilDatabaseUpdateSteps
         $this->db->addIndex('wopi_action', ['app_id'], 'i1');
     }
 
+    public function step_3(): void
+    {
+        // create app table
+        $this->db->addTableColumn(
+            'wopi_action',
+            'url_appendix',
+            [
+                'type' => 'text',
+                'length' => 4000,
+                'notnull' => false,
+            ]
+        );
+    }
+
 }

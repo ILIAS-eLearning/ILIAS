@@ -42,7 +42,8 @@ class Crawler
             ActionTarget::VIEW->value,
             ActionTarget::EMBED_VIEW->value,
             ActionTarget::EDIT->value,
-            ActionTarget::EMBED_EDIT->value
+            ActionTarget::EMBED_EDIT->value,
+            ActionTarget::CONVERT->value,
         ];
     }
 
@@ -96,12 +97,14 @@ class Crawler
 
                 $uri_string = rtrim((string) $action_urlsrc, '?');
                 // remove all after ?
-                $uri_string = explode('?', $uri_string)[0];
+                $uri = explode('?', $uri_string);
+                $uri_string = $uri[0];
                 $actions[] = new Action(
                     0,
                     (string) $action_name,
                     (string) $action_ext,
-                    new URI($uri_string)
+                    new URI($uri_string),
+                    $uri[1] ?? null
                 );
             }
             if ($actions === []) {

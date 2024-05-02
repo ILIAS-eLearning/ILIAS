@@ -73,6 +73,8 @@ class EmbeddedApplication
 
     public function getActionLauncherURL(): URI
     {
+        $appendices = $this->getAppendices();
+
         $url = rtrim((string) $this->action->getLauncherUrl(), '/?#')
             . '?'
             . self::WOPI_SRC
@@ -83,6 +85,47 @@ class EmbeddedApplication
             . '/'
             . $this->identification->serialize();
 
+        if ($appendices !== []) {
+            $url .= '&' . implode('&', $appendices);
+        }
+
         return new URI($url);
+    }
+
+    /**
+     * @return array|string[]
+     */
+    protected function getAppendices(): array
+    {
+        // appendix sanitizer
+        $appendix = $this->action->getUrlAppendix();
+        $appendices = [];
+        try {
+            if ($appendix !== null) {
+                preg_match_all('/([^<]*)=([^>&]*)/m', $appendix, $appendices, PREG_SET_ORDER, 0);
+
+                $appendices = array_filter($appendices, static function ($appendix) {
+                    return isset($appendix[1], $appendix[2]);
+                });
+
+                // we set the wopisrc ourselves
+                $appendices = array_filter($appendices, static function ($appendix) {
+                    return strtolower($appendix[1]) !== 'wopisrc';
+                });
+
+                // we remove all those placeholders
+                $appendices = array_filter($appendices, static function ($appendix) {
+                    return !preg_match('/([A-Z\_]*)/m', $appendix[2]);
+                });
+
+                $appendices = array_map(static function ($appendix) {
+                    return $appendix[1] . '=' . $appendix[2];
+                }, $appendices);
+            }
+        } catch (\Throwable $t) {
+            return $appendices;
+        }
+
+        return $appendices;
     }
 }
