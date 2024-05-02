@@ -6217,6 +6217,7 @@ content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Comment
 content#:#cont_char_style_quot#:#Quotation
 content#:#cont_characteristic#:#Style Class
+content#:#cont_characteristic_table#:#Style Class
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 content#:#cont_choose_characteristic#:#Choose Characteristic

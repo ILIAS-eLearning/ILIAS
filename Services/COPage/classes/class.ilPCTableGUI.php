@@ -239,7 +239,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         // table templates and table classes
         $char_prop = new ilAdvSelectInputGUI(
-            $this->lng->txt("cont_characteristic"),
+            $this->lng->txt("cont_characteristic_table"),
             "characteristic"
         );
         $chars = $this->getCharacteristics();
