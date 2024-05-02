@@ -81,6 +81,7 @@ class Crawler
                 $action_name = $action['name'] ?? null;
                 $action_ext = $action['ext'] ?? null;
                 $action_urlsrc = $action['urlsrc'] ?? null;
+                $target_text = isset($action['targetext']) ? (string) $action['targetext'] : null;
                 if (!$action_name instanceof \SimpleXMLElement) {
                     continue;
                 }
@@ -104,7 +105,8 @@ class Crawler
                     (string) $action_name,
                     (string) $action_ext,
                     new URI($uri_string),
-                    $uri[1] ?? null
+                    $uri[1] ?? null,
+                    $target_text
                 );
             }
             if ($actions === []) {
