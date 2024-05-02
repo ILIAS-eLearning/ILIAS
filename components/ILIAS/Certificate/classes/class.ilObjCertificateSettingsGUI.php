@@ -102,7 +102,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->certificate_active_validator->validate() && $this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->certificate_active_validator->validate() && $this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_CERTIFICATES,
                 $this->lng->txt('certificates'),
@@ -237,7 +237,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     {
         if (
             !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())
+            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
@@ -253,7 +253,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     {
         if (
             !$this->certificate_active_validator->validate()
-            || !$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())
+            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
