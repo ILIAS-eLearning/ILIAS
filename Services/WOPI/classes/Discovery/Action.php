@@ -31,8 +31,16 @@ class Action
         private int $id,
         private string $name,
         private string $extension,
-        private URI $launcher_url
+        private URI $launcher_url,
+        private ?string $url_appendix = null,
+        private ?string $target_ext = null
     ) {
+    }
+
+    public function withId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getId(): int
@@ -53,6 +61,16 @@ class Action
     public function getLauncherUrl(): URI
     {
         return $this->launcher_url;
+    }
+
+    public function getUrlAppendix(): ?string
+    {
+        return $this->url_appendix;
+    }
+
+    public function getTargetExtension(): ?string
+    {
+        return $this->target_ext;
     }
 
 }

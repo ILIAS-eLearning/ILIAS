@@ -217,7 +217,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $additional_check = match ($cmd) {
             ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION => $info->isZip(),
-            'editExternal' => $this->action_repo->hasActionForSuffix($info->getSuffix(), ActionTarget::EDIT),
+            'editExternal' => $this->action_repo->hasEditActionForSuffix($info->getSuffix()),
             default => true,
         };
 

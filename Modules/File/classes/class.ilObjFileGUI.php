@@ -244,12 +244,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
                     return;
                 }
-                $action = $this->action_repo->getActionForSuffix(
-                    $this->object->getFileExtension(),
-                    ActionTarget::EDIT
-                ) ?? $this->action_repo->getActionForSuffix(
-                    $this->object->getFileExtension(),
-                    ActionTarget::VIEW
+                $action = $this->action_repo->getEditActionForSuffix(
+                    $this->object->getFileExtension()
                 );
                 if (null === $action) {
                     $this->error->raiseError($this->lng->txt("no_action_avaliable"), $this->error->MESSAGE);

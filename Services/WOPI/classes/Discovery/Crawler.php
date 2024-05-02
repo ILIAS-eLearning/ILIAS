@@ -40,7 +40,10 @@ class Crawler
     {
         $this->crawl_actions = [
             ActionTarget::VIEW->value,
+            ActionTarget::EMBED_VIEW->value,
             ActionTarget::EDIT->value,
+            ActionTarget::EMBED_EDIT->value,
+            ActionTarget::CONVERT->value,
         ];
     }
 
@@ -78,6 +81,7 @@ class Crawler
                 $action_name = $action['name'] ?? null;
                 $action_ext = $action['ext'] ?? null;
                 $action_urlsrc = $action['urlsrc'] ?? null;
+                $target_text = isset($action['targetext']) ? (string) $action['targetext'] : null;
                 if (!$action_name instanceof \SimpleXMLElement) {
                     continue;
                 }
@@ -94,12 +98,15 @@ class Crawler
 
                 $uri_string = rtrim((string) $action_urlsrc, '?');
                 // remove all after ?
-                $uri_string = explode('?', $uri_string)[0];
+                $uri = explode('?', $uri_string);
+                $uri_string = $uri[0];
                 $actions[] = new Action(
                     0,
                     (string) $action_name,
                     (string) $action_ext,
-                    new URI($uri_string)
+                    new URI($uri_string),
+                    $uri[1] ?? null,
+                    $target_text
                 );
             }
             if ($actions === []) {
