@@ -91,16 +91,31 @@ class ilWOPIDB90 implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        // create app table
-        $this->db->addTableColumn(
-            'wopi_action',
-            'url_appendix',
-            [
-                'type' => 'text',
-                'length' => 4000,
-                'notnull' => false,
-            ]
-        );
+        if (!$this->db->tableColumnExists('wopi_action', 'url_appendix')) {
+            $this->db->addTableColumn(
+                'wopi_action',
+                'url_appendix',
+                [
+                    'type' => 'text',
+                    'length' => 4000,
+                    'notnull' => false,
+                ]
+            );
+        }
     }
 
+    public function step_4(): void
+    {
+        if (!$this->db->tableColumnExists('wopi_action', 'target_ext')) {
+            $this->db->addTableColumn(
+                'wopi_action',
+                'target_ext',
+                [
+                    'type' => 'text',
+                    'length' => 256,
+                    'notnull' => false,
+                ],
+            );
+        }
+    }
 }

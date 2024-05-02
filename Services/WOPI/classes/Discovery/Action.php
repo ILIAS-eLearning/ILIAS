@@ -32,7 +32,8 @@ class Action
         private string $name,
         private string $extension,
         private URI $launcher_url,
-        private ?string $url_appendix = null
+        private ?string $url_appendix = null,
+        private ?string $target_ext = null
     ) {
     }
 
@@ -65,6 +66,11 @@ class Action
     public function getUrlAppendix(): ?string
     {
         return $this->url_appendix;
+    }
+
+    public function getTargetExtension(): ?string
+    {
+        return $this->target_ext;
     }
 
 }

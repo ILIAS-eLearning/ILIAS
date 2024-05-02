@@ -28,7 +28,7 @@ use ILIAS\Data\URI;
 class ActionDBRepository implements ActionRepository
 {
     private const TABLE_NAME = 'wopi_action';
-    private array $edit_actions = [ActionTarget::EDIT, ActionTarget::EMBED_EDIT];
+    private array $edit_actions = [ActionTarget::EDIT, ActionTarget::EMBED_EDIT, ActionTarget::CONVERT];
     private array $view_actions = [ActionTarget::VIEW, ActionTarget::EMBED_VIEW];
 
     public function __construct(
@@ -161,7 +161,8 @@ class ActionDBRepository implements ActionRepository
             (string) $row['name'],
             (string) $row['ext'],
             new URI((string) $row['urlsrc']),
-            $row['url_appendix'] ?? null
+            empty($row['url_appendix']) ? null : (string) $row['url_appendix'],
+            empty($row['target_text']) ? null : (string) $row['target_text']
         );
     }
 
@@ -191,8 +192,12 @@ class ActionDBRepository implements ActionRepository
         }
 
         // check for existing action to update them
-        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE name = %s AND ext = %s';
-        $result = $this->db->queryF($query, ['text', 'text'], [$action->getName(), $action->getExtension()]);
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE name = %s AND ext = %s AND target_ext = %s';
+        $result = $this->db->queryF(
+            $query,
+            ['text', 'text', 'text'],
+            [$action->getName(), $action->getExtension(), $action->getTargetExtension()]
+        );
 
         if ($this->db->numRows($result) > 0) {
             $row = $this->db->fetchAssoc($result);
@@ -212,6 +217,7 @@ class ActionDBRepository implements ActionRepository
                 'urlsrc' => ['text', $action->getLauncherUrl()],
                 'app_id' => ['integer', $for_app->getId()],
                 'url_appendix' => ['text', $action->getUrlAppendix()],
+                'target_ext' => ['text', $action->getTargetExtension()],
             ]);
             $action = $action->withId($next_id);
         } else {
@@ -221,6 +227,7 @@ class ActionDBRepository implements ActionRepository
                 'urlsrc' => ['text', $action->getLauncherUrl()],
                 'app_id' => ['integer', $for_app->getId()],
                 'url_appendix' => ['text', $action->getUrlAppendix()],
+                'target_ext' => ['text', $action->getTargetExtension()],
             ], [
                 'id' => ['integer', $action->getId()],
             ]);
