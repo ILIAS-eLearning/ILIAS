@@ -4,7 +4,7 @@ import copyright from '../../../CI/Copyright-Checker/copyright';
 export default {
   input: './src/index.js',
   output: {
-    file: './dist/index.min.js',
+    file: './dist/wopi.min.js',
     format: 'iife',
     banner: copyright,
     globals: {

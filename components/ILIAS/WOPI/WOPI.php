@@ -38,6 +38,9 @@ class WOPI implements Component\Component
             );
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "wopi/index.php", "wopi");
+            new Component\Resource\Endpoint($this, "index.php", "wopi");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/dist/wopi.min.js");
     }
 }
