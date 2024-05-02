@@ -478,7 +478,7 @@ class ilLOEditorGUI
         $parent_ref_id = $this->getParentObject()->getRefId();
         $parent_type = $this->getParentObject()->getType();
         $parent_gui_class = 'ilObj' . $parent_type . 'GUI';
-        $parent_gui = new $parent_gui_class($parent_ref_id, true, false);
+        $parent_gui = new $parent_gui_class('', $parent_ref_id, true, false);
 
         $createble_object_types = $parent_gui->getCreatableObjectTypes(
             ilObjectDefinition::MODE_REPOSITORY,
