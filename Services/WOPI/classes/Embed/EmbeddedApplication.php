@@ -51,6 +51,7 @@ class EmbeddedApplication
         $payload = [
             'resource_id' => $this->identification->serialize(),
             'user_id' => $DIC->user()->getId(),
+            'stakeholder' => $this->stakeholder::class
         ];
         $this->token = $data_signer->sign($payload, 'wopi', new \DateTimeImmutable("now + $this->ttl seconds"));
         $this->ilias_base_url = $ilias_base_url ?? new URI(ILIAS_HTTP_PATH);
