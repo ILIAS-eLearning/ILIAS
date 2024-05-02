@@ -108,6 +108,10 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
         hr {
             display: none;
         }
+
+        > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
+            display: none;
+        }
     }
 
     .c-drilldown__menulevel--engaged > li {
@@ -283,6 +287,7 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
             filter: invert(50%);
         }
     }
+    .c-drilldown__menu--no-items,
     .c-drilldown__menulevel--trigger {
         justify-content: space-between;
         text-align: left;
@@ -298,5 +303,10 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
         padding-left: $c-drilldown-left-indent;
         // bulky-btn left padding + space for small icon + gap
         margin-bottom: l-spage.$il-slate-content-spacing;
+    }
+
+    .c-drilldown__menu--no-items {
+        padding-top: $c-drilldown-spacing-vertical;
+        padding-bottom: $c-drilldown-spacing-vertical;
     }
 }

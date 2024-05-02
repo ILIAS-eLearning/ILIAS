@@ -7424,6 +7424,9 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menu hr {
   display: none;
 }
+.c-drilldown .c-drilldown__menu > ul > li:not(.c-drilldown__menuitem--filtered) ~ .c-drilldown__menu--no-items {
+  display: none;
+}
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__branch,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .btn-bulky,
 .c-drilldown .c-drilldown__menulevel--engaged > li > .c-drilldown__menulevel--trigger,
@@ -7562,6 +7565,7 @@ button .minimize, button .close {
 .c-drilldown .c-drilldown__menulevel--trigger .icon {
   filter: invert(50%);
 }
+.c-drilldown .c-drilldown__menu--no-items,
 .c-drilldown .c-drilldown__menulevel--trigger {
   justify-content: space-between;
   text-align: left;
@@ -7574,6 +7578,10 @@ button .minimize, button .close {
   text-align: left;
   padding-left: 38px;
   margin-bottom: 2px;
+}
+.c-drilldown .c-drilldown__menu--no-items {
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 div.alert div {
@@ -19717,5 +19725,3 @@ div.Access {
 .light {
   color: #6f6f6f;
 }
-
-/*# sourceMappingURL=delos.css.map */

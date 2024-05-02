@@ -17173,6 +17173,7 @@ ui#:#datatable_multiactionmodal_buttonlabel#:#Execute
 ui#:#datatable_multiactionmodal_listentry#:#apply to all objects
 ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.
 ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
+ui#:#drilldown_no_items#:#No Matching Elements
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.

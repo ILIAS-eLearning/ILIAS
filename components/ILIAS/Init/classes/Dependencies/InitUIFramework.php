@@ -182,7 +182,8 @@ class InitUIFramework
         };
         $c["ui.factory.menu"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Menu\Factory(
-                $c['ui.signal_generator']
+                $c['ui.signal_generator'],
+                $c['lng']
             );
         };
         $c["ui.factory.symbol.glyph"] = function ($c) {

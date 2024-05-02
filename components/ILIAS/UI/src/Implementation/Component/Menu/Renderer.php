@@ -99,6 +99,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID_FILTER', $id_filter);
         $tpl->setVariable('BACKNAV', $back_button_html);
         $tpl->setVariable('DRILLDOWN', $items_html);
+        $tpl->setVariable('NO_ITEMS_TEXT', $component->getNoItemsText());
 
         return $tpl->get();
     }
