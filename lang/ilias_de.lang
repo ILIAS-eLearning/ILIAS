@@ -5559,6 +5559,7 @@ common#:#sess#:#Sitzung
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
 common#:#sess_mode#:#Session-Modus
+common#:#sess_new#:#Neue Sitzung anlegen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in „%s“ von der Sitzung „%s“

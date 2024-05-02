@@ -5552,6 +5552,7 @@ common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
 common#:#sess_mode#:#Session Mode
+common#:#sess_new#:#New Session
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
