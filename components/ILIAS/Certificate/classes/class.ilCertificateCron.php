@@ -257,7 +257,7 @@ class ilCertificateCron extends ilCronJob
             $type
         ));
 
-        $cert_id = $this->userRepository->requestNewCertificateId();
+        $cert_id = $this->userRepository->requestIdentity();
         $certificateContent = $template->getCertificateContent();
 
         $placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);

@@ -763,7 +763,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
         return (int) $this->database->fetchAssoc($result)['count'];
     }
 
-    public function requestNewCertificateId(): CertificateId
+    public function requestIdentity(): CertificateId
     {
         return new CertificateId($this->uuid_factory->uuid4AsString());
     }
