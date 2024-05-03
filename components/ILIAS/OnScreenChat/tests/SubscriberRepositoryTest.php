@@ -29,11 +29,16 @@ class SubscriberRepositoryTest extends ilOnScreenChatBaseTest
         $db = $this->createMock(ilDBInterface::class);
         $resultMock = $this->createMock(ilDBStatement::class);
 
+        $consecutive = ['FROM osc_activity', 'FROM osc_messages'];
         $db->expects($this->exactly(2))
             ->method('queryF')
-            ->withConsecutive(
-                [$this->stringContains('FROM osc_activity'), $this->isType('array'), $this->isType('array')],
-                [$this->stringContains('FROM osc_messages'), $this->isType('array'), $this->isType('array')]
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertStringContainsString(array_shift($consecutive), $value);
+                    return true;
+                }),
+                $this->isType('array'),
+                $this->isType('array')
             )
             ->willReturn($resultMock);
 

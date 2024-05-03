@@ -161,7 +161,13 @@ class BlocksTest extends TestCase
         ]);
 
         $language = $this->mock(ilLanguage::class);
-        $language->expects(self::exactly(2))->method('loadLanguageModule')->withConsecutive(['dummy lang'], ['ldoc']);
+        $consecutive = ['dummy lang', 'ldoc'];
+        $language->expects(self::exactly(2))->method('loadLanguageModule')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        );
 
         $instance = new Blocks(
             'foo',

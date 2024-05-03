@@ -203,10 +203,14 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive = ['Course Title', 'Test Title'];
         $link->method('standard')
-            ->withConsecutive(
-                ['Course Title', '<a href> </a>'],
-                ['Test Title', '<a href> </a>']
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertSame(array_shift($consecutive), $value);
+                    return true;
+                }),
+                $this->identicalTo('<a href> </a>')
             )
             ->willReturn($std_link);
 

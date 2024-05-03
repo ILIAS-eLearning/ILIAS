@@ -76,7 +76,13 @@ class UserSettingsTest extends TestCase
         $return_date = new DateTimeImmutable();
 
         $by_trying = $this->mock(ByTrying::class);
-        $by_trying->expects(self::exactly(2))->method('transform')->withConsecutive(['agree date'], [$date])->willReturnOnConsecutiveCalls($return_date, 'another date');
+        $consecutive = [$date, 'agree date'];
+        $by_trying->expects(self::exactly(2))->method('transform')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        )->willReturnOnConsecutiveCalls($return_date, 'another date');
 
         $user = $this->mock(ilObjUser::class);
         $user->expects(self::once())->method('getAgreeDate')->willReturn('agree date');
