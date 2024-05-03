@@ -101,20 +101,31 @@ class ilSessionTest extends TestCase
         $ilDB->method("update")->
             with("usr_session")->willReturn(1);
 
-        $ilDB->method("quote")->withConsecutive(
-            ["123456"],
-            ["123456"],
-            ["123456"],
-            ["e10adc3949ba59abbe56e057f20f883e"],
-            ["123456"],
-            ["e10adc3949ba59abbe56e057f20f883e"],
-            ["e10adc3949ba59abbe56e057f20f883e"],
-            ["123456"],
-            ["123456"],
-            ["123456"],
-            [$this->greaterThan(time() - 100)],
-            ["e10adc3949ba59abbe56e057f20f883e"],
-            ["17"]
+
+        $consecutive_quote = [
+            "123456",
+            "123456",
+            "123456",
+            "e10adc3949ba59abbe56e057f20f883e",
+            "123456",
+            "e10adc3949ba59abbe56e057f20f883e",
+            "e10adc3949ba59abbe56e057f20f883e",
+            "123456",
+            "123456",
+            "123456",
+            time() - 100,
+            "e10adc3949ba59abbe56e057f20f883e",
+            "17"
+        ];
+        $ilDB->method("quote")->with(
+            $this->callback(function ($value) use (&$consecutive_quote) {
+                if (count($consecutive_quote) === 3) {
+                    $this->assertGreaterThan(array_shift($consecutive_quote), $value);
+                } else {
+                    $this->assertSame(array_shift($consecutive_quote), $value);
+                }
+                return true;
+            })
         )->
         willReturnOnConsecutiveCalls(
             "123456",
@@ -134,19 +145,28 @@ class ilSessionTest extends TestCase
         );
         $ilDB->expects($this->exactly(6))->method("numRows")->willReturn(1, 1, 1, 0, 1, 0);
 
-
-        $ilDB->method("query")->withConsecutive(
-            ["SELECT 1 FROM usr_session WHERE session_id = 123456"],
-            ["SELECT 1 FROM usr_session WHERE session_id = 123456"],
-            ["SELECT data FROM usr_session WHERE session_id = 123456"],
-            ['SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e'],
-            ['SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e'],
-            ["SELECT 1 FROM usr_session WHERE session_id = 123456"],
-            ['SELECT data FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e'],
-            ['SELECT 1 FROM usr_session WHERE session_id = 123456'],
-            ['SELECT session_id,expires FROM usr_session WHERE expires < 123456'],
-            [$this->stringStartsWith('SELECT 1 FROM usr_session WHERE session_id = ')],
-            ['SELECT 1 FROM usr_session WHERE session_id = 17']
+        $consecutive_select = [
+            "SELECT 1 FROM usr_session WHERE session_id = 123456",
+            "SELECT 1 FROM usr_session WHERE session_id = 123456",
+            "SELECT data FROM usr_session WHERE session_id = 123456",
+            'SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
+            'SELECT * FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
+            "SELECT 1 FROM usr_session WHERE session_id = 123456",
+            'SELECT data FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
+            'SELECT 1 FROM usr_session WHERE session_id = 123456',
+            'SELECT session_id,expires FROM usr_session WHERE expires < 123456',
+            'SELECT 1 FROM usr_session WHERE session_id = ',
+            'SELECT 1 FROM usr_session WHERE session_id = 17'
+        ];
+        $ilDB->method("query")->with(
+            $this->callback(function ($value) use (&$consecutive_select) {
+                if (count($consecutive_select) === 2) {
+                    $this->assertStringStartsWith(array_shift($consecutive_select), $value);
+                } else {
+                    $this->assertSame(array_shift($consecutive_select), $value);
+                }
+                return true;
+            })
         )->
             willReturnOnConsecutiveCalls(
                 $this->getMockBuilder(ilDBStatement::class)->disableAutoReturnValueGeneration()->getMock(),
@@ -171,10 +191,16 @@ class ilSessionTest extends TestCase
             'data' => "Testdata"
         ));
 
-        $ilDB->method("manipulate")->withConsecutive(
-            ['DELETE FROM usr_sess_istorage WHERE session_id = 123456'],
-            ['DELETE FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e'],
-            ['DELETE FROM usr_session WHERE user_id = e10adc3949ba59abbe56e057f20f883e']
+        $consecutive_delete = [
+            'DELETE FROM usr_sess_istorage WHERE session_id = 123456',
+            'DELETE FROM usr_session WHERE session_id = e10adc3949ba59abbe56e057f20f883e',
+            'DELETE FROM usr_session WHERE user_id = e10adc3949ba59abbe56e057f20f883e'
+        ];
+        $ilDB->method("manipulate")->with(
+            $this->callback(function ($value) use (&$consecutive_delete) {
+                $this->assertSame(array_shift($consecutive_delete), $value);
+                return true;
+            })
         )->
         willReturnOnConsecutiveCalls(
             1,

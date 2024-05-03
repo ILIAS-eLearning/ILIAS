@@ -496,20 +496,32 @@ class ilMailTest extends ilMailBaseTest
         $bcc = 'jklhjk';
 
         $instance = $this->create();
-        $this->mock_log->expects(self::exactly(6))->method('debug')->withConsecutive(
-            ['Started parsing of recipient string: ' . $to],
-            ['Parsed addresses: hello'],
-            ['Started parsing of recipient string: ' . $cc],
-            ['Parsed addresses: hello'],
-            ['Started parsing of recipient string: ' . $bcc],
-            ['Parsed addresses: hello']
+        $consecutive_debug = [
+            'Started parsing of recipient string: ' . $to,
+            'Parsed addresses: hello',
+            'Started parsing of recipient string: ' . $cc,
+            'Parsed addresses: hello',
+            'Started parsing of recipient string: ' . $bcc,
+            'Parsed addresses: hello'
+        ];
+        $this->mock_log->expects(self::exactly(6))->method('debug')->with(
+            $this->callback(function ($value) use (&$consecutive_debug) {
+                $this->assertSame(array_shift($consecutive_debug), $value);
+                return true;
+            }),
         );
 
         $mockAddress = $this->getMockBuilder(ilMailAddress::class)->disableOriginalConstructor()->getMock();
         $mockAddress->expects(self::exactly(3))->method('__toString')->willReturn('hello');
         $mockParser = $this->getMockBuilder(ilMailRecipientParser::class)->disableOriginalConstructor()->getMock();
         $mockParser->expects(self::exactly(3))->method('parse')->willReturn([$mockAddress]);
-        $this->mock_parser_factory->expects(self::exactly(3))->method('getParser')->withConsecutive([$to], [$cc], [$bcc])->willReturn($mockParser);
+        $consecutive_get = [$to, $cc, $bcc];
+        $this->mock_parser_factory->expects(self::exactly(3))->method('getParser')->with(
+            $this->callback(function ($value) use (&$consecutive_get) {
+                $this->assertSame(array_shift($consecutive_get), $value);
+                return true;
+            }),
+        )->willReturn($mockParser);
 
         $mockAddressType = $this->getMockBuilder(ilMailAddressType::class)->disableOriginalConstructor()->getMock();
         $mockAddressType->expects(self::exactly(3))->method('validate')->willReturn(empty($errors));
