@@ -370,7 +370,6 @@ class ilObjMediaCast extends ilObject
         if (!$this->getId()) {
             return;
         }
-
         $this->deleteOrder();
 
         $pos = 0;
