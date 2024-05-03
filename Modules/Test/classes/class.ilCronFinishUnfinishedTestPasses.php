@@ -184,15 +184,19 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                 if ($this->test_ending_times[$test_id]['enable_processing_time'] == 1) {
                     $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
                     $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
-                    $test_obj = new ilObjTest($obj_id, false);
-                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
-                    $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
-                    if ($max_processing_time) {
-                        $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
-                        $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
-                        $can_not_be_finished = false;
+                    if(ilObject::_exists($obj_id)) {
+                        $test_obj = new ilObjTest($obj_id, false);
+                        $startingTime = $test_obj->getStartingTimeOfUser($data['active_id']);
+                        $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
+                        if ($max_processing_time) {
+                            $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
+                            $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
+                            $can_not_be_finished = false;
+                        } else {
+                            $this->log->info('Max Processing time not reached for user id (' . $data['usr_id'] . ') in test with active id (' . $data['active_id'] . '). Starting time: ' . $startingTime . ' Processing time: ' . $test_obj->getProcessingTime() . ' / ' . $test_obj->getProcessingTimeInSeconds() . 's');
+                        }
                     } else {
-                        $this->log->info('Max Processing time not reached for user id (' . $data['usr_id'] . ') in test with active id (' . $data['active_id'] . '). Starting time: ' . $startingTime . ' Processing time: ' . $test_obj->getProcessingTime() . ' / ' .$test_obj->getProcessingTimeInSeconds() .'s');
+                        $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
                     }
                 } else {
                     $this->log->info('Test (' . $test_id . ') has no processing time.');
@@ -212,19 +216,23 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $testSession = new ilTestSession();
         $testSession->loadFromDb($active_id);
 
-        $test = new ilObjTest($obj_id, false);
+        if(ilObject::_exists($obj_id)) {
+            $test = new ilObjTest($obj_id, false);
 
-        assQuestion::_updateTestPassResults(
-            $active_id,
-            $testSession->getPass(),
-            $test->areObligationsEnabled(),
-            null,
-            $obj_id
-        );
+            assQuestion::_updateTestPassResults(
+                $active_id,
+                $testSession->getPass(),
+                $test->areObligationsEnabled(),
+                null,
+                $obj_id
+            );
 
-        $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
-        $pass_finisher->performFinishTasks($processLocker);
+            $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
+            $pass_finisher->performFinishTasks($processLocker);
 
-        $this->log->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
+            $this->log->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
+        } else {
+            $this->log->info('Test object with id (' . $obj_id . ') does not exist.');
+        }
     }
 }
