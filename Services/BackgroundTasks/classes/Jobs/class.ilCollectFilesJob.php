@@ -155,7 +155,9 @@ class ilCollectFilesJob extends AbstractJob
             // Example: test.txt, test (1).txt, test (2).txt, ...
             if (isset(self::$targets[$target_dir])) {
                 $target_info = pathinfo($target_dir);
-                $target_dir = $a_temp_dir . $target_info["filename"] . " (" . ++self::$targets[$target_dir] . ")." . $target_info["extension"];
+                $filename = $target_info["filename"];
+                $extension = isset($target_info["extension"]) ? "." . $target_info["extension"] : "";
+                $target_dir = $a_temp_dir . $filename . " (" . ++self::$targets[$target_dir] . ")" . $extension;
             } else {
                 self::$targets[$target_dir] = 0;
             }
