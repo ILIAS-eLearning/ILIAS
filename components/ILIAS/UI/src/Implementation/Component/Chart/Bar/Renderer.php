@@ -34,24 +34,13 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Bar\Bar $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Bar\Horizontal) {
-            /**
-             * @var Bar\Horizontal $component
-             */
             return $this->renderHorizontal($component, $default_renderer);
         } elseif ($component instanceof Bar\Vertical) {
-            /**
-             * @var Bar\Vertical $component
-             */
             return $this->renderVertical($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderHorizontal(
@@ -418,10 +407,5 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('assets/js/chart.umd.js');
         $registry->register('assets/js/bar.js');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Bar\Bar::class];
     }
 }

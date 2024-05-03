@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
@@ -35,22 +35,13 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Legacy $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Legacy\Legacy) {
+            $this->cannotHandleComponent($component);
+        }
 
         $component = $this->registerSignals($component);
         $this->bindJavaScript($component);
         return $component->getContent();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Legacy\Legacy::class];
     }
 
     protected function registerSignals(Legacy $component): Component\JavaScriptBindable

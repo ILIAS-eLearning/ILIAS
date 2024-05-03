@@ -34,8 +34,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Form\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
@@ -44,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderNoSubmit($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer): string
@@ -129,16 +127,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("TXT_REQUIRED_TOP", $this->txt("required_field"));
             $tpl->setVariable("TXT_REQUIRED", $this->txt("required_field"));
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Container\Form\Standard::class,
-            FormWithoutSubmitButton::class,
-        ];
     }
 }

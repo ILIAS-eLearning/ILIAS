@@ -37,13 +37,14 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Menu\Drilldown) {
             return $this->renderDrilldownMenu($component, $default_renderer);
         }
+        if ($component instanceof Menu\Menu) {
+            return $this->renderStandardMenu($component, $default_renderer);
+        }
 
-        return $this->renderStandardMenu($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -130,15 +131,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/drilldown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Menu\Menu::class
-        );
     }
 }

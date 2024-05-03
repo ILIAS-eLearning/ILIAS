@@ -85,11 +85,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var $component Input
-         */
-        $this->checkComponent($component);
-
         $component = $this->setSignals($component);
 
         switch (true) {
@@ -158,7 +153,7 @@ class Renderer extends AbstractComponentRenderer
                 return $this->renderRatingField($component, $default_renderer);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
     }
 
@@ -894,36 +889,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
         return $ret;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\Field\Text::class,
-            Component\Input\Field\Numeric::class,
-            Component\Input\Field\Group::class,
-            Component\Input\Field\OptionalGroup::class,
-            Component\Input\Field\SwitchableGroup::class,
-            Component\Input\Field\Section::class,
-            Component\Input\Field\Checkbox::class,
-            Component\Input\Field\Tag::class,
-            Component\Input\Field\Password::class,
-            Component\Input\Field\Select::class,
-            Component\Input\Field\Radio::class,
-            Component\Input\Field\Textarea::class,
-            Component\Input\Field\MultiSelect::class,
-            Component\Input\Field\DateTime::class,
-            Component\Input\Field\Duration::class,
-            Component\Input\Field\File::class,
-            Component\Input\Field\Url::class,
-            Component\Input\Field\Hidden::class,
-            Component\Input\Field\ColorPicker::class,
-            Component\Input\Field\Markdown::class,
-            Component\Input\Field\Rating::class,
-        ];
     }
 
     protected function renderFilePreview(

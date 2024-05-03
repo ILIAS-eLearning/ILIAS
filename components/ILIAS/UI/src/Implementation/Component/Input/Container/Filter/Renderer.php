@@ -36,13 +36,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Filter\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new LogicException("Cannot render: " . get_class($component));
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -242,13 +240,5 @@ class Renderer extends AbstractComponentRenderer
         $input_group = $input_group->withOnUpdate($component->getUpdateSignal());
 
         $tpl->setVariable("INPUTS", $default_renderer->render($input_group));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Filter\Standard::class);
     }
 }

@@ -36,7 +36,6 @@ class Renderer extends AbstractComponentRenderer
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         switch (true) {
             case ($component instanceof FieldSelection):
                 return $this->renderFieldSelection($component, $default_renderer);
@@ -50,19 +49,8 @@ class Renderer extends AbstractComponentRenderer
                 return '';
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Input\ViewControl\FieldSelection::class,
-            Component\Input\ViewControl\Sortation::class,
-            Component\Input\ViewControl\Pagination::class,
-            Component\Input\ViewControl\Group::class,
-            Component\Input\ViewControl\NullControl::class,
-        ];
     }
 
     protected function renderFieldSelection(FieldSelection $component, RendererInterface $default_renderer): string
