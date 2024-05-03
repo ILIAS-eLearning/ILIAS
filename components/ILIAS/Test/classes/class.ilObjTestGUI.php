@@ -2127,13 +2127,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($this->getTestObject()->getTestLogger() === null) {
             return;
         }
-        $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('export_legacy_logs'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'exportLegacyLogs')
-            )
-        );
-        $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
+
         $here_uri = $this->data_factory->uri($this->request->getUri()->__toString());
         $query_params_namespace = ['test', 'logging'];
         list($url_builder, $action_parameter_token, $row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
@@ -2141,13 +2135,32 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             'action',
             'log_entry'
         );
-        $table_gui = $this->getTestObject()->getTestLogViewer()->getLogTable(
+
+        if ($this->request_wrapper->has($action_parameter_token->getName())) {
+            $this->getTestObject()->getTestLogViewer()->executeLogTableAction(
+                $url_builder,
+                $action_parameter_token,
+                $row_id_token,
+                $this->getTestObject()->getRefId()
+            );
+        }
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('export_legacy_logs'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'exportLegacyLogs')
+            )
+        );
+        $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_HISTORY);
+
+        list($filter, $table_gui) = $this->getTestObject()->getTestLogViewer()->getLogTable(
             $url_builder,
             $action_parameter_token,
             $row_id_token,
             $this->getTestObject()->getRefId()
         );
-        $this->tpl->setVariable('ADM_CONTENT', $this->ui_renderer->render($table_gui));
+
+        $this->tpl->setVariable('ADM_CONTENT', $this->ui_renderer->render([$filter, $table_gui]));
     }
 
     public function exportLegacyLogsObject(): void

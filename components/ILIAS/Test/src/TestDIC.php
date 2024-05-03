@@ -123,10 +123,12 @@ class TestDIC extends PimpleContainer
                 $c['logging.logger'],
                 $c['question.general_properties.repository'],
                 $DIC->http()->request(),
+                $DIC->http()->wrapper()->query(),
                 $DIC['static_url'],
                 $DIC->uiService(),
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
+                $DIC['refinery'],
                 $DIC['lng'],
                 $DIC['ilUser']
             );

@@ -39,6 +39,13 @@ interface TestUserInteraction
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow;
+    public function getParsedAdditionalInformation(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        array $environment
+    ): string;
     public function getLogEntryAsCsvRow(): string;
     public function toStorage(): array;
 }

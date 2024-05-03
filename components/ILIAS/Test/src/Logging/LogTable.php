@@ -55,6 +55,10 @@ class LogTable implements Table\DataRetrieval
     private const FILTER_FIELD_LOG_ENTRY_TYPE = 'log_entry_type';
     private const FILTER_FIELD_INTERACTION_TYPE = 'interaction_type';
 
+    private const ACTION_DELETE = 'delete';
+    private const ACTION_ADDITIONAL_INFORMATION = 'show_additional_information';
+    private const ACTION_EXPORT_AS_CSV = 'export_as_csv';
+
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
@@ -223,23 +227,94 @@ class LogTable implements Table\DataRetrieval
         );
     }
 
+    public function executeAction(
+        string $action,
+        array $affected_items
+    ): void {
+        match ($action) {
+            self::ACTION_ADDITIONAL_INFORMATION => $this->showAdditionalDetails($affected_items[0]),
+            self::ACTION_EXPORT_AS_CSV => $this->exportTestUserInteractionsAsCSV($affected_items),
+            self::ACTION_DELETE => $this->deleteTestUserInteractions($affected_items)
+        };
+        exit;
+    }
+
+    protected function showAdditionalDetails(string $affected_item): void
+    {
+        $log = $this->logging_repository->getLog($affected_item);
+        if ($log === null) {
+
+        }
+
+        $environment = [
+            'timezone' => new \DateTimeZone($this->current_user->getTimeZone())
+        ];
+
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->modal()->roundtrip(
+                $this->lng->txt('additional_information'),
+                $this->ui_factory->legacy(
+                    $log->getParsedAdditionalInformation(
+                        $this->lng,
+                        $this->static_url,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $environment
+                    )
+                )
+            )
+        );
+    }
+
+    protected function deleteTestUserInteractions(array $affected_items): void
+    {
+        if ($affected_items === []) {
+            $this->showErrorModal($this->lng->txt('no_checkbox'));
+            exit;
+        }
+
+        if ($affected_items === 'ALL_ITEMS') {
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                'all',
+                $this->lng->txt('all')
+            );
+        } else {
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                json_encode($items),
+                $this->lng->txt('selected')
+            );
+        }
+
+        echo $this->ui_renderer->renderAsync(
+            $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('confirmation'),
+                $this->lng->txt('test_confirm_log_deletion')
+            )->withAffectedItems($items)
+        );
+    }
+
+    protected function exportTestUserInteractionsAsCSV(): void
+    {
+
+    }
+
     protected function getActions(): array
     {
         $af = $this->ui_factory->table()->action();
         return [
             $af->single(
                 $this->lng->txt('show_additional_information'),
-                $this->url_builder,
+                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_ADDITIONAL_INFORMATION),
                 $this->row_id_token
             )->withAsync(),
-            $af->standard(
+            $af->multi(
                 $this->lng->txt('export_as_csv'),
-                $this->url_builder,
+                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_EXPORT_AS_CSV),
                 $this->row_id_token
             ),
             $af->standard(
                 $this->lng->txt('delete'),
-                $this->url_builder,
+                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_DELETE),
                 $this->row_id_token
             )->withAsync()
         ];

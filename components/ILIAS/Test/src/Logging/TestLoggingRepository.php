@@ -64,7 +64,7 @@ interface TestLoggingRepository
         ?array $interaction_type_filter
     ): int;
 
-    public function getLog(string $unique_identifier): TestUserInteraction;
+    public function getLog(string $unique_identifier): ?TestUserInteraction;
 
     /**
      * @param array<string> $unique_identifiers

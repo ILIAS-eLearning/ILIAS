@@ -94,7 +94,7 @@ class Factory
 
     public function buildParticipantInteraction(
         int $ref_id,
-        int $qst_id,
+        ?int $qst_id,
         int $pax_id,
         TestParticipantInteractionTypes $type,
         array $additional_data

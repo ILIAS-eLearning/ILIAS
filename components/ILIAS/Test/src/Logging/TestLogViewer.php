@@ -23,8 +23,10 @@ namespace ILIAS\Test\Logging;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
@@ -39,10 +41,12 @@ class TestLogViewer
         private readonly TestLogger $logger,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly ServerRequestInterface $request,
+        private readonly RequestWrapper $request_wrapper,
         private readonly StaticURLServices $static_url,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
+        private readonly Refinery $refinery,
         private readonly \ilLanguage $lng,
         private readonly \ilObjUser $current_user
     ) {
@@ -77,6 +81,51 @@ class TestLogViewer
             $filter,
             $log_table->getTable()->withRequest($this->request)->withFilter($filter_data)
         ];
+    }
+
+    public function executeLogTableAction(
+        URLBuilder $url_builder,
+        URLBuilderToken $action_parameter_token,
+        URLBuilderToken $row_id_token,
+        int $ref_id = null
+    ): array {
+        $log_table = new LogTable(
+            $this->logging_repository,
+            $this->logger,
+            $this->question_repo,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->data_factory,
+            $this->lng,
+            $this->static_url,
+            $url_builder,
+            $action_parameter_token,
+            $row_id_token,
+            $this->current_user,
+            $ref_id,
+        );
+
+        $action = $this->request_wrapper->retrieve(
+            $action_parameter_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+
+        $affected_items = [];
+        if ($this->request_wrapper->has($row_id_token->getName())) {
+            $affected_items = $this->request_wrapper->retrieve(
+                $row_id_token->getName(),
+                $this->refinery->byTrying(
+                    [
+                        $this->refinery->container()->mapValues(
+                            $this->refinery->kindlyTo()->string()
+                        ),
+                        $this->refinery->always([])
+                    ]
+                )
+            );
+        }
+
+        $log_table->executeAction($action, $affected_items);
     }
 
     public function getLegacyLogExportForObjId(?int $obj_id = null): string
