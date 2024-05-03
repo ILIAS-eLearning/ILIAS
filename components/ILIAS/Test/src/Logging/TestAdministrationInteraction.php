@@ -92,6 +92,9 @@ class TestAdministrationInteraction implements TestUserInteraction
                 'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
                 'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
             ]
+        )->withDisabledAction(
+            LogTable::ACTION_ID_SHOW_ADDITIONAL_INFO,
+            $this->additional_data === []
         );
     }
 

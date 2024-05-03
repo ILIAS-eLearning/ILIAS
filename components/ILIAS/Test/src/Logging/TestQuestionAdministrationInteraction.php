@@ -101,6 +101,9 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
                 'log_entry_type' => $lng->txt('logging_' . self::IDENTIFIER),
                 'interaction_type' => $lng->txt('logging_' . $this->interaction_type->value)
             ]
+        )->withDisabledAction(
+            LogTable::ACTION_ID_SHOW_ADDITIONAL_INFO,
+            $this->additional_data === []
         );
     }
 
@@ -129,10 +132,5 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
             'modification_ts' => [\ilDBConstants::T_INTEGER , $this->modification_timestamp],
             'additional_data' => [\ilDBConstants::T_CLOB , json_encode($this->additional_data)]
         ];
-    }
-
-    public function withPresentationData(): void
-    {
-
     }
 }
