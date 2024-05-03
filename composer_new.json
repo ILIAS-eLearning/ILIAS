@@ -44,6 +44,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"dflydev/fig-cookies": "^3.1",
 	},
 	"require-dev": {
 	},
