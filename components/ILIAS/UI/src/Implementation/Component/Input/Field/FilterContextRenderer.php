@@ -38,14 +38,12 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class FilterContextRenderer extends Renderer
 {
+    /**
+     * @inheritdoc
+     */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var $component FilterInput
-         */
-        $this->checkComponent($component);
-
-        if (!$component instanceof F\Group || $component instanceof F\Duration) {
+        if ($component instanceof FilterInput) {
             $component = $this->setSignals($component);
         }
 
@@ -72,7 +70,7 @@ class FilterContextRenderer extends Renderer
                 return $this->renderDateTimeField($component, $default_renderer);
 
             default:
-                throw new LogicException("Cannot render '" . get_class($component) . "'");
+                $this->cannotHandleComponent($component);
         }
     }
 

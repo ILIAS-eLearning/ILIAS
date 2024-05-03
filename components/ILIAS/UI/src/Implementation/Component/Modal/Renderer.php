@@ -40,11 +40,12 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Modal\Modal) {
+            $this->cannotHandleComponent($component);
+        }
 
         // If the modal is rendered async, we just create a fake container which will be
         // replaced by the modal upon successful ajax request
-        /** @var Modal $component */
         if ($component->getAsyncRenderUrl()) {
             return $this->renderAsync($component);
         }
@@ -56,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Modal\Lightbox) {
             return $this->renderLightbox($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        $this->cannotHandleComponent($component);
     }
 
     /**
@@ -258,18 +259,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable('ID_CAROUSEL4', $id_carousel);
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\Modal\Interruptive::class,
-            Component\Modal\RoundTrip::class,
-            Component\Modal\Lightbox::class,
-        );
     }
 
     private function renderPage(LightboxPage $page, bool $first, Template $tpl, RendererInterface $default_renderer): void

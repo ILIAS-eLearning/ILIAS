@@ -35,12 +35,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $ui_fac = $this->getUIFactory();
+        if (!$component instanceof Component\MessageBox\MessageBox) {
+            $this->cannotHandleComponent($component);
+        }
 
-        /**
-         * @var Component\MessageBox\MessageBox $component
-         */
-        $this->checkComponent($component);
+        $ui_fac = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.messagebox.html", true, true);
 
         $buttons = $component->getButtons();
@@ -75,10 +74,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\MessageBox\MessageBox::class);
     }
 }

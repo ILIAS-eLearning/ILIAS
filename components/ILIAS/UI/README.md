@@ -234,18 +234,17 @@ If you would like to implement a new component for the framework, you should per
         /**
          * @inheritdocs
          */
-        public function render(Component\Component $component, RendererInterface $default_renderer) {
-            $this->checkComponent($component);
+        public function render(Component\Component $component, RendererInterface $default_renderer): string 
+        {
+            // if this is not our component, call cannotHandleComponent($component)
+            // to throw a unified exception. 
+            if (!$component instanceof Component\Demo\Demo) {
+                $this->cannotHandleComponent($component);
+            }
+    
             $tpl = $this->getTemplate("tpl.demo.html", true, true);
             $tpl->setVariable("CONTENT",$component->getContent());
             return $tpl->get();
-        }
-
-        /**
-         * @inheritdocs
-         */
-        protected function getComponentInterfaceName() {
-            return array(Component\Demo\Demo::class);
         }
     }
     ```

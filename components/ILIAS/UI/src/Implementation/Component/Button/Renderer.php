@@ -34,8 +34,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Button\Close) {
             return $this->renderClose($component);
         } elseif ($component instanceof Component\Button\Minimize) {
@@ -44,12 +42,10 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderToggle($component);
         } elseif ($component instanceof Component\Button\Month) {
             return $this->renderMonth($component);
-        } else {
-            /**
-             * @var $component Component\Button\Button
-             */
+        } elseif ($component instanceof Component\Button\Button) {
             return $this->renderButton($component, $default_renderer);
         }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer): string
@@ -356,22 +352,5 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Button\Primary::class
-        , Component\Button\Standard::class
-        , Component\Button\Close::class
-        , Component\Button\Minimize::class
-        , Component\Button\Shy::class
-        , Component\Button\Month::class
-        , Component\Button\Tag::class
-        , Component\Button\Bulky::class
-        , Component\Button\Toggle::class
-        );
     }
 }

@@ -22,7 +22,6 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Renderer;
-use LogicException;
 
 /**
  * An entity that renders components to a string output.
@@ -35,7 +34,7 @@ interface ComponentRenderer
      * Render the component if possible and delegate additional rendering to the
      * default_renderer.
      *
-     * @throws LogicException if renderer is called with a component it can't render
+     * @throws \RuntimeException if renderer is called with a component it can't render
      */
     public function render(Component $component, Renderer $default_renderer): string;
 

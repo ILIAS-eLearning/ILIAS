@@ -36,11 +36,6 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
             return $this->getTemplate($a, $b, $c);
         }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
-        }
     }
 
     class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer
@@ -70,11 +65,6 @@ namespace ILIAS\UI\Implementation\Component\Counter {
         public function _getTemplate(string $a, bool $b, bool $c): Template
         {
             return $this->getTemplate($a, $b, $c);
-        }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
         }
     }
 }

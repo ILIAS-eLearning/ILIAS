@@ -39,7 +39,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         if ($component instanceof Component\Table\Presentation) {
             return $this->renderPresentationTable($component, $default_renderer);
         }
@@ -60,7 +59,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\OrderingRow) {
             return $this->renderOrderingRow($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderPresentationTable(
@@ -706,20 +705,5 @@ class Renderer extends AbstractComponentRenderer
             "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
             "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class,
-            Component\Table\Data::class,
-            Component\Table\DataRow::class,
-            Component\Table\Ordering::class,
-            Component\Table\OrderingRow::class,
-        ];
     }
 }

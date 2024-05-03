@@ -38,8 +38,6 @@ class Renderer extends AbstractComponentRenderer
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Component\ViewControl\Mode) {
             return $this->renderMode($component, $default_renderer);
         }
@@ -52,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\ViewControl\Pagination) {
             return $this->renderPagination($component, $default_renderer);
         }
-        throw new LogicException("Component '{$component->getCanonicalName()}' isn't supported by this renderer.");
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer): string
@@ -389,18 +387,5 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setCurrentBlock($block);
         $tpl->setVariable($template_var, $id);
         $tpl->parseCurrentBlock();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Component\ViewControl\Mode::class,
-            Component\ViewControl\Section::class,
-            Component\ViewControl\Sortation::class,
-            Component\ViewControl\Pagination::class
-        );
     }
 }

@@ -32,18 +32,13 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Player\Player $component
-         */
-        $this->checkComponent($component);
-
         if ($component instanceof Component\Player\Audio) {
             return $this->renderAudio($component, $default_renderer);
         }
         if ($component instanceof Component\Player\Video) {
             return $this->renderVideo($component, $default_renderer);
         }
-        return "";
+        $this->cannotHandleComponent($component);
     }
 
     public function renderAudio(Component\Component $component, RendererInterface $default_renderer): string
@@ -112,10 +107,5 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./assets/js/mediaelement-and-player.min.js');
         $registry->register('./assets/css/mediaelementplayer.min.css');
         $registry->register('./assets/js/vimeo.min.js');
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [Component\Player\Player::class];
     }
 }

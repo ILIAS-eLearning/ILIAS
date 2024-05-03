@@ -34,7 +34,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if (!$component instanceof Node\Node) {
+            $this->cannotHandleComponent($component);
+        }
 
         $tpl_name = "tpl.node.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
@@ -155,17 +157,5 @@ class Renderer extends AbstractComponentRenderer
 
 				return false;
 			});");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(
-            Node\Simple::class,
-            Node\Bylined::class,
-            Node\KeyValue::class
-        );
     }
 }

@@ -37,15 +37,13 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component $component, RenderInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper) {
             return $this->renderWrapper($component, $default_renderer);
         }
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
-        throw new LogicException("Cannot render '" . get_class($component) . "'");
+        $this->cannotHandleComponent($component);
     }
 
     public function registerResources(ResourceRegistry $registry): void
@@ -122,13 +120,5 @@ class Renderer extends AbstractComponentRenderer
     protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template): void
     {
         $template->setVariable('ID', $this->bindJavaScript($dropzone));
-    }
-
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            \ILIAS\UI\Component\Dropzone\File\Standard::class,
-            \ILIAS\UI\Component\Dropzone\File\Wrapper::class,
-        ];
     }
 }
