@@ -44,6 +44,9 @@ class LogTable implements Table\DataRetrieval
     public const COLUMN_LOG_ENTRY_TYPE = 'log_entry_type';
     public const COLUMN_INTERACTION_TYPE = 'interaction_type';
 
+    public const ACTION_ID_SHOW_ADDITIONAL_INFO = 'show_additional_information';
+    private const ACTION_ID_EXPORT_AS_CSV = 'export_as_csv';
+    private const ACTION_ID_DELETE = 'delete';
 
     private const FILTER_FIELD_TIME_FROM = 'from';
     private const FILTER_FIELD_TIME_TO = 'until';
@@ -302,17 +305,17 @@ class LogTable implements Table\DataRetrieval
     {
         $af = $this->ui_factory->table()->action();
         return [
-            $af->single(
+            self::ACTION_ID_SHOW_ADDITIONAL_INFO => $af->single(
                 $this->lng->txt('show_additional_information'),
                 $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_ADDITIONAL_INFORMATION),
                 $this->row_id_token
             )->withAsync(),
-            $af->multi(
+            self::ACTION_ID_EXPORT_AS_CSV => $af->multi(
                 $this->lng->txt('export_as_csv'),
                 $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_EXPORT_AS_CSV),
                 $this->row_id_token
             ),
-            $af->standard(
+            self::ACTION_ID_DELETE => $af->standard(
                 $this->lng->txt('delete'),
                 $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_DELETE),
                 $this->row_id_token
