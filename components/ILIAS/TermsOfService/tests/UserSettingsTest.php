@@ -76,7 +76,7 @@ class UserSettingsTest extends TestCase
         $return_date = new DateTimeImmutable();
 
         $by_trying = $this->mock(ByTrying::class);
-        $consecutive = [$date, 'agree date'];
+        $consecutive = ['agree date', $date];
         $by_trying->expects(self::exactly(2))->method('transform')->with(
             $this->callback(function ($value) use (&$consecutive) {
                 $this->assertSame(array_shift($consecutive), $value);
