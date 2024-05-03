@@ -42,6 +42,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
         $this->ui = $DIC->ui();
 
         $lng->loadLanguageModule("content");
+        $lng->loadLanguageModule("copg");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn("", "", "2%");
@@ -50,7 +51,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("thumbnail"));
         $this->addColumn($lng->txt("title"));
         $this->addColumn($lng->txt("description"));
-        $this->addColumn($lng->txt("modules"));
+        $this->addColumn($lng->txt("copg_obj_types"));
         $this->addColumn($lng->txt("actions"));
 
         // show command buttons, if write permission is given
