@@ -156,7 +156,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
     public function getLog(
         string $unique_id
-    ): TestUserInteraction {
+    ): ?TestUserInteraction {
         return $this->buildUserInteractionForUniqueIdentifier($unique_id);
     }
 
@@ -211,26 +211,26 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
 
         switch ($unique_id_array[0]) {
             case TestAdministrationInteraction::IDENTIFIER:
-                return $this->buildTestAdministrationInteractionFromId($unique_id_array[1]);
+                return $this->buildTestAdministrationInteractionFromId((int) $unique_id_array[1]);
 
             case TestQuestionAdministrationInteraction::IDENTIFIER:
-                return $this->buildQuestionAdministrationInteractionFromId($unique_id_array[1]);
+                return $this->buildQuestionAdministrationInteractionFromId((int) $unique_id_array[1]);
 
             case TestParticipantInteraction::IDENTIFIER:
-                return $this->buildParticipantInteractionFromId($unique_id_array[1]);
+                return $this->buildParticipantInteractionFromId((int) $unique_id_array[1]);
 
             case TestScoringInteraction::IDENTIFIER:
-                return $this->buildScoringInteractionFromId($unique_id_array[1]);
+                return $this->buildScoringInteractionFromId((int) $unique_id_array[1]);
 
             case TestError::IDENTIFIER:
-                return $this->buildErrorFromId($unique_id_array[1]);
+                return $this->buildErrorFromId((int) $unique_id_array[1]);
         }
     }
 
     private function buildTestAdministrationInteractionFromId(int $id): ?TestAdministrationInteraction
     {
         $query = $this->buildSelectStatementById($id, self::TEST_ADMINISTRATION_LOG_TABLE);
-        if ($this->db->numRows($query) !== 0) {
+        if ($this->db->numRows($query) === 0) {
             return null;
         }
 
@@ -240,7 +240,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     private function buildQuestionAdministrationInteractionFromId(int $id): ?TestQuestionAdministrationInteraction
     {
         $query = $this->buildSelectStatementById($id, self::QUESTION_ADMINISTRATION_LOG_TABLE);
-        if ($this->db->numRows($query) !== 0) {
+        if ($this->db->numRows($query) === 0) {
             return null;
         }
 
@@ -250,7 +250,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     private function buildParticipantInteractionFromId(int $id): ?TestParticipantInteraction
     {
         $query = $this->buildSelectStatementById($id, self::PARTICIPANT_LOG_TABLE);
-        if ($this->db->numRows($query) !== 0) {
+        if ($this->db->numRows($query) === 0) {
             return null;
         }
 
@@ -260,7 +260,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     private function buildScoringInteractionFromId(int $id): ?TestScoringInteraction
     {
         $query = $this->buildSelectStatementById($id, self::SCORING_LOG_TABLE);
-        if ($this->db->numRows($query) !== 0) {
+        if ($this->db->numRows($query) === 0) {
             return null;
         }
 
@@ -270,7 +270,7 @@ class TestLoggingDatabaseRepository implements TestLoggingRepository
     private function buildErrorFromId(int $id): ?TestError
     {
         $query = $this->buildSelectStatementById($id, self::ERROR_LOG_TABLE);
-        if ($this->db->numRows($query) !== 0) {
+        if ($this->db->numRows($query) === 0) {
             return null;
         }
 

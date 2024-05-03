@@ -128,6 +128,16 @@ class TestError implements TestUserInteraction
         );
     }
 
+    public function getParsedAdditionalInformation(
+        \ilLanguage $lng,
+        StaticURLServices $static_url,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        array $environment
+    ): string {
+        return serialize($this->additional_data);
+    }
+
     public function getLogEntryAsCsvRow(): string
     {
 
