@@ -56,11 +56,6 @@ abstract class AbstractTable extends Table implements JSBindable
      */
     protected $actions_std = [];
 
-    /**
-     * @var string[]
-     */
-    protected ?array $selected_optional_column_ids = null;
-
     protected ?string $id = null;
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
@@ -88,7 +83,6 @@ abstract class AbstractTable extends Table implements JSBindable
         $this->selection_signal = $signal_generator->create();
         $this->async_action_signal = $signal_generator->create();
         $this->columns = $this->enumerateColumns($columns);
-        $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
     }
 
     /**
@@ -200,91 +194,6 @@ abstract class AbstractTable extends Table implements JSBindable
     public function getColumnCount(): int
     {
         return count($this->columns);
-    }
-
-    /**
-     * @param array<string, Column> $columns
-     * @return array<string>
-     */
-    protected function filterVisibleColumnIds(array $columns): array
-    {
-        return array_keys(
-            array_filter(
-                $columns,
-                static fn($c): bool => $c->isInitiallyVisible()
-            )
-        );
-    }
-
-    /**
-     * @param string[] $selected_optional_column_ids
-     */
-    public function withSelectedOptionalColumns(?array $selected_optional_column_ids): static
-    {
-        $clone = clone $this;
-        $clone->selected_optional_column_ids = $selected_optional_column_ids;
-        return $clone;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSelectedOptionalColumns(): array
-    {
-        if (is_null($this->selected_optional_column_ids)) {
-            return array_keys($this->getInitiallyVisibleColumns());
-        }
-        return $this->selected_optional_column_ids;
-    }
-
-    /**
-     * @return array<int, Column>
-     */
-    protected function getOptionalColumns(): array
-    {
-        return array_filter(
-            $this->getColumns(),
-            static fn($c): bool => $c->isOptional()
-        );
-    }
-
-    /**
-     * @return array<int, Column>
-     */
-    protected function getInitiallyVisibleColumns(): array
-    {
-        return array_filter(
-            $this->getOptionalColumns(),
-            static fn($c): bool => $c->isInitiallyVisible()
-        );
-    }
-
-    /**
-     * @return array<string, Column>
-     */
-    public function getVisibleColumns(): array
-    {
-        $visible_optional_columns = $this->getSelectedOptionalColumns();
-        return array_filter(
-            $this->getColumns(),
-            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $visible_optional_columns, true),
-            ARRAY_FILTER_USE_BOTH
-        );
-    }
-
-    protected function getViewControlFieldSelection(): ?ViewControl\FieldSelection
-    {
-        $optional_cols = $this->getOptionalColumns();
-        if ($optional_cols === []) {
-            return null;
-        }
-
-        return $this->view_control_factory
-            ->fieldSelection(array_map(
-                static fn($c): string => $c->getTitle(),
-                $optional_cols
-            ))
-            ->withValue($this->getSelectedOptionalColumns());
     }
 
     protected function getStorageData(): ?array

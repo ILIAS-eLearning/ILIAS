@@ -28,8 +28,10 @@ use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 
 class Ordering extends AbstractTable implements T\Ordering
 {
-    public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
+    use TableViewControlFieldSelection;
+
     public const STORAGE_ID_PREFIX = self::class . '_';
+    public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
 
     protected bool $ordering_disabled = false;
     protected ?URI $target_url = null;
@@ -52,6 +54,7 @@ class Ordering extends AbstractTable implements T\Ordering
             $title,
             $columns
         );
+        $this->initViewControlFieldSelection($columns);
     }
 
     public function getRowBuilder(): OrderingRowBuilder
