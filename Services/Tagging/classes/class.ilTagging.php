@@ -198,9 +198,9 @@ class ilTagging
                 $objects[] = $rec;
             } else {
                 ilTagging::deleteTagsOfObject(
-                    $rec["obj_id"],
+                    (int) $rec["obj_id"],
                     $rec["obj_type"],
-                    $rec["sub_obj_id"],
+                    (int) $rec["sub_obj_id"],
                     $rec["sub_obj_type"]
                 );
             }
