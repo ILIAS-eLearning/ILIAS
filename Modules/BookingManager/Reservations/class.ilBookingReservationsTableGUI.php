@@ -709,12 +709,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         // reservation information
         if ($a_set['user_id'] == $ilUser->getId() || $ilAccess->checkAccess('write', '', $this->ref_id)) {
             if ($a_set['post_text'] !== "" || $a_set['post_file'] !== "") {
+                $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
                 $ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['object_id']);
                 $dd_items[] = $f->button()->shy(
                     $lng->txt('book_post_booking_information'),
                     $ilCtrl->getLinkTarget($this->parent_obj, 'displayPostInfo')
                 );
                 $ilCtrl->setParameter($this->parent_obj, 'object_id', null);
+                $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
             }
         }
 
