@@ -80,6 +80,9 @@ class StandardGUIRequest
 
     public function getReservationIdsFromString(): array
     {
+        if ($this->str("rsv_ids") === "") {
+            return [];
+        }
         return explode(";", $this->str("rsv_ids"));
     }
 
@@ -168,56 +171,56 @@ class StandardGUIRequest
         return $this->int("rsv_id_" . $id);
     }
 
-    public function getReplaceSignal() : string
+    public function getReplaceSignal(): string
     {
         return $this->str("replaceSignal");
     }
 
-    public function getReturnCmd() : string
+    public function getReturnCmd(): string
     {
         return $this->str("returnCmd");
     }
 
-    public function getSlot() : string
+    public function getSlot(): string
     {
         return $this->str("slot");
     }
 
-    public function getSlotFrom() : int
+    public function getSlotFrom(): int
     {
         $slot = $this->getSlot();
         $parts = explode("_", $slot);
         return (int) $parts[0];
     }
 
-    public function getSlotTo() : int
+    public function getSlotTo(): int
     {
         $slot = $this->getSlot();
         $parts = explode("_", $slot);
         return (int) ($parts[1] ?? 0);
     }
 
-    public function getRecurrence() : string
+    public function getRecurrence(): string
     {
         return $this->str("recurrence");
     }
 
-    public function getNr() : int
+    public function getNr(): int
     {
         return $this->int("nr");
     }
 
-    public function getUntil() : int
+    public function getUntil(): int
     {
         return $this->int("until");
     }
 
-    public function getObjectIds() : array
+    public function getObjectIds(): array
     {
         return $this->intArray("object_id");
     }
 
-    public function getBulkCreationData() : string
+    public function getBulkCreationData(): string
     {
         return $this->str("data");
     }
