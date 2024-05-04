@@ -43,7 +43,7 @@ class ilTaggingAppEventListener
                     case "toTrash":
                         if (!ilObject::_hasUntrashedReference($a_parameter["obj_id"])) {
                             ilTagging::setTagsOfObjectOffline(
-                                $a_parameter["obj_id"],
+                                (int) $a_parameter["obj_id"],
                                 ilObject::_lookupType($a_parameter["obj_id"]),
                                 0,
                                 ""
@@ -53,7 +53,7 @@ class ilTaggingAppEventListener
 
                     case "undelete":
                         ilTagging::setTagsOfObjectOffline(
-                            $a_parameter["obj_id"],
+                            (int) $a_parameter["obj_id"],
                             ilObject::_lookupType($a_parameter["obj_id"]),
                             0,
                             "",
@@ -65,7 +65,7 @@ class ilTaggingAppEventListener
                         $ref_ids = ilObject::_getAllReferences($a_parameter["obj_id"]);
                         if (count($ref_ids) == 0) {
                             ilTagging::deleteTagsOfObject(
-                                $a_parameter["obj_id"],
+                                (int) $a_parameter["obj_id"],
                                 $a_parameter["type"],
                                 0,
                                 ""
