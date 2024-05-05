@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testGetPlaceholderValues(): void
@@ -34,7 +31,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $language->method('txt')
-            ->willReturnCallback(function ($variableValue): string {
+            ->willReturnCallback(function ($variableValue) {
                 if ($variableValue === 'lang_sep_decimal') {
                     return ',';
                 } elseif ($variableValue === 'lang_sep_thousand') {
@@ -74,7 +71,6 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn($objectMock);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
@@ -167,7 +163,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $language->method('txt')
-            ->willReturnCallback(function ($variableValue): string {
+            ->willReturnCallback(function ($variableValue) {
                 if ($variableValue === 'lang_sep_decimal') {
                     return ',';
                 } elseif ($variableValue === 'lang_sep_thousand') {
@@ -194,7 +190,6 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn($objectMock);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')

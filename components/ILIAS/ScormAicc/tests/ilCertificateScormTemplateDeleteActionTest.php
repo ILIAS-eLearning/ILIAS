@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class ilCertificateScormTemplateDeleteActionTest extends ilCertificateBaseTestCase
+use PHPUnit\Framework\TestCase;
+
+class ilCertificateScormTemplateDeleteActionTest extends TestCase
 {
     public function testDeleteScormTemplateAndSettings(): void
     {

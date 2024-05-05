@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
+use PHPUnit\Framework\TestCase;
+
+class ilCertificateSettingsScormFormRepositoryTest extends TestCase
 {
     public function testSave(): void
     {
