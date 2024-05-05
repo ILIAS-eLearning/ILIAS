@@ -602,7 +602,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             }
 
             // user
-            if ($item["user_id"] > 0 && ilObject::_exists($item["user_id"])) {
+            if ($item["user_id"] > 0 &&
+                \ilObjUser::userExists([$item["user_id"]])
+            ) {
                 // get login
                 if (ilObjUser::_exists($item["user_id"])) {
                     $user = new ilObjUser($item["user_id"]);
