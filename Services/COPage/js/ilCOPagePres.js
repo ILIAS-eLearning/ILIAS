@@ -884,12 +884,16 @@ il.COPagePres =
 			return;
 		}
 		$("#il-copg-mob-fullscreen" + il.COPagePres.fullscreen_suffix).attr("src", target);
-		$(document).trigger(il.COPagePres.fullscreen_signal, {
-			id: il.COPagePres.fullscreen_signal,
-			event: 'click',
-			triggerer: $(document),
-			options: JSON.parse('[]')
-		});
+		// workaround for media pool full screen view
+		$("#ilMepPreviewContent").attr("src", target);
+		if (il.COPagePres.fullscreen_signal) {
+			$(document).trigger(il.COPagePres.fullscreen_signal, {
+				id: il.COPagePres.fullscreen_signal,
+				event: 'click',
+				triggerer: $(document),
+				options: JSON.parse('[]')
+			});
+		}
 	},
 
 	resizeFullScreenModal: function (suffix) {
