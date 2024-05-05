@@ -22,9 +22,6 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\IOException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
     private readonly ilCertificateSettingsFormRepository $settingsFormFactory;

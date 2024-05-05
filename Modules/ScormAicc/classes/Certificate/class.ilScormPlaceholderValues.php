@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private readonly ilLanguage $language;
@@ -148,7 +145,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
                     $placeHolders['SCO_P_' . $counter] = $this->language->txt('certificate_points_notavailable');
                     if ($a_scores['raw'] !== null) {
                         $placeHolders['SCO_P_' . $counter] = number_format(
-                            $a_scores['raw'],
+                            (float) $a_scores['raw'],
                             1,
                             $this->language->txt('lang_sep_decimal'),
                             $this->language->txt('lang_sep_thousand')
@@ -158,7 +155,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
                     $placeHolders['SCO_PM_' . $counter] = $this->language->txt('certificate_points_notavailable');
                     if ($a_scores['max'] !== null) {
                         $placeHolders['SCO_PM_' . $counter] = number_format(
-                            $a_scores['max'],
+                            (float) $a_scores['max'],
                             1,
                             $this->language->txt('lang_sep_decimal'),
                             $this->language->txt('lang_sep_thousand')
@@ -168,7 +165,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
                     $placeHolders['SCO_PP_' . $counter] = $this->language->txt('certificate_points_notavailable');
                     if ($a_scores['scaled'] !== null) {
                         $placeHolders['SCO_PP_' . $counter] = number_format(
-                            ($a_scores['scaled'] * 100),
+                            (float) ($a_scores['scaled'] * 100),
                             1,
                             $this->language->txt('lang_sep_decimal'),
                             $this->language->txt('lang_sep_thousand')
