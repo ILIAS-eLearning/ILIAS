@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
+use PHPUnit\Framework\TestCase;
+
+class ilScormPlaceholderDescriptionTest extends TestCase
 {
     public function testPlaceholderGetHtmlDescription(): void
     {
