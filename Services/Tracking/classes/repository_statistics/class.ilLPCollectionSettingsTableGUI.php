@@ -195,6 +195,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                         );
                     }
 
+                    $this->ctrl->clearParameterByClass(
+                        ilLearningProgressGUI::class,
+                        'ref_id'
+                    );
+
                     $a_set["mode"] = '<a href="' . $lp_settings_link . '">' . $a_set['mode'] . '</a>'; // :TODO: il_ItemAlertProperty?
                 }
 
@@ -284,8 +289,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                     ilLegacyFormElementsUtil::makeTimeSelect(
                         'tlt[' . $a_set['id'] . ']',
                         true,
-                        $hr,
-                        $min,
+                        (int) $hr,
+                        (int) $min,
                         0,
                         false
                     )
