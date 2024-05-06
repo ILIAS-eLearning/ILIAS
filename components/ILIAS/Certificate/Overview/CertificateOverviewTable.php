@@ -184,6 +184,7 @@ class CertificateOverviewTable implements DataRetrieval
             ],
             $this
         )
+            ->withOrder(new Order('issue_date', Order::DESC))
             ->withId('certificateOverviewTable')
             ->withRequest($this->request)
             ->withActions($this->buildTableActions());
