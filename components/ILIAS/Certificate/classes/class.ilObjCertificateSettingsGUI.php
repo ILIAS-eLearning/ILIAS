@@ -97,7 +97,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         if ($this->certificate_active_validator->validate() && $this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_CERTIFICATES,
-                $this->lng->txt('certificates'),
+                $this->lng->txt('overview'),
                 $this->ctrl->getLinkTarget($this, self::CMD_CERTIFICATES_OVERVIEW)
             );
         }
