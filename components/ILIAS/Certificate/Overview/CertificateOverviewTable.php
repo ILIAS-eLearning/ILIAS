@@ -29,11 +29,11 @@ use ilCtrl;
 use ilCtrlInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\Standard;
-use ILIAS\UI\Implementation\Component\Table\Table;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
@@ -58,7 +58,7 @@ class CertificateOverviewTable implements DataRetrieval
     private \ILIAS\Data\Factory $data_factory;
     private ilCtrl|ilCtrlInterface $ctrl;
     private Standard $filter;
-    private Table $table;
+    private Data $table;
     private Renderer $ui_renderer;
     private ilAccessHandler $access;
     private ilObjUser $user;
@@ -167,7 +167,7 @@ class CertificateOverviewTable implements DataRetrieval
         );
     }
 
-    private function buildTable(): Table
+    private function buildTable(): Data
     {
         $uiTable = $this->ui_factory->table();
         return $uiTable->data(
