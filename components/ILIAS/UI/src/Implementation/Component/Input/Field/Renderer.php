@@ -104,10 +104,8 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Duration):
                 return $this->renderDurationField($component, $default_renderer);
 
-            case ($component instanceof F\Link):
-                return $this->renderLinkField($component, $default_renderer);
-
             case ($component instanceof F\Group):
+            case ($component instanceof F\Link):
                 return $default_renderer->render($component->getInputs());
 
             case ($component instanceof F\Text):
@@ -186,6 +184,7 @@ class Renderer extends AbstractComponentRenderer
         $type = str_replace(' ', '', $component->getCanonicalName());
         $tpl->setVariable("TYPE", $type);
         $tpl->setVariable("NAME", $component->getName());
+
 
         $byline = $component->getByline();
         if ($byline) {
@@ -339,6 +338,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
     {
+
         $value = null;
         if ($component->getValue() !== null) {
             list($value, ) = $component->getValue();
@@ -738,7 +738,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $id = $this->bindJavaScript($section) ?? $this->createId();
         return $this->wrapInFormContext($section, $section->getLabel(), $inputs_html, $id);
-
     }
 
     protected function renderUrlField(F\Url $component): string
