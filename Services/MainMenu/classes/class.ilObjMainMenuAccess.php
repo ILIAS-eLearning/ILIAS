@@ -28,6 +28,7 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
     private ilRbacSystem $rbacsystem;
     private ilRbacReview $rbacreview;
     private ?int $ref_id;
+    private ?array $global_roles = null;
 
     /**
      * ilObjMainMenuAccess constructor.
@@ -91,8 +92,7 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
                 return $current();
             }
             if (!empty($item->getGlobalRoleIDs())) {
-                $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
-                foreach ($roles_of_current_user as $role_of_current_user) {
+                foreach ($this->resolveUsersGlobalRoles() as $role_of_current_user) {
                     if (in_array((int) $role_of_current_user, $item->getGlobalRoleIDs(), true)) {
                         return $current();
                     }
@@ -100,5 +100,11 @@ class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
             }
             return false;
         };
+    }
+
+    private function resolveUsersGlobalRoles(): array
+    {
+        return $this->global_roles
+            ?? $this->global_roles = $this->rbacreview->assignedGlobalRoles($this->user->getId());
     }
 }
