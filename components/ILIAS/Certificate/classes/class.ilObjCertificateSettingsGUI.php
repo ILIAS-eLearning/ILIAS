@@ -94,19 +94,19 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, 'settings'),
-                ['settings', 'view']
-            );
-        }
-
         if ($this->certificate_active_validator->validate() && $this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_CERTIFICATES,
                 $this->lng->txt('certificates'),
                 $this->ctrl->getLinkTarget($this, self::CMD_CERTIFICATES_OVERVIEW)
+            );
+        }
+
+        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->tabs_gui->addTarget(
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
+                ['settings', 'view']
             );
         }
 
