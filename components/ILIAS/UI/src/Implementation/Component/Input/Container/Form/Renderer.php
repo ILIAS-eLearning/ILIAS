@@ -35,6 +35,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+
+
+        global $ilLog;
+        $ilLog->log('RENDER FORM');
+
         $this->checkComponent($component);
 
         $component = $component->withAdditionalOnLoadCode(
@@ -70,7 +75,14 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
-        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+        $tpl->setVariable(
+            "INPUTS",
+            $default_renderer
+            ->withAdditionalContext($component)
+            ->render($component->getInputGroup())
+        );
+
+
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);

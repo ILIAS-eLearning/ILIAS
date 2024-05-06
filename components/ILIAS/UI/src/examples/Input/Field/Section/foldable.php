@@ -19,15 +19,30 @@ function foldable()
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
- 
+
     $number_input = $ui->input()->field()->numeric("number", "Put in a number.")
         ->withLabel("a number");
     $text_input = $ui->input()->field()->text("text", "Put in some text.")
         ->withLabel("a text");
 
+    $file_input = $ui->input()->field()->file(
+        new \ilUIDemoFileUploadHandlerGUI(),
+        "Upload File",
+        "you can drop your files here"
+    );
+
+    $link_input = $ui->input()->field()->link(
+        "a LinkField",
+        "enter label and url"
+    );
+
+
     $section1 = $ui->input()->field()->section(
-        [   $number_input->withValue(5), 
-            $text_input->withValue('some text')
+        [
+            $number_input->withValue(5),
+            $text_input->withValue('some text'),
+            $file_input,
+            $link_input,
         ],
         "first section",
         "fill in some values"
@@ -35,10 +50,11 @@ function foldable()
 
     $optional_group = $ui->input()->field()->optionalGroup(
         [
-            $ui->input()->field()->duration("a dependent duration field", "")
+            $ui->input()->field()->duration("a dependent duration field", ""),
+            $ui->input()->field()->text("a dependent text field", "")
         ],
-        'optional date',
-        'check to edit the date',
+        'optional group',
+        'check to edit the field of the group',
     );
 
     $group1 = $ui->input()->field()->group(
@@ -46,7 +62,8 @@ function foldable()
             "field_1_1" => $ui->input()->field()->text("Item 1.1", "Just some field"),
             "field_1_2" => $ui->input()->field()->text("Item 1.2", "Just some other field"),
         ],
-        "Switchable Group number one"
+        "Switchable Group number one",
+        "Byline for Switchable Group number one"
     );
     $options = array(
         "1" => "Pick 1",
@@ -58,24 +75,24 @@ function foldable()
         [
             $ui->input()->field()->multiselect("now, pick more", $options, "This is the byline text")
                 ->withValue([2,3]),
-            $ui->input()->field()->radio("now, pick just one more", "This is the second byline text")
+            $ui->input()->field()->radio("now, pick just one more", "byline for radio (pick one more)")
                 ->withOption('single1', 'Single 1')
                 ->withOption('single2', 'Single 2')
         ],
         "Switchable Group number two",
-        "with byline"
+        "Byline for Switchable Group number two"
     );
-    $switchable_group =  $ui->input()->field()->switchableGroup(
+    $switchable_group = $ui->input()->field()->switchableGroup(
         [
             "g1" => $group1,
             "g2" => $group2,
         ],
         "Pick One",
-        ""
+        "Byline for the whole Switchable Group (pick one)"
     );
 
     $section2 = $ui->input()->field()->section(
-        [   $number_input->withValue(7), 
+        [   $number_input->withValue(7),
             $text_input->withValue('some other text'),
             $optional_group->withValue(null),
             $switchable_group,
