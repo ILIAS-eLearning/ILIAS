@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+use ILIAS\Data\UUID\Factory;
 use ILIAS\DI\Container;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
@@ -39,7 +41,7 @@ class ilCertificateCron extends ilCronJob
         ?ilLanguage $language = null,
         private ?ilCertificateObjectHelper $objectHelper = null,
         private ?ilSetting $settings = null,
-        private ?ilCronManager $cronManager = null
+        private ?ilCronManager $cronManager = null,
     ) {
         if (null === $dic) {
             global $DIC;
@@ -255,9 +257,11 @@ class ilCertificateCron extends ilCronJob
             $type
         ));
 
+        $cert_id = $this->userRepository->requestIdentity();
         $certificateContent = $template->getCertificateContent();
 
         $placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);
+        $placeholderValues['CERTIFICATE_ID'] = $cert_id->asString();
 
         $this->logger->debug(sprintf(
             'Values for placeholders: "%s"',
@@ -266,7 +270,7 @@ class ilCertificateCron extends ilCronJob
 
         $certificateContent = $this->valueReplacement->replace(
             $placeholderValues,
-            $certificateContent
+            $certificateContent,
         );
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
@@ -283,8 +287,10 @@ class ilCertificateCron extends ilCronJob
             $template->getVersion(),
             ILIAS_VERSION_NUMERIC,
             true,
+            $cert_id,
             $template->getBackgroundImagePath(),
-            $thumbnailImagePath
+            $thumbnailImagePath,
+            null,
         );
 
         $persistedUserCertificate = $this->userRepository->save($userCertificate);

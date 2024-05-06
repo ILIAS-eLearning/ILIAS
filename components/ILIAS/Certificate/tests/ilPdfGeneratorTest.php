@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -44,6 +46,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             3,
             'v5.4.0',
             true,
+            new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
             '/some/where/thumbnail.jpg',
             300
@@ -110,6 +113,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             3,
             'v5.4.0',
             true,
+            new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
             '/some/where/thumbnail.jpg',
             300
