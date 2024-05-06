@@ -865,7 +865,7 @@ assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
 assessment#:#mainbar_button_label_questionlist#:#Fragenliste
-assessment#:#maintenance#:#Wartung
+assessment#:#maintenance#:#Befragte
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
 assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
@@ -16195,7 +16195,7 @@ survey#:#evaluation_access#:#Zugriff auf die Ergebnisse
 survey#:#evaluation_access_all#:#Alle Personen mit ILIAS-Konto
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
 survey#:#evaluation_access_off#:#Kein Zugriff auf Ergebnisse
-survey#:#evaluation_access_participants#:#Alle Teilnehmer der Umfrage haben Zugriff auf die Ergebnisse
+survey#:#evaluation_access_participants#:#Alle Befragten der Umfrage haben Zugriff auf die Ergebnisse
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -16251,7 +16251,7 @@ survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
 survey#:#mailparticipantdata#:#Einleitungstext
 survey#:#mailparticipantdata_info#:#Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird
 survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
-survey#:#maintenance#:#Teilnehmer
+survey#:#maintenance#:#Befragte
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_empty#:#Das Objekt enthält kein geeignetes Material.
@@ -16465,7 +16465,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Teilnahmeliste > Zugangsschlüssel“.
+survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Befragte » Zugangsschlüssel“.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
@@ -16511,9 +16511,9 @@ survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden?
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
-survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_jump_to#:#Springe zu Seite
@@ -16523,20 +16523,20 @@ survey#:#survey_next#:#Weiter →
 survey#:#survey_next_question#:#Nächste Seite
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
-survey#:#survey_notification_finished_introduction#:#ein Teilnehmer hat die Umfrage beendet.
+survey#:#survey_notification_finished_introduction#:#eine Person hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage per Einladung als To-Do auf das Dashboard gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_invited#:#Personen, denen im Reiter „Befragte“ die Umfrage in die To-Dos eingetragen wurde, und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
-survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus Kurs bzw. Gruppe, welche die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus einem Kurs bzw. einer Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
+survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Befragten beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
-survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
-survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet
+survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
+survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
 survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
@@ -16577,7 +16577,7 @@ survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden alle
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse > Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
+survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse » Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage „%s“
@@ -16611,18 +16611,18 @@ survey#:#svy_all_raters#:#Alle Feedback-Geber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
-survey#:#svy_anonymous_participants#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
-survey#:#svy_anonymous_participants_min#:#Mindestteilnehmeranzahl
-survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Teilnehmer.
-survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
+survey#:#svy_anonymous_participants#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_info#:#Bei anonymen Umfragen kann eine Teilnahmeliste erzeugt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestanzahl Befragter
+survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Befragter.
+survey#:#svy_anonymous_participants_svy#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_svy_info#:#Nach dem Enddatum ist eine Teilnahmeliste verfügbar.
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
 survey#:#svy_chart_download#:#Grafik herunterladen
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_compress_view#:#Komprimierte Sicht
@@ -16688,7 +16688,6 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_participant#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
@@ -16701,7 +16700,7 @@ survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
 survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
-survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
+survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
 survey#:#svy_results_view_own#:#Eigene Antworten einsehen
@@ -16709,11 +16708,11 @@ survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung de
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
-survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Personen auswählen
 survey#:#svy_search_users#:#Benutzer suchen
 survey#:#svy_select_rater#:#Feedback-Geber auswählen
-survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmer wurden erfolgreich gelöscht.
-survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
+survey#:#svy_selected_user_data_deleted#:#Die ausgewählten Datensätze wurden erfolgreich gelöscht.
+survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Befragten
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
 survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
@@ -16742,7 +16741,7 @@ survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
 survey#:#use_other_answer#:#Freitext
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
-survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
+survey#:#users_invited#:#Es wurden %s Personen eingeladen
 survey#:#users_skipped#:#Übersprungen
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
@@ -16752,7 +16751,7 @@ survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschl�
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_all_pages#:#Alle Seiten
-svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
@@ -16762,9 +16761,9 @@ svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Auswahl Druckansicht
-svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
-svy#:#svy_remove_participants#:#Teilnehmer entfernen
-svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
+svy#:#svy_remove_participants#:#Datensatz löschen
+svy#:#svy_selected_participants#:#Ausgewählte Befragte
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
 svy#:#svy_selection#:#Auswahl
 svy#:#svy_status#:#Status
@@ -17096,7 +17095,7 @@ trac#:#trac_object_statistics#:#Objekt-Statistik
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 trac#:#trac_objects#:#Benutzer
 trac#:#trac_others#:#Sonstige
-trac#:#trac_participants#:#Teilnehmer zeigen
+trac#:#trac_participants#:#Status anzeigen
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_paths#:#Pfade
 trac#:#trac_percentage#:#Prozent
