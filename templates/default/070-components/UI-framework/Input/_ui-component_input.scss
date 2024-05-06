@@ -18,7 +18,7 @@
 @use "_ui-component_markdown.scss";
 @use "_ui-component_rating.scss";
 @use "_ui-component_numeric.scss";
-
+@use "_ui-component_switchablegroup.scss";
 
 //== Standard Form
 //
@@ -142,5 +142,3 @@ td.form-inline > div.form-group {
   display: block;
   padding: 4px 0;
 }
-
-

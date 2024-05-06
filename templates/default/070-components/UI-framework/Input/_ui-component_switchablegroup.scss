@@ -1,0 +1,7 @@
+.c-input[data-il-ui-type="SwitchableGroupFieldInput"] 
+.c-input[data-il-ui-type="GroupFieldInput"]:not(:has(>legend label input:checked))
+{
+	> .c-input__field {
+		display: none;
+	}
+}

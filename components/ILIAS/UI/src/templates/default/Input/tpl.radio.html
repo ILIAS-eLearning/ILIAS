@@ -1,10 +1,12 @@
-<div id="{ID}" class="il-input-radio">
+<fieldset id="{ID}" class="il-input-radio">
 <!-- BEGIN optionblock -->
-<div class="form-control form-control-sm il-input-radiooption">
+
 	<input type="radio" id="{OPTIONID}"<!-- BEGIN name --> name="{NAME}"<!-- END name --> value="{VALUE}" {CHECKED} {DISABLED}/>
 	<label for="{OPTIONID}">{LABEL}</label>
-	{DEPENDANT_FIELDS}
-	<!-- BEGIN byline --><div class="help-block">{BYLINE}</div><!-- END byline -->
-</div>
+
+	<!-- BEGIN byline -->
+	<div class="help-block">{BYLINE}</div>
+	<!-- END byline -->
+
 <!-- END optionblock -->
-</div>
+</fieldset>

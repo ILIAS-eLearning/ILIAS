@@ -1,8 +1,10 @@
-<ul class="il-input-multiselect" id="{ID}">
-	<!-- BEGIN option -->
-	<li><input type="checkbox" name="{NAME}[]" value="{VALUE}" {CHECKED} {DISABLED}/> <span>{LABEL}</span> </li>
-	<!-- END option -->
-	<!-- BEGIN no_options -->
-	<li>-</li>
-	<!-- END no_options -->
-</ul>
+<fieldset class="il-input-multiselect" id="{ID}">
+	<ul>
+		<!-- BEGIN option -->
+		<li><label><input type="checkbox" name="{NAME}[]" value="{VALUE}" {CHECKED} {DISABLED}/> {LABEL}</label></li>
+		<!-- END option -->
+		<!-- BEGIN no_options -->
+		<li>-</li>
+		<!-- END no_options -->
+	</ul>
+</fieldset>

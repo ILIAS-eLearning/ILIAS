@@ -391,3 +391,16 @@ div.Access {
 .light {
 	color: $il-text-light-color;
 }
+
+fieldset {
+  border:  1px dotted red !important;
+  margin: 10px !important;
+}
+
+.c-input {
+	border:  1px solid red !important;
+}
+
+.c-input__dependant_group {
+  	border:  1px solid blue !important;
+}
