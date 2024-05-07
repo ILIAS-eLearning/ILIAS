@@ -169,6 +169,9 @@ final class RequestHandler
                                 true
                             );
 
+                            $new_revision->setOwnerId($this->token_user_id);
+                            $this->irss->manage()->updateRevision($new_revision);
+
                             // CheckFileInfo
                             $response = new GetFileInfoResponse(
                                 $new_revision,
