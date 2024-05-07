@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\Data\FormMethod;
 
 class Interruptive extends Modal implements M\Interruptive
 {
@@ -29,25 +30,17 @@ class Interruptive extends Modal implements M\Interruptive
      * @var M\InterruptiveItem\InterruptiveItem[]
      */
     protected array $items = array();
-    protected string $title;
-    protected string $message;
     protected ?string $action_button_label = null;
     protected ?string $cancel_button_label = null;
-    protected string $form_action;
 
     public function __construct(
-        string $title,
-        string $message,
-        string $form_action,
+        protected string $title,
+        protected string $message,
+        protected string $form_action,
+        protected FormMethod $form_method,
         SignalGeneratorInterface $signal_generator
     ) {
         parent::__construct($signal_generator);
-        $this->checkStringArg('title', $title);
-        $this->checkStringArg('message', $message);
-        $this->checkStringArg('form_action', $form_action);
-        $this->title = $title;
-        $this->message = $message;
-        $this->form_action = $form_action;
     }
 
     /**
@@ -136,5 +129,10 @@ class Interruptive extends Modal implements M\Interruptive
     public function getFormAction(): string
     {
         return $this->form_action;
+    }
+
+    public function getFormMethod(): FormMethod
+    {
+        return $this->form_method;
     }
 }

@@ -18,24 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Modal\InterruptiveItem;
+namespace ILIAS\Data;
 
-use ILIAS\UI\Component\Component;
-
-/**
- * Interface InterruptiveItem
- *
- * Represents an item to be displayed inside an interruptive modal
- */
-interface InterruptiveItem extends Component
+enum FormMethod: string
 {
-    /**
-     * Return an ID of the item
-     */
-    public function getId(): string;
-
-    /**
-     * Use this as a parameter name when submitting the interruptive modal
-     */
-    public function withParameterName(string $parameter_name): self;
+    case GET = 'GET';
+    case POST = 'POST';
 }
