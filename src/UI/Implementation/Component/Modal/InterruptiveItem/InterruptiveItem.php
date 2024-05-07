@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -28,6 +28,7 @@ abstract class InterruptiveItem implements ItemInterface
     use ComponentHelper;
 
     protected string $id;
+    protected string $parameter_name = 'interruptive_items';
 
     public function __construct(string $id)
     {
@@ -38,4 +39,17 @@ abstract class InterruptiveItem implements ItemInterface
     {
         return $this->id;
     }
+
+    public function withParameterName(string $parameter_name): static
+    {
+        $clone = clone $this;
+        $clone->parameter_name = $parameter_name;
+        return $clone;
+    }
+
+    public function getParameterName(): string
+    {
+        return $this->parameter_name;
+    }
+
 }

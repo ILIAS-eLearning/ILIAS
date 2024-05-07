@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\Data\FormMethod;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -146,7 +147,7 @@ function base()
         ): \Generator {
             $records = $this->getRecords($range, $order);
             foreach ($records as $idx => $record) {
-                $row_id = (string)$record['usr_id'];
+                $row_id = (string) $record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;
@@ -252,18 +253,21 @@ function base()
         if ($action === 'delete') {
             $items = [];
             foreach ($ids as $id) {
-                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id)
+                    ->withParameterName($row_id_token->getName());
             }
             echo($r->renderAsync([
                 $f->modal()->interruptive(
                     'Deletion',
                     'You are about to delete items!',
-                    '#'
+                    $url_builder->withParameter($action_parameter_token, "delete_confirmed")->buildURI()->__toString(),
+                    FormMethod::GET
                 )->withAffectedItems($items)
                 ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
             ]));
             exit();
         }
+
         if ($action === 'info') {
             echo(
                 $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))

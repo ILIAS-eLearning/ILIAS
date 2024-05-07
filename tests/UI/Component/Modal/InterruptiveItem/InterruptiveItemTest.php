@@ -52,4 +52,12 @@ class InterruptiveItemTest extends ILIAS_UI_TestBase
         $item = new TestingItem($id);
         $this->assertEquals($id, $item->getId());
     }
+
+    public function testInterruptiveItemParameterName(): void
+    {
+        $item = new TestingItem('id');
+        $this->assertEquals('interruptive_items', $item->getParameterName());
+        $this->assertEquals('par', $item->withParameterName('par')->getParameterName());
+    }
+
 }
