@@ -72,6 +72,7 @@ final class InitCtrlService
             $dic->refinery(),
             $dic["component.factory"],
             new ilCtrlSubject(),
+            new ilCtrlQueryRegexParser(),
         );
 
         // add helper function to DI container that
