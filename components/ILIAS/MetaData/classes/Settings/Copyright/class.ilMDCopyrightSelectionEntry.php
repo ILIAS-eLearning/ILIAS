@@ -24,6 +24,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\MetaData\Copyright\Renderer;
 use ILIAS\MetaData\Copyright\DatabaseRepository;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\MetaData\Copyright\Database\Wrapper;
 
 /**
  * @deprecated use ILIAS/MetaData/Copyright/DatabaseRepository
@@ -55,7 +56,7 @@ class ilMDCopyrightSelectionEntry
             $DIC->ui()->factory(),
             $DIC->resourceStorage()
         );
-        $this->repository = new DatabaseRepository($DIC->database());
+        $this->repository = new DatabaseRepository(new Wrapper($DIC->database()));
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->logger = $DIC->logger()->meta();
         $this->db = $DIC->database();
@@ -109,7 +110,7 @@ class ilMDCopyrightSelectionEntry
             $DIC->ui()->factory(),
             $DIC->resourceStorage()
         );
-        $repository = new DatabaseRepository($DIC->database());
+        $repository = new DatabaseRepository(new Wrapper($DIC->database()));
         $ui_renderer = $DIC->ui()->renderer();
 
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {

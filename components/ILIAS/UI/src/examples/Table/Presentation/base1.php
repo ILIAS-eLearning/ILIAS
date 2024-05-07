@@ -46,7 +46,7 @@ function base1()
         return $row
         ->withHeadline($record['question_title'])
         ->withLeadingSymbol(
-            $ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ques.svg', '')
+            $ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ques.svg', '')
         )
         ->withSubheadline($record['question_txt'])
         ->withImportantFields(
@@ -131,7 +131,7 @@ function environment()
         $ui_factory = $DIC->ui()->factory();
         $ui_renderer = $DIC->ui()->renderer();
 
-        $icon = $ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_ques.svg', '');
+        $icon = $ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ques.svg', '');
 
         $ret = '<div class="example_block stats">';
         $ret .= '<h5>' . $ui_renderer->render($icon) . ' ' . $answers['type'] . '</h5>';

@@ -39,8 +39,16 @@
 				<!-- END attachments -->
 			</div>
 		</div>
-		<div class="ilFrmPostClear"></div><!-- BEGIN commands_block -->
-		<div class="ilFrmPostCommands ilForumInlineCommandContainer">{COMMANDS}</div><!-- END commands_block -->
+		<div class="ilFrmPostClear"></div>
+		<!-- BEGIN action_bar -->
+		<div class="il-item-actions l-bar__space-keeper">
+			<!-- BEGIN main_action --><div class="l-bar__element">{MAIN_ACTION}</div><!-- END main_action -->
+			<!-- BEGIN dropdown_actions --><div class="l-bar__element">{DROPDOWN_ACTIONS}</div><!-- END dropdown_actions -->
+		</div>
+		<!-- END action_bar -->
+
+		<!-- BEGIN commands_block
+		<div class="ilFrmPostCommands ilForumInlineCommandContainer">{COMMANDS}</div>--><!-- END commands_block -->
 		<div class="ilFrmPostClear"></div>
 		<!-- BEGIN edit_draft_anchor --><a id="{EDIT_DRAFT_ANCHOR}"></a><!-- END edit_draft_anchor -->
 		{DRAFT_FORM}

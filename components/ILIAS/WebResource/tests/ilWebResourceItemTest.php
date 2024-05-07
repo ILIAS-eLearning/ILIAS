@@ -40,13 +40,20 @@ class ilWebResourceItemTest extends TestCase
                    'position' => 7,
                    'internal' => 0
                ]);
+        /*
+         * willReturnCallback is a workaround to replace withConsecutive.
+         * The return value is irrelevant here, but if an unexpected parameter
+         * is passed, an exception will be thrown (instead of an assumption being
+         * broken as before).
+         * These tests should be rewritten to rely much less on PHPUnit for mocking.
+         */
         $writer->expects($this->exactly(3))
                ->method('xmlElement')
-               ->withConsecutive(
-                   ['Title', [], 'title'],
-                   ['Description', [], 'description'],
-                   ['Target', [], 'target'],
-               );
+               ->willReturnCallback(fn($tag, $attrs, $data) => match([$tag, $attrs, $data]) {
+                   ['Title', [], 'title'] => 1,
+                   ['Description', [], 'description'] => 2,
+                   ['Target', [], 'target'] => 3
+               });
         $writer->expects($this->once())
                ->method('xmlEndTag')
                ->with('WebLink');

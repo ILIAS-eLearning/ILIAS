@@ -143,6 +143,6 @@ class ilModalGUI
 
         $tpl = $a_main_tpl ?? $DIC["tpl"];
 
-        $tpl->addJavaScript("assets/js/Modal.js");
+        $tpl->addJavaScript("assets/js/LegacyModal.js");
     }
 }

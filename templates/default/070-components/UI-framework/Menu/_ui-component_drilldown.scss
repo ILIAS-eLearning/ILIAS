@@ -5,101 +5,298 @@
 @use "../../../050-layout/basics" as l;
 @use "../../../050-layout/standardpage/" as l-spage;
 @use "../../../030-tools/tool_focus-outline" as f;
+@use "../../../070-components/UI-framework/Button/ui-component_button" as button;
 
 //== Drilldown Menu
 //
 //##
-$il-drilldown-header-height: 80px;
-$il-drilldown-spacing-vertical: l.$il-padding-large-vertical;
-$il-drilldown-spacing-horizontal: l.$il-padding-large-horizontal;
-$il-drilldown-menulevel-bg: $il-bulky-bg-color;
-$il-drilldown-bulky-bg: transparent;
-$il-drilldown-item-hover-bg: $il-bulky-bg-color-engaged;
-$il-drilldown-item-font-size: $il-bulky-label-size;
-$il-drilldown-item-spacing: l-spage.$il-slate-content-spacing;
-$il-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
-$il-drilldown-left-indent: l.$il-padding-large-horizontal + s-symbol.$il-icon-size-small + math.div(l.$il-padding-large-horizontal, 2);
+$c-drilldown-header-height: l-spage.$il-mainbar-btn-height;
+$c-drilldown-spacing-vertical: l.$il-padding-large-vertical;
+$c-drilldown-spacing-horizontal: l.$il-padding-large-horizontal;
+$c-drilldown-element-max-height: button.$input-min-height-large;
+$c-drilldown-min-height: button.$input-min-height-large * 6;
+$c-drilldown-menulevel-bg: $il-bulky-bg-color;
+$c-drilldown-max-width: $il-column-standard-width * 2;
+$c-drilldown-bulky-bg: transparent;
+$c-drilldown-item-hover-bg: $il-bulky-bg-color-engaged;
+$c-drilldown-item-font-size: $il-bulky-label-size;
+$c-drilldown-item-spacing: l-spage.$il-slate-content-spacing;
+$c-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
+$c-drilldown-left-indent: l.$il-padding-large-horizontal + s-symbol.$il-icon-size-small + math.div(l.$il-padding-large-horizontal, 2);
+$c-drilldown-selected-bg: $il-main-dark-bg;
 
-.il-drilldown {
-	// reset user agent CSS for lists
-	ul, li {
-		padding: 0;
-		margin: 0;
-		list-style: none;
-	}
 
-	header {
-		position: relative; // so backnav can be positioned on top
-		display: flex;
-		align-items: center;
-		min-height: $il-drilldown-header-height; // content is centered by flex-box, not through padding
-		margin-bottom: $il-drilldown-item-spacing;
-		padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal l.$il-padding-xlarge-vertical $il-drilldown-left-indent;
-		z-index: initial; // so slate can cover up this specific header
-		h2 {
-			font-size: $il-font-size-xlarge;
-			margin: 0;
-			padding: 0;
-		}
-		.backnav {
-			display: none;
-			position: absolute;
-			// overlay that spans over entire header size
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			.btn-bulky {
-				height: 100%;
-				background-color: transparent;
-    			border: none;
-				@include f.il-focus-border-only();
-			}
-		}
-	}
-	header.show-backnav {
-		padding-left: $il-drilldown-left-indent;
-		.backnav {
-			display: block;
-		}
-	}
+.c-drilldown {
+    container-type: inline-size;
+    container-name: drilldown;
 
-	// visibility of menu items
-	li > .menulevel,
-	li > .btn-bulky,
-	li > .link-bulky,
-	li > hr {
-    	display: none;
-	}
-	.engaged ~ ul > li > .menulevel,
-	.engaged ~ ul > li > .btn-bulky,
-	.engaged ~ ul > li > .link-bulky {
-    	display: flex;
-	}
-	.engaged ~ ul > li > hr {
-		display: block;
-	}
-	// styling for individual menu items (parts taken from slate.scss)
-	hr {
-		margin: $il-drilldown-spacing-vertical 0;
-	}
-	.btn-bulky,
-	.link-bulky,
-	.menulevel {
-		background-color: $il-drilldown-bulky-bg;
-		border-color: $il-drilldown-bulky-bg;
-		&:hover {
-			background-color: $il-drilldown-item-hover-bg; // has to be a color with transparency so h2 can be seen underneath backnav
-		    color: inherit;
-		}
-		.icon {
-			filter: invert(50%);
-		}
-	}
-	.menulevel {
-		justify-content: space-between;
-		text-align: left;
-		padding-left: $il-drilldown-left-indent; // bulky-btn left padding + space for small icon + gap 
-		margin-bottom: l-spage.$il-slate-content-spacing;
-	}
+    // reset user agent CSS for lists
+    ul, li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .c-drilldown__menu {
+        min-height: $c-drilldown-min-height;
+        position: relative;
+    }
+
+    header {
+        position: relative;
+        // so backnav can be positioned on top
+        display: flex;
+        align-items: center;
+        min-height: $c-drilldown-header-height;
+        // content is centered by flex-box, not through padding
+        margin-bottom: $c-drilldown-item-spacing;
+        padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal l.$il-padding-xlarge-vertical $c-drilldown-left-indent;
+        z-index: initial;
+        // so slate can cover up this specific header
+        h2 {
+            font-size: $il-font-size-xlarge;
+            margin: 0;
+            padding: 0;
+        }
+        .c-drilldown__filter {
+            display: block;
+            padding-left: 0;
+            width: 100%;
+        }
+
+        > :nth-child(2) {
+            display: none;
+        }
+        .c-drilldown__backnav {
+            display: none;
+            position: absolute;
+            // overlay that spans over entire header size
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            .btn-bulky {
+                height: 100%;
+                background-color: transparent;
+                border: none;
+                justify-content: start;
+                @include f.il-focus-border-only();
+            }
+        }
+        &.c-drilldown__header--showbacknav {
+            padding-left: $c-drilldown-left-indent;
+            .c-drilldown__backnav {
+                display: block;
+            }
+            .c-drilldown__filter {
+                display: none;
+            }
+
+        }
+    }
+
+    .c-drilldown__menulevel--trigger {
+        @extend .btn;
+        @extend .btn-bulky;
+    }
+
+    // visibility of menu items
+    .c-drilldown__menu {
+        .c-drilldown__menulevel--trigger,
+        .btn-bulky,
+        .link-bulky,
+        hr {
+            display: none;
+        }
+    }
+
+    .c-drilldown__menulevel--engaged > li {
+        > .c-drilldown__branch,
+        > .btn-bulky,
+        > .link-bulky {
+            display: flex;
+        }
+        > hr {
+            display: block;
+        }
+    }
+
+    .c-drilldown__menuitem--filtered {
+        display: none;
+    }
+
+    &.c-drilldown--filtered {
+        .c-drilldown__menulevel--trigger {
+            display: none;
+        }
+        .c-drilldown__menu > ul > li,
+        .c-drilldown__leaf {
+            &:not(.c-drilldown__menuitem--filtered) {
+                > .c-drilldown__menulevel--trigger,
+                > .btn-bulky,
+                > .link-bulky {
+                    display: flex;
+                }
+            }
+        }
+        .c-drilldown__menu .c-drilldown__menulevel--trigger {
+            background: $c-drilldown-selected-bg;
+            > .glyphicon-triangle-right {
+                display: none;
+            }
+        }
+    }
+
+    @container drilldown (min-width: #{$c-drilldown-max-width}) {
+        header {
+            > h2:first-child {
+                display: none;
+            }
+            > :nth-child(2) {
+                display: initial;
+            }
+            &.c-drilldown__header--showbacknav {
+                .c-drilldown__backnav {
+                    display: none;
+                }
+                .c-drilldown__filter {
+                    display: block;
+                }
+            }
+            &.c-drilldown__header--showbacknavtwocol {
+                padding-left: $c-drilldown-left-indent;
+                .c-drilldown__backnav {
+                    display: block;
+                }
+                .c-drilldown__filter {
+                    display: none;
+                }
+            }
+        }
+
+        .c-drilldown__menulevel--engagedparent {
+            > li:not(.c-drilldown__menuitem--filtered) {
+                display: flex;
+                flex-direction: row;
+                max-height: $c-drilldown-element-max-height;
+                width: 100%;
+
+                > ul {
+                    position: relative;
+                    width: 100%;
+                }
+            }
+            > .c-drilldown__leaf {
+                > .btn-bulky,
+                > .link-bulky {
+                    width: 50%;
+                }
+            }
+            > .c-drilldown__menuitem--engaged > .c-drilldown__menulevel--trigger {
+                background: $c-drilldown-selected-bg;
+            }
+        }
+
+        .c-drilldown__menulevel--engaged {
+            overflow: auto;
+
+            ~ .c-drilldown__menulevel--trigger {
+                background: $c-drilldown-selected-bg;
+            }
+            > li {
+                > .c-drilldown__branch,
+                > .btn-bulky,
+                > .link-bulky  {
+                    background-color: $c-drilldown-selected-bg;
+                    position: relative;
+                    z-index: 40;
+                }
+            }
+        }
+
+        &.c-drilldown--filtered .c-drilldown__menulevel--engagedparent > li {
+            max-height: initial;
+        }
+
+        &:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent {
+            > li {
+                > .c-drilldown__branch,
+                > .btn-bulky,
+                > .link-bulky {
+                    display: flex;
+                }
+                > hr {
+                    display: block;
+                }
+            }
+
+            &.c-drilldown__menulevel--engaged {
+                overflow: visible;
+
+                > .c-drilldown__branch {
+                    > .c-drilldown__menulevel--trigger {
+                        background-color: $c-drilldown-selected-bg;
+                    }
+                    > ul {
+                        overflow: auto;
+                    }
+                    > ul > li {
+                        > .c-drilldown__menulevel--trigger,
+                        > .btn-bulky,
+                        > .link-bulky {
+                            background-color: $c-drilldown-selected-bg;
+                            display: flex;
+                        }
+                    }
+                    ~ .c-drilldown__branch {
+                        > .c-drilldown__menulevel--trigger {
+                            background-color: transparent;
+                        }
+                        > ul > li {
+                            > .c-drilldown__menulevel--trigger,
+                            > .btn-bulky,
+                            > .link-bulky {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // styling for individual menu items (parts taken from slate.scss)
+    hr {
+        margin: $c-drilldown-spacing-vertical 0;
+    }
+    .btn-bulky,
+    .link-bulky,
+    .c-drilldown__menulevel--trigger {
+        background-color: $c-drilldown-bulky-bg;
+        border-color: $c-drilldown-bulky-bg;
+        &:hover {
+            background-color: $c-drilldown-item-hover-bg;
+            // has to be a color with transparency so h2 can be seen underneath backnav
+            color: inherit;
+        }
+        .icon {
+            filter: invert(50%);
+        }
+    }
+    .c-drilldown__menulevel--trigger {
+        justify-content: space-between;
+        text-align: left;
+        padding-left: $c-drilldown-left-indent;
+        // bulky-btn left padding + space for small icon + gap
+        margin-bottom: l-spage.$il-slate-content-spacing;
+    }
+
+    .c-drilldown__leaf > .btn-bulky,
+    .c-drilldown__leaf > .link-bulky {
+        justify-content: left;
+        text-align: left;
+        padding-left: $c-drilldown-left-indent;
+        // bulky-btn left padding + space for small icon + gap
+        margin-bottom: l-spage.$il-slate-content-spacing;
+    }
 }

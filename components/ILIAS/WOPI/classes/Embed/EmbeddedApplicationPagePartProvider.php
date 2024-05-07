@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Embed;
+namespace ILIAS\components\WOPI\Embed;
 
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;

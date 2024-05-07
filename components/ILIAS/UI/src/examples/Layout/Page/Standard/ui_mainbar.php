@@ -228,7 +228,7 @@ function getRenderedPage(Container $dic, MainBar $mainbar): string
     list($page_title, $content) = getUIContent($f, $dic->http()->request());
 
     $logo = $f->image()->responsive("assets/images/logo/HeaderIcon.svg", "ILIAS");
-    $responsive_logo = $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("assets/images/logo/HeaderIconResponsive.svg", "ILIAS");
 
     $breadcrumbs = null;
     $metabar = null;
@@ -244,7 +244,7 @@ function getRenderedPage(Container $dic, MainBar $mainbar): string
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        "./templates/default/images/logo/favicon.ico",
+        "./assets/images/logo/favicon.ico",
         $tc,
         $footer,
         $page_title,

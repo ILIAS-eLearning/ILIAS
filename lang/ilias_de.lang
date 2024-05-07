@@ -74,7 +74,7 @@ acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
-adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von ILIAS-Konten.
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Anmeldenamen.
 adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuung werden aufgelistet. Der technischen Betreuung zugeordnet werden Benutzer im Administrationsbereich „Systemeinstellungen und Wartung » Allgemeine Einstellungen“, Reiter „Kontaktinformationen”.
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
@@ -779,6 +779,7 @@ assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit ident
 assessment#:#imagemap#:#Imagemap
 assessment#:#import_question#:#Fragen importieren
 assessment#:#imported#:#importiert
+assessment#:#in_range#:#Innerhalb des Bereichs
 assessment#:#info_answer_type_change#:#Die Frage beinhaltet bereits Bilder. Der Fragentyp konnte deshalb nicht auf mehrzeilige Antworten geändert werden.
 assessment#:#info_text_upload#:#Wählen Sie eine Textdatei (UTF-8) mit Antworten zum Hochladen aus.
 assessment#:#insert_after#:#Einfügen hinter
@@ -2039,7 +2040,7 @@ auth#:#auth_err_login_attempts_deactivation#:#Das ILIAS-Konto wurde wegen zu vie
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
-auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_login_editor#:#Loginseite bearbeiten
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
@@ -2265,14 +2266,14 @@ bgtask#:#bgtask_failure#:#Fehler
 bgtask#:#bgtask_processing#:#Download erzeugen
 bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
-bgtask#:#bgtask_setting_limit#:#Globales Limit
-bgtask#:#bgtask_setting_limit_info#:#Ein Download ist nur möglich, wenn die Summe der Dateigrössen den angegebenen Megabyte-Wert nicht überschreitet.
+bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
+bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
 bibl#:#Type#:#Typ
-bibl#:#add_filter#:#Filter hinzufügen
+bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
 bibl#:#bib_default_address#:#Adresse
 bibl#:#bib_default_author#:#Autor
@@ -2295,7 +2296,7 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Auflage
 bibl#:#bib_default_year#:#Jahr
 bibl#:#bibl_copy#:#Literaturliste kopieren
-bibl#:#bibl_edit#:#Literaturliste bearbeiten
+bibl#:#bibl_edit#:#Einstellungen der Literaturliste
 bibl#:#bibl_filter#:#Filter
 bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#bibl_library_img#:#Bild-URL
@@ -2321,13 +2322,13 @@ bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#field#:#Feld
 bibl#:#fields#:#Felder
 bibl#:#filter_deleted#:#Der Filter wurde gelöscht.
-bibl#:#filter_field_info#:#Bitte wählen Sie ein Feld aus, für das Sie einen Filter hinzufügen möchten.
-bibl#:#filter_form_title#:#Neuen Filter hinzufügen
-bibl#:#filter_type#:#Filter Typ
+bibl#:#filter_field_info#:#Wählen Sie ein Kriterium aus, das Sie dem Filter hinzufügen möchten.
+bibl#:#filter_form_title#:#Neues Feld hinzufügen
+bibl#:#filter_type#:#Typ
 bibl#:#filter_type_1#:#Textfeld
 bibl#:#filter_type_2#:#Auswahl
 bibl#:#filter_type_3#:#Mehrfachauswahl
-bibl#:#filter_type_info#:#Bitte wählen Sie einen Filter Typ für das Feld.
+bibl#:#filter_type_info#:#Wählen Sie einen Typ für das Feld aus.
 bibl#:#identifier#:#Bezeichner
 bibl#:#msg_confirm_delete_filter#:#Möchten Sie den folgenden Filter wirklich löschen?
 bibl#:#msg_filter_info#:#Erstellen Sie hier einen Filter, der im Reiter „Inhalt“ benutzt werden kann, um die Anzeige der Einträge einzugrenzen.
@@ -2751,6 +2752,8 @@ certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundb
 certificate#:#certificate_export#:#Exportieren
 certificate#:#certificate_failed#:#nicht bestanden
 certificate#:#certificate_file_basename#:#Zertifikat
+certificate#:#certificate_id#:#Zertifikat ID
+certificate#:#certificate_issue_date#:#Ausstellungsdatum
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit aktivem Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv: %s
 certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
@@ -2762,6 +2765,7 @@ certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
 certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_cert_id#:#Eindeutige Zertifikats-ID
 certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_date#:#Aktuelles Datum
@@ -3387,7 +3391,7 @@ cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filt
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
-cntr#:#cntr_text_media_editor#:#Seite gestalten
+cntr#:#cntr_text_media_editor#:#Seite bearbeiten
 cntr#:#cntr_view_by_type#:#Gruppiert nach Typen
 cntr#:#cntr_view_info_by_type#:#Alle Objekte eines Typs werden in einer eigenen Liste dargestellt.
 cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezeigt. Objekte, die keinen Sitzungen zugeordnet sind, werden darunter aufgelistet.
@@ -3402,7 +3406,7 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_at_top#:#Oben
-cntr#:#sorting_new_items_direction#:#Ausrichtung
+cntr#:#sorting_new_items_direction#:#Ausrichtung neuer Objekte
 cntr#:#sorting_new_items_order#:#Reihenfolge
 cntr#:#sorting_new_items_position#:#Einfügen neuer Objekte
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -3980,8 +3984,8 @@ common#:#enable_hist_user_comments_desc#:#Sie können Überarbeitungskommentare 
 common#:#enable_multi_download#:#„Mehrere Objekte herunterladen“ aktivieren
 common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner bzw. Dateien gleichzeitig ausgewählt werden, um sie dann als Zip-Archiv herunterzuladen.
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
-common#:#enable_preview#:#Vorschau aktivieren
-common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
+common#:#enable_preview#:#Vorschau
+common#:#enable_preview_info#:#Für Dateien werden Vorschaubilder angezeigt. Die unterstützten Dateiformate ergeben sich aus der Serverkonfiguration.
 common#:#enable_repository_dnd_upload#:#Im Magazin zulassen
 common#:#enable_repository_dnd_upload_info#:#Ermöglicht das Ziehen von Dateien vom Computer direkt auf ein Magazin-Objekt, um sie dort hochzuladen.
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
@@ -4357,6 +4361,7 @@ common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Fragen in den Fragenpool importieren
 common#:#import_sahs#:#SCORM-Lernmodul importieren
 common#:#import_sahs_info#:#Zum Korrigieren von Tippfehlern oder Bildern nutzen Sie die Möglichkeit, über das Dateiverzeichnis einzelne Dateien zu ersetzen. Laden Sie hier einen SCORM-Export aus Ihrem Autorenwerkzeug hoch und nicht eine ILIAS Exportdatei. Stellen Sie sicher, dass Ihr Autorenwerkzeug die IDs in der Manifest-Datei beibehalten hat. Achtung: Auch beliebte Autorenwerkzeuge können das nicht. SCORM-Lernmodule bestimmter Autorenwerkzeuge verwerfen erzielte Lernerdaten, wenn Sie die Anzahl der Antwortoptionen von Fragen ändern oder neue Fragen einfügen. Prüfen Sie in einer Testinstallation, ob bereits erzielte Lernstände beim Wiederaufruf bereits gestarteter Lernmodule möglich sind.
+common#:#import_sahs_new#:#Neue Version des SCORM-Lernmoduls importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -4397,8 +4402,8 @@ common#:#info_short#:#Info
 common#:#info_status_info#:#Wer hat hier welche Rechte?
 common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
-common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
-common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten.
+common#:#inline_file_extensions#:#Im Browser anzeigen
+common#:#inline_file_extensions_info#:#Dateien mit den oben eingetragenen Endungen werden direkt im Browser angezeigt, wenn die Browser-Einstellungen dies zulassen. Alle übrigen Dateien werden zum Herunterladen angeboten.
 common#:#insert#:#Einfügen
 common#:#insert_object_here#:#Objekt hier einfügen
 common#:#inst_id#:#NIC-ID
@@ -4593,8 +4598,8 @@ common#:#mainbar_more_label#:#Mehr
 common#:#manage_members#:#Mitglieder verwalten
 common#:#marked_entries#:#Markierte Einträge
 common#:#matriculation#:#Matrikelnummer
-common#:#max_previews_per_object#:#Anzahl Vorschaubilder pro Datei
-common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest, die pro Datei erzeugt werden.
+common#:#max_previews_per_object#:#Anzahl Vorschaubilder
+common#:#max_previews_per_object_info#:#Anzahl an Vorschaubildern, die pro Datei angezeigt werden.
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
@@ -5304,7 +5309,7 @@ common#:#presentation_table_more#:#Mehr anzeigen
 common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
-common#:#preview_image_size#:#Grösse der Vorschau-Bilder
+common#:#preview_image_size#:#Größe der Vorschaubilder*
 common#:#preview_learner_info#:#Wenn aktiviert, wird der Kurs- und Gruppenadministration die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
@@ -5541,7 +5546,7 @@ common#:#selected_items_back#:#Zurück zu Angeboten
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
 common#:#send#:#Abschicken
 common#:#send_mail#:#Mail versenden
-common#:#sender#:#Absender
+common#:#sender#:#Von
 common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
@@ -6201,7 +6206,7 @@ content#:#cont_auto_glossaries#:#Automatisch verlinkte Glossare
 content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
 content#:#cont_auto_last_visited_info#:#Beim erneuten Aufrufen des SCORM-Lernmoduls wird das zuletzt besuchte SCO oder Asset angezeigt.
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden. Um beim Wiederaufruf von SCOs bzw. Lernmodulen an vorhandene Lernstände anknüpfen zu können, wird cmi.exit mit dem Wert „suspend“ ergänzt.
 content#:#cont_auto_time#:#Wartezeit Animation
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_automatically_set_store_tries#:#Die Option "$1" wurde automatisch aktiviert, da der Modus "$2" aktiviert wurde.
@@ -6254,8 +6259,9 @@ content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Kommentar
 content#:#cont_char_style_quot#:#Zitat
 content#:#cont_characteristic#:#Absatzformat
+content#:#cont_characteristic_table#:#Style Tabelle
 content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
-content#:#cont_check_values_info#:#Das Testwerkzeug prüft die vom SCO geschickten Werte auf Standard-Kompatibilität.<br />Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.<br />
+content#:#cont_check_values_info#:#ILIAS prüft die vom SCO geschickten Werte auf Standard-Kompatibilität. Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise, wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.
 content#:#cont_choose_characteristic#:#Absatzformat auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Absatzformate
@@ -6324,16 +6330,16 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug bereitstellen
-content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
-content#:#cont_debug_deactivate12#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
-content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
-content#:#cont_debugging#:#Debugging
+content#:#cont_debug#:#Analysewerkzeug
+content#:#cont_debug_deactivate#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Analysewerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
+content#:#cont_debug_deactivate12#:#Im Präsentationsmodus des SCORM-Lernmoduls liefert ein Analysewerkzeug Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
+content#:#cont_debug_deactivated#:#Hinweis: Das Analysewerkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
+content#:#cont_debugging#:#Fehlersuche
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
 content#:#cont_def_layout#:#Standard-Layout
-content#:#cont_def_lesson_mode#:#Bearbeitungsdaten aufzeichnen
+content#:#cont_def_lesson_mode#:#Nutzungsdaten aufzeichnen
 content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
 content#:#cont_def_organization#:#Standard
 content#:#cont_default#:#Standard
@@ -6505,7 +6511,7 @@ content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_finish_table_editing#:#Editieren der Tabelle beenden
 content#:#cont_first_open#:#Erstes Fach geöffnet
 content#:#cont_first_page#:#Erste Seite
-content#:#cont_first_row_style#:#Stil der ersten Zeile
+content#:#cont_first_row_style#:#Style erste Zeile
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen Sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
 content#:#cont_fn#:#Fußnote
@@ -6515,7 +6521,7 @@ content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
 content#:#cont_format_cells#:#Zellen formattieren
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
-content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit und auf zu löschende Daten aus.
+content#:#cont_fourth_edition_info#:#Die neueste Version von SCORM 2004 bietet gegenüber der „3rd Edition“ einige Erweiterungen. Diese werden allerdings nur selten genutzt und können sich negativ auf die Performanz auswirken. So kann das Lernmodul Daten bereitstellen, die über SCO-Grenzen hinweg genutzt werden können. Dabei fallen nicht zu löschende Daten an, weshalb wir aus Datenschutzgründen die „3rd Edition“ empfehlen.
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
@@ -6627,12 +6633,12 @@ content#:#cont_insert_subchapter_from_clip#:#Unterkapitel aus Zwischenablage ein
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
-content#:#cont_interactions#:#Ergebnisse der Aufgaben speichern
-content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) werden von Lernmodulen meist nur geschrieben und nicht mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt, erhöht diese Option die Performanz.
-content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
-content#:#cont_internal_link#:#interner Link
+content#:#cont_interactions#:#Ergebnisse aus Aufgaben speichern
+content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben („interactions“) werden von den meisten Lernmodulen nur geschrieben und nie mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt und Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
+content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2-Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Wenn Sie die Daten nicht benötigen, deaktivieren Sie diese Option. Dies erhöht die Performanz.
+content#:#cont_internal_link#:#Interner Link
 content#:#cont_internal_links#:#Interne Links
-content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml muss identisch sein.
+content#:#cont_invalid_new_module#:#Modul ist nicht kompatibel! Die imsmanifest.xml muss identisch sein.
 content#:#cont_is_visible#:#isvisible
 content#:#cont_item#:#Eintrag
 content#:#cont_keyword#:#Schlagwort
@@ -6815,7 +6821,7 @@ content#:#cont_objectives_info#:#Deaktivieren Sie diese Option nur, wenn Sie sic
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_online_info#:#Personen mit Leserecht können auf das Lernmodul zugreifen.
-content#:#cont_open#:#Anzeige des Lernmoduls
+content#:#cont_open#:#Starten des Lernmoduls
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 content#:#cont_open_iframe#:#Im iFrame
 content#:#cont_open_iframe_info#:#Das Lernmodul startet im selben Fenster (iFrame) neben dem ILIAS-Hauptmenü.
@@ -6965,7 +6971,7 @@ content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version de
 content#:#cont_roman#:#Römisch I, II, ...
 content#:#cont_roman_s#:#Römisch i, ii, ...
 content#:#cont_rowspan#:#Verbund Reihe
-content#:#cont_rte_settings#:#RTE-Einstellungen
+content#:#cont_rte_settings#:#Einstellungen zur Laufzeitumgebung (SCORM Run-Time Environment)
 content#:#cont_rvalue#:#Wert
 content#:#cont_save_all_titles#:#Titel abspeichern
 content#:#cont_save_positions#:#Reihenfolge speichern
@@ -6978,37 +6984,37 @@ content#:#cont_saved_interactive_image#:#Interaktives Bild gespeichert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
-content#:#cont_sc_auto_continue#:#Benutzer weiterleiten
-content#:#cont_sc_auto_continue_info#:#Leitet Benutzer automatisch nach der letzten Aktivität in das nächste SCO weiter. Diese Funktion wird nicht von allen SCORM 1.2 Lernmodulen unterstützt.
+content#:#cont_sc_auto_continue#:#Direkt ins nächste SCO
+content#:#cont_sc_auto_continue_info#:#Nach der letzten Aktivität öffnet ILIAS automatisch das nächste SCO. Diese Möglichkeit bieten nicht alle SCORM-1.2-Lernmodule.
 content#:#cont_sc_auto_review_2004#:#Datenaufzeichnung beenden
-content#:#cont_sc_auto_review_completed#:#ab Status „vollständig bearbeitet”
-content#:#cont_sc_auto_review_completed_and_passed#:#ab Status „vollständig bearbeitet” und „bestanden”
-content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
-content#:#cont_sc_auto_review_completed_or_passed#:#ab Status „vollständig bearbeitet” oder „bestanden”
+content#:#cont_sc_auto_review_completed#:#Ab Status „vollständig bearbeitet”
+content#:#cont_sc_auto_review_completed_and_passed#:#Ab Status „vollständig bearbeitet” und „bestanden”
+content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#Ab Status „vollständig bearbeitet” (sofern nicht „nicht bestanden”) oder „bestanden”
+content#:#cont_sc_auto_review_completed_or_passed#:#Ab Status „vollständig bearbeitet” oder „bestanden”
 content#:#cont_sc_auto_review_info_2004#:#Wenn jemand für ein SCO (Sharable Content Object) einen hier ausgewählten Status erreicht hat, wird dieser festgeschrieben. Der Status kann später nicht mehr geändert werden.<br />Falls das Lernmodul gemäß SCORM 2004 'Sequencing & Navigation' nutzt, sollte die Option „Nie (entspricht SCORM-Spezifikation)“ gewählt werden.
-content#:#cont_sc_auto_review_no#:#nie (entspricht SCORM-Spezifikation)
-content#:#cont_sc_auto_review_passed#:#ab Status „bestanden”
-content#:#cont_sc_auto_review_passed_or_failed#:#ab Status „bestanden” oder „nicht bestanden”
-content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
-content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
-content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
-content#:#cont_sc_id_setting_user_id#:#ILIAS-UserID (Standard)
-content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserID zuzüglich Obj-ID des Lernmoduls
-content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserID zuzüglich Ref-ID des Lernmoduls
+content#:#cont_sc_auto_review_no#:#Nie (entspricht SCORM-Spezifikation)
+content#:#cont_sc_auto_review_passed#:#Ab Status „bestanden”
+content#:#cont_sc_auto_review_passed_or_failed#:#Ab Status „bestanden” oder „nicht bestanden”
+content#:#cont_sc_id_setting#:#„student_id“ entspricht
+content#:#cont_sc_id_setting_2004#:#„learner_id“ entspricht
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für „student_id“ (SCORM 1.2) bzw. „learner_id“ (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Objekt-ID“ kann für Lernmodule sinnvoll sein, die Daten an einen externen Server übertragen.
+content#:#cont_sc_id_setting_user_id#:#ID des ILIAS-Kontos (Standard)
+content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ID des ILIAS-Kontos zuzüglich Objekt-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ID des ILIAS-Kontos zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich Obj-ID des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich Objekt-ID des Lernmoduls
 content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich Ref-ID des Lernmoduls
 content#:#cont_sc_less_mode_browse#:#Vorschaumodus
 content#:#cont_sc_less_mode_browse_info#:#Der SCORM-Modus ist auf „browse“ gesetzt.
 content#:#cont_sc_less_mode_normal#:#Lernmodus
 content#:#cont_sc_less_mode_normal_info#:#Der SCORM-Modus ist auf „normal“ gesetzt.
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
-content#:#cont_sc_name_setting#:#student_name gemäß SCORM 1.2 entspricht
-content#:#cont_sc_name_setting_2004#:#learner_name gemäß SCORM 2004 entspricht
+content#:#cont_sc_name_setting#:#„student_name“ entspricht
+content#:#cont_sc_name_setting_2004#:#„learner_name“ entspricht
 content#:#cont_sc_name_setting_first_lastname#:#Vorname und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_fullname#:#Titel, Vorname und Nachname
-content#:#cont_sc_name_setting_info#:#Der Name der/des Lernenden kann im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass sich die Lernmodule auf einem externen Server befinden, kann es sinnvoll sein, den Namen nicht bekannt zu geben.
+content#:#cont_sc_name_setting_info#:#Namen von Lernenden können im Lernmodul auf verschiedene Weise angezeigt werden. Für den Fall, dass Lernmodule Daten an einen externen Server übertragen, ist es aus Gründen des Datenschutzes sinnvoll, die Einstellung „Kein Name“ zu verwenden.
 content#:#cont_sc_name_setting_last_firstname#:#Nachname, Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
 content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
@@ -7031,7 +7037,7 @@ content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_sco_glossary#:#Glossar
 content#:#cont_score#:#Punkte
 content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
-content#:#cont_scorm_options#:#Aufzeichnung von Bearbeitungsdaten
+content#:#cont_scorm_options#:#Datenerhebung
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_sec_protected#:#Geschützt
@@ -7164,7 +7170,7 @@ content#:#cont_text_xln#:#Externer Link
 content#:#cont_third_and_more#:#3. oder weitere
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
-content#:#cont_time_from_lms_info#:#Um häufig auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.
+content#:#cont_time_from_lms_info#:#Um fallweise auftretende Schwierigkeiten bei der Zeiterfassung durch das SCORM-Lernmodul vorzubeugen, kann die Zeiterfassung durch ILIAS selbst vorgenommen werden. Die strikten Vorgaben des SCORM-Standards werden hierbei eingehalten.
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_to_focus_beginning#:#Zurück zu den Inhalten des Lernziels
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
@@ -7310,7 +7316,7 @@ content#:#save_new#:#Speichern und neuer Absatz
 content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
-content#:#scplayer_debugger#:#Testwerkzeug zeigen
+content#:#scplayer_debugger#:#Analysewerkzeug zeigen
 content#:#scplayer_exit#:#Schließen
 content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
@@ -7369,6 +7375,7 @@ copg#:#copg_list_item_style#:#Listeneintrag
 copg#:#copg_list_style#:#Liste
 copg#:#copg_list_styles#:#Listenformat
 copg#:#copg_more_character_formats#:#Weitere Zeichenformate
+copg#:#copg_obj_types#:#Objekttypen
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
@@ -7675,8 +7682,8 @@ crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests e
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
 crs#:#crs_mail_all#:#Für alle Mitglieder
 crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
-crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf der Info-Seite eines Kurses
-crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf dem Reiter „Info“ eines Kurses
+crs#:#crs_mail_context_member_title#:#Kurs: Reiter „Info“
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
@@ -9712,8 +9719,8 @@ export#:#export_resource#:#Ressource
 export#:#export_save_selection#:#Export starten
 export#:#export_select_resources#:#Objekte auswählen
 export#:#no_file#:#Keine Datei
-file#:#action_download#:#Datei herunterladen
-file#:#action_show#:#Infoseite anzeigen
+file#:#action_download#:#Datei direkt herunterladen
+file#:#action_show#:#Zunächst Reiter „Info“ anzeigen
 file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
@@ -9723,8 +9730,8 @@ file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
 file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
-file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
-file#:#download_ascii_filename_info#:#Ausschließlich ASCII-Zeichen in den Namen heruntergeladener Dateien zulassen. Nicht-ASCII-Zeichen in den Namen der heruntergeladenen Dateien werden durch ein "_" ersetzt. Um alle Zeichen zuzulassen, deaktivieren Sie diese Option.
+file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
+file#:#download_ascii_filename_info#:#Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden.
 file#:#file_btn_lp_toggle_state_completed#:#Auf „Nicht bearbeitet“ setzen
 file#:#file_btn_lp_toggle_state_not_completed#:#Auf „Bearbeitet“ setzen
 file#:#file_copy#:#Datei kopieren
@@ -9744,7 +9751,7 @@ file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#important_info#:#Wichtige Informationen
-file#:#important_info_byline#:#Die Angaben werden im Reiter "Info" angezeigt.
+file#:#important_info_byline#:#Die Angaben werden im Reiter „Info“ angezeigt.
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9772,8 +9779,8 @@ file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#on_click_action#:#Klick auf Titel
 file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Die Vorschauversionen der Bilder werden je nach Bedarf verkleinert oder vergrößert, so dass ihre längste Seite der hier eingegebenen Länge (in px) entspricht.
-file#:#preview_persisting#:#Vorschaubilder persistieren
-file#:#preview_persisting_info#:#Generierte Vorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf erzeugt.
+file#:#preview_persisting#:#Vorschaubilder speichern
+file#:#preview_persisting_info#:#Vorschaubilder werden generiert und gespeichert. Sie müssen nicht mehr bei jedem Aufruf neu erzeugt werden. Das verbessert die Performanz.
 file#:#publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
 file#:#replace_file_info#:#Alle früheren Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
@@ -9781,7 +9788,7 @@ file#:#service_settings#:#Weitere Funktionen
 file#:#service_settings_saved#:#Gespeichert
 file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen
 file#:#show_amount_of_downloads#:#Anzahl Downloads anzeigen
-file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf der Info-Seite eines File-Objektes angezeigt.
+file#:#show_amount_of_downloads_info#:#Die Anzahl der Downloads wird im Reiter „Info“ des Dateiobjekts angezeigt.
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
@@ -10193,7 +10200,7 @@ grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe „%s“ aufgeno
 grp#:#grp_admins#:#Gruppenadministration
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zur Gruppe liegt außerhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe „%s“ beigetreten.
 grp#:#grp_agree#:#Zustimmung
 grp#:#grp_agreement_header#:#Nutzungsvereinbarung
@@ -10235,7 +10242,7 @@ grp#:#grp_info_agreement#:#Die folgenden Daten können von der Gruppenadministra
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
-grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf dem Reiter „Info“ und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe „%s“.
 grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe „%s“ aufgenommen worden.
@@ -10433,7 +10440,7 @@ iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestan
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_no_entries#:#Keine Einträge gefunden
 iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
-iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
+iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf dem Reiter „Info“ einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_record#:#Prüfungsnotiz
@@ -10651,7 +10658,7 @@ ldap#:#ldap_group_search_base#:#Suchbasis
 ldap#:#ldap_group_user_filter#:#Benutzerfilter
 ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
 ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Info-Seite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
+ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf dem Reiter „Info“ des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Dashboard eingeblendet werden.
 ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin anzeigen.
 ldap#:#ldap_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu LDAP-Attributen
@@ -12847,7 +12854,7 @@ obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefü
 obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
-obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
+obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite bearbeiten") kann separat aktiviert werden.
 obj#:#obj_multilinguality#:#Mehrsprachigkeit
 obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
@@ -13713,7 +13720,7 @@ rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_activate_rating#:#Bewertung aktivieren
-rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
+rating#:#rating_activate_rating_info#:#Das Objekt kann mit 1-5 Sternen bewertet werden.
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
 rating#:#rating_categories#:#Bewertungs-Kategorien
@@ -14066,8 +14073,8 @@ rbac#:#iass_read_learning_progress#:#Lernfortschritt in Individuellen Bewertung 
 rbac#:#iass_visible#:#Individuelle Bewertung ist sichtbar
 rbac#:#iass_write#:#Einstellungen der Individuelle Bewertung bearbeiten
 rbac#:#il_lti_global_role#:#LTI User
-rbac#:#il_sess_participant#:#Sitzungsteilnehmer
-rbac#:#il_sess_status_closed#:#Nicht-Teilnehmer geschlossene Sitzung
+rbac#:#il_sess_participant#:#Sitzungsteilnahme
+rbac#:#il_sess_status_closed#:#Keine Teilnahme an geschlossener Sitzung
 rbac#:#ilias_id#:#ILIAS-ID
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#internal_mail#:#Internes Mail-System
@@ -14510,7 +14517,7 @@ rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#sess_edit_metadata#:#Metadaten bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#sess_manage_materials#:#Materialzuordnungen verwalten
-rbac#:#sess_manage_members#:#Teilnehmer einer Sitzung verwalten
+rbac#:#sess_manage_members#:#Teilnahme an Sitzungen verwalten
 rbac#:#sess_read#:#Lesezugriff auf Sitzungen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_visible#:#Sitzungen sind sichtbar
@@ -14870,7 +14877,7 @@ sahs#:#sahs_insert_special_page#:#Spezialseite einfügen
 sahs#:#sahs_learning_objectives#:#Lernziele
 sahs#:#sahs_list_info#:#Verwenden Sie ein vorangestelltes * für unnummerierte oder ein # für nummerierte Listen
 sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
-sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-E-Mails auf den Lernfortschrittsansichten eines SCORM-Moduls
+sahs#:#sahs_mail_context_lp_info#:#Mails, die aus dem Reiter „Lernfortschritt“ an Lernerinnen und Lerner eines SCORM-Moduls versendet werden
 sahs#:#sahs_new_asset#:#Neues Asset
 sahs#:#sahs_new_chapter#:#Neues Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
@@ -15032,8 +15039,8 @@ scormdebug#:#only_important_API-Calls_shown#:#Es werden aktuell nur wichtige Auf
 scormdebug#:#return_value#:#R&uuml;ckgabe
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 Browser-Cache deaktivieren
 scormdebug#:#scormdebug_disable_cache_info#:#Dies verhindert die Speicherung der SCORM 2004 Javascript-Dateien im Browser-Cache. Bitte nutzen Sie diese Funktion rechtzeitig vor einem Releasewechsel!
-scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
-scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerkzeug deaktiviert.
+scormdebug#:#scormdebug_global_activate#:#SCORM-Analysewerkzeug aktivieren
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Analysewerkzeug aktiviert werden. Bei Deaktivierung des Analysewerkzeugs an dieser Stelle wird bei allen Lernmodulen das Analysewerkzeug deaktiviert.
 scormdebug#:#sent_values_not_checked#:#Gew&auml;hlte Eigenschaft: Vom SCO geschickte Werte werden eingeschr&auml;nkt gepr&uuml;ft
 scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
 scormdebug#:#show_only_important_API-calls#:#Nur wichtige API-Aufrufe anzeigen!
@@ -15129,8 +15136,8 @@ scormtrac#:#suspend_data#:#suspend_data: variabler Zwischenspeicher des SCO
 scormtrac#:#total_time#:#total_time: Gesamtzeit
 scormtrac#:#total_time_seconds#:#total_time: Gesamtzeit in Sekunden
 scormtrac#:#tracinteractionitem#:#Zusammenfassender Report der Kapitel-Aufgaben
-scormtrac#:#tracinteractionuser#:#Teilnehmer-bezogener Report zum Kapitel mit Auswertung der Kapitel-Aufgaben
-scormtrac#:#tracinteractionuseranswers#:#Kapitel-Aufgaben pro Teilnehmer (nur Ergebnisse)
+scormtrac#:#tracinteractionuser#:#Personenbezogener Report zum Kapitel mit Auswertung der Aufgaben im SCO
+scormtrac#:#tracinteractionuseranswers#:#Nur Ergebnisse zu Aufgaben im SCO pro Person
 scormtrac#:#user_id#:#ID des ILIAS-Kontos
 scormtrac#:#weighting#:#weighting: Gewichtung
 scov#:#crsv_create#:#SCORM-Zertifikat anlegen
@@ -15270,13 +15277,13 @@ search#:#search_user_search_info_form#:#Anmeldekonten können in der globalen Su
 search#:#search_users#:#Benutzer suchen
 search#:#select_orgu#:#Organisationseinheiten auswählen
 search#:#until#:#bis
-sess#:#il_sess_participant#:#Sitzungsteilnehmer
+sess#:#il_sess_participant#:#Teilnahme an Sitzung
 sess#:#il_sess_status_open#:#Offene Sitzung
 sess#:#mail_sess_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 sess#:#notification#:#Benachrichtigung
 sess#:#objs_crs_role#:#Kursrollen
 sess#:#objs_grp_role#:#Gruppenrollen
-sess#:#send_mail_participants#:#Alle Teilnehmer der Sitzung
+sess#:#send_mail_participants#:#Angemeldet oder teilgenommen
 sess#:#sess_accept_request#:#Zu Sitzung zulassen
 sess#:#sess_assign#:#Zuordnen
 sess#:#sess_bt_refuse#:#Teilnahme absagen
@@ -15292,36 +15299,36 @@ sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
 sess#:#sess_mail_admins_only#:#Nur für Administration
-sess#:#sess_mail_admins_only_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ können die Funktion „Mail an Teilnehmer” nutzen.
-sess#:#sess_mail_all#:#Für alle Teilnehmer
-sess#:#sess_mail_all_info#:#Alle Teilnehmer können die Funktion "Mail an Teilnehmer" im Reiter Teilnehmer nutzen.
-sess#:#sess_mail_context_participant_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten einer Sitzung
-sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Teilnehmer
+sess#:#sess_mail_admins_only_info#:#Nur Personen mit dem Recht „Mitglieder verwalten“ können die Funktion „Mail an angemeldete Personen” nutzen.
+sess#:#sess_mail_all#:#Für alle
+sess#:#sess_mail_all_info#:#Alle Personen, die sich angemeldet oder teilgenommen haben, können Mails an die anderen senden.
+sess#:#sess_mail_context_participant_info#:#Mails, die aus dem Reiter „Teilnahmen“ oder „Lernfortschritt“ einer Sitzung  versendet werden
+sess#:#sess_mail_context_participant_title#:#Sitzung: Mail an Personen, die angemeldet sind oder teilgenommen haben
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_permanent_link_participants#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin „%s“ zugelassen.
 sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung „%s“
 sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung „%s“ ist abgelehnt worden.
 sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung „%s“
-sess#:#sess_mail_type#:#Mail an Teilnehmer
+sess#:#sess_mail_type#:#Mail an angemeldete Personen
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 sess#:#sess_mem_contacts#:#Kontaktperson
 sess#:#sess_mem_send_mail#:#Mail verschicken
-sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
-sess#:#sess_member_administration#:#Teilnehmerverwaltung
-sess#:#sess_members#:#Teilnehmer
-sess#:#sess_members_gallery#:#Teilnehmergalerie
-sess#:#sess_members_print_title#:#Sitzungsteilnehmer
-sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
+sess#:#sess_mem_tbl_header#:#Teilnahmen in Sitzung
+sess#:#sess_member_administration#:#Verwalten
+sess#:#sess_members#:#Teilnahmen
+sess#:#sess_members_gallery#:#Galerie
+sess#:#sess_members_print_title#:#Teilnahmeliste
+sess#:#sess_msg_applicants_assigned#:#Person wurde für den Sitzungstermin angemeldet.
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
 sess#:#sess_new_registrations#:#Teilnahmeanträge
 sess#:#sess_notification_option#:#Option
 sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
-sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
+sess#:#sess_notification_option_inherit_info#:#Es werden die gleichen Personen benachrichtigt wie im übergeordneten Objekt.
 sess#:#sess_notification_option_manual#:#Manuell setzen
-sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
+sess#:#sess_notification_option_manual_info#:#Es muss manuell festgelegt werden, wer die Benachrichtigung empfangen soll.
 sess#:#sess_open#:#Sitzung öffnen
 sess#:#sess_part_filter_participated#:#Nur Teilgenommene
 sess#:#sess_part_filter_registered#:#Nur Angemeldete
@@ -15330,16 +15337,16 @@ sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde 
 sess#:#sess_print_list#:#Liste erstellen
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
-sess#:#sess_reg_cannot_participate_info#:#Benutzer haben auf der "Info-Seite" die Möglichkeit, ihre Teilnahme abzusagen.
+sess#:#sess_reg_cannot_participate_info#:#Personen haben auf dem „Reiter „Info““ die Möglichkeit, ihre Teilnahme abzusagen.
 sess#:#sess_reg_direct#:#Direkte Anmeldung
-sess#:#sess_reg_direct_info#:#Benutzer müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
+sess#:#sess_reg_direct_info#:#Personen müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_disabled#:#Ohne Anmeldung
-sess#:#sess_reg_disabled_info#:#Optionen zur Anmeldung von Benutzern zur Sitzung werden nicht angeboten.
+sess#:#sess_reg_disabled_info#:#Optionen für die Anmeldung zur Sitzung werden nicht angeboten.
 sess#:#sess_reg_max_members#:#Maximale Anzahl
-sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
-sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
-sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
-sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
+sess#:#sess_reg_max_members_info#:#Eine selbständige Anmeldung über diese Anzahl hinaus ist nicht möglich. Personen mit dem Recht „Mitglieder verwalten“ können weiterhin Personen eintragen.
+sess#:#sess_reg_max_members_short#:#Anzahl der Selbstanmeldungen begrenzen
+sess#:#sess_reg_max_users_exceeded#:#Sie können sich nicht anmelden, da alle Plätze bereits belegt sind.
+sess#:#sess_reg_max_users_exceeded_wl#:#Alle Plätze sind belegt. Sie können sich jedoch in die Warteliste eintragen.
 sess#:#sess_reg_request#:#Teilnahme beantragen
 sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch eine Person mit dem Recht „Mitglieder verwalten“.
 sess#:#sess_reg_tutor#:#Keine Selbstanmeldung möglich
@@ -15347,17 +15354,17 @@ sess#:#sess_reg_tutor_info#:#Nur Personen mit dem Recht „Mitglieder verwalten�
 sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
-sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Anmeldeverfahren "Teilnahme beantragen" benutzt werden, da die Bestätigung so umgangen wird.
+sess#:#sess_reg_waiting_list_autofill_info#:#Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Diese Einstellung nicht in Verbindung mit dem Anmeldeverfahren „Teilnahme beantragen“ benutzen, da die Bestätigung sonst umgangen wird.
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Anzahl erreicht, landen weitere Personen auf einer Warteliste.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_registered_confirm#:#Sie wurden für die Sitzung angemeldet. Ihre Anmeldung muss allerdings noch bestätigt werden. Sie werden benachrichtigt, sobald dies erfolgt ist.
 sess#:#sess_registration_notification#:#Benachrichtigung
-sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
+sess#:#sess_registration_notification_info#:#Im Unterreiter „Verwalten“ können Anmeldekonten ausgewählt werden, die über An- oder Abmeldungen benachrichtigt werden.
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
 sess#:#sess_setting_header_presentation#:#Darstellung
 sess#:#sess_show_members#:#Teilnehmergalerie
-sess#:#sess_show_participants_info#:#Alle Teilnehmer können im Reiter "Teilnehmer" die Teilnehmergalerie einsehen.
+sess#:#sess_show_participants_info#:#Personen, die sich angemeldet oder an der Sitzung teilgenommen haben, sehen einander in der Galerie im Reiter „Teilnahmen“.
 sess#:#sess_title#:#Titel der Sitzung
 sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
@@ -16081,8 +16088,8 @@ survey#:#codes_created#:#Zugangsschlüssel erzeugt
 survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
-survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Teilnehmerdaten der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie diese Teilnehmer entfernen wollen? Dies löscht alle Umfragedaten für die ausgewählten Benutzer.
+survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen?
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen?
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
@@ -16184,11 +16191,11 @@ survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
-survey#:#evaluation_access#:#Zugriff der Teilnehmer auf die Ergebnisse
-survey#:#evaluation_access_all#:#Alle registrierten ILIAS-Benutzer können auf die Ergebnisse zugreifen
+survey#:#evaluation_access#:#Zugriff auf die Ergebnisse
+survey#:#evaluation_access_all#:#Alle Personen mit ILIAS-Konto
 survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
-survey#:#evaluation_access_off#:#Teilnehmer haben keinen Zugriff auf Ergebnisse
-survey#:#evaluation_access_participants#:#Alle Teilnehmer der Umfrage haben Zugriff auf die Ergebnisse
+survey#:#evaluation_access_off#:#Kein Zugriff auf Ergebnisse
+survey#:#evaluation_access_participants#:#Alle Befragten der Umfrage haben Zugriff auf die Ergebnisse
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -16241,10 +16248,10 @@ survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Senden an
 survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
-survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
+survey#:#mailparticipantdata#:#Einleitungstext
+survey#:#mailparticipantdata_info#:#Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird
 survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
-survey#:#maintenance#:#Teilnehmer
+survey#:#maintenance#:#Befragte
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_empty#:#Das Objekt enthält kein geeignetes Material.
@@ -16458,7 +16465,7 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter „Info“ einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter „Teilnehmer“ erzeugt.
+survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Befragte » Zugangsschlüssel“.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
 survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
@@ -16471,7 +16478,7 @@ survey#:#survey_block_hidden#:#nicht sichtbar
 survey#:#survey_block_visible#:#sichtbar
 survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
 survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
-survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesamte Skalenpunktesumme nicht berechnet.
+survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Person. Achtung: Wenn jemand solche Fragen überspringt, wird die Skalenpunktesumme nicht berechnet.
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 survey#:#survey_clipboard_notice#:#Es befinden sich Fragen in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
@@ -16504,9 +16511,9 @@ survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden?
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
-survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
-survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
+survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_jump_to#:#Springe zu Seite
@@ -16516,20 +16523,20 @@ survey#:#survey_next#:#Weiter →
 survey#:#survey_next_question#:#Nächste Seite
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
-survey#:#survey_notification_finished_introduction#:#ein Teilnehmer hat die Umfrage beendet.
+survey#:#survey_notification_finished_introduction#:#eine Person hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage per Einladung als To-Do auf das Dashboard gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_invited#:#Personen, denen im Reiter „Befragte“ die Umfrage in die To-Dos eingetragen wurde, und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
-survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus einem Kurs bzw. einer Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
+survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Befragten beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
-survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
-survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage „%s“ beendet
+survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
+survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
 survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
@@ -16566,11 +16573,11 @@ survey#:#survey_reminder_subject#:#Umfrage „%s“ wurde noch nicht bearbeitet
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
+survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden alle Namen durch Codes ersetzt. Niemand kann die Antworten einer Person sondern nur einem Code zuordnen.
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter „Ergebnisse“ werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
+survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse » Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage „%s“
@@ -16604,18 +16611,18 @@ survey#:#svy_all_raters#:#Alle Feedback-Geber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
-survey#:#svy_anonymous_participants#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_info#:#Wenn aktiviert kann eine Teilnehmerliste bei anonymen Umfragen erzeugt werden.
-survey#:#svy_anonymous_participants_min#:#Mindestteilnehmeranzahl
-survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Teilnehmer.
-survey#:#svy_anonymous_participants_svy#:#Teilnehmerliste
-survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehmerliste nach dem Enddatum verfügbar.
+survey#:#svy_anonymous_participants#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_info#:#Bei anonymen Umfragen kann eine Teilnahmeliste erzeugt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestanzahl Befragter
+survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Befragter.
+survey#:#svy_anonymous_participants_svy#:#Teilnahmeliste
+survey#:#svy_anonymous_participants_svy_info#:#Nach dem Enddatum ist eine Teilnahmeliste verfügbar.
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
 survey#:#svy_chart_download#:#Grafik herunterladen
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_compress_view#:#Komprimierte Sicht
@@ -16637,14 +16644,14 @@ survey#:#svy_eval_skipped_value_custom_info#:#Geben Sie einen (oder leeren) Wert
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
 survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: „%s“
-survey#:#svy_eval_user#:#Pro Teilnehmer
+survey#:#svy_eval_user#:#Pro Person
 survey#:#svy_eval_view#:#Anzeige
 survey#:#svy_eval_view_charts#:#Grafik
 survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
-survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
-survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht „Einstellungen bearbeiten“) haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
+survey#:#svy_evaluation_access_all_info#:#Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen.
+survey#:#svy_evaluation_access_off_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage.
+survey#:#svy_evaluation_access_participants_info#:#Alle Personen, die an der Umfrage teilgenommen und diese abgeschlossen haben, können anschließend die Ergebnisse einsehen.
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_export_format#:#Umfragen exportieren als
 survey#:#svy_export_pdf#:#Export PDF
@@ -16669,7 +16676,7 @@ survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
 survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Antworten
-survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung senden
+survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
@@ -16681,7 +16688,6 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_participant#:#Teilnehmer
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
@@ -16693,20 +16699,20 @@ survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
 survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
-survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
-survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
+survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
+survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
 survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
-survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
-survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
+survey#:#svy_results_view_own#:#Eigene Antworten einsehen
+survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung der Umfrage eingesehen werden. Die Antworten sind nicht änderbar.
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 survey#:#svy_search_user#:#Benutzer suchen
-survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Personen auswählen
 survey#:#svy_search_users#:#Benutzer suchen
 survey#:#svy_select_rater#:#Feedback-Geber auswählen
-survey#:#svy_selected_user_data_deleted#:#Die Umfragedatensätze der ausgewählten Teilnehmer wurden erfolgreich gelöscht.
-survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
+survey#:#svy_selected_user_data_deleted#:#Die ausgewählten Datensätze wurden erfolgreich gelöscht.
+survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Befragten
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
 survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
@@ -16735,7 +16741,7 @@ survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
 survey#:#use_other_answer#:#Freitext
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
-survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
+survey#:#users_invited#:#Es wurden %s Personen eingeladen
 survey#:#users_skipped#:#Übersprungen
 survey#:#values#:#Werte
 survey#:#vertical#:#vertikal
@@ -16745,25 +16751,25 @@ survey#:#wrong_survey_code_used#:#Kein Zugriff auf die Umfrage. Ihr Zugangsschl�
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_all_pages#:#Alle Seiten
-svy#:#svy_all_participants#:#Alle Teilnehmer
+svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
-svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_invite_participants#:#Als To-Do eintragen für
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
 svy#:#svy_print_selection#:#Auswahl Druckansicht
-svy#:#svy_remove_all_participants#:#Alle Teilnehmerdaten löschen
-svy#:#svy_remove_participants#:#Teilnehmer entfernen
-svy#:#svy_selected_participants#:#Ausgewählte Teilnehmer
+svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
+svy#:#svy_remove_participants#:#Datensatz löschen
+svy#:#svy_selected_participants#:#Ausgewählte Befragte
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
 svy#:#svy_selection#:#Auswahl
 svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
-svy#:#svy_status_invited#:#Eingeladen
+svy#:#svy_status_invited#:#Als To-Do eingetragen
 svy#:#svy_user_added_appraisee#:#Umfrage „%1“
 svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
@@ -16771,7 +16777,7 @@ svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
-svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
+svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
@@ -16829,7 +16835,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf der Info-Seite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
@@ -16839,7 +16845,7 @@ tagging#:#tagging_search_users#:#Benutzer suchen
 tagging#:#tagging_set_tag#:#Tags setzen
 tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
+tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie den Reiter „Info“ des Objekts und geben dort die Tags ein.
 tagging#:#tagging_tags#:#Tags
 tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 task#:#task_deadline#:#Ende
@@ -17089,7 +17095,7 @@ trac#:#trac_object_statistics#:#Objekt-Statistik
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 trac#:#trac_objects#:#Benutzer
 trac#:#trac_others#:#Sonstige
-trac#:#trac_participants#:#Teilnehmer zeigen
+trac#:#trac_participants#:#Status anzeigen
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_paths#:#Pfade
 trac#:#trac_percentage#:#Prozent
@@ -17127,7 +17133,7 @@ trac#:#trac_settings_saved#:#Die Einstellungen wurden gespeichert.
 trac#:#trac_short_system_load#:#Kurzzeithistorie
 trac#:#trac_show_graph#:#Als Diagrammansicht zeigen
 trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
-trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
+trac#:#trac_show_repository_views_info#:#Auf dem Reiter „Info“ werden die Anzahl der Zugriffe angezeigt.
 trac#:#trac_spent_seconds#:#Zeit
 trac#:#trac_spent_time#:#Gesamtbearbeitungszeit
 trac#:#trac_status#:#Status
@@ -17174,6 +17180,7 @@ ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#filter_nodes_in#:#Einträge in %s filtern
 ui#:#label_fieldselection#:#Spaltenauswahl
 ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen

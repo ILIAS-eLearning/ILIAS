@@ -37,7 +37,7 @@ class UIComponent implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilOverlay.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "Modal.js");
+            new Component\Resource\ComponentJS($this, "LegacyModal.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilExplorer.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
@@ -52,5 +52,7 @@ class UIComponent implements Component\Component
             new Component\Resource\NodeModule("qtip2/dist/jquery.qtip.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("jstree/dist/jstree.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+           new Component\Resource\NodeModule("jstree/dist/themes/default/style.min.css");
     }
 }

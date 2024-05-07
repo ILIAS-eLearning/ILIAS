@@ -54,5 +54,13 @@ class YUI implements Component\Component
             new Component\Resource\NodeModule("yui2/build/button/button-min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("yui2/build/cookie/cookie.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/container/assets/skins/sam/container.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/button/assets/skins/sam/button.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("yui2/build/menu/assets/skins/sam/menu.css");
+
     }
 }

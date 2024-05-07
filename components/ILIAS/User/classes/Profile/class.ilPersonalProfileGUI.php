@@ -189,7 +189,9 @@ class ilPersonalProfileGUI
         }
 
         // User has uploaded a file of a captured image
-        $this->uploads->process();
+        if (!$this->uploads->hasBeenProcessed()) {
+            $this->uploads->process();
+        }
         $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
         $revision_title = 'Avatar for user ' . $this->user->getLogin();
 

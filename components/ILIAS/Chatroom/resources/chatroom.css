@@ -168,7 +168,7 @@ h2.current_room_title {
 }
 
 .invite_user_line {
-	background-image: url(../../../../templates/default/images/standard/icon_usr.svg);
+	background-image: url(../../../../assets/images/standard/icon_usr.svg);
 	background-position: left center;
 	background-repeat: no-repeat;
 }

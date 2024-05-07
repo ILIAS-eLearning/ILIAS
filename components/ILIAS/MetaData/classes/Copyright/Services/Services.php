@@ -25,6 +25,7 @@ use ILIAS\MetaData\Copyright\RepositoryInterface;
 use ILIAS\MetaData\Copyright\DatabaseRepository;
 use ILIAS\MetaData\Copyright\RendererInterface;
 use ILIAS\MetaData\Copyright\Renderer;
+use ILIAS\MetaData\Copyright\Database\Wrapper;
 
 class Services
 {
@@ -45,7 +46,7 @@ class Services
             return $this->repository;
         }
         return $this->repository = new DatabaseRepository(
-            $this->dic->database()
+            new Wrapper($this->dic->database())
         );
     }
 

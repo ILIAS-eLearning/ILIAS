@@ -16,7 +16,7 @@ function with_string_action()
 
     //Generating and rendering the image and modal
     $image = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/imagesImage/HeaderIconLarge.svg",
         "Thumbnail Example"
     )->withAction("https://www.ilias.de");
 

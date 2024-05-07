@@ -27,7 +27,7 @@ function video_mp4_poster(): string
     $f = $DIC->ui()->factory();
 
     $video = $f->player()->video("https://files.ilias.de/ILIAS-Video.mp4");
-    $video = $video->withPoster("components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg");
+    $video = $video->withPoster("assets/ui-examples/images/Image/HeaderIconLarge.svg");
 
     return $renderer->render($video);
 }

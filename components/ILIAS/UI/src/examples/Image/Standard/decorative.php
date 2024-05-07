@@ -16,7 +16,7 @@ function decorative()
 
     //Generating and rendering the image
     $image = $f->image()->standard(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/imagesImage/HeaderIconLarge.svg",
         ""
     );
     $html = $renderer->render($image);

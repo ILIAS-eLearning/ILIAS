@@ -478,14 +478,10 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
-        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
-        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
-        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html),
-        , [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
     * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
@@ -1133,9 +1129,11 @@ of ILIAS. The file contains the following fields:
 
 * **Notifications**
     * Authority to Sign off Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
     * Authority to Sign off Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
+        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
     * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+        ,  [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
     * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
     * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
@@ -1510,6 +1508,7 @@ of ILIAS. The file contains the following fields:
 	* Authority to Sign off Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to Sign off Code Changes: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
         , [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+        , [tjoussen](https://docu.ilias.de/goto_docu_usr_103745.html)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
     * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* Testcases: SIG E-Assessment

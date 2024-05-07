@@ -619,26 +619,23 @@ class PropertyAndActionBuilderUI
                 $output_filename = htmlspecialchars($file['name']);
 
                 if ($this->media_type->isImage($mime)) {
-                    $item_id = "il-ex-modal-img-" . $ass->getId() . "-" . $cnt;
+                    $image = $ui_factory->image()->responsive($file['fullpath'], $output_filename);
+                    $image_lens = $ui_factory->image()->responsive(
+                        \ilUtil::getImagePath("media/enlarge.svg"),
+                        $lng->txt("exc_fullscreen")
+                    );
 
+                    $modal_page = $ui_factory->modal()->lightboxImagePage($image, $output_filename);
+                    $modal = $ui_factory->modal()->lightbox($modal_page);
 
-                    $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
-                    $image_lens = \ilUtil::getImagePath("enlarge.svg");
-
-                    $modal = \ilModalGUI::getInstance();
-                    $modal->setId($item_id);
-                    $modal->setType(\ilModalGUI::TYPE_LARGE);
-                    $modal->setBody($image);
-                    $modal->setHeading($output_filename);
-                    $modal = $modal->getHTML();
+                    $image = $image->withAction($modal->getShowSignal());
+                    $image_lens = $image_lens->withAction($modal->getShowSignal());
 
                     $img_tpl = new \ilTemplate("tpl.image_file.html", true, true, "components/ILIAS/Exercise");
                     $img_tpl->setCurrentBlock("image_content");
-                    $img_tpl->setVariable("MODAL", $modal);
-                    $img_tpl->setVariable("ITEM_ID", $item_id);
-                    $img_tpl->setVariable("IMAGE", $image);
-                    $img_tpl->setvariable("IMAGE_LENS", $image_lens);
-                    $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
+                    $img_tpl->setVariable("MODAL", $ui_renderer->render($modal));
+                    $img_tpl->setVariable("IMAGE", $ui_renderer->render($image));
+                    $img_tpl->setvariable("IMAGE_LENS", $ui_renderer->render($image_lens));
                     $img_tpl->parseCurrentBlock();
 
                     $this->addProperty(

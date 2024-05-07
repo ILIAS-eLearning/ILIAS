@@ -145,7 +145,7 @@ class ilForumModeratorsGUI
 
         $entries = $this->oForumModerators->getCurrentModerators();
         if (count($usr_ids) === count($entries)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_at_least_one_moderator'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_at_least_one_moderator'), true);
             $this->ctrl->redirect($this, 'showModerators');
         }
 

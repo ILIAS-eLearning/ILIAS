@@ -23,13 +23,13 @@ namespace ILIAS\Chatroom\Bans;
 use ILIAS\Data;
 use ILIAS\UI;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\HTTP\Services;
 use ilArrayUtil;
 use ilDateTime;
 use ilDatePresentation;
 use ilObjChatroomGUI;
 use ilLanguage;
-use ilCtrl;
+use ilCtrlInterface;
+use ILIAS\HTTP\GlobalHttpState;
 
 class BannedUsersTable implements UI\Component\Table\DataRetrieval
 {
@@ -41,9 +41,9 @@ class BannedUsersTable implements UI\Component\Table\DataRetrieval
     public function __construct(
         private readonly int $room_id,
         private readonly array $banned_users,
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
-        Services $http,
+        GlobalHttpState $http,
         private readonly \ILIAS\UI\Factory $ui_factory
     ) {
         $this->request = $http->request();

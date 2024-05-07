@@ -98,7 +98,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
         // # see  https://mantis.ilias.de/view.php?id=26463
-        $this->tpl->addJavaScript("assets/js/Modal.js");
+        $this->tpl->addJavaScript("assets/js/LegacyModal.js");
         $this->tpl->addJavaScript("assets/js/datacollection.js");
     }
 
@@ -335,7 +335,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->locator->addItem(
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTarget($this, ""),
-                (string)$this->object->getRefId()
+                (string) $this->object->getRefId()
             );
         }
     }
@@ -359,7 +359,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         //load record list
-        if ($access->checkAccess('read', "", (int)$ref_id)) {
+        if ($access->checkAccess('read', "", (int) $ref_id)) {
             $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
             if (isset($viewId)) {
                 $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_VIEW_ID, $viewId);
@@ -367,14 +367,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $ilCtrl->redirectByClass(ilRepositoryGUI::class, "listRecords");
         }
         //redirect to info screen
-        elseif ($access->checkAccess('visbile', "", (int)$ref_id)) {
-            ilObjectGUI::_gotoRepositoryNode((int)$a_target, "infoScreen");
+        elseif ($access->checkAccess('visbile', "", (int) $ref_id)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target, "infoScreen");
         }
         //redirect if no permission given
         else {
             $message = sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_target))
             );
             $tpl->setOnScreenMessage('failure', $message, true);
 
@@ -530,11 +530,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
-        $this->object->setOnline((bool)$form->getInput("is_online"));
-        $this->object->setRating((bool)$form->getInput("rating"));
-        $this->object->setPublicNotes((bool)$form->getInput("public_notes"));
-        $this->object->setApproval((bool)$form->getInput("approval"));
-        $this->object->setNotification((bool)$form->getInput("notification"));
+        $this->object->setOnline((bool) $form->getInput("is_online"));
+        $this->object->setRating((bool) $form->getInput("rating"));
+        $this->object->setPublicNotes((bool) $form->getInput("public_notes"));
+        $this->object->setApproval((bool) $form->getInput("approval"));
+        $this->object->setNotification((bool) $form->getInput("notification"));
 
         $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 

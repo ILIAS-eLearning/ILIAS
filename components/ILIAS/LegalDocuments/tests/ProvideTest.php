@@ -88,7 +88,14 @@ class ProvideTest extends TestCase
         $document = $this->mock(ProvideDocument::class);
 
         $internal = $this->mock(Internal::class);
-        $internal->expects(self::exactly(2))->method('get')->withConsecutive(['document', 'foo'], ['writable-document', 'foo'])->willReturn($document);
+        $consecutive = ['document', 'writable-document'];
+        $internal->expects(self::exactly(2))->method('get')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            }),
+            $this->identicalTo('foo')
+        )->willReturn($document);
 
         $instance = new Provide('foo', $internal, $this->mock(Container::class));
         $instance->document();

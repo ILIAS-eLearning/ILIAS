@@ -301,7 +301,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 
         if (in_array("description", $selected, true)) {
-            $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
+            $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"] ?? ""));
         }
 
         if (isset($a_set["full_up"])) {

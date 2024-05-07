@@ -91,7 +91,7 @@ class ilLearningSequenceAppEventListener
             $notification->setTitleVar($lng->txt('lso_toast_completed_title'));
             $notification->setShortDescriptionVar($lng->txt('lso_toast_completed_desc'));
             $notification->setLongDescriptionVar($lng->txt('lso_toast_completed_desc'));
-            $notification->setIconPath('templates/default/images/standard/icon_lso.svg');
+            $notification->setIconPath('assets/images/standard/icon_lso.svg');
             $notification->notifyByUsers([$parameter['usr_id']]);
         }
     }

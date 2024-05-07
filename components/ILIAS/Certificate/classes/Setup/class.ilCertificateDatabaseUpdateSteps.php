@@ -77,4 +77,18 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
         }
     }
+
+    public function step_6(): void
+    {
+        if (
+            $this->db->tableExists('il_cert_user_cert')
+            && !$this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')
+        ) {
+            $this->db->addTableColumn('il_cert_user_cert', 'certificate_id', [
+                'type' => 'text',
+                'length' => 64,
+                'notnull' => false,
+            ]);
+        }
+    }
 }

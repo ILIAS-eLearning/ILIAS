@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\UUID\Factory;
+
 require_once 'components/ILIAS/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
 
 /**
@@ -33,6 +35,9 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly ilLanguage $language;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
+    private readonly Factory $uuid_factory;
+    private readonly ilLanguage $user_language;
+
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -41,7 +46,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        private readonly int $birthdayDateFormat = IL_CAL_DATE
+        ?ILIAS\Data\UUID\Factory $uuid_factory = null,
+        private readonly int $birthdayDateFormat = IL_CAL_DATE,
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -75,7 +81,13 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
 
+        if (!$uuid_factory) {
+            $uuid_factory = new ILIAS\Data\UUID\Factory();
+        }
+        $this->uuid_factory = $uuid_factory;
+
         $this->placeholder = [
+            'CERTIFICATE_ID' => '',
             'USER_LOGIN' => '',
             'USER_FULLNAME' => '',
             'USER_FIRSTNAME' => '',
@@ -111,7 +123,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         if (!$user instanceof ilObjUser) {
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
         }
-
+        $user_lng = $this->getUserLanguage($user);
         $placeholder = $this->placeholder;
 
         $placeholder['USER_LOGIN'] = $this->utilHelper->prepareFormOutput((trim($user->getLogin())));
@@ -123,7 +135,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $salutation = '';
         $gender = $user->getGender();
         if (trim($gender) !== '' && strtolower($gender) !== 'n') {
-            $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
+            $salutation = $this->utilHelper->prepareFormOutput($user_lng->txt("salutation_" . trim($gender)));
         }
 
         $placeholder['USER_SALUTATION'] = $salutation;
@@ -169,6 +181,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $previewPlacholderValues = [
+            'CERTIFICATE_ID' => $this->utilHelper->prepareFormOutput($this->uuid_factory->uuid4AsString()),
             "USER_LOGIN" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
             "USER_FULLNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_fullname")),
             "USER_FIRSTNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_firstname")),
@@ -208,5 +221,24 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             $previewPlacholderValues,
             $this->userDefinedFieldsPlaceholderValues->getPlaceholderValuesForPreview($userId, $objId)
         );
+    }
+
+    private function getUserLanguage(ilObjUser $user): ilLanguage
+    {
+        if ($this->user_language instanceof ilLanguage) {
+            return $this->user_language;
+        }
+        $language = new ilLanguage($user->getLanguage());
+        $language->loadLanguageModule('certificate');
+        $this->user_language = $language;
+        return $language;
+    }
+
+    /**
+     * @internal
+     */
+    public function setUserLanguage(ilLanguage $language): void
+    {
+        $this->user_language = $language;
     }
 }

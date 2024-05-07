@@ -641,7 +641,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function getPresentationJavascripts(): array
     {
-        return ['components/ILIAS/TestQuestionPool/js/ilAssMultipleChoice.js'];
+        return ['assets/js/ilAssMultipleChoice.js'];
     }
 
     /**

@@ -780,6 +780,7 @@ assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions
 assessment#:#imagemap#:#Image Map
 assessment#:#import_question#:#Import Question(s)
 assessment#:#imported#:#imported
+assessment#:#in_range#:#Within range
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multi-line answers.
 assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.
 assessment#:#insert_after#:#Insert After
@@ -2753,6 +2754,8 @@ certificate#:#certificate_error_upload_bgimage#:#An error occurred during the up
 certificate#:#certificate_export#:#Export
 certificate#:#certificate_failed#:#failed
 certificate#:#certificate_file_basename#:#Certificate
+certificate#:#certificate_id#:#Certificate ID
+certificate#:#certificate_issue_date#:#Issue Date
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
@@ -2764,6 +2767,7 @@ certificate#:#certificate_pageheight#:#Page Height
 certificate#:#certificate_pagewidth#:#Page Width
 certificate#:#certificate_passed#:#passed
 certificate#:#certificate_ph_birthday#:#Birthday of the user
+certificate#:#certificate_ph_cert_id#:#Unique Certificate ID
 certificate#:#certificate_ph_city#:#City of the user's address
 certificate#:#certificate_ph_country#:#Country of the user's address
 certificate#:#certificate_ph_date#:#Actual date
@@ -3387,7 +3391,7 @@ cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
-cntr#:#cntr_text_media_editor#:#Customize Page
+cntr#:#cntr_text_media_editor#:#Edit Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
@@ -3790,7 +3794,7 @@ common#:#create_export_file#:#Create export file
 common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications via Cron Job
-common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted posting.
+common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted post.
 common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.
 common#:#cron_jobs#:#Cron Jobs
@@ -3954,8 +3958,8 @@ common#:#editor#:#Editor
 common#:#email#:#E-Mail
 common#:#email_not_valid#:#The e-mail address you entered is not valid!
 common#:#enable#:#Enable
-common#:#enable_anonymous_fora#:#Allow posting with pseudonym
-common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
+common#:#enable_anonymous_fora#:#Allow post with pseudonym
+common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Post with pseudonym’ is not available in forums anymore.
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_comments_export#:#Enable Comments Export
 common#:#enable_course_group_notifications#:#Daily mail for group and course news
@@ -4151,33 +4155,33 @@ common#:#forgot_username#:#Forgot your username?
 common#:#form_input_not_valid#:#Some of the information entered is incomplete or invalid. Please correct your entry.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Notification
-common#:#forum_notify_me#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.
+common#:#forum_notify_me#:#Notify me when a direct answer has been given to this post. Notification about any post in this thread or forum can be enabled in the upper right Actions menu.
 common#:#forum_post_replied#:#Your forum entry has been replied.
 common#:#forums#:#Forums
 common#:#forums_anonymized#:#Forum anonymized
 common#:#forums_anonymous#:#anonym
-common#:#forums_articles#:#Articles
+common#:#forums_articles#:#Posts
 common#:#forums_closed#:#closed
 common#:#forums_disable_forum_notification#:#Disable Notification for this Forum
 common#:#forums_enable_forum_notification#:#Enable Notification for this Forum
-common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.
-common#:#forums_last_post#:#Latest Article
-common#:#forums_last_posting_asc#:#Last Posting Ascending
-common#:#forums_last_posting_dsc#:#Last Posting Descending
+common#:#forums_forum_notification_enabled#:#You will be notified about new posts in this forum.
+common#:#forums_last_post#:#Latest Post
+common#:#forums_last_posting_asc#:#Last Post Ascending
+common#:#forums_last_posting_dsc#:#Last Post Descending
 common#:#forums_notification_settings#:#Forums Notification Settings
 common#:#forums_rating_asc#:#Rating Ascending
 common#:#forums_rating_dsc#:#Rating Descending
 common#:#forums_thread_sorting_asc#:#Thread Title A→Z
 common#:#forums_thread_sorting_dsc#:#Thread Title Z→A
 common#:#forums_threads#:#Threads
-common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
+common#:#forums_use_alias#:#You may use a pseudonym for your post. If you leave this field blank, your post will be marked as written by ‘%s’.
 common#:#forums_your_name#:#Your Name
 common#:#frm#:#Forum
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
 common#:#frm_import#:#Import Forum
-common#:#frm_latest_postings#:#Latest Articles
+common#:#frm_latest_postings#:#Latest Posts
 common#:#frm_new#:#New Forum
 common#:#frm_no_threads#:#There are no threads available at the moment.
 common#:#frm_statistics_ranking#:#Number of Public Postings
@@ -4350,6 +4354,7 @@ common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_sahs#:#Import SCORM Package
 common#:#import_sahs_info#:#To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again.
+common#:#import_sahs_new#:#Import New Version of SCORM Package
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
 common#:#import_users#:#Import Users
@@ -6247,6 +6252,7 @@ content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Comment
 content#:#cont_char_style_quot#:#Quotation
 content#:#cont_characteristic#:#Style Class
+content#:#cont_characteristic_table#:#Style Class
 content#:#cont_check_values#:#Check Values sent from SCO
 content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.
 content#:#cont_choose_characteristic#:#Choose Characteristic
@@ -7362,6 +7368,7 @@ copg#:#copg_list_item_style#:#List Item
 copg#:#copg_list_style#:#List
 copg#:#copg_list_styles#:#List Formats
 copg#:#copg_more_character_formats#:#More Styles for Characters
+copg#:#copg_obj_types#:#Object Types
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
@@ -7609,7 +7616,7 @@ crs#:#crs_loc_qst_resume_tst_itest#:#You have already started an initial test to
 crs#:#crs_loc_qst_resume_tst_qtest#:#You have already started a qualifying test to another learning objective. Either you finish the started test or you stop it and start this one. But running two qualifying tests at the same time is not supported.
 crs#:#crs_loc_qtest_info#:#Final Test
 crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"
-crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool
+crs#:#crs_loc_rand_assign_qpl#:#Assignment from Question Pool
 crs#:#crs_loc_rand_qpl#:#Available Question Pools
 crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.
 crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
@@ -9872,33 +9879,33 @@ form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
 form#:#form_take_snapshot#:#Take Snapshot
 form#:#form_use_camera#:#Use Camera
-forum#:#activate_new_posts#:#Approve Postings
-forum#:#activate_only_current#:#Approve Posting
+forum#:#activate_new_posts#:#Approve Posts
+forum#:#activate_only_current#:#Approve Post
 forum#:#activate_post#:#Approve
-forum#:#activate_post_txt#:#Would you really like to approve the current posting?
-forum#:#add_new_answer#:#Add Posting
+forum#:#activate_post_txt#:#Would you really like to approve the current post?
+forum#:#add_new_answer#:#Add Post
 forum#:#add_re_to_subject#:#Add ‘Re: ’ to subject on reply
 forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_save_drafts#:#Enable Drafts
-forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum postings as draft.
-forum#:#allow_file_upload_desc#:#If enabled, users are able to attach files to their postings.
-forum#:#ascending_order#:#Latest postings at the bottom
+forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save forum posts as draft.
+forum#:#allow_file_upload_desc#:#If enabled, users are able to attach files to their posts.
+forum#:#ascending_order#:#Latest posts at the bottom
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
 forum#:#close_topics#:#Close
-forum#:#content_censored_post#:#Content of the censored posting:
-forum#:#content_deleted_post#:#Content of the deleted posting:
+forum#:#content_censored_post#:#Content of the censored post:
+forum#:#content_deleted_post#:#Content of the deleted post:
 forum#:#content_deleted_thread#:#Content of the deleted thread:
-forum#:#content_post_updated#:#Content of the edited posting:
-forum#:#deletePosting#:#Delete Posting
+forum#:#content_post_updated#:#Content of the edited post:
+forum#:#deletePosting#:#Delete Post
 forum#:#deletePostingDraft#:#Delete Draft
 forum#:#delete_draft_successfully#:#The draft was deleted successfully.
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#delete_thread#:#Delete Thread
-forum#:#descending_order#:#Latest postings at the top
-forum#:#edit_thread_draft#:#Edit thread draft postings created in forums.
+forum#:#descending_order#:#Latest posts at the top
+forum#:#edit_thread_draft#:#Edit thread draft posts created in forums.
 forum#:#empty_subject#:#On reply the user has to enter a new title.
 forum#:#empty_thread#:#Empty Thread
 forum#:#enable_send_attachments#:#Send attachments with forum notifications
@@ -9921,19 +9928,19 @@ forum#:#forums_all_threads_marked_read#:#All threads have been marked as read
 forum#:#forums_attachments#:#Attachments
 forum#:#forums_attachments_add#:#Add attachment
 forum#:#forums_censor_comment#:#Comment of Censor
-forum#:#forums_count_art#:#Number of Articles
+forum#:#forums_count_art#:#Number of Posts
 forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
 forum#:#forums_disable_notification#:#Disable Notification for this Thread
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_draft#:#Edit Draft
-forum#:#forums_edit_post#:#Edit Article
+forum#:#forums_edit_post#:#Edit Post
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
-forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
+forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new posts in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
-forum#:#forums_info_censor_post#:#Please provide a reason for hiding this article.
+forum#:#forums_info_censor_post#:#Please provide a reason for hiding this post.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
-forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
+forum#:#forums_info_delete_post#:#Are you sure you want to delete this post including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
 forum#:#forums_new_thread#:#New Thread
 forum#:#forums_no_posts_available#:#This thread has no posts.
@@ -9941,28 +9948,28 @@ forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 forum#:#forums_notification_show_frm#:#Show forum: %s
-forum#:#forums_notification_show_post#:#Show posting: %s
-forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this e-mail because you are assigned as moderator and have the permission to activate this posting.
-forum#:#forums_post_deleted#:#Posting has been deleted
-forum#:#forums_post_modified#:#Posting has been modified
-forum#:#forums_post_needs_to_be_activated#:#A new posting has been created, but it needs to be activated by a moderator.
-forum#:#forums_post_new_entry#:#A new posting has been created
-forum#:#forums_post_was_activated#:#The posting was activated.
-forum#:#forums_posts#:#All postings
-forum#:#forums_posts_not_available#:#Postings Not Available
+forum#:#forums_notification_show_post#:#Show post: %s
+forum#:#forums_post_activation_mail#:#Unless the following post is not activated, it is not visible for other forum users. You receive this e-mail because you are assigned as moderator and have the permission to activate this post.
+forum#:#forums_post_deleted#:#Post has been deleted
+forum#:#forums_post_modified#:#Post has been modified
+forum#:#forums_post_needs_to_be_activated#:#A new post has been created, but it needs to be activated by a moderator.
+forum#:#forums_post_new_entry#:#A new post has been created.
+forum#:#forums_post_was_activated#:#The post was activated.
+forum#:#forums_posts#:#All posts
+forum#:#forums_posts_not_available#:#Posts Not Available
 forum#:#forums_print_thread#:#Print Thread
 forum#:#forums_subject#:#Subject
-forum#:#forums_the_post#:#Posting
+forum#:#forums_the_post#:#Post
 forum#:#forums_thread#:#Thread
 forum#:#forums_thread_create_from#:#Created from
-forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
-forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
+forum#:#forums_thread_deleted#:#The selected thread including all posts have been deleted.
+forum#:#forums_thread_drafts_deleted#:#The selected thread including all posts and drafts have been deleted.
 forum#:#forums_thread_marked#:#The thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
-forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
-forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
+forum#:#forums_threads_deleted#:#The selected threads including all posts have been deleted.
+forum#:#forums_threads_drafts_deleted#:#The selected threads including all posts and drafts have been deleted.
 forum#:#forums_your_reply#:#Your Reply
-forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
+forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent post has been deleted.
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
@@ -9971,7 +9978,7 @@ forum#:#frm_adm_sec_drafts#:#Drafts
 forum#:#frm_adm_sec_features#:#Forum Features
 forum#:#frm_adm_sec_notifications#:#Notifications
 forum#:#frm_all_threads#:#All Threads
-forum#:#frm_anonymous_posting#:#Posting with pseudonym
+forum#:#frm_anonymous_posting#:#Post with pseudonym
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
 forum#:#frm_censorship#:#Censor
@@ -9985,7 +9992,7 @@ forum#:#frm_enable_print_option_desc#:#If disabled, nobody is able to select the
 forum#:#frm_mark_as_read#:#Mark as read
 forum#:#frm_mark_as_unread#:#Mark as unread
 forum#:#frm_max_notification_age#:#Max. Notification Age
-forum#:#frm_max_notification_age_info#:#Please define the maximum age of postings to send notifications for. It is recommended to choose a higher value than the scheduled interval.
+forum#:#frm_max_notification_age_info#:#Please define the maximum age of posts to send notifications for. It is recommended to choose a higher value than the scheduled interval.
 forum#:#frm_max_notification_age_unit#:#Day(s)
 forum#:#frm_merge_src#:#Selected Thread: %s
 forum#:#frm_merge_target#:#Target: %s
@@ -10000,17 +10007,17 @@ forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderato
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
 forum#:#frm_noti_message#:#Message:
-forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".
+forum#:#frm_noti_new_post#:#a new post was created in forum "%1$s".
 forum#:#frm_noti_obj_crs#:#course
 forum#:#frm_noti_obj_grp#:#group
-forum#:#frm_noti_subject_act_post#:#Activate posting in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_act_post#:#Activate post in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_answ_post#:#Post answered in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_cens_post#:#Post censored in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_del_post#:#Post deleted in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_del_thread#:#Thread "%3$s" deleted in forum "%1$s"%2$s
-forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_new_post#:#New post in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_uncens_post#:#Post uncensored in forum "%1$s"%2$s, thread "%3$s"
+forum#:#frm_noti_subject_upt_post#:#Post modified in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
@@ -10028,8 +10035,8 @@ forum#:#frm_settings_user_functions_header#:#User Functions
 forum#:#frm_statistics#:#Statistics
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
 forum#:#frm_statistics_enabled#:#Enable Statistics
-forum#:#frm_statistics_enabled_desc#:#Enable posting statistics for all participants
-forum#:#frm_statistics_ranking#:#Number of Postings
+forum#:#frm_statistics_enabled_desc#:#Enable post statistics for all participants
+forum#:#frm_statistics_ranking#:#Number of Posts
 forum#:#frm_subject_setting#:#Subject setting
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following thread?
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone.
@@ -10041,12 +10048,12 @@ forum#:#make_topics_sticky#:#Make Threads Sticky
 forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted
 forum#:#merge#:#Merge
-forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
+forum#:#merge_posts_into_thread#:#Merge Posts into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
 forum#:#move_chosen_topics#:#Move thread "%s" to:
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
-forum#:#new_thread_with_post#:#New Thread with Posting
+forum#:#new_thread_with_post#:#New Thread with Post
 forum#:#no_forum_selected#:#No forum selected for moving the chosen threads
 forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.
 forum#:#notification_settings#:#Notification Settings
@@ -10057,15 +10064,15 @@ forum#:#notify_thread_deleted#:#Deleted Threads
 forum#:#notify_uncensored#:#Uncensored Posts
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 forum#:#please_choose_target#:#Please choose a thread as merge target.
-forum#:#post_activation_desc#:#Before being published all postings need to be approved by a moderator.
-forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":
-forum#:#post_censored_comment_by_moderator#:#Posting Censored, Comment by Moderator
-forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":
-forum#:#post_draft_info#:#This posting draft is only visible for you.
+forum#:#post_activation_desc#:#Before being published all posts need to be approved by a moderator.
+forum#:#post_censored_by#:#censored post in forum "%2$s" by "%1$s":
+forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator
+forum#:#post_deleted_by#:#following post in forum "%2$s" was deleted by "%1$s":
+forum#:#post_draft_info#:#This post draft is only visible for you.
 forum#:#post_reply#:#Re:
 forum#:#post_reply_count#:#Re(%s):
-forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"
-forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"
+forum#:#post_uncensored_by#:#a post was uncensored by "%1$s"
+forum#:#post_updated_by#:#subsequently edited post in forum by "%1$s": "%2$s"
 forum#:#preset_subject#:#Preset subject on reply
 forum#:#publish#:#Publish
 forum#:#relevance#:#Relevance
@@ -10086,14 +10093,14 @@ forum#:#select_max_one_thread#:#Please select one thread only!
 forum#:#selected_threads_closed#:#The selected threads have been closed.
 forum#:#selected_threads_reopened#:#The selected threads have been reopened.
 forum#:#sort_by_date#:#By Date
-forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The postings are shown in chronological order of creation.
+forum#:#sort_by_date_desc#:#The thread is presented in a flat view. The posts are shown in chronological order of creation.
 forum#:#sort_by_posts#:#By Reply
 forum#:#sort_by_posts_desc#:#The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other.
 forum#:#sorting#:#Sorting
 forum#:#sticky#:#Sticky
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
-forum#:#target_select#:#Select posting for limited view
+forum#:#target_select#:#Select post for limited view
 forum#:#thema#:#Threads
 forum#:#thread#:#Thread
 forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":
@@ -12636,7 +12643,7 @@ news#:#lso_news_online_txt#:#A new object for your learning sequence was just pu
 news#:#new_test_online#:#The test was set online.
 news#:#news_1_file_created#:#One file has been added.
 news#:#news_1_file_updated#:#One file has been updated.
-news#:#news_1_postings#:#One posting has been added.
+news#:#news_1_posts#:#One post has been added.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#News for all favourite items
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -12720,7 +12727,7 @@ news#:#news_visibility_public#:#Public
 news#:#news_visibility_users#:#Authenticated Users
 news#:#news_x_files_created#:#%s Files have been added.
 news#:#news_x_files_updated#:#%s Files have been updated.
-news#:#news_x_postings#:#%s Postings have been added.
+news#:#news_x_postings#:#%s Posts have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
@@ -13012,7 +13019,7 @@ orgu#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunit
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdcal#:#Show Calendar
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
+pd#:#block_show_pdfrmpostdraft#:#Show Posts Drafts
 pd#:#block_show_pdmail#:#Show Mail
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
@@ -13791,12 +13798,12 @@ rbac#:#blga_edit_permission#:#User can change permission settings of Blog admini
 rbac#:#blga_read#:#User has read access to Blog Administration
 rbac#:#blga_visible#:#Blog Administration is visible
 rbac#:#blga_write#:#User can edit settings in Blog Administration
-rbac#:#blog_contribute#:#User can create postings
+rbac#:#blog_contribute#:#User can create posts
 rbac#:#blog_copy#:#User can copy blog
 rbac#:#blog_delete#:#User can move or delete blog
 rbac#:#blog_edit_permission#:#User can change permission settings
 rbac#:#blog_read#:#User can read blog content
-rbac#:#blog_redact#:#User can edit postings of other contributors, too
+rbac#:#blog_redact#:#User can edit posts of other contributors, too
 rbac#:#blog_visible#:#Blog is visible
 rbac#:#blog_write#:#User can edit blog settings
 rbac#:#book_copy#:#User can copy booking pool
@@ -13996,12 +14003,12 @@ rbac#:#fold_visible#:#Folder is visible
 rbac#:#fold_write#:#User can edit settings of folder and manage content
 rbac#:#folders_create#:#Create Folders
 rbac#:#folders_visible#:#Folders Visible
-rbac#:#frm_add_reply#:#Users can reply to a posting
+rbac#:#frm_add_reply#:#Users can reply to a post
 rbac#:#frm_add_thread#:#User can add a new thread
 rbac#:#frm_copy#:#User can copy forum
 rbac#:#frm_delete#:#User can move or delete forum
 rbac#:#frm_edit_permission#:#User can change permission settings
-rbac#:#frm_moderate_frm#:#User can edit, censor and delete postings
+rbac#:#frm_moderate_frm#:#User can edit, censor and delete posts
 rbac#:#frm_read#:#User can read forum content
 rbac#:#frm_visible#:#Forum is visible
 rbac#:#frm_write#:#User can edit forum settings and moderators
@@ -16959,9 +16966,9 @@ trac#:#trac_filter_has_status#:#Show also objects with status ‘not attempted�
 trac#:#trac_filter_hidden#:#Hidden
 trac#:#trac_first_access#:#First Access
 trac#:#trac_first_and_last_access#:#First and Last Access
-trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings
-trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Postings
-trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Posting
+trac#:#trac_frm_contribution_num_postings#:#Minimum number of Posts
+trac#:#trac_frm_contribution_num_postings_info_p#:#%s: %s Posts
+trac#:#trac_frm_contribution_num_postings_info_s#:#%s: %s Post
 trac#:#trac_group_materials#:#Create Grouping with Optional Materials
 trac#:#trac_group_materials_save#:#Save Number of Compulsory Materials
 trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.
@@ -17027,7 +17034,7 @@ trac#:#trac_mode_collection_tlt_info#:#The status will be automatically set acco
 trac#:#trac_mode_content_visited#:#Visited
 trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.
 trac#:#trac_mode_contribution_to_discussion#:#Contributions to Discussion
-trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written postings.
+trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written posts.
 trac#:#trac_mode_course_reference#:#Adopted from Course
 trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.
 trac#:#trac_mode_deactivated#:#Learning Progress is Deactivated
@@ -17173,6 +17180,7 @@ ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#filter_nodes_in#:#Filter Nodes in %s
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows

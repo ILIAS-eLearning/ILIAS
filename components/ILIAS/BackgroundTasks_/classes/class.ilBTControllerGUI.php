@@ -65,10 +65,13 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
         $from_url = $this->getFromURL();
 
         $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
+        if ($observer->getUserId() !== $this->user()->getId()) {
+            return;
+        }
         $option = new UserInteractionOption("", $selected_option);
         $this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
         if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
-            exit;
+            $this->http()->close();
         }
         $this->ctrl()->redirectToURL($from_url);
     }

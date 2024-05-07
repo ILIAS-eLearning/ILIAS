@@ -34,9 +34,10 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
         object $a_parent_obj,
         string $a_parent_cmd,
         ilObjExercise $a_exc,
-        int $a_item_id
+        int $a_item_id,
+        ilExerciseSubmissionFeedbackGUI $feedback_gui
     ) {
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id);
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id, $feedback_gui);
         $ctrl = $this->ctrl;
 
         $this->ass_types = ilExAssignmentTypes::getInstance();

@@ -37,6 +37,7 @@ For each issued persisting user certificate, the ID of the user account is store
 
     Stored Data (if used as a placeholder in a certificate template):
 
+      - Certificate ID (globally unique id)
       - Username
       - Fullname Presentation
       - Firstname
@@ -62,14 +63,17 @@ For each issued persisting user certificate, the ID of the user account is store
   "PRIVACY.md" of those object types to see presentation of certificate data in that very object type.
   For example the course object presents certificate download links in the "Member" tab to user accounts with
   "Manage Member" permission.
+- Furthermore, certificates are presented to users in "Administration > Achievements > Certificates" in the **Certificates** tab   
+  if the user has **read** permission on the certificate settings.
 
 ## Data being deleted
 
 - If a user account is deleted, all it's certificates will be completely deleted from the database.
   There is no trash for users.
 
-## Data being exported 
+## Data being exported
 
 - Certificate owners can export PDF documents of their certificates at "Achievements > Certificates".
   No other exports of user related data is provided by the "Certificate Service" itself. Exports may be possible
   in the object types listed above. Please refer to the respective "PRIVACY.md" files.
+- Users with **read** permission on the certificate settings can export PDF documents of certificates at "Administration > Achievements > Certificates" in the **Certificates** tab.

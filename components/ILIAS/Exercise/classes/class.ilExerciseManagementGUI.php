@@ -36,6 +36,7 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
  * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI, ilExPeerReviewGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilParticipantsPerAssignmentTableGUI
  * @ilCtrl_Calls ilExerciseManagementGUI: ilResourceCollectionGUI, ilRepoStandardUploadHandlerGUI
+ * @ilCtrl_Calls ilExerciseManagementGUI: ilExerciseSubmissionFeedbackGUI
  */
 class ilExerciseManagementGUI
 {
@@ -94,6 +95,7 @@ class ilExerciseManagementGUI
     protected string $requested_filter_status;
     protected string $requested_filter_feedback;
     protected GUIRequest $request;
+    protected ilExerciseSubmissionFeedbackGUI $feedback_gui;
 
     /**
      * Constructor
@@ -103,6 +105,8 @@ class ilExerciseManagementGUI
      */
     public function __construct(InternalService $service, ilExAssignment $a_ass = null)
     {
+        global $DIC;
+
         $this->service = $service;
         $this->gui = $gui = $service->gui();
         $this->domain = $domain = $service->domain();
@@ -150,6 +154,11 @@ class ilExerciseManagementGUI
         $this->requested_filter_feedback = $request->getFilterFeedback();
 
         $this->notification = $domain->notification($request->getRefId());
+
+        $this->feedback_gui = $DIC->exercise()->internal()->gui()->getSubmissionFeedbackGUI(
+            $this->exercise,
+            $this->notification
+        );
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
         if ($this->ass_id > 0) {
@@ -289,9 +298,14 @@ class ilExerciseManagementGUI
                     $this,
                     "members",
                     $this->exercise,
-                    $this->assignment->getId()
+                    $this->assignment->getId(),
+                    $this->feedback_gui
                 );
                 $this->ctrl->forwardCommand($table);
+                break;
+
+            case "ilexercisesubmissionfeedbackgui":
+                $this->ctrl->forwardCommand($this->feedback_gui);
                 break;
 
             default:
@@ -500,7 +514,13 @@ class ilExerciseManagementGUI
             }
             $this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 
-            $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+            $exc_tab = new ilParticipantsPerAssignmentTableGUI(
+                $this,
+                "members",
+                $this->exercise,
+                $this->assignment->getId(),
+                $this->feedback_gui
+            );
             $tpl->setContent(
                 $exc_tab->getHTML() .
                 $this->initIndividualDeadlineModal()
@@ -555,7 +575,13 @@ class ilExerciseManagementGUI
     public function membersApplyObject(): void
     {
         $this->saveStatusAllObject(null, false);
-        $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+        $exc_tab = new ilParticipantsPerAssignmentTableGUI(
+            $this,
+            "members",
+            $this->exercise,
+            $this->assignment->getId(),
+            $this->feedback_gui
+        );
         $exc_tab->resetOffset();
         $exc_tab->writeFilterToSession();
 
@@ -567,7 +593,13 @@ class ilExerciseManagementGUI
      */
     public function membersResetObject(): void
     {
-        $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+        $exc_tab = new ilParticipantsPerAssignmentTableGUI(
+            $this,
+            "members",
+            $this->exercise,
+            $this->assignment->getId(),
+            $this->feedback_gui
+        );
         $exc_tab->resetOffset();
         $exc_tab->resetFilter();
 
@@ -1055,7 +1087,8 @@ class ilExerciseManagementGUI
                 $this,
                 "showParticipant",
                 $this->exercise,
-                $current_participant
+                $current_participant,
+                $this->feedback_gui
             );
             $tpl->setContent($part_tab->getHTML() .
                 $this->initIndividualDeadlineModal());
@@ -1068,7 +1101,13 @@ class ilExerciseManagementGUI
      */
     public function showParticipantApplyObject(): void
     {
-        $exc_tab = new ilAssignmentsPerParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
+        $exc_tab = new ilAssignmentsPerParticipantTableGUI(
+            $this,
+            "showParticipant",
+            $this->exercise,
+            $this->requested_part_id,
+            $this->feedback_gui
+        );
         $exc_tab->resetOffset();
         $exc_tab->writeFilterToSession();
 
@@ -1079,7 +1118,13 @@ class ilExerciseManagementGUI
      */
     public function showParticipantResetObject(): void
     {
-        $exc_tab = new ilAssignmentsPerParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
+        $exc_tab = new ilAssignmentsPerParticipantTableGUI(
+            $this,
+            "showParticipant",
+            $this->exercise,
+            $this->requested_part_id,
+            $this->feedback_gui
+        );
         $exc_tab->resetOffset();
         $exc_tab->resetFilter();
 
@@ -1496,57 +1541,6 @@ class ilExerciseManagementGUI
         }
     }
 
-    /**
-     * @throws ilExcUnknownAssignmentTypeException
-     */
-    public function saveCommentForLearnersObject(): void
-    {
-        $res = array("result" => false);
-
-        if ($this->ctrl->isAsynch()) {
-            $ass_id = $this->requested_ass_id;
-            $user_id = $this->requested_member_id;
-            $comment = trim($this->requested_comment);
-
-            if ($ass_id && $user_id) {
-                $submission = new ilExSubmission($this->assignment, $user_id);
-                $user_ids = $submission->getUserIds();
-
-                $all_members = new ilExerciseMembers($this->exercise);
-                $all_members = $all_members->getMembers();
-
-                $reci_ids = array();
-                foreach ($user_ids as $user_id) {
-                    if (in_array($user_id, $all_members)) {
-                        $member_status = $this->assignment->getMemberStatus($user_id);
-                        $member_status->setComment(ilUtil::stripSlashes($comment));
-                        $member_status->setFeedback(true);
-                        $member_status->update();
-
-                        if (trim($comment) !== '' && trim($comment) !== '0') {
-                            $reci_ids[] = $user_id;
-                        }
-                    }
-                }
-
-                if ($reci_ids !== []) {
-                    // send notification
-                    $this->notification->sendFeedbackNotification(
-                        $ass_id,
-                        $reci_ids,
-                        "",
-                        true
-                    );
-                }
-
-                $res = array("result" => true, "snippet" => nl2br($comment));
-            }
-        }
-
-        echo(json_encode($res));
-        exit();
-    }
-
     public function exportExcelObject(): void
     {
         $this->exercise->exportGradesExcel();
@@ -1941,12 +1935,11 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        // prepare modal+
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($lng->txt("exc_individual_deadline"));
-        $modal->setId("ilExcIDl");
-        $modal->setBody('<div id="ilExcIDlBody"></div>');
-        $modal = $modal->getHTML();
+        // prepare modal
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $lng->txt("exc_individual_deadline"),
+            $this->ui_factory->legacy('<div id="ilExcIDlBody"></div>')
+        );
 
         $ajax_url = $this->ctrl->getLinkTarget($this, "handleIndividualDeadlineCalls", "", true, false);
 
@@ -1955,7 +1948,7 @@ class ilExerciseManagementGUI
 
         ilCalendarUtil::initDateTimePicker();
 
-        return $modal;
+        return $this->ui_renderer->render($modal);
     }
 
     /**
