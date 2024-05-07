@@ -404,7 +404,7 @@ class ilCourseObjectiveResult
                 $max_points += $question_points[$question_id]['max_points'];
                 $reached_points += $question_points[$question_id]['reached_points'] ?? 0;
             } else {
-                $DIC->logger()->crs()->alert('stale question in course objective assignment table id '.$question_id);
+                $DIC->logger()->crs()->warning('stale question in course objective assignment table id '.$question_id);
             }
         }
         if (!$max_points) {
