@@ -80,7 +80,8 @@ final class RequestHandler
         $stakeholder = $token_data['stakeholder'] ?? null;
         if ($stakeholder !== null) {
             try {
-                $this->stakeholder = new $stakeholder();
+                $this->stakeholder = new WOPIStakeholderWrapper();
+                $this->stakeholder->init($stakeholder, $this->token_user_id);
             } catch (\Throwable $t) {
                 $this->stakeholder = new WOPIUnknownStakeholder($this->token_user_id);
             }
@@ -168,9 +169,6 @@ final class RequestHandler
                                 $current_revision->getTitle(),
                                 true
                             );
-
-                            $new_revision->setOwnerId($this->token_user_id);
-                            $this->irss->manage()->updateRevision($new_revision);
 
                             // CheckFileInfo
                             $response = new GetFileInfoResponse(
