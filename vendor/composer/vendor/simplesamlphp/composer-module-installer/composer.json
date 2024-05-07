@@ -1,0 +1,20 @@
+{
+    "name": "simplesamlphp/composer-module-installer",
+    "description": "A Composer plugin that allows installing SimpleSAMLphp modules through Composer.",
+    "license": "LGPL-2.1-only",
+    "type": "composer-plugin",
+    "autoload": {
+        "psr-4": {
+            "SimpleSAML\\Composer\\": "src/"
+        }
+    },
+    "extra": {
+        "class": "SimpleSAML\\Composer\\ModuleInstallerPlugin"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+
+        "composer-plugin-api": "^1.1 || ^2.0",
+        "simplesamlphp/simplesamlphp": "*"
+    }
+}

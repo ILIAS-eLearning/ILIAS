@@ -1,0 +1,6 @@
+LibRIS has been refactored to contain the following classes:
+
+- \LibRIS\RISReader: Read RIS files.
+- \LibRIS\RISWriter: Write RIS files.
+- \LibRIS\RISTags: Tags and labels for RIS files.
+- \LibRIS\ParseException: Thrown when parsing RIS fails.

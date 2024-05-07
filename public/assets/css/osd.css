@@ -1,0 +1,45 @@
+.osdNotificationContainer {
+	position: fixed;
+	right: 30px;
+	top: 45px;
+	z-index: 2000;
+	width: 235px;
+}
+
+.osdNotification {
+	margin-bottom: 10px;
+	background-color: white;
+	/* no border in flat design
+	border: 1px solid #FFDD77;
+	border-color: #BCCAE5 #BCCAE5 #A7B4CC; */
+	/*padding: 8px;*/
+	word-wrap: break-word;
+	font-size: small;
+	text-wrap: suppress;
+	word-break: break-strict;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.osdNotificationTitle {
+	padding: 8px;
+	background-color: #E2E3E4;
+}
+
+.osdNotificationIcon {
+	/*float: left;*/
+	line-height: 100%;
+	vertical-align: bottom;
+	margin-right: 5px;
+}
+
+.osdNotificationShortDescription {
+	margin: 8px;
+	padding-bottom: 8px;
+}
+
+.osdNotification .btn-link {
+	margin-right: 5px;
+	margin-top: 5px;
+}

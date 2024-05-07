@@ -1,0 +1,24 @@
+{
+	"name": "tinymce",
+	"version": "5.6.2",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tinymce/tinymce-dist.git"
+	},
+	"description": "Web based JavaScript HTML WYSIWYG editor control.",
+	"author": "Tiny Technologies, Inc",
+	"main": "tinymce.js",
+	"types": "tinymce.d.ts",
+	"license": "LGPL-2.1",
+	"keywords": [
+		"editor",
+		"wysiwyg",
+		"tinymce",
+		"richtext",
+		"javascript",
+		"html"
+	],
+	"bugs": {
+		"url": "https://github.com/tinymce/tinymce/issues"
+	}
+}

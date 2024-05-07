@@ -1,0 +1,43 @@
+div.questionPrintview {
+	/*background-color:#F9F9F9;*/
+	border:1px solid #ccc;
+}
+.questionTitle {
+	font-weight:normal;
+	font-size:14pt;
+	border-bottom:1px solid #000;
+}
+td.pdfContent {
+	width:441px;
+}
+td.pdfSpacer {
+	width:20px;
+}
+
+.ilAccAnchor {
+	font-weight:normal;
+}
+.solutionbox {
+	background-color:#ddd;
+	font-weight:bold;
+}
+a {
+	text-decoration:none;
+}
+.sel {
+	background-color:#9BD9FE;
+}
+
+.noprint {
+	display: none;
+	visibility: hidden;
+}
+#targetArea, #sourceArea {
+	width: 50%;
+	float:left;
+}
+
+.ilc_qetitem_ErrorTextSelected {
+	background-color: #9bd9fe;
+	border: 1px #666 solid;
+}

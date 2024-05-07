@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  php7.3:
+    build: .docker/php7.3
+    container_name: captainhook-php7.3
+    volumes:
+      - .:/docker:rw
+    tty: true
+
+  php7.4:
+    build: .docker/php7.4
+    container_name: captainhook-php7.4
+    volumes:
+      - .:/docker:rw
+    tty: true
+
+  php8.0:
+    build: .docker/php8.0
+    container_name: captainhook-php8.0
+    volumes:
+      - .:/docker:rw
+    tty: true
+
+  php8.1:
+    build: .docker/php8.1
+    container_name: captainhook-php8.1
+    volumes:
+      - .:/docker:rw
+    tty: true
+
+  php8.2:
+    build: .docker/php8.2
+    container_name: captainhook-php8.2
+    volumes:
+      - .:/docker:rw
+    tty: true

@@ -1,0 +1,10 @@
+LibRIS 2.0.
+
+The 2.0.x branch is reorganized and now requires PHP 5.3 to properly
+function.
+
+It supports the following new features:
+
+- Refactored library
+- PSR-0 support for autoloading
+- Packagist/Composer support.

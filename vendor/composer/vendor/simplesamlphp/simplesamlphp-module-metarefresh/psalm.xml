@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<psalm
+    name="SimpleSAMLphp metarefresh module"
+    useDocblockTypes="true"
+    totallyTyped="false"
+>
+    <projectFiles>
+        <directory name="config-templates" />
+        <directory name="hooks" />
+        <directory name="lib" />
+        <directory name="templates" />
+        <directory name="www" />
+    </projectFiles>
+
+    <issueHandlers>
+        <LessSpecificReturnType errorLevel="info" />
+
+        <!-- level 3 issues - slightly lazy code writing, but probably low false-negatives -->
+        <DeprecatedMethod errorLevel="info" />
+
+        <MissingClosureReturnType errorLevel="info" />
+        <MissingReturnType errorLevel="info" />
+        <MissingPropertyType errorLevel="info" />
+        <InvalidDocblock errorLevel="info" />
+        <MisplacedRequiredParam errorLevel="info" />
+
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <MissingConstructor errorLevel="info" />
+        <MissingClosureParamType errorLevel="info" />
+        <MissingParamType errorLevel="info" />
+        <UnusedClass errorLevel="info" />
+        <PossiblyUnusedMethod errorLevel="info" />
+    </issueHandlers>
+</psalm>

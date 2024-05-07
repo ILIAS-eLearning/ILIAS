@@ -1,0 +1,147 @@
+@charset "UTF-8";
+/**
+ * ILIAS Open Source Survey styles
+ *
+ * @revision        $Id$
+ */
+
+@media screen {
+
+.surveySheet {
+	padding:20px;
+	border-style: solid;
+	border-color: #9EADBA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	margin-bottom: 0px;
+}
+
+.matrix .tblrow1 {
+	background-color:#FFFFFF;
+	color:#222222;
+	padding:3px;
+	border: none;
+}
+
+.matrix .tblrow2 {
+	background-color: #F1F1F1;
+	color:#222222;
+	padding:3px;
+	border: none;
+}
+
+.matrixother {
+	width: 95%; /* #8213 */
+}
+
+.surveyhint {
+	font-size: 80%;
+	font-style: italic;
+}
+
+table.matrix
+{
+	border: none;
+	border-collapse:collapse;
+/*	font-family:arial,sans-serif;
+	font-size:80%;
+*/
+}
+
+td#matrix, th#matrix 
+{
+	border: none;
+	border-collapse:collapse;
+	padding:0.5em;
+}
+
+td#matrixrowtext
+{
+	width: 40em;
+}
+
+td.center {
+	text-align: center;
+}
+
+td.column {
+	text-align: center;
+	font-weight: bold!important;
+}
+
+td.bipolar {
+	text-align: center;
+	vertical-align: middle;
+	background: #EEEEEE;
+	border: 1px solid #808080!important;
+	width:  10em;
+}
+
+.questionblockTitle {
+	font-size: 140%;
+	font-weight: bold;
+	color:#222222;
+	margin-top:1em;
+	margin-bottom:0px;
+}
+
+.questionheading {
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+.solutionbox {
+	color: black;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-style: inset;
+	border-width: 1px;
+	display: inline-block;
+	width: 400px;
+}
+
+.horizontal {
+	width: 80px;
+}
+
+.vertical {
+	width: 400px;
+}
+
+table.categorywizard tr, table.matrixrowwizard tr {
+	vertical-align: top;
+}
+
+table.categorywizard th, table.matrixrowwizard th {
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}
+
+.neutral_category_title {
+	font-style: italic;
+}
+
+tr.neutral td {
+	padding-top: 2em!important;
+}
+
+td.neutral {
+	margin-left: 2em;
+}
+
+div.required {
+	padding-bottom: 2em;
+}
+
+.questionTitle {
+	padding-top: 8px;
+	padding-bottom: 4px;
+	font-weight: bold;
+	font-size: 110%;
+	border-bottom: 1px #aaa solid;
+}
+}
