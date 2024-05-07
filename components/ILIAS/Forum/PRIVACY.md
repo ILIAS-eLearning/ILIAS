@@ -70,7 +70,7 @@ The title, description, start page of the forum as well as the titles of the top
 
 If a post was written without pseudonymization, the **ILIAS username** and the **date of creation** are visible to other users with read access to the forum. In the case of highlighted posts by moderators, a **Moderation** appears. In the case of subsequent changes, the user name and the date of the **change** are visible.
 
-If a user has published a personal profile, the **first name** and **surname** are also displayed. Depending on the profile settings, a **portrait** or **letter avatar** is displayed. If a forum is enabled for anonymous access via the rights system, this data is only displayed for anonymous users if the profile has been made publicly visible.
+If a user has published a personal profile, the **first name** and **surname** are also displayed. Depending on the profile settings, a **portrait** or **letter avatar** is displayed. If a forum is enabled for anonymous access via the access control system, this data is only displayed for anonymous users if the profile has been made publicly visible.
 
 If a post has been written with a **pseudonym**, the pseudonym entered appears instead of the username and is recognizable as such.
 
@@ -92,7 +92,7 @@ If a **notification about new or changed posts** is set, it will be sent via the
 
 New posts can be subscribed to via an **RSS feed** in suitable programs. In the forum, you can set whether this feed is password-protected or public. A public feed contains the title of the forum, the **title, content, creation date** and a link to the post in ILIAS for each post. If the forum itself is not public, you will be taken to the ILIAS login page when you use the link.
 
-To support the **full-text search**, a separate server with the Apache Lucene search engine can be operated for ILIAS. When creating the full-text index for a forum, the content of a manually created start page as well as the title, content and author ID of all topics and posts are retrieved from this server and stored in the index.
+To support the **full-text search**, a separate server with the Apache Lucene search engine can be operated for ILIAS. When creating the full-text index for a forum, the content of a manually created start page as well as the title, content and author ID of all topics and posts are retrieved by this server and stored in the index.
 
 ILIAS users can create a **print view** in a forum topic and print it out via the browser. The personal data contained on it corresponds to the normal browser view of the forum topic. ILIAS users with the 'Edit Settings' permission for a forum can export an **HTML page** that contains to the print views of all forum topics.
 
