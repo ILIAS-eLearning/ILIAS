@@ -478,10 +478,10 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
     * Authority to Sign off Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
 	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
     * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
     * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
