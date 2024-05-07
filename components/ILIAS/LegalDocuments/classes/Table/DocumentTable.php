@@ -69,21 +69,17 @@ class DocumentTable implements DataRetrieval
         private readonly DocumentModal               $modal,
         private readonly object                      $gui,
         private readonly ?EditLinks                  $edit_links = null,
-        ?Container                                   $dic = null,
         ServerRequestInterface|RequestInterface|null $request = null,
         ?Factory                                     $data_factory = null,
         ?ilCtrl                                      $ctrl = null,
         ?Renderer                                    $ui_renderer = null,
     )
     {
-        if (!$dic) {
-            global $DIC;
-            $dic = $DIC;
-        }
-        $this->request = $request ?: $dic->http()->request();
+        global $DIC;
+        $this->request = $request ?: $DIC->http()->request();
         $this->data_factory = $data_factory ?: new Factory();
-        $this->ctrl = $ctrl ?: $dic->ctrl();
-        $this->ui_renderer = $ui_renderer ?: $dic->ui()->renderer();
+        $this->ctrl = $ctrl ?: $DIC->ctrl();
+        $this->ui_renderer = $ui_renderer ?: $DIC->ui()->renderer();
 
         $this->table = $this->buildTable();
     }
@@ -192,7 +188,7 @@ class DocumentTable implements DataRetrieval
         return $table_rows;
     }
 
-    private function criterionName(Criterion $criterion): Component
+    public function criterionName(Criterion $criterion): Component
     {
         return ($this->criterion_as_component)($criterion->content());
     }

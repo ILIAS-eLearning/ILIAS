@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\Provide;
 
 use Closure;
+use ILIAS\Data\Factory;
 use ILIAS\DI\Container;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
@@ -78,7 +79,10 @@ class ProvideDocument
             new DocumentModal($this->container->ui(), $this->contentAsComponent(...)),
             $gui,
             $edit_links,
-            $this->container
+            $this->container->http()->request(),
+            new Factory(),
+            $this->container->ctrl(),
+            $this->container->ui()->renderer()
         );
     }
 
