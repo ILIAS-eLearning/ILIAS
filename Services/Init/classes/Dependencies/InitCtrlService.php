@@ -56,7 +56,8 @@ final class InitCtrlService
             $dic->http()->wrapper()->post(),
             $dic->http()->wrapper()->query(),
             $dic->refinery(),
-            $dic["component.factory"]
+            $dic["component.factory"],
+            new ilCtrlQueryRegexParser()
         );
 
         // add helper function to DI container that

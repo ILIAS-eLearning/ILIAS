@@ -93,6 +93,8 @@ class ilCtrl implements ilCtrlInterface
      */
     private ilComponentFactory $component_factory;
 
+    private ilCtrlQueryParserInterface $query_parser;
+
     /**
      * Holds a history of calls made with the current ilCtrl instance.
      * @var array<int, string[]>
@@ -128,7 +130,8 @@ class ilCtrl implements ilCtrlInterface
         RequestWrapper $post_parameters,
         RequestWrapper $get_parameters,
         Refinery $refinery,
-        ilComponentFactory $component_factory
+        ilComponentFactory $component_factory,
+        ilCtrlQueryParserInterface $query_parser
     ) {
         $this->structure = $structure;
         $this->token_repository = $token_repository;
@@ -140,6 +143,7 @@ class ilCtrl implements ilCtrlInterface
         $this->path_factory = $path_factory;
         $this->context = $context;
         $this->component_factory = $component_factory;
+        $this->query_parser = $query_parser;
     }
 
     public function __clone()
@@ -1163,7 +1167,8 @@ class ilCtrl implements ilCtrlInterface
 
         /** @var array{path: string|null, query: string[]|null} $parsed_url */
         $parsed_url = parse_url(str_replace('&amp;', '&', $url));
-        parse_str(($parsed_url['query'] ?? ''), $query_parameters);
+
+        $query_parameters = $this->query_parser->parseQueriesOfURL($parsed_url['query'] ?? '');
 
         // update the given parameter or add it to the list.
         $query_parameters[$parameter_name] = $value;
@@ -1173,7 +1178,6 @@ class ilCtrl implements ilCtrlInterface
         $ampersand = ($is_escaped) ? '&amp;' : '&';
 
         foreach ($query_parameters as $parameter => $parameter_value) {
-            $parameter_value = urlencode($parameter_value);
             $new_url .= (strpos($new_url, '?') !== false) ?
                 $ampersand . "$parameter=$parameter_value" :
                 "?$parameter=$parameter_value";
