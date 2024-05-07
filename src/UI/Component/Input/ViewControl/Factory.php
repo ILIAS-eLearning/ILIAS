@@ -105,8 +105,27 @@ interface Factory
      *   effect: >
      *      Each view control will be rendered in the same order as provided.
      * ---
-     * @param \ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput[] $view_contorls
+     * @param \ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput[] $view_controls
      * @return \ILIAS\UI\Component\Input\ViewControl\Group
      */
-    public function group(array $view_contorls): Group;
+    public function group(array $view_controls): Group;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Input names are provided in relation to the amount of present inputs.
+     *      In order to avoid wrong assignments of e.g. stored values to potentially
+     *      changing view controls, a null view control is used to 'block' the
+     *      name.
+     *   composition: >
+     *      This view control is not composed of anything.
+     *   effect: >
+     *      This view control is not visible and cannot be operated.
+     * ---
+     * @return \ILIAS\UI\Component\Input\ViewControl\NullControl
+     */
+
+    public function nullControl(): NullControl;
+
 }

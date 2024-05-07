@@ -428,7 +428,7 @@ class Data extends Table implements T\Data, JSBindable
         return $this->view_control_container_factory->standard($view_controls);
     }
 
-    protected function getViewControlPagination(?int $total_count = null): ?ViewControl\Pagination
+    protected function getViewControlPagination(?int $total_count = null): ViewControl\Pagination|ViewControl\NullControl
     {
         $smallest_option = current(Pagination::DEFAULT_LIMITS);
         if (is_null($total_count) || $total_count >= $smallest_option) {
@@ -441,7 +441,7 @@ class Data extends Table implements T\Data, JSBindable
                         Pagination::FNAME_LIMIT => $range->getLength()
                     ]);
         }
-        return null;
+        return $this->view_control_factory->nullControl();
     }
 
     protected function getViewControlOrdering(): ?ViewControl\Sortation
