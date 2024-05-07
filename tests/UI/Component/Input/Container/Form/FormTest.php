@@ -21,14 +21,14 @@ require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Group;
 use ILIAS\Refinery\Custom\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -50,24 +50,24 @@ class ConcreteForm extends Form
     protected Group $input_group;
     protected array $inputs;
 
-    public function __construct(Input\Field\Factory $field_factory, NameSource $name_source, array $inputs)
+    public function __construct(Input\Field\Factory $input_factory, NameSource $name_source, array $inputs)
     {
-        $this->input_factory = $field_factory;
-        parent::__construct($field_factory, $name_source, $inputs);
+        $this->input_factory = $input_factory;
+        parent::__construct($input_factory, $name_source, $inputs);
     }
 
-    public function _extractPostData(ServerRequestInterface $request): Input\InputData
+    public function _extractRequestData(ServerRequestInterface $request): Input\InputData
     {
-        return $this->extractPostData($request);
+        return $this->extractRequestData($request);
     }
 
-    public function extractPostData(ServerRequestInterface $request): Input\InputData
+    public function extractRequestData(ServerRequestInterface $request): Input\InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
         }
 
-        return parent::extractPostData($request);
+        return parent::extractRequestData($request);
     }
 
 
@@ -91,7 +91,7 @@ class FormTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): Input\Container\Form\Factory
     {
-        return new Input\Container\Form\Factory($this->buildInputFactory(), new DefNamesource());
+        return new Input\Container\Form\Factory($this->buildInputFactory());
     }
 
     protected function buildInputFactory(): Input\Field\Factory
@@ -169,7 +169,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([]);
-        $input_data = $form->_extractPostData($request);
+        $input_data = $form->_extractRequestData($request);
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
@@ -423,15 +423,16 @@ class FormTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @return FormInputInternal|mixed|MockObject
+     * @return Input\Field\FormInputInternal|mixed|MockObject
      */
     protected function inputMock()
     {
         static $no = 1000;
         return $this
-            ->getMockBuilder(FormInputInternal::class)
+            ->getMockBuilder(Input\Field\FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "withDedicatedName",
                 "withNameFrom",
                 "withInput",
                 "getContent",
@@ -483,5 +484,4 @@ class FormTest extends ILIAS_UI_TestBase
         $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
         $this->assertTrue($form->hasRequiredInputs());
     }
-
 }

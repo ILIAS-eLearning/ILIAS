@@ -1,27 +1,68 @@
-<div class="il-table-data">
+<div class="c-table-data" id="{ID}">
 
 	<!-- BEGIN header_title -->
 	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
 	<!-- END header_title -->
 
-	<div class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+	<div class="viewcontrols">{VIEW_CONTROLS}</div>
 
-		<div class="header row" role="rowgroup">
-			<!-- BEGIN header_cell -->
-			<div class="header cell" role="columnheader" aria-colindex="{COL_INDEX}" aria-sort="{COL_SORTATION}">
-				{COL_TITLE}
+	<div class="c-table-data__table-wrapper">
+		<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+
+			<thead>
+				<tr class="c-table-data__header c-table-data__row" role="rowgroup">
+					
+					<!-- BEGIN header_rowselection_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
+						<div class="c-table-data__selection_all">{SELECTION_CONTROL_SELECT}</div>
+						<div class="c-table-data__selection_none">{SELECTION_CONTROL_DESELECT}</div>
+					</th>
+					<!-- END header_rowselection_cell -->
+	
+					<!-- BEGIN header_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" tabindex="-1" aria-colindex="{COL_INDEX}"<!-- BEGIN header_cell_sortation --> aria-sort="{COL_SORTATION}"<!-- END header_cell_sortation -->>
+						<div class="c-table-data__header__resize-wrapper">
+							<!-- BEGIN header_cell_sortglyph -->
+							{COL_SORTATION_GLYPH}
+							<!-- END header_cell_sortglyph -->
+							{COL_TITLE}
+						</div>
+					</th>
+					<!-- END header_cell -->
+	
+					<!-- BEGIN header_action_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="{COL_INDEX_ACTION}">{COL_TITLE_ACTION}</th>
+					<!-- END header_action_cell -->
+				</tr>
+			</thead>
+	
+			<tbody class="c-table-data__body" role="rowgroup">
+				<!-- BEGIN row -->
+				<tr class="c-table-data__row {ALTERNATION}" role="row">
+					{CELLS}
+				</tr>
+				<!-- END row -->
+			</tbody>
+	
+		</table>
+	</div>
+
+	<!-- BEGIN multi_action -->
+	<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+	{MULTI_ACTION_ALL_MODAL}
+	<!-- END multi_action -->
+
+	<div class="c-table-data__async_modal_container"></div>
+
+	<div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="c-table-data__async_messageresponse modal-body"></div>
 			</div>
-			<!-- END header_cell -->
 		</div>
-
-		<div class="body" role="rowgroup">
-			<!-- BEGIN row -->
-			<div class="row {ALTERNATION}" role="row">
-				{CELLS}
-			</div>
-			<!-- END row -->
-		</div>
-
 	</div>
 
 </div>

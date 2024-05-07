@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -33,7 +33,7 @@ use Closure;
 /**
  * This implements the password input.
  */
-class Password extends Input implements C\Input\Field\Password, Triggerable
+class Password extends FormInput implements C\Input\Field\Password, Triggerable
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -61,7 +61,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }
@@ -71,6 +71,10 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->string()->hasMinLength(1);
     }
 
@@ -83,7 +87,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         bool $upper = true,
         bool $numbers = true,
         bool $special = true
-    ): C\Input\Field\Input {
+    ): self {
         $pw_validation = $this->refinery->password();
         $constraints = [
             $this->refinery->string()->hasMinLength($min_length),

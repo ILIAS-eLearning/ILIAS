@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
@@ -39,12 +40,21 @@ class Standard extends File implements StandardDropzone
         SignalGeneratorInterface $signal_generator,
         FieldFactory $field_factory,
         NameSource $name_source,
-        FileInput $file_input,
         string $title,
         string $message,
-        string $post_url
+        string $post_url,
+        FileInput $file_input,
+        ?FormInput $additional_input
     ) {
-        parent::__construct($signal_generator, $field_factory, $name_source, $file_input, $title, $post_url);
+        parent::__construct(
+            $signal_generator,
+            $field_factory,
+            $name_source,
+            $title,
+            $post_url,
+            $file_input,
+            $additional_input,
+        );
         $this->message = $message;
     }
 

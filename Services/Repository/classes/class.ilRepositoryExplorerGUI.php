@@ -492,6 +492,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             case 'prg':
                     return $rbacsystem->checkAccess("read", $a_node["child"]);
 
+            case 'crs':
+            case 'grp':
+                return $rbacsystem->checkAccess("read", $a_node["child"]) ||
+                    $rbacsystem->checkAccess("join", $a_node["child"]);
+
             // all other types are only clickable, if read permission is given
             default:
                 if ($rbacsystem->checkAccess("read", $a_node["child"])) {

@@ -289,7 +289,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $prfa_set = new ilSetting("prfa");
 
-        if ($_FILES["banner"]["tmp_name"]) {
+        if (isset($_FILES["banner"]) && $_FILES["banner"]["tmp_name"]) {
             $this->object->uploadImage($_FILES["banner"]);
         } elseif ($prfa_set->get('banner') && $form->getItemByPostVar("banner")->getDeletionFlag()) {
             $this->object->deleteImage();

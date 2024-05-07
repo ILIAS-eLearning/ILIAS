@@ -6970,6 +6970,26 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   justify-content: space-between;
   flex-flow: row wrap;
 }
+.panel-flex .panel-heading .il-viewcontrol-sortation {
+  flex-shrink: 1;
+  order: 2;
+  margin-right: 9px;
+  margin-left: auto;
+}
+.panel-flex .panel-heading .dropdown {
+  flex-shrink: 1;
+  order: 3;
+}
+.panel-flex .panel-heading .il-viewcontrol-pagination,
+.panel-flex .panel-heading .il-viewcontrol-section {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  order: 4;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 9px;
+}
 .panel-flex .ilHeader {
   display: flex;
 }
@@ -6984,26 +7004,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
-}
-.panel-flex .il-viewcontrol-sortation {
-  flex-shrink: 1;
-  order: 2;
-  margin-right: 9px;
-  margin-left: auto;
-}
-.panel-flex .panel-heading .dropdown {
-  flex-shrink: 1;
-  order: 3;
-}
-.panel-flex .il-viewcontrol-pagination,
-.panel-flex .il-viewcontrol-section {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 100%;
-  order: 4;
-  background-color: #f9f9f9;
-  text-align: center;
-  padding-top: 9px;
 }
 .panel-primary h2.ilHeader {
   font-weight: 600;
@@ -7323,60 +7323,87 @@ input.btn {
     min-width: 0;
   }
 }
-.btn-default {
+.btn-default,
+.btn-ctrl {
   color: white;
   background-color: #4c6586;
   border-color: #4c6586;
 }
 .btn-default:focus,
-.btn-default.focus {
+.btn-ctrl:focus,
+.btn-default.focus,
+.btn-ctrl.focus {
   color: white;
   background-color: #3a4c65;
   border-color: #1e2835;
 }
-.btn-default:hover {
+.btn-default:hover,
+.btn-ctrl:hover {
   color: white;
   background-color: #3a4c65;
   border-color: #36485f;
 }
 .btn-default:active,
+.btn-ctrl:active,
 .btn-default.active,
-.open > .dropdown-toggle.btn-default {
+.btn-ctrl.active,
+.open > .dropdown-toggle.btn-default,
+.open > .dropdown-toggle.btn-ctrl {
   color: white;
   background-color: #3a4c65;
   background-image: none;
   border-color: #36485f;
 }
 .btn-default:active:hover,
+.btn-ctrl:active:hover,
 .btn-default.active:hover,
+.btn-ctrl.active:hover,
 .open > .dropdown-toggle.btn-default:hover,
+.open > .dropdown-toggle.btn-ctrl:hover,
 .btn-default:active:focus,
+.btn-ctrl:active:focus,
 .btn-default.active:focus,
+.btn-ctrl.active:focus,
 .open > .dropdown-toggle.btn-default:focus,
+.open > .dropdown-toggle.btn-ctrl:focus,
 .btn-default:active.focus,
+.btn-ctrl:active.focus,
 .btn-default.active.focus,
-.open > .dropdown-toggle.btn-default.focus {
+.btn-ctrl.active.focus,
+.open > .dropdown-toggle.btn-default.focus,
+.open > .dropdown-toggle.btn-ctrl.focus {
   color: white;
   background-color: #2d3b4f;
   border-color: #1e2835;
 }
 .btn-default.disabled:hover,
+.btn-ctrl.disabled:hover,
 .btn-default[disabled]:hover,
+.btn-ctrl[disabled]:hover,
 fieldset[disabled] .btn-default:hover,
+fieldset[disabled] .btn-ctrl:hover,
 .btn-default.disabled:focus,
+.btn-ctrl.disabled:focus,
 .btn-default[disabled]:focus,
+.btn-ctrl[disabled]:focus,
 fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-ctrl:focus,
 .btn-default.disabled.focus,
+.btn-ctrl.disabled.focus,
 .btn-default[disabled].focus,
-fieldset[disabled] .btn-default.focus {
+.btn-ctrl[disabled].focus,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-ctrl.focus {
   background-color: #4c6586;
   border-color: #4c6586;
 }
-.btn-default .badge {
+.btn-default .badge,
+.btn-ctrl .badge {
   color: #4c6586;
   background-color: white;
 }
-.btn-default:focus-visible {
+.btn-default:focus-visible,
+.btn-ctrl:focus-visible {
   position: relative;
 }
 .btn-primary {
@@ -7931,7 +7958,7 @@ ul.dropdown-menu > li > .btn:focus {
   border: 1px solid #4c6586;
   font-weight: 400;
 }
-.il-viewcontrol-pagination .dropdown-toggle {
+.il-viewcontrol-pagination > .dropdown-toggle {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -7961,6 +7988,38 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .panel-secondary .il-viewcontrol-section .glyphicon {
   font-size: 0.875rem;
+}
+.il-viewcontrols-form {
+  display: flex;
+  gap: 5px;
+}
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-menu {
+  padding: 6px 9px;
+}
+.il-viewcontrols-form .il-viewcontrol-pagination__sectioncontrol .btn-ctrl {
+  vertical-align: baseline;
+  padding: initial;
+  background-color: initial;
+  border: none;
+}
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret,
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret {
+  display: inline;
+  border: none;
+  vertical-align: initial;
+}
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret:before,
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+  font-size: 0.75rem;
+}
+.il-viewcontrols-form .il-viewcontrol-pagination .dropdown-toggle .caret:before {
+  font-family: il-icons;
+  content: "\e900";
+}
+.il-viewcontrols-form .il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+  font-family: "Glyphicons Halflings";
+  font-size: 0.72rem;
+  content: "\e105";
 }
 .breadcrumb_wrapper {
   width: 100%;
@@ -8929,6 +8988,200 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 }
 .il-table-data .header.cell {
   font-weight: 600;
+}
+.c-table-data .viewcontrols {
+  margin-bottom: 6px;
+}
+.c-table-data__table {
+  background-color: white;
+}
+.c-table-data__table-wrapper {
+  box-shadow: inset 0 0 1px 1px #dddddd;
+  background-color: #f0f0f0;
+}
+.c-table-data__cell {
+  background-color: white;
+  padding: 6px 12px;
+  border: 1px solid #dddddd;
+}
+.c-table-data__cell--multiaction {
+  padding-bottom: 9px;
+}
+@media only screen and (min-width: 768px) {
+  .c-table-data__row:hover td.c-table-data__cell {
+    background-color: #f0f0f0;
+  }
+}
+th.c-table-data__cell {
+  padding: 0;
+}
+@media only screen and (min-width: 768px) {
+  th.c-table-data__cell {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+  th.c-table-data__cell.c-table-data__header__rowselection {
+    padding: 12px 12px;
+    text-align: center;
+    position: sticky;
+    left: -2px;
+    z-index: 4;
+    background: #ffffff;
+    background: linear-gradient(90deg, #ffffff 85%, rgba(255, 255, 255, 0) 100%);
+  }
+  th.c-table-data__cell.c-table-data__header__rowaction {
+    padding: 12px 12px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .breadcrumbs + #mainspacekeeper th.c-table-data__cell {
+    top: 32px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  th.c-table-data__cell:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(180deg, #00000021, transparent);
+    z-index: 3;
+  }
+}
+.c-table-data__header__resize-wrapper {
+  padding: 12px 12px;
+  height: 100%;
+  margin: 0px;
+  display: block;
+  vertical-align: bottom;
+  max-height: 85px;
+  overflow: hidden;
+}
+.c-table-data__header__resize-wrapper:after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  display: block;
+  position: absolute;
+  height: 18px;
+  width: calc(100% - 10px);
+  background: linear-gradient(360deg, white, transparent);
+  pointer-events: none;
+}
+.c-table-data__rowselection {
+  min-width: 50px;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  .c-table-data__rowselection:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -5px;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.12941176), transparent);
+    z-index: 2;
+  }
+}
+.c-table-data__rowselection,
+.c-table-data__multiaction-triggerer {
+  position: -webkit-sticky;
+  position: sticky;
+  left: -1px;
+  z-index: 2;
+}
+.c-table-data__multiaction-triggerer {
+  margin-top: 6px;
+  width: fit-content;
+}
+.c-table-data__cell--link .c-table-data__header__resize-wrapper,
+.c-table-data__cell--linklisting .c-table-data__header__resize-wrapper,
+.c-table-data__cell--text .c-table-data__header__resize-wrapper {
+  min-width: 140px;
+  resize: horizontal;
+}
+.c-table-data__cell--email .c-table-data__header__resize-wrapper {
+  min-width: 200px;
+  resize: horizontal;
+}
+td.c-table-data__cell--email {
+  text-align: right;
+}
+.c-table-data__cell--number .c-table-data__header__resize-wrapper,
+.c-table-data__cell--status .c-table-data__header__resize-wrapper {
+  width: 110px;
+  resize: horizontal;
+}
+td.c-table-data__cell--number {
+  text-align: right;
+}
+.c-table-data__cell--date .c-table-data__header__resize-wrapper {
+  min-width: 110px;
+  resize: horizontal;
+}
+.c-table-data__cell--statusicon .c-table-data__header__resize-wrapper,
+.c-table-data__cell--boolean .c-table-data__header__resize-wrapper {
+  min-width: 40px;
+  resize: horizontal;
+}
+td.c-table-data__cell--highlighted {
+  background-color: #f9f9f9;
+}
+@media only screen and (min-width: 768px) {
+  .c-table-data__row:hover td.c-table-data__cell--highlighted {
+    background-color: #dedede;
+  }
+}
+.c-table-data__cell__col-title {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .c-table-data .c-table-data__table,
+  .c-table-data tbody,
+  .c-table-data .c-table-data__cell {
+    width: 100%;
+    display: block;
+    border: none;
+  }
+  .c-table-data tr.c-table-data__row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .c-table-data tr.c-table-data__row {
+    border-top: 1px solid #dddddd;
+    padding: 15px 0 15px;
+  }
+  .c-table-data .c-table-data__table {
+    border-bottom: 1px solid #dddddd;
+  }
+  .c-table-data thead {
+    display: none;
+  }
+  .c-table-data .c-table-data__cell__col-title {
+    display: inline;
+    font-weight: bold;
+  }
+  .c-table-data td.c-table-data__cell--email,
+  .c-table-data td.c-table-data__cell--number {
+    text-align: inherit;
+  }
+  .c-table-data td.c-table-data__cell--highlighted {
+    font-size: 1.5rem;
+    background-color: inherit;
+  }
+  .c-table-data .c-table-data__rowselection,
+  .c-table-data .c-table-data__rowaction {
+    order: -1;
+    width: auto;
+  }
+  .c-table-data .c-table-data__rowaction {
+    margin-left: auto;
+  }
 }
 .il-workflow {
   word-break: break-word;

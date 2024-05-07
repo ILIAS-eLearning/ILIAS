@@ -51,7 +51,7 @@ class assClozeTestImport extends assQuestionImport
         $packageIliasVersion = $item->getIliasSourceVersion('ILIAS_VERSION');
         $seperate_question_field = $item->getMetadataEntry("question");
 
-        $questiontext = null;
+        $questiontext = '';
         if (!$packageIliasVersion || version_compare($packageIliasVersion, '5.0.0', '<')) {
             $questiontext = '&nbsp;';
         } elseif ($seperate_question_field) {

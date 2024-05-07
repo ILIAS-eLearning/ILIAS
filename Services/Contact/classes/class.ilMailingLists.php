@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
@@ -144,6 +144,20 @@ class ilMailingLists
                 $mlist->delete();
             }
         }
+    }
+
+    public function deleteLists(): void
+    {
+        $this->db->manipulateF(
+            'DELETE ass FROM addressbook_mlist_ass ass INNER JOIN addressbook_mlist list ON ass.ml_id = list.ml_id WHERE list.user_id = %s',
+            ['integer'],
+            [$this->user->getId()]
+        );
+        $this->db->manipulateF(
+            'DELETE FROM addressbook_mlist WHERE user_id = %s',
+            ['integer'],
+            [$this->user->getId()]
+        );
     }
 
     public function deleteAssignments(): void

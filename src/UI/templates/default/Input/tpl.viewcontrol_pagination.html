@@ -1,0 +1,36 @@
+<div class="il-viewcontrol il-viewcontrol-pagination l-bar__element"<!-- BEGIN id --> id="{ID}" <!-- END id -->>
+
+
+    <!-- BEGIN section_part -->
+    <div class="dropdown il-viewcontrol-pagination__sectioncontrol">
+            <!-- BEGIN selection -->
+                <div class="btn btn-ctrl browse previous<!-- BEGIN left_disabled --> disabled<!-- END left_disabled -->">{LEFT}</div>
+                <!-- BEGIN entry -->
+                    <!-- BEGIN spacer -->
+                    <span class="il-viewcontrol-pagination__spacer">...</span>
+                    <!-- END spacer -->
+                    {ENTRY}
+                <!-- END entry -->
+                <div class="btn btn-ctrl browse next<!-- BEGIN right_disabled --> disabled<!-- END right_disabled -->">{RIGHT}</div>
+            <!-- END selection -->
+            <!-- BEGIN input -->
+                {INPUT}
+                {BUTTON}
+            <!-- END input -->
+
+    </div>
+    <!-- END section_part -->
+
+    <div class="dropdown il-viewcontrol-pagination__num-of-items">
+        <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown"<!-- BEGIN aria_label_limit --> aria-label="{ARIA_LABEL_LIMIT}"<!-- END aria_label_limit --> aria-haspopup="true" aria-expanded="false" aria-controls="{ID_MENU_LIMIT}"><span class="caret"></span></button>
+        <ul id="{ID_MENU_LIMIT}" class="dropdown-menu">
+            <!-- BEGIN option_limit -->
+            <li<!-- BEGIN selected --> class="selected"<!-- END selected -->>{OPTION_LIMIT}</li>
+            <!-- END option_limit -->
+        </ul>
+    </div>
+
+    <div class="il-viewcontrol-value hidden" role="none">
+        {VALUES}
+    </div>
+</div>

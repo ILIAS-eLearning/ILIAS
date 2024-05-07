@@ -846,6 +846,10 @@ class assFormulaQuestionResult
 
     public static function convertDecimalToCoprimeFraction($decimal_value, $tolerance = 1.e-9)
     {
+        if (empty($decimal_value)) {
+            return '';
+        }
+
         $to_string = (string) $decimal_value;
         $is_negative = strpos($to_string, '-') === 0;
         if ($is_negative) {

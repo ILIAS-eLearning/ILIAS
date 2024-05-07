@@ -1173,6 +1173,7 @@ class ilCtrl implements ilCtrlInterface
         $ampersand = ($is_escaped) ? '&amp;' : '&';
 
         foreach ($query_parameters as $parameter => $parameter_value) {
+            $parameter_value = urlencode($parameter_value);
             $new_url .= (strpos($new_url, '?') !== false) ?
                 $ampersand . "$parameter=$parameter_value" :
                 "?$parameter=$parameter_value";

@@ -1019,13 +1019,11 @@ class ilBookingProcessGUI
         if (!$id) {
             return;
         }
-
         // placeholder
-
         $book_ids = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner);
         $tmp = array();
         foreach ($book_ids as $book_id) {
-            if (in_array($book_id, $this->rsv_ids)) {
+            if (in_array($book_id, $this->rsv_ids) || count($this->rsv_ids) === 0) {
                 $obj = new ilBookingReservation($book_id);
                 $from = $obj->getFrom();
                 $to = $obj->getTo();

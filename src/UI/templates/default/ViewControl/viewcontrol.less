@@ -24,7 +24,7 @@
 	}
 }
 
-.il-viewcontrol-pagination .dropdown-toggle {
+.il-viewcontrol-pagination > .dropdown-toggle {
 	padding-top: 0;
 	padding-bottom: 0;
 }
@@ -63,5 +63,40 @@
 
 	.glyphicon {
 		font-size: @il-font-size-base;
+	}
+}
+
+// new UI Input View Controls - backport from 9, but  look from 8
+.il-viewcontrols-form {
+	display: flex;
+	gap: 5px;
+	.il-viewcontrol-fieldselection .dropdown-menu {
+		padding: @il-padding-large-vertical @il-padding-base-horizontal;
+	}
+	.il-viewcontrol-pagination__sectioncontrol {
+		.btn-ctrl {
+			vertical-align: baseline;
+			padding: initial;
+			background-color: initial;
+			border: none;
+		}
+	}
+	.il-viewcontrol-pagination .dropdown-toggle .caret,
+	.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+		display: inline;
+		border: none;
+		vertical-align: initial;
+		&:before {
+			font-size: 0.75rem;
+		}
+	}
+	.il-viewcontrol-pagination .dropdown-toggle .caret:before {
+		font-family: il-icons;
+		content: "\e900";
+	}
+	.il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+		font-family: "Glyphicons Halflings";
+		font-size: 0.72rem;
+		content: "\e105";
 	}
 }

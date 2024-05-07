@@ -75,6 +75,9 @@ class StandardGUIRequest
 
     public function getReservationIdsFromString(): array
     {
+        if ($this->str("rsv_ids") === "") {
+            return [];
+        }
         return explode(";", $this->str("rsv_ids"));
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Table\Column;
 
 interface Number extends Column
 {
-    public function withDecimals(int $number_of_decimals): Number;
-    public function getDecimals(): int;
+    public const UNIT_POSITION_FORE = 'FORE';
+    public const UNIT_POSITION_AFT = 'AFT';
+
+    public function withDecimals(int $number_of_decimals): self;
+    public function withUnit(string $unit, string $unit_position = self::UNIT_POSITION_AFT): self;
 }

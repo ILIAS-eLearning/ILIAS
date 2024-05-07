@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -71,7 +71,7 @@ class ilMailingListsGUI
             !ilBuddySystem::getInstance()->isEnabled() ||
             (
                 0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) &&
-                $this->mlists->hasAny()
+                !$this->mlists->hasAny()
             )
         ) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);

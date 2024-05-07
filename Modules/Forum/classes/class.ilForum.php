@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class Forum
@@ -1080,8 +1080,10 @@ class ilForum
         $res = $this->db->queryF($query, $data_types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
             if (
-                'g' === $row['public_profile'] ||
-                (!$this->user->isAnonymous() && in_array($row['public_profile'], ['y', 'g'], true))
+                !in_array($row['public_profile'], [
+                    ilPersonalProfileMode::PROFILE_ENABLED_LOGGED_IN_USERS,
+                    ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL], true)
+                || ($this->user->isAnonymous() && $row['public_profile'] !== ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL)
             ) {
                 $row['lastname'] = '';
                 $row['firstname'] = '';

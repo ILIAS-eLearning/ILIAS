@@ -1725,6 +1725,13 @@ class ilInitialisation
             return true;
         }
 
+        if (
+            (strtolower($requestCmdClass ?? "") === strtolower(ilAccessibilityControlConceptGUI::class))
+        ) {
+            ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
+            return true;
+        }
+
         if ($a_current_script == 'goto.php' && in_array($target, array(
                 'usr_registration',
                 'usr_nameassist',

@@ -1426,10 +1426,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->dropConstraint($table_name, "PRIMARY", true);
     }
 
-    public function executeMultiple(array $stmt, array $data): array
+    public function executeMultiple(ilDBStatement $stmt, array $data): array
     {
-        foreach ($stmt as $k => $s) {
-            $s->execute($data[$k]);
+        foreach ($data as $set) {
+            $this->execute($stmt, $set);
         }
         return [];
     }

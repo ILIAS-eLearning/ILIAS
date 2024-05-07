@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input;
 
@@ -143,7 +143,7 @@ interface Factory
      *     There is usually no way of inputting "free" data, like in text-fields e.g.,
      *     but rather a choice of options suitable for and adjusted to the data's
      *     representation.
-     *     Control Inputs are used in View Control Container Inputs.
+     *     View Control Inputs are used in a View Control Container.
      *
      *   effect: >
      *     When operating a View Control, the effect will reflect immediately in the
@@ -153,6 +153,7 @@ interface Factory
      *   usage:
      *      1: View Controls MUST reside in a View Control Container.
      *      2: View Controls MUST be visually close to the visualization their operation will have effect upon.
+     *      3: View Controls MUST effect one visualization only.
      *   accessibility:
      *      1: View  Controls MUST be operable via keyboard only.
      *

@@ -20,18 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Triggerer;
-
 /**
- * This describes the basis of all View Control Inputs.
+ * This is a legacy support of Component\Input\ViewControl\ViewControl 
+ * that has been moved to Component\Input\Container\ViewControl\ViewControlInput.
+ * 
+ * Please always hint to \ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput
+ * 
+ * @deprecated removed in 9
  */
-interface ViewControl extends Component, Input, Triggerer
+interface ViewControl
 {
-    /**
-     * Trigger this signal when the control is being operated.
-     */
-    public function withOnChange(Signal $signal): ViewControl;
 }

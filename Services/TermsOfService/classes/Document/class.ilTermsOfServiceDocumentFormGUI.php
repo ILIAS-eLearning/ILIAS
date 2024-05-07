@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -152,9 +152,11 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         }
 
         if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
-            try {
-                $this->fileUpload->process();
+            $this->fileUpload->process();
+        }
 
+        if ($this->fileUpload->hasUploads()) {
+            try {
                 /** @var UploadResult|null $uploadResult */
                 $uploadResult = array_values($this->fileUpload->getResults())[0];
                 if (!($uploadResult instanceof UploadResult)) {

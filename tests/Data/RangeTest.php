@@ -88,15 +88,6 @@ class RangeTest extends TestCase
         $range = $range->withLength(-1);
     }
 
-    /**
-     * @depends testFactory
-     */
-    public function testNullLength(Range $range): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $range = $range->withLength(0);
-    }
-
     public function testConstructionWrongStart(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -111,10 +102,31 @@ class RangeTest extends TestCase
         $range = $f->range(1, -2);
     }
 
-    public function testConstructionNullLength(): void
+    /**
+     * @dataProvider cropCases
+     */
+    public function testCroppedTo($start, $length, $max, $has_changed): void
     {
-        $this->expectException(InvalidArgumentException::class);
         $f = new ILIAS\Data\Factory();
-        $range = $f->range(1, 0);
+        $range = $f->range($start, $length);
+        $cropped = $range->croppedTo($max);
+
+        if (!$has_changed) {
+            $this->assertEquals($range, $cropped);
+        } else {
+            $this->assertEquals(min($max, $start), $cropped->getStart());
+            $this->assertEquals($max, $cropped->getEnd());
+        }
+    }
+
+    public function cropCases(): array
+    {
+        return [
+            [0, 100, 1000, false],
+            [0, 1000, 100, true],
+            [50, 100, 75, true],
+            [50, 100, 200, false],
+            [100, 100, 50, true]
+        ];
     }
 }

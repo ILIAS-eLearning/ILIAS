@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -51,7 +51,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
         $options = array(
@@ -59,11 +59,11 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $ms = $f->multiSelect("label", $options, "byline");
-        $this->assertInstanceOf(Field\Input::class, $ms);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $ms);
         $this->assertInstanceOf(Field\MultiSelect::class, $ms);
     }
 
-    public function test_options(): void
+    public function testOptions(): void
     {
         $f = $this->buildFactory();
         $options = array(
@@ -74,7 +74,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($options, $ms->getOptions());
     }
 
-    public function test_only_accepts_actual_options_from_client_side(): void
+    public function testOnlyAcceptsActualOptionsFromClientSide(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->buildFactory();
@@ -100,11 +100,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             public function get($_): void
             {
             }
+            public function has($name): bool
+            {
+            }
         });
         $ms->getContent();
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();
@@ -140,7 +143,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();
@@ -186,7 +189,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();

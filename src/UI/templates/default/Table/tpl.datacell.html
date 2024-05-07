@@ -1,5 +1,17 @@
+<!-- BEGIN rowselection_cell -->
+<td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
+	<input type="checkbox" value="{ROW_ID}" class="c-table-data__row-selector">
+</td>
+<!-- END rowselection_cell -->
+
 <!-- BEGIN cell -->
-<div class="cell {COL_TYPE}" role="gridcell" aria-colindex="{COL_INDEX}" tabindex="-1">
-	{CELL_CONTENT}
-</div>
+<td class="c-table-data__cell c-table-data__cell--{COL_TYPE} <!-- BEGIN highlighted --> c-table-data__cell--highlighted<!-- END highlighted -->" role="gridcell" aria-colindex="{COL_INDEX}" <!-- BEGIN with_col_span -->colspan="{COL_SPAN}"<!-- END with_col_span --> tabindex="-1">
+	<span class="c-table-data__cell__col-title">{CELL_COL_TITLE}: </span>{CELL_CONTENT}
+</td>
 <!-- END cell -->
+
+<!-- BEGIN rowaction_cell -->
+<td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
+	{ACTION_CONTENT}
+</td>
+<!-- END rowaction_cell -->
