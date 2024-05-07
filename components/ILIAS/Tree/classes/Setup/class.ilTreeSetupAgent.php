@@ -59,7 +59,7 @@ class ilTreeSetupAgent implements Agent
         return new ilDatabaseUpdateStepsExecutedObjective(new ilTreeDBUpdateSteps8());
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Objective\NullObjective();
     }

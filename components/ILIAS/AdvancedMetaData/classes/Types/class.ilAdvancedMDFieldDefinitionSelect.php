@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericData;
+use ILIAS\AdvancedMetaData\Repository\FieldDefinition\TypeSpecificData\Select\Gateway;
+use ILIAS\AdvancedMetaData\Repository\FieldDefinition\TypeSpecificData\Select\DatabaseGatewayImplementation;
+use ILIAS\AdvancedMetaData\Data\FieldDefinition\TypeSpecificData\Select\SelectSpecificData;
+use ILIAS\AdvancedMetaData\Data\FieldDefinition\TypeSpecificData\Select\SelectSpecificDataImplementation;
+
 /**
  * AMD field type select
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -25,18 +31,31 @@ declare(strict_types=1);
  */
 class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 {
-    public const REMOVE_ACTION_ID = "-iladvmdrm-";
+    private const REMOVE_ACTION_ID = "-iladvmdrm-";
+    private const ADD_NEW_ENTRY_ID = "-advmd_add_new_entry-";
 
-    protected ?array $options = null;
     protected array $confirm_objects = [];
     protected array $confirm_objects_values = [];
     protected ?array $confirmed_objects = null;
-    protected ?array $old_options = null;
+    protected ?array $old_options_array = null;
+    protected SelectSpecificData $options;
 
-    protected array $option_translations = [];
-    public function __construct(?int $a_field_id = null, string $language = '')
+    protected string $default_language;
+
+    private \ilGlobalTemplateInterface $main_tpl;
+
+    private Gateway $db_gateway;
+
+    public function __construct(GenericData $generic_data, string $language = '')
     {
-        parent::__construct($a_field_id, $language);
+        global $DIC;
+
+        parent::__construct($generic_data, $language);
+
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->db_gateway = new DatabaseGatewayImplementation($DIC->database());
+
+        $this->readOptions();
     }
 
     public function getType(): int
@@ -54,61 +73,46 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Enum");
         $def->setNumeric(false);
 
-        $options = $this->getOptions();
-        $translated_options = [];
-        if (isset($this->getOptionTranslations()[$this->language])) {
-            $translated_options = $this->getOptionTranslations()[$this->language];
-        }
-        $def->setOptions(array_replace($options, $translated_options));
+        $def->setOptions($this->getOptionsInLanguageAsArray($this->language));
         return $def;
     }
 
-    public function setOptions(array $a_values = null): void
-    {
-        if ($a_values !== null) {
-            foreach ($a_values as $idx => $value) {
-                $a_values[$idx] = trim($value);
-                if (!$a_values[$idx]) {
-                    unset($a_values[$idx]);
-                }
-            }
-            $a_values = array_unique($a_values);
-        }
-        $this->options = $a_values;
-    }
-
-    public function getOptions(): ?array
+    protected function options(): SelectSpecificData
     {
         return $this->options;
     }
 
-    public function getOptionTranslations(): array
+    public function getOptionsInDefaultLanguageAsArray(): ?array
     {
-        return $this->option_translations;
-    }
-
-    public function getOptionTranslation(string $language): array
-    {
-        if (isset($this->getOptionTranslations()[$language])) {
-            return $this->getOptionTranslations()[$language];
+        $default_language_values = [];
+        foreach ($this->options()->getOptions() as $option) {
+            if ($translation = $option->getTranslationInLanguage($this->default_language)) {
+                $default_language_values[$option->optionID()] = $translation->getValue();
+            }
         }
-        return [];
+        return $default_language_values;
     }
 
-    public function setOptionTranslations(array $translations): void
-    {
-        $this->option_translations = $translations;
-    }
-
-    public function setOptionTranslationsForLanguage(array $translations, string $language): void
-    {
-        $this->option_translations[$language] = $translations;
+    protected function getOptionsInLanguageAsArray(
+        string $language,
+        bool $default_as_fallback = true
+    ): ?array {
+        $current_language_values = [];
+        foreach ($this->options()->getOptions() as $option) {
+            if ($translation = $option->getTranslationInLanguage($language)) {
+                $current_language_values[$option->optionID()] = $translation->getValue();
+            } elseif (
+                $default_as_fallback &&
+                $translation = $option->getTranslationInLanguage($this->default_language)
+            ) {
+                $current_language_values[$option->optionID()] = $translation->getValue();
+            }
+        }
+        return $current_language_values;
     }
 
     protected function importFieldDefinition(array $a_def): void
     {
-        // options (field_values from adv_mdf_field_definitions are not used)
-        $this->setOptions([]);
     }
 
     protected function getFieldDefinition(): array
@@ -118,17 +122,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function getFieldDefinitionForTableGUI(string $content_language): array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (strlen($content_language)) {
-            $options = $this->getOptionTranslation($content_language);
+            $options = $this->getOptionsInLanguageAsArray($content_language);
         } else {
-            $options = $this->getOptions();
+            $options = $this->getOptionsInDefaultLanguageAsArray();
         }
         return [
-            $lng->txt("meta_advmd_select_options") => implode(",", $options)
+            $this->lng->txt("meta_advmd_select_options") => implode(",", $options)
         ];
     }
 
@@ -142,22 +142,151 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             return;
         }
 
-        // if not the default language is chosen => no add/remove; no sorting
-        $field = new ilTextInputGUI($this->lng->txt("meta_advmd_select_options"), "opts");
+        if (!$this->options()->hasOptions()) {
+            $this->addCreateOptionsFieldsToDefinitionForm($a_form, $a_disabled);
+            return;
+        }
+
+        $this->addEditOptionsFieldsToDefinitionForm($this->options(), $a_form, $a_disabled);
+    }
+
+    protected function addCreateOptionsFieldsToDefinitionForm(
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled
+    ): void {
+        $field = new ilTextInputGUI($this->lng->txt('meta_advmd_select_options'), 'opts_new');
         $field->setRequired(true);
-        $field->setMulti(true, true);
-        $field->setMaxLength(255); // :TODO:
+        $field->setMulti(true);
+        $field->setMaxLength(255);
+        $field->setDisabled($a_disabled);
+
         $a_form->addItem($field);
+    }
 
-        $options = $this->getOptions();
-        if ($options) {
-            $field->setMultiValues($options);
-            $field->setValue(array_shift($options));
+    protected function addEditOptionsFieldsToDefinitionForm(
+        SelectSpecificData $options,
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled
+    ): void {
+        $entries = new ilRadioGroupInputGUI(
+            $this->lng->txt('meta_advmd_select_options_edit'),
+            'opts_edit'
+        );
+
+        $position_identifiers = [
+            '0' => $this->lng->txt('meta_advmd_select_first_position_identifier')
+        ];
+        foreach ($options->getOptions() as $option) {
+            $position_identifiers[(string) ($option->getPosition() + 1)] = sprintf(
+                $this->lng->txt('meta_advmd_select_position_identifier'),
+                $option->getTranslationInLanguage($this->default_language)->getValue()
+            );
         }
 
-        if ($a_disabled) {
-            $field->setDisabled(true);
+        $disabled_checkbox_overwrites = [];
+
+        foreach ($options->getOptions() as $option) {
+            $option_value = $option->getTranslationInLanguage($this->default_language)->getValue();
+            $hidden = $this->addRadioToEntriesGroup(
+                $entries,
+                $position_identifiers,
+                $option->getPosition(),
+                $option_value,
+                $option_value,
+                (string) $option->optionID(),
+                count(iterator_to_array($options->getOptions())) > 1,
+                $a_disabled
+            );
+            if (!is_null($hidden)) {
+                $disabled_checkbox_overwrites[] = $hidden;
+            }
         }
+
+        /*
+         * Add radio to add new entry
+         */
+        $this->addRadioToEntriesGroup(
+            $entries,
+            $position_identifiers,
+            null,
+            $this->lng->txt('meta_advmd_select_new_option'),
+            '',
+            self::ADD_NEW_ENTRY_ID,
+            false,
+            $a_disabled
+        );
+
+        $entries->setDisabled($a_disabled);
+        $a_form->addItem($entries);
+
+        foreach ($disabled_checkbox_overwrites as $input) {
+            $a_form->addItem($input);
+        }
+    }
+
+    /**
+     * Returns hidden inputs if a disabled checkbox is in the radio,
+     * such that we can use the workaround for having disabled checkboxes still
+     * write to post.
+     */
+    protected function addRadioToEntriesGroup(
+        ilRadioGroupInputGUI $entries,
+        array $position_select_options,
+        ?int $position_value,
+        string $label,
+        string $value,
+        string $id,
+        bool $with_delete_checkbox,
+        bool $disabled
+    ): ?ilHiddenInputGUI {
+        $disabled_checkbox_overwrite = null;
+        $radio = new ilRadioOption($label, $id);
+
+        $value_input = new ilTextInputGUI(
+            $this->lng->txt('meta_advmd_select_option_value'),
+            'value_' . $id
+        );
+        $value_input->setRequired(true);
+        $value_input->setMaxLength(255);
+        $value_input->setValue($value);
+        $value_input->setDisabled($disabled);
+        $radio->addSubItem($value_input);
+
+        $position = new ilSelectInputGUI(
+            $this->lng->txt('meta_advmd_select_option_position'),
+            'position_' . $id
+        );
+        $relevant_position_select_options = $position_select_options;
+        if (!is_null($position_value) && isset($relevant_position_select_options[$position_value + 1])) {
+            unset($relevant_position_select_options[$position_value + 1]);
+        }
+        $position->setOptions($relevant_position_select_options);
+        $position->setValue($position_value);
+        $position->setDisabled($disabled);
+        $radio->addSubItem($position);
+
+        if ($with_delete_checkbox) {
+            $delete = new ilCheckboxInputGUI(
+                $this->lng->txt('meta_advmd_select_delete_option'),
+                'delete_me_' . $id
+            );
+            $delete->setDisabled($disabled);
+            $radio->addSubItem($delete);
+
+            /*
+             * If disabled, checkboxes don't come with a hidden input to write to post,
+             * this is a workaround.
+             */
+            if ($disabled) {
+                $hidden = new ilHiddenInputGUI('delete_me_' . $id);
+                $hidden->setValue("1");
+                $disabled_checkbox_overwrite = $hidden;
+            }
+        }
+
+        $radio->setDisabled($disabled);
+        $entries->addOption($radio);
+        return $disabled_checkbox_overwrite;
     }
 
     protected function addCustomFieldToDefinitionFormInTranslationMode(
@@ -165,24 +294,29 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         bool $disabled,
         string $language = ''
     ): void {
-        $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id)->getDefaultLanguage();
-
-        $translation = $this->getOptionTranslation($language);
+        $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
 
         $first = true;
-        foreach ($this->getOptions() as $index => $option) {
+        foreach ($this->options()->getOptions() as $option) {
             $title = '';
             if ($first) {
                 $title = $this->lng->txt("meta_advmd_select_options");
             }
             $text = new ilTextInputGUI(
                 $title,
-                'opts__' . $language . '__' . $index
+                'opts__' . $language . '__' . $option->optionID()
             );
-            if (isset($translation[$index])) {
-                $text->setValue($translation[$index]);
+
+            if ($option->hasTranslationInLanguage($language)) {
+                $text->setValue($option->getTranslationInLanguage($language)->getValue());
             }
-            $text->setInfo($default_language . ': ' . $option);
+
+            $default_value = '';
+            if ($option->hasTranslationInLanguage($default_language)) {
+                $default_value = $option->getTranslationInLanguage($default_language)->getValue();
+            }
+
+            $text->setInfo($default_language . ': ' . $default_value);
             $text->setMaxLength(255);
             $text->setRequired(true);
 
@@ -263,67 +397,108 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             return;
         }
 
+        $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+            $this->getADTDefinition(),
+            false,
+            $multi
+        );
+
         if (!strlen($language)) {
-            $language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
+            $language = $this->default_language;
         }
 
-        $old = $this->getOptionTranslation($language);
-        $new = $a_form->getInput("opts");
-
-        $missing = array_diff_assoc($old, $new);
-        // keep track of the indices of entries persisting through the operation
-        $index_map = [];
-        foreach ($missing as $missing_idx => $missing_value) {
-            if (in_array($missing_value, $new)) {
-                $index_map[$missing_idx] = array_search($missing_value, $new);
+        if ($new = $a_form->getInput('opts_new')) {
+            foreach ($new as $position => $value) {
+                $new_option = $this->options()->addOption();
+                $new_option->setPosition((int) $position);
+                $new_translation = $new_option->addTranslation($language);
+                $new_translation->setValue(trim($value));
             }
+            return;
         }
 
-        if (sizeof($missing)) {
+        $edited_id = $a_form->getInput('opts_edit');
+        if ($edited_id === '' || is_null($edited_id)) {
+            return;
+        }
+        if ($edited_id !== self::ADD_NEW_ENTRY_ID) {
+            $edited_id = (int) $edited_id;
+        }
+
+        $this->old_options_array = $this->getOptionsInLanguageAsArray($language);
+
+        /*
+         * Delete option if needed
+         */
+        if ($a_form->getInput('delete_me_' . $edited_id) && $edited_id !== self::ADD_NEW_ENTRY_ID) {
+            $old_option_value = $this->options()
+                                     ->getOption($edited_id)
+                                     ?->getTranslationInLanguage($language)?->getValue() ?? '';
+            $this->options()->removeOption($edited_id);
+
+            /*
+             * If option is to be deleted, collect objects whith that value and
+             * and prepare confirmation of their migration.
+             */
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
             $already_confirmed = is_array($this->confirmed_objects);
 
-            $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
-                $this->getADTDefinition(),
-                false,
-                $multi
-            );
-            foreach ($missing as $missing_idx => $missing_value) {
-                $in_use = $this->findBySingleValue($search, $missing_idx);
-                if (is_array($in_use)) {
-                    foreach ($in_use as $item) {
-                        if (array_key_exists($missing_idx, $index_map)) {
-                            $complete_id = $item[0] . "_" . $item[1] . "_" . $item[2];
-                            $new_index = $index_map[$missing_idx];
-                            $this->confirmed_objects[$missing_idx][$complete_id] = $new_index;
-                            continue;
-                        }
-                        if (!$already_confirmed) {
-                            $this->confirm_objects[$missing_idx][] = $item;
-                            $this->confirm_objects_values[$missing_idx] = $old[$missing_idx];
-                        }
+            $in_use = $this->findBySingleValue($search, $edited_id);
+            if (is_array($in_use)) {
+                foreach ($in_use as $item) {
+                    if (!$already_confirmed) {
+                        $this->confirm_objects[$edited_id][] = $item;
+                        $this->confirm_objects_values[$edited_id] = $old_option_value;
                     }
                 }
             }
-        }
-        $this->old_options = $old;
 
-        // update the options along with their translations
-        $this->setOptionTranslationsForLanguage($new, $language);
-        foreach ($this->getOptionTranslations() as $current_lang => $options) {
-            $current_lang = (string) $current_lang;
-            if ($current_lang === $language) {
+            return;
+        }
+
+        $new_value = (string) $a_form->getInput('value_' . $edited_id);
+        $new_position = (int) $a_form->getInput('position_' . $edited_id);
+
+        /*
+         * Create new option if needed, else assign the new value
+         */
+        if ($edited_id === self::ADD_NEW_ENTRY_ID) {
+            $edited_option = $this->options()->addOption();
+        } else {
+            $edited_option = $this->options()->getOption($edited_id);
+        }
+
+        if ($edited_option->hasTranslationInLanguage($this->default_language)) {
+            $edited_option->getTranslationInLanguage($this->default_language)->setValue($new_value);
+        } else {
+            $edited_option->addTranslation($this->default_language)->setValue($new_value);
+        }
+
+        /*
+         * Update positions and value
+         * If an entry is is moved down, shift new position to reflect entry not
+         * being in its old position anymore.
+         */
+        if ($new_position > $edited_option->getPosition()) {
+            $new_position -= 1;
+        }
+
+        $position = 0;
+        if ($position === $new_position) {
+            $edited_option->setPosition($position);
+            $position++;
+        }
+        foreach ($this->options()->getOptions() as $option) {
+            if ($option === $edited_option) {
                 continue;
             }
-            $updated_translations = [];
-            foreach ($options as $idx => $option) {
-                if (array_key_exists($idx, $index_map)) {
-                    $updated_translations[$index_map[$idx]] = $option;
-                    continue;
-                }
-                $updated_translations[$idx] = $option;
+            $option->setPosition($position);
+            $position++;
+
+            if ($position === $new_position) {
+                $edited_option->setPosition($position);
+                $position++;
             }
-            $this->setOptionTranslationsForLanguage($updated_translations, $current_lang);
         }
     }
 
@@ -355,14 +530,17 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     protected function importTranslatedFormPostValues(ilPropertyFormGUI $form, string $language): void
     {
-        $translated_options = [];
-        foreach ($this->getOptions() as $idx => $value) {
-            $value = $form->getInput('opts__' . $language . '__' . $idx);
-            $translated_options[] = trim($value);
+        foreach ($this->options()->getOptions() as $option) {
+            $value = $form->getInput('opts__' . $language . '__' . $option->optionID());
+            $value = trim($value);
+
+            if ($option->hasTranslationInLanguage($language)) {
+                $option->getTranslationInLanguage($language)->setValue($value);
+                continue;
+            }
+            $new_translation = $option->addTranslation($language);
+            $new_translation->setValue($value);
         }
-        $translations = $this->getOptionTranslations();
-        $translations[$language] = $translated_options;
-        $this->setOptionTranslations($translations);
     }
 
     public function importDefinitionFormPostValuesNeedsConfirmation(): bool
@@ -379,27 +557,39 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $post_conf_det = (array) ($this->http->request()->getParsedBody()['conf_det'] ?? []);
         $post_conf = (array) ($this->http->request()->getParsedBody()['conf'] ?? []);
 
-        $a_form->getItemByPostVar("opts")->setDisabled(true);
-        if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
-            $new_options = $a_form->getInput("opts");
+        $custom_field = $a_form->getItemByPostVar('opts_edit');
+        $custom_field->setDisabled(true);
+        foreach ($custom_field->getSubInputItemsRecursive() as $sub_input) {
+            $sub_input->setDisabled(true);
+            /*
+             * If disabled, checkboxes don't come with a hidden input to write to post,
+             * this is a workaround.
+             */
+            if ($sub_input instanceof ilCheckboxInputGUI) {
+                $hidden = new ilHiddenInputGUI($sub_input->getPostVar());
+                $hidden->setValue($sub_input->getValue());
+                $a_form->addItem($hidden);
+            }
+        }
 
+        if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
             $sec = new ilFormSectionHeaderGUI();
             $sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
             $a_form->addItem($sec);
 
-            foreach ($this->confirm_objects as $old_option => $items) {
-                $old_option_value = $this->confirm_objects_values[$old_option];
+            foreach ($this->confirm_objects as $old_option_index => $items) {
+                $old_option_value = $this->confirm_objects_values[$old_option_index];
                 $details = new ilRadioGroupInputGUI(
                     $lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"',
-                    "conf_det[" . $this->getFieldId() . "][" . $old_option . "]"
+                    "conf_det[" . $this->getFieldId() . "][" . $old_option_index . "]"
                 );
                 $details->setRequired(true);
                 $details->setValue("sum");
                 $a_form->addItem($details);
 
                 // automatic reload does not work
-                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
-                    $details->setValue($post_conf_det[$this->getFieldId()][$old_option]);
+                if (isset($post_conf_det[$this->getFieldId()][$old_option_index])) {
+                    $details->setValue($post_conf_det[$this->getFieldId()][$old_option_index]);
                 }
 
                 $sum = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_all"), "sum");
@@ -407,24 +597,26 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                 $sel = new ilSelectInputGUI(
                     $lng->txt("md_adv_confirm_definition_select_option_all_action"),
-                    "conf_det_act[" . $this->getFieldId() . "][" . $old_option . "]"
+                    "conf_det_act[" . $this->getFieldId() . "][" . $old_option_index . "]"
                 );
                 $sel->setRequired(true);
                 $options = array(
                     "" => $lng->txt("please_select"),
                     self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                 );
-                foreach ($new_options as $new_option_index => $new_option) {
-                    $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
+                foreach ($this->options()->getOptions() as $new_option) {
+                    $new_id = $new_option->optionID();
+                    $new_value = $new_option->getTranslationInLanguage($this->default_language)->getValue();
+                    $options['idx_' . $new_id] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_value . '"';
                 }
                 $sel->setOptions($options);
                 $sum->addSubItem($sel);
 
                 // automatic reload does not work
-                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
-                    if ($post_conf_det[$this->getFieldId()][$old_option]) {
-                        $sel->setValue($post_conf_det[$this->getFieldId()][$old_option]);
-                    } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sum") {
+                if (isset($post_conf_det[$this->getFieldId()][$old_option_index])) {
+                    if ($post_conf_det[$this->getFieldId()][$old_option_index]) {
+                        $sel->setValue($post_conf_det[$this->getFieldId()][$old_option_index]);
+                    } elseif ($post_conf_det[$this->getFieldId()][$old_option_index] == "sum") {
                         $sel->setAlert($lng->txt("msg_input_is_required"));
                         $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                     }
@@ -466,23 +658,25 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                     $sel = new ilSelectInputGUI(
                         $type_title . ' ' . $title,
-                        "conf[" . $this->getFieldId() . "][" . $old_option . "][" . $item_id . "]"
+                        "conf[" . $this->getFieldId() . "][" . $old_option_index . "][" . $item_id . "]"
                     );
                     $sel->setRequired(true);
                     $options = array(
                         "" => $lng->txt("please_select"),
                         self::REMOVE_ACTION_ID => $lng->txt("md_adv_confirm_definition_select_option_remove")
                     );
-                    foreach ($new_options as $new_option_index => $new_option) {
-                        $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
+                    foreach ($this->options()->getOptions() as $new_option) {
+                        $new_id = $new_option->optionID();
+                        $new_value = $new_option->getTranslationInLanguage($this->default_language)->getValue();
+                        $options['idx_' . $new_id] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_value . '"';
                     }
                     $sel->setOptions($options);
 
                     // automatic reload does not work
-                    if (isset($post_conf[$this->getFieldId()][$old_option][$item_id])) {
-                        if ($post_conf[$this->getFieldId()][$old_option][$item_id]) {
-                            $sel->setValue($post_conf[$this->getFieldId()][$old_option][$item_id]);
-                        } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sgl") {
+                    if (isset($post_conf[$this->getFieldId()][$old_option_index][$item_id])) {
+                        if ($post_conf[$this->getFieldId()][$old_option_index][$item_id]) {
+                            $sel->setValue($post_conf[$this->getFieldId()][$old_option_index][$item_id]);
+                        } elseif ($post_conf_det[$this->getFieldId()][$old_option_index] == "sgl") {
                             $sel->setAlert($lng->txt("msg_input_is_required"));
                             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                         }
@@ -496,43 +690,31 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function delete(): void
     {
-        $this->deleteOptionTranslations();
+        $this->deleteOptions();
         parent::delete();
     }
 
     public function save(bool $a_keep_pos = false): void
     {
         parent::save($a_keep_pos);
-        $this->saveOptionTranslations();
+        $this->saveOptions();
     }
 
-    protected function deleteOptionTranslations(): void
+    protected function deleteOptions(): void
     {
-        $query = 'delete from adv_mdf_enum ' .
-            'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER);
-        $this->db->manipulate($query);
+        $this->db_gateway->delete($this->getFieldId());
     }
 
-    protected function updateOptionTranslations(): void
+    protected function updateOptions(): void
     {
-        $this->deleteOptionTranslations();
-        $this->saveOptionTranslations();
+        $this->db_gateway->update($this->options());
+        $this->options = $this->db_gateway->readByID($this->getFieldId());
     }
 
-    protected function saveOptionTranslations(): void
+    protected function saveOptions(): void
     {
-        foreach ($this->getOptionTranslations() as $lang_key => $options) {
-            foreach ($options as $idx => $option) {
-                $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value )' .
-                    'values (  ' .
-                    $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ', ' .
-                    $this->db->quote($lang_key, ilDBConstants::T_TEXT) . ', ' .
-                    $this->db->quote($idx, ilDBConstants::T_INTEGER) . ', ' .
-                    $this->db->quote($option, ilDBConstants::T_TEXT) .
-                    ')';
-                $this->db->manipulate($query);
-            }
-        }
+        $this->db_gateway->create($this->getFieldId(), $this->options());
+        $this->options = $this->db_gateway->readByID($this->getFieldId());
     }
 
     public function update(): void
@@ -541,7 +723,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             // we need the "old" options for the search
             $def = $this->getADTDefinition();
             $def = clone($def);
-            $def->setOptions($this->old_options);
+            $def->setOptions($this->old_options_array);
             $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def, false, true);
             ilADTFactory::initActiveRecordByType();
 
@@ -549,7 +731,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
             foreach ($this->confirmed_objects as $old_option => $item_ids) {
                 // get complete old values
-                $old_values = array();
+                $old_values = [];
                 foreach ($this->findBySingleValue($search, $old_option) as $item) {
                     $old_values[$item[0] . "_" . $item[1] . "_" . $item[2]] = $item[3];
                 }
@@ -562,42 +744,32 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                     // update existing value (with changed option)
                     if (isset($old_values[$item])) {
-                        $old_value = $old_values[$item];
-                        // find changed option in old value
-                        //$old_value = explode(ilADTMultiEnumDBBridge::SEPARATOR, $old_values[$item]);
-                        // remove separators
-                        //array_shift($old_value);
-                        //array_pop($old_value);
+                        $old_id = $old_values[$item];
 
-                        //$old_idx = array_keys($old_value, $old_option);
-                        $old_idx = $old_value;
-                        if (isset($old_idx)) {
-                            $primary = array(
-                                "obj_id" => array("integer", $obj_id),
-                                "sub_type" => array("text", $sub_type),
-                                "sub_id" => array("integer", $sub_id),
-                                "field_id" => array("integer", $this->getFieldId())
-                            );
+                        $primary = array(
+                            "obj_id" => array("integer", $obj_id),
+                            "sub_type" => array("text", $sub_type),
+                            "sub_id" => array("integer", $sub_id),
+                            "field_id" => array("integer", $this->getFieldId())
+                        );
 
-                            $index_old = array_merge(
-                                $primary,
-                                [
-                                    'value_index' => [ilDBConstants::T_INTEGER, $old_idx]
-                                ]
-                            );
-                            $index_new = array_merge(
-                                $primary,
-                                [
-                                    'value_index' => [ilDBConstants::T_INTEGER, $new_option]
-                                ]
-                            );
-                            ilADTActiveRecordByType::deleteByPrimary('adv_md_values', $index_old, 'MultiEnum');
+                        $id_old = array_merge(
+                            $primary,
+                            [
+                                'value_index' => [ilDBConstants::T_INTEGER, $old_id]
+                            ]
+                        );
+                        $id_new = array_merge(
+                            $primary,
+                            [
+                                'value_index' => [ilDBConstants::T_INTEGER, $new_option]
+                            ]
+                        );
+                        ilADTActiveRecordByType::deleteByPrimary('adv_md_values', $id_old, 'MultiEnum');
 
-                            if (is_numeric($new_option)) {
-                                ilADTActiveRecordByType::deleteByPrimary('adv_md_values', $index_new, 'MultiEnum');
-                                ilADTActiveRecordByType::create('adv_md_values', $index_new, 'MultiEnum');
-                            } else {
-                            }
+                        if (is_numeric($new_option)) {
+                            ilADTActiveRecordByType::deleteByPrimary('adv_md_values', $id_new, 'MultiEnum');
+                            ilADTActiveRecordByType::create('adv_md_values', $id_new, 'MultiEnum');
                         }
                     }
 
@@ -619,28 +791,48 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         }
 
         parent::update();
-        $this->updateOptionTranslations();
+        $this->updateOptions();
     }
 
     protected function addPropertiesToXML(ilXmlWriter $a_writer): void
     {
-        foreach ($this->getOptions() as $value) {
-            $a_writer->xmlElement('FieldValue', null, $value);
-        }
-        foreach ($this->getOptionTranslations() as $lang_key => $translations) {
-            foreach ((array) $translations as $value) {
-                $a_writer->xmlElement('FieldValue', ['id' => $lang_key], $value);
+        foreach ($this->options()->getOptions() as $option) {
+            foreach ($option->getTranslations() as $translation) {
+                $a_writer->xmlElement(
+                    'FieldValue',
+                    ['id' => $translation->language()],
+                    $translation->getValue()
+                );
             }
         }
     }
 
+    /**
+     * Since the XML import only allows for a key-value pair, we also rely on
+     * the order of properties to sort translations into options.
+     */
     public function importXMLProperty(string $a_key, string $a_value): void
     {
-        if (!$a_key) {
-            $this->options[] = $a_value;
-        } else {
-            $this->option_translations[$a_key][] = $a_value;
+        $language = $a_key;
+
+        $associated_option = null;
+        $max_position = -1;
+        foreach ($this->options()->getOptions() as $option) {
+            if (
+                !$option->hasTranslationInLanguage($a_key) &&
+                !isset($associated_option)
+            ) {
+                $associated_option = $option;
+            }
+            $max_position = max($max_position, $option->getPosition());
         }
+        if (!isset($associated_option)) {
+            $associated_option = $this->options()->addOption();
+            $associated_option->setPosition($max_position + 1);
+        }
+
+        $new_translation = $associated_option->addTranslation($language);
+        $new_translation->setValue($a_value);
     }
 
     public function getValueForXML(ilADT $element): string
@@ -660,46 +852,25 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $a_bridge->setAutoSort(false);
     }
 
-    protected function import(array $a_data): void
+    protected function readOptions(): void
     {
-        parent::import($a_data);
-
-        $query = 'select * from adv_mdf_enum ' .
-            'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
-            'order by idx';
-        $res = $this->db->query($query);
-        $options = [];
-        $default = [];
-        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[(int) $row->idx] = (string) $row->value;
-            }
-            $options[(string) $row->lang_code][(int) $row->idx] = (string) $row->value;
+        if ($this->getFieldId()) {
+            $this->options = $this->db_gateway->readByID($this->getFieldId());
         }
-        $this->setOptions($default);
-        $this->setOptionTranslations($options);
+        if (!isset($this->options)) {
+            $this->options = new SelectSpecificDataImplementation();
+        }
+
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
+        $this->default_language = $record->getDefaultLanguage();
     }
 
     public function _clone(int $a_new_record_id): self
     {
         /** @var ilAdvancedMDFieldDefinitionSelect $obj */
         $obj = parent::_clone($a_new_record_id);
-        $query = 'select * from adv_mdf_enum ' .
-            'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
-            'order by idx';
-        $res = $this->db->query($query);
-        $options = [];
-        $default = [];
-        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[(int) $row->idx] = (string) $row->value;
-            }
-            $options[(string) $row->lang_code][(int) $row->idx] = (string) $row->value;
-        }
-        $obj->setOptions($default);
-        $obj->setOptionTranslations($options);
+        $this->db_gateway->delete($obj->getFieldId());
+        $this->db_gateway->create($obj->getFieldId(), $this->options());
         $obj->update();
         return $obj;
     }

@@ -44,7 +44,7 @@ class NullAgentTest extends TestCase
         $this->assertFalse($this->agent->hasConfig());
         $this->assertEquals($null, $this->agent->getInstallObjective());
         $this->assertEquals($null, $this->agent->getUpdateObjective());
-        $this->assertEquals($null, $this->agent->getBuildArtifactObjective());
+        $this->assertEquals($null, $this->agent->getBuildObjective());
         $this->assertEquals($null, $this->agent->getStatusObjective($this->storage));
         $this->assertEquals([], $this->agent->getMigrations());
     }

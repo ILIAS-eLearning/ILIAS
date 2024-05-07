@@ -281,9 +281,7 @@ class ilObjStyleSheet extends ilObject
             "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont", "ca_cntr", "ca_icntr", "ca_ihead", "ca_icont"),
         "question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
             "qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
-        "page" => array("page_frame", "page_cont", "page_title", "page_fn",
-            "page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
-            "page_lnavimage", "page_rnavimage")
+        "page" => array("page_cont", "page_title", "page_fn")
         );
 
     // these types are expandable, i.e. the user can define new style classes
@@ -346,18 +344,9 @@ class ilObjStyleSheet extends ilObject
         "qfeedr" => "div",
         "qfeedw" => "div",
         "qover" => "div",
-        "page_frame" => "div",
         "page_cont" => "div",
         "page_fn" => "div",
         "page" => "div",
-        "page_tnav" => "div",
-        "page_bnav" => "div",
-        "page_lnav" => "div",
-        "page_rnav" => "div",
-        "page_lnavlink" => "a",
-        "page_rnavlink" => "a",
-        "page_lnavimage" => "img",
-        "page_rnavimage" => "img",
         "page_title" => "h1",
         "va_cntr" => "div",
         "va_icntr" => "div",
@@ -416,17 +405,8 @@ class ilObjStyleSheet extends ilObject
             array("type" => "media_caption", "class" => "MediaCaption"),
             array("type" => "iim", "class" => "ContentPopup"),
             array("type" => "marker", "class" => "Marker"),
-            array("type" => "page_frame", "class" => "PageFrame"),
             array("type" => "page_cont", "class" => "PageContainer"),
             array("type" => "page", "class" => "Page"),
-            array("type" => "page_tnav", "class" => "TopNavigation"),
-            array("type" => "page_bnav", "class" => "BottomNavigation"),
-            array("type" => "page_lnav", "class" => "LeftNavigation"),
-            array("type" => "page_rnav", "class" => "RightNavigation"),
-            array("type" => "page_lnavlink", "class" => "LeftNavigationLink"),
-            array("type" => "page_rnavlink", "class" => "RightNavigationLink"),
-            array("type" => "page_lnavimage", "class" => "LeftNavigationImage"),
-            array("type" => "page_rnavimage", "class" => "RightNavigationImage"),
             array("type" => "page_fn", "class" => "Footnote"),
             array("type" => "page_title", "class" => "PageTitle"),
             array("type" => "list_o", "class" => "NumberedList"),
@@ -1412,6 +1392,12 @@ class ilObjStyleSheet extends ilObject
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
                     fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
+                if ($tag[0]["type"] == "strong") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
+                if ($tag[0]["type"] == "em") {
+                    fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
+                }
                 if ($tag[0]["type"] == "text_block") {
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
                 }
@@ -1609,23 +1595,23 @@ class ilObjStyleSheet extends ilObject
 
             return $path;
         } else {		// todo: work this out
-            return "../components/ILIAS/COPage/css/content.css";
+            return "./components/ILIAS/COPage/css/content.css";
         }
     }
 
     public static function getContentPrintStyle(): string
     {
-        return "../components/ILIAS/COPage/css/print_content.css";
+        return "./components/ILIAS/COPage/css/print_content.css";
     }
 
     public static function getSyntaxStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/syntaxhighlight.css";
+        return "./components/ILIAS/COPage/css/syntaxhighlight.css";
     }
 
     public static function getBaseContentStylePath(): string
     {
-        return "../components/ILIAS/COPage/css/content_base.css";
+        return "./components/ILIAS/COPage/css/content_base.css";
     }
 
     public function update(): bool

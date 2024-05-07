@@ -39,18 +39,6 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             ]
         );
         parent::__construct();
-        $tpl->addOnloadCode("
-            let form = document.getElementById('form_ordering');
-            let button = form.querySelector('input[name=\"cmd[save]\"]');
-            if (form && button) {
-                form.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
-                        e.preventDefault();
-                        form.requestSubmit(button);
-                    }
-                })
-            }
-        ");
     }
 
     protected function setAvailableCommandButtonIds($availableCommandButtonIds): void

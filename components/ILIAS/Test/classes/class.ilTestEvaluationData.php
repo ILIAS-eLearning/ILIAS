@@ -74,18 +74,18 @@ class ilTestEvaluationData
         return $this->access_filtered_participant_list;
     }
 
-    public function setAccessFilteredParticipantList(ilTestParticipantList $access_filtered_participant_list)
+    public function setAccessFilteredParticipantList(ilTestParticipantList $access_filtered_participant_list): void
     {
         $this->access_filtered_participant_list = $access_filtered_participant_list;
     }
 
-    protected function checkParticipantAccess($activeId): bool
+    protected function checkParticipantAccess(int $active_id): bool
     {
         if ($this->getAccessFilteredParticipantList() === null) {
             return true;
         }
 
-        return $this->getAccessFilteredParticipantList()->isActiveIdInList($activeId);
+        return $this->getAccessFilteredParticipantList()->isActiveIdInList($active_id);
     }
 
     protected function loadRows(): array
@@ -130,7 +130,7 @@ class ilTestEvaluationData
         return $rows;
     }
 
-    public function generateOverview()
+    public function generateOverview(): void
     {
         $this->participants = [];
 
@@ -149,12 +149,13 @@ class ilTestEvaluationData
                     $this->getTest()->buildName($row['usr_id'], $row['firstname'], $row['lastname'], $row['title'])
                 );
 
-                $this->getParticipant($row['active_fi'])->setLogin($row['login']);
-
-                $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
-
+                if ($row['login'] !== null) {
+                    $this->getParticipant($row['active_fi'])->setLogin($row['login']);
+                }
+                if ($row['usr_id'] !== null) {
+                    $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
+                }
                 $this->getParticipant($row['active_fi'])->setSubmitted((bool) $row['submitted']);
-
                 $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
@@ -190,12 +191,12 @@ class ilTestEvaluationData
         return $this->test;
     }
 
-    public function setTest($test)
+    public function setTest(ilObjTest $test): void
     {
         $this->test = &$test;
     }
 
-    public function setDatasets(int $datasets)
+    public function setDatasets(int $datasets): void
     {
         $this->datasets = $datasets;
     }
@@ -205,26 +206,29 @@ class ilTestEvaluationData
         return $this->datasets;
     }
 
-    public function addQuestionTitle($question_id, $question_title)
+    public function addQuestionTitle(int $question_id, string $question_title): void
     {
         $this->question_titles[$question_id] = $question_title;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getQuestionTitles(): array
     {
         return $this->question_titles;
     }
 
-    public function getQuestionTitle($question_id)
+    public function getQuestionTitle(?int $question_id): string
     {
         if (array_key_exists($question_id, $this->question_titles)) {
             return $this->question_titles[$question_id];
-        } else {
-            return '';
         }
+
+        return '';
     }
 
-    public function calculateStatistics()
+    public function calculateStatistics(): void
     {
         $this->statistics = new ilTestStatistics($this);
     }
@@ -244,6 +248,9 @@ class ilTestEvaluationData
         return $finishedParticipants;
     }
 
+    /**
+     * @return array<ilTestEvaluationUserData>
+     */
     public function getParticipants(): array
     {
         if (is_array($this->arr_filter) && count($this->arr_filter) > 0) {
@@ -307,17 +314,11 @@ class ilTestEvaluationData
         }
     }
 
-    public function resetFilter()
+    public function resetFilter(): void
     {
         $this->arr_filter = [];
     }
 
-    /*
-    * Set an output filter for getParticipants
-    *
-    * @param string $by name, course, group, active_id
-    * @param string $text Filter text
-    */
     public function setFilter(string $by, string $text): void
     {
         if (in_array(
@@ -329,24 +330,17 @@ class ilTestEvaluationData
         }
     }
 
-    /*
-    * Set an output filter for getParticipants
-    */
     public function setFilterArray(array $arr_filter): void
     {
         $this->arr_filter = $arr_filter;
     }
 
-    public function addParticipant($active_id, $participant)
+    public function addParticipant(int $active_id, ilTestEvaluationUserData $participant): void
     {
         $this->participants[$active_id] = $participant;
     }
 
-    /**
-     * @param integer $active_id
-     * @return ilTestEvaluationUserData
-     */
-    public function getParticipant($active_id): ilTestEvaluationUserData
+    public function getParticipant(int $active_id): ilTestEvaluationUserData
     {
         return $this->participants[$active_id];
     }
@@ -370,4 +364,4 @@ class ilTestEvaluationData
     {
         return array_keys($this->participants);
     }
-} // END ilTestEvaluationData
+}

@@ -120,7 +120,7 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
 
     protected function getPlaceholderImage(): string
     {
-        return './templates/default/images/placeholder/file_placeholder.svg';
+        return './assets/images/placeholder/file_placeholder.svg';
     }
 
     public function getImportantProperties(): array

@@ -78,21 +78,31 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
 
         $res_type = $body["res_type"];
 
+        $invalid = false;
         if ($res_type === "_other") {
             $res->setResourceListType("_other");
         } elseif ($res_type === "_lobj") {
             $res->setResourceListType("_lobj");
         } elseif ($res_type !== "itgr") {
-            $res->setResourceListType(
-                $body["type"]
-            );
+            if (isset($body["type"])) {
+                $res->setResourceListType(
+                    $body["type"]
+                );
+            } else {
+                $invalid = true;
+            }
         } else {
             $res->setItemGroupRefId(
-                $body["itgr"]
+                (int) $body["itgr"]
             );
         }
 
-        $updated = $page->update();
+        if (!$invalid) {
+            $updated = $page->update();
+        } else {
+            $page->buildDom(true);  // rebuild dom (remove changes)
+            $updated = true;
+        }
 
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }

@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
-
 /**
  * Output class for assessment test execution
  *
@@ -77,7 +75,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->handlePasswordProtectionRedirect();
 
-
         $instance_name = $this->settings->get('short_inst_name') ?? '';
         if (trim($instance_name) === '') {
             $instance_name = 'ILIAS';
@@ -90,9 +87,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
             $this->object->getKioskMode()
         );
+
+        $title = $this->object->getTitle();
+        if (($sequence_index = $this->getSequenceElementParameter()) !== null) {
+            $title .= ' - ' . $this->lng->txt('question') . $sequence_index;
+        }
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
-            $this->object->getTitle()
+            $title
         );
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
@@ -142,7 +144,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->ctrl,
                     $this->lng,
                     $this->tpl,
-                    $this->tabs
+                    $this->tabs,
+                    $this->global_screen
                 );
 
                 // fau: testNav - save the 'answer changed' status for viewing hint requests
@@ -161,7 +164,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->lng,
                     $this,
                     $this->passwordChecker,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->global_screen
                 );
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
@@ -379,7 +383,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
         $questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
 
-        $this->prepareTestPage($presentationMode, $sequence_element, $questionId);
+        $this->prepareTestPage($sequence_element, $questionId);
 
         $navigationToolbarGUI = $this->getTestNavigationToolbarGUI();
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
@@ -584,6 +588,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $participant = $participants->getParticipantByActiveId($this->testrequest->getActiveId());
         if (!$participant || !$participant->hasUnfinishedPasses()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
+            $this->ctrl->redirectByClass([ilObjTestGUI::class, ilTestScreenGUI::class], ilTestScreenGUI::DEFAULT_CMD);
         }
     }
 
@@ -959,26 +964,33 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function getTestPlayerTitle(): string
     {
-        $test_title = $this->object->getShowKioskModeTitle() ? $this->object->getTitle() : '';
-        $user_name = $this->object->getShowKioskModeParticipant() ? $this->user->getFullname() : '';
-        $exam_id = '';
+        $titleContent = $this->ui_factory->listing()->property();
+
+        if ($this->object->getShowKioskModeParticipant()) {
+            $testParticipantNameLabel = $this->lng->txt("conf_user_name");
+            // this is a placeholder solution with inline html tags to differentiate the different elements
+            // should be removed when a title component with grouping and visual weighting is available
+            // see:  https://github.com/ILIAS-eLearning/ILIAS/pull/7311
+            $testParticipantNameValue = "<span class='il-test-kiosk-head__participant-name'>" . $this->user->getFullname() . "</span>";
+            $titleContent = $titleContent->withProperty($testParticipantNameLabel, $testParticipantNameValue, false);
+        }
+
         if ($this->object->isShowExamIdInTestPassEnabled()) {
-            $exam_id = $this->lng->txt("exam_id")
-            . ' '
-            . ilObjTest::buildExamId(
+            $testExamIdLabel = $this->lng->txt("exam_id_label");
+            $testExamIdValue = ilObjTest::buildExamId(
                 $this->test_session->getActiveId(),
                 $this->test_session->getPass(),
                 $this->object->getId()
             );
+            $titleContent = $titleContent->withProperty($testExamIdLabel, $testExamIdValue);
         }
 
-        $layout = $this->ui_factory->layout()->alignment()->vertical(
-            $this->ui_factory->legacy($test_title),
-            $this->ui_factory->layout()->alignment()->horizontal()->dynamicallyDistributed(
-                $this->ui_factory->legacy($user_name),
-                $this->ui_factory->legacy($exam_id)
-            )
-        );
-        return $this->ui_renderer->render($layout);
+        if ($this->object->getShowKioskModeTitle()) {
+            $testNameLabel = $this->lng->txt("test");
+            $testNameValue = $this->object->getTitle();
+            $titleContent = $titleContent->withProperty($testNameLabel, $testNameValue, false);
+        }
+
+        return $this->ui_renderer->render($titleContent);
     }
 }

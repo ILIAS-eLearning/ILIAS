@@ -56,26 +56,17 @@ final class VoidContainer implements Container
 
     public function set(string $key, array|bool|int|string|null $value): void
     {
-        // To have a proper InvalidArgumentException, we loop through the array and convert a TypeError to an InvalidArgumentException
-        try {
-            if (is_array($value)) {
-                array_walk_recursive($value, function (&$item) use ($key): void {
-                    $this->set($key, $item);
-                });
-            }
-        } catch (\TypeError) {
-            throw new \InvalidArgumentException(
-                'Only strings, integers and arrays containing those values are allowed, ' . gettype($value) . ' given.'
-            );
-        }
+        // nothing to do
     }
 
     public function delete(string $key): void
     {
+        // nothing to do
     }
 
     public function flush(): void
     {
+        // nothing to do
     }
 
     public function getAdaptorName(): string

@@ -149,7 +149,7 @@ class StandardPagePartProvider implements PagePartProvider
                         $key_item = CallbackHandler::KEY_ITEM;
                         return "$('#$id').on('click', function(){
                             $.ajax({
-                                url: 'components/ILIAS/GlobalScreen/src/Client/callback_handler.php?$key_item=$identifier'
+                                url: 'callback_handler.php?$key_item=$identifier'
                             }).done(function() {
                                 console.log('done closing');
                             });

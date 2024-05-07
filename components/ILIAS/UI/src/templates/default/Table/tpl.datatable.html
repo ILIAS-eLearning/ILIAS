@@ -42,15 +42,17 @@
 					{CELLS}
 				</tr>
 				<!-- END row -->
+				<!-- BEGIN multi_action -->
+				<tr>
+					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{COLUMN_COUNT}">
+						<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+						{MULTI_ACTION_ALL_MODAL}
+					</td>
+				</tr>
+				<!-- END multi_action -->
 			</tbody>
-	
 		</table>
 	</div>
-
-	<!-- BEGIN multi_action -->
-	<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
-	{MULTI_ACTION_ALL_MODAL}
-	<!-- END multi_action -->
 
 	<div class="c-table-data__async_modal_container"></div>
 

@@ -143,6 +143,14 @@ class ilObject
     }
 
     /**
+     * @deprecated 11: Do absolutely not use this! I will NOT check any usages before removal.
+     */
+    public function flushObjectProperties(): void
+    {
+        $this->object_properties = null;
+    }
+
+    /**
     * determines whether objects are referenced or not (got ref ids or not)
     */
     final public function withReferences(): bool
@@ -558,12 +566,6 @@ class ilObject
         $this->db->insert(self::TABLE_OBJECT_DATA, $values);
         $this->object_properties = null;
 
-        if ($this->supportsOfflineHandling()) {
-            $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
-            $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
-        }
-
-
         // Save long form of description if is rbac object
         if ($this->obj_definition->isRBACObject($this->getType())) {
             $values = [
@@ -571,6 +573,11 @@ class ilObject
                 'description' => ['clob', $this->getLongDescription()]
             ];
             $this->db->insert('object_description', $values);
+        }
+
+        if ($this->supportsOfflineHandling()) {
+            $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
+            $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
         }
 
         if ($this->obj_definition->isOrgUnitPermissionType($this->type)) {

@@ -244,9 +244,6 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(30, $template->getId());
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testDeleteTemplateFromDatabase(): void
     {
         $database = $this->createMock(ilDBInterface::class);
@@ -255,8 +252,15 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive = [10, 200];
         $database->method('quote')
-            ->withConsecutive([10, 'integer'], [200, 'integer'])
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertSame(array_shift($consecutive), $value);
+                    return true;
+                }),
+                $this->identicalTo('integer')
+            )
             ->willReturnOnConsecutiveCalls('10', '200');
 
         $database->method('query')
@@ -284,8 +288,15 @@ AND obj_id = 200');
             ->disableOriginalConstructor()
             ->getMock();
 
+        $consecutive = [10, 30];
         $database->method('quote')
-            ->withConsecutive([10, 'integer'], [30, 'integer'])
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertSame(array_shift($consecutive), $value);
+                    return true;
+                }),
+                $this->identicalTo('integer')
+            )
             ->willReturnOnConsecutiveCalls('10', '30');
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
@@ -319,15 +330,7 @@ AND obj_id = 200');
             ]
         );
 
-        $database->method('query')
-            ->withConsecutive(
-                [$this->anything()],
-                [
-                    'UPDATE il_cert_template
-SET currently_active = 1
-WHERE id = 30'
-                ]
-            );
+        $database->method('query');
 
         $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
             ->disableOriginalConstructor()

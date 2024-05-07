@@ -352,7 +352,7 @@ trait ilPRGAssignmentActions
                     $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
                 }
-                if ($pgs->isSuccessful()) {
+                if ($pgs->getStatus() === ilPRGProgress::STATUS_COMPLETED) {
                     $err_collection->add(false, 'will_not_modify_successful_progress', $this->getProgressIdString($pgs->getNodeId()));
                     return $pgs;
                 }

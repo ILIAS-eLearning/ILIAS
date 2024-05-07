@@ -288,7 +288,7 @@ to manually add them to your nginx virtual host config:
 rewrite ^/goto_(.*)_(wiki_([0-9]+|wpage)(.*)).html$  /goto.php?client_id=$1&target=$2       last;
 rewrite ^/([^\/]*)_user_(.*)$                        /goto.php?client_id=$1&target=usr_n$2  last;
 rewrite ^/goto_(.*)_([a-z]+_[0-9]+(.*)).html$        /goto.php?client_id=$1&target=$2       last;
-rewrite ^/data/.*/.*/.*$                             /Services/WebAccessChecker/wac.php     last;
+rewrite ^/data/.*/.*/.*$                             /wac.php     last;
 ```
 
 ### File delivery via X-Accel

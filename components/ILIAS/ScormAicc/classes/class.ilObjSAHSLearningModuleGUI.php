@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
@@ -280,14 +278,18 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $this->form = new ilPropertyFormGUI();
 
         // type selection
-        $options = array(
-            "scorm2004" => $lng->txt("lm_type_scorm2004"),
-            "scorm" => $lng->txt("lm_type_scorm"),
-            "exportFile" => $lng->txt("sahs_export_file")
-        );
-        $si = new ilSelectInputGUI($this->lng->txt("type"), "sub_type");
-        $si->setOptions($options);
-        $this->form->addItem($si);
+        $radg = new ilRadioGroupInputGUI($lng->txt("type"), "sub_type");
+        $op0 = new ilRadioOption($this->lng->txt("lm_type_scorm"), "scorm");
+        $op0->setInfo($this->lng->txt("lm_type_scorm_info"));
+        $radg->addOption($op0);
+        $op0 = new ilRadioOption($this->lng->txt("lm_type_scorm2004"), "scorm2004");
+        $op0->setInfo($this->lng->txt("lm_type_scorm2004_info"));
+        $radg->addOption($op0);
+        $op0 = new ilRadioOption($this->lng->txt("sahs_export_file"), "exportFile");
+        $op0->setInfo($this->lng->txt("sahs_export_file_info"));
+        $radg->addOption($op0);
+        $radg->setValue("scorm");
+        $this->form->addItem($radg);
 
         $options = array();
         if (ilUploadFiles::_getUploadDirectory()) {
@@ -536,53 +538,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $this->uploadObject();
     }
 
-
-
-    /**
-    * save new learning module to db
-    */
-    //    public function saveObject()
-    //    {
-    //        global $DIC;
-    //        $ilErr = $DIC["ilErr"];
-    //
-    //        if (trim($_POST["title"]) == "") {
-    //            $ilErr->raiseError($this->lng->txt("msg_no_title"), $ilErr->MESSAGE);
-    //        }
-    //        $newObj = new ilObjSCORM2004LearningModule();
-    //        $newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    //        $newObj->setSubType("scorm2004");
-    //        $newObj->setEditable(true);
-    //        $newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
-    //        $newObj->create();
-    //        $newObj->createReference();
-    //        $newObj->putInTree($_GET["ref_id"]);
-    //        $newObj->setPermissions($_GET["ref_id"]);
-    //        $newObj->createDataDirectory();
-    //        $newObj->createScorm2004Tree();
-    //        ilUtil::sendInfo($this->lng->txt($newObj->getType() . "_added"), true);
-    //
-    //        // #7375
-    //        $this->ctrl->setParameterByClass("ilObjSCORM2004LearningModuleGUI", "ref_id", $newObj->getRefId());
-    //        $this->ctrl->redirectByClass(array("ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI"), "showOrganization");
-    //    }
-
-
-    //    /**
-    //    * permission form
-    //    */
-    //    public function info()
-    //    {
-    //        $this->infoObject();
-    //    }
-
-    //    /**
-    //    * show owner of learning module
-    //    */
-    //    public function owner()
-    //    {
-    //        $this->ownerObject();
-    //    }
 
     /**
      * output main header (title and locator)
@@ -850,7 +805,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilCtrl = $DIC->ctrl();
 
         $ilTabs->addSubTabTarget(
-            "cont_settings",
+            "general",
             $this->ctrl->getLinkTarget($this, "properties"),
             array("edit", ""),
             get_class($this)

@@ -55,7 +55,7 @@ class ilWorkflowEngineSetupAgent extends NullAgent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Setup\Objective\NullObjective();
     }

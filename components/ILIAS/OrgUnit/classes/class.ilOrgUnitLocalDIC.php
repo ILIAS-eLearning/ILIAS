@@ -43,7 +43,8 @@ class ilOrgUnitLocalDIC
         $dic['repo.Positions'] = static fn($dic) => new ilOrgUnitPositionDBRepository(
             $DIC['ilDB'],
             $dic['repo.Authorities'],
-            $dic['repo.UserAssignments']
+            $dic['repo.UserAssignments'],
+            $dic['lng']
         );
         $dic['repo.OperationContexts'] = static fn($dic) => new ilOrgUnitOperationContextDBRepository($DIC['ilDB']);
         $dic['repo.Operations'] = static fn($dic) => new ilOrgUnitOperationDBRepository(
@@ -61,13 +62,6 @@ class ilOrgUnitLocalDIC
         $dic['refinery'] = static fn(): \ILIAS\Refinery\Factory => $DIC['refinery'];
         $dic['access'] = static fn(): \ilAccessHandler => $DIC['ilAccess'];
         $dic['lng'] = static fn(): \ilLanguage => $DIC['lng'];
-        $dic['dropdownbuilder'] = static fn($d): \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder =>
-            new  \ILIAS\Modules\OrgUnit\ARHelper\DropdownBuilder(
-                $d['ui.factory'],
-                $d['ui.renderer'],
-                $d['lng']
-            );
-
         $dic['ctrl'] = static fn(): \ilCtrl => $DIC['ilCtrl'];
         $dic['tabs'] = static fn(): \ilTabsGUI => $DIC['ilTabs'];
         $dic['resource_storage'] = static fn(): \ILIAS\ResourceStorage\Services => $DIC['resource_storage'];

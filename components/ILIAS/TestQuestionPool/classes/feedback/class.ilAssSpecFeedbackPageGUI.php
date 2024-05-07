@@ -45,8 +45,7 @@ class ilAssSpecFeedbackPageGUI extends ilPageObjectGUI
         }
 
         parent::__construct("qfbs", $a_id, $a_old_nr);
-        $this->setTemplateTargetVar('ADM_CONTENT');
-        $this->setTemplateOutput(true);
+        $this->setTemplateOutput(false);
         if (strtolower($cmd_class) === 'ilassquestionpreviewgui') {
             $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
         } else {

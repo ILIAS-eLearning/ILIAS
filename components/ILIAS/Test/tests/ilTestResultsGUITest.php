@@ -42,6 +42,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
         $this->addGlobal_tpl();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_http();
 
         $this->testObj = new ilTestResultsGUI(
             $this->createMock(ilObjTest::class),
@@ -61,7 +62,8 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ui.renderer'],
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
             $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class),
+            $DIC['http']
         );
     }
 

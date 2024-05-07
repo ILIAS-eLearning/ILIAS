@@ -143,6 +143,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
+        $ti->setCols(40);
+        $ti->setRows(2);
         $this->form->addItem($ti);
 
         // SCORM-type
@@ -191,10 +193,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_open"), "open_mode");
         $op0 = new ilRadioOption($this->lng->txt("cont_open_normal"), "0");
+        $op0->setInfo($this->lng->txt("cont_open_normal_info"));
         $radg->addOption($op0);
         $op1 = new ilRadioOption($this->lng->txt("cont_open_iframe"), "1");
+        $op1->setInfo($this->lng->txt("cont_open_iframe_info"));
         $radg->addOption($op1);
         $op2 = new ilRadioOption($this->lng->txt("cont_open_window"), "5");
+        $op2->setInfo($this->lng->txt("cont_open_window_info"));
         $radg->addOption($op2);
         // width
         $ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_0");
@@ -259,16 +264,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // lesson mode
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_def_lesson_mode"), "lesson_mode");
         $op0 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_normal"), "normal");
+        $op0->setInfo($this->lng->txt("cont_sc_less_mode_normal_info"));
         $radg->addOption($op0);
         $op1 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_browse"), "browse");
+        $op1->setInfo($this->lng->txt("cont_sc_less_mode_browse_info"));
         $radg->addOption($op1);
-        // credit mode
-        $cmradg = new ilRadioGroupInputGUI($lng->txt("cont_credit_mode"), "credit_mode");
-        $cmop0 = new ilRadioOption($this->lng->txt("cont_credit_on"), "credit");
-        $cmradg->addOption($cmop0);
-        $cmop1 = new ilRadioOption($this->lng->txt("cont_credit_off"), "no_credit");
-        $cmradg->addOption($cmop1);
-        $op0->addSubItem($cmradg);
         // set lesson mode review when completed
         $options = array(
             "n" => $this->lng->txt("cont_sc_auto_review_no"),
@@ -427,7 +427,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $values["cobj_hidenavig"] = $this->object->getHideNavig();
         $values["cobj_auto_last_visited"] = $this->object->getAuto_last_visited();
         $values["lesson_mode"] = $this->object->getDefaultLessonMode();
-        $values["credit_mode"] = $this->object->getCreditMode();
         $values["auto_review"] = $this->object->getAutoReviewChar();
         $values["mastery_score"] = $this->object->getMasteryScore();
         $values["cobj_session"] = $this->object->getSession();
@@ -492,7 +491,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
         $this->object->setWidth($t_width);
         $this->object->setHeight($t_height);
-        $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
         //        $this->object->setMaxAttempt($this->dic->http()->wrapper()->post()->retrieve('max_attempt',$this->dic->refinery()->kindlyTo()->int()));
         $this->object->setAutoReviewChar($t_auto_review);
         $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));

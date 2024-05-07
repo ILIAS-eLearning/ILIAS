@@ -49,7 +49,7 @@ final class ilGlossarySetupAgent implements Setup\Agent
         return new ilDatabaseUpdateStepsExecutedObjective(new ilGlossaryDBUpdateSteps());
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

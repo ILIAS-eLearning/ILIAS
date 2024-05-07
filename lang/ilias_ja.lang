@@ -545,7 +545,6 @@ assessment#:#backtocallingtest#:#呼び出し中のテストに戻る
 assessment#:#baseunit#:#ベースユニット
 assessment#:#button_request_next_question_hint#:#次のヒントを要求
 assessment#:#button_request_question_hint#:#ヒントを要求
-assessment#:#button_show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#by#:#ユーザ名
 assessment#:#cancel_test#:#テスト中断
 assessment#:#cannot_edit_marks#:#既にテストを実行した学習者がいます。スコア報告日が有効でまだ報告日になっていない場合はマーク変更だけができます。
@@ -1021,8 +1020,6 @@ assessment#:#qpl_save_skill_assigns_update#:#能力割り当てを保存
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#有効にすると作成可能性のある分類基準がフィルタ用として表示されます。
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#ナビゲーションツリーの分類基準フィルタ
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#分類基準が選択されるとテーブルフィルタアイテムに代わりナビゲーションツリーとして表示されます。
-assessment#:#qpl_settings_general_form_property_online#:#オンライン
-assessment#:#qpl_settings_general_form_property_online_description#:#オンライン問題集のみテストで使用される事ができます。
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#ナビゲーションツリーフィルタなしを使用
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#分類基準を表示
 assessment#:#qpl_settings_subtab_general#:#全般設定
@@ -1161,6 +1158,7 @@ assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
 assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
+assessment#:#show_requested_question_hints#:#要求されたヒントを表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#shuffle_answers#:#解答をシャッフル
 assessment#:#skip_question#:#回答しないで次へ
@@ -15202,7 +15200,6 @@ survey#:#SurveyTextQuestion#:#小論文
 survey#:#add_heading#:#テキストブロックを追加
 survey#:#add_material#:#教材を追加
 survey#:#add_phrase#:#フレーズを追加
-survey#:#adm_no_special_users#:#複数回サーベイを実行する事のできる特定ユーザはいません。
 survey#:#already_completed_survey#:#サーベイは既に終わっています! 再度のサーベイはできません。
 survey#:#anonymization#:#匿名化
 survey#:#anonymize_anonymous_introduction#:#サーベイへのアクセス保証するには、このサーベイの作者または維持者から受け取る事のできる5文字サーベイコードを使用しなければなりません。<br />以下のテキスト欄にそれを入力してください。
@@ -16441,7 +16438,6 @@ user#:#user_account_deleted_confirmation#:#アカウントは削除されまし�
 user#:#user_activate_public_profile#:#パブリックプロファイルのアクティベーション
 user#:#user_activate_public_profile_info#:#有効にすると姓と名は常時表示されます。
 user#:#user_activation#:#アクティベーション
-user#:#user_adm_enable_alpha_nav#:#ユーザ管理のアルファベットナビゲーション
 user#:#user_all#:#すべて
 user#:#user_allow_delete_own_account#:#自身のアカウント削除をユーザへ許可する
 user#:#user_any#:#いずれか

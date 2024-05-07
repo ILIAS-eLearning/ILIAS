@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Back to the calling test ### 2006-8-11 --- Add 
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#prin
 assessment#:#cancel_test#:#Anulati testul
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.###23 Dec 2005 new variable
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online#:#Online###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###24 10 2013 new variable
 assessment#:#qpl_settings_subtab_general#:#General Settings###24 10 2013 new variable
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
 assessment#:#shuffle_answers#:#Amestecati raspunsurile
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15108,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Essay###10 Jul 2006 new variable
 survey#:#add_heading#:#Adaugati titlu de paragraf
 survey#:#add_material#:#Add Material###24 07 2009 new variable
 survey#:#add_phrase#:#Adaugati fraza
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
 survey#:#already_completed_survey#:#Ati completat deja acest sondaj! Nu aveti permisiunea de a-l accesa din nou.###05 Feb 2006 content changed
 survey#:#anonymization#:#Anonymization###10 Jul 2006 new variable
 survey#:#anonymize_anonymous_introduction#:#Toate datele despre utilizator folosite in acest sondaj raman anonime. Pentru a obtine accesul la acest sondaj trebuie sa folositi codul de sondaj de 32 caractere pe care il puteti primi de la creatorul/supraveghetorul acestui sondaj<br />Va rugam introduceti codul in campul de mai jos.###10 Jul 2006 content changed
@@ -16335,7 +16332,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
 user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
 user#:#user_activation#:#Activation###15 05 2009 new variable
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration###16 07 2010 new variable
 user#:#user_all#:#All###15 05 2009 new variable
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#Any###15 05 2009 new variable

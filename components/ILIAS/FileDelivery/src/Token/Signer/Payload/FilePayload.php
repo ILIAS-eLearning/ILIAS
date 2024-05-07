@@ -30,8 +30,7 @@ class FilePayload extends StructuredPayload
         private string $mime_type,
         private string $file_name,
         private string $disposition,
-        private int $user_id,
-        ?int $valid_until = null
+        private int $user_id = 0
     ) {
         parent::__construct([
             'p' => $uri,
@@ -39,7 +38,7 @@ class FilePayload extends StructuredPayload
             'n' => $file_name,
             'd' => $disposition,
             'u' => $user_id,
-        ], $valid_until);
+        ]);
     }
 
     public static function fromArray(array $raw_payload): self
@@ -49,8 +48,7 @@ class FilePayload extends StructuredPayload
             $raw_payload['m'],
             $raw_payload['n'],
             $raw_payload['d'],
-            $raw_payload['u'],
-            $raw_payload['v'] ?? null
+            $raw_payload['u']
         );
     }
 

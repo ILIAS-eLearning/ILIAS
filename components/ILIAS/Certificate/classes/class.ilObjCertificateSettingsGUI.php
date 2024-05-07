@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\Overview\CertificateOverviewTable;
+
 /**
  * Certificate Settings.
  * @author            Helmut Schottmüller <ilias@aurealis.de>
@@ -28,20 +30,38 @@ declare(strict_types=1);
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
+    public const TAB_CERTIFICATES = 'certificates';
+    public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';
+    public const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
+
     protected \ILIAS\HTTP\GlobalHttpState $httpState;
     protected \ILIAS\FileUpload\FileUpload $upload;
+    private ilLogger $logger;
+    private ilUserCertificateRepository $user_certificate_repo;
+    private ilCertificateActiveValidator $certificate_active_validator;
 
-    public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
-    {
+    public function __construct(
+        $data,
+        int $id = 0,
+        bool $call_by_reference = true,
+        bool $prepare_output = true,
+        ?ilUserCertificateRepository $user_certificate_repo = null,
+        ?ilCertificateActiveValidator $certificate_active_validator = null,
+    ) {
         global $DIC;
 
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->httpState = $DIC->http();
         $this->upload = $DIC->upload();
+        $this->logger = $DIC->logger()->root();
         $this->type = 'cert';
         $this->lng->loadLanguageModule('certificate');
+        $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('trac');
+
+        $this->user_certificate_repo = $user_certificate_repo ?: new ilUserCertificateRepository();
+        $this->certificate_active_validator = $certificate_active_validator ?: new ilCertificateActiveValidator();
     }
 
     public function executeCommand(): void
@@ -74,6 +94,14 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
+        if ($this->certificate_active_validator->validate() && $this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+            $this->tabs_gui->addTab(
+                self::TAB_CERTIFICATES,
+                $this->lng->txt('overview'),
+                $this->ctrl->getLinkTarget($this, self::CMD_CERTIFICATES_OVERVIEW)
+            );
+        }
+
         if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
@@ -204,6 +232,68 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->addItem($persistentCertificateMode);
 
         $this->tpl->setContent($form->getHTML());
+    }
+    public function certificatesOverview(): void
+    {
+        if (
+            !$this->certificate_active_validator->validate()
+            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+        }
+
+        $this->tabs_gui->activateTab(self::TAB_CERTIFICATES);
+
+        $table = new CertificateOverviewTable();
+
+        $this->tpl->setContent($table->render());
+    }
+
+    public function downloadCertificate(): void
+    {
+        if (
+            !$this->certificate_active_validator->validate()
+            || !$this->rbac_system->checkAccess('read', $this->object->getRefId())
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+        }
+
+        $certificate_id = $this->httpState->wrapper()->query()->retrieve(
+            'cert_overview_id',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([]),
+            ])
+        );
+
+        if ($certificate_id === []) {
+            $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
+        }
+
+        //Only one download at a time is possible
+        $certificate_id = $certificate_id[array_key_first($certificate_id)];
+
+        try {
+            $user_certificate = $this->user_certificate_repo->fetchCertificate($certificate_id);
+            if (!$user_certificate->isCurrentlyActive()) {
+                throw new Exception('Certificate is not active');
+            }
+        } catch (Exception $ex) {
+            $this->logger->error('Fetching user certificate for download failed. Ex.: ' . $ex->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'), true);
+            $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
+        }
+
+        $pdf_generator = new ilPdfGenerator($this->user_certificate_repo);
+
+        $pdf_action = new ilCertificatePdfAction(
+            $pdf_generator,
+            new ilCertificateUtilHelper(),
+            $this->lng->txt('error_creating_certificate_pdf')
+        );
+
+        $pdf_action->downloadPdf($user_certificate->getUserId(), $user_certificate->getObjId());
+        $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
     }
 
     public function save(): void

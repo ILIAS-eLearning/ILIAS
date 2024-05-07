@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Voltar ao teste vocacional
 assessment#:#baseunit#:#Unidade base
 assessment#:#button_request_next_question_hint#:#Pedir próxima sugestão
 assessment#:#button_request_question_hint#:#Pedir sugestão
-assessment#:#button_show_requested_question_hints#:#Mostrar sugestões pedidas
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar o teste
 assessment#:#cannot_edit_marks#:#Já há alunos que fizeram o teste. Pode apenas alterar as marcas se estiver ativada uma data do relatório da pontuação e se a data do relatório ainda não foi alcançada.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Guardar atribuições de competênc
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#São propostas taxonomias existentes neste banco para filtrar as perguntas.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtro de taxonomia como árvore de navegação
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Quando é selecionada uma taxonomia, será apresentada como árvore de navegação em vez de um item de filtro da tabela.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Podem ser usados no teste apenas bancos de perguntas online.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Usar filtro de árvore de não navegação
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Mostrar taxonomias
 assessment#:#qpl_settings_subtab_general#:#Definições gerais
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Mostrar vista geral de respostas
 assessment#:#show_detailed_results#:#Mostrar resultados detalhados do utilizador (tentativa marcada)
 assessment#:#show_examview_html#:#No ecrã
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
+assessment#:#show_requested_question_hints#:#Mostrar sugestões pedidas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#shuffle_answers#:#Misturar respostas
 assessment#:#skip_question#:#Não responder e próximo
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Ensaio
 survey#:#add_heading#:#Adicionar título
 survey#:#add_material#:#Adicionar material
 survey#:#add_phrase#:#Adicionar frase
-survey#:#adm_no_special_users#:#Não há utilizadores especiais definidos que sejam capazes de executar um inquérito mais do que uma vez.
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Ativar Perfil Público
 user#:#user_activate_public_profile_info#:#Ativação Global do Perfil Público. Se habilitado seu nome e sobrenome ficarão visíveis para outros usuários.
 user#:#user_activation#:#Ativação
-user#:#user_adm_enable_alpha_nav#:#Navegação alfabética na administração de usuário
 user#:#user_all#:#Tudo
 user#:#user_allow_delete_own_account#:#Permite aos utilizadores apagar a própria conta
 user#:#user_any#:#Nenhum

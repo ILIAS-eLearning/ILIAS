@@ -50,7 +50,8 @@ class ilTestScreenGUITest extends ilTestBaseTestCase
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(\ilTestAccess::class),
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(\ilRbacSystem::class)
         );
         $this->assertInstanceOf(ilTestScreenGUI::class, $ilTestScreenGUI);
     }

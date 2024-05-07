@@ -98,11 +98,11 @@ class Stream implements FileStream, \Stringable
         $this->readable = array_key_exists(
             $mode,
             self::$accessMap
-        ) && (bool) (self::$accessMap[$mode]&self::MASK_ACCESS_READ);
+        ) && (bool) (self::$accessMap[$mode] & self::MASK_ACCESS_READ);
         $this->writeable = array_key_exists(
             $mode,
             self::$accessMap
-        ) && (bool) (self::$accessMap[$mode]&self::MASK_ACCESS_WRITE);
+        ) && (bool) (self::$accessMap[$mode] & self::MASK_ACCESS_WRITE);
         $this->seekable = $meta['seekable'];
         $this->uri = $this->getMetadata('uri');
     }
@@ -150,7 +150,7 @@ class Stream implements FileStream, \Stringable
             clearstatcache(true, $this->uri);
         }
 
-        $stats = fstat($this->stream);
+        $stats = fstat($this->stream) ?: [];
         if (array_key_exists('size', $stats)) {
             $this->size = $stats['size'];
             return $this->size;

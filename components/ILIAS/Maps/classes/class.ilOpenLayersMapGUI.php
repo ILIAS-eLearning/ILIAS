@@ -63,7 +63,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
         $this->lng->loadLanguageModule("maps");
         $this->tpl->addCss("public/node_modules/ol/ol.css");
         $this->tpl->addCss("components/ILIAS/Maps/css/service_openlayers.css");
-        $this->tpl->addJavaScript("components/ILIAS/Maps/js/dist/ServiceOpenLayers.js");
+        $this->tpl->addJavaScript("assets/js/ServiceOpenLayers.js");
 
         // add user markers
         $cnt = 0;

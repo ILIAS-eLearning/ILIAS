@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
 assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#by#:#by
 assessment#:#cancel_test#:#تعلیق تست
 assessment#:#cannot_edit_marks#:#در حال حاضر کاربرانی وجود دارند که تست را گذرانده اند. تنها زمانی می توانید نمره ها را تغییر دهید که تاریخ گزارش نمره فعال باشد و تاریخ گزارش هنوز نرسیده باشد.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online#:#Online###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###24 10 2013 new variable
 assessment#:#qpl_settings_subtab_general#:#General Settings###24 10 2013 new variable
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#نمایش نتایج دقیق کاربر
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#نمایش مرور کلی دوره انتخاب شده
+assessment#:#show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
 assessment#:#show_user_answers#:#نمایش پاسخهای کاربر انتخاب شده
 assessment#:#shuffle_answers#:#قاطی کردن جوابها
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#مقاله
 survey#:#add_heading#:#اضافه کردن بلوک متن
 survey#:#add_material#:#Add Material
 survey#:#add_phrase#:#Add Phrase
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#بی نام سازی
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#فعالسازی نمایه عمومی
 user#:#user_activate_public_profile_info#:#اگر فعال شود، نام ونام خانوادگی شما همیشه قابل مشاهده خواهد شد
 user#:#user_activation#:#فعالسازی
-user#:#user_adm_enable_alpha_nav#:#حرکت بصورت الفبایی در مدیریت کاربران
 user#:#user_all#:#همه
 user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
 user#:#user_any#:#هر

@@ -170,42 +170,43 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function benchmarkObject(): void
     {
-        $rbacsystem = $this->rbacsystem;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-        $tpl = $this->tpl;
-        $ilErr = $this->error;
-
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
+
+        $write_access = $this->rbacsystem->checkAccess("write", $this->object->getRefId());
 
         $this->benchmarkSubTabs("settings");
 
         $this->form = new ilPropertyFormGUI();
 
         // Activate DB Benchmark
-        $cb = new ilCheckboxInputGUI($lng->txt("adm_activate_db_benchmark"), ilBenchmark::ENABLE_DB_BENCH);
-        $cb->setChecked((bool) $ilSetting->get(ilBenchmark::ENABLE_DB_BENCH));
-        $cb->setInfo($lng->txt("adm_activate_db_benchmark_desc"));
+        $cb = new ilCheckboxInputGUI($this->lng->txt("adm_activate_db_benchmark"), ilBenchmark::ENABLE_DB_BENCH);
+        $cb->setChecked((bool) $this->settings->get(ilBenchmark::ENABLE_DB_BENCH));
+        $cb->setInfo($this->lng->txt("adm_activate_db_benchmark_desc"));
+        $cb->setDisabled(!$write_access);
         $this->form->addItem($cb);
 
         // DB Benchmark User
-        $ti = new ilTextInputGUI($lng->txt("adm_db_benchmark_user"), ilBenchmark::DB_BENCH_USER);
-        $user_id = ((int) $ilSetting->get(ilBenchmark::DB_BENCH_USER)) ?? null;
+        $ti = new ilTextInputGUI($this->lng->txt("adm_db_benchmark_user"), ilBenchmark::DB_BENCH_USER);
+        $user_id = ($this->settings->get(ilBenchmark::DB_BENCH_USER)) ?? null;
         if ($user_id !== null && ilObjUser::_lookupLogin((int) $user_id) !== '') {
             $ti->setValue(ilObjUser::_lookupLogin($user_id));
+        } else {
+            $ti->setValue('');
         }
-        $ti->setInfo($lng->txt("adm_db_benchmark_user_desc"));
+        $ti->setInfo($this->lng->txt("adm_db_benchmark_user_desc"));
+        $ti->setDisabled(!$write_access);
         $this->form->addItem($ti);
 
-        $this->form->addCommandButton("saveBenchSettings", $lng->txt("save"));
+        if ($write_access) {
+            $this->form->addCommandButton("saveBenchSettings", $this->lng->txt("save"));
+        }
 
-        $this->form->setTitle($lng->txt("adm_db_benchmark"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
+        $this->form->setTitle($this->lng->txt("adm_db_benchmark"));
+        $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     /**
@@ -314,6 +315,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function saveBenchSettingsObject(): void
     {
+        $write_access = $this->rbacsystem->checkAccess("write", $this->object->getRefId());
+        if (!$write_access) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+            return;
+        }
+
         if ($this->wrapper->post()->has(ilBenchmark::ENABLE_DB_BENCH)
             && $this->wrapper->post()->has(ilBenchmark::DB_BENCH_USER)) {
             $activate = $this->wrapper->post()->retrieve(ilBenchmark::ENABLE_DB_BENCH, $this->refinery->kindlyTo()->bool());

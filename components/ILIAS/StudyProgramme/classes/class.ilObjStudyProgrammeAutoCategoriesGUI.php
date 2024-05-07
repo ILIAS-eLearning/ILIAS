@@ -406,13 +406,19 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         if(array_filter($username) === []) {
             return null;
         }
+
         $editor = implode(' ', [
             $username['firstname'],
             $username['lastname'],
             '(' . $username['login'] . ')'
         ]);
+
+        $back_url = $this->ctrl->getLinkTarget($this, self::CMD_VIEW);
+        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'back_url', urlencode($back_url));
+        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'user_id', $usr_id);
+        $url = $this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'view');
+
         $usr = ilObjectFactory::getInstanceByObjId($usr_id);
-        $url = ilLink::_getStaticLink($usr_id, 'usr');
         if (!$usr->hasPublicProfile()) {
             $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }

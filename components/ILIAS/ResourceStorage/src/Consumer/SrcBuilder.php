@@ -29,9 +29,15 @@ use ILIAS\ResourceStorage\Revision\Revision;
 interface SrcBuilder
 {
     /**
+     * @param string|null $filename
      * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true
      */
-    public function getRevisionURL(Revision $revision, bool $signed = true, float $valid_for_at_least_minutes = 60.0): string;
+    public function getRevisionURL(
+        Revision $revision,
+        bool $signed = true,
+        float $valid_for_at_least_minutes = 60.0,
+        string $filename = null
+    ): string;
 
     /**
      * @throw \RuntimeException if signing is not possible or failed, but was requested with $signed = true

@@ -24,11 +24,11 @@
  */
 class ilPlayerUtil
 {
-    public static function getLocalMediaElementJsPath(): array
+    protected static function getLocalMediaElementJsPath(): array
     {
         return [
-            "./node_modules/mediaelement/build/mediaelement-and-player.min.js",
-            "./node_modules/mediaelement/build/renderers/vimeo.min.js"
+            "./assets/js/mediaelement-and-player.min.js",
+            "./assets/js/vimeo.min.js"
         ];
     }
 
@@ -37,7 +37,7 @@ class ilPlayerUtil
      */
     public static function getLocalMediaElementCssPath(): string
     {
-        return "./node_modules/mediaelement/build/mediaelementplayer.min.css";
+        return "./assets/css/mediaelementplayer.min.css";
     }
 
     /**
@@ -78,19 +78,9 @@ class ilPlayerUtil
         return self::getLocalMediaElementJsPath();
     }
 
-    public static function getFlashVideoPlayerDirectory(): string
+    public static function getMediaPlayerDirectory(): string
     {
         return "public/node_modules/mediaelement/build";
-    }
-
-    public static function getFlashVideoPlayerFilename(
-        bool $a_fullpath = false
-    ): string {
-        $file = "flashmediaelement.swf";
-        if ($a_fullpath) {
-            return self::getFlashVideoPlayerDirectory() . "/" . $file;
-        }
-        return $file;
     }
 
     public static function copyPlayerFilesToTargetDirectory(

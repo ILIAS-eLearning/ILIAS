@@ -563,6 +563,7 @@ class ilForum
             );
         }
 
+        $affected_user_ids[] = $post->getPosAuthorId();
         $deleted_post_ids = $this->deletePostTree($p_node);
 
         $obj_history = new ilForumDraftsHistory();
@@ -614,9 +615,10 @@ class ilForum
                     }
                 } catch (Exception) {
                 }
+                $affected_user_ids[] = (int) $posrec['pos_author_id'];
             }
 
-            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getTreeId()]);
+            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getThreadId()]);
         } else {
             for ($i = 0; $i < $dead_pos; $i++) {
                 $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_pk = %s', ['integer'], [$deleted_post_ids[$i]]);
@@ -717,7 +719,7 @@ class ilForum
                 [
                     'obj_id' => $this->getForumId(),
                     'ref_id' => $this->getForumRefId(),
-                    'post' => $post
+                    'user_ids' => $affected_user_ids
                 ]
             );
         }
@@ -1013,8 +1015,10 @@ class ilForum
         $res = $this->db->queryF($query, $data_types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
             if (
-                'g' === $row['public_profile'] ||
-                (!$this->user->isAnonymous() && in_array($row['public_profile'], ['y', 'g'], true))
+                !in_array($row['public_profile'], [
+                    ilPersonalProfileMode::PROFILE_ENABLED_LOGGED_IN_USERS,
+                    ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL], true)
+                || ($this->user->isAnonymous() && $row['public_profile'] !== ilPersonalProfileMode::PROFILE_ENABLED_GLOBAL)
             ) {
                 $row['lastname'] = '';
                 $row['firstname'] = '';

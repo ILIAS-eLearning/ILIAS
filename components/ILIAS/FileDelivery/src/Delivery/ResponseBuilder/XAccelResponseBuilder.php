@@ -23,6 +23,7 @@ namespace ILIAS\FileDelivery\Delivery\ResponseBuilder;
 use Psr\Http\Message\ResponseInterface;
 use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -39,6 +40,7 @@ class XAccelResponseBuilder implements ResponseBuilder
     }
 
     public function buildForStream(
+        ServerRequestInterface $request,
         ResponseInterface $response,
         FileStream $stream,
     ): ResponseInterface {

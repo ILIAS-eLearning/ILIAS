@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Назад к вызванному тесту
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Приостановить тест
 assessment#:#cannot_edit_marks#:#There are already learners who ran the test. You can only change the marks if a score reporting date is enabled and the reporting date is not yet reached.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Фильтр таксономии как дерево навигации
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
-assessment#:#qpl_settings_general_form_property_online#:#Онлайн
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Показать таксономии
 assessment#:#qpl_settings_subtab_general#:#Общие настройки
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Показать подробные результаты пользователя (Отмеченные как пройденные)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#shuffle_answers#:#Перемешать ответы
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15107,7 +15105,6 @@ survey#:#SurveyTextQuestion#:#Эссе
 survey#:#add_heading#:#Добавить заголовок
 survey#:#add_material#:#Добавить материал
 survey#:#add_phrase#:#Добавить фразу
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
 survey#:#already_completed_survey#:#Вы уже завершили опрос! Нельзя зайти в опрос снова.
 survey#:#anonymization#:#Анонимность
 survey#:#anonymize_anonymous_introduction#:#Анонимный опрос. Для доступа введите 32-разрядный числовой код в поле ниже.
@@ -16334,7 +16331,6 @@ user#:#user_account_deleted_confirmation#:#Ваша учетная запись 
 user#:#user_activate_public_profile#:#Активировать публичный профиль
 user#:#user_activate_public_profile_info#:#Если включено, то имя и фамилия всегда будет отображаться в вашем профиле.
 user#:#user_activation#:#Активация пользователя
-user#:#user_adm_enable_alpha_nav#:#Алфавитный порядок в "Учетные записи"
 user#:#user_all#:#Все
 user#:#user_allow_delete_own_account#:#Позволить пользователям удалить свою учетную запись
 user#:#user_any#:#Любой

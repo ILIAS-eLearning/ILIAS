@@ -29,64 +29,41 @@ class assFormulaQuestionResult
     public const RESULT_FRAC = 2;
     public const RESULT_CO_FRAC = 3;
 
-    private $result;
-    private $range_min;
-    private $range_max;
-    private $tolerance;
-    private $unit;
-    private $formula;
-    private $rating_simple;
-    private $rating_sign;
-    private $rating_value;
-    private $rating_unit;
-    private $points;
-    private $precision;
-    private $result_type;
-    private $range_min_txt;
-    private $range_max_txt;
-
-    private $available_units = array();
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * assFormulaQuestionResult constructor
-     * @param string  $result        Result name
-     * @param double  $range_min     Range minimum
-     * @param double  $range_max     Range maximum
-     * @param double  $tolerance     Tolerance of the result in percent
-     * @param mixed  $unit          Unit
-     * @param string  $formula       The formula to calculate the result
-     * @param double  $points        The maximum available points for the result
-     * @param integer $precision     Number of decimal places of the value
-     * @param boolean $rating_simple Use simple rating (100% if right, 0 % if wrong)
-     * @param double  $rating_sign   Percentage of rating for the correct sign
-     * @param double  $rating_value  Percentage of rating for the correct value
-     * @param double  $rating_unit   Percentage of rating for the correct unit
-     * @access public
-     */
-    public function __construct($result, $range_min, $range_max, $tolerance, $unit, $formula, $points, $precision, $rating_simple = true, $rating_sign = 33, $rating_value = 34, $rating_unit = 33, $result_type = 0)
-    {
+    private $available_units = [];
+    private ?float $range_min = null;
+    private ?float $range_max = null;
+
+    public function __construct(
+        private string $result,
+        private ?string $range_min_txt,
+        private ?string $range_max_txt,
+        private float $tolerance,
+        private ?assFormulaQuestionUnit $unit,
+        private ?string $formula,
+        private float $points,
+        private int $precision,
+        private bool $rating_simple = true,
+        private ?float $rating_sign = null,
+        private ?float $rating_value = null,
+        private ?float $rating_unit = null,
+        private float $result_type = 0
+    ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->result = $result;
-        #	$this->setRangeMin((is_numeric($range_min)) ? $range_min : NULL);
-        #	$this->setRangeMax((is_numeric($range_max)) ? $range_max : NULL);
-        $this->setRangeMin($range_min);
-        $this->setRangeMax($range_max);
+        $this->setRangeMin($range_min_txt);
+        $this->setRangeMax($range_max_txt);
 
-
-        $this->tolerance = $tolerance;
-        $this->unit = $unit;
-        $this->formula = $formula;
-        $this->setPoints($points);
-        $this->precision = $precision;
-        $this->rating_simple = $rating_simple;
-        $this->rating_sign = $rating_sign;
-        $this->rating_value = $rating_value;
-        $this->rating_unit = $rating_unit;
-        $this->result_type = $result_type;
-        $this->setRangeMinTxt($range_min);
-        $this->setRangeMaxTxt($range_max);
+        if ($rating_sign === null) {
+            $this->rating_sign = 33;
+        }
+        if ($rating_value === null) {
+            $this->rating_value = 34;
+        }
+        if ($rating_unit === null) {
+            $this->rating_unit = 33;
+        }
     }
 
     public function substituteFormula($variables, $results)
@@ -138,7 +115,7 @@ class assFormulaQuestionResult
 
         $formula = str_replace(",", ".", $formula);
         $result = $math->evaluate($formula);
-        if (is_object($this->getUnit())) {
+        if ($this->getUnit() !== null) {
             $result = ilMath::_div($result, $this->getUnit()->getFactor(), 100);
         }
 
@@ -218,7 +195,7 @@ class assFormulaQuestionResult
                 $range_max = $result;
             }
         }
-        if (is_object($this->getUnit())) {
+        if ($this->getUnit() !== null) {
             $range_min = ilMath::_div($range_min, $this->getUnit()->getFactor());
             $range_max = ilMath::_div($range_max, $this->getUnit()->getFactor());
         }
@@ -254,7 +231,7 @@ class assFormulaQuestionResult
 
                 if ($varObj->getUnit() != null) {
                     //convert unit and value to baseunit.... because vars could have different units
-                    if ($varObj->getUnit()->getBaseUnit() != -1) { #$this->getUnit() != NULL)
+                    if ($varObj->getUnit()->getBaseUnit() != -1) {
                         $tmp_value = $varObj->getValue() * $varObj->getUnit()->getFactor();
                     } else {
                         $tmp_value = $varObj->getValue();
@@ -272,7 +249,7 @@ class assFormulaQuestionResult
         $result = $math->evaluate($formula); // baseunit-result!!
         $resultWithRespectedUnit = $result;
 
-        if (is_object($this->getUnit())) {
+        if ($this->getUnit() !== null) {
             //there is a "fix" result_unit defined!
 
             // if expected resultunit != baseunit convert to "fix" result_unit
@@ -402,7 +379,7 @@ class assFormulaQuestionResult
         }
 
         $checkunit = true;
-        if (is_object($this->getUnit())) {
+        if ($this->getUnit() !== null) {
             if (is_object($unit)) {
                 if ($unit->getId() != $this->getUnit()->getId()) {
                     $checkunit = false;
@@ -515,7 +492,7 @@ class assFormulaQuestionResult
             }
 
             // result unit!!
-            if (is_object($this->getUnit())) {
+            if ($this->getUnit() !== null) {
                 // if expected resultunit != baseunit convert to resultunit
                 if ($this->getUnit()->getBaseUnit() != -1) {
                     $result = ilMath::_div($result, $this->getUnit()->getFactor(), $this->getPrecision());
@@ -538,7 +515,7 @@ class assFormulaQuestionResult
             if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
             }
-            if (is_object($this->getUnit())) {
+            if ($this->getUnit() !== null) {
                 $base1 = $units[$unit] ?? null;
                 if (is_object($base1)) {
                     $base1 = $units[$base1->getBaseUnit()];
@@ -572,7 +549,7 @@ class assFormulaQuestionResult
             $math = new EvalMath();
             $math->suppress_errors = true;
             $result = $math->evaluate($formula);
-            if (is_object($this->getUnit())) {
+            if ($this->getUnit() !== null) {
                 $result = ilMath::_mul($result, $this->getUnit()->getFactor(), 100);
             }
             if (is_object($unit)) {
@@ -590,7 +567,7 @@ class assFormulaQuestionResult
                 $totalpoints += $points;
                 $details['value'] = $points;
             }
-            if (is_object($this->getUnit())) {
+            if ($this->getUnit() !== null) {
                 $base1 = $units[$unit];
                 if (is_object($base1)) {
                     $base1 = $units[$base1->getBaseUnit()];
@@ -621,49 +598,53 @@ class assFormulaQuestionResult
         return $this->result;
     }
 
-    public function setRangeMin($range_min): void
+    public function setRangeMin(?string $range_min): void
     {
+        if ($range_min === null) {
+            return;
+        }
+
         $math = new EvalMath();
         $math->suppress_errors = true;
-        $result = $math->evaluate((string) $range_min);
-        $this->range_min = $result;
+        $this->range_min = (float) $math->evaluate($range_min);
     }
 
-    public function getRangeMin()
+    public function getRangeMin(): ?float
     {
         return $this->range_min;
     }
 
     public function getRangeMinBase()
     {
-        if (is_numeric($this->getRangeMin())) {
-            if (is_object($this->getUnit())) {
-                return ilMath::_mul($this->getRangeMin(), $this->getUnit()->getFactor(), 100);
-            }
+        if ($this->getUnit() !== null) {
+            return ilMath::_mul($this->getRangeMin(), $this->getUnit()->getFactor(), 100);
         }
+
         return $this->getRangeMin();
     }
 
-    public function setRangeMax($range_max): void
+    public function setRangeMax(?string $range_max): void
     {
+        if ($range_max === null) {
+            return;
+        }
+
         $math = new EvalMath();
         $math->suppress_errors = true;
-        $result = $math->evaluate((string) $range_max);
-        $this->range_max = $result;
+        $this->range_max = (float) $math->evaluate($range_max);
     }
 
-    public function getRangeMax()
+    public function getRangeMax(): ?float
     {
         return $this->range_max;
     }
 
     public function getRangeMaxBase()
     {
-        if (is_numeric($this->getRangeMax())) {
-            if (is_object($this->getUnit())) {
-                return ilMath::_mul($this->getRangeMax(), $this->getUnit()->getFactor(), 100);
-            }
+        if ($this->getUnit() !== null) {
+            return ilMath::_mul($this->getRangeMax(), $this->getUnit()->getFactor(), 100);
         }
+
         return $this->getRangeMax();
     }
 
@@ -677,17 +658,17 @@ class assFormulaQuestionResult
         return $this->tolerance;
     }
 
-    public function setUnit($unit): void
+    public function setUnit(?assFormulaQuestionUnit $unit): void
     {
         $this->unit = $unit;
     }
 
-    public function getUnit()
+    public function getUnit(): ?assFormulaQuestionUnit
     {
         return $this->unit;
     }
 
-    public function setFormula($formula): void
+    public function setFormula(?string $formula): void
     {
         $this->formula = $formula;
     }
@@ -697,9 +678,9 @@ class assFormulaQuestionResult
         return $this->formula;
     }
 
-    public function setPoints($points): void
+    public function setPoints(float $points): void
     {
-        $this->points = (float) str_replace(",", ".", $points);
+        $this->points = $points;
     }
 
     public function getPoints(): float
@@ -707,7 +688,7 @@ class assFormulaQuestionResult
         return $this->points;
     }
 
-    public function setRatingSimple($rating_simple): void
+    public function setRatingSimple(bool $rating_simple): void
     {
         $this->rating_simple = $rating_simple;
     }
@@ -717,37 +698,37 @@ class assFormulaQuestionResult
         return $this->rating_simple;
     }
 
-    public function setRatingSign($rating_sign): void
+    public function setRatingSign(float $rating_sign): void
     {
         $this->rating_sign = $rating_sign;
     }
 
-    public function getRatingSign()
+    public function getRatingSign(): float
     {
         return $this->rating_sign;
     }
 
-    public function setRatingValue($rating_value): void
+    public function setRatingValue(float $rating_value): void
     {
         $this->rating_value = $rating_value;
     }
 
-    public function getRatingValue()
+    public function getRatingValue(): float
     {
         return $this->rating_value;
     }
 
-    public function setRatingUnit($rating_unit): void
+    public function setRatingUnit(float $rating_unit): void
     {
         $this->rating_unit = $rating_unit;
     }
 
-    public function getRatingUnit()
+    public function getRatingUnit(): float
     {
         return $this->rating_unit;
     }
 
-    public function setPrecision($precision): void
+    public function setPrecision(float $precision): void
     {
         $this->precision = $precision;
     }
@@ -757,7 +738,7 @@ class assFormulaQuestionResult
         return $this->precision;
     }
 
-    public function setResultType($a_result_type): void
+    public function setResultType(int $a_result_type): void
     {
         $this->result_type = $a_result_type;
     }
@@ -767,22 +748,22 @@ class assFormulaQuestionResult
         return (int) $this->result_type;
     }
 
-    public function setRangeMaxTxt($range_max_txt): void
+    public function setRangeMaxTxt(string $range_max_txt): void
     {
         $this->range_max_txt = $range_max_txt;
     }
 
-    public function getRangeMaxTxt()
+    public function getRangeMaxTxt(): string
     {
         return $this->range_max_txt;
     }
 
-    public function setRangeMinTxt($range_min_txt): void
+    public function setRangeMinTxt(string $range_min_txt): void
     {
         $this->range_min_txt = $range_min_txt;
     }
 
-    public function getRangeMinTxt()
+    public function getRangeMinTxt(): string
     {
         return $this->range_min_txt;
     }
@@ -816,6 +797,10 @@ class assFormulaQuestionResult
 
     public static function convertDecimalToCoprimeFraction($decimal_value, $tolerance = 1.e-9)
     {
+        if (empty($decimal_value)) {
+            return '';
+        }
+
         $to_string = (string) $decimal_value;
         $is_negative = strpos($to_string, '-') === 0;
         if ($is_negative) {

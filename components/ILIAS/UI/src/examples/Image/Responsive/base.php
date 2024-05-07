@@ -16,7 +16,7 @@ function base()
 
     //Genarating and rendering the image
     $image = $f->image()->responsive(
-        "components/ILIAS/UI/src/examples/Image/HeaderIconLarge.svg",
+        "assets/ui-examples/images/Image/HeaderIconLarge.svg",
         "Thumbnail Example"
     );
     $html = $renderer->render($image);

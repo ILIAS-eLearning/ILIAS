@@ -421,7 +421,8 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilDB = $this->db;
         $ilUser = $this->user;
         $obj_ids = [];
-        if (!$a_filter["acl_type"]) {
+
+        if (!($a_filter["acl_type"] ?? false)) {
             $obj_ids = self::getPossibleSharedTargets();
         } else {
             switch ($a_filter["acl_type"]) {
@@ -482,7 +483,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer");
         }
 
-        if ($a_filter["acl_date"]) {
+        if ($a_filter["acl_date"] ?? false) {
             $dt = $a_filter["acl_date"]->get(IL_CAL_DATE);
             $dt = new ilDateTime($dt . " 00:00:00", IL_CAL_DATETIME);
             $sql .= " AND acl.tstamp > " . $ilDB->quote($dt->get(IL_CAL_UNIX), "integer");

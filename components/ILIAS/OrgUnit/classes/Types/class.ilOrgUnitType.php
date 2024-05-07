@@ -58,8 +58,8 @@ class ilOrgUnitType
         $this->log = $DIC->logger();
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
+        $this->id = (int) $a_id;
         if ($a_id) {
-            $this->id = (int) $a_id;
             $this->read();
         }
         $this->irss = $DIC['resource_storage'];
@@ -187,7 +187,7 @@ class ilOrgUnitType
      */
     public function save(): void
     {
-        if ($this->getId()) {
+        if ($this->getId() > 0) {
             $this->update();
         } else {
             $this->create();
@@ -252,20 +252,16 @@ class ilOrgUnitType
     /**
      * Get the title of an OrgUnit type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the translation of the default language is substituted.
-     * If a language code is provided, returns title for the given language or null.
-     * @param string $a_lang_code
-     * @return null|string
+     * If a language code is provided, returns title for the given language or empty string.
      */
-    public function getTitle(string $a_lang_code = ''): ?string
+    public function getTitle(string $a_lang_code = ''): string
     {
-        return $this->getTranslation('title', $a_lang_code);
+        return $this->getTranslation('title', $a_lang_code) ?? '';
     }
 
     /**
      * Set title of OrgUnit type.
      * If no lang code is given, sets title for default language.
-     * @param        $a_title
-     * @param string $a_lang_code
      */
     public function setTitle(string $a_title, string $a_lang_code = '')
     {
@@ -277,8 +273,6 @@ class ilOrgUnitType
      * Get the description of an OrgUnit type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the description of the default language is substituted.
      * If a language code is provided, returns description for the given language or null.
-     * @param string $a_lang_code
-     * @return null|string
      */
     public function getDescription(string $a_lang_code = ''): ?string
     {
@@ -288,8 +282,6 @@ class ilOrgUnitType
     /**
      * Set description of OrgUnit type.
      * If no lang code is given, sets description for default language.
-     * @param        $a_description
-     * @param string $a_lang_code
      */
     public function setDescription(string $a_description, string $a_lang_code = ''): void
     {
@@ -299,8 +291,6 @@ class ilOrgUnitType
 
     /**
      * Get an array of IDs of ilObjOrgUnit objects using this type
-     * @param bool $include_deleted
-     * @return array
      */
     public function getOrgUnitIds(bool $include_deleted = true): array
     {
@@ -437,7 +427,6 @@ class ilOrgUnitType
      * Assign a given AdvancedMDRecord to this type.
      * If the AMDRecord is already assigned, nothing is done. If the AMDRecord cannot be assigned to OrgUnits/Types,
      * an Exception is thrown. Otherwise the AMDRecord is assigned (relation gets stored in DB).
-     * @param int $a_record_id
      * @throws ilOrgUnitTypePluginException
      * @throws ilOrgUnitTypeException
      */
@@ -517,9 +506,6 @@ class ilOrgUnitType
 
     /**
      * Helper method to return a translation for a given member and language
-     * @param $a_member
-     * @param $a_lang_code
-     * @return null|string
      */
     protected function getTranslation(string $a_member, string $a_lang_code): ?string
     {
@@ -550,9 +536,6 @@ class ilOrgUnitType
 
     /**
      * Helper method to set a translation for a given member and language
-     * @param string $a_member
-     * @param string $a_value
-     * @param string $a_lang_code
      * @throws ilOrgUnitTypePluginException
      */
     protected function setTranslation(string $a_member, string $a_value, string $a_lang_code): void
@@ -659,7 +642,6 @@ class ilOrgUnitType
 
     /**
      * Helper function to check if this type can be updated
-     * @return bool
      */
     protected function updateable(): bool
     {
@@ -687,7 +669,6 @@ class ilOrgUnitType
 
     /**
      * Returns the loaded translation objects
-     * @return array
      */
     public function getTranslations(): array
     {
@@ -696,7 +677,6 @@ class ilOrgUnitType
 
     /**
      * Returns all existing translation objects
-     * @return array
      */
     public function getAllTranslations(): array
     {
@@ -747,7 +727,6 @@ class ilOrgUnitType
     }
 
     /**
-     * @param string $default_lang
      * @throws ilOrgUnitTypePluginException
      */
     public function setDefaultLang(string $default_lang): void
@@ -799,5 +778,14 @@ class ilOrgUnitType
         if($rid = $this->irss->manage()->find($identifier)) {
             $this->irss->manage()->remove($rid, new ilOrgUnitTypeStakeholder());
         }
+    }
+
+    public function getIconSrc(): string
+    {
+        $rid = $this->irss->manage()->find($this->getIconIdentifier());
+        if(!$rid) {
+            return '';
+        }
+        return $this->irss->consume()->src($rid)->getSrc();
     }
 }

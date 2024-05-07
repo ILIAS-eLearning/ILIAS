@@ -32,7 +32,6 @@ class ilLanguageSetupAgent implements Setup\Agent
 
     public function __construct(
         Refinery\Factory $refinery,
-        $_, // this is Data\Factory, but we do not need it...
         \ilSetupLanguage $il_setup_language
     ) {
         $this->refinery = $refinery;
@@ -83,7 +82,7 @@ class ilLanguageSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }

@@ -24,6 +24,12 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Table;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
 
 /**
  * Class ilOrgUnitTypeGUI
@@ -44,6 +50,12 @@ class ilOrgUnitTypeGUI
     protected UIRenderer $ui_renderer;
     protected Refinery $refinery;
     protected ServerRequestInterface $request;
+    protected DataFactory $data_factory;
+    protected URLBuilder $url_builder;
+    protected array $query_namespace;
+    protected URLBuilderToken $action_token;
+    protected URLBuilderToken $row_id_token;
+    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -70,11 +82,32 @@ class ilOrgUnitTypeGUI
         $this->refinery = $DIC['refinery'];
         $this->request = $DIC->http()->request();
         $this->lng->loadLanguageModule('meta');
+
+        $this->data_factory = new DataFactory();
+        $here_uri = $this->data_factory->uri(
+            $this->request->getUri()->__toString()
+        );
+        $this->url_builder = new URLBuilder($here_uri);
+        $this->query_namespace = ['orgu', 'typeedit'];
+        list($url_builder, $action_token, $row_id_token) =
+            $this->url_builder->acquireParameters($this->query_namespace, "action", "row_ids");
+        $this->url_builder = $url_builder;
+        $this->action_token = $action_token;
+        $this->row_id_token = $row_id_token;
+        $this->query = $DIC->http()->wrapper()->query();
     }
 
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
+
+        if ($this->query->has($this->action_token->getName())) {
+            $cmd = $this->query->retrieve(
+                $this->action_token->getName(),
+                $this->refinery->to()->string()
+            );
+        }
+
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             case strtolower(ilOrgUnitTypeUploadHandlerGUI::class):
@@ -90,7 +123,7 @@ class ilOrgUnitTypeGUI
                         $this->listTypes();
                         break;
                     case 'add':
-                        $this->add();
+                        $this->edit();
                         break;
                     case 'edit':
                         $this->setSubTabsEdit('general');
@@ -137,21 +170,32 @@ class ilOrgUnitTypeGUI
 
     private function setSubTabsEdit(string $active_tab_id): void
     {
-        $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
+
+        $url_builder = $this->url_builder
+            ->withParameter($this->row_id_token, [$this->getRowIdFromQuery()]);
+
+        $this->tabs->addSubTab(
+            'general',
+            $this->lng->txt('meta_general'),
+            $this->getSingleTypeLinkTarget('edit')
+        );
+
         if ($this->settings->get('custom_icons')) {
             $this->tabs->addSubTab(
                 'custom_icons',
                 $this->lng->txt('icon_settings'),
-                $this->ctrl->getLinkTarget($this, 'editCustomIcons')
+                $this->getSingleTypeLinkTarget('editCustomIcons')
             );
         }
         if (count(ilOrgUnitType::getAvailableAdvancedMDRecordIds())) {
-            $this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
+            $this->tabs->addSubTab(
+                'amd',
+                $this->lng->txt('md_advanced'),
+                $this->getSingleTypeLinkTarget('editAMD')
+            );
         }
         $this->tabs->setSubTabActive($active_tab_id);
     }
-
-
 
     protected function getIconForm(
         string $section_title = null,
@@ -175,7 +219,7 @@ class ilOrgUnitTypeGUI
             $this->lng->txt('orgu_type_custom_icon_info')
         );
 
-        $form_action = $this->ctrl->getFormAction($this, 'updateCustomIcons');
+        $form_action = $this->getSingleTypeLinkTarget('updateCustomIcons');
         $form = $this->ui_factory->input()->container()->form()->standard(
             $form_action,
             [$section]
@@ -191,10 +235,9 @@ class ilOrgUnitTypeGUI
         return $form;
     }
 
-
     private function editCustomIcons(): void
     {
-        $type = new ilOrgUnitType((int) $_GET['type_id']);
+        $type = $this->getCurrentOrgUnitType();
         $form = $this->getIconForm(
             $type->getTitle() . ': ',
             $type->getIconIdentifier()
@@ -204,7 +247,7 @@ class ilOrgUnitTypeGUI
 
     private function updateCustomIcons(): void
     {
-        $type = new ilOrgUnitType((int) $_GET['type_id']);
+        $type = $this->getCurrentOrgUnitType();
         $form = $this->getIconForm(
             $type->getTitle() . ': ',
             $type->getIconIdentifier()
@@ -213,7 +256,7 @@ class ilOrgUnitTypeGUI
 
         $data = $form->getData();
 
-        if(! is_null($data)) {
+        if(!is_null($data)) {
             $new_icon_id = current($data) ? current($data) : '';
             $identifier = $type->getIconIdentifier();
             if($identifier && $new_icon_id == '') {
@@ -236,14 +279,31 @@ class ilOrgUnitTypeGUI
         return ilOrgUnitType::getAvailableAdvancedMDRecords();
     }
 
-    /**
-     * @return ilOrgUnitType
-     */
     protected function getCurrentOrgUnitType(): ilOrgUnitType
     {
-        return new ilOrgUnitType((int) $_GET['type_id']);
+        $type_id = $this->getRowIdFromQuery();
+        return new ilOrgUnitType($type_id);
     }
 
+    protected function getRowIdFromQuery(): int
+    {
+        if($this->query->has($this->row_id_token->getName())) {
+            return $this->query->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+            );
+        }
+        return 0;
+    }
+
+    public function getSingleTypeLinkTarget(string $action, int $type_id = null): string
+    {
+        $target_id = $type_id ? [$type_id] : [$this->getRowIdFromQuery()];
+        return $this->url_builder
+            ->withParameter($this->row_id_token, $target_id)
+            ->withParameter($this->action_token, $action)
+            ->buildURI()->__toString();
+    }
 
     protected function getAmdForm(
         string $action,
@@ -295,7 +355,7 @@ class ilOrgUnitTypeGUI
     private function editAMD(): void
     {
         $form = $this->getAmdForm(
-            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getSingleTypeLinkTarget('updateAMD'),
             $this->getAvailableAMDRecords(),
             $this->getCurrentOrgUnitType()
         );
@@ -307,7 +367,7 @@ class ilOrgUnitTypeGUI
     private function updateAMD(): void
     {
         $form = $this->getAmdForm(
-            $this->ctrl->getFormAction($this, 'updateAMD'),
+            $this->getSingleTypeLinkTarget('updateAMD'),
             $this->getAvailableAMDRecords(),
             $this->getCurrentOrgUnitType()
         )
@@ -334,17 +394,170 @@ class ilOrgUnitTypeGUI
         );
         $this->toolbar->addComponent($link);
 
-        $table = new ilOrgUnitTypeTableGUI($this, 'listTypes');
-        $this->tpl->setContent($table->getHTML());
+        $table = $this->getTable()
+            ->withRequest($this->request);
+        $this->tpl->setContent(
+            $this->ui_renderer->render($table)
+        );
     }
 
-    /**
-     * Display form to create a new OrgUnit type
-     */
-    private function add(): void
+    protected function getTable(): Table\Data
     {
-        $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
-        $this->tpl->setContent($form->getHTML());
+        $columns = [
+            'title' => $this->ui_factory->table()->column()->text($this->lng->txt("title")),
+            'description' => $this->ui_factory->table()->column()->text($this->lng->txt("description")),
+            'default_language' => $this->ui_factory->table()->column()->status($this->lng->txt("default_language")),
+            'icon' => $this->ui_factory->table()->column()->text($this->lng->txt("icon"))
+                ->withIsSortable(false),
+        ];
+
+        $actions = [
+            'edit' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('edit'),
+                $this->url_builder->withParameter($this->action_token, "edit"),
+                $this->row_id_token
+            ),
+            'delete' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('delete'),
+                $this->url_builder->withParameter($this->action_token, "delete"),
+                $this->row_id_token
+            ),
+        ];
+
+        return $this->ui_factory->table()
+            ->data('', $columns, $this->getTableDataRetrieval())
+            ->withId('orgu_types')
+            ->withActions($actions);
+    }
+
+    protected function getTableDataRetrieval(): Table\DataRetrieval
+    {
+        return new class (
+            \ilOrgUnitType::getAllTypes(),
+            $this->ui_factory,
+            $this->ui_renderer
+        ) implements Table\DataRetrieval {
+            public function __construct(
+                protected array $data,
+                protected UIFactory $ui_factory,
+                protected UIRenderer $ui_renderer
+            ) {
+            }
+
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return count($this->data);
+            }
+
+            public function getRows(
+                Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Range $range,
+                Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                $records = array_map(
+                    fn($type) => [
+                        'id' => $type->getId(),
+                        'title' => $type->getTitle(),
+                        'description' => $type->getDescription(),
+                        'default_language' => $type->getDefaultLang(),
+                        'icon' => $type->getIconIdentifier() ?
+                            $this->renderIcon($type->getIconSrc()) : '',
+                    ],
+                    $this->data
+                );
+                if ($order) {
+                    list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                    usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                    if ($order_direction === 'DESC') {
+                        $records = array_reverse($records);
+                    }
+                }
+                if ($range) {
+                    $records = array_slice($records, $range->getStart(), $range->getLength());
+                }
+                foreach ($records as $record) {
+                    $row_id = (string)$record['id'];
+                    yield $row_builder->buildDataRow($row_id, $record);
+                }
+            }
+
+            protected function renderIcon(string $src): string
+            {
+                return $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->icon()->custom($src, '')
+                );
+            }
+        };
+    }
+
+    protected function getEditForm(ilOrgUnitType $type): StandardForm
+    {
+        $title = $this->lng->txt('orgu_type_add');
+        $action = $this->getSingleTypeLinkTarget('update');
+        if($type->getId()) {
+            $title = $this->lng->txt('orgu_type_edit');
+        }
+
+        $f = $this->ui_factory->input()->field();
+        $sections = [];
+        $options = [];
+        foreach ($this->lng->getInstalledLanguages() as $lang_code) {
+            $options[$lang_code] = $this->lng->txt("meta_l_{$lang_code}");
+            $sections[] = $f->section(
+                [
+                    $f->hidden()->withValue($lang_code),
+                    $f->text($this->lng->txt('title'))
+                        ->withValue($type->getTitle($lang_code)),
+                    $f->textarea($this->lng->txt('description'))
+                        ->withValue($type->getDescription($lang_code) ?? ''),
+                ],
+                $options[$lang_code]
+            );
+        }
+
+        array_unshift(
+            $sections,
+            $f->section(
+                [$f->select($this->lng->txt('default_language'), $options)
+                    ->withRequired(true)
+                    ->withValue($type->getDefaultLang())
+                ],
+                $title
+            )
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    fn($v) => array_shift($v)
+                )
+            )
+        );
+
+        $form = $this->ui_factory->input()->container()->form()
+            ->standard($action, $sections)
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    function ($v) use ($type) { //: ilOrgUnitType
+                        try {
+
+                            $type->setDefaultLang(array_shift($v));
+                            foreach ($v as $lang_entry) {
+                                list($lang_code, $title, $description) = $lang_entry;
+                                $type->setTitle($title, $lang_code);
+                                $type->setDescription($description, $lang_code);
+                            }
+                            return $type;
+                        } catch(ilOrgUnitTypePluginException $e) {
+                            return $e->getMessage();
+                        }
+                    }
+                )
+            );
+
+        return $form;
     }
 
     /**
@@ -352,23 +565,9 @@ class ilOrgUnitTypeGUI
      */
     private function edit(): void
     {
-        $type = new ilOrgUnitType((int) $_GET['type_id']);
-        $form = new ilOrgUnitTypeFormGUI($this, $type);
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    /**
-     * Create (save) type
-     */
-    protected function create(): void
-    {
-        $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
-        if ($form->saveObject()) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_created'), true);
-            $this->ctrl->redirect($this);
-        } else {
-            $this->tpl->setContent($form->getHTML());
-        }
+        $type = $this->getCurrentOrgUnitType();
+        $form = $this->getEditForm($type);
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     /**
@@ -376,12 +575,17 @@ class ilOrgUnitTypeGUI
      */
     private function update(): void
     {
-        $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
-        if ($form->saveObject()) {
+        $form = $this->getEditForm($this->getCurrentOrgUnitType())
+            ->withRequest($this->request);
+
+        $type = $form->getData();
+        if($type && $type instanceof ilOrgUnitType) {
+            $type->save();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
-            $this->tpl->setContent($form->getHTML());
+            $this->tpl->setOnScreenMessage('failure', $type);
+            $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
 
@@ -390,7 +594,7 @@ class ilOrgUnitTypeGUI
      */
     private function delete(): void
     {
-        $type = new ilOrgUnitType((int) $_GET['type_id']);
+        $type = $this->getCurrentOrgUnitType();
         try {
             $type->delete();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('orgu_type_msg_deleted'), true);

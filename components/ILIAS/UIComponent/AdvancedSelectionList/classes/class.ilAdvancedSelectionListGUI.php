@@ -450,7 +450,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return "";
         }
 
-        $this->global_tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        $this->global_tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
 
         $tpl = new ilTemplate(
             "tpl.adv_selection_list.html",
@@ -607,6 +607,11 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
             // output hidden input and initialize
             if ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SELECT) {
+                if ($this->getSelectedValue() !== "") {
+                    $tpl->setCurrentBlock("selected_val");
+                    $tpl->setVariable("SEL_VAL", $this->getSelectedValue());
+                    $tpl->parseCurrentBlock();
+                }
                 $tpl->setCurrentBlock("hidden_input");
                 $tpl->setVariable("HID", $this->getId());
                 $tpl->parseCurrentBlock();

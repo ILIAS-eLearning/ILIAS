@@ -35,6 +35,15 @@ class Language implements Component\Component
         $define[] = \ILIAS\Language\Language::class;
 
         $implement[\ILIAS\Language\Language::class] = fn() =>
+            $internal[\ilSetupLanguage::class];
+
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilLanguageSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $internal[\ilSetupLanguage::class]
+            );
+
+        $internal[\ilSetupLanguage::class] = fn() =>
             new \ilSetupLanguage("en");
     }
 }

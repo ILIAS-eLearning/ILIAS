@@ -86,10 +86,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //        $lng->loadLanguageModule("style");
 
         $this->setSettingsSubTabs();
-        $ilTabs->setSubTabActive('cont_settings');
+        $ilTabs->setSubTabActive('general');//cont_settings
 
         // view
         $ilToolbar->addButtonInstance($this->object->getViewButton());
+        //        $ilToolbar->addComponent($this->object->getViewButton());
 
         // lm properties
         $this->initPropertiesForm();
@@ -116,6 +117,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
+        $ti->setCols(40);
+        $ti->setRows(2);
         $this->form->addItem($ti);
 
         // SCORM-type
@@ -151,10 +154,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_open"), "open_mode");
         $op0 = new ilRadioOption($this->lng->txt("cont_open_normal"), "0");
+        $op0->setInfo($this->lng->txt("cont_open_normal_info"));
         $radg->addOption($op0);
         $op1 = new ilRadioOption($this->lng->txt("cont_open_iframe"), "1");
+        $op1->setInfo($this->lng->txt("cont_open_iframe_info"));
         $radg->addOption($op1);
         $op2 = new ilRadioOption($this->lng->txt("cont_open_window"), "5");
+        $op2->setInfo($this->lng->txt("cont_open_window_info"));
         $radg->addOption($op2);
 
         // width
@@ -203,34 +209,26 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->form->addItem($sh);
 
         // lesson mode
-        $options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
-                "browse" => $this->lng->txt("cont_sc_less_mode_browse"));
-        $si = new ilSelectInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
-        $si->setOptions($options);
-        $this->form->addItem($si);
+        $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
+        $op0 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_normal"), "normal");
+        $op0->setInfo($this->lng->txt("cont_sc_less_mode_normal_info"));
+        $radg->addOption($op0);
+        $op1 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_browse"), "browse");
+        $op1->setInfo($this->lng->txt("cont_sc_less_mode_browse_info"));
+        $radg->addOption($op1);
 
-        // credit mode
-        $options = array("credit" => $this->lng->txt("cont_credit_on"),
-            "no_credit" => $this->lng->txt("cont_credit_off"));
-        $si = new ilSelectInputGUI($this->lng->txt("cont_credit_mode"), "credit_mode");
-        $si->setOptions($options);
-        $si->setInfo($this->lng->txt("cont_credit_mode_info"));
-        $this->form->addItem($si);
 
         // set lesson mode review when completed
         $options = array(
             "n" => $this->lng->txt("cont_sc_auto_review_no"),
-//			"r" => $this->lng->txt("cont_sc_auto_review_completed_not_failed_or_passed"),
-//			"p" => $this->lng->txt("cont_sc_auto_review_passed"),
-//			"q" => $this->lng->txt("cont_sc_auto_review_passed_or_failed"),
-//			"c" => $this->lng->txt("cont_sc_auto_review_completed"),
-//			"d" => $this->lng->txt("cont_sc_auto_review_completed_and_passed"),
             "y" => $this->lng->txt("cont_sc_auto_review_completed_or_passed"),
             );
         $si = new ilSelectInputGUI($this->lng->txt("cont_sc_auto_review_2004"), "auto_review");
         $si->setOptions($options);
         // $si->setInfo($this->lng->txt("cont_sc_auto_review_info_12"));
-        $this->form->addItem($si);
+        $op0->addSubItem($si);
+        // end lesson mode
+        $this->form->addItem($radg);
 
         // mastery_score
         if ($this->object->getMasteryScoreValues() != "") {
@@ -354,7 +352,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $values["cobj_auto_last_visited"] = $this->object->getAuto_last_visited();
         $values["auto_continue"] = $this->object->getAutoContinue();
         $values["lesson_mode"] = $this->object->getDefaultLessonMode();
-        $values["credit_mode"] = $this->object->getCreditMode();
         $values["auto_review"] = $this->object->getAutoReviewChar();
         $values["mastery_score"] = $this->object->getMasteryScore();
         $values["cobj_session"] = $this->object->getSession();
@@ -383,7 +380,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
         $this->form = new ilPropertyFormGUI();
         //title
-        $this->form->setTitle($this->lng->txt("import_sahs"));
+        $this->form->setTitle($this->lng->txt("import_sahs_new"));
+
+        $this->form->setDescription($this->lng->txt("import_sahs_info"));
 
         // SCORM-type
         $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
@@ -529,8 +528,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $reload_manifest = preg_replace($check, $replace, $new_manifest);
 
         //do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
-        if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(utf8_encode($new_manifest), $old_manifest) == 0 ||
-            strcmp($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest), $old_manifest) == 0) {
+        if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(mb_convert_encoding($new_manifest, "UTF-8", mb_detect_encoding($new_manifest)), $old_manifest) == 0 ||
+            strcmp($reload_manifest, $old_manifest) == 0 || strcmp(mb_convert_encoding($reload_manifest, "UTF-8", mb_detect_encoding($reload_manifest)), $old_manifest) == 0) {
 
             //get exisiting module version
             $module_version = $this->object->getModuleVersion() + 1;
@@ -568,7 +567,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             exit;
         }
 
-        if ($source_is_copy) {
+        if (isset($source_is_copy)) {
             unlink($source);
         }
 
@@ -621,7 +620,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setAutoContinue($this->dic->http()->wrapper()->post()->has('auto_continue'));
             //            $this->object->setMaxAttempt((int) $_POST["max_attempt"]);
             $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
-            $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
             $this->object->setAutoReview(ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string())));
             $this->object->setSession($this->dic->http()->wrapper()->post()->has('cobj_session'));
             $this->object->setInteractions($this->dic->http()->wrapper()->post()->has('cobj_interactions'));

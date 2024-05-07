@@ -37,7 +37,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected array $additional = array();
     protected array $export_material = array("js" => array(), "images" => array(), "files" => array());
     protected static int $initialized = 0;
+    protected static bool $calender_initialized = false;
     protected int $requested_ppage;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         int $a_portfolio_id,
@@ -59,6 +62,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->portfolio_id = $a_portfolio_id;
         $this->enable_comments = $a_enable_comments;
@@ -636,7 +641,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $a_group_ids = null;
         }
         ilCalendarCategories::_getInstance()->setCHUserId($user_id);
-        ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, 0, true);
+        if (!self::$calender_initialized) {
+            ilCalendarCategories::_getInstance()->initialize(
+                ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION,
+                0,
+                true
+            );
+            self::$calender_initialized = true;
+        }
 
         $seed = $this->port_request->getCalendarSeed();
         if ($seed === "") {
@@ -655,7 +667,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
         $month_gui->addScheduleFilter($filter);
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'components/ILIAS/Calendar'));
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css'));
 
         $this->lng->loadLanguageModule("dateplaner");
         return '<h3>' . $this->lng->txt("app_consultation_hours") . '</h3>' .
@@ -797,17 +809,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
                             $tpl->setCurrentBlock("objective_link_bl");
 
+                            $objtv_link = $this->ui_fac->link()->standard(
+                                $objtv["title"],
+                                $url
+                            );
                             if (trim($objtv["desc"] ?? "") !== "") {
                                 $desc = nl2br($objtv["desc"]);
-                                $tt_id = "objtvtt_" . $objtv["id"] . "_" . (self::$initialized);
-
-                                ilTooltipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
-
-                                $tpl->setVariable("OBJECTIVE_LINK_ID", $tt_id);
+                                $objtv_link = $objtv_link->withHelpTopics(...$this->ui_fac->helpTopics($desc));
                             }
 
-                            $tpl->setVariable("OBJECTIVE_LINK_URL", $url);
-                            $tpl->setVariable("OBJECTIVE_LINK_TITLE", $objtv["title"]);
+                            $tpl->setVariable("OBJECTIVE_LINK", $this->ui_ren->render($objtv_link));
                         } else {
                             $tpl->setCurrentBlock("objective_nolink_bl");
                             $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
@@ -876,7 +887,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
             // #15508
             if (!self::$initialized) {
-                $GLOBALS["tpl"]->addJavaScript("components/ILIAS/Portfolio/js/ilPortfolio.js");
+                $GLOBALS["tpl"]->addJavaScript("assets/js/ilPortfolio.js");
                 $GLOBALS["tpl"]->addOnLoadCode("ilPortfolio.init()");
             }
             self::$initialized++;

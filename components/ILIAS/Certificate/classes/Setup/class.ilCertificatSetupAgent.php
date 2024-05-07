@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
+use ILIAS\Certificate\Setup\Migration\CertificateIdMigration;
 use ILIAS\Refinery;
+use ILIAS\Setup;
 
 class ilCertificatSetupAgent implements Setup\Agent
 {
@@ -47,7 +48,7 @@ class ilCertificatSetupAgent implements Setup\Agent
         );
     }
 
-    public function getBuildArtifactObjective(): Setup\Objective
+    public function getBuildObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -59,6 +60,8 @@ class ilCertificatSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new CertificateIdMigration()
+        ];
     }
 }

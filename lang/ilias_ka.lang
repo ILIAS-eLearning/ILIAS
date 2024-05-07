@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#უკან დარეკვის ტეს
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#გვერდით
 assessment#:#cancel_test#:#ტესტის შეჩერება
 assessment#:#cannot_edit_marks#:#უკვე არიან სტუდენტები ვინც გაიარა ტესტი. თქვენ მხოლოდ შეგიძლიათ შეცვალოთ ნიშნები თუ მაჩვენებლის
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online#:#Online###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###24 10 2013 new variable
 assessment#:#qpl_settings_subtab_general#:#General Settings###24 10 2013 new variable
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#აჩვენენ მომხმარებლის დეტალური შედეგი ( შეფასებული ჩაბარება)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#აჩვენე შეფასებული ჩაბარების მიმოხილვა
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#აჩვენე მომხმარებელთა შეფასებული პასუხები
 assessment#:#shuffle_answers#:#პასუხების არევა
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#ესსე
 survey#:#add_heading#:#სათაურის დამატება
 survey#:#add_material#:#მასალის
 survey#:#add_phrase#:#ფრაზის დამატება
-survey#:#adm_no_special_users#:#ის მომხმარებლები რომლებსაც აქვთ გამოკითხვის 1 ზე მეტჯერ ჩატარების შესაძლებლობა არ არიან გასაზღვრულნი
 survey#:#already_completed_survey#:#თქვენ უკვე დაასრულეთ ეს გამოკითხვა! თქვენ არ გაქვთ გამოკითხვაში ხელახლა შესვლის უფლება
 survey#:#anonymization#:#
 survey#:#anonymize_anonymous_introduction#:#ამ გამოკითხვაში მომხმარებელთა მონაცემები ანონიმურია. იმისათვის რომ მიიღოთ კითხვარში შესვლის უფლება, თქვენ უნდა შეივანოთ 5 ნიშნიანი კითხვარის კოდი რომლის მიღებაც კითხვარის შემქმნელისაგან შეგიძლიათ მიიღოთ <br/> გთხოვთ შეიყვანოთ ის ქვემოთ ტექსტის ველში
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#გააქტიურება
 user#:#user_activate_public_profile_info#:#სახელი და გვარი ყოველთვის ხილვადი იქნება თქვენს პროფილში, თუ გააქტიურებულია
 user#:#user_activation#:#გააქტიურება
-user#:#user_adm_enable_alpha_nav#:#ალფაბეტური ნავიგაცია მომხმარებლის ადმინისტრაციაში
 user#:#user_all#:#ყველა
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#ნებისმიერი

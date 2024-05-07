@@ -1,13 +1,18 @@
-<div class="il-drilldown" id="{ID}">
-    <header class="show-title show-backnav">
-        <h2>{TITLE}</h2>
-        <div class="backnav">
+<section class="c-drilldown" id="{ID}">
+    <header class="c-drilldown__header--showbacknav">
+        <div></div>
+        <div></div>
+        <div class="c-drilldown__filter">
+            <label for='{ID_FILTER}' class="control-label">{LABEL}</label>
+            <input id='{ID_FILTER}' type="text" name='{NAME}' class="form-control" />
+        </div>
+        <div class="c-drilldown__backnav">
             {BACKNAV}
         </div>
     </header>
-    <ul>
-        <li>
+    <div class="c-drilldown__menu">
+        <ul aria-live="polite" aria-label="{ARIA_LABEL}">
             {DRILLDOWN}
-        </li>
-    </ul>
-</div>
+        </ul>
+    </div>
+</section>

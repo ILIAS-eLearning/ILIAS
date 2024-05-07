@@ -186,6 +186,8 @@ class ilLDAPAttributeToUser
 
         // Single users
         foreach ($this->user_data as $external_account => $user) {
+            $external_account = (string) $external_account;
+
             $user['ilExternalAccount'] = $external_account;
 
             // Required fields

@@ -11,12 +11,16 @@ function base()
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $wrapper = $DIC->http()->wrapper()->query();
+
+    $submit_flag = 'dropzone_standard_base';
+    $post_url = "{$request->getUri()}&$submit_flag";
 
     $dropzone = $factory
         ->dropzone()->file()->standard(
             'Upload your files here',
             'Drag files in here to upload them!',
-            '#',
+            $post_url,
             $factory->input()->field()->file(
                 new \ilUIAsyncDemoFileUploadHandlerGUI(),
                 'your files'
@@ -27,7 +31,7 @@ function base()
 
     // please use ilCtrl to generate an appropriate link target
     // and check it's command instead of this.
-    if ('POST' === $request->getMethod()) {
+    if ($wrapper->has($submit_flag)) {
         $dropzone = $dropzone->withRequest($request);
         $data = $dropzone->getData();
     } else {

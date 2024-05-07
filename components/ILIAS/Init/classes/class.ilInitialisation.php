@@ -338,7 +338,12 @@ class ilInitialisation
                 )
             );
             $fileUploadImpl->register(new InsecureFilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new SVGBlacklistPreProcessor($c->language()->txt("msg_security_svg_rejected")));
+            $fileUploadImpl->register(new SVGBlacklistPreProcessor(
+                $c->language()->txt("upload_svg_rejection_message"),
+                $c->language()->txt("upload_svg_rejection_message_script"),
+                $c->language()->txt("upload_svg_rejection_message_base64"),
+                $c->language()->txt("upload_svg_rejection_message_elements")
+            ));
 
             return $fileUploadImpl;
         };
@@ -1085,6 +1090,18 @@ class ilInitialisation
         self::initILIAS();
     }
 
+    public static function reInitUser(): void
+    {
+        if (ilContext::initClient() && ilContext::hasUser()) {
+            self::initSession();
+            self::initUser();
+
+            if (ilContext::supportsPersistentSessions()) {
+                self::resumeUserSession();
+            }
+        }
+    }
+
     /**
      * ilias initialisation
      */
@@ -1666,6 +1683,13 @@ class ilInitialisation
         ) {
             // @todo refinery undefind
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . ($_GET['baseClass'] ?? ""));
+            return true;
+        }
+
+        if (
+            (strtolower($requestCmdClass ?? "") === strtolower(ilAccessibilityControlConceptGUI::class))
+        ) {
+            ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
             return true;
         }
 

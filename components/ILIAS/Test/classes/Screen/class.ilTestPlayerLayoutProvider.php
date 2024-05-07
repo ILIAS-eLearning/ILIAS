@@ -59,35 +59,29 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
     protected function isKioskModeEnabled(CalledContexts $called_contexts): bool
     {
-        $additional_data = $called_contexts->current()->getAdditionalData();
-        return $additional_data->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true);
+        return $called_contexts->current()->getAdditionalData()
+            ->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true);
     }
 
     public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
     {
         $mainbar = $this->globalScreen()->layout()->factory()->mainbar();
-        $additionalData = $called_contexts->current()->getAdditionalData();
-        $has_question_list = $additionalData->exists(self::TEST_PLAYER_QUESTIONLIST);
-        $is_kiosk_mode = $this->isKioskModeEnabled($called_contexts);
+        $has_question_list = $called_contexts->current()->getAdditionalData()
+            ->exists(self::TEST_PLAYER_QUESTIONLIST);
 
-        if (! $is_kiosk_mode && ! $has_question_list) {
+        if (!$this->isKioskModeEnabled($called_contexts)) {
             return null;
         }
 
-        if ($is_kiosk_mode && ! $has_question_list) {
-            $mainbar_modification = static fn(?MainBar $mainbar): ?MainBar => null;
-        }
-
+        $mainbar_modification = static fn(?MainBar $mainbar): ?MainBar => null;
         if ($has_question_list) {
             $f = $this->dic->ui()->factory();
             $r = $this->dic->ui()->renderer();
             $lng = $this->dic->language();
             $question_listing = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_QUESTIONLIST);
 
-            $mainbar_modification = static function (?MainBar $mainbar) use ($f, $r, $lng, $question_listing, $is_kiosk_mode): ?MainBar {
-                if ($is_kiosk_mode) {
-                    $mainbar = $mainbar->withClearedEntries();
-                }
+            $mainbar_modification = static function (?MainBar $mainbar) use ($f, $r, $lng, $question_listing): ?MainBar {
+                $mainbar = $mainbar->withClearedEntries();
 
                 $icon = $f->symbol()->icon()->standard('tst', $lng->txt("more"));
                 $tools_button = $f->button()->bulky($icon, $lng->txt("tools"), "#")
@@ -98,7 +92,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                 $label = $lng->txt('mainbar_button_label_questionlist');
                 $entry = $f->maincontrols()->slate()->legacy(
                     $label,
-                    $f->symbol()->icon()->standard("tst", $label),
+                    $f->symbol()->icon()->standard('tst', $label),
                     $question_listing
                 );
 
@@ -115,89 +109,83 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
     public function getMetaBarModification(CalledContexts $called_contexts): ?MetaBarModification
     {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $metaBar = $this->globalScreen()->layout()->factory()->metabar();
-
-            $metaBar = $metaBar->withModification(function (?MetaBar $current): ?MetaBar {
-                return null;
-            });
-
-            return $metaBar
-                ->withPriority(self::MODIFICATION_PRIORITY);
+        if (!$this->isKioskModeEnabled($called_contexts)) {
+            return null;
         }
 
-        return null;
+        return $this->globalScreen()->layout()->factory()->metabar()
+            ->withModification(
+                function (?MetaBar $current): ?MetaBar {
+                    return null;
+                }
+            )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
     public function getFooterModification(CalledContexts $called_contexts): ?FooterModification
     {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $footer = $this->globalScreen()->layout()->factory()->footer();
-
-            $footer = $footer->withModification(function (?Footer $current): ?Footer {
-                return null;
-            });
-
-            return $footer
-                ->withPriority(self::MODIFICATION_PRIORITY);
+        if (!$this->isKioskModeEnabled($called_contexts)) {
+            return null;
         }
 
-        return null;
+        return $this->globalScreen()->layout()->factory()->footer()
+            ->withModification(
+                function (?Footer $current): ?Footer {
+                    return null;
+                }
+            )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
     public function getShortTitleModification(CalledContexts $called_contexts): ?ShortTitleModification
     {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_SHORT_TITLE);
-            if ($title == null) {
-                $title = '';
-            }
-            return $this->globalScreen()->layout()->factory()->short_title()
+        if (!$this->isKioskModeEnabled($called_contexts)) {
+            return null;
+        }
+
+        $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_SHORT_TITLE);
+        if ($title === null) {
+            $title = '';
+        }
+        return $this->globalScreen()->layout()->factory()->short_title()
             ->withModification(
                 function (?string $content) use ($title): ?string {
                     return $title;
                 }
-            )
-            ->withPriority(self::MODIFICATION_PRIORITY);
-        }
-        return null;
+            )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
     public function getViewTitleModification(CalledContexts $called_contexts): ?ViewTitleModification
     {
-        if ($this->isKioskModeEnabled($called_contexts)) {
-            $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_VIEW_TITLE);
-            if (is_null($title)) {
-                $title = '';
-            }
-            return $this->globalScreen()->layout()->factory()->view_title()
+        if (!$called_contexts->current()->getAdditionalData()->exists(self::TEST_PLAYER_VIEW_TITLE)) {
+            return null;
+        }
+
+        $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_VIEW_TITLE);
+        if ($title === null) {
+            $title = '';
+        }
+        return $this->globalScreen()->layout()->factory()->view_title()
             ->withModification(
                 function (?string $content) use ($title): ?string {
                     return $title;
                 }
-            )
-            ->withPriority(self::MODIFICATION_PRIORITY);
-        }
-        return null;
+            )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
     public function getTitleModification(CalledContexts $called_contexts): ?TitleModification
     {
-        $additionalData = $called_contexts->current()->getAdditionalData();
-        $has_title = $additionalData->exists(self::TEST_PLAYER_TITLE);
-        if ($has_title) {
-            $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_TITLE);
-            if ($title == null) {
-                $title = '';
-            }
-            return $this->globalScreen()->layout()->factory()->view_title()
+        if (!$called_contexts->current()->getAdditionalData()->exists(self::TEST_PLAYER_TITLE)) {
+            return null;
+        }
+
+        $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_TITLE);
+        if ($title == null) {
+            $title = '';
+        }
+        return $this->globalScreen()->layout()->factory()->view_title()
             ->withModification(
                 function (?string $content) use ($title): ?string {
                     return $title;
                 }
-            )
-            ->withPriority(self::MODIFICATION_PRIORITY);
-        }
-        return null;
+            )->withPriority(self::MODIFICATION_PRIORITY);
     }
 }

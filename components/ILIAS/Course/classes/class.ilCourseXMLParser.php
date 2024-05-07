@@ -102,6 +102,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
+        $a_attribs = $this->trimAndStripAttribs($a_attribs);
         if ($this->in_meta_data) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return;
@@ -485,6 +486,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
      */
     public function handlerEndTag($a_xml_parser, string $a_name): void
     {
+        $this->cdata = $this->trimAndStrip((string) $this->cdata);
         if ($this->in_meta_data) {
             parent::handlerEndTag($a_xml_parser, $a_name);
         }
@@ -497,11 +499,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                  * This needs to be before MDUpdateListener, since otherwise container settings are
                  * overwritten by ilContainer::update in MDUpdateListener, see #24733.
                  */
+                $this->course_obj->readContainerSettings();
                 if ($this->getMode() === self::MODE_SOAP) {
                     $this->course_obj->MDUpdateListener('General');
                     $this->adv_md_handler->save();
                 }
-                $this->course_obj->readContainerSettings();
                 $this->course_obj->update();
                 break;
 

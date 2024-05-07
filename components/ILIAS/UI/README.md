@@ -3,21 +3,9 @@
 The ILIAS UI-Framework helps you to implement GUIs consistent with the guidelines
 of the Kitchen Sink.
 
-## Use Kitchen Sink Concepts
-
-The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fact,
-this framework and the Kitchen Sink are heavily related. You won't need to think
-about HTML if you're using this framework. You also won't need to think about
-the implementation you are using, the device your GUI is displayed on or the
-CSS classes you need to use. You will be able to talk to other people (like users
-or designers) using the same concepts and problem space as they do. This is also
-not a templating framework.
-
-## Semantics of Components
-
-UI Components serve a specific purpose. They are not simply named html structures that are composed to larger structures, 
-but semantically different identities. It is possible that two different components look the same and act the same by 
-accident, but still remain different identities. However it is also possible that the same component looks different in separate contexts.
+## Tutorial
+You find a tutorial on what UI Components are and on their purpose, how they are used and what you should consider
+while using them [here](../../../docs/development/devguide/tutorial/04-coding/04-ui-framework.md).
 
 ## Correctness by Construction and Testability
 
@@ -50,50 +38,6 @@ existing UI components when you do.
 Documents with recommendations on how to approach UX challenges of specific UI
 components and use cases will be added below:
 * [Best practices for properties and actions displayed on repository objects](docu/ux-guide-repository-objects-properties-and-actions.md)
-
-## Using the Framework
-
-As a user of the ILIAS UI-Framework your entry point to the framework is provided
-via the dependency injection container `$DIC->ui()->factory()`, which gives you
-access to the main factory implementing ILIAS\UI\Factory.
-
-### How to Discover the Components in the Framework?
-
-The factories provided by the framework are structured in the same way as the
-taxonomy given in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11).
-The main factory provides methods for every node or leaf in the `Class`-Layer
-of the Kitchen Sink Taxonomy. Using that method you get a sub factory if methods
-correspond to a node in the layout. If the method corresponds to a leaf in the
-layout, you get a PHP representation of the component you chose. Since the Jour
-Fixe decides upon entries in the Kitchen Sink, the factories in the framework
-only contain entries `Accepted` by the JF. Creating a component with the
-framework thus just means following the path from the `Class` to the leaf you
-want to use in your GUI.
-
-The entries of the Kitchen Sink are documented in this framework in a machine
-readable form. That means you can rely on the documentation given in the
-interfaces of the factories, other representations of the Kitchen Sink are
-derived from there. This also means you can chose to use the [documentation of the
-Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
-to check out the components.
-
-### How to Use the Components of the Framework?
-
-With the ILIAS UI-Framework you describe how your GUI is structured instead of
-instructing the system to construct it for you. The main principle for the description
-of GUIs is composition.
-
-You declare you components by providing a minimum set of properties and maybe
-other components that are bundled in your component. All compents in the framework
-strive to only use a small amount of required properties and provide sensible
-defaults for other properties.
-
-Since the representations of the components are implemented as immutable objects,
-you can savely reuse components created elsewhere in your code or pass your
-component to other code without being concerned if the other code modifies it.
-
-[Example 1](examples/Button/Primary/base.php)
-[Example 2](examples/Glyph/Mail/mail_example.php)
 
 ## Implementing Elements in the Framework
 
@@ -230,51 +174,9 @@ If you would like to implement a new component for the framework, you should per
     }
     ```
 
-7. Next you should create the necessary tests for the new component. At least provide tests
-  for all interface methods and the rendering.
-  For the demo component this looks as follows (located at UI/test/Component/Demo/DemoTest.php):
-   ```php
-    <?php declare(strict_types=1)
-
-    require_once(__DIR__."/../../../../vendor/composer/vendor/autoload.php");
-    require_once(__DIR__."/../../Base.php");
-
-    use \ILIAS\UI\Component as C;
-
-    /**
-     * Test on demo implementation.
-     */
-    class DemoTest extends ILIAS_UI_TestBase {
-
-        public function test_implements_factory_interface() {
-            $f = new \ILIAS\UI\Implementation\Factory();
-
-            $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
-            $demo = $f->demo("Demo Implementation!");
-            $this->assertInstanceOf( "ILIAS\\UI\\Component\\Demo\\Demo", $demo);
-        }
-
-        public function test_get_content() {
-            $f = new \ILIAS\UI\Implementation\Factory();
-            $demo = $f->demo("Demo Implementation!");
-
-            $this->assertEquals("Demo Implementation!", $demo->getContent());
-        }
-
-        public function test_render_content() {
-            $r = $this->getDefaultRenderer();
-            $f = new \ILIAS\UI\Implementation\Factory();
-            $demo = $f->demo("Demo Implementation!");
-
-
-            $html = $r->render($demo);
-
-            $expected_html = '<h1 class="il-demo">Demo Implementation!</h1>';
-
-            $this->assertHTMLEquals($expected_html, $html);
-        }
-    }
-    ```
+7. Next you should create the necessary tests for the new component. Since this is a very important step, it deserved
+   its own [chapter below](#How-to-write-unit-tests-for-a-Component). **Make sure you write at at least tests for all
+   interface methods and one full rendering test.**
 
 8. Currently you will only get the NotImplementedException you threw previously. That needs to be changed.
   First, add an implementation for the new interface (add it at src/UI/Implementation/Component/Demo/Demo.php):
@@ -386,6 +288,199 @@ If you would like to implement a new component for the framework, you should per
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
     `Services/Init/class/class.ilInitialisation.php`.
 
+### How to write unit tests for a Component?
+
+When creating a new component, please make sure you provide at least tests for all interface methods and one full
+rendering test. For the demo component we have created above, this looks as follows (located at
+UI/tests/Component/Demo/DemoTest.php). Please make sure your unit test extends from the `ILIAS_UI_TestBase`, so you can
+use functionalities like getting the test renderer for rendering tests.
+
+```php
+    <?php declare(strict_types=1)
+
+    require_once(__DIR__."/../../../../vendor/composer/vendor/autoload.php");
+    require_once(__DIR__."/../../Base.php");
+
+    use \ILIAS\UI\Component as C;
+
+    /**
+     * Test on demo implementation.
+     */
+    class DemoTest extends ILIAS_UI_TestBase {
+        public function testImplementsFactoryInterface() {
+            $f = new \ILIAS\UI\Implementation\Factory();
+
+            $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
+            $demo = $f->demo("Demo Implementation!");
+            $this->assertInstanceOf( "ILIAS\\UI\\Component\\Demo\\Demo", $demo);
+        }
+
+        public function testGetContent() {
+            $f = new \ILIAS\UI\Implementation\Factory();
+            $demo = $f->demo("Demo Implementation!");
+
+            $this->assertEquals("Demo Implementation!", $demo->getContent());
+        }
+
+        public function testRenderContent() {
+            $r = $this->getDefaultRenderer();
+            $f = new \ILIAS\UI\Implementation\Factory();
+            $demo = $f->demo("Demo Implementation!");
+
+
+            $html = $r->render($demo);
+
+            $expected_html = '<h1 class="il-demo">Demo Implementation!</h1>';
+
+            $this->assertHTMLEquals($expected_html, $html);
+        }
+    }
+```
+
+If you are implementing or adjusting the unit tests for a more complex component, you need to be careful when writing
+rendering tests. If your component features further components from the framework, either by composable aspects like
+e.g. providing a roundtrip modals action buttons (`ILIAS\UI\Component\Modal\Roundtrip::withActionButtons()`), or
+by rendering further components during the rendering process, it is implicitly coupled to the HTML of other components.
+
+If thats the case, you MUST implement your rendering tests using "component stubs", to fully decouple the unit tests
+from other components. This means, instead of rendering actual components in your unit test, you provide mocked
+instances of the component interfaces used within your component or unit test, so we have full control over the HTML
+being rendered for each component. An implementation for the first scenario (externally provided components) would look
+like this for our demo component:
+
+```php
+// ...
+
+class DemoTest extends ILIAS_UI_TestBase
+{
+    // ...
+    
+    /**
+     * Tests if the action button which is provided is catually rendered.
+     */
+    public function testWithActionButtonRendering(): void
+    {
+        $f = new \ILIAS\UI\Implementation\Factory();
+        $demo = $f->demo('');
+        
+        // create the component mock for a standard button.
+        $button_stub = $this->createMock(\ILIAS\UI\Component\Button\Standard::class);
+        
+        // configure the mock to return our desired HTML, it is advised to make this
+        // value unique, so we can check only the existense using a str_contains()
+        // approach.
+        $button_html = sha1(\ILIAS\UI\Component\Button\Standard::class);
+        $button_stub->method('getCanonicalName')->willReturn($button_html);
+        
+        // make the mock known to the renderer, so it can be rendered.
+        $renderer = $this->getDefaultRenderer(null, [$button_stub]);
+        
+        // provide the mock to the method we are testing.
+        $demo = $demo->withActionButton($button_stub);
+    
+        $actual_html = $renderer->render($demo);
+        
+        // checks only the existence of the component, using str_contains() to
+        // search our unique stub HTML.
+        $this->assertTrue(str_contains($actual_html, $stub_html));
+    
+        $expected_html = <<<EOT
+<div class="c-demo">
+    <h1 class="il-demo"></h1>
+    $button_html
+</div>
+EOT;
+    
+        // checks the exact position of the component stub, using the unique HTML
+        // value embeded in the expected HTML.
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html), 
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
+}
+```
+
+**Note it is also important to think about what you are actually testing with your rendering test.** If testing only for
+the existence of something is important, you can use the `str_contains()` approach to reduce maintenance in the future.
+However, it might be necessary to also test the location of a ceratin component, e.g. if an action button should be
+inside a certain container, so the styling works properly. In this case, you may use the `assertEquals()` approach with
+the embedded stub-HTML.
+
+For the latter scenario (internally rendered components), you need to make the component stubs available in the UI
+factory which is injected into the actual renderer. This way, we still have full control over the HTML of other
+components which may be rendered and checked in your rendering tests. For our demo component this would work like this:
+
+```php
+// ...
+
+class DemoTest extends ILIAS_UI_TestBase
+{
+    // ...
+    protected \ILIAS\UI\Component\Button\Factory $button_factory;
+    protected \ILIAS\UI\Component\Button\Standard $button_stub;
+    protected string $button_html;
+    
+    /** Sets up the button stub which will be rendered internally */
+    public function setUp() : void
+    {
+        // setup the button stub similar to the previous example.
+        $this->button_stub = $this->createMock(\ILIAS\UI\Component\Button\Standard::class);
+        $this->button_html = sha1(\ILIAS\UI\Component\Button\Standard::class);
+        $this->button_stub->method('getCanonicalName')->willReturn($this->button_html);
+    
+        // setup the factory so it will return the button stub.
+        $this->button_factory = $this->createMock(\ILIAS\UI\Component\Button\Factory::class);
+        $this->button_factory->method('standard')->willReturn($this->button_stub);
+        
+        // don't forget to call our parent!
+        parent::setUp();
+    }
+
+    /** Overrides the factory retrieval so it uses our instance of the button factory. */
+    public function getUIFactory(): NoUIFactory
+    {
+        return new class ($this->button_factory) extends NoUIFactory {
+            public function __construct(
+                protected \ILIAS\UI\Component\Button\Factory $button_factory,
+            ) {
+            }
+            
+            public function button(): \ILIAS\UI\Component\Button\Factory
+            {
+                return $this->button_factory;
+            }
+        };
+    }
+
+    /** Tests if the action button is rendered properly during the internal rendering process. */
+    public function testInternalActionButtonRendering(): void
+    {
+        $f = new \ILIAS\UI\Implementation\Factory();
+        $demo = $f->demo('');
+
+        // render the component making the stub available.
+        $renderer = $this->getDefaultRenderer(null, [$this->button_stub]);
+        $actual_html = $renderer->render($demo);
+
+        // check existence ... 
+        $this->assertTrue(str_contains($actual_html, $this->stub_html));
+        
+        $expected_html = <<<EOT
+<div class="c-demo">
+    <h1 class="il-demo"></h1>
+    $this->button_html
+</div>
+EOT;
+
+        // check location ...
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html), 
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
+}
+```
 
 ### How to Change an Existing Component?
 

@@ -60,7 +60,6 @@ function base()
 
         if ($action === 'do_something_else') {
             $items = [];
-            $ids = explode(',', $ids);
             foreach ($ids as $id) {
                 $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
             }

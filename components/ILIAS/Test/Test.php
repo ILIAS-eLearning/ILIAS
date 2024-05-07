@@ -32,6 +32,21 @@ class Test implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilTestSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "ilTestPlayerQuestionEditControl.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "settings_confirmation.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "test_kiosk_header.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+                new Component\Resource\ComponentCSS($this, "test_pdf.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "test_print.css");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentCSS($this, "test_print_hide_content.css");
     }
 }

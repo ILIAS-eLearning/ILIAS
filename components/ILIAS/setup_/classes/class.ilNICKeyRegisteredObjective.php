@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -47,7 +47,8 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return [
             new \ilNICKeyStoredObjective($this->config),
             new \ilSettingsFactoryExistsObjective(),
-            new \ilHttpConfigStoredObjective($http_config)
+            new \ilHttpConfigStoredObjective($http_config),
+            new ilInstIdDefaultStoredObjective($this->config)
         ];
     }
 
@@ -55,6 +56,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
+
         $systemfolder_config = $environment->getConfigFor("systemfolder");
         $http_config = $environment->getConfigFor("http");
 
@@ -77,7 +79,6 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $response = $req->exec();
         $req->parseResponse($response);
 
-
         if ($req->getInfo()["http_code"] != "200") {
             $settings->set("nic_enabled", "-1");
             throw new Setup\UnachievableException(
@@ -87,7 +88,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
 
         $status = explode("\n", $req->getResponseBody());
 
-        $nic_id = (string) ($status[2] ?? '');
+        $nic_id = ($status[2] ?? '');
         if ($nic_id === '') {
             $settings->set("nic_enabled", "-1");
             throw new Setup\UnachievableException(
@@ -103,7 +104,6 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $GLOBALS["DIC"] = $old_DIC;
         $GLOBALS["ilSetting"] = $old_settings;
 
-
         return $environment;
     }
 
@@ -112,7 +112,9 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
      */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        return true;
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings = $factory->settingsFor("common");
+        return ($settings->get("inst_id") === '0') && $this->config->getRegisterNIC();
     }
 
     protected function getRegistrationProblem(array $nic_response_parts): string

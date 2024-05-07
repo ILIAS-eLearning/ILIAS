@@ -1198,28 +1198,31 @@ class ilMediaItem
 
             $remote = false;
 
-            if (substr($file, 0, 4) == "http") {
-                if ($fp_remote = fopen($file, 'rb')) {
-                    $tmpdir = ilFileUtils::ilTempnam();
-                    ilFileUtils::makeDir($tmpdir);
-                    $localtempfilename = tempnam($tmpdir, 'getID3');
-                    if ($fp_local = fopen($localtempfilename, 'wb')) {
-                        while ($buffer = fread($fp_remote, 8192)) {
-                            fwrite($fp_local, $buffer);
+            try {
+                if (substr($file, 0, 4) == "http") {
+                    if ($fp_remote = fopen($file, 'rb')) {
+                        $tmpdir = ilFileUtils::ilTempnam();
+                        ilFileUtils::makeDir($tmpdir);
+                        $localtempfilename = tempnam($tmpdir, 'getID3');
+                        if ($fp_local = fopen($localtempfilename, 'wb')) {
+                            while ($buffer = fread($fp_remote, 8192)) {
+                                fwrite($fp_local, $buffer);
+                            }
+                            fclose($fp_local);
+                            $file = $localtempfilename;
                         }
-                        fclose($fp_local);
-                        $file = $localtempfilename;
+                        fclose($fp_remote);
                     }
-                    fclose($fp_remote);
                 }
-            }
 
-            $ana->setFile($file);
-            $ana->analyzeFile();
-            $this->setDuration((int) $ana->getPlaytimeSeconds());
+                $ana->setFile($file);
+                $ana->analyzeFile();
+                $this->setDuration((int) $ana->getPlaytimeSeconds());
 
-            if ($remote) {
-                unlink($localtempfilename);
+                if ($remote) {
+                    unlink($localtempfilename);
+                }
+            } catch (Exception $e) {
             }
         }
     }

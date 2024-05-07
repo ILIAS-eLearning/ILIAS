@@ -27,7 +27,9 @@ when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.
 subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
 However, this has not been decided yet and is thus most certainly up for discussion.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen).
+
+The need for a title section component was also discovered while discussing [this PR for the Test & Assessment kiosk mode header](https://github.com/ILIAS-eLearning/ILIAS/pull/7311). This shows that there are use cases beyond the content page title and actions that should be taken into account. Maybe the UI Entity could serve as inspiration for how properties and actions in a title sections could be arranged with effective visual weighting by relevance and semantic grouping.
 
 ### Tabs and Sub Tabs (advanced, variable)
 Note that a major part of the work for this Components will be to setup a comprehensive set of rules on the naming of 
@@ -421,6 +423,32 @@ Following advantages will be gained:
 
 Note: the package can be found in the node_modules directory. With ILIAS 10 it will be found in the public/node_modules directory.
 
+### Add Accessibility for UI Input "Button" > "Month"
+
+The DateTime Input Field was adjusted to HTML5 to make accessibility possible. The UI
+Input field for Duration uses those changes too. The JavaScript Bootstrap DateTimePicker
+files could not be deleted, because the UI Input Button "Month" still uses this library.
+There's currently no HTML5 Picker for that scenario available - the input type "month" in HTML5
+acts like a text type field. We need a accessible Input Button field "Month".
+
+Following tasks have to be done:
+- creating and diskussing a concept
+- implementing the solution after the concept got approved
+
+### Proper dependency injection (DI) for examples (beginner, ~1d)
+
+The examples provided by the UI framework are primarily used to generate the Kitchensink documentation. All examples of
+a namespace, or concorete component, will be rendered on the same page using the same endpoint. So even though the
+examples may seem unrelated to each other, they might be implicitly affected by others. E.g. multiple examples want to
+showcase different functionality, all of which require to submit data to the endpoint. Since other components might want
+to react to the request body or method as well, they would need to provide some unique data in order to tell if this
+exact example was submitted. Right now, every example needs to solve this on their own, and multiple different ways are
+being used to do so.
+
+To address this issue and streamline the examples, information like post-URLs should be injected into the example
+functions in form of arguments. While at it, all other dependencies such as the `UI\Renderer` or `UI\Factory` should be
+injected this way too, ultimately getting rid of all the `$DIC` usages. To achieve this, we need to adjust every example
+function signature, as well as the Kitchensink where the examples are built.
 
 ## Ideas and Food for Thought
 

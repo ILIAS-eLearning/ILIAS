@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\ValueObject\CertificateId;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -40,6 +42,7 @@ class ilUserCertificate
         private int $version,
         private readonly string $iliasVersion,
         private readonly bool $currentlyActive,
+        private readonly CertificateId $certificate_id,
         ?string $backgroundImagePath = null,
         ?string $thumbnailImagePath = null,
         private ?int $id = null
@@ -138,5 +141,10 @@ class ilUserCertificate
     public function getThumbnailImagePath(): string
     {
         return $this->thumbnailImagePath;
+    }
+
+    public function getCertificateId(): CertificateId
+    {
+        return $this->certificate_id;
     }
 }

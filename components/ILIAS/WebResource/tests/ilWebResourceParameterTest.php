@@ -132,25 +132,32 @@ class ilWebResourceParameterTest extends TestCase
                        ->disableOriginalConstructor()
                        ->onlyMethods(['xmlElement'])
                        ->getMock();
+        /*
+         * willReturnCallback is a workaround to replace withConsecutive.
+         * The return value is irrelevant here, but if an unexpected parameter
+         * is passed, an exception will be thrown (instead of an assumption being
+         * broken as before).
+         * These tests should be rewritten to rely much less on PHPUnit for mocking.
+         */
         $writer->expects($this->exactly(3))
                ->method('xmlElement')
-               ->withConsecutive(
+               ->willReturnCallback(fn($tag, $attrs) => match([$tag, $attrs]) {
                    ['DynamicParameter', [
                        'id' => 7,
                        'name' => 'name1',
                        'type' => 'userId'
-                   ]],
+                   ]] => 1,
                    ['DynamicParameter', [
                        'id' => 8,
                        'name' => 'name2',
                        'type' => 'userName'
-                   ]],
+                   ]] => 2,
                    ['DynamicParameter', [
                        'id' => 9,
                        'name' => 'name3',
                        'type' => 'matriculation'
-                   ]]
-               );
+                   ]] => 3
+               });
 
         $param = new ilWebLinkParameter(
             $user,

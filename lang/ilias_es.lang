@@ -544,7 +544,6 @@ assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#baseunit#:#Unidad Base
 assessment#:#button_request_next_question_hint#:#Solicitar siguiente sugerencia
 assessment#:#button_request_question_hint#:#Solicitar sugerencia
-assessment#:#button_show_requested_question_hints#:#Mostrar sugerencias solicitadas
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
 assessment#:#cannot_edit_marks#:#Hay usuarios que ejecutaron el test. Sólo puede cambiar las calificaciones si se habilitó una fecha de informe de resultados y dicha fecha no ha sido alcanzada.
@@ -1018,8 +1017,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Guardar asignaciones de la competen
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Cuando está activado, probablemente las taxonomías creadas se muestren para filtrado
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtro de taxonomía mediante un árbol de navegación
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Cuando se selecciona una taxonomía, se muestra con un árbol de navegación y no como un tabla de filtros por item.
-assessment#:#qpl_settings_general_form_property_online#:#Activo
-assessment#:#qpl_settings_general_form_property_online_description#:#Solo los bancos de preguntas activos pueden ser usados en test
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#No usar filtrado por árbol de navegación
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Mostrar taxonomías
 assessment#:#qpl_settings_subtab_general#:#Configuración general
@@ -1158,6 +1155,7 @@ assessment#:#show_answer_overview#:#Mostrar resumen de respuesta
 assessment#:#show_detailed_results#:#Mostrar datos detallados del usuario (Marked Pass)
 assessment#:#show_examview_html#:#Mostrar vista del examen del test en la página de entrega.
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
+assessment#:#show_requested_question_hints#:#Mostrar sugerencias solicitadas
 assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
 assessment#:#shuffle_answers#:#Barajar respuestas
 assessment#:#skip_question#:#No responder y Siguiente
@@ -15108,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Pregunta de respuesta corta
 survey#:#add_heading#:#Añadir cabecera
 survey#:#add_material#:#Añadir contenido relacionado
 survey#:#add_phrase#:#Añadir conjunto
-survey#:#adm_no_special_users#:#No hay usuarios especiales definidos que puedan realizar la encuesta más de una vez.
 survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está permitido rellenar la encuesta de nuevo.
 survey#:#anonymization#:#Anonimato
 survey#:#anonymize_anonymous_introduction#:#Esta encuesta oculta todos los datos de usuario. Para permitirle acceder a la encuesta, debe usar un código de 5 caracteres que puede recibir del autor/evaluador de la encuesta<br />Por favor introdúzcalo en el campo texto siguiente
@@ -16335,7 +16332,6 @@ user#:#user_account_deleted_confirmation#:#Tu cuenta ha sido borrada. Se te ha e
 user#:#user_activate_public_profile#:#Activar perfil público
 user#:#user_activate_public_profile_info#:#Activación global de su perfil público. Si se activa su nombre y apellido serán visibles para otros usuarios.
 user#:#user_activation#:#Activación
-user#:#user_adm_enable_alpha_nav#:#Navegación alfabética en la administración de usuario
 user#:#user_all#:#Todo
 user#:#user_allow_delete_own_account#:#Permitir a los usuarios eliminar su propia cuenta
 user#:#user_any#:#Nada

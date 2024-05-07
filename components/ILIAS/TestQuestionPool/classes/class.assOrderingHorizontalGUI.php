@@ -273,9 +273,9 @@ JS;
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
+        $this->tpl->addJavascript("assets/js/orderinghorizontal.js");
         return $questionoutput;
     }
 
@@ -335,9 +335,9 @@ JS;
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
+            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
         }
-        $this->tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/orderinghorizontal.js");
+        $this->tpl->addJavascript("assets/js/orderinghorizontal.js");
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;

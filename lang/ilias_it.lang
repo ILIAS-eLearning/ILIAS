@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Torna al test
 assessment#:#baseunit#:#Unità base
 assessment#:#button_request_next_question_hint#:#Richiesta prossimo suggerimento
 assessment#:#button_request_question_hint#:#Richiesta suggerimento
-assessment#:#button_show_requested_question_hints#:#Mostra suggerimento richiestp
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Sospendi il test
 assessment#:#cannot_edit_marks#:#Ci sono utenti che hanno gia' eseguito il test. E' possibile solamente modificare i voti se la data del report e' stata abilitata ma non e' ancora stata raggiunta.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Salva assegnazioni della competenza
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtro tassonomia come Albero di navigazione
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Quando viene selezionata una tassonomia, viene presentata come un albero di navigazione invece di elemento filtro tabella.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Solo i gruppi di domande online potrebbero essere utilizzati nei test.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Utilizza nessun filtro albero di navigazione
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Mostra tassonomie
 assessment#:#qpl_settings_subtab_general#:#Impostazioni generali
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Mostra panoramica risposte
 assessment#:#show_detailed_results#:#Mostra i risultati dettagliati del test (svolgimento del test valutato)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
+assessment#:#show_requested_question_hints#:#Mostra suggerimento richiesto
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#skip_question#:#Non rispondere e Avanti
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Saggio (testo libero)
 survey#:#add_heading#:#Aggiungi intestazione
 survey#:#add_material#:#Aggiungi Materiale
 survey#:#add_phrase#:#Aggiungi la frase
-survey#:#adm_no_special_users#:#Non sono stati definiti utenti speciali abilitati ad eseguire un sondaggio più di una volta.
 survey#:#already_completed_survey#:#Hai già completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymization#:#Anonimizzazione
 survey#:#anonymize_anonymous_introduction#:#Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Attiva un profilo pubblico
 user#:#user_activate_public_profile_info#:#Attivazione globale del tuo profilo utente. Se attivato il tuo nome e cognome sarà visibile agli altri utenti.
 user#:#user_activation#:#Attivazione
-user#:#user_adm_enable_alpha_nav#:#Navigazione alfabetica nell'amministrazione utenti
 user#:#user_all#:#Tutti
 user#:#user_allow_delete_own_account#:#Consente agli utenti di eliminare il proprio account
 user#:#user_any#:#Qualsiasi

@@ -112,6 +112,11 @@ class EvaluationGUIRequest
         return $this->str("export_format");
     }
 
+    public function getExportCmd(): string
+    {
+        return $this->str("export_cmd");
+    }
+
     public function getPrintSelection(): string
     {
         return $this->str("print_selection");

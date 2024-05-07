@@ -241,7 +241,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     {
         $tpl = $this->tpl;
 
-        $tpl->addJavascript("components/ILIAS/BookingManager/js/ScheduleInput.js");
+        $tpl->addJavascript("assets/js/ScheduleInput.js");
 
         $html = $this->render();
 

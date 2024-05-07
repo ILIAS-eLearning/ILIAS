@@ -56,14 +56,22 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
 
     public function getConsumerNameForPresentation(): string
     {
-        if ($this->provider_name_cache !== '' && is_string($this->provider_name_cache)) {
+        if ($this->provider_name_cache !== "" && is_string($this->provider_name_cache)) {
             return $this->provider_name_cache;
         }
+
         $reflector = new \ReflectionClass($this);
 
-        $parts = explode(DIRECTORY_SEPARATOR, str_replace(ILIAS_ABSOLUTE_PATH, '', dirname($reflector->getFileName())));
+        $dirname = dirname($reflector->getFileName());
+        $after_components = substr($dirname, strpos($dirname, '/components/') + strlen('/components/'));
+        $parts = explode(
+            DIRECTORY_SEPARATOR,
+            $after_components
+        );
+
         $parts = array_filter($parts, static function ($part) {
-            return $part !== '' && $part !== 'classes';
+            $ignore = ['IRSS', 'Storage', 'ResourceStorage', 'classes'];
+            return $part !== '' && !in_array($part, $ignore, true);
         });
 
         return $this->provider_name_cache = implode('/', $parts);

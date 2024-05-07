@@ -1077,12 +1077,12 @@ class ilPageObjectGUI
         //		$this->initSelfAssessmentRendering();
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
-        $main_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
+        $main_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         // needed for overlays in iim
         ilOverlayGUI::initJavascript();
 
-        ilPlayerUtil::initMediaElementJs($main_tpl);
+        //ilPlayerUtil::initMediaElementJs($main_tpl);
 
         // init template
         if ($this->getOutputMode() == "edit") {
@@ -1146,7 +1146,6 @@ class ilPageObjectGUI
             if ($this->getEnabledPageFocus()) {
                 $tpl->touchBlock("page_focus");
             }
-
             // presentation
             if ($this->isPageContainerToBeRendered()) {
                 $tpl->touchBlock("page_container_1");
@@ -1456,8 +1455,6 @@ class ilPageObjectGUI
         $paste = (ilEditClipboard::getAction() == "copy" &&
             $this->getOutputMode() == "edit");
 
-        $flv_video_player = ilPlayerUtil::getFlashVideoPlayerFilename(true);
-
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
@@ -1514,7 +1511,6 @@ class ilPageObjectGUI
                          'enable_amd_page_list' => $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
-                         'flv_video_player' => $flv_video_player,
                          'page_perma_link' => $this->getPagePermaLink(),
                          'activated_protection' =>
                             ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",
@@ -2092,7 +2088,8 @@ class ilPageObjectGUI
         if ($this->profile_back_url != "") {
             return $this->profile_back_url;
         }
-        if ($this->getOutputMode() === self::OFFLINE) {
+        if ($this->getOutputMode() === self::OFFLINE ||
+            $this->getOutputMode() === self::PRINTING) {
             return "";
         }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
@@ -2429,7 +2426,7 @@ class ilPageObjectGUI
         $this->lng->toJS("copg_par_format_selection");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
-        $this->tpl->addJavaScript("./components/ILIAS/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
         ilModalGUI::initJS();
     }
@@ -2600,7 +2597,7 @@ class ilPageObjectGUI
 
         $this->setBackToEditTabs();
 
-        $this->tpl->addJavaScript("./components/ILIAS/COPage/js/page_history.js");
+        $this->tpl->addJavaScript("assets/js/page_history.js");
 
         $table_gui = new ilPageHistoryTableGUI($this, "history");
         $table_gui->setId("hist_table");
@@ -2752,8 +2749,8 @@ class ilPageObjectGUI
         $this->setBackToHistoryTabs();
 
         $pg = $this->obj;
-        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
-        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"), $pg->getLanguage());
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"), $pg->getLanguage());
 
         $compare = $this->compare->compare(
             $this->getPageObject(),

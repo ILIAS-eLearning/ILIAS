@@ -174,7 +174,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     protected function getLoader(): string
     {
         $lng = $this->lng;
-        return $this->section("<img src='" . \ilUtil::getImagePath("loader.svg") . "' />");
+        return $this->section("<img src='" . \ilUtil::getImagePath("media/loader.svg") . "' />");
     }
 
     protected function getAddTriggerMessage(): string
@@ -255,7 +255,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
 
     protected function section(string $content): string
     {
-        return "<div class='copg-slate-section'>" . $content . "</div>";
+        return "<div class='copg-edit-button-group'>" . $content . "</div>";
     }
 
     protected function getTriggerBackButton(): string
@@ -271,7 +271,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
 
     protected function getTriggerHeader(): string
     {
-        return "<h2>" . $this->lng->txt("cont_iim_edit_trigger") . "</h2>";
+        return $this->getHeading($this->lng->txt("cont_iim_edit_trigger"));
     }
 
     protected function getTriggerViewControls(): string
@@ -406,10 +406,19 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $content;
     }
 
+    protected function getHeading(string $text, $sub = false): string
+    {
+        // todo: classes need better naming
+        if ($sub) {
+            return "<div class='copg-edit-button-group'><h3>" . $text . "</h3></div>";
+        }
+        return "<div class='copg-edit-button-group'><h2>" . $text . "</h2></div>";
+    }
+
     protected function getPopupOverview(): string
     {
         $content = $this->getTriggerBackButton();
-        $content .= "<h3>" . $this->lng->txt("cont_content_popups") . "</h3>";
+        $content .= $this->getHeading($this->lng->txt("cont_content_popups"), true);
         $content .= $this->getMessageArea();
         $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_tr_add_popup"),
@@ -425,7 +434,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     protected function getOverlayOverview(): string
     {
         $content = $this->getTriggerBackButton();
-        $content .= "<h3>" . $this->lng->txt("cont_overlay_images") . "</h3>";
+        $content .= $this->getHeading($this->lng->txt("cont_overlay_images"), true);
         $content .= $this->getMessageArea();
         $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_add_overlay"),
@@ -449,7 +458,7 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         );
 
         $content = $this->getTriggerBackButton();
-        $content .= "<h3>" . $this->lng->txt("cont_iim_background_image") . "</h3>";
+        $content .= $this->getHeading($this->lng->txt("cont_iim_background_image"), true);
         $content .= $this->getMessageArea();
         $content .= $this->ui_wrapper->getRenderedAdapterForm(
             $this->getPCInteractiveImageGUI()->getBackgroundPropertiesFormAdapter([get_class($this->page_gui), \ilPageEditorGUI::class, \ilPCInteractiveImageGUI::class]),

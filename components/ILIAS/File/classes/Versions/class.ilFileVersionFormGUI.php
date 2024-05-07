@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
  */
 class ilFileVersionFormGUI
 {
+    use ilObjFileSecureString;
     public const MODE_ADD = 1;
     public const MODE_REPLACE = 2;
     public const F_TITLE = 'title';
@@ -99,7 +100,9 @@ class ilFileVersionFormGUI
                 $this->lng->txt(self::F_TITLE),
                 $this->lng->txt("if_no_title_then_filename")
             )->withRequired(false)
-             ->withMaxLength(ilObject::TITLE_LENGTH),
+             ->withMaxLength(ilObject::TITLE_LENGTH)
+             ->withValue($this->file->getTitle()),
+
             self::F_DESCRIPTION => $this->ui_factory->input()->field()->textarea(
                 $this->lng->txt(self::F_DESCRIPTION)
             ),
@@ -127,15 +130,22 @@ class ilFileVersionFormGUI
             return false;
         }
 
-        $title = $data[self::F_TITLE] !== '' ? $data[self::F_TITLE] : $this->file->getTitle();
+        $title = !empty($data[self::F_TITLE]) ? $data[self::F_TITLE] : $this->file->getTitle();
         $description = $data[self::F_DESCRIPTION] !== '' ? $data[self::F_DESCRIPTION] : $this->file->getDescription();
-        $revision_number = (int) $data[self::F_FILE][0];
+        $revision_number = $data[self::F_FILE][0] ?? null;
+        if ($revision_number === null) {
+            return false;
+        }
+        $revision_number = (int) $revision_number;
 
         // Title differs, update Revision and Object
         $rid = $this->resource_services->manage()->find($this->file->getResourceId());
         $resource = $this->resource_services->manage()->getResource($rid);
         $new_revision = $resource->getSpecificRevision($revision_number);
-        $new_revision->setTitle($title);
+
+        $new_revision->setTitle(
+            $this->ensureSuffix($title, $new_revision->getInformation()->getSuffix())
+        );
         $this->resource_services->manage()->updateRevision($new_revision);
 
         $this->file->setDescription($description);

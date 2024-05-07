@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Vissza a teszthez
 assessment#:#baseunit#:#Alapmértékegység
 assessment#:#button_request_next_question_hint#:#Következő segítség kérése
 assessment#:#button_request_question_hint#:#Segítség kérése
-assessment#:#button_show_requested_question_hints#:#Kért segítség megjelenítése
 assessment#:#by#:#Létrehozta
 assessment#:#cancel_test#:#Teszt felfüggesztése
 assessment#:#cannot_edit_marks#:#Felhasználók már töltik a tesztet. Az érdemjegyeket csak akkor változtathatja meg, ha a Jelentés a ponteredményekről engedélyezett, és a jelentési dátum még nem érkezett el.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Kompetencia-összerendelése menté
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#A már létező taxonómiák a kérdések szűrésére használhatóak ebben a gyűjteményben.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonómia szűrő, mint navigációs fa
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Mikor egy taxonómia kiválasztása kerül, asztali szűrő helyett navigáció faként jelenik meg.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Csak online kérdésgyűjtemények használhatóak a teszthez.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne használjon navigációs fa szűrőt
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonómiák megjelenítése
 assessment#:#qpl_settings_subtab_general#:#Általános beállítások
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Válaszok áttekintésének megjelenítése
 assessment#:#show_detailed_results#:#Figyelembe vett tesztkitöltés részletes áttekintése
 assessment#:#show_examview_html#:#Képernyőn
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
+assessment#:#show_requested_question_hints#:#Kért segítség megjelenítése
 assessment#:#show_user_answers#:#Figyelembe vett tesztkitöltés válaszainak megjelenítése
 assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#skip_question#:#Válaszadás kihagyása és következő
@@ -15108,7 +15106,6 @@ survey#:#SurveyTextQuestion#:#Esszékérdés
 survey#:#add_heading#:#Címsor létrehozása
 survey#:#add_material#:#Segédanyag hozzáadása
 survey#:#add_phrase#:#Választípus hozzáadása
-survey#:#adm_no_special_users#:#Nincs olyan speciális felhasználó, aki több mint egyszer futtathatna kérdőívet.
 survey#:#already_completed_survey#:#Már befejezte a kérdőív kitöltését. Nem léphet bele többször.
 survey#:#anonymization#:#Névtelenség
 survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív névtelenül kezel minden felhasználói adatot.<br/>A kérdőív eléréséhez 5 karakteres kérdőívkódot kell megadnia, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg kódját a fenti szövegmezőben.
@@ -16335,7 +16332,6 @@ user#:#user_account_deleted_confirmation#:#ILIAS-fiókját törölte. E-mailt k�
 user#:#user_activate_public_profile#:#Aktiválás
 user#:#user_activate_public_profile_info#:#Ha bekapcsolta, családi és utóneve mindig látható lesz a profiljában.
 user#:#user_activation#:#Aktiválás
-user#:#user_adm_enable_alpha_nav#:#Betűrendes navigálás az ILIAS-fiókok kezelőjében
 user#:#user_all#:#Összes
 user#:#user_allow_delete_own_account#:#Felhasználók törölhetik saját fiókjukat
 user#:#user_any#:#Bármi

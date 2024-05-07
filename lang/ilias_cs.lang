@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Zpět k vyvolávacímu testu
 assessment#:#baseunit#:#Základní jednotka
 assessment#:#button_request_next_question_hint#:#Požadavek další nápovědy
 assessment#:#button_request_question_hint#:#Požadavek nápovědy
-assessment#:#button_show_requested_question_hints#:#Zobrazit požadované nápovědy
 assessment#:#by#:#podle
 assessment#:#cancel_test#:#Přerušit test
 assessment#:#cannot_edit_marks#:#Již jsou tu studenti, kteří test spustili. Známky můžete měnit pouze je-li zapnuto datum hlášení hodnocení a toto datum doposud nenastalo.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Uložit přiřazení způsobilosti
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Pokud je zapnuto, pro filtrování jsou zobrazeny možné vytvořené taxonomie.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Filtr taxonomie v navigačním stromu
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Pokud je vybrána taxonomie, pak bude dobře prezentována jako navigační strom namísto filtrování položek tabulky.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#V testu mohou být použity pouze online zásobníky otázek.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Použít filtr žádný navigační strom
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Zobrazit taxonomie
 assessment#:#qpl_settings_subtab_general#:#Obecná nastavení
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Zobrazit přehled odpovědí
 assessment#:#show_detailed_results#:#Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)
 assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzdání testu
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
+assessment#:#show_requested_question_hints#:#Zobrazit požadované nápovědy
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
 assessment#:#skip_question#:#Neodpovídat a Další
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Textová otázka
 survey#:#add_heading#:#Přidat hlavičku
 survey#:#add_material#:#Přidat materál
 survey#:#add_phrase#:#Přidat frázi
-survey#:#adm_no_special_users#:#Zde nejsou určeni zvláštní uživatelé, kteří jsou schopni projít anketou více než jednou.
 survey#:#already_completed_survey#:#Toto anketu již máte provedenu! Do této ankety nemůžete vstoupit znovu.
 survey#:#anonymization#:#Anonymizace
 survey#:#anonymize_anonymous_introduction#:#Tato anketa anonymizuje všechna uživatelská data. K zajištění přístupu do této ankety, musíte vložit řetězec 32 znaků, který obdržíte od autora/obsluhy této ankety<br />Vložte jej prosím do textového pole dole.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Váš účet byl smazán. Byl vám za
 user#:#user_activate_public_profile#:#Aktivovat veřejný profil
 user#:#user_activate_public_profile_info#:#První a poslední jméno bude vždy viditelné ve Vašem profilu, pokud je toto aktivováno.
 user#:#user_activation#:#Aktivace
-user#:#user_adm_enable_alpha_nav#:#Abecední navigace v uživatelské správě
 user#:#user_all#:#Všichni
 user#:#user_allow_delete_own_account#:#Povolit uživatelům smazat svůj účet
 user#:#user_any#:#Kterýkoli

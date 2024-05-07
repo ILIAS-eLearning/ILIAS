@@ -29,11 +29,13 @@ call this script with a parameter pointing a file defining the resolution.
 
 INFO;
 
-if (isset($argv[1])) {
-    $resolution_file = $argv[1];
-} else {
-    $resolution_file = realpath(__DIR__ . "/../dependency_resolution.php");
+if (count($argv) !== 3) {
+    die("php cli/build_bootstrap.php \$dependency_resolution \$name");
 }
+
+$resolution_file = $argv[1];
+$name = $argv[2];
+
 
 if (!file_exists($resolution_file)) {
     die("Cannot find resolution file at {$resolution_file}.\n");
@@ -87,4 +89,4 @@ $bootstrap = $renderer->render(...$component_info);
 if (!is_dir(__DIR__ . "/../artifacts")) {
     mkdir(__DIR__ . "/../artifacts", 0755, true);
 }
-file_put_contents(__DIR__ . "/../artifacts/bootstrap.php", $bootstrap);
+file_put_contents(__DIR__ . "/../artifacts/bootstrap_$name.php", $bootstrap);

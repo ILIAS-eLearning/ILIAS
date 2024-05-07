@@ -545,7 +545,6 @@ assessment#:#backtocallingtest#:#Nazaj na odprti test
 assessment#:#baseunit#:#Osnovna enota
 assessment#:#button_request_next_question_hint#:#Zahtevaj naslednji namig glede rešitve
 assessment#:#button_request_question_hint#:#Zahtevaj namig glede rešitve
-assessment#:#button_show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#by#:#po
 assessment#:#cancel_test#:#Prekini test
 assessment#:#cannot_edit_marks#:#Udeleženci so že opravili test. Oceno lahko spremenite samo, če je bil nastavljen datum poročila o rezultatih, ki je trenutno še v prihodnosti.
@@ -1021,8 +1020,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Shranite dodelitev kompetenc
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Obstoječe taksonomije se lahko uporabijo za filtriranje vprašanj.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taksonomija kot navigacijsko drevo
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Če je izbrana taksonomija, ni prikazana kot filter, ampak kot navigacijsko drevo.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Skupina vprašanj mora biti na spletu, da se lahko uporablja pri testu.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Ne uporabljajte taksonomije kot navigacijsko drevo
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taksonomije
 assessment#:#qpl_settings_subtab_general#:#Splošne nastavitve
@@ -1161,6 +1158,7 @@ assessment#:#show_answer_overview#:#Pokaži pregled odgovorov
 assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravljanje testa)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
+assessment#:#show_requested_question_hints#:#Prikaži zahtevane namige glede rešitve
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#shuffle_answers#:#Pomešaj odgovore
 assessment#:#skip_question#:#Ne odgovarjaj in naprej
@@ -15199,7 +15197,6 @@ survey#:#SurveyTextQuestion#:#Vnesi poljubno besedilo
 survey#:#add_heading#:#Dodaj napis
 survey#:#add_material#:#Dodaj gradivo
 survey#:#add_phrase#:#Dodaj besedno zvezo
-survey#:#adm_no_special_users#:#Niso določeni posebni uporabniki, ki lahko anketo izpolnijo več kot enkrat.
 survey#:#already_completed_survey#:#Anketo ste že izpolnili! Ankete ne morete izpolniti znova.
 survey#:#anonymization#:#Anonimizacija
 survey#:#anonymize_anonymous_introduction#:#Za dostop do ankete morate uporabiti 5-mestno kodo ankete, ki jo lahko dobite od odgovorne osebe za to anketo.<br/>Vnesite jo v zgornje polje z besedilom.
@@ -16438,7 +16435,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-m
 user#:#user_activate_public_profile#:#Activation
 user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.
 user#:#user_activation#:#Activation
-user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration
 user#:#user_all#:#All
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#Any

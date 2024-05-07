@@ -35,7 +35,7 @@ class ilStaticComponentRepositoryExistsObjective implements Setup\Objective
      */
     public function getLabel(): string
     {
-        return "ilComponentRepository is initialized and stored into the environment.";
+        return "ilComponentRepository (static) is initialized and stored into the environment.";
     }
 
     /**
@@ -52,7 +52,8 @@ class ilStaticComponentRepositoryExistsObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment): array
     {
         return [
-            new ilComponentBuildComponentInfoObjective()
+            new ilComponentBuildComponentInfoObjective(),
+            new ilComponentBuildPluginInfoObjective(),
         ];
     }
 

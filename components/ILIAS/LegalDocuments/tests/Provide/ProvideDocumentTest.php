@@ -221,7 +221,13 @@ class ProvideDocumentTest extends TestCase
         $condition->expects(self::exactly(2))->method('knownToNeverMatchWith')->with($condition)->willReturn(false);
 
         $definition = $this->mock(ConditionDefinition::class);
-        $definition->expects(self::exactly(3))->method('withCriterion')->withConsecutive([$content], [$other_existing_content], [$content])->willReturn($condition);
+        $consecutive = [$content, $other_existing_content, $content];
+        $definition->expects(self::exactly(3))->method('withCriterion')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        )->willReturn($condition);
 
         $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
             'hoo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$existing_content], $condition),

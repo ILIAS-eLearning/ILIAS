@@ -80,8 +80,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     private int $template_id = 0;
 
-    protected $oldOnlineStatus = null;
-
     protected bool $print_best_solution_with_result = true;
 
     protected bool $activation_visibility = false;
@@ -553,29 +551,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         );
                     }
                 }
-            }
-        }
-
-        if (!$this->getOldOnlineStatus() && !$this->getOfflineStatus()) {
-            $newsItem = new ilNewsItem();
-            $newsItem->setContext($this->getId(), 'tst');
-            $newsItem->setPriority(NEWS_NOTICE);
-            $newsItem->setTitle('new_test_online');
-            $newsItem->setContentIsLangVar(true);
-            $newsItem->setContent('');
-            $newsItem->setUserId($this->user->getId());
-            $newsItem->setVisibility(NEWS_USERS);
-            $newsItem->create();
-        } elseif ($this->getOldOnlineStatus() && !$this->getOfflineStatus()) {
-            ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
-        } elseif (!$this->getOfflineStatus()) {
-            $newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
-            if ($newsId > 0) {
-                $newsItem = new ilNewsItem($newsId);
-                $newsItem->setTitle('new_test_online');
-                $newsItem->setContentIsLangVar(true);
-                $newsItem->setContent('');
-                $newsItem->update();
             }
         }
 
@@ -2672,11 +2647,18 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                         while ($row = $this->db->fetchAssoc($result)) {
                             $tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
 
+                            if (
+                                !isset($row["question_fi"], $row["points"], $row["sequence"]) ||
+                                !is_numeric($row["question_fi"]) || !is_numeric($row["points"]) || !is_numeric($row["sequence"])
+                            ) {
+                                continue;
+                            }
+
                             $data->getParticipant($active_id)->addQuestion(
-                                $row["original_id"],
-                                $row["question_fi"],
-                                $row["points"],
-                                $row["sequence"],
+                                (int) $row["original_id"],
+                                (int) $row["question_fi"],
+                                (float) $row["points"],
+                                (int) $row["sequence"],
                                 $tpass
                             );
 
@@ -2957,7 +2939,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $name = "";
         if (strlen($firstname . $lastname . $title) == 0) {
-            $name = $this->lng->txt("deleted_user");
+            $name = $this->lng->txt('deleted_user');
         } else {
             if ($user_id == ANONYMOUS_USER_ID) {
                 $name = $lastname;
@@ -3581,6 +3563,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withTitle($assessment->getTitle())
                 ->withDescription($assessment->getComment())
         );
+        $this->addToNewsOnOnline(false, $this->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
         $main_settings = $main_settings
             ->withGeneralSettings($general_settings)
             ->withIntroductionSettings($introduction_settings)
@@ -4562,6 +4545,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
 
         $new_obj->saveToDb();
+        $new_obj->addToNewsOnOnline(false, $new_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
         $this->getMainSettingsRepository()->store(
             $this->getMainSettings()->withTestId($new_obj->getTestId())
         );
@@ -4747,10 +4731,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getTextAnswer($active_id, $question_id, $pass = null): string
     {
-        $res = "";
         if (($active_id) && ($question_id)) {
-            if (is_null($pass)) {
+            if ($pass === null) {
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
+            }
+            if ($pass === null) {
+                return '';
             }
             $result = $this->db->queryF(
                 "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
@@ -4758,11 +4744,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 [$active_id, $question_id, $pass]
             );
             if ($result->numRows() == 1) {
-                $row = $this->db->fetchAssoc($result);
-                $res = $row["value1"];
+                return $row["value1"];
             }
         }
-        return $res;
+        return '';
     }
 
     /**
@@ -7353,16 +7338,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->online;
     }
 
-    public function getOldOnlineStatus()
-    {
-        return $this->oldOnlineStatus;
-    }
-
-    public function setOldOnlineStatus($oldOnlineStatus): void
-    {
-        $this->oldOnlineStatus = $oldOnlineStatus;
-    }
-
     public function isOfferingQuestionHintsEnabled(): bool
     {
         return $this->getMainSettings()->getQuestionBehaviourSettings()->getQuestionHintsEnabled();
@@ -8385,5 +8360,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function resetMarkSchema(): void
     {
         $this->mark_schema->flush();
+    }
+
+    public function addToNewsOnOnline(
+        bool $old_online_status,
+        bool $new_online_status
+    ): void {
+        if (!$old_online_status && $new_online_status) {
+            $newsItem = new ilNewsItem();
+            $newsItem->setContext($this->getId(), 'tst');
+            $newsItem->setPriority(NEWS_NOTICE);
+            $newsItem->setTitle('new_test_online');
+            $newsItem->setContentIsLangVar(true);
+            $newsItem->setContent('');
+            $newsItem->setUserId($this->user->getId());
+            $newsItem->setVisibility(NEWS_USERS);
+            $newsItem->create();
+            return;
+        }
+
+        if ($old_online_status && !$new_online_status) {
+            ilNewsItem::deleteNewsOfContext($this->getId(), 'tst');
+            return;
+        }
+
+        $newsId = ilNewsItem::getFirstNewsIdForContext($this->getId(), 'tst');
+        if (!$new_online_status && $newsId > 0) {
+            $newsItem = new ilNewsItem($newsId);
+            $newsItem->setTitle('new_test_online');
+            $newsItem->setContentIsLangVar(true);
+            $newsItem->setContent('');
+            $newsItem->update();
+        }
     }
 }

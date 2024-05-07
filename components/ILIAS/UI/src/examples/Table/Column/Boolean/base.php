@@ -22,8 +22,8 @@ function base()
         'b2' => $f->table()->column()->boolean("0/1", "1", "0"),
         'b3' => $f->table()->column()->boolean(
             "icon",
-            $f->symbol()->icon()->custom('templates/default/images/standard/icon_checked.svg', '', 'small'),
-            $f->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small')
+            $f->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
+            $f->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
         ),
         'b4' => $f->table()->column()->boolean(
             "glyph",

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Mechanic regarding the access control and roles of an objet goes here.
@@ -46,9 +46,9 @@ interface IndividualAssessmentAccessHandler
     public function mayViewAnyUser(): bool;
     public function mayViewAllUsers(): bool;
     public function mayGradeAnyUser(): bool;
-    public function mayGradeAllUsers(): bool;
     public function mayGradeUser(int $user_id): bool;
     public function mayViewUser(int $user_id): bool;
     public function mayAmendAllUsers(): bool;
     public function isSystemAdmin(): bool;
+    public function mayEditLearningProgressSettings(): bool;
 }

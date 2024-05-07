@@ -117,9 +117,15 @@ class CronJobManagerTest extends TestCase
             $clock_factory
         );
 
-        $repository->expects($this->exactly(2))->method('activateJob')->withConsecutive(
-            [$job, $clock_factory->system()->now(), $user, true],
-            [$job, $clock_factory->system()->now(), $user, false]
+        $consecutive = [true, false];
+        $repository->expects($this->exactly(2))->method('activateJob')->with(
+            $this->identicalTo($job),
+            $this->identicalTo($clock_factory->system()->now()),
+            $this->identicalTo($user),
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
         );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(
@@ -154,9 +160,15 @@ class CronJobManagerTest extends TestCase
             $clock_factory
         );
 
-        $repository->expects($this->exactly(2))->method('deactivateJob')->withConsecutive(
-            [$job, $clock_factory->system()->now(), $user, true],
-            [$job, $clock_factory->system()->now(), $user, false]
+        $consecutive = [true, false];
+        $repository->expects($this->exactly(2))->method('deactivateJob')->with(
+            $this->identicalTo($job),
+            $this->identicalTo($clock_factory->system()->now()),
+            $this->identicalTo($user),
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
         );
 
         $job->expects($this->exactly(2))->method('activationWasToggled')->with(

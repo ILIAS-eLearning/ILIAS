@@ -178,12 +178,12 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setObjId($data["obj_fi"]);
             $this->setTitle((string) $data["title"]);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setComment((string) $data["description"]);
+            $this->setComment($data["description"] ?? '');
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"] ?? '', 1));
             $shuffle = (is_null($data['shuffle'])) ? true : $data['shuffle'];
             $this->setShuffle((bool) $shuffle);
             if ($data['thumb_size'] !== null && $data['thumb_size'] >= self::MINIMUM_THUMB_SIZE) {
@@ -218,7 +218,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $data["imagefile"] = null;
                 }
 
-                $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
+                $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"] ?? '', 1);
                 $image = new ASS_AnswerBinaryStateImage(
                     $data["answertext"],
                     $data["points"],
@@ -1229,7 +1229,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
-        if ($maxStep !== null) {
+        if ($maxStep > 0) {
             $data = $ilDB->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 ["integer", "integer", "integer","integer"],

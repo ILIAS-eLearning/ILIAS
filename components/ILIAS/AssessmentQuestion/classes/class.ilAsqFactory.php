@@ -42,7 +42,7 @@ class ilAsqFactory
         /* @var ilComponentRepository $component_repository */
         $component_repository = $DIC['component.repository'];
 
-        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $component_repository);
+        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC->refinery(), $component_repository);
         $list->setParentObjIdsFilter([$parentObjectId]);
         $list->load();
 
@@ -65,7 +65,7 @@ class ilAsqFactory
         /* @var ilComponentRepository $component_repository */
         $component_repository = $DIC['component.repository'];
 
-        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $component_repository);
+        $list = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC->refinery(), $component_repository);
         $list->setParentObjIdsFilter(array($parentObjectId));
         $list->load();
 

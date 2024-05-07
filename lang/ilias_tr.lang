@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Teste gitmek için geri dön
 assessment#:#baseunit#:#Base Unit###24 10 2013 new variable
 assessment#:#button_request_next_question_hint#:#Sonraki İpucunu İste
 assessment#:#button_request_question_hint#:#İpucu İste
-assessment#:#button_show_requested_question_hints#:#İstenen İpuçlarını Göster
 assessment#:#by#:#ile
 assessment#:#cancel_test#:#Testi Askıya Al
 assessment#:#cannot_edit_marks#:#Bu testi yapmış öğrenciler var. Eğer puan raporlama tarihi etkin ve henüz gelmediyse sadece not açıklamasını değiştirebilirsiniz.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online#:#Online###24 10 2013 new variable
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter###24 10 2013 new variable
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies###24 10 2013 new variable
 assessment#:#qpl_settings_subtab_general#:#General Settings###24 10 2013 new variable
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variab
 assessment#:#show_detailed_results#:#Kullanıcının detaylı sonuçlarını göster (Geçti işaretli)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Geçti İşaretlilere Genel Bakışı Göster
+assessment#:#show_requested_question_hints#:#İstenen İpuçlarını Göster
 assessment#:#show_user_answers#:#Kullanıcının işaretli cevaplarını göster
 assessment#:#shuffle_answers#:#Cevapları Karıştır
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Kompozisyon
 survey#:#add_heading#:#Başlık ekle
 survey#:#add_material#:#Add Malzeme
 survey#:#add_phrase#:#Add Öbek
-survey#:#adm_no_special_users#:#kereden fazla bir anket çalışabilirler tanımlanan özel bir kullanıcı vardır.
 survey#:#already_completed_survey#:#Zaten anket bitirdim! Yine ankete girmek mümkün değildir.
 survey#:#anonymization#:#Kriptolojitabanlı
 survey#:#anonymize_anonymous_introduction#:#Bu anket tüm kullanıcı verilerini anonimleştirir. Eğer anketi erişim vermek için, size bu anketi oluşturan / sürdürücü alabileceğiniz 5 karakter detaylar kodu kullanmanız gerekir <br /> Yukarıdaki metin alanına girin.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Hesabınız silinmiştir. Ayrıntıl�
 user#:#user_activate_public_profile#:#Etkinleştirme
 user#:#user_activate_public_profile_info#:#Bu etkinse Adı ve soyadı zaman, profilinizde görünür olacak.
 user#:#user_activation#:#Etkinleştirme
-user#:#user_adm_enable_alpha_nav#:#Kullanıcı Yönetimi Alfabetik Navigasyon
 user#:#user_all#:#Hepsi
 user#:#user_allow_delete_own_account#:#Kullanıcıların kendi hesabını silmesine izin ver
 user#:#user_any#:#Herhangi

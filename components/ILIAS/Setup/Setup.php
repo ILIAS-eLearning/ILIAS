@@ -38,10 +38,16 @@ class Setup implements Component\Component
             new \ILIAS\Setup\CLI\App(
                 $internal["command.install"],
                 $internal["command.update"],
-                $internal["command.build-artifacts"],
+                $internal["command.build"],
                 $internal["command.achieve"],
                 $internal["command.status"],
                 $internal["command.migrate"]
+            );
+
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilCommonSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $pull[\ILIAS\Data\Factory::class]
             );
 
         $internal["command.install"] = fn() =>
@@ -56,8 +62,8 @@ class Setup implements Component\Component
                 $internal["config_reader"],
                 $internal["common_preconditions"]
             );
-        $internal["command.build-artifacts"] = fn() =>
-            new \ILIAS\Setup\CLI\BuildArtifactsCommand(
+        $internal["command.build"] = fn() =>
+            new \ILIAS\Setup\CLI\BuildCommand(
                 $internal["agent_finder"]
             );
         $internal["command.achieve"] = fn() =>
@@ -83,21 +89,13 @@ class Setup implements Component\Component
                 new \ilUseRootConfirmed()
             ];
 
-        $internal["common_agent"] = fn() =>
-            new \ilSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class],
-                $pull[\ILIAS\Data\Factory::class]
-            );
-
         $internal["agent_finder"] = fn() =>
             new \ILIAS\Setup\ImplementationOfAgentFinder(
                 $pull[\ILIAS\Refinery\Factory::class],
                 $pull[\ILIAS\Data\Factory::class],
                 $use[\ILIAS\Language\Language::class],
                 $internal["interface_finder"],
-                [
-                    "common" => $internal["common_agent"]
-                ]
+                $seek[\ILIAS\Setup\Agent::class]
             );
 
         $internal["config_reader"] = fn() =>

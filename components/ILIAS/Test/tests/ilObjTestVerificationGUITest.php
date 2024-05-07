@@ -35,21 +35,26 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilSetting();
+    }
 
+    public function testConstruct(): void
+    {
         $this->testObj = new ilObjTestVerificationGUI(
             0,
             1,
             0
         );
-    }
-
-    public function testConstruct(): void
-    {
         $this->assertInstanceOf(ilObjTestVerificationGUI::class, $this->testObj);
     }
 
     public function testGetType(): void
     {
+        $this->testObj = new ilObjTestVerificationGUI(
+            0,
+            1,
+            0
+        );
         $this->assertEquals('tstv', $this->testObj->getType());
     }
 }

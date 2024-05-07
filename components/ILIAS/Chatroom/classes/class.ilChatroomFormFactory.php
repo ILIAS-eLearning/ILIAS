@@ -263,33 +263,6 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    /**
-     * Returns session form with period set by given $sessions.
-     */
-    public function getSessionForm(array $sessions): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setPreventDoubleSubmission(false);
-        $list = new ilSelectInputGUI($this->lng->txt('session'), 'session');
-
-        $options = [];
-
-        foreach ($sessions as $session) {
-            $start = new ilDateTime($session['connected'], IL_CAL_UNIX);
-            $end = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
-
-            $options[$session['connected'] . ',' .
-            $session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
-        }
-
-        $list->setOptions($options);
-        $list->setRequired(true);
-
-        $form->addItem($list);
-
-        return $form;
-    }
-
     public function getClientSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();

@@ -158,6 +158,7 @@ class ilPortfolioDataSet extends ilDataSet
         return $a_set;
     }
 
+
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -165,6 +166,7 @@ class ilPortfolioDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "prtt":
 

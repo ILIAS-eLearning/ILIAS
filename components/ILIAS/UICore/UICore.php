@@ -32,6 +32,12 @@ class UICore implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ilUICoreSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\NodeModule("bootstrap/dist/js/bootstrap.min.js");
     }
 }

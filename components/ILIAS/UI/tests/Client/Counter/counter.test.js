@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
 
-import { counterFactory, counterObject } from '../../../src/templates/js/Counter/src/counter.main';
+import { counterFactory, counterObject } from '../../../resources/js/Counter/src/counter.main';
 
 const test_dom_string = fs.readFileSync('./components/ILIAS/UI/tests/Client/Counter/CounterTest.html').toString();
 const test_document = new JSDOM(test_dom_string);

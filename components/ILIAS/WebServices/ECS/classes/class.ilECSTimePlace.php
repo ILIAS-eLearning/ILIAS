@@ -40,6 +40,11 @@ class ilECSTimePlace
         $this->logger = $DIC->logger()->wsrv();
     }
 
+    public function __toString()
+    {
+        return "ECS Time and Place";
+    }
+
     /**
      * load from json
      *
@@ -56,10 +61,10 @@ class ilECSTimePlace
 
         $this->logger->debug(__METHOD__ . ': ' . print_r($a_json, true));
 
-        $this->room = $a_json->room;
-        $this->begin = $a_json->begin;
-        $this->end = $a_json->end;
-        $this->cycle = $a_json->cycle;
+        $this->room = $a_json->room ?? "";
+        $this->begin = $a_json->begin ?? "";
+        $this->end = $a_json->end ?? "";
+        $this->cycle = $a_json->cycle ?? "";
 
         $two = new ilDate('2000-01-02', IL_CAL_DATE);
         if (ilDate::_before(new ilDateTime($this->getUTBegin(), IL_CAL_UNIX), $two)) {

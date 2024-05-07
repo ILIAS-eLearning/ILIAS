@@ -93,7 +93,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
             ilDBStepReader::class => $steps_reader,
-            ilDBStepExecutionDB::class => $execution_log,
+            ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
 
@@ -136,7 +136,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
             ilDBStepReader::class => $steps_reader,
-            ilDBStepExecutionDB::class => $execution_log,
+            ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
 
@@ -180,7 +180,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
             ilDBStepReader::class => $steps_reader,
-            ilDBStepExecutionDB::class => $execution_log,
+            ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
 
@@ -214,7 +214,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         };
         $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
-            ilDBStepExecutionDB::class => $execution_log,
+            ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
         $this->objective->achieve($env);

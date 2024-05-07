@@ -65,7 +65,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     protected ilToolbarGUI $toolbar;
     protected UIServices $ui;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilObjectProperties $object_properties;
     protected ilObjTestMainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
     protected Refinery $refinery;
@@ -98,7 +97,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->object_data_cache = $DIC['ilObjDataCache'];
         $this->settings = $DIC['ilSetting'];
 
-        $this->object_properties = $this->test_gui->getTestObject()->getObjectProperties();
         $this->main_settings = $this->test_gui->getTestObject()->getMainSettings();
         $this->main_settings_repository = $this->test_gui->getTestObject()->getMainSettingsRepository();
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -205,7 +203,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
 
         $data[self::AVAILABILITY_SETTINGS_SECTION_LABEL]['is_online'] =
-            $this->object_properties->getPropertyIsOnline()->withOffline();
+            $this->test_object->getObjectProperties()->getPropertyIsOnline()->withOffline();
         $this->testQuestionSetConfigFactory->getQuestionSetConfig()->removeQuestionSetRelatedData();
 
         $this->finalizeSave($data);
@@ -312,7 +310,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $message .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
         }
 
-        $this->tpl->addJavaScript('./components/ILIAS/Test/templates/default/settings_confirmation.js');
+        $this->tpl->addJavaScript('assets/js/settings_confirmation.js');
         $on_load_code = static function (string $id): string {
             return 'il.test.confirmSettings.init(' . $id . ')';
         };
@@ -329,7 +327,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function performSaveForm(array $data)
     {
-        $this->object_properties->storePropertyTitleAndDescription(
+        $old_online_status = $this->test_object->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
+        $this->test_object->getObjectProperties()->storePropertyTitleAndDescription(
             $data[self::GENERAL_SETTINGS_SECTION_LABEL]['title_and_description']
         );
         $general_settings = $this->getGeneralSettingsForStorage($data[self::GENERAL_SETTINGS_SECTION_LABEL]);
@@ -379,6 +378,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->main_settings_repository->store($settings);
         $this->main_settings = $this->main_settings_repository->getFor($this->test_object->getTestId());
         $this->test_object->read();
+        $this->test_object->addToNewsOnOnline(
+            $old_online_status,
+            $this->test_object->getObjectProperties()->getPropertyIsOnline()->getIsOnline()
+        );
     }
 
     private function removeAllParticipantsIfRequired(): void
@@ -394,7 +397,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     {
         $field_factory = $this->ui->factory()->input()->field();
 
-        $inputs['title_and_description'] = $this->object_properties->getPropertyTitleAndDescription()
+        $inputs['title_and_description'] = $this->test_object->getObjectProperties()->getPropertyTitleAndDescription()
             ->toForm($this->lng, $field_factory, $this->refinery);
         $inputs += $this->main_settings->getGeneralSettings()
             ->toForm($this->lng, $field_factory, $this->refinery, $environment);
@@ -440,7 +443,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $this->testQuestionSetConfigFactory->getQuestionSetConfig()
         );
 
-        $is_online = $this->object_properties->getPropertyIsOnline()
+        $is_online = $this->test_object->getObjectProperties()->getPropertyIsOnline()
             ->toForm($this->lng, $field_factory, $this->refinery);
 
         if (sizeof(ilObject::_getAllReferences($this->test_object->getId())) > 1) {
@@ -542,20 +545,20 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
 
         $this->test_object->storeActivationSettings($timebased_availability);
-        $this->object_properties->storePropertyIsOnline($section['is_online']);
+        $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
     protected function getPresentationSettingsSection(): Section
     {
         $input_factory = $this->ui->factory()->input();
 
-        $custom_icon_input = $this->object_properties->getPropertyIcon()
+        $custom_icon_input = $this->test_object->getObjectProperties()->getPropertyIcon()
             ->toForm($this->lng, $input_factory->field(), $this->refinery);
 
         if ($custom_icon_input !== null) {
             $inputs['custom_icon'] = $custom_icon_input;
         }
-        $inputs['tile_image'] = $this->object_properties->getPropertyTileImage()
+        $inputs['tile_image'] = $this->test_object->getObjectProperties()->getPropertyTileImage()
             ->toForm($this->lng, $input_factory->field(), $this->refinery);
 
         return $input_factory->field()->section(
@@ -567,9 +570,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     protected function savePresentationSettingsSection(array $section): void
     {
         if (array_key_exists('custom_icon', $section)) {
-            $this->object_properties->storePropertyIcon($section['custom_icon']);
+            $this->test_object->getObjectProperties()->storePropertyIcon($section['custom_icon']);
         }
-        $this->object_properties->storePropertyTileImage($section['tile_image']);
+        $this->test_object->getObjectProperties()->storePropertyTileImage($section['tile_image']);
     }
 
     private function getIntroductionSettingsForStorage(array $section): ilObjTestSettingsIntroduction

@@ -40,7 +40,7 @@ class ilECSCourseMemberAssignment
     /**
      * Constructor
      */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -68,7 +68,7 @@ class ilECSCourseMemberAssignment
 
         $assignments = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $assignments[] = new self($row->id);
+            $assignments[] = new self((int) $row->id);
         }
         return $assignments;
     }
@@ -76,7 +76,7 @@ class ilECSCourseMemberAssignment
     /**
      * Delete by obj_id
      */
-    public static function deleteByObjId($a_obj_id): bool
+    public static function deleteByObjId(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -106,13 +106,11 @@ class ilECSCourseMemberAssignment
     /**
      * Lookup user ids
      */
-    public static function lookupUserIds($a_cms_id, $a_cms_sub_id, $a_obj_id): array
+    public static function lookupUserIds(int $a_cms_id, ?int $a_cms_sub_id, int $a_obj_id): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
-        $cms_sub_id_query = '';
 
         if (is_null($a_cms_sub_id)) {
             $cms_sub_id_query = 'AND cms_sub_id IS NULL ';
@@ -136,13 +134,12 @@ class ilECSCourseMemberAssignment
     /**
      * Lookup assignment of user
      */
-    public static function lookupAssignment($a_cms_id, $a_cms_sub_id, $a_obj_id, $a_usr_id): ?\ilECSCourseMemberAssignment
+    public static function lookupAssignment(int $a_cms_id, ?int $a_cms_sub_id, int $a_obj_id, string $a_usr_id): ?ilECSCourseMemberAssignment
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $cms_sub_id_query = '';
         if (is_null($a_cms_sub_id)) {
             $cms_sub_id_query = 'AND cms_sub_id IS NULL ';
         } else {
@@ -156,13 +153,13 @@ class ilECSCourseMemberAssignment
                 'AND usr_id = ' . $ilDB->quote($a_usr_id, 'text');
         $res = $ilDB->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return new ilECSCourseMemberAssignment($row->id);
+            return new ilECSCourseMemberAssignment((int) $row->id);
         }
         return null;
     }
 
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -250,7 +247,6 @@ class ilECSCourseMemberAssignment
     {
         $this->id = $this->db->nextId('ecs_course_assignments');
 
-
         $assignment = self::lookupAssignment(
             $this->getCmsId(),
             $this->getCmsSubId(),
@@ -323,13 +319,13 @@ class ilECSCourseMemberAssignment
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setServer($row->sid);
-            $this->setMid($row->mid);
-            $this->setCmsId($row->cms_id);
-            $this->setCmsSubId($row->cms_sub_id);
-            $this->setObjId($row->obj_id);
+            $this->setServer((int) $row->sid);
+            $this->setMid((int) $row->mid);
+            $this->setCmsId((int) $row->cms_id);
+            $this->setCmsSubId((int) $row->cms_sub_id);
+            $this->setObjId((int) $row->obj_id);
             $this->setUid($row->usr_id);
-            $this->setStatus($row->status);
+            $this->setStatus((bool) $row->status);
         }
         return true;
     }

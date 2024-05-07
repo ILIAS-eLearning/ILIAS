@@ -76,8 +76,11 @@ class ilUserStartingPointGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $this->db,
+            $this->tpl,
+            $DIC->logger(),
             $this->tree,
             $this->rbac_review,
+            $this->rbac_system,
             $this->settings
         );
 

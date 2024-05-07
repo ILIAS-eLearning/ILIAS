@@ -35,6 +35,7 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\Setup\Objective\DirectoryCreatedObjective;
 use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
 use ILIAS\ResourceStorage\Resource\ResourceType;
@@ -123,7 +124,9 @@ class ilResourceStorageMigrationHelper
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
-            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90())
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB80()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90()),
+            new ilStorageContainersExistingObjective()
         ];
     }
 
@@ -280,9 +283,16 @@ class ilResourceStorageMigrationHelper
         string $absolute_path,
         int $owner_user_id,
         ?Closure $file_name_callback = null,
-        ?Closure $revision_name_callback = null
+        ?Closure $revision_name_callback = null,
+        ?bool $copy_instead_of_move = false
     ): ?ResourceIdentification {
-        $open_path = fopen($absolute_path, 'rb');
+        try {
+            // in some cases fopen throws a warning instead of returning false
+            $open_path = fopen($absolute_path, 'rb');
+        } catch (Throwable $e) {
+            return null;
+        }
+
         if ($open_path === false) {
             return null;
         }
@@ -306,7 +316,7 @@ class ilResourceStorageMigrationHelper
                 $revision_title,
                 $file_name
             ),
-            false
+            $copy_instead_of_move ?? false
         );
 
         // add stakeholder and store resource
@@ -319,8 +329,7 @@ class ilResourceStorageMigrationHelper
     public function moveDirectoryToContainerResource(
         string $absolute_path_to_directory,
         int $owner_user_id,
-    ): ?ResourceIdentification
-    {
+    ): ?ResourceIdentification {
         // check if directory exists
         if (!is_dir($absolute_path_to_directory)) {
             return null;

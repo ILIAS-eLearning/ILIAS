@@ -173,7 +173,7 @@ class ObjectiveRenderer
             $acc->setBehaviour(\ilAccordionGUI::FIRST_OPEN);
             $acc->setId("crsobjtv_" . $this->container->getId());
         } else {
-            //            $this->renderer->addCustomBlock('lobj', $lng->txt('crs_objectives'));
+            $this->renderer->addCustomBlock('lobj', $lng->txt('crs_objectives'));
         }
 
         $lur_data = $this->parseLOUserResults();
@@ -623,7 +623,7 @@ class ObjectiveRenderer
             if (isset($types[\ilLOUserResults::TYPE_QUALIFIED])) {
                 $result = $types[\ilLOUserResults::TYPE_QUALIFIED];
                 $result["type"] = \ilLOUserResults::TYPE_QUALIFIED;
-                $result["initial"] = $types[\ilLOUserResults::TYPE_INITIAL];
+                $result["initial"] = $types[\ilLOUserResults::TYPE_INITIAL] ?? null;
             } else {
                 $result = $types[\ilLOUserResults::TYPE_INITIAL];
                 $result["type"] = \ilLOUserResults::TYPE_INITIAL;

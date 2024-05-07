@@ -60,19 +60,20 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
     }
 
     /**
-     * @param float $value
+     * @param float|int $value
      */
     public function checkValidity($value, ?int $record_id = null): bool
     {
         //mantis 30758, 36585: uniqueness for all types of fields
 
+        //value from the form comes as float
+        if (!is_numeric($value)) {
+            throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);
+        }
+
         //dcl currently only works with integer type, when
         //field is of type number (see ilDcldatatype::INPUTFORMAT_NUMBER)
         $valid = parent::checkValidity((int)$value, $record_id);
-
-        if (!is_numeric($value) && $value != '') {
-            throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);
-        }
 
         return $valid;
     }

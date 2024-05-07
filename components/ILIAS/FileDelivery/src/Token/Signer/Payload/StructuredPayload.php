@@ -25,9 +25,10 @@ namespace ILIAS\FileDelivery\Token\Signer\Payload;
  */
 class StructuredPayload implements Payload
 {
+    private ?int $valid_until = null;
+
     public function __construct(
-        protected array $data,
-        protected ?int $valid_until = null
+        protected array $data
     ) {
     }
 
@@ -45,4 +46,10 @@ class StructuredPayload implements Payload
     {
         return $this->valid_until;
     }
+
+    public function setUntil(?int $valid_until): void
+    {
+        $this->valid_until = $valid_until;
+    }
+
 }

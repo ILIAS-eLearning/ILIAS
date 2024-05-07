@@ -213,6 +213,6 @@ class FilterContextRenderer extends Renderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/Input/Container/dist/filter.js');
+        $registry->register('assets/js/filter.js');
     }
 }

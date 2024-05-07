@@ -118,7 +118,8 @@ class UIModifier extends Mode\AbstractUIModifier
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id
+        int $user_id,
+        \ilTemplate $eval_tpl
     ): void {
         $this->addApprSelectionToToolbar(
             $survey,
@@ -129,7 +130,8 @@ class UIModifier extends Mode\AbstractUIModifier
         $this->addExportAndPrintButton(
             $survey,
             $toolbar,
-            true
+            true,
+            $eval_tpl
         );
     }
 

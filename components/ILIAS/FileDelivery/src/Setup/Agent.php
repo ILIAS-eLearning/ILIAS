@@ -31,13 +31,14 @@ use ILIAS\Setup\Config;
  */
 class Agent implements Setup\Agent
 {
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new Setup\ObjectiveCollection(
             'File StreamDelivery Artifacts',
             true,
             new KeyRotationObjective(),
-            new DeliveryMethodObjective()
+            new DeliveryMethodObjective(),
+            // new BaseDirObjective() // removed objective since it's not possible to run it in some environments
         );
     }
 

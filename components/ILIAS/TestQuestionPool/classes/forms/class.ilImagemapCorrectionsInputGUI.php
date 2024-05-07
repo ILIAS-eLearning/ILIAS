@@ -165,7 +165,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        #$tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormWizardInput.js");
-        #$tpl->addJavascript("./components/ILIAS/TestQuestionPool/templates/default/imagemap.js");
+        #$tpl->addJavascript("assets/js/ServiceFormWizardInput.js");
+        #$tpl->addJavascript(assets/js/imagemap.js");
     }
 }

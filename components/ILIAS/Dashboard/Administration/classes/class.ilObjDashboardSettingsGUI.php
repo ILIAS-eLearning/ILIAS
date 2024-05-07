@@ -83,7 +83,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
         switch ($this->ctrl->getNextClass($this)) {
-            case 'ilpermissiongui':
+            case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -105,16 +105,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'editSettings'),
-                array('editSettings', 'view')
+                ['editSettings', 'view']
             );
         }
 
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
-                array(),
-                'ilpermissiongui'
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
+                [],
+                ilPermissionGUI::class
             );
         }
     }
@@ -135,8 +135,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function editSorting(): void
     {
-        $this->tabs_gui->activateTab("settings");
-        $this->setSettingsSubTabs("sorting");
+        $this->tabs_gui->activateTab('settings');
+        $this->setSettingsSubTabs('sorting');
         $form = $this->getViewForm(self::VIEW_MODE_SORTING);
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
     }
@@ -159,7 +159,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSectionSorting(int $view, string $title): Section
     {
-        $this->tpl->addJavaScript("components/ILIAS/Dashboard/Administration/js/SortationUserInputHandler.js");
+        $this->tpl->addJavaScript("assets/js/SortationUserInputHandler.js");
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
@@ -174,7 +174,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $available_sorting = $this->ui_factory
             ->input()
             ->field()
-            ->multiSelect($this->lng->txt("dash_avail_sortation"), $options)
+            ->multiSelect($this->lng->txt('dash_avail_sortation'), $options)
             ->withValue(
                 $this->viewSettings->getActiveSortingsByView($view)
             )
@@ -187,14 +187,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $default_sorting = $this->ui_factory
             ->input()
             ->field()
-            ->select($this->lng->txt("dash_default_sortation"), $options)
+            ->select($this->lng->txt('dash_default_sortation'), $options)
             ->withValue($this->viewSettings->getDefaultSortingByView($view))
             ->withRequired(true)
             ->withAdditionalOnLoadCode(
                 static fn(string $id) => "document.getElementById('$id').setAttribute('data-select', 'sorting$view');"
             );
         return $this->ui_factory->input()->field()->section(
-            $this->maybeDisable(["avail_sorting" => $available_sorting, "default_sorting" => $default_sorting]),
+            $this->maybeDisable(['avail_sorting' => $available_sorting, 'default_sorting' => $default_sorting]),
             $title
         );
     }
@@ -205,13 +205,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             case self::VIEW_MODE_SORTING:
                 return $this->getViewSectionSorting(
                     $view,
-                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
+                    $this->lng->txt('dash_' . $this->viewSettings->getViewName($view))
                 );
             case self::VIEW_MODE_PRESENTATION:
             default:
                 return $this->getViewSectionPresentation(
                     $view,
-                    $this->lng->txt("dash_" . $this->viewSettings->getViewName($view))
+                    $this->lng->txt('dash_' . $this->viewSettings->getViewName($view))
                 );
         }
     }
@@ -272,7 +272,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             );
 
             $tabs->addSubTab(
-                "presentation",
+                'presentation',
                 $lng->txt('dash_presentation'),
                 $ctrl->getLinkTarget($this, 'editPresentation')
             );
@@ -303,9 +303,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ops = $this->viewSettings->getAvailablePresentationsByView($view);
         $pres_options = array_column(
             array_map(
-                /**
-                 * @return array{0: string, 1: string}
-                 */
                 static fn(int $k, string $v): array => [$v, $lng->txt('dash_' . $v)],
                 array_keys($ops),
                 $ops

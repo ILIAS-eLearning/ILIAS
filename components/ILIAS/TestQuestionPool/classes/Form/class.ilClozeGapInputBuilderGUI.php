@@ -264,6 +264,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             . ',gap_backup           : []'
             . ',unused_gaps_comb     : []'
             . ',outofbound_text      : ' . '"' . $lng->txt('out_of_range') . '"'
+            . ',inrange_text      : ' . '"' . $lng->txt('in_range') . '"'
             . ',combination_error    : ' . '"' . $lng->txt('please_select') . '"'
             . ',combination_text     : ' . '"' . $lng->txt('gap_combination') . '"'
             . ',copy_of_combination  : ' . '"' . $lng->txt('copy_of') . ' ' . $lng->txt('gap_combination') . '"'
@@ -278,7 +279,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             . 'ClozeQuestionGapBuilder.Init();'
         );
         $DIC->ui()->mainTemplate()->addJavascript(
-            './components/ILIAS/TestQuestionPool/templates/default/clozeQuestionGapBuilder.js'
+            'assets/js/clozeQuestionGapBuilder.js'
         );
 
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'components/ILIAS/TestQuestionPool');

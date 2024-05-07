@@ -324,7 +324,7 @@ The following is the command to start a chat server for a single client.
 
 ```bash
 cd [ILIAS_ROOT_DIRECTORY]
-node Modules/Chatroom/chat/chat.js \
+node Modules/Chatroom/resources/chatroom.js \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/server.cfg \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID]/chatroom/client.cfg &
 ```
@@ -335,7 +335,7 @@ The following shows the command that can be used to start a multi-client chat se
 
 ```bash
 cd [ILIAS_ROOT_DIRECTORY]
-node Modules/Chatroom/chat/chat.js \
+node Modules/Chatroom/resources/chatroom.js \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[ANY_CLIENT_ID]/chatroom/server.cfg \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_1]/chatroom/client.cfg \
   [PATH_TO_EXTERNAL_DATA_DIRECTORY]/[CLIENT_ID_2]/chatroom/client.cfg ... &
@@ -470,7 +470,7 @@ The node module dependencies should be managed by [npm](https://www.npmjs.com/).
 Dependencies can be installed by the following command:
 
 ```bash
-npm install --omit=dev --ignore-scripts
+npm clean-install --ignore-scripts
 ```
 
 #### Production
@@ -478,5 +478,5 @@ npm install --omit=dev --ignore-scripts
 Dependencies can be installed by the following command:
 
 ```bash
-npm install --ignore-scripts
+npm clean-install --omit=dev --ignore-scripts
 ```

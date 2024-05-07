@@ -28,7 +28,9 @@ class DefaultEngines
     private array $engines = [
         NoEngine::class,
         GDEngine::class,
-        ImagickEngine::class
+        ImagickEngine::class,
+        FFMpegEngine::class,
+        ImagickEngineWithOptionalFFMpeg::class,
     ];
 
     public function __construct()

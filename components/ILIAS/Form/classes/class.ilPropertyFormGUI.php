@@ -492,8 +492,8 @@ class ilPropertyFormGUI extends ilFormGUI
         ilYuiUtil::initEvent();
         ilYuiUtil::initDom();
 
-        $tpl->addJavaScript("./components/ILIAS/JavaScript/js/Basic.js");
-        $tpl->addJavaScript("components/ILIAS/Form/js/Form.js");
+        $tpl->addJavaScript("assets/js/Basic.js");
+        $tpl->addJavaScript("assets/js/Form.js");
 
         $this->tpl = new ilTemplate("tpl.property_form.html", true, true, "components/ILIAS/Form");
 
@@ -535,11 +535,13 @@ class ilPropertyFormGUI extends ilFormGUI
                 $this->tpl->parseCurrentBlock();
             }
 
-            $this->tpl->setCurrentBlock("header");
             // required top
-            $this->tpl->setCurrentBlock("required_text_top");
-            $this->tpl->setVariable("TXT_REQUIRED_TOP", $lng->txt("required_field"));
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setCurrentBlock("header");
+            if ($this->checkForRequiredField()) {
+                $this->tpl->setCurrentBlock("required_text_top");
+                $this->tpl->setVariable("TXT_REQUIRED_TOP", $lng->txt("required_field"));
+                $this->tpl->parseCurrentBlock();
+            }
 
             $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
             //$this->tpl->setVariable("LABEL", $this->getTopAnchor());
@@ -643,7 +645,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
-            $tpl->addJavascript("./components/ILIAS/Form/js/ServiceFormMulti.js");
+            $tpl->addJavascript("assets/js/ServiceFormMulti.js");
 
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());
@@ -1029,7 +1031,7 @@ class ilPropertyFormGUI extends ilFormGUI
                         $name = $file[7];
 
                         if ($idx2 != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                            if (!isset($_FILES[$field]["tmp_name"][$idx]) || !$_FILES[$field]["tmp_name"][$idx][$idx2]) {
                                 $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                                 $_FILES[$field]["name"][$idx][$idx2] = $name;
                                 $_FILES[$field]["type"][$idx][$idx2] = $type;
@@ -1038,7 +1040,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["is_upload"][$idx][$idx2] = false;
                             }
                         } elseif ($idx != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx]) {
+                            if (!isset($_FILES[$field]["tmp_name"][$idx]) || $_FILES[$field]["tmp_name"][$idx]) {
                                 $_FILES[$field]["tmp_name"][$idx] = $full_file;
                                 $_FILES[$field]["name"][$idx] = $name;
                                 $_FILES[$field]["type"][$idx] = $type;
@@ -1060,5 +1062,28 @@ class ilPropertyFormGUI extends ilFormGUI
                 }
             }
         }
+    }
+
+    protected function checkForRequiredField(): bool
+    {
+        foreach ($this->items as $item) {
+            if ($item instanceof ilFormSectionHeaderGUI) {
+                return false;
+            } elseif ($item->getType() != "hidden") {
+                if ($this->getMode() == "subform") {
+                    if (!$this->hideRequired($item->getType())) {
+                        if ($item->getRequired()) {
+                            return true;
+                        }
+                    }
+                } elseif (!$this->hideRequired($item->getType())) {
+                    if ($item->getRequired()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

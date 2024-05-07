@@ -164,18 +164,28 @@ class ProcessUtilGUI
 
         $rsv_ids = $request->getReservationIdsFromString();
 
+        $tmp = array();
+        if (count($rsv_ids) === 0 && $request->getReservationId() !== "") {
+            [$obj_id, $user_id, $from, $to] = explode("_", $request->getReservationId());
+            if ($from > time()) {
+                $tmp[$from . "-" . $to + 1] = $tmp[$from . "-" . $to + 1] ?? 0;
+                $tmp[$from . "-" . $to + 1]++;
+            }
+            $user_id = (int) $user_id;
+            $rsv_ids = [0];
+        }
+
         // placeholder
 
         $book_ids = \ilBookingReservation::getObjectReservationForUser($id, $user_id);
-        $tmp = array();
         foreach ($book_ids as $book_id) {
-            if (in_array($book_id, $rsv_ids)) {
+            if (in_array($book_id, $rsv_ids) || count($rsv_ids) === 0) {
                 $obj = new \ilBookingReservation($book_id);
                 $from = $obj->getFrom();
                 $to = $obj->getTo();
                 if ($from > time()) {
-                    $tmp[$from . "-" . $to] = $tmp[$from . "-" . $to] ?? 0;
-                    $tmp[$from . "-" . $to]++;
+                    $tmp[$from . "-" . $to + 1] = $tmp[$from . "-" . $to + 1] ?? 0;
+                    $tmp[$from . "-" . $to + 1]++;
                 }
             }
         }

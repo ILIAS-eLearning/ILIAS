@@ -30,15 +30,21 @@ class ilPageFormatsTest extends ilCertificateBaseTestCase
             ->onlyMethods(['txt'])
             ->getMock();
 
+        $consecutive = [
+            'certificate_a4',
+            'certificate_a4_landscape',
+            'certificate_a5',
+            'certificate_a5_landscape',
+            'certificate_letter',
+            'certificate_letter_landscape',
+            'certificate_custom'
+        ];
         $languageMock->method('txt')
-            ->withConsecutive(
-                ['certificate_a4'],
-                ['certificate_a4_landscape'],
-                ['certificate_a5'],
-                ['certificate_a5_landscape'],
-                ['certificate_letter'],
-                ['certificate_letter_landscape'],
-                ['certificate_custom']
+            ->with(
+                $this->callback(function ($value) use (&$consecutive) {
+                    $this->assertSame(array_shift($consecutive), $value);
+                    return true;
+                })
             )
             ->willReturn('Some Translation');
 

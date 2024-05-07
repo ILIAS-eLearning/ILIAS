@@ -69,7 +69,7 @@ class ilECSImportManager
     /**
      * Lookup obj_id by content id
      */
-    public function lookupObjIdByContentId(int $a_server_id, int $a_mid, int $a_content_id, string $a_sub_id = null): int
+    public function lookupObjIdByContentId(int $a_server_id, int $a_mid, int $a_content_id, ?string $a_sub_id = null): int
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE content_id = " . $this->db->quote($a_content_id, 'integer') . " " .

@@ -44,7 +44,7 @@ class GDEngine implements Engine
 
     public function supports(string $suffix): bool
     {
-        return in_array(strtolower($suffix), $this->supported);
+        return in_array(strtolower($suffix), $this->supported, true);
     }
 
     public function isRunning(): bool

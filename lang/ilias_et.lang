@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Tagasi koostatava testi juurde
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
-assessment#:#button_show_requested_question_hints#:#Show Requested Hints
 assessment#:#by#:#poolt
 assessment#:#cancel_test#:#Katkesta test
 assessment#:#cannot_edit_marks#:#See test on juba mõnede kasutajate poolt käivitatud. Sa saad muuta vaid hindeid, kui on aktiveeritud testitulemuste esitamise tähtaeg ja see pole veel käes.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgistatud sooritus)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
+assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
 assessment#:#shuffle_answers#:#Sega vastuseid
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -3320,7 +3318,7 @@ common#:#angry#:#Angry###10 11 2018 new variable
 common#:#anonymous#:#Anonüümne
 common#:#answers#:#vastused
 common#:#any_language#:#Kõik keeled
-common#:#apache_auth#:#<img src="templates/default/images/idkaart.gif" alt="Log with id card" onclick="setTimeout('document.forms[\'formlogin\'].submit()',1250);">
+common#:#apache_auth#:#<img src="assets/images/idkaart.gif" alt="Log with id card" onclick="setTimeout('document.forms[\'formlogin\'].submit()',1250);">
 common#:#application_completed#:#Rakendus on valmis
 common#:#application_date#:#Rakenduse kuupäev
 common#:#applications#:#Rakendused
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Essee
 survey#:#add_heading#:#Lisa päis
 survey#:#add_material#:#Lisa materjal
 survey#:#add_phrase#:#Lisa fraas
-survey#:#adm_no_special_users#:#Pole määratud erikasutajaid, kel on võimalik küsitlusele rohkem kui korra vastata.
 survey#:#already_completed_survey#:#Sa oled küsitluse juba lõpetanud! Küsitlusse siseneda pole enam võimalik.
 survey#:#anonymization#:#Anonüümsus
 survey#:#anonymize_anonymous_introduction#:#See küsitlus muudab anonüümseks kõikide kasutajate andmed. Kindlustamaks ligipääsu küsitlusele, pead kasutama 32 märgist koosnevat küsitluskoodi, mille võid saada selle testi haldaja/looja käest. <br />Palun sisesta see allpool olevale tekstiväljale.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An ema
 user#:#user_activate_public_profile#:#Aktiveeri avalik profiil
 user#:#user_activate_public_profile_info#:#Sinu avaliku profiili üldine aktiveerimine. Aktiveerimise korral on sinu ees- ja perenimi teistele kasutajatele näha.
 user#:#user_activation#:#Aktiveerimine
-user#:#user_adm_enable_alpha_nav#:#Kasutaja halduses alfabeetiline navigatsioon
 user#:#user_all#:#Kõik
 user#:#user_allow_delete_own_account#:#Allow users to delete own account
 user#:#user_any#:#Kõik

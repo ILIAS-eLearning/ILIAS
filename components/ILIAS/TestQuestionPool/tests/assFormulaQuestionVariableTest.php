@@ -39,7 +39,7 @@ class assFormulaQuestionVariableTest extends assBaseTestCase
             '',
             0.0,
             0.0,
-            (object) [],
+            $this->createMock(assFormulaQuestionUnit::class),
             0,
             0
         );

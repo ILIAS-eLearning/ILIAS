@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilLTIConsumerGradeSynchronizationGUI
  *
@@ -28,14 +28,8 @@ declare(strict_types=1);
  */
 class ilLTIConsumerGradeSynchronizationGUI
 {
-    /**
-     * @var ilObjLTIConsumer
-     */
     protected ilObjLTIConsumer $object;
 
-    /**
-     * @var ilLTIConsumerAccess
-     */
     protected ilLTIConsumerAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\DI\Container $dic;
@@ -94,11 +88,10 @@ class ilLTIConsumerGradeSynchronizationGUI
         try {
             $statementsFilter = new ilLTIConsumerGradeSynchronizationFilter();
 
-            $statementsFilter->setActivityId($this->object->getProvider()->getContentItemUrl());
-
             $this->initLimitingAndOrdering($statementsFilter, $table);
             $this->initActorFilter($statementsFilter, $table);
-            $this->initVerbFilter($statementsFilter, $table);
+            $this->initActivityProgressFilter($statementsFilter, $table);
+            $this->initGradingProgressFilter($statementsFilter, $table);
             $this->initPeriodFilter($statementsFilter, $table);
             $this->initTableData($table, $statementsFilter);
         } catch (Exception $e) {
@@ -113,7 +106,7 @@ class ilLTIConsumerGradeSynchronizationGUI
 
     protected function initLimitingAndOrdering(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
-        $table->determineOffsetAndOrder();
+        $table->determineOffsetAndOrder(true);
 
         $filter->setLimit($table->getLimit());
         $filter->setOffset($table->getOffset());
@@ -137,26 +130,33 @@ class ilLTIConsumerGradeSynchronizationGUI
                 $usrId = ilObjUser::getUserIdByLogin($actor);
 
                 if ($usrId) {
-                    $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId, $this->object->getProvider()->getPrivacyIdent()));
-                } else {
-                    throw new ilCmiXapiInvalidStatementsFilterException(
-                        "given actor ({$actor}) is not a valid actor for object ({$this->object->getId()})"
-                    );
+                    $filter->setActor($usrId);
                 }
             }
         } else {
-            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getProvider()->getPrivacyIdent()));
+            $filter->setActor($DIC->user()->getId());
         }
     }
 
-    protected function initVerbFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
+    protected function initActivityProgressFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
     {
-        $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
+        $activityProgress = urldecode($table->getFilterItemByPostVar('activity_progress')->getValue());
 
-        $verbsallowed = ['completed', 'passed'];
+        $allowed = ['Initialized', 'Started', 'InProgress', 'Submitted', 'Completed'];
 
-        if (in_array($verb, $verbsallowed)) {
-            $filter->setVerb($verb);
+        if (in_array($activityProgress, $allowed)) {
+            $filter->setActivityProgress($activityProgress);
+        }
+    }
+
+    protected function initGradingProgressFilter(ilLTIConsumerGradeSynchronizationFilter $filter, ilLTIConsumerGradeSynchronizationTableGUI $table): void
+    {
+        $gradingProgress = urldecode($table->getFilterItemByPostVar('grading_progress')->getValue());
+
+        $allowed = ['FullyGraded', 'Pending', 'PendingManual', 'Failed', 'NotReady'];
+
+        if (in_array($gradingProgress, $allowed)) {
+            $filter->setGradingProgress($gradingProgress);
         }
     }
 
@@ -164,12 +164,12 @@ class ilLTIConsumerGradeSynchronizationGUI
     {
         $period = $table->getFilterItemByPostVar('period');
 
-        if ($period->getStartXapiDateTime()) {
-            $filter->setStartDate($period->getStartXapiDateTime());
+        if ($period->getStart()) {
+            $filter->setStartDate($period->getStart());
         }
 
-        if ($period->getEndXapiDateTime()) {
-            $filter->setEndDate($period->getEndXapiDateTime());
+        if ($period->getEnd()) {
+            $filter->setEndDate($period->getEnd());
         }
     }
 
@@ -197,8 +197,37 @@ class ilLTIConsumerGradeSynchronizationGUI
 
     protected function initTableData(ilLTIConsumerGradeSynchronizationTableGUI $table, ilLTIConsumerGradeSynchronizationFilter $filter): void
     {
-        $table->setData(ilLTIConsumerGradeSynchronization::getGradesForObject($this->object->getId()));
-        //        $table->setMaxCount($statementsReport->getMaxCount());
+        $cUser = null;
+        if (!$this->access->hasOutcomesAccess()) {
+            $cUser = $this->dic->user()->getId();
+        } else {
+            $cUser = $filter->getActor();
+        }
+        $data = ilLTIConsumerGradeSynchronization::getGradesForObject(
+            $this->object->getId(),
+            $cUser,
+            $filter->getActivityProgress(),
+            $filter->getGradingProgress(),
+            $filter->getStartDate(),
+            $filter->getEndDate()
+        );
+
+        for ((int) $i = 0; $i < count($data); $i++) {
+            $usr = new ilObjUser((int) $data[$i]['usr_id']);
+            $data[$i]['actor'] = $usr->getFullname();
+        }
+        $sortNum = false;
+        if ($table->getOrderField() == 'score_given') {
+            $sortNum = true;
+        }
+
+        $data = ilArrayUtil::sortArray(
+            $data,
+            $table->getOrderField(),
+            $table->getOrderDirection(),
+            $sortNum
+        );
+        $table->setData($data);
     }
 
     protected function buildTableGUI(): ilLTIConsumerGradeSynchronizationTableGUI

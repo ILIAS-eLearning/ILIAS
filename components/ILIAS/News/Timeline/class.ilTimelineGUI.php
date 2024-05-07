@@ -49,7 +49,7 @@ class ilTimelineGUI
     public function render(
         bool $a_items_only = false
     ): string {
-        $this->tpl->addJavaScript("./components/ILIAS/News/Timeline/js/Timeline.js");
+        $this->tpl->addJavaScript("assets/js/Timeline.js");
         $this->tpl->addJavaScript("./components/ILIAS/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 
         $t = new ilTemplate("tpl.timeline.html", true, true, "components/ILIAS/News/Timeline");

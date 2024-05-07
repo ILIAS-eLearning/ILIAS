@@ -18,13 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilChatroom
- * Keeps methods to prepare and display the history task.
- * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- * @ingroup components\ILIASChatroom
- */
 class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
     /**
@@ -100,6 +93,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         if ($submit_request) {
             if ($durationForm->checkInput()) {
+                /** @var ilDateDurationInputGUI $period */
                 $period = $durationForm->getItemByPostVar('timeperiod');
 
                 $messages = $room->getHistory(
@@ -216,67 +210,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('PERIOD_FORM', $durationForm->getHTML());
 
         $this->mainTpl->setVariable('ADM_CONTENT', $roomTpl->get());
-    }
-
-    public function bySessionExport(): void
-    {
-        $this->tabs->activateSubTab('bysession');
-        $this->bySession(true);
-    }
-
-    public function bySession(bool $export = false): void
-    {
-        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
-        $this->exitIfNoRoomExists($room);
-
-        $scope = $room->getRoomId();
-
-        $chat_user = new ilChatroomUser($this->ilUser, $room);
-
-        $formFactory = new ilChatroomFormFactory();
-        $durationForm = $formFactory->getSessionForm($room->getSessions($chat_user));
-        $durationForm->setTitle($this->ilLng->txt('history_bysession_title'));
-        $durationForm->addCommandButton('history-bySessionExport', $this->ilLng->txt('export'));
-        $durationForm->addCommandButton('history-bySession', $this->ilLng->txt('show'));
-        $durationForm->setFormAction(
-            $this->ilCtrl->getFormAction($this->gui, 'history-bySession')
-        );
-
-        if (strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
-            $session = $this->getRequestValue('session', $this->refinery->kindlyTo()->string());
-            $durationForm->checkInput();
-            $postVals = explode(',', (string) $session);
-            $durationForm->setValuesByArray([
-                'session' => $session
-            ]);
-
-            $messages = $room->getHistory(
-                $from = new ilDateTime($postVals[0], IL_CAL_UNIX),
-                $to = new ilDateTime($postVals[1], IL_CAL_UNIX),
-                $chat_user->getUserId()
-            );
-        } else {
-            $last_session = $room->getLastSession($chat_user);
-
-            if ($last_session) {
-                $from = new ilDateTime($last_session['connected'], IL_CAL_UNIX);
-                $to = new ilDateTime($last_session['disconnected'], IL_CAL_UNIX);
-            } else {
-                $from = null;
-                $to = null;
-            }
-
-            $messages = $room->getHistory(
-                $from,
-                $to,
-                $chat_user->getUserId()
-            );
-        }
-
-        $from = new ilDateTime();
-        $to = new ilDateTime();
-
-        $this->showMessages($messages, $durationForm, $export, $from, $to);
     }
 
     public function executeDefault(string $requestedMethod): void

@@ -41,7 +41,7 @@ class ilTestPage extends ilPageObject
                 $assoc['last_id'] + 1
             );
             $this->createFromXML();
-        } catch (Exception $e) {
+        } catch (ilDatabaseException $e) {
             $this->createPageWithNextId();
         }
 

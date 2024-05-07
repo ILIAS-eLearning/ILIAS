@@ -17,15 +17,15 @@
 import { expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
-import PresentationTableFactory from '../../../../src/templates/js/Table/src/presentationtable.factory';
-import PresentationTable from '../../../../src/templates/js/Table/src/presentationtable.class';
+import PresentationTableFactory from '../../../../resources/js/Table/src/presentationtable.factory';
+import PresentationTable from '../../../../resources/js/Table/src/presentationtable.class';
 
 describe('Presentation Table', () => {
   beforeEach(() => {
     const domString = fs.readFileSync('./components/ILIAS/UI/tests/Client/Table/Presentation/PresentationTest.html').toString();
     const dom = new JSDOM(domString);
     /* eslint-env jquery */
-    dom.window.document.getElementById = (id) => $(`#${id}`)[0];
+    dom.window.document.getElementById = (id) => document.querySelector(`#${id}`);
     global.window = dom.window;
     global.document = dom.window.document;
   });

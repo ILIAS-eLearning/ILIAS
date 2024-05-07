@@ -40,6 +40,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
         $this->language = $language;
 
         $this->placeholder = [
+            'CERTIFICATE_ID' => $language->txt('certificate_ph_cert_id'),
             'USER_LOGIN' => $language->txt('certificate_ph_login'),
             'USER_FULLNAME' => $language->txt('certificate_ph_fullname'),
             'USER_FIRSTNAME' => $language->txt('certificate_ph_firstname'),

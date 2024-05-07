@@ -449,7 +449,7 @@ class ilTestTabsManager
             $this->tabs->addTab(
                 self::TAB_ID_TEST,
                 $this->lng->txt('test'),
-                $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen')
+                $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, ilTestScreenGUI::DEFAULT_CMD)
             );
         }
 

@@ -91,7 +91,14 @@ class AdministrationTest extends TestCase
         ];
 
         $repository = $this->getMockBuilder(DocumentRepository::class)->getMock();
-        $repository->expects(self::exactly(count($documents)))->method('deleteDocument')->withConsecutive(...array_map(fn($d) => [$d], $documents));
+
+        $consecutive = $documents;
+        $repository->expects(self::exactly(count($documents)))->method('deleteDocument')->with(
+            $this->callback(function ($value) use (&$consecutive) {
+                $this->assertSame(array_shift($consecutive), $value);
+                return true;
+            })
+        );
 
         $config = $this->mockMethod(Config::class, 'legalDocuments', [], $this->mockMethod(
             Provide::class,

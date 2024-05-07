@@ -156,6 +156,10 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
         }
 
         $course = $this->readCourse($course_member);
+        if (is_null($course)) {
+            $this->log->info('No course found, skip processing' . print_r($course_member, true));
+            return true;
+        }
         // Lookup already imported users and update their status
         $assignments = $this->readAssignments($course, $course_member);
 
@@ -165,9 +169,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
         // iterate through all parallel groups
         foreach ($assignments as $cms_id => $assigned) {
-            $sub_id = ($cms_id === $course_id) ? null : $cms_id;
+            $sub_id = ($cms_id === $course_id) ? null : (string) $cms_id;
 
-            $this->log->debug('sub id is ' . $sub_id . ' for ' . $cms_id);
+            $this->log->debug('sub id is ' . is_null($sub_id) ? "<null>" : $sub_id . ' for ' . $cms_id);
 
             $obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
                 $this->getServer()->getServerId(),
@@ -244,7 +248,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     /**
      * Refresh status of course member assignments
      */
-    protected function refreshAssignmentStatus(object $course_member, int $obj_id, $sub_id, $assigned): bool
+    protected function refreshAssignmentStatus(object $course_member, int $obj_id, ?string $sub_id, $assigned): bool
     {
         $this->log->debug('Currrent sub_id = ' . $sub_id . ', obj_id = ' . $obj_id);
 
@@ -261,14 +265,14 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
         $course_id = (int) $course_member->lectureID;
         $usr_ids = ilECSCourseMemberAssignment::lookupUserIds(
             $course_id,
-            $sub_id,
+            is_null($sub_id) ? $sub_id : (int) $sub_id,
             $obj_id
         );
 
         // Delete remote deleted
         foreach ($usr_ids as $usr_id) {
             if (!isset($assigned[$usr_id])) {
-                $ass = ilECSCourseMemberAssignment::lookupAssignment($course_id, $sub_id, $obj_id, $usr_id);
+                $ass = ilECSCourseMemberAssignment::lookupAssignment($course_id, is_null($sub_id) ? $sub_id : (int) $sub_id, $obj_id, $usr_id);
                 if ($ass instanceof ilECSCourseMemberAssignment) {
                     $login = ilObjUser::_checkExternalAuthAccount(
                         $this->mapping->getAuthMode(),
@@ -294,7 +298,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
         // Assign new participants
         foreach ((array) $assigned as $person_id => $person) {
-            $role = $this->lookupRole($person['role'], $type);
+            $role = $this->lookupRole((string) $person['role'], $type);
             $role_info = ilECSMappingUtils::getRoleMappingInfo($role);
 
             $this->log->debug('Using role info...');
@@ -349,7 +353,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $assignment->setServer($this->getServer()->getServerId());
                 $assignment->setMid($this->mid);
                 $assignment->setCmsId($course_id);
-                $assignment->setCmsSubId($sub_id);
+                $assignment->setCmsSubId((int) $sub_id);
                 $assignment->setObjId($obj_id);
                 $assignment->setUid($person_id);
                 $assignment->save();
@@ -461,7 +465,9 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $this->getMid(),
             $course_member->lectureID
         );
-
+        if (0 === $ecs_id) {
+            return null;
+        }
         return (new ilECSCourseConnector($this->getServer()))->getCourse($ecs_id);
     }
 }

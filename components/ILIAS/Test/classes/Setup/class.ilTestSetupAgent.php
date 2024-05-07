@@ -76,7 +76,7 @@ class ilTestSetupAgent extends NullAgent
         return new NullObjective();
     }
 
-    public function getBuildArtifactObjective(): Objective
+    public function getBuildObjective(): Objective
     {
         return new NullObjective();
     }

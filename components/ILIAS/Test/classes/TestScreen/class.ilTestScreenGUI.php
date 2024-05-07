@@ -38,11 +38,14 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilTestScreenGUI
 {
+    public const DEFAULT_CMD = 'testScreen';
+
     private readonly ilTestPassesSelector $test_passes_selector;
     private readonly int $ref_id;
     private readonly ilObjTestMainSettings $main_settings;
     private readonly ilTestSession $test_session;
     private readonly DataFactory $data_factory;
+    private ilTestPasswordChecker $password_checker;
 
     public function __construct(
         private readonly ilObjTest $object,
@@ -57,7 +60,8 @@ class ilTestScreenGUI
         private readonly ilTabsGUI $tabs,
         private readonly ilAccessHandler $access,
         private readonly ilTestAccess $test_access,
-        private readonly ilDBInterface $database
+        private readonly ilDBInterface $database,
+        private readonly ilRbacSystem $rbac_system
     ) {
         $this->ref_id = $this->object->getRefId();
         $this->main_settings = $this->object->getMainSettings();
@@ -68,6 +72,7 @@ class ilTestScreenGUI
         $this->test_passes_selector = new ilTestPassesSelector($this->database, $this->object);
         $this->test_passes_selector->setActiveId($this->test_session->getActiveId());
         $this->test_passes_selector->setLastFinishedPass($this->test_session->getLastFinishedPass());
+        $this->password_checker = new ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
     }
 
     public function executeCommand(): void
@@ -257,8 +262,6 @@ class ilTestScreenGUI
 
         if ($this->hasAvailablePasses()) {
             if ($this->lastPassSuspended()) {
-                ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());
-
                 $launcher = $launcher->inline($this->getResumeLauncherLink());
             }
             if ($this->newPassCanBeStarted()) {
@@ -399,6 +402,7 @@ class ilTestScreenGUI
                             $conditions_met = false;
                             $message .= $this->lng->txt('tst_exam_password_invalid_message') . '<br>';
                         }
+                        $this->password_checker->setUserEnteredPassword($password);
                         break;
                     case 'exam_access_code':
                         if ($anonymous && !empty($value)) {

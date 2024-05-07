@@ -896,7 +896,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             return;
         }
 
-        //$tpl->addJavaScript("./components/ILIAS/Exercise/js/ilExcPresentation.js");
+        //$tpl->addJavaScript("assets/js/ilExcPresentation.js");
 
         $exc = $this->object;
 
@@ -916,8 +916,6 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "outCertificate")
             );
         }
-
-        $ass_gui = new ilExAssignmentGUI($exc, $this->getService());
 
         $f = $this->ui->factory();
         $r = $this->ui->renderer();

@@ -12,7 +12,7 @@ function custom_icon()
 
     $buffer = array();
 
-    $path = './components/ILIAS/UI/src/examples/Symbol/Icon/Custom/my_custom_icon.svg';
+    $path = './assets/ui-examples/images/Icon/my_custom_icon.svg';
     $ico = $f->symbol()->icon()->custom($path, 'Example');
 
     $buffer[] = $renderer->render($ico)
@@ -27,7 +27,7 @@ function custom_icon()
 
     //Note that the svg needs to contain strictly valid xml to work with abbreviations.
     //Some exports e.g. form illustrator seem to be not properly formatted by default.
-    $path = './templates/default/images/standard/icon_fold.svg';
+    $path = './assets/images/standard/icon_fold.svg';
     $ico = $f->symbol()->icon()->custom($path, 'Example')
         ->withAbbreviation('FD');
 

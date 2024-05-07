@@ -311,10 +311,10 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $ilSetting = $DIC->settings();
         $ctrl = $DIC->ctrl();
 
-        $a_tpl->addJavaScript("./components/ILIAS/Help/js/ilHelp.js");
-        $a_tpl->addJavaScript("./components/ILIAS/Accordion/js/accordion.js");
+        $a_tpl->addJavaScript("assets/js/ilHelp.js");
+        $a_tpl->addJavaScript("assets/js/accordion.js");
         iljQueryUtil::initMaphilight();
-        $a_tpl->addJavaScript("./components/ILIAS/COPage/js/ilCOPagePres.js");
+        $a_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();
         $a_tpl->addOnLoadCode(
@@ -329,11 +329,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 $a_tpl->addOnLoadCode("il.Help.showCurrentPage(" . ilSession::get("help_pg") . ");", 3);
             } else {
                 $a_tpl->addOnLoadCode("il.Help.listHelp(null);", 3);
-            }
-
-
-            if ($ilUser->getPref("hide_help_tt")) {
-                $a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);
             }
         }
     }
@@ -372,7 +367,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "") {
+                if (($int_link["Anchor"] ?? "") != "") {
                     $anc = $int_link["Anchor"];
                     $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
@@ -544,6 +539,34 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public function showTooltips(): bool
     {
         return $this->presentation->showTooltips();
+    }
+
+    public function isHelpActive(): bool
+    {
+        return $this->internal()->domain()->module()->isHelpActive();
+    }
+
+    public function areTooltipsActive(): bool
+    {
+        return $this->internal()->domain()->module()->areTooltipsActive();
+    }
+
+    public function savePersonalSettingFromLegacyForm(ilPropertyFormGUI $form): void
+    {
+        if ($this->areTooltipsActive()) {
+            $this->user->setPref('hide_help_tt', (string) (int) !$form->getInput('help_tooltips'));
+        }
+    }
+
+    public function addPersonalSettingToLegacyForm(ilPropertyFormGUI $form): void
+    {
+        if ($this->areTooltipsActive()) {
+            $this->lng->loadLanguageModule('help');
+            $cb = new ilCheckboxInputGUI($this->lng->txt('help_toggle_tooltips'), 'help_tooltips');
+            $cb->setChecked(!($this->user->prefs['hide_help_tt'] ?? false));
+            $cb->setInfo($this->lng->txt('help_toggle_tooltips_info'));
+            $form->addItem($cb);
+        }
     }
 
     /**

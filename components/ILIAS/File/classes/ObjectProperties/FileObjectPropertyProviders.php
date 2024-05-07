@@ -44,7 +44,8 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
         ImageFactory $factory,
         StorageService $irss
     ): ?Image {
-        $rid = $irss->manage()->find(ilObjFileAccess::getListGUIData($obj_id)['rid'] ?? '');
+        $rid = (new ilObjFileInfoRepository())->getByObjectId($obj_id)->getRID();
+
         if ($rid === null) {
             return null;
         }

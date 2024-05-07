@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		elementFormDefault="qualified"
+>
+	<!-- Sess -->
+	<xs:element name='Sess'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='Id' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Title' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Description' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Location' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='TutorName' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='TutorEmail' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='TutorPhone' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Details' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Registration' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='LimitedRegistration' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='WaitingList' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='AutoWait' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='LimitUsers' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='MinUsers' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='EventStart' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='EventEnd' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='StartingTime' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='EndingTime' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='Fulltime' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='MailMembers' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='ShowMembers' type="Data" minOccurs='0' maxOccurs='1'/>
+				<xs:element name='ShowCannotPart' type="Data" minOccurs='0' maxOccurs='1'/>
+				<xs:element name='RegistrationNotificationEnabled' type="Data" minOccurs='0' maxOccurs='1'/>
+				<xs:element name='RegistrationNotificationOption' type="Data" minOccurs='0' maxOccurs='1'/>
+				<xs:element name='Type' type="Data" minOccurs='1' maxOccurs='1'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- t:Data type -->
+	<xs:complexType name='Data' mixed='true'>
+	</xs:complexType>
+
+	<!-- SessItem -->
+	<xs:element name='SessItem'>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name='SessionId' type="Data" minOccurs='1' maxOccurs='1'/>
+				<xs:element name='ItemId' type="Data" minOccurs='1' maxOccurs='1'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -48,23 +48,12 @@ class ContainerZIPAccessConsumer implements ContainerConsumer
         $this->stream_access = $stream_access;
     }
 
-    public function getZIP(): Unzip
+    public function getZIP(UnzipOptions $unzip_options = null): Unzip
     {
         $revision = $this->getRevision();
         $revision = $this->stream_access->populateRevision($revision);
-
         $zip_stream = $revision->maybeStreamResolver()?->getStream();
 
-        $zip = new \ZipArchive();
-        $zip->open($zip_stream->getMetadata()['uri'], \ZipArchive::RDONLY);
-
-        $unzip_options = $this->archives
-            ->unzipOptions()
-            ->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE);
-
-        return $this->archives->unzip(
-            $zip_stream,
-            $unzip_options
-        );
+        return $this->archives->unzip($zip_stream, $unzip_options);
     }
 }

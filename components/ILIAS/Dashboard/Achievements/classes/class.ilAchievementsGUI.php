@@ -45,54 +45,54 @@ class ilAchievementsGUI
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
 
-        $lng->loadLanguageModule("lhist");
+        $lng->loadLanguageModule('lhist');
 
         $next_class = $ctrl->getNextClass($this);
-        $cmd = $ctrl->getCmd("show");
+        $cmd = $ctrl->getCmd('show');
 
 
         switch ($next_class) {
-            case "illearningprogressgui":
-                $main_tpl->setTitle($lng->txt("learning_progress"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_trac.svg"));
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
+            case strtolower(ilLearningProgressGUI::class):
+                $main_tpl->setTitle($lng->txt('learning_progress'));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_trac.svg'));
+                $new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
 
-            case 'illearninghistorygui':
-                $main_tpl->setTitle($lng->txt("lhist_learning_history"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lhist.svg"));
+            case strtolower(ilLearningHistoryGUI::class):
+                $main_tpl->setTitle($lng->txt('lhist_learning_history'));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_lhist.svg'));
                 $lhistgui = new ilLearningHistoryGUI();
                 $ctrl->forwardCommand($lhistgui);
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilpersonalskillsgui':
-                $main_tpl->setTitle($lng->txt("skills"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
+            case strtolower(ilPersonalSkillsGUI::class):
+                $main_tpl->setTitle($lng->txt('skills'));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_skmg.svg'));
                 $skgui = new ilPersonalSkillsGUI();
                 $ctrl->forwardCommand($skgui);
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilbadgeprofilegui':
-                $main_tpl->setTitle($lng->txt("obj_bdga"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_bdga.svg"));
+            case strtolower(ilBadgeProfileGUI::class):
+                $main_tpl->setTitle($lng->txt('obj_bdga'));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_bdga.svg'));
                 $bgui = new ilBadgeProfileGUI();
                 $ctrl->forwardCommand($bgui);
                 $this->main_tpl->printToStdout();
                 break;
 
-            case 'ilusercertificategui':
-                $main_tpl->setTitle($lng->txt("obj_cert"));
-                $main_tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_cert.svg"));
+            case strtolower(ilUserCertificateGUI::class):
+                $main_tpl->setTitle($lng->txt('obj_cert'));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_cert.svg'));
                 $cgui = new ilUserCertificateGUI();
                 $ctrl->forwardCommand($cgui);
                 $this->main_tpl->printToStdout();
                 break;
 
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd == 'show') {
                     $this->$cmd();
                 }
                 $this->main_tpl->printToStdout();
@@ -107,7 +107,7 @@ class ilAchievementsGUI
         $gui_classes = $this->getGUIClasses();
         $first_service = current($this->achievements->getActiveServices());
         if ($first_service) {
-            $ctrl->redirectByClass(["ildashboardgui", "ilachievementsgui", $gui_classes[$first_service]]);
+            $ctrl->redirectByClass([ilDashboardGUI::class, ilAchievementsGUI::class, $gui_classes[$first_service]]);
         }
     }
 
@@ -117,9 +117,9 @@ class ilAchievementsGUI
         $links = $this->getLinks();
 
         foreach ($this->achievements->getActiveServices() as $s) {
-            $tabs->addTab("achieve_" . $s, $links[$s]["txt"], $links[$s]["link"]);
+            $tabs->addTab('achieve_' . $s, $links[$s]['txt'], $links[$s]['link']);
         }
-        $tabs->activateTab("achieve_" . $activate);
+        $tabs->activateTab('achieve_' . $activate);
     }
 
     /**
@@ -130,29 +130,29 @@ class ilAchievementsGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        $lng->loadLanguageModule("lhist");
+        $lng->loadLanguageModule('lhist');
         $gui_classes = $this->getGUIClasses();
 
         $links = [
             ilAchievements::SERV_LEARNING_HISTORY => [
-                "txt" => $lng->txt("lhist_learning_history")
+                'txt' => $lng->txt('lhist_learning_history')
             ],
             ilAchievements::SERV_COMPETENCES => [
-                "txt" => $lng->txt("skills")
+                'txt' => $lng->txt('skills')
             ],
             ilAchievements::SERV_LEARNING_PROGRESS => [
-                "txt" => $lng->txt("learning_progress")
+                'txt' => $lng->txt('learning_progress')
             ],
             ilAchievements::SERV_BADGES => [
-                "txt" => $lng->txt('obj_bdga')
+                'txt' => $lng->txt('obj_bdga')
             ],
             ilAchievements::SERV_CERTIFICATES => [
-                "txt" => $lng->txt("obj_cert")
+                'txt' => $lng->txt('obj_cert')
             ]
         ];
 
         foreach ($links as $k => $v) {
-            $links[$k]["link"] = $ctrl->getLinkTargetByClass(["ildashboardgui", "ilachievementsgui", $gui_classes[$k]]);
+            $links[$k]['link'] = $ctrl->getLinkTargetByClass([ilDashboardGUI::class, ilAchievementsGUI::class, $gui_classes[$k]]);
         }
 
         return $links;

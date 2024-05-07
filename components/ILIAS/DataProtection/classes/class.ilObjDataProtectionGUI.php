@@ -170,7 +170,7 @@ final class ilObjDataProtectionGUI extends ilObject2GUI
     private function requireReadable(): void
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
-            throw new Exception($this->container->language()->txt('permission_denied'));
+            $this->error->raiseError($this->container->language()->txt('msg_no_perm_read'), $this->error->WARNING);
         }
     }
 

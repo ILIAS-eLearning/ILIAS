@@ -276,7 +276,7 @@ class ilTaggingGUI
 
         ilYuiUtil::initConnection($tpl);
         iljQueryUtil::initjQuery($tpl);
-        $tpl->addJavaScript("./components/ILIAS/Tagging/js/ilTagging.js");
+        $tpl->addJavaScript("assets/js/ilTagging.js");
 
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
     }

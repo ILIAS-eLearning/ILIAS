@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Track access to ILIAS learning modules
  *
@@ -32,6 +34,7 @@ class ilLMTracker
 
     protected ilDBInterface $db;
     protected ilLanguage $lng;
+    protected Refinery $refinery;
     protected ilComponentRepository $component_repository;
     protected ilObjUser $user;
     protected int $lm_ref_id;
@@ -62,6 +65,7 @@ class ilLMTracker
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->user_id = $a_user_id;
+        $this->refinery = $DIC['refinery'];
         $this->component_repository = $DIC['component.repository'];
 
         if ($a_by_obj_id) {
@@ -533,6 +537,7 @@ class ilLMTracker
     {
         $ilDB = $this->db;
         $lng = $this->lng;
+        $refinery = $this->refinery;
         $component_repository = $this->component_repository;
 
         $blocked_users = array();
@@ -548,7 +553,7 @@ class ilLMTracker
             $page_for_question[$quest["question_id"]] = $quest["page_id"];
         }
         // get question information
-        $qlist = new ilAssQuestionList($ilDB, $lng, $component_repository);
+        $qlist = new ilAssQuestionList($ilDB, $lng, $refinery, $component_repository);
         $qlist->setParentObjId(0);
         $qlist->setJoinObjectData(false);
         $qlist->addFieldFilter("question_id", $this->all_questions);
@@ -586,7 +591,7 @@ class ilLMTracker
         $active = ilPageObject::_lookupActive(
             $a_node["child"],
             "lm",
-            $lm_set->get("time_scheduled_page_activation")
+            (bool) $lm_set->get("time_scheduled_page_activation")
         );
 
         if (!$active) {

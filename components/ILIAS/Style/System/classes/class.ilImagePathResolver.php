@@ -24,6 +24,29 @@ class ilImagePathResolver implements ImagePathResolver
 {
     public function resolveImagePath(string $image_path): string
     {
-        return ilUtil::getImagePath($image_path);
+        global $DIC;
+
+        $styleDefinition = $DIC["styleDefinition"] ?? null;
+
+        // default image
+        $default_img = "./assets/images/" . $image_path;
+
+        // use ilStyleDefinition instead of account to get the current skin and style
+        $current_skin = ilStyleDefinition::getCurrentSkin();
+        $current_style = ilStyleDefinition::getCurrentStyle();
+
+        $skin_img = "";
+
+        if (is_object($styleDefinition) && $current_skin != "default") {
+            $image_dir = $styleDefinition->getImageDirectory($current_style);
+            $skin_img = "./Customizing/global/skin/" .
+                $current_skin . "/" . $current_style . "/" . $image_dir . "/" . $image_path;
+        }
+
+        if (file_exists($skin_img)) {
+            return $skin_img;        // found image for skin and style
+        }
+
+        return $default_img;            // take image in default
     }
 }

@@ -77,7 +77,7 @@ class Notifications
     /**
      * Location of the endpoint handling async notification requests
      */
-    public const NOTIFY_ENDPOINT = "components/ILIAS/GlobalScreen/src/Client/notify.php";
+    public const NOTIFY_ENDPOINT = "notify.php";
     protected array $identifiers_to_handle = [];
     protected ?string $single_identifier_to_handle = null;
     protected array $administrative_notifications = [];

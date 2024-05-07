@@ -22,13 +22,14 @@ namespace ILIAS\components\WOPI\Handler;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileDelivery\Token\DataSigner;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 final class RequestHandler
 {
-    public const WOPI_BASE_URL = '/public/wopi/index.php/';
+    public const WOPI_BASE_URL = '/wopi/index.php/';
     public const NAMESPACE_FILES = 'files';
 
     // WOPI Header
@@ -37,12 +38,14 @@ final class RequestHandler
     private const HEADER_AUTHORIZATION_BEARER = 'Bearer';
     public const HEADER_X_WOPI_OVERRIDE = 'X-WOPI-Override';
     public const HEADER_X_WOPI_LOCK = 'X-WOPI-Lock';
+    public const HEADER_X_WOPI_FILE_CONVERSION = 'X-WOPI-FileConversion';
 
     private \ILIAS\HTTP\Services $http;
     private \ILIAS\ResourceStorage\Services $irss;
     private DataSigner $data_signer;
     private ?int $token_user_id = null;
     private ?string $token_resource_id = null;
+    private ResourceStakeholder $stakeholder;
 
     public function __construct()
     {
@@ -74,6 +77,15 @@ final class RequestHandler
 
         $this->token_user_id = (int) ($token_data['user_id'] ?? 0);
         $this->token_resource_id = ($token_data['resource_id'] ?? '');
+        $stakeholder = $token_data['stakeholder'] ?? null;
+        if ($stakeholder !== null) {
+            try {
+                $this->stakeholder = new WOPIStakeholderWrapper();
+                $this->stakeholder->init($stakeholder, $this->token_user_id);
+            } catch (\Throwable $t) {
+                $this->stakeholder = new WOPIUnknownStakeholder($this->token_user_id);
+            }
+        }
     }
 
     /**
@@ -105,10 +117,12 @@ final class RequestHandler
             $current_revision = $resource->getCurrentRevisionIncludingDraft();
 
             $method_override = $this->http->request()->getHeader(self::HEADER_X_WOPI_OVERRIDE)[0] ?? null;
-            $method = $method_override ?? $method;
+            $is_file_convertion = (bool) ($this->http->request()->getHeader(
+                self::HEADER_X_WOPI_FILE_CONVERSION
+            )[0] ?? false);
 
             // GET
-            switch ($method) {
+            switch ($method_override ?? $method) {
                 case 'GET':
                     switch ($action) {
                         case '':
@@ -136,6 +150,11 @@ final class RequestHandler
                             break;
                     }
                     break;
+                case 'PUT_RELATIVE':
+                    if (!$is_file_convertion) {
+                        throw new \InvalidArgumentException();
+                    }
+                    // no break
                 case 'PUT':
                     switch ($action) {
                         case 'contents':
@@ -146,7 +165,7 @@ final class RequestHandler
                             $new_revision = $this->irss->manage()->appendNewRevisionFromStream(
                                 $resource_id,
                                 $file_stream,
-                                new \ilObjFileStakeholder($this->token_user_id),
+                                $this->stakeholder,
                                 $current_revision->getTitle(),
                                 true
                             );
@@ -163,8 +182,8 @@ final class RequestHandler
                             );
 
                             break;
-                        case '':
-                            // Create new file?
+                        case '': // if we want to create new files in the future, this will be a separate case
+                            break;
                     }
                     break;
                 case 'POST':

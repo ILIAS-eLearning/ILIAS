@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Terug naar de toets
 assessment#:#baseunit#:#Basiseenheid
 assessment#:#button_request_next_question_hint#:#Volgende hint vragen
 assessment#:#button_request_question_hint#:#Hint vragen
-assessment#:#button_show_requested_question_hints#:#Toon gevraagde hints
 assessment#:#by#:#door
 assessment#:#cancel_test#:#Annuleer de toets
 assessment#:#cannot_edit_marks#:#De toets is al gestart door deelnemers. Je kunt enkel de punten aanpassen als de rapporteringsdatum ingeschakeld is en als de rapporteringsdatum nog niet bereikt is.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###30 08
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possibly created taxonomies are shown for filtering.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomy Filter as Navigation Tree
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Only online question pools could be used in tests.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Use No Navigation Tree Filter
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_settings_subtab_general#:#General Settings
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
+assessment#:#show_requested_question_hints#:#Toon gevraagde hints
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#shuffle_answers#:#Antwoorden mixen
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Open tekst
 survey#:#add_heading#:#Koptekst toevoegen
 survey#:#add_material#:#Materiaal toevoegen
 survey#:#add_phrase#:#Zin toevoegen
-survey#:#adm_no_special_users#:#Er zijn geen speciale gebruikers gedefinieerd die een enquête meer dan eens kunnen uitvoeren.
 survey#:#already_completed_survey#:#Je hebt de enquête reeds gedaan. Je kan dit niet meer opnieuw invullen.
 survey#:#anonymization#:#Anonimiteit
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-m
 user#:#user_activate_public_profile#:#Inschakelen publiek profiel
 user#:#user_activate_public_profile_info#:#Globale inschakeling van je publieke profiel. Indien ingeschakeld, zijn je voor- en achternaam zichtbaar voor anderen.
 user#:#user_activation#:#Activeren
-user#:#user_adm_enable_alpha_nav#:#Alfabetische navigatie in gebruikersbeheer
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Laat gebruikers toe om eigen account te verwijderen
 user#:#user_any#:#Enige

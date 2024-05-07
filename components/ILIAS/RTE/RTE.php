@@ -32,6 +32,17 @@ class RTE implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        // This is included via anonymous classes as a testament to the fact, that
+        // TinyMCE isn't a good citizen of the ILIAS system.
+        $contribute[Component\Resource\PublicAsset::class] = fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "node_modules/tinymce";
+            }
+            public function getTarget(): string
+            {
+                return "node_modules/tinymce";
+            }
+        };
     }
 }

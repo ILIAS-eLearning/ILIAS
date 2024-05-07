@@ -75,7 +75,7 @@ class StaticURLRequestBuilder implements RequestBuilder
         $requested_url_parts = explode('/', $requested_url);
         $namespace = array_shift($requested_url_parts);
         $additional_parameters = [];
-        if (is_numeric($requested_url_parts[0])) {
+        if (isset($requested_url_parts[0]) && is_numeric($requested_url_parts[0])) {
             $reference_id = new ReferenceId((int) array_shift($requested_url_parts));
         } else {
             $reference_id = null;

@@ -553,7 +553,6 @@ assessment#:#backtocallingtest#:#Tillbaka till testet
 assessment#:#baseunit#:#Basenhet
 assessment#:#button_request_next_question_hint#:#Förfrågan om nästa lösning
 assessment#:#button_request_question_hint#:#Förfrågan om lösning
-assessment#:#button_show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#by#:#till
 assessment#:#cancel_test#:#Test av avbrott
 assessment#:#cannot_edit_marks#:#Testet har redan genomförts av deltagarna. Du kan bara ändra bedömningen om ett datum har fastställts för resultatutmatningen som för närvarande fortfarande ligger i framtiden.
@@ -1043,8 +1042,6 @@ assessment#:#qpl_settings_availability#:#Availability###21 11 2023 new variable
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Existerande taxonomier kan användas för att filtrera frågorna.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomi som navigationsträd
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Om en taxonomi väljs visas den inte som ett filter utan som ett navigationsträd.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#En frågepool måste vara online för att kunna användas i tester.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Använd inte taxonomi som navigationsträd
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomier
 assessment#:#qpl_settings_subtab_general#:#Allmänna inställningar
@@ -1192,6 +1189,7 @@ assessment#:#show_examview_html#:#På skärmen
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks###21 11 2023 new variable
 assessment#:#show_old_introduction#:#Show old introduction###21 11 2023 new variable
 assessment#:#show_pass_overview#:#Resultatöversikt (poängsatt provkörning)
+assessment#:#show_requested_question_hints#:#Visa begärda lösningsanteckningar
 assessment#:#show_user_answers#:#Answers (poängsatt testkörning)
 assessment#:#shuffle_answers#:#Svar från Shuffle
 assessment#:#skip_question#:#Svara inte och fortsätt
@@ -15902,7 +15900,6 @@ survey#:#SurveyTextQuestion#:#Ange fri text
 survey#:#add_heading#:#Lägg till bildtext
 survey#:#add_material#:#Lägg till material
 survey#:#add_phrase#:# Lägg till fras
-survey#:#adm_no_special_users#:#Det finns inga speciella användare definierade som kan genomföra undersökningar flera gånger.
 survey#:#already_completed_survey#:#Du har redan slutfört undersökningen! En undersökning kan inte genomföras en andra gång.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#För att ge dig tillgång till denna undersökning måste du använda en 5-siffrig åtkomstnyckel som du kommer att få från den person som ansvarar för denna undersökning.<br />Ange denna åtkomstnyckel i textfältet ovan.
@@ -17105,7 +17102,6 @@ user#:#user_account_deleted_confirmation#:#Ditt ILIAS-konto har tagits bort. Ett
 user#:#user_activate_public_profile#:#Aktivering
 user#:#user_activate_public_profile_info#:#För- och efternamn är alltid synliga när profilen är aktiverad.
 user#:#user_activation#:#Aktivering
-user#:#user_adm_enable_alpha_nav#:#Alphabetical navigation för tabellen "ILIAS accounts
 user#:#user_all#:#Alla
 user#:#user_allow_delete_own_account#:#Användaren kan radera sitt eget ILIAS-konto
 user#:#user_any#:#Alla

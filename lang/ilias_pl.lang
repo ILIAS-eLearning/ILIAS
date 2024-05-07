@@ -542,7 +542,6 @@ assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#baseunit#:#Jednostka podstawowa
 assessment#:#button_request_next_question_hint#:#Zażądaj następnej podpowiedzi
 assessment#:#button_request_question_hint#:#Zażądaj podpowiedzi
-assessment#:#button_show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj test
 assessment#:#cannot_edit_marks#:#Są uczniowie, którzy uruchomili test. Możesz tylko zawiesić ocenę, jeśli jest włączona data raportu punktacji, a data raportu jeszcze nie minęła.
@@ -1016,8 +1015,6 @@ assessment#:#qpl_save_skill_assigns_update#:#Zapisz przyporządkowane kompetencj
 assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Istniejące klasyfikacje można użyć do filtrowania pytań.
 assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Klasyfikacja jako drzewo nawigacyjne
 assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Jeśli wybrano klasyfikację, pokazywana jest nie jako filtr, lecz jako drzewo nawigacyjne.
-assessment#:#qpl_settings_general_form_property_online#:#Online
-assessment#:#qpl_settings_general_form_property_online_description#:#Pula pytań musi być w trybie online, aby można ją było użyć w teście.
 assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Nie używaj klasyfikacji jako drzewa nawigacyjnego
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Klasyfikacje
 assessment#:#qpl_settings_subtab_general#:#Ustawienia ogólne
@@ -1156,6 +1153,7 @@ assessment#:#show_answer_overview#:#Pokaż widok ogólny odpowiedzi
 assessment#:#show_detailed_results#:#Szczegółowe wyniki testu (oceniony przebieg testu)
 assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
+assessment#:#show_requested_question_hints#:#Pokaż wymagane podpowiedzi
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#skip_question#:#Nie udzielaj odpowiedzi i przejdź do następnego pytania
@@ -15106,7 +15104,6 @@ survey#:#SurveyTextQuestion#:#Szkic
 survey#:#add_heading#:#Dodaj nagłówek
 survey#:#add_material#:#Dodaj materiał
 survey#:#add_phrase#:#Dodaj frazę
-survey#:#adm_no_special_users#:#Nie zdefiniowano żadnych właściwych użytkowników, którzy mogliby przeprowadzać kilkakrotnie ankiety.
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
 survey#:#anonymization#:#Anonimowość
 survey#:#anonymize_anonymous_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, musisz użyć 32-znakowego kodu, który otrzymasz z kreatora ankiety<br />Podaj go w poniższym polu tekstowym.
@@ -16333,7 +16330,6 @@ user#:#user_account_deleted_confirmation#:#Twoje konto zostało usunięte. Wysł
 user#:#user_activate_public_profile#:#Aktywuj profil publiczny
 user#:#user_activate_public_profile_info#:#Jeśli aktywowane, twoje imię i nazwisko będzie zawsze widoczne.
 user#:#user_activation#:#Aktywacja
-user#:#user_adm_enable_alpha_nav#:#Nawigacja alfabetyczna w ustawieniach systemowych dotyczących użytkowników
 user#:#user_all#:#Wszyscy
 user#:#user_allow_delete_own_account#:#Użytkownicy mogą usuwać własne konta
 user#:#user_any#:#Każdy

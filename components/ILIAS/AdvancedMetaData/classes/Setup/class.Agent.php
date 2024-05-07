@@ -27,6 +27,16 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps8());
+        return new Setup\ObjectiveCollection(
+            'AdvancedMetaData',
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps8()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new DBUpdateSteps10())
+        );
+    }
+
+    public function getMigrations(): array
+    {
+        return [new SelectOptionsMigration()];
     }
 }

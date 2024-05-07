@@ -72,9 +72,12 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
             );
         }
 
-        if ($operation == "edit_learning_progress") {
+        if ($operation == "write_learning_progress") {
             return $this->handler->checkRbacOrPositionPermissionAccess(
-                "edit_learning_progress",
+                // This feels super odd, but this is actually ok because we do not have
+                // a dedicated RBAC permission to write_learning_progress.
+                // See: https://mantis.ilias.de/view.php?id=36056#c89865
+                "read_learning_progress",
                 "write_learning_progress",
                 $this->iass->getRefId()
             );
@@ -176,9 +179,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
     public function mayViewAnyUser(): bool
     {
-        return $this->mayViewAllUsers()
-            || $this->checkRBACOrPositionAccessToObj('read_learning_progress')
-            || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
+        return $this->checkRBACOrPositionAccessToObj('read_learning_progress');
     }
 
     public function mayViewAllUsers(): bool
@@ -188,21 +189,18 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
 
     public function mayGradeAnyUser(): bool
     {
-        return $this->mayGradeAllUsers() || $this->checkRBACOrPositionAccessToObj('edit_learning_progress');
-    }
-
-    public function mayGradeAllUsers(): bool
-    {
-        return $this->checkRBACAccessToObj('edit_learning_progress');
+        return $this->checkRBACOrPositionAccessToObj('write_learning_progress');
     }
 
     public function mayGradeUser(int $user_id): bool
     {
         return
-            $this->mayGradeAllUsers() ||
             (count(
                 $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
-                    "edit_learning_progress",
+                    // This feels super odd, but this is actually ok because we do not have
+                    // a dedicated RBAC permission to write_learning_progress.
+                    // See: https://mantis.ilias.de/view.php?id=36056#c89865
+                    "read_learning_progress",
                     "write_learning_progress",
                     $this->iass->getRefId(),
                     [$user_id]
@@ -232,5 +230,10 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     public function isSystemAdmin(): bool
     {
         return $this->review->isAssigned($this->usr->getId(), SYSTEM_ROLE_ID);
+    }
+
+    public function mayEditLearningProgressSettings(): bool
+    {
+        return $this->checkRBACAccessToObj('edit_learning_progress');
     }
 }

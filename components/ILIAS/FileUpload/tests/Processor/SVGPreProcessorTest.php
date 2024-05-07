@@ -30,6 +30,19 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class SVGPreProcessorTest extends TestCase
 {
+    /**
+     * @return SVGBlacklistPreProcessor
+     */
+    protected function getPreProcessor(): SVGBlacklistPreProcessor
+    {
+        return new SVGBlacklistPreProcessor(
+            'The SVG file contains malicious code.',
+            '(script)',
+            '(base64)',
+            ''
+        );
+    }
+
     public function maliciousSVGProvider(): array
     {
         return [
@@ -79,7 +92,7 @@ aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
      */
     public function testMaliciousSVG(string $malicious_svg, string $type): void
     {
-        $preProcessor = new SVGBlacklistPreProcessor('The SVG file contains malicious code.');
+        $preProcessor = $this->getPreProcessor();
         $stream = Streams::ofString($malicious_svg);
         $metadata = new Metadata('test.svg', 100, 'image/svg+xml');
 
@@ -97,7 +110,7 @@ xmlns="http://www.w3.org/2000/svg">
 <rect width="100" height="100" style="fill:rgb(0,0,255);" />
 </svg>';
 
-        $preProcessor = new SVGBlacklistPreProcessor('The SVG file contains possibily malicious code.');
+        $preProcessor = $this->getPreProcessor();
         $stream = Streams::ofString($svg);
         $metadata = new Metadata('test.svg', 100, 'image/svg+xml');
 
@@ -111,12 +124,12 @@ xmlns="http://www.w3.org/2000/svg">
     private function provideSomeComplexSaneSVG(): array
     {
         return [
-            [__DIR__ . '/../../../../../public/templates/default/images/media/bigplay.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/nav/jstree.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/media/loader.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/object/col.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/logo/HeaderIcon.svg'],
-            [__DIR__ . '/../../../../../public/templates/default/images/object/answered_not.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/bigplay.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/nav/jstree.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/loader.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/col.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/logo/HeaderIcon.svg'],
+            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/answered_not.svg'],
         ];
     }
 
@@ -128,7 +141,7 @@ xmlns="http://www.w3.org/2000/svg">
         $this->assertTrue(file_exists($path));
         $svg = file_get_contents($path);
 
-        $preProcessor = new SVGBlacklistPreProcessor('The SVG file contains possibily malicious code.');
+        $preProcessor = $this->getPreProcessor();
         $stream = Streams::ofString($svg);
         $metadata = new Metadata('media/bigplay.svg', 100, 'image/svg+xml');
 

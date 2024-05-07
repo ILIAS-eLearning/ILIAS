@@ -154,7 +154,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
 
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $resObj = new assFormulaQuestionResult($result, null, null, 0, -1, null, 1, 1, true);
+                $resObj = new assFormulaQuestionResult($result, null, null, 0, null, null, 1, 1, true);
                 $this->addResult($resObj);
             }
         }
@@ -608,7 +608,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 $tmp_result_unit = null;
             }
 
-            $formula = str_replace(",", ".", $result->getFormula());
+            $formula = null;
+            if ($result->getFormula() !== null) {
+                $formula = str_replace(",", ".", $result->getFormula());
+            }
 
             $ilDB->insert("il_qpl_qst_fq_res", array(
                 "result_id" => array("integer", $next_id),
@@ -706,8 +709,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
                     $varObj = new assFormulaQuestionVariable($data["variable"], $data["range_min"], $data["range_max"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["varprecision"], $data["intprecision"]);
-                    $varObj->setRangeMinTxt($data['range_min_txt']);
-                    $varObj->setRangeMaxTxt($data['range_max_txt']);
                     $this->addVariable($varObj);
                 }
             }
@@ -721,8 +722,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                 while ($data = $ilDB->fetchAssoc($result)) {
                     $resObj = new assFormulaQuestionResult($data["result"], $data["range_min"], $data["range_max"], $data["tolerance"], $this->getUnitrepository()->getUnit($data["unit_fi"]), $data["formula"], $data["points"], $data["resprecision"], $data["rating_simple"], $data["rating_sign"], $data["rating_value"], $data["rating_unit"]);
                     $resObj->setResultType($data['result_type']);
-                    $resObj->setRangeMinTxt($data['range_min_txt']);
-                    $resObj->setRangeMaxTxt($data['range_max_txt']);
                     $this->addResult($resObj);
                 }
             }
@@ -916,7 +915,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             );
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
@@ -1450,7 +1449,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
 
         $maxStep = $this->lookupMaxStep($active_id, $pass);
 
-        if ($maxStep !== null) {
+        if ($maxStep > 0) {
             $data = $ilDB->queryF(
                 "SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = %s",
                 array("integer", "integer", "integer",'integer'),

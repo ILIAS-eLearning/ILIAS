@@ -107,7 +107,7 @@ class FormAdapterGUI
         $r = $DIC->ui()->renderer();
         if (!self::$initialised) {
             $main_tpl = $DIC->ui()->mainTemplate();
-            $main_tpl->addJavaScript("./components/ILIAS/Repository/js/repository.js");
+            $main_tpl->addJavaScript("assets/js/repository.js");
             $main_tpl->addOnLoadCode(self::getOnLoadCode());
 
             // render dummy components to load the necessary .js needed for async processing

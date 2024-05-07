@@ -561,13 +561,15 @@ class ilWikiPage extends ilPageObject
     ): void {
         parent::saveInternalLinks($a_domdoc);
 
-        $link_manager = $this->service->domain()->links($this->getWikiRefId());
-        $link_manager->saveInternalLinksForPage(
-            $a_domdoc,
-            $this->getId(),
-            $this->getTitle(),
-            $this->getLanguage()
-        );
+        if ($this->getWikiRefId() > 0) {
+            $link_manager = $this->service->domain()->links($this->getWikiRefId());
+            $link_manager->saveInternalLinksForPage(
+                $a_domdoc,
+                $this->getId(),
+                $this->getTitle(),
+                $this->getLanguage()
+            );
+        }
     }
 
     /**

@@ -164,11 +164,15 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
                 ' to ' .
                 $absolute_path_of_target_dir_or_file
             );
-
-            copy(
-                $source_dir_or_file,
-                $absolute_path_of_target_dir_or_file
-            );
+            if (
+                !is_dir($source_dir_or_file) && is_file($source_dir_or_file)
+                && !is_dir($absolute_path_of_target_dir_or_file)
+            ) {
+                copy(
+                    $source_dir_or_file,
+                    $absolute_path_of_target_dir_or_file
+                );
+            }
         }
     }
 

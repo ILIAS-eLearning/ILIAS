@@ -382,9 +382,17 @@ class ilTestQuestionNavigationGUI
                 $this->getQuestionMarkIconLabel(),
                 'ilTestMarkQuestionIcon'
             );
+            $target = $this->getQuestionMarkLinkTarget();
             $actions[] = $this->ui_factory->button()->shy(
                 $this->getQuestionMarkActionLabel(),
-                $this->getQuestionMarkLinkTarget()
+                ''
+            )->withAdditionalOnLoadCode(
+                static function (string $id) use ($target): string {
+                    return "document.getElementById('$id').addEventListener('click', "
+                        . '(e) => {'
+                        . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
+                        . '});';
+                }
             );
         }
 
@@ -464,7 +472,7 @@ class ilTestQuestionNavigationGUI
             $this->renderSubmitButton(
                 $tpl,
                 $this->getShowHintsCommand(),
-                $this->lng->txt('button_show_requested_question_hints')
+                $this->lng->txt('show_requested_question_hints')
             );
         }
 
