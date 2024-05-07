@@ -59,8 +59,7 @@ class ilCtrlTest extends TestCase
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
             $this->createMock(ilComponentFactory::class),
-            new ilCtrlSubject(),
-            $this->createMock(ilCtrlQueryParserInterface::class),
+            new ilCtrlSubject()
         );
 
         $invalid_baseclass = ilCtrlInvalidGuiClass::class;
@@ -143,8 +142,7 @@ class ilCtrlTest extends TestCase
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
             $this->createMock(ilComponentFactory::class),
-            new ilCtrlSubject(),
-            $this->createMock(ilCtrlQueryParserInterface::class),
+            new ilCtrlSubject()
         );
 
         $fallback_cmd = 'fallback_cmd_test';
@@ -233,8 +231,7 @@ class ilCtrlTest extends TestCase
             $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
             $this->createMock(ilComponentFactory::class),
-            new ilCtrlSubject(),
-            $this->createMock(ilCtrlQueryParserInterface::class),
+            new ilCtrlSubject()
         );
     }
 }
