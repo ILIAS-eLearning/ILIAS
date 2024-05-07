@@ -10055,6 +10055,7 @@ td.c-table-data__cell--highlighted {
 }
 
 .panel-viewcontrols {
+  z-index: 994;
   container-name: toolbar;
   container-type: inline-size;
 }
