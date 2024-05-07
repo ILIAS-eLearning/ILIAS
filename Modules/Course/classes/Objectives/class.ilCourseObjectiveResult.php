@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +14,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * class ilcourseobjective
@@ -392,14 +393,20 @@ class ilCourseObjectiveResult
 
     public static function __isFullfilled(array $question_points, array $objective_data): bool
     {
+        global $DIC;
+
         if (!is_array($objective_data['questions'])) {
             return false;
         }
         $max_points = 0;
         $reached_points = 0;
         foreach ($objective_data['questions'] as $question_id) {
-            $max_points += $question_points[$question_id]['max_points'];
-            $reached_points += $question_points[$question_id]['reached_points'] ?? 0;
+            if (array_key_exists($question_id, $question_points)) {
+                $max_points += $question_points[$question_id]['max_points'];
+                $reached_points += $question_points[$question_id]['reached_points'] ?? 0;
+            } else {
+                $DIC->logger()->crs()->warning('stale question in course objective assignment table id ' . $question_id);
+            }
         }
         if (!$max_points) {
             return false;
