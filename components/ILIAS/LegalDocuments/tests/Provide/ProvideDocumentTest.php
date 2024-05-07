@@ -29,7 +29,6 @@ use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\EditLinks;
-use ILIAS\LegalDocuments\Table\EditableDocumentTable;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\LegalDocuments\Legacy\Table as LegacyTable;
 use ILIAS\LegalDocuments\Table as TableInterface;
@@ -105,12 +104,12 @@ class ProvideDocumentTest extends TestCase
         $create_table_gui = function ($gui, string $command, TableInterface $t) use ($dummy_gui, $table): LegacyTable {
             $this->assertSame($dummy_gui, $gui);
             $this->assertSame('dummy command', $command);
-            $this->assertInstanceOf(EditableDocumentTable::class, $t);
+            $this->assertInstanceOf(DocumentTable::class, $t);
             return $table;
         };
 
         $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container, $create_table_gui);
-        $this->assertSame($legacy, $instance->table($dummy_gui, 'dummy command', $this->mock(EditLinks::class)));
+        $this->assertSame($legacy, $instance->table($dummy_gui, $this->mock(EditLinks::class)));
     }
 
     public function testChooseDocumentFor(): void

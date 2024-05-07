@@ -49,7 +49,7 @@ use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DocumentsTable implements DataRetrieval
+class DocumentTable implements DataRetrieval
 {
     public const CMD_EDIT_DOCUMENT = 'editDocument';
     public const CMD_DELETE_DOCUMENT = 'deleteDocument';
@@ -68,7 +68,7 @@ class DocumentsTable implements DataRetrieval
         private readonly UI                          $ui,
         private readonly DocumentModal               $modal,
         private readonly object                      $gui,
-        private readonly ?EditLinks                  $edit_links,
+        private readonly ?EditLinks                  $edit_links = null,
         ?Container                                   $dic = null,
         ServerRequestInterface|RequestInterface|null $request = null,
         ?Factory                                     $data_factory = null,

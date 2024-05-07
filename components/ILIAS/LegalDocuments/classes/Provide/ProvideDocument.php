@@ -28,9 +28,7 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\Condition;
 use ILIAS\LegalDocuments\Legacy\Table;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
-use ILIAS\LegalDocuments\Table\DocumentsTable;
 use ILIAS\LegalDocuments\Table\DocumentTable;
-use ILIAS\LegalDocuments\Table\EditableDocumentTable;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\Value\Criterion;
@@ -66,9 +64,9 @@ class ProvideDocument
     ) {
     }
 
-    public function table(object $gui, ?EditLinks $edit_links = null): DocumentsTable
+    public function table(object $gui, ?EditLinks $edit_links = null): DocumentTable
     {
-        return new DocumentsTable(
+        return new DocumentTable(
             fn($criterion) => $this->toCondition($criterion)->asComponent(),
             $this->document_repository,
             new UI(

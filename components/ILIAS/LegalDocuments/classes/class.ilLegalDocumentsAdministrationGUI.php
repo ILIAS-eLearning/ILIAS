@@ -24,7 +24,6 @@ use ILIAS\DI\Container;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\LegalDocuments\Table\DocumentsTable;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\Criterion;
