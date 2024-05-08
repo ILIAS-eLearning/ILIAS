@@ -114,15 +114,15 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         if (!$ilAccess->checkAccess('edit_permission', '', $obj_ref)) {
             return $this->raiseError('Check access failed. No permission to assign users', 'Server');
         }
-
+/* Removal of unnecessary check
         if (!$rbacadmin->assignUser($role_id, $user_id)) {
             return $this->raiseError(
                 'Error rbacadmin->assignUser()',
                 'Server'
             );
-        }
+        } */
         return true;
-    }
+    } 
 
     /**
      * @return bool|soap_fault|SoapFault|null
