@@ -58,13 +58,10 @@ class FilenameSanitizerImpl implements FilenameSanitizer
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function isClean(string $filename): bool
     {
         $suffix = $this->extractFileSuffix($filename);
-        if (preg_match('/^ph(p[3457]?|t|tml)$/i', $suffix)) {
+        if (preg_match('/^ph(p[3457]?|t|tml|ar)$/i', $suffix)) {
             return false;
         }
 
